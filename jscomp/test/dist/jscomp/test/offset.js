@@ -47,13 +47,13 @@ function bal(l, v, r) {
         return create(create(ll, lv, lr.l), lr.v, create(lr.r, v, r));
       }
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "Set.bal",
             Error: new Error()
           };
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Set.bal",
           Error: new Error()
         };
@@ -77,13 +77,13 @@ function bal(l, v, r) {
       return create(create(l, v, rl.l), rl.v, create(rl.r, rv, rr));
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Set.bal",
           Error: new Error()
         };
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Set.bal",
         Error: new Error()
       };
@@ -176,7 +176,7 @@ function min_elt(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -208,7 +208,7 @@ function max_elt(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -238,7 +238,7 @@ function remove_min_elt(param) {
     }
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Set.remove_min_elt",
         Error: new Error()
       };
@@ -724,7 +724,7 @@ function find(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -758,7 +758,7 @@ function find_first(f, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -823,7 +823,7 @@ function find_last(f, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -1041,7 +1041,7 @@ function of_list(l) {
                 ];
         }
         throw {
-              RE_EXN_ID: "Assert_failure",
+              MEL_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/stdlib/set.ml",
                 571,

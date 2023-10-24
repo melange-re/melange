@@ -9,7 +9,7 @@ var A = /* @__PURE__ */Caml_exceptions.create("Internal_unused_test.P1.A");
 
 function f(param) {
   throw {
-        RE_EXN_ID: A,
+        MEL_EXN_ID: A,
         Error: new Error()
       };
 }

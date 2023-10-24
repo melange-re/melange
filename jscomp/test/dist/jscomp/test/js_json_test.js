@@ -98,7 +98,7 @@ add_test("File \"jscomp/test/js_json_test.ml\", line 24, characters 11-18", (fun
               var ty3 = Js__Js_json.classify(x);
               if (typeof ty3 === "number") {
                 throw {
-                      RE_EXN_ID: "Assert_failure",
+                      MEL_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/js_json_test.ml",
                         38,
@@ -111,7 +111,7 @@ add_test("File \"jscomp/test/js_json_test.ml\", line 24, characters 11-18", (fun
                 return ;
               }
               throw {
-                    RE_EXN_ID: "Assert_failure",
+                    MEL_EXN_ID: "Assert_failure",
                     _1: [
                       "jscomp/test/js_json_test.ml",
                       38,
@@ -259,7 +259,7 @@ function option_get(param) {
     return Caml_option.valFromOption(param);
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/js_json_test.ml",
           103,

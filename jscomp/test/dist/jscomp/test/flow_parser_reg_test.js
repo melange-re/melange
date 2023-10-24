@@ -2134,7 +2134,7 @@ function eat(f) {
           };
   }
   throw {
-        RE_EXN_ID: No_good,
+        MEL_EXN_ID: No_good,
         Error: new Error()
       };
 }
@@ -2187,7 +2187,7 @@ function parse_hex_symbol(f) {
   if (match) {
     if (match.hd !== 48) {
       throw {
-            RE_EXN_ID: No_good,
+            MEL_EXN_ID: No_good,
             Error: new Error()
           };
     }
@@ -2199,19 +2199,19 @@ function parse_hex_symbol(f) {
       }
       if (match$2 !== 120) {
         throw {
-              RE_EXN_ID: No_good,
+              MEL_EXN_ID: No_good,
               Error: new Error()
             };
       }
       return eat(eat(f));
     }
     throw {
-          RE_EXN_ID: No_good,
+          MEL_EXN_ID: No_good,
           Error: new Error()
         };
   }
   throw {
-        RE_EXN_ID: No_good,
+        MEL_EXN_ID: No_good,
         Error: new Error()
       };
 }
@@ -2224,9 +2224,9 @@ function parse_exponent(f) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Failure) {
+    if (exn.MEL_EXN_ID === Stdlib.Failure) {
       throw {
-            RE_EXN_ID: No_good,
+            MEL_EXN_ID: No_good,
             Error: new Error()
           };
     }
@@ -2277,7 +2277,7 @@ function parse_body(_f) {
         continue ;
       }
       throw {
-            RE_EXN_ID: No_good,
+            MEL_EXN_ID: No_good,
             Error: new Error()
           };
     }
@@ -2290,7 +2290,7 @@ function parse_body(_f) {
       ref_char_code = 87;
     } else {
       throw {
-            RE_EXN_ID: No_good,
+            MEL_EXN_ID: No_good,
             Error: new Error()
           };
     }
@@ -2320,7 +2320,7 @@ function float_of_string(str) {
         var f = parse_body(parse_hex_symbol(parse_sign(start(str))));
         if (!Caml_obj.caml_equal(f.todo, /* [] */0)) {
           throw {
-                RE_EXN_ID: "Assert_failure",
+                MEL_EXN_ID: "Assert_failure",
                 _1: [
                   "lexer_flow.mll",
                   546,
@@ -2341,7 +2341,7 @@ function float_of_string(str) {
       }
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-        if (exn.RE_EXN_ID === No_good) {
+        if (exn.MEL_EXN_ID === No_good) {
           throw e;
         }
         throw exn;
@@ -2413,7 +2413,7 @@ function unicode_fix_cols(lb) {
 function oct_to_int(x) {
   if (x > 55 || x < 48) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "lexer_flow.mll",
             604,
@@ -2440,7 +2440,7 @@ function hexa_to_int(x) {
     return x - /* '0' */48 | 0;
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "lexer_flow.mll",
           610,
@@ -3097,7 +3097,7 @@ function token(env, lexbuf) {
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === Stdlib.Not_found) {
+            if (exn.MEL_EXN_ID === Stdlib.Not_found) {
               return [
                       env,
                       /* T_IDENTIFIER */0
@@ -3624,7 +3624,7 @@ function type_token(env, lexbuf) {
           }
           catch (raw_exn){
             var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn$2.RE_EXN_ID === Stdlib.Not_found) {
+            if (exn$2.MEL_EXN_ID === Stdlib.Not_found) {
               return [
                       env,
                       /* T_IDENTIFIER */0
@@ -5501,13 +5501,13 @@ function bal(l, v, r) {
         return create(create(ll, lv, lr.l), lr.v, create(lr.r, v, r));
       }
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "Set.bal",
             Error: new Error()
           };
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Set.bal",
           Error: new Error()
         };
@@ -5531,13 +5531,13 @@ function bal(l, v, r) {
       return create(create(l, v, rl.l), rl.v, create(rl.r, rv, rr));
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Set.bal",
           Error: new Error()
         };
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Set.bal",
         Error: new Error()
       };
@@ -5818,7 +5818,7 @@ function lookahead(iOpt, env) {
   var i = iOpt !== undefined ? iOpt : 0;
   if (i >= 2) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "parser_env.ml",
             288,
@@ -5834,7 +5834,7 @@ function lookahead(iOpt, env) {
     return match[1];
   }
   throw {
-        RE_EXN_ID: "Failure",
+        MEL_EXN_ID: "Failure",
         _1: "Lookahead.peek failed",
         Error: new Error()
       };
@@ -5999,7 +5999,7 @@ function lex_env(iOpt, env) {
     return match[0];
   }
   throw {
-        RE_EXN_ID: "Failure",
+        MEL_EXN_ID: "Failure",
         _1: "Lookahead.peek failed",
         Error: new Error()
       };
@@ -6203,7 +6203,7 @@ function pop_lex_mode(env) {
     new_stack = match.tl;
   } else {
     throw {
-          RE_EXN_ID: "Failure",
+          MEL_EXN_ID: "Failure",
           _1: "Popping lex mode from empty stack",
           Error: new Error()
         };
@@ -6221,14 +6221,14 @@ function double_pop_lex_mode(env) {
       new_stack = match$1.tl;
     } else {
       throw {
-            RE_EXN_ID: "Failure",
+            MEL_EXN_ID: "Failure",
             _1: "Popping lex mode from empty stack",
             Error: new Error()
           };
     }
   } else {
     throw {
-          RE_EXN_ID: "Failure",
+          MEL_EXN_ID: "Failure",
           _1: "Popping lex mode from empty stack",
           Error: new Error()
         };
@@ -6325,7 +6325,7 @@ function to_parse(env, parse) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Rollback) {
+    if (exn.MEL_EXN_ID === Rollback) {
       reset_token_sink(false, env, saved_state.token_buffer);
       env.errors.contents = saved_state.saved_errors;
       env.comments.contents = saved_state.saved_comments;
@@ -6396,13 +6396,13 @@ function bal$1(l, v, r) {
         return create$2(create$2(ll, lv, lr.l), lr.v, create$2(lr.r, v, r));
       }
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "Set.bal",
             Error: new Error()
           };
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Set.bal",
           Error: new Error()
         };
@@ -6426,13 +6426,13 @@ function bal$1(l, v, r) {
       return create$2(create$2(l, v, rl.l), rl.v, create$2(rl.r, rv, rr));
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Set.bal",
           Error: new Error()
         };
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Set.bal",
         Error: new Error()
       };
@@ -6525,13 +6525,13 @@ function bal$2(l, x, d, r) {
         return create$3(create$3(ll, lv, ld, lr.l), lr.v, lr.d, create$3(lr.r, x, d, r));
       }
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "Map.bal",
             Error: new Error()
           };
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Map.bal",
           Error: new Error()
         };
@@ -6557,13 +6557,13 @@ function bal$2(l, x, d, r) {
       return create$3(create$3(l, x, d, rl.l), rl.v, rl.d, create$3(rl.r, rv, rd, rr));
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Map.bal",
           Error: new Error()
         };
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Map.bal",
         Error: new Error()
       };
@@ -6625,7 +6625,7 @@ function find(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -6678,13 +6678,13 @@ function bal$3(l, v, r) {
         return create$4(create$4(ll, lv, lr.l), lr.v, create$4(lr.r, v, r));
       }
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "Set.bal",
             Error: new Error()
           };
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Set.bal",
           Error: new Error()
         };
@@ -6708,13 +6708,13 @@ function bal$3(l, v, r) {
       return create$4(create$4(l, v, rl.l), rl.v, create$4(rl.r, rv, rr));
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Set.bal",
           Error: new Error()
         };
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Set.bal",
         Error: new Error()
       };
@@ -7046,7 +7046,7 @@ function rev_nonempty_acc(acc) {
     end_loc = acc.hd[0];
   } else {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "parser_flow.ml",
             127,
@@ -7061,7 +7061,7 @@ function rev_nonempty_acc(acc) {
     start_loc = acc$1.hd[0];
   } else {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "parser_flow.ml",
             131,
@@ -7961,7 +7961,7 @@ function annotation(env) {
     end_loc = loc;
   } else {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "parser_flow.ml",
             121,
@@ -9161,7 +9161,7 @@ function primary$1(env) {
           var match$5;
           if (typeof match$4 === "number") {
             throw {
-                  RE_EXN_ID: "Assert_failure",
+                  MEL_EXN_ID: "Assert_failure",
                   _1: [
                     "parser_flow.ml",
                     1699,
@@ -9181,7 +9181,7 @@ function primary$1(env) {
             ];
           } else {
             throw {
-                  RE_EXN_ID: "Assert_failure",
+                  MEL_EXN_ID: "Assert_failure",
                   _1: [
                     "parser_flow.ml",
                     1699,
@@ -9508,7 +9508,7 @@ function assignment_but_not_arrow_function(env) {
 
 function error_callback(param, param$1) {
   throw {
-        RE_EXN_ID: Parser_env_Try.Rollback,
+        MEL_EXN_ID: Parser_env_Try.Rollback,
         Error: new Error()
       };
 }
@@ -9521,14 +9521,14 @@ function try_assignment_but_not_arrow_function(env) {
     if (match !== 10) {
       if (match === 77) {
         throw {
-              RE_EXN_ID: Parser_env_Try.Rollback,
+              MEL_EXN_ID: Parser_env_Try.Rollback,
               Error: new Error()
             };
       }
       
     } else {
       throw {
-            RE_EXN_ID: Parser_env_Try.Rollback,
+            MEL_EXN_ID: Parser_env_Try.Rollback,
             Error: new Error()
           };
     }
@@ -9538,7 +9538,7 @@ function try_assignment_but_not_arrow_function(env) {
   }
   if (Curry._2(Parser_env_Peek.value, undefined, env$1) === "checks") {
     throw {
-          RE_EXN_ID: Parser_env_Try.Rollback,
+          MEL_EXN_ID: Parser_env_Try.Rollback,
           Error: new Error()
         };
   }
@@ -9554,7 +9554,7 @@ function try_assignment_but_not_arrow_function(env) {
   }
   if (!Curry._1(Parser_env_Peek.is_line_terminator, env$1)) {
     throw {
-          RE_EXN_ID: Parser_env_Try.Rollback,
+          MEL_EXN_ID: Parser_env_Try.Rollback,
           Error: new Error()
         };
   }
@@ -10096,7 +10096,7 @@ function template_parts(env, _quasis, _expressions) {
       var match$2;
       if (typeof match$1 === "number") {
         throw {
-              RE_EXN_ID: "Assert_failure",
+              MEL_EXN_ID: "Assert_failure",
               _1: [
                 "parser_flow.ml",
                 1602,
@@ -10123,7 +10123,7 @@ function template_parts(env, _quasis, _expressions) {
         ];
       } else {
         throw {
-              RE_EXN_ID: "Assert_failure",
+              MEL_EXN_ID: "Assert_failure",
               _1: [
                 "parser_flow.ml",
                 1602,
@@ -10307,7 +10307,7 @@ function error_callback$1(param) {
           return ;
         }
         throw {
-              RE_EXN_ID: Parser_env_Try.Rollback,
+              MEL_EXN_ID: Parser_env_Try.Rollback,
               Error: new Error()
             };
       }
@@ -10315,12 +10315,12 @@ function error_callback$1(param) {
         return ;
       }
       throw {
-            RE_EXN_ID: Parser_env_Try.Rollback,
+            MEL_EXN_ID: Parser_env_Try.Rollback,
             Error: new Error()
           };
     }
     throw {
-          RE_EXN_ID: Parser_env_Try.Rollback,
+          MEL_EXN_ID: Parser_env_Try.Rollback,
           Error: new Error()
         };
   };
@@ -10544,7 +10544,7 @@ function _method(env, kind) {
   switch (kind) {
     case /* Init */0 :
         throw {
-              RE_EXN_ID: "Assert_failure",
+              MEL_EXN_ID: "Assert_failure",
               _1: [
                 "parser_flow.ml",
                 1954,
@@ -10900,7 +10900,7 @@ function check_property(env, prop_map, prop) {
                   break;
               case /* RegExp */3 :
                   throw {
-                        RE_EXN_ID: "Failure",
+                        MEL_EXN_ID: "Failure",
                         _1: "RegExp cannot be property key",
                         Error: new Error()
                       };
@@ -10913,7 +10913,7 @@ function check_property(env, prop_map, prop) {
           break;
       case /* Computed */2 :
           throw {
-                RE_EXN_ID: "Assert_failure",
+                MEL_EXN_ID: "Assert_failure",
                 _1: [
                   "parser_flow.ml",
                   2103,
@@ -10929,7 +10929,7 @@ function check_property(env, prop_map, prop) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib.Not_found) {
+      if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         prev_kinds = /* Empty */0;
       } else {
         throw exn;
@@ -12114,7 +12114,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
         switch (exit$2) {
           case 3 :
               throw {
-                    RE_EXN_ID: "Assert_failure",
+                    MEL_EXN_ID: "Assert_failure",
                     _1: [
                       "parser_flow.ml",
                       3480,
@@ -12420,7 +12420,7 @@ function fold(acc) {
                 };
       case /* Expression */4 :
           throw {
-                RE_EXN_ID: "Failure",
+                MEL_EXN_ID: "Failure",
                 _1: "Parser error: No such thing as an expression pattern!",
                 Error: new Error()
               };
@@ -14007,7 +14007,7 @@ function statement(env) {
                             });
                       } else {
                         throw {
-                              RE_EXN_ID: "Assert_failure",
+                              MEL_EXN_ID: "Assert_failure",
                               _1: [
                                 "parser_flow.ml",
                                 2573,
@@ -14046,7 +14046,7 @@ function statement(env) {
                           });
                     } else {
                       throw {
-                            RE_EXN_ID: "Assert_failure",
+                            MEL_EXN_ID: "Assert_failure",
                             _1: [
                               "parser_flow.ml",
                               2556,
@@ -14310,7 +14310,7 @@ function module_item(env) {
                       var match$2 = $$interface$1[1];
                       if (typeof match$2 === "number") {
                         throw {
-                              RE_EXN_ID: "Failure",
+                              MEL_EXN_ID: "Failure",
                               _1: "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!",
                               Error: new Error()
                             };
@@ -14322,7 +14322,7 @@ function module_item(env) {
                             ]);
                       } else {
                         throw {
-                              RE_EXN_ID: "Failure",
+                              MEL_EXN_ID: "Failure",
                               _1: "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!",
                               Error: new Error()
                             };
@@ -14353,7 +14353,7 @@ function module_item(env) {
                         var match$3 = type_alias$1[1];
                         if (typeof match$3 === "number") {
                           throw {
-                                RE_EXN_ID: "Failure",
+                                MEL_EXN_ID: "Failure",
                                 _1: "Internal Flow Error! Parsed `export type` into something other than a type alias!",
                                 Error: new Error()
                               };
@@ -14365,7 +14365,7 @@ function module_item(env) {
                               ]);
                         } else {
                           throw {
-                                RE_EXN_ID: "Failure",
+                                MEL_EXN_ID: "Failure",
                                 _1: "Internal Flow Error! Parsed `export type` into something other than a type alias!",
                                 Error: new Error()
                               };
@@ -14566,7 +14566,7 @@ function module_item(env) {
               var names;
               if (typeof match$8 === "number") {
                 throw {
-                      RE_EXN_ID: "Failure",
+                      MEL_EXN_ID: "Failure",
                       _1: "Internal Flow Error! Unexpected export statement declaration!",
                       Error: new Error()
                     };
@@ -14620,7 +14620,7 @@ function module_item(env) {
                     break;
                 default:
                   throw {
-                        RE_EXN_ID: "Failure",
+                        MEL_EXN_ID: "Failure",
                         _1: "Internal Flow Error! Unexpected export statement declaration!",
                         Error: new Error()
                       };
@@ -15046,7 +15046,7 @@ function directives(env, term_fn, item_fn) {
           }
           var s = "Nooo: " + (token_to_string(token) + "\n");
           throw {
-                RE_EXN_ID: "Failure",
+                MEL_EXN_ID: "Failure",
                 _1: s,
                 Error: new Error()
               };
@@ -15415,7 +15415,7 @@ function program$1(failOpt, token_sinkOpt, parse_optionsOpt, content) {
   var error_list = filter_duplicate_errors(env.errors.contents);
   if (fail && Caml_obj.caml_notequal(error_list, /* [] */0)) {
     throw {
-          RE_EXN_ID: $$Error,
+          MEL_EXN_ID: $$Error,
           _1: error_list,
           Error: new Error()
         };
@@ -15696,7 +15696,7 @@ function parse(content, options) {
                   break;
               case /* Await */7 :
                   throw {
-                        RE_EXN_ID: "Failure",
+                        MEL_EXN_ID: "Failure",
                         _1: "matched above",
                         Error: new Error()
                       };
@@ -17706,7 +17706,7 @@ function parse(content, options) {
             break;
         case /* Computed */2 :
             throw {
-                  RE_EXN_ID: "Failure",
+                  MEL_EXN_ID: "Failure",
                   _1: "There should not be computed object type property keys",
                   Error: new Error()
                 };
@@ -17835,7 +17835,7 @@ function parse(content, options) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === $$Error) {
+    if (exn.MEL_EXN_ID === $$Error) {
       var e = new Error(String(Stdlib__List.length(exn._1)) + " errors");
       e["name"] = "Parse Error";
       throw(e);
@@ -17881,7 +17881,7 @@ if (f !== undefined) {
       ], v.range);
 } else {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "runParser.ml",
           15,

@@ -36,7 +36,7 @@ console.log(String(v.contents));
 
 if (v.contents !== 45) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/test_while_closure.ml",
           63,

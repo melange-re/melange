@@ -40,7 +40,7 @@ try {
 }
 catch (raw_exn){
   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  if (exn.RE_EXN_ID !== Stdlib.Not_found) {
+  if (exn.MEL_EXN_ID !== Stdlib.Not_found) {
     throw exn;
   }
   
@@ -74,7 +74,7 @@ function fatal_error(msg) {
   Stdlib.prerr_string(">> Fatal error: ");
   console.error(msg);
   throw {
-        RE_EXN_ID: Fatal_error,
+        MEL_EXN_ID: Fatal_error,
         Error: new Error()
       };
 }
@@ -175,7 +175,7 @@ function set_styles(s) {
 }
 
 function style_of_tag(param) {
-  if (param.RE_EXN_ID === Stdlib__Format.String_tag) {
+  if (param.MEL_EXN_ID === Stdlib__Format.String_tag) {
     switch (param._1) {
       case "dim" :
           return {
@@ -209,13 +209,13 @@ function style_of_tag(param) {
           return cur_styles.contents.warning;
       default:
         throw {
-              RE_EXN_ID: Stdlib.Not_found,
+              MEL_EXN_ID: Stdlib.Not_found,
               Error: new Error()
             };
     }
   } else {
     throw {
-          RE_EXN_ID: "Match_failure",
+          MEL_EXN_ID: "Match_failure",
           _1: [
             "misc.ml",
             428,
@@ -245,7 +245,7 @@ function set_color_tag_handling(ppf) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib.Not_found) {
+      if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return Curry._1(partial_arg, param);
       }
       throw exn;
@@ -265,7 +265,7 @@ function set_color_tag_handling(ppf) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib.Not_found) {
+      if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return Curry._1(partial_arg$1, param);
       }
       throw exn;
@@ -622,7 +622,7 @@ function letter(param) {
               };
     default:
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "warnings.ml",
               176,
@@ -692,7 +692,7 @@ function parse_opt(error, active, flags, s) {
     var n2 = match$1[1];
     if (n2 < n1) {
       throw {
-            RE_EXN_ID: Stdlib__Arg.Bad,
+            MEL_EXN_ID: Stdlib__Arg.Bad,
             _1: "Ill-formed list of warnings",
             Error: new Error()
           };
@@ -714,7 +714,7 @@ function parse_opt(error, active, flags, s) {
         if (c >= 97) {
           if (c >= 123) {
             throw {
-                  RE_EXN_ID: Stdlib__Arg.Bad,
+                  MEL_EXN_ID: Stdlib__Arg.Bad,
                   _1: "Ill-formed list of warnings",
                   Error: new Error()
                 };
@@ -725,7 +725,7 @@ function parse_opt(error, active, flags, s) {
         }
         if (c >= 91) {
           throw {
-                RE_EXN_ID: Stdlib__Arg.Bad,
+                MEL_EXN_ID: Stdlib__Arg.Bad,
                 _1: "Ill-formed list of warnings",
                 Error: new Error()
               };
@@ -739,7 +739,7 @@ function parse_opt(error, active, flags, s) {
           return loop_letter_num(set_all, i + 1 | 0);
         }
         throw {
-              RE_EXN_ID: Stdlib__Arg.Bad,
+              MEL_EXN_ID: Stdlib__Arg.Bad,
               _1: "Ill-formed list of warnings",
               Error: new Error()
             };
@@ -750,7 +750,7 @@ function parse_opt(error, active, flags, s) {
               return loop_letter_num(set, i + 1 | 0);
           case 44 :
               throw {
-                    RE_EXN_ID: Stdlib__Arg.Bad,
+                    MEL_EXN_ID: Stdlib__Arg.Bad,
                     _1: "Ill-formed list of warnings",
                     Error: new Error()
                   };
@@ -760,7 +760,7 @@ function parse_opt(error, active, flags, s) {
         }
       } else {
         throw {
-              RE_EXN_ID: Stdlib__Arg.Bad,
+              MEL_EXN_ID: Stdlib__Arg.Bad,
               _1: "Ill-formed list of warnings",
               Error: new Error()
             };
@@ -770,7 +770,7 @@ function parse_opt(error, active, flags, s) {
   var loop_letter_num = function (myset, i) {
     if (i >= s.length) {
       throw {
-            RE_EXN_ID: Stdlib__Arg.Bad,
+            MEL_EXN_ID: Stdlib__Arg.Bad,
             _1: "Ill-formed list of warnings",
             Error: new Error()
           };
@@ -780,7 +780,7 @@ function parse_opt(error, active, flags, s) {
       if (match >= 97) {
         if (match >= 123) {
           throw {
-                RE_EXN_ID: Stdlib__Arg.Bad,
+                MEL_EXN_ID: Stdlib__Arg.Bad,
                 _1: "Ill-formed list of warnings",
                 Error: new Error()
               };
@@ -790,7 +790,7 @@ function parse_opt(error, active, flags, s) {
       }
       if (match >= 91) {
         throw {
-              RE_EXN_ID: Stdlib__Arg.Bad,
+              MEL_EXN_ID: Stdlib__Arg.Bad,
               _1: "Ill-formed list of warnings",
               Error: new Error()
             };
@@ -800,7 +800,7 @@ function parse_opt(error, active, flags, s) {
     }
     if (match > 57 || match < 48) {
       throw {
-            RE_EXN_ID: Stdlib__Arg.Bad,
+            MEL_EXN_ID: Stdlib__Arg.Bad,
             _1: "Ill-formed list of warnings",
             Error: new Error()
           };
@@ -898,7 +898,7 @@ function message(param) {
             }
           }
           throw {
-                RE_EXN_ID: "Assert_failure",
+                MEL_EXN_ID: "Assert_failure",
                 _1: [
                   "warnings.ml",
                   283,
@@ -935,7 +935,7 @@ function message(param) {
             }
           }
           throw {
-                RE_EXN_ID: "Assert_failure",
+                MEL_EXN_ID: "Assert_failure",
                 _1: [
                   "warnings.ml",
                   303,
@@ -1066,7 +1066,7 @@ function message(param) {
             return "this record of type " + (ty + (" contains fields that are \nnot visible in the current scope: " + (Stdlib__String.concat(" ", slist) + ".\nThey will not be selected if the type becomes unknown.")));
           }
           throw {
-                RE_EXN_ID: "Assert_failure",
+                MEL_EXN_ID: "Assert_failure",
                 _1: [
                   "warnings.ml",
                   365,
@@ -1084,7 +1084,7 @@ function message(param) {
             return "these field labels belong to several types: " + (Stdlib__String.concat(" ", param._1) + "\nThe first one was selected. Please disambiguate if this is wrong.");
           }
           throw {
-                RE_EXN_ID: "Assert_failure",
+                MEL_EXN_ID: "Assert_failure",
                 _1: [
                   "warnings.ml",
                   374,
@@ -1338,7 +1338,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
   var pos0 = -lb.lex_abs_pos | 0;
   if (pos0 < 0) {
     throw {
-          RE_EXN_ID: Stdlib.Exit,
+          MEL_EXN_ID: Stdlib.Exit,
           Error: new Error()
         };
   }
@@ -1351,7 +1351,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
   }
   if (lines >= (num_lines - 2 | 0)) {
     throw {
-          RE_EXN_ID: Stdlib.Exit,
+          MEL_EXN_ID: Stdlib.Exit,
           Error: new Error()
         };
   }
@@ -1391,7 +1391,7 @@ function highlight_dumb(ppf, lb, loc) {
   var pos0 = -lb.lex_abs_pos | 0;
   if (pos0 < 0) {
     throw {
-          RE_EXN_ID: Stdlib.Exit,
+          MEL_EXN_ID: Stdlib.Exit,
           Error: new Error()
         };
   }
@@ -1525,7 +1525,7 @@ function highlight_locations(ppf, locs) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib.Not_found) {
+          if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             norepeat = false;
           } else {
             throw exn;
@@ -1541,7 +1541,7 @@ function highlight_locations(ppf, locs) {
         }
         catch (raw_exn$1){
           var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-          if (exn$1.RE_EXN_ID === Stdlib.Exit) {
+          if (exn$1.MEL_EXN_ID === Stdlib.Exit) {
             return false;
           }
           throw exn$1;
@@ -1561,7 +1561,7 @@ function highlight_locations(ppf, locs) {
       }
       catch (raw_exn$2){
         var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
-        if (exn$2.RE_EXN_ID === Stdlib.Exit) {
+        if (exn$2.MEL_EXN_ID === Stdlib.Exit) {
           return false;
         }
         throw exn$2;
@@ -1954,7 +1954,7 @@ function error_of_printer(loc, print, x) {
 }
 
 register_error_of_exn(function (param) {
-      if (param.RE_EXN_ID === Stdlib.Sys_error) {
+      if (param.MEL_EXN_ID === Stdlib.Sys_error) {
         return Curry._1(errorf(in_file(input_name.contents), undefined, undefined, /* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -1967,7 +1967,7 @@ register_error_of_exn(function (param) {
                         },
                         _1: "I/O error: %s"
                       }), param._1);
-      } else if (param.RE_EXN_ID === Errors) {
+      } else if (param.MEL_EXN_ID === Errors) {
         return Curry._1(errorf(in_file(input_name.contents), undefined, undefined, /* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -1994,7 +1994,7 @@ register_error_of_exn(function (param) {
 var $$Error = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Location.Error");
 
 register_error_of_exn(function (param) {
-      if (param.RE_EXN_ID === $$Error) {
+      if (param.MEL_EXN_ID === $$Error) {
         return param._1;
       }
       
@@ -2421,7 +2421,7 @@ function get_pre_docs(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -2434,7 +2434,7 @@ function mark_pre_docs(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -2458,7 +2458,7 @@ function get_post_docs(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -2471,7 +2471,7 @@ function mark_post_docs(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -2485,7 +2485,7 @@ function get_info(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -2507,7 +2507,7 @@ function get_text(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return /* [] */0;
     }
     throw exn;
@@ -2529,7 +2529,7 @@ function get_pre_extra_text(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return /* [] */0;
     }
     throw exn;
@@ -2551,7 +2551,7 @@ function get_post_extra_text(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return /* [] */0;
     }
     throw exn;
@@ -3704,7 +3704,7 @@ function prepare_error(param) {
 }
 
 register_error_of_exn(function (param) {
-      if (param.RE_EXN_ID === $$Error$1) {
+      if (param.MEL_EXN_ID === $$Error$1) {
         return prepare_error(param._1);
       }
       
@@ -4028,7 +4028,7 @@ function mkexp_constraint(e, param) {
               });
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "parsing/parser.mly",
           153,
@@ -4054,7 +4054,7 @@ function array_function(str, name) {
 
 function unclosed(opening_name, opening_num, closing_name, closing_num) {
   throw {
-        RE_EXN_ID: $$Error$1,
+        MEL_EXN_ID: $$Error$1,
         _1: {
           TAG: /* Unclosed */0,
           _0: rhs_loc(opening_num),
@@ -4068,7 +4068,7 @@ function unclosed(opening_name, opening_num, closing_name, closing_num) {
 
 function expecting(pos, nonterm) {
   throw {
-        RE_EXN_ID: $$Error$1,
+        MEL_EXN_ID: $$Error$1,
         _1: {
           TAG: /* Expecting */1,
           _0: rhs_loc(pos),
@@ -4080,7 +4080,7 @@ function expecting(pos, nonterm) {
 
 function not_expecting(pos, nonterm) {
   throw {
-        RE_EXN_ID: $$Error$1,
+        MEL_EXN_ID: $$Error$1,
         _1: {
           TAG: /* Not_expecting */2,
           _0: rhs_loc(pos),
@@ -4150,7 +4150,7 @@ function check_variable(vl, loc, v) {
     return ;
   }
   throw {
-        RE_EXN_ID: $$Error$1,
+        MEL_EXN_ID: $$Error$1,
         _1: {
           TAG: /* Variable_in_scope */4,
           _0: loc,
@@ -4566,7 +4566,7 @@ var yytransl_block = [
 var yyact = [
   (function (param) {
       throw {
-            RE_EXN_ID: "Failure",
+            MEL_EXN_ID: "Failure",
             _1: "parser",
             Error: new Error()
           };
@@ -4591,7 +4591,7 @@ var yyact = [
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib.End_of_file,
+            MEL_EXN_ID: Stdlib.End_of_file,
             Error: new Error()
           };
     }),
@@ -4981,7 +4981,7 @@ var yyact = [
       if (exit === 1) {
         if (Caml_obj.caml_notequal(lbs.lbs_attributes, /* [] */0)) {
           throw {
-                RE_EXN_ID: $$Error$1,
+                MEL_EXN_ID: $$Error$1,
                 _1: {
                   TAG: /* Not_expecting */2,
                   _0: lbs.lbs_loc,
@@ -5595,7 +5595,7 @@ var yyact = [
       var bindings = Stdlib__List.map((function (lb) {
               if (Caml_obj.caml_notequal(lb.lb_attributes, /* [] */0)) {
                 throw {
-                      RE_EXN_ID: $$Error$1,
+                      MEL_EXN_ID: $$Error$1,
                       _1: {
                         TAG: /* Not_expecting */2,
                         _0: lb.lb_loc,
@@ -5608,7 +5608,7 @@ var yyact = [
             }), _1.lbs_bindings);
       if (_1.lbs_extension !== undefined) {
         throw {
-              RE_EXN_ID: $$Error$1,
+              MEL_EXN_ID: $$Error$1,
               _1: {
                 TAG: /* Not_expecting */2,
                 _0: _1.lbs_loc,
@@ -5619,7 +5619,7 @@ var yyact = [
       }
       if (Caml_obj.caml_notequal(_1.lbs_attributes, /* [] */0)) {
         throw {
-              RE_EXN_ID: $$Error$1,
+              MEL_EXN_ID: $$Error$1,
               _1: {
                 TAG: /* Not_expecting */2,
                 _0: _1.lbs_loc,
@@ -5808,7 +5808,7 @@ var yyact = [
       var _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       if (_1 === /* Override */0) {
         throw {
-              RE_EXN_ID: Escape_error,
+              MEL_EXN_ID: Escape_error,
               Error: new Error()
             };
       }
@@ -5884,7 +5884,7 @@ var yyact = [
       var _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       if (_1 === /* Override */0) {
         throw {
-              RE_EXN_ID: Escape_error,
+              MEL_EXN_ID: Escape_error,
               Error: new Error()
             };
       }
@@ -5907,7 +5907,7 @@ var yyact = [
       var _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       if (_1 === /* Override */0) {
         throw {
-              RE_EXN_ID: Escape_error,
+              MEL_EXN_ID: Escape_error,
               Error: new Error()
             };
       }
@@ -6449,7 +6449,7 @@ var yyact = [
       var bindings = Stdlib__List.map((function (lb) {
               if (Caml_obj.caml_notequal(lb.lb_attributes, /* [] */0)) {
                 throw {
-                      RE_EXN_ID: $$Error$1,
+                      MEL_EXN_ID: $$Error$1,
                       _1: {
                         TAG: /* Not_expecting */2,
                         _0: lb.lb_loc,
@@ -6569,7 +6569,7 @@ var yyact = [
       Stdlib__Parsing.peek_val(__caml_parser_env, 3);
       Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       throw {
-            RE_EXN_ID: Escape_error,
+            MEL_EXN_ID: Escape_error,
             Error: new Error()
           };
     }),
@@ -8135,13 +8135,13 @@ var yyact = [
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Escape_error,
+            MEL_EXN_ID: Escape_error,
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Escape_error,
+            MEL_EXN_ID: Escape_error,
             Error: new Error()
           };
     }),
@@ -9280,14 +9280,14 @@ var yyact = [
       if (_2) {
         if (_2.tl) {
           throw {
-                RE_EXN_ID: Stdlib__Parsing.Parse_error,
+                MEL_EXN_ID: Stdlib__Parsing.Parse_error,
                 Error: new Error()
               };
         }
         return _2.hd;
       }
       throw {
-            RE_EXN_ID: Stdlib__Parsing.Parse_error,
+            MEL_EXN_ID: Stdlib__Parsing.Parse_error,
             Error: new Error()
           };
     }),
@@ -9299,14 +9299,14 @@ var yyact = [
       if (_2) {
         if (_2.tl) {
           throw {
-                RE_EXN_ID: Stdlib__Parsing.Parse_error,
+                MEL_EXN_ID: Stdlib__Parsing.Parse_error,
                 Error: new Error()
               };
         }
         return _2.hd;
       }
       throw {
-            RE_EXN_ID: Stdlib__Parsing.Parse_error,
+            MEL_EXN_ID: Stdlib__Parsing.Parse_error,
             Error: new Error()
           };
     }),
@@ -10091,7 +10091,7 @@ var yyact = [
               };
       }
       throw {
-            RE_EXN_ID: $$Error$1,
+            MEL_EXN_ID: $$Error$1,
             _1: {
               TAG: /* Applicative_path */3,
               _0: symbol_rloc(undefined)
@@ -10609,49 +10609,49 @@ var yyact = [
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
@@ -10721,7 +10721,7 @@ function assert_same_type(lexbuf, x, y) {
   var rhs = type_of_directive(y);
   if (lhs !== rhs) {
     throw {
-          RE_EXN_ID: $$Error$2,
+          MEL_EXN_ID: $$Error$2,
           _1: {
             TAG: /* Conditional_expr_expected_type */7,
             _0: lhs,
@@ -10753,7 +10753,7 @@ try {
 }
 catch (raw_exn$1){
   var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-  if (exn$2.RE_EXN_ID === Stdlib.Not_found) {
+  if (exn$2.MEL_EXN_ID === Stdlib.Not_found) {
     tmp = "";
   } else {
     throw exn$2;
@@ -10857,7 +10857,7 @@ function query(loc, str) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       var exit = 0;
       var v$1;
       try {
@@ -10866,7 +10866,7 @@ function query(loc, str) {
       }
       catch (raw_exn$1){
         var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-        if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
+        if (exn$1.MEL_EXN_ID === Stdlib.Not_found) {
           return {
                   TAG: /* Dir_bool */0,
                   _0: false
@@ -10934,7 +10934,7 @@ function value_of_token(loc, t) {
                 };
       default:
         throw {
-              RE_EXN_ID: $$Error$2,
+              MEL_EXN_ID: $$Error$2,
               _1: /* Unexpected_token_in_conditional */4,
               _2: loc,
               Error: new Error()
@@ -10961,7 +10961,7 @@ function value_of_token(loc, t) {
           return query(loc, t._0);
       default:
         throw {
-              RE_EXN_ID: $$Error$2,
+              MEL_EXN_ID: $$Error$2,
               _1: /* Unexpected_token_in_conditional */4,
               _2: loc,
               Error: new Error()
@@ -10987,7 +10987,7 @@ function directive_parse(token_with_comments, lexbuf) {
         switch (t) {
           case /* EOF */25 :
               throw {
-                    RE_EXN_ID: $$Error$2,
+                    MEL_EXN_ID: $$Error$2,
                     _1: /* Unterminated_if */2,
                     _2: curr(lexbuf),
                     Error: new Error()
@@ -11013,7 +11013,7 @@ function directive_parse(token_with_comments, lexbuf) {
   var push = function (e) {
     if (look_ahead.contents !== undefined) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "parsing/lexer.mll",
               312,
@@ -11062,7 +11062,7 @@ function directive_parse(token_with_comments, lexbuf) {
                   var last_index = str.length - 1 | 0;
                   if (last_index < 0) {
                     throw {
-                          RE_EXN_ID: $$Error$2,
+                          MEL_EXN_ID: $$Error$2,
                           _1: {
                             TAG: /* Illegal_semver */6,
                             _0: str
@@ -11089,7 +11089,7 @@ function directive_parse(token_with_comments, lexbuf) {
                         case 60 :
                             if (last_index === 0) {
                               throw {
-                                    RE_EXN_ID: $$Error$2,
+                                    MEL_EXN_ID: $$Error$2,
                                     _1: {
                                       TAG: /* Illegal_semver */6,
                                       _0: str
@@ -11112,7 +11112,7 @@ function directive_parse(token_with_comments, lexbuf) {
                         case 62 :
                             if (last_index === 0) {
                               throw {
-                                    RE_EXN_ID: $$Error$2,
+                                    MEL_EXN_ID: $$Error$2,
                                     _1: {
                                       TAG: /* Illegal_semver */6,
                                       _0: str
@@ -11179,7 +11179,7 @@ function directive_parse(token_with_comments, lexbuf) {
               }
               if (exit$2 === 3) {
                 throw {
-                      RE_EXN_ID: $$Error$2,
+                      MEL_EXN_ID: $$Error$2,
                       _1: {
                         TAG: /* Conditional_expr_expected_type */7,
                         _0: /* Dir_type_string */3,
@@ -11193,7 +11193,7 @@ function directive_parse(token_with_comments, lexbuf) {
             }
             if (exit$1 === 2) {
               throw {
-                    RE_EXN_ID: $$Error$2,
+                    MEL_EXN_ID: $$Error$2,
                     _1: {
                       TAG: /* Conditional_expr_expected_type */7,
                       _0: /* Dir_type_string */3,
@@ -11246,7 +11246,7 @@ function directive_parse(token_with_comments, lexbuf) {
       }
       if (exit$4 === 2) {
         throw {
-              RE_EXN_ID: "Assert_failure",
+              MEL_EXN_ID: "Assert_failure",
               _1: [
                 "parsing/lexer.mll",
                 331,
@@ -11297,7 +11297,7 @@ function directive_parse(token_with_comments, lexbuf) {
               return v;
             }
             throw {
-                  RE_EXN_ID: $$Error$2,
+                  MEL_EXN_ID: $$Error$2,
                   _1: /* Unterminated_paren_in_conditional */1,
                   _2: curr(lexbuf),
                   Error: new Error()
@@ -11306,7 +11306,7 @@ function directive_parse(token_with_comments, lexbuf) {
             return true;
         default:
           throw {
-                RE_EXN_ID: $$Error$2,
+                MEL_EXN_ID: $$Error$2,
                 _1: /* Unexpected_token_in_conditional */4,
                 _2: curr_loc,
                 Error: new Error()
@@ -11317,7 +11317,7 @@ function directive_parse(token_with_comments, lexbuf) {
         case /* FLOAT */1 :
             return token_op(calc, (function (e) {
                           throw {
-                                RE_EXN_ID: $$Error$2,
+                                MEL_EXN_ID: $$Error$2,
                                 _1: {
                                   TAG: /* Conditional_expr_expected_type */7,
                                   _0: /* Dir_type_bool */0,
@@ -11347,7 +11347,7 @@ function directive_parse(token_with_comments, lexbuf) {
                   break;
               default:
                 throw {
-                      RE_EXN_ID: $$Error$2,
+                      MEL_EXN_ID: $$Error$2,
                       _1: /* Unexpected_token_in_conditional */4,
                       _2: curr_loc,
                       Error: new Error()
@@ -11357,7 +11357,7 @@ function directive_parse(token_with_comments, lexbuf) {
             var loc = curr(lexbuf);
             if (typeof t === "number") {
               throw {
-                    RE_EXN_ID: $$Error$2,
+                    MEL_EXN_ID: $$Error$2,
                     _1: /* Unexpected_token_in_conditional */4,
                     _2: loc,
                     Error: new Error()
@@ -11376,7 +11376,7 @@ function directive_parse(token_with_comments, lexbuf) {
               }
             }
             throw {
-                  RE_EXN_ID: $$Error$2,
+                  MEL_EXN_ID: $$Error$2,
                   _1: /* Unexpected_token_in_conditional */4,
                   _2: loc,
                   Error: new Error()
@@ -11385,7 +11385,7 @@ function directive_parse(token_with_comments, lexbuf) {
         case /* STRING */16 :
             return token_op(calc, (function (e) {
                           throw {
-                                RE_EXN_ID: $$Error$2,
+                                MEL_EXN_ID: $$Error$2,
                                 _1: {
                                   TAG: /* Conditional_expr_expected_type */7,
                                   _0: /* Dir_type_bool */0,
@@ -11407,7 +11407,7 @@ function directive_parse(token_with_comments, lexbuf) {
                           }
                           var ty = type_of_directive(value_v);
                           throw {
-                                RE_EXN_ID: $$Error$2,
+                                MEL_EXN_ID: $$Error$2,
                                 _1: {
                                   TAG: /* Conditional_expr_expected_type */7,
                                   _0: /* Dir_type_bool */0,
@@ -11419,7 +11419,7 @@ function directive_parse(token_with_comments, lexbuf) {
                         }), value_v);
         default:
           throw {
-                RE_EXN_ID: $$Error$2,
+                MEL_EXN_ID: $$Error$2,
                 _1: /* Unexpected_token_in_conditional */4,
                 _2: curr_loc,
                 Error: new Error()
@@ -11447,7 +11447,7 @@ function directive_parse(token_with_comments, lexbuf) {
     return v;
   }
   throw {
-        RE_EXN_ID: $$Error$2,
+        MEL_EXN_ID: $$Error$2,
         _1: /* Expect_hash_then_in_conditional */5,
         _2: curr(lexbuf),
         Error: new Error()
@@ -11942,7 +11942,7 @@ function char_for_decimal_code(lexbuf, i) {
     return /* 'x' */120;
   }
   throw {
-        RE_EXN_ID: $$Error$2,
+        MEL_EXN_ID: $$Error$2,
         _1: {
           TAG: /* Illegal_escape */1,
           _0: Stdlib__Lexing.lexeme(lexbuf)
@@ -11978,7 +11978,7 @@ function cvt_int64_literal(s) {
 
 function cvt_nativeint_literal(s) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "parsing/lexer.mll",
           622,
@@ -12020,7 +12020,7 @@ function get_label_name(lexbuf) {
   var name = Stdlib__String.sub(s, 1, s.length - 2 | 0);
   if (Stdlib__Hashtbl.mem(keyword_table, name)) {
     throw {
-          RE_EXN_ID: $$Error$2,
+          MEL_EXN_ID: $$Error$2,
           _1: {
             TAG: /* Keyword_as_label */4,
             _0: name
@@ -12276,7 +12276,7 @@ function report_error(ppf, param) {
 }
 
 register_error_of_exn(function (param) {
-      if (param.RE_EXN_ID === $$Error$2) {
+      if (param.MEL_EXN_ID === $$Error$2) {
         return error_of_printer(param._2, report_error, param._1);
       }
       
@@ -12306,7 +12306,7 @@ function token(lexbuf) {
       case 0 :
           if (!escaped_newlines.contents) {
             throw {
-                  RE_EXN_ID: $$Error$2,
+                  MEL_EXN_ID: $$Error$2,
                   _1: {
                     TAG: /* Illegal_character */0,
                     _0: Stdlib__Lexing.lexeme_char(lexbuf, 0)
@@ -12363,7 +12363,7 @@ function token(lexbuf) {
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === Stdlib.Not_found) {
+            if (exn.MEL_EXN_ID === Stdlib.Not_found) {
               return {
                       TAG: /* LIDENT */11,
                       _0: s
@@ -12403,9 +12403,9 @@ function token(lexbuf) {
           }
           catch (raw_exn$1){
             var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-            if (exn$1.RE_EXN_ID === Stdlib.Failure) {
+            if (exn$1.MEL_EXN_ID === Stdlib.Failure) {
               throw {
-                    RE_EXN_ID: $$Error$2,
+                    MEL_EXN_ID: $$Error$2,
                     _1: {
                       TAG: /* Literal_overflow */5,
                       _0: "int"
@@ -12430,9 +12430,9 @@ function token(lexbuf) {
           }
           catch (raw_exn$2){
             var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
-            if (exn$2.RE_EXN_ID === Stdlib.Failure) {
+            if (exn$2.MEL_EXN_ID === Stdlib.Failure) {
               throw {
-                    RE_EXN_ID: $$Error$2,
+                    MEL_EXN_ID: $$Error$2,
                     _1: {
                       TAG: /* Literal_overflow */5,
                       _0: "int32"
@@ -12452,9 +12452,9 @@ function token(lexbuf) {
           }
           catch (raw_exn$3){
             var exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
-            if (exn$3.RE_EXN_ID === Stdlib.Failure) {
+            if (exn$3.MEL_EXN_ID === Stdlib.Failure) {
               throw {
-                    RE_EXN_ID: $$Error$2,
+                    MEL_EXN_ID: $$Error$2,
                     _1: {
                       TAG: /* Literal_overflow */5,
                       _0: "int64"
@@ -12474,9 +12474,9 @@ function token(lexbuf) {
           }
           catch (raw_exn$4){
             var exn$4 = Caml_js_exceptions.internalToOCamlException(raw_exn$4);
-            if (exn$4.RE_EXN_ID === Stdlib.Failure) {
+            if (exn$4.MEL_EXN_ID === Stdlib.Failure) {
               throw {
-                    RE_EXN_ID: $$Error$2,
+                    MEL_EXN_ID: $$Error$2,
                     _1: {
                       TAG: /* Literal_overflow */5,
                       _0: "nativeint"
@@ -12549,7 +12549,7 @@ function token(lexbuf) {
           var l = Stdlib__Lexing.lexeme(lexbuf);
           var esc = Stdlib__String.sub(l, 1, l.length - 1 | 0);
           throw {
-                RE_EXN_ID: $$Error$2,
+                MEL_EXN_ID: $$Error$2,
                 _1: {
                   TAG: /* Illegal_escape */1,
                   _0: esc
@@ -12766,21 +12766,21 @@ function token(lexbuf) {
           }
           if (if_then_else.contents === /* Dir_if_true */0) {
             throw {
-                  RE_EXN_ID: $$Error$2,
+                  MEL_EXN_ID: $$Error$2,
                   _1: /* Unterminated_if */2,
                   _2: curr(lexbuf),
                   Error: new Error()
                 };
           }
           throw {
-                RE_EXN_ID: $$Error$2,
+                MEL_EXN_ID: $$Error$2,
                 _1: /* Unterminated_else */3,
                 _2: curr(lexbuf),
                 Error: new Error()
               };
       case 91 :
           throw {
-                RE_EXN_ID: $$Error$2,
+                MEL_EXN_ID: $$Error$2,
                 _1: {
                   TAG: /* Illegal_character */0,
                   _0: Stdlib__Lexing.lexeme_char(lexbuf, 0)
@@ -12841,7 +12841,7 @@ function string(lexbuf) {
       case 7 :
           is_in_string.contents = false;
           throw {
-                RE_EXN_ID: $$Error$2,
+                MEL_EXN_ID: $$Error$2,
                 _1: /* Unterminated_string */0,
                 _2: string_start_loc.contents,
                 Error: new Error()
@@ -12883,7 +12883,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
             return curr(lexbuf);
           }
           throw {
-                RE_EXN_ID: "Assert_failure",
+                MEL_EXN_ID: "Assert_failure",
                 _1: [
                   "parsing/lexer.mll",
                   992,
@@ -12900,7 +12900,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === $$Error$2) {
+            if (exn.MEL_EXN_ID === $$Error$2) {
               var match$1 = exn._1;
               if (typeof match$1 === "number") {
                 if (match$1) {
@@ -12911,7 +12911,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                   var start = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
                   comment_start_loc.contents = /* [] */0;
                   throw {
-                        RE_EXN_ID: $$Error$2,
+                        MEL_EXN_ID: $$Error$2,
                         _1: {
                           TAG: /* Unterminated_string_in_comment */3,
                           _0: start,
@@ -12922,7 +12922,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                       };
                 }
                 throw {
-                      RE_EXN_ID: "Assert_failure",
+                      MEL_EXN_ID: "Assert_failure",
                       _1: [
                         "parsing/lexer.mll",
                         1006,
@@ -12950,7 +12950,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           }
           catch (raw_exn$1){
             var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-            if (exn$1.RE_EXN_ID === $$Error$2) {
+            if (exn$1.MEL_EXN_ID === $$Error$2) {
               var match$3 = exn$1._1;
               if (typeof match$3 === "number") {
                 if (match$3) {
@@ -12961,7 +12961,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                   var start$1 = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
                   comment_start_loc.contents = /* [] */0;
                   throw {
-                        RE_EXN_ID: $$Error$2,
+                        MEL_EXN_ID: $$Error$2,
                         _1: {
                           TAG: /* Unterminated_string_in_comment */3,
                           _0: start$1,
@@ -12972,7 +12972,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                       };
                 }
                 throw {
-                      RE_EXN_ID: "Assert_failure",
+                      MEL_EXN_ID: "Assert_failure",
                       _1: [
                         "parsing/lexer.mll",
                         1026,
@@ -13002,7 +13002,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
             var start$2 = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
             comment_start_loc.contents = /* [] */0;
             throw {
-                  RE_EXN_ID: $$Error$2,
+                  MEL_EXN_ID: $$Error$2,
                   _1: {
                     TAG: /* Unterminated_comment */2,
                     _0: start$2
@@ -13012,7 +13012,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                 };
           }
           throw {
-                RE_EXN_ID: "Assert_failure",
+                MEL_EXN_ID: "Assert_failure",
                 _1: [
                   "parsing/lexer.mll",
                   1056,
@@ -13055,7 +13055,7 @@ function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
       case 1 :
           is_in_string.contents = false;
           throw {
-                RE_EXN_ID: $$Error$2,
+                MEL_EXN_ID: $$Error$2,
                 _1: /* Unterminated_string */0,
                 _2: string_start_loc.contents,
                 Error: new Error()
@@ -13152,7 +13152,7 @@ function token$1(lexbuf) {
                     case /* ELSE */23 :
                         if (if_then_else$1) {
                           throw {
-                                RE_EXN_ID: $$Error$2,
+                                MEL_EXN_ID: $$Error$2,
                                 _1: /* Unexpected_directive */6,
                                 _2: curr(lexbuf),
                                 Error: new Error()
@@ -13162,7 +13162,7 @@ function token$1(lexbuf) {
                     case /* END */24 :
                         if (if_then_else$1 >= 2) {
                           throw {
-                                RE_EXN_ID: $$Error$2,
+                                MEL_EXN_ID: $$Error$2,
                                 _1: /* Unexpected_directive */6,
                                 _2: curr(lexbuf),
                                 Error: new Error()
@@ -13181,7 +13181,7 @@ function token$1(lexbuf) {
                               var token = token_with_comments(lexbuf);
                               if (Caml_obj.caml_equal(token, /* EOF */25)) {
                                 throw {
-                                      RE_EXN_ID: $$Error$2,
+                                      MEL_EXN_ID: $$Error$2,
                                       _1: /* Unterminated_if */2,
                                       _2: curr(lexbuf),
                                       Error: new Error()
@@ -13201,7 +13201,7 @@ function token$1(lexbuf) {
                                   }
                                   if (token$1 === 37) {
                                     throw {
-                                          RE_EXN_ID: $$Error$2,
+                                          MEL_EXN_ID: $$Error$2,
                                           _1: /* Unexpected_directive */6,
                                           _2: curr(lexbuf),
                                           Error: new Error()
@@ -13222,7 +13222,7 @@ function token$1(lexbuf) {
                           }
                         }
                         throw {
-                              RE_EXN_ID: $$Error$2,
+                              MEL_EXN_ID: $$Error$2,
                               _1: /* Unexpected_directive */6,
                               _2: curr(lexbuf),
                               Error: new Error()
@@ -13239,7 +13239,7 @@ function token$1(lexbuf) {
                   }
                   if (if_then_else$1) {
                     throw {
-                          RE_EXN_ID: $$Error$2,
+                          MEL_EXN_ID: $$Error$2,
                           _1: /* Unexpected_directive */6,
                           _2: curr(lexbuf),
                           Error: new Error()
@@ -13256,7 +13256,7 @@ function token$1(lexbuf) {
                   var token$2 = token_with_comments(lexbuf);
                   if (Caml_obj.caml_equal(token$2, /* EOF */25)) {
                     throw {
-                          RE_EXN_ID: $$Error$2,
+                          MEL_EXN_ID: $$Error$2,
                           _1: /* Unterminated_else */3,
                           _2: curr(lexbuf),
                           Error: new Error()
@@ -13272,7 +13272,7 @@ function token$1(lexbuf) {
                         }
                         if (else_seen) {
                           throw {
-                                RE_EXN_ID: $$Error$2,
+                                MEL_EXN_ID: $$Error$2,
                                 _1: /* Unexpected_directive */6,
                                 _2: curr(lexbuf),
                                 Error: new Error()
@@ -13283,7 +13283,7 @@ function token$1(lexbuf) {
                       }
                       if (token$3 === 37) {
                         throw {
-                              RE_EXN_ID: $$Error$2,
+                              MEL_EXN_ID: $$Error$2,
                               _1: /* Unexpected_directive */6,
                               _2: curr(lexbuf),
                               Error: new Error()
@@ -13293,7 +13293,7 @@ function token$1(lexbuf) {
                     }
                     if (else_seen && is_elif(token$3)) {
                       throw {
-                            RE_EXN_ID: $$Error$2,
+                            MEL_EXN_ID: $$Error$2,
                             _1: /* Unexpected_directive */6,
                             _2: curr(lexbuf),
                             Error: new Error()
@@ -13427,7 +13427,7 @@ function skip_phrase(lexbuf) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === $$Error$2) {
+      if (exn.MEL_EXN_ID === $$Error$2) {
         var tmp = exn._1;
         if (typeof tmp === "number") {
           if (tmp === /* Unterminated_string */0) {
@@ -13470,7 +13470,7 @@ function wrap(parsing_fun, lexbuf) {
   }
   catch (raw_err){
     var err = Caml_js_exceptions.internalToOCamlException(raw_err);
-    if (err.RE_EXN_ID === $$Error$2) {
+    if (err.MEL_EXN_ID === $$Error$2) {
       var tmp = err._1;
       if (typeof tmp === "number") {
         throw err;
@@ -13484,14 +13484,14 @@ function wrap(parsing_fun, lexbuf) {
       }
       throw err;
     } else {
-      if (err.RE_EXN_ID === $$Error$1) {
+      if (err.MEL_EXN_ID === $$Error$1) {
         if (input_name.contents === "//toplevel//") {
           maybe_skip_phrase(lexbuf);
           throw err;
         }
         throw err;
       }
-      if (err.RE_EXN_ID !== Stdlib__Parsing.Parse_error && err.RE_EXN_ID !== Escape_error) {
+      if (err.MEL_EXN_ID !== Stdlib__Parsing.Parse_error && err.MEL_EXN_ID !== Escape_error) {
         throw err;
       }
       
@@ -13501,7 +13501,7 @@ function wrap(parsing_fun, lexbuf) {
       maybe_skip_phrase(lexbuf);
     }
     throw {
-          RE_EXN_ID: $$Error$1,
+          MEL_EXN_ID: $$Error$1,
           _1: {
             TAG: /* Other */5,
             _0: loc

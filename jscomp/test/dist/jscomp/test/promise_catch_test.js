@@ -34,16 +34,16 @@ function eq(loc, x, y) {
 }
 
 function handler(e) {
-  if (e.RE_EXN_ID === Js__Js_exn.$$Error) {
+  if (e.MEL_EXN_ID === Js__Js_exn.$$Error) {
     console.log("js error");
     return Promise.resolve(0);
   }
-  if (e.RE_EXN_ID === Stdlib.Not_found) {
+  if (e.MEL_EXN_ID === Stdlib.Not_found) {
     console.log("hi");
     return Promise.resolve(0);
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/promise_catch_test.ml",
           21,
@@ -55,9 +55,9 @@ function handler(e) {
 
 function myHandler(match) {
   if (Caml_exceptions.caml_is_extension(match)) {
-    if (match.RE_EXN_ID === Stdlib.Not_found) {
+    if (match.MEL_EXN_ID === Stdlib.Not_found) {
       return 1;
-    } else if (match.RE_EXN_ID === Js__Js_exn.$$Error) {
+    } else if (match.MEL_EXN_ID === Js__Js_exn.$$Error) {
       return 2;
     } else {
       return ;
@@ -86,7 +86,7 @@ catch (raw_e){
 
 if (exit === 1) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/promise_catch_test.ml",
           38,

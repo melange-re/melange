@@ -24,7 +24,7 @@
 
 open Melange_mini_stdlib
 
-type nested = { depth : int [@mel.as "BS_PRIVATE_NESTED_SOME_NONE"] }
+type nested = { depth : int [@mel.as "MEL_PRIVATE_NESTED_SOME_NONE"] }
 
 (* INPUT: [x] should not be nullable *)
 let isNested (x : Obj.t) : bool =

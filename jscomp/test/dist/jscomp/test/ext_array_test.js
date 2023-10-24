@@ -107,7 +107,7 @@ function filter_map(f, a) {
 function range(from, to_) {
   if (from > to_) {
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Ext_array_test.range",
           Error: new Error()
         };
@@ -121,7 +121,7 @@ function map2i(f, a, b) {
   var len = a.length;
   if (len !== b.length) {
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Ext_array_test.map2i",
           Error: new Error()
         };

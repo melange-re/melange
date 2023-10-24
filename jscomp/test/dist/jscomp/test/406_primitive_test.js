@@ -33,7 +33,7 @@ function f(param) {
     for(var i = 0; i <= 200; ++i){
       if (i === 10) {
         throw {
-              RE_EXN_ID: A,
+              MEL_EXN_ID: A,
               _1: 0,
               Error: new Error()
             };
@@ -44,7 +44,7 @@ function f(param) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === A) {
+    if (exn.MEL_EXN_ID === A) {
       return ;
     }
     throw exn;

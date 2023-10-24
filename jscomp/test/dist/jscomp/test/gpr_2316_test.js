@@ -34,14 +34,14 @@ var y;
 
 try {
   throw {
-        RE_EXN_ID: "Failure",
+        MEL_EXN_ID: "Failure",
         _1: "boo",
         Error: new Error()
       };
 }
 catch (raw_exn){
   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  if (exn.RE_EXN_ID === Stdlib.Failure) {
+  if (exn.MEL_EXN_ID === Stdlib.Failure) {
     y = exn._1;
   } else {
     throw exn;
@@ -54,14 +54,14 @@ var exit = 0;
 
 try {
   throw {
-        RE_EXN_ID: "Failure",
+        MEL_EXN_ID: "Failure",
         _1: "boo",
         Error: new Error()
       };
 }
 catch (raw_exn$1){
   var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-  if (exn$1.RE_EXN_ID === Stdlib.Failure) {
+  if (exn$1.MEL_EXN_ID === Stdlib.Failure) {
     x = exn$1._1;
   } else {
     throw exn$1;

@@ -28,7 +28,7 @@ function hd(param) {
     return param.hd;
   }
   throw {
-        RE_EXN_ID: "Failure",
+        MEL_EXN_ID: "Failure",
         _1: "hd",
         Error: new Error()
       };
@@ -39,7 +39,7 @@ function tl(param) {
     return param.tl;
   }
   throw {
-        RE_EXN_ID: "Failure",
+        MEL_EXN_ID: "Failure",
         _1: "tl",
         Error: new Error()
       };
@@ -48,7 +48,7 @@ function tl(param) {
 function nth(l, n) {
   if (n < 0) {
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "List.nth",
           Error: new Error()
         };
@@ -67,7 +67,7 @@ function nth(l, n) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Failure",
+          MEL_EXN_ID: "Failure",
           _1: "nth",
           Error: new Error()
         };
@@ -205,7 +205,7 @@ function map2(f, l1, l2) {
             };
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "List.map2",
           Error: new Error()
         };
@@ -214,7 +214,7 @@ function map2(f, l1, l2) {
     return /* [] */0;
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "List.map2",
         Error: new Error()
       };
@@ -239,14 +239,14 @@ function rev_map2(f, l1, l2) {
         continue ;
       }
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "List.rev_map2",
             Error: new Error()
           };
     }
     if (l2$1) {
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "List.rev_map2",
             Error: new Error()
           };
@@ -267,7 +267,7 @@ function iter2(f, _l1, _l2) {
         continue ;
       }
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "List.iter2",
             Error: new Error()
           };
@@ -276,7 +276,7 @@ function iter2(f, _l1, _l2) {
       return ;
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "List.iter2",
           Error: new Error()
         };
@@ -296,14 +296,14 @@ function fold_left2(f, _accu, _l1, _l2) {
         continue ;
       }
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "List.fold_left2",
             Error: new Error()
           };
     }
     if (l2) {
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "List.fold_left2",
             Error: new Error()
           };
@@ -318,14 +318,14 @@ function fold_right2(f, l1, l2, accu) {
       return Curry._3(f, l1.hd, l2.hd, fold_right2(f, l1.tl, l2.tl, accu));
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "List.fold_right2",
           Error: new Error()
         };
   }
   if (l2) {
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "List.fold_right2",
           Error: new Error()
         };
@@ -375,7 +375,7 @@ function for_all2(p, _l1, _l2) {
         continue ;
       }
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "List.for_all2",
             Error: new Error()
           };
@@ -384,7 +384,7 @@ function for_all2(p, _l1, _l2) {
       return true;
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "List.for_all2",
           Error: new Error()
         };
@@ -405,7 +405,7 @@ function exists2(p, _l1, _l2) {
         continue ;
       }
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "List.exists2",
             Error: new Error()
           };
@@ -414,7 +414,7 @@ function exists2(p, _l1, _l2) {
       return false;
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "List.exists2",
           Error: new Error()
         };
@@ -461,7 +461,7 @@ function assoc(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -479,7 +479,7 @@ function assq(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -557,7 +557,7 @@ function find(p, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -655,7 +655,7 @@ function combine(l1, l2) {
             };
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "List.combine",
           Error: new Error()
         };
@@ -664,7 +664,7 @@ function combine(l1, l2) {
     return /* [] */0;
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "List.combine",
         Error: new Error()
       };
@@ -705,7 +705,7 @@ function chop(_k, _l) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/test_list.ml",
             224,

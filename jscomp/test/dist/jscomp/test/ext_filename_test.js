@@ -70,7 +70,7 @@ function chop_extension(locOpt, name) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Invalid_argument) {
+    if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
       return Curry._2(Stdlib__Format.ksprintf(Stdlib.invalid_arg, /* Format */{
                       _0: {
                         TAG: /* String_literal */11,
@@ -106,7 +106,7 @@ function chop_extension_if_any(fname) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Invalid_argument) {
+    if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
       return fname;
     }
     throw exn;
@@ -395,7 +395,7 @@ if (Stdlib__Sys.unix) {
 } else {
   var s = "Unknown OS : " + Stdlib__Sys.os_type;
   throw {
-        RE_EXN_ID: "Failure",
+        MEL_EXN_ID: "Failure",
         _1: s,
         Error: new Error()
       };

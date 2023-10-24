@@ -43,7 +43,7 @@ function bufferize(f) {
           (function (x) {
               if (buf.contents !== undefined) {
                 throw {
-                      RE_EXN_ID: "Assert_failure",
+                      MEL_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/qcc.ml",
                         17,
@@ -101,7 +101,7 @@ function addsym(s) {
 function symstr(n) {
   if (n >= syms.contents) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/qcc.ml",
             40,
@@ -193,7 +193,7 @@ function next(param) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.End_of_file) {
+    if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
       c = undefined;
     } else {
       throw exn;
@@ -247,7 +247,7 @@ function next(param) {
     var qt = Curry._1(getch, undefined);
     if (qt !== /* '\'' */39) {
       throw {
-            RE_EXN_ID: "Failure",
+            MEL_EXN_ID: "Failure",
             _1: "syntax error",
             Error: new Error()
           };
@@ -371,7 +371,7 @@ function get32(l) {
 function patch(rel, loc, n) {
   if (n >= 0) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/qcc.ml",
             157,
@@ -965,7 +965,7 @@ function unary(stk) {
                 ];
               } else {
                 throw {
-                      RE_EXN_ID: "Failure",
+                      MEL_EXN_ID: "Failure",
                       _1: "[cast] expected",
                       Error: new Error()
                     };
@@ -1016,7 +1016,7 @@ function unary(stk) {
                         _1: "unknown operator %s"
                       }), o);
               throw {
-                    RE_EXN_ID: "Failure",
+                    MEL_EXN_ID: "Failure",
                     _1: s,
                     Error: new Error()
                   };
@@ -1039,7 +1039,7 @@ function unary(stk) {
           var l = Stdlib__List.assoc(i$1, stk);
           if (l <= -256) {
             throw {
-                  RE_EXN_ID: "Assert_failure",
+                  MEL_EXN_ID: "Assert_failure",
                   _1: [
                     "jscomp/test/qcc.ml",
                     295,
@@ -1252,7 +1252,7 @@ function decl(g, _n, _stk) {
               var glo = Caml_array.get(globs, s$1);
               if (glo.va >= 0) {
                 throw {
-                      RE_EXN_ID: "Failure",
+                      MEL_EXN_ID: "Failure",
                       _1: "symbol defined twice",
                       Error: new Error()
                     };
@@ -1288,7 +1288,7 @@ function decl(g, _n, _stk) {
             continue ;
           }
           throw {
-                RE_EXN_ID: "Failure",
+                MEL_EXN_ID: "Failure",
                 _1: "[var] expected in [decl]",
                 Error: new Error()
               };
@@ -1325,7 +1325,7 @@ function decl(g, _n, _stk) {
     if (!g && n !== 0) {
       if ((n << 3) >= 256) {
         throw {
-              RE_EXN_ID: "Assert_failure",
+              MEL_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/qcc.ml",
                 436,
@@ -1453,7 +1453,7 @@ function stmt(brk, stk) {
     var n = align.contents - brk[1] | 0;
     if (n < 0) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/qcc.ml",
               515,
@@ -1526,7 +1526,7 @@ function top(_param) {
       var g = Caml_array.get(globs, f$1);
       if (g.va >= 0) {
         throw {
-              RE_EXN_ID: "Failure",
+              MEL_EXN_ID: "Failure",
               _1: "symbol defined twice",
               Error: new Error()
             };
@@ -1547,14 +1547,14 @@ function top(_param) {
                   return stk;
                 }
                 throw {
-                      RE_EXN_ID: "Failure",
+                      MEL_EXN_ID: "Failure",
                       _1: "[var] or ) expected",
                       Error: new Error()
                     };
             case /* ILit */1 :
             case /* SLit */2 :
                 throw {
-                      RE_EXN_ID: "Failure",
+                      MEL_EXN_ID: "Failure",
                       _1: "[var] or ) expected",
                       Error: new Error()
                     };
@@ -1643,7 +1643,7 @@ function top(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Failure",
+          MEL_EXN_ID: "Failure",
           _1: "[decl] or [fun] expected",
           Error: new Error()
         };
@@ -1870,7 +1870,7 @@ function elfgen(outf) {
   elfphdr(2, dyn + off | 0, tend - dyn | 0, 8);
   if (opos.contents !== 232) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/qcc.ml",
             698,

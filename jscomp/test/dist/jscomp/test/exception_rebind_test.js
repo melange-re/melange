@@ -18,17 +18,17 @@ var B = {
 var A0 = /* @__PURE__ */Caml_exceptions.create("Exception_rebind_test.A0");
 
 var u0 = {
-  RE_EXN_ID: Stdlib.Invalid_argument,
+  MEL_EXN_ID: Stdlib.Invalid_argument,
   _1: "x"
 };
 
 var u1 = {
-  RE_EXN_ID: Stdlib.Invalid_argument,
+  MEL_EXN_ID: Stdlib.Invalid_argument,
   _1: "x"
 };
 
 var u2 = {
-  RE_EXN_ID: Stdlib.Not_found
+  MEL_EXN_ID: Stdlib.Not_found
 };
 
 var H = Exception_def.A;

@@ -22,7 +22,7 @@ function ff(x) {
         return "c";
     default:
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/bb.ml",
               17,
@@ -47,7 +47,7 @@ function test(x) {
         break;
     default:
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/bb.ml",
               26,

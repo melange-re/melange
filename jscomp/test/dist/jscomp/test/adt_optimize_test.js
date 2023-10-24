@@ -160,7 +160,7 @@ function f11(x) {
     return 1;
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/adt_optimize_test.ml",
           191,

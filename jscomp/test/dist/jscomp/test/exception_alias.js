@@ -5,7 +5,7 @@ var Stdlib = require("melange/stdlib.js");
 var Stdlib__List = require("melange/list.js");
 
 var a0 = {
-  RE_EXN_ID: Stdlib.Not_found
+  MEL_EXN_ID: Stdlib.Not_found
 };
 
 var b = Stdlib__List.length({

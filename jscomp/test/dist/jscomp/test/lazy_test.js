@@ -40,7 +40,7 @@ function f(param) {
     return 1;
   }
   throw {
-        RE_EXN_ID: "Match_failure",
+        MEL_EXN_ID: "Match_failure",
         _1: [
           "lazy_test.ml",
           9,
@@ -79,7 +79,7 @@ try {
 }
 catch (raw_exn){
   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  if (exn.RE_EXN_ID === Stdlib.Match_failure) {
+  if (exn.MEL_EXN_ID === Stdlib.Match_failure) {
     h = 2;
   } else {
     throw exn;
@@ -135,7 +135,7 @@ var f007 = {
   LAZY_DONE: false,
   VAL: (function () {
       throw {
-            RE_EXN_ID: Stdlib.Not_found,
+            MEL_EXN_ID: Stdlib.Not_found,
             Error: new Error()
           };
     })
@@ -146,7 +146,7 @@ var f008 = {
   VAL: (function () {
       console.log("hi");
       throw {
-            RE_EXN_ID: Stdlib.Not_found,
+            MEL_EXN_ID: Stdlib.Not_found,
             Error: new Error()
           };
     })
@@ -332,7 +332,7 @@ Mt.from_pair_suites("Lazy_test", {
                                                 LAZY_DONE: false,
                                                 VAL: (function () {
                                                     throw {
-                                                          RE_EXN_ID: Stdlib.Not_found,
+                                                          MEL_EXN_ID: Stdlib.Not_found,
                                                           Error: new Error()
                                                         };
                                                   })

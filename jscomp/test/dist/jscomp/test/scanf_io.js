@@ -102,7 +102,7 @@ function get_lines(fname) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__Scanf.Scan_failure) {
+    if (exn.MEL_EXN_ID === Stdlib__Scanf.Scan_failure) {
       var s = Curry._2(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String_literal */11,
@@ -124,12 +124,12 @@ function get_lines(fname) {
                 _1: "in file %s, %s"
               }), fname, exn._1);
       throw {
-            RE_EXN_ID: "Failure",
+            MEL_EXN_ID: "Failure",
             _1: s,
             Error: new Error()
           };
     }
-    if (exn.RE_EXN_ID === Stdlib.End_of_file) {
+    if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
       var s$1 = Curry._1(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String_literal */11,
@@ -147,7 +147,7 @@ function get_lines(fname) {
                 _1: "in file %s, unexpected end of file"
               }), fname);
       throw {
-            RE_EXN_ID: "Failure",
+            MEL_EXN_ID: "Failure",
             _1: s$1,
             Error: new Error()
           };
@@ -187,7 +187,7 @@ function add_digest_ib(ob, ib) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.End_of_file) {
+    if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
       return ;
     }
     throw exn;

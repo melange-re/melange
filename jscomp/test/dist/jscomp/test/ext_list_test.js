@@ -206,7 +206,7 @@ function filter_map2(f, _xs, _ys) {
         continue ;
       }
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "Ext_list_test.filter_map2",
             Error: new Error()
           };
@@ -215,7 +215,7 @@ function filter_map2(f, _xs, _ys) {
       return /* [] */0;
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Ext_list_test.filter_map2",
           Error: new Error()
         };
@@ -245,7 +245,7 @@ function filter_map2i(f, xs, ys) {
           continue ;
         }
         throw {
-              RE_EXN_ID: "Invalid_argument",
+              MEL_EXN_ID: "Invalid_argument",
               _1: "Ext_list_test.filter_map2i",
               Error: new Error()
             };
@@ -254,7 +254,7 @@ function filter_map2i(f, xs, ys) {
         return /* [] */0;
       }
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "Ext_list_test.filter_map2i",
             Error: new Error()
           };
@@ -295,14 +295,14 @@ function flat_map2(f, lx, ly) {
         continue ;
       }
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "Ext_list_test.flat_map2",
             Error: new Error()
           };
     }
     if (ly$1) {
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "Ext_list_test.flat_map2",
             Error: new Error()
           };
@@ -347,7 +347,7 @@ function map2_last(f, l1, l2) {
         
       } else {
         throw {
-              RE_EXN_ID: "Invalid_argument",
+              MEL_EXN_ID: "Invalid_argument",
               _1: "List.map2_last",
               Error: new Error()
             };
@@ -361,7 +361,7 @@ function map2_last(f, l1, l2) {
             };
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "List.map2_last",
           Error: new Error()
         };
@@ -370,7 +370,7 @@ function map2_last(f, l1, l2) {
     return /* [] */0;
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "List.map2_last",
         Error: new Error()
       };
@@ -406,7 +406,7 @@ function fold_right2_last(f, l1, l2, accu) {
         
       } else {
         throw {
-              RE_EXN_ID: "Invalid_argument",
+              MEL_EXN_ID: "Invalid_argument",
               _1: "List.fold_right2",
               Error: new Error()
             };
@@ -416,14 +416,14 @@ function fold_right2_last(f, l1, l2, accu) {
       return Curry._4(f, false, last1, l2.hd, fold_right2_last(f, l1$1, l2.tl, accu));
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "List.fold_right2",
           Error: new Error()
         };
   }
   if (l2) {
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "List.fold_right2",
           Error: new Error()
         };
@@ -440,7 +440,7 @@ function take(n, l) {
   var arr_length = arr.length;
   if (arr_length < n) {
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Ext_list_test.take",
           Error: new Error()
         };
@@ -527,7 +527,7 @@ function exclude_tail(x) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Ext_list_test.exclude_tail",
           Error: new Error()
         };
@@ -580,7 +580,7 @@ function drop(_n, _h) {
     var n = _n;
     if (n < 0) {
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "Ext_list_test.drop",
             Error: new Error()
           };
@@ -590,7 +590,7 @@ function drop(_n, _h) {
     }
     if (Caml_obj.caml_equal(h, /* [] */0)) {
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "Ext_list_test.drop",
             Error: new Error()
           };
@@ -763,7 +763,7 @@ function reduce_from_right(fn, lst) {
                 }), match.hd, match.tl);
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Ext_list_test.reduce",
         Error: new Error()
       };
@@ -774,7 +774,7 @@ function reduce_from_left(fn, lst) {
     return Stdlib__List.fold_left(fn, lst.hd, lst.tl);
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Ext_list_test.reduce_from_left",
         Error: new Error()
       };
@@ -792,7 +792,7 @@ function ref_top(x) {
     return match.hd;
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Ext_list_test.ref_top",
         Error: new Error()
       };
@@ -821,7 +821,7 @@ function ref_pop(refs) {
     return match.hd;
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Ext_list_test.ref_pop",
         Error: new Error()
       };
@@ -849,7 +849,7 @@ function rev_except_last(xs) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Ext_list_test.rev_except_last",
           Error: new Error()
         };
@@ -873,7 +873,7 @@ function last(_xs) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Ext_list_test.last",
           Error: new Error()
         };
@@ -895,7 +895,7 @@ function assoc_by_string(def, k, _lst) {
       return Caml_option.valFromOption(def);
     }
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ext_list_test.ml",
             399,
@@ -921,7 +921,7 @@ function assoc_by_int(def, k, _lst) {
       return Caml_option.valFromOption(def);
     }
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ext_list_test.ml",
             409,

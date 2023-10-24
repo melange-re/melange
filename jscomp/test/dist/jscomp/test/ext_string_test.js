@@ -219,7 +219,7 @@ function for_all_range(s, start, finish, p) {
   var len = s.length;
   if (start < 0 || finish >= len) {
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Ext_string_test.for_all_range",
           Error: new Error()
         };
@@ -274,7 +274,7 @@ function find(startOpt, sub, s) {
     while((i + n | 0) <= s_len) {
       if (unsafe_is_sub(sub, 0, s, i, n)) {
         throw {
-              RE_EXN_ID: Local_exit,
+              MEL_EXN_ID: Local_exit,
               Error: new Error()
             };
       }
@@ -284,7 +284,7 @@ function find(startOpt, sub, s) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Local_exit) {
+    if (exn.MEL_EXN_ID === Local_exit) {
       return i;
     }
     throw exn;
@@ -299,7 +299,7 @@ function non_overlap_count(sub, s) {
   var sub_len = sub.length;
   if (sub.length === 0) {
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Ext_string_test.non_overlap_count",
           Error: new Error()
         };
@@ -326,7 +326,7 @@ function rfind(sub, s) {
     while(i >= 0) {
       if (unsafe_is_sub(sub, 0, s, i, n)) {
         throw {
-              RE_EXN_ID: Local_exit,
+              MEL_EXN_ID: Local_exit,
               Error: new Error()
             };
       }
@@ -336,7 +336,7 @@ function rfind(sub, s) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Local_exit) {
+    if (exn.MEL_EXN_ID === Local_exit) {
       return i;
     }
     throw exn;
@@ -350,7 +350,7 @@ function tail_from(s, x) {
   }
   var s$1 = "Ext_string_test.tail_from " + (s + (" : " + String(x)));
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: s$1,
         Error: new Error()
       };
@@ -569,7 +569,7 @@ function no_char(x, ch, i, len) {
   var str_len = x.length;
   if (i < 0 || i >= str_len || len >= str_len) {
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Ext_string_test.no_char",
           Error: new Error()
         };

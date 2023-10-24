@@ -46,13 +46,13 @@ function _must_escape(s) {
             exit = 1;
           } else {
             throw {
-                  RE_EXN_ID: Stdlib.Exit,
+                  MEL_EXN_ID: Stdlib.Exit,
                   Error: new Error()
                 };
           }
         } else {
           throw {
-                RE_EXN_ID: Stdlib.Exit,
+                MEL_EXN_ID: Stdlib.Exit,
                 Error: new Error()
               };
         }
@@ -72,7 +72,7 @@ function _must_escape(s) {
             case 40 :
             case 41 :
                 throw {
-                      RE_EXN_ID: Stdlib.Exit,
+                      MEL_EXN_ID: Stdlib.Exit,
                       Error: new Error()
                     };
             
@@ -83,7 +83,7 @@ function _must_escape(s) {
       } else {
         if (c >= 9) {
           throw {
-                RE_EXN_ID: Stdlib.Exit,
+                MEL_EXN_ID: Stdlib.Exit,
                 Error: new Error()
               };
         }
@@ -91,7 +91,7 @@ function _must_escape(s) {
       }
       if (exit === 1 && c > 127) {
         throw {
-              RE_EXN_ID: Stdlib.Exit,
+              MEL_EXN_ID: Stdlib.Exit,
               Error: new Error()
             };
       }
@@ -101,7 +101,7 @@ function _must_escape(s) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Exit) {
+    if (exn.MEL_EXN_ID === Stdlib.Exit) {
       return true;
     }
     throw exn;
@@ -429,7 +429,7 @@ function _refill(t, k_succ, k_fail) {
 function _get(t) {
   if (t.i >= t.len) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/sexpm.ml",
             152,
@@ -543,7 +543,7 @@ function expr_starting_with(c, k, t) {
       switch (c) {
         case 32 :
             throw {
-                  RE_EXN_ID: "Assert_failure",
+                  MEL_EXN_ID: "Assert_failure",
                   _1: [
                     "jscomp/test/sexpm.ml",
                     183,
@@ -577,7 +577,7 @@ function expr_starting_with(c, k, t) {
     
   } else if (c >= 9) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/sexpm.ml",
             183,
@@ -1041,7 +1041,7 @@ function MakeDecode(funarg) {
   var _get = function (t) {
     if (t.i >= t.len) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/sexpm.ml",
               152,
@@ -1151,7 +1151,7 @@ function MakeDecode(funarg) {
         switch (c) {
           case 32 :
               throw {
-                    RE_EXN_ID: "Assert_failure",
+                    MEL_EXN_ID: "Assert_failure",
                     _1: [
                       "jscomp/test/sexpm.ml",
                       183,
@@ -1185,7 +1185,7 @@ function MakeDecode(funarg) {
       
     } else if (c >= 9) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/sexpm.ml",
               183,

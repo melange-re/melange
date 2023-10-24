@@ -81,7 +81,7 @@ var h = {
 var v = {
   contents: (function (param) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/rec_value_test.ml",
               36,
@@ -246,7 +246,7 @@ var rec_variant_a = {
 function phd(l) {
   if (typeof l === "string") {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/rec_value_test.ml",
             107,
@@ -259,7 +259,7 @@ function phd(l) {
     return l.VAL[0];
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/rec_value_test.ml",
           107,
@@ -272,7 +272,7 @@ function phd(l) {
 function ptl(l) {
   if (typeof l === "string") {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/rec_value_test.ml",
             112,
@@ -285,7 +285,7 @@ function ptl(l) {
     return l.VAL[1];
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/rec_value_test.ml",
           112,
@@ -355,7 +355,7 @@ var suites_1 = {
                 tmp = match.hd;
               } else {
                 throw {
-                      RE_EXN_ID: "Assert_failure",
+                      MEL_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/rec_value_test.ml",
                         142,
@@ -366,7 +366,7 @@ var suites_1 = {
               }
             } else {
               throw {
-                    RE_EXN_ID: "Assert_failure",
+                    MEL_EXN_ID: "Assert_failure",
                     _1: [
                       "jscomp/test/rec_value_test.ml",
                       142,
@@ -510,7 +510,7 @@ var suites_1 = {
                                     };
                             }
                             throw {
-                                  RE_EXN_ID: "Assert_failure",
+                                  MEL_EXN_ID: "Assert_failure",
                                   _1: [
                                     "jscomp/test/rec_value_test.ml",
                                     166,
@@ -532,7 +532,7 @@ var suites_1 = {
                                       };
                               }
                               throw {
-                                    RE_EXN_ID: "Assert_failure",
+                                    MEL_EXN_ID: "Assert_failure",
                                     _1: [
                                       "jscomp/test/rec_value_test.ml",
                                       171,

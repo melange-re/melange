@@ -35,7 +35,7 @@ function aToJs(param) {
 function aFromJs(param) {
   if (!(param <= 2 && 0 <= param)) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "_none_",
             0,

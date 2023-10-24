@@ -24,19 +24,19 @@ function appf(g, x) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Local) {
+    if (exn.MEL_EXN_ID === Local) {
       return 3;
     }
-    if (exn.RE_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return 2;
     }
-    if (exn.RE_EXN_ID === A) {
+    if (exn.MEL_EXN_ID === A) {
       return 3;
     }
-    if (exn.RE_EXN_ID !== B) {
-      if (exn.RE_EXN_ID === C) {
+    if (exn.MEL_EXN_ID !== B) {
+      if (exn.MEL_EXN_ID === C) {
         return exn._1;
-      } else if (exn.RE_EXN_ID === D) {
+      } else if (exn.MEL_EXN_ID === D) {
         return exn._1[0];
       } else {
         return 4;
@@ -68,7 +68,7 @@ try {
 }
 catch (raw_exn){
   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  f = exn.RE_EXN_ID === A ? exn._1 : 2;
+  f = exn.MEL_EXN_ID === A ? exn._1 : 2;
 }
 
 var ff;
@@ -78,7 +78,7 @@ try {
 }
 catch (raw_exn$1){
   var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-  ff = exn$1.RE_EXN_ID === A ? exn$1._1 : 2;
+  ff = exn$1.MEL_EXN_ID === A ? exn$1._1 : 2;
 }
 
 var fff;
@@ -88,7 +88,7 @@ try {
 }
 catch (raw_exn$2){
   var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
-  fff = exn$2.RE_EXN_ID === A ? exn$2._1 : 2;
+  fff = exn$2.MEL_EXN_ID === A ? exn$2._1 : 2;
 }
 
 var a0;
@@ -98,11 +98,11 @@ try {
 }
 catch (raw_exn$3){
   var exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
-  if (exn$3.RE_EXN_ID === A || exn$3.RE_EXN_ID === Js__Js_exn.$$Error) {
+  if (exn$3.MEL_EXN_ID === A || exn$3.MEL_EXN_ID === Js__Js_exn.$$Error) {
     a0 = exn$3._1;
   } else {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/exception_raise_test.ml",
             102,
@@ -157,7 +157,7 @@ var suites = {
       hd: [
         "File \"jscomp/test/exception_raise_test.ml\", line 116, characters 4-11",
         (function (param) {
-            if (a1.RE_EXN_ID === Js__Js_exn.$$Error) {
+            if (a1.MEL_EXN_ID === Js__Js_exn.$$Error) {
               return {
                       TAG: /* Eq */0,
                       _0: a1._1,
@@ -165,7 +165,7 @@ var suites = {
                     };
             }
             throw {
-                  RE_EXN_ID: "Assert_failure",
+                  MEL_EXN_ID: "Assert_failure",
                   _1: [
                     "jscomp/test/exception_raise_test.ml",
                     119,
@@ -198,7 +198,7 @@ catch (raw_e$2){
 
 try {
   throw {
-        RE_EXN_ID: Stdlib.Not_found,
+        MEL_EXN_ID: Stdlib.Not_found,
         Error: new Error()
       };
 }

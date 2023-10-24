@@ -18,7 +18,7 @@ function f3(param) {
     var rhs = param.rank;
     if (typeof lhs === "number") {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/fun_pattern_match.ml",
               41,
@@ -29,7 +29,7 @@ function f3(param) {
     }
     if (typeof rhs === "number") {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/fun_pattern_match.ml",
               41,
@@ -48,7 +48,7 @@ function f4(param) {
     var rhs = param.rank;
     if (typeof lhs === "number") {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/fun_pattern_match.ml",
               49,
@@ -59,7 +59,7 @@ function f4(param) {
     }
     if (typeof rhs === "number") {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/fun_pattern_match.ml",
               49,

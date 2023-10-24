@@ -8,7 +8,7 @@ var match = 1;
 if (match !== undefined) {
   if (match !== 1) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/gpr_3980_test.ml",
             16,
@@ -21,7 +21,7 @@ if (match !== undefined) {
   if (match$1 !== 1) {
     if (match$1 !== 2) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/gpr_3980_test.ml",
               14,
@@ -35,7 +35,7 @@ if (match !== undefined) {
   
 } else {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/gpr_3980_test.ml",
           16,

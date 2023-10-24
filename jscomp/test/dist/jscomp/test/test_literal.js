@@ -6,7 +6,7 @@ var Caml_exceptions = require("melange.js/caml_exceptions.js");
 var Custom_inline = /* @__PURE__ */Caml_exceptions.create("Test_literal.Custom_inline");
 
 var v = {
-  RE_EXN_ID: Custom_inline,
+  MEL_EXN_ID: Custom_inline,
   _1: 1,
   _2: 2
 };

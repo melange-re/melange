@@ -36,15 +36,15 @@ var A = /* @__PURE__ */Caml_exceptions.create("Gpr_1501_test.A");
 var B = /* @__PURE__ */Caml_exceptions.create("Gpr_1501_test.B");
 
 eq("File \"jscomp/test/gpr_1501_test.ml\", line 15, characters 7-14", "Not_found", Stdlib__Printexc.to_string({
-          RE_EXN_ID: Stdlib.Not_found
+          MEL_EXN_ID: Stdlib.Not_found
         }));
 
 eq("File \"jscomp/test/gpr_1501_test.ml\", line 16, characters 7-14", /Gpr_1501_test.A\/[0-9]+/.test(Stdlib__Printexc.to_string({
-              RE_EXN_ID: A
+              MEL_EXN_ID: A
             })), true);
 
 eq("File \"jscomp/test/gpr_1501_test.ml\", line 19, characters 7-14", /Gpr_1501_test.B\/[0-9]+\(1\)/.test(Stdlib__Printexc.to_string({
-              RE_EXN_ID: B,
+              MEL_EXN_ID: B,
               _1: 1
             })), true);
 

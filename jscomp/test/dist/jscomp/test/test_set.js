@@ -38,13 +38,13 @@ function Make(Ord) {
           return create(create(ll, lv, lr._0), lr._1, create(lr._2, v, r));
         }
         throw {
-              RE_EXN_ID: "Invalid_argument",
+              MEL_EXN_ID: "Invalid_argument",
               _1: "Set.bal",
               Error: new Error()
             };
       }
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "Set.bal",
             Error: new Error()
           };
@@ -68,13 +68,13 @@ function Make(Ord) {
         return create(create(l, v, rl._0), rl._1, create(rl._2, rv, rr));
       }
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "Set.bal",
             Error: new Error()
           };
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Set.bal",
           Error: new Error()
         };
@@ -151,7 +151,7 @@ function Make(Ord) {
         continue ;
       }
       throw {
-            RE_EXN_ID: Stdlib.Not_found,
+            MEL_EXN_ID: Stdlib.Not_found,
             Error: new Error()
           };
     };
@@ -167,7 +167,7 @@ function Make(Ord) {
         continue ;
       }
       throw {
-            RE_EXN_ID: Stdlib.Not_found,
+            MEL_EXN_ID: Stdlib.Not_found,
             Error: new Error()
           };
     };
@@ -182,7 +182,7 @@ function Make(Ord) {
       }
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Set.remove_min_elt",
           Error: new Error()
         };
@@ -568,7 +568,7 @@ function Make(Ord) {
         continue ;
       }
       throw {
-            RE_EXN_ID: Stdlib.Not_found,
+            MEL_EXN_ID: Stdlib.Not_found,
             Error: new Error()
           };
     };
@@ -661,7 +661,7 @@ function Make(Ord) {
               ];
       }
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/test_set.ml",
               372,

@@ -8,7 +8,7 @@ var Scan_failure = /* @__PURE__ */Caml_exceptions.create("Test_static_catch_iden
 
 function scanf_bad_input(ib, x) {
   var s;
-  if (x.RE_EXN_ID === Scan_failure || x.RE_EXN_ID === Stdlib.Failure) {
+  if (x.MEL_EXN_ID === Scan_failure || x.MEL_EXN_ID === Stdlib.Failure) {
     s = x._1;
   } else {
     throw x;

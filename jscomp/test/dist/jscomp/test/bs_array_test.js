@@ -140,7 +140,7 @@ var v$1 = [
 
 if (!Belt__Belt_Array.set(v$1, 0, 0)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/bs_array_test.ml",
           38,
@@ -159,7 +159,7 @@ var v$2 = [
 
 if (!Belt__Belt_Array.set(v$2, 1, 0)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/bs_array_test.ml",
           39,
@@ -325,7 +325,7 @@ function addone(x) {
 function makeMatrixExn(sx, sy, init) {
   if (!(sx >= 0 && sy >= 0)) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/bs_array_test.ml",
             99,

@@ -20,7 +20,7 @@ function bool_equal(x, y) {
 function assertions(param) {
   if (true !== true) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/test_bool_equal.ml",
             25,
@@ -31,7 +31,7 @@ function assertions(param) {
   }
   if (false !== false) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/test_bool_equal.ml",
             26,
@@ -42,7 +42,7 @@ function assertions(param) {
   }
   if (true === false) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/test_bool_equal.ml",
             27,
@@ -55,7 +55,7 @@ function assertions(param) {
     return ;
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/test_bool_equal.ml",
           28,

@@ -57,7 +57,7 @@ console.log(f(v1));
 var A0 = /* @__PURE__ */Caml_exceptions.create("Inline_record_test.A0");
 
 var v3 = {
-  RE_EXN_ID: A0,
+  MEL_EXN_ID: A0,
   lbl: 3,
   more: /* [] */0
 };
@@ -68,7 +68,7 @@ if (A0 === A0) {
   tmp = 3;
 } else {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/inline_record_test.ml",
           46,
@@ -111,7 +111,7 @@ if (v4.TAG === /* A0 */0) {
   tmp$1 = v4.x;
 } else {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/inline_record_test.ml",
           64,
@@ -127,7 +127,7 @@ var tmp$2;
 
 if (v5.TAG === /* A0 */0) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/inline_record_test.ml",
           66,
@@ -144,14 +144,14 @@ eq("File \"jscomp/test/inline_record_test.ml\", line 66, characters 6-13", tmp$2
 var A4 = /* @__PURE__ */Caml_exceptions.create("Inline_record_test.A4");
 
 var v6 = {
-  RE_EXN_ID: A4,
+  MEL_EXN_ID: A4,
   x: 0,
   y: 0,
   z: 0
 };
 
 function ff0(x) {
-  if (x.RE_EXN_ID === A4) {
+  if (x.MEL_EXN_ID === A4) {
     x.x = x.x + 1 | 0;
     x.z = x.z + 1 | 0;
     return ;
@@ -165,11 +165,11 @@ for(var _i$1 = 0; _i$1 <= 10; ++_i$1){
 
 var tmp$3;
 
-if (v6.RE_EXN_ID === A4) {
+if (v6.MEL_EXN_ID === A4) {
   tmp$3 = v6.x;
 } else {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/inline_record_test.ml",
           82,

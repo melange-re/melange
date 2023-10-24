@@ -8,11 +8,11 @@ var Stdlib = require("melange/stdlib.js");
 
 function f(match) {
   if (Caml_exceptions.caml_is_extension(match)) {
-    if (match.RE_EXN_ID === Stdlib.Not_found) {
+    if (match.MEL_EXN_ID === Stdlib.Not_found) {
       return 0;
-    } else if (match.RE_EXN_ID === Stdlib.Invalid_argument || match.RE_EXN_ID === Stdlib.Stack_overflow) {
+    } else if (match.MEL_EXN_ID === Stdlib.Invalid_argument || match.MEL_EXN_ID === Stdlib.Stack_overflow) {
       return 1;
-    } else if (match.RE_EXN_ID === Stdlib.Sys_error) {
+    } else if (match.MEL_EXN_ID === Stdlib.Sys_error) {
       return 2;
     } else {
       return ;
@@ -27,11 +27,11 @@ var B = /* @__PURE__ */Caml_exceptions.create("Exn_error_pattern.B");
 
 function g(match) {
   if (Caml_exceptions.caml_is_extension(match)) {
-    if (match.RE_EXN_ID === Stdlib.Not_found || match.RE_EXN_ID === Stdlib.Invalid_argument) {
+    if (match.MEL_EXN_ID === Stdlib.Not_found || match.MEL_EXN_ID === Stdlib.Invalid_argument) {
       return 0;
-    } else if (match.RE_EXN_ID === Stdlib.Sys_error) {
+    } else if (match.MEL_EXN_ID === Stdlib.Sys_error) {
       return 2;
-    } else if (match.RE_EXN_ID === A || match.RE_EXN_ID === B) {
+    } else if (match.MEL_EXN_ID === A || match.MEL_EXN_ID === B) {
       return match._1;
     } else {
       return ;
@@ -53,20 +53,20 @@ function eq(loc, x, y) {
 }
 
 eq("File \"jscomp/test/exn_error_pattern.ml\", line 30, characters 5-12", f({
-          RE_EXN_ID: Stdlib.Not_found
+          MEL_EXN_ID: Stdlib.Not_found
         }), 0);
 
 eq("File \"jscomp/test/exn_error_pattern.ml\", line 31, characters 5-12", f({
-          RE_EXN_ID: Stdlib.Invalid_argument,
+          MEL_EXN_ID: Stdlib.Invalid_argument,
           _1: ""
         }), 1);
 
 eq("File \"jscomp/test/exn_error_pattern.ml\", line 32, characters 5-12", f({
-          RE_EXN_ID: Stdlib.Stack_overflow
+          MEL_EXN_ID: Stdlib.Stack_overflow
         }), 1);
 
 eq("File \"jscomp/test/exn_error_pattern.ml\", line 33, characters 5-12", f({
-          RE_EXN_ID: Stdlib.Sys_error,
+          MEL_EXN_ID: Stdlib.Sys_error,
           _1: ""
         }), 2);
 

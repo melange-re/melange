@@ -44,7 +44,7 @@ function min_elt(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -61,7 +61,7 @@ function max_elt(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -207,14 +207,14 @@ function check_height_and_diff(param) {
   var hr = check_height_and_diff(param._2);
   if (h !== (max_int_2(hl, hr) + 1 | 0)) {
     throw {
-          RE_EXN_ID: Height_invariant_broken,
+          MEL_EXN_ID: Height_invariant_broken,
           Error: new Error()
         };
   }
   var diff = Stdlib.abs(hl - hr | 0);
   if (diff > 2) {
     throw {
-          RE_EXN_ID: Height_diff_borken,
+          MEL_EXN_ID: Height_diff_borken,
           Error: new Error()
         };
   }
@@ -251,7 +251,7 @@ function internal_bal(l, v, r) {
         return create(create(ll, lv, lr._0), lr._1, create(lr._2, v, r));
       }
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/set_gen.ml",
               235,
@@ -261,7 +261,7 @@ function internal_bal(l, v, r) {
           };
     }
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/set_gen.ml",
             225,
@@ -289,7 +289,7 @@ function internal_bal(l, v, r) {
       return create(create(l, v, rl._0), rl._1, create(rl._2, rv, rr));
     }
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/set_gen.ml",
             251,
@@ -299,7 +299,7 @@ function internal_bal(l, v, r) {
         };
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/set_gen.ml",
           245,
@@ -319,7 +319,7 @@ function remove_min_elt(param) {
     }
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Set.remove_min_elt",
         Error: new Error()
       };
@@ -523,7 +523,7 @@ function of_sorted_list(l) {
             ];
     }
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/set_gen.ml",
             361,

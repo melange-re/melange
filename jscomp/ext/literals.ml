@@ -43,7 +43,7 @@ let package_name = "melange"
 (* Name of the library file created for each external dependency. *)
 let lib = "lib"
 let gentype_import = "genType.import"
-let exception_id = "RE_EXN_ID"
+let exception_id = "MEL_EXN_ID"
 let polyvar_hash = "NAME"
 let polyvar_value = "VAL"
 let cons = "::"

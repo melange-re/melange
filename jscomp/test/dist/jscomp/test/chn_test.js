@@ -41,7 +41,7 @@ function convert(s) {
                       return x$1;
                     }
                     throw {
-                          RE_EXN_ID: "Assert_failure",
+                          MEL_EXN_ID: "Assert_failure",
                           _1: [
                             "jscomp/test/chn_test.ml",
                             20,

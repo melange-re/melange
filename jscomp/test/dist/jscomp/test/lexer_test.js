@@ -44,7 +44,7 @@ function from_tokens(lst) {
       return match.hd;
     }
     throw {
-          RE_EXN_ID: Stdlib.End_of_file,
+          MEL_EXN_ID: Stdlib.End_of_file,
           Error: new Error()
         };
   };

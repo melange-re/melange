@@ -66,7 +66,7 @@ try {
 }
 catch (raw_exn){
   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  if (exn.RE_EXN_ID === Js__Js_exn.$$Error) {
+  if (exn.MEL_EXN_ID === Js__Js_exn.$$Error) {
     add_test("File \"jscomp/test/js_exception_catch_test.ml\", line 21, characters 10-17", (function (param) {
             return {
                     TAG: /* Ok */4,
@@ -100,29 +100,29 @@ function test(f) {
   }
   catch (raw_e){
     var e = Caml_js_exceptions.internalToOCamlException(raw_e);
-    if (e.RE_EXN_ID === Stdlib.Not_found) {
+    if (e.MEL_EXN_ID === Stdlib.Not_found) {
       return "Not_found";
-    } else if (e.RE_EXN_ID === Stdlib.Invalid_argument) {
+    } else if (e.MEL_EXN_ID === Stdlib.Invalid_argument) {
       if (e._1 === "x") {
         return "Invalid_argument";
       } else {
         return "Invalid_any";
       }
-    } else if (e.RE_EXN_ID === A) {
+    } else if (e.MEL_EXN_ID === A) {
       if (e._1 !== 2) {
         return "A_any";
       } else {
         return "A2";
       }
-    } else if (e.RE_EXN_ID === B) {
+    } else if (e.MEL_EXN_ID === B) {
       return "B";
-    } else if (e.RE_EXN_ID === C) {
+    } else if (e.MEL_EXN_ID === C) {
       if (e._1 !== 1 || e._2 !== 2) {
         return "C_any";
       } else {
         return "C";
       }
-    } else if (e.RE_EXN_ID === Js__Js_exn.$$Error) {
+    } else if (e.MEL_EXN_ID === Js__Js_exn.$$Error) {
       return "Js_error";
     } else {
       return "Any";
@@ -136,14 +136,14 @@ eq("File \"jscomp/test/js_exception_catch_test.ml\", line 43, characters 5-12", 
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 44, characters 5-12", test(function (param) {
           throw {
-                RE_EXN_ID: Stdlib.Not_found,
+                MEL_EXN_ID: Stdlib.Not_found,
                 Error: new Error()
               };
         }), "Not_found");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 45, characters 5-12", test(function (param) {
           throw {
-                RE_EXN_ID: "Invalid_argument",
+                MEL_EXN_ID: "Invalid_argument",
                 _1: "x",
                 Error: new Error()
               };
@@ -151,7 +151,7 @@ eq("File \"jscomp/test/js_exception_catch_test.ml\", line 45, characters 5-12", 
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 46, characters 5-12", test(function (param) {
           throw {
-                RE_EXN_ID: "Invalid_argument",
+                MEL_EXN_ID: "Invalid_argument",
                 _1: "",
                 Error: new Error()
               };
@@ -159,7 +159,7 @@ eq("File \"jscomp/test/js_exception_catch_test.ml\", line 46, characters 5-12", 
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 47, characters 5-12", test(function (param) {
           throw {
-                RE_EXN_ID: A,
+                MEL_EXN_ID: A,
                 _1: 2,
                 Error: new Error()
               };
@@ -167,7 +167,7 @@ eq("File \"jscomp/test/js_exception_catch_test.ml\", line 47, characters 5-12", 
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 48, characters 5-12", test(function (param) {
           throw {
-                RE_EXN_ID: A,
+                MEL_EXN_ID: A,
                 _1: 3,
                 Error: new Error()
               };
@@ -175,14 +175,14 @@ eq("File \"jscomp/test/js_exception_catch_test.ml\", line 48, characters 5-12", 
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 49, characters 5-12", test(function (param) {
           throw {
-                RE_EXN_ID: B,
+                MEL_EXN_ID: B,
                 Error: new Error()
               };
         }), "B");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 50, characters 5-12", test(function (param) {
           throw {
-                RE_EXN_ID: C,
+                MEL_EXN_ID: C,
                 _1: 1,
                 _2: 2,
                 Error: new Error()
@@ -191,7 +191,7 @@ eq("File \"jscomp/test/js_exception_catch_test.ml\", line 50, characters 5-12", 
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 51, characters 5-12", test(function (param) {
           throw {
-                RE_EXN_ID: C,
+                MEL_EXN_ID: C,
                 _1: 0,
                 _2: 2,
                 Error: new Error()
@@ -204,7 +204,7 @@ eq("File \"jscomp/test/js_exception_catch_test.ml\", line 52, characters 5-12", 
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 53, characters 5-12", test(function (param) {
           throw {
-                RE_EXN_ID: "Failure",
+                MEL_EXN_ID: "Failure",
                 _1: "x",
                 Error: new Error()
               };
