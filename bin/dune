@@ -23,7 +23,6 @@
  (libraries
   melangelib
   js_of_ocaml-compiler.runtime
-  melange.dom
   melange.ppx
   reason-react-ppx
   reason))
