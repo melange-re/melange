@@ -46,7 +46,8 @@
    (>= "0.30.0"))
   (menhir
    (>= 20201214))
-  (reason-react-ppx :with-test)))
+  (reason-react-ppx
+   (and :with-test :post))))
 
 (package
  (name melange-playground)
