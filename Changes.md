@@ -10,6 +10,12 @@ Unreleased
     - `Js.Option`: use `Stdlib.Option` or `Belt.Option` instead;
     - `Js.Result`: use `Stdlib.Result` or `Belt.Result` instead;
     - `Js.Cast`.
+- BREAKING:
+    - remove support for `@bs` / `@bs.*` attributes; Melange users should now
+      use `[@u]` for uncurried application and `[@mel.*]` as the prefix for the
+      FFI attributes ([#818](https://github.com/melange-re/melange/pull/818))
+    - remove `[@@mel.val]`, which was redundant in the Melange FFI
+      ([#818](https://github.com/melange-re/melange/pull/818))
 
 2.1.0 2023-10-22
 ---------------

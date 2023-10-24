@@ -133,7 +133,7 @@ let refine_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
              we should warn, there is a trade off whether
              we should warn dropped non bs attribute or not
           *)
-          Bs_ast_invariant.warn_discarded_unused_attributes ptyp_attrs;
+          Mel_ast_invariant.warn_discarded_unused_attributes ptyp_attrs;
           match cst with
           | Int i ->
               (* This type is used in obj only to construct obj type*)
@@ -153,7 +153,7 @@ let refine_obj_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
        we should warn, there is a trade off whether
        we should warn dropped non bs attribute or not
     *)
-    Bs_ast_invariant.warn_discarded_unused_attributes ptyp_attrs;
+    Mel_ast_invariant.warn_discarded_unused_attributes ptyp_attrs;
     match result with
     | None -> Error.err ~loc:ptyp.ptyp_loc Invalid_underscore_type_in_external
     | Some (Int i) ->
@@ -206,7 +206,6 @@ let string_of_bundle_source (x : bundle_source) =
 type name_source = [ bundle_source | `Nm_na ]
 
 type external_desc = {
-  val_name : name_source;
   external_module_name : External_ffi_types.external_module_name option;
   module_as_val : External_ffi_types.external_module_name option;
   val_send : name_source;
@@ -225,7 +224,6 @@ type external_desc = {
 
 let init_st =
   {
-    val_name = `Nm_na;
     external_module_name = None;
     module_as_val = None;
     val_send = `Nm_na;
@@ -253,7 +251,7 @@ let return_wrapper loc (txt : string) : External_ffi_types.return_wrapper =
 exception Not_handled_external_attribute
 
 (* The processed attributes will be dropped *)
-let parse_external_attributes (no_arguments : bool) (prim_name_check : string)
+let parse_external_attributes (prim_name_check : string)
     (prim_name_or_pval_prim : bundle_source)
     (prim_attributes : Ast_attributes.t) : Ast_attributes.t * external_desc =
   (* shared by `[@@val]`, `[@@send]`,
@@ -289,15 +287,8 @@ let parse_external_attributes (no_arguments : bool) (prim_name_check : string)
           } )
       else
         let action () =
-          Ast_attributes.warn_if_bs ~loc txt;
           match txt with
-          | "mel.val" | "bs.val" | "val" ->
-              Bs_ast_invariant.warn ~loc Deprecated_val;
-              if no_arguments then
-                { st with val_name = name_from_payload_or_prim ~loc payload }
-              else
-                { st with call_name = name_from_payload_or_prim ~loc payload }
-          | "mel.module" | "bs.module" | "module" -> (
+          | "mel.module" | "module" -> (
               match Ast_payload.assert_strings loc payload with
               | [ bundle ] ->
                   {
@@ -324,19 +315,18 @@ let parse_external_attributes (no_arguments : bool) (prim_name_check : string)
                         };
                   }
               | _ -> Error.err ~loc Illegal_attribute)
-          | "mel.scope" | "bs.scope" | "scope" -> (
+          | "mel.scope" | "scope" -> (
               match Ast_payload.assert_strings loc payload with
               | [] -> Error.err ~loc Illegal_attribute
               (* We need err on empty scope, so we can tell the difference
                  between unset/set
               *)
               | scopes -> { st with scopes })
-          | "mel.splice" | "bs.splice" | "mel.variadic" | "bs.variadic"
-          | "variadic" ->
+          | "mel.splice" | "mel.variadic" | "variadic" ->
               { st with splice = true }
-          | "mel.send" | "bs.send" | "send" ->
+          | "mel.send" | "send" ->
               { st with val_send = name_from_payload_or_prim ~loc payload }
-          | "mel.send.pipe" | "bs.send.pipe" ->
+          | "mel.send.pipe" ->
               {
                 st with
                 val_send_pipe =
@@ -347,26 +337,26 @@ let parse_external_attributes (no_arguments : bool) (prim_name_check : string)
                         "expected a type after [@mel.send.pipe], e.g. \
                          [@mel.send.pipe: t]");
               }
-          | "mel.set" | "bs.set" | "set" ->
+          | "mel.set" | "set" ->
               { st with set_name = name_from_payload_or_prim ~loc payload }
-          | "mel.get" | "bs.get" | "get" ->
+          | "mel.get" | "get" ->
               { st with get_name = name_from_payload_or_prim ~loc payload }
-          | "mel.new" | "bs.new" | "new" ->
+          | "mel.new" | "new" ->
               { st with new_name = name_from_payload_or_prim ~loc payload }
-          | "mel.set_index" | "bs.set_index" | "set_index" ->
+          | "mel.set_index" | "set_index" ->
               if String.length prim_name_check <> 0 then
                 Location.raise_errorf ~loc
                   "%@set_index this particular external's name needs to be a \
                    placeholder empty string";
               { st with set_index = true }
-          | "mel.get_index" | "bs.get_index" | "get_index" ->
+          | "mel.get_index" | "get_index" ->
               if String.length prim_name_check <> 0 then
                 Location.raise_errorf ~loc
                   "%@get_index this particular external's name needs to be a \
                    placeholder empty string";
               { st with get_index = true }
-          | "mel.obj" | "bs.obj" | "obj" -> { st with mk_obj = true }
-          | "mel.return" | "bs.return" | "return" -> (
+          | "mel.obj" | "obj" -> { st with mk_obj = true }
+          | "mel.return" | "return" -> (
               match Ast_payload.ident_or_record_as_config payload with
               | Ok [ ({ txt; _ }, None) ] ->
                   { st with return_wrapper = return_wrapper loc txt }
@@ -381,7 +371,7 @@ let parse_external_attributes (no_arguments : bool) (prim_name_check : string)
 let has_bs_uncurry (attrs : Ast_attributes.t) =
   List.exists
     (fun { attr_name = { txt; loc = _ }; _ } ->
-      txt = "mel.uncurry" || txt = "bs.uncurry" || txt = "uncurry")
+      txt = "mel.uncurry" || txt = "uncurry")
     attrs
 
 let is_unit ty =
@@ -442,7 +432,6 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
   (* (Parsetree.core_type * External_ffi_types.t, string) result = *)
   match st with
   | {
-   val_name = `Nm_na;
    external_module_name = None;
    module_as_val = None;
    val_send = `Nm_na;
@@ -631,7 +620,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
   match st with
   | {
    set_index = true;
-   val_name = `Nm_na;
    external_module_name = None;
    module_as_val = None;
    val_send = `Nm_na;
@@ -657,7 +645,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
            "Attribute found that conflicts with %@set_index")
   | {
    get_index = true;
-   val_name = `Nm_na;
    external_module_name = None;
    module_as_val = None;
    val_send = `Nm_na;
@@ -685,7 +672,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
   | {
    module_as_val = Some external_module_name;
    get_index = false;
-   val_name;
    new_name;
    external_module_name = None;
    val_send = `Nm_na;
@@ -700,16 +686,12 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    return_wrapper = _;
    mk_obj = _;
   } -> (
-      match (arg_types_ty, new_name, val_name) with
-      | [], `Nm_na, _ -> Js_module_as_var external_module_name
-      | _, `Nm_na, _ -> Js_module_as_fn { splice; external_module_name }
-      | _, #bundle_source, #bundle_source ->
-          Error.err ~loc
-            (Conflict_ffi_attribute
-               "Attribute found that conflicts with @module.")
-      | _, (`Nm_val _ | `Nm_external _), `Nm_na ->
+      match (arg_types_ty, new_name) with
+      | [], `Nm_na -> Js_module_as_var external_module_name
+      | _, `Nm_na -> Js_module_as_fn { splice; external_module_name }
+      | _, (`Nm_val _ | `Nm_external _) ->
           Js_module_as_class external_module_name
-      | _, `Nm_payload _, `Nm_na ->
+      | _, `Nm_payload _ ->
           Location.raise_errorf ~loc
             "Incorrect FFI attribute found: (%@new should not carry a payload \
              here)")
@@ -727,7 +709,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       Error.err ~loc (Conflict_ffi_attribute reason)
   | {
    get_name = `Nm_na;
-   val_name = `Nm_na;
    call_name = `Nm_na;
    module_as_val = None;
    set_index = false;
@@ -758,7 +739,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    splice;
    scopes;
    external_module_name;
-   val_name = `Nm_na;
    module_as_val = None;
    val_send = `Nm_na;
    val_send_pipe = None;
@@ -783,37 +763,9 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       Error.err ~loc
         (Conflict_ffi_attribute "Attribute found that conflicts with %@val")
   | {
-   val_name = `Nm_val (lazy name) | `Nm_external name | `Nm_payload name;
-   external_module_name;
-   call_name = `Nm_na;
-   module_as_val = None;
-   val_send = `Nm_na;
-   val_send_pipe = None;
-   set_index = false;
-   get_index = false;
-   new_name = `Nm_na;
-   set_name = `Nm_na;
-   get_name = `Nm_na;
-   mk_obj = _;
-   return_wrapper = _;
-   splice = false;
-   scopes;
-  } ->
-      (*
-    if no_arguments -->
-          {[
-            external ff : int = "" [@@val]
-          ]}
-       *)
-      Js_var { name; external_module_name; scopes }
-  | { val_name = #bundle_source; _ } ->
-      Error.err ~loc
-        (Conflict_ffi_attribute "Attribute found that conflicts with %@val")
-  | {
    splice;
    scopes;
    external_module_name = Some _ as external_module_name;
-   val_name = `Nm_na;
    call_name = `Nm_na;
    module_as_val = None;
    val_send = `Nm_na;
@@ -840,7 +792,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    splice;
    scopes;
    val_send_pipe = None;
-   val_name = `Nm_na;
    call_name = `Nm_na;
    module_as_val = None;
    set_index = false;
@@ -872,7 +823,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    val_send_pipe = Some _;
    (* splice = (false as splice); *)
    val_send = `Nm_na;
-   val_name = `Nm_na;
    call_name = `Nm_na;
    module_as_val = None;
    set_index = false;
@@ -900,7 +850,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
   | {
    new_name = `Nm_val (lazy name) | `Nm_external name | `Nm_payload name;
    external_module_name;
-   val_name = `Nm_na;
    call_name = `Nm_na;
    module_as_val = None;
    set_index = false;
@@ -920,7 +869,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
         (Conflict_ffi_attribute "Attribute found that conflicts with %@new")
   | {
    set_name = `Nm_val (lazy name) | `Nm_external name | `Nm_payload name;
-   val_name = `Nm_na;
    call_name = `Nm_na;
    module_as_val = None;
    set_index = false;
@@ -944,7 +892,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       Location.raise_errorf ~loc "conflict attributes found with %@set"
   | {
    get_name = `Nm_val (lazy name) | `Nm_external name | `Nm_payload name;
-   val_name = `Nm_na;
    call_name = `Nm_na;
    module_as_val = None;
    set_index = false;
@@ -1000,7 +947,7 @@ let handle_attributes (loc : Location.t) (type_annotation : Parsetree.core_type)
       if String.length prim_name = 0 then
         `Nm_val
           (lazy
-            (Bs_ast_invariant.warn ~loc (Fragile_external pval_name);
+            (Mel_ast_invariant.warn ~loc (Fragile_external pval_name);
              pval_name))
       else `Nm_external prim_name (* need check name *)
     in
@@ -1012,9 +959,8 @@ let handle_attributes (loc : Location.t) (type_annotation : Parsetree.core_type)
       Location.raise_errorf ~loc
         "@uncurry can not be applied to tailed position"
     else
-      let no_arguments = arg_types_ty = [] in
       let unused_attrs, external_desc =
-        parse_external_attributes no_arguments prim_name prim_name_or_pval_name
+        parse_external_attributes prim_name prim_name_or_pval_name
           prim_attributes
       in
       if external_desc.mk_obj then

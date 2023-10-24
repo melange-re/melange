@@ -143,7 +143,7 @@ let app_exp_mapper (e : exp)
                 pexp_loc = e.pexp_loc;
               }
           | Pexp_apply (fn1, args) ->
-              Bs_ast_invariant.warn_discarded_unused_attributes
+              Mel_ast_invariant.warn_discarded_unused_attributes
                 fn1.pexp_attributes;
 
               {
@@ -175,7 +175,7 @@ let app_exp_mapper (e : exp)
                                               (ctor, Some bounded_obj_arg);
                                         }
                                     | Pexp_apply (fn, args) ->
-                                        Bs_ast_invariant
+                                        Mel_ast_invariant
                                         .warn_discarded_unused_attributes
                                           fn.pexp_attributes;
                                         {
@@ -206,7 +206,7 @@ let app_exp_mapper (e : exp)
                         (lab, Ast_open_cxt.restore_exp exp wholes))
                       args
                   in
-                  Bs_ast_invariant.warn_discarded_unused_attributes
+                  Mel_ast_invariant.warn_discarded_unused_attributes
                     pexp_attributes;
                   {
                     pexp_desc = Pexp_apply (fn, (Nolabel, a) :: args);
@@ -226,7 +226,7 @@ let app_exp_mapper (e : exp)
                       let args =
                         args |> List.map (fun (l, e) -> (l, self#expression e))
                       in
-                      Bs_ast_invariant.warn_discarded_unused_attributes
+                      Mel_ast_invariant.warn_discarded_unused_attributes
                         fn1.pexp_attributes;
                       {
                         pexp_desc =
@@ -256,7 +256,7 @@ let app_exp_mapper (e : exp)
            pexp_attributes = attrs;
            _;
           } ->
-              Bs_ast_invariant.warn_discarded_unused_attributes attrs;
+              Mel_ast_invariant.warn_discarded_unused_attributes attrs;
               {
                 e with
                 pexp_desc =

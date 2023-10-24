@@ -38,14 +38,14 @@ let signature_config_table : action_table ref = ref Map_string.empty
 let add_signature k v =
   signature_config_table := Map_string.add !signature_config_table k v
 
-let rec iter_on_bs_config_stru (x : Parsetree.structure) =
+let rec iter_on_mel_config_stru (x : Parsetree.structure) =
   match x with
   | [] -> ()
   | {
       Parsetree.pstr_desc =
         Pstr_attribute
           {
-            attr_name = { txt = "mel.config" | "bs.config" | "config"; loc };
+            attr_name = { txt = "mel.config" | "config"; loc };
             attr_payload = payload;
             _;
           };
@@ -60,7 +60,7 @@ let rec iter_on_bs_config_stru (x : Parsetree.structure) =
 
      [@@@ocaml.ppx.context ...]
      include (struct
-       [@@@bs.config ..]
+       [@@@mel.config ..]
      end)
   *)
   | { pstr_desc = Pstr_attribute _; _ }
@@ -79,18 +79,18 @@ let rec iter_on_bs_config_stru (x : Parsetree.structure) =
          _;
        }
     :: _ ->
-      iter_on_bs_config_stru stru
-  | { pstr_desc = Pstr_attribute _; _ } :: rest -> iter_on_bs_config_stru rest
+      iter_on_mel_config_stru stru
+  | { pstr_desc = Pstr_attribute _; _ } :: rest -> iter_on_mel_config_stru rest
   | _ :: _ -> ()
 
-let rec iter_on_bs_config_sigi (x : Parsetree.signature) =
+let rec iter_on_mel_config_sigi (x : Parsetree.signature) =
   match x with
   | [] -> ()
   | {
       psig_desc =
         Psig_attribute
           {
-            attr_name = { txt = "mel.config" | "bs.config" | "config"; loc };
+            attr_name = { txt = "mel.config" | "config"; loc };
             attr_payload = payload;
             _;
           };
@@ -101,5 +101,5 @@ let rec iter_on_bs_config_sigi (x : Parsetree.signature) =
         (fun x ->
           Ast_payload.table_dispatch !signature_config_table x |> ignore)
         (Ast_payload.ident_or_record_as_config loc payload)
-  | { psig_desc = Psig_attribute _; _ } :: rest -> iter_on_bs_config_sigi rest
+  | { psig_desc = Psig_attribute _; _ } :: rest -> iter_on_mel_config_sigi rest
   | _ :: _ -> ()

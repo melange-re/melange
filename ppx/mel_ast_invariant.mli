@@ -29,13 +29,10 @@ module Warnings : sig
     | Unused_attribute of string
     | Fragile_external of string
     | Redundant_mel_string
-    | Deprecated_uncurry_attribute
-    | Deprecated_attribute_namespace
-    | Deprecated_val
 end
 
 val warn : loc:Location.t -> Warnings.t -> unit
-val mark_used_bs_attribute : Parsetree.attribute -> unit
+val mark_used_mel_attribute : Parsetree.attribute -> unit
 
 (** [warn_discarded_unused_attributes discarded]
   warn if [discarded] has unused bs attribute

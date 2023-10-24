@@ -36,23 +36,15 @@ let assert_bool_lit (e : Parsetree.expression) =
       Location.raise_errorf ~loc:e.pexp_loc
         "expect `true` or `false` in this field"
 
-let warn_if_bs ~loc txt =
-  match txt with
-  | "bs" -> Bs_ast_invariant.warn ~loc Deprecated_uncurry_attribute
-  | other ->
-      if String.starts_with ~prefix:"bs." other then
-        Bs_ast_invariant.warn ~loc Deprecated_attribute_namespace
-
 let process_method_attributes_rev (attrs : t) =
   let exception Local of string in
   try
     let ret =
       List.fold_left
         (fun (st, acc)
-             ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
-          warn_if_bs ~loc txt;
+             ({ attr_name = { txt; _ }; attr_payload = payload; _ } as attr) ->
           match txt with
-          | "mel.get" | "bs.get" | "get" (* @bs.get{null; undefined}*) ->
+          | "mel.get" | "get" (* @bs.get{null; undefined}*) ->
               let result =
                 match Ast_payload.ident_or_record_as_config payload with
                 | Error s -> raise (Local s)
@@ -81,7 +73,7 @@ let process_method_attributes_rev (attrs : t) =
               in
 
               ({ st with get = Some result }, acc)
-          | "mel.set" | "bs.set" | "set" ->
+          | "mel.set" | "set" ->
               let result =
                 match Ast_payload.ident_or_record_as_config payload with
                 | Error s -> raise (Local s)
@@ -117,40 +109,32 @@ type attr_kind =
 let process_attributes_rev (attrs : t) : attr_kind * t =
   List.fold_left
     (fun (st, acc) ({ attr_name = { txt; loc }; _ } as attr) ->
-      warn_if_bs ~loc txt;
       match (txt, st) with
-      | ("u" | "bs"), (Nothing | Uncurry _) ->
+      | "u", (Nothing | Uncurry _) ->
           (Uncurry attr, acc) (* TODO: warn unused/duplicated attribute *)
-      | ("mel.this" | "bs.this" | "this"), (Nothing | Meth_callback _) ->
+      | ("mel.this" | "this"), (Nothing | Meth_callback _) ->
           (Meth_callback attr, acc)
-      | ("mel.meth" | "bs.meth" | "meth"), (Nothing | Method _) ->
-          (Method attr, acc)
-      | ("u" | "bs" | "mel.this" | "bs.this" | "this"), _ ->
+      | ("mel.meth" | "meth"), (Nothing | Method _) -> (Method attr, acc)
+      | ("u" | "mel.this" | "this"), _ ->
           Error.err ~loc Conflict_u_mel_this_mel_meth
       | _, _ -> (st, attr :: acc))
     (Nothing, []) attrs
 
 let process_pexp_fun_attributes_rev (attrs : t) =
   List.fold_left
-    (fun (st, acc) ({ attr_name = { txt; loc }; _ } as attr) ->
-      warn_if_bs ~loc txt;
-      match txt with
-      | "mel.open" | "bs.open" -> (true, acc)
-      | _ -> (st, attr :: acc))
+    (fun (st, acc) ({ attr_name = { txt; _ }; _ } as attr) ->
+      match txt with "mel.open" -> (true, acc) | _ -> (st, attr :: acc))
     (false, []) attrs
 
 let process_bs (attrs : t) =
   List.fold_left
-    (fun (st, acc) ({ attr_name = { txt; loc }; _ } as attr) ->
-      warn_if_bs ~loc txt;
-      match (txt, st) with
-      | ("u" | "bs"), _ -> (true, acc)
-      | _, _ -> (st, attr :: acc))
+    (fun (st, acc) ({ attr_name = { txt; _ }; _ } as attr) ->
+      match (txt, st) with "u", _ -> (true, acc) | _, _ -> (st, attr :: acc))
     (false, []) attrs
 
 let is_bs (attr : attr) =
   match attr with
-  | { attr_name = { Location.txt = "u" | "bs"; _ }; _ } -> true
+  | { attr_name = { Location.txt = "u"; _ }; _ } -> true
   | _ -> false
 
 let bs_get : attr =
@@ -235,9 +219,9 @@ let iter_process_bs_string_or_int_as (attrs : Parsetree.attributes) =
   List.iter
     (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
       match txt with
-      | "mel.as" | "bs.as" | "as" ->
+      | "mel.as" | "as" ->
           if !st = None then (
-            Bs_ast_invariant.mark_used_bs_attribute attr;
+            Mel_ast_invariant.mark_used_mel_attribute attr;
             match Ast_payload.is_single_int payload with
             | None -> (
                 match payload with
@@ -286,19 +270,18 @@ let iter_process_bs_string_int_unwrap_uncurry (attrs : t) =
   let st = ref `Nothing in
   let assign v ({ attr_name = { loc; _ }; _ } as attr : attr) =
     if !st = `Nothing then (
-      Bs_ast_invariant.mark_used_bs_attribute attr;
+      Mel_ast_invariant.mark_used_mel_attribute attr;
       st := v)
     else Error.err ~loc Conflict_attributes
   in
   List.iter
-    (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
-      warn_if_bs ~loc txt;
+    (fun ({ attr_name = { txt; _ }; attr_payload = payload; _ } as attr) ->
       match txt with
-      | "mel.string" | "bs.string" | "string" -> assign `String attr
-      | "mel.int" | "bs.int" | "int" -> assign `Int attr
-      | "mel.ignore" | "bs.ignore" | "ignore" -> assign `Ignore attr
-      | "mel.unwrap" | "bs.unwrap" | "unwrap" -> assign `Unwrap attr
-      | "mel.uncurry" | "bs.uncurry" | "uncurry" ->
+      | "mel.string" | "string" -> assign `String attr
+      | "mel.int" | "int" -> assign `Int attr
+      | "mel.ignore" | "ignore" -> assign `Ignore attr
+      | "mel.unwrap" | "unwrap" -> assign `Unwrap attr
+      | "mel.uncurry" | "uncurry" ->
           assign (`Uncurry (Ast_payload.is_single_int payload)) attr
       | _ -> ())
     attrs;
@@ -309,12 +292,12 @@ let iter_process_bs_string_as (attrs : t) : string option =
   List.iter
     (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
       match txt with
-      | "mel.as" | "bs.as" | "as" ->
+      | "mel.as" | "as" ->
           if !st = None then (
             match Ast_payload.is_single_string payload with
             | None -> Error.err ~loc Expect_string_literal
             | Some (v, _dec) ->
-                Bs_ast_invariant.mark_used_bs_attribute attr;
+                Mel_ast_invariant.mark_used_mel_attribute attr;
                 st := Some v)
           else Error.err ~loc Duplicated_mel_as
       | _ -> ())
@@ -378,8 +361,7 @@ let rs_externals (attrs : t) pval_prim =
   | _, _ ->
       List.exists
         (fun { attr_name = { txt; loc = _ }; _ } ->
-          String.starts_with txt ~prefix:"bs."
-          || String.starts_with txt ~prefix:"mel."
+          String.starts_with txt ~prefix:"mel."
           || Array.exists (fun (x : string) -> txt = x) external_attrs)
         attrs
       || prims_to_be_encoded pval_prim
@@ -388,14 +370,13 @@ let iter_process_bs_int_as (attrs : t) =
   let st = ref None in
   List.iter
     (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
-      warn_if_bs ~loc txt;
       match txt with
-      | "mel.as" | "bs.as" | "as" ->
+      | "mel.as" | "as" ->
           if !st = None then (
             match Ast_payload.is_single_int payload with
             | None -> Error.err ~loc Expect_int_literal
             | Some _ as v ->
-                Bs_ast_invariant.mark_used_bs_attribute attr;
+                Mel_ast_invariant.mark_used_mel_attribute attr;
                 st := v)
           else Error.err ~loc Duplicated_mel_as
       | _ -> ())
@@ -404,26 +385,21 @@ let iter_process_bs_int_as (attrs : t) =
 
 let has_bs_optional (attrs : t) : bool =
   List.exists
-    (fun ({ attr_name = { txt; loc }; _ } as attr) ->
-      warn_if_bs ~loc txt;
+    (fun ({ attr_name = { txt; _ }; _ } as attr) ->
       match txt with
-      | "mel.optional" | "bs.optional" | "optional" ->
-          Bs_ast_invariant.mark_used_bs_attribute attr;
+      | "mel.optional" | "optional" ->
+          Mel_ast_invariant.mark_used_mel_attribute attr;
           true
       | _ -> false)
     attrs
 
 let is_inline : attr -> bool =
- fun { attr_name = { txt; loc }; _ } ->
-  warn_if_bs ~loc txt;
-  txt = "mel.inline" || txt = "bs.inline" || txt = "inline"
+ fun { attr_name = { txt; _ }; _ } -> txt = "mel.inline" || txt = "inline"
 
 let has_inline_payload (attrs : t) = List.find_opt is_inline attrs
 
 let is_mel_as : attr -> bool =
- fun { attr_name = { txt; loc }; _ } ->
-  warn_if_bs ~loc txt;
-  txt = "mel.as" || txt = "bs.as" || txt = "as"
+ fun { attr_name = { txt; _ }; _ } -> txt = "mel.as" || txt = "as"
 
 let has_mel_as_payload (attrs : t) = List.find_opt is_mel_as attrs
 

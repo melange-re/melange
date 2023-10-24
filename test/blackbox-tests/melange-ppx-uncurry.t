@@ -3,11 +3,11 @@ Demonstrate a bug with uncurrying
   $ . ./setup.sh
 
   $ cat > main.ml <<EOF
-  > let foo = ((fun _arr  -> 2) [@bs])
+  > let foo = ((fun _arr  -> 2) [@u])
   > let bar () =
   >   let _a = 2 in
   >   let _b = 2 in
-  >   (foo [||] [@bs])
+  >   (foo [||] [@u])
   > EOF
 
   $ cat > dune-project <<EOF
@@ -20,7 +20,7 @@ Demonstrate a bug with uncurrying
   >  (target melange)
   >  (alias mel)
   >  (modules main)
-  >  (preprocess (pps melange.ppx -alert -deprecated))
+  >  (preprocess (pps melange.ppx))
   >  (emit_stdlib false)
   >  (module_systems commonjs))
   > EOF
@@ -30,11 +30,11 @@ Demonstrate a bug with uncurrying
 If one line is removed, then it works (wat)
 
   $ cat > main.ml <<EOF
-  > let foo = ((fun _arr  -> 2) [@bs])
+  > let foo = ((fun _arr  -> 2) [@u])
   > let bar () =
   >   let _a = 2 in
   >   (* let _b = 2 in *)
-  >   (foo [||] [@bs])
+  >   (foo [||] [@u])
   > EOF
 
   $ dune build @mel

@@ -129,7 +129,7 @@ let anonymous =
     | true ->
       (* Don't re-run anonymous arguments again if this function has already
        * been executed. If this code is executing the 2nd time, it's coming
-       * from a [@bs.config { flags = [| ... |] }].. *)
+       * from a [@mel.config { flags = [| ... |] }].. *)
       `Ok ()
     | false ->
       executed := true;
@@ -199,7 +199,7 @@ let print_version_string () =
     exit 0
 
 (* NOTE(anmonteiro): This function needs to be reentrant, as it might be called
- * multiple times (`-w` CLI flag, [@@@bs.config { flags = ... }] attribute) .*)
+ * multiple times (`-w` CLI flag, [@@@mel.config { flags = ... }] attribute) .*)
 let main: Melc_cli.t -> _ Cmdliner.Term.ret
     = fun {
       Melc_cli.include_dirs;
@@ -399,7 +399,7 @@ let melc_cmd =
   let info = Cmd.info "melc" ~doc in
   Cmd.v info Term.(ret (const main $ Melc_cli.cmd))
 
-(** parse flags in bs.config *)
+(** parse flags in @mel.config *)
 let file_level_flags_handler (e : Parsetree.expression option) =
   match e with
   | None -> ()

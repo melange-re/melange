@@ -1,6 +1,3 @@
-
-
-
 external config :
   x : ('self_type -> 'x [@mel.this]) ->
   say :('self_type  -> 'x -> 'say [@mel.this]) ->
@@ -22,7 +19,7 @@ let x = 3 in
 object (self : 'self_type)
    method x () = x
    method say x = self##x + x
-end [@bs]
+end [@u]
 *)
 let u =
   v##x () + v##say 3

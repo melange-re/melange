@@ -1,11 +1,9 @@
-
-
 (* [@@@ocaml.warning "-101"] *)
 
 external mk : int ->
   (
     [`a|`b]
-    (* [@bs.string] *)
+    (* [@mel.string] *)
   ) = "mk"
 
 

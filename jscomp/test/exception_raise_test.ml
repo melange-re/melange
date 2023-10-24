@@ -125,7 +125,7 @@ let test_id = ref 0
 let eq loc x y = Mt.eq_suites ~test_id ~suites loc x y
 
 let () =
-  try [%raw{|()=>{throw 2}|}]  () [@bs]
+  try [%raw{|()=>{throw 2}|}]  () [@u]
   with
   e ->
     eq __LOC__ (Js.Exn.asJsExn e <> None) true

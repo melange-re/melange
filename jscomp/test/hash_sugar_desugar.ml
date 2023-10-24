@@ -5,7 +5,7 @@ let h2 u =
   u #@ m 1 2
 (*
   why this exists is because
-  [u ## m 1 2 [@bs]] was taken
+  [u ## m 1 2 [@u]] was taken
   it is no longer the case.
 *)
 
@@ -32,7 +32,7 @@ let h6 u =
   u # p
 
 let h7 u =
-  u#m 1 2 [@bs]
+  u#m 1 2 [@u]
 
 let h8 u =
   let f = u#hi in

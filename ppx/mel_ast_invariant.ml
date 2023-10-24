@@ -29,17 +29,11 @@ module Warnings = struct
     | Unused_attribute of string
     | Fragile_external of string
     | Redundant_mel_string
-    | Deprecated_uncurry_attribute
-    | Deprecated_attribute_namespace
-    | Deprecated_val
 
   let kind = function
     | Unused_attribute _ -> "unused"
     | Fragile_external _ -> "fragile"
     | Redundant_mel_string -> "redundant"
-    | Deprecated_uncurry_attribute | Deprecated_attribute_namespace
-    | Deprecated_val ->
-        "deprecated"
 
   let pp fmt t =
     match t with
@@ -57,21 +51,6 @@ module Warnings = struct
     | Redundant_mel_string ->
         Format.fprintf fmt
           "[@mel.string] is redundant here, you can safely remove it"
-    | Deprecated_uncurry_attribute ->
-        Format.fprintf fmt
-          "The `[@bs]' uncurry attribute is deprecated and will be removed in \
-           the next release.@\n\
-           Use `[@u]' instead."
-    | Deprecated_attribute_namespace ->
-        Format.fprintf fmt
-          "The `[@bs.*]' attributes are deprecated and will be removed in the\n\
-           next release.@\n\
-           Use `[@mel.*]' instead."
-    | Deprecated_val ->
-        Format.fprintf fmt
-          "`[@mel.val]' attributes are redundant and will be removed in the \
-           next release.@\n\
-           Consider removing them from any external declarations."
 end
 
 let warn ~loc msg =
@@ -91,11 +70,6 @@ let warn ~loc msg =
 let is_bs_attribute txt =
   let len = String.length txt in
   (len = 1 && String.unsafe_get txt 0 = 'u')
-  || len >= 2
-     (*TODO: check the stringing padding rule, this predicate may not be needed *)
-     && String.unsafe_get txt 0 = 'b'
-     && String.unsafe_get txt 1 = 's'
-     && (len = 2 || String.unsafe_get txt 2 = '.')
   || String.unsafe_get txt 0 = 'm'
      && String.unsafe_get txt 1 = 'e'
      && String.unsafe_get txt 2 = 'l'
@@ -116,7 +90,7 @@ let used_attributes : string Asttypes.loc Hash_set_poly.t =
 (* #endif *)
 
 (* only mark non-ghost used bs attribute *)
-let mark_used_bs_attribute ({ attr_name = x; _ } : Parsetree.attribute) =
+let mark_used_mel_attribute ({ attr_name = x; _ } : Parsetree.attribute) =
   if not x.loc.loc_ghost then Hash_set_poly.add used_attributes x
 
 let warn_unused_attribute
@@ -146,8 +120,8 @@ let emit_external_warnings : Ast_traverse.iter =
       List.iter
         (fun attr ->
           match attr with
-          | { attr_name = { txt = "mel.as" | "bs.as" | "as"; _ }; _ } ->
-              mark_used_bs_attribute attr
+          | { attr_name = { txt = "mel.as" | "as"; _ }; _ } ->
+              mark_used_mel_attribute attr
           | _ -> ())
         lbl.pld_attributes;
       super#label_declaration lbl
