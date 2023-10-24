@@ -3,10 +3,31 @@
  (wrapped false)
  (flags
   (:standard -open Melange_compiler_libs))
- (preprocess
-  (action
-   (run cppo %{env:CPPO_FLAGS=} %{input-file})))
  (libraries ext common melange_compiler_libs ppxlib.ast))
+
+(rule
+ (targets js_pass_debug.ml)
+ (deps js_pass_debug.cppo.ml)
+ (action
+  (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
+
+(rule
+ (targets lam_pass_lets_dce.ml)
+ (deps lam_pass_lets_dce.cppo.ml)
+ (action
+  (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
+
+(rule
+ (targets lam_util.ml)
+ (deps lam_util.cppo.ml)
+ (action
+  (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
+
+(rule
+ (targets lam_compile_main.ml)
+ (deps lam_compile_main.cppo.ml)
+ (action
+  (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
 
 (rule
  (targets js_record_iter.ml)
