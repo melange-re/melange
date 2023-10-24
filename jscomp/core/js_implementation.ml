@@ -51,17 +51,6 @@ let print_if_pipe ppf flag printer arg =
 
 let print_if ppf flag printer arg = if !flag then fprintf ppf "%a@." printer arg
 
-let output_deps_set name set =
-  output_string stdout name;
-  output_string stdout ": ";
-  Depend.String.Set.iter
-    (fun s ->
-      if s <> "" && s.[0] <> '*' then (
-        output_string stdout s;
-        output_string stdout " "))
-    set;
-  output_string stdout "\n"
-
 let process_with_gentype filename =
   match !Bs_clflags.bs_gentype with
   | None -> ()
@@ -78,9 +67,7 @@ let process_with_gentype filename =
 
 let after_parsing_sig ppf outputprefix ast =
   Ast_config.iter_on_mel_config_sigi ast;
-  if !Js_config.modules then
-    output_deps_set !Location.input_name
-      (Ast_extract.read_parse_and_extract Mli ast);
+  if !Js_config.modules then Meldep.output_deps_set !Location.input_name Mli ast;
   if !Js_config.as_pp then (
     output_string stdout Config.ast_intf_magic_number;
     output_value stdout (!Location.input_name : string);
@@ -163,9 +150,7 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
     (not (Sys.file_exists sourceintf)) && all_module_alias ast;
   Ast_config.iter_on_mel_config_stru ast;
   let ast = if !Js_config.no_export then no_export ast else ast in
-  if !Js_config.modules then
-    output_deps_set !Location.input_name
-      (Ast_extract.read_parse_and_extract Ml ast);
+  if !Js_config.modules then Meldep.output_deps_set !Location.input_name Ml ast;
   if !Js_config.as_pp then (
     output_string stdout Config.ast_impl_magic_number;
     output_value stdout (!Location.input_name : string);

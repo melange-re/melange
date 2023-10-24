@@ -122,6 +122,8 @@ let apply_lazy ~source ~target =
       close_out oc
 end
 
+module Js_config = Melangelib.Js_config
+
 let anonymous =
   let executed = ref false in
   fun ~(rev_args : string list) ->
@@ -188,7 +190,7 @@ let print_standard_library () =
   exit 0
 
 let bs_version_string =
-  "Melange " ^ Melange_version.version ^
+  "Melange " ^ Melangelib.Melange_version.version ^
   " (Using OCaml:" ^ Config.version ^ ")"
 
 let print_version_string () =
@@ -420,9 +422,9 @@ let file_level_flags_handler (e : Parsetree.expression option) =
 let () =
   Melangelib.Initialization.Global.run ();
   let flags = "flags" in
-  Ast_config.add_structure
+  Melangelib.Ast_config.add_structure
     flags file_level_flags_handler;
-  Ast_config.add_signature
+  Melangelib.Ast_config.add_signature
     flags file_level_flags_handler;
 
   let argv = Melc_cli.normalize_argv Sys.argv in
