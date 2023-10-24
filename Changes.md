@@ -4,7 +4,8 @@ Unreleased
 - Remove `Belt` as a dependency of `Stdlib`
   ([#796](https://github.com/melange-re/melange/pull/796),
   [#797](https://github.com/melange-re/melange/pull/797))
-- Melange Runtime / Stdlib: remove deprecated modules and functions:
+- Melange Runtime / Stdlib: remove deprecated modules and functions
+  ([#817](https://github.com/melange-re/melange/pull/817)):
     - `Js.List`: use `Stdlib.List` or `Belt.List` instead;
     - `Js.Null_undefined`: use `Js.Nullable` instead;
     - `Js.Option`: use `Stdlib.Option` or `Belt.Option` instead;
@@ -16,6 +17,11 @@ Unreleased
       FFI attributes ([#818](https://github.com/melange-re/melange/pull/818))
     - remove `[@@mel.val]`, which was redundant in the Melange FFI
       ([#818](https://github.com/melange-re/melange/pull/818))
+- BREAKING(runtime): rename a few keys with legacy names
+  ([#819](https://github.com/melange-re/melange/pull/819)):
+    1. Exception ID `RE_EXN_ID` to `MEL_EXN_ID`
+    2. `BS_PRIVATE_NESTED_SOME_NONE` option marker to
+       `MEL_PRIVATE_NESTED_SOME_NONE`
 
 2.1.0 2023-10-22
 ---------------
