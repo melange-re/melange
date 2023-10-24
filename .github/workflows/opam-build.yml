@@ -65,6 +65,7 @@ jobs:
       - name: Install all deps
         working-directory: melange-opam-template
         run: |
+          opam pin add reason-react-ppx.dev --dev-repo
           opam pin add reason-react.dev --dev-repo
           npm install
 
