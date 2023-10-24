@@ -54,13 +54,6 @@ If you plan to work on improving documentation, you will need to install `odoc`:
 
 ## Developing
 
-Before you try building the project with `dune`, be sure to install the local `ocaml-tree` project:
-
-```sh
-$ cd ocaml-tree
-$ npm install
-```
-
 Here are some common commands you may find useful:
 
 - `dune build` builds the whole project

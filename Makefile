@@ -34,7 +34,6 @@ opam-install-test: ## Install test dependencies
 
 .PHONY: opam-install-dev
 opam-install-dev: opam-install-test ## Install development dependencies
-	cd ocaml-tree && npm install
 	opam install -y ocaml-lsp-server
 
 .PHONY: opam-init
