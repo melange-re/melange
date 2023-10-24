@@ -14,6 +14,11 @@ let parse fname =
       let ast = Parse.implementation lexbuf in
       ast)
 
+let write_ast oc ~input_name ast =
+  output_string oc Config.ast_impl_magic_number;
+  output_value oc input_name;
+  output_value oc (Ppxlib_ast.Selected_ast.To_ocaml.copy_structure ast)
+
 type mode = Record_iter | Record_map | Record_fold
 
 let main mode input =
@@ -25,7 +30,8 @@ let main mode input =
     | Record_map -> Record_map.make typedefs
     | Record_fold -> Record_fold.make typedefs
   in
-  Format.printf "%a" Pprintast.structure new_ast
+  let oc = stdout in
+  write_ast oc ~input_name:input new_ast
 
 let mode =
   let open Cmdliner in

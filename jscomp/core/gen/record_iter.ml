@@ -30,13 +30,14 @@ and mkStructuralTy (ty : Ast.core_type) allNames =
       | `no -> skip_obj
       | `yes _ | `exclude _ ->
           let code =
-            let txt =
-              match basic with
-              | `yes name -> Longident.Ldot (Lident "_self", name)
-              | `exclude name -> Lident name
-              | _ -> assert false
-            in
-            Ast_helper.Exp.ident { txt; loc }
+            match basic with
+            | `yes name ->
+                Ast_helper.Exp.(
+                  field
+                    (ident { txt = Lident "_self"; loc })
+                    { txt = Lident name; loc })
+            | `exclude name -> Ast_helper.Exp.ident { txt = Lident name; loc }
+            | _ -> assert false
           in
           {
             eta = [%expr fun _self arg -> [%e code] _self arg];
