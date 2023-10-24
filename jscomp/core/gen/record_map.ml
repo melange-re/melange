@@ -87,7 +87,7 @@ and mkStructuralTy (ty : Ast.core_type) allNames =
         beta =
           (fun x ->
             let x = Ast_helper.Exp.ident { txt = Lident x; loc } in
-            (*  TODO: could be inlined futher *)
+            (*  TODO: could be inlined further *)
             [%expr (fun [%p args] -> [%e body]) [%e x]]);
         meth = None;
       }
