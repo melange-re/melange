@@ -2,7 +2,13 @@
  (name melangelib)
  (flags
   (:standard -open Melange_compiler_libs))
- (libraries ext common melange_compiler_libs ppxlib.ast))
+ (libraries ext common melange_compiler_libs ppxlib.ast dune-build-info))
+
+(rule
+ (target js_config.ml)
+ (deps js_config.cppo.ml)
+ (action
+  (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (targets js_pass_debug.ml)

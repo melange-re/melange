@@ -1,4 +1,4 @@
-(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
+(* Copyright (C) 2023- Antonio Nuno Monteiro
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,6 +22,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-module Set_string = Depend.String.Set
+(* let git_version = Git_commit.version *)
+let git_short_version = Git_commit.short_version
 
-val read_parse_and_extract : 'a Ml_binary.kind -> 'a -> Set_string.t
+let version =
+  match Build_info.V1.version () with
+  | None -> Format.asprintf "n/a (%s)" git_short_version
+  | Some v -> Build_info.V1.Version.to_string v

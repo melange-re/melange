@@ -22,5 +22,47 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val version : string
-val header : string
+(* type module_name = private string *)
+
+module Set_string = Depend.String.Set
+
+(* FIXME: [Clflags.open_modules] seems not to be properly used *)
+module SMap = Depend.String.Map
+
+let bound_vars = SMap.empty
+
+let ref_protect r v body =
+  let old = !r in
+  try
+    r := v;
+    let res = body () in
+    r := old;
+    res
+  with x ->
+    r := old;
+    raise x
+
+let read_parse_and_extract (type t) (k : t Ml_binary.kind) (ast : t) :
+    Set_string.t =
+  Depend.free_structure_names := Set_string.empty;
+  ref_protect Clflags.transparent_modules false (fun _ ->
+      List.iter (* check *)
+        (fun modname ->
+          ignore @@ Depend.open_module bound_vars (Longident.Lident modname))
+        !Clflags.open_modules;
+      (match k with
+      | Ml_binary.Ml -> Depend.add_implementation bound_vars ast
+      | Ml_binary.Mli -> Depend.add_signature bound_vars ast);
+      !Depend.free_structure_names)
+
+let output_deps_set name k ast =
+  let set = read_parse_and_extract k ast in
+  output_string stdout name;
+  output_string stdout ": ";
+  Depend.String.Set.iter
+    (fun s ->
+      if s <> "" && s.[0] <> '*' then (
+        output_string stdout s;
+        output_string stdout " "))
+    set;
+  output_string stdout "\n"
