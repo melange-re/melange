@@ -148,7 +148,7 @@ let suites =
            string_eq (Ext_filename.new_extension "abb.c" ".xx") "abb.xx";
            string_eq (Ext_filename.new_extension ".c" ".xx") ".xx";
            string_eq (Ext_filename.new_extension "a/b" ".xx") "a/b.xx";
-           string_eq (Ext_filename.new_extension "a/b." ".xx") "a/b.x";
+           string_eq (Ext_filename.new_extension "a/b." ".xx") "a/b.xx";
            string_eq (Ext_filename.chop_all_extensions_maybe "a.b.x") "a";
            string_eq (Ext_filename.chop_all_extensions_maybe "a.b") "a";
            string_eq (Ext_filename.chop_all_extensions_maybe ".a.b.x") "";
