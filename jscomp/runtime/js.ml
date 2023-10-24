@@ -89,9 +89,6 @@ module Undefined = Js_undefined
 module Nullable = Js_null_undefined
 (** Provide utilities around {!null_undefined} *)
 
-module Null_undefined = Js_null_undefined
-(** @deprecated please use {!Js.Nullable} *)
-
 module Array = Js_array
 (** Provide bindings to Js array*)
 
@@ -143,15 +140,6 @@ module Int = Js_int
 module Bigint = Js_bigint
 (** Provide utilities for bigint *)
 
-module Option = Js_option
-(** Provide utilities for option *)
-
-module Result = Js_result
-(** Define the interface for result *)
-
-module List = Js_list
-(** Provide utilities for list *)
-
 module Console = Js_console
 
 module Set = Js_set
@@ -168,7 +156,6 @@ module WeakMap = Js_weakmap
 
 (**/**)
 
-module Cast = Js_cast
 module MapperRt = Js_mapperRt
 
 module Private = struct
