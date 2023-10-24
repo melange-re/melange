@@ -420,7 +420,7 @@ module Mapper = struct
             with
             | false, _ -> super#expression e
             | true, pexp_attributes ->
-                Ast_bs_open.convertBsErrorFunction e.pexp_loc self
+                Ast_mel_open.convertBsErrorFunction e.pexp_loc self
                   pexp_attributes cases)
         | Pexp_fun (label, _, pat, body) -> (
             match Ast_attributes.process_attributes_rev e.pexp_attributes with

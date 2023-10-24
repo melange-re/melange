@@ -87,8 +87,8 @@ let raw_as_string_exp_exn ~(kind : Js_raw_info.raw_kind) ?is_function
           _;
         };
       ] ->
-      Bs_flow_ast_utils.check_flow_errors ~loc
-        ~offset:(Bs_flow_ast_utils.flow_deli_offset deli)
+      Mel_flow_ast_utils.check_flow_errors ~loc
+        ~offset:(Mel_flow_ast_utils.flow_deli_offset deli)
         (match kind with
         | Raw_re | Raw_exp ->
             let ((_loc, e) as prog), errors =
