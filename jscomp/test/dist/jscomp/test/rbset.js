@@ -254,7 +254,7 @@ function unbalanced_left(param) {
     }
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/rbset.ml",
           57,
@@ -319,7 +319,7 @@ function unbalanced_right(param) {
     }
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/rbset.ml",
           63,
@@ -554,7 +554,7 @@ function remove_min(param) {
               ];
       }
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/rbset.ml",
               115,
@@ -589,7 +589,7 @@ function remove_min(param) {
           ];
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/rbset.ml",
           115,

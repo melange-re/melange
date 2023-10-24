@@ -9,7 +9,7 @@ var Local = /* @__PURE__ */Caml_exceptions.create("Test_exception.Local");
 
 function f(param) {
   throw {
-        RE_EXN_ID: Local,
+        MEL_EXN_ID: Local,
         _1: 3,
         Error: new Error()
       };
@@ -17,14 +17,14 @@ function f(param) {
 
 function g(param) {
   throw {
-        RE_EXN_ID: Stdlib.Not_found,
+        MEL_EXN_ID: Stdlib.Not_found,
         Error: new Error()
       };
 }
 
 function h(param) {
   throw {
-        RE_EXN_ID: Test_common.U,
+        MEL_EXN_ID: Test_common.U,
         _1: 3,
         Error: new Error()
       };
@@ -32,14 +32,14 @@ function h(param) {
 
 function x(param) {
   throw {
-        RE_EXN_ID: Test_common.H,
+        MEL_EXN_ID: Test_common.H,
         Error: new Error()
       };
 }
 
 function xx(param) {
   throw {
-        RE_EXN_ID: Stdlib.Invalid_argument,
+        MEL_EXN_ID: Stdlib.Invalid_argument,
         _1: "x",
         Error: new Error()
       };
@@ -48,7 +48,7 @@ function xx(param) {
 var Nullary = /* @__PURE__ */Caml_exceptions.create("Test_exception.Nullary");
 
 var a = {
-  RE_EXN_ID: Nullary
+  MEL_EXN_ID: Nullary
 };
 
 exports.Local = Local;

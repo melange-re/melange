@@ -117,7 +117,7 @@ function lookup_obj(obj, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };

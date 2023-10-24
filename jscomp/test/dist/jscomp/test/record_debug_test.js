@@ -42,12 +42,12 @@ var A = /* @__PURE__ */Caml_exceptions.create("Record_debug_test.A");
 var B = /* @__PURE__ */Caml_exceptions.create("Record_debug_test.B");
 
 var v0 = {
-  RE_EXN_ID: A,
+  MEL_EXN_ID: A,
   _1: 3
 };
 
 var v1 = {
-  RE_EXN_ID: B,
+  MEL_EXN_ID: B,
   _1: 3,
   _2: 2
 };

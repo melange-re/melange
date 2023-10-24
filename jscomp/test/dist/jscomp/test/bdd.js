@@ -67,7 +67,7 @@ function resize(newSize) {
       var n = bucket.hd;
       if (typeof n === "number") {
         throw {
-              RE_EXN_ID: "Assert_failure",
+              MEL_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/bdd.ml",
                 54,
@@ -131,7 +131,7 @@ function mkNode(low, v, high) {
       var n = b.hd;
       if (typeof n === "number") {
         throw {
-              RE_EXN_ID: "Assert_failure",
+              MEL_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/bdd.ml",
                 99,
@@ -375,7 +375,7 @@ function main(param) {
     return ;
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/bdd.ml",
           233,

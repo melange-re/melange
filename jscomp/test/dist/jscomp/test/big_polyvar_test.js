@@ -26,7 +26,7 @@ function eq(x, y) {
 
 if (!eq(tFromJs("variant0"), "variant0")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           610,
@@ -38,7 +38,7 @@ if (!eq(tFromJs("variant0"), "variant0")) {
 
 if (!eq(tFromJs("variant1"), "variant1")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           611,
@@ -50,7 +50,7 @@ if (!eq(tFromJs("variant1"), "variant1")) {
 
 if (!eq(tFromJs("variant2"), "variant2")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           612,
@@ -62,7 +62,7 @@ if (!eq(tFromJs("variant2"), "variant2")) {
 
 if (!eq(tFromJs("variant3"), "variant3")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           613,
@@ -74,7 +74,7 @@ if (!eq(tFromJs("variant3"), "variant3")) {
 
 if (!eq(tFromJs("variant4"), "variant4")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           614,
@@ -86,7 +86,7 @@ if (!eq(tFromJs("variant4"), "variant4")) {
 
 if (!eq(tFromJs("variant5"), "variant5")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           615,
@@ -98,7 +98,7 @@ if (!eq(tFromJs("variant5"), "variant5")) {
 
 if (!eq(tFromJs("variant6"), "variant6")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           616,
@@ -110,7 +110,7 @@ if (!eq(tFromJs("variant6"), "variant6")) {
 
 if (!eq(tFromJs("variant7"), "variant7")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           617,
@@ -122,7 +122,7 @@ if (!eq(tFromJs("variant7"), "variant7")) {
 
 if (!eq(tFromJs("variant8"), "variant8")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           618,
@@ -134,7 +134,7 @@ if (!eq(tFromJs("variant8"), "variant8")) {
 
 if (!eq(tFromJs("variant9"), "variant9")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           619,
@@ -146,7 +146,7 @@ if (!eq(tFromJs("variant9"), "variant9")) {
 
 if (!eq(tFromJs("variant10"), "variant10")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           620,
@@ -158,7 +158,7 @@ if (!eq(tFromJs("variant10"), "variant10")) {
 
 if (!eq(tFromJs("variant11"), "variant11")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           621,
@@ -170,7 +170,7 @@ if (!eq(tFromJs("variant11"), "variant11")) {
 
 if (!eq(tFromJs("variant12"), "variant12")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           622,
@@ -182,7 +182,7 @@ if (!eq(tFromJs("variant12"), "variant12")) {
 
 if (!eq(tFromJs("variant13"), "variant13")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           623,
@@ -194,7 +194,7 @@ if (!eq(tFromJs("variant13"), "variant13")) {
 
 if (!eq(tFromJs("variant14"), "variant14")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           624,
@@ -206,7 +206,7 @@ if (!eq(tFromJs("variant14"), "variant14")) {
 
 if (!eq(tFromJs("variant15"), "variant15")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           625,
@@ -218,7 +218,7 @@ if (!eq(tFromJs("variant15"), "variant15")) {
 
 if (!eq(tFromJs("variant16"), "variant16")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           626,
@@ -230,7 +230,7 @@ if (!eq(tFromJs("variant16"), "variant16")) {
 
 if (!eq(tFromJs("variant17"), "variant17")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           627,
@@ -242,7 +242,7 @@ if (!eq(tFromJs("variant17"), "variant17")) {
 
 if (!eq(tFromJs("variant18"), "variant18")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           628,
@@ -254,7 +254,7 @@ if (!eq(tFromJs("variant18"), "variant18")) {
 
 if (!eq(tFromJs("variant19"), "variant19")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           629,
@@ -266,7 +266,7 @@ if (!eq(tFromJs("variant19"), "variant19")) {
 
 if (!eq(tFromJs("variant20"), "variant20")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           630,
@@ -278,7 +278,7 @@ if (!eq(tFromJs("variant20"), "variant20")) {
 
 if (!eq(tFromJs("variant21"), "variant21")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           631,
@@ -290,7 +290,7 @@ if (!eq(tFromJs("variant21"), "variant21")) {
 
 if (!eq(tFromJs("variant22"), "variant22")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           632,
@@ -302,7 +302,7 @@ if (!eq(tFromJs("variant22"), "variant22")) {
 
 if (!eq(tFromJs("variant23"), "variant23")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           633,
@@ -314,7 +314,7 @@ if (!eq(tFromJs("variant23"), "variant23")) {
 
 if (!eq(tFromJs("variant24"), "variant24")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           634,
@@ -326,7 +326,7 @@ if (!eq(tFromJs("variant24"), "variant24")) {
 
 if (!eq(tFromJs("variant25"), "variant25")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           635,
@@ -338,7 +338,7 @@ if (!eq(tFromJs("variant25"), "variant25")) {
 
 if (!eq(tFromJs("variant26"), "variant26")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           636,
@@ -350,7 +350,7 @@ if (!eq(tFromJs("variant26"), "variant26")) {
 
 if (!eq(tFromJs("variant27"), "variant27")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           637,
@@ -362,7 +362,7 @@ if (!eq(tFromJs("variant27"), "variant27")) {
 
 if (!eq(tFromJs("variant28"), "variant28")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           638,
@@ -374,7 +374,7 @@ if (!eq(tFromJs("variant28"), "variant28")) {
 
 if (!eq(tFromJs("variant29"), "variant29")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           639,
@@ -386,7 +386,7 @@ if (!eq(tFromJs("variant29"), "variant29")) {
 
 if (!eq(tFromJs("variant30"), "variant30")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           640,
@@ -398,7 +398,7 @@ if (!eq(tFromJs("variant30"), "variant30")) {
 
 if (!eq(tFromJs("variant31"), "variant31")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           641,
@@ -410,7 +410,7 @@ if (!eq(tFromJs("variant31"), "variant31")) {
 
 if (!eq(tFromJs("variant32"), "variant32")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           642,
@@ -422,7 +422,7 @@ if (!eq(tFromJs("variant32"), "variant32")) {
 
 if (!eq(tFromJs("variant33"), "variant33")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           643,
@@ -434,7 +434,7 @@ if (!eq(tFromJs("variant33"), "variant33")) {
 
 if (!eq(tFromJs("variant34"), "variant34")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           644,
@@ -446,7 +446,7 @@ if (!eq(tFromJs("variant34"), "variant34")) {
 
 if (!eq(tFromJs("variant35"), "variant35")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           645,
@@ -458,7 +458,7 @@ if (!eq(tFromJs("variant35"), "variant35")) {
 
 if (!eq(tFromJs("variant36"), "variant36")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           646,
@@ -470,7 +470,7 @@ if (!eq(tFromJs("variant36"), "variant36")) {
 
 if (!eq(tFromJs("variant37"), "variant37")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           647,
@@ -482,7 +482,7 @@ if (!eq(tFromJs("variant37"), "variant37")) {
 
 if (!eq(tFromJs("variant38"), "variant38")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           648,
@@ -494,7 +494,7 @@ if (!eq(tFromJs("variant38"), "variant38")) {
 
 if (!eq(tFromJs("variant39"), "variant39")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           649,
@@ -506,7 +506,7 @@ if (!eq(tFromJs("variant39"), "variant39")) {
 
 if (!eq(tFromJs("variant40"), "variant40")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           650,
@@ -518,7 +518,7 @@ if (!eq(tFromJs("variant40"), "variant40")) {
 
 if (!eq(tFromJs("variant41"), "variant41")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           651,
@@ -530,7 +530,7 @@ if (!eq(tFromJs("variant41"), "variant41")) {
 
 if (!eq(tFromJs("variant42"), "variant42")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           652,
@@ -542,7 +542,7 @@ if (!eq(tFromJs("variant42"), "variant42")) {
 
 if (!eq(tFromJs("variant43"), "variant43")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           653,
@@ -554,7 +554,7 @@ if (!eq(tFromJs("variant43"), "variant43")) {
 
 if (!eq(tFromJs("variant44"), "variant44")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           654,
@@ -566,7 +566,7 @@ if (!eq(tFromJs("variant44"), "variant44")) {
 
 if (!eq(tFromJs("variant45"), "variant45")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           655,
@@ -578,7 +578,7 @@ if (!eq(tFromJs("variant45"), "variant45")) {
 
 if (!eq(tFromJs("variant46"), "variant46")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           656,
@@ -590,7 +590,7 @@ if (!eq(tFromJs("variant46"), "variant46")) {
 
 if (!eq(tFromJs("variant47"), "variant47")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           657,
@@ -602,7 +602,7 @@ if (!eq(tFromJs("variant47"), "variant47")) {
 
 if (!eq(tFromJs("variant48"), "variant48")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           658,
@@ -614,7 +614,7 @@ if (!eq(tFromJs("variant48"), "variant48")) {
 
 if (!eq(tFromJs("variant49"), "variant49")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           659,
@@ -626,7 +626,7 @@ if (!eq(tFromJs("variant49"), "variant49")) {
 
 if (!eq(tFromJs("variant50"), "variant50")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           660,
@@ -638,7 +638,7 @@ if (!eq(tFromJs("variant50"), "variant50")) {
 
 if (!eq(tFromJs("variant51"), "variant51")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           661,
@@ -650,7 +650,7 @@ if (!eq(tFromJs("variant51"), "variant51")) {
 
 if (!eq(tFromJs("variant52"), "variant52")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           662,
@@ -662,7 +662,7 @@ if (!eq(tFromJs("variant52"), "variant52")) {
 
 if (!eq(tFromJs("variant53"), "variant53")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           663,
@@ -674,7 +674,7 @@ if (!eq(tFromJs("variant53"), "variant53")) {
 
 if (!eq(tFromJs("variant54"), "variant54")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           664,
@@ -686,7 +686,7 @@ if (!eq(tFromJs("variant54"), "variant54")) {
 
 if (!eq(tFromJs("variant55"), "variant55")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           665,
@@ -698,7 +698,7 @@ if (!eq(tFromJs("variant55"), "variant55")) {
 
 if (!eq(tFromJs("variant56"), "variant56")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           666,
@@ -710,7 +710,7 @@ if (!eq(tFromJs("variant56"), "variant56")) {
 
 if (!eq(tFromJs("variant57"), "variant57")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           667,
@@ -722,7 +722,7 @@ if (!eq(tFromJs("variant57"), "variant57")) {
 
 if (!eq(tFromJs("variant58"), "variant58")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           668,
@@ -734,7 +734,7 @@ if (!eq(tFromJs("variant58"), "variant58")) {
 
 if (!eq(tFromJs("variant59"), "variant59")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           669,
@@ -746,7 +746,7 @@ if (!eq(tFromJs("variant59"), "variant59")) {
 
 if (!eq(tFromJs("variant60"), "variant60")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           670,
@@ -758,7 +758,7 @@ if (!eq(tFromJs("variant60"), "variant60")) {
 
 if (!eq(tFromJs("variant61"), "variant61")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           671,
@@ -770,7 +770,7 @@ if (!eq(tFromJs("variant61"), "variant61")) {
 
 if (!eq(tFromJs("variant62"), "variant62")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           672,
@@ -782,7 +782,7 @@ if (!eq(tFromJs("variant62"), "variant62")) {
 
 if (!eq(tFromJs("variant63"), "variant63")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           673,
@@ -794,7 +794,7 @@ if (!eq(tFromJs("variant63"), "variant63")) {
 
 if (!eq(tFromJs("variant64"), "variant64")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           674,
@@ -806,7 +806,7 @@ if (!eq(tFromJs("variant64"), "variant64")) {
 
 if (!eq(tFromJs("variant65"), "variant65")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           675,
@@ -818,7 +818,7 @@ if (!eq(tFromJs("variant65"), "variant65")) {
 
 if (!eq(tFromJs("variant66"), "variant66")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           676,
@@ -830,7 +830,7 @@ if (!eq(tFromJs("variant66"), "variant66")) {
 
 if (!eq(tFromJs("variant67"), "variant67")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           677,
@@ -842,7 +842,7 @@ if (!eq(tFromJs("variant67"), "variant67")) {
 
 if (!eq(tFromJs("variant68"), "variant68")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           678,
@@ -854,7 +854,7 @@ if (!eq(tFromJs("variant68"), "variant68")) {
 
 if (!eq(tFromJs("variant69"), "variant69")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           679,
@@ -866,7 +866,7 @@ if (!eq(tFromJs("variant69"), "variant69")) {
 
 if (!eq(tFromJs("variant70"), "variant70")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           680,
@@ -878,7 +878,7 @@ if (!eq(tFromJs("variant70"), "variant70")) {
 
 if (!eq(tFromJs("variant71"), "variant71")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           681,
@@ -890,7 +890,7 @@ if (!eq(tFromJs("variant71"), "variant71")) {
 
 if (!eq(tFromJs("variant72"), "variant72")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           682,
@@ -902,7 +902,7 @@ if (!eq(tFromJs("variant72"), "variant72")) {
 
 if (!eq(tFromJs("variant73"), "variant73")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           683,
@@ -914,7 +914,7 @@ if (!eq(tFromJs("variant73"), "variant73")) {
 
 if (!eq(tFromJs("variant74"), "variant74")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           684,
@@ -926,7 +926,7 @@ if (!eq(tFromJs("variant74"), "variant74")) {
 
 if (!eq(tFromJs("variant75"), "variant75")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           685,
@@ -938,7 +938,7 @@ if (!eq(tFromJs("variant75"), "variant75")) {
 
 if (!eq(tFromJs("variant76"), "variant76")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           686,
@@ -950,7 +950,7 @@ if (!eq(tFromJs("variant76"), "variant76")) {
 
 if (!eq(tFromJs("variant77"), "variant77")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           687,
@@ -962,7 +962,7 @@ if (!eq(tFromJs("variant77"), "variant77")) {
 
 if (!eq(tFromJs("variant78"), "variant78")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           688,
@@ -974,7 +974,7 @@ if (!eq(tFromJs("variant78"), "variant78")) {
 
 if (!eq(tFromJs("variant79"), "variant79")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           689,
@@ -986,7 +986,7 @@ if (!eq(tFromJs("variant79"), "variant79")) {
 
 if (!eq(tFromJs("variant80"), "variant80")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           690,
@@ -998,7 +998,7 @@ if (!eq(tFromJs("variant80"), "variant80")) {
 
 if (!eq(tFromJs("variant81"), "variant81")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           691,
@@ -1010,7 +1010,7 @@ if (!eq(tFromJs("variant81"), "variant81")) {
 
 if (!eq(tFromJs("variant82"), "variant82")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           692,
@@ -1022,7 +1022,7 @@ if (!eq(tFromJs("variant82"), "variant82")) {
 
 if (!eq(tFromJs("variant83"), "variant83")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           693,
@@ -1034,7 +1034,7 @@ if (!eq(tFromJs("variant83"), "variant83")) {
 
 if (!eq(tFromJs("variant84"), "variant84")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           694,
@@ -1046,7 +1046,7 @@ if (!eq(tFromJs("variant84"), "variant84")) {
 
 if (!eq(tFromJs("variant85"), "variant85")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           695,
@@ -1058,7 +1058,7 @@ if (!eq(tFromJs("variant85"), "variant85")) {
 
 if (!eq(tFromJs("variant86"), "variant86")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           696,
@@ -1070,7 +1070,7 @@ if (!eq(tFromJs("variant86"), "variant86")) {
 
 if (!eq(tFromJs("variant87"), "variant87")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           697,
@@ -1082,7 +1082,7 @@ if (!eq(tFromJs("variant87"), "variant87")) {
 
 if (!eq(tFromJs("variant88"), "variant88")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           698,
@@ -1094,7 +1094,7 @@ if (!eq(tFromJs("variant88"), "variant88")) {
 
 if (!eq(tFromJs("variant89"), "variant89")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           699,
@@ -1106,7 +1106,7 @@ if (!eq(tFromJs("variant89"), "variant89")) {
 
 if (!eq(tFromJs("variant90"), "variant90")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           700,
@@ -1118,7 +1118,7 @@ if (!eq(tFromJs("variant90"), "variant90")) {
 
 if (!eq(tFromJs("variant91"), "variant91")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           701,
@@ -1130,7 +1130,7 @@ if (!eq(tFromJs("variant91"), "variant91")) {
 
 if (!eq(tFromJs("variant92"), "variant92")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           702,
@@ -1142,7 +1142,7 @@ if (!eq(tFromJs("variant92"), "variant92")) {
 
 if (!eq(tFromJs("variant93"), "variant93")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           703,
@@ -1154,7 +1154,7 @@ if (!eq(tFromJs("variant93"), "variant93")) {
 
 if (!eq(tFromJs("variant94"), "variant94")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           704,
@@ -1166,7 +1166,7 @@ if (!eq(tFromJs("variant94"), "variant94")) {
 
 if (!eq(tFromJs("variant95"), "variant95")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           705,
@@ -1178,7 +1178,7 @@ if (!eq(tFromJs("variant95"), "variant95")) {
 
 if (!eq(tFromJs("variant96"), "variant96")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           706,
@@ -1190,7 +1190,7 @@ if (!eq(tFromJs("variant96"), "variant96")) {
 
 if (!eq(tFromJs("variant97"), "variant97")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           707,
@@ -1202,7 +1202,7 @@ if (!eq(tFromJs("variant97"), "variant97")) {
 
 if (!eq(tFromJs("variant98"), "variant98")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           708,
@@ -1214,7 +1214,7 @@ if (!eq(tFromJs("variant98"), "variant98")) {
 
 if (!eq(tFromJs("variant99"), "variant99")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           709,
@@ -1226,7 +1226,7 @@ if (!eq(tFromJs("variant99"), "variant99")) {
 
 if (!eq(tFromJs("variant100"), "variant100")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           710,
@@ -1238,7 +1238,7 @@ if (!eq(tFromJs("variant100"), "variant100")) {
 
 if (!eq(tFromJs("variant101"), "variant101")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           711,
@@ -1250,7 +1250,7 @@ if (!eq(tFromJs("variant101"), "variant101")) {
 
 if (!eq(tFromJs("variant102"), "variant102")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           712,
@@ -1262,7 +1262,7 @@ if (!eq(tFromJs("variant102"), "variant102")) {
 
 if (!eq(tFromJs("variant103"), "variant103")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           713,
@@ -1274,7 +1274,7 @@ if (!eq(tFromJs("variant103"), "variant103")) {
 
 if (!eq(tFromJs("variant104"), "variant104")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           714,
@@ -1286,7 +1286,7 @@ if (!eq(tFromJs("variant104"), "variant104")) {
 
 if (!eq(tFromJs("variant105"), "variant105")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           715,
@@ -1298,7 +1298,7 @@ if (!eq(tFromJs("variant105"), "variant105")) {
 
 if (!eq(tFromJs("variant106"), "variant106")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           716,
@@ -1310,7 +1310,7 @@ if (!eq(tFromJs("variant106"), "variant106")) {
 
 if (!eq(tFromJs("variant107"), "variant107")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           717,
@@ -1322,7 +1322,7 @@ if (!eq(tFromJs("variant107"), "variant107")) {
 
 if (!eq(tFromJs("variant108"), "variant108")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           718,
@@ -1334,7 +1334,7 @@ if (!eq(tFromJs("variant108"), "variant108")) {
 
 if (!eq(tFromJs("variant109"), "variant109")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           719,
@@ -1346,7 +1346,7 @@ if (!eq(tFromJs("variant109"), "variant109")) {
 
 if (!eq(tFromJs("variant110"), "variant110")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           720,
@@ -1358,7 +1358,7 @@ if (!eq(tFromJs("variant110"), "variant110")) {
 
 if (!eq(tFromJs("variant111"), "variant111")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           721,
@@ -1370,7 +1370,7 @@ if (!eq(tFromJs("variant111"), "variant111")) {
 
 if (!eq(tFromJs("variant112"), "variant112")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           722,
@@ -1382,7 +1382,7 @@ if (!eq(tFromJs("variant112"), "variant112")) {
 
 if (!eq(tFromJs("variant113"), "variant113")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           723,
@@ -1394,7 +1394,7 @@ if (!eq(tFromJs("variant113"), "variant113")) {
 
 if (!eq(tFromJs("variant114"), "variant114")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           724,
@@ -1406,7 +1406,7 @@ if (!eq(tFromJs("variant114"), "variant114")) {
 
 if (!eq(tFromJs("variant115"), "variant115")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           725,
@@ -1418,7 +1418,7 @@ if (!eq(tFromJs("variant115"), "variant115")) {
 
 if (!eq(tFromJs("variant116"), "variant116")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           726,
@@ -1430,7 +1430,7 @@ if (!eq(tFromJs("variant116"), "variant116")) {
 
 if (!eq(tFromJs("variant117"), "variant117")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           727,
@@ -1442,7 +1442,7 @@ if (!eq(tFromJs("variant117"), "variant117")) {
 
 if (!eq(tFromJs("variant118"), "variant118")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           728,
@@ -1454,7 +1454,7 @@ if (!eq(tFromJs("variant118"), "variant118")) {
 
 if (!eq(tFromJs("variant119"), "variant119")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           729,
@@ -1466,7 +1466,7 @@ if (!eq(tFromJs("variant119"), "variant119")) {
 
 if (!eq(tFromJs("variant120"), "variant120")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           730,
@@ -1478,7 +1478,7 @@ if (!eq(tFromJs("variant120"), "variant120")) {
 
 if (!eq(tFromJs("variant121"), "variant121")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           731,
@@ -1490,7 +1490,7 @@ if (!eq(tFromJs("variant121"), "variant121")) {
 
 if (!eq(tFromJs("variant122"), "variant122")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           732,
@@ -1502,7 +1502,7 @@ if (!eq(tFromJs("variant122"), "variant122")) {
 
 if (!eq(tFromJs("variant123"), "variant123")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           733,
@@ -1514,7 +1514,7 @@ if (!eq(tFromJs("variant123"), "variant123")) {
 
 if (!eq(tFromJs("variant124"), "variant124")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           734,
@@ -1526,7 +1526,7 @@ if (!eq(tFromJs("variant124"), "variant124")) {
 
 if (!eq(tFromJs("variant125"), "variant125")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           735,
@@ -1538,7 +1538,7 @@ if (!eq(tFromJs("variant125"), "variant125")) {
 
 if (!eq(tFromJs("variant126"), "variant126")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           736,
@@ -1550,7 +1550,7 @@ if (!eq(tFromJs("variant126"), "variant126")) {
 
 if (!eq(tFromJs("variant127"), "variant127")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           737,
@@ -1562,7 +1562,7 @@ if (!eq(tFromJs("variant127"), "variant127")) {
 
 if (!eq(tFromJs("variant128"), "variant128")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           738,
@@ -1574,7 +1574,7 @@ if (!eq(tFromJs("variant128"), "variant128")) {
 
 if (!eq(tFromJs("variant129"), "variant129")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           739,
@@ -1586,7 +1586,7 @@ if (!eq(tFromJs("variant129"), "variant129")) {
 
 if (!eq(tFromJs("variant130"), "variant130")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           740,
@@ -1598,7 +1598,7 @@ if (!eq(tFromJs("variant130"), "variant130")) {
 
 if (!eq(tFromJs("variant131"), "variant131")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           741,
@@ -1610,7 +1610,7 @@ if (!eq(tFromJs("variant131"), "variant131")) {
 
 if (!eq(tFromJs("variant132"), "variant132")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           742,
@@ -1622,7 +1622,7 @@ if (!eq(tFromJs("variant132"), "variant132")) {
 
 if (!eq(tFromJs("variant133"), "variant133")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           743,
@@ -1634,7 +1634,7 @@ if (!eq(tFromJs("variant133"), "variant133")) {
 
 if (!eq(tFromJs("variant134"), "variant134")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           744,
@@ -1646,7 +1646,7 @@ if (!eq(tFromJs("variant134"), "variant134")) {
 
 if (!eq(tFromJs("variant135"), "variant135")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           745,
@@ -1658,7 +1658,7 @@ if (!eq(tFromJs("variant135"), "variant135")) {
 
 if (!eq(tFromJs("variant136"), "variant136")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           746,
@@ -1670,7 +1670,7 @@ if (!eq(tFromJs("variant136"), "variant136")) {
 
 if (!eq(tFromJs("variant137"), "variant137")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           747,
@@ -1682,7 +1682,7 @@ if (!eq(tFromJs("variant137"), "variant137")) {
 
 if (!eq(tFromJs("variant138"), "variant138")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           748,
@@ -1694,7 +1694,7 @@ if (!eq(tFromJs("variant138"), "variant138")) {
 
 if (!eq(tFromJs("variant139"), "variant139")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           749,
@@ -1706,7 +1706,7 @@ if (!eq(tFromJs("variant139"), "variant139")) {
 
 if (!eq(tFromJs("variant140"), "variant140")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           750,
@@ -1718,7 +1718,7 @@ if (!eq(tFromJs("variant140"), "variant140")) {
 
 if (!eq(tFromJs("variant141"), "variant141")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           751,
@@ -1730,7 +1730,7 @@ if (!eq(tFromJs("variant141"), "variant141")) {
 
 if (!eq(tFromJs("variant142"), "variant142")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           752,
@@ -1742,7 +1742,7 @@ if (!eq(tFromJs("variant142"), "variant142")) {
 
 if (!eq(tFromJs("variant143"), "variant143")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           753,
@@ -1754,7 +1754,7 @@ if (!eq(tFromJs("variant143"), "variant143")) {
 
 if (!eq(tFromJs("variant144"), "variant144")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           754,
@@ -1766,7 +1766,7 @@ if (!eq(tFromJs("variant144"), "variant144")) {
 
 if (!eq(tFromJs("variant145"), "variant145")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           755,
@@ -1778,7 +1778,7 @@ if (!eq(tFromJs("variant145"), "variant145")) {
 
 if (!eq(tFromJs("variant146"), "variant146")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           756,
@@ -1790,7 +1790,7 @@ if (!eq(tFromJs("variant146"), "variant146")) {
 
 if (!eq(tFromJs("variant147"), "variant147")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           757,
@@ -1802,7 +1802,7 @@ if (!eq(tFromJs("variant147"), "variant147")) {
 
 if (!eq(tFromJs("variant148"), "variant148")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           758,
@@ -1814,7 +1814,7 @@ if (!eq(tFromJs("variant148"), "variant148")) {
 
 if (!eq(tFromJs("variant149"), "variant149")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           759,
@@ -1826,7 +1826,7 @@ if (!eq(tFromJs("variant149"), "variant149")) {
 
 if (!eq(tFromJs("variant150"), "variant150")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           760,
@@ -1838,7 +1838,7 @@ if (!eq(tFromJs("variant150"), "variant150")) {
 
 if (!eq(tFromJs("variant151"), "variant151")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           761,
@@ -1850,7 +1850,7 @@ if (!eq(tFromJs("variant151"), "variant151")) {
 
 if (!eq(tFromJs("variant152"), "variant152")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           762,
@@ -1862,7 +1862,7 @@ if (!eq(tFromJs("variant152"), "variant152")) {
 
 if (!eq(tFromJs("variant153"), "variant153")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           763,
@@ -1874,7 +1874,7 @@ if (!eq(tFromJs("variant153"), "variant153")) {
 
 if (!eq(tFromJs("variant154"), "variant154")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           764,
@@ -1886,7 +1886,7 @@ if (!eq(tFromJs("variant154"), "variant154")) {
 
 if (!eq(tFromJs("variant155"), "variant155")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           765,
@@ -1898,7 +1898,7 @@ if (!eq(tFromJs("variant155"), "variant155")) {
 
 if (!eq(tFromJs("variant156"), "variant156")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           766,
@@ -1910,7 +1910,7 @@ if (!eq(tFromJs("variant156"), "variant156")) {
 
 if (!eq(tFromJs("variant157"), "variant157")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           767,
@@ -1922,7 +1922,7 @@ if (!eq(tFromJs("variant157"), "variant157")) {
 
 if (!eq(tFromJs("variant158"), "variant158")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           768,
@@ -1934,7 +1934,7 @@ if (!eq(tFromJs("variant158"), "variant158")) {
 
 if (!eq(tFromJs("variant159"), "variant159")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           769,
@@ -1946,7 +1946,7 @@ if (!eq(tFromJs("variant159"), "variant159")) {
 
 if (!eq(tFromJs("variant160"), "variant160")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           770,
@@ -1958,7 +1958,7 @@ if (!eq(tFromJs("variant160"), "variant160")) {
 
 if (!eq(tFromJs("variant161"), "variant161")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           771,
@@ -1970,7 +1970,7 @@ if (!eq(tFromJs("variant161"), "variant161")) {
 
 if (!eq(tFromJs("variant162"), "variant162")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           772,
@@ -1982,7 +1982,7 @@ if (!eq(tFromJs("variant162"), "variant162")) {
 
 if (!eq(tFromJs("variant163"), "variant163")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           773,
@@ -1994,7 +1994,7 @@ if (!eq(tFromJs("variant163"), "variant163")) {
 
 if (!eq(tFromJs("variant164"), "variant164")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           774,
@@ -2006,7 +2006,7 @@ if (!eq(tFromJs("variant164"), "variant164")) {
 
 if (!eq(tFromJs("variant165"), "variant165")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           775,
@@ -2018,7 +2018,7 @@ if (!eq(tFromJs("variant165"), "variant165")) {
 
 if (!eq(tFromJs("variant166"), "variant166")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           776,
@@ -2030,7 +2030,7 @@ if (!eq(tFromJs("variant166"), "variant166")) {
 
 if (!eq(tFromJs("variant167"), "variant167")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           777,
@@ -2042,7 +2042,7 @@ if (!eq(tFromJs("variant167"), "variant167")) {
 
 if (!eq(tFromJs("variant168"), "variant168")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           778,
@@ -2054,7 +2054,7 @@ if (!eq(tFromJs("variant168"), "variant168")) {
 
 if (!eq(tFromJs("variant169"), "variant169")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           779,
@@ -2066,7 +2066,7 @@ if (!eq(tFromJs("variant169"), "variant169")) {
 
 if (!eq(tFromJs("variant170"), "variant170")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           780,
@@ -2078,7 +2078,7 @@ if (!eq(tFromJs("variant170"), "variant170")) {
 
 if (!eq(tFromJs("variant171"), "variant171")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           781,
@@ -2090,7 +2090,7 @@ if (!eq(tFromJs("variant171"), "variant171")) {
 
 if (!eq(tFromJs("variant172"), "variant172")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           782,
@@ -2102,7 +2102,7 @@ if (!eq(tFromJs("variant172"), "variant172")) {
 
 if (!eq(tFromJs("variant173"), "variant173")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           783,
@@ -2114,7 +2114,7 @@ if (!eq(tFromJs("variant173"), "variant173")) {
 
 if (!eq(tFromJs("variant174"), "variant174")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           784,
@@ -2126,7 +2126,7 @@ if (!eq(tFromJs("variant174"), "variant174")) {
 
 if (!eq(tFromJs("variant175"), "variant175")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           785,
@@ -2138,7 +2138,7 @@ if (!eq(tFromJs("variant175"), "variant175")) {
 
 if (!eq(tFromJs("variant176"), "variant176")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           786,
@@ -2150,7 +2150,7 @@ if (!eq(tFromJs("variant176"), "variant176")) {
 
 if (!eq(tFromJs("variant177"), "variant177")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           787,
@@ -2162,7 +2162,7 @@ if (!eq(tFromJs("variant177"), "variant177")) {
 
 if (!eq(tFromJs("variant178"), "variant178")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           788,
@@ -2174,7 +2174,7 @@ if (!eq(tFromJs("variant178"), "variant178")) {
 
 if (!eq(tFromJs("variant179"), "variant179")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           789,
@@ -2186,7 +2186,7 @@ if (!eq(tFromJs("variant179"), "variant179")) {
 
 if (!eq(tFromJs("variant180"), "variant180")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           790,
@@ -2198,7 +2198,7 @@ if (!eq(tFromJs("variant180"), "variant180")) {
 
 if (!eq(tFromJs("variant181"), "variant181")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           791,
@@ -2210,7 +2210,7 @@ if (!eq(tFromJs("variant181"), "variant181")) {
 
 if (!eq(tFromJs("variant182"), "variant182")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           792,
@@ -2222,7 +2222,7 @@ if (!eq(tFromJs("variant182"), "variant182")) {
 
 if (!eq(tFromJs("variant183"), "variant183")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           793,
@@ -2234,7 +2234,7 @@ if (!eq(tFromJs("variant183"), "variant183")) {
 
 if (!eq(tFromJs("variant184"), "variant184")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           794,
@@ -2246,7 +2246,7 @@ if (!eq(tFromJs("variant184"), "variant184")) {
 
 if (!eq(tFromJs("variant185"), "variant185")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           795,
@@ -2258,7 +2258,7 @@ if (!eq(tFromJs("variant185"), "variant185")) {
 
 if (!eq(tFromJs("variant186"), "variant186")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           796,
@@ -2270,7 +2270,7 @@ if (!eq(tFromJs("variant186"), "variant186")) {
 
 if (!eq(tFromJs("variant187"), "variant187")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           797,
@@ -2282,7 +2282,7 @@ if (!eq(tFromJs("variant187"), "variant187")) {
 
 if (!eq(tFromJs("variant188"), "variant188")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           798,
@@ -2294,7 +2294,7 @@ if (!eq(tFromJs("variant188"), "variant188")) {
 
 if (!eq(tFromJs("variant189"), "variant189")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           799,
@@ -2306,7 +2306,7 @@ if (!eq(tFromJs("variant189"), "variant189")) {
 
 if (!eq(tFromJs("variant190"), "variant190")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           800,
@@ -2318,7 +2318,7 @@ if (!eq(tFromJs("variant190"), "variant190")) {
 
 if (!eq(tFromJs("variant191"), "variant191")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           801,
@@ -2330,7 +2330,7 @@ if (!eq(tFromJs("variant191"), "variant191")) {
 
 if (!eq(tFromJs("variant192"), "variant192")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           802,
@@ -2342,7 +2342,7 @@ if (!eq(tFromJs("variant192"), "variant192")) {
 
 if (!eq(tFromJs("variant193"), "variant193")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           803,
@@ -2354,7 +2354,7 @@ if (!eq(tFromJs("variant193"), "variant193")) {
 
 if (!eq(tFromJs("variant194"), "variant194")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           804,
@@ -2366,7 +2366,7 @@ if (!eq(tFromJs("variant194"), "variant194")) {
 
 if (!eq(tFromJs("variant195"), "variant195")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           805,
@@ -2378,7 +2378,7 @@ if (!eq(tFromJs("variant195"), "variant195")) {
 
 if (!eq(tFromJs("variant196"), "variant196")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           806,
@@ -2390,7 +2390,7 @@ if (!eq(tFromJs("variant196"), "variant196")) {
 
 if (!eq(tFromJs("variant197"), "variant197")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           807,
@@ -2402,7 +2402,7 @@ if (!eq(tFromJs("variant197"), "variant197")) {
 
 if (!eq(tFromJs("variant198"), "variant198")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           808,
@@ -2414,7 +2414,7 @@ if (!eq(tFromJs("variant198"), "variant198")) {
 
 if (!eq(tFromJs("variant199"), "variant199")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           809,
@@ -2426,7 +2426,7 @@ if (!eq(tFromJs("variant199"), "variant199")) {
 
 if (!eq(tFromJs("variant200"), "variant200")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           810,
@@ -2438,7 +2438,7 @@ if (!eq(tFromJs("variant200"), "variant200")) {
 
 if (!eq(tFromJs("variant201"), "variant201")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           811,
@@ -2450,7 +2450,7 @@ if (!eq(tFromJs("variant201"), "variant201")) {
 
 if (!eq(tFromJs("variant202"), "variant202")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           812,
@@ -2462,7 +2462,7 @@ if (!eq(tFromJs("variant202"), "variant202")) {
 
 if (!eq(tFromJs("variant203"), "variant203")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           813,
@@ -2474,7 +2474,7 @@ if (!eq(tFromJs("variant203"), "variant203")) {
 
 if (!eq(tFromJs("variant204"), "variant204")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           814,
@@ -2486,7 +2486,7 @@ if (!eq(tFromJs("variant204"), "variant204")) {
 
 if (!eq(tFromJs("variant205"), "variant205")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           815,
@@ -2498,7 +2498,7 @@ if (!eq(tFromJs("variant205"), "variant205")) {
 
 if (!eq(tFromJs("variant206"), "variant206")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           816,
@@ -2510,7 +2510,7 @@ if (!eq(tFromJs("variant206"), "variant206")) {
 
 if (!eq(tFromJs("variant207"), "variant207")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           817,
@@ -2522,7 +2522,7 @@ if (!eq(tFromJs("variant207"), "variant207")) {
 
 if (!eq(tFromJs("variant208"), "variant208")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           818,
@@ -2534,7 +2534,7 @@ if (!eq(tFromJs("variant208"), "variant208")) {
 
 if (!eq(tFromJs("variant209"), "variant209")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           819,
@@ -2546,7 +2546,7 @@ if (!eq(tFromJs("variant209"), "variant209")) {
 
 if (!eq(tFromJs("variant210"), "variant210")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           820,
@@ -2558,7 +2558,7 @@ if (!eq(tFromJs("variant210"), "variant210")) {
 
 if (!eq(tFromJs("variant211"), "variant211")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           821,
@@ -2570,7 +2570,7 @@ if (!eq(tFromJs("variant211"), "variant211")) {
 
 if (!eq(tFromJs("variant212"), "variant212")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           822,
@@ -2582,7 +2582,7 @@ if (!eq(tFromJs("variant212"), "variant212")) {
 
 if (!eq(tFromJs("variant213"), "variant213")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           823,
@@ -2594,7 +2594,7 @@ if (!eq(tFromJs("variant213"), "variant213")) {
 
 if (!eq(tFromJs("variant214"), "variant214")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           824,
@@ -2606,7 +2606,7 @@ if (!eq(tFromJs("variant214"), "variant214")) {
 
 if (!eq(tFromJs("variant215"), "variant215")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           825,
@@ -2618,7 +2618,7 @@ if (!eq(tFromJs("variant215"), "variant215")) {
 
 if (!eq(tFromJs("variant216"), "variant216")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           826,
@@ -2630,7 +2630,7 @@ if (!eq(tFromJs("variant216"), "variant216")) {
 
 if (!eq(tFromJs("variant217"), "variant217")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           827,
@@ -2642,7 +2642,7 @@ if (!eq(tFromJs("variant217"), "variant217")) {
 
 if (!eq(tFromJs("variant218"), "variant218")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           828,
@@ -2654,7 +2654,7 @@ if (!eq(tFromJs("variant218"), "variant218")) {
 
 if (!eq(tFromJs("variant219"), "variant219")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           829,
@@ -2666,7 +2666,7 @@ if (!eq(tFromJs("variant219"), "variant219")) {
 
 if (!eq(tFromJs("variant220"), "variant220")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           830,
@@ -2678,7 +2678,7 @@ if (!eq(tFromJs("variant220"), "variant220")) {
 
 if (!eq(tFromJs("variant221"), "variant221")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           831,
@@ -2690,7 +2690,7 @@ if (!eq(tFromJs("variant221"), "variant221")) {
 
 if (!eq(tFromJs("variant222"), "variant222")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           832,
@@ -2702,7 +2702,7 @@ if (!eq(tFromJs("variant222"), "variant222")) {
 
 if (!eq(tFromJs("variant223"), "variant223")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           833,
@@ -2714,7 +2714,7 @@ if (!eq(tFromJs("variant223"), "variant223")) {
 
 if (!eq(tFromJs("variant224"), "variant224")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           834,
@@ -2726,7 +2726,7 @@ if (!eq(tFromJs("variant224"), "variant224")) {
 
 if (!eq(tFromJs("variant225"), "variant225")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           835,
@@ -2738,7 +2738,7 @@ if (!eq(tFromJs("variant225"), "variant225")) {
 
 if (!eq(tFromJs("variant226"), "variant226")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           836,
@@ -2750,7 +2750,7 @@ if (!eq(tFromJs("variant226"), "variant226")) {
 
 if (!eq(tFromJs("variant227"), "variant227")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           837,
@@ -2762,7 +2762,7 @@ if (!eq(tFromJs("variant227"), "variant227")) {
 
 if (!eq(tFromJs("variant228"), "variant228")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           838,
@@ -2774,7 +2774,7 @@ if (!eq(tFromJs("variant228"), "variant228")) {
 
 if (!eq(tFromJs("variant229"), "variant229")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           839,
@@ -2786,7 +2786,7 @@ if (!eq(tFromJs("variant229"), "variant229")) {
 
 if (!eq(tFromJs("variant230"), "variant230")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           840,
@@ -2798,7 +2798,7 @@ if (!eq(tFromJs("variant230"), "variant230")) {
 
 if (!eq(tFromJs("variant231"), "variant231")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           841,
@@ -2810,7 +2810,7 @@ if (!eq(tFromJs("variant231"), "variant231")) {
 
 if (!eq(tFromJs("variant232"), "variant232")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           842,
@@ -2822,7 +2822,7 @@ if (!eq(tFromJs("variant232"), "variant232")) {
 
 if (!eq(tFromJs("variant233"), "variant233")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           843,
@@ -2834,7 +2834,7 @@ if (!eq(tFromJs("variant233"), "variant233")) {
 
 if (!eq(tFromJs("variant234"), "variant234")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           844,
@@ -2846,7 +2846,7 @@ if (!eq(tFromJs("variant234"), "variant234")) {
 
 if (!eq(tFromJs("variant235"), "variant235")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           845,
@@ -2858,7 +2858,7 @@ if (!eq(tFromJs("variant235"), "variant235")) {
 
 if (!eq(tFromJs("variant236"), "variant236")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           846,
@@ -2870,7 +2870,7 @@ if (!eq(tFromJs("variant236"), "variant236")) {
 
 if (!eq(tFromJs("variant237"), "variant237")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           847,
@@ -2882,7 +2882,7 @@ if (!eq(tFromJs("variant237"), "variant237")) {
 
 if (!eq(tFromJs("variant238"), "variant238")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           848,
@@ -2894,7 +2894,7 @@ if (!eq(tFromJs("variant238"), "variant238")) {
 
 if (!eq(tFromJs("variant239"), "variant239")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           849,
@@ -2906,7 +2906,7 @@ if (!eq(tFromJs("variant239"), "variant239")) {
 
 if (!eq(tFromJs("variant240"), "variant240")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           850,
@@ -2918,7 +2918,7 @@ if (!eq(tFromJs("variant240"), "variant240")) {
 
 if (!eq(tFromJs("variant241"), "variant241")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           851,
@@ -2930,7 +2930,7 @@ if (!eq(tFromJs("variant241"), "variant241")) {
 
 if (!eq(tFromJs("variant242"), "variant242")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           852,
@@ -2942,7 +2942,7 @@ if (!eq(tFromJs("variant242"), "variant242")) {
 
 if (!eq(tFromJs("variant243"), "variant243")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           853,
@@ -2954,7 +2954,7 @@ if (!eq(tFromJs("variant243"), "variant243")) {
 
 if (!eq(tFromJs("variant244"), "variant244")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           854,
@@ -2966,7 +2966,7 @@ if (!eq(tFromJs("variant244"), "variant244")) {
 
 if (!eq(tFromJs("variant245"), "variant245")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           855,
@@ -2978,7 +2978,7 @@ if (!eq(tFromJs("variant245"), "variant245")) {
 
 if (!eq(tFromJs("variant246"), "variant246")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           856,
@@ -2990,7 +2990,7 @@ if (!eq(tFromJs("variant246"), "variant246")) {
 
 if (!eq(tFromJs("variant247"), "variant247")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           857,
@@ -3002,7 +3002,7 @@ if (!eq(tFromJs("variant247"), "variant247")) {
 
 if (!eq(tFromJs("variant248"), "variant248")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           858,
@@ -3014,7 +3014,7 @@ if (!eq(tFromJs("variant248"), "variant248")) {
 
 if (!eq(tFromJs("variant249"), "variant249")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           859,
@@ -3026,7 +3026,7 @@ if (!eq(tFromJs("variant249"), "variant249")) {
 
 if (!eq(tFromJs("variant250"), "variant250")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           860,
@@ -3038,7 +3038,7 @@ if (!eq(tFromJs("variant250"), "variant250")) {
 
 if (!eq(tFromJs("variant251"), "variant251")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           861,
@@ -3050,7 +3050,7 @@ if (!eq(tFromJs("variant251"), "variant251")) {
 
 if (!eq(tFromJs("variant252"), "variant252")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           862,
@@ -3062,7 +3062,7 @@ if (!eq(tFromJs("variant252"), "variant252")) {
 
 if (!eq(tFromJs("variant253"), "variant253")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           863,
@@ -3074,7 +3074,7 @@ if (!eq(tFromJs("variant253"), "variant253")) {
 
 if (!eq(tFromJs("variant254"), "variant254")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           864,
@@ -3086,7 +3086,7 @@ if (!eq(tFromJs("variant254"), "variant254")) {
 
 if (!eq(tFromJs("variant255"), "variant255")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           865,
@@ -3098,7 +3098,7 @@ if (!eq(tFromJs("variant255"), "variant255")) {
 
 if (!eq(tFromJs("variant256"), "variant256")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           866,
@@ -3110,7 +3110,7 @@ if (!eq(tFromJs("variant256"), "variant256")) {
 
 if (!eq(tFromJs("variant257"), "variant257")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           867,
@@ -3122,7 +3122,7 @@ if (!eq(tFromJs("variant257"), "variant257")) {
 
 if (!eq(tFromJs("variant258"), "variant258")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           868,
@@ -3134,7 +3134,7 @@ if (!eq(tFromJs("variant258"), "variant258")) {
 
 if (!eq(tFromJs("variant259"), "variant259")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           869,
@@ -3146,7 +3146,7 @@ if (!eq(tFromJs("variant259"), "variant259")) {
 
 if (!eq(tFromJs("variant260"), "variant260")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           870,
@@ -3158,7 +3158,7 @@ if (!eq(tFromJs("variant260"), "variant260")) {
 
 if (!eq(tFromJs("variant261"), "variant261")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           871,
@@ -3170,7 +3170,7 @@ if (!eq(tFromJs("variant261"), "variant261")) {
 
 if (!eq(tFromJs("variant262"), "variant262")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           872,
@@ -3182,7 +3182,7 @@ if (!eq(tFromJs("variant262"), "variant262")) {
 
 if (!eq(tFromJs("variant263"), "variant263")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           873,
@@ -3194,7 +3194,7 @@ if (!eq(tFromJs("variant263"), "variant263")) {
 
 if (!eq(tFromJs("variant264"), "variant264")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           874,
@@ -3206,7 +3206,7 @@ if (!eq(tFromJs("variant264"), "variant264")) {
 
 if (!eq(tFromJs("variant265"), "variant265")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           875,
@@ -3218,7 +3218,7 @@ if (!eq(tFromJs("variant265"), "variant265")) {
 
 if (!eq(tFromJs("variant266"), "variant266")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           876,
@@ -3230,7 +3230,7 @@ if (!eq(tFromJs("variant266"), "variant266")) {
 
 if (!eq(tFromJs("variant267"), "variant267")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           877,
@@ -3242,7 +3242,7 @@ if (!eq(tFromJs("variant267"), "variant267")) {
 
 if (!eq(tFromJs("variant268"), "variant268")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           878,
@@ -3254,7 +3254,7 @@ if (!eq(tFromJs("variant268"), "variant268")) {
 
 if (!eq(tFromJs("variant269"), "variant269")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           879,
@@ -3266,7 +3266,7 @@ if (!eq(tFromJs("variant269"), "variant269")) {
 
 if (!eq(tFromJs("variant270"), "variant270")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           880,
@@ -3278,7 +3278,7 @@ if (!eq(tFromJs("variant270"), "variant270")) {
 
 if (!eq(tFromJs("variant271"), "variant271")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           881,
@@ -3290,7 +3290,7 @@ if (!eq(tFromJs("variant271"), "variant271")) {
 
 if (!eq(tFromJs("variant272"), "variant272")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           882,
@@ -3302,7 +3302,7 @@ if (!eq(tFromJs("variant272"), "variant272")) {
 
 if (!eq(tFromJs("variant273"), "variant273")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           883,
@@ -3314,7 +3314,7 @@ if (!eq(tFromJs("variant273"), "variant273")) {
 
 if (!eq(tFromJs("variant274"), "variant274")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           884,
@@ -3326,7 +3326,7 @@ if (!eq(tFromJs("variant274"), "variant274")) {
 
 if (!eq(tFromJs("variant275"), "variant275")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           885,
@@ -3338,7 +3338,7 @@ if (!eq(tFromJs("variant275"), "variant275")) {
 
 if (!eq(tFromJs("variant276"), "variant276")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           886,
@@ -3350,7 +3350,7 @@ if (!eq(tFromJs("variant276"), "variant276")) {
 
 if (!eq(tFromJs("variant277"), "variant277")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           887,
@@ -3362,7 +3362,7 @@ if (!eq(tFromJs("variant277"), "variant277")) {
 
 if (!eq(tFromJs("variant278"), "variant278")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           888,
@@ -3374,7 +3374,7 @@ if (!eq(tFromJs("variant278"), "variant278")) {
 
 if (!eq(tFromJs("variant279"), "variant279")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           889,
@@ -3386,7 +3386,7 @@ if (!eq(tFromJs("variant279"), "variant279")) {
 
 if (!eq(tFromJs("variant280"), "variant280")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           890,
@@ -3398,7 +3398,7 @@ if (!eq(tFromJs("variant280"), "variant280")) {
 
 if (!eq(tFromJs("variant281"), "variant281")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           891,
@@ -3410,7 +3410,7 @@ if (!eq(tFromJs("variant281"), "variant281")) {
 
 if (!eq(tFromJs("variant282"), "variant282")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           892,
@@ -3422,7 +3422,7 @@ if (!eq(tFromJs("variant282"), "variant282")) {
 
 if (!eq(tFromJs("variant283"), "variant283")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           893,
@@ -3434,7 +3434,7 @@ if (!eq(tFromJs("variant283"), "variant283")) {
 
 if (!eq(tFromJs("variant284"), "variant284")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           894,
@@ -3446,7 +3446,7 @@ if (!eq(tFromJs("variant284"), "variant284")) {
 
 if (!eq(tFromJs("variant285"), "variant285")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           895,
@@ -3458,7 +3458,7 @@ if (!eq(tFromJs("variant285"), "variant285")) {
 
 if (!eq(tFromJs("variant286"), "variant286")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           896,
@@ -3470,7 +3470,7 @@ if (!eq(tFromJs("variant286"), "variant286")) {
 
 if (!eq(tFromJs("variant287"), "variant287")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           897,
@@ -3482,7 +3482,7 @@ if (!eq(tFromJs("variant287"), "variant287")) {
 
 if (!eq(tFromJs("variant288"), "variant288")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           898,
@@ -3494,7 +3494,7 @@ if (!eq(tFromJs("variant288"), "variant288")) {
 
 if (!eq(tFromJs("variant289"), "variant289")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           899,
@@ -3506,7 +3506,7 @@ if (!eq(tFromJs("variant289"), "variant289")) {
 
 if (!eq(tFromJs("variant290"), "variant290")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           900,
@@ -3518,7 +3518,7 @@ if (!eq(tFromJs("variant290"), "variant290")) {
 
 if (!eq(tFromJs("variant291"), "variant291")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           901,
@@ -3530,7 +3530,7 @@ if (!eq(tFromJs("variant291"), "variant291")) {
 
 if (!eq(tFromJs("variant292"), "variant292")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           902,
@@ -3542,7 +3542,7 @@ if (!eq(tFromJs("variant292"), "variant292")) {
 
 if (!eq(tFromJs("variant293"), "variant293")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           903,
@@ -3554,7 +3554,7 @@ if (!eq(tFromJs("variant293"), "variant293")) {
 
 if (!eq(tFromJs("variant294"), "variant294")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           904,
@@ -3566,7 +3566,7 @@ if (!eq(tFromJs("variant294"), "variant294")) {
 
 if (!eq(tFromJs("variant295"), "variant295")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           905,
@@ -3578,7 +3578,7 @@ if (!eq(tFromJs("variant295"), "variant295")) {
 
 if (!eq(tFromJs("variant296"), "variant296")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           906,
@@ -3590,7 +3590,7 @@ if (!eq(tFromJs("variant296"), "variant296")) {
 
 if (!eq(tFromJs("variant297"), "variant297")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           907,
@@ -3602,7 +3602,7 @@ if (!eq(tFromJs("variant297"), "variant297")) {
 
 if (!eq(tFromJs("variant298"), "variant298")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           908,
@@ -3614,7 +3614,7 @@ if (!eq(tFromJs("variant298"), "variant298")) {
 
 if (!eq(tFromJs("variant299"), "variant299")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           909,
@@ -3626,7 +3626,7 @@ if (!eq(tFromJs("variant299"), "variant299")) {
 
 if (!eq(tFromJs("xx"), undefined)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/big_polyvar_test.ml",
           910,

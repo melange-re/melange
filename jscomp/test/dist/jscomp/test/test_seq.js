@@ -25,7 +25,7 @@ function assoc3(x, _l) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -33,7 +33,7 @@ function assoc3(x, _l) {
 
 function help_action(param) {
   throw {
-        RE_EXN_ID: Stop,
+        MEL_EXN_ID: Stop,
         _1: {
           TAG: /* Unknown */0,
           _0: "-help"
@@ -59,7 +59,7 @@ function add_help(speclist) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       add1 = {
         hd: [
           "-help",
@@ -82,7 +82,7 @@ function add_help(speclist) {
   }
   catch (raw_exn$1){
     var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-    if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
+    if (exn$1.MEL_EXN_ID === Stdlib.Not_found) {
       add2 = {
         hd: [
           "--help",

@@ -913,7 +913,7 @@ function verify_read(c) {
     return ;
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/tscanf_test.ml",
           174,
@@ -1740,7 +1740,7 @@ function scan_elems$1(ib, accu) {
                 }
                 if (c !== 93) {
                   throw {
-                        RE_EXN_ID: "Failure",
+                        MEL_EXN_ID: "Failure",
                         _1: "scan_elems",
                         Error: new Error()
                       };
@@ -1831,7 +1831,7 @@ function scan_elems$2(ib, accu) {
                   }
                   console.log(Caml_bytes.bytes_to_string(Stdlib__Bytes.make(1, c)));
                   throw {
-                        RE_EXN_ID: "Failure",
+                        MEL_EXN_ID: "Failure",
                         _1: "scan_elems",
                         Error: new Error()
                       };
@@ -1839,7 +1839,7 @@ function scan_elems$2(ib, accu) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__Scanf.Scan_failure) {
+    if (exn.MEL_EXN_ID === Stdlib__Scanf.Scan_failure) {
       Curry._1(Stdlib__Scanf.bscanf(ib, /* Format */{
                 _0: {
                   TAG: /* Char_literal */12,
@@ -1850,7 +1850,7 @@ function scan_elems$2(ib, accu) {
               }), undefined);
       return accu;
     }
-    if (exn.RE_EXN_ID === Stdlib.End_of_file) {
+    if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
       return accu;
     }
     throw exn;
@@ -2058,7 +2058,7 @@ function scan_rest(ib, accu) {
                 }
                 if (c !== 93) {
                   throw {
-                        RE_EXN_ID: "Failure",
+                        MEL_EXN_ID: "Failure",
                         _1: "scan_rest",
                         Error: new Error()
                       };
@@ -2085,7 +2085,7 @@ function scan_elems$4(ib, accu) {
                 }), (function (c) {
                 if (c !== 91) {
                   throw {
-                        RE_EXN_ID: "Failure",
+                        MEL_EXN_ID: "Failure",
                         _1: "scan_elems",
                         Error: new Error()
                       };
@@ -2130,7 +2130,7 @@ function scan_elems$4(ib, accu) {
                               }));
                 }
                 throw {
-                      RE_EXN_ID: "Failure",
+                      MEL_EXN_ID: "Failure",
                       _1: "scan_elems",
                       Error: new Error()
                     };
@@ -2261,7 +2261,7 @@ function scan_rest$1(ib, accu) {
                                                         _1: "scan_int_list"
                                                       });
                                                   throw {
-                                                        RE_EXN_ID: "Failure",
+                                                        MEL_EXN_ID: "Failure",
                                                         _1: s,
                                                         Error: new Error()
                                                       };
@@ -2337,7 +2337,7 @@ function scan_elems$5(ib, scan_elem, accu) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__Scanf.Scan_failure) {
+    if (exn.MEL_EXN_ID === Stdlib__Scanf.Scan_failure) {
       return accu;
     }
     throw exn;
@@ -3753,9 +3753,9 @@ function test44(param) {
 }
 
 Testing.test_raises_this_exc({
-        RE_EXN_ID: Stdlib.End_of_file
+        MEL_EXN_ID: Stdlib.End_of_file
       })(test43, undefined) && Testing.test_raises_this_exc({
-        RE_EXN_ID: Stdlib.End_of_file
+        MEL_EXN_ID: Stdlib.End_of_file
       })(test44, undefined);
 
 function test45(param) {
@@ -4341,7 +4341,7 @@ function next_char(ob, param) {
   var len = s.length;
   if (len === 0) {
     throw {
-          RE_EXN_ID: Stdlib.End_of_file,
+          MEL_EXN_ID: Stdlib.End_of_file,
           Error: new Error()
         };
   }

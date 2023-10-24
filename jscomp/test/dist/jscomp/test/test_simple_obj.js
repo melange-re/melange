@@ -90,7 +90,7 @@ var v = CamlinternalOO.create_object_opt(undefined, $$class$3);
 function test(param) {
   if (Caml_oo_curry.js1(23515, 1, uu) !== "uu") {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/test_simple_obj.ml",
             21,
@@ -101,7 +101,7 @@ function test(param) {
   }
   if (Caml_oo_curry.js3(4846113, 2, uuu, 1, 20) !== 21) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/test_simple_obj.ml",
             22,
@@ -112,7 +112,7 @@ function test(param) {
   }
   if (Caml_oo_curry.js3(4846113, 3, v, 3, 7) !== 10) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/test_simple_obj.ml",
             23,
@@ -123,7 +123,7 @@ function test(param) {
   }
   if (Caml_oo_curry.js1(5243894, 4, u) !== 3) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/test_simple_obj.ml",
             25,
@@ -134,7 +134,7 @@ function test(param) {
   }
   if (Caml_oo_curry.js1(5243895, 5, u) !== 4) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/test_simple_obj.ml",
             26,
@@ -145,7 +145,7 @@ function test(param) {
   }
   if (Caml_oo_curry.js3(23297, 6, u, 1, 2) !== 3) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/test_simple_obj.ml",
             27,
@@ -158,7 +158,7 @@ function test(param) {
     return ;
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/test_simple_obj.ml",
           28,

@@ -46,7 +46,7 @@ var yynames_block = "NUMERAL\0IDENT\0";
 var yyact = [
   (function (param) {
       throw {
-            RE_EXN_ID: "Failure",
+            MEL_EXN_ID: "Failure",
             _1: "parser",
             Error: new Error()
           };
@@ -116,7 +116,7 @@ var yyact = [
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };

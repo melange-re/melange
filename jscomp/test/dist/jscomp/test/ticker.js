@@ -30,7 +30,7 @@ function split(delim, s) {
       }
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-        if (exn.RE_EXN_ID === Stdlib.Not_found) {
+        if (exn.MEL_EXN_ID === Stdlib.Not_found) {
           return {
                   hd: Stdlib__String.sub(s, 0, i),
                   tl: l
@@ -166,13 +166,13 @@ function bal(l, x, d, r) {
         return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
       }
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "Map.bal",
             Error: new Error()
           };
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Map.bal",
           Error: new Error()
         };
@@ -198,13 +198,13 @@ function bal(l, x, d, r) {
       return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Map.bal",
           Error: new Error()
         };
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Map.bal",
         Error: new Error()
       };
@@ -274,7 +274,7 @@ function find(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -314,7 +314,7 @@ function find_first(f, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -391,7 +391,7 @@ function find_last(f, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -479,7 +479,7 @@ function min_binding(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -517,7 +517,7 @@ function max_binding(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -550,7 +550,7 @@ function remove_min_binding(param) {
     }
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Map.remove_min_elt",
         Error: new Error()
       };
@@ -865,7 +865,7 @@ function merge$1(f, s1, s2) {
     return concat_or_join(merge$1(f, match$1[0], s2.l), v2, Curry._3(f, v2, match$1[1], Caml_option.some(s2.d)), merge$1(f, match$1[2], s2.r));
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/stdlib/map.ml",
           408,
@@ -1316,7 +1316,7 @@ function compute_update_sequences(all_tickers) {
                         var x = lhs.rank;
                         if (typeof x === "number") {
                           throw {
-                                RE_EXN_ID: "Failure",
+                                MEL_EXN_ID: "Failure",
                                 _1: "All nodes should be ranked",
                                 Error: new Error()
                               };
@@ -1324,7 +1324,7 @@ function compute_update_sequences(all_tickers) {
                         var y = rhs.rank;
                         if (typeof y === "number") {
                           throw {
-                                RE_EXN_ID: "Failure",
+                                MEL_EXN_ID: "Failure",
                                 _1: "All nodes should be ranked",
                                 Error: new Error()
                               };
@@ -1354,7 +1354,7 @@ function process_quote(ticker_map, new_ticker, new_value) {
             return ;
           }
           throw {
-                RE_EXN_ID: "Failure",
+                MEL_EXN_ID: "Failure",
                 _1: "Only single Market ticker should be udpated upon a new quote",
                 Error: new Error()
               };
@@ -1388,7 +1388,7 @@ function process_input_line(ticker_map, all_tickers, line) {
             if (match$1) {
               if (match$1.tl) {
                 throw {
-                      RE_EXN_ID: "Failure",
+                      MEL_EXN_ID: "Failure",
                       _1: "Invalid input line",
                       Error: new Error()
                     };
@@ -1402,13 +1402,13 @@ function process_input_line(ticker_map, all_tickers, line) {
                     ];
             }
             throw {
-                  RE_EXN_ID: "Failure",
+                  MEL_EXN_ID: "Failure",
                   _1: "Invalid input line",
                   Error: new Error()
                 };
           }
           throw {
-                RE_EXN_ID: "Failure",
+                MEL_EXN_ID: "Failure",
                 _1: "Invalid input line",
                 Error: new Error()
               };
@@ -1426,7 +1426,7 @@ function process_input_line(ticker_map, all_tickers, line) {
                       if (match$5) {
                         if (match$5.tl) {
                           throw {
-                                RE_EXN_ID: "Failure",
+                                MEL_EXN_ID: "Failure",
                                 _1: "Invalid input line",
                                 Error: new Error()
                               };
@@ -1440,13 +1440,13 @@ function process_input_line(ticker_map, all_tickers, line) {
                               ];
                       }
                       throw {
-                            RE_EXN_ID: "Failure",
+                            MEL_EXN_ID: "Failure",
                             _1: "Invalid input line",
                             Error: new Error()
                           };
                     }
                     throw {
-                          RE_EXN_ID: "Failure",
+                          MEL_EXN_ID: "Failure",
                           _1: "Invalid input line",
                           Error: new Error()
                         };
@@ -1457,7 +1457,7 @@ function process_input_line(ticker_map, all_tickers, line) {
                       if (match$7) {
                         if (match$7.tl) {
                           throw {
-                                RE_EXN_ID: "Failure",
+                                MEL_EXN_ID: "Failure",
                                 _1: "Invalid input line",
                                 Error: new Error()
                               };
@@ -1471,20 +1471,20 @@ function process_input_line(ticker_map, all_tickers, line) {
                               ];
                       }
                       throw {
-                            RE_EXN_ID: "Failure",
+                            MEL_EXN_ID: "Failure",
                             _1: "Invalid input line",
                             Error: new Error()
                           };
                     }
                     throw {
-                          RE_EXN_ID: "Failure",
+                          MEL_EXN_ID: "Failure",
                           _1: "Invalid input line",
                           Error: new Error()
                         };
                 case "S" :
                     if (match$3.tl) {
                       throw {
-                            RE_EXN_ID: "Failure",
+                            MEL_EXN_ID: "Failure",
                             _1: "Invalid input line",
                             Error: new Error()
                           };
@@ -1503,35 +1503,35 @@ function process_input_line(ticker_map, all_tickers, line) {
                           ];
                 default:
                   throw {
-                        RE_EXN_ID: "Failure",
+                        MEL_EXN_ID: "Failure",
                         _1: "Invalid input line",
                         Error: new Error()
                       };
               }
             } else {
               throw {
-                    RE_EXN_ID: "Failure",
+                    MEL_EXN_ID: "Failure",
                     _1: "Invalid input line",
                     Error: new Error()
                   };
             }
           } else {
             throw {
-                  RE_EXN_ID: "Failure",
+                  MEL_EXN_ID: "Failure",
                   _1: "Invalid input line",
                   Error: new Error()
                 };
           }
       default:
         throw {
-              RE_EXN_ID: "Failure",
+              MEL_EXN_ID: "Failure",
               _1: "Invalid input line",
               Error: new Error()
             };
     }
   } else {
     throw {
-          RE_EXN_ID: "Failure",
+          MEL_EXN_ID: "Failure",
           _1: "Invalid input line",
           Error: new Error()
         };

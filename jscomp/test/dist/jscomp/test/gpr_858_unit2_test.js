@@ -24,7 +24,7 @@ for(var i = 1; i <= 2; ++i){
       return ;
     }
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/gpr_858_unit2_test.ml",
             6,

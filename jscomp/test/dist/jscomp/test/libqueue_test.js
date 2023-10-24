@@ -47,7 +47,7 @@ function does_raise(f, q) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__Queue.Empty) {
+    if (exn.MEL_EXN_ID === Stdlib__Queue.Empty) {
       return true;
     }
     throw exn;
@@ -62,7 +62,7 @@ var q = {
 
 if (!(Caml_obj.caml_equal(to_list(q), /* [] */0) && q.length === 0)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           28,
@@ -79,7 +79,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
           tl: /* [] */0
         }) && q.length === 1)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           29,
@@ -99,7 +99,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
           }
         }) && q.length === 2)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           30,
@@ -122,7 +122,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
           }
         }) && q.length === 3)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           31,
@@ -148,7 +148,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
           }
         }) && q.length === 4)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           32,
@@ -160,7 +160,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
 
 if (Stdlib__Queue.take(q) !== 1) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           33,
@@ -181,7 +181,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
           }
         }) && q.length === 3)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           33,
@@ -193,7 +193,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
 
 if (Stdlib__Queue.take(q) !== 2) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           34,
@@ -211,7 +211,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
           }
         }) && q.length === 2)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           34,
@@ -223,7 +223,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
 
 if (Stdlib__Queue.take(q) !== 3) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           35,
@@ -238,7 +238,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
           tl: /* [] */0
         }) && q.length === 1)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           35,
@@ -250,7 +250,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
 
 if (Stdlib__Queue.take(q) !== 4) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           36,
@@ -262,7 +262,7 @@ if (Stdlib__Queue.take(q) !== 4) {
 
 if (!(Caml_obj.caml_equal(to_list(q), /* [] */0) && q.length === 0)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           36,
@@ -274,7 +274,7 @@ if (!(Caml_obj.caml_equal(to_list(q), /* [] */0) && q.length === 0)) {
 
 if (!does_raise(Stdlib__Queue.take, q)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           37,
@@ -294,7 +294,7 @@ Stdlib__Queue.add(1, q$1);
 
 if (Stdlib__Queue.take(q$1) !== 1) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           42,
@@ -306,7 +306,7 @@ if (Stdlib__Queue.take(q$1) !== 1) {
 
 if (!does_raise(Stdlib__Queue.take, q$1)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           42,
@@ -320,7 +320,7 @@ Stdlib__Queue.add(2, q$1);
 
 if (Stdlib__Queue.take(q$1) !== 2) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           43,
@@ -332,7 +332,7 @@ if (Stdlib__Queue.take(q$1) !== 2) {
 
 if (!does_raise(Stdlib__Queue.take, q$1)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           43,
@@ -344,7 +344,7 @@ if (!does_raise(Stdlib__Queue.take, q$1)) {
 
 if (q$1.length !== 0) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           44,
@@ -364,7 +364,7 @@ Stdlib__Queue.add(1, q$2);
 
 if (Stdlib__Queue.peek(q$2) !== 1) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           49,
@@ -378,7 +378,7 @@ Stdlib__Queue.add(2, q$2);
 
 if (Stdlib__Queue.peek(q$2) !== 1) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           50,
@@ -392,7 +392,7 @@ Stdlib__Queue.add(3, q$2);
 
 if (Stdlib__Queue.peek(q$2) !== 1) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           51,
@@ -404,7 +404,7 @@ if (Stdlib__Queue.peek(q$2) !== 1) {
 
 if (Stdlib__Queue.peek(q$2) !== 1) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           52,
@@ -416,7 +416,7 @@ if (Stdlib__Queue.peek(q$2) !== 1) {
 
 if (Stdlib__Queue.take(q$2) !== 1) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           52,
@@ -428,7 +428,7 @@ if (Stdlib__Queue.take(q$2) !== 1) {
 
 if (Stdlib__Queue.peek(q$2) !== 2) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           53,
@@ -440,7 +440,7 @@ if (Stdlib__Queue.peek(q$2) !== 2) {
 
 if (Stdlib__Queue.take(q$2) !== 2) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           53,
@@ -452,7 +452,7 @@ if (Stdlib__Queue.take(q$2) !== 2) {
 
 if (Stdlib__Queue.peek(q$2) !== 3) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           54,
@@ -464,7 +464,7 @@ if (Stdlib__Queue.peek(q$2) !== 3) {
 
 if (Stdlib__Queue.take(q$2) !== 3) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           54,
@@ -476,7 +476,7 @@ if (Stdlib__Queue.take(q$2) !== 3) {
 
 if (!does_raise(Stdlib__Queue.peek, q$2)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           55,
@@ -488,7 +488,7 @@ if (!does_raise(Stdlib__Queue.peek, q$2)) {
 
 if (!does_raise(Stdlib__Queue.peek, q$2)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           56,
@@ -512,7 +512,7 @@ Stdlib__Queue.clear(q$3);
 
 if (q$3.length !== 0) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           63,
@@ -524,7 +524,7 @@ if (q$3.length !== 0) {
 
 if (!does_raise(Stdlib__Queue.take, q$3)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           64,
@@ -540,7 +540,7 @@ if (!Caml_obj.caml_equal(q$3, {
         last: /* Nil */0
       })) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           65,
@@ -554,7 +554,7 @@ Stdlib__Queue.add(42, q$3);
 
 if (Stdlib__Queue.take(q$3) !== 42) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           67,
@@ -608,7 +608,7 @@ if (!Caml_obj.caml_equal(to_list(q1), {
         }
       })) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           74,
@@ -650,7 +650,7 @@ if (!Caml_obj.caml_equal(to_list(q2), {
         }
       })) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           75,
@@ -662,7 +662,7 @@ if (!Caml_obj.caml_equal(to_list(q2), {
 
 if (q1.length !== 10) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           76,
@@ -674,7 +674,7 @@ if (q1.length !== 10) {
 
 if (q2.length !== 10) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           77,
@@ -687,7 +687,7 @@ if (q2.length !== 10) {
 for(var i$2 = 1; i$2 <= 10; ++i$2){
   if (Stdlib__Queue.take(q1) !== i$2) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/libqueue_test.ml",
             79,
@@ -702,7 +702,7 @@ for(var i$2 = 1; i$2 <= 10; ++i$2){
 for(var i$3 = 1; i$3 <= 10; ++i$3){
   if (Stdlib__Queue.take(q2) !== i$3) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/libqueue_test.ml",
             82,
@@ -722,7 +722,7 @@ var q$4 = {
 
 if (q$4.length !== 0) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           88,
@@ -736,7 +736,7 @@ for(var i$4 = 1; i$4 <= 10; ++i$4){
   Stdlib__Queue.add(i$4, q$4);
   if (q$4.length !== i$4) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/libqueue_test.ml",
             91,
@@ -747,7 +747,7 @@ for(var i$4 = 1; i$4 <= 10; ++i$4){
   }
   if (q$4.length === 0) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/libqueue_test.ml",
             92,
@@ -762,7 +762,7 @@ for(var i$4 = 1; i$4 <= 10; ++i$4){
 for(var i$5 = 10; i$5 >= 1; --i$5){
   if (q$4.length !== i$5) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/libqueue_test.ml",
             95,
@@ -773,7 +773,7 @@ for(var i$5 = 10; i$5 >= 1; --i$5){
   }
   if (q$4.length === 0) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/libqueue_test.ml",
             96,
@@ -787,7 +787,7 @@ for(var i$5 = 10; i$5 >= 1; --i$5){
 
 if (q$4.length !== 0) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           99,
@@ -799,7 +799,7 @@ if (q$4.length !== 0) {
 
 if (q$4.length !== 0) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           100,
@@ -826,7 +826,7 @@ var i$7 = {
 Stdlib__Queue.iter((function (j) {
         if (i$7.contents !== j) {
           throw {
-                RE_EXN_ID: "Assert_failure",
+                MEL_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/libqueue_test.ml",
                   107,
@@ -852,7 +852,7 @@ var q2$1 = {
 
 if (q1$1.length !== 0) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           112,
@@ -864,7 +864,7 @@ if (q1$1.length !== 0) {
 
 if (!Caml_obj.caml_equal(to_list(q1$1), /* [] */0)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           112,
@@ -876,7 +876,7 @@ if (!Caml_obj.caml_equal(to_list(q1$1), /* [] */0)) {
 
 if (q2$1.length !== 0) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           113,
@@ -888,7 +888,7 @@ if (q2$1.length !== 0) {
 
 if (!Caml_obj.caml_equal(to_list(q2$1), /* [] */0)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           113,
@@ -902,7 +902,7 @@ Stdlib__Queue.transfer(q1$1, q2$1);
 
 if (q1$1.length !== 0) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           115,
@@ -914,7 +914,7 @@ if (q1$1.length !== 0) {
 
 if (!Caml_obj.caml_equal(to_list(q1$1), /* [] */0)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           115,
@@ -926,7 +926,7 @@ if (!Caml_obj.caml_equal(to_list(q1$1), /* [] */0)) {
 
 if (q2$1.length !== 0) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           116,
@@ -938,7 +938,7 @@ if (q2$1.length !== 0) {
 
 if (!Caml_obj.caml_equal(to_list(q2$1), /* [] */0)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           116,
@@ -966,7 +966,7 @@ for(var i$8 = 1; i$8 <= 4; ++i$8){
 
 if (q1$2.length !== 4) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           122,
@@ -990,7 +990,7 @@ if (!Caml_obj.caml_equal(to_list(q1$2), {
         }
       })) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           122,
@@ -1002,7 +1002,7 @@ if (!Caml_obj.caml_equal(to_list(q1$2), {
 
 if (q2$2.length !== 0) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           123,
@@ -1014,7 +1014,7 @@ if (q2$2.length !== 0) {
 
 if (!Caml_obj.caml_equal(to_list(q2$2), /* [] */0)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           123,
@@ -1028,7 +1028,7 @@ Stdlib__Queue.transfer(q1$2, q2$2);
 
 if (q1$2.length !== 0) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           125,
@@ -1040,7 +1040,7 @@ if (q1$2.length !== 0) {
 
 if (!Caml_obj.caml_equal(to_list(q1$2), /* [] */0)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           125,
@@ -1052,7 +1052,7 @@ if (!Caml_obj.caml_equal(to_list(q1$2), /* [] */0)) {
 
 if (q2$2.length !== 4) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           126,
@@ -1076,7 +1076,7 @@ if (!Caml_obj.caml_equal(to_list(q2$2), {
         }
       })) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           126,
@@ -1104,7 +1104,7 @@ for(var i$9 = 5; i$9 <= 8; ++i$9){
 
 if (q1$3.length !== 0) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           132,
@@ -1116,7 +1116,7 @@ if (q1$3.length !== 0) {
 
 if (!Caml_obj.caml_equal(to_list(q1$3), /* [] */0)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           132,
@@ -1128,7 +1128,7 @@ if (!Caml_obj.caml_equal(to_list(q1$3), /* [] */0)) {
 
 if (q2$3.length !== 4) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           133,
@@ -1152,7 +1152,7 @@ if (!Caml_obj.caml_equal(to_list(q2$3), {
         }
       })) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           133,
@@ -1166,7 +1166,7 @@ Stdlib__Queue.transfer(q1$3, q2$3);
 
 if (q1$3.length !== 0) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           135,
@@ -1178,7 +1178,7 @@ if (q1$3.length !== 0) {
 
 if (!Caml_obj.caml_equal(to_list(q1$3), /* [] */0)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           135,
@@ -1190,7 +1190,7 @@ if (!Caml_obj.caml_equal(to_list(q1$3), /* [] */0)) {
 
 if (q2$3.length !== 4) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           136,
@@ -1214,7 +1214,7 @@ if (!Caml_obj.caml_equal(to_list(q2$3), {
         }
       })) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           136,
@@ -1246,7 +1246,7 @@ for(var i$11 = 5; i$11 <= 8; ++i$11){
 
 if (q1$4.length !== 4) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           143,
@@ -1270,7 +1270,7 @@ if (!Caml_obj.caml_equal(to_list(q1$4), {
         }
       })) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           143,
@@ -1282,7 +1282,7 @@ if (!Caml_obj.caml_equal(to_list(q1$4), {
 
 if (q2$4.length !== 4) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           144,
@@ -1306,7 +1306,7 @@ if (!Caml_obj.caml_equal(to_list(q2$4), {
         }
       })) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           144,
@@ -1320,7 +1320,7 @@ Stdlib__Queue.transfer(q1$4, q2$4);
 
 if (q1$4.length !== 0) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           146,
@@ -1332,7 +1332,7 @@ if (q1$4.length !== 0) {
 
 if (!Caml_obj.caml_equal(to_list(q1$4), /* [] */0)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           146,
@@ -1344,7 +1344,7 @@ if (!Caml_obj.caml_equal(to_list(q1$4), /* [] */0)) {
 
 if (q2$4.length !== 8) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           147,
@@ -1380,7 +1380,7 @@ if (!Caml_obj.caml_equal(to_list(q2$4), {
         }
       })) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/libqueue_test.ml",
           147,

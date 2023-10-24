@@ -41,9 +41,8 @@ type t =
   | Canot_infer_arity_by_syntax
   | Illegal_attribute
   | Inconsistent_arity of int * int
-  (* we still rqeuire users to have explicit annotation to avoid
-     {[ (((int -> int) -> int) -> int )]}
-  *)
+    (* we still require users to have explicit annotation to avoid
+       {[ (((int -> int) -> int) -> int )]} *)
   | Not_supported_directive_in_mel_return
   | Expect_opt_in_mel_return_to_opt
   | Misplaced_label_syntax
@@ -58,9 +57,7 @@ let pp_error fmt err =
         "Uncurried functions only supports only up to arity 22"
     | Misplaced_label_syntax ->
         "Label syntax is not supported in this position"
-        (*
-    let fn x = ((##) x ~hi)  ~lo:1 ~hi:2
-    *)
+        (* let fn x = ((##) x ~hi)  ~lo:1 ~hi:2 *)
     | Optional_in_uncurried_mel_attribute ->
         "Uncurried function doesn't support optional arguments yet"
     | Expect_opt_in_mel_return_to_opt ->

@@ -6,7 +6,7 @@ var Caml_option = require("melange.js/caml_option.js");
 
 if (!Caml_obj.caml_equal(Caml_option.nullable_to_opt(""), "")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/gpr_974_test.ml",
           3,
@@ -18,7 +18,7 @@ if (!Caml_obj.caml_equal(Caml_option.nullable_to_opt(""), "")) {
 
 if (!Caml_obj.caml_equal(Caml_option.undefined_to_opt(""), "")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/gpr_974_test.ml",
           4,
@@ -30,7 +30,7 @@ if (!Caml_obj.caml_equal(Caml_option.undefined_to_opt(""), "")) {
 
 if (!Caml_obj.caml_equal(Caml_option.null_to_opt(""), "")) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/gpr_974_test.ml",
           5,

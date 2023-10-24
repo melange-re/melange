@@ -5,7 +5,7 @@ var Curry = require("melange.js/curry.js");
 
 function peek_queue(param) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/format_regression.ml",
           10,
@@ -17,7 +17,7 @@ function peek_queue(param) {
 
 function int_of_size(param) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/format_regression.ml",
           11,
@@ -29,7 +29,7 @@ function int_of_size(param) {
 
 function take_queue(param) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/format_regression.ml",
           12,
@@ -41,7 +41,7 @@ function take_queue(param) {
 
 function format_pp_token(param, param$1) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/format_regression.ml",
           13,

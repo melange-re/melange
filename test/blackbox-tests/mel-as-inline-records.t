@@ -24,14 +24,14 @@ Test `@mel.as` in inline records / record extensions
   function user3(param) {
     try {
       throw {
-            RE_EXN_ID: UserException,
+            MEL_EXN_ID: UserException,
             renamed: "Corentin",
             Error: new Error()
           };
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === UserException) {
+      if (exn.MEL_EXN_ID === UserException) {
         console.log("name:", exn.renamed);
         return ;
       }

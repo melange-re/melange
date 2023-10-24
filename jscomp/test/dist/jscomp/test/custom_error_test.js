@@ -12,7 +12,7 @@ function test_js_error(param) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Js__Js_exn.$$Error) {
+    if (exn.MEL_EXN_ID === Js__Js_exn.$$Error) {
       console.log(exn._1.stack);
       return ;
     }
@@ -27,7 +27,7 @@ function test_js_error2(param) {
   }
   catch (raw_e){
     var e = Caml_js_exceptions.internalToOCamlException(raw_e);
-    if (e.RE_EXN_ID === Js__Js_exn.$$Error) {
+    if (e.MEL_EXN_ID === Js__Js_exn.$$Error) {
       console.log(e._1.stack);
       throw e;
     }
@@ -42,7 +42,7 @@ function example1(param) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Js__Js_exn.$$Error) {
+    if (exn.MEL_EXN_ID === Js__Js_exn.$$Error) {
       console.log(exn._1.stack);
       return ;
     }
@@ -57,7 +57,7 @@ function example2(param) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Js__Js_exn.$$Error) {
+    if (exn.MEL_EXN_ID === Js__Js_exn.$$Error) {
       return ;
     }
     throw exn;

@@ -196,7 +196,7 @@ function file_option(file_options, name) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -216,7 +216,7 @@ function rev_split_by_char(c, s) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib.Not_found) {
+      if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return {
                 hd: Stdlib__String.sub(s, i, s.length - i | 0),
                 tl: l
@@ -240,7 +240,7 @@ function pop_last(param) {
     }
   }
   throw {
-        RE_EXN_ID: "Failure",
+        MEL_EXN_ID: "Failure",
         _1: "Invalid argument [] for pop_last",
         Error: new Error()
       };
@@ -704,7 +704,7 @@ function prepare_error(param) {
 }
 
 function add_loc(loc, exn) {
-  if (exn.RE_EXN_ID === Compilation_error) {
+  if (exn.MEL_EXN_ID === Compilation_error) {
     var tmp = exn._1;
     if (typeof tmp !== "number") {
       switch (tmp.TAG | 0) {
@@ -725,7 +725,7 @@ function add_loc(loc, exn) {
   var line$1 = line(loc);
   var detail = Stdlib__Printexc.to_string(exn);
   return {
-          RE_EXN_ID: Compilation_error,
+          MEL_EXN_ID: Compilation_error,
           _1: {
             TAG: /* Parsing_error */15,
             _0: file_name$1,
@@ -736,7 +736,7 @@ function add_loc(loc, exn) {
 }
 
 Stdlib__Printexc.register_printer(function (exn) {
-      if (exn.RE_EXN_ID === Compilation_error) {
+      if (exn.MEL_EXN_ID === Compilation_error) {
         return prepare_error(exn._1);
       }
       
@@ -744,7 +744,7 @@ Stdlib__Printexc.register_printer(function (exn) {
 
 function invalid_default_value(field_name, info, param) {
   throw {
-        RE_EXN_ID: Compilation_error,
+        MEL_EXN_ID: Compilation_error,
         _1: {
           TAG: /* Invalid_default_value */2,
           _0: {
@@ -758,7 +758,7 @@ function invalid_default_value(field_name, info, param) {
 
 function unsupported_field_type(field_name, field_type, backend_name, param) {
   throw {
-        RE_EXN_ID: Compilation_error,
+        MEL_EXN_ID: Compilation_error,
         _1: {
           TAG: /* Unsupported_field_type */3,
           _0: {
@@ -773,7 +773,7 @@ function unsupported_field_type(field_name, field_type, backend_name, param) {
 
 function invalid_enum_specification(enum_name, loc) {
   throw {
-        RE_EXN_ID: Compilation_error,
+        MEL_EXN_ID: Compilation_error,
         _1: {
           TAG: /* Invalid_enum_specification */10,
           _0: enum_name,
@@ -826,7 +826,7 @@ var yytransl_block = [
 var yyact = [
   (function (param) {
       throw {
-            RE_EXN_ID: "Failure",
+            MEL_EXN_ID: "Failure",
             _1: "parser",
             Error: new Error()
           };
@@ -952,7 +952,7 @@ var yyact = [
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       throw {
-            RE_EXN_ID: Compilation_error,
+            MEL_EXN_ID: Compilation_error,
             _1: {
               TAG: /* Invalid_import_qualifier */5,
               _0: _1
@@ -1029,7 +1029,7 @@ var yyact = [
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Compilation_error,
+            MEL_EXN_ID: Compilation_error,
             _1: /* Syntax_error */0,
             Error: new Error()
           };
@@ -1113,7 +1113,7 @@ var yyact = [
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       throw {
-            RE_EXN_ID: Compilation_error,
+            MEL_EXN_ID: Compilation_error,
             _1: {
               TAG: /* Missing_one_of_name */12,
               _0: _1
@@ -1188,7 +1188,7 @@ var yyact = [
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       throw {
-            RE_EXN_ID: Compilation_error,
+            MEL_EXN_ID: Compilation_error,
             _1: {
               TAG: /* Missing_field_label */14,
               _0: _1[0]
@@ -1202,7 +1202,7 @@ var yyact = [
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       throw {
-            RE_EXN_ID: Compilation_error,
+            MEL_EXN_ID: Compilation_error,
             _1: {
               TAG: /* Missing_field_label */14,
               _0: _1[0]
@@ -1275,7 +1275,7 @@ var yyact = [
   (function (__caml_parser_env) {
       var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       throw {
-            RE_EXN_ID: Compilation_error,
+            MEL_EXN_ID: Compilation_error,
             _1: {
               TAG: /* Invalid_field_label */13,
               _0: _1[0]
@@ -1425,7 +1425,7 @@ var yyact = [
       var enum_value = _1[1];
       var loc = _1[0];
       throw {
-            RE_EXN_ID: Compilation_error,
+            MEL_EXN_ID: Compilation_error,
             _1: {
               TAG: /* Missing_semicolon_for_enum_value */9,
               _0: enum_value,
@@ -1465,84 +1465,84 @@ var yyact = [
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            MEL_EXN_ID: Stdlib__Parsing.YYexit,
             _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
@@ -1832,7 +1832,7 @@ function lexer(lexbuf) {
                     _1: "Unknown character found %s"
                   }), Stdlib__Lexing.lexeme(lexbuf));
           throw {
-                RE_EXN_ID: "Failure",
+                MEL_EXN_ID: "Failure",
                 _1: s$1,
                 Error: new Error()
               };
@@ -2133,7 +2133,7 @@ function runtime_function(param) {
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
                   throw {
-                        RE_EXN_ID: "Failure",
+                        MEL_EXN_ID: "Failure",
                         _1: "Invalid encoding/OCaml type combination",
                         Error: new Error()
                       };
@@ -2152,7 +2152,7 @@ function runtime_function(param) {
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
                   throw {
-                        RE_EXN_ID: "Failure",
+                        MEL_EXN_ID: "Failure",
                         _1: "Invalid encoding/OCaml type combination",
                         Error: new Error()
                       };
@@ -2167,7 +2167,7 @@ function runtime_function(param) {
               return "Pbrt.Decoder.string";
             }
             throw {
-                  RE_EXN_ID: "Failure",
+                  MEL_EXN_ID: "Failure",
                   _1: "Invalid encoding/OCaml type combination",
                   Error: new Error()
                 };
@@ -2186,7 +2186,7 @@ function runtime_function(param) {
         case /* Bt_bytes */5 :
         case /* Bt_bool */6 :
             throw {
-                  RE_EXN_ID: "Failure",
+                  MEL_EXN_ID: "Failure",
                   _1: "Invalid encoding/OCaml type combination",
                   Error: new Error()
                 };
@@ -2204,7 +2204,7 @@ function runtime_function(param) {
         case /* Bt_float */1 :
         case /* Bt_bytes */5 :
             throw {
-                  RE_EXN_ID: "Failure",
+                  MEL_EXN_ID: "Failure",
                   _1: "Invalid encoding/OCaml type combination",
                   Error: new Error()
                 };
@@ -2230,7 +2230,7 @@ function runtime_function(param) {
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
                   throw {
-                        RE_EXN_ID: "Failure",
+                        MEL_EXN_ID: "Failure",
                         _1: "Invalid encoding/OCaml type combination",
                         Error: new Error()
                       };
@@ -2249,7 +2249,7 @@ function runtime_function(param) {
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
                   throw {
-                        RE_EXN_ID: "Failure",
+                        MEL_EXN_ID: "Failure",
                         _1: "Invalid encoding/OCaml type combination",
                         Error: new Error()
                       };
@@ -2264,7 +2264,7 @@ function runtime_function(param) {
               return "Pbrt.Encoder.string";
             }
             throw {
-                  RE_EXN_ID: "Failure",
+                  MEL_EXN_ID: "Failure",
                   _1: "Invalid encoding/OCaml type combination",
                   Error: new Error()
                 };
@@ -2283,7 +2283,7 @@ function runtime_function(param) {
         case /* Bt_bytes */5 :
         case /* Bt_bool */6 :
             throw {
-                  RE_EXN_ID: "Failure",
+                  MEL_EXN_ID: "Failure",
                   _1: "Invalid encoding/OCaml type combination",
                   Error: new Error()
                 };
@@ -2301,7 +2301,7 @@ function runtime_function(param) {
         case /* Bt_float */1 :
         case /* Bt_bytes */5 :
             throw {
-                  RE_EXN_ID: "Failure",
+                  MEL_EXN_ID: "Failure",
                   _1: "Invalid encoding/OCaml type combination",
                   Error: new Error()
                 };
@@ -2312,7 +2312,7 @@ function runtime_function(param) {
     }
   } else {
     throw {
-          RE_EXN_ID: "Failure",
+          MEL_EXN_ID: "Failure",
           _1: "Invalid encoding/OCaml type combination",
           Error: new Error()
         };
@@ -3904,13 +3904,13 @@ function bal(l, x, d, r) {
         return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
       }
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "Map.bal",
             Error: new Error()
           };
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Map.bal",
           Error: new Error()
         };
@@ -3936,13 +3936,13 @@ function bal(l, x, d, r) {
       return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Map.bal",
           Error: new Error()
         };
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Map.bal",
         Error: new Error()
       };
@@ -4004,7 +4004,7 @@ function find(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -4049,13 +4049,13 @@ function min_value(param) {
       return Caml_option.some(Caml_obj.caml_min(Caml_option.valFromOption(x), Caml_option.valFromOption(y)));
     }
     throw {
-          RE_EXN_ID: "Failure",
+          MEL_EXN_ID: "Failure",
           _1: "min_value error",
           Error: new Error()
         };
   }
   throw {
-        RE_EXN_ID: "Failure",
+        MEL_EXN_ID: "Failure",
         _1: "min_value error",
         Error: new Error()
       };
@@ -4069,13 +4069,13 @@ function eq_value(param) {
       return Caml_obj.caml_equal(Caml_option.valFromOption(x), Caml_option.valFromOption(y));
     }
     throw {
-          RE_EXN_ID: "Failure",
+          MEL_EXN_ID: "Failure",
           _1: "eq_value error",
           Error: new Error()
         };
   }
   throw {
-        RE_EXN_ID: "Failure",
+        MEL_EXN_ID: "Failure",
         _1: "eq_value error",
         Error: new Error()
       };
@@ -4386,7 +4386,7 @@ function find_field_option(field_options, option_name) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -4467,7 +4467,7 @@ function unresolved_of_string(s) {
           };
   }
   throw {
-        RE_EXN_ID: Compilation_error,
+        MEL_EXN_ID: Compilation_error,
         _1: {
           TAG: /* Programatic_error */4,
           _0: /* Invalid_string_split */0
@@ -4622,7 +4622,7 @@ function get_default(field_name, field_options, field_type) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -4666,7 +4666,7 @@ function not_found(f) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return true;
     }
     throw exn;
@@ -4685,7 +4685,7 @@ function list_assoc2(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -4820,7 +4820,7 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
     } else {
       var previous_field_name = "";
       throw {
-            RE_EXN_ID: Compilation_error,
+            MEL_EXN_ID: Compilation_error,
             _1: {
               TAG: /* Duplicated_field_number */1,
               _0: {
@@ -4956,7 +4956,7 @@ function compile_message_p2(types, param, message) {
         return field_type;
       }
       throw {
-            RE_EXN_ID: Compilation_error,
+            MEL_EXN_ID: Compilation_error,
             _1: {
               TAG: /* Programatic_error */4,
               _0: /* Unexpected_field_type */1
@@ -5026,7 +5026,7 @@ function compile_message_p2(types, param, message) {
             }
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-              if (exn.RE_EXN_ID === Stdlib.Not_found) {
+              if (exn.MEL_EXN_ID === Stdlib.Not_found) {
                 return ;
               }
               throw exn;
@@ -5038,7 +5038,7 @@ function compile_message_p2(types, param, message) {
             };
     } else {
       throw {
-            RE_EXN_ID: Compilation_error,
+            MEL_EXN_ID: Compilation_error,
             _1: {
               TAG: /* Unresolved_type */0,
               _0: {
@@ -6442,7 +6442,7 @@ function record_field_default_info(record_field) {
                     }), vc_constructor, dfvft(vc_field_type._0, undefined)) : vc_constructor;
         } else {
           throw {
-                RE_EXN_ID: "Assert_failure",
+                MEL_EXN_ID: "Assert_failure",
                 _1: [
                   "codegen_default.ml",
                   74,
@@ -6709,7 +6709,7 @@ function gen_default_variant(and_, param, sc) {
                       }), decl, v_name, v_name, vc_constructor, default_value));
   }
   throw {
-        RE_EXN_ID: "Failure",
+        MEL_EXN_ID: "Failure",
         _1: "programmatic TODO error",
         Error: new Error()
       };
@@ -6723,7 +6723,7 @@ function gen_default_const_variant(and_, param, sc) {
     first_constructor_name = cv_constructors.hd[0];
   } else {
     throw {
-          RE_EXN_ID: "Failure",
+          MEL_EXN_ID: "Failure",
           _1: "programmatic TODO error",
           Error: new Error()
         };
@@ -7082,9 +7082,9 @@ function module_of_file_name(file_name) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       throw {
-            RE_EXN_ID: Compilation_error,
+            MEL_EXN_ID: Compilation_error,
             _1: {
               TAG: /* Invalid_file_name */6,
               _0: file_name$1
@@ -7114,7 +7114,7 @@ function type_name(message_scope, name) {
     }
   }
   throw {
-        RE_EXN_ID: "Failure",
+        MEL_EXN_ID: "Failure",
         _1: "Programmatic error",
         Error: new Error()
       };
@@ -7170,7 +7170,7 @@ function encoding_of_field(all_types, field) {
     } else {
       var field_name$1 = field_name(field);
       throw {
-            RE_EXN_ID: Compilation_error,
+            MEL_EXN_ID: Compilation_error,
             _1: {
               TAG: /* Invalid_packed_option */8,
               _0: field_name$1
@@ -7218,9 +7218,9 @@ function compile_field_type(field_name, all_types, file_options, field_options, 
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib.Not_found) {
+      if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         throw {
-              RE_EXN_ID: Compilation_error,
+              MEL_EXN_ID: Compilation_error,
               _1: {
                 TAG: /* Programatic_error */4,
                 _0: /* No_type_found_for_id */2
@@ -7321,7 +7321,7 @@ function is_mutable(field_name, field_options) {
     return match._0;
   }
   throw {
-        RE_EXN_ID: Compilation_error,
+        MEL_EXN_ID: Compilation_error,
         _1: {
           TAG: /* Invalid_mutable_option */11,
           _0: field_name
@@ -7528,7 +7528,7 @@ function compile(proto_definition) {
                                               repeated_type = /* Rt_repeated_field */1;
                                             } else {
                                               throw {
-                                                    RE_EXN_ID: "Failure",
+                                                    MEL_EXN_ID: "Failure",
                                                     _1: "Invalid ocaml_container attribute value",
                                                     Error: new Error()
                                                   };
@@ -7618,7 +7618,7 @@ function compile(proto_definition) {
                                         var key_type$1;
                                         if (typeof key_type === "number") {
                                           throw {
-                                                RE_EXN_ID: "Failure",
+                                                MEL_EXN_ID: "Failure",
                                                 _1: "Only Basic Types are supported for map keys",
                                                 Error: new Error()
                                               };
@@ -7627,7 +7627,7 @@ function compile(proto_definition) {
                                           key_type$1 = key_type._0;
                                         } else {
                                           throw {
-                                                RE_EXN_ID: "Failure",
+                                                MEL_EXN_ID: "Failure",
                                                 _1: "Only Basic Types are supported for map keys",
                                                 Error: new Error()
                                               };
@@ -7652,7 +7652,7 @@ function compile(proto_definition) {
                                             associative_type = /* At_hashtable */1;
                                           } else {
                                             throw {
-                                                  RE_EXN_ID: "Failure",
+                                                  MEL_EXN_ID: "Failure",
                                                   _1: "Invalid ocaml_container attribute value for map",
                                                   Error: new Error()
                                                 };

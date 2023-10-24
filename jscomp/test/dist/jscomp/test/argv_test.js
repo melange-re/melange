@@ -51,7 +51,7 @@ Stdlib__Arg.parse_argv(undefined, [
 
 if (compile.contents !== true) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/argv_test.ml",
           20,
@@ -63,7 +63,7 @@ if (compile.contents !== true) {
 
 if (test.contents !== false) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/argv_test.ml",
           21,

@@ -50,7 +50,7 @@ var u = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(v));
 
 if (Caml_oo_curry.js1(291546447, 1, v) !== 3) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/class_repr.ml",
           28,
@@ -62,7 +62,7 @@ if (Caml_oo_curry.js1(291546447, 1, v) !== 3) {
 
 if (Caml_oo_curry.js1(291546447, 2, u) !== 3) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/class_repr.ml",
           30,
@@ -106,7 +106,7 @@ var v2 = Caml_oo_curry.js1(-977586732, 3, v1);
 
 if (Caml_oo_curry.js1(-804710761, 4, v1) !== 3) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/class_repr.ml",
           42,
@@ -125,7 +125,7 @@ if (typeof Stdlib__Sys.backend_type !== "number" && Stdlib__Sys.backend_type._0 
 
 if (Caml_oo_curry.js1(-804710761, 9, v2) !== 9) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/class_repr.ml",
           57,
@@ -169,7 +169,7 @@ var v$1 = Curry._1(point[0], undefined);
 
 if (Caml_oo_curry.js1(590348294, 10, v$1) !== 5) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/class_repr.ml",
           104,

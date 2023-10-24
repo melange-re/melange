@@ -54,7 +54,7 @@ try {
 }
 catch (raw_exn){
   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  if (exn.RE_EXN_ID === Stdlib.Not_found) {
+  if (exn.MEL_EXN_ID === Stdlib.Not_found) {
     tmp = "Z";
   } else {
     throw exn;

@@ -336,7 +336,7 @@ function uchar_map_of_spec(spec) {
       return ;
     }
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/stdlib_bytes_utf8_test.ml",
             69,
@@ -378,7 +378,7 @@ function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
     var buf = Caml_bytes.caml_create_bytes(utf_len$1);
     if (Curry._3(set_utf, buf, 0, u) !== utf_len$1) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               97,
@@ -389,7 +389,7 @@ function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
     }
     if (!Caml_bytes.caml_bytes_equal(buf, Caml_array.get(utf, u))) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               98,
@@ -400,7 +400,7 @@ function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
     }
     if (!Caml_bytes.caml_bytes_equal(buf, Caml_array.get(utf, u))) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               99,
@@ -412,7 +412,7 @@ function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
     var dec = Curry._2(get_utf, buf, 0);
     if ((dec >>> 27) !== 1) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               101,
@@ -423,7 +423,7 @@ function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
     }
     if (((dec >>> 24) & 7) !== utf_len$1) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               102,
@@ -434,7 +434,7 @@ function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
     }
     if ((dec & 16777215) !== u) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               103,
@@ -445,7 +445,7 @@ function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
     }
     if (!Curry._1(utf_is_valid, buf)) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               104,
@@ -473,7 +473,7 @@ function raises(f) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib.Invalid_argument) {
+    if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
       tmp = true;
     } else {
       throw exn;
@@ -483,7 +483,7 @@ function raises(f) {
     return ;
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/stdlib_bytes_utf8_test.ml",
           124,
@@ -521,7 +521,7 @@ var b = Stdlib__Bytes.make(1, /* '\171' */171);
 
 if (!(Stdlib__Bytes.set_utf_8_uchar(b, 0, Stdlib__Uchar.max) === 0 && Caml_bytes.get(b, 0) === /* '\171' */171)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/stdlib_bytes_utf8_test.ml",
           141,
@@ -533,7 +533,7 @@ if (!(Stdlib__Bytes.set_utf_8_uchar(b, 0, Stdlib__Uchar.max) === 0 && Caml_bytes
 
 if (!(Stdlib__Bytes.set_utf_16be_uchar(b, 0, Stdlib__Uchar.max) === 0 && Caml_bytes.get(b, 0) === /* '\171' */171)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/stdlib_bytes_utf8_test.ml",
           142,
@@ -545,7 +545,7 @@ if (!(Stdlib__Bytes.set_utf_16be_uchar(b, 0, Stdlib__Uchar.max) === 0 && Caml_by
 
 if (!(Stdlib__Bytes.set_utf_16le_uchar(b, 0, Stdlib__Uchar.max) === 0 && Caml_bytes.get(b, 0) === /* '\171' */171)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/stdlib_bytes_utf8_test.ml",
           143,
@@ -566,7 +566,7 @@ Caml_bytes.set(b$1, 1, 0);
 
 if (Stdlib__Bytes.is_valid_utf_8(b$1)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/stdlib_bytes_utf8_test.ml",
           151,
@@ -587,7 +587,7 @@ for(var i = 0 ,i_finish = b$2.length; i < i_finish; ++i){
   if (ok(i)) {
     if ((dec >>> 27) === 1 !== true) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               166,
@@ -598,7 +598,7 @@ for(var i = 0 ,i_finish = b$2.length; i < i_finish; ++i){
     }
     if (((dec >>> 24) & 7) !== 1) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               167,
@@ -609,7 +609,7 @@ for(var i = 0 ,i_finish = b$2.length; i < i_finish; ++i){
     }
     if ((dec & 16777215) !== Stdlib__Uchar.of_int(65)) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               168,
@@ -622,7 +622,7 @@ for(var i = 0 ,i_finish = b$2.length; i < i_finish; ++i){
   } else {
     if ((dec >>> 27) === 1 !== false) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               162,
@@ -633,7 +633,7 @@ for(var i = 0 ,i_finish = b$2.length; i < i_finish; ++i){
     }
     if (((dec >>> 24) & 7) !== 1) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               163,
@@ -644,7 +644,7 @@ for(var i = 0 ,i_finish = b$2.length; i < i_finish; ++i){
     }
     if ((dec & 16777215) !== Stdlib__Uchar.rep) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               164,
@@ -668,7 +668,7 @@ for(var i$1 = 0 ,i_finish$1 = b$3.length; i$1 < i_finish$1; ++i$1){
   if (ok$1(i$1)) {
     if ((dec$1 >>> 27) === 1 !== true) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               179,
@@ -679,7 +679,7 @@ for(var i$1 = 0 ,i_finish$1 = b$3.length; i$1 < i_finish$1; ++i$1){
     }
     if (((dec$1 >>> 24) & 7) !== 1) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               180,
@@ -690,7 +690,7 @@ for(var i$1 = 0 ,i_finish$1 = b$3.length; i$1 < i_finish$1; ++i$1){
     }
     if ((dec$1 & 16777215) !== Stdlib__Uchar.of_int(65)) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               181,
@@ -703,7 +703,7 @@ for(var i$1 = 0 ,i_finish$1 = b$3.length; i$1 < i_finish$1; ++i$1){
   } else {
     if ((dec$1 >>> 27) === 1 !== false) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               175,
@@ -714,7 +714,7 @@ for(var i$1 = 0 ,i_finish$1 = b$3.length; i$1 < i_finish$1; ++i$1){
     }
     if (((dec$1 >>> 24) & 7) !== 1) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               176,
@@ -725,7 +725,7 @@ for(var i$1 = 0 ,i_finish$1 = b$3.length; i$1 < i_finish$1; ++i$1){
     }
     if ((dec$1 & 16777215) !== Stdlib__Uchar.rep) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               177,
@@ -753,7 +753,7 @@ for(var i$2 = 0 ,i_finish$2 = b$4.length; i$2 < i_finish$2; ++i$2){
   if (ok$2(i$2)) {
     if ((dec$2 >>> 27) === 1 !== true) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               192,
@@ -764,7 +764,7 @@ for(var i$2 = 0 ,i_finish$2 = b$4.length; i$2 < i_finish$2; ++i$2){
     }
     if (((dec$2 >>> 24) & 7) !== 1) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               193,
@@ -775,7 +775,7 @@ for(var i$2 = 0 ,i_finish$2 = b$4.length; i$2 < i_finish$2; ++i$2){
     }
     if ((dec$2 & 16777215) !== Caml_bytes.get(b$4, i$2)) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               194,
@@ -788,7 +788,7 @@ for(var i$2 = 0 ,i_finish$2 = b$4.length; i$2 < i_finish$2; ++i$2){
   } else {
     if ((dec$2 >>> 27) === 1 !== false) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               188,
@@ -799,7 +799,7 @@ for(var i$2 = 0 ,i_finish$2 = b$4.length; i$2 < i_finish$2; ++i$2){
     }
     if (((dec$2 >>> 24) & 7) !== 1) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               189,
@@ -810,7 +810,7 @@ for(var i$2 = 0 ,i_finish$2 = b$4.length; i$2 < i_finish$2; ++i$2){
     }
     if ((dec$2 & 16777215) !== Stdlib__Uchar.rep) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/stdlib_bytes_utf8_test.ml",
               190,
@@ -829,7 +829,7 @@ var d0 = Stdlib__Bytes.get_utf_8_uchar(b$5, 0);
 
 if ((d0 >>> 27) === 1 !== false) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/stdlib_bytes_utf8_test.ml",
           199,
@@ -841,7 +841,7 @@ if ((d0 >>> 27) === 1 !== false) {
 
 if (((d0 >>> 24) & 7) !== 2) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/stdlib_bytes_utf8_test.ml",
           200,
@@ -853,7 +853,7 @@ if (((d0 >>> 24) & 7) !== 2) {
 
 if ((d0 & 16777215) !== Stdlib__Uchar.rep) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/stdlib_bytes_utf8_test.ml",
           201,
@@ -867,7 +867,7 @@ var d2 = Stdlib__Bytes.get_utf_8_uchar(b$5, 2);
 
 if ((d2 >>> 27) === 1 !== false) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/stdlib_bytes_utf8_test.ml",
           203,
@@ -879,7 +879,7 @@ if ((d2 >>> 27) === 1 !== false) {
 
 if (((d2 >>> 24) & 7) !== 1) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/stdlib_bytes_utf8_test.ml",
           204,
@@ -891,7 +891,7 @@ if (((d2 >>> 24) & 7) !== 1) {
 
 if ((d2 & 16777215) !== Stdlib__Uchar.rep) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/stdlib_bytes_utf8_test.ml",
           205,
@@ -905,7 +905,7 @@ var d3 = Stdlib__Bytes.get_utf_8_uchar(b$5, 3);
 
 if ((d3 >>> 27) === 1 !== false) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/stdlib_bytes_utf8_test.ml",
           207,
@@ -917,7 +917,7 @@ if ((d3 >>> 27) === 1 !== false) {
 
 if (((d3 >>> 24) & 7) !== 3) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/stdlib_bytes_utf8_test.ml",
           208,
@@ -929,7 +929,7 @@ if (((d3 >>> 24) & 7) !== 3) {
 
 if ((d3 & 16777215) !== Stdlib__Uchar.rep) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/stdlib_bytes_utf8_test.ml",
           209,
@@ -943,7 +943,7 @@ var d6 = Stdlib__Bytes.get_utf_8_uchar(b$5, 6);
 
 if ((d6 >>> 27) === 1 !== false) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/stdlib_bytes_utf8_test.ml",
           211,
@@ -955,7 +955,7 @@ if ((d6 >>> 27) === 1 !== false) {
 
 if (((d6 >>> 24) & 7) !== 2) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/stdlib_bytes_utf8_test.ml",
           212,
@@ -967,7 +967,7 @@ if (((d6 >>> 24) & 7) !== 2) {
 
 if ((d6 & 16777215) !== Stdlib__Uchar.rep) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/stdlib_bytes_utf8_test.ml",
           213,
@@ -981,7 +981,7 @@ var d8 = Stdlib__Bytes.get_utf_8_uchar(b$5, 8);
 
 if (((d8 >>> 24) & 7) !== 1) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/stdlib_bytes_utf8_test.ml",
           215,
@@ -993,7 +993,7 @@ if (((d8 >>> 24) & 7) !== 1) {
 
 if ((d8 & 16777215) !== Stdlib__Uchar.of_int(65)) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/stdlib_bytes_utf8_test.ml",
           216,

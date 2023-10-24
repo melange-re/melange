@@ -60,13 +60,13 @@ function bal(l, x, d, r) {
         return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
       }
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            MEL_EXN_ID: "Invalid_argument",
             _1: "Map.bal",
             Error: new Error()
           };
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Map.bal",
           Error: new Error()
         };
@@ -92,13 +92,13 @@ function bal(l, x, d, r) {
       return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          MEL_EXN_ID: "Invalid_argument",
           _1: "Map.bal",
           Error: new Error()
         };
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Map.bal",
         Error: new Error()
       };
@@ -168,7 +168,7 @@ function find(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -208,7 +208,7 @@ function find_first(f, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -285,7 +285,7 @@ function find_last(f, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -373,7 +373,7 @@ function min_binding(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -411,7 +411,7 @@ function max_binding(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -444,7 +444,7 @@ function remove_min_binding(param) {
     }
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Map.remove_min_elt",
         Error: new Error()
       };
@@ -759,7 +759,7 @@ function merge$1(f, s1, s2) {
     return concat_or_join(merge$1(f, match$1[0], s2.l), v2, Curry._3(f, v2, match$1[1], Caml_option.some(s2.d)), merge$1(f, match$1[2], s2.r));
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/stdlib/map.ml",
           408,

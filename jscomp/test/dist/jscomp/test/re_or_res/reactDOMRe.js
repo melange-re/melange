@@ -71,7 +71,7 @@ function hydrateToElementWithId(reactElement, id) {
   var element = document.getElementById(id);
   if (element == null) {
     throw {
-          RE_EXN_ID: Stdlib.Invalid_argument,
+          MEL_EXN_ID: Stdlib.Invalid_argument,
           _1: "ReactDOMRe.hydrateToElementWithId : no element of id " + (id + " found in the HTML."),
           Error: new Error()
         };

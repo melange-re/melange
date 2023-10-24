@@ -16,7 +16,7 @@ function find_package_json(_dir) {
     var new_dir = Path.dirname(dir);
     if (new_dir === dir) {
       throw {
-            RE_EXN_ID: Stdlib.Not_found,
+            MEL_EXN_ID: Stdlib.Not_found,
             Error: new Error()
           };
     }

@@ -12,7 +12,7 @@ try {
 }
 catch (raw_exn){
   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  if (exn.RE_EXN_ID === Stdlib.Invalid_argument) {
+  if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
     console.log(exn._1);
     hh = /* 'a' */97;
   } else {

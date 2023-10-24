@@ -50,7 +50,7 @@ function compare(context, state, _a, _b) {
                 break;
             case /* Frac */4 :
                 throw {
-                      RE_EXN_ID: "Assert_failure",
+                      MEL_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/gpr_1698_test.ml",
                         45,
@@ -76,7 +76,7 @@ function compare(context, state, _a, _b) {
           switch (b.TAG | 0) {
             case /* Val */0 :
                 throw {
-                      RE_EXN_ID: "Assert_failure",
+                      MEL_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/gpr_1698_test.ml",
                         45,

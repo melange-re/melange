@@ -50,7 +50,7 @@ function convertPropsIfTheyreFromJs(props, jsPropsToReason, debugName) {
           };
   }
   throw {
-        RE_EXN_ID: Stdlib.Invalid_argument,
+        MEL_EXN_ID: Stdlib.Invalid_argument,
         _1: "A JS component called the Reason component " + (debugName + " which didn't implement the JS->Reason React props conversion."),
         Error: new Error()
       };

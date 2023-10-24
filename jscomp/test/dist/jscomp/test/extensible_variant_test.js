@@ -15,17 +15,17 @@ var N = {
 var Int$1 = /* @__PURE__ */Caml_exceptions.create("Extensible_variant_test.Int");
 
 function to_int(x) {
-  if (x.RE_EXN_ID === Str) {
+  if (x.MEL_EXN_ID === Str) {
     return -1;
   }
-  if (x.RE_EXN_ID === Int) {
+  if (x.MEL_EXN_ID === Int) {
     return x._1;
   }
-  if (x.RE_EXN_ID === Int$1) {
+  if (x.MEL_EXN_ID === Int$1) {
     return x._2;
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/extensible_variant_test.ml",
           16,
@@ -42,7 +42,7 @@ var suites_0 = [
               TAG: /* Eq */0,
               _0: 3,
               _1: to_int({
-                    RE_EXN_ID: Int,
+                    MEL_EXN_ID: Int,
                     _1: 3,
                     _2: 0
                   })
@@ -58,7 +58,7 @@ var suites_1 = {
                 TAG: /* Eq */0,
                 _0: 0,
                 _1: to_int({
-                      RE_EXN_ID: Int$1,
+                      MEL_EXN_ID: Int$1,
                       _1: 3,
                       _2: 0
                     })
@@ -73,7 +73,7 @@ var suites_1 = {
                   TAG: /* Eq */0,
                   _0: -1,
                   _1: to_int({
-                        RE_EXN_ID: Str,
+                        MEL_EXN_ID: Str,
                         _1: "x"
                       })
                 };

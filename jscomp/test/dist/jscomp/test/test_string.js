@@ -12,7 +12,7 @@ function f(param) {
         return 1;
     default:
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/test_string.ml",
               4,

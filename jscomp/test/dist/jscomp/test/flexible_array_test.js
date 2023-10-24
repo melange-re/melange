@@ -26,7 +26,7 @@ function sub(_tr, _k) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib.Not_found,
+          MEL_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -66,7 +66,7 @@ function update(tr, k, w) {
           };
   }
   throw {
-        RE_EXN_ID: Stdlib.Not_found,
+        MEL_EXN_ID: Stdlib.Not_found,
         Error: new Error()
       };
 }
@@ -94,7 +94,7 @@ function $$delete(tr, n) {
     }
   }
   throw {
-        RE_EXN_ID: Stdlib.Not_found,
+        MEL_EXN_ID: Stdlib.Not_found,
         Error: new Error()
       };
 }
@@ -129,7 +129,7 @@ function lorem(tr) {
       return /* Lf */0;
     }
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/flexible_array_test.ml",
             66,
@@ -139,7 +139,7 @@ function lorem(tr) {
         };
   }
   throw {
-        RE_EXN_ID: Stdlib.Not_found,
+        MEL_EXN_ID: Stdlib.Not_found,
         Error: new Error()
       };
 }
@@ -158,7 +158,7 @@ function get(param, i) {
     return sub(param[0], i + 1 | 0);
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Array.get",
         Error: new Error()
       };
@@ -173,7 +173,7 @@ function set(param, i, v) {
           ];
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Array.set",
         Error: new Error()
       };
@@ -195,7 +195,7 @@ function pop_front(param) {
           ];
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Array.pop_front",
         Error: new Error()
       };
@@ -218,7 +218,7 @@ function pop_back(param) {
           ];
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        MEL_EXN_ID: "Invalid_argument",
         _1: "Array.pop_back",
         Error: new Error()
       };
@@ -327,7 +327,7 @@ if (!Caml_obj.caml_equal(x, of_array([
             6
           ]))) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/flexible_array_test.ml",
           166,
