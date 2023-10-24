@@ -247,7 +247,7 @@ let iter_process_bs_string_or_int_as (attrs : Parsetree.attributes) =
                       (match
                          Classify_function.classify
                            ~check:
-                             (pexp_loc, Bs_flow_ast_utils.flow_deli_offset dec)
+                             (pexp_loc, Mel_flow_ast_utils.flow_deli_offset dec)
                            s
                        with
                       | Js_literal _ -> ()
