@@ -2,7 +2,7 @@
  (public_name melc)
  (package melange)
  (flags :standard -open Melange_compiler_libs)
- (libraries js_parser ext common melange_compiler_libs core cmdliner)
+ (libraries js_parser ext common melange_compiler_libs melangelib cmdliner)
  (modules melc melc_cli)
  (preprocess
   (action
@@ -21,7 +21,7 @@
  (modules jsoo_main jsoo_common)
  (modes byte js)
  (libraries
-  core
+  melangelib
   js_of_ocaml-compiler.runtime
   melange.dom
   melange.ppx
