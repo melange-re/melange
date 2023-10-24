@@ -41,6 +41,7 @@ let set_abs_input_name sourcefile =
 
 let process_file sourcefile
   ?(kind ) ppf =
+  let open Melangelib in
   (* This is a better default then "", it will be changed later
      The {!Location.input_name} relies on that we write the binary ast
      properly
@@ -74,6 +75,8 @@ let process_file sourcefile
 let ppf = Format.err_formatter
 
 module As_ppx = struct
+  open Melangelib
+
   let apply: 'a. kind:'a Ml_binary.kind -> 'a -> 'a = fun ~kind ast ->
     Clflags.all_ppx := [ "melppx" ];
     Cmd_ppx_apply.apply_rewriters ~tool_name:"melppx" kind ast
@@ -171,7 +174,7 @@ let clean tmpfile =
   if not !Clflags.verbose then try Sys.remove tmpfile with _ -> ()
 
 let eval (s : string) =
-  let tmpfile = Filename.temp_file "eval" Artifact_extension.ml in
+  let tmpfile = Filename.temp_file "eval" Melangelib.Artifact_extension.ml in
   let oc = (open_out_bin tmpfile) in
   Fun.protect
     ~finally:(fun () -> close_out oc)
@@ -262,6 +265,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       filenames;
       help
     } ->
+  let open Melangelib in
   if help then `Help (`Auto, None)
   else begin try
     Clflags.include_dirs :=
@@ -414,7 +418,7 @@ let file_level_flags_handler (e : Parsetree.expression option) =
     Location.raise_errorf ~loc:e.pexp_loc "string array expected"
 
 let () =
-  Initialization.Global.run ();
+  Melangelib.Initialization.Global.run ();
   let flags = "flags" in
   Ast_config.add_structure
     flags file_level_flags_handler;

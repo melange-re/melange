@@ -1,6 +1,5 @@
 (library
- (name core)
- (wrapped false)
+ (name melangelib)
  (flags
   (:standard -open Melange_compiler_libs))
  (libraries ext common melange_compiler_libs ppxlib.ast))
