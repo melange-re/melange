@@ -1,5 +1,3 @@
-(include_subdirs unqualified)
-
 (library
  (name ext)
  (package melange)
@@ -22,11 +20,11 @@
 
 (rule
  (targets js_reserved_map.ml)
- (deps gen/build_reserved.ml ./gen/keywords.list)
+ (deps ./gen/keywords.list)
  (action
   (with-stdout-to
    %{targets}
-   (run ocaml %{deps}))))
+   (run ./gen/build_reserved.exe %{deps}))))
 
 (rule
  (targets hash_set_string.ml)
