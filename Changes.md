@@ -2,7 +2,8 @@ Unreleased
 ---------------
 
 - Remove `Belt` as a dependency of `Stdlib`
-  ([#796](https://github.com/melange-re/melange/pull/796))
+  ([#796](https://github.com/melange-re/melange/pull/796),
+  [#797](https://github.com/melange-re/melange/pull/797))
 - Melange Runtime / Stdlib: remove deprecated modules and functions:
     - `Js.List`: use `Stdlib.List` or `Belt.List` instead;
     - `Js.Null_undefined`: use `Js.Nullable` instead;

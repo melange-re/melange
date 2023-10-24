@@ -40,7 +40,7 @@ buildDunePackage {
 
   postInstall = ''
     wrapProgram "$out/bin/melc" \
-      --set MELANGELIB "$OCAMLFIND_DESTDIR/melange/melange:$OCAMLFIND_DESTDIR/melange/js/melange:$OCAMLFIND_DESTDIR/melange/belt/melange"
+      --set MELANGELIB "$OCAMLFIND_DESTDIR/melange/melange:$OCAMLFIND_DESTDIR/melange/js/melange"
   '';
 
   doCheck = true;
