@@ -11,7 +11,7 @@ external min_int : int -> int -> int = "min"  [@@mel.scope "Math"]
        return Math.min(x,y)
      }
    ]}
-   There are other things like [@bs.send] which does not like eta reduction
+   There are other things like [@mel.send] which does not like eta reduction
 
 *)
 let min_int = min_int

@@ -58,7 +58,7 @@ let test5 f x =
 let test6 f x =
   Js.log "no inline";
   let x = ref 3 in
-  mangle ?_open:(incr x ; Some !x) ?xx__hi:(f x [@bs]) ~hi:2 ()
+  mangle ?_open:(incr x ; Some !x) ?xx__hi:(f x [@u]) ~hi:2 ()
 
 
 let keys xs ys =

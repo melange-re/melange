@@ -28,18 +28,13 @@
   $ cat > x.ml <<EOF
   > external err :
   >   ?hi_should_error:([\`a of int | \`b of string ] [@mel.string]) ->
-  >   unit -> unit = "err" [@@mel.val]
+  >   unit -> unit = "err"
   > EOF
   $ melc -ppx melppx x.ml
-  File "x.ml", line 3, characters 26-33:
-  3 |   unit -> unit = "err" [@@mel.val]
-                                ^^^^^^^
-  Alert deprecated: `[@mel.val]' attributes are redundant and will be removed in the next release.
-  Consider removing them from any external declarations.
-  File "x.ml", lines 1-3, characters 0-34:
+  File "x.ml", lines 1-3, characters 0-22:
   1 | external err :
   2 |   ?hi_should_error:([`a of int | `b of string ] [@mel.string]) ->
-  3 |   unit -> unit = "err" [@@mel.val]
+  3 |   unit -> unit = "err"
   Error: @mel.string does not work with optional when it has arities in label
          hi_should_error
   [2]
@@ -49,14 +44,9 @@ Each [@mel.unwrap] variant constructor requires an argument
   $ cat > x.ml <<EOF
   > external err :
   >   ?hi_should_error:([\`a of int | \`b] [@mel.unwrap]) ->
-  >   unit -> unit = "err" [@@mel.val]
+  >   unit -> unit = "err"
   > EOF
   $ melc -ppx melppx x.ml
-  File "x.ml", line 3, characters 26-33:
-  3 |   unit -> unit = "err" [@@mel.val]
-                                ^^^^^^^
-  Alert deprecated: `[@mel.val]' attributes are redundant and will be removed in the next release.
-  Consider removing them from any external declarations.
   File "x.ml", line 2, characters 20-36:
   2 |   ?hi_should_error:([`a of int | `b] [@mel.unwrap]) ->
                           ^^^^^^^^^^^^^^^^

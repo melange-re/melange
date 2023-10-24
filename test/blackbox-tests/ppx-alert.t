@@ -9,18 +9,18 @@
   > (melange.emit
   >  (target out)
   >  (emit_stdlib false)
-  >  (preprocess (pps melange.ppx -alert -deprecated)))
+  >  (preprocess (pps melange.ppx)))
   > EOF
 
   $ cat > x.ml <<EOF
-  > external mk : int -> ([ \`a | \`b ][@bs.string]) = "" [@@bs.val]
+  > external mk : int -> ([ \`a | \`b ][@mel.string]) = ""
   > EOF
 
 Alerts enabled
 
   $ dune build @melange 2>&1 | grep Alert
   Alert fragile: mk : the external name is inferred from val name is unsafe from refactoring when changing value name
-  Alert unused: Unused attribute [@bs.string]
+  Alert unused: Unused attribute [@mel.string]
 
 
 Disabling alerts with `-alert -[ALERT_NAME]`
@@ -29,7 +29,7 @@ Disabling alerts with `-alert -[ALERT_NAME]`
   > (melange.emit
   >  (target out)
   >  (emit_stdlib false)
-  >  (preprocess (pps melange.ppx -alert -unused -alert -fragile -alert -deprecated)))
+  >  (preprocess (pps melange.ppx -alert -unused -alert -fragile)))
   > EOF
 
   $ dune build @melange

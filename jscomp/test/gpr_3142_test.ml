@@ -4,10 +4,10 @@ let eq loc x y = Mt.eq_suites ~test_id ~suites loc x y
 
 
 type t =
-  [ `a [@bs.as "x"]
-  | `u [@bs.as "hi"]
-  | `b [@bs.as {j|你|j} ]
-  | `c [@bs.as {js|我|js}]
+  [ `a [@mel.as "x"]
+  | `u [@mel.as "hi"]
+  | `b [@mel.as {j|你|j} ]
+  | `c [@mel.as {js|我|js}]
   ]
   [@@deriving jsConverter]
 

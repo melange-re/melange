@@ -4,14 +4,14 @@
   >   external mk : int ->
   > (
   >   [\`a|\`b]
-  >    [@bs.string]
-  > ) = "mk" [@@bs.val]
+  >    [@mel.string]
+  > ) = "mk"
   > EOF
-  $ melc -ppx 'melppx -alert -deprecated' x.ml
-  File "x.ml", line 4, characters 5-14:
-  4 |    [@bs.string]
-           ^^^^^^^^^
-  Alert unused: Unused attribute [@bs.string]
+  $ melc -ppx melppx x.ml
+  File "x.ml", line 4, characters 5-15:
+  4 |    [@mel.string]
+           ^^^^^^^^^^
+  Alert unused: Unused attribute [@mel.string]
   This means such annotation is not annotated properly.
   For example, some annotations are only meaningful in externals
   

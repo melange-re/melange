@@ -1,6 +1,6 @@
 type orientation = [
- | `Horizontal[@bs.as "horizontal"]
- | `Vertical  [@bs.as "vertical"]
+ | `Horizontal[@mel.as "horizontal"]
+ | `Vertical  [@mel.as "vertical"]
 ] [@@deriving jsConverter]
 
 

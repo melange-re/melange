@@ -1,10 +1,10 @@
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0
-let eq loc x y = Mt.eq_suites ~test_id ~suites loc x y 
+let eq loc x y = Mt.eq_suites ~test_id ~suites loc x y
 
-module H = Inline_const.N1 (struct end)
+module H = Inline_const.N1 ()
 
-let f , 
+let f ,
     f1 ,
     f2,
     f3,
@@ -12,7 +12,7 @@ let f ,
     f5,
     f6,
     f7
-    = 
+    =
 
   Inline_const.(
     f ,
@@ -25,7 +25,7 @@ let f ,
     H.xx
   )
 
-let () =   
+let () =
   eq __LOC__ f "hello";
   eq __LOC__ f1 "a";
   eq __LOC__ f2 {j|中文|j};
@@ -35,9 +35,9 @@ let () =
   eq __LOC__ f6 1 ;
   eq __LOC__ f7 0.000003
 
-let h = 
+let h =
   let open Inline_const in
   Int64.add (Int64.add v  Int64.one) u
-  
-let () =   
+
+let () =
   Mt.from_pair_suites __LOC__ !suites

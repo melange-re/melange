@@ -1,6 +1,6 @@
 
   $ cat > foo.ml <<EOF
-  > [@@@bs.config {flags = [| "-unsafe"; "-nopervasives" |] }]
+  > [@@@mel.config {flags = [| "-unsafe"; "-nopervasives" |] }]
   > let x = 1
   > EOF
 

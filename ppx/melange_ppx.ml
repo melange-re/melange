@@ -76,10 +76,7 @@ module Raw = struct
   let stru_rule =
     let rule label =
       let extractor = Ast_pattern.__' in
-      let handler ~(ctxt : Expansion_context.Extension.t) { loc; txt = payload }
-          =
-        let ext_loc = Expansion_context.Extension.extension_point_loc ctxt in
-        Ast_attributes.warn_if_bs ~loc:ext_loc label;
+      let handler ~ctxt:_ { loc; txt = payload } =
         Ast_extensions.handle_raw_structure loc payload
       in
       let extender =
@@ -93,7 +90,6 @@ module Raw = struct
     let rule label =
       let extractor = Ast_pattern.__' in
       let handler ~ctxt:_ { loc; txt = payload } =
-        Ast_attributes.warn_if_bs ~loc label;
         Ast_extensions.handle_raw ~kind:Raw_exp loc payload
       in
       let extender = Extension.V3.declare label Expression extractor handler in
@@ -355,8 +351,8 @@ module Mapper = struct
       match attrs with
       | [ _ ] -> ()
       | _ ->
-          Bs_ast_invariant.mark_used_bs_attribute attr;
-          Bs_ast_invariant.warn_discarded_unused_attributes attrs
+          Mel_ast_invariant.mark_used_mel_attribute attr;
+          Mel_ast_invariant.warn_discarded_unused_attributes attrs
     in
     object (self)
       inherit Ppxlib.Ast_traverse.map as super
@@ -588,7 +584,7 @@ module Mapper = struct
             let pvb_pat, pval_name =
               match Ast_attributes.has_mel_as_payload pvb_attributes with
               | Some ({ attr_payload; _ } as attr) ->
-                  Bs_ast_invariant.mark_used_bs_attribute attr;
+                  Mel_ast_invariant.mark_used_mel_attribute attr;
                   let pval_name =
                     {
                       txt =
@@ -705,12 +701,8 @@ module Mapper = struct
                   (r, Ast_tuple_pattern_flatten.value_bindings_mapper self vbs);
             }
         | Pstr_attribute
-            ({
-               (* TODO: remove support for bs.* *)
-               attr_name = { txt = "bs.config" | "mel.config" | "config"; _ };
-               _;
-             } as attr) ->
-            Bs_ast_invariant.mark_used_bs_attribute attr;
+            ({ attr_name = { txt = "mel.config" | "config"; _ }; _ } as attr) ->
+            Mel_ast_invariant.mark_used_mel_attribute attr;
             str
         | _ -> super#structure_item str
 
@@ -727,7 +719,7 @@ module Mapper = struct
             let value_desc =
               match Ast_attributes.has_mel_as_payload pval_attributes with
               | Some ({ attr_payload; _ } as attr) ->
-                  Bs_ast_invariant.mark_used_bs_attribute attr;
+                  Mel_ast_invariant.mark_used_mel_attribute attr;
                   {
                     value_desc_orig with
                     pval_name =
@@ -849,12 +841,8 @@ module Mapper = struct
                           };
                     })
         | Psig_attribute
-            ({
-               (* TODO: remove support for bs.* *)
-               attr_name = { txt = "bs.config" | "mel.config" | "config"; _ };
-               _;
-             } as attr) ->
-            Bs_ast_invariant.mark_used_bs_attribute attr;
+            ({ attr_name = { txt = "mel.config" | "config"; _ }; _ } as attr) ->
+            Mel_ast_invariant.mark_used_mel_attribute attr;
             sigi
         | _ -> super#signature_item sigi
     end
@@ -940,11 +928,11 @@ let () =
       let input_name = Expansion_context.Base.input_name ctxt in
       Ocaml_common.Location.input_name := input_name;
       let ast = Mapper.mapper#structure str in
-      Bs_ast_invariant.emit_external_warnings_on_structure ast;
+      Mel_ast_invariant.emit_external_warnings_on_structure ast;
       ast)
     ~intf:(fun ctxt sig_ ->
       let input_name = Expansion_context.Base.input_name ctxt in
       Ocaml_common.Location.input_name := input_name;
       let ast = Mapper.mapper#signature sig_ in
-      Bs_ast_invariant.emit_external_warnings_on_signature ast;
+      Mel_ast_invariant.emit_external_warnings_on_signature ast;
       ast)

@@ -1,7 +1,7 @@
 let structural_obj =
   [%mel.obj { x = [%obj{ y = [%obj{ z = 3 }]}]} ]
 (* compiler inferred type :
-  val structural_obj : < x : < y : < z : int >  >  > [@bs.obj] *)
+  val structural_obj : < x : < y : < z : int >  >  > [@mel.obj] *)
 
 type 'a x = {x : 'a }
 type 'a y = {y : 'a}

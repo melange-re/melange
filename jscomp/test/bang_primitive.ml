@@ -1,5 +1,3 @@
-
-
 (*
 external log : 'a -> unit = "#console.log"
 
@@ -36,7 +34,7 @@ let f x y = append x y
 *)
 
 external of_small_int_array :
-    (_ [@bs.as {json|null|json}] ) ->
+    (_ [@mel.as {json|null|json}] ) ->
     int array -> string =
     "String.fromCharCode.apply"
 
@@ -45,4 +43,3 @@ external of_small_int_array :
 
 let f x y =
   of_small_int_array x, 0
-

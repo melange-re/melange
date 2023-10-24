@@ -17,7 +17,7 @@ Demonstrate usage of `--preamble`
   /* No side effect */
 
   $ cat > x.ml <<EOF
-  > [@@@bs.config { flags = [| "--preamble"; "\"use client\";" |] }]
+  > [@@@mel.config { flags = [| "--preamble"; "\"use client\";" |] }]
   > let x = 1
   > EOF
   $ melc x.ml

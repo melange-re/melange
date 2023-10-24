@@ -60,7 +60,7 @@ let flattern_tuple_pattern_vb (self : Ast_traverse.map)
       match Ast_open_cxt.destruct_open_tuple pvb_expr [] with
       | Some (wholes, es, tuple_attributes)
         when List.for_all is_simple_pattern xs && same_length es xs ->
-          Bs_ast_invariant.warn_discarded_unused_attributes tuple_attributes;
+          Mel_ast_invariant.warn_discarded_unused_attributes tuple_attributes;
           (* will be dropped*)
           List.fold_right2
             (fun pat exp acc ->
