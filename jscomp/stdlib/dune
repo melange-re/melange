@@ -32,7 +32,7 @@
  (modes melange)
  (preprocess
   (pps melange.ppx))
- (libraries melange.js melange.belt)
+ (libraries melange.js)
  (stdlib
   (modules_before_stdlib CamlinternalFormatBasics CamlinternalAtomic)
   (internal_modules Camlinternal*))

@@ -96,26 +96,14 @@ let public_method_label s : tag =
 (**** Sparse array ****)
 
 module Vars =
-#ifdef BS
-  Belt.Map.String
-#else
   Map.Make(struct type t = string let compare (x:t) y = compare x y end)
-#endif
 type vars = int Vars.t
 
 module Meths =
-#ifdef BS
-  Belt.Map.String
-#else
   Map.Make(struct type t = string let compare (x:t) y = compare x y end)
-#endif
 type meths = label Meths.t
 module Labs =
-#ifdef BS
-  Belt.Map.Int
-#else
   Map.Make(struct type t = label let compare (x:t) y = compare x y end)
-#endif
 type labs = bool Labs.t
 
 (* The compiler assumes that the first field of this structure is [size]. *)
@@ -196,16 +184,6 @@ let new_method table =
   index
 
 let get_method_label table name =
-#ifdef BS
-    match Js.undefinedToOption (Meths.getUndefined table.methods_by_name name)
-    with
-    | Some x -> x
-    | None ->
-      let label = new_method table in
-      table.methods_by_name <- Meths.set  table.methods_by_name name label;
-      table.methods_by_label <- Labs.set  table.methods_by_label label true;
-      label
-#else
   try
     Meths.find name table.methods_by_name
   with Not_found ->
@@ -213,7 +191,6 @@ let get_method_label table name =
     table.methods_by_name <- Meths.add name label table.methods_by_name;
     table.methods_by_label <- Labs.add label true table.methods_by_label;
     label
-#endif
 
 let get_method_labels table names =
   Array.map (get_method_label table) names
@@ -221,11 +198,7 @@ let get_method_labels table names =
 let set_method table label element =
   incr method_count;
   if
-#ifdef BS
-    Labs.getExn table.methods_by_label label
-#else
   Labs.find label table.methods_by_label
-#endif
   then
     put table label element
   else
@@ -249,31 +222,12 @@ let narrow table vars virt_meths concr_meths =
       table.vars, virt_meth_labs, vars)
      :: table.previous_states;
   table.vars <-
-#ifdef BS
-     Vars.reduceU table.vars Vars.empty
-      (fun[@u] tvars lab info  ->
-        if List.mem lab vars then Vars.set tvars lab info  else tvars);
-#else
     Vars.fold
       (fun lab info tvars ->
         if List.mem lab vars then Vars.add lab info tvars else tvars)
       table.vars Vars.empty;
-#endif
   let by_name = ref Meths.empty in
   let by_label = ref Labs.empty in
-#ifdef BS
-  List.iter2 (fun met label ->
-     by_name := Meths.set !by_name met label;
-     by_label :=
-          Labs.set !by_label label
-            (Labs.getWithDefault table.methods_by_label label true)
-  ) concr_meths concr_meth_labs;
-  List.iter2
-    (fun met label ->
-      by_name := Meths.set !by_name met label;
-      by_label := Labs.set !by_label label false;
-    ) virt_meths virt_meth_labs;
-#else
   List.iter2
     (fun met label ->
        by_name := Meths.add met label !by_name;
@@ -287,7 +241,6 @@ let narrow table vars virt_meths concr_meths =
        by_name := Meths.add met label !by_name;
        by_label := Labs.add label false !by_label)
     virt_meths virt_meth_labs;
-#endif
   table.methods_by_name <- !by_name;
   table.methods_by_label <- !by_label;
   table.hidden_meths <-
@@ -304,11 +257,7 @@ let widen table =
   table.previous_states <- List.tl table.previous_states;
   table.vars <-
      List.fold_left
-#ifdef BS
-       (fun s v -> Vars.set s v (Vars.getExn table.vars v))
-#else
        (fun s v -> Vars.add v (Vars.find v table.vars) s)
-#endif
        saved_vars vars;
   table.methods_by_name <- by_name;
   table.methods_by_label <- by_label;
@@ -325,20 +274,11 @@ let new_slot table =
   index
 
 let new_variable table name =
-#ifdef BS
-    match Js.undefinedToOption (Vars.getUndefined table.vars name : int Js.undefined)  with
-    | Some x -> x
-    | None ->
-      let index = new_slot table in
-      if name <> "" then table.vars <- Vars.set table.vars name index ;
-      index
-#else
   try Vars.find name table.vars
   with Not_found ->
     let index = new_slot table in
     if name <> "" then table.vars <- Vars.add name index table.vars;
     index
-#endif
 
 let to_array arr =
   if arr = Obj.magic 0 then [||] else arr
@@ -357,11 +297,7 @@ let new_methods_variables table meths vals =
 
 let get_variable table name =
   try
-#ifdef BS
-    (Vars.getExn table.vars name)
-#else
     Vars.find name table.vars
-#endif
   with Not_found -> assert false
 
 let get_variables table names =
@@ -389,13 +325,8 @@ let create_table public_methods =
   Array.iteri
     (fun i met ->
       let lab = i*2+2 in
-#ifdef BS
-      table.methods_by_name  <- Meths.set table.methods_by_name met lab ;
-      table.methods_by_label <- Labs.set table.methods_by_label lab true )
-#else
       table.methods_by_name  <- Meths.add met lab table.methods_by_name;
       table.methods_by_label <- Labs.add lab true table.methods_by_label)
-#endif
     public_methods;
   table
 

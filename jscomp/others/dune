@@ -4,7 +4,7 @@
  (public_name melange.belt)
  (preprocess
   (pps melange.ppx -unsafe))
- (libraries melange.js)
+ (libraries melange)
  (modules
   :standard
   \
