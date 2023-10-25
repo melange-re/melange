@@ -31,18 +31,6 @@ val split_by : ?keep_empty:bool -> (char -> bool) -> string -> string list
 val split : ?keep_empty:bool -> string -> char -> string list
 (** default is false *)
 
-val ends_with_char : string -> char -> bool
-
-val ends_with_then_chop : string -> string -> string option
-(**
-  [ends_with_then_chop name ext]
-   {[
-     ends_with_then_chop "a.cmj" ".cmj"
-     "a"
-   ]}
-   This is useful in controlled or file case sensitve system
-*)
-
 val for_all_from : string -> int -> (char -> bool) -> bool
 (**
   [for_all_from  s start p]
@@ -59,11 +47,3 @@ val tail_from : string -> int -> string
 
 val rindex_neg : string -> char -> int
 (** returns negative number if not found *)
-
-val replace_slash_backward : string -> string
-(** if no conversion happens, reference equality holds *)
-
-val replace_backward_slash : string -> string
-(** if no conversion happens, reference equality holds *)
-
-val capitalize_sub : string -> int -> string

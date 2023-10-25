@@ -237,8 +237,6 @@ in
 #ifndef BS_RELEASE_BUILD
 let () = Ext_log.dwarn ~__POS__ "\n@[[TIME:]Post-compile: %f@]@."  (Sys.time () *. 1000.) in
 #endif
-(* The file is not big at all compared with [cmo] *)
-(* Ext_marshal.to_file (Ext_path.chop_extension filename ^ ".mj")  js; *)
 let meta_exports = meta.exports in
 let export_set = Set_ident.of_list meta_exports in
 let js : J.program =

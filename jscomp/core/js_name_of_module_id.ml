@@ -28,8 +28,12 @@ let (=)  (x : int) (y:float) = assert false
 let ( // ) = Ext_path.( // )
 
 let fix_path_for_windows : string -> string =
-  if Sys.win32 || Sys.cygwin then Ext_string.replace_backward_slash
-  else fun s -> s
+  let replace_backward_slash (x : string) =
+    match String.index x '\\' with
+    | _i -> String.map (function '\\' -> '/' | x -> x) x
+    | exception Not_found -> x
+  in
+  if Sys.win32 || Sys.cygwin then replace_backward_slash else fun s -> s
 
 let js_name_of_modulename s (case : Js_packages_info.file_case) suffix : string
     =
