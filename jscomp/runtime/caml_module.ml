@@ -28,7 +28,7 @@
 
 open Melange_mini_stdlib
 
-[@@@warning "-37"] (* `Function` may be used in runtime *)
+[@@@ocaml.warning "-unused-constructor"] (* `Function` may be used in runtime *)
 
 type shape =
   | Function

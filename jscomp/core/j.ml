@@ -42,7 +42,7 @@ type exports = Js_op.exports
 type tag_info = Js_op.tag_info
 type property_name = Js_op.property_name
 
-[@@@warning "-30"]
+[@@@ocaml.warning "-duplicate-definitions"]
 
 type label = string
 and ident = Ident.t
@@ -347,8 +347,6 @@ and deps_program = {
         case_clause;
       |];
   }]
-
-[@@@warning "-30"]
 
 (*
 FIXME: customize for each code generator

@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
-[@@@warning "-32"] (* FIXME *)
+
 #ifdef TYPE_STRING
 type key = string
 let key_index (h :  _ Hash_set_gen.t ) (key : key) =
@@ -43,10 +43,9 @@ module Make (H: Hashtbl.HashedType) : (Hash_set_gen.S with type key = H.t) = str
   type t = key Hash_set_gen.t
 
 #elif defined TYPE_POLY
-  [@@@ocaml.warning "-3"]
   (* we used cppo the mixture does not work*)
   external seeded_hash_param :
-    int -> int -> int -> 'a -> int = "caml_hash" "noalloc"
+    int -> int -> int -> 'a -> int = "caml_hash" [@@noalloc]
   let key_index (h :  _ Hash_set_gen.t ) (key : 'a) =
     seeded_hash_param 10 100 0 key land (Array.length h.data - 1)
   let eq_key = (=)

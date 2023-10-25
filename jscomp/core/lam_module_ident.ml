@@ -34,8 +34,6 @@ let name (x : t) : string =
   | External { name = v; _ } -> v
 
 module Cmp = struct
-  [@@@warning "+9"]
-
   type nonrec t = t
 
   let equal (x : t) y =

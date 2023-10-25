@@ -1387,8 +1387,7 @@ and compile_apply (appinfo : Lam.apply) (lambda_cxt : Lam_compile_context.t) =
       *)
       let ap_func = appinfo.ap_func in
       let new_cxt = { lambda_cxt with continuation = NeedValue Not_tail } in
-      let[@warning "-8" (* non-exhaustive pattern*)] args_code, fn_code :: args
-          =
+      let[@ocaml.warning "-partial-match"] args_code, fn_code :: args =
         List.fold_right
           (fun x (args_code, fn_code) ->
             match compile_lambda new_cxt x with

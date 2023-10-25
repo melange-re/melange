@@ -26,13 +26,9 @@ type ('a, 'id) hash = ('a -> int[@u])
 type ('a, 'id) eq = ('a -> 'a -> bool[@u])
 type ('a, 'id) cmp = ('a -> 'a -> int[@u])
 
-[@@@warning "-unboxable-type-in-prim-decl"]
-
 external getHashInternal : ('a, 'id) hash -> ('a -> int[@u]) = "%identity"
 external getEqInternal : ('a, 'id) eq -> ('a -> 'a -> bool[@u]) = "%identity"
 external getCmpInternal : ('a, 'id) cmp -> ('a -> 'a -> int[@u]) = "%identity"
-
-[@@@warning "+unboxable-type-in-prim-decl"]
 
 module type Comparable = sig
   type identity
