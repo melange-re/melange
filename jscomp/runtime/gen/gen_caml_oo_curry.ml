@@ -55,7 +55,7 @@ let js%d label cacheid %s =
 let () =
   print_endline
   @@ Printf.sprintf "%s\n%s" prelude
-       (String.concat "\n" (list_init 8 (fun i -> generate_fun (i + 1))))
+       (String.concat "\n" (list_init number (fun i -> generate_fun (i + 1))))
 
 (* local variables: *)
 (* compile-command: "ocaml caml_oo_curry_gen.ml > ../jscomp/runtime/caml_oo_curry.ml" *)
