@@ -22,19 +22,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let (//) = Ext_path.combine
-
 let executable_name =
   lazy (Unix.realpath (Ext_path.normalize_absolute_path Sys.executable_name))
 
 let stdlib_paths =
   lazy (
-    let root =
-      (* <root>/bin/melc *)
-      Lazy.force executable_name
-      |> Filename.dirname
-      |> Filename.dirname
-    in
+    let (//) = Ext_path.( // ) in
     begin match Sys.getenv "MELANGELIB" with
     | value ->
       let dirs =
@@ -51,6 +44,12 @@ let stdlib_paths =
       | exception Sys_error _ -> raise (Arg.Bad "$MELANGELIB dirs must exist")
       end
     | exception Not_found ->
+      let root =
+        (* <root>/bin/melc *)
+        Lazy.force executable_name
+        |> Filename.dirname
+        |> Filename.dirname
+      in
 #ifndef BS_RELEASE_BUILD
       [ root // "jscomp" // "stdlib" // ".stdlib.objs" // Literals.package_name
       ; root // "jscomp" // "runtime" // ".js.objs" // Literals.package_name
@@ -62,9 +61,6 @@ let stdlib_paths =
 #endif
   end)
 
-(** Browser is not set via command line only for internal use *)
-
-
 let no_version_header = ref false
 
 let cross_module_inline = ref false
@@ -73,20 +69,13 @@ let diagnose = ref false
 let tool_name = "Melange"
 
 let check_div_by_zero = ref true
-let get_check_div_by_zero () = !check_div_by_zero
-
-
 
 let syntax_only = ref false
-
 
 let debug = ref false
 
 let cmi_only = ref false
 let cmj_only = ref false
-
-let refmt = ref None
-
 
 let js_stdout = ref true
 
@@ -99,8 +88,6 @@ let std_include_dirs () =
 let no_export = ref false
 
 let as_ppx = ref false
-
-
 let as_pp = ref false
 
 let modules = ref false
