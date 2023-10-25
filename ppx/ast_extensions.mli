@@ -30,7 +30,7 @@ val handle_debugger :
   Location.t -> Parsetree.payload -> Parsetree.expression_desc
 
 val handle_raw :
-  kind:Js_raw_info.raw_kind ->
+  kind:Melange_ffi.Js_raw_info.raw_kind ->
   Location.t ->
   Parsetree.payload ->
   Parsetree.expression

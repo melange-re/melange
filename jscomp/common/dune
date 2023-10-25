@@ -1,7 +1,6 @@
 (library
- (name common)
+ (name melange_ffi)
  (package melange)
- (wrapped false)
  (flags :standard -open Melange_compiler_libs)
  (modules_without_implementation js_raw_info lam_tag_info)
  (libraries ext melange_compiler_libs js_parser))
@@ -11,12 +10,3 @@
  (deps external_ffi_types.cppo.ml)
  (action
   (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{target})))
-
-(rule
- (targets git_commit.ml)
- (action
-  (with-stdout-to
-   %{targets}
-   (progn
-    (bash "echo let version = \\\"$(git rev-parse --verify HEAD)\\\"")
-    (bash "echo let short_version = \\\"$(git rev-parse --short HEAD)\\\"")))))

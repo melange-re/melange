@@ -34,7 +34,7 @@ type record_representation =
 type t =
   | Pbytes_to_string
   | Pbytes_of_string
-  | Pmakeblock of int * Lam_tag_info.t * Asttypes.mutable_flag
+  | Pmakeblock of int * Melange_ffi.Lam_tag_info.t * Asttypes.mutable_flag
   | Pfield of int * Lambda.field_dbg_info
   | Psetfield of int * Lambda.set_field_dbg_info
   | Pduprecord of record_representation
@@ -43,10 +43,10 @@ type t =
   | Pjs_call of {
       (* Location.t *  [loc] is passed down *)
       prim_name : string;
-      arg_types : External_arg_spec.params;
-      ffi : External_ffi_types.external_spec;
+      arg_types : Melange_ffi.External_arg_spec.params;
+      ffi : Melange_ffi.External_ffi_types.external_spec;
     }
-  | Pjs_object_create of External_arg_spec.obj_params
+  | Pjs_object_create of Melange_ffi.External_arg_spec.obj_params
   | Praise
   | Psequand
   | Psequor
@@ -129,7 +129,7 @@ type t =
   | Pjs_unsafe_downgrade of { name : string; setter : bool; loc : Location.t }
   | Pinit_mod
   | Pupdate_mod
-  | Praw_js_code of Js_raw_info.t
+  | Praw_js_code of Melange_ffi.Js_raw_info.t
   | Pjs_fn_make of int
   | Pvoid_run
   | Pfull_apply

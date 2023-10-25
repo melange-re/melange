@@ -166,29 +166,34 @@ let pval_prim_of_labels (labels : string Asttypes.loc list) =
     List.fold_right
       (fun p arg_kinds ->
         let obj_arg_label =
-          External_arg_spec.obj_label (Lam_methname.translate p.txt)
+          Melange_ffi.External_arg_spec.obj_label
+            (Melange_ffi.Lam_methname.translate p.txt)
         in
-        { External_arg_spec.obj_arg_type = Nothing; obj_arg_label } :: arg_kinds)
+        { Melange_ffi.External_arg_spec.obj_arg_type = Nothing; obj_arg_label }
+        :: arg_kinds)
       labels []
   in
-  External_ffi_types.ffi_obj_as_prims arg_kinds
+  Melange_ffi.External_ffi_types.ffi_obj_as_prims arg_kinds
 
 let pval_prim_of_option_labels (labels : (bool * string Asttypes.loc) list)
     (ends_with_unit : bool) =
   let arg_kinds =
     List.fold_right
       (fun (is_option, p) arg_kinds ->
-        let label_name = Lam_methname.translate p.txt in
+        let label_name = Melange_ffi.Lam_methname.translate p.txt in
         let obj_arg_label =
-          if is_option then External_arg_spec.optional false label_name
-          else External_arg_spec.obj_label label_name
+          if is_option then
+            Melange_ffi.External_arg_spec.optional false label_name
+          else Melange_ffi.External_arg_spec.obj_label label_name
         in
-        { External_arg_spec.obj_arg_type = Nothing; obj_arg_label } :: arg_kinds)
+        { Melange_ffi.External_arg_spec.obj_arg_type = Nothing; obj_arg_label }
+        :: arg_kinds)
       labels
-      (if ends_with_unit then [ External_arg_spec.empty_kind Extern_unit ]
+      (if ends_with_unit then
+         [ Melange_ffi.External_arg_spec.empty_kind Extern_unit ]
        else [])
   in
-  External_ffi_types.ffi_obj_as_prims arg_kinds
+  Melange_ffi.External_ffi_types.ffi_obj_as_prims arg_kinds
 
 let record_as_js_object loc (label_exprs : label_exprs) :
     Parsetree.expression_desc =

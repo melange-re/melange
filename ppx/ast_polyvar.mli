@@ -41,4 +41,4 @@ val map_row_fields_into_ints :
 (** side effect: it will mark used attributes `mel.as`  *)
 
 val map_row_fields_into_strings :
-  Location.t -> Parsetree.row_field list -> External_arg_spec.attr
+  Location.t -> Parsetree.row_field list -> Melange_ffi.External_arg_spec.attr

@@ -98,7 +98,7 @@ let classify ?(check : (Location.t * int) option) (prog : string) :
   in
   match (check, errors) with
   | Some (loc, offset), _ :: _ ->
-      Mel_flow_ast_utils.check_flow_errors ~loc ~offset errors;
+      Flow_ast_utils.check_flow_errors ~loc ~offset errors;
       Js_exp_unknown
   | Some _, [] | None, [] -> classify_exp prog
   | None, _ :: _ -> Js_exp_unknown

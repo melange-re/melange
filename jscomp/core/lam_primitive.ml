@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-[@@@ocaml.warning "+9"]
-
 type ident = Ident.t
 
 type record_representation =
@@ -37,7 +35,7 @@ type t =
   | Pbytes_to_string
   | Pbytes_of_string
   (* Operations on heap blocks *)
-  | Pmakeblock of int * Lam_tag_info.t * Asttypes.mutable_flag
+  | Pmakeblock of int * Melange_ffi.Lam_tag_info.t * Asttypes.mutable_flag
   | Pfield of int * Lam_compat.field_dbg_info
   | Psetfield of int * Lam_compat.set_field_dbg_info
   (* could have field info at least for record *)
@@ -48,10 +46,10 @@ type t =
   | Pccall of { prim_name : string }
   | Pjs_call of {
       prim_name : string;
-      arg_types : External_arg_spec.params;
-      ffi : External_ffi_types.external_spec;
+      arg_types : Melange_ffi.External_arg_spec.params;
+      ffi : Melange_ffi.External_ffi_types.external_spec;
     }
-  | Pjs_object_create of External_arg_spec.obj_params
+  | Pjs_object_create of Melange_ffi.External_arg_spec.obj_params
   (* Exceptions *)
   | Praise
   (* Boolean operations *)
@@ -138,7 +136,7 @@ type t =
   | Pjs_unsafe_downgrade of { name : string; setter : bool; loc : Location.t }
   | Pinit_mod
   | Pupdate_mod
-  | Praw_js_code of Js_raw_info.t
+  | Praw_js_code of Melange_ffi.Js_raw_info.t
   | Pjs_fn_make of int
   | Pvoid_run
   | Pfull_apply
@@ -177,7 +175,7 @@ let eq_set_field_dbg_info (x : Lam_compat.set_field_dbg_info)
   x = y
 (* save it to avoid conditional compilation, fix it later *)
 
-let eq_tag_info (x : Lam_tag_info.t) y = x = y
+let eq_tag_info (x : Melange_ffi.Lam_tag_info.t) y = x = y
 
 let eq_record_representation (p : record_representation)
     (p1 : record_representation) =

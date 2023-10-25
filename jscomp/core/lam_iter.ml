@@ -27,7 +27,7 @@ type ident = Ident.t
 
 let inner_iter (l : t) (f : t -> unit) : unit =
   match l with
-  | Lvar (_ : ident) | Lmutvar _ | Lconst (_ : Lam_constant.t) -> ()
+  | Lvar (_ : ident) | Lmutvar _ | Lconst (_ : Lam.Constant.t) -> ()
   | Lapply { ap_func; ap_args; ap_info = _ } ->
       f ap_func;
       List.iter f ap_args
@@ -92,7 +92,7 @@ let inner_exists (l : t) (f : t -> bool) : bool =
   match l with
   | Lvar (_ : ident)
   | Lmutvar _ | Lglobal_module _
-  | Lconst (_ : Lam_constant.t) ->
+  | Lconst (_ : Lam.Constant.t) ->
       false
   | Lapply { ap_func; ap_args; ap_info = _ } ->
       f ap_func || List.exists f ap_args

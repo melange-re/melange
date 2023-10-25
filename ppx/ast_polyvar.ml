@@ -96,7 +96,7 @@ let map_row_fields_into_ints ptyp_loc (row_fields : Parsetree.row_field list) =
 (* It also check in-consistency of cases like
    {[ [`a  | `c of int ] ]} *)
 let map_row_fields_into_strings ptyp_loc (row_fields : Parsetree.row_field list)
-    : External_arg_spec.attr =
+    : Melange_ffi.External_arg_spec.attr =
   let has_bs_as = ref false in
   let case, result =
     List.fold_right

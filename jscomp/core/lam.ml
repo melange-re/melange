@@ -22,6 +22,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+module Constant = Melange_ffi.Lam_constant
+module Methname = Melange_ffi.Lam_methname
+module Tag_info = Melange_ffi.Lam_tag_info
+
 type ident = Ident.t
 type apply_status = App_na | App_infer_full | App_uncurry
 
@@ -90,7 +94,7 @@ module Types = struct
     | Lvar of ident
     | Lmutvar of ident
     | Lglobal_module of ident
-    | Lconst of Lam_constant.t
+    | Lconst of Constant.t
     | Lapply of apply
     | Lfunction of lfunction
     | Llet of Lam_compat.let_kind * ident * t * t
@@ -140,7 +144,7 @@ module X = struct
     | Lvar of ident
     | Lmutvar of ident
     | Lglobal_module of ident
-    | Lconst of Lam_constant.t
+    | Lconst of Constant.t
     | Lapply of apply
     | Lfunction of lfunction
     | Llet of Lam_compat.let_kind * ident * t * t
@@ -167,7 +171,7 @@ include Types
 
 let inner_map (l : t) (f : t -> X.t) : X.t =
   match l with
-  | Lvar (_ : ident) | Lmutvar (_ : ident) | Lconst (_ : Lam_constant.t) ->
+  | Lvar (_ : ident) | Lmutvar (_ : ident) | Lconst (_ : Constant.t) ->
       ((* Obj.magic *) l : X.t)
   | Lapply { ap_func; ap_args; ap_info } ->
       let ap_func = f ap_func in
@@ -366,7 +370,7 @@ let rec eq_approx (l1 : t) (l2 : t) =
   | Lvar i1 -> ( match l2 with Lvar i2 -> Ident.same i1 i2 | _ -> false)
   | Lmutvar i1 -> ( match l2 with Lmutvar i2 -> Ident.same i1 i2 | _ -> false)
   | Lconst c1 -> (
-      match l2 with Lconst c2 -> Lam_constant.eq_approx c1 c2 | _ -> false)
+      match l2 with Lconst c2 -> Constant.eq_approx c1 c2 | _ -> false)
   | Lapply app1 -> (
       match l2 with
       | Lapply app2 ->
@@ -662,7 +666,7 @@ let rec complete_range (sw_consts : (int * _) list) ~(start : int) ~finish =
       start <= finish && i = start
       && complete_range rest ~start:(start + 1) ~finish
 
-let rec eval_const_as_bool (v : Lam_constant.t) : bool =
+let rec eval_const_as_bool (v : Constant.t) : bool =
   match v with
   | Const_int { i = x; _ } -> x <> 0l
   | Const_char x -> Char.code x <> 0
@@ -791,13 +795,15 @@ let sequand l r = if_ l r false_
    check if the FFI have @uncurry attribute.
    if it does not we wrap it in a nomral way otherwise
 *)
-let rec no_auto_uncurried_arg_types (xs : External_arg_spec.params) =
+let rec no_auto_uncurried_arg_types (xs : Melange_ffi.External_arg_spec.params)
+    =
   match xs with
   | [] -> true
   | { arg_type = Fn_uncurry_arity _; _ } :: _ -> false
   | _ :: xs -> no_auto_uncurried_arg_types xs
 
-let result_wrap loc (result_type : External_ffi_types.return_wrapper) result =
+let result_wrap loc
+    (result_type : Melange_ffi.External_ffi_types.return_wrapper) result =
   match result_type with
   | Return_replaced_with_unit -> seq result unit
   | Return_null_to_opt -> prim ~primitive:Pnull_to_opt ~args:[ result ] loc
@@ -807,12 +813,13 @@ let result_wrap loc (result_type : External_ffi_types.return_wrapper) result =
       prim ~primitive:Pundefined_to_opt ~args:[ result ] loc
   | Return_unset | Return_identity -> result
 
-let rec transform_uncurried_arg_type loc (arg_types : External_arg_spec.params)
-    (args : t list) =
+let rec transform_uncurried_arg_type loc
+    (arg_types : Melange_ffi.External_arg_spec.params) (args : t list) =
   match (arg_types, args) with
   | { arg_type = Fn_uncurry_arity n; arg_label } :: xs, y :: ys ->
       let o_arg_types, o_args = transform_uncurried_arg_type loc xs ys in
-      ( { External_arg_spec.arg_type = Nothing; arg_label } :: o_arg_types,
+      ( { Melange_ffi.External_arg_spec.arg_type = Nothing; arg_label }
+        :: o_arg_types,
         prim ~primitive:(Pjs_fn_make n) ~args:[ y ] loc :: o_args )
   | x :: xs, y :: ys -> (
       match x with
@@ -824,8 +831,9 @@ let rec transform_uncurried_arg_type loc (arg_types : External_arg_spec.params)
           (x :: o_arg_types, y :: o_args))
   | ([], [] | _ :: _, [] | [], _ :: _) as ok -> ok
 
-let handle_bs_non_obj_ffi (arg_types : External_arg_spec.params)
-    (result_type : External_ffi_types.return_wrapper) ffi args loc prim_name =
+let handle_bs_non_obj_ffi (arg_types : Melange_ffi.External_arg_spec.params)
+    (result_type : Melange_ffi.External_ffi_types.return_wrapper) ffi args loc
+    prim_name =
   if no_auto_uncurried_arg_types arg_types then
     result_wrap loc result_type
       (prim ~primitive:(Pjs_call { prim_name; arg_types; ffi }) ~args loc)

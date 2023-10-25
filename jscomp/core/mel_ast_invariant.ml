@@ -51,7 +51,7 @@ let check_constant loc kind (const : Parsetree.constant) =
   | Pconst_string (_, _, Some s) -> (
       match kind with
       | `expr ->
-          if Ast_utf8_string.is_unescaped s then
+          if Melange_ffi.Utf8_string.is_unescaped s then
             Location.prerr_warning loc (Mel_uninterpreted_delimiters s)
       | `pat ->
           if s = "j" then

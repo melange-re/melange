@@ -25,7 +25,7 @@
 module E = Js_exp_make
 
 (** return [val < 0] if not nested [Some (Some (Some None))]*)
-let rec is_some_none_aux (x : Lam_constant.t) acc =
+let rec is_some_none_aux (x : Lam.Constant.t) acc =
   match x with
   | Const_some v -> is_some_none_aux v (acc + 1)
   | Const_module_alias | Const_js_undefined -> acc
@@ -34,12 +34,12 @@ let rec is_some_none_aux (x : Lam_constant.t) acc =
 let rec nested_some_none n none =
   if n = 0 then none else nested_some_none (n - 1) (E.optional_block none)
 
-let rec translate_some (x : Lam_constant.t) : J.expression =
+let rec translate_some (x : Lam.Constant.t) : J.expression =
   let depth = is_some_none_aux x 0 in
   if depth < 0 then E.optional_not_nest_block (translate x)
   else nested_some_none depth (E.optional_block (translate Const_js_undefined))
 
-and translate (x : Lam_constant.t) : J.expression =
+and translate (x : Lam.Constant.t) : J.expression =
   match x with
   | Const_module_alias -> E.undefined (*  TODO *)
   | Const_some s -> translate_some s
@@ -48,7 +48,7 @@ and translate (x : Lam_constant.t) : J.expression =
   | Const_js_null -> E.nil
   | Const_js_undefined -> E.undefined
   | Const_int { i; comment } ->
-      E.int i ?comment:(Lam_constant.string_of_pointer_info comment)
+      E.int i ?comment:(Lam.Constant.string_of_pointer_info comment)
   | Const_char i -> Js_of_lam_string.const_char i
   (* E.float (Int32.to_string i) *)
   | Const_int64 i ->
@@ -97,7 +97,7 @@ and translate (x : Lam_constant.t) : J.expression =
    match s with
    | Const_js_undefined -> E.optional_block (translate s) *)
 
-let translate_arg_cst (cst : External_arg_spec.cst) =
+let translate_arg_cst (cst : Melange_ffi.External_arg_spec.cst) =
   match cst with
   | Arg_int_lit i -> E.int (Int32.of_int i)
   | Arg_string_lit i -> E.str i

@@ -31,7 +31,7 @@ let prim = Lam.prim
 let lam_extension_id loc (head : Lam.t) =
   prim ~primitive:lam_caml_id ~args:[ head ] loc
 
-let lazy_block_info : Lam_tag_info.t =
+let lazy_block_info : Lam.Tag_info.t =
   Blk_record [| Literals.lazy_done; Literals.lazy_val |]
 
 let unbox_extension info (args : Lam.t list) mutable_flag loc =
@@ -201,16 +201,16 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
       | Blk_some_not_nested -> prim ~primitive:Psome_not_nest ~args loc
       | Blk_some -> prim ~primitive:Psome ~args loc
       | Blk_constructor { name; num_nonconst } ->
-          let info : Lam_tag_info.t = Blk_constructor { name; num_nonconst } in
+          let info : Lam.Tag_info.t = Blk_constructor { name; num_nonconst } in
           prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
       | Blk_tuple ->
-          let info : Lam_tag_info.t = Blk_tuple in
+          let info : Lam.Tag_info.t = Blk_tuple in
           prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
       | Blk_extension ->
-          let info : Lam_tag_info.t = Blk_extension in
+          let info : Lam.Tag_info.t = Blk_extension in
           unbox_extension info args mutable_flag loc
       | Blk_record_ext s ->
-          let info : Lam_tag_info.t = Blk_record_ext s in
+          let info : Lam.Tag_info.t = Blk_record_ext s in
           unbox_extension info args mutable_flag loc
       | Blk_extension_slot -> (
           match args with
@@ -218,29 +218,29 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
               prim ~primitive:(Pcreate_extension name) ~args:[] loc
           | _ -> assert false)
       | Blk_class ->
-          let info : Lam_tag_info.t = Blk_class in
+          let info : Lam.Tag_info.t = Blk_class in
           prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
       | Blk_array ->
-          let info : Lam_tag_info.t = Blk_array in
+          let info : Lam.Tag_info.t = Blk_array in
           prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
       | Blk_record s ->
-          let info : Lam_tag_info.t = Blk_record s in
+          let info : Lam.Tag_info.t = Blk_record s in
           prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
       | Blk_record_inlined { name; fields; num_nonconst } ->
-          let info : Lam_tag_info.t =
+          let info : Lam.Tag_info.t =
             Blk_record_inlined { name; fields; num_nonconst }
           in
           prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
       | Blk_module s ->
-          let info : Lam_tag_info.t = Blk_module s in
+          let info : Lam.Tag_info.t = Blk_module s in
           prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
       | Blk_module_export _ ->
-          let info : Lam_tag_info.t = Blk_module_export in
+          let info : Lam.Tag_info.t = Blk_module_export in
           prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
       | Blk_poly_var s -> (
           match args with
           | [ _; value ] ->
-              let info : Lam_tag_info.t = Blk_poly_var in
+              let info : Lam.Tag_info.t = Blk_poly_var in
               prim
                 ~primitive:(Pmakeblock (tag, info, mutable_flag))
                 ~args:[ Lam.const (Const_string { s; unicode = false }); value ]
@@ -267,7 +267,7 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
                 ~args loc
           | _ -> assert false)
       | Blk_na s ->
-          let info : Lam_tag_info.t = Blk_na s in
+          let info : Lam.Tag_info.t = Blk_na s in
           prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc)
   | Pfield (id, _ptr, _mut, info) ->
       prim ~primitive:(Pfield (id, info)) ~args loc
@@ -523,7 +523,9 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
       (args : Lambda.lambda list) loc : Lam.t =
     let prim_name = a_prim.prim_name in
     let prim_name_len = String.length prim_name in
-    match External_ffi_types.from_string a_prim.prim_native_name with
+    match
+      Melange_ffi.External_ffi_types.from_string a_prim.prim_native_name
+    with
     | Ffi_normal ->
         if prim_name_len > 0 && String.unsafe_get prim_name 0 = '#' then
           convert_js_primitive a_prim args loc
@@ -537,7 +539,8 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         let arg_types =
           match arg_types with
           | Params ls -> ls
-          | Param_number i -> List.init i (fun _ -> External_arg_spec.dummy)
+          | Param_number i ->
+              List.init i (fun _ -> Melange_ffi.External_arg_spec.dummy)
         in
         let args = List.map convert_aux args in
         Lam.handle_bs_non_obj_ffi arg_types result_type ffi args loc prim_name
@@ -559,7 +562,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         match args with
         | [ Lconst (Const_string { s = code; _ }) ] ->
             (* js parsing here *)
-            let kind = Classify_function.classify code in
+            let kind = Melange_ffi.Classify_function.classify code in
             prim
               ~primitive:(Praw_js_code { code; code_info = Exp kind })
               ~args:[] loc
@@ -567,7 +570,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
     | _ when s = "#raw_stmt" -> (
         match args with
         | [ Lconst (Const_string { s = code; _ }) ] ->
-            let kind = Classify_function.classify_stmt code in
+            let kind = Melange_ffi.Classify_function.classify_stmt code in
             prim
               ~primitive:(Praw_js_code { code; code_info = Stmt kind })
               ~args:[] loc
@@ -739,10 +742,10 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
                 in
                 let property =
                   if setter then
-                    Lam_methname.translate
+                    Lam.Methname.translate
                       (String.sub name 0
                          (String.length name - Literals.setter_suffix_len))
-                  else Lam_methname.translate name
+                  else Lam.Methname.translate name
                 in
                 let lam =
                   prim

@@ -44,7 +44,7 @@ let jsop_of_float_comp (cmp : Lam_compat.float_comparison) : Js_op.binop =
   | CFge -> Ge
   | CFnge -> Lt
 
-let comment_of_tag_info (x : Lam_tag_info.t) =
+let comment_of_tag_info (x : Lam.Tag_info.t) =
   match x with
   | Blk_constructor { name = n; _ } -> Some n
   | Blk_tuple -> Some "tuple"

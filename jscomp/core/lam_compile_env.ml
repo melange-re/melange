@@ -60,7 +60,7 @@ let reset () =
     since when we print it in the end, it will
     be escaped quite ugly
 *)
-let add_js_module (hint_name : External_ffi_types.module_bind_name)
+let add_js_module (hint_name : Melange_ffi.External_ffi_types.module_bind_name)
     (module_name : string) default : Ident.t =
   let id =
     Ident.create_local

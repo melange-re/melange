@@ -302,7 +302,7 @@ val or_ : ?loc:Location.t -> ?comment:string -> t -> t -> t
 
 (** we don't expose a general interface, since a general interface is generally not safe *)
 
-val dummy_obj : ?loc:Location.t -> ?comment:string -> Lam_tag_info.t -> t
+val dummy_obj : ?loc:Location.t -> ?comment:string -> Lam.Tag_info.t -> t
 (** used combined with [caml_update_dummy]*)
 
 val of_block :
@@ -310,7 +310,11 @@ val of_block :
 (** convert a block to expresion by using IIFE *)
 
 val raw_js_code :
-  ?loc:Location.t -> ?comment:string -> Js_raw_info.code_info -> string -> t
+  ?loc:Location.t ->
+  ?comment:string ->
+  Melange_ffi.Js_raw_info.code_info ->
+  string ->
+  t
 
 val nil : t
 val is_null : ?loc:Location.t -> ?comment:string -> t -> t
