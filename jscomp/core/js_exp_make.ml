@@ -204,7 +204,7 @@ let method_ ?loc ?comment ?immutable_mask ~return_unit params block : t =
     (Fun (true, params, block, Js_fun_env.make ?immutable_mask len, return_unit))
 
 (** ATTENTION: This is coupuled with {!Caml_obj.caml_update_dummy} *)
-let dummy_obj ?loc ?comment (info : Lam_tag_info.t) : t =
+let dummy_obj ?loc ?comment (info : Lam.Tag_info.t) : t =
   (* TODO:
      for record it is [{}]
      for other it is [[]]
@@ -501,8 +501,8 @@ let str_equal (str0 : J.expression_desc) (str1 : J.expression_desc) =
   | Str (_, txt0), Str (_, txt1) | Unicode txt0, Unicode txt1 ->
       if String.equal txt0 txt1 then Some true
       else if
-        Ast_utf8_string.simple_comparison txt0
-        && Ast_utf8_string.simple_comparison txt1
+        Melange_ffi.Utf8_string.simple_comparison txt0
+        && Melange_ffi.Utf8_string.simple_comparison txt1
       then Some false
       else None
   | Str _, Unicode _ | Unicode _, Str _ -> None

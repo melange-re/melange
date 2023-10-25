@@ -147,7 +147,7 @@ and expression_desc =
   *)
   | Unicode of string
   (* It is escaped string, print delimited by '"'*)
-  | Raw_js_code of Js_raw_info.t
+  | Raw_js_code of Melange_ffi.Js_raw_info.t
   (* literally raw JS code
   *)
   | Array of expression list * mutable_flag

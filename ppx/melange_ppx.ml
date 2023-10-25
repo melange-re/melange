@@ -616,7 +616,8 @@ module Mapper = struct
                         pval_loc = loc;
                         pval_attributes = [];
                         pval_prim =
-                          External_ffi_types.inline_string_primitive s dec;
+                          Melange_ffi.External_ffi_types.inline_string_primitive
+                            s dec;
                       };
                 }
             | Some attr, Pexp_constant (Pconst_integer (s, None)) ->
@@ -632,7 +633,8 @@ module Mapper = struct
                         pval_type = [%type: int];
                         pval_loc = loc;
                         pval_attributes = [];
-                        pval_prim = External_ffi_types.inline_int_primitive s;
+                        pval_prim =
+                          Melange_ffi.External_ffi_types.inline_int_primitive s;
                       };
                 }
             | Some attr, Pexp_constant (Pconst_integer (s, Some 'L')) ->
@@ -648,7 +650,9 @@ module Mapper = struct
                         pval_type = [%type: int64];
                         pval_loc = loc;
                         pval_attributes = [];
-                        pval_prim = External_ffi_types.inline_int64_primitive s;
+                        pval_prim =
+                          Melange_ffi.External_ffi_types.inline_int64_primitive
+                            s;
                       };
                 }
             | Some attr, Pexp_constant (Pconst_float (s, None)) ->
@@ -663,7 +667,9 @@ module Mapper = struct
                         pval_type = [%type: float];
                         pval_loc = loc;
                         pval_attributes = [];
-                        pval_prim = External_ffi_types.inline_float_primitive s;
+                        pval_prim =
+                          Melange_ffi.External_ffi_types.inline_float_primitive
+                            s;
                       };
                 }
             | ( Some attr,
@@ -681,7 +687,8 @@ module Mapper = struct
                         pval_loc = loc;
                         pval_attributes = [];
                         pval_prim =
-                          External_ffi_types.inline_bool_primitive (txt = "true");
+                          Melange_ffi.External_ffi_types.inline_bool_primitive
+                            (txt = "true");
                       };
                 }
             | _ ->
@@ -754,7 +761,8 @@ module Mapper = struct
                             {
                               value_desc with
                               pval_prim =
-                                External_ffi_types.inline_string_primitive s dec;
+                                Melange_ffi.External_ffi_types
+                                .inline_string_primitive s dec;
                               pval_attributes = [];
                             };
                       }
@@ -768,7 +776,8 @@ module Mapper = struct
                             {
                               value_desc with
                               pval_prim =
-                                External_ffi_types.inline_int_primitive s;
+                                Melange_ffi.External_ffi_types
+                                .inline_int_primitive s;
                               pval_attributes = [];
                             };
                       }
@@ -782,7 +791,8 @@ module Mapper = struct
                             {
                               value_desc with
                               pval_prim =
-                                External_ffi_types.inline_int64_primitive s;
+                                Melange_ffi.External_ffi_types
+                                .inline_int64_primitive s;
                               pval_attributes = [];
                             };
                       }
@@ -795,7 +805,8 @@ module Mapper = struct
                             {
                               value_desc with
                               pval_prim =
-                                External_ffi_types.inline_float_primitive s;
+                                Melange_ffi.External_ffi_types
+                                .inline_float_primitive s;
                               pval_attributes = [];
                             };
                       }
@@ -809,8 +820,8 @@ module Mapper = struct
                             {
                               value_desc with
                               pval_prim =
-                                External_ffi_types.inline_bool_primitive
-                                  (txt = "true");
+                                Melange_ffi.External_ffi_types
+                                .inline_bool_primitive (txt = "true");
                               pval_attributes = [];
                             };
                       }

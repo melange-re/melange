@@ -37,9 +37,9 @@ module S = Js_stmt_make
 *)
 
 (* TODO: check stackoverflow *)
-let assemble_obj_args (labels : External_arg_spec.obj_params)
+let assemble_obj_args (labels : Melange_ffi.External_arg_spec.obj_params)
     (args : J.expression list) : J.block * J.expression =
-  let rec aux (labels : External_arg_spec.obj_params) args :
+  let rec aux (labels : Melange_ffi.External_arg_spec.obj_params) args :
       (Js_op.property_name * E.t) list * J.expression list * _ =
     match (labels, args) with
     | [], [] -> ([], [], [])
@@ -107,7 +107,8 @@ let assemble_obj_args (labels : External_arg_spec.obj_params)
           | [] -> E.obj map
           | x :: xs -> E.seq (E.fuse_to_seq x xs) (E.obj map))
         :: List.concat_map
-             (fun ((xlabel : External_arg_spec.obj_param), (arg : J.expression)) ->
+             (fun ( (xlabel : Melange_ffi.External_arg_spec.obj_param),
+                    (arg : J.expression) ) ->
                match xlabel with
                | {
                 obj_arg_label =

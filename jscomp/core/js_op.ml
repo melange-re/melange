@@ -173,7 +173,7 @@ type ident_info = {
 }
 
 type exports = Ident.t list
-type tag_info = Lam_tag_info.t
+type tag_info = Lam.Tag_info.t
 type length_object = Array | String | Bytes | Function | Caml_block
 
 (** TODO: define constant - for better constant folding  *)

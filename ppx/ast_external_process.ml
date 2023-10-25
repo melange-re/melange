@@ -23,6 +23,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Ppxlib
+module External_arg_spec = Melange_ffi.External_arg_spec
+module External_ffi_types = Melange_ffi.External_ffi_types
 
 (* record pattern match complete checker*)
 
@@ -481,7 +483,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                             param_type :: arg_types,
                             result_types )
                       | Arg_cst _ ->
-                          let s = Lam_methname.translate name in
+                          let s = Melange_ffi.Lam_methname.translate name in
                           ( {
                               obj_arg_label = External_arg_spec.obj_label s;
                               obj_arg_type;
@@ -490,7 +492,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                             (* ignored in [arg_types], reserved in [result_types] *)
                             result_types )
                       | Nothing | Unwrap ->
-                          let s = Lam_methname.translate name in
+                          let s = Melange_ffi.Lam_methname.translate name in
                           ( {
                               obj_arg_label = External_arg_spec.obj_label s;
                               obj_arg_type;
@@ -499,7 +501,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                             Ast_helper.Of.tag { Asttypes.txt = name; loc } ty
                             :: result_types )
                       | Int _ ->
-                          let s = Lam_methname.translate name in
+                          let s = Melange_ffi.Lam_methname.translate name in
                           ( {
                               obj_arg_label = External_arg_spec.obj_label s;
                               obj_arg_type;
@@ -510,7 +512,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                               [%type: int]
                             :: result_types )
                       | Poly_var_string _ ->
-                          let s = Lam_methname.translate name in
+                          let s = Melange_ffi.Lam_methname.translate name in
                           ( {
                               obj_arg_label = External_arg_spec.obj_label s;
                               obj_arg_type;
@@ -538,7 +540,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                             param_type :: arg_types,
                             result_types )
                       | Nothing | Unwrap ->
-                          let s = Lam_methname.translate name in
+                          let s = Melange_ffi.Lam_methname.translate name in
                           (* XXX(anmonteiro): it's unsafe to just read the type of the
                                                               labelled argument declaration, since it could be `'a` in
                              the implementation, and e.g. `bool` in the interface. See
@@ -556,7 +558,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                                  [ ty ])
                             :: result_types )
                       | Int _ ->
-                          let s = Lam_methname.translate name in
+                          let s = Melange_ffi.Lam_methname.translate name in
                           ( {
                               obj_arg_label = External_arg_spec.optional true s;
                               obj_arg_type;
@@ -569,7 +571,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                                  [ [%type: int] ])
                             :: result_types )
                       | Poly_var_string _ ->
-                          let s = Lam_methname.translate name in
+                          let s = Melange_ffi.Lam_methname.translate name in
                           ( {
                               obj_arg_label = External_arg_spec.optional true s;
                               obj_arg_type;
@@ -1089,7 +1091,7 @@ let pval_prim_of_labels (labels : string Asttypes.loc list) =
     List.fold_right
       (fun p arg_kinds ->
         let obj_arg_label =
-          External_arg_spec.obj_label (Lam_methname.translate p.txt)
+          External_arg_spec.obj_label (Melange_ffi.Lam_methname.translate p.txt)
         in
         { External_arg_spec.obj_arg_type = Nothing; obj_arg_label } :: arg_kinds)
       labels []

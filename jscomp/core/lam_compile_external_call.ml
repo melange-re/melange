@@ -50,7 +50,8 @@ let splice_obj_fn_apply obj name args =
    bundle *)
 
 let external_var
-    ({ bundle; module_bind_name } : External_ffi_types.external_module_name) =
+    ({ bundle; module_bind_name } :
+      Melange_ffi.External_ffi_types.external_module_name) =
   let id = Lam_compile_env.add_js_module module_bind_name bundle false in
   E.external_var id ~external_name:bundle
 
@@ -95,8 +96,8 @@ let append_list x xs =
 
      This would not work with [NonNullString]
 *)
-let ocaml_to_js_eff ~(arg_label : External_arg_spec.label_noname)
-    ~(arg_type : External_arg_spec.attr) (raw_arg : E.t) :
+let ocaml_to_js_eff ~(arg_label : Melange_ffi.External_arg_spec.label_noname)
+    ~(arg_type : Melange_ffi.External_arg_spec.attr) (raw_arg : E.t) :
     arg_expression * E.t list =
   let arg =
     match arg_label with
@@ -147,7 +148,7 @@ let ocaml_to_js_eff ~(arg_label : External_arg_spec.label_noname)
 let empty_pair = ([], [])
 let add_eff eff e = match eff with None -> e | Some v -> E.seq v e
 
-type specs = External_arg_spec.params
+type specs = Melange_ffi.External_arg_spec.params
 type exprs = E.t list
 
 (* TODO: fix splice,
@@ -214,8 +215,8 @@ let assemble_args_has_splice (arg_types : specs) (args : exprs) :
     !dynamic )
 
 let translate_scoped_module_val
-    (module_name : External_ffi_types.external_module_name option) (fn : string)
-    (scopes : string list) =
+    (module_name : Melange_ffi.External_ffi_types.external_module_name option)
+    (fn : string) (scopes : string list) =
   match module_name with
   | Some { bundle; module_bind_name } -> (
       match scopes with
@@ -249,7 +250,8 @@ let translate_scoped_access scopes obj =
   | x :: xs -> List.fold_left E.dot (E.dot obj x) xs
 
 let translate_ffi (cxt : Lam_compile_context.t) arg_types
-    (ffi : External_ffi_types.external_spec) (args : J.expression list) =
+    (ffi : Melange_ffi.External_ffi_types.external_spec)
+    (args : J.expression list) =
   match ffi with
   | Js_call { external_module_name = module_name; name = fn; splice; scopes } ->
       let fn = translate_scoped_module_val module_name fn scopes in

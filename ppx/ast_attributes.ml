@@ -245,9 +245,11 @@ let iter_process_bs_string_or_int_as (attrs : Parsetree.attributes) =
                     if dec = None then st := Some (Str s)
                     else (
                       (match
-                         Classify_function.classify
+                         Melange_ffi.Classify_function.classify
                            ~check:
-                             (pexp_loc, Mel_flow_ast_utils.flow_deli_offset dec)
+                             ( pexp_loc,
+                               Melange_ffi.Flow_ast_utils.flow_deli_offset dec
+                             )
                            s
                        with
                       | Js_literal _ -> ()

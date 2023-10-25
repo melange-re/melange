@@ -285,7 +285,7 @@ let from_string s : t =
 let inline_string_primitive (s : string) (op : string option) : string list =
   let lam : Lam_constant.t =
     let unicode = match op with
-      | Some op -> Ast_utf8_string.is_unicode_string op
+      | Some op -> Utf8_string.is_unicode_string op
       | None -> false in
     (Const_string { s; unicode }) in
   [""; to_string (Ffi_inline_const lam )]

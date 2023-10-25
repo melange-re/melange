@@ -69,8 +69,8 @@ let handle_debugger loc payload =
         [ [%expr ()] ]
   | _ -> Location.raise_errorf ~loc "mel.debugger does not accept payload"
 
-let raw_as_string_exp_exn ~(kind : Js_raw_info.raw_kind) ?is_function
-    (x : Parsetree.payload) : Parsetree.expression option =
+let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
+    ?is_function (x : Parsetree.payload) : Parsetree.expression option =
   match x with
   (* TODO also need detect empty phrase case *)
   | PStr
@@ -87,8 +87,8 @@ let raw_as_string_exp_exn ~(kind : Js_raw_info.raw_kind) ?is_function
           _;
         };
       ] ->
-      Mel_flow_ast_utils.check_flow_errors ~loc
-        ~offset:(Mel_flow_ast_utils.flow_deli_offset deli)
+      Melange_ffi.Flow_ast_utils.check_flow_errors ~loc
+        ~offset:(Melange_ffi.Flow_ast_utils.flow_deli_offset deli)
         (match kind with
         | Raw_re | Raw_exp ->
             let ((_loc, e) as prog), errors =
@@ -104,7 +104,7 @@ let raw_as_string_exp_exn ~(kind : Js_raw_info.raw_kind) ?is_function
                      "Syntax error: a valid JS regex literal expected");
             (match is_function with
             | Some is_function -> (
-                match Classify_function.classify_exp prog with
+                match Melange_ffi.Classify_function.classify_exp prog with
                 | Js_function { arity = _; _ } -> is_function := true
                 | _ -> ())
             | None -> ());

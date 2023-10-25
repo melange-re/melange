@@ -78,7 +78,7 @@ module Utf8_string = struct
     if byte_offset = s_len then ()
     else
       let current_char = s.[byte_offset] in
-      match Ast_utf8_string.classify current_char with
+      match Melange_ffi.Utf8_string.classify current_char with
       | Single 92 (* '\\' *) ->
           escape_code (loc + 1) buf s (byte_offset + 1) s_len
       | Single 34 ->
@@ -95,7 +95,7 @@ module Utf8_string = struct
           check_and_transform (loc + 1) buf s (byte_offset + 1) s_len
       | Invalid | Cont _ -> error ~loc Invalid_code_point
       | Leading (n, _) ->
-          let i' = Ast_utf8_string.next s ~remaining:n byte_offset in
+          let i' = Melange_ffi.Utf8_string.next s ~remaining:n byte_offset in
           if i' < 0 then error ~loc Invalid_code_point
           else (
             for k = byte_offset to i' do
@@ -340,7 +340,7 @@ module Interp = struct
     if byte_offset = s_len then add_str_segment cxt loc
     else
       let current_char = s.[byte_offset] in
-      match Ast_utf8_string.classify current_char with
+      match Melange_ffi.Utf8_string.classify current_char with
       | Single 92 (* '\\' *) -> escape_code (loc + 1) s (byte_offset + 1) cxt
       | Single 34 ->
           Buffer.add_string buf "\\\"";
@@ -369,7 +369,7 @@ module Interp = struct
           check_and_transform (loc + 1) s (byte_offset + 1) cxt
       | Invalid | Cont _ -> pos_error ~loc cxt Invalid_code_point
       | Leading (n, _) ->
-          let i' = Ast_utf8_string.next s ~remaining:n byte_offset in
+          let i' = Melange_ffi.Utf8_string.next s ~remaining:n byte_offset in
           if i' < 0 then pos_error cxt ~loc Invalid_code_point
           else (
             for k = byte_offset to i' do

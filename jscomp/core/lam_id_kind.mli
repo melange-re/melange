@@ -1,5 +1,5 @@
 (* Copyright (C) Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -34,16 +34,16 @@ type rec_flag =
 type element = NA | SimpleForm of Lam.t
 type boxed_nullable = Undefined | Null | Null_undefined
 
-(** 
-       {[ let v/2 =  Pnull_to_opt u]} 
+(**
+       {[ let v/2 =  Pnull_to_opt u]}
 
        {[ let v/2 = Pnull_to_opt exp]}
-       can be translated into 
+       can be translated into
        {[
-         let v/1 = exp in 
-         let v/2 =a Pnull_to_opt exp 
+         let v/1 = exp in
+         let v/2 =a Pnull_to_opt exp
        ]}
-       so that [Pfield v/2 0] will be replaced by [v/1], 
+       so that [Pfield v/2 0] will be replaced by [v/1],
        [Lif(v/1)] will be translated into [Lif (v/2 === undefined )]
 *)
 type t =
@@ -51,7 +51,7 @@ type t =
   | OptionalBlock of Lam.t * boxed_nullable
   | ImmutableBlock of element array
   | MutableBlock of element array
-  | Constant of Lam_constant.t
+  | Constant of Lam.Constant.t
   | Module of Ident.t  (** TODO: static module vs first class module *)
   | FunctionId of {
       mutable arity : Lam_arity.t;
@@ -61,8 +61,8 @@ type t =
   | Parameter
       (** For this case, it can help us determine whether it should be inlined or not *)
   | NA
-      (** Not such information is associated with an identifier, it is immutable, 
-           if you only associate a property to an identifier 
+      (** Not such information is associated with an identifier, it is immutable,
+           if you only associate a property to an identifier
            we should consider [Lassign]
         *)
 
