@@ -84,7 +84,7 @@ let rec add (tree : _ Set_gen.t) x =
       if c = 0 then tree
       else if c < 0 then Set_gen.unsafe_two_elements x v
       else Set_gen.unsafe_two_elements v x
-  | Node { l; v; r } as t ->
+  | Node { l; v; r; _ } as t ->
       let c = compare_ident x v in
       if c = 0 then t
       else if c < 0 then Set_gen.bal (add l x) v r
@@ -94,7 +94,7 @@ let rec mem (tree : _ Set_gen.t) x =
   match tree with
   | Empty -> false
   | Leaf v -> compare_ident x v = 0
-  | Node { l; v; r } ->
+  | Node { l; v; r; _ } ->
       let c = compare_ident x v in
       c = 0 || mem (if c < 0 then l else r) x
 

@@ -10,7 +10,12 @@ let empty_segment { Utf8_string.Interp.content; _ } = String.length content = 0
 let ( ==~ ) a b =
   OUnit.assert_equal
     (List.map
-       (fun ({ start = { offset = a }; finish = { offset = b }; kind; content } :
+       (fun ({
+               start = { offset = a; _ };
+               finish = { offset = b; _ };
+               kind;
+               content;
+             } :
               Utf8_string.Interp.segment) -> (a, b, kind, content))
        (Utf8_string.Interp.transform_test a
        |> List.filter (fun x -> not @@ empty_segment x)))
@@ -20,8 +25,8 @@ let ( ==* ) a b =
   let segments =
     List.map
       (fun ({
-              start = { lnum = la; offset = a };
-              finish = { lnum = lb; offset = b };
+              start = { lnum = la; offset = a; _ };
+              finish = { lnum = lb; offset = b; _ };
               kind;
               content;
             } :

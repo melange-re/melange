@@ -304,7 +304,7 @@ module Internal = struct
     Arg.(value & flag & info [ "bs-cmi-only" ] ~doc)
 
   let bs_no_version_header =
-    let doc = "*internal*Don't print version header" in
+    let doc = "*internal* Don't print version header" in
     Arg.(value & flag & info [ "bs-no-version-header" ] ~doc)
 
   let bs_cross_module_opt =
