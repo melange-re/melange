@@ -242,7 +242,7 @@ let translate_scoped_module_val
       | [] -> E.js_global fn
       | x :: rest ->
           let start = E.js_global x in
-          List.fold_left E.dot start (Ext_list.append_one rest fn))
+          List.fold_left E.dot start (rest @ [ fn ]))
 
 let translate_scoped_access scopes obj =
   match scopes with

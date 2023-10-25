@@ -98,7 +98,7 @@ let rec no_side_effect_expression_desc (x : J.expression_desc) =
       *)
       List.for_all no_side_effect xs
   | Optional_block (x, _) -> no_side_effect x
-  | Object kvs -> Ext_list.for_all_snd kvs no_side_effect
+  | Object kvs -> List.for_all (fun (_, x) -> no_side_effect x) kvs
   | String_append (a, b) | Seq (a, b) -> no_side_effect a && no_side_effect b
   | Length (e, _) | Char_of_int e | Char_to_int e | Caml_block_tag e | Typeof e
     ->

@@ -50,10 +50,15 @@ let convert (xs : input) : output =
                ~update:(fun ({ hash_names_act = hash_names, act; _ } as acc) ->
                  { acc with hash_names_act = ((hash, name) :: hash_names, act) })
                { hash_names_act = ([ (hash, name) ], act); stamp = i });
-  let result = Coll.to_list coll (fun _ value -> value) @ !os in
-  Ext_list.sort_via_arrayf result
-    (fun x y -> compare x.stamp y.stamp)
-    (fun x -> x.hash_names_act)
+  let result =
+    let arr =
+      let result = Coll.to_list coll (fun _ value -> value) @ !os in
+      Array.of_list result
+    in
+    Array.sort (fun x y -> compare x.stamp y.stamp) arr;
+    Ext_array.to_list_f arr (fun x -> x.hash_names_act)
+  in
+  result
 
 let or_list (arg : lam) (hash_names : (int * string) list) =
   match hash_names with

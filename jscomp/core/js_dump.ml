@@ -770,7 +770,7 @@ and expression_desc cxt ~(level : int) x : cxt =
         expression_desc cxt ~level (Array (el, mutable_flag))
       else
         expression_desc cxt ~level
-          (Object (Ext_list.combine_array fields el (fun i -> Js_op.Lit i)))
+          (Object (Ext_list.map_combine_array fields el (fun i -> Js_op.Lit i)))
   | Caml_block (el, _, _, Blk_poly_var) -> (
       match el with
       | [ { expression_desc = Str (_, name); _ }; value ] ->
@@ -786,7 +786,7 @@ and expression_desc cxt ~(level : int) x : cxt =
   | Caml_block (el, _, tag, Blk_record_inlined p) ->
       let objs =
         let tails =
-          Ext_list.combine_array_append p.fields el
+          Ext_list.map_combine_array_append p.fields el
             (if !Js_config.debug then [ (name_symbol, E.str p.name) ] else [])
             (fun i -> Js_op.Lit i)
         in

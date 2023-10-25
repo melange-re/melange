@@ -22,9 +22,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let is_dir_sep_unix c = c = '/'
-let is_dir_sep_win_cygwin c = c = '/' || c = '\\' || c = ':'
-let is_dir_sep = if Sys.unix then is_dir_sep_unix else is_dir_sep_win_cygwin
+let is_dir_sep =
+  let is_dir_sep_unix c = c = '/' in
+  let is_dir_sep_win_cygwin c = c = '/' || c = '\\' || c = ':' in
+  if Sys.unix then is_dir_sep_unix else is_dir_sep_win_cygwin
 
 let get_extension_maybe name =
   let name_len = String.length name in

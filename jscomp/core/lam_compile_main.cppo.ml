@@ -82,29 +82,29 @@ let compile_group (meta : Lam_stats.t)
 
 (* Also need analyze its depenency is pure or not *)
 let no_side_effects (rest : Lam_group.t list) : string option =
-  Ext_list.find_opt rest (fun x ->
-      match x with
-      | Single(kind,id,body) ->
-        begin
-          match kind with
-          | Strict | Variable ->
-            if not @@ Lam_analysis.no_side_effects body
-            then Some  (Printf.sprintf "%s" (Ident.name id))
-            else None
-          | _ -> None
-        end
-      | Recursive bindings ->
-        Ext_list.find_opt  bindings (fun (id,lam) ->
-            if not @@ Lam_analysis.no_side_effects lam
-            then Some (Printf.sprintf "%s" (Ident.name id) )
-            else None
-          )
-      | Nop lam ->
+  List.find_map (function
+    | Lam_group.Single(kind,id,body) ->
+      begin
+        match kind with
+        | Strict | Variable ->
+          if not @@ Lam_analysis.no_side_effects body
+          then Some  (Printf.sprintf "%s" (Ident.name id))
+          else None
+        | _ -> None
+      end
+    | Recursive bindings ->
+      List.find_map (fun (id,lam) ->
         if not @@ Lam_analysis.no_side_effects lam
-        then
-          (*  (Lam_util.string_of_lambda lam) *)
-          Some ""
-        else None (* TODO :*))
+        then Some (Printf.sprintf "%s" (Ident.name id) )
+        else None)
+        bindings
+    | Nop lam ->
+      if not @@ Lam_analysis.no_side_effects lam
+      then
+        (*  (Lam_util.string_of_lambda lam) *)
+        Some ""
+      else None (* TODO :*))
+    rest
 
 
 let _d  = fun  s lam ->
@@ -265,13 +265,21 @@ js
       if !Js_config.all_module_aliases then []
       else
         let hard_deps =
-          Js_fold_basic.calculate_hard_dependencies program.block in
-        Lam_compile_env.populate_required_modules
-          may_required_modules hard_deps ;
-        Ext_list.sort_via_array (Lam_module_ident.Hash_set.to_list hard_deps)
-          (fun id1 id2 ->
-             String.compare (Lam_module_ident.name id1) (Lam_module_ident.name id2)
-          )
+          Js_fold_basic.calculate_hard_dependencies program.block
+        in
+        Lam_compile_env.populate_required_modules may_required_modules hard_deps;
+        let module_ids =
+          let arr =
+            Lam_module_ident.Hash_set.to_list hard_deps
+            |> Array.of_list
+          in
+          Array.sort
+            (fun id1 id2 ->
+              String.compare (Lam_module_ident.name id1) (Lam_module_ident.name id2))
+            arr;
+          Array.to_list arr
+        in
+        module_ids
     in
     Warnings.check_fatal();
     let effect =

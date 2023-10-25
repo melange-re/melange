@@ -37,7 +37,7 @@ module S = Js_stmt_make
 
 let super = Js_record_map.super
 
-let substitue_variables (map : Ident.t Map_ident.t) =
+let substitute_variables (map : Ident.t Map_ident.t) =
   { super with ident = (fun _ id -> Map_ident.find_default map id id) }
 
 (* 1. recursive value ? let rec x = 1 :: x
@@ -54,34 +54,57 @@ let substitue_variables (map : Ident.t Map_ident.t) =
          _x = u
        }
    ]}
-      if it is substitued, the assignment will align the value which is incorrect
+      if it is substituted, the assignment will align the value which is incorrect
 *)
 
-let inline_call (immutable_list : bool list) params (args : J.expression list)
-    processed_blocks =
-  let map, block =
-    if immutable_list = [] then
-      List.fold_right2
-        (fun param (arg : J.expression) (map, acc) ->
-          match arg.expression_desc with
-          | Var (Id id) -> (Map_ident.add map param id, acc)
-          | _ -> (map, S.define_variable ~kind:Variable param arg :: acc))
-        params args
-        (Map_ident.empty, processed_blocks)
-    else
-      Ext_list.fold_right3 params args immutable_list
-        (Map_ident.empty, processed_blocks) (fun param arg mask (map, acc) ->
-          match (mask, arg.expression_desc) with
-          | true, Var (Id id) -> (Map_ident.add map param id, acc)
-          | _ -> (map, S.define_variable ~kind:Variable param arg :: acc))
+let inline_call =
+  let rec fold_right3 l r last ~init:acc ~f =
+    match (l, r, last) with
+    | [], [], [] -> acc
+    | [ a0 ], [ b0 ], [ c0 ] -> f a0 b0 c0 acc
+    | [ a0; a1 ], [ b0; b1 ], [ c0; c1 ] -> f a0 b0 c0 (f a1 b1 c1 acc)
+    | [ a0; a1; a2 ], [ b0; b1; b2 ], [ c0; c1; c2 ] ->
+        f a0 b0 c0 (f a1 b1 c1 (f a2 b2 c2 acc))
+    | [ a0; a1; a2; a3 ], [ b0; b1; b2; b3 ], [ c0; c1; c2; c3 ] ->
+        f a0 b0 c0 (f a1 b1 c1 (f a2 b2 c2 (f a3 b3 c3 acc)))
+    | [ a0; a1; a2; a3; a4 ], [ b0; b1; b2; b3; b4 ], [ c0; c1; c2; c3; c4 ] ->
+        f a0 b0 c0 (f a1 b1 c1 (f a2 b2 c2 (f a3 b3 c3 (f a4 b4 c4 acc))))
+    | ( a0 :: a1 :: a2 :: a3 :: a4 :: arest,
+        b0 :: b1 :: b2 :: b3 :: b4 :: brest,
+        c0 :: c1 :: c2 :: c3 :: c4 :: crest ) ->
+        f a0 b0 c0
+          (f a1 b1 c1
+             (f a2 b2 c2
+                (f a3 b3 c3
+                   (f a4 b4 c4 (fold_right3 arest brest crest ~init:acc ~f)))))
+    | _, _, _ -> invalid_arg "fold_right3"
   in
-  if Map_ident.is_empty map then block
-  else
-    let obj = substitue_variables map in
-    obj.block obj block
+  fun (immutable_list : bool list) params (args : J.expression list)
+      processed_blocks ->
+    let map, block =
+      if immutable_list = [] then
+        List.fold_right2
+          (fun param (arg : J.expression) (map, acc) ->
+            match arg.expression_desc with
+            | Var (Id id) -> (Map_ident.add map param id, acc)
+            | _ -> (map, S.define_variable ~kind:Variable param arg :: acc))
+          params args
+          (Map_ident.empty, processed_blocks)
+      else
+        fold_right3 params args immutable_list
+          ~init:(Map_ident.empty, processed_blocks)
+          ~f:(fun param arg mask (map, acc) ->
+            match (mask, arg.expression_desc) with
+            | true, Var (Id id) -> (Map_ident.add map param id, acc)
+            | _ -> (map, S.define_variable ~kind:Variable param arg :: acc))
+    in
+    if Map_ident.is_empty map then block
+    else
+      let obj = substitute_variables map in
+      obj.block obj block
 
 (** There is a side effect when traversing dead code, since
-    we assume that substitue a node would mark a node as dead node,
+    we assume that substitute a node would mark a node as dead node,
 
     so if we traverse a dead node, this would get a wrong result.
     it does happen in such scenario

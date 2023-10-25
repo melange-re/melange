@@ -22,7 +22,7 @@
 let rec no_list args = List.for_all no_bounded_variables args
 
 and no_list_snd : 'a. ('a * Lam.t) list -> bool =
- fun args -> Ext_list.for_all_snd args no_bounded_variables
+ fun args -> List.for_all (fun (_, x) -> no_bounded_variables x) args
 
 and no_opt x = match x with None -> true | Some a -> no_bounded_variables a
 
