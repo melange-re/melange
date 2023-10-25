@@ -505,7 +505,19 @@ let init len f =
 #endif
     ; !acc
 
-
+#ifdef TYPE_INT
+let mem =
+  let rec unsafe_mem_aux arr i (key : int) bound =
+    if i <= bound then
+      if Array.unsafe_get arr i = (key : int) then true
+      else unsafe_mem_aux arr (i + 1) key bound
+    else false
+  in
+  fun key (x : t) ->
+    let internal_array = unsafe_internal_array x in
+    let len = length x in
+    unsafe_mem_aux internal_array 0 key (len - 1)
+#endif
 
 #ifdef TYPE_FUNCTOR
 end
