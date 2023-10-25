@@ -151,7 +151,7 @@ let scc (groups : bindings) (lam : Lam.t) (body : Lam.t) =
             match bindings with
             | [ (id, lam) ] ->
                 let base_key = Ordered_hash_map_local_ident.rank domain id in
-                if Int_vec_util.mem base_key node_vec.(base_key) then
+                if Vec_int.mem base_key node_vec.(base_key) then
                   Lam.letrec bindings acc
                 else Lam.let_ Strict id lam acc
             | _ -> Lam.letrec bindings acc)
