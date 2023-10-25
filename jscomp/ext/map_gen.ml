@@ -11,7 +11,6 @@
 (*                                                                     *)
 (************************************)
 
-[@@@warnerror "+55"]
 (* adapted from stdlib *)
 
 type ('key, 'a) t0 =

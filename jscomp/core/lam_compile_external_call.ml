@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-[@@@warning "+9"]
-
 module E = Js_exp_make
 
 let splice_fn_apply fn args =
@@ -330,7 +328,9 @@ let translate_ffi (cxt : Lam_compile_context.t) arg_types
         | self :: args ->
             (* PR2162 [self_type] more checks in syntax:
                - should not be [@as] *)
-            let[@warning "-8"] (_self_type :: arg_types) = arg_types in
+            let[@ocaml.warning "-partial-match"] (_self_type :: arg_types) =
+              arg_types
+            in
             if splice then
               let args, eff, dynamic =
                 assemble_args_has_splice arg_types args

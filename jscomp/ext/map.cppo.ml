@@ -198,7 +198,7 @@ let rec disjoint_merge
             fixed
             (disjoint_merge xs1.r r fix_conflict)
       end
-    else let [@warning "-8"] (Node ({k;_} as s2) : _ Map_gen.t)  = s2 in
+    else let [@ocaml.warning "-partial-match"] (Node ({k;_} as s2) : _ Map_gen.t)  = s2 in
       begin match split s1 k with
         | No {l;  r} ->
           Map_gen.join
