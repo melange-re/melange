@@ -82,9 +82,15 @@ let from_buffer buf =
     last_new_line = false;
   }
 
-let string t s =
-  output_string t s;
-  t.last_new_line <- Ext_string.ends_with_char s '\n'
+let string =
+  let ends_with_char s c =
+    match String.length s with
+    | 0 -> false
+    | len -> String.unsafe_get s (len - 1) = c
+  in
+  fun t s ->
+    output_string t s;
+    t.last_new_line <- ends_with_char s '\n'
 
 let newline t =
   if not t.last_new_line then (

@@ -33,23 +33,30 @@ end
    we can not tell the difference between "x.cpp.ml"
    and "x.ml"
 *)
-let module_name name =
-  let rec search_dot i name =
-    if i < 0 then String.capitalize_ascii name
-    else if String.unsafe_get name i = '.' then Ext_string.capitalize_sub name i
-    else search_dot (i - 1) name
+let module_name =
+  let capitalize_sub s len =
+    let sub = Bytes.sub (Bytes.unsafe_of_string s) 0 len in
+    if Bytes.length sub < 0 then invalid_arg "capitalize_sub"
+    else (
+      Bytes.set sub 0 (Char.uppercase_ascii (Bytes.get sub 0));
+      Bytes.unsafe_to_string sub)
   in
-  let name = Filename.basename name in
-  let name_len = String.length name in
-  search_dot (name_len - 1) name
-
-let fprintf = Format.fprintf
+  fun name ->
+    let rec search_dot i name =
+      if i < 0 then String.capitalize_ascii name
+      else if String.unsafe_get name i = '.' then capitalize_sub name i
+      else search_dot (i - 1) name
+    in
+    let name = Filename.basename name in
+    let name_len = String.length name in
+    search_dot (name_len - 1) name
 
 let print_if_pipe ppf flag printer arg =
-  if !flag then fprintf ppf "%a@." printer arg;
+  if !flag then Format.fprintf ppf "%a@." printer arg;
   arg
 
-let print_if ppf flag printer arg = if !flag then fprintf ppf "%a@." printer arg
+let print_if ppf flag printer arg =
+  if !flag then Format.fprintf ppf "%a@." printer arg
 
 (*
 let process_with_gentype filename =
@@ -82,12 +89,12 @@ let after_parsing_sig ppf outputprefix ast =
     Env.set_unit_name modulename;
 
     let tsg = Typemod.type_interface initial_env ast in
-    if !Clflags.dump_typedtree then fprintf ppf "%a@." Printtyped.interface tsg;
+    if !Clflags.dump_typedtree then
+      Format.fprintf ppf "%a@." Printtyped.interface tsg;
     let sg = tsg.sig_type in
     if !Clflags.print_types then
       Printtyp.wrap_printing_env ~error:false initial_env (fun () ->
-          Format.(fprintf std_formatter)
-            "%a@."
+          Format.fprintf Format.std_formatter "%a@."
             (Printtyp.printed_signature !Location.input_name)
             sg);
     ignore (Includemod.signatures initial_env ~mark:Mark_both sg sg);
