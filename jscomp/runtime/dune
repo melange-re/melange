@@ -33,16 +33,14 @@
 
 (rule
  (target caml_oo_curry.ml)
- (deps gen/caml_oo_curry_gen.ml)
  (action
   (with-stdout-to
    %{target}
-   (run ocaml %{deps}))))
+   (run ./gen/gen_caml_oo_curry.exe))))
 
 (rule
  (target curry.ml)
- (deps gen/curry_gen.ml)
  (action
   (with-stdout-to
    %{target}
-   (run ocaml %{deps}))))
+   (run ./gen/gen_curry.exe))))

@@ -1,0 +1,2 @@
+(executables
+ (names gen_caml_oo_curry gen_curry))
