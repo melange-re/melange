@@ -29,14 +29,6 @@ type t = (* | File of string  *)
 let cwd = lazy (Sys.getcwd ())
 let path_sep = if Sys.win32 then ';' else ':'
 
-let split_by_sep_per_os : string -> string list =
-  if Sys.win32 || Sys.cygwin then fun x ->
-    (* on Windows, we can still accept -bs-package-output lib/js *)
-    Ext_string.split_by
-      (fun x -> match x with '/' | '\\' -> true | _ -> false)
-      x
-  else fun x -> Ext_string.split x '/'
-
 (** Used when produce node compatible paths *)
 let node_sep = "/"
 
@@ -63,29 +55,46 @@ let node_current = "."
       /c/d
     ]}
 *)
-let node_relative_path ~from:(file_or_dir_2 : t) (file_or_dir_1 : t) =
-  let relevant_dir1 =
-    match file_or_dir_1 with Dir x -> x
-    (* | File file1 ->  Filename.dirname file1 *)
+let node_relative_path =
+  let split_by_sep_per_os : string -> string list =
+    if Sys.win32 || Sys.cygwin then fun x ->
+      (* on Windows, we can still accept -bs-package-output lib/js *)
+      Ext_string.split_by
+        (fun x -> match x with '/' | '\\' -> true | _ -> false)
+        x
+    else fun x -> Ext_string.split x '/'
   in
-  let relevant_dir2 =
-    match file_or_dir_2 with Dir x -> x
-    (* | File file2 -> Filename.dirname file2  *)
-  in
-  let dir1 = split_by_sep_per_os relevant_dir1 in
-  let dir2 = split_by_sep_per_os relevant_dir2 in
-  let rec go (dir1 : string list) (dir2 : string list) =
-    match (dir1, dir2) with
-    | "." :: xs, ys -> go xs ys
-    | xs, "." :: ys -> go xs ys
-    | x :: xs, y :: ys when x = y -> go xs ys
-    | _, _ -> List.map (fun _ -> node_parent) dir2 @ dir1
-  in
-  match go dir1 dir2 with
-  | x :: _ as ys when x = node_parent -> String.concat node_sep ys
-  | ys -> String.concat node_sep @@ (node_current :: ys)
+  fun ~from:(file_or_dir_2 : t) (file_or_dir_1 : t) ->
+    let relevant_dir1 =
+      match file_or_dir_1 with Dir x -> x
+      (* | File file1 ->  Filename.dirname file1 *)
+    in
+    let relevant_dir2 =
+      match file_or_dir_2 with Dir x -> x
+      (* | File file2 -> Filename.dirname file2  *)
+    in
+    let dir1 = split_by_sep_per_os relevant_dir1 in
+    let dir2 = split_by_sep_per_os relevant_dir2 in
+    let rec go (dir1 : string list) (dir2 : string list) =
+      match (dir1, dir2) with
+      | "." :: xs, ys -> go xs ys
+      | xs, "." :: ys -> go xs ys
+      | x :: xs, y :: ys when x = y -> go xs ys
+      | _, _ -> List.map (fun _ -> node_parent) dir2 @ dir1
+    in
+    match go dir1 dir2 with
+    | x :: _ as ys when x = node_parent -> String.concat node_sep ys
+    | ys -> String.concat node_sep @@ (node_current :: ys)
 
-let node_concat ~dir base = dir ^ node_sep ^ base
+let node_concat ~dir base =
+  let buf =
+    Buffer.create
+      (String.length dir + String.length node_sep + String.length base)
+  in
+  Buffer.add_string buf dir;
+  Buffer.add_string buf node_sep;
+  Buffer.add_string buf base;
+  Buffer.contents buf
 
 let node_rebase_file ~from ~to_ file =
   node_concat
@@ -94,34 +103,26 @@ let node_rebase_file ~from ~to_ file =
        else node_relative_path ~from:(Dir from) (Dir to_))
     file
 
-let strip_trailing_slashes p =
-  let len = String.length p in
-  if String.unsafe_get p (len - 1) == '/' && len > 1 then (
-    let idx = ref 0 in
-    while String.unsafe_get p (len - 1 - !idx) == '/' && len - 1 - !idx > 0 do
-      incr idx
-    done;
-    Bytes.(unsafe_to_string (sub (unsafe_of_string p) 0 (len - !idx))))
-  else p
-
-let concat dirname filename =
-  if String.length filename = 0 then dirname
-  else if strip_trailing_slashes filename = Filename.current_dir_name then
-    dirname
-  else if strip_trailing_slashes dirname = Filename.current_dir_name then
-    filename
-  else if strip_trailing_slashes filename = Filename.current_dir_name then
-    filename
-  else Filename.concat dirname filename
-
-(***
-   {[
-     Filename.concat "." "";;
-     "./"
-   ]}
-*)
-let combine path1 path2 =
-  if Filename.is_relative path2 then concat path1 path2 else path2
+let concat =
+  let strip_trailing_slashes p =
+    let len = String.length p in
+    if String.unsafe_get p (len - 1) == '/' && len > 1 then (
+      let idx = ref 0 in
+      while String.unsafe_get p (len - 1 - !idx) == '/' && len - 1 - !idx > 0 do
+        incr idx
+      done;
+      Bytes.(unsafe_to_string (sub (unsafe_of_string p) 0 (len - !idx))))
+    else p
+  in
+  fun dirname filename ->
+    if String.length filename = 0 then dirname
+    else if strip_trailing_slashes filename = Filename.current_dir_name then
+      dirname
+    else if strip_trailing_slashes dirname = Filename.current_dir_name then
+      filename
+    else if strip_trailing_slashes filename = Filename.current_dir_name then
+      filename
+    else Filename.concat dirname filename
 
 let ( // ) = concat
 
@@ -159,18 +160,9 @@ let split_aux p =
         *)
       else go dir (new_path :: acc)
   in
-
   go p []
 
-(**
-   TODO: optimization
-   if [from] and [to] resolve to the same path, a zero-length string is returned
-
-   This function is useed in [es6-global] and
-   [amdjs-global] format and tailored for `rollup`
-*)
 let curd = Filename.current_dir_name
-
 let pard = Filename.parent_dir_name
 
 let rel_normalized_absolute_path ~from to_ =
@@ -207,7 +199,7 @@ let rel_normalized_absolute_path ~from to_ =
     else if Filename.is_relative from then (curd ^ Filename.dir_sep) ^ v
     else v
 
-(*TODO: could be hgighly optimized later
+(*TODO: could be highly optimized later
   {[
     normalize_absolute_path "/gsho/./..";;
 
@@ -247,19 +239,17 @@ let normalize_absolute_path x =
   in
   match rev_paths with [] -> root | last :: rest -> go last rest
 
-let absolute_path cwd s =
-  let process s =
+let absolute_path =
+  let rec aux s =
+    let base, dir = (Filename.basename s, Filename.dirname s) in
+    if dir = s then dir
+    else if base = Filename.current_dir_name then aux dir
+    else if base = Filename.parent_dir_name then Filename.dirname (aux dir)
+    else aux dir // base
+  in
+  fun cwd s ->
     let s = if Filename.is_relative s then Lazy.force cwd // s else s in
     (* Now simplify . and .. components *)
-    let rec aux s =
-      let base, dir = (Filename.basename s, Filename.dirname s) in
-      if dir = s then dir
-      else if base = Filename.current_dir_name then aux dir
-      else if base = Filename.parent_dir_name then Filename.dirname (aux dir)
-      else aux dir // base
-    in
     aux s
-  in
-  process s
 
 let absolute_cwd_path s = absolute_path cwd s
