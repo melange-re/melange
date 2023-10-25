@@ -7,7 +7,6 @@
  (melange.compile_flags
   -nopervasives
   -nostdlib
-  -bs-no-version-header
   -bs-no-check-div-by-zero
   -bs-cross-module-opt
   -unsafe))

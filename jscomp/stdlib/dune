@@ -37,12 +37,11 @@
   (modules_before_stdlib CamlinternalFormatBasics CamlinternalAtomic)
   (internal_modules Camlinternal*))
  (melange.compile_flags
-  -bs-no-version-header
   -bs-no-check-div-by-zero
   -bs-cross-module-opt
   -nolabels
   -w
-  -9-61))
+  -9))
 
 (rule
  (deps either.cppo.ml)

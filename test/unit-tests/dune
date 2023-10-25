@@ -1,5 +1,5 @@
 (test
  (name ounit_tests)
  (package melange)
- (flags :standard -w -9 -open Melange_compiler_libs)
+ (flags :standard -open Melange_compiler_libs)
  (libraries ounit2 ext melange_compiler_libs str melange.ppx melangelib))
