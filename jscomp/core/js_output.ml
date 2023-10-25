@@ -60,10 +60,9 @@ let output_of_block_and_expression (continuation : continuation)
   match continuation with
   | EffectCall Not_tail -> make block ~value:exp
   | EffectCall (Maybe_tail_is_return _) ->
-      make (Ext_list.append_one block (S.return_stmt exp)) ~output_finished:True
-  | Declare (kind, n) ->
-      make (Ext_list.append_one block (S.define_variable ~kind n exp))
-  | Assign n -> make (Ext_list.append_one block (S.assign n exp))
+      make (block @ [ S.return_stmt exp ]) ~output_finished:True
+  | Declare (kind, n) -> make (block @ [ S.define_variable ~kind n exp ])
+  | Assign n -> make (block @ [ S.assign n exp ])
   | NeedValue _ -> make block ~value:exp
 
 let block_with_opt_expr block (x : J.expression option) : J.block =

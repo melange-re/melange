@@ -60,17 +60,6 @@ let suites =
            Ext_list.split_at_last [ 1; 2; 3; 4; 5; 6; 7 ]
            =~ ([ 1; 2; 3; 4; 5; 6 ], 7) );
          ( __LOC__ >:: fun _ ->
-           OUnit.assert_equal
-             (Ext_list.assoc_by_int [ (2, "x"); (3, "y"); (1, "z") ] 1 None)
-             "z" );
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_raises
-             (Assert_failure ("jscomp/ext/ext_list.ml", 321, 35))
-             (fun _ ->
-               ignore
-               @@ Ext_list.assoc_by_int [ (2, "x"); (3, "y"); (1, "z") ] 11 None)
-         );
-         ( __LOC__ >:: fun _ ->
            OUnit.assert_bool __LOC__
              (Ext_list.length_larger_than_n [ 1; 2 ] [ 1 ] 1);
            OUnit.assert_bool __LOC__

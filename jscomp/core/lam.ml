@@ -430,19 +430,25 @@ and eq_option l1 l2 =
 
 and eq_approx_list ls ls1 = Ext_list.for_all2_no_exn ls ls1 eq_approx
 
+let assoc_with_opt_default ~default i xs =
+  match List.assoc i xs with
+  | v -> v
+  | exception Not_found -> Option.get default
+
 let switch lam (lam_switch : lambda_switch) : t =
   match lam with
   | Lconst (Const_int { i; _ }) ->
-      Ext_list.assoc_by_int lam_switch.sw_consts (Int32.to_int i)
-        lam_switch.sw_failaction
+      assoc_with_opt_default ~default:lam_switch.sw_failaction (Int32.to_int i)
+        lam_switch.sw_consts
   | Lconst (Const_block (i, _, _)) ->
-      Ext_list.assoc_by_int lam_switch.sw_blocks i lam_switch.sw_failaction
+      assoc_with_opt_default i lam_switch.sw_blocks
+        ~default:lam_switch.sw_failaction
   | _ -> Lswitch (lam, lam_switch)
 
 let stringswitch (lam : t) cases default : t =
   match lam with
   | Lconst (Const_string { s; unicode = false }) ->
-      Ext_list.assoc_by_string cases s default
+      assoc_with_opt_default s cases ~default
   | _ -> Lstringswitch (lam, cases, default)
 
 let true_ : t = Lconst Const_js_true

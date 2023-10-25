@@ -90,8 +90,10 @@ let int_switch ?(comment : string option)
   | Number (Int { i; _ }) -> (
       let continuation =
         match
-          Ext_list.find_opt clauses (fun (switch_case, x) ->
+          List.find_map
+            (fun (switch_case, (x : J.case_clause)) ->
               if switch_case = Int32.to_int i then Some x.switch_body else None)
+            clauses
         with
         | Some case -> case
         | None -> ( match default with Some x -> x | None -> assert false)
@@ -133,8 +135,10 @@ let string_switch ?(comment : string option)
   | Str (_, txt) | Unicode txt -> (
       let continuation =
         match
-          Ext_list.find_opt clauses (fun (switch_case, x) ->
+          List.find_map
+            (fun (switch_case, (x : J.case_clause)) ->
               if switch_case = txt then Some x.switch_body else None)
+            clauses
         with
         | Some case -> case
         | None -> ( match default with Some x -> x | None -> assert false)

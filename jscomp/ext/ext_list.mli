@@ -23,24 +23,17 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 val map_combine : 'a list -> 'b list -> ('a -> 'c) -> ('c * 'b) list
-val combine_array : 'a array -> 'b list -> ('a -> 'c) -> ('c * 'b) list
+val map_combine_array : 'a array -> 'b list -> ('a -> 'c) -> ('c * 'b) list
 
-val combine_array_append :
+val map_combine_array_append :
   'a array -> 'b list -> ('c * 'b) list -> ('a -> 'c) -> ('c * 'b) list
 
 val map_snd : ('a * 'b) list -> ('b -> 'c) -> ('a * 'c) list
 
 val map_last : 'a list -> (bool -> 'a -> 'b) -> 'b list
 (** [map_last f xs ]
-    will pass [true] to [f] for the last element,
-    [false] otherwise.
-    For empty list, it returns empty
-*)
-
-val append_one : 'a list -> 'a -> 'a list
-
-val fold_right3 :
-  'a list -> 'b list -> 'c list -> 'd -> ('a -> 'b -> 'c -> 'd -> 'd) -> 'd
+    will pass [true] to [f] for the last element, [false] otherwise.
+    For empty list, it returns empty *)
 
 val fold_left_with_offset :
   'a list -> 'acc -> int -> ('a -> 'acc -> int -> 'acc) -> 'acc
@@ -50,23 +43,16 @@ val same_length : 'a list -> 'b list -> bool
 val split_at : 'a list -> int -> 'a list * 'a list
 (** [split_at n l]
     will split [l] into two lists [a,b], [a] will be of length [n],
-    otherwise, it will raise
-*)
+    otherwise, it will raise *)
 
 val split_at_last : 'a list -> 'a list * 'a
-(** [split_at_last l]
-    It is equivalent to [split_at (List.length l - 1) l ]
-*)
+(** [split_at_last l] is equivalent to [split_at (List.length l - 1) l ] *)
 
-val filter_mapi : 'a list -> ('a -> int -> 'b option) -> 'b list
 val length_ge : 'a list -> int -> bool
-
 (**
-
    {[length xs = length ys + n ]}
    input n should be positive
-   TODO: input checking
-*)
+   TODO: input checking *)
 
 val length_larger_than_n : 'a list -> 'a list -> int -> bool
 
@@ -83,43 +69,13 @@ val stable_group : 'a list -> ('a -> 'a -> bool) -> 'a list list
      [[1];[2];[4];[3;3]]
    ]}
     TODO: this is O(n^2) behavior
-    which could be improved later
-*)
+    which could be improved later *)
 
-val find_first_not : 'a list -> ('a -> bool) -> 'a option
-(** [find_first_not p lst ]
-    if all elements in [lst] pass, return [None]
-    otherwise return the first element [e] as [Some e] which
-    fails the predicate
-*)
-
-(** [find_opt f l] returns [None] if all return [None],
-    otherwise returns the first one.
-*)
-
-val find_opt : 'a list -> ('a -> 'b option) -> 'b option
-val find_def : 'a list -> ('a -> 'b option) -> 'b -> 'b
 val rev_iter : 'a list -> ('a -> unit) -> unit
-val for_all_snd : ('a * 'b) list -> ('b -> bool) -> bool
 
 val for_all2_no_exn : 'a list -> 'b list -> ('a -> 'b -> bool) -> bool
-(** [for_all2_no_exn p xs ys]
-    return [true] if all satisfied,
-    [false] otherwise or length not equal
-*)
+(** [for_all2_no_exn p xs ys] returns [true] if all predicates satisfied,
+    [false] otherwise or when the list lengths are not equal. *)
 
 val split_map : 'a list -> ('a -> 'b * 'c) -> 'b list * 'c list
 (** [f] is applied follow the list order *)
-
-val sort_via_array : 'a list -> ('a -> 'a -> int) -> 'a list
-val sort_via_arrayf : 'a list -> ('a -> 'a -> int) -> ('a -> 'b) -> 'b list
-
-val assoc_by_string : (string * 'a) list -> string -> 'a option -> 'a
-(** [assoc_by_string default key lst]
-    if  [key] is found in the list  return that val,
-    other unbox the [default],
-    otherwise [assert false ]
-*)
-
-val assoc_by_int : (int * 'a) list -> int -> 'a option -> 'a
-val concat_append : 'a list list -> 'a list -> 'a list

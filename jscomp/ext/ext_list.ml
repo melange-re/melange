@@ -38,11 +38,11 @@ let rec arr_list_combine_unsafe arr l i j acc f =
     | h :: tl ->
         (f arr.!(i), h) :: arr_list_combine_unsafe arr tl (i + 1) j acc f
 
-let combine_array_append arr l acc f =
+let map_combine_array_append arr l acc f =
   let len = Array.length arr in
   arr_list_combine_unsafe arr l 0 len acc f
 
-let combine_array arr l f =
+let map_combine_array arr l f =
   let len = Array.length arr in
   arr_list_combine_unsafe arr l 0 len [] f
 
@@ -104,40 +104,6 @@ let rec map_last l f =
       let y4 = f false x4 in
       y1 :: y2 :: y3 :: y4 :: map_last tail f
 
-let rec append_aux l1 l2 =
-  match l1 with
-  | [] -> l2
-  | [ a0 ] -> a0 :: l2
-  | [ a0; a1 ] -> a0 :: a1 :: l2
-  | [ a0; a1; a2 ] -> a0 :: a1 :: a2 :: l2
-  | [ a0; a1; a2; a3 ] -> a0 :: a1 :: a2 :: a3 :: l2
-  | [ a0; a1; a2; a3; a4 ] -> a0 :: a1 :: a2 :: a3 :: a4 :: l2
-  | a0 :: a1 :: a2 :: a3 :: a4 :: rest ->
-      a0 :: a1 :: a2 :: a3 :: a4 :: append_aux rest l2
-
-let append l1 l2 = match l2 with [] -> l1 | _ -> append_aux l1 l2
-let append_one l1 x = append_aux l1 [ x ]
-
-let rec fold_right3 l r last acc f =
-  match (l, r, last) with
-  | [], [], [] -> acc
-  | [ a0 ], [ b0 ], [ c0 ] -> f a0 b0 c0 acc
-  | [ a0; a1 ], [ b0; b1 ], [ c0; c1 ] -> f a0 b0 c0 (f a1 b1 c1 acc)
-  | [ a0; a1; a2 ], [ b0; b1; b2 ], [ c0; c1; c2 ] ->
-      f a0 b0 c0 (f a1 b1 c1 (f a2 b2 c2 acc))
-  | [ a0; a1; a2; a3 ], [ b0; b1; b2; b3 ], [ c0; c1; c2; c3 ] ->
-      f a0 b0 c0 (f a1 b1 c1 (f a2 b2 c2 (f a3 b3 c3 acc)))
-  | [ a0; a1; a2; a3; a4 ], [ b0; b1; b2; b3; b4 ], [ c0; c1; c2; c3; c4 ] ->
-      f a0 b0 c0 (f a1 b1 c1 (f a2 b2 c2 (f a3 b3 c3 (f a4 b4 c4 acc))))
-  | ( a0 :: a1 :: a2 :: a3 :: a4 :: arest,
-      b0 :: b1 :: b2 :: b3 :: b4 :: brest,
-      c0 :: c1 :: c2 :: c3 :: c4 :: crest ) ->
-      f a0 b0 c0
-        (f a1 b1 c1
-           (f a2 b2 c2
-              (f a3 b3 c3 (f a4 b4 c4 (fold_right3 arest brest crest acc f)))))
-  | _, _, _ -> invalid_arg "Ext_list.fold_right2"
-
 let rec fold_left_with_offset l accu i f =
   match l with
   | [] -> accu
@@ -176,20 +142,6 @@ let split_at_last (x : 'a list) =
       let rev, last = split_at_last_aux [] rest in
       (a0 :: a1 :: a2 :: a3 :: a4 :: rev, last)
 
-(**
-   can not do loop unroll due to state combination
-*)
-let filter_mapi xs f =
-  let rec aux i xs =
-    match xs with
-    | [] -> []
-    | y :: ys -> (
-        match f y i with
-        | None -> aux (i + 1) ys
-        | Some z -> z :: aux (i + 1) ys)
-  in
-  aux 0 xs
-
 let rec length_compare l n =
   if n < 0 then `Gt
   else
@@ -210,23 +162,18 @@ let rec length_larger_than_n xs ys n =
   | _ :: xs, _ :: ys -> length_larger_than_n xs ys n
   | [], _ -> false
 
-let rec group (eq : 'a -> 'a -> bool) lst =
-  match lst with [] -> [] | x :: xs -> aux eq x (group eq xs)
-
-and aux eq (x : 'a) (xss : 'a list list) : 'a list list =
-  match xss with
-  | [] -> [ [ x ] ]
-  | (y0 :: _ as y) :: ys ->
-      (* cannot be empty *)
-      if eq x y0 then (x :: y) :: ys else y :: aux eq x ys
-  | _ :: _ -> assert false
-
-let stable_group lst eq = group eq lst |> List.rev
-
-let rec find_first_not xs p =
-  match xs with
-  | [] -> None
-  | a :: l -> if p a then find_first_not l p else Some a
+let stable_group =
+  let rec group (eq : 'a -> 'a -> bool) lst =
+    match lst with [] -> [] | x :: xs -> aux eq x (group eq xs)
+  and aux eq (x : 'a) (xss : 'a list list) : 'a list list =
+    match xss with
+    | [] -> [ [ x ] ]
+    | (y0 :: _ as y) :: ys ->
+        (* cannot be empty *)
+        if eq x y0 then (x :: y) :: ys else y :: aux eq x ys
+    | _ :: _ -> assert false
+  in
+  fun lst eq -> group eq lst |> List.rev
 
 let rec rev_iter l f =
   match l with
@@ -252,24 +199,11 @@ let rec rev_iter l f =
       f x2;
       f x1
 
-let rec for_all_snd lst p =
-  match lst with [] -> true | (_, a) :: l -> p a && for_all_snd l p
-
 let rec for_all2_no_exn l1 l2 p =
   match (l1, l2) with
   | [], [] -> true
   | a1 :: l1, a2 :: l2 -> p a1 a2 && for_all2_no_exn l1 l2 p
   | _, _ -> false
-
-let rec find_opt xs p =
-  match xs with
-  | [] -> None
-  | x :: l -> ( match p x with Some _ as v -> v | None -> find_opt l p)
-
-let rec find_def xs p def =
-  match xs with
-  | [] -> def
-  | x :: l -> ( match p x with Some v -> v | None -> find_def l p def)
 
 let rec split_map l f =
   match l with
@@ -300,26 +234,3 @@ let rec split_map l f =
       let a5, b5 = f x5 in
       let ass, bss = split_map tail f in
       (a1 :: a2 :: a3 :: a4 :: a5 :: ass, b1 :: b2 :: b3 :: b4 :: b5 :: bss)
-
-let sort_via_array lst cmp =
-  let arr = Array.of_list lst in
-  Array.sort cmp arr;
-  Array.to_list arr
-
-let sort_via_arrayf lst cmp f =
-  let arr = Array.of_list lst in
-  Array.sort cmp arr;
-  Ext_array.to_list_f arr f
-
-let rec assoc_by_string lst (k : string) def =
-  match lst with
-  | [] -> ( match def with None -> assert false | Some x -> x)
-  | (k1, v1) :: rest -> if k1 = k then v1 else assoc_by_string rest k def
-
-let rec assoc_by_int lst (k : int) def =
-  match lst with
-  | [] -> ( match def with None -> assert false | Some x -> x)
-  | (k1, v1) :: rest -> if k1 = k then v1 else assoc_by_int rest k def
-
-let rec concat_append (xss : 'a list list) (xs : 'a list) : 'a list =
-  match xss with [] -> xs | l :: r -> append l (concat_append r xs)

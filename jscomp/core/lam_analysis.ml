@@ -136,7 +136,8 @@ let rec no_side_effects (lam : Lam.t) : bool =
       no_side_effects a && no_side_effects b && no_side_effects c
   | Lsequence (a, b) -> no_side_effects a && no_side_effects b
   | Lletrec (bindings, body) ->
-      Ext_list.for_all_snd bindings no_side_effects && no_side_effects body
+      List.for_all (fun (_, x) -> no_side_effects x) bindings
+      && no_side_effects body
   | Lwhile _ ->
       false (* conservative here, non-terminating loop does have side effect *)
   | Lfor _ -> false

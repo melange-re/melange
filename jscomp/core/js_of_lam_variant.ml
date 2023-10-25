@@ -32,9 +32,7 @@ let eval (arg : J.expression) (dispatches : (string * string) list) : E.t =
   if arg == E.undefined then E.undefined
   else
     match arg.expression_desc with
-    | Str (_, s) ->
-        let s = Ext_list.assoc_by_string dispatches s None in
-        E.str s
+    | Str (_, s) -> E.str (List.assoc s dispatches)
     | _ ->
         E.of_block
           [
@@ -61,7 +59,7 @@ let eval_as_event (arg : J.expression)
     when Js_analyzer.no_side_effect_expression cb ->
       let v =
         match dispatches with
-        | Some dispatches -> Ext_list.assoc_by_string dispatches s None
+        | Some dispatches -> List.assoc s dispatches
         | None -> s
       in
       Splice2 (E.str v, cb)
@@ -104,8 +102,7 @@ let eval_as_int (arg : J.expression) (dispatches : (string * int) list) : E.t =
   if arg == E.undefined then E.undefined
   else
     match arg.expression_desc with
-    | Str (_, i) ->
-        E.int (Int32.of_int (Ext_list.assoc_by_string dispatches i None))
+    | Str (_, i) -> E.int (Int32.of_int (List.assoc i dispatches))
     | _ ->
         E.of_block
           [

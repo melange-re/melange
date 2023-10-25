@@ -1014,8 +1014,7 @@ and compile_for (id : J.for_ident) (start : Lam.t) (finish : Lam.t)
                body)
         in
         match (b1, b2) with
-        | _, [] ->
-            Ext_list.append_one b1 (S.for_ (Some e1) e2 id direction block_body)
+        | _, [] -> b1 @ [ S.for_ (Some e1) e2 id direction block_body ]
         | _, _
           when Js_analyzer.no_side_effect_expression e1
                (*
@@ -1024,14 +1023,11 @@ and compile_for (id : J.for_ident) (start : Lam.t) (finish : Lam.t)
                      b2 > e1 > e2
                    *)
           ->
-            List.append b1
-              (Ext_list.append_one b2
-                 (S.for_ (Some e1) e2 id direction block_body))
+            List.append b1 (b2 @ [ S.for_ (Some e1) e2 id direction block_body ])
         | _, _ ->
             List.append b1
               (S.define_variable ~kind:Variable id e1
-              :: Ext_list.append_one b2 (S.for_ None e2 id direction block_body)
-              ))
+              :: (b2 @ [ S.for_ None e2 id direction block_body ])))
   in
   Js_output.output_of_block_and_expression lambda_cxt.continuation block E.unit
 
@@ -1048,8 +1044,7 @@ and compile_assign id (lambda : Lam.t) (lambda_cxt : Lam_compile_context.t) =
             lambda
         with
         | { value = None; _ } -> assert false
-        | { block; value = Some v; _ } ->
-            Ext_list.append_one block (S.assign id v))
+        | { block; value = Some v; _ } -> block @ [ S.assign id v ])
   in
   Js_output.output_of_block_and_expression lambda_cxt.continuation block E.unit
 
@@ -1169,7 +1164,7 @@ and compile_send (meth_kind : Lam_compat.meth_kind) (met : Lam.t) (obj : Lam.t)
         | Some (obj_code, v) ->
             let cont2 obj_code v =
               Js_output.output_of_block_and_expression lambda_cxt.continuation
-                (Ext_list.concat_append args_code [ obj_code ])
+                (List.concat args_code @ [ obj_code ])
                 v
             in
             let cobj = E.var v in
@@ -1255,12 +1250,12 @@ and compile_ifthenelse (predicate : Lam.t) (t_branch : Lam.t) (f_branch : Lam.t)
               { block = []; value = Some out2; _ } ) ->
               (* Invariant: should_return is false*)
               Js_output.make
-                (Ext_list.append_one b
-                   (S.define_variable ~kind id (E.econd e out1 out2)))
+                (b @ [ S.define_variable ~kind id (E.econd e out1 out2) ])
           | _, _ ->
               Js_output.make
-                (Ext_list.append_one b
-                   (S.if_ ~declaration:(kind, id) e
+                (b
+                @ [
+                    S.if_ ~declaration:(kind, id) e
                       (Js_output.output_as_block
                       @@ compile_lambda
                            { lambda_cxt with continuation = Assign id }
@@ -1269,7 +1264,8 @@ and compile_ifthenelse (predicate : Lam.t) (t_branch : Lam.t) (f_branch : Lam.t)
                         (Js_output.output_as_block
                         @@ compile_lambda
                              { lambda_cxt with continuation = Assign id }
-                             f_branch))))
+                             f_branch);
+                  ]))
       | Assign _ ->
           let then_output =
             Js_output.output_as_block (compile_lambda lambda_cxt t_branch)
@@ -1277,8 +1273,7 @@ and compile_ifthenelse (predicate : Lam.t) (t_branch : Lam.t) (f_branch : Lam.t)
           let else_output =
             Js_output.output_as_block (compile_lambda lambda_cxt f_branch)
           in
-          Js_output.make
-            (Ext_list.append_one b (S.if_ e then_output ~else_:else_output))
+          Js_output.make (b @ [ S.if_ e then_output ~else_:else_output ])
       | EffectCall should_return -> (
           let context1 =
             { lambda_cxt with continuation = NeedValue should_return }
@@ -1296,16 +1291,14 @@ and compile_ifthenelse (predicate : Lam.t) (t_branch : Lam.t) (f_branch : Lam.t)
                 ( Js_exp_make.remove_pure_sub_exp out1,
                   Js_exp_make.remove_pure_sub_exp out2 )
               with
-              | None, None -> Js_output.make (Ext_list.append_one b (S.exp e))
+              | None, None -> Js_output.make (b @ [ S.exp e ])
               (* FIX #1762 *)
               | Some out1, Some out2 ->
                   Js_output.make b ~value:(E.econd e out1 out2)
               | Some out1, None ->
-                  Js_output.make
-                    (Ext_list.append_one b (S.if_ e [ S.exp out1 ]))
+                  Js_output.make (b @ [ S.if_ e [ S.exp out1 ] ])
               | None, Some out2 ->
-                  Js_output.make
-                    (Ext_list.append_one b (S.if_ (E.not e) [ S.exp out2 ])))
+                  Js_output.make (b @ [ S.if_ (E.not e) [ S.exp out2 ] ]))
           | Not_tail, { block = []; value = Some out1; _ }, _ ->
               (* assert branch
                   TODO: here we re-compile two branches since
@@ -1339,16 +1332,18 @@ and compile_ifthenelse (predicate : Lam.t) (t_branch : Lam.t) (f_branch : Lam.t)
                        (compile_lambda lambda_cxt f_branch))
               in
               Js_output.make
-                (Ext_list.append_one b
-                   (S.if_ e
+                (b
+                @ [
+                    S.if_ e
                       (Js_output.output_as_block
                          (compile_lambda lambda_cxt t_branch))
-                      ?else_))
+                      ?else_;
+                  ])
           | ( Maybe_tail_is_return _,
               { block = []; value = Some out1; _ },
               { block = []; value = Some out2; _ } ) ->
               Js_output.make
-                (Ext_list.append_one b (S.return_stmt (E.econd e out1 out2)))
+                (b @ [ S.return_stmt (E.econd e out1 out2) ])
                 ~output_finished:True
           | _, _, _ ->
               let then_output =
@@ -1357,9 +1352,7 @@ and compile_ifthenelse (predicate : Lam.t) (t_branch : Lam.t) (f_branch : Lam.t)
               let else_output =
                 Js_output.output_as_block (compile_lambda lambda_cxt f_branch)
               in
-              Js_output.make
-                (Ext_list.append_one b (S.if_ e then_output ~else_:else_output))
-          ))
+              Js_output.make (b @ [ S.if_ e then_output ~else_:else_output ])))
 
 and compile_apply (appinfo : Lam.apply) (lambda_cxt : Lam_compile_context.t) =
   match appinfo with
@@ -1478,7 +1471,7 @@ and compile_prim (prim_info : Lam.prim_info)
       with
       | { block; value = Some v; _ } ->
           Js_output.make
-            (Ext_list.append_one block (S.throw_stmt v))
+            (block @ [ S.throw_stmt v ])
             ~value:E.undefined ~output_finished:True
       (* FIXME -- breaks invariant when NeedValue, reason is that js [throw] is statement
          while ocaml it's an expression, we should remove such things in lambda optimizations
@@ -1516,8 +1509,7 @@ and compile_prim (prim_info : Lam.prim_info)
             else
               match Js_ast_util.named_expression b with
               | None -> (block, E.dot b property)
-              | Some (x, b) ->
-                  (Ext_list.append_one block x, E.dot (E.var b) property)
+              | Some (x, b) -> (block @ [ x ], E.dot (E.var b) property)
           in
           Js_output.output_of_block_and_expression lambda_cxt.continuation
             blocks ret)
@@ -1622,7 +1614,7 @@ and compile_prim (prim_info : Lam.prim_info)
         Lam_compile_external_obj.assemble_obj_args labels args_expr
       in
       Js_output.output_of_block_and_expression lambda_cxt.continuation
-        (Ext_list.concat_append args_block block)
+        (List.concat args_block @ block)
         exp
   | { primitive; args; loc } ->
       let args_block, args_expr =

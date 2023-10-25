@@ -849,12 +849,10 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         }
       when Ext_list.for_all2_no_exn inner_args params lam_is_var
            && Ext_list.length_larger_than_n inner_args args 1 ->
-        Lam.prim ~primitive
-          ~args:(Ext_list.append_one args x)
+        Lam.prim ~primitive ~args:(args @ [ x ])
           (Debuginfo.Scoped_location.to_location outer_loc)
     | Lapply { ap_func; ap_args; ap_info } ->
-        Lam.apply ap_func
-          (Ext_list.append_one ap_args x)
+        Lam.apply ap_func (ap_args @ [ x ])
           {
             ap_loc = Debuginfo.Scoped_location.to_location outer_loc;
             ap_inlined = ap_info.ap_inlined;
