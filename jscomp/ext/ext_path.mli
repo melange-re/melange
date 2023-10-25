@@ -25,14 +25,6 @@
 type t
 
 val path_sep : char
-
-val combine : string -> string -> string
-(**
-   [combine path1 path2]
-   1. add some simplifications when concatenating
-   2. when [path2] is absolute, return [path2]
-*)
-
 val ( // ) : string -> string -> string
 
 (**
