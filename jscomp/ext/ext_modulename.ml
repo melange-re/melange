@@ -55,7 +55,7 @@ and collect_next buf s off len =
     | '.' | '-' -> collect_start buf s next len
     | _ -> collect_next buf s next len
 
-(** This is for a js exeternal module, we can change it when printing
+(** This is for a JS external module, we can change it when printing
    for example
    {[
      var React$1 = require('react');
