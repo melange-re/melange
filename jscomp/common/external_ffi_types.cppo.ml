@@ -236,7 +236,7 @@ let check_ffi ?loc ffi : bool =
   end;
   !xrelative
 
-(* let bs_prefix = "BS:"
+(* let bs_prefix = "MEL:"
 let bs_prefix_length = String.length bs_prefix
  *)
 
@@ -267,7 +267,7 @@ let is_bs_primitive s =
 let () = Oprint.map_primitive_name :=
 #ifdef BS_RELEASE_BUILD
   (fun s ->
-  if is_bs_primitive s then "BS:external"
+  if is_bs_primitive s then "MEL:external"
   else s )
 #else
   (fun s -> String.escaped s) (* For debugging*)
