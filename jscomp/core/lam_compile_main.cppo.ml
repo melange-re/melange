@@ -190,8 +190,6 @@ let compile
     |> _d "before-simplify-exits"
     (* |> (fun lam -> Lam_pass_collect.collect_info meta lam
        ; Lam_pass_remove_alias.simplify_alias meta lam) *)
-    (* |> Lam_group_pass.scc_pass
-       |> _d "scc" *)
     |> Lam_pass_exits.simplify_exits
     |> _d "simplify_lets"
 #ifndef BS_RELEASE_BUILD
