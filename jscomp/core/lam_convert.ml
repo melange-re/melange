@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 let caml_id_field_info : Lambda.field_dbg_info =
-  Fld_record { name = Literals.exception_id; mutable_flag = Immutable }
+  Fld_record { name = Js_dump_lit.exception_id; mutable_flag = Immutable }
 
 let lam_caml_id : Lam_primitive.t = Pfield (0, caml_id_field_info)
 let prim = Lam.prim
@@ -32,7 +32,8 @@ let lam_extension_id loc (head : Lam.t) =
   prim ~primitive:lam_caml_id ~args:[ head ] loc
 
 let lazy_block_info : Lam.Tag_info.t =
-  Blk_record [| Literals.lazy_done; Literals.lazy_val |]
+  let lazy_done = "LAZY_DONE" and lazy_val = "VAL" in
+  Blk_record [| lazy_done; lazy_val |]
 
 let unbox_extension info (args : Lam.t list) mutable_flag loc =
   prim ~primitive:(Pmakeblock (0, info, mutable_flag)) ~args loc
@@ -737,14 +738,14 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         | Lprim { primitive = Pjs_unsafe_downgrade { loc; _ }; args; _ } -> (
             match kind with
             | Public (Some name) -> (
-                let setter =
-                  String.ends_with name ~suffix:Literals.setter_suffix
+                let suffix =
+                  Melange_ffi.External_ffi_types.Literals.setter_suffix
                 in
+                let setter = String.ends_with name ~suffix in
                 let property =
                   if setter then
                     Lam.Methname.translate
-                      (String.sub name 0
-                         (String.length name - Literals.setter_suffix_len))
+                      (String.sub name 0 String.(length name - length suffix))
                   else Lam.Methname.translate name
                 in
                 let lam =

@@ -69,9 +69,7 @@ let get_runtime_module_path ~package_info ~output_info
           (* lib/ocaml/xx.cmj --
               HACKING: FIXME
               maybe we can caching relative package path calculation or employ package map *)
-          let dep_path =
-            Literals.lib // Ext_module_system.runtime_dir module_system
-          in
+          let dep_path = "lib" // Ext_module_system.runtime_dir module_system in
           (* TODO(anmonteiro): This doesn't work yet *)
           Ext_path.rel_normalized_absolute_path
             ~from:

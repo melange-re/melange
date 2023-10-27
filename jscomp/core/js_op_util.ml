@@ -127,3 +127,5 @@ let same_vident (x : J.vident) (y : J.vident) =
 
 let of_lam_mutable_flag (x : Asttypes.mutable_flag) : Js_op.mutable_flag =
   match x with Immutable -> Immutable | Mutable -> Mutable
+
+let is_cons = function "::" -> true | _ -> false

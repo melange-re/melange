@@ -22,6 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+module Literals = struct
+  let setter_suffix = "#="
+  (* let gentype_import = "genType.import" *)
+end
+
 type module_bind_name =
   | Phint_name of string
     (* explicit hint name *)

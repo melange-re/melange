@@ -133,10 +133,9 @@ let exn_block_as_obj ~(stack : bool) (el : J.expression list) (ext : J.tag_info)
   let field_name =
     match ext with
     | Blk_extension -> (
-        fun i ->
-          match i with 0 -> Literals.exception_id | i -> "_" ^ string_of_int i)
+        fun i -> match i with 0 -> L.exception_id | i -> "_" ^ string_of_int i)
     | Blk_record_ext ss -> (
-        fun i -> match i with 0 -> Literals.exception_id | i -> ss.(i - 1))
+        fun i -> match i with 0 -> L.exception_id | i -> ss.(i - 1))
     | _ -> assert false
   in
   Object
@@ -777,8 +776,8 @@ and expression_desc cxt ~(level : int) x : cxt =
           expression_desc cxt ~level
             (Object
                [
-                 (Js_op.Lit Literals.polyvar_hash, E.str name);
-                 (Lit Literals.polyvar_value, value);
+                 (Js_op.Lit L.polyvar_hash, E.str name);
+                 (Lit L.polyvar_value, value);
                ])
       | _ -> assert false)
   | Caml_block (el, _, _, ((Blk_extension | Blk_record_ext _) as ext)) ->
@@ -801,15 +800,13 @@ and expression_desc cxt ~(level : int) x : cxt =
         pp_comment_option cxt (Some p.name);
       expression_desc cxt ~level (Object objs)
   | Caml_block (el, _, tag, Blk_constructor p) ->
-      let not_is_cons = p.name <> Literals.cons in
+      let not_is_cons = not (Js_op_util.is_cons p.name) in
       let objs =
         let tails =
           List.mapi
             (fun i e ->
-              ( (match (not_is_cons, i) with
-                | false, 0 -> Js_op.Lit Literals.hd
-                | false, 1 -> Js_op.Lit Literals.tl
-                | _ -> Js_op.Lit ("_" ^ string_of_int i)),
+              ( Js_op.Lit
+                  (Js_exp_make.variant_pos ~constr:p.name (Int32.of_int i)),
                 e ))
             el
           @

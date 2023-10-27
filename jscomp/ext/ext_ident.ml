@@ -71,7 +71,9 @@ let create_js (name : string) : Ident.t =
 let create = Ident.create_local
 
 (* FIXME: no need for `$' operator *)
-let create_tmp ?(name = Literals.tmp) () = create name
+let create_tmp =
+  let tmp = "tmp" in
+  fun ?(name = tmp) () -> create name
 
 let[@inline] convert ?(op = false) (c : char) : string =
   match c with
