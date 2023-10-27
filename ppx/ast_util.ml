@@ -29,11 +29,7 @@ type args = (Asttypes.arg_label * Parsetree.expression) list
 
 let js_property loc obj (name : string) =
   Parsetree.Pexp_send
-    ( [%expr
-        [%e
-          Exp.ident
-            { txt = Ldot (Ast_literal.js_oo, Literals.unsafe_downgrade); loc }]
-          [%e obj]],
+    ( [%expr [%e Exp.ident { txt = Ast_literal.unsafe_downgrade; loc }] [%e obj]],
       { loc; txt = name } )
 
 let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
@@ -60,7 +56,12 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
       (if is_mutable then
          [
            Of.tag
-             { val_name with txt = val_name.txt ^ Literals.setter_suffix }
+             {
+               val_name with
+               txt =
+                 val_name.txt
+                 ^ Melange_ffi.External_ffi_types.Literals.setter_suffix;
+             }
              (Ast_typ_uncurry.to_method_type loc mapper Nolabel result
                 [%type: unit]);
          ]

@@ -384,13 +384,10 @@ and compile_recursive_let ~all_bindings (cxt : Lam_compile_context.t)
                       | Blk_record xs -> Fld_record_set xs.(i)
                       | Blk_record_inlined xs ->
                           Fld_record_inline_set xs.fields.(i)
-                      | Blk_constructor p -> (
-                          let is_cons = p.name = Literals.cons in
-                          match (is_cons, i) with
-                          | true, 0 -> Fld_record_inline_set Literals.hd
-                          | true, 1 -> Fld_record_inline_set Literals.tl
-                          | _, _ -> Fld_record_inline_set ("_" ^ string_of_int i)
-                          )
+                      | Blk_constructor p ->
+                          Fld_record_inline_set
+                            (Js_exp_make.variant_pos ~constr:p.name
+                               (Int32.of_int i))
                       | _ -> assert false)
                       (E.var id) (Int32.of_int i)
                       (match x with

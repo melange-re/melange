@@ -57,7 +57,12 @@ let process_getter_setter ~not_getter_setter
         (if st.set = None then get_acc
          else
            set ty
-             ({ name with txt = name.Asttypes.txt ^ Literals.setter_suffix }
+             ({
+                name with
+                txt =
+                  name.Asttypes.txt
+                  ^ Melange_ffi.External_ffi_types.Literals.setter_suffix;
+              }
                : _ Asttypes.loc)
              pctf_attributes
            :: get_acc)

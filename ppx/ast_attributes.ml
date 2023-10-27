@@ -320,7 +320,8 @@ let external_attrs =
     "send";
     "new";
     "set_index";
-    Literals.gentype_import;
+    (* TODO(anmonteiro): re-enable when we enable gentype *)
+    (* Literals.gentype_import; *)
   |]
 
 let first_char_special (x : string) =

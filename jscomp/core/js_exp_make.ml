@@ -22,6 +22,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+module L = struct
+  let js_type_number = "number"
+  let js_type_string = "string"
+  let js_type_object = "object"
+  let js_type_boolean = "boolean"
+  let create = "create" (* {!Caml_exceptions.create}*)
+  let imul = "imul" (* signed int32 mul *)
+  let resolve = "resolve"
+  let hd = "hd"
+  let tl = "tl"
+  let pure = "@__PURE__"
+end
+
 let no_side_effect = Js_analyzer.no_side_effect_expression
 
 type t = J.expression
@@ -113,7 +126,7 @@ let runtime_call module_name fn_name args =
     args
 
 let pure_runtime_call module_name fn_name args =
-  call ~comment:Literals.pure ~info:Js_call_info.builtin_runtime_call
+  call ~comment:L.pure ~info:Js_call_info.builtin_runtime_call
     (runtime_var_dot module_name fn_name)
     args
 
@@ -157,8 +170,6 @@ let module_access (e : t) (name : string) (pos : int32) =
 let make_block ?loc ?comment (tag : t) (tag_info : J.tag_info) (es : t list)
     (mutable_flag : J.mutable_flag) : t =
   make_expression ?loc ?comment (Caml_block (es, mutable_flag, tag, tag_info))
-
-module L = Literals
 
 (* ATTENTION: this is relevant to how we encode string, boolean *)
 let typeof ?loc ?comment (e : t) : t =
@@ -306,10 +317,12 @@ let inline_record_access = record_access
 let noncons_pos pos = "_" ^ Int32.to_string pos
 
 let cons_pos pos =
-  match pos with 0l -> Literals.hd | 1l -> Literals.tl | _ -> noncons_pos pos
+  match pos with 0l -> L.hd | 1l -> L.tl | _ -> noncons_pos pos
 
 let variant_pos ~constr pos =
-  match constr with "::" -> cons_pos pos | _ -> noncons_pos pos
+  match Js_op_util.is_cons constr with
+  | true -> cons_pos pos
+  | false -> noncons_pos pos
 
 let variant_access (e : t) (pos : int32) =
   inline_record_access e (noncons_pos pos) pos
@@ -321,13 +334,13 @@ let poly_var_tag_access (e : t) =
   match e.expression_desc with
   | Caml_block (l, _, _, _) when no_side_effect e -> (
       match l with x :: _ -> x | [] -> assert false)
-  | _ -> make_expression (Static_index (e, Literals.polyvar_hash, Some 0l))
+  | _ -> make_expression (Static_index (e, Js_dump_lit.polyvar_hash, Some 0l))
 
 let poly_var_value_access (e : t) =
   match e.expression_desc with
   | Caml_block (l, _, _, _) when no_side_effect e -> (
       match l with _ :: v :: _ -> v | _ -> assert false)
-  | _ -> make_expression (Static_index (e, Literals.polyvar_value, Some 1l))
+  | _ -> make_expression (Static_index (e, Js_dump_lit.polyvar_value, Some 1l))
 
 let extension_access (e : t) name (pos : int32) : t =
   match e.expression_desc with
@@ -1114,11 +1127,11 @@ let int32_mul ?loc ?comment (e1 : J.expression) (e2 : J.expression) :
       if i >= 0 then int32_lsl e (small_int i)
       else
         call ?loc ?comment ~info:Js_call_info.builtin_runtime_call
-          (dot (js_global "Math") Literals.imul)
+          (dot (js_global "Math") L.imul)
           [ e1; e2 ]
   | _ ->
       call ?loc ?comment ~info:Js_call_info.builtin_runtime_call
-        (dot (js_global "Math") Literals.imul)
+        (dot (js_global "Math") L.imul)
         [ e1; e2 ]
 
 let unchecked_int32_mul ?loc ?comment e1 e2 : J.expression =
@@ -1216,8 +1229,8 @@ let neq_null_undefined_boolean ?loc ?comment (a : t) (b : t) =
 *)
 let resolve_and_apply (s : string) (args : t list) : t =
   call ~info:Js_call_info.builtin_runtime_call
-    (runtime_call Js_runtime_modules.external_polyfill "resolve" [ str s ])
+    (runtime_call Js_runtime_modules.external_polyfill L.resolve [ str s ])
     args
 
 let make_exception (s : string) =
-  pure_runtime_call Js_runtime_modules.exceptions Literals.create [ str s ]
+  pure_runtime_call Js_runtime_modules.exceptions L.create [ str s ]

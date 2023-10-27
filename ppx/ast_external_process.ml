@@ -274,6 +274,8 @@ let parse_external_attributes (prim_name_check : string)
   List.fold_left
     (fun (attrs, st)
          ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
+      (* TODO(anmonteiro): re-enable when we enable gentype *)
+      (*
       if txt = Literals.gentype_import then
         let bundle =
           let input_name = !Ocaml_common.Location.input_name in
@@ -288,86 +290,87 @@ let parse_external_attributes (prim_name_check : string)
               Some { bundle; module_bind_name = Phint_nothing };
           } )
       else
-        let action () =
-          match txt with
-          | "mel.module" | "module" -> (
-              match Ast_payload.assert_strings loc payload with
-              | [ bundle ] ->
-                  {
-                    st with
-                    external_module_name =
-                      Some { bundle; module_bind_name = Phint_nothing };
-                  }
-              | [ bundle; bind_name ] ->
-                  {
-                    st with
-                    external_module_name =
-                      Some { bundle; module_bind_name = Phint_name bind_name };
-                  }
-              | [] ->
-                  {
-                    st with
-                    module_as_val =
-                      Some
-                        {
-                          bundle =
-                            string_of_bundle_source
-                              (prim_name_or_pval_prim :> bundle_source);
-                          module_bind_name = Phint_nothing;
-                        };
-                  }
-              | _ -> Error.err ~loc Illegal_attribute)
-          | "mel.scope" | "scope" -> (
-              match Ast_payload.assert_strings loc payload with
-              | [] -> Error.err ~loc Illegal_attribute
-              (* We need err on empty scope, so we can tell the difference
-                 between unset/set
-              *)
-              | scopes -> { st with scopes })
-          | "mel.splice" | "mel.variadic" | "variadic" ->
-              { st with splice = true }
-          | "mel.send" | "send" ->
-              { st with val_send = name_from_payload_or_prim ~loc payload }
-          | "mel.send.pipe" ->
-              {
-                st with
-                val_send_pipe =
-                  (match payload with
-                  | PTyp x -> Some x
-                  | _ ->
-                      Location.raise_errorf ~loc
-                        "expected a type after [@mel.send.pipe], e.g. \
-                         [@mel.send.pipe: t]");
-              }
-          | "mel.set" | "set" ->
-              { st with set_name = name_from_payload_or_prim ~loc payload }
-          | "mel.get" | "get" ->
-              { st with get_name = name_from_payload_or_prim ~loc payload }
-          | "mel.new" | "new" ->
-              { st with new_name = name_from_payload_or_prim ~loc payload }
-          | "mel.set_index" | "set_index" ->
-              if String.length prim_name_check <> 0 then
-                Location.raise_errorf ~loc
-                  "%@set_index this particular external's name needs to be a \
-                   placeholder empty string";
-              { st with set_index = true }
-          | "mel.get_index" | "get_index" ->
-              if String.length prim_name_check <> 0 then
-                Location.raise_errorf ~loc
-                  "%@get_index this particular external's name needs to be a \
-                   placeholder empty string";
-              { st with get_index = true }
-          | "mel.obj" | "obj" -> { st with mk_obj = true }
-          | "mel.return" | "return" -> (
-              match Ast_payload.ident_or_record_as_config payload with
-              | Ok [ ({ txt; _ }, None) ] ->
-                  { st with return_wrapper = return_wrapper loc txt }
-              | Ok _ -> Error.err ~loc Not_supported_directive_in_mel_return
-              | Error s -> Location.raise_errorf ~loc "%s" s)
-          | _ -> raise_notrace Not_handled_external_attribute
-        in
-        try (attrs, action ())
-        with Not_handled_external_attribute -> (attr :: attrs, st))
+ *)
+      let action () =
+        match txt with
+        | "mel.module" | "module" -> (
+            match Ast_payload.assert_strings loc payload with
+            | [ bundle ] ->
+                {
+                  st with
+                  external_module_name =
+                    Some { bundle; module_bind_name = Phint_nothing };
+                }
+            | [ bundle; bind_name ] ->
+                {
+                  st with
+                  external_module_name =
+                    Some { bundle; module_bind_name = Phint_name bind_name };
+                }
+            | [] ->
+                {
+                  st with
+                  module_as_val =
+                    Some
+                      {
+                        bundle =
+                          string_of_bundle_source
+                            (prim_name_or_pval_prim :> bundle_source);
+                        module_bind_name = Phint_nothing;
+                      };
+                }
+            | _ -> Error.err ~loc Illegal_attribute)
+        | "mel.scope" | "scope" -> (
+            match Ast_payload.assert_strings loc payload with
+            | [] -> Error.err ~loc Illegal_attribute
+            (* We need err on empty scope, so we can tell the difference
+               between unset/set
+            *)
+            | scopes -> { st with scopes })
+        | "mel.splice" | "mel.variadic" | "variadic" ->
+            { st with splice = true }
+        | "mel.send" | "send" ->
+            { st with val_send = name_from_payload_or_prim ~loc payload }
+        | "mel.send.pipe" ->
+            {
+              st with
+              val_send_pipe =
+                (match payload with
+                | PTyp x -> Some x
+                | _ ->
+                    Location.raise_errorf ~loc
+                      "expected a type after [@mel.send.pipe], e.g. \
+                       [@mel.send.pipe: t]");
+            }
+        | "mel.set" | "set" ->
+            { st with set_name = name_from_payload_or_prim ~loc payload }
+        | "mel.get" | "get" ->
+            { st with get_name = name_from_payload_or_prim ~loc payload }
+        | "mel.new" | "new" ->
+            { st with new_name = name_from_payload_or_prim ~loc payload }
+        | "mel.set_index" | "set_index" ->
+            if String.length prim_name_check <> 0 then
+              Location.raise_errorf ~loc
+                "%@set_index this particular external's name needs to be a \
+                 placeholder empty string";
+            { st with set_index = true }
+        | "mel.get_index" | "get_index" ->
+            if String.length prim_name_check <> 0 then
+              Location.raise_errorf ~loc
+                "%@get_index this particular external's name needs to be a \
+                 placeholder empty string";
+            { st with get_index = true }
+        | "mel.obj" | "obj" -> { st with mk_obj = true }
+        | "mel.return" | "return" -> (
+            match Ast_payload.ident_or_record_as_config payload with
+            | Ok [ ({ txt; _ }, None) ] ->
+                { st with return_wrapper = return_wrapper loc txt }
+            | Ok _ -> Error.err ~loc Not_supported_directive_in_mel_return
+            | Error s -> Location.raise_errorf ~loc "%s" s)
+        | _ -> raise_notrace Not_handled_external_attribute
+      in
+      try (attrs, action ())
+      with Not_handled_external_attribute -> (attr :: attrs, st))
     ([], init_st) prim_attributes
 
 let has_bs_uncurry (attrs : Ast_attributes.t) =
