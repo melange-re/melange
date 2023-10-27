@@ -50,12 +50,12 @@ let isSupported (def : Longident.t) names =
       else `no
   | _ -> `no
 
-let get_type_defs (ast : Parsetree.structure) =
+let get_type_defs (ast : Parsetree.signature) =
   let types_with_deriving_definitions, deriving_attrs =
     List.filter_map
-      ~f:(fun { Parsetree.pstr_desc; _ } ->
-        match pstr_desc with
-        | Pstr_type (_, tdcls) -> (
+      ~f:(fun { Parsetree.psig_desc; _ } ->
+        match psig_desc with
+        | Psig_type (_, tdcls) -> (
             match List.rev tdcls with
             | [] -> None
             | { ptype_attributes = []; _ } :: _ -> None
