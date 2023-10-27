@@ -22,18 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(* [@@@warning "-37"] *)
-type t = (* | File of string  *)
-  | Dir of string [@@unboxed]
-
 let cwd = lazy (Sys.getcwd ())
 let path_sep = if Sys.win32 then ';' else ':'
 
 (** Used when produce node compatible paths *)
 let node_sep = "/"
-
-let node_parent = ".."
-let node_current = "."
 
 (** example
     {[
@@ -59,49 +52,39 @@ let node_relative_path =
   let split_by_sep_per_os : string -> string list =
     if Sys.win32 || Sys.cygwin then fun x ->
       (* on Windows, we can still accept -bs-package-output lib/js *)
-      Ext_string.split_by
-        (fun x -> match x with '/' | '\\' -> true | _ -> false)
-        x
+      Ext_string.split_by (function '/' | '\\' -> true | _ -> false) x
     else fun x -> Ext_string.split x '/'
   in
-  fun ~from:(file_or_dir_2 : t) (file_or_dir_1 : t) ->
-    let relevant_dir1 =
-      match file_or_dir_1 with Dir x -> x
-      (* | File file1 ->  Filename.dirname file1 *)
-    in
-    let relevant_dir2 =
-      match file_or_dir_2 with Dir x -> x
-      (* | File file2 -> Filename.dirname file2  *)
-    in
-    let dir1 = split_by_sep_per_os relevant_dir1 in
-    let dir2 = split_by_sep_per_os relevant_dir2 in
-    let rec go (dir1 : string list) (dir2 : string list) =
-      match (dir1, dir2) with
-      | "." :: xs, ys -> go xs ys
-      | xs, "." :: ys -> go xs ys
-      | x :: xs, y :: ys when x = y -> go xs ys
-      | _, _ -> List.map (fun _ -> node_parent) dir2 @ dir1
-    in
-    match go dir1 dir2 with
-    | x :: _ as ys when x = node_parent -> String.concat node_sep ys
-    | ys -> String.concat node_sep @@ (node_current :: ys)
-
-let node_concat ~dir base =
-  let buf =
-    Buffer.create
-      (String.length dir + String.length node_sep + String.length base)
+  let rec go (dir1 : string list) (dir2 : string list) =
+    match (dir1, dir2) with
+    | "." :: xs, ys -> go xs ys
+    | xs, "." :: ys -> go xs ys
+    | x :: xs, y :: ys when x = y -> go xs ys
+    | _, _ -> List.map (Fun.const Filename.parent_dir_name) dir2 @ dir1
   in
-  Buffer.add_string buf dir;
-  Buffer.add_string buf node_sep;
-  Buffer.add_string buf base;
-  Buffer.contents buf
+  fun ~from to_ ->
+    let to_ = split_by_sep_per_os to_ in
+    let from = split_by_sep_per_os from in
+    match go to_ from with
+    | ".." :: _ as ys -> String.concat node_sep ys
+    | ys -> String.concat node_sep (Filename.current_dir_name :: ys)
 
-let node_rebase_file ~from ~to_ file =
-  node_concat
-    ~dir:
-      (if from = to_ then node_current
-       else node_relative_path ~from:(Dir from) (Dir to_))
-    file
+let node_rebase_file =
+  let node_concat ~dir base =
+    let buf =
+      Buffer.create String.(length dir + length node_sep + length base)
+    in
+    Buffer.add_string buf dir;
+    Buffer.add_string buf node_sep;
+    Buffer.add_string buf base;
+    Buffer.contents buf
+  in
+  fun ~from ~to_ file ->
+    node_concat
+      ~dir:
+        (if from = to_ then Filename.current_dir_name
+         else node_relative_path ~from to_)
+      file
 
 let concat =
   let strip_trailing_slashes p =
@@ -126,7 +109,7 @@ let concat =
 
 let ( // ) = concat
 
-(**
+(*
    {[
      split_aux "//ghosg//ghsogh/";;
      - : string * string list = ("/", ["ghosg"; "ghsogh"])
@@ -190,7 +173,7 @@ let rel_normalized_absolute_path ~from to_ =
     in
     let v = go paths1 paths2 in
 
-    if String.length v = 0 then node_current
+    if String.length v = 0 then Filename.current_dir_name
     else if
       v = curd || v = pard
       || String.starts_with v ~prefix:(curd ^ Filename.dir_sep)
