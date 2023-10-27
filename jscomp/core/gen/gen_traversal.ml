@@ -11,7 +11,7 @@ let parse fname =
   end in
   In_ch.with_file fname ~f:(fun ch ->
       let lexbuf = Lexing.from_channel ch in
-      let ast = Parse.implementation lexbuf in
+      let ast = Parse.interface lexbuf in
       ast)
 
 let write_ast oc ~input_name ast =
