@@ -5,10 +5,10 @@
  (libraries ext melange_compiler_libs melange_ffi ppxlib.ast dune-build-info))
 
 (rule
- (target js_config.ml)
- (deps js_config.cppo.ml)
+ (target include_dirs.ml)
+ (deps include_dirs.dev.ml include_dirs.release.ml)
  (action
-  (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (copy# include_dirs.%{profile}.ml %{target})))
 
 (rule
  (targets js_pass_debug.ml)
