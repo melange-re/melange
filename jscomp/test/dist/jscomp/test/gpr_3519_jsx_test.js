@@ -6,12 +6,12 @@ var React = {
   $$null: undefined
 };
 
-function make(param, param$1) {
+function Gpr_3519_jsx_test$Foo(Props) {
   
 }
 
 var Foo = {
-  make: make
+  make: Gpr_3519_jsx_test$Foo
 };
 
 exports.React = React;

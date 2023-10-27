@@ -14,32 +14,23 @@
  (libraries test_runner melange.dom melange.belt)
  (wrapped false)
  (preprocess
-  (pps melange.ppx))
- (modules :standard \ mt)
+  (pps melange.ppx reason-react-ppx))
+ (modules :standard \ mt es6_export es6_import es6_module_test)
  (melange.compile_flags -w -27-32+104 -bs-cross-module-opt))
 
-(subdir
- re_or_res
- (library
-  (name melange_tests_re_res)
-  (modes melange)
-  (libraries test_runner melange.dom melange.belt)
-  (wrapped false)
-  (preprocess
-   (pps melange.ppx reason-react-ppx))
-  (melange.compile_flags -w +104 -bs-cross-module-opt)))
+(include_subdirs unqualified)
 
-(subdir
- es6_tests
- ;; same as above but no preprocessing with reason-react-ppx
- (library
-  (name melange_runtime_es6_tests)
-  (modes melange)
-  (libraries test_runner)
-  (preprocess
-   (pps melange.ppx))
-  (wrapped false)
-  (melange.compile_flags -w +104 -bs-cross-module-opt)))
+;; same as above but no preprocessing with reason-react-ppx
+
+(library
+ (name melange_runtime_es6_tests)
+ (modes melange)
+ (libraries test_runner)
+ (preprocess
+  (pps melange.ppx))
+ (wrapped false)
+ (modules es6_export es6_import es6_module_test)
+ (melange.compile_flags -w +104 -bs-cross-module-opt))
 
 (ocamllex arith_lexer)
 
@@ -54,7 +45,7 @@
  (modules)
  (module_systems
   (commonjs js))
- (libraries melange melange_runtime_tests melange_tests_re_res)
+ (libraries melange melange_runtime_tests)
  (runtime_deps
   (glob_files *.js)))
 

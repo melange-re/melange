@@ -273,7 +273,7 @@ let () = Oprint.map_primitive_name :=
 #ifdef BS_RELEASE_BUILD
   (fun s ->
   if is_bs_primitive s then "MEL:external"
-  else s )
+  else s)
 #else
   (fun s -> String.escaped s) (* For debugging*)
 #endif
