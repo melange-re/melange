@@ -317,7 +317,8 @@ let app_exp_mapper (e : exp)
                   e with
                   pexp_desc =
                     Ast_uncurry_apply.method_apply loc self obj
-                      (name ^ Literals.setter_suffix)
+                      (name
+                     ^ Melange_ffi.External_ffi_types.Literals.setter_suffix)
                       [ (Nolabel, arg) ];
                 }
                 [%type: unit]
