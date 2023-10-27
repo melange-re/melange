@@ -36,7 +36,10 @@ let compatible ~dep t =
 
 (* in runtime lib, [es6] and [es6] are treated the same way *)
 let runtime_dir = function NodeJS -> "js" | Es6 | Es6_global -> "es6"
-let runtime_package_path js_file = (Literals.package_name ^ ".js") // js_file
+
+let runtime_package_path =
+  let ( // ) = Ext_path.( // ) in
+  fun js_file -> (Literals.package_name ^ ".js") // js_file
 
 let to_string = function
   | NodeJS -> "commonjs"
