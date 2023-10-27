@@ -26,68 +26,47 @@ let executable_name =
   lazy (Unix.realpath (Ext_path.normalize_absolute_path Sys.executable_name))
 
 let stdlib_paths =
+  let ( // ) = Ext_path.( // ) in
+  let package_name = "melange" in
   lazy
-    (let ( // ) = Ext_path.( // ) in
-     match Sys.getenv "MELANGELIB" with
-     | value -> (
-         let dirs =
-           String.split_on_char Ext_path.path_sep value
-           |> List.filter (fun s -> String.length s > 0)
-           |> List.map (fun dir ->
-                  if Filename.is_relative dir then
-                    Filename.dirname (Lazy.force executable_name) // dir
-                  else dir)
-         in
-         match List.exists (fun dir -> not (Sys.is_directory dir)) dirs with
-         | false -> dirs
-         | true -> raise (Arg.Bad "$MELANGELIB should only contain directories")
-         | exception Sys_error _ ->
-             raise (Arg.Bad "$MELANGELIB dirs must exist"))
-     | exception Not_found ->
-         let root =
-           (* <root>/bin/melc *)
-           Lazy.force executable_name |> Filename.dirname |> Filename.dirname
-         in
-#ifndef BS_RELEASE_BUILD
-         [ root // "jscomp" // "stdlib" // ".stdlib.objs" // Literals.package_name
-         ; root // "jscomp" // "runtime" // ".js.objs" // Literals.package_name
-         ]
-#else
-         [ root // Literals.lib // Literals.package_name // Literals.package_name
-         ; root // Literals.lib // Literals.package_name // "js" // Literals.package_name
-         ]
-#endif
-    )
+    (match Sys.getenv "MELANGELIB" with
+    | value -> (
+        let dirs =
+          String.split_on_char Ext_path.path_sep value
+          |> List.filter (fun s -> String.length s > 0)
+          |> List.map (fun dir ->
+                 if Filename.is_relative dir then
+                   Filename.dirname (Lazy.force executable_name) // dir
+                 else dir)
+        in
+        match List.exists (fun dir -> not (Sys.is_directory dir)) dirs with
+        | false -> dirs
+        | true -> raise (Arg.Bad "$MELANGELIB should only contain directories")
+        | exception Sys_error _ -> raise (Arg.Bad "$MELANGELIB dirs must exist")
+        )
+    | exception Not_found ->
+        let root =
+          (* <root>/bin/melc *)
+          Lazy.force executable_name |> Filename.dirname |> Filename.dirname
+        in
+        (* <root>/<path>/melange *)
+        List.map (fun path -> root // path // package_name) Include_dirs.paths)
 
 let no_version_header = ref false
-
 let cross_module_inline = ref false
 let diagnose = ref false
-
 let tool_name = "Melange"
-
 let check_div_by_zero = ref true
-
 let syntax_only = ref false
-
 let debug = ref false
-
 let cmi_only = ref false
 let cmj_only = ref false
-
 let js_stdout = ref true
-
 let all_module_aliases = ref false
-
 let no_stdlib = ref false
 let std_include_dirs () = if !no_stdlib then [] else Lazy.force stdlib_paths
-
 let no_export = ref false
-
 let as_ppx = ref false
 let as_pp = ref false
-
 let modules = ref false
-
 let preamble = ref None
-
