@@ -89,6 +89,6 @@ stdenv.mkDerivation {
     EOF
     dune build @melange-runtime-tests --display=short
 
-    mocha "_build/default/dist/*_test.js"
+    mocha "_build/default/dist/**/*_test.js"
   '';
 }
