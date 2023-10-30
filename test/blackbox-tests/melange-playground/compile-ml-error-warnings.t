@@ -8,7 +8,7 @@
   {
     warning_errors: [
       {
-        js_error_msg: 'Line 1, 12:\n' +
+        js_warning_error_msg: 'Line 1, 12:\n' +
           '  Error: (warning 109 [melange-toplevel-expr-unit]) Toplevel expression is expected to have unit type.',
         row: 0,
         column: 12,
@@ -18,7 +18,7 @@
         type: 'warning_as_error'
       },
       {
-        js_error_msg: 'Line 1, 16:\n' +
+        js_warning_error_msg: 'Line 1, 16:\n' +
           '  Error: (warning 109 [melange-toplevel-expr-unit]) Toplevel expression is expected to have unit type.',
         row: 0,
         column: 16,

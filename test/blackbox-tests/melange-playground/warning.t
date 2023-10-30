@@ -17,6 +17,17 @@
       '  foo ,\n' +
       '}\n' +
       '/* No side effect */\n',
+    warnings: [
+      {
+        js_warning_error_msg: 'Line 1, 8:\n  Warning: 27 [unused-var-strict] unused variable bar.',
+        row: 0,
+        column: 8,
+        endRow: 0,
+        endColumn: 11,
+        text: 'unused variable bar.',
+        type: 'warning'
+      }
+    ],
     type_hints: [
       {
         start: [Object],

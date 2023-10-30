@@ -15,6 +15,7 @@
       '  t ,\n' +
       '}\n' +
       '/* No side effect */\n',
+    warnings: [],
     type_hints: [
       { start: [Object], end: [Object], kind: 'expression', hint: 'int' },
       {

@@ -6,7 +6,7 @@
 
   $ node input.js
   {
-    js_error_msg: 'Line 1, 8:\n  Error Expect a record expression here',
+    js_warning_error_msg: 'Line 1, 8:\n  Error Expect a record expression here',
     row: 0,
     column: 8,
     endRow: 0,

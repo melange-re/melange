@@ -6,7 +6,7 @@
 
   $ node input.js
   {
-    js_error_msg: 'Line 1, 10:\n' +
+    js_warning_error_msg: 'Line 1, 10:\n' +
       '  Error This expression has type string but an expression was expected of type int',
     row: 0,
     column: 10,
