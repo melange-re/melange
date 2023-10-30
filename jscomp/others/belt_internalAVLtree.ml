@@ -12,7 +12,7 @@
 (***********************************************************************)
 (* Almost rewritten  by authors of ReScript                        *)
 
-[@@@mel.config { flags = [| "-bs-noassertfalse" |] }]
+[@@@mel.config { flags = [| "-mel-noassertfalse" |] }]
 
 type ('k, 'v) node = {
   mutable key : 'k; [@mel.as "k"]

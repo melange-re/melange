@@ -244,7 +244,7 @@ val reduce : ('value, 'id) t -> 'a -> ('a -> 'value -> 'a) -> 'a
 
     {[
       let s0 = fromArray ~id:(module IntCmp) [|5;2;3;5;6|]];;
-      reduce s0 [] Bs.List.add = [6;5;3;2];;
+      reduce s0 [] Belt.List.add = [6;5;3;2];;
     ]}
 *)
 

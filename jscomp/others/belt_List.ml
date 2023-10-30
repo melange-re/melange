@@ -58,7 +58,7 @@
    ]}
 *)
 
-[@@@mel.config { flags = [| "-bs-noassertfalse" |] }]
+[@@@mel.config { flags = [| "-mel-noassertfalse" |] }]
 
 type 'a t = 'a list
 

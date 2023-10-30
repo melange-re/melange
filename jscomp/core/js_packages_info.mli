@@ -36,9 +36,7 @@ val dump_output_info : Format.formatter -> output_info -> unit
 val dump_packages_info : Format.formatter -> t -> unit
 
 val add_npm_package_path : t -> ?module_name:string -> string -> t
-(** used by command line option
-  e.g [-bs-package-output commonjs:xx/path]
-*)
+(** used by command line option e.g [-mel-package-output commonjs:xx/path] *)
 
 type file_case = Uppercase | Lowercase
 
@@ -59,8 +57,7 @@ val get_output_dir : t -> package_dir:string -> Ext_module_system.t -> string
 val query_package_infos : t -> Ext_module_system.t -> info_query
 
 (* Note here we compare the package info by order
-   in theory, we can compare it by set semantics
-*)
+   in theory, we can compare it by set semantics *)
 
 val default_output_info : output_info
 val assemble_output_info : t -> output_info list

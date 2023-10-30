@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
- [@@@mel.config { flags = [|"-bs-no-cross-module-opt" |]}]
+ [@@@mel.config { flags = [|"--mel-no-cross-module-opt" |]}]
 (* Internals of forcing lazy values. *)
 
 type 'a t = 'a lazy_t
@@ -95,4 +95,3 @@ let force_val (type a) (lzv : a lazy_t) : a =
   let lzv : _ concrete = castToConcrete lzv in
   if lzv.tag then lzv.value  else
     force_val_lazy_block (of_concrete lzv)
-

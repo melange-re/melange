@@ -50,7 +50,7 @@ let same_package_by_name (x : t) (y : t) =
 
 (**
    TODO: not allowing user to provide such specific package name
-   For empty package, [-bs-package-output] does not make sense
+   For empty package, [-mel-package-output] does not make sense
    it is only allowed to generate commonjs file in the same directory
 *)
 let empty : t = { name = None; info = Empty }
@@ -170,11 +170,11 @@ let add_npm_package_path (t : t) ?module_name s =
       let new_info =
         match Ext_string.split ~keep_empty:true s ':' with
         | [ path ] ->
-            (* `--bs-package-output just/the/path/segment' means module system
+            (* `--mel-package-output just/the/path/segment' means module system
                / js extension to come later; separate emission *)
             Separate_emission { module_path = path; module_name }
         | [ module_system; path ] ->
-            (* `--bs-package-output module_system:the/path/segment' assumes
+            (* `--mel-package-output module_system:the/path/segment' assumes
                `.js' extension. This is batch compilation (`.cmj' + `.js'
                emitted). *)
             Batch_compilation
@@ -189,7 +189,7 @@ let add_npm_package_path (t : t) ?module_name s =
                }
               :: existing)
         | [ module_system; path; suffix ] ->
-            (* `--bs-package-output module_system:the/path/segment:.ext', batch
+            (* `--mel-package-output module_system:the/path/segment:.ext', batch
                compilation with all info. *)
             Batch_compilation
               ({
@@ -208,8 +208,8 @@ let add_npm_package_path (t : t) ?module_name s =
   | Separate_emission _ ->
       raise
         (Arg.Bad
-           "Can't add multiple `-bs-package-output` specs when \
-            `-bs-stop-after-cmj` is present")
+           "Can't add multiple `--mel-package-output` specs when \
+            `--mel-stop-after-cmj` is present")
 
 let is_lower_case c =
   (c >= 'a' && c <= 'z')
@@ -237,8 +237,8 @@ let assemble_output_info (t : t) =
   | Batch_compilation infos ->
       List.map (fun { output_info; _ } -> output_info) infos
   | Separate_emission _ ->
-      (* Combination of `-bs-package-output -just-dir` and the absence of
-         `-bs-module-type` *)
+      (* Combination of `-mel-package-output -just-dir` and the absence of
+         `-mel-module-type` *)
       [ default_output_info ]
 
 (* support es6 modules instead
