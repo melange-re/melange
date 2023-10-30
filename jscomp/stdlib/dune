@@ -37,8 +37,8 @@
   (modules_before_stdlib CamlinternalFormatBasics CamlinternalAtomic)
   (internal_modules Camlinternal*))
  (melange.compile_flags
-  -bs-no-check-div-by-zero
-  -bs-cross-module-opt
+  -mel-no-check-div-by-zero
+  -mel-cross-module-opt
   -nolabels
   -w
   -9))

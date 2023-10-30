@@ -339,7 +339,7 @@ let lambda_as_module
   | false, None ->
     raise (Arg.Bad ("no output specified (use -o <filename>.js)"))
   | (_, Some _) ->
-    (* We use `-bs-module-type` to emit a single JS file after `.cmj`
+    (* We use `-mel-module-type` to emit a single JS file after `.cmj`
        generation. In this case, we don't want the `package_info` from the
        `.cmj`, because the suffix and paths will be different. *)
     List.iter  (fun (output_info : Js_packages_info.output_info) ->

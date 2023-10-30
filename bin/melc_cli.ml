@@ -138,21 +138,27 @@ let open_modules =
 
 let bs_syntax_only =
   let doc = "Only check syntax" in
-  Arg.(value & flag & info [ "bs-syntax-only" ] ~doc)
+  Arg.(value & flag & info [ "bs-syntax-only"; "mel-syntax-only" ] ~doc)
 
 let bs_g =
   let doc = "Debug mode" in
-  Arg.(value & flag & info [ "bs-g" ] ~doc)
+  Arg.(value & flag & info [ "bs-g"; "mel-g" ] ~doc)
 
 let bs_package_name =
   let doc = "Set package name, useful when you want to produce npm packages" in
-  Arg.(value & opt (some string) None & info [ "bs-package-name" ] ~doc)
+  Arg.(
+    value
+    & opt (some string) None
+    & info [ "bs-package-name"; "mel-package-name" ] ~doc)
 
 let bs_module_name =
   let doc =
     "Set the module name (if different than the compilation unit name)"
   in
-  Arg.(value & opt (some string) None & info [ "bs-module-name" ] ~doc)
+  Arg.(
+    value
+    & opt (some string) None
+    & info [ "bs-module-name"; "mel-module-name" ] ~doc)
 
 let unboxed_types =
   let doc = "Unannotated unboxable types will be unboxed" in
@@ -215,7 +221,7 @@ let bin_annot =
           info ~doc:"Enable binary annotations (default: on)" [ "bin-annot" ] );
         ( Some false,
           info ~doc:"Disable binary annotations (default: on)"
-            [ "bs-no-bin-annot" ] );
+            [ "bs-no-bin-annot"; "-no-bin-annot" ] );
       ])
 
 let i =
@@ -240,7 +246,7 @@ let warn_error =
 
 let bs_stop_after_cmj =
   let doc = "Stop after generating the cmj" in
-  Arg.(value & flag & info [ "bs-stop-after-cmj" ] ~doc)
+  Arg.(value & flag & info [ "bs-stop-after-cmj"; "mel-stop-after-cmj" ] ~doc)
 
 module Internal = struct
   let bs_package_output =
@@ -248,7 +254,9 @@ module Internal = struct
       "*internal* Set npm-output-path: [opt_module]:path, for example: \
        'lib/cjs', 'amdjs:lib/amdjs', 'es6:lib/es6' "
     in
-    Arg.(value & opt_all string [] & info [ "bs-package-output" ] ~doc)
+    Arg.(
+      value & opt_all string []
+      & info [ "bs-package-output"; "mel-package-output" ] ~doc)
 
   let bs_module_type =
     let module_system_conv =
@@ -267,7 +275,7 @@ module Internal = struct
     Arg.(
       value
       & opt (some module_system_conv) None
-      & info [ "bs-module-type" ] ~doc ~docv)
+      & info [ "bs-module-type"; "mel-module-type" ] ~doc ~docv)
 
   let as_ppx =
     let doc = "*internal* As ppx for editor integration" in
@@ -283,11 +291,14 @@ module Internal = struct
 
   let bs_gentype =
     let doc = "*internal* Pass gentype command" in
-    Arg.(value & opt (some string) None & info [ "bs-gentype" ] ~doc)
+    Arg.(
+      value & opt (some string) None & info [ "bs-gentype"; "mel-gentype" ] ~doc)
 
   let bs_unsafe_empty_array =
     let doc = "*internal* Allow [||] to be polymorphic" in
-    Arg.(value & flag & info [ "bs-unsafe-empty-array" ] ~doc)
+    Arg.(
+      value & flag
+      & info [ "bs-unsafe-empty-array"; "mel-unsafe-empty-array" ] ~doc)
 
   let nostdlib =
     let doc = "*internal* Don't use stdlib" in
@@ -297,15 +308,17 @@ module Internal = struct
     let doc =
       "*internal* (experimental) set the string to be evaluated in OCaml syntax"
     in
-    Arg.(value & opt (some string) None & info [ "bs-eval" ] ~doc)
+    Arg.(value & opt (some string) None & info [ "bs-eval"; "-eval" ] ~doc)
 
   let bs_cmi_only =
     let doc = "*internal* Stop after generating cmi file" in
-    Arg.(value & flag & info [ "bs-cmi-only" ] ~doc)
+    Arg.(value & flag & info [ "bs-cmi-only"; "mel-cmi-only" ] ~doc)
 
   let bs_no_version_header =
     let doc = "*internal* Don't print version header" in
-    Arg.(value & flag & info [ "bs-no-version-header" ] ~doc)
+    Arg.(
+      value & flag
+      & info [ "bs-no-version-header"; "mel-no-version-header" ] ~doc)
 
   let bs_cross_module_opt =
     Arg.(
@@ -316,25 +329,27 @@ module Internal = struct
               ~doc:
                 "*internal* Enable cross module inlining(experimental), \
                  default(false)"
-              [ "bs-cross-module-opt" ] );
+              [ "bs-cross-module-opt"; "mel-cross-module-opt" ] );
           ( Some false,
             info ~doc:"*internal* Disable cross module inlining(experimental)"
-              [ "bs-no-cross-module-opt" ] );
+              [ "bs-no-cross-module-opt"; "mel-no-cross-module-opt" ] );
         ])
 
   let bs_diagnose =
     let doc = "*internal* More verbose output" in
-    Arg.(value & flag & info [ "bs-diagnose" ] ~doc)
+    Arg.(value & flag & info [ "bs-diagnose"; "mel-diagnose" ] ~doc)
 
   let bs_no_check_div_by_zero =
     let doc =
       "*internal* unsafe mode, don't check div by zero and mod by zero"
     in
-    Arg.(value & flag & info [ "bs-no-check-div-by-zero" ] ~doc)
+    Arg.(
+      value & flag
+      & info [ "bs-no-check-div-by-zero"; "mel-no-check-div-by-zero" ] ~doc)
 
   let bs_noassertfalse =
     let doc = "*internal*  no code for assert false" in
-    Arg.(value & flag & info [ "bs-noassertfalse" ] ~doc)
+    Arg.(value & flag & info [ "bs-noassertfalse"; "mel-noassertfalse" ] ~doc)
 
   let noassert =
     let doc = "*internal* Do not compile assertion checks" in
@@ -344,7 +359,7 @@ module Internal = struct
     let doc =
       "*internal*  dont display location with -dtypedtree, -dparsetree"
     in
-    Arg.(value & flag & info [ "bs-loc" ] ~doc)
+    Arg.(value & flag & info [ "bs-loc"; "mel-loc" ] ~doc)
 
   let impl =
     let doc = "*internal* Compile $(docv) as a .ml file" in
