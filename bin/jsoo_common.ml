@@ -78,7 +78,7 @@ module Reason = struct
   let printML = printWith ~f:ML.print_implementation_with_comments
 end
 
-let mk_js_error (error : Location.report) : Js.t =
+let warning_error_to_js (error : Location.report) : Js.t =
   let kind, type_ =
     match error.kind with
     | Location.Report_error -> ("Error", "error")
@@ -95,7 +95,7 @@ let mk_js_error (error : Location.report) : Js.t =
   let _file, endline, endchar = Location.get_pos_info loc.Location.loc_end in
   Js.obj
     [|
-      ( "js_error_msg",
+      ( "js_warning_error_msg",
         Js.string
           (Printf.sprintf "Line %d, %d:\n  %s %s" line startchar kind txt) );
       ("row", intToJsFloat (line - 1));

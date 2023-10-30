@@ -244,11 +244,19 @@ let compile =
       in
       let v = Buffer.contents buffer in
       let type_hints = collect_type_hints typed_tree in
-      Js.(obj [| ("js_code", Js.string v); ("type_hints", type_hints) |])
+      Js.(
+        obj
+          [|
+            ("js_code", Js.string v);
+            ( "warnings",
+              List.rev_map Jsoo_common.warning_error_to_js !warnings_collected
+              |> Array.of_list |> Js.array );
+            ("type_hints", type_hints);
+          |])
       (* Format.fprintf output_ppf {| { "js_code" : %S }|} v ) *)
     with e -> (
       match error_of_exn e with
-      | Some error -> Jsoo_common.mk_js_error error
+      | Some error -> Jsoo_common.warning_error_to_js error
       | None -> (
           let default =
             lazy
@@ -262,7 +270,7 @@ let compile =
               | warnings ->
                   let type_ = "warning_errors" in
                   let jsErrors =
-                    List.rev_map Jsoo_common.mk_js_error warnings
+                    List.rev_map Jsoo_common.warning_error_to_js warnings
                     |> Array.of_list
                   in
                   Js.obj

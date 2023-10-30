@@ -8,6 +8,6 @@ module Reason : sig
 end
 
 (*
-Creates a Js Error object for given location report
+Creates a Js object for given location report
 *)
-val mk_js_error : Location.report -> Js.t
+val warning_error_to_js : Location.report -> Js.t
