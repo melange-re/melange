@@ -95,8 +95,8 @@ let values_of_export (meta : Lam_stats.t) (export_map : Lam.t Map_ident.t) :
                     lam_size < Lam_analysis.small_inline_size
                     && Map_ident.is_empty free_variables
                   then (
-                    Ext_log.dwarn ~__POS__ "%s recorded for inlining @."
-                      (Ident.name x);
+                    Ext_log.warn ~loc:(Ext_loc.of_pos __POS__)
+                      (Pp.textf "%s recorded for inlining @." (Ident.name x));
                     optlam)
                   else None
             else None

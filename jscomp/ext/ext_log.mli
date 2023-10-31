@@ -22,15 +22,40 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type 'a logging = ('a, Format.formatter, unit, unit, unit, unit) format6 -> 'a
+(** A Poor man's logging utility
 
-(* TODO: add {[@.]} later for all *)
-let dwarn ?(__POS__ : (string * int * int * int) option) f =
-  if !Js_config.diagnose then
-    match __POS__ with
-    | None -> Format.fprintf Format.err_formatter ("WARN: " ^^ f ^^ "@.")
-    | Some (file, line, _, _) ->
-        Format.fprintf Format.err_formatter
-          ("WARN: %s:%d " ^^ f ^^ "@.")
-          file line
-  else Format.ifprintf Format.err_formatter ("WARN: " ^^ f ^^ "@.")
+    Example:
+    {[
+    err __LOC__ "xx"
+    ]}
+ *)
+
+module Style : sig
+  type t =
+    | Loc
+    | Error
+    | Warning
+    | Kwd
+    | Prompt
+    | Hint
+    | Details
+    | Ok
+    | Debug
+    | Success
+    | Ansi_styles of Ansi_color.Style.t list
+
+  val to_styles : t -> Ansi_color.Style.t list
+  val of_string : string -> t option
+end
+
+type t
+
+module Level : sig
+  type t = Quiet | Verbose
+end
+
+val set_level : Level.t -> unit
+val print : ?config:(Style.t -> Ansi_color.Style.t list) -> t -> unit
+val prerr : ?config:(Style.t -> Ansi_color.Style.t list) -> t -> unit
+val info : ?loc:Location.t -> Style.t Pp.t -> unit
+val warn : ?loc:Location.t -> Style.t Pp.t -> unit
