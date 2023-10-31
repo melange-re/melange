@@ -84,5 +84,5 @@ let errorAsExn (x :  error) (e  : (exn ->'a option))=
   if Caml_exceptions.isCamlExceptionOrOpenVariant (Obj.magic x ) then
      e (Obj.magic x)
   else None
-[%bs.error?  ]
+[%mel.error?  ]
 *)

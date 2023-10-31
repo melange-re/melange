@@ -339,5 +339,5 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
 (*we dont use [throw] here, since [throw] is an statement
   so we wrap in IIFE
   TODO: we might provoide a hook for user to provide polyfill.
-  For example `Bs_global.xxx`
+  For example `Mel_global.xxx`
 *)

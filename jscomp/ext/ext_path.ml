@@ -51,7 +51,7 @@ let node_sep = "/"
 let node_relative_path =
   let split_by_sep_per_os : string -> string list =
     if Sys.win32 || Sys.cygwin then fun x ->
-      (* on Windows, we can still accept -bs-package-output lib/js *)
+      (* on Windows, we can still accept -mel-package-output lib/js *)
       Ext_string.split_by (function '/' | '\\' -> true | _ -> false) x
     else fun x -> Ext_string.split x '/'
   in

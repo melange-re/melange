@@ -536,7 +536,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
     | Ffi_obj_create labels ->
         let args = List.map convert_aux args in
         prim ~primitive:(Pjs_object_create labels) ~args loc
-    | Ffi_bs (arg_types, result_type, ffi) ->
+    | Ffi_mel (arg_types, result_type, ffi) ->
         let arg_types =
           match arg_types with
           | Params ls -> ls
@@ -544,7 +544,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
               List.init i (fun _ -> Melange_ffi.External_arg_spec.dummy)
         in
         let args = List.map convert_aux args in
-        Lam.handle_bs_non_obj_ffi arg_types result_type ffi args loc prim_name
+        Lam.handle_mel_non_obj_ffi arg_types result_type ffi args loc prim_name
     | Ffi_inline_const i -> Lam.const i
   and convert_js_primitive (p : Primitive.description)
       (args : Lambda.lambda list) loc =
@@ -642,7 +642,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
           | [ Lapply { ap_func; ap_args; _ } ] ->
               prim ~primitive ~args:(ap_func :: ap_args) loc
               (* There may be some optimization opportunities here
-                 for cases like `(fun [@bs] a b -> a + b ) 1 2 [@bs]` *)
+                 for cases like `(fun [@u] a b -> a + b ) 1 2 [@u]` *)
           | _ -> assert false
         else prim ~primitive ~args loc
   and convert_aux (lam : Lambda.lambda) : Lam.t =

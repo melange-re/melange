@@ -133,7 +133,7 @@ let blk_record_inlined fields name num_nonconst =
   in
   Lambda.Blk_record_inlined { fields; name; num_nonconst }
 
-let check_bs_attributes_inclusion (attrs1 : Parsetree.attributes)
+let check_mel_attributes_inclusion (attrs1 : Parsetree.attributes)
     (attrs2 : Parsetree.attributes) lbl_name =
   let a = find_with_default attrs1 ~f:find_name ~default:lbl_name in
   let b = find_with_default attrs2 ~f:find_name ~default:lbl_name in

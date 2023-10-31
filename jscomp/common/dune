@@ -6,7 +6,7 @@
  (libraries ext melange_compiler_libs js_parser))
 
 (rule
- (target external_ffi_types.ml)
- (deps external_ffi_types.cppo.ml)
+ (target oprint_mel_primitive_name.ml)
+ (deps oprint_mel_primitive_name.dev.ml oprint_mel_primitive_name.release.ml)
  (action
-  (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (copy# oprint_mel_primitive_name.%{profile}.ml %{target})))

@@ -80,8 +80,6 @@ module Core_type = struct
   let is_arity_one ty = get_curry_arity ty = 1
 end
 
-(* Note we only used Bs_ast_iterator here, we can reuse compiler-libs instead of
-   rolling our own *)
 let emit_external_warnings : iterator =
   {
     super with
