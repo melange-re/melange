@@ -6,7 +6,7 @@
 
   $ node input.js
   {
-    js_error_msg: 'Line 1, 5:\n  Error Syntax error',
+    js_warning_error_msg: 'Line 1, 5:\n  Error Syntax error',
     row: 0,
     column: 5,
     endRow: 0,

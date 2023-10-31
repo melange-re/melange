@@ -16,6 +16,7 @@
       '  foo ,\n' +
       '}\n' +
       '/* No side effect */\n',
+    warnings: [],
     type_hints: [
       {
         start: [Object],

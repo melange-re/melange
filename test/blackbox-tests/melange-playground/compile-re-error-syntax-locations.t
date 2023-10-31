@@ -20,7 +20,7 @@ But some do
 
   $ node input.js
   {
-    js_error_msg: 'Line 1, 18:\n  Error Unbound value swiftch',
+    js_warning_error_msg: 'Line 1, 18:\n  Error Unbound value swiftch',
     row: 0,
     column: 18,
     endRow: 0,
