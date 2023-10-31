@@ -1,6 +1,3 @@
-
-
-
 let suites : Mt.pair_suites ref =  ref []
 
 let test_id = ref 0
@@ -24,7 +21,7 @@ external get_backend_type : unit -> backend_type =
 let backend_type = get_backend_type ()
 
 let max_array_length = max_wosize ()
-;; eq __LOC__ backend_type (Other "BS")
+;; eq __LOC__ backend_type (Other "Melange")
 
 let  f () =
   let exception A of int in

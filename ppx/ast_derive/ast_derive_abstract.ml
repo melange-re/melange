@@ -107,7 +107,7 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
                     ~attrs:get_attrs
                     ~prim:
                       ((* Not needed actually*)
-                       Melange_ffi.External_ffi_types.ffi_bs_as_prims
+                       Melange_ffi.External_ffi_types.ffi_mel_as_prims
                          [ Melange_ffi.External_arg_spec.dummy ]
                          Return_identity
                          (Js_get

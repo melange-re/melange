@@ -87,7 +87,7 @@ type return_wrapper =
 type params = Params of External_arg_spec.params | Param_number of int
 
 type t = private
-  | Ffi_bs of params * return_wrapper * external_spec
+  | Ffi_mel of params * return_wrapper * external_spec
   | Ffi_obj_create of External_arg_spec.obj_params
   | Ffi_inline_const of Lam_constant.t
   | Ffi_normal
@@ -106,9 +106,9 @@ val inline_bool_primitive : bool -> string list
 val inline_int_primitive : int32 -> string list
 val inline_int64_primitive : int64 -> string list
 val inline_float_primitive : string -> string list
-val ffi_bs : External_arg_spec.params -> return_wrapper -> external_spec -> t
+val ffi_mel : External_arg_spec.params -> return_wrapper -> external_spec -> t
 
-val ffi_bs_as_prims :
+val ffi_mel_as_prims :
   External_arg_spec.params -> return_wrapper -> external_spec -> string list
 
 val ffi_obj_create : External_arg_spec.obj_params -> t

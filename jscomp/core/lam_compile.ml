@@ -1477,7 +1477,7 @@ and compile_prim (prim_info : Lam.prim_info)
       compile_sequand l r lambda_cxt
   | { primitive = Psequor; args = [ l; r ]; _ } -> compile_sequor l r lambda_cxt
   | { primitive = Pdebugger; _ } ->
-      (* [%bs.debugger] guarantees that the expression does not matter
+      (* [%mel.debugger] guarantees that the expression does not matter
          TODO: make it even safer *)
       Js_output.output_of_block_and_expression lambda_cxt.continuation
         S.debugger_block E.unit
@@ -1569,7 +1569,7 @@ and compile_prim (prim_info : Lam.prim_info)
                  ap_inlined = Default_inline;
                  ap_status = App_uncurry;
                })
-          (*FIXME: should pass info down: `f a [@bs][@inlined]`*)
+          (*FIXME: should pass info down: `f a [@u][@inlined]`*)
       | [] -> assert false)
   | { primitive = Pjs_fn_method; args = args_lambda; _ } -> (
       match args_lambda with

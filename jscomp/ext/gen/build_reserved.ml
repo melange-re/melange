@@ -196,7 +196,7 @@ let binary_search =
           bool =
         let mid = (lo + hi) / 2 in
         let midVal = Array.unsafe_get arr mid in
-        (* let c = cmp key midVal [@bs] in  *)
+        (* let c = cmp key midVal [@u] in  *)
         if key = midVal then true
         else if key < midVal then
           (*  a[lo] =< key < a[mid] <= a[hi] *)
@@ -211,11 +211,11 @@ let binary_search =
         if len = 0 then false
         else
           let lo = Array.unsafe_get sorted 0 in
-          (* let c = cmp key lo [@bs] in  *)
+          (* let c = cmp key lo [@u] in  *)
           if key < lo then false
           else
             let hi = Array.unsafe_get sorted (len - 1) in
-            (* let c2 = cmp key hi [@bs]in  *)
+            (* let c2 = cmp key hi [@u]in  *)
             if key > hi then false else binarySearchAux sorted 0 (len - 1) key
 
     let is_reserved s = binarySearch sorted_keywords s]
