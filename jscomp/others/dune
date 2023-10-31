@@ -20,8 +20,8 @@
   dom_storage
   dom_storage2)
  (melange.compile_flags
-  -bs-no-check-div-by-zero
-  -bs-cross-module-opt
+  -mel-no-check-div-by-zero
+  -mel-cross-module-opt
   -unsafe
   -nopervasives
   -nostdlib
@@ -36,8 +36,8 @@
   (pps melange.ppx -unsafe))
  (modules dom dom_storage dom_storage2)
  (melange.compile_flags
-  -bs-no-check-div-by-zero
-  -bs-cross-module-opt
+  -mel-no-check-div-by-zero
+  -mel-cross-module-opt
   -unsafe
   -nopervasives
   -nostdlib))
@@ -69,8 +69,8 @@
   node_process)
  (stdlib)
  (melange.compile_flags
-  -bs-no-check-div-by-zero
-  -bs-cross-module-opt
+  -mel-no-check-div-by-zero
+  -mel-cross-module-opt
   -unsafe
   -open
   Js__Melange_mini_stdlib))

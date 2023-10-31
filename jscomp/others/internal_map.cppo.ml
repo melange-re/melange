@@ -1,4 +1,4 @@
-[@@@mel.config {flags = [| "-bs-noassertfalse" |]}]
+[@@@mel.config {flags = [| "-mel-noassertfalse" |]}]
 #ifdef TYPE_STRING
 type key = string
 #elif defined TYPE_INT

@@ -1,4 +1,4 @@
-[@@@mel.config { flags = [|"-bs-no-cross-module-opt"; |]}]
+[@@@mel.config { flags = [|"--mel-no-cross-module-opt"; |]}]
 #2 "stdlib/sys.mlp"
 (**************************************************************************)
 (*                                                                        *)
