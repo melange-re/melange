@@ -12,10 +12,10 @@
   (copy# include_dirs.%{profile}.ml %{target})))
 
 (rule
- (targets js_pass_debug.ml)
- (deps js_pass_debug.cppo.ml)
+ (target js_pass_debug.ml)
+ (deps js_pass_debug.dev.ml js_pass_debug.release.ml)
  (action
-  (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
+  (copy# js_pass_debug.%{profile}.ml %{target})))
 
 (rule
  (targets lam_pass_lets_dce.ml)
@@ -24,10 +24,10 @@
   (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
 
 (rule
- (targets lam_util.ml)
- (deps lam_util.cppo.ml)
+ (target lam_dump.ml)
+ (deps lam_dump.dev.ml lam_dump.release.ml)
  (action
-  (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
+  (copy# lam_dump.%{profile}.ml %{target})))
 
 (rule
  (targets lam_compile_main.ml)
