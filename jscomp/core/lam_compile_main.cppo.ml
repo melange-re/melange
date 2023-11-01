@@ -109,7 +109,7 @@ let no_side_effects (rest : Lam_group.t list) : string option =
 
 let _d  = fun  s lam ->
 #ifndef BS_RELEASE_BUILD
-    Lam_util.dump  s lam ;
+    Lam_dump.dump  s lam ;
   Ext_log.dwarn ~__POS__ "START CHECKING PASS %s@." s;
   ignore @@ Lam_check.check !Location.input_name lam;
   Ext_log.dwarn ~__POS__ "FINISH CHECKING PASS %s@." s;
