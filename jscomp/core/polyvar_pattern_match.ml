@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 type lam = Lambda.lambda
 type hash_names = (int * string) list
 type input = (int * (string * lam)) list
@@ -39,24 +41,24 @@ type value = { stamp : int; hash_names_act : hash_names * lam }
 let convert (xs : input) : output =
   let coll = Coll.create 63 in
   let os : value list ref = ref [] in
-  xs
-  |> List.iteri (fun i (hash, (name, act)) ->
-         match Lambda.make_key act with
-         | None ->
-             os :=
-               { stamp = i; hash_names_act = ([ (hash, name) ], act) } :: !os
-         | Some key ->
-             Coll.add_or_update coll key
-               ~update:(fun ({ hash_names_act = hash_names, act; _ } as acc) ->
-                 { acc with hash_names_act = ((hash, name) :: hash_names, act) })
-               { hash_names_act = ([ (hash, name) ], act); stamp = i });
+  List.iteri
+    ~f:(fun i (hash, (name, act)) ->
+      match Lambda.make_key act with
+      | None ->
+          os := { stamp = i; hash_names_act = ([ (hash, name) ], act) } :: !os
+      | Some key ->
+          Coll.add_or_update coll key
+            ~update:(fun ({ hash_names_act = hash_names, act; _ } as acc) ->
+              { acc with hash_names_act = ((hash, name) :: hash_names, act) })
+            { hash_names_act = ([ (hash, name) ], act); stamp = i })
+    xs;
   let result =
     let arr =
       let result = Coll.to_list coll (fun _ value -> value) @ !os in
       Array.of_list result
     in
-    Array.sort (fun x y -> compare x.stamp y.stamp) arr;
-    Ext_array.to_list_f arr (fun x -> x.hash_names_act)
+    Array.sort ~cmp:(fun x y -> compare x.stamp y.stamp) arr;
+    Array.to_list_f arr (fun x -> x.hash_names_act)
   in
   result
 
@@ -70,7 +72,7 @@ let or_list (arg : lam) (hash_names : (int * string) list) =
             Loc_unknown )
       in
       List.fold_left
-        (fun acc (hash, name) ->
+        ~f:(fun acc (hash, name) ->
           Lambda.Lprim
             ( Psequor,
               [
@@ -84,7 +86,7 @@ let or_list (arg : lam) (hash_names : (int * string) list) =
                     Loc_unknown );
               ],
               Loc_unknown ))
-        init rest
+        ~init rest
   | _ -> assert false
 
 let make_test_sequence_variant_constant (fail : lam option) (arg : lam)
@@ -95,10 +97,10 @@ let make_test_sequence_variant_constant (fail : lam option) (arg : lam)
   match (int_lambda_list, fail) with
   | (_, act) :: rest, None | rest, Some act ->
       List.fold_right
-        (fun (hash_names, act1) (acc : lam) ->
+        ~f:(fun (hash_names, act1) (acc : lam) ->
           let predicate : lam = or_list arg hash_names in
           Lifthenelse (predicate, act1, acc))
-        rest act
+        rest ~init:act
   | [], None -> assert false
 
 let call_switcher_variant_constant (_loc : Debuginfo.Scoped_location.t)
@@ -109,10 +111,10 @@ let call_switcher_variant_constant (_loc : Debuginfo.Scoped_location.t)
   match (int_lambda_list, fail) with
   | (_, act) :: rest, None | rest, Some act ->
       List.fold_right
-        (fun (hash_names, act1) (acc : lam) ->
+        ~f:(fun (hash_names, act1) (acc : lam) ->
           let predicate = or_list arg hash_names in
           Lifthenelse (predicate, act1, acc))
-        rest act
+        rest ~init:act
   | [], None -> assert false
 
 let call_switcher_variant_constr (loc : Lambda.scoped_location)

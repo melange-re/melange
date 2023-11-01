@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (*
 let add_required_modules ( x : Ident.t list) (meta : Lam_stats.t) =
   let meta_require_modules = meta.required_modules in
@@ -117,10 +119,10 @@ let alias_ident_or_global (meta : Lam_stats.t) (k : Ident.t) (v : Ident.t)
   *)
   match v_kind with
   | NA -> (
-      match Hash_ident.find_opt meta.ident_tbl v with
+      match Ident.Hash.find_opt meta.ident_tbl v with
       | None -> ()
-      | Some ident_info -> Hash_ident.add meta.ident_tbl k ident_info)
-  | ident_info -> Hash_ident.add meta.ident_tbl k ident_info
+      | Some ident_info -> Ident.Hash.add meta.ident_tbl k ident_info)
+  | ident_info -> Ident.Hash.add meta.ident_tbl k ident_info
 
 (* share -- it is safe to share most properties,
     for arity, we might be careful, only [Alias] can share,
@@ -166,10 +168,10 @@ let element_of_lambda (lam : Lam.t) : Lam_id_kind.element =
   | _ -> NA
 
 let kind_of_lambda_block (xs : Lam.t list) : Lam_id_kind.t =
-  ImmutableBlock (Ext_array.of_list_map xs (fun x -> element_of_lambda x))
+  ImmutableBlock (Array.of_list_map xs (fun x -> element_of_lambda x))
 
-let field_flatten_get lam v i info (tbl : Lam_id_kind.t Hash_ident.t) : Lam.t =
-  match Hash_ident.find_opt tbl v with
+let field_flatten_get lam v i info (tbl : Lam_id_kind.t Ident.Hash.t) : Lam.t =
+  match Ident.Hash.find_opt tbl v with
   | Some (Module g) ->
       Lam.prim
         ~primitive:(Pfield (i, info))

@@ -3,7 +3,12 @@
  (flags
   (:standard -open Melange_compiler_libs))
  (modules_without_implementation js_op j)
- (libraries ext melange_compiler_libs melange_ffi ppxlib.ast dune-build-info))
+ (libraries
+  melstd
+  melange_compiler_libs
+  melange_ffi
+  ppxlib.ast
+  dune-build-info))
 
 (rule
  (target include_dirs.ml)

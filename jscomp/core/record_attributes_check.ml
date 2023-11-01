@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 type label = Types.label_description
 
 let rec find_with_default xs ~f ~default =
@@ -106,7 +108,7 @@ let fld_record_extension_set (lbl : label) =
 let blk_record fields =
   let all_labels_info =
     Array.map
-      (fun ((lbl : label), _) ->
+      ~f:(fun ((lbl : label), _) ->
         find_with_default lbl.Types.lbl_attributes ~f:find_name
           ~default:lbl.lbl_name)
       fields
@@ -116,7 +118,7 @@ let blk_record fields =
 let blk_record_ext fields =
   let all_labels_info =
     Array.map
-      (fun ((lbl : label), _) ->
+      ~f:(fun ((lbl : label), _) ->
         find_with_default lbl.Types.lbl_attributes ~f:find_name
           ~default:lbl.lbl_name)
       fields
@@ -126,7 +128,7 @@ let blk_record_ext fields =
 let blk_record_inlined fields name num_nonconst =
   let fields =
     Array.map
-      (fun ((lbl : label), _) ->
+      ~f:(fun ((lbl : label), _) ->
         find_with_default lbl.Types.lbl_attributes ~f:find_name
           ~default:lbl.lbl_name)
       fields
@@ -141,24 +143,24 @@ let check_mel_attributes_inclusion (attrs1 : Parsetree.attributes)
 
 let check_duplicated_labels =
   let rec check_duplicated_labels_aux (lbls : Parsetree.label_declaration list)
-      (coll : Set_string.t) =
+      (coll : String.Set.t) =
     match lbls with
     | [] -> None
     | { pld_name = { txt; _ } as pld_name; pld_attributes; _ } :: rest -> (
-        if Set_string.mem coll txt then Some pld_name
+        if String.Set.mem coll txt then Some pld_name
         else
-          let coll_with_lbl = Set_string.add coll txt in
-          match List.find_map find_name_with_loc pld_attributes with
+          let coll_with_lbl = String.Set.add coll txt in
+          match List.find_map ~f:find_name_with_loc pld_attributes with
           | None -> check_duplicated_labels_aux rest coll_with_lbl
           | Some ({ txt = s; _ } as l) ->
               if
-                Set_string.mem coll s
+                String.Set.mem coll s
                 (*use coll to make check a bit looser
                   allow cases like [ x : int [@as "x"]]
                 *)
               then Some l
               else
                 check_duplicated_labels_aux rest
-                  (Set_string.add coll_with_lbl s))
+                  (String.Set.add coll_with_lbl s))
   in
-  fun lbls -> check_duplicated_labels_aux lbls Set_string.empty
+  fun lbls -> check_duplicated_labels_aux lbls String.Set.empty

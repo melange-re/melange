@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (**
   {[
     _open -> open
@@ -59,7 +61,7 @@
 
 (* Copied from [ocaml/parsing/lexer.mll] *)
 let key_words =
-  Hash_set_string.of_array
+  String.Hash_set.of_array
     [|
       "and";
       "as";
@@ -132,17 +134,17 @@ let valid_start_char x = match x with '_' | 'a' .. 'z' -> true | _ -> false
 
 let translate name =
   assert (String.length name > 0);
-  let i = Ext_string.rfind ~sub:double_underscore name in
+  let i = String.rfind ~sub:double_underscore name in
   if i < 0 then
     let name_len = String.length name in
     if name.[0] = '_' then
-      let try_key_word = String.sub name 1 (name_len - 1) in
+      let try_key_word = String.sub name ~pos:1 ~len:(name_len - 1) in
       if
         name_len > 1
         && ((not (valid_start_char try_key_word.[0]))
-           || Hash_set_string.mem key_words try_key_word)
+           || String.Hash_set.mem key_words try_key_word)
       then try_key_word
       else name
     else name
   else if i = 0 then name
-  else String.sub name 0 i
+  else String.sub name ~pos:0 ~len:i

@@ -20,6 +20,8 @@
  *)
 (* Authors: Jérôme Vouillon, Hongbo Zhang  *)
 
+open Import
+
 (*
   http://stackoverflow.com/questions/2846283/what-are-the-rules-for-javascripts-automatic-semicolon-insertion-asi
   ASI catch up
@@ -71,37 +73,37 @@ module L = Js_dump_lit
    (our call Js_fun_env.get_unbounded env) is not precise
 *)
 
-type cxt = { scope : Ext_pp_scope.t; pp : Ext_pp.t }
+type cxt = { scope : Pp_scope.t; pp : Js_pp.t }
 
-let from_pp pp = { scope = Ext_pp_scope.empty; pp }
-let from_buffer buf = from_pp (Ext_pp.from_buffer buf)
+let from_pp pp = { scope = Pp_scope.empty; pp }
+let from_buffer buf = from_pp (Js_pp.from_buffer buf)
 let update_scope cxt scope = { cxt with scope }
-let ident cxt id = update_scope cxt (Ext_pp_scope.ident cxt.scope cxt.pp id)
-let string cxt s = Ext_pp.string cxt.pp s
-let group cxt = Ext_pp.group cxt.pp
-let newline cxt = Ext_pp.newline cxt.pp
-let paren_group cxt = Ext_pp.paren_group cxt.pp
-let paren_vgroup cxt = Ext_pp.paren_vgroup cxt.pp
-let vgroup cxt = Ext_pp.vgroup cxt.pp
-let space cxt = Ext_pp.space cxt.pp
-let cond_paren_group cxt = Ext_pp.cond_paren_group cxt.pp
-let paren cxt = Ext_pp.paren cxt.pp
-let brace_vgroup cxt = Ext_pp.brace_vgroup cxt.pp
-let bracket_group cxt = Ext_pp.bracket_group cxt.pp
-let bracket_vgroup cxt = Ext_pp.bracket_vgroup cxt.pp
+let ident cxt id = update_scope cxt (Pp_scope.ident cxt.scope cxt.pp id)
+let string cxt s = Js_pp.string cxt.pp s
+let group cxt = Js_pp.group cxt.pp
+let newline cxt = Js_pp.newline cxt.pp
+let paren_group cxt = Js_pp.paren_group cxt.pp
+let paren_vgroup cxt = Js_pp.paren_vgroup cxt.pp
+let vgroup cxt = Js_pp.vgroup cxt.pp
+let space cxt = Js_pp.space cxt.pp
+let cond_paren_group cxt = Js_pp.cond_paren_group cxt.pp
+let paren cxt = Js_pp.paren cxt.pp
+let brace_vgroup cxt = Js_pp.brace_vgroup cxt.pp
+let bracket_group cxt = Js_pp.bracket_group cxt.pp
+let bracket_vgroup cxt = Js_pp.bracket_vgroup cxt.pp
 
 let merge_scope cxt l =
-  let scope = Ext_pp_scope.merge cxt.scope l in
+  let scope = Pp_scope.merge cxt.scope l in
   { cxt with scope }
 
-let sub_scope cxt l = update_scope cxt (Ext_pp_scope.sub_scope cxt.scope l)
+let sub_scope cxt l = update_scope cxt (Pp_scope.sub_scope cxt.scope l)
 
 let str_of_ident cxt id =
-  let str, scope = Ext_pp_scope.str_of_ident cxt.scope id in
+  let str, scope = Pp_scope.str_of_ident cxt.scope id in
   (str, update_scope cxt scope)
 
-let at_least_two_lines cxt = Ext_pp.at_least_two_lines cxt.pp
-let flush cxt () = Ext_pp.flush cxt.pp ()
+let at_least_two_lines cxt = Js_pp.at_least_two_lines cxt.pp
+let flush cxt () = Js_pp.flush cxt.pp ()
 
 module Curry_gen = struct
   let pp_curry_dot cxt =
@@ -123,8 +125,8 @@ module Curry_gen = struct
     string cxt (Printf.sprintf "%d" len)
 end
 
-let return_indent = String.length L.return / Ext_pp.indent_length
-let throw_indent = String.length L.throw / Ext_pp.indent_length
+let return_indent = String.length L.return / Js_pp.indent_length
+let throw_indent = String.length L.throw / Js_pp.indent_length
 let semi cxt = string cxt L.semi
 let comma cxt = string cxt L.comma
 
@@ -140,9 +142,9 @@ let exn_block_as_obj ~(stack : bool) (el : J.expression list) (ext : J.tag_info)
   in
   Object
     (if stack then
-       List.mapi (fun i e -> (Js_op.Lit (field_name i), e)) el
+       List.mapi ~f:(fun i e -> (Js_op.Lit (field_name i), e)) el
        @ [ (Js_op.Lit "Error", E.new_ (E.js_global "Error") []) ]
-     else List.mapi (fun i e -> (Js_op.Lit (field_name i), e)) el)
+     else List.mapi ~f:(fun i e -> (Js_op.Lit (field_name i), e)) el)
 
 let rec iter_lst cxt ls element inter =
   match ls with
@@ -155,7 +157,7 @@ let rec iter_lst cxt ls element inter =
 
 let raw_snippet_exp_simple_enough (s : string) =
   String.for_all
-    (function 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' -> true | _ -> false)
+    ~f:(function 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' -> true | _ -> false)
     s
 (* Parentheses are required when the expression
    starts syntactically with "{" or "function"
@@ -202,9 +204,9 @@ let pp_paren_params (cxt : cxt) (lexical : Ident.t list) : unit =
 (* Print as underscore for unused vars, may not be
     needed in the future *)
 (* let ipp_ident cxt id (un_used : bool) =
-   Ext_pp_scope.ident cxt (
+   Pp_scope.ident cxt (
      if un_used then
-       Ext_ident.make_unused ()
+       Ident.make_unused ()
      else
        id) *)
 
@@ -359,14 +361,14 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
             it can be optimized in to either [u] or [Curry.__n(u)]
          *)
          (not is_method)
-         && Ext_list.for_all2_no_exn ls l is_var
+         && List.for_all2_no_exn ls l is_var
          &&
          match v with
          (* This check is needed to avoid some edge cases
             {[function(x){return x(x)}]}
             here the function is also called `x`
          *)
-         | Id id -> not (List.exists (fun x -> Ident.same x id) l)
+         | Id id -> not (List.exists ~f:(fun x -> Ident.same x id) l)
          | Qualified _ -> true -> (
       let optimize len ~p cxt v =
         if p then try_optimize_curry cxt len function_id else vident cxt v
@@ -383,12 +385,12 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
           if fn_state = Is_return then return_sp cxt;
           optimize len ~p:(arity = NA && len <= 8) cxt v)
   | _ ->
-      let set_env : Set_ident.t =
+      let set_env =
         (* identifiers will be printed cxtollowing*)
         match fn_state with
         | Is_return | No_name _ -> Js_fun_env.get_unbounded env
         | Name_top id | Name_non_top id ->
-            Set_ident.add (Js_fun_env.get_unbounded env) id
+            Ident.Set.add (Js_fun_env.get_unbounded env) id
       in
       (* the context will be continued after this function *)
       let outer_cxt = merge_scope cxt set_env in
@@ -423,10 +425,10 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
           space cxt;
           brace_vgroup cxt 1 (fun _ -> function_body ~return_unit cxt b)
       in
-      let lexical : Set_ident.t = Js_fun_env.get_lexical_scope env in
+      let lexical : Ident.Set.t = Js_fun_env.get_lexical_scope env in
       let enclose lexical =
         let handle lexical =
-          if Set_ident.is_empty lexical then (
+          if Ident.Set.is_empty lexical then (
             match fn_state with
             | Is_return ->
                 return_sp cxt;
@@ -455,7 +457,7 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
                {[(function(x,y){ return function(..){...}} (x,y))]}
                Maybe changed to `let` in the future
             *)
-            let lexical = Set_ident.elements lexical in
+            let lexical = Ident.Set.elements lexical in
             (match fn_state with
             | Is_return -> return_sp cxt
             | No_name _ -> ()
@@ -480,10 +482,10 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
         in
         handle
           (match fn_state with
-          | (Name_top name | Name_non_top name) when Set_ident.mem lexical name
+          | (Name_top name | Name_non_top name) when Ident.Set.mem lexical name
             ->
               (*TODO: when calculating lexical we should not include itself *)
-              Set_ident.remove lexical name
+              Ident.Set.remove lexical name
           | _ -> lexical)
       in
       enclose lexical;
@@ -524,7 +526,9 @@ and pp_one_case_clause : 'a. _ -> (_ -> 'a -> unit) -> 'a * J.case_clause -> _ =
 
 and loop_case_clauses : 'a. _ -> (_ -> 'a -> unit) -> ('a * _) list -> _ =
  fun cxt pp_cond cases ->
-  List.fold_left (fun acc x -> pp_one_case_clause acc pp_cond x) cxt cases
+  List.fold_left
+    ~f:(fun acc x -> pp_one_case_clause acc pp_cond x)
+    ~init:cxt cases
 
 and vident cxt (v : J.vident) =
   match v with
@@ -537,7 +541,7 @@ and vident cxt (v : J.vident) =
       string cxt L.dot;
       string cxt
         (if name = Js_dump_import_export.default_export then name
-         else Ext_ident.convert name);
+         else Ident.convert name);
       cxt
   | Qualified ({ id; kind = External _ }, Some name) ->
       let cxt = ident cxt id in
@@ -576,7 +580,7 @@ and expression_desc cxt ~(level : int) x : cxt =
          It seems the optimizer already did work to make sure
          {[
            Call (Raw_js_code (s, Exp i), el, {Full})
-           when Ext_list.length_equal el i
+           when List.length_equal el i
          ]}
       *)
   | Call (e, el, info) ->
@@ -761,15 +765,14 @@ and expression_desc cxt ~(level : int) x : cxt =
   | Caml_block (el, _, _, Blk_module fields) ->
       expression_desc cxt ~level
         (Object
-           (Ext_list.map_combine fields el (fun x ->
-                Js_op.Lit (Ext_ident.convert x))))
+           (List.map_combine fields el (fun x -> Js_op.Lit (Ident.convert x))))
   (*name convention of Record is slight different from modules*)
   | Caml_block (el, mutable_flag, _, Blk_record fields) ->
       if block_has_all_int_fields fields then
         expression_desc cxt ~level (Array (el, mutable_flag))
       else
         expression_desc cxt ~level
-          (Object (Ext_list.map_combine_array fields el (fun i -> Js_op.Lit i)))
+          (Object (List.map_combine_array fields el (fun i -> Js_op.Lit i)))
   | Caml_block (el, _, _, Blk_poly_var) -> (
       match el with
       | [ { expression_desc = Str (_, name); _ }; value ] ->
@@ -785,7 +788,7 @@ and expression_desc cxt ~(level : int) x : cxt =
   | Caml_block (el, _, tag, Blk_record_inlined p) ->
       let objs =
         let tails =
-          Ext_list.map_combine_array_append p.fields el
+          List.map_combine_array_append p.fields el
             (if !Js_config.debug then [ (name_symbol, E.str p.name) ] else [])
             (fun i -> Js_op.Lit i)
         in
@@ -804,7 +807,7 @@ and expression_desc cxt ~(level : int) x : cxt =
       let objs =
         let tails =
           List.mapi
-            (fun i e ->
+            ~f:(fun i e ->
               ( Js_op.Lit
                   (Js_exp_make.variant_pos ~constr:p.name (Int32.of_int i)),
                 e ))
@@ -1083,9 +1086,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
                             in
                             space cxt;
                             comma cxt;
-                            let id =
-                              Ext_ident.create (Ident.name id ^ "_finish")
-                            in
+                            let id = Ident.create (Ident.name id ^ "_finish") in
                             let cxt = ident cxt id in
                             space cxt;
                             string cxt L.eq;
@@ -1093,9 +1094,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
                             (expression ~level:1 cxt finish, Some id)
                         | None, (Number _ | Var _) -> (cxt, None)
                         | None, _ ->
-                            let id =
-                              Ext_ident.create (Ident.name id ^ "_finish")
-                            in
+                            let id = Ident.create (Ident.name id ^ "_finish") in
                             let cxt = pp_var_assign cxt id in
                             (expression ~level:15 cxt finish, Some id)
                       in
@@ -1133,14 +1132,14 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
             brace_block cxt s)
       in
       let lexical = Js_closure.get_lexical_scope env in
-      if Set_ident.is_empty lexical then action cxt
+      if Ident.Set.is_empty lexical then action cxt
       else
         (* unlike function,
            [print for loop] has side effect,
            we should take it out
         *)
         let inner_cxt = merge_scope cxt lexical in
-        let lexical = Set_ident.elements lexical in
+        let lexical = Ident.Set.elements lexical in
         vgroup cxt 0 (fun _ ->
             string cxt L.lparen;
             string cxt L.function_;

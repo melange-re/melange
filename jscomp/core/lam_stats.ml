@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,10 +17,12 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
+
+open Import
 
 (* It can be useful for common sub expression elimination ?
     if two lambdas are not equal, it should return false, other wise,
@@ -36,12 +38,12 @@
     in the  beginning, when we do alpha conversion, we can instrument the table
 *)
 
-(* type alias_tbl =  Ident.t Hash_ident.t *)
+(* type alias_tbl =  Ident.t Ident.Hash.t *)
 
-type ident_tbl = Lam_id_kind.t Hash_ident.t
+type ident_tbl = Lam_id_kind.t Ident.Hash.t
 
 type t = {
-  export_idents : Set_ident.t;
+  export_idents : Ident.Set.t;
   exports : Ident.t list; (*It is kept since order matters? *)
   ident_tbl : ident_tbl;
       (** we don't need count arities for all identifiers, for identifiers
@@ -52,10 +54,10 @@ type t = {
 let pp = Format.fprintf
 
 (* let pp_alias_tbl fmt (tbl : alias_tbl) =
-   Hash_ident.iter  tbl (fun k v -> pp fmt "@[%a -> %a@]@." Ident.print k Ident.print v) *)
+   Ident.Hash.iter  tbl (fun k v -> pp fmt "@[%a -> %a@]@." Ident.print k Ident.print v) *)
 
 let pp_ident_tbl fmt (ident_tbl : ident_tbl) =
-  Hash_ident.iter ident_tbl (fun k v ->
+  Ident.Hash.iter ident_tbl (fun k v ->
       pp fmt "@[%a -> %a@]@." Ident.print k Lam_id_kind.print v)
 
 let print fmt (v : t) =
@@ -66,7 +68,7 @@ let print fmt (v : t) =
 
 let make ~export_idents ~export_ident_sets : t =
   {
-    ident_tbl = Hash_ident.create 31;
+    ident_tbl = Ident.Hash.create 31;
     exports = export_idents;
     export_idents = export_ident_sets;
   }

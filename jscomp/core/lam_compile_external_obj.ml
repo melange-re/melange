@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module E = Js_exp_make
 module S = Js_stmt_make
 
@@ -100,15 +101,17 @@ let assemble_obj_args (labels : Melange_ffi.External_arg_spec.obj_params)
         | [] -> E.obj map
         | x :: xs -> E.seq (E.fuse_to_seq x xs) (E.obj map) )
   | _ ->
-      let v = Ext_ident.create_tmp () in
+      let v = Ident.create_tmp () in
       let var_v = E.var v in
       ( S.define_variable ~kind:Variable v
           (match eff with
           | [] -> E.obj map
           | x :: xs -> E.seq (E.fuse_to_seq x xs) (E.obj map))
         :: List.concat_map
-             (fun ( (xlabel : Melange_ffi.External_arg_spec.obj_param),
-                    (arg : J.expression) ) ->
+             ~f:(fun
+                 ( (xlabel : Melange_ffi.External_arg_spec.obj_param),
+                   (arg : J.expression) )
+               ->
                match xlabel with
                | {
                 obj_arg_label =

@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 type t = J.module_id = { id : Ident.t; kind : Js_op.kind }
 
 let id x = x.id
@@ -43,7 +45,7 @@ module Cmp = struct
         | External { name = y_kind; default = y_default } ->
             x_kind = (y_kind : string) && x_default = y_default
         | _ -> false)
-    | Ml | Runtime -> Ext_ident.equal x.id y.id
+    | Ml | Runtime -> Ident.equal x.id y.id
 
   (* #1556
      Note the main difference between [Ml] and [Runtime] is
@@ -65,7 +67,7 @@ module Cmp = struct
         Hashtbl.hash x_kind
     | Ml | Runtime ->
         let x_id = x.id in
-        Hashtbl.hash (Ext_ident.stamp x_id, Ident.name x_id)
+        Hashtbl.hash (Ident.stamp x_id, Ident.name x_id)
 end
 
 module Hash = Hash.Make (Cmp)

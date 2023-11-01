@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (* Note that currently there is no way to consume [Js.meth_callback]
     so it is fine to encode it with a freedom,
     but we need make it better for error message.
@@ -34,7 +36,6 @@
     For [method_callback], the arity is never zero, so both [method]
     and  [fn] requires (unit -> 'a) to encode arity zero
 *)
-open Ppxlib
 
 type typ = Parsetree.core_type
 type 'a cxt = Ast_helper.loc -> Ast_traverse.map -> 'a

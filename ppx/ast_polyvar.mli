@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 val map_constructor_declarations_into_ints :
   Parsetree.constructor_declaration list -> [ `Offset of int | `New of int list ]

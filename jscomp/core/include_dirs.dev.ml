@@ -22,9 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 let paths =
   let jscomp = "jscomp" in
-  Ext_path.
+  Path.
     [
       (* [melange] / [Stdlib] *)
       jscomp // "stdlib" // ".stdlib.objs";

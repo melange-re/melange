@@ -22,11 +22,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 let arity_of_var (meta : Lam_stats.t) (v : Ident.t) =
   (* for functional parameter, if it is a high order function,
       if it's not from function parameter, we should warn
   *)
-  match Hash_ident.find_opt meta.ident_tbl v with
+  match Ident.Hash.find_opt meta.ident_tbl v with
   | Some (FunctionId { arity; _ }) -> arity
   | Some _ | None -> Lam_arity.na
 
@@ -122,12 +124,12 @@ let rec get_arity (meta : Lam_stats.t) (lam : Lam.t) : Lam_arity.t =
           _;
         } ) ->
       all_lambdas meta
-        (let rest = List.map snd sw_consts @ List.map snd sw_blocks in
+        (let rest = List.map ~f:snd sw_consts @ List.map ~f:snd sw_blocks in
          match sw_failaction with None -> rest | Some x -> x :: rest)
   | Lstringswitch (_, sw, d) -> (
       match d with
-      | None -> all_lambdas meta (List.map snd sw)
-      | Some v -> all_lambdas meta (v :: List.map snd sw))
+      | None -> all_lambdas meta (List.map ~f:snd sw)
+      | Some v -> all_lambdas meta (v :: List.map ~f:snd sw))
   | Lstaticcatch (_, _, handler) -> get_arity meta handler
   | Ltrywith (l1, _, l2) -> all_lambdas meta [ l1; l2 ]
   | Lifthenelse (_, l2, l3) -> all_lambdas meta [ l2; l3 ]

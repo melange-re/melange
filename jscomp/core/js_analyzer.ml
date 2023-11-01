@@ -22,13 +22,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 type idents_stats = {
-  mutable used_idents : Set_ident.t;
-  mutable defined_idents : Set_ident.t;
+  mutable used_idents : Ident.Set.t;
+  mutable defined_idents : Ident.Set.t;
 }
 
 let add_defined_idents (x : idents_stats) ident =
-  x.defined_idents <- Set_ident.add x.defined_idents ident
+  x.defined_idents <- Ident.Set.add x.defined_idents ident
 
 (* Assume that functions already calculated closure correctly
    Maybe in the future, we should add a dirty flag, to mark the calcuated
@@ -48,8 +50,8 @@ let free_variables (stats : idents_stats) =
         match st.value with None -> () | Some v -> self.expression self v);
     ident =
       (fun _ id ->
-        if not (Set_ident.mem stats.defined_idents id) then
-          stats.used_idents <- Set_ident.add stats.used_idents id);
+        if not (Ident.Set.mem stats.defined_idents id) then
+          stats.used_idents <- Ident.Set.add stats.used_idents id);
     expression =
       (fun self exp ->
         match exp.expression_desc with
@@ -58,26 +60,26 @@ let free_variables (stats : idents_stats) =
             if it's already comuted
         *) ->
             stats.used_idents <-
-              Set_ident.union (Js_fun_env.get_unbounded env) stats.used_idents
+              Ident.Set.union (Js_fun_env.get_unbounded env) stats.used_idents
         | _ -> super.expression self exp);
   }
 
-let init = { used_idents = Set_ident.empty; defined_idents = Set_ident.empty }
+let init = { used_idents = Ident.Set.empty; defined_idents = Ident.Set.empty }
 let obj = free_variables init
 
 let clean_up init =
-  init.used_idents <- Set_ident.empty;
-  init.defined_idents <- Set_ident.empty
+  init.used_idents <- Ident.Set.empty;
+  init.defined_idents <- Ident.Set.empty
 
 let free_variables_of_statement st =
   clean_up init;
   obj.statement obj st;
-  Set_ident.diff init.used_idents init.defined_idents
+  Ident.Set.diff init.used_idents init.defined_idents
 
 let free_variables_of_expression st =
   clean_up init;
   obj.expression obj st;
-  Set_ident.diff init.used_idents init.defined_idents
+  Ident.Set.diff init.used_idents init.defined_idents
 
 let rec no_side_effect_expression_desc (x : J.expression_desc) =
   match x with
@@ -96,9 +98,9 @@ let rec no_side_effect_expression_desc (x : J.expression_desc) =
 
           the block is mutable does not mean this operation is non-pure
       *)
-      List.for_all no_side_effect xs
+      List.for_all ~f:no_side_effect xs
   | Optional_block (x, _) -> no_side_effect x
-  | Object kvs -> List.for_all (fun (_, x) -> no_side_effect x) kvs
+  | Object kvs -> List.for_all ~f:(fun (_, x) -> no_side_effect x) kvs
   | String_append (a, b) | Seq (a, b) -> no_side_effect a && no_side_effect b
   | Length (e, _) | Char_of_int e | Char_to_int e | Caml_block_tag e | Typeof e
     ->
@@ -210,10 +212,10 @@ let rec eq_expression ({ expression_desc = x0; _ } : J.expression)
   | Number (Uint _) ->
       false
 
-and eq_expression_list xs ys = Ext_list.for_all2_no_exn xs ys eq_expression
+and eq_expression_list xs ys = List.for_all2_no_exn xs ys eq_expression
 
 and eq_block (xs : J.block) (ys : J.block) =
-  Ext_list.for_all2_no_exn xs ys eq_statement
+  List.for_all2_no_exn xs ys eq_statement
 
 and eq_statement ({ statement_desc = x0; _ } : J.statement)
     ({ statement_desc = y0; _ } : J.statement) =

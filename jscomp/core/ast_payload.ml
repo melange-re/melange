@@ -22,13 +22,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module Parser_flow = Js_parser.Parser_flow
 module Parser_env = Js_parser.Parser_env
 
 type t = Parsetree.payload
-type lid = string Asttypes.loc
-type label_expr = lid * Parsetree.expression
-type action = lid * Parsetree.expression option
+type action = string Asttypes.loc * Parsetree.expression option
 (* None means punning is hit
     {[ { x } ]}
     otherwise it comes with a payload
@@ -58,7 +57,7 @@ let ident_or_record_as_config loc (x : t) :
       match with_obj with
       | None ->
           List.map
-            (fun u ->
+            ~f:(fun u ->
               match u with
               | ( { Asttypes.txt = Longident.Lident name; loc },
                   {
@@ -100,7 +99,7 @@ let assert_bool_lit (e : Parsetree.expression) =
 let table_dispatch table (action : action) =
   match action with
   | { txt = name; loc }, y -> (
-      match Map_string.find_exn table name with
+      match String.Map.find_exn table name with
       | fn -> Some (fn y)
       | exception _ ->
           Location.prerr_warning loc (Mel_unused_attribute name);

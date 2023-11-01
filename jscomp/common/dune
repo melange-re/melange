@@ -3,7 +3,7 @@
  (package melange)
  (flags :standard -open Melange_compiler_libs)
  (modules_without_implementation js_raw_info lam_tag_info)
- (libraries ext melange_compiler_libs js_parser))
+ (libraries melstd melange_compiler_libs js_parser))
 
 (rule
  (target oprint_mel_primitive_name.ml)
