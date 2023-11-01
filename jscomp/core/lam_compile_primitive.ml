@@ -329,7 +329,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       | Backend_type ->
           E.make_block E.zero_int_literal
             (Blk_constructor { name = "Other"; num_nonconst = 1 })
-            [ E.str "BS" ]
+            [ E.str "Melange" ]
             Immutable)
   | Pbswap16 -> E.runtime_call Js_runtime_modules.bytes "bswap16" args
   | Pbbswap Pnativeint -> assert false

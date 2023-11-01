@@ -1072,7 +1072,7 @@ let handle_attributes (loc : Location.t) (type_annotation : Parsetree.core_type)
           check_return_wrapper loc external_desc.return_wrapper result_type
         in
         ( mk_fn_type new_arg_types_ty result_type,
-          External_ffi_types.ffi_bs arg_type_specs return_wrapper ffi,
+          External_ffi_types.ffi_mel arg_type_specs return_wrapper ffi,
           unused_attrs,
           relative )
 

@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -31,15 +31,15 @@ type label = private
   | Obj_label of { name : string }
   | Obj_empty
   | Obj_optional of { name : string; for_sure_no_nested_option : bool }
-(* it will be ignored , side effect will be recorded *)
+      (** it will be ignored , side effect will be recorded *)
 
 type attr =
   | Poly_var_string of { descr : (string * string) list }
   | Poly_var of { descr : (string * string) list option }
-  | Int of (string * int) list (* ([`a | `b ] [@bs.int])*)
+  | Int of (string * int) list (* ([`a | `b ] [@mel.int])*)
   | Arg_cst of cst
-  | Fn_uncurry_arity of
-      int (* annotated with [@bs.uncurry ] or [@bs.uncurry 2]*)
+  | Fn_uncurry_arity of int
+      (** annotated with [@mel.uncurry ] or [@mel.uncurry 2]*)
   (* maybe we can improve it as a combination of {!Asttypes.constant} and tuple *)
   | Extern_unit
   | Nothing

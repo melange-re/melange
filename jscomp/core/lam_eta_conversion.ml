@@ -130,7 +130,7 @@ let unsafe_adjust_to_arity loc ~(to_ : int) ?(from : int option) (fn : Lam.t) :
               ~body:(Lam.let_ Alias param Lam.unit body)
             (* could be only introduced by
                {[ Pjs_fn_make 0 ]} <-
-               {[ fun [@bs] () -> .. ]}
+               {[ fun [@u] () -> .. ]}
             *)
         | _ -> (
             let wrapper, new_fn =

@@ -45,7 +45,7 @@ let () = assert (v1#get_money = 3.)
 
 let () =
   match Sys.backend_type with
-  | Other "BS" ->
+  | Other "Melange" ->
     Js.log (v1#get_money, v2#get_money)
   | _ -> ()
   (* another code path

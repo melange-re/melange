@@ -133,31 +133,32 @@ let blk_record_inlined fields name num_nonconst =
   in
   Lambda.Blk_record_inlined { fields; name; num_nonconst }
 
-let check_bs_attributes_inclusion (attrs1 : Parsetree.attributes)
+let check_mel_attributes_inclusion (attrs1 : Parsetree.attributes)
     (attrs2 : Parsetree.attributes) lbl_name =
   let a = find_with_default attrs1 ~f:find_name ~default:lbl_name in
   let b = find_with_default attrs2 ~f:find_name ~default:lbl_name in
   if a = b then None else Some (a, b)
 
-let rec check_duplicated_labels_aux (lbls : Parsetree.label_declaration list)
-    (coll : Set_string.t) =
-  match lbls with
-  | [] -> None
-  | { pld_name = { txt; _ } as pld_name; pld_attributes; _ } :: rest -> (
-      if Set_string.mem coll txt then Some pld_name
-      else
-        let coll_with_lbl = Set_string.add coll txt in
-        match List.find_map find_name_with_loc pld_attributes with
-        | None -> check_duplicated_labels_aux rest coll_with_lbl
-        | Some ({ txt = s; _ } as l) ->
-            if
-              Set_string.mem coll s
-              (*use coll to make check a bit looser
-                allow cases like [ x : int [@as "x"]]
-              *)
-            then Some l
-            else
-              check_duplicated_labels_aux rest (Set_string.add coll_with_lbl s))
-
-let check_duplicated_labels lbls =
-  check_duplicated_labels_aux lbls Set_string.empty
+let check_duplicated_labels =
+  let rec check_duplicated_labels_aux (lbls : Parsetree.label_declaration list)
+      (coll : Set_string.t) =
+    match lbls with
+    | [] -> None
+    | { pld_name = { txt; _ } as pld_name; pld_attributes; _ } :: rest -> (
+        if Set_string.mem coll txt then Some pld_name
+        else
+          let coll_with_lbl = Set_string.add coll txt in
+          match List.find_map find_name_with_loc pld_attributes with
+          | None -> check_duplicated_labels_aux rest coll_with_lbl
+          | Some ({ txt = s; _ } as l) ->
+              if
+                Set_string.mem coll s
+                (*use coll to make check a bit looser
+                  allow cases like [ x : int [@as "x"]]
+                *)
+              then Some l
+              else
+                check_duplicated_labels_aux rest
+                  (Set_string.add coll_with_lbl s))
+  in
+  fun lbls -> check_duplicated_labels_aux lbls Set_string.empty

@@ -90,7 +90,7 @@ and t = private
 
 val inner_map : t -> (t -> t) -> t
 
-val handle_bs_non_obj_ffi :
+val handle_mel_non_obj_ffi :
   Melange_ffi.External_arg_spec.params ->
   Melange_ffi.External_ffi_types.return_wrapper ->
   Melange_ffi.External_ffi_types.external_spec ->

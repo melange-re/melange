@@ -2,16 +2,6 @@ type t = Lambda.lambda
 
 (* Utilities for compiling "module rec" definitions *)
 
-let bs_init_mod (args : t list) loc : t =
-  Lprim
-    (Pccall (Primitive.simple ~name:"#init_mod" ~arity:2 ~alloc:true), args, loc)
-
-let bs_update_mod (args : t list) loc : t =
-  Lprim
-    ( Pccall (Primitive.simple ~name:"#update_mod" ~arity:3 ~alloc:true),
-      args,
-      loc )
-
 type loc = t
 
 type binding =
@@ -19,37 +9,50 @@ type binding =
   * (Lambda.lambda * Lambda.lambda) option
   * Lambda.lambda
 
-let eval_rec_bindings_aux (bindings : binding list) (cont : t) : t =
-  let rec bind_inits args acc =
-    match args with
-    | [] -> acc
-    | (_id, None, _rhs) :: rem -> bind_inits rem acc
-    | (Translmod.Ignore_loc _, _, _) :: rem -> bind_inits rem acc
-    | (Id id, Some (loc, shape), _rhs) :: rem ->
-        Lambda.Llet
-          ( Strict,
-            Pgenval,
-            id,
-            bs_init_mod [ loc; shape ] Loc_unknown,
-            bind_inits rem acc )
+let eval_rec_bindings_aux =
+  let mel_init_mod (args : t list) loc : t =
+    Lprim
+      ( Pccall (Primitive.simple ~name:"#init_mod" ~arity:2 ~alloc:true),
+        args,
+        loc )
+  and mel_update_mod (args : t list) loc : t =
+    Lprim
+      ( Pccall (Primitive.simple ~name:"#update_mod" ~arity:3 ~alloc:true),
+        args,
+        loc )
   in
-  let rec bind_strict args acc =
-    match args with
-    | [] -> acc
-    | (Translmod.Id id, None, rhs) :: rem ->
-        Lambda.Llet (Strict, Pgenval, id, rhs, bind_strict rem acc)
-    | (_id, (None | Some _), _rhs) :: rem -> bind_strict rem acc
-  in
-  let rec patch_forwards args =
-    match args with
-    | [] -> cont
-    | (_id, None, _rhs) :: rem -> patch_forwards rem
-    | (Translmod.Ignore_loc _, _, _rhs) :: rem -> patch_forwards rem
-    | (Id id, Some (_loc, shape), rhs) :: rem ->
-        Lsequence
-          (bs_update_mod [ shape; Lvar id; rhs ] Loc_unknown, patch_forwards rem)
-  in
-  bind_inits bindings (bind_strict bindings (patch_forwards bindings))
+  fun (bindings : binding list) (cont : t) : t ->
+    let rec bind_inits args acc =
+      match args with
+      | [] -> acc
+      | (_id, None, _rhs) :: rem -> bind_inits rem acc
+      | (Translmod.Ignore_loc _, _, _) :: rem -> bind_inits rem acc
+      | (Id id, Some (loc, shape), _rhs) :: rem ->
+          Lambda.Llet
+            ( Strict,
+              Pgenval,
+              id,
+              mel_init_mod [ loc; shape ] Loc_unknown,
+              bind_inits rem acc )
+    in
+    let rec bind_strict args acc =
+      match args with
+      | [] -> acc
+      | (Translmod.Id id, None, rhs) :: rem ->
+          Lambda.Llet (Strict, Pgenval, id, rhs, bind_strict rem acc)
+      | (_id, (None | Some _), _rhs) :: rem -> bind_strict rem acc
+    in
+    let rec patch_forwards args =
+      match args with
+      | [] -> cont
+      | (_id, None, _rhs) :: rem -> patch_forwards rem
+      | (Translmod.Ignore_loc _, _, _rhs) :: rem -> patch_forwards rem
+      | (Id id, Some (_loc, shape), rhs) :: rem ->
+          Lsequence
+            ( mel_update_mod [ shape; Lvar id; rhs ] Loc_unknown,
+              patch_forwards rem )
+    in
+    bind_inits bindings (bind_strict bindings (patch_forwards bindings))
 
 (* collect all function declarations
     if the module creation is just a set of function declarations and consts,

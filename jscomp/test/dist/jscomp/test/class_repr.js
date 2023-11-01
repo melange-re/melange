@@ -116,7 +116,7 @@ if (Caml_oo_curry.js1(-804710761, 4, v1) !== 3) {
       };
 }
 
-if (typeof Stdlib__Sys.backend_type !== "number" && Stdlib__Sys.backend_type._0 === "BS") {
+if (typeof Stdlib__Sys.backend_type !== "number" && Stdlib__Sys.backend_type._0 === "Melange") {
   console.log([
         Caml_oo_curry.js1(-804710761, 7, v1),
         Caml_oo_curry.js1(-804710761, 8, v2)

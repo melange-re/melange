@@ -85,7 +85,6 @@ let caml_int_of_string (s : string) : int =
   let c = if i < len then s.!(i) else '\000' in
   let d = parse_digit c in
   let () = if d < 0 || d >= base then failwith "int_of_string" in
-  (* let () = [%bs.debugger]  in *)
   let rec aux acc k =
     if k = len then acc
     else

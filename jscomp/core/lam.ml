@@ -795,7 +795,7 @@ let sequor l r = if_ l true_ r
 let sequand l r = if_ l r false_
 
 (*********************************)
-(* only [handle_bs_non_obj_ffi] will be used outside *)
+(* only [handle_mel_non_obj_ffi] will be used outside *)
 (*
    [no_auto_uncurried_arg_types xs]
    check if the FFI have @uncurry attribute.
@@ -837,7 +837,7 @@ let rec transform_uncurried_arg_type loc
           (x :: o_arg_types, y :: o_args))
   | ([], [] | _ :: _, [] | [], _ :: _) as ok -> ok
 
-let handle_bs_non_obj_ffi (arg_types : Melange_ffi.External_arg_spec.params)
+let handle_mel_non_obj_ffi (arg_types : Melange_ffi.External_arg_spec.params)
     (result_type : Melange_ffi.External_ffi_types.return_wrapper) ffi args loc
     prim_name =
   if no_auto_uncurried_arg_types arg_types then

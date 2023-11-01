@@ -67,7 +67,7 @@
 
   - 50 Unexpected documentation comment.
 
-  - 102 Bs_polymorphic_comparison
+  - 102 Mel_polymorphic_comparison
 *)
 let defaults_w = "+a-4-20-29-40-41-42-44-45-48-58-59-60-61-63..70-102"
 let defaults_warn_error = "-a+5+6+101+109"

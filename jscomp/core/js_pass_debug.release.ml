@@ -22,27 +22,4 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-#ifdef BS_RELEASE_BUILD
- let dump _ (prog : J.program) =
-  prog
-#else
-let log_counter = ref 0
-
-let dump name (prog : J.program) =
-  (let () =
-     if !Js_config.diagnose then (
-       incr log_counter;
-       Ext_log.dwarn ~__POS__ "\n@[[TIME:]%s: %f@]@." name (Sys.time () *. 1000.);
-       let oc =
-         let fn =
-           Ext_filename.new_extension !Location.input_name
-             (Printf.sprintf ".%02d.%s.jsx" !log_counter name)
-         in
-         open_out_bin fn
-       in
-       Fun.protect
-         ~finally:(fun () -> close_out oc)
-         (fun () -> Js_dump_program.dump_program prog oc))
-   in
-   prog)
-    #endif
+let[@inline] dump _ (prog : J.program) = prog
