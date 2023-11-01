@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 module Warnings = struct
   type t =
@@ -75,8 +75,8 @@ let is_bs_attribute txt =
      && String.unsafe_get txt 2 = 'l'
      && String.unsafe_get txt 3 = '.'
 
-let used_attributes : string Asttypes.loc Hash_set_poly.t =
-  Hash_set_poly.create 16
+let used_attributes : string Asttypes.loc Polyvariant.Hash_set.t =
+  Polyvariant.Hash_set.create 16
 
 (* #if true *)
 (* let dump_attribute fmt = (fun (sloc : string Asttypes.loc) -> *)
@@ -85,19 +85,19 @@ let used_attributes : string Asttypes.loc Hash_set_poly.t =
 
 (* let dump_used_attributes fmt = *)
 (* Format.fprintf fmt "Used attributes Listing Start:@."; *)
-(* Hash_set_poly.iter  used_attributes (fun attr -> dump_attribute fmt attr) ; *)
+(* Polyvariant.Hash_set.iter  used_attributes (fun attr -> dump_attribute fmt attr) ; *)
 (* Format.fprintf fmt "Used attributes Listing End:@." *)
 (* #endif *)
 
 (* only mark non-ghost used bs attribute *)
 let mark_used_mel_attribute ({ attr_name = x; _ } : Parsetree.attribute) =
-  if not x.loc.loc_ghost then Hash_set_poly.add used_attributes x
+  if not x.loc.loc_ghost then Polyvariant.Hash_set.add used_attributes x
 
 let warn_unused_attribute
     ({ attr_name = { txt; loc } as sloc; _ } : Parsetree.attribute) : unit =
   if
     is_bs_attribute txt && (not loc.loc_ghost)
-    && not (Hash_set_poly.mem used_attributes sloc)
+    && not (Polyvariant.Hash_set.mem used_attributes sloc)
   then
     (* #if true *)
     (* (*COMMENT*) *)
@@ -107,7 +107,7 @@ let warn_unused_attribute
     warn ~loc (Unused_attribute txt)
 
 let warn_discarded_unused_attributes (attrs : Parsetree.attributes) =
-  if attrs <> [] then List.iter warn_unused_attribute attrs
+  if attrs <> [] then List.iter ~f:warn_unused_attribute attrs
 
 (* Note we only used Bs_ast_iterator here, we can reuse compiler-libs instead
    of rolling our own *)
@@ -118,7 +118,7 @@ let emit_external_warnings : Ast_traverse.iter =
 
     method! label_declaration lbl =
       List.iter
-        (fun attr ->
+        ~f:(fun attr ->
           match attr with
           | { attr_name = { txt = "mel.as" | "as"; _ }; _ } ->
               mark_used_mel_attribute attr

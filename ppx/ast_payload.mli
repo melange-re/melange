@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 type t = Parsetree.payload
 type action = string Asttypes.loc * Parsetree.expression option
@@ -31,7 +31,7 @@ val ident_or_record_as_config :
   Parsetree.payload -> (action list, string) result
 
 val table_dispatch :
-  (Parsetree.expression option -> 'a) Map_string.t ->
+  (Parsetree.expression option -> 'a) String.Map.t ->
   action ->
   ('a, string) result
 (** A utility module used when destructuring parsetree attributes, used for

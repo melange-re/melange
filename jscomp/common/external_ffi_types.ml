@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 open External_ffi_types0
 
 module Literals = struct
@@ -104,7 +105,7 @@ type t =
 
 let valid_js_char =
   let a =
-    Array.init 256 (fun i ->
+    Array.init 256 ~f:(fun i ->
         let c = Char.chr i in
         (c >= 'a' && c <= 'z')
         || (c >= 'A' && c <= 'Z')
@@ -115,7 +116,7 @@ let valid_js_char =
 
 let valid_first_js_char =
   let a =
-    Array.init 256 (fun i ->
+    Array.init 256 ~f:(fun i ->
         let c = Char.chr i in
         (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c = '_' || c = '$')
   in
@@ -143,9 +144,9 @@ let is_package_relative_path (x : string) =
 
 let valid_global_name ?loc txt =
   if not (valid_ident txt) then
-    let v = Ext_string.split_by ~keep_empty:true (fun x -> x = '.') txt in
+    let v = String.split_by ~keep_empty:true (fun x -> x = '.') txt in
     List.iter
-      (fun s ->
+      ~f:(fun s ->
         if not (valid_ident s) then
           Location.raise_errorf ?loc "Not a valid global name %s" txt)
       v

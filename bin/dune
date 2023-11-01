@@ -4,7 +4,7 @@
  (flags :standard -open Melange_compiler_libs)
  (libraries
   js_parser
-  ext
+  melstd
   melange_compiler_libs
   melange_ffi
   melangelib

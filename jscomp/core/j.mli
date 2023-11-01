@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (* Javascript IR
 
     It's a subset of Javascript AST specialized for OCaml lambda backend
@@ -317,7 +319,7 @@ and variable_declaration = {
    be concatenated in both ways
 *)
 and block = statement list
-and program = { block : block; exports : exports; export_set : Set_ident.t }
+and program = { block : block; exports : exports; export_set : Ident.Set.t }
 
 and deps_program = {
   program : program;

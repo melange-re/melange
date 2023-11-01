@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 type arity = Single of Lam_arity.t | Submodule of Lam_arity.t array
 
 (* TODO: add a magic number *)
@@ -51,11 +53,11 @@ type t = {
   delayed_program : J.deps_program;
 }
 
-let make ~(values : cmj_value Map_string.t) ~effect ~package_spec ~case
+let make ~(values : cmj_value String.Map.t) ~effect ~package_spec ~case
     ~delayed_program : t =
   {
     values =
-      Map_string.to_sorted_array_with_f values (fun k v ->
+      String.Map.to_sorted_array_with_f values (fun k v ->
           {
             name = k;
             arity = v.arity;
@@ -106,7 +108,7 @@ let to_file name (v : t) =
     output_string oc s;
     close_out oc)
 
-let keyComp (a : string) b = Map_string.compare_key a b.name
+let keyComp (a : string) b = String.Map.compare_key a b.name
 
 let not_found key =
   { name = key; arity = single_na; persistent_closed_lambda = None }

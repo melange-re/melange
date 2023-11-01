@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 type jbl_label = int
 
 module HandlerMap = Map_int
@@ -36,7 +38,7 @@ type return_label = {
   label : J.label;
   params : Ident.t list;
   immutable_mask : bool array;
-  mutable new_params : Ident.t Map_ident.t;
+  mutable new_params : Ident.t Ident.Map.t;
   mutable triggered : bool;
 }
 
@@ -91,7 +93,7 @@ let no_static_raise_in_handler (x : handler) : bool =
 let add_jmps (m : jmp_table) (exit_id : Ident.t) (code_table : handler list) :
     jmp_table * (int * Lam.t) list =
   let map, handlers =
-    Ext_list.fold_left_with_offset code_table (m, [])
+    List.fold_left_with_offset code_table (m, [])
       (HandlerMap.cardinal m + 1)
       (fun { label; handler; bindings } (acc, handlers) order_id ->
         ( HandlerMap.add acc label { exit_id; bindings; order_id },

@@ -22,16 +22,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 val default_export : string
-val exports : Ext_pp_scope.t -> Ext_pp.t -> Ident.t list -> Ext_pp_scope.t
-val es6_export : Ext_pp_scope.t -> Ext_pp.t -> Ident.t list -> Ext_pp_scope.t
+val exports : Pp_scope.t -> Js_pp.t -> Ident.t list -> Pp_scope.t
+val es6_export : Pp_scope.t -> Js_pp.t -> Ident.t list -> Pp_scope.t
 
 val requires :
   string ->
-  Ext_pp_scope.t ->
-  Ext_pp.t ->
+  Pp_scope.t ->
+  Js_pp.t ->
   (Ident.t * string * bool) list ->
-  Ext_pp_scope.t
+  Pp_scope.t
 
 val imports :
-  Ext_pp_scope.t -> Ext_pp.t -> (Ident.t * string * bool) list -> Ext_pp_scope.t
+  Pp_scope.t -> Js_pp.t -> (Ident.t * string * bool) list -> Pp_scope.t

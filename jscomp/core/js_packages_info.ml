@@ -22,15 +22,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let ( // ) = Ext_path.( // )
+open Import
+
+let ( // ) = Path.( // )
 
 type file_case = Uppercase | Lowercase
-
-type output_info = {
-  module_system : Ext_module_system.t;
-  suffix : Ext_js_suffix.t;
-}
-
+type output_info = { module_system : Module_system.t; suffix : Js_suffix.t }
 type batch_info = { path : string; output_info : output_info }
 
 type package_info =
@@ -59,8 +56,8 @@ let from_name ?(t = empty) (name : string) : t = { t with name = Some name }
 
 let dump_output_info fmt { module_system; suffix } =
   Format.fprintf fmt "%s %s"
-    (Ext_module_system.to_string module_system)
-    (Ext_js_suffix.to_string suffix)
+    (Module_system.to_string module_system)
+    (Js_suffix.to_string suffix)
 
 let dump_package_info (fmt : Format.formatter)
     ({ path = name; output_info } : batch_info) =
@@ -104,8 +101,7 @@ type info_query =
 
 (* Note that package-name has to be exactly the same as
    npm package name, otherwise the path resolution will be wrong *)
-let query_package_infos (t : t) (module_system : Ext_module_system.t) :
-    info_query =
+let query_package_infos (t : t) (module_system : Module_system.t) : info_query =
   match t.info with
   | Empty -> (
       match t.name with Some _ -> Package_not_found | None -> Package_script)
@@ -124,8 +120,8 @@ let query_package_infos (t : t) (module_system : Ext_module_system.t) :
   | Batch_compilation module_systems -> (
       match
         List.find
-          (fun k ->
-            Ext_module_system.compatible ~dep:k.output_info.module_system
+          ~f:(fun k ->
+            Module_system.compatible ~dep:k.output_info.module_system
               module_system)
           module_systems
       with
@@ -142,12 +138,11 @@ let query_package_infos (t : t) (module_system : Ext_module_system.t) :
           | None -> Package_script))
 
 let get_js_path (module_systems : batch_info list)
-    (module_system : Ext_module_system.t) : string =
+    (module_system : Module_system.t) : string =
   let k =
     List.find
-      (fun k ->
-        Ext_module_system.compatible ~dep:k.output_info.module_system
-          module_system)
+      ~f:(fun k ->
+        Module_system.compatible ~dep:k.output_info.module_system module_system)
       module_systems
   in
   k.path
@@ -168,7 +163,7 @@ let add_npm_package_path (t : t) ?module_name s =
         | Batch_compilation xs -> xs
       in
       let new_info =
-        match Ext_string.split ~keep_empty:true s ':' with
+        match String.split ~keep_empty:true s ':' with
         | [ path ] ->
             (* `--mel-package-output just/the/path/segment' means module system
                / js extension to come later; separate emission *)
@@ -182,9 +177,8 @@ let add_npm_package_path (t : t) ?module_name s =
                  path;
                  output_info =
                    {
-                     module_system =
-                       Ext_module_system.of_string_exn module_system;
-                     suffix = Ext_js_suffix.default;
+                     module_system = Module_system.of_string_exn module_system;
+                     suffix = Js_suffix.default;
                    };
                }
               :: existing)
@@ -196,9 +190,8 @@ let add_npm_package_path (t : t) ?module_name s =
                  path;
                  output_info =
                    {
-                     module_system =
-                       Ext_module_system.of_string_exn module_system;
-                     suffix = Ext_js_suffix.of_string suffix;
+                     module_system = Module_system.of_string_exn module_system;
+                     suffix = Js_suffix.of_string suffix;
                    };
                }
               :: existing)
@@ -229,13 +222,13 @@ let module_case t ~output_prefix =
   | false -> Uppercase
 
 let default_output_info =
-  { suffix = Ext_js_suffix.default; module_system = Ext_module_system.default }
+  { suffix = Js_suffix.default; module_system = Module_system.default }
 
 let assemble_output_info (t : t) =
   match t.info with
   | Empty -> [ default_output_info ]
   | Batch_compilation infos ->
-      List.map (fun { output_info; _ } -> output_info) infos
+      List.map ~f:(fun { output_info; _ } -> output_info) infos
   | Separate_emission _ ->
       (* Combination of `-mel-package-output -just-dir` and the absence of
          `-mel-module-type` *)

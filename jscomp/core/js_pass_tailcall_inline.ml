@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (* When we inline a function call, if we don't do a beta-reduction immediately, there is
    a chance that it is ignored, (we can not assume that each pass is robust enough)
 
@@ -37,8 +39,8 @@ module S = Js_stmt_make
 
 let super = Js_record_map.super
 
-let substitute_variables (map : Ident.t Map_ident.t) =
-  { super with ident = (fun _ id -> Map_ident.find_default map id id) }
+let substitute_variables (map : Ident.t Ident.Map.t) =
+  { super with ident = (fun _ id -> Ident.Map.find_default map id id) }
 
 (* 1. recursive value ? let rec x = 1 :: x
     non-terminating
@@ -84,21 +86,21 @@ let inline_call =
     let map, block =
       if immutable_list = [] then
         List.fold_right2
-          (fun param (arg : J.expression) (map, acc) ->
+          ~f:(fun param (arg : J.expression) (map, acc) ->
             match arg.expression_desc with
-            | Var (Id id) -> (Map_ident.add map param id, acc)
+            | Var (Id id) -> (Ident.Map.add map param id, acc)
             | _ -> (map, S.define_variable ~kind:Variable param arg :: acc))
           params args
-          (Map_ident.empty, processed_blocks)
+          ~init:(Ident.Map.empty, processed_blocks)
       else
         fold_right3 params args immutable_list
-          ~init:(Map_ident.empty, processed_blocks)
+          ~init:(Ident.Map.empty, processed_blocks)
           ~f:(fun param arg mask (map, acc) ->
             match (mask, arg.expression_desc) with
-            | true, Var (Id id) -> (Map_ident.add map param id, acc)
+            | true, Var (Id id) -> (Ident.Map.add map param id, acc)
             | _ -> (map, S.define_variable ~kind:Variable param arg :: acc))
     in
-    if Map_ident.is_empty map then block
+    if Ident.Map.is_empty map then block
     else
       let obj = substitute_variables map in
       obj.block obj block
@@ -130,8 +132,8 @@ let inline_call =
 *)
 let super = Js_record_map.super
 
-let subst (export_set : Set_ident.t)
-    (stats : J.variable_declaration Hash_ident.t) =
+let subst (export_set : Ident.Set.t)
+    (stats : J.variable_declaration Ident.Hash.t) =
   {
     super with
     statement =
@@ -151,7 +153,7 @@ let subst (export_set : Set_ident.t)
            does rely on this (otherwise, when you do beta-reduction you have to regenerate names)
         *)
         let v = super.variable_declaration self v in
-        Hash_ident.add stats ident v;
+        Ident.Hash.add stats ident v;
         (* see #278 before changes *)
         v);
     block =
@@ -165,10 +167,10 @@ let subst (export_set : Set_ident.t)
              comment = _;
            } as st)
           :: rest -> (
-            let is_export = Set_ident.mem export_set vd.ident in
+            let is_export = Ident.Set.mem export_set vd.ident in
             if is_export then self.statement self st :: self.block self rest
             else
-              match Hash_ident.find_opt stats vd.ident with
+              match Ident.Hash.find_opt stats vd.ident with
               (* TODO: could be improved as [mem] *)
               | None ->
                   if Js_analyzer.no_side_effect_expression v then
@@ -187,7 +189,7 @@ let subst (export_set : Set_ident.t)
             _;
           } as st);
         ] -> (
-            match Hash_ident.find_opt stats id with
+            match Ident.Hash.find_opt stats id with
             | Some
                 ({
                    value =
@@ -205,7 +207,7 @@ let subst (export_set : Set_ident.t)
                    ident_info = { used_stats = Once_pure };
                    ident = _;
                  } as v)
-              when Ext_list.same_length params args ->
+              when List.same_length params args ->
                 Js_op_util.update_used_stats v.ident_info Dead_pure;
                 let no_tailcall = Js_fun_env.no_tailcall env in
                 let processed_blocks =
@@ -240,7 +242,7 @@ let subst (export_set : Set_ident.t)
            _;
          };
         ]
-          when Ext_list.same_length params args ->
+          when List.same_length params args ->
             let no_tailcall = Js_fun_env.no_tailcall env in
             let processed_blocks =
               self.block self block

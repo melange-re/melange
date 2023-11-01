@@ -21,16 +21,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
-(*
-let (=)  (x : int) (y:float) = assert false
-*)
 
-let ( // ) = Ext_path.( // )
+open Import
+
+let ( // ) = Path.( // )
 
 let fix_path_for_windows : string -> string =
   let replace_backward_slash (x : string) =
     match String.index x '\\' with
-    | _i -> String.map (function '\\' -> '/' | x -> x) x
+    | _i -> String.map ~f:(function '\\' -> '/' | x -> x) x
     | exception Not_found -> x
   in
   if Sys.win32 || Sys.cygwin then replace_backward_slash else fun s -> s
@@ -40,7 +39,7 @@ let js_name_of_modulename s (case : Js_packages_info.file_case) suffix : string
   let s =
     match case with Lowercase -> String.uncapitalize_ascii s | Uppercase -> s
   in
-  s ^ Ext_js_suffix.to_string suffix
+  s ^ Js_suffix.to_string suffix
 
 let js_file_name ~(path_info : Js_packages_info.path_info) ~case ~suffix
     (dep_module_id : Lam_module_ident.t) =
@@ -60,22 +59,21 @@ let get_runtime_module_path ~package_info ~output_info
   in
   match Js_packages_info.query_package_infos package_info module_system with
   | Package_not_found -> assert false
-  | Package_script -> Ext_module_system.runtime_package_path js_file
+  | Package_script -> Module_system.runtime_package_path js_file
   | Package_found _path_info -> (
       match module_system with
-      | NodeJS | Es6 -> Ext_module_system.runtime_package_path js_file
+      | NodeJS | Es6 -> Module_system.runtime_package_path js_file
       (* Note we did a post-processing when working on Windows *)
       | Es6_global ->
           (* lib/ocaml/xx.cmj --
               HACKING: FIXME
               maybe we can caching relative package path calculation or employ package map *)
-          let dep_path = "lib" // Ext_module_system.runtime_dir module_system in
+          let dep_path = "lib" // Module_system.runtime_dir module_system in
           (* TODO(anmonteiro): This doesn't work yet *)
-          Ext_path.rel_normalized_absolute_path
+          Path.rel_normalized_absolute_path
             ~from:
               (Js_packages_info.get_output_dir
-                 package_info
-                 (* ~package_dir:(Lazy.force Ext_path.package_dir) *)
+                 package_info (* ~package_dir:(Lazy.force Path.package_dir) *)
                  ~package_dir:(Sys.getcwd ()) module_system)
             (* Invariant: the package path to `node_modules/melange`, it is used to
                calculate relative js path *)
@@ -130,18 +128,18 @@ let string_of_module_id ~package_info ~output_info
             | true ->
                 (* If this is the same package, we know all imports are
                    relative. *)
-                Ext_path.node_rebase_file ~from:cur_pkg.rel_path
+                Path.node_rebase_file ~from:cur_pkg.rel_path
                   ~to_:dep_info.rel_path js_file
             | false -> (
                 match module_system with
                 | NodeJS | Es6 -> dep_info.pkg_rel_path // js_file
                 (* Note we did a post-processing when working on Windows *)
                 | Es6_global ->
-                    Ext_path.rel_normalized_absolute_path
+                    Path.rel_normalized_absolute_path
                       ~from:
                         (Js_packages_info.get_output_dir
                            package_info
-                           (* ~package_dir:(Lazy.force Ext_path.package_dir) *)
+                           (* ~package_dir:(Lazy.force Path.package_dir) *)
                            (* FIXME *)
                            ~package_dir:(Sys.getcwd ()) module_system)
                       (* FIXME: https://github.com/melange-re/melange/issues/559 *)
@@ -150,15 +148,15 @@ let string_of_module_id ~package_info ~output_info
             let js_file =
               js_name_of_modulename
                 (Ident.name dep_module_id.id)
-                case Ext_js_suffix.default
+                case Js_suffix.default
             in
             match Initialization.find_in_path_exn js_file with
             | file ->
                 let basename = Filename.basename file in
                 let dirname = Filename.dirname file in
-                Ext_path.node_rebase_file
-                  ~from:(Ext_path.absolute_cwd_path output_dir)
-                  ~to_:(Ext_path.absolute_cwd_path dirname)
+                Path.node_rebase_file
+                  ~from:(Path.absolute_cwd_path output_dir)
+                  ~to_:(Path.absolute_cwd_path dirname)
                   basename
             | exception Not_found -> Mel_exception.error (Js_not_found js_file))
         ))

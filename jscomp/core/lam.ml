@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module Constant = Melange_ffi.Lam_constant
 module Methname = Melange_ffi.Lam_methname
 module Tag_info = Melange_ffi.Lam_tag_info
@@ -175,7 +176,7 @@ let inner_map (l : t) (f : t -> X.t) : X.t =
       ((* Obj.magic *) l : X.t)
   | Lapply { ap_func; ap_args; ap_info } ->
       let ap_func = f ap_func in
-      let ap_args = List.map f ap_args in
+      let ap_args = List.map ~f ap_args in
       Lapply { ap_func; ap_args; ap_info }
   | Lfunction { body; arity; params; attr } ->
       let body = f body in
@@ -190,11 +191,11 @@ let inner_map (l : t) (f : t -> X.t) : X.t =
       Lmutlet (id, arg, body)
   | Lletrec (decl, body) ->
       let body = f body in
-      let decl = Ext_list.map_snd decl f in
+      let decl = List.map_snd decl f in
       Lletrec (decl, body)
   | Lglobal_module _ -> (l : X.t)
   | Lprim { args; primitive; loc } ->
-      let args = List.map f args in
+      let args = List.map ~f args in
       Lprim { args; primitive; loc }
   | Lswitch
       ( arg,
@@ -207,8 +208,8 @@ let inner_map (l : t) (f : t -> X.t) : X.t =
           sw_names;
         } ) ->
       let arg = f arg in
-      let sw_consts = Ext_list.map_snd sw_consts f in
-      let sw_blocks = Ext_list.map_snd sw_blocks f in
+      let sw_consts = List.map_snd sw_consts f in
+      let sw_blocks = List.map_snd sw_blocks f in
       let sw_failaction = Option.map f sw_failaction in
       Lswitch
         ( arg,
@@ -222,11 +223,11 @@ let inner_map (l : t) (f : t -> X.t) : X.t =
           } )
   | Lstringswitch (arg, cases, default) ->
       let arg = f arg in
-      let cases = Ext_list.map_snd cases f in
+      let cases = List.map_snd cases f in
       let default = Option.map f default in
       Lstringswitch (arg, cases, default)
   | Lstaticraise (id, args) ->
-      let args = List.map f args in
+      let args = List.map ~f args in
       Lstaticraise (id, args)
   | Lstaticcatch (e1, vars, e2) ->
       let e1 = f e1 in
@@ -260,7 +261,7 @@ let inner_map (l : t) (f : t -> X.t) : X.t =
   | Lsend (k, met, obj, args, loc) ->
       let met = f met in
       let obj = f obj in
-      let args = List.map f args in
+      let args = List.map ~f args in
       Lsend (k, met, obj, args, loc)
   | Lifused (v, e) -> Lifused (v, f e)
 
@@ -350,8 +351,8 @@ let rec apply fn args (ap_info : ap_info) : t =
           Lsequence
             (Lprim { primitive_call with args; loc = ap_info.ap_loc }, const)
       | exception _ -> Lapply { ap_func = fn; ap_args = args; ap_info })
-  (* | Lfunction {params;body} when Ext_list.same_length params args ->
-      Ext_list.fold_right2 (fun p arg acc ->
+  (* | Lfunction {params;body} when List.same_length params args ->
+      List.fold_right2 (fun p arg acc ->
         Llet(Strict,p,arg,acc)
       ) params args body *)
   (* TODO: more rigirous analysis on [let_kind] *)
@@ -408,7 +409,7 @@ let rec eq_approx (l1 : t) (l2 : t) =
       match l2 with
       | Lstringswitch (arg2, patterns2, default2) ->
           eq_approx arg arg2 && eq_option default default2
-          && Ext_list.for_all2_no_exn patterns patterns2
+          && List.for_all2_no_exn patterns patterns2
                (fun ((k : string), v) (k2, v2) -> k = k2 && eq_approx v v2)
       | _ -> false)
   | Lfunction _
@@ -428,7 +429,7 @@ and eq_option l1 l2 =
   | None -> l2 = None
   | Some l1 -> ( match l2 with Some l2 -> eq_approx l1 l2 | None -> false)
 
-and eq_approx_list ls ls1 = Ext_list.for_all2_no_exn ls ls1 eq_approx
+and eq_approx_list ls ls1 = List.for_all2_no_exn ls ls1 eq_approx
 
 let assoc_with_opt_default ~default i xs =
   match List.assoc i xs with
@@ -458,7 +459,7 @@ let unit : t = Lconst Const_js_undefined
 let rec seq (a : t) b : t =
   match a with
   | Lprim { primitive = Pmakeblock _; args = x :: xs; _ } ->
-      seq (List.fold_left seq x xs) b
+      seq (List.fold_left ~f:seq ~init:x xs) b
   | Lprim
       {
         primitive = Pnull_to_opt | Pundefined_to_opt | Pnull_undefined_to_opt;

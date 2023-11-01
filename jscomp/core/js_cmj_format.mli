@@ -22,8 +22,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** Define intemediate format to be serialized for cross module optimization
- *)
+open Import
+
+(** Define intemediate format to be serialized for cross module optimization *)
 
 (** In this module,
     currently only arity information is  exported,
@@ -70,7 +71,7 @@ type t = {
 }
 
 val make :
-  values:cmj_value Map_string.t ->
+  values:cmj_value String.Map.t ->
   effect:effect ->
   package_spec:Js_packages_info.t ->
   case:Js_packages_info.file_case ->

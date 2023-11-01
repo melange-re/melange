@@ -23,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Cmdliner
+open Melstd
 
 type t = {
   include_dirs : string list;
@@ -32,7 +33,7 @@ type t = {
   ppx : string list;
   open_modules : string list;
   bs_package_output : string list;
-  bs_module_type : Ext_module_system.t option;
+  bs_module_type : Module_system.t option;
   bs_syntax_only : bool;
   bs_g : bool;
   bs_package_name : string option;
@@ -261,13 +262,11 @@ module Internal = struct
   let bs_module_type =
     let module_system_conv =
       let parse m =
-        match Ext_module_system.of_string m with
+        match Module_system.of_string m with
         | Some module_system -> Ok module_system
         | None -> Error (`Msg (Format.asprintf "Invalid module system %s" m))
       in
-      let print fmt ms =
-        Format.fprintf fmt "%s" (Ext_module_system.to_string ms)
-      in
+      let print fmt ms = Format.fprintf fmt "%s" (Module_system.to_string ms) in
       Arg.conv ~docv:"method" (parse, print)
     in
     let doc = "Specify the module type for JS imports" in
@@ -596,4 +595,4 @@ let normalize_argv argv =
       incr nidx);
     incr idx
   done;
-  if !nidx < len then Array.sub normalized 0 !nidx else normalized
+  if !nidx < len then Array.sub normalized ~pos:0 ~len:!nidx else normalized

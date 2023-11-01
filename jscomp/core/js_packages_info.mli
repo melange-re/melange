@@ -22,11 +22,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type output_info = {
-  module_system : Ext_module_system.t;
-  suffix : Ext_js_suffix.t;
-}
+open Import
 
+type output_info = { module_system : Module_system.t; suffix : Js_suffix.t }
 type t
 
 val same_package_by_name : t -> t -> bool
@@ -53,8 +51,8 @@ type info_query =
   | Package_not_found
   | Package_found of path_info
 
-val get_output_dir : t -> package_dir:string -> Ext_module_system.t -> string
-val query_package_infos : t -> Ext_module_system.t -> info_query
+val get_output_dir : t -> package_dir:string -> Module_system.t -> string
+val query_package_infos : t -> Module_system.t -> info_query
 
 (* Note here we compare the package info by order
    in theory, we can compare it by set semantics *)
