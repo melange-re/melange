@@ -330,7 +330,7 @@ let index_from_any str start chars =
   let rec go i =
     if i >= n then None
     else
-      match List.find_opt (fun c -> Char.equal str.[i] c) chars with
+      match List.find_opt ~f:(fun c -> Char.equal str.[i] c) chars with
       | None -> go (i + 1)
       | Some c -> Some (i, c)
   in
@@ -379,8 +379,8 @@ let rec parse_styles l (accu : Style.t list) =
             | `Unknown -> accu
             (* If the foreground is set to default, we filter out any
                other foreground modifiers. Same for background. *)
-            | `Fg_default -> List.filter Style.is_not_fg accu
-            | `Bg_default -> List.filter Style.is_not_bg accu
+            | `Fg_default -> List.filter ~f:Style.is_not_fg accu
+            | `Bg_default -> List.filter ~f:Style.is_not_bg accu
             | #Style.t as s -> s :: accu))
 
 let parse_styles styles l = parse_styles l (List.rev styles) |> List.rev
@@ -390,7 +390,7 @@ let parse_line str styles =
   let add_chunk acc ~styles ~pos ~len =
     if len = 0 then acc
     else
-      let s = Pp.verbatim (String.sub str pos len) in
+      let s = Pp.verbatim (String.sub str ~pos ~len) in
       let s = match styles with [] -> s | _ -> Pp.tag styles s in
       Pp.seq acc s
   in
@@ -413,8 +413,9 @@ let parse_line str styles =
                      the same as "\027[0m" by terminals *)
                   []
                 else
-                  String.sub str seq_start (seq_end - seq_start)
-                  |> String.split_on_char ';' |> parse_styles styles
+                  String.sub str ~pos:seq_start ~len:(seq_end - seq_start)
+                  |> String.split_on_char ~sep:';'
+                  |> parse_styles styles
               in
               loop styles (seq_end + 1) acc
           | Some (seq_end, _) -> loop styles (seq_end + 1) acc)
@@ -427,7 +428,7 @@ let parse =
       if j = String.length s then
         let acc =
           if j = i || (j = i + 1 && last_is_cr) then acc
-          else String.sub s i (j - i) :: acc
+          else String.sub s ~pos:i ~len:(j - i) :: acc
         in
         List.rev acc
       else
@@ -436,7 +437,7 @@ let parse =
         | '\n' ->
             let line =
               let len = if last_is_cr then j - i - 1 else j - i in
-              String.sub s i len
+              String.sub s ~pos:i ~len
             in
             loop ~acc:(line :: acc) (j + 1) (j + 1) ~last_is_cr:false
         | _ -> loop ~acc i (j + 1) ~last_is_cr:false

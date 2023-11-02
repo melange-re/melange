@@ -118,11 +118,11 @@ let pp { loc; paragraphs; hints } =
     | _ ->
         List.append paragraphs
           (List.map
-             (fun hint ->
+             ~f:(fun hint ->
                Pp.tag Style.Hint (Pp.verbatim "Hint:") ++ Pp.space ++ hint)
              hints)
   in
-  let paragraphs = List.map Pp.box paragraphs in
+  let paragraphs = List.map ~f:Pp.box paragraphs in
   let paragraphs =
     match loc with
     | None -> paragraphs

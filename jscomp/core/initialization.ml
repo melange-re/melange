@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 module Global = struct
   let run () =
     Translcore.wrap_single_field_record :=
@@ -77,14 +79,15 @@ module Perfile = struct
   let init_path () =
     let dirs = !Clflags.include_dirs in
     let exp_dirs =
-      List.map (Misc.expand_directory Config.standard_library) dirs
+      List.map ~f:(Misc.expand_directory Config.standard_library) dirs
     in
     Load_path.reset ();
     let exp_dirs = List.rev_append exp_dirs (Js_config.std_include_dirs ()) in
-    List.iter Load_path.add_dir exp_dirs;
-    Ext_log.info ~loc:(Ext_loc.of_pos __POS__)
-      (Pp.textf "Compiler include dirs: %s"
-         (String.concat "; " (Load_path.get_paths ())));
+    List.iter ~f:Load_path.add_dir exp_dirs;
+    Log.info ~loc:(Loc.of_pos __POS__)
+      (Pp.seq
+         (Pp.seq (Pp.text "Compiler include dirs:") Pp.space)
+         (Pp.enumerate (Load_path.get_paths ()) ~f:Pp.text));
 
     Env.reset_cache ()
 

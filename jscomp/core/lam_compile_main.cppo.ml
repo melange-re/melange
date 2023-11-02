@@ -101,10 +101,10 @@ let no_side_effects (rest : Lam_group.t list) : string option =
 let _d  = fun  s lam ->
 #ifndef BS_RELEASE_BUILD
   Lam_dump.dump s lam;
-  let loc = Ext_loc.of_pos __POS__ in
-  Ext_log.warn ~loc (Pp.textf "START CHECKING PASS %s" s);
+  let loc = Loc.of_pos __POS__ in
+  Log.warn ~loc (Pp.textf "START CHECKING PASS %s" s);
   ignore @@ Lam_check.check !Location.input_name lam;
-  Ext_log.warn ~loc (Pp.textf "FINISH CHECKING PASS %s" s);
+  Log.warn ~loc (Pp.textf "FINISH CHECKING PASS %s" s);
 #endif
   lam
 
@@ -122,10 +122,10 @@ let compile
   let () =
 #ifndef BS_RELEASE_BUILD
     List.iter
-      (fun id ->
-        Ext_log.warn
-          ~loc:(Ext_loc.of_pos __POS__)
-          (Pp.textf "export idents: %s/%d"  (Ident.name id) (Ext_ident.stamp id)))
+      ~f:(fun id ->
+        Log.warn
+          ~loc:(Loc.of_pos __POS__)
+          (Pp.textf "export idents: %s/%d"  (Ident.name id) (Ident.stamp id)))
       export_idents ;
 #endif
     Lam_compile_env.reset () ;
@@ -151,7 +151,7 @@ let compile
       |> (fun lam -> Lam_pass_collect.collect_info meta lam;
 #ifndef BS_RELEASE_BUILD
       let () =
-        Ext_log.warn ~loc:(Ext_loc.of_pos __POS__)
+        Log.warn ~loc:(Loc.of_pos __POS__)
           (Pp.concat
             [ (Pp.verbatim "Before simplify_alias: ")
             ; Pp.of_fmt Lam_stats.print meta
@@ -195,7 +195,7 @@ let compile
 #ifndef BS_RELEASE_BUILD
     |> (fun lam ->
          let () =
-           Ext_log.warn ~loc:(Ext_loc.of_pos __POS__)
+           Log.warn ~loc:(Loc.of_pos __POS__)
              (Pp.concat
                [ Pp.verbatim "Before coercion:"
                ; Pp.of_fmt Lam_stats.print meta
@@ -212,7 +212,7 @@ let compile
 
 #ifndef BS_RELEASE_BUILD
 let () =
-  Ext_log.warn ~loc:(Ext_loc.of_pos __POS__)
+  Log.warn ~loc:(Loc.of_pos __POS__)
     (Pp.concat
       [ Pp.verbatim "After coercion: "
       ; Pp.of_fmt Lam_stats.print meta
@@ -235,7 +235,7 @@ in
 let maybe_pure = no_side_effects groups in
 #ifndef BS_RELEASE_BUILD
 let () =
-  Ext_log.warn ~loc:(Ext_loc.of_pos __POS__)
+  Log.warn ~loc:(Loc.of_pos __POS__)
     (Pp.textf "[TIME:] Pre-compile: %f" (Sys.time () *. 1000.))
 in
 #endif
@@ -247,7 +247,7 @@ let body  =
 in
 #ifndef BS_RELEASE_BUILD
 let () =
-  Ext_log.warn ~loc:(Ext_loc.of_pos __POS__)
+  Log.warn ~loc:(Loc.of_pos __POS__)
     (Pp.textf "[TIME:]Post-compile: %f"  (Sys.time () *. 1000.))
 in
 #endif

@@ -345,7 +345,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if bs_diagnose then Js_config.diagnose := bs_diagnose;
     if where then print_standard_library ();
     if verbose then begin
-      Ext_log.set_level Verbose;
+      Log.set_level Verbose;
       Clflags.verbose := verbose
     end;
     Option.iter (fun keep_locs -> Clflags.keep_locs := keep_locs) keep_locs;
