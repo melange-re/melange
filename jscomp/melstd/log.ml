@@ -150,7 +150,7 @@ let info ?(loc : Location.t option) f =
   if !verbose then
     prerr
       (make ?loc
-         [ Pp.tag Style.Details (Pp.verbatim "[INFO]") ++ Pp.space ++ f ])
+         [ Pp.tag Style.Success (Pp.verbatim "[INFO]") ++ Pp.space ++ f ])
 
 let warn ?(loc : Location.t option) f =
   let open Pp.O in
