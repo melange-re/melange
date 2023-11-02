@@ -42,7 +42,8 @@ let warnings_collected : Location.report list ref = ref []
 (* We need to overload the original warning printer to capture the warnings
    and not let them go through default printer (which will end up in browser
    console) *)
-let playground_warning_reporter ~f (loc : Location.t) w : Location.report option =
+let playground_warning_reporter ~f (loc : Location.t) w : Location.report option
+    =
   let mk ~is_error id =
     if is_error then Location.Report_warning_as_error id else Report_warning id
   in
@@ -259,7 +260,10 @@ let compile =
       | None -> (
           let default =
             lazy
-              (Js.obj [| ("js_warning_error_msg", Js.string (Printexc.to_string e)) |])
+              (Js.obj
+                 [|
+                   ("js_warning_error_msg", Js.string (Printexc.to_string e));
+                 |])
           in
           match e with
           | Warnings.Errors -> (
@@ -296,8 +300,9 @@ let () =
 
   Clflags.binary_annotations := false;
   Clflags.color := None;
-  Location.warning_reporter := playground_warning_reporter Warnings.report;
-  Location.alert_reporter := playground_warning_reporter Warnings.report_alert;
+  Location.warning_reporter := playground_warning_reporter ~f:Warnings.report;
+  Location.alert_reporter :=
+    playground_warning_reporter ~f:Warnings.report_alert;
   (* To add a directory to the load path *)
   Load_path.add_dir "/static"
 
