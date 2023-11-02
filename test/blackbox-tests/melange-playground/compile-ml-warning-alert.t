@@ -19,15 +19,13 @@
       '/* No side effect */\n',
     warnings: [
       {
-        js_warning_error_msg: 'Line 1, 8:\n' +
-          '  Warning: deprecated module Js.Vector\n' +
-          'Use Belt.Array instead',
+        js_warning_error_msg: 'Line 1, 8:\n  Alert: deprecated module Js.Vector\nUse Belt.Array instead',
         row: 0,
         column: 8,
         endRow: 0,
         endColumn: 24,
         text: 'module Js.Vector\nUse Belt.Array instead',
-        type: 'warning'
+        type: 'alert'
       }
     ],
     type_hints: [

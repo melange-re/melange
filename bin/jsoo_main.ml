@@ -42,11 +42,7 @@ let warnings_collected : Location.report list ref = ref []
 (* We need to overload the original warning printer to capture the warnings
    and not let them go through default printer (which will end up in browser
    console) *)
-let playground_warning_reporter ~f (loc : Location.t) w : Location.report option
-    =
-  let mk ~is_error id =
-    if is_error then Location.Report_warning_as_error id else Report_warning id
-  in
+let playground_reporter ~f ~mk (loc : Location.t) w : Location.report option =
   match f w with
   | `Inactive -> None
   | `Active { Warnings.id; message; is_error; sub_locs } ->
@@ -61,6 +57,18 @@ let playground_warning_reporter ~f (loc : Location.t) w : Location.report option
       in
       warnings_collected := { Location.kind; main; sub } :: !warnings_collected;
       None
+
+let playground_warning_reporter =
+  let mk ~is_error id =
+    if is_error then Location.Report_warning_as_error id else Report_warning id
+  in
+  playground_reporter ~f:Warnings.report ~mk
+
+let playground_alert_reporter =
+  let mk ~is_error id =
+    if is_error then Location.Report_alert_as_error id else Report_alert id
+  in
+  playground_reporter ~f:Warnings.report_alert ~mk
 
 let error_of_exn e =
   match Location.error_of_exn e with
@@ -300,9 +308,8 @@ let () =
 
   Clflags.binary_annotations := false;
   Clflags.color := None;
-  Location.warning_reporter := playground_warning_reporter ~f:Warnings.report;
-  Location.alert_reporter :=
-    playground_warning_reporter ~f:Warnings.report_alert;
+  Location.warning_reporter := playground_warning_reporter;
+  Location.alert_reporter := playground_alert_reporter;
   (* To add a directory to the load path *)
   Load_path.add_dir "/static"
 
