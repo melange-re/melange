@@ -41,7 +41,7 @@ let warnings_collected : Location.report list ref = ref []
 (* We need to overload the original warning printer to capture the warnings
    and not let them go through default printer (which will end up in browser
    console) *)
-let playground_warning_reporter f (loc : Location.t) w : Location.report option =
+let playground_warning_reporter ~f (loc : Location.t) w : Location.report option =
   let mk ~is_error id =
     if is_error then Location.Report_warning_as_error id else Report_warning id
   in
