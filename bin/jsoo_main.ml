@@ -259,7 +259,7 @@ let compile =
       | None -> (
           let default =
             lazy
-              (Js.obj [| ("js_error_msg", Js.string (Printexc.to_string e)) |])
+              (Js.obj [| ("js_warning_error_msg", Js.string (Printexc.to_string e)) |])
           in
           match e with
           | Warnings.Errors -> (
