@@ -47,7 +47,7 @@ let exports cxt f (idents : Ident.t list) =
       ~f:(fun (cxt, acc) id ->
         let id_name = Ident.name id in
         let s = Ident.convert id_name in
-        let str, cxt = Pp_scope.str_of_ident cxt id in
+        let str, cxt = Js_pp.Scope.str_of_ident cxt id in
         ( cxt,
           if id_name = default_export then
             (* TODO check how it will affect AMDJS*)
@@ -77,7 +77,7 @@ let es6_export cxt f (idents : Ident.t list) =
       ~f:(fun (cxt, acc) id ->
         let id_name = Ident.name id in
         let s = Ident.convert id_name in
-        let str, cxt = Pp_scope.str_of_ident cxt id in
+        let str, cxt = Js_pp.Scope.str_of_ident cxt id in
         ( cxt,
           if id_name = default_export then (default_export, str) :: acc
           else (s, str) :: acc ))
@@ -106,7 +106,7 @@ let requires require_lit cxt f (modules : (Ident.t * string * bool) list) =
   let outer_cxt, reversed_list =
     List.fold_left
       ~f:(fun (cxt, acc) (id, s, b) ->
-        let str, cxt = Pp_scope.str_of_ident cxt id in
+        let str, cxt = Js_pp.Scope.str_of_ident cxt id in
         (cxt, (str, s, b) :: acc))
       ~init:(cxt, []) modules
   in
@@ -131,7 +131,7 @@ let imports cxt f (modules : (Ident.t * string * bool) list) =
   let outer_cxt, reversed_list =
     List.fold_left
       ~f:(fun (cxt, acc) (id, s, b) ->
-        let str, cxt = Pp_scope.str_of_ident cxt id in
+        let str, cxt = Js_pp.Scope.str_of_ident cxt id in
         (cxt, (str, s, b) :: acc))
       ~init:(cxt, []) modules
   in

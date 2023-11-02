@@ -22,7 +22,7 @@
 
 open Import
 
-val statements : bool -> Pp_scope.t -> Js_pp.t -> J.block -> Pp_scope.t
+val statements : bool -> Js_pp.Scope.t -> Js_pp.t -> J.block -> Js_pp.Scope.t
 (** Print JS IR to vanilla Javascript code
     Called by module {!Js_dump_program} *)
 
