@@ -22,21 +22,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type action_table = (Parsetree.expression option -> unit) Map_string.t
+open Import
+
+type action_table = (Parsetree.expression option -> unit) String.Map.t
 
 let structural_config_table : action_table ref =
   ref
-    (Map_string.singleton "no_export" (fun x ->
+    (String.Map.singleton "no_export" (fun x ->
          Js_config.no_export :=
            match x with Some e -> Ast_payload.assert_bool_lit e | None -> true))
 
 let add_structure k v =
-  structural_config_table := Map_string.add !structural_config_table k v
+  structural_config_table := String.Map.add !structural_config_table k v
 
-let signature_config_table : action_table ref = ref Map_string.empty
+let signature_config_table : action_table ref = ref String.Map.empty
 
 let add_signature k v =
-  signature_config_table := Map_string.add !signature_config_table k v
+  signature_config_table := String.Map.add !signature_config_table k v
 
 let rec iter_on_mel_config_stru (x : Parsetree.structure) =
   match x with
@@ -53,7 +55,7 @@ let rec iter_on_mel_config_stru (x : Parsetree.structure) =
     }
     :: _ ->
       List.iter
-        (fun x ->
+        ~f:(fun x ->
           Ast_payload.table_dispatch !structural_config_table x |> ignore)
         (Ast_payload.ident_or_record_as_config loc payload)
   (* [ppxlib] adds a wrapper like:
@@ -98,7 +100,7 @@ let rec iter_on_mel_config_sigi (x : Parsetree.signature) =
     }
     :: _ ->
       List.iter
-        (fun x ->
+        ~f:(fun x ->
           Ast_payload.table_dispatch !signature_config_table x |> ignore)
         (Ast_payload.ident_or_record_as_config loc payload)
   | { psig_desc = Psig_attribute _; _ } :: rest -> iter_on_mel_config_sigi rest

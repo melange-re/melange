@@ -1,22 +1,12 @@
+open Melstd
+
 module Int_array = Vec.Make (struct
   type t = int
 
   let null = 0
 end)
 
-[@@@warning "-32"]
-
-let ( >:: ), ( >::: ) = OUnit.(( >:: ), ( >::: ))
-
-let ( =~ ) x y =
-  OUnit.assert_equal ~cmp:(Int_array.equal (fun (x : int) y -> x = y)) x y
-
-let ( =~~ ) x y =
-  OUnit.assert_equal
-    ~cmp:(Int_array.equal (fun (x : int) y -> x = y))
-    x (Int_array.of_array y)
-
-[@@@warning "+32"]
+let ( >::: ) = OUnit.( >::: )
 
 let suites =
   __FILE__

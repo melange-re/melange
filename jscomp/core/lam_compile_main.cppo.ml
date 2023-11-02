@@ -22,16 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
-
-
-
-
-
-(* module E = Js_exp_make  *)
-(* module S = Js_stmt_make   *)
-
+open Import
 
 let compile_group (meta : Lam_stats.t)
     (x : Lam_group.t) : Js_output.t  =
@@ -82,7 +73,7 @@ let compile_group (meta : Lam_stats.t)
 
 (* Also need analyze its depenency is pure or not *)
 let no_side_effects (rest : Lam_group.t list) : string option =
-  List.find_map (function
+  List.find_map ~f:(function
     | Lam_group.Single(kind,id,body) ->
       begin
         match kind with
@@ -93,7 +84,7 @@ let no_side_effects (rest : Lam_group.t list) : string option =
         | _ -> None
       end
     | Recursive bindings ->
-      List.find_map (fun (id,lam) ->
+      List.find_map ~f:(fun (id,lam) ->
         if not @@ Lam_analysis.no_side_effects lam
         then Some (Printf.sprintf "%s" (Ident.name id) )
         else None)
@@ -126,12 +117,15 @@ let compile
     (output_prefix : string)
     (lam : Lambda.lambda)   =
   let export_idents = Translmod.get_export_identifiers() in
-  let export_ident_sets = Set_ident.of_list export_idents in
+  let export_ident_sets = Ident.Set.of_list export_idents in
   (* To make toplevel happy - reentrant for js-demo *)
   let () =
 #ifndef BS_RELEASE_BUILD
     List.iter
-      (fun id -> Ext_log.warn ~loc:(Ext_loc.of_pos __POS__) (Pp.textf "export idents: %s/%d"  (Ident.name id) (Ext_ident.stamp id)))
+      (fun id ->
+        Ext_log.warn
+          ~loc:(Ext_loc.of_pos __POS__)
+          (Pp.textf "export idents: %s/%d"  (Ident.name id) (Ext_ident.stamp id)))
       export_idents ;
 #endif
     Lam_compile_env.reset () ;
@@ -226,7 +220,7 @@ let () =
       ]);
   if !Js_config.diagnose then
     let f =
-      Ext_filename.new_extension !Location.input_name  ".lambda" in
+      Filename.new_extension !Location.input_name  ".lambda" in
       let chan = open_out_bin f in
       Fun.protect
         ~finally:(fun () -> close_out chan)
@@ -247,7 +241,7 @@ in
 #endif
 let body  =
   groups
-  |> List.map (fun group -> compile_group meta group)
+  |> List.map ~f:(fun group -> compile_group meta group)
   |> Js_output.concat
   |> Js_output.output_as_block
 in
@@ -258,7 +252,7 @@ let () =
 in
 #endif
 let meta_exports = meta.exports in
-let export_set = Set_ident.of_list meta_exports in
+let export_set = Ident.Set.of_list meta_exports in
 let js : J.program =
   {
     exports = meta_exports ;
@@ -292,7 +286,7 @@ js
             |> Array.of_list
           in
           Array.sort
-            (fun id1 id2 ->
+            ~cmp:(fun id1 id2 ->
               String.compare (Lam_module_ident.name id1) (Lam_module_ident.name id2))
             arr;
           Array.to_list arr
@@ -329,8 +323,6 @@ js
   )
 ;;
 
-let (//) = Ext_path.(//)
-
 let write_to_file ~package_info ~output_info ~output_prefix lambda_output file  =
   let oc = open_out_bin file in
   Fun.protect
@@ -343,45 +335,42 @@ let write_to_file ~package_info ~output_info ~output_prefix lambda_output file  
         lambda_output
         oc)
 
-let lambda_as_module
-    ~package_info
-    (lambda_output : J.deps_program)
-    (output_prefix : string)
-  : unit =
-  let make_basename suffix =
-    (Filename.basename output_prefix) ^ (Ext_js_suffix.to_string suffix)
-  in
-  match (!Js_config.js_stdout, !Clflags.output_name) with
-  | (true, None) ->
-    Js_dump_program.dump_deps_program
-      ~package_info
-      ~output_info:Js_packages_info.default_output_info
-      ~output_prefix
-      lambda_output stdout
-  | false, None ->
-    raise (Arg.Bad ("no output specified (use -o <filename>.js)"))
-  | (_, Some _) ->
-    (* We use `-mel-module-type` to emit a single JS file after `.cmj`
-       generation. In this case, we don't want the `package_info` from the
-       `.cmj`, because the suffix and paths will be different. *)
-    List.iter  (fun (output_info : Js_packages_info.output_info) ->
-      let basename = make_basename output_info.suffix in
-      let target_file = Filename.dirname output_prefix // basename in
-      if not !Clflags.dont_write_files then begin
-        write_to_file
-          ~package_info
-          ~output_info
-          ~output_prefix
-          lambda_output
-          target_file
-      end)
-      (Js_packages_state.get_output_info ())
-
-
+let lambda_as_module =
+  let (//) = Path.(//) in
+  fun ~package_info (lambda_output : J.deps_program) (output_prefix : string) ->
+    let make_basename suffix =
+      (Filename.basename output_prefix) ^ (Js_suffix.to_string suffix)
+    in
+    match (!Js_config.js_stdout, !Clflags.output_name) with
+    | (true, None) ->
+      Js_dump_program.dump_deps_program
+        ~package_info
+        ~output_info:Js_packages_info.default_output_info
+        ~output_prefix
+        lambda_output stdout
+    | false, None ->
+      raise (Arg.Bad ("no output specified (use -o <filename>.js)"))
+    | (_, Some _) ->
+      (* We use `-mel-module-type` to emit a single JS file after `.cmj`
+         generation. In this case, we don't want the `package_info` from the
+         `.cmj`, because the suffix and paths will be different. *)
+      List.iter ~f:(fun (output_info : Js_packages_info.output_info) ->
+        let basename = make_basename output_info.suffix in
+        let target_file = Filename.dirname output_prefix // basename in
+        if not !Clflags.dont_write_files then begin
+          write_to_file
+            ~package_info
+            ~output_info
+            ~output_prefix
+            lambda_output
+            target_file
+        end)
+        (Js_packages_state.get_output_info ())
 
 (* We can use {!Env.current_unit = "Pervasives"} to tell if it is some specific module,
-    We need handle some definitions in standard libraries in a special way, most are io specific,
-    includes {!Pervasives.stdin, Pervasives.stdout, Pervasives.stderr}
+   We need handle some definitions in standard libraries in a special way, most are io specific,
+   includes {!Pervasives.stdin, Pervasives.stdout, Pervasives.stderr}
 
-    However, use filename instead of {!Env.current_unit} is more honest, since node-js module system is coupled with the file name
+   However, use filename instead of {!Env.current_unit} is more honest, since
+   Node.js module system is coupled with the file name
 *)

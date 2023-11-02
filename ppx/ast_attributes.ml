@@ -325,14 +325,17 @@ let external_attrs =
   |]
 
 let first_char_special (x : string) =
-  match String.unsafe_get x 0 with
-  | '#' | '?' | '%' -> true
-  | _ ->
-      (* XXX(anmonteiro): Upstream considers "builtin" attributes ones that
-         start with `?`. We keep the original terminology of `caml_` (and,
-         incidentally, `nativeint_`). *)
-      String.starts_with x ~prefix:"caml_"
-      || String.starts_with x ~prefix:"nativeint_"
+  match x with
+  | "" -> false
+  | _ -> (
+      match String.unsafe_get x 0 with
+      | '#' | '?' | '%' -> true
+      | _ ->
+          (* XXX(anmonteiro): Upstream considers "builtin" attributes ones that
+             start with `?`. We keep the original terminology of `caml_` (and,
+             incidentally, `nativeint_`). *)
+          String.starts_with x ~prefix:"caml_"
+          || String.starts_with x ~prefix:"nativeint_")
 
 let first_marshal_char (x : string) = x <> "" && String.unsafe_get x 0 = '\132'
 

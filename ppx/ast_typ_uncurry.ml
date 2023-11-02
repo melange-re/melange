@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 type typ = Parsetree.core_type
 type 'a cxt = Ast_helper.loc -> Ast_traverse.map -> 'a
@@ -65,15 +65,15 @@ let generate_method_type loc (mapper : Ast_traverse.map) ?alias_type method_name
   else
     let tyvars =
       List.mapi
-        (fun i x -> (x, Typ.var ~loc (method_name ^ string_of_int i)))
+        ~f:(fun i x -> (x, Typ.var ~loc (method_name ^ string_of_int i)))
         (lbl :: Ast_pat.labels_of_fun e)
     in
     match tyvars with
     | (label, x) :: rest ->
         let method_rest =
           List.fold_right
-            (fun (label, v) acc -> Typ.arrow ~loc label v acc)
-            rest result
+            ~f:(fun (label, v) acc -> Typ.arrow ~loc label v acc)
+            rest ~init:result
         in
         to_method_callback_type loc mapper Nolabel self_type
           (Typ.arrow ~loc label x method_rest)
@@ -102,15 +102,15 @@ let generate_arg_type loc (mapper : Ast_traverse.map) method_name label pat body
   else
     let tyvars =
       List.mapi
-        (fun i x -> (x, Typ.var ~loc (method_name ^ string_of_int i)))
+        ~f:(fun i x -> (x, Typ.var ~loc (method_name ^ string_of_int i)))
         (label :: Ast_pat.labels_of_fun body)
     in
     match tyvars with
     | (label, x) :: rest ->
         let method_rest =
           List.fold_right
-            (fun (label, v) acc -> Typ.arrow ~loc label v acc)
-            rest result
+            ~f:(fun (label, v) acc -> Typ.arrow ~loc label v acc)
+            rest ~init:result
         in
         to_method_type loc mapper label x method_rest
     | _ -> assert false

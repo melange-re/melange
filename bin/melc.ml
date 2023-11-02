@@ -10,6 +10,8 @@
 (*                                                                     *)
 (***********************************************************************)
 
+open Melstd
+
 #ifndef BS_RELEASE_BUILD
 let print_backtrace () =
   let raw_bt = Printexc.backtrace_slots (Printexc.get_raw_backtrace ()) in
@@ -26,7 +28,7 @@ let print_backtrace () =
             | [] -> acc := [ bt ]
             | hd :: _ -> if hd <> bt then acc := bt :: !acc)
       done;
-      List.iter (fun (bt: Printexc.location) ->
+      List.iter ~f:(fun (bt: Printexc.location) ->
           Printf.eprintf "File \"%s\", line %d, characters %d-%d\n" bt.filename
             bt.line_number bt.start_char bt.end_char) !acc
 #endif
@@ -34,7 +36,7 @@ let print_backtrace () =
 let set_abs_input_name sourcefile =
   let sourcefile =
     if !Clflags.absname && Filename.is_relative  sourcefile then
-      Ext_path.absolute_cwd_path sourcefile
+      Path.absolute_cwd_path sourcefile
     else sourcefile in
   Location.set_input_name sourcefile;
   sourcefile
@@ -48,7 +50,7 @@ let process_file sourcefile
   *)
   let kind =
     match kind with
-    | None -> Artifact_extension.Valid_input.classify (Ext_filename.get_extension_maybe sourcefile)
+    | None -> Artifact_extension.Valid_input.classify (Filename.get_extension_maybe sourcefile)
     | Some kind -> kind in
   match kind with
   | Ml ->
@@ -143,7 +145,7 @@ let anonymous =
       else
         begin
             if !Js_config.syntax_only then begin
-              Ext_list.rev_iter rev_args (fun filename ->
+              List.rev_iter rev_args (fun filename ->
                   begin
                     (* Clflags.reset_dump_state (); *)
                     (* Warnings.reset (); *)
@@ -186,7 +188,7 @@ let eval (s : string) =
   ret
 
 let print_standard_library () =
-  print_endline (String.concat ":" (Js_config.std_include_dirs ()));
+  print_endline (String.concat ~sep:":" (Js_config.std_include_dirs ()));
   exit 0
 
 let bs_version_string =
@@ -274,7 +276,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       (* The OCaml compiler expects include_dirs in reverse CLI order, but
          cmdliner returns it in CLI order. *)
       List.rev_append include_dirs !Clflags.include_dirs;
-    List.iter Warnings.parse_alert_option alerts;
+    List.iter ~f:Warnings.parse_alert_option alerts;
 
     begin match warnings with
     | [] -> ()
@@ -285,7 +287,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
          "+20" (so we override it). *)
       Melc_warnings.parse_warnings ~warn_error:false first;
       Melc_warnings.parse_warnings ~warn_error:false "-20";
-      List.iter (Melc_warnings.parse_warnings ~warn_error:false) rest;
+      List.iter ~f:(Melc_warnings.parse_warnings ~warn_error:false) rest;
     end;
 
     Option.iter
@@ -307,17 +309,17 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     | Some bs_module_type, [] ->
       let suffix = match output_name with
         | Some output_name ->
-          (match Ext_filename.get_all_extensions_maybe output_name with
+          (match Filename.get_all_extensions_maybe output_name with
           | None ->
             raise (Arg.Bad "`-o FILENAME` needs to include a valid extension")
-          | Some ext -> Ext_js_suffix.of_string ext)
+          | Some ext -> Js_suffix.of_string ext)
         | None ->
           raise (Arg.Bad "`-o FILENAME` is required when passing `-bs-module-type`")
       in
       Js_packages_state.set_output_info ~suffix bs_module_type
     | None, bs_package_output ->
       List.iter
-        (Js_packages_state.update_npm_package_path ?module_name:bs_module_name)
+        ~f:(Js_packages_state.update_npm_package_path ?module_name:bs_module_name)
         bs_package_output;
     | Some _, _ :: _ ->
       raise (Arg.Bad ("Can't pass both `-bs-package-output` and `-bs-module-type`"))
@@ -368,7 +370,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if short_paths then Clflags.real_paths := false;
     if unsafe then Clflags.unsafe := unsafe;
     if warn_help then Warnings.help_warnings ();
-    List.iter (Melc_warnings.parse_warnings ~warn_error:true) warn_error ;
+    List.iter ~f:(Melc_warnings.parse_warnings ~warn_error:true) warn_error ;
     if bs_stop_after_cmj then Js_config.cmj_only := bs_stop_after_cmj;
 
     Option.iter (fun s ->
@@ -410,7 +412,7 @@ let file_level_flags_handler (e : Parsetree.expression option) =
   | None -> ()
   | Some { pexp_desc = Pexp_array args; pexp_loc; _ } ->
     let args =
-      ( List.map (fun (e: Parsetree.expression) ->
+      ( List.map ~f:(fun (e: Parsetree.expression) ->
           match e.pexp_desc with
           | Pexp_constant (Pconst_string(name,_,_)) -> name
           | _ -> Location.raise_errorf ~loc:e.pexp_loc "string literal expected" ) args)

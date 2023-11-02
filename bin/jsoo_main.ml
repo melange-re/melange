@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Melstd
 open Melangelib
 open Melange_compiler_libs
 module Js = Jsoo_common.Js
@@ -41,11 +42,8 @@ let warnings_collected : Location.report list ref = ref []
 (* We need to overload the original warning printer to capture the warnings
    and not let them go through default printer (which will end up in browser
    console) *)
-let playground_warning_reporter (loc : Location.t) w : Location.report option =
-  let mk ~is_error id =
-    if is_error then Location.Report_warning_as_error id else Report_warning id
-  in
-  match Warnings.report w with
+let playground_reporter ~f ~mk (loc : Location.t) w : Location.report option =
+  match f w with
   | `Inactive -> None
   | `Active { Warnings.id; message; is_error; sub_locs } ->
       let msg_of_str str ppf = Format.pp_print_string ppf str in
@@ -53,12 +51,24 @@ let playground_warning_reporter (loc : Location.t) w : Location.report option =
       let main = { Location.loc; txt = msg_of_str message } in
       let sub =
         List.map
-          (fun (loc, sub_message) ->
+          ~f:(fun (loc, sub_message) ->
             { Location.loc; txt = msg_of_str sub_message })
           sub_locs
       in
       warnings_collected := { Location.kind; main; sub } :: !warnings_collected;
       None
+
+let playground_warning_reporter =
+  let mk ~is_error id =
+    if is_error then Location.Report_warning_as_error id else Report_warning id
+  in
+  playground_reporter ~f:Warnings.report ~mk
+
+let playground_alert_reporter =
+  let mk ~is_error id =
+    if is_error then Location.Report_alert_as_error id else Report_alert id
+  in
+  playground_reporter ~f:Warnings.report_alert ~mk
 
 let error_of_exn e =
   match Location.error_of_exn e with
@@ -235,11 +245,8 @@ let compile =
         Js_dump_program.pp_deps_program ~output_prefix:""
           ~package_info:Js_packages_info.empty
           ~output_info:
-            {
-              Js_packages_info.module_system = Es6;
-              suffix = Ext_js_suffix.default;
-            }
-          (Ext_pp.from_buffer buffer)
+            { Js_packages_info.module_system = Es6; suffix = Js_suffix.default }
+          (Js_pp.from_buffer buffer)
           (Lam_compile_main.compile "" lam)
       in
       let v = Buffer.contents buffer in
@@ -249,7 +256,8 @@ let compile =
           [|
             ("js_code", Js.string v);
             ( "warnings",
-              List.rev_map Jsoo_common.warning_error_to_js !warnings_collected
+              List.rev_map ~f:Jsoo_common.warning_error_to_js
+                !warnings_collected
               |> Array.of_list |> Js.array );
             ("type_hints", type_hints);
           |])
@@ -260,7 +268,10 @@ let compile =
       | None -> (
           let default =
             lazy
-              (Js.obj [| ("js_error_msg", Js.string (Printexc.to_string e)) |])
+              (Js.obj
+                 [|
+                   ("js_warning_error_msg", Js.string (Printexc.to_string e));
+                 |])
           in
           match e with
           | Warnings.Errors -> (
@@ -270,7 +281,7 @@ let compile =
               | warnings ->
                   let type_ = "warning_errors" in
                   let jsErrors =
-                    List.rev_map Jsoo_common.warning_error_to_js warnings
+                    List.rev_map ~f:Jsoo_common.warning_error_to_js warnings
                     |> Array.of_list
                   in
                   Js.obj
@@ -298,6 +309,7 @@ let () =
   Clflags.binary_annotations := false;
   Clflags.color := None;
   Location.warning_reporter := playground_warning_reporter;
+  Location.alert_reporter := playground_alert_reporter;
   (* To add a directory to the load path *)
   Load_path.add_dir "/static"
 

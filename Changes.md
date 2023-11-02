@@ -1,9 +1,12 @@
 Unreleased
 ---------------
 
-- Remove `Belt` as a dependency of `Stdlib`
+- BREAKING: remove `Belt` as a dependency of `Stdlib`
   ([#796](https://github.com/melange-re/melange/pull/796),
   [#797](https://github.com/melange-re/melange/pull/797))
+  - Melange no longer includes the `melange.belt` library by default; after
+    this release, you need to add `(libraries melange.belt)` to your melange
+    stanzas.
 - Melange Runtime / Stdlib: remove deprecated modules and functions
   ([#817](https://github.com/melange-re/melange/pull/817)):
     - `Js.List`: use `Stdlib.List` or `Belt.List` instead;
@@ -22,6 +25,8 @@ Unreleased
     1. Exception ID `RE_EXN_ID` to `MEL_EXN_ID`
     2. `BS_PRIVATE_NESTED_SOME_NONE` option marker to
        `MEL_PRIVATE_NESTED_SOME_NONE`
+- Consistently handle empty payloads in externals:
+  ([#852](https://github.com/melange-re/melange/pull/852))
 
 2.1.0 2023-10-22
 ---------------

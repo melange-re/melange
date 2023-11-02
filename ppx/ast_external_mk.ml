@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 open Ast_helper
 
 let local_external_apply loc ?(pval_attributes = []) ~(pval_prim : string list)
@@ -61,7 +61,7 @@ let local_external_apply loc ?(pval_attributes = []) ~(pval_prim : string list)
            pexp_loc_stack = [ loc ];
          }
           : Parsetree.expression)
-        (List.map (fun x -> (Asttypes.Nolabel, x)) args)
+        (List.map ~f:(fun x -> (Asttypes.Nolabel, x)) args)
         ~loc )
 
 let local_external_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
@@ -99,7 +99,7 @@ let local_external_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
            pexp_loc_stack = [ loc ];
          }
           : Parsetree.expression)
-        (List.map (fun (l, a) -> (Asttypes.Labelled l, a)) args)
+        (List.map ~f:(fun (l, a) -> (Asttypes.Labelled l, a)) args)
         ~loc )
 
 let local_extern_cont_to_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
@@ -148,30 +148,30 @@ type label_exprs = (Longident.t Asttypes.loc * Parsetree.expression) list
 *)
 let from_labels ~loc arity labels : Parsetree.core_type =
   let tyvars =
-    List.init arity (fun i -> Typ.var ~loc ("a" ^ string_of_int i))
+    List.init ~len:arity ~f:(fun i -> Typ.var ~loc ("a" ^ string_of_int i))
   in
   let result_type =
     Ast_comb.to_js_type ~loc
       (Typ.object_ ~loc
-         (List.map2 (fun x y -> Of.tag x y) labels tyvars)
+         (List.map2 ~f:(fun x y -> Of.tag x y) labels tyvars)
          Closed)
   in
   List.fold_right2
-    (fun label (* {loc ; txt = label }*) tyvar acc ->
+    ~f:(fun label (* {loc ; txt = label }*) tyvar acc ->
       Typ.arrow ~loc:label.loc (Labelled label.txt) tyvar acc)
-    labels tyvars result_type
+    labels tyvars ~init:result_type
 
 let pval_prim_of_labels (labels : string Asttypes.loc list) =
   let arg_kinds =
     List.fold_right
-      (fun p arg_kinds ->
+      ~f:(fun p arg_kinds ->
         let obj_arg_label =
           Melange_ffi.External_arg_spec.obj_label
             (Melange_ffi.Lam_methname.translate p.txt)
         in
         { Melange_ffi.External_arg_spec.obj_arg_type = Nothing; obj_arg_label }
         :: arg_kinds)
-      labels []
+      labels ~init:[]
   in
   Melange_ffi.External_ffi_types.ffi_obj_as_prims arg_kinds
 
@@ -179,7 +179,7 @@ let pval_prim_of_option_labels (labels : (bool * string Asttypes.loc) list)
     (ends_with_unit : bool) =
   let arg_kinds =
     List.fold_right
-      (fun (is_option, p) arg_kinds ->
+      ~f:(fun (is_option, p) arg_kinds ->
         let label_name = Melange_ffi.Lam_methname.translate p.txt in
         let obj_arg_label =
           if is_option then
@@ -189,9 +189,10 @@ let pval_prim_of_option_labels (labels : (bool * string Asttypes.loc) list)
         { Melange_ffi.External_arg_spec.obj_arg_type = Nothing; obj_arg_label }
         :: arg_kinds)
       labels
-      (if ends_with_unit then
-         [ Melange_ffi.External_arg_spec.empty_kind Extern_unit ]
-       else [])
+      ~init:
+        (if ends_with_unit then
+           [ Melange_ffi.External_arg_spec.empty_kind Extern_unit ]
+         else [])
   in
   Melange_ffi.External_ffi_types.ffi_obj_as_prims arg_kinds
 
@@ -199,12 +200,12 @@ let record_as_js_object loc (label_exprs : label_exprs) :
     Parsetree.expression_desc =
   let labels, args, arity =
     List.fold_right
-      (fun ({ txt; loc }, e) (labels, args, i) ->
+      ~f:(fun ({ txt; loc }, e) (labels, args, i) ->
         match txt with
         | Lident x ->
             ({ Asttypes.loc; txt = x } :: labels, (x, e) :: args, i + 1)
         | Ldot _ | Lapply _ -> Location.raise_errorf ~loc "invalid js label ")
-      label_exprs ([], [], 0)
+      label_exprs ~init:([], [], 0)
   in
   local_external_obj loc
     ~pval_prim:(pval_prim_of_labels labels)

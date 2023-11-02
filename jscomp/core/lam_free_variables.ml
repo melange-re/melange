@@ -22,41 +22,43 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let pass_free_variables (l : Lam.t) : Set_ident.t =
-  let fv = ref Set_ident.empty in
-  let rec free_list xs = List.iter free xs
+open Import
+
+let pass_free_variables (l : Lam.t) : Ident.Set.t =
+  let fv = ref Ident.Set.empty in
+  let rec free_list xs = List.iter ~f:free xs
   and free_list_snd : 'a. ('a * Lam.t) list -> unit =
-   fun xs -> List.iter (fun (_, x) -> free x) xs
+   fun xs -> List.iter ~f:(fun (_, x) -> free x) xs
   and free (l : Lam.t) =
     match l with
-    | Lvar id | Lmutvar id -> fv := Set_ident.add !fv id
+    | Lvar id | Lmutvar id -> fv := Ident.Set.add !fv id
     | Lassign (id, e) ->
         free e;
-        fv := Set_ident.add !fv id
+        fv := Ident.Set.add !fv id
     | Lstaticcatch (e1, (_, vars), e2) ->
         free e1;
         free e2;
-        List.iter (fun id -> fv := Set_ident.remove !fv id) vars
+        List.iter ~f:(fun id -> fv := Ident.Set.remove !fv id) vars
     | Ltrywith (e1, exn, e2) ->
         free e1;
         free e2;
-        fv := Set_ident.remove !fv exn
+        fv := Ident.Set.remove !fv exn
     | Lfunction { body; params; _ } ->
         free body;
-        List.iter (fun param -> fv := Set_ident.remove !fv param) params
+        List.iter ~f:(fun param -> fv := Ident.Set.remove !fv param) params
     | Llet (_, id, arg, body) | Lmutlet (id, arg, body) ->
         free arg;
         free body;
-        fv := Set_ident.remove !fv id
+        fv := Ident.Set.remove !fv id
     | Lletrec (decl, body) ->
         free body;
         free_list_snd decl;
-        List.iter (fun (id, _exp) -> fv := Set_ident.remove !fv id) decl
+        List.iter ~f:(fun (id, _exp) -> fv := Ident.Set.remove !fv id) decl
     | Lfor (v, e1, e2, _dir, e3) ->
         free e1;
         free e2;
         free e3;
-        fv := Set_ident.remove !fv v
+        fv := Ident.Set.remove !fv v
     | Lconst _ -> ()
     | Lapply { ap_func; ap_args; _ } ->
         free ap_func;

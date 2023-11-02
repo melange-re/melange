@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (* Make it mutable so that we can do
     in-place change without constructing a new one
    -- however, it's a design choice -- to be reviewed later
@@ -43,8 +45,8 @@ type immutable_mask =
   | Immutable_mask of bool array
 
 type t = {
-  mutable unbounded : Set_ident.t;
-  mutable bound_loop_mutable_values : Set_ident.t;
+  mutable unbounded : Ident.Set.t;
+  mutable bound_loop_mutable_values : Ident.Set.t;
   used_mask : bool array;
   immutable_mask : immutable_mask;
 }
@@ -52,13 +54,13 @@ type t = {
 
 let make ?immutable_mask n =
   {
-    unbounded = Set_ident.empty;
+    unbounded = Ident.Set.empty;
     used_mask = Array.make n false;
     immutable_mask =
       (match immutable_mask with
       | Some x -> Immutable_mask x
       | None -> All_immutable_and_no_tail_call);
-    bound_loop_mutable_values = Set_ident.empty;
+    bound_loop_mutable_values = Ident.Set.empty;
   }
 
 let no_tailcall x =
@@ -73,20 +75,20 @@ let get_unused t i = t.used_mask.(i)
 
 (* let to_string env =
    String.concat ","
-     (Ext_list.map (Set_ident.elements  env.unbounded )
+     (Ext_list.map (Ident.Set.elements  env.unbounded )
        (fun id  -> Printf.sprintf "%s/%d" id.name id.stamp)
         ) *)
 
 let get_mutable_params (params : Ident.t list) (x : t) =
   match x.immutable_mask with
   | All_immutable_and_no_tail_call -> []
-  | Immutable_mask xs -> List.filteri (fun i _p -> not xs.(i)) params
+  | Immutable_mask xs -> List.filteri ~f:(fun i _p -> not xs.(i)) params
 
 let get_unbounded t = t.unbounded
 
 let set_unbounded env v =
   (* Ext_log.err "%s -- set @." (to_string env); *)
-  (* if Set_ident.is_empty env.bound then *)
+  (* if Ident.Set.is_empty env.bound then *)
   env.unbounded <- v
 (* else assert false *)
 
@@ -98,4 +100,4 @@ let get_lexical_scope env = env.bound_loop_mutable_values
 (* TODO:  can be refined if it
     only enclose toplevel variables
 *)
-(* let is_empty t = Set_ident.is_empty t.unbounded *)
+(* let is_empty t = Ident.Set.is_empty t.unbounded *)

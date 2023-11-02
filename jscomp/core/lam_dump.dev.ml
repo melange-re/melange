@@ -22,4 +22,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let[@inline] dump _ext _lam = ()
+open Import
+
+let dump =
+  let log_counter = ref 0 in
+  fun ext lam ->
+    if !Js_config.diagnose then (
+      (* ATTENTION: easy to introduce a bug during refactoring when forgeting `begin` `end`*)
+      incr log_counter;
+      Ext_log.dwarn ~__POS__ "\n@[[TIME:]%s: %f@]@." ext (Sys.time () *. 1000.);
+      Lam_print.serialize
+        (Filename.new_extension !Location.input_name
+           (Printf.sprintf ".%02d%s.lam" !log_counter ext))
+        lam)

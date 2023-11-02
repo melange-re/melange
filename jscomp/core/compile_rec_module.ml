@@ -1,8 +1,6 @@
-type t = Lambda.lambda
+open Import
 
 (* Utilities for compiling "module rec" definitions *)
-
-type loc = t
 
 type binding =
   Translmod.id_or_ignore_loc
@@ -10,18 +8,18 @@ type binding =
   * Lambda.lambda
 
 let eval_rec_bindings_aux =
-  let mel_init_mod (args : t list) loc : t =
-    Lprim
+  let mel_init_mod args loc =
+    Lambda.Lprim
       ( Pccall (Primitive.simple ~name:"#init_mod" ~arity:2 ~alloc:true),
         args,
         loc )
-  and mel_update_mod (args : t list) loc : t =
-    Lprim
+  and mel_update_mod args loc =
+    Lambda.Lprim
       ( Pccall (Primitive.simple ~name:"#update_mod" ~arity:3 ~alloc:true),
         args,
         loc )
   in
-  fun (bindings : binding list) (cont : t) : t ->
+  fun (bindings : binding list) cont ->
     let rec bind_inits args acc =
       match args with
       | [] -> acc
@@ -48,7 +46,7 @@ let eval_rec_bindings_aux =
       | (_id, None, _rhs) :: rem -> patch_forwards rem
       | (Translmod.Ignore_loc _, _, _rhs) :: rem -> patch_forwards rem
       | (Id id, Some (_loc, shape), rhs) :: rem ->
-          Lsequence
+          Lambda.Lsequence
             ( mel_update_mod [ shape; Lvar id; rhs ] Loc_unknown,
               patch_forwards rem )
     in
@@ -63,20 +61,19 @@ let rec is_function_or_const_block (lam : Lambda.lambda) acc =
   | Levent (lam, _) -> is_function_or_const_block lam acc
   | Lprim (Pmakeblock _, args, _) ->
       List.for_all
-        (fun (x : loc) ->
-          match x with
-          | Lvar id -> Set_ident.mem acc id
+        ~f:(function
+          | Lambda.Lvar id -> Ident.Set.mem acc id
           | Lfunction _ | Lconst _ -> true
           | _ -> false)
         args
   | Llet (_, _, id, Lfunction _, cont) | Lmutlet (_, id, Lfunction _, cont) ->
-      is_function_or_const_block cont (Set_ident.add acc id)
+      is_function_or_const_block cont (Ident.Set.add acc id)
   | Lletrec (bindings, cont) -> (
       let rec aux_bindings bindings acc =
         match bindings with
         | [] -> Some acc
         | (id, Lambda.Lfunction _) :: rest ->
-            aux_bindings rest (Set_ident.add acc id)
+            aux_bindings rest (Ident.Set.add acc id)
         | (_, _) :: _ -> None
       in
       match aux_bindings bindings acc with
@@ -85,16 +82,16 @@ let rec is_function_or_const_block (lam : Lambda.lambda) acc =
   | Llet (_, _, _, Lconst _, cont) | Lmutlet (_, _, Lconst _, cont) ->
       is_function_or_const_block cont acc
   | (Llet (_, _, id1, Lvar id2, cont) | Lmutlet (_, id1, Lvar id2, cont))
-    when Set_ident.mem acc id2 ->
-      is_function_or_const_block cont (Set_ident.add acc id1)
+    when Ident.Set.mem acc id2 ->
+      is_function_or_const_block cont (Ident.Set.add acc id1)
   | _ -> false
 
 let is_strict_or_all_functions (xs : binding list) =
   List.for_all
-    (fun (_, opt, rhs) ->
+    ~f:(fun (_, opt, rhs) ->
       match opt with
       | None -> true
-      | _ -> is_function_or_const_block rhs Set_ident.empty)
+      | _ -> is_function_or_const_block rhs Ident.Set.empty)
     xs
 
 (* Without such optimizations:
@@ -130,11 +127,11 @@ let is_strict_or_all_functions (xs : binding list) =
    ]}
 *)
 
-let eval_rec_bindings (bindings : binding list) (cont : t) : t =
+let eval_rec_bindings (bindings : binding list) cont =
   if is_strict_or_all_functions bindings then
     Lambda.Lletrec
       ( List.filter_map
-          (fun (binding : binding) ->
+          ~f:(fun (binding : binding) ->
             match binding with Id id, _, rhs -> Some (id, rhs) | _ -> None)
           bindings,
         cont )

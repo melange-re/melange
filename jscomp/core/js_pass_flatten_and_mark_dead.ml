@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module E = Js_exp_make
 module S = Js_stmt_make
 
@@ -30,16 +31,16 @@ type meta_info = Info of J.ident_info | Recursive
 let super = Js_record_iter.super
 
 let mark_dead_code (js : J.program) : J.program =
-  let ident_use_stats : meta_info Hash_ident.t = Hash_ident.create 17 in
+  let ident_use_stats : meta_info Ident.Hash.t = Ident.Hash.create 17 in
   let mark_dead =
     {
       super with
       ident =
         (fun _ ident ->
-          match Hash_ident.find_opt ident_use_stats ident with
+          match Ident.Hash.find_opt ident_use_stats ident with
           | None ->
               (* First time *)
-              Hash_ident.add ident_use_stats ident Recursive
+              Ident.Hash.add ident_use_stats ident Recursive
           (* recursive identifiers *)
           | Some Recursive -> ()
           | Some (Info x) -> Js_op_util.update_used_stats x Used);
@@ -63,13 +64,13 @@ let mark_dead_code (js : J.program) : J.program =
                     Js_analyzer.no_side_effect_expression x
               in
               let () =
-                if Set_ident.mem js.export_set ident then
+                if Ident.Set.mem js.export_set ident then
                   Js_op_util.update_used_stats ident_info Exported
               in
-              match Hash_ident.find_opt ident_use_stats ident with
+              match Ident.Hash.find_opt ident_use_stats ident with
               | Some Recursive ->
                   Js_op_util.update_used_stats ident_info Used;
-                  Hash_ident.replace ident_use_stats ident (Info ident_info)
+                  Ident.Hash.replace ident_use_stats ident (Info ident_info)
               | Some (Info _) ->
                   (* check [camlinternlFormat,box_type] inlined twice
                       FIXME: seems we have redeclared identifiers
@@ -78,13 +79,13 @@ let mark_dead_code (js : J.program) : J.program =
               (* assert false *)
               | None ->
                   (* First time *)
-                  Hash_ident.add ident_use_stats ident (Info ident_info);
+                  Ident.Hash.add ident_use_stats ident (Info ident_info);
                   Js_op_util.update_used_stats ident_info
                     (if pure then Scanning_pure else Scanning_non_pure)));
     }
   in
   mark_dead.program mark_dead js;
-  Hash_ident.iter ident_use_stats (fun _id (info : meta_info) ->
+  Ident.Hash.iter ident_use_stats (fun _id (info : meta_info) ->
       match info with
       | Info ({ used_stats = Scanning_pure } as info) ->
           Js_op_util.update_used_stats info Dead_pure
@@ -149,9 +150,9 @@ let mark_dead_code (js : J.program) : J.program =
 let super = Js_record_map.super
 
 let add_substitue substitution (ident : Ident.t) (e : J.expression) =
-  Hash_ident.replace substitution ident e
+  Ident.Hash.replace substitution ident e
 
-let subst_map (substitution : J.expression Hash_ident.t) =
+let subst_map (substitution : J.expression Ident.Hash.t) =
   {
     super with
     statement =
@@ -194,7 +195,7 @@ let subst_map (substitution : J.expression Hash_ident.t) =
             *)
             let _, e, bindings =
               List.fold_left
-                (fun (i, e, acc) (x : J.expression) ->
+                ~f:(fun (i, e, acc) (x : J.expression) ->
                   match x.expression_desc with
                   | Var _ | Number _ | Str _ | Unicode _ | J.Bool _ | Undefined
                     ->
@@ -209,7 +210,7 @@ let subst_map (substitution : J.expression Hash_ident.t) =
                       *)
                       let v' = self.expression self x in
                       let match_id =
-                        Ext_ident.create
+                        Ident.create
                           (Ident.name ident ^ "_"
                           ^
                           match tag_info with
@@ -225,7 +226,7 @@ let subst_map (substitution : J.expression Hash_ident.t) =
                           | _ -> Printf.sprintf "%d" i)
                       in
                       (i + 1, E.var match_id :: e, (match_id, v') :: acc))
-                (0, [], []) ls
+                ~init:(0, [], []) ls
             in
             let e =
               {
@@ -249,7 +250,7 @@ let subst_map (substitution : J.expression Hash_ident.t) =
                 S.block
                   (List.rev_append
                      (List.map
-                        (fun (id, v) -> S.define_variable ~kind:Strict id v)
+                        ~f:(fun (id, v) -> S.define_variable ~kind:Strict id v)
                         bindings)
                      [ original_statement ]))
         | _ -> super.statement self v);
@@ -260,7 +261,7 @@ let subst_map (substitution : J.expression Hash_ident.t) =
             ( { expression_desc = Var (Id id); _ },
               { expression_desc = Number (Int { i; _ }); _ } )
         | Static_index ({ expression_desc = Var (Id id); _ }, _, Some i) -> (
-            match Hash_ident.find_opt substitution id with
+            match Ident.Hash.find_opt substitution id with
             | Some { expression_desc = Caml_block (ls, Immutable, _, _); _ }
               -> (
                 (* user program can be wrong, we should not
@@ -285,7 +286,7 @@ let subst_map (substitution : J.expression Hash_ident.t) =
 *)
 
 let program (js : J.program) =
-  let obj = subst_map (Hash_ident.create 32) in
+  let obj = subst_map (Ident.Hash.create 32) in
   let js = obj.program obj js in
   mark_dead_code js
 (* |> mark_dead_code *)

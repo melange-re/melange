@@ -1,3 +1,5 @@
+open Melstd
+
 let ( >:: ), ( >::: ) = OUnit.(( >:: ), ( >::: ))
 let ( =~ ) = OUnit.assert_equal
 
@@ -30,10 +32,10 @@ let suites =
          ( __LOC__ >:: fun _ ->
            let len = 1000 in
            let idents =
-             Array.init len (fun i -> Ident.create_local (string_of_int i))
+             Array.init len ~f:(fun i -> Ident.create_local (string_of_int i))
            in
            let set = Hash_set_ident_mask.create 0 in
-           Array.iter (fun i -> Hash_set_ident_mask.add_unmask set i) idents;
+           Array.iter ~f:(fun i -> Hash_set_ident_mask.add_unmask set i) idents;
            for i = 0 to len - 2 do
              OUnit.assert_bool __LOC__
                (not @@ Hash_set_ident_mask.mask_and_check_all_hit set idents.(i))

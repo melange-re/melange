@@ -3,7 +3,7 @@ Some Reason errors dont have locations
   $ cat > input.js <<EOF
   > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/jsoo_main.bc.js');
   > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/melange-cmijs.js');
-  > console.log(ocaml.compileRE("let sum = item => swiftch (item) { | Leaf => 0 };").js_error_msg.trim());
+  > console.log(ocaml.compileRE("let sum = item => swiftch (item) { | Leaf => 0 };").js_warning_error_msg.trim());
   > EOF
 
   $ node input.js

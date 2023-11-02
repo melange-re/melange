@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 type env_value =
   | Ml of Js_cmj_format.cmj_load_info
   | External
@@ -69,7 +71,7 @@ let add_js_module (hint_name : Melange_ffi.External_ffi_types.module_bind_name)
       (* make sure the module name is capitalized
          TODO: maybe a warning if the user hint is not good
       *)
-      | Phint_nothing -> Ext_modulename.js_id_name_of_hint_name module_name)
+      | Phint_nothing -> Modulename.js_id_name_of_hint_name module_name)
   in
   let lam_module_ident : J.module_id =
     { id; kind = External { name = module_name; default } }

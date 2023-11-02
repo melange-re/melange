@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 (** Note this is okay with enums, for variants,
     the underlying representation may change due to
@@ -33,14 +33,14 @@ let map_constructor_declarations_into_ints
   let mark = ref `nothing in
   let _, acc =
     List.fold_left
-      (fun (i, acc) rtag ->
+      ~f:(fun (i, acc) rtag ->
         let attrs = rtag.pcd_attributes in
         match Ast_attributes.iter_process_bs_int_as attrs with
         | Some j ->
             if j <> i then if i = 0 then mark := `offset j else mark := `complex;
             (j + 1, j :: acc)
         | None -> (i + 1, i :: acc))
-      (0, []) row_fields
+      ~init:(0, []) row_fields
   in
   match !mark with
   | `nothing -> `Offset 0
@@ -49,7 +49,7 @@ let map_constructor_declarations_into_ints
 
 let is_enum row_fields =
   List.for_all
-    (fun (x : Parsetree.row_field) ->
+    ~f:(fun (x : Parsetree.row_field) ->
       match x.prf_desc with Rtag (_label, true, []) -> true | _ -> false)
     row_fields
 
@@ -63,7 +63,7 @@ let is_enum_polyvar (ty : Parsetree.type_declaration) =
 let is_enum_constructors (constructors : Parsetree.constructor_declaration list)
     =
   List.for_all
-    (fun (x : Parsetree.constructor_declaration) ->
+    ~f:(fun (x : Parsetree.constructor_declaration) ->
       match x with
       | {
        pcd_args =
@@ -77,7 +77,7 @@ let is_enum_constructors (constructors : Parsetree.constructor_declaration list)
 let map_row_fields_into_ints ptyp_loc (row_fields : Parsetree.row_field list) =
   let _, acc =
     List.fold_left
-      (fun (i, acc) rtag ->
+      ~f:(fun (i, acc) rtag ->
         match rtag.prf_desc with
         | Rtag ({ txt; _ }, true, []) ->
             let i =
@@ -89,7 +89,7 @@ let map_row_fields_into_ints ptyp_loc (row_fields : Parsetree.row_field list) =
             in
             (i + 1, (txt, i) :: acc)
         | _ -> Error.err ~loc:ptyp_loc Invalid_mel_int_type)
-      (0, []) row_fields
+      ~init:(0, []) row_fields
   in
   List.rev acc
 
@@ -100,7 +100,7 @@ let map_row_fields_into_strings ptyp_loc (row_fields : Parsetree.row_field list)
   let has_bs_as = ref false in
   let case, result =
     List.fold_right
-      (fun tag (nullary, acc) ->
+      ~f:(fun tag (nullary, acc) ->
         match (nullary, tag.prf_desc) with
         | (`Nothing | `Null), Rtag ({ txt; _ }, true, []) ->
             let name =
@@ -125,7 +125,7 @@ let map_row_fields_into_strings ptyp_loc (row_fields : Parsetree.row_field list)
             in
             (`NonNull, (txt, name) :: acc)
         | _ -> Error.err ~loc:ptyp_loc Invalid_mel_string_type)
-      row_fields (`Nothing, [])
+      row_fields ~init:(`Nothing, [])
   in
   match case with
   | `Nothing -> Error.err ~loc:ptyp_loc Invalid_mel_string_type

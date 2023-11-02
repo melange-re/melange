@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 let log_counter = ref 0
 
 let dump name (prog : J.program) =
@@ -32,7 +34,7 @@ let dump name (prog : J.program) =
         (Pp.textf "[TIME] %s: %f" name (Sys.time () *. 1000.));
       let oc =
         let fn =
-          Ext_filename.new_extension !Location.input_name
+          Filename.new_extension !Location.input_name
             (Printf.sprintf ".%02d.%s.jsx" !log_counter name)
         in
         open_out_bin fn

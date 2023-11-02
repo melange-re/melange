@@ -22,7 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-module P = Ext_pp
+open Import
+module P = Js_pp
 module L = Js_dump_lit
 
 (**
@@ -32,15 +33,15 @@ module L = Js_dump_lit
 
    Let's not do smart things
    {[
-     { 003 : 1} 
+     { 003 : 1}
    ]}
-   becomes 
+   becomes
    {[
      { 3 : 1}
    ]}
 *)
 
-(** used in printing keys 
+(** used in printing keys
     {[
       {"x" : x};;
       {x : x }
@@ -55,13 +56,13 @@ let obj_property_no_need_quot s =
   if len > 0 then
     match String.unsafe_get s 0 with
     | '$' | '_' | 'a' .. 'z' | 'A' .. 'Z' ->
-        Ext_string.for_all_from s 1 (function
+        String.for_all_from s 1 (function
           | 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' -> true
           | _ -> false)
     | _ -> false
   else false
 
-(** used in property access 
+(** used in property access
     {[
       f.x ;;
       f["x"];;

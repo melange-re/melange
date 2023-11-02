@@ -22,27 +22,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 let alpha_conversion (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
   let rec populateApplyInfo (args_arity : int list) (len : int) (fn : Lam.t)
       (args : Lam.t list) ap_info : Lam.t =
     match args_arity with
-    | 0 :: _ | [] -> Lam.apply (simpl fn) (List.map simpl args) ap_info
+    | 0 :: _ | [] -> Lam.apply (simpl fn) (List.map ~f:simpl args) ap_info
     | x :: _ ->
         if x = len then
-          Lam.apply (simpl fn) (List.map simpl args)
+          Lam.apply (simpl fn) (List.map ~f:simpl args)
             { ap_info with ap_status = App_infer_full }
         else if x > len then
           let fn = simpl fn in
-          let args = List.map simpl args in
+          let args = List.map ~f:simpl args in
           Lam_eta_conversion.transform_under_supply (x - len)
             { ap_info with ap_status = App_infer_full }
             fn args
         else
-          let first, rest = Ext_list.split_at args x in
+          let first, rest = List.split_at args x in
           Lam.apply
-            (Lam.apply (simpl fn) (List.map simpl first)
+            (Lam.apply (simpl fn) (List.map ~f:simpl first)
                { ap_info with ap_status = App_infer_full })
-            (List.map simpl rest) ap_info
+            (List.map ~f:simpl rest) ap_info
   (* TODO refien *)
   and simpl (lam : Lam.t) =
     match lam with
@@ -58,7 +60,7 @@ let alpha_conversion (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
     | Llet (str, v, l1, l2) -> Lam.let_ str v (simpl l1) (simpl l2)
     | Lmutlet (v, l1, l2) -> Lam.mutlet v (simpl l1) (simpl l2)
     | Lletrec (bindings, body) ->
-        let bindings = Ext_list.map_snd bindings simpl in
+        let bindings = List.map_snd bindings simpl in
         Lam.letrec bindings (simpl body)
     | Lglobal_module _ -> lam
     | Lprim { primitive = Pjs_fn_make len as primitive; args = [ arg ]; loc }
@@ -71,7 +73,7 @@ let alpha_conversion (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
             Lam_eta_conversion.unsafe_adjust_to_arity loc ~to_:len ~from:x arg
         | None -> Lam.prim ~primitive ~args:[ simpl arg ] loc)
     | Lprim { primitive; args; loc } ->
-        Lam.prim ~primitive ~args:(List.map simpl args) loc
+        Lam.prim ~primitive ~args:(List.map ~f:simpl args) loc
     | Lfunction { arity; params; body; attr } ->
         (* Lam_mk.lfunction kind params (simpl l) *)
         Lam.function_ ~arity ~params ~body:(simpl body) ~attr
@@ -87,18 +89,16 @@ let alpha_conversion (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
           } ) ->
         Lam.switch (simpl l)
           {
-            sw_consts = Ext_list.map_snd sw_consts simpl;
-            sw_blocks = Ext_list.map_snd sw_blocks simpl;
+            sw_consts = List.map_snd sw_consts simpl;
+            sw_blocks = List.map_snd sw_blocks simpl;
             sw_consts_full;
             sw_blocks_full;
             sw_failaction = Option.map simpl sw_failaction;
             sw_names;
           }
     | Lstringswitch (l, sw, d) ->
-        Lam.stringswitch (simpl l)
-          (Ext_list.map_snd sw simpl)
-          (Option.map simpl d)
-    | Lstaticraise (i, ls) -> Lam.staticraise i (List.map simpl ls)
+        Lam.stringswitch (simpl l) (List.map_snd sw simpl) (Option.map simpl d)
+    | Lstaticraise (i, ls) -> Lam.staticraise i (List.map ~f:simpl ls)
     | Lstaticcatch (l1, ids, l2) -> Lam.staticcatch (simpl l1) ids (simpl l2)
     | Ltrywith (l1, v, l2) -> Lam.try_ (simpl l1) v (simpl l2)
     | Lifthenelse (l1, l2, l3) -> Lam.if_ (simpl l1) (simpl l2) (simpl l3)
@@ -111,7 +111,7 @@ let alpha_conversion (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
            v's refsimpl *)
         Lam.assign v (simpl l)
     | Lsend (u, m, o, ll, v) ->
-        Lam.send u (simpl m) (simpl o) (List.map simpl ll) v
+        Lam.send u (simpl m) (simpl o) (List.map ~f:simpl ll) v
     | Lifused (v, e) -> Lam.ifused v (simpl e)
   in
 
