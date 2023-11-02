@@ -23,6 +23,12 @@
   (copy# js_pass_debug.%{profile}.ml %{target})))
 
 (rule
+ (targets lam_pass_lets_dce.ml)
+ (deps lam_pass_lets_dce.cppo.ml)
+ (action
+  (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
+
+(rule
  (target lam_dump.ml)
  (deps lam_dump.dev.ml lam_dump.release.ml)
  (action

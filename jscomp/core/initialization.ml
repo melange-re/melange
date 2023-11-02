@@ -85,9 +85,11 @@ module Perfile = struct
     let exp_dirs = List.rev_append exp_dirs (Js_config.std_include_dirs ()) in
     List.iter ~f:Load_path.add_dir exp_dirs;
     Log.info ~loc:(Loc.of_pos __POS__)
-      (Pp.seq
-         (Pp.seq (Pp.text "Compiler include dirs:") Pp.space)
-         (Pp.enumerate (Load_path.get_paths ()) ~f:Pp.text));
+      (Pp.concat ~sep:Pp.space
+         [
+           Pp.text "Compiler include dirs:";
+           Pp.enumerate (Load_path.get_paths ()) ~f:Pp.text;
+         ]);
 
     Env.reset_cache ()
 

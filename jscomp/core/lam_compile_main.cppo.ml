@@ -24,8 +24,7 @@
 
 open Import
 
-let compile_group (meta : Lam_stats.t)
-    (x : Lam_group.t) : Js_output.t  =
+let compile_group (meta : Lam_stats.t) (x : Lam_group.t) : Js_output.t =
   match x with
   (*
         We need
@@ -194,14 +193,13 @@ let compile
     |> _d "simplify_lets"
 #ifndef BS_RELEASE_BUILD
     |> (fun lam ->
-         let () =
-           Log.warn ~loc:(Loc.of_pos __POS__)
-             (Pp.concat
-               [ Pp.verbatim "Before coercion:"
-               ; Pp.of_fmt Lam_stats.print meta
-               ; Pp.newline
-               ])
-         in
+         Log.warn
+           ~loc:(Loc.of_pos __POS__)
+           (Pp.concat
+             [ Pp.verbatim "Before coercion:"
+             ; Pp.of_fmt Lam_stats.print meta
+             ; Pp.newline
+             ]);
          Lam_check.check !Location.input_name lam)
 #endif
   in
