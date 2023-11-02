@@ -18,7 +18,6 @@ depends: [
   "menhir" {>= "20201214"}
   "reason-react-ppx" {with-test & post}
   "merlin" {with-test}
-  "reason-react" {with-test & post}
   "odoc" {with-doc}
 ]
 build: [
