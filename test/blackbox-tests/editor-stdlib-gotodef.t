@@ -16,6 +16,7 @@ Similar to companion editor-stdlib-gotodef-reason-react.t, but for plain OCaml
   > (melange.emit
   >  (alias foo)
   >  (target foo)
+  >  (emit_stdlib false)
   >  (libraries lib))
   > EOF
 
@@ -30,6 +31,7 @@ Similar to companion editor-stdlib-gotodef-reason-react.t, but for plain OCaml
   > (library
   >  (name lib)
   >  (modes melange)
+  >  (preprocess (pps melange.ppx))
   >  (wrapped false))
   > EOF
 
