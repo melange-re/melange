@@ -25,15 +25,15 @@
 open Import
 
 val default_export : string
-val exports : Pp_scope.t -> Js_pp.t -> Ident.t list -> Pp_scope.t
-val es6_export : Pp_scope.t -> Js_pp.t -> Ident.t list -> Pp_scope.t
+val exports : Js_pp.Scope.t -> Js_pp.t -> Ident.t list -> Js_pp.Scope.t
+val es6_export : Js_pp.Scope.t -> Js_pp.t -> Ident.t list -> Js_pp.Scope.t
 
 val requires :
   string ->
-  Pp_scope.t ->
+  Js_pp.Scope.t ->
   Js_pp.t ->
   (Ident.t * string * bool) list ->
-  Pp_scope.t
+  Js_pp.Scope.t
 
 val imports :
-  Pp_scope.t -> Js_pp.t -> (Ident.t * string * bool) list -> Pp_scope.t
+  Js_pp.Scope.t -> Js_pp.t -> (Ident.t * string * bool) list -> Js_pp.Scope.t

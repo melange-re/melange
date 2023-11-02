@@ -66,7 +66,7 @@ let program f cxt (x : J.program) =
   Js_dump_import_export.exports cxt f x.exports
 
 let dump_program (x : J.program) oc =
-  ignore (program (P.from_channel oc) Pp_scope.empty x)
+  ignore (program (P.from_channel oc) Js_pp.Scope.empty x)
 
 let[@inline] is_default (x : Js_op.kind) =
   match x with External { default; _ } -> default | _ -> false
@@ -75,7 +75,7 @@ let node_program ~package_info ~output_info ~output_dir f (x : J.deps_program) =
   P.string f L.strict_directive;
   P.newline f;
   let cxt =
-    Js_dump_import_export.requires L.require Pp_scope.empty f
+    Js_dump_import_export.requires L.require Js_pp.Scope.empty f
       (List.map
          ~f:(fun (x : J.module_id) ->
            ( x.id,
@@ -88,7 +88,7 @@ let node_program ~package_info ~output_info ~output_dir f (x : J.deps_program) =
 
 let es6_program ~package_info ~output_info ~output_dir f (x : J.deps_program) =
   let cxt =
-    Js_dump_import_export.imports Pp_scope.empty f
+    Js_dump_import_export.imports Js_pp.Scope.empty f
       (List.map
          ~f:(fun (x : J.module_id) ->
            ( x.id,

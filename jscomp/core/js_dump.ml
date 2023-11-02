@@ -73,12 +73,12 @@ module L = Js_dump_lit
    (our call Js_fun_env.get_unbounded env) is not precise
 *)
 
-type cxt = { scope : Pp_scope.t; pp : Js_pp.t }
+type cxt = { scope : Js_pp.Scope.t; pp : Js_pp.t }
 
-let from_pp pp = { scope = Pp_scope.empty; pp }
+let from_pp pp = { scope = Js_pp.Scope.empty; pp }
 let from_buffer buf = from_pp (Js_pp.from_buffer buf)
 let update_scope cxt scope = { cxt with scope }
-let ident cxt id = update_scope cxt (Pp_scope.ident cxt.scope cxt.pp id)
+let ident cxt id = update_scope cxt (Js_pp.Scope.ident cxt.scope cxt.pp id)
 let string cxt s = Js_pp.string cxt.pp s
 let group cxt = Js_pp.group cxt.pp
 let newline cxt = Js_pp.newline cxt.pp
@@ -93,13 +93,13 @@ let bracket_group cxt = Js_pp.bracket_group cxt.pp
 let bracket_vgroup cxt = Js_pp.bracket_vgroup cxt.pp
 
 let merge_scope cxt l =
-  let scope = Pp_scope.merge cxt.scope l in
+  let scope = Js_pp.Scope.merge cxt.scope l in
   { cxt with scope }
 
-let sub_scope cxt l = update_scope cxt (Pp_scope.sub_scope cxt.scope l)
+let sub_scope cxt l = update_scope cxt (Js_pp.Scope.sub_scope cxt.scope l)
 
 let str_of_ident cxt id =
-  let str, scope = Pp_scope.str_of_ident cxt.scope id in
+  let str, scope = Js_pp.Scope.str_of_ident cxt.scope id in
   (str, update_scope cxt scope)
 
 let at_least_two_lines cxt = Js_pp.at_least_two_lines cxt.pp
@@ -204,7 +204,7 @@ let pp_paren_params (cxt : cxt) (lexical : Ident.t list) : unit =
 (* Print as underscore for unused vars, may not be
     needed in the future *)
 (* let ipp_ident cxt id (un_used : bool) =
-   Pp_scope.ident cxt (
+   Js_pp.Scope.ident cxt (
      if un_used then
        Ident.make_unused ()
      else
