@@ -1,5 +1,7 @@
+open Melstd
+
 let ( >:: ), ( >::: ) = OUnit.(( >:: ), ( >::: ))
-let normalize = Ext_path.normalize_absolute_path
+let normalize = Path.normalize_absolute_path
 
 let os_adapt s =
   let regexp = Str.regexp "\\(/\\)" in
@@ -12,7 +14,7 @@ let suites =
   >::: [
          ( "linux path tests" >:: fun _ ->
            let norm =
-             Array.map normalize
+             Array.map ~f:normalize
                [|
                  "/gsho/./..";
                  "/a/b/../c../d/e/f";
@@ -49,20 +51,20 @@ let suites =
            =~ os_adapt "/a/b/c" );
          ( __LOC__ >:: fun _ ->
            let aux a b result =
-             Ext_path.rel_normalized_absolute_path ~from:a b =~ result;
+             Path.rel_normalized_absolute_path ~from:a b =~ result;
 
-             Ext_path.rel_normalized_absolute_path
-               ~from:(String.sub a 0 (String.length a - 1))
+             Path.rel_normalized_absolute_path
+               ~from:(String.sub a ~pos:0 ~len:(String.length a - 1))
                b
              =~ result;
 
-             Ext_path.rel_normalized_absolute_path ~from:a
-               (String.sub b 0 (String.length b - 1))
+             Path.rel_normalized_absolute_path ~from:a
+               (String.sub b ~pos:0 ~len:(String.length b - 1))
              =~ result;
 
-             Ext_path.rel_normalized_absolute_path
-               ~from:(String.sub a 0 (String.length a - 1))
-               (String.sub b 0 (String.length b - 1))
+             Path.rel_normalized_absolute_path
+               ~from:(String.sub a ~pos:0 ~len:(String.length a - 1))
+               (String.sub b ~pos:0 ~len:(String.length b - 1))
              =~ result
            in
            aux "/a/b/c/" "/a/b/c/d/" (os_adapt "d");
@@ -74,50 +76,45 @@ let suites =
          (* This is still correct just not optimal depends
             on user's perspective *)
          ( __LOC__ >:: fun _ ->
-           Ext_path.rel_normalized_absolute_path ~from:"/a/b/c/d" "/x/y"
+           Path.rel_normalized_absolute_path ~from:"/a/b/c/d" "/x/y"
            =~ os_adapt "../../../../x/y";
 
-           Ext_path.rel_normalized_absolute_path
+           Path.rel_normalized_absolute_path
              ~from:"/a/b/c/d/e/./src/bindings/Navigation" "/a/b/c/d/e"
            =~ os_adapt "../../..";
 
-           Ext_path.rel_normalized_absolute_path ~from:"/a/b/c/./d" "/a/b/c"
-           =~ "..";
+           Path.rel_normalized_absolute_path ~from:"/a/b/c/./d" "/a/b/c" =~ "..";
 
-           Ext_path.rel_normalized_absolute_path ~from:"/a/b/c/./src"
-             "/a/b/d/./src"
+           Path.rel_normalized_absolute_path ~from:"/a/b/c/./src" "/a/b/d/./src"
            =~ os_adapt "../../d/src" );
          (* used in module system: [es6-global] and [amdjs-global] *)
          ( __LOC__ >:: fun _ ->
-           Ext_path.rel_normalized_absolute_path
+           Path.rel_normalized_absolute_path
              ~from:"/usr/local/lib/node_modules/" "//"
            =~ os_adapt "../../../..";
-           Ext_path.rel_normalized_absolute_path
+           Path.rel_normalized_absolute_path
              ~from:"/usr/local/lib/node_modules/" "/"
            =~ os_adapt "../../../..";
-           Ext_path.rel_normalized_absolute_path ~from:"./"
+           Path.rel_normalized_absolute_path ~from:"./"
              "./node_modules/xx/./xx.js"
            =~ os_adapt "./node_modules/xx/xx.js";
-           Ext_path.rel_normalized_absolute_path ~from:"././"
+           Path.rel_normalized_absolute_path ~from:"././"
              "./node_modules/xx/./xx.js"
            =~ os_adapt "./node_modules/xx/xx.js" );
          ( __LOC__ >:: fun _ ->
-           Ext_path.node_rebase_file ~to_:"lib/js/src/a" ~from:"lib/js/src" "b"
+           Path.node_rebase_file ~to_:"lib/js/src/a" ~from:"lib/js/src" "b"
            =~ "./a/b";
-           Ext_path.node_rebase_file ~to_:"lib/js/src/" ~from:"lib/js/src" "b"
+           Path.node_rebase_file ~to_:"lib/js/src/" ~from:"lib/js/src" "b"
            =~ "./b";
-           Ext_path.node_rebase_file ~to_:"lib/js/src" ~from:"lib/js/src/a" "b"
+           Path.node_rebase_file ~to_:"lib/js/src" ~from:"lib/js/src/a" "b"
            =~ "../b";
-           Ext_path.node_rebase_file ~to_:"lib/js/src/a" ~from:"lib/js/" "b"
+           Path.node_rebase_file ~to_:"lib/js/src/a" ~from:"lib/js/" "b"
            =~ "./src/a/b";
-           Ext_path.node_rebase_file ~to_:"lib/js/./src/a" ~from:"lib/js/src/a/"
-             "b"
+           Path.node_rebase_file ~to_:"lib/js/./src/a" ~from:"lib/js/src/a/" "b"
            =~ "./b";
 
-           Ext_path.node_rebase_file ~to_:"lib/js/src/a" ~from:"lib/js/src/a/"
-             "b"
+           Path.node_rebase_file ~to_:"lib/js/src/a" ~from:"lib/js/src/a/" "b"
            =~ "./b";
-           Ext_path.node_rebase_file ~to_:"lib/js/src/a/" ~from:"lib/js/src/a/"
-             "b"
+           Path.node_rebase_file ~to_:"lib/js/src/a/" ~from:"lib/js/src/a/" "b"
            =~ "./b" );
        ]

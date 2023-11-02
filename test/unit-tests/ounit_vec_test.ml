@@ -1,7 +1,6 @@
+open Melstd
+
 let ( >:: ), ( >::: ) = OUnit.(( >:: ), ( >::: ))
-
-(* open Ext_json *)
-
 let v = Vec_int.init 10 (fun i -> i)
 
 let ( =~ ) x y =
@@ -35,7 +34,7 @@ let suites =
            Vec_int.compact v;
            OUnit.assert_equal (Vec_int.capacity v) 0 );
          ( "inplace_filter_from " ^ __LOC__ >:: fun _ ->
-           let v = Vec_int.of_array (Array.init 10 (fun i -> i)) in
+           let v = Vec_int.of_array (Array.init 10 ~f:(fun i -> i)) in
            v =~~ [| 0; 1; 2; 3; 4; 5; 6; 7; 8; 9 |];
            Vec_int.push v 96;
            Vec_int.inplace_filter_from 2 (fun x -> x mod 2 = 0) v;
@@ -47,15 +46,15 @@ let suites =
            Vec_int.compact v;
            OUnit.assert_equal (Vec_int.capacity v) 1 );
          ( "map " ^ __LOC__ >:: fun _ ->
-           let v = Vec_int.of_array (Array.init 1000 (fun i -> i)) in
-           Vec_int.map succ v =~~ Array.init 1000 succ;
+           let v = Vec_int.of_array (Array.init 1000 ~f:(fun i -> i)) in
+           Vec_int.map succ v =~~ Array.init 1000 ~f:succ;
            OUnit.assert_bool __LOC__ (Vec_int.exists (fun x -> x >= 999) v);
            OUnit.assert_bool __LOC__
              (not (Vec_int.exists (fun x -> x > 1000) v));
            OUnit.assert_equal (Vec_int.last v) 999 );
          ( __LOC__ >:: fun _ ->
            let count = 1000 in
-           let init_array = Array.init count (fun i -> i) in
+           let init_array = Array.init count ~f:(fun i -> i) in
            let u = Vec_int.of_array init_array in
            let v =
              Vec_int.inplace_filter_with
@@ -65,7 +64,7 @@ let suites =
            in
            let even, odd =
              init_array |> Array.to_list
-             |> List.partition (fun x -> x mod 2 = 0)
+             |> List.partition ~f:(fun x -> x mod 2 = 0)
            in
            OUnit.assert_equal (Set_int.elements v) odd;
            u =~~ Array.of_list even );
@@ -85,7 +84,7 @@ let suites =
            OUnit.assert_equal len !count );
          ( __LOC__ >:: fun _ ->
            let count = 100 in
-           let v = Vec_int.of_array (Array.init count (fun i -> i)) in
+           let v = Vec_int.of_array (Array.init count ~f:(fun i -> i)) in
            OUnit.assert_bool __LOC__
              (try
                 Vec_int.delete v count;
@@ -143,7 +142,7 @@ let suites =
            let v = Vec_int.of_list lst in
            OUnit.assert_equal
              (Vec_int.map_into_list (fun x -> x + 1) v)
-             (List.map (fun x -> x + 1) lst) );
+             (List.map ~f:(fun x -> x + 1) lst) );
          ( __LOC__ >:: fun _ ->
            let v = Vec_int.make 4 in
            Vec_int.push v 1;

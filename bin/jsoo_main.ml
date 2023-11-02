@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Melstd
 open Melangelib
 open Melange_compiler_libs
 module Js = Jsoo_common.Js
@@ -53,7 +54,7 @@ let playground_warning_reporter ~f (loc : Location.t) w : Location.report option
       let main = { Location.loc; txt = msg_of_str message } in
       let sub =
         List.map
-          (fun (loc, sub_message) ->
+          ~f:(fun (loc, sub_message) ->
             { Location.loc; txt = msg_of_str sub_message })
           sub_locs
       in
@@ -235,11 +236,8 @@ let compile =
         Js_dump_program.pp_deps_program ~output_prefix:""
           ~package_info:Js_packages_info.empty
           ~output_info:
-            {
-              Js_packages_info.module_system = Es6;
-              suffix = Ext_js_suffix.default;
-            }
-          (Ext_pp.from_buffer buffer)
+            { Js_packages_info.module_system = Es6; suffix = Js_suffix.default }
+          (Js_pp.from_buffer buffer)
           (Lam_compile_main.compile "" lam)
       in
       let v = Buffer.contents buffer in
@@ -249,7 +247,8 @@ let compile =
           [|
             ("js_code", Js.string v);
             ( "warnings",
-              List.rev_map Jsoo_common.warning_error_to_js !warnings_collected
+              List.rev_map ~f:Jsoo_common.warning_error_to_js
+                !warnings_collected
               |> Array.of_list |> Js.array );
             ("type_hints", type_hints);
           |])
@@ -260,7 +259,7 @@ let compile =
       | None -> (
           let default =
             lazy
-              (Js.obj [| ("js_error_msg", Js.string (Printexc.to_string e)) |])
+              (Js.obj [| ("js_warning_error_msg", Js.string (Printexc.to_string e)) |])
           in
           match e with
           | Warnings.Errors -> (
@@ -270,7 +269,7 @@ let compile =
               | warnings ->
                   let type_ = "warning_errors" in
                   let jsErrors =
-                    List.rev_map Jsoo_common.warning_error_to_js warnings
+                    List.rev_map ~f:Jsoo_common.warning_error_to_js warnings
                     |> Array.of_list
                   in
                   Js.obj

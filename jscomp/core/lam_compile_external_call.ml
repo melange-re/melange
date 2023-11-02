@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module E = Js_exp_make
 
 let splice_fn_apply fn args =
@@ -233,19 +234,19 @@ let translate_scoped_module_val
           let start =
             E.external_var_field ~external_name:bundle ~field:x ~default id
           in
-          List.fold_left E.dot start (List.append rest [ fn ]))
+          List.fold_left ~f:E.dot ~init:start (List.append rest [ fn ]))
   | None -> (
       (*  no [@@module], assume it's global *)
       match scopes with
       | [] -> E.js_global fn
       | x :: rest ->
           let start = E.js_global x in
-          List.fold_left E.dot start (rest @ [ fn ]))
+          List.fold_left ~f:E.dot ~init:start (rest @ [ fn ]))
 
 let translate_scoped_access scopes obj =
   match scopes with
   | [] -> obj
-  | x :: xs -> List.fold_left E.dot (E.dot obj x) xs
+  | x :: xs -> List.fold_left ~f:E.dot ~init:(E.dot obj x) xs
 
 let translate_ffi (cxt : Lam_compile_context.t) arg_types
     (ffi : Melange_ffi.External_ffi_types.external_spec)
@@ -304,8 +305,8 @@ let translate_ffi (cxt : Lam_compile_context.t) arg_types
         (* splice should not happen *)
         (* assert (js_splice = false) ;  *)
         if splice then
-          let args, self = Ext_list.split_at_last args in
-          let arg_types, _ = Ext_list.split_at_last arg_types in
+          let args, self = List.split_at_last args in
+          let arg_types, _ = List.split_at_last arg_types in
           let args, eff, dynamic = assemble_args_has_splice arg_types args in
           add_eff eff
             (let self = translate_scoped_access js_send_scopes self in
@@ -315,8 +316,8 @@ let translate_ffi (cxt : Lam_compile_context.t) arg_types
                  ~info:{ arity = Full; call_info = Call_na }
                  (E.dot self name) args)
         else
-          let args, self = Ext_list.split_at_last args in
-          let arg_types, _ = Ext_list.split_at_last arg_types in
+          let args, self = List.split_at_last args in
+          let arg_types, _ = List.split_at_last arg_types in
           let args, eff = assemble_args_no_splice arg_types args in
           add_eff eff
             (let self = translate_scoped_access js_send_scopes self in
@@ -365,8 +366,8 @@ let translate_ffi (cxt : Lam_compile_context.t) arg_types
       add_eff eff
         ((match cxt.continuation with
          | Declare (let_kind, id) ->
-             cxt.continuation <- Declare (let_kind, Ext_ident.make_js_object id)
-         | Assign id -> cxt.continuation <- Assign (Ext_ident.make_js_object id)
+             cxt.continuation <- Declare (let_kind, Ident.make_js_object id)
+         | Assign id -> cxt.continuation <- Assign (Ident.make_js_object id)
          | EffectCall _ | NeedValue _ -> ());
          E.new_ fn args)
   | Js_get { js_get_name = name; js_get_scopes = scopes } -> (

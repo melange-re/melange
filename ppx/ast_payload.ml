@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 type t = Parsetree.payload
 
@@ -93,7 +93,7 @@ let ident_or_record_as_config (x : t) :
           try
             Ok
               (List.map
-                 (fun u ->
+                 ~f:(fun u ->
                    match u with
                    | ( { txt = Lident name; loc },
                        {
@@ -140,7 +140,7 @@ let assert_strings loc (x : t) : string list =
       ] -> (
       try
         List.map
-          (fun e ->
+          ~f:(fun e ->
             match (e : Parsetree.expression) with
             | { pexp_desc = Pexp_constant (Pconst_string (name, _, _)); _ } ->
                 name
@@ -164,7 +164,7 @@ let assert_strings loc (x : t) : string list =
 let table_dispatch table (action : action) =
   match action with
   | { txt = name; _ }, y -> (
-      match Map_string.find_exn table name with
+      match String.Map.find_exn table name with
       | fn -> Ok (fn y)
       | exception _ ->
           Error ("Unused attribute: " ^ name)

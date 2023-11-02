@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 val dump_program : J.program -> out_channel -> unit
 (** only used for debugging purpose *)
 
@@ -37,6 +39,6 @@ val pp_deps_program :
   package_info:Js_packages_info.t ->
   output_info:Js_packages_info.output_info ->
   output_prefix:string ->
-  Ext_pp.t ->
+  Js_pp.t ->
   J.deps_program ->
   unit

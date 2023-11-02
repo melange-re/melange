@@ -1,3 +1,5 @@
+open Melstd
+
 let ( >:: ), ( >::: ) = OUnit.(( >:: ), ( >::: ))
 let ( =~ ) = OUnit.assert_equal
 

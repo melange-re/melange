@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 type constructor_tag = { name : string; const : int; non_const : int }
 
 type pointer_info =
@@ -75,11 +77,11 @@ let rec eq_approx (x : t) (y : t) =
   | Const_block (ix, _, ixs) -> (
       match y with
       | Const_block (iy, _, iys) ->
-          ix = iy && Ext_list.for_all2_no_exn ixs iys eq_approx
+          ix = iy && List.for_all2_no_exn ixs iys eq_approx
       | _ -> false)
   | Const_float_array ixs -> (
       match y with
-      | Const_float_array iys -> Ext_list.for_all2_no_exn ixs iys String.equal
+      | Const_float_array iys -> List.for_all2_no_exn ixs iys String.equal
       | _ -> false)
   | Const_some ix -> (
       match y with Const_some iy -> eq_approx ix iy | _ -> false)

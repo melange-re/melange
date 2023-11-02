@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 module L = struct
   let js_type_number = "number"
   let js_type_string = "string"
@@ -55,7 +57,7 @@ let rec remove_pure_sub_exp (x : t) : t option =
   | Array_index (a, b) ->
       if is_pure_sub_exp a && is_pure_sub_exp b then None else Some x
   | Array (xs, _mutable_flag) ->
-      if List.for_all is_pure_sub_exp xs then None else Some x
+      if List.for_all ~f:is_pure_sub_exp xs then None else Some x
   | Seq (a, b) -> (
       match (remove_pure_sub_exp a, remove_pure_sub_exp b) with
       | None, None -> None
@@ -75,9 +77,7 @@ let var ?loc ?comment id : t = make_expression ?loc ?comment (Var (Id id))
 (* only used in property access,
     Invariant: it should not call an external module .. *)
 
-let js_global ?loc ?comment (v : string) =
-  var ?loc ?comment (Ext_ident.create_js v)
-
+let js_global ?loc ?comment (v : string) = var ?loc ?comment (Ident.create_js v)
 let undefined : t = make_expression Undefined
 let nil : t = make_expression Null
 
@@ -159,7 +159,7 @@ let dot ?loc ?comment (e0 : t) (e1 : string) : t =
   make_expression ?loc ?comment (Static_index (e0, e1, None))
 
 let module_access (e : t) (name : string) (pos : int32) =
-  let name = Ext_ident.convert name in
+  let name = Ident.convert name in
   match e.expression_desc with
   | Caml_block (l, _, _, _) when no_side_effect e -> (
       match List.nth_opt l (Int32.to_int pos) with
@@ -245,7 +245,7 @@ let rec seq ?loc ?comment (e0 : t) (e1 : t) : t =
   | (Number _ | Var _ | Undefined), _ -> e1
   | _ -> make_expression ?loc ?comment (Seq (e0, e1))
 
-let fuse_to_seq x xs = if xs = [] then x else List.fold_left seq x xs
+let fuse_to_seq x xs = if xs = [] then x else List.fold_left ~f:seq ~init:x xs
 
 (* let empty_string_literal : t =
    make_expression (Str (true,"")) *)

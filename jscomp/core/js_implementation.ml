@@ -10,6 +10,8 @@
 (*                                                                     *)
 (***********************************************************************)
 
+open Import
+
 (* adapted by rescript from [driver/compile.ml] for convenience    *)
 
 module Ppx_entry = struct
@@ -128,7 +130,7 @@ let interface ~parser ppf fname =
 
 let all_module_alias (ast : Parsetree.structure) =
   List.for_all
-    (fun { Parsetree.pstr_desc; _ } ->
+    ~f:(fun { Parsetree.pstr_desc; _ } ->
       match pstr_desc with
       | Pstr_module { pmb_expr = { pmod_desc = Pmod_ident _; _ }; _ } -> true
       | Pstr_attribute _ -> true
@@ -212,7 +214,7 @@ let implementation_cmj _ppf fname =
      case, we need to make sure we're removing all the extensions from the
      output prefix. *)
   let output_prefix =
-    output_prefix ~f:Ext_filename.chop_all_extensions_maybe fname
+    output_prefix ~f:Filename.chop_all_extensions_maybe fname
   in
   Lam_compile_main.lambda_as_module ~package_info:cmj.package_spec
     cmj.delayed_program output_prefix

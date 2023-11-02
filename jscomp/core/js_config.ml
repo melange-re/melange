@@ -22,24 +22,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 let executable_name =
-  lazy (Unix.realpath (Ext_path.normalize_absolute_path Sys.executable_name))
+  lazy (Unix.realpath (Path.normalize_absolute_path Sys.executable_name))
 
 let stdlib_paths =
-  let ( // ) = Ext_path.( // ) in
+  let ( // ) = Path.( // ) in
   let package_name = "melange" in
   lazy
     (match Sys.getenv "MELANGELIB" with
     | value -> (
         let dirs =
-          String.split_on_char Ext_path.path_sep value
-          |> List.filter (fun s -> String.length s > 0)
-          |> List.map (fun dir ->
-                 if Filename.is_relative dir then
-                   Filename.dirname (Lazy.force executable_name) // dir
-                 else dir)
+          String.split_on_char ~sep:Path.path_sep value
+          |> List.filter_map ~f:(function
+               | "" -> None
+               | dir ->
+                   Some
+                     (if Filename.is_relative dir then
+                        Filename.dirname (Lazy.force executable_name) // dir
+                      else dir))
         in
-        match List.exists (fun dir -> not (Sys.is_directory dir)) dirs with
+
+        match List.exists ~f:(fun dir -> not (Sys.is_directory dir)) dirs with
         | false -> dirs
         | true -> raise (Arg.Bad "$MELANGELIB should only contain directories")
         | exception Sys_error _ -> raise (Arg.Bad "$MELANGELIB dirs must exist")
@@ -50,7 +55,9 @@ let stdlib_paths =
           Lazy.force executable_name |> Filename.dirname |> Filename.dirname
         in
         (* <root>/<path>/melange *)
-        List.map (fun path -> root // path // package_name) Include_dirs.paths)
+        List.map
+          ~f:(fun path -> root // path // package_name)
+          Include_dirs.paths)
 
 let no_version_header = ref false
 let cross_module_inline = ref false

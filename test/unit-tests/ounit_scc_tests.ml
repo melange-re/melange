@@ -1,3 +1,5 @@
+open Melstd
+
 let ( >:: ), ( >::: ) = OUnit.(( >:: ), ( >::: ))
 let ( =~ ) = OUnit.assert_equal
 
@@ -188,16 +190,16 @@ http://algs4.cs.princeton.edu/42digraph/KosarajuSharirSCC.java.html
 
 let handle_lines tiny_test_cases =
   match
-    Ext_string.split_by
+    String.split_by
       (function '\n' | '\r' -> true | _ -> false)
       tiny_test_cases
   with
   | nodes :: _edges :: rest ->
       let nodes_num = int_of_string nodes in
-      let node_array = Array.init nodes_num (fun _ -> Vec_int.empty ()) in
+      let node_array = Array.init nodes_num ~f:(fun _ -> Vec_int.empty ()) in
       List.iter
-        (fun x ->
-          match Ext_string.split x ' ' with
+        ~f:(fun x ->
+          match String.split x ' ' with
           | [ a; b ] ->
               let a, b = (int_of_string a, int_of_string b) in
               Vec_int.push node_array.(a) b
@@ -209,12 +211,12 @@ let handle_lines tiny_test_cases =
 let read_file file =
   let in_chan = open_in_bin file in
   let nodes_sum = int_of_string (input_line in_chan) in
-  let node_array = Array.init nodes_sum (fun _ -> Vec_int.empty ()) in
+  let node_array = Array.init nodes_sum ~f:(fun _ -> Vec_int.empty ()) in
   let rec aux () =
     match input_line in_chan with
     | exception End_of_file -> ()
     | x ->
-        (match Ext_string.split x ' ' with
+        (match String.split x ' ' with
         | [ a; b ] ->
             let a, b = (int_of_string a, int_of_string b) in
             Vec_int.push node_array.(a) b
@@ -223,7 +225,7 @@ let read_file file =
   in
   print_endline "read data into memory";
   aux ();
-  fst (Ext_scc.graph_check node_array)
+  fst (Scc.graph_check node_array)
 (* 25 *)
 
 let test (input : (string * string list) list) =
@@ -236,16 +238,16 @@ let test (input : (string * string list) list) =
       Hashtbl.add tbl x !idx;
       incr idx)
   in
-  input |> List.iter (fun (x, others) -> List.iter add (x :: others));
+  input |> List.iter ~f:(fun (x, others) -> List.iter ~f:add (x :: others));
   let nodes_num = Hashtbl.length tbl in
-  let node_array = Array.init nodes_num (fun _ -> Vec_int.empty ()) in
+  let node_array = Array.init nodes_num ~f:(fun _ -> Vec_int.empty ()) in
   input
-  |> List.iter (fun (x, others) ->
+  |> List.iter ~f:(fun (x, others) ->
          let idx = Hashtbl.find tbl x in
          others
-         |> List.iter (fun y ->
+         |> List.iter ~f:(fun y ->
                 Vec_int.push node_array.(idx) (Hashtbl.find tbl y)));
-  Ext_scc.graph_check node_array
+  Scc.graph_check node_array
 
 let test2 (input : (string * string list) list) =
   (* string -> int mapping
@@ -257,19 +259,19 @@ let test2 (input : (string * string list) list) =
       Hashtbl.add tbl x !idx;
       incr idx)
   in
-  input |> List.iter (fun (x, others) -> List.iter add (x :: others));
+  input |> List.iter ~f:(fun (x, others) -> List.iter ~f:add (x :: others));
   let nodes_num = Hashtbl.length tbl in
   let other_mapping = Array.make nodes_num "" in
   Hashtbl.iter (fun k v -> other_mapping.(v) <- k) tbl;
 
-  let node_array = Array.init nodes_num (fun _ -> Vec_int.empty ()) in
+  let node_array = Array.init nodes_num ~f:(fun _ -> Vec_int.empty ()) in
   input
-  |> List.iter (fun (x, others) ->
+  |> List.iter ~f:(fun (x, others) ->
          let idx = Hashtbl.find tbl x in
          others
-         |> List.iter (fun y ->
+         |> List.iter ~f:(fun y ->
                 Vec_int.push node_array.(idx) (Hashtbl.find tbl y)));
-  let output = Ext_scc.graph node_array in
+  let output = Scc.graph node_array in
   output
   |> Int_vec_vec.map_into_array (fun int_vec ->
          Vec_int.map_into_array (fun i -> other_mapping.(i)) int_vec)
@@ -279,11 +281,11 @@ let suites =
   >::: [
          ( __LOC__ >:: fun _ ->
            OUnit.assert_equal
-             (fst @@ Ext_scc.graph_check (handle_lines tiny_test_cases))
+             (fst @@ Scc.graph_check (handle_lines tiny_test_cases))
              5 );
          ( __LOC__ >:: fun _ ->
            OUnit.assert_equal
-             (fst @@ Ext_scc.graph_check (handle_lines medium_test_cases))
+             (fst @@ Scc.graph_check (handle_lines medium_test_cases))
              10 );
          ( __LOC__ >:: fun _ ->
            OUnit.assert_equal
