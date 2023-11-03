@@ -438,12 +438,18 @@ let assoc_with_opt_default ~default i xs =
 
 let switch lam (lam_switch : lambda_switch) : t =
   match lam with
-  | Lconst (Const_int { i; _ }) ->
-      assoc_with_opt_default ~default:lam_switch.sw_failaction (Int32.to_int i)
-        lam_switch.sw_consts
-  | Lconst (Const_block (i, _, _)) ->
-      assoc_with_opt_default i lam_switch.sw_blocks
-        ~default:lam_switch.sw_failaction
+  | Lconst (Const_int { i; _ }) -> (
+      (* Because of inlining and dead code, we might be looking at a value of unexpected type
+         e.g. an integer, so the const case might not be found *)
+      try
+        assoc_with_opt_default ~default:lam_switch.sw_failaction
+          (Int32.to_int i) lam_switch.sw_consts
+      with _ -> Lswitch (lam, lam_switch))
+  | Lconst (Const_block (i, _, _)) -> (
+      try
+        assoc_with_opt_default i lam_switch.sw_blocks
+          ~default:lam_switch.sw_failaction
+      with _ -> Lswitch (lam, lam_switch))
   | _ -> Lswitch (lam, lam_switch)
 
 let stringswitch (lam : t) cases default : t =
