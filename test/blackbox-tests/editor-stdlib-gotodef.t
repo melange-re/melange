@@ -2,6 +2,7 @@ Test go to definition with modules that overlap with stdlib ones
 
 Similar to companion editor-stdlib-gotodef-reason-react.t, but for plain OCaml
 
+  $ export BUILD_PATH_PREFIX_MAP="MELANGE_ROOT=$(dirname $INSIDE_DUNE):$BUILD_PATH_PREFIX_MAP"
   $ . ./setup.sh
   $ cat >dune-project <<EOF
   > (lang dune 3.8)
@@ -55,5 +56,5 @@ Get definition of `Stack` in `Stack.foo`
 
   $ ocamlmerlin single locate -position 1:13 -verbosity 0 \
   > -filename main.ml < main.ml | jq '.value'
-  "Several source files in your path have the same name, and merlin doesn't know which is the right one: $TESTCASE_ROOT/lib/stack.ml, /Users/anmonteiro/projects/melange/_build/install/default/lib/melange/stack.mli, /Users/anmonteiro/projects/melange/_build/install/default/lib/melange/stack.ml"
+  "Several source files in your path have the same name, and merlin doesn't know which is the right one: $TESTCASE_ROOT/lib/stack.ml, MELANGE_ROOT/install/default/lib/melange/stack.mli, MELANGE_ROOT/install/default/lib/melange/stack.ml"
 

@@ -1,5 +1,6 @@
 { stdenv
 , ocamlPackages
+, jq
 , lib
 , git
 , tree
@@ -44,7 +45,7 @@ buildDunePackage {
   '';
 
   doCheck = true;
-  nativeCheckInputs = [ tree nodejs reason ];
+  nativeCheckInputs = [ tree nodejs reason jq merlin ];
   checkInputs = [ ounit2 ];
 
   nativeBuildInputs = [ menhir cppo git makeWrapper ];
