@@ -27,6 +27,8 @@ Unreleased
        `MEL_PRIVATE_NESTED_SOME_NONE`
 - Consistently handle empty payloads in externals:
   ([#852](https://github.com/melange-re/melange/pull/852))
+- Fix crash when pattern matching in the presence of complex constant inlining
+  ([#871](https://github.com/melange-re/melange/pull/871))
 
 2.1.0 2023-10-22
 ---------------
