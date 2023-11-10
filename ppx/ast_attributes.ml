@@ -126,32 +126,32 @@ let process_pexp_fun_attributes_rev (attrs : t) =
       match txt with "mel.open" -> (true, acc) | _ -> (st, attr :: acc))
     (false, []) attrs
 
-let process_bs (attrs : t) =
+let process_uncurried (attrs : t) =
   List.fold_left
     (fun (st, acc) ({ attr_name = { txt; _ }; _ } as attr) ->
       match (txt, st) with "u", _ -> (true, acc) | _, _ -> (st, attr :: acc))
     (false, []) attrs
 
-let is_bs (attr : attr) =
+let is_uncurried (attr : attr) =
   match attr with
   | { attr_name = { Location.txt = "u"; _ }; _ } -> true
   | _ -> false
 
-let bs_get : attr =
+let mel_get : attr =
   {
     attr_name = { txt = "mel.get"; loc = Location.none };
     attr_payload = Parsetree.PStr [];
     attr_loc = Location.none;
   }
 
-let bs_get_index : attr =
+let mel_get_index : attr =
   {
     attr_name = { txt = "mel.get_index"; loc = Location.none };
     attr_payload = Parsetree.PStr [];
     attr_loc = Location.none;
   }
 
-let bs_get_arity : attr =
+let mel_get_arity : attr =
   {
     attr_name = { txt = "internal.arity"; loc = Location.none };
     attr_payload =
@@ -174,7 +174,7 @@ let bs_get_arity : attr =
     attr_loc = Location.none;
   }
 
-let bs_set : attr =
+let mel_set : attr =
   {
     attr_name = { txt = "mel.set"; loc = Location.none };
     attr_payload = PStr [];
@@ -188,7 +188,7 @@ let internal_expansive : attr =
     attr_loc = Location.none;
   }
 
-let bs_return_undefined : attr =
+let mel_return_undefined : attr =
   {
     attr_name = { txt = "mel.return"; loc = Location.none };
     attr_payload =
@@ -214,7 +214,7 @@ let bs_return_undefined : attr =
 
 type as_const_payload = Int of int | Str of string | Js_literal_str of string
 
-let iter_process_bs_string_or_int_as (attrs : Parsetree.attributes) =
+let iter_process_mel_string_or_int_as (attrs : Parsetree.attributes) =
   let st = ref None in
   List.iter
     (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
@@ -268,7 +268,7 @@ let iter_process_bs_string_or_int_as (attrs : Parsetree.attributes) =
    it is worse in @uncurry since it will introduce
    inconsistency in arity
 *)
-let iter_process_bs_string_int_unwrap_uncurry (attrs : t) =
+let iter_process_mel_string_int_unwrap_uncurry (attrs : t) =
   let st = ref `Nothing in
   let assign v ({ attr_name = { loc; _ }; _ } as attr : attr) =
     if !st = `Nothing then (
@@ -289,7 +289,7 @@ let iter_process_bs_string_int_unwrap_uncurry (attrs : t) =
     attrs;
   !st
 
-let iter_process_bs_string_as (attrs : t) : string option =
+let iter_process_mel_string_as (attrs : t) : string option =
   let st = ref None in
   List.iter
     (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
@@ -372,7 +372,7 @@ let rs_externals (attrs : t) pval_prim =
         attrs
       || prims_to_be_encoded pval_prim
 
-let iter_process_bs_int_as (attrs : t) =
+let iter_process_mel_int_as (attrs : t) =
   let st = ref None in
   List.iter
     (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
@@ -389,7 +389,7 @@ let iter_process_bs_int_as (attrs : t) =
     attrs;
   !st
 
-let has_bs_optional (attrs : t) : bool =
+let has_mel_optional (attrs : t) : bool =
   List.exists
     (fun ({ attr_name = { txt; _ }; _ } as attr) ->
       match txt with

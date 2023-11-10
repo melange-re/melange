@@ -369,7 +369,7 @@ module Mapper = struct
              {[class type x = int -> object
                  end[@u]]}
         *)
-        match Ast_attributes.process_bs pcty_attributes with
+        match Ast_attributes.process_uncurried pcty_attributes with
         | false, _ -> super#class_type ctd
         | true, pcty_attributes -> (
             match ctd.pcty_desc with
@@ -452,7 +452,7 @@ module Mapper = struct
                   pexp_attributes;
                 })
         | Pexp_object { pcstr_self; pcstr_fields } -> (
-            match Ast_attributes.process_bs e.pexp_attributes with
+            match Ast_attributes.process_uncurried e.pexp_attributes with
             | true, pexp_attributes ->
                 {
                   e with

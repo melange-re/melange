@@ -216,7 +216,8 @@ let app_exp_mapper (e : exp)
                   }
               | _ -> (
                   match
-                    ( exclude_with_val f_.pexp_attributes Ast_attributes.is_bs,
+                    ( exclude_with_val f_.pexp_attributes
+                        Ast_attributes.is_uncurried,
                       f_.pexp_desc )
                   with
                   | Some other_attributes, Pexp_apply (fn1, args) ->
@@ -331,7 +332,9 @@ let app_exp_mapper (e : exp)
             "Js object ## expect syntax like obj##(paint (a,b)) "
       | Some { op; _ } -> Location.raise_errorf "invalid %s syntax" op
       | None -> (
-          match exclude_with_val e.pexp_attributes Ast_attributes.is_bs with
+          match
+            exclude_with_val e.pexp_attributes Ast_attributes.is_uncurried
+          with
           | None -> super e
           | Some pexp_attributes ->
               {
