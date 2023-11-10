@@ -58,7 +58,7 @@ let unsafeIndexGet =
   Str.primitive
     (Val.mk ~prim:[ "" ]
        { loc = noloc; txt = unsafeIndex }
-       ~attrs:[ Ast_attributes.bs_get_index ]
+       ~attrs:[ Ast_attributes.mel_get_index ]
        [%type: _ -> _ -> _])
 
 let unsafeIndexGetExp = Exp.ident { loc = noloc; txt = Lident unsafeIndex }
@@ -74,7 +74,7 @@ let add_key_value buf key value last =
   if last then Buffer.add_string buf "\"" else Buffer.add_string buf "\","
 
 let buildMap (row_fields : Parsetree.row_field list) =
-  let has_bs_as = ref false in
+  let has_mel_as = ref false in
   let data, revData =
     let buf = Buffer.create 50 in
     let revBuf = Buffer.create 50 in
@@ -88,10 +88,10 @@ let buildMap (row_fields : Parsetree.row_field list) =
           | Rtag ({ txt; _ }, _, []) ->
               let name : string =
                 match
-                  Ast_attributes.iter_process_bs_string_as tag.prf_attributes
+                  Ast_attributes.iter_process_mel_string_as tag.prf_attributes
                 with
                 | Some name ->
-                    has_bs_as := true;
+                    has_mel_as := true;
                     name
                 | None -> txt
               in
@@ -106,7 +106,7 @@ let buildMap (row_fields : Parsetree.row_field list) =
     Buffer.add_string revBuf "}";
     (Buffer.contents buf, Buffer.contents revBuf)
   in
-  (data, revData, !has_bs_as)
+  (data, revData, !has_mel_as)
 
 let ( <=~ ) a b =
   let loc = noloc in
@@ -249,7 +249,7 @@ let gen ~newType:createType =
                   let map, revMap = ("_map", "_revMap") in
                   let expMap = Exp.ident { loc; txt = Lident map } in
                   let revExpMap = Exp.ident { loc; txt = Lident revMap } in
-                  let data, revData, has_bs_as = buildMap row_fields in
+                  let data, revData, has_mel_as = buildMap row_fields in
 
                   let v =
                     [
@@ -260,7 +260,7 @@ let gen ~newType:createType =
                            (Parsetree.PStr
                               [ Str.eval (Exp.constant (Const.string data)) ]));
                       single_non_rec_value { loc; txt = revMap }
-                        (if has_bs_as then
+                        (if has_mel_as then
                            Ast_extensions.handle_raw ~kind:Raw_exp loc
                              (PStr
                                 [
@@ -268,7 +268,7 @@ let gen ~newType:createType =
                                 ])
                          else expMap);
                       toJsBody
-                        (if has_bs_as then
+                        (if has_mel_as then
                            [%expr
                              [%e unsafeIndexGetExp] [%e expMap] [%e exp_param]]
                          else [%expr [%e eraseTypeExp] [%e exp_param]]);

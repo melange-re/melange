@@ -47,7 +47,7 @@ let spec_of_ptyp (nolabel : bool) (ptyp : Parsetree.core_type) :
     External_arg_spec.attr =
   let ptyp_desc = ptyp.ptyp_desc in
   match
-    Ast_attributes.iter_process_bs_string_int_unwrap_uncurry
+    Ast_attributes.iter_process_mel_string_int_unwrap_uncurry
       ptyp.ptyp_attributes
   with
   | `String -> (
@@ -126,7 +126,9 @@ let refine_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
   match ptyp.ptyp_desc with
   | Ptyp_any -> (
       let ptyp_attrs = ptyp.ptyp_attributes in
-      let result = Ast_attributes.iter_process_bs_string_or_int_as ptyp_attrs in
+      let result =
+        Ast_attributes.iter_process_mel_string_or_int_as ptyp_attrs
+      in
       match result with
       | None -> spec_of_ptyp nolabel ptyp
       | Some cst -> (
@@ -150,7 +152,7 @@ let refine_obj_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
     External_arg_spec.attr =
   if ptyp.ptyp_desc = Ptyp_any then (
     let ptyp_attrs = ptyp.ptyp_attributes in
-    let result = Ast_attributes.iter_process_bs_string_or_int_as ptyp_attrs in
+    let result = Ast_attributes.iter_process_mel_string_or_int_as ptyp_attrs in
     (* when ppx start dropping attributes
        we should warn, there is a trade off whether
        we should warn dropped non bs attribute or not
@@ -373,7 +375,7 @@ let parse_external_attributes (prim_name_check : string)
       with Not_handled_external_attribute -> (attr :: attrs, st))
     ([], init_st) prim_attributes
 
-let has_bs_uncurry (attrs : Ast_attributes.t) =
+let has_mel_uncurry (attrs : Ast_attributes.t) =
   List.exists
     (fun { attr_name = { txt; loc = _ }; _ } ->
       txt = "mel.uncurry" || txt = "uncurry")
@@ -944,7 +946,7 @@ let handle_attributes (loc : Location.t) (type_annotation : Parsetree.core_type)
       {[ int -> int -> (int -> int -> int [@uncurry])]}
       It does not make sense
   *)
-  if has_bs_uncurry type_annotation.ptyp_attributes then
+  if has_mel_uncurry type_annotation.ptyp_attributes then
     Location.raise_errorf ~loc
       "@uncurry can not be applied to the whole definition"
   else
@@ -960,7 +962,7 @@ let handle_attributes (loc : Location.t) (type_annotation : Parsetree.core_type)
       (* Note this assumes external type is syntatic (no abstraction)*)
       list_of_arrow type_annotation
     in
-    if has_bs_uncurry result_type.ptyp_attributes then
+    if has_mel_uncurry result_type.ptyp_attributes then
       Location.raise_errorf ~loc
         "@uncurry can not be applied to tailed position"
     else
