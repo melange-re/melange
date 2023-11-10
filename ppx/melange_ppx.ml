@@ -711,6 +711,28 @@ module Mapper = struct
             ({ attr_name = { txt = "mel.config" | "config"; _ }; _ } as attr) ->
             Mel_ast_invariant.mark_used_mel_attribute attr;
             str
+        | Pstr_module
+            ({
+               pmb_name = { txt = Some _; loc = pmb_name_loc } as pmb_name_orig;
+               pmb_attributes;
+               pmb_loc;
+               _;
+             } as mb) ->
+            let pmb_name =
+              match Ast_attributes.has_mel_as_payload pmb_attributes with
+              | Some ({ attr_payload; _ } as attr) ->
+                  Mel_ast_invariant.mark_used_mel_attribute attr;
+                  {
+                    txt =
+                      Some
+                        (Ast_payload.extract_mel_as_ident ~loc:pmb_loc
+                           attr_payload);
+                    loc = pmb_name_loc;
+                  }
+              | None -> pmb_name_orig
+            in
+            super#structure_item
+              { str with pstr_desc = Pstr_module { mb with pmb_name } }
         | _ -> super#structure_item str
 
       method! signature_item sigi =
@@ -855,6 +877,28 @@ module Mapper = struct
             ({ attr_name = { txt = "mel.config" | "config"; _ }; _ } as attr) ->
             Mel_ast_invariant.mark_used_mel_attribute attr;
             sigi
+        | Psig_module
+            ({
+               pmd_name = { txt = Some _; loc = pmd_name_loc } as pmd_name_orig;
+               pmd_attributes;
+               pmd_loc;
+               _;
+             } as md) ->
+            let pmd_name =
+              match Ast_attributes.has_mel_as_payload pmd_attributes with
+              | Some ({ attr_payload; _ } as attr) ->
+                  Mel_ast_invariant.mark_used_mel_attribute attr;
+                  {
+                    txt =
+                      Some
+                        (Ast_payload.extract_mel_as_ident ~loc:pmd_loc
+                           attr_payload);
+                    loc = pmd_name_loc;
+                  }
+              | None -> pmd_name_orig
+            in
+            super#signature_item
+              { sigi with psig_desc = Psig_module { md with pmd_name } }
         | _ -> super#signature_item sigi
     end
 end
