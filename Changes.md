@@ -29,6 +29,8 @@ Unreleased
   ([#852](https://github.com/melange-re/melange/pull/852))
 - Fix crash when pattern matching in the presence of complex constant inlining
   ([#871](https://github.com/melange-re/melange/pull/871))
+- Support renaming modules in the output JS with `@mel.as`
+  ([#879](https://github.com/melange-re/melange/pull/879))
 
 2.1.0 2023-10-22
 ---------------
