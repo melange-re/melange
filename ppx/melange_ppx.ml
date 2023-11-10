@@ -49,7 +49,6 @@
 *)
 
 open Ppxlib
-module Ast_literal = Ast_literal
 
 module External = struct
   let rule =
@@ -73,31 +72,33 @@ module External = struct
 end
 
 module Raw = struct
-  let stru_rule =
-    let rule label =
-      let extractor = Ast_pattern.__' in
-      let handler ~ctxt:_ { loc; txt = payload } =
-        Ast_extensions.handle_raw_structure loc payload
+  let rules =
+    let stru_rule =
+      let rule label =
+        let extractor = Ast_pattern.__' in
+        let handler ~ctxt:_ { loc; txt = payload } =
+          Ast_extensions.handle_raw_structure loc payload
+        in
+        let extender =
+          Extension.V3.declare label Structure_item extractor handler
+        in
+        Context_free.Rule.extension extender
       in
-      let extender =
-        Extension.V3.declare label Structure_item extractor handler
+      rule "mel.raw"
+    and rule =
+      let rule label =
+        let extractor = Ast_pattern.__' in
+        let handler ~ctxt:_ { loc; txt = payload } =
+          Ast_extensions.handle_raw ~kind:Raw_exp loc payload
+        in
+        let extender =
+          Extension.V3.declare label Expression extractor handler
+        in
+        Context_free.Rule.extension extender
       in
-      Context_free.Rule.extension extender
+      rule "mel.raw"
     in
-    rule "mel.raw"
-
-  let rule =
-    let rule label =
-      let extractor = Ast_pattern.__' in
-      let handler ~ctxt:_ { loc; txt = payload } =
-        Ast_extensions.handle_raw ~kind:Raw_exp loc payload
-      in
-      let extender = Extension.V3.declare label Expression extractor handler in
-      Context_free.Rule.extension extender
-    in
-    rule "mel.raw"
-
-  let rules = [ stru_rule; rule ]
+    [ stru_rule; rule ]
 end
 
 module Private = struct
@@ -152,20 +153,20 @@ module Private = struct
       ]
   end
 
-  let expand (stru : Parsetree.structure) =
-    Typemod_hide.check stru;
-    let last_loc = (List.hd stru).pstr_loc in
-    let first_loc = (List.hd stru).pstr_loc in
-    let loc = { first_loc with loc_end = last_loc.loc_end } in
-    Ast_helper.
-      [
-        Str.open_
-          (Opn.mk ~override:Override
-             (Mod.structure ~loc ~attrs:Typemod_hide.attrs stru));
-      ]
-    |> List.hd
-
   let rule =
+    let expand (stru : Parsetree.structure) =
+      Typemod_hide.check stru;
+      let last_loc = (List.hd stru).pstr_loc in
+      let first_loc = (List.hd stru).pstr_loc in
+      let loc = { first_loc with loc_end = last_loc.loc_end } in
+      Ast_helper.
+        [
+          Str.open_
+            (Opn.mk ~override:Override
+               (Mod.structure ~loc ~attrs:Typemod_hide.attrs stru));
+        ]
+      |> List.hd
+    in
     let rule label =
       let extractor = Ast_pattern.__' in
       let handler ~ctxt:_ { txt = payload; loc } =
@@ -259,7 +260,6 @@ module Time = struct
             Location.raise_errorf ~loc
               "expect a boolean expression in the payload"
       in
-
       let extender = Extension.V3.declare label Expression extractor handler in
       Context_free.Rule.extension extender
     in
@@ -308,7 +308,6 @@ module Node = struct
                    pattern  payload"
             | _ -> Location.raise_errorf ~loc "Illegal payload")
       in
-
       let extender = Extension.V3.declare label Expression extractor handler in
       Context_free.Rule.extension extender
     in

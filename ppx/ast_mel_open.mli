@@ -24,7 +24,7 @@
 
 open Ppxlib
 
-val convertBsErrorFunction :
+val convert_mel_error_function :
   Location.t ->
   Ast_traverse.map ->
   Ast_helper.attrs ->

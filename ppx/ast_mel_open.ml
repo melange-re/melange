@@ -42,7 +42,7 @@ and check_pat (pat : Parsetree.pattern) =
       Location.raise_errorf ~loc:pat.ppat_loc
         "Unsupported pattern in `mel.open`"
 
-let convertBsErrorFunction loc (self : Ast_traverse.map) attrs
+let convert_mel_error_function loc (self : Ast_traverse.map) attrs
     (cases : Parsetree.case list) =
   let open Ast_helper in
   let txt = "match" in

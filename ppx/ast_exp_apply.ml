@@ -97,8 +97,7 @@ let app_exp_mapper (e : exp)
       Ast_traverse.map * (Parsetree.expression -> Parsetree.expression))
     (fn : exp) (args : Ast_util.args) : exp =
   (* - (f##paint) 1 2
-     - (f#@paint) 1 2
-  *)
+     - (f#@paint) 1 2 *)
   match view_as_app fn inner_ops with
   | Some
       {
