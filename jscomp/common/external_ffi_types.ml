@@ -213,7 +213,7 @@ let inline_string_primitive (s : string) (op : string option) : string list =
       | Some op -> Utf8_string.is_unicode_string op
       | None -> false
     in
-    Const_string { s; unicode }
+    Const_string { s; unicode; comment = None }
   in
   [ ""; to_string (Ffi_inline_const lam) ]
 

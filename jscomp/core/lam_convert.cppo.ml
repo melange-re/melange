@@ -248,7 +248,12 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
               let info : Lam.Tag_info.t = Blk_poly_var in
               Lam.prim
                 ~primitive:(Pmakeblock (tag, info, mutable_flag))
-                ~args:[ Lam.const (Const_string { s; unicode = false }); value ]
+                ~args:
+                  [
+                    Lam.const
+                      (Const_string { s; unicode = false; comment = None });
+                    value;
+                  ]
                 loc
           | _ -> assert false)
       | Blk_lazy_general -> (
@@ -739,7 +744,8 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
     | Lprim (Pgetglobal id, args, _) ->
         let args = List.map ~f:(convert_aux ~dynamic_import) args in
         if Ident.is_predef id then
-          Lam.const (Const_string { s = Ident.name id; unicode = false })
+          Lam.const
+            (Const_string { s = Ident.name id; unicode = false; comment = None })
         else (
           may_depend may_depends (Lam_module_ident.of_ml ~dynamic_import id);
           assert (args = []);

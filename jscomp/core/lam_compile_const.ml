@@ -64,15 +64,15 @@ and translate (x : Lam.Constant.t) : J.expression =
          - : float = 9.22337203685477581e+18
        ]}
        Note we should compile it to Int64 as JS's
-       speical representation --
+       special representation --
        it is not representatble in JS number
     *)
       (* E.float (Int64.to_string i) *)
       Js_long.of_const i
       (* https://github.com/google/closure-library/blob/master/closure%2Fgoog%2Fmath%2Flong.js *)
   | Const_float f -> E.float f (* TODO: preserve float *)
-  | Const_string { s; unicode = false } -> E.str s
-  | Const_string { s; unicode = true } -> E.unicode s
+  | Const_string { s; unicode = false; comment = _ } -> E.str s
+  | Const_string { s; unicode = true; comment = _ } -> E.unicode s
   | Const_pointer name -> E.str name
   | Const_block (tag, tag_info, xs) ->
       Js_of_lam_block.make_block NA tag_info (E.small_int tag)

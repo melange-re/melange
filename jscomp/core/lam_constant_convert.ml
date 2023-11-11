@@ -24,6 +24,24 @@
 
 open Import
 
+let find_mel_as_name (attr : Parsetree.attribute) =
+  match attr.attr_name with
+  | { txt = "mel.as" | "as"; _ } -> (
+      match attr.attr_payload with
+      | PStr
+          [
+            {
+              pstr_desc = Pstr_eval ({ pexp_desc = Pexp_constant const; _ }, _);
+              _;
+            };
+          ] -> (
+          match const with
+          | Pconst_string (s, _, _) -> Some (`String s)
+          | Pconst_integer (s, None) -> Some (`Int (int_of_string s))
+          | _ -> None)
+      | _ -> None)
+  | _ -> None
+
 let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
   match const with
   | Const_base
@@ -38,12 +56,30 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
       | Pt_shape_none -> Lam.Constant.lam_none
       | Pt_assertfalse ->
           Const_int { i = Int32.of_int i; comment = Pt_assertfalse }
-      | Pt_constructor { name; const; non_const; attributes } ->
-          Const_int
-            {
-              i = Int32.of_int i;
-              comment = Pt_constructor { name; const; non_const; attributes };
-            }
+      | Pt_constructor { name; const; non_const; attributes } -> (
+          match List.find_map ~f:find_mel_as_name attributes with
+          | Some (`String s) ->
+              Const_string
+                {
+                  s;
+                  unicode = false;
+                  comment =
+                    Pt_constructor { name; const; non_const; attributes };
+                }
+          | Some (`Int i) ->
+              Const_int
+                {
+                  i = Int32.of_int i;
+                  comment =
+                    Pt_constructor { name; const; non_const; attributes };
+                }
+          | None ->
+              Const_int
+                {
+                  i = Int32.of_int i;
+                  comment =
+                    Pt_constructor { name; const; non_const; attributes };
+                })
       | Pt_constructor_access { cstr_name } ->
           Const_pointer
             (Js_exp_make.variant_pos ~constr:cstr_name (Int32.of_int i))
@@ -56,13 +92,13 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
         | Some opt -> Melange_ffi.Utf8_string.is_unicode_string opt
         | _ -> false
       in
-      Const_string { s; unicode }
+      Const_string { s; unicode; comment = None }
   | Const_base (Const_float i, _) -> Const_float i
   | Const_base (Const_int32 i, _) -> Const_int { i; comment = None }
   | Const_base (Const_int64 i, _) -> Const_int64 i
   | Const_base (Const_nativeint _, _) -> assert false
   | Const_float_array s -> Const_float_array s
-  | Const_immstring s -> Const_string { s; unicode = false }
+  | Const_immstring s -> Const_string { s; unicode = false; comment = None }
   | Const_block (i, t, xs) -> (
       match t with
       | Blk_some_not_nested -> Const_some (convert_constant (List.hd xs))
@@ -71,6 +107,7 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
           let t : Lam.Tag_info.t =
             Blk_constructor { name; num_nonconst; attributes }
           in
+          (* TODO: *)
           Const_block (i, t, List.map ~f:convert_constant xs)
       | Blk_tuple ->
           let t : Lam.Tag_info.t = Blk_tuple in
@@ -89,7 +126,8 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
                 ( i,
                   t,
                   [
-                    Const_string { s; unicode = false }; convert_constant value;
+                    Const_string { s; unicode = false; comment = None };
+                    convert_constant value;
                   ] )
           | _ -> assert false)
       | Blk_record s ->
