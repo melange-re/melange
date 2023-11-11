@@ -26,7 +26,7 @@ open Import
 
 type t = Parsetree.payload
 (** A utility module used when destructuring parsetree attributes, used for
-    compiling FFI attributes and built-in ppx  *)
+    compiling FFI attributes and built-in ppx *)
 
 type action = string Asttypes.loc * Parsetree.expression option
 

@@ -732,6 +732,35 @@ module Mapper = struct
             in
             super#structure_item
               { str with pstr_desc = Pstr_module { mb with pmb_name } }
+        | Pstr_type (_r, tdcls) ->
+            List.iter
+              (fun (tdcl : type_declaration) ->
+                match tdcl.ptype_kind with
+                | Ptype_variant cstrs ->
+                    List.iter
+                      (fun ({ pcd_attributes; _ } : constructor_declaration) ->
+                        List.iter
+                          (fun ({ attr_payload; _ } as attr) ->
+                            match attr_payload with
+                            | PStr
+                                [
+                                  {
+                                    pstr_desc = Pstr_eval ({ pexp_desc; _ }, _);
+                                    _;
+                                  };
+                                ] -> (
+                                match pexp_desc with
+                                | Pexp_constant
+                                    (Pconst_string _ | Pconst_integer _) ->
+                                    Mel_ast_invariant.mark_used_mel_attribute
+                                      attr
+                                | _ -> ())
+                            | _ -> ())
+                          pcd_attributes)
+                      cstrs
+                | _ -> ())
+              tdcls;
+            super#structure_item str
         | _ -> super#structure_item str
 
       method! signature_item sigi =

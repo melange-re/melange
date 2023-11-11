@@ -12,6 +12,7 @@ let
   nix-filter-src = findFlakeSrc { name = "nix-filter"; };
   melange-compiler-libs-src = findFlakeSrc {
     name = "melange-compiler-libs";
+    allRefs = true;
   };
   nix-filter = import "${nix-filter-src}";
 
