@@ -203,8 +203,10 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
       match info with
       | Blk_some_not_nested -> prim ~primitive:Psome_not_nest ~args loc
       | Blk_some -> prim ~primitive:Psome ~args loc
-      | Blk_constructor { name; num_nonconst } ->
-          let info : Lam.Tag_info.t = Blk_constructor { name; num_nonconst } in
+      | Blk_constructor { name; num_nonconst; attributes } ->
+          let info : Lam.Tag_info.t =
+            Blk_constructor { name; num_nonconst; attributes }
+          in
           prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
       | Blk_tuple ->
           let info : Lam.Tag_info.t = Blk_tuple in
@@ -612,7 +614,10 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
               Pjs_apply
           | "#makemutablelist" ->
               Pmakeblock
-                (0, Blk_constructor { name = "::"; num_nonconst = 1 }, Mutable)
+                ( 0,
+                  Blk_constructor
+                    { name = "::"; num_nonconst = 1; attributes = [] },
+                  Mutable )
           | "#undefined_to_opt" -> Pundefined_to_opt
           | "#nullable_to_opt" -> Pnull_undefined_to_opt
           | "#null_to_opt" -> Pnull_to_opt

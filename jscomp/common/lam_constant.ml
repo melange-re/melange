@@ -24,11 +24,14 @@
 
 open Import
 
-type constructor_tag = { name : string; const : int; non_const : int }
-
 type pointer_info =
   | None
-  | Pt_constructor of constructor_tag
+  | Pt_constructor of {
+      name : string;
+      const : int;
+      non_const : int;
+      attributes : Parsetree.attributes;
+    }
   | Pt_assertfalse
   | Some of string
 
