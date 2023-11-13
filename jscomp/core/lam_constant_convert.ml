@@ -25,7 +25,9 @@
 let rec convert_constant (const : Lambda.structured_constant) : Lam_constant.t =
   match const with
   | Const_base
-      (Const_int 0, Pt_constructor { name = "()"; const = 1; non_const = 0 }) ->
+      ( Const_int 0,
+        Pt_constructor { name = "()"; const = 1; non_const = 0; attributes = _ }
+      ) ->
       Const_js_undefined
   | Const_base (Const_int i, p) -> (
       match p with
@@ -34,11 +36,11 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam_constant.t =
       | Pt_shape_none -> Lam_constant.lam_none
       | Pt_assertfalse ->
           Const_int { i = Int32.of_int i; comment = Pt_assertfalse }
-      | Pt_constructor { name; const; non_const } ->
+      | Pt_constructor { name; const; non_const; attributes } ->
           Const_int
             {
               i = Int32.of_int i;
-              comment = Pt_constructor { name; const; non_const };
+              comment = Pt_constructor { name; const; non_const; attributes };
             }
       | Pt_constructor_access { cstr_name } ->
           Const_pointer
@@ -63,8 +65,10 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam_constant.t =
       match t with
       | Blk_some_not_nested -> Const_some (convert_constant (List.hd xs))
       | Blk_some -> Const_some (convert_constant (List.hd xs))
-      | Blk_constructor { name; num_nonconst } ->
-          let t : Lam_tag_info.t = Blk_constructor { name; num_nonconst } in
+      | Blk_constructor { name; num_nonconst; attributes } ->
+          let t : Lam_tag_info.t =
+            Blk_constructor { name; num_nonconst; attributes }
+          in
           Const_block (i, t, List.map convert_constant xs)
       | Blk_tuple ->
           let t : Lam_tag_info.t = Blk_tuple in

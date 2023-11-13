@@ -22,11 +22,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type constructor_tag = { name : string; const : int; non_const : int }
-
 type pointer_info =
   | None
-  | Pt_constructor of constructor_tag
+  | Pt_constructor of {
+      name : string;
+      const : int;
+      non_const : int;
+      attributes : Parsetree.attributes;
+    }
   | Pt_assertfalse
   | Some of string
 
