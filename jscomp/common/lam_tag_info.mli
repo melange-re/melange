@@ -41,6 +41,10 @@ type t =
       num_nonconst : int;
       fields : string array;
     }
-  | Blk_constructor of { name : string; num_nonconst : int }
+  | Blk_constructor of {
+      name : string;
+      num_nonconst : int;
+      attributes : Parsetree.attributes;
+    }
   | Blk_class
   | Blk_module_export
