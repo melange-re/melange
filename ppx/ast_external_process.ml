@@ -464,7 +464,20 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
             List.fold_right
               (fun param_type
                    (arg_labels, (arg_types : param_type list), result_types) ->
-                let arg_label = param_type.label in
+                let arg_label =
+                  match (param_type.label, param_type.ty.ptyp_desc) with
+                  | Nolabel, _ | _, Ptyp_any -> param_type.label
+                  | _ ->
+                      Ast_attributes.iter_process_mel_string_as
+                        param_type.ty.ptyp_attributes
+                      |> Option.map (fun name ->
+                             match param_type.label with
+                             | Labelled _ -> Labelled name
+                             | Optional _ -> Optional name
+                             | Nolabel -> param_type.label)
+                      |> Option.value ~default:param_type.label
+                in
+
                 let loc = param_type.loc in
                 let ty = param_type.ty in
                 let new_arg_label, new_arg_types, output_tys =
