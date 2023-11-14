@@ -43,28 +43,21 @@ module Utf8_string = struct
     | Invalid_unicode_escape
 
   let pp_error fmt err =
-    Format.pp_print_string fmt
-    @@
-    match err with
-    | Invalid_code_point -> "Invalid code point"
-    | Unterminated_backslash -> "\\ ended unexpectedly"
-    | Invalid_hex_escape -> "Invalid \\x escape"
-    | Invalid_unicode_escape -> "Invalid \\u escape"
+    let msg =
+      match err with
+      | Invalid_code_point -> "Invalid code point"
+      | Unterminated_backslash -> "\\ ended unexpectedly"
+      | Invalid_hex_escape -> "Invalid \\x escape"
+      | Invalid_unicode_escape -> "Invalid \\u escape"
+    in
+    Format.pp_print_string fmt msg
 
   type exn += Error of int (* offset *) * error
 
   let error ~loc error = raise (Error (loc, error))
 
-  (* let error ~loc ~pos error = *)
-  (* [%expr *)
-  (* [%ocaml.error *)
-  (* [%e *)
-  (* Ast_helper.Exp.constant *)
-  (* (Pconst_string (Format.asprintf "%a" pp_error error, loc, None))]]] *)
-
   (* Note the [loc] really should be the utf8-offset, it has nothing to do with our
-      escaping mechanism
-  *)
+      escaping mechanism *)
   (* we can not just print new line in ES5
      seems we don't need
      escape "\b" "\f"
@@ -126,18 +119,15 @@ module Utf8_string = struct
 
   and two_hex loc buf s offset s_len =
     if offset + 1 >= s_len then error ~loc Invalid_hex_escape;
-    (*Location.raise_errorf ~loc "\\x need at least two chars";*)
     let a, b = (s.[offset], s.[offset + 1]) in
     if valid_hex a && valid_hex b then (
       Buffer.add_char buf a;
       Buffer.add_char buf b;
       check_and_transform (loc + 2) buf s (offset + 2) s_len)
     else error ~loc Invalid_hex_escape
-  (*Location.raise_errorf ~loc "%c%c is not a valid hex code" a b*)
 
   and unicode loc buf s offset s_len =
-    if offset + 3 >= s_len then error ~loc Invalid_unicode_escape
-      (*Location.raise_errorf ~loc "\\u need at least four chars"*);
+    if offset + 3 >= s_len then error ~loc Invalid_unicode_escape;
     let a0, a1, a2, a3 =
       (s.[offset], s.[offset + 1], s.[offset + 2], s.[offset + 3])
     in
@@ -148,8 +138,7 @@ module Utf8_string = struct
       Buffer.add_char buf a3;
       check_and_transform (loc + 4) buf s (offset + 4) s_len)
     else error ~loc Invalid_unicode_escape
-  (*Location.raise_errorf ~loc "%c%c%c%c is not a valid unicode point"
-    a0 a1 a2 a3 *)
+
   (* http://www.2ality.com/2015/01/es6-strings.html
      console.log('\uD83D\uDE80'); (* ES6*)
      console.log('\u{1F680}');
@@ -182,8 +171,7 @@ module Interp = struct
   type kind = String | Var of int * int
   (* [Var (loffset, roffset)]
      For parens it used to be (2,-1)
-     for non-parens it used to be (1,0)
-  *)
+     for non-parens it used to be (1,0) *)
 
   (* Note the position is about code point *)
   type pos = {
@@ -251,15 +239,9 @@ module Interp = struct
         valid_lead_identifier_char s.[0]
         && for_all_from s 1 valid_identifier_char
 
-  (* let is_space x =
-     match x with
-     | ' ' | '\n' | '\t' -> true
-     | _ -> false *)
-
-  (*
-   FIXME: multiple line offset
-   if there is no line offset. Note {|{j||} border will never trigger a new line
-*)
+  (* FIXME: multiple line offset
+     if there is no line offset. Note {|{j||} border will never trigger a new
+     line *)
   let update_position border ({ lnum; offset; byte_bol } : pos)
       (pos : Lexing.position) =
     if lnum = 0 then { pos with pos_cnum = pos.pos_cnum + border + offset }
@@ -377,10 +359,9 @@ module Interp = struct
             done;
             check_and_transform (loc + 1) s (i' + 1) cxt)
 
-  (*Lets keep identifier simple, so that we could generating a function easier in the future
-     for example
-     let f = [%fn{| $x + $y = $x_add_y |}]
-  *)
+  (* Lets keep identifier simple, so that we could generating a function easier
+     in the future for example
+     let f = [%fn{| $x + $y = $x_add_y |}] *)
   and expect_simple_var loc s offset ({ buf; s_len; _ } as cxt) =
     let v = ref offset in
     if not (offset < s_len && valid_lead_identifier_char s.[offset]) then
@@ -453,23 +434,23 @@ module Interp = struct
   (* TODO: test empty var $() $ failure,
       Allow identifers x.A.y *)
 
-  open Ast_helper
+  module Exp = Ast_helper.Exp
 
-  (* Longident.parse "Pervasives.^" *)
   let concat_ident : Longident.t = Ldot (Lident "Stdlib", "^")
-  (* FIXME: remove deps on `Pervasives` *)
 
-  (* JS string concatMany *)
-  (* Ldot (Ldot (Lident "Js", "String2"), "concat") *)
-
-  (* Longident.parse "Js.String.make"     *)
   let to_string_ident : Longident.t =
     Ldot (Ldot (Lident "Js", "String2"), "make")
 
-  let escaped_j_delimiter = "*j" (* not user level syntax allowed *)
   let unescaped_j_delimiter = "j"
   let unescaped_js_delimiter = "js"
-  let escaped = Some escaped_j_delimiter
+
+  let escaped =
+    let escaped_j_delimiter =
+      (* syntax not allowed at the user level *)
+      "*j"
+    in
+    Some escaped_j_delimiter
+
   let border = String.length "{j|"
 
   let aux loc (segment : segment) ~to_string_ident : Parsetree.expression =
