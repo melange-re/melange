@@ -312,14 +312,14 @@ module Interp = struct
                 {
                   cxt.segment_start with
                   offset =
-                    (match cxt.segment_start.offset with 0 -> 0 | n -> n - 2);
+                    (match cxt.segment_start.offset with 0 -> 0 | n -> n - 3);
                   byte_bol =
                     (match cxt.segment_start.byte_bol with
                     | 0 -> 0
-                    | n -> n - 2);
+                    | n -> n - 3);
                 };
-              pos_bol = cxt.pos_bol + 2;
-              byte_bol = cxt.byte_bol + 2;
+              pos_bol = cxt.pos_bol + 3;
+              byte_bol = cxt.byte_bol + 3;
             }
         | _ -> cxt
       in
