@@ -318,7 +318,30 @@ module Interp = struct
         }
         :: cxt.segments;
       cxt.segment_start <- next_loc)
-    else pos_error cxt ~loc (Invalid_syntax_of_var content)
+    else
+      let cxt =
+        match String.trim content with
+        | "" ->
+            (* Move the position back 2 characters "$(" if this is the empty
+               interpolation. *)
+            {
+              cxt with
+              segment_start =
+                {
+                  cxt.segment_start with
+                  offset =
+                    (match cxt.segment_start.offset with 0 -> 0 | n -> n - 2);
+                  byte_bol =
+                    (match cxt.segment_start.byte_bol with
+                    | 0 -> 0
+                    | n -> n - 2);
+                };
+              pos_bol = cxt.pos_bol + 2;
+              byte_bol = cxt.byte_bol + 2;
+            }
+        | _ -> cxt
+      in
+      pos_error cxt ~loc (Invalid_syntax_of_var content)
 
   let add_str_segment cxt loc =
     let content = Buffer.contents cxt.buf in
@@ -450,8 +473,7 @@ module Interp = struct
       check_and_transform (loc + 4) s (offset + 4) cxt)
     else pos_error cxt ~loc Invalid_unicode_escape
 
-  (* TODO: test empty var $() $ failure,
-      Allow identifers x.A.y *)
+  (* TODO: Allow identifers x.A.y *)
 
   open Ast_helper
 
