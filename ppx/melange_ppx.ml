@@ -370,34 +370,37 @@ module Mapper = struct
         *)
         match Ast_attributes.process_uncurried pcty_attributes with
         | false, _ -> super#class_type ctd
-        | true, pcty_attributes -> (
-            match ctd.pcty_desc with
-            | Pcty_signature { pcsig_self; pcsig_fields } ->
-                let pcty_desc =
-                  let pcsig_self = self#core_type pcsig_self in
-                  match
-                    Ast_core_type_class_type.handle_class_type_fields
-                      (self, super#class_type_field)
-                      pcsig_fields
-                  with
-                  | Ok pcsig_fields ->
-                      Pcty_signature { pcsig_self; pcsig_fields }
-                  | Error s ->
-                      let loc = ctd.pcty_loc in
-                      let pcsig_self =
-                        [%type:
-                          [%ocaml.error
-                            [%e
-                              Ast_helper.Exp.constant
-                                (Pconst_string (s, loc, None))]]]
-                      in
-                      Pcty_signature { pcsig_self; pcsig_fields = [] }
-                in
-                { ctd with pcty_desc; pcty_attributes }
-            | Pcty_open _ (* let open M in CT *) | Pcty_constr _
-            | Pcty_extension _ | Pcty_arrow _ ->
-                Location.raise_errorf ~loc:pcty_loc
-                  "invalid or unused attribute `[@u]")
+        | true, pcty_attributes ->
+            let class_type =
+              match ctd.pcty_desc with
+              | Pcty_signature { pcsig_self; pcsig_fields } ->
+                  let pcty_desc =
+                    let pcsig_self = self#core_type pcsig_self in
+                    match
+                      Ast_core_type_class_type.handle_class_type_fields
+                        (self, super#class_type_field)
+                        pcsig_fields
+                    with
+                    | Ok pcsig_fields ->
+                        Pcty_signature { pcsig_self; pcsig_fields }
+                    | Error s ->
+                        let loc = ctd.pcty_loc in
+                        let pcsig_self =
+                          [%type:
+                            [%ocaml.error
+                              [%e
+                                Ast_helper.Exp.constant
+                                  (Pconst_string (s, loc, None))]]]
+                        in
+                        Pcty_signature { pcsig_self; pcsig_fields = [] }
+                  in
+                  { ctd with pcty_desc; pcty_attributes }
+              | Pcty_open _ (* let open M in CT *) | Pcty_constr _
+              | Pcty_extension _ | Pcty_arrow _ ->
+                  Location.raise_errorf ~loc:pcty_loc
+                    "invalid or unused attribute `[@u]"
+            in
+            super#class_type class_type
 
       method! core_type typ =
         Ast_core_type_class_type.typ_mapper (self, super#core_type) typ
@@ -419,18 +422,21 @@ module Mapper = struct
             with
             | false, _ -> super#expression e
             | true, pexp_attributes ->
-                Ast_mel_open.convert_mel_error_function e.pexp_loc self
-                  pexp_attributes cases)
+                super#expression
+                  (Ast_mel_open.convert_mel_error_function e.pexp_loc self
+                     pexp_attributes cases))
         | Pexp_fun (label, _, pat, body) -> (
             match Ast_attributes.process_attributes_rev e.pexp_attributes with
             | Nothing, _ -> super#expression e
             | Uncurry _, pexp_attributes ->
-                {
-                  e with
-                  pexp_desc =
-                    Ast_uncurry_gen.to_uncurry_fn e.pexp_loc self label pat body;
-                  pexp_attributes;
-                }
+                super#expression
+                  {
+                    e with
+                    pexp_desc =
+                      Ast_uncurry_gen.to_uncurry_fn e.pexp_loc self label pat
+                        body;
+                    pexp_attributes;
+                  }
             | Method _, _ ->
                 let loc = e.pexp_loc in
                 [%expr
@@ -443,23 +449,25 @@ module Mapper = struct
                              None ))]]]
             | Meth_callback _, pexp_attributes ->
                 (* FIXME: does it make sense to have a label for [this] ? *)
-                {
-                  e with
-                  pexp_desc =
-                    Ast_uncurry_gen.to_method_callback e.pexp_loc self label pat
-                      body;
-                  pexp_attributes;
-                })
+                super#expression
+                  {
+                    e with
+                    pexp_desc =
+                      Ast_uncurry_gen.to_method_callback e.pexp_loc self label
+                        pat body;
+                    pexp_attributes;
+                  })
         | Pexp_object { pcstr_self; pcstr_fields } -> (
             match Ast_attributes.process_uncurried e.pexp_attributes with
             | true, pexp_attributes ->
-                {
-                  e with
-                  pexp_desc =
-                    Ast_util.ocaml_obj_as_js_object e.pexp_loc self pcstr_self
-                      pcstr_fields;
-                  pexp_attributes;
-                }
+                super#expression
+                  {
+                    e with
+                    pexp_desc =
+                      Ast_util.ocaml_obj_as_js_object e.pexp_loc self pcstr_self
+                        pcstr_fields;
+                    pexp_attributes;
+                  }
             | false, _ -> super#expression e)
         | Pexp_match
             ( b,
@@ -525,14 +533,15 @@ module Mapper = struct
       method! class_expr ce =
         match ce.pcl_desc with
         | Pcl_let (r, vbs, sub_ce) ->
-            {
-              ce with
-              pcl_desc =
-                Pcl_let
-                  ( r,
-                    Ast_tuple_pattern_flatten.value_bindings_mapper self vbs,
-                    self#class_expr sub_ce );
-            }
+            super#class_expr
+              {
+                ce with
+                pcl_desc =
+                  Pcl_let
+                    ( r,
+                      Ast_tuple_pattern_flatten.value_bindings_mapper self vbs,
+                      self#class_expr sub_ce );
+              }
         | _ -> super#class_expr ce
 
       method! label_declaration lbl =
@@ -555,7 +564,9 @@ module Mapper = struct
         match str.pstr_desc with
         | Pstr_primitive prim ->
             if Ast_attributes.rs_externals prim.pval_attributes prim.pval_prim
-            then Ast_external.handleExternalInStru self prim str
+            then
+              super#structure_item
+                (Ast_external.handleExternalInStru self prim str)
             else
               super#structure_item
                 {
@@ -605,111 +616,120 @@ module Mapper = struct
             | Some attr, Pexp_constant (Pconst_string (s, _, dec)) ->
                 let loc = pvb_loc in
                 succeed attr pvb_attributes;
-                {
-                  str with
-                  pstr_desc =
-                    Pstr_primitive
-                      {
-                        pval_name;
-                        pval_type = [%type: string];
-                        pval_loc = loc;
-                        pval_attributes = [];
-                        pval_prim =
-                          Melange_ffi.External_ffi_types.inline_string_primitive
-                            s dec;
-                      };
-                }
+                super#structure_item
+                  {
+                    str with
+                    pstr_desc =
+                      Pstr_primitive
+                        {
+                          pval_name;
+                          pval_type = [%type: string];
+                          pval_loc = loc;
+                          pval_attributes = [];
+                          pval_prim =
+                            Melange_ffi.External_ffi_types
+                            .inline_string_primitive s dec;
+                        };
+                  }
             | Some attr, Pexp_constant (Pconst_integer (s, None)) ->
                 let s = Int32.of_string s in
                 let loc = pvb_loc in
                 succeed attr pvb_attributes;
-                {
-                  str with
-                  pstr_desc =
-                    Pstr_primitive
-                      {
-                        pval_name;
-                        pval_type = [%type: int];
-                        pval_loc = loc;
-                        pval_attributes = [];
-                        pval_prim =
-                          Melange_ffi.External_ffi_types.inline_int_primitive s;
-                      };
-                }
+                super#structure_item
+                  {
+                    str with
+                    pstr_desc =
+                      Pstr_primitive
+                        {
+                          pval_name;
+                          pval_type = [%type: int];
+                          pval_loc = loc;
+                          pval_attributes = [];
+                          pval_prim =
+                            Melange_ffi.External_ffi_types.inline_int_primitive
+                              s;
+                        };
+                  }
             | Some attr, Pexp_constant (Pconst_integer (s, Some 'L')) ->
                 let s = Int64.of_string s in
                 let loc = pvb_loc in
                 succeed attr pvb_attributes;
-                {
-                  str with
-                  pstr_desc =
-                    Pstr_primitive
-                      {
-                        pval_name;
-                        pval_type = [%type: int64];
-                        pval_loc = loc;
-                        pval_attributes = [];
-                        pval_prim =
-                          Melange_ffi.External_ffi_types.inline_int64_primitive
-                            s;
-                      };
-                }
+                super#structure_item
+                  {
+                    str with
+                    pstr_desc =
+                      Pstr_primitive
+                        {
+                          pval_name;
+                          pval_type = [%type: int64];
+                          pval_loc = loc;
+                          pval_attributes = [];
+                          pval_prim =
+                            Melange_ffi.External_ffi_types
+                            .inline_int64_primitive s;
+                        };
+                  }
             | Some attr, Pexp_constant (Pconst_float (s, None)) ->
                 let loc = pvb_loc in
                 succeed attr pvb_attributes;
-                {
-                  str with
-                  pstr_desc =
-                    Pstr_primitive
-                      {
-                        pval_name;
-                        pval_type = [%type: float];
-                        pval_loc = loc;
-                        pval_attributes = [];
-                        pval_prim =
-                          Melange_ffi.External_ffi_types.inline_float_primitive
-                            s;
-                      };
-                }
+                super#structure_item
+                  {
+                    str with
+                    pstr_desc =
+                      Pstr_primitive
+                        {
+                          pval_name;
+                          pval_type = [%type: float];
+                          pval_loc = loc;
+                          pval_attributes = [];
+                          pval_prim =
+                            Melange_ffi.External_ffi_types
+                            .inline_float_primitive s;
+                        };
+                  }
             | ( Some attr,
                 Pexp_construct
                   ({ txt = Lident (("true" | "false") as txt); _ }, None) ) ->
                 let loc = pvb_loc in
                 succeed attr pvb_attributes;
-                {
-                  str with
-                  pstr_desc =
-                    Pstr_primitive
-                      {
-                        pval_name;
-                        pval_type = [%type: bool];
-                        pval_loc = loc;
-                        pval_attributes = [];
-                        pval_prim =
-                          Melange_ffi.External_ffi_types.inline_bool_primitive
-                            (txt = "true");
-                      };
-                }
+                super#structure_item
+                  {
+                    str with
+                    pstr_desc =
+                      Pstr_primitive
+                        {
+                          pval_name;
+                          pval_type = [%type: bool];
+                          pval_loc = loc;
+                          pval_attributes = [];
+                          pval_prim =
+                            Melange_ffi.External_ffi_types.inline_bool_primitive
+                              (txt = "true");
+                        };
+                  }
             | _ ->
-                {
-                  str with
-                  pstr_desc =
-                    Pstr_value
-                      ( Nonrecursive,
-                        Ast_tuple_pattern_flatten.value_bindings_mapper self
-                          [ { pvb_pat; pvb_expr; pvb_attributes; pvb_loc } ] );
-                })
+                super#structure_item
+                  {
+                    str with
+                    pstr_desc =
+                      Pstr_value
+                        ( Nonrecursive,
+                          Ast_tuple_pattern_flatten.value_bindings_mapper self
+                            [ { pvb_pat; pvb_expr; pvb_attributes; pvb_loc } ]
+                        );
+                  })
         | Pstr_value (r, vbs) ->
-            {
-              str with
-              pstr_desc =
-                Pstr_value
-                  (r, Ast_tuple_pattern_flatten.value_bindings_mapper self vbs);
-            }
+            super#structure_item
+              {
+                str with
+                pstr_desc =
+                  Pstr_value
+                    (r, Ast_tuple_pattern_flatten.value_bindings_mapper self vbs);
+              }
         | Pstr_attribute
             ({ attr_name = { txt = "mel.config" | "config"; _ }; _ } as attr) ->
             Mel_ast_invariant.mark_used_mel_attribute attr;
-            str
+            super#structure_item str
         | Pstr_module
             ({
                pmb_name = { txt = Some _; loc = pmb_name_loc } as pmb_name_orig;
@@ -762,7 +782,8 @@ module Mapper = struct
             in
             let pval_attributes = self#attributes pval_attributes in
             if Ast_attributes.rs_externals pval_attributes pval_prim then
-              Ast_external.handleExternalInSig self value_desc sigi
+              super#signature_item
+                (Ast_external.handleExternalInSig self value_desc sigi)
             else
               match Ast_attributes.has_inline_payload pval_attributes with
               | Some
@@ -775,77 +796,80 @@ module Mapper = struct
                   match pexp_desc with
                   | Pexp_constant (Pconst_string (s, _, dec)) ->
                       succeed attr pval_attributes;
-                      {
-                        sigi with
-                        psig_desc =
-                          Psig_value
-                            {
-                              value_desc with
-                              pval_prim =
-                                Melange_ffi.External_ffi_types
-                                .inline_string_primitive s dec;
-                              pval_attributes = [];
-                            };
-                      }
+                      super#signature_item
+                        {
+                          sigi with
+                          psig_desc =
+                            Psig_value
+                              {
+                                value_desc with
+                                pval_prim =
+                                  Melange_ffi.External_ffi_types
+                                  .inline_string_primitive s dec;
+                                pval_attributes = [];
+                              };
+                        }
                   | Pexp_constant (Pconst_integer (s, None)) ->
                       succeed attr pval_attributes;
-                      let s = Int32.of_string s in
-                      {
-                        sigi with
-                        psig_desc =
-                          Psig_value
-                            {
-                              value_desc with
-                              pval_prim =
-                                Melange_ffi.External_ffi_types
-                                .inline_int_primitive s;
-                              pval_attributes = [];
-                            };
-                      }
+                      super#signature_item
+                        {
+                          sigi with
+                          psig_desc =
+                            Psig_value
+                              {
+                                value_desc with
+                                pval_prim =
+                                  Melange_ffi.External_ffi_types
+                                  .inline_int_primitive (Int32.of_string s);
+                                pval_attributes = [];
+                              };
+                        }
                   | Pexp_constant (Pconst_integer (s, Some 'L')) ->
-                      let s = Int64.of_string s in
                       succeed attr pval_attributes;
-                      {
-                        sigi with
-                        psig_desc =
-                          Psig_value
-                            {
-                              value_desc with
-                              pval_prim =
-                                Melange_ffi.External_ffi_types
-                                .inline_int64_primitive s;
-                              pval_attributes = [];
-                            };
-                      }
+                      super#signature_item
+                        {
+                          sigi with
+                          psig_desc =
+                            Psig_value
+                              {
+                                value_desc with
+                                pval_prim =
+                                  Melange_ffi.External_ffi_types
+                                  .inline_int64_primitive (Int64.of_string s);
+                                pval_attributes = [];
+                              };
+                        }
                   | Pexp_constant (Pconst_float (s, None)) ->
                       succeed attr pval_attributes;
-                      {
-                        sigi with
-                        psig_desc =
-                          Psig_value
-                            {
-                              value_desc with
-                              pval_prim =
-                                Melange_ffi.External_ffi_types
-                                .inline_float_primitive s;
-                              pval_attributes = [];
-                            };
-                      }
+                      super#signature_item
+                        {
+                          sigi with
+                          psig_desc =
+                            Psig_value
+                              {
+                                value_desc with
+                                pval_prim =
+                                  Melange_ffi.External_ffi_types
+                                  .inline_float_primitive s;
+                                pval_attributes = [];
+                              };
+                        }
                   | Pexp_construct
                       ({ txt = Lident (("true" | "false") as txt); _ }, None) ->
                       succeed attr pval_attributes;
-                      {
-                        sigi with
-                        psig_desc =
-                          Psig_value
-                            {
-                              value_desc with
-                              pval_prim =
-                                Melange_ffi.External_ffi_types
-                                .inline_bool_primitive (txt = "true");
-                              pval_attributes = [];
-                            };
-                      }
+                      super#signature_item
+                        {
+                          sigi with
+                          psig_desc =
+                            Psig_value
+                              {
+                                value_desc with
+                                pval_prim =
+                                  Melange_ffi.External_ffi_types
+                                  .inline_bool_primitive (txt = "true");
+                                pval_attributes = [];
+                              };
+                        }
                   | _ ->
                       super#signature_item
                         {
@@ -875,7 +899,7 @@ module Mapper = struct
         | Psig_attribute
             ({ attr_name = { txt = "mel.config" | "config"; _ }; _ } as attr) ->
             Mel_ast_invariant.mark_used_mel_attribute attr;
-            sigi
+            super#signature_item sigi
         | Psig_module
             ({
                pmd_name = { txt = Some _; loc = pmd_name_loc } as pmd_name_orig;
