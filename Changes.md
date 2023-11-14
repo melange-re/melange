@@ -33,6 +33,8 @@ Unreleased
   ([#879](https://github.com/melange-re/melange/pull/879))
 - Support `@mel.as` in `@mel.obj` labelled arguments
   ([#834](https://github.com/melange-re/melange/pull/834))
+- Fix error location for empty string interpolation in `{j| .. |j}`
+  ([#888](https://github.com/melange-re/melange/pull/888))
 
 2.1.0 2023-10-22
 ---------------
