@@ -6,7 +6,7 @@ let eq loc x y =
     (loc ^" id " ^ (string_of_int !test_id), (fun _ -> Mt.Eq(x,y))) :: !suites
 
 
-external map : 'a Js.Array2.t -> ('a -> 'b [@u]) -> 'b Js.Array2.t = "map" [@@mel.send]
+external map : 'a Js.Array.t -> ('a -> 'b [@u]) -> 'b Js.Array.t = "map" [@@mel.send]
 
 let () =
   eq __LOC__

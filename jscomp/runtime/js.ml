@@ -64,9 +64,6 @@ type +'a nullable = 'a Js_null_undefined.t
 
 type +'a null_undefined = 'a nullable
 
-module Array2 = Js_array2
-(** Provide bindings to Js array*)
-
 module Exn = Js_exn
 (** Provide utilities for dealing with Js exceptions *)
 

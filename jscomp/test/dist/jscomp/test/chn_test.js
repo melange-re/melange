@@ -45,7 +45,7 @@ function convert(s) {
                           _1: [
                             "jscomp/test/chn_test.ml",
                             20,
-                            18
+                            22
                           ],
                           Error: new Error()
                         };

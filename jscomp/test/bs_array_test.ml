@@ -15,12 +15,12 @@ module L = Belt.List
 
 let {push } = (module A)
 
-type 'a t = 'a Js.Array2.t
+type 'a t = 'a Js.Array.t
 let () =
   [| 1; 2; 3; 4 |]
-  |. Js.Array2.filter (fun  x -> x > 2)
-  |. Js.Array2.mapi (fun  x i -> x + i)
-  |. Js.Array2.reduce (fun  x y -> x + y) 0
+  |. Js.Array.filter ~f:(fun  x -> x > 2)
+  |. Js.Array.mapi ~f:(fun  x i -> x + i)
+  |. Js.Array.reduce ~f:(fun  x y -> x + y) ~init:0
   |. Js.log
 
 
