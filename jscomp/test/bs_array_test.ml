@@ -40,25 +40,6 @@ let () =
   b __LOC__ (let v = [|1;2|] in  (A.setExn v 0 0) ; A.getExn v 0 = 0);
   b __LOC__ (let v = [|1;2|] in (A.setExn v 1 0); A.getExn v 1 = 0 )
 
-let () =
-  eq  __LOC__
-    ( Js.Vector.map (fun [@u] x -> x + 1) [|1;2;3|] )
-    [|2;3;4|];
-  eq __LOC__  (Js.Vector.make 5 3)
-    [|3;3;3;3;3|];
-  eq __LOC__
-    ( let a = Js.Vector.init 5  (fun [@u] i -> i + 1) in
-      Js.Vector.filterInPlace (fun [@u] j -> j mod 2 = 0) a ;
-      a
-    )
-    [|2;4|];
-
-  eq __LOC__
-    ( let a = Js.Vector.init 5  (fun [@u] i -> i + 1) in
-      Js.Vector.filterInPlace (fun [@u] j -> j mod 2 <> 0) a ;
-      a
-    )
-    [|1;3;5|]
 
 let add = fun  x y -> x + y
 let () =

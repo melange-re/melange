@@ -74,8 +74,8 @@ let eventObj  : <
   =
   object (self)
     val events : (string * string) array = [||]
-    method empty () = Js.Vector.empty (self##events)
-    method push a = (Js.Vector.pushBack a (self##events) : unit )
+    method empty () = Js.Array.removeFromInPlace (self##events) ~pos:0 |. ignore
+    method push a = (Js.Array.push a (self##events) |. ignore : unit )
     method needRebuild () = Array.length self##events <> 0
     (* method currentEvents () = self##events *)
   end [@u]
@@ -106,4 +106,3 @@ let () =
 
 let () =
   Mt.from_pair_suites __MODULE__ !suites
-

@@ -2,7 +2,9 @@
 'use strict';
 
 var Caml_obj = require("melange.js/caml_obj.js");
+var Caml_option = require("melange.js/caml_option.js");
 var Mt = require("./mt.js");
+var Stdlib__Option = require("melange/option.js");
 
 function date(param) {
   return new Date("1976-03-08T12:34:56.789+01:23");
@@ -988,7 +990,7 @@ var suites_1 = {
                                                                                                                                     return {
                                                                                                                                             TAG: /* Eq */0,
                                                                                                                                             _0: "1976-03-08T11:11:56.789Z",
-                                                                                                                                            _1: new Date("1976-03-08T12:34:56.789+01:23").toJSON()
+                                                                                                                                            _1: Stdlib__Option.get(Caml_option.undefined_to_opt(new Date("1976-03-08T12:34:56.789+01:23").toJSON()))
                                                                                                                                           };
                                                                                                                                   })
                                                                                                                               ],

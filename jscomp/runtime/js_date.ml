@@ -106,9 +106,6 @@ external now : unit -> float = "now"
 [@@mel.scope "Date"]
 (** returns the number of milliseconds since Unix epoch *)
 
-external parse : string -> t = "Date"
-[@@mel.new] [@@deprecated "Please use `fromString` instead"]
-
 external parseAsFloat : string -> float = "parse"
 [@@mel.scope "Date"]
 (** returns NaN if passed invalid date string *)
@@ -156,10 +153,6 @@ external getUTCMonth : t -> float = "getUTCMonth"
 (** returns the month (0-11) *)
 
 external getUTCSeconds : t -> float = "getUTCSeconds" [@@mel.send]
-
-external getYear : t -> float = "getYear"
-[@@mel.send] [@@deprecated "use `getFullYear` instead"]
-
 external setDate : t -> float -> float = "setDate" [@@mel.send]
 external setFullYear : t -> float -> float = "setFullYear" [@@mel.send]
 
@@ -277,22 +270,11 @@ external setUTCSecondsMs :
 [@@mel.send]
 
 external setUTCTime : t -> float -> float = "setTime" [@@mel.send]
-
-external setYear : t -> float -> float = "setYear"
-[@@mel.send] [@@deprecated "use `setFullYear` instead"]
-
 external toDateString : t -> string = "toDateString" [@@mel.send]
-
-external toGMTString : t -> string = "toGMTString"
-[@@mel.send] [@@deprecated "use `toUTCString` instead"]
-
 external toISOString : t -> string = "toISOString" [@@mel.send]
 
-external toJSON : t -> string = "toJSON"
-[@@mel.send]
-[@@deprecated
-  "This method is unsafe. It will be changed to return option in a future \
-   release. Please use toJSONUnsafe instead."]
+external toJSON : t -> string option = "toJSON"
+[@@mel.send] [@@mel.return undefined_to_opt]
 
 external toJSONUnsafe : t -> string = "toJSON" [@@mel.send]
 external toLocaleDateString : t -> string = "toLocaleDateString" [@@mel.send]

@@ -25,6 +25,8 @@ Unreleased
     1. Exception ID `RE_EXN_ID` to `MEL_EXN_ID`
     2. `BS_PRIVATE_NESTED_SOME_NONE` option marker to
        `MEL_PRIVATE_NESTED_SOME_NONE`
+- BREAKING(runtime): remove deprecated functions from `Js.*` modules
+  ([#897](https://github.com/melange-re/melange/pull/897))
 - Consistently handle empty payloads in externals:
   ([#852](https://github.com/melange-re/melange/pull/852))
 - Fix crash when pattern matching in the presence of complex constant inlining
