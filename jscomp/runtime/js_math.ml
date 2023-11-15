@@ -98,16 +98,11 @@ external unsafe_ceil_int : float -> int = "ceil"
 [@@mel.scope "Math"]
 (** may return values not representable by [int] *)
 
-let unsafe_ceil = unsafe_ceil_int
-[@@deprecated "Please use `unsafe_ceil_int` instead"]
-
 (** smallest int greater than or equal to the argument *)
 let ceil_int (f : float) : int =
   if f > Js_int.toFloat Js_int.max then Js_int.max
   else if f < Js_int.toFloat Js_int.min then Js_int.min
   else unsafe_ceil_int f
-
-let ceil = ceil_int [@@deprecated "Please use `ceil_int` instead"]
 
 external ceil_float : float -> float = "ceil"
 [@@mel.scope "Math"]
@@ -138,16 +133,11 @@ external unsafe_floor_int : float -> int = "floor"
 [@@mel.scope "Math"]
 (** may return values not representable by [int] *)
 
-let unsafe_floor = unsafe_floor_int
-[@@deprecated "Please use `unsafe_floor_int` instead"]
-
 (** largest int greater than or equal to the arugment *)
 let floor_int f =
   if f > Js_int.toFloat Js_int.max then Js_int.max
   else if f < Js_int.toFloat Js_int.min then Js_int.min
-  else unsafe_floor f
-
-let floor = floor_int [@@deprecated "Please use `floor_int` instead"]
+  else unsafe_floor_int f
 
 external floor_float : float -> float = "floor" [@@mel.scope "Math"]
 
@@ -215,11 +205,6 @@ external minMany_float : float array -> float = "min"
 [@@mel.splice] [@@mel.scope "Math"]
 (** min value *)
 
-external pow_int : base:int -> exp:int -> int = "pow"
-[@@mel.scope "Math"]
-[@@deprecated "use `pow_float` instead, the return type may be not int"]
-(** base to the power of the exponent *)
-
 external pow_float : base:float -> exp:float -> float = "pow"
 [@@mel.scope "Math"]
 (** base to the power of the exponent *)
@@ -229,7 +214,8 @@ external random : unit -> float = "random"
 (** random number in \[0,1) *)
 
 (** random number in \[min,max) *)
-let random_int min max = floor (random () *. Js_int.toFloat (max - min)) + min
+let random_int min max =
+  floor_int (random () *. Js_int.toFloat (max - min)) + min
 
 external unsafe_round : float -> int = "round"
 [@@mel.scope "Math"]

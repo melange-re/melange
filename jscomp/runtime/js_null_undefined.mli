@@ -76,8 +76,6 @@ val fromOption : 'a option -> 'a t
 %}
 *)
 
-val from_opt : 'a option -> 'a t [@@deprecated "Use fromOption instead"]
-
 external toOption : 'a t -> 'a option = "#nullable_to_opt"
 (** Maps ['a Js.null_undefined] to ['a option]
 
@@ -89,6 +87,3 @@ external toOption : 'a t -> 'a option = "#nullable_to_opt"
 </table>
 %}
 *)
-
-external to_opt : 'a t -> 'a option = "#nullable_to_opt"
-[@@deprecated "Use toOption instead"]

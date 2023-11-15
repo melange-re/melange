@@ -70,8 +70,6 @@ module Array2 = Js_array2
 module Exn = Js_exn
 (** Provide utilities for dealing with Js exceptions *)
 
-module Vector = Js_vector [@@alert deprecated "Use Belt.Array instead"]
-
 module String = Js_string
 (** Provide bindings to JS string *)
 
