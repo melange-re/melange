@@ -68,19 +68,12 @@ module Watch = struct
   *)
 
   external on :
-    ([ `change of
-       (string (*eventType*) -> Node.string_buffer (* filename *) -> unit[@u])
-     | `error of (unit -> unit[@u]) ]
-    [@mel.string]) ->
-    t = "on"
-  [@@mel.send.pipe: t] [@@deprecated "Please use `Node.Fs.on_` instead "]
-
-  external on_ :
     t ->
-    ([ `change of
-       (string (*eventType*) -> Node.string_buffer (* filename *) -> unit[@u])
-     | `error of (unit -> unit[@u]) ]
-    [@mel.string]) ->
+    f:
+      ([ `change of
+         (string (*eventType*) -> Node.string_buffer (* filename *) -> unit[@u])
+       | `error of (unit -> unit[@u]) ]
+      [@mel.string]) ->
     t = "on"
   [@@mel.send]
 
