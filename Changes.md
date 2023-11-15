@@ -25,6 +25,14 @@ Unreleased
     1. Exception ID `RE_EXN_ID` to `MEL_EXN_ID`
     2. `BS_PRIVATE_NESTED_SOME_NONE` option marker to
        `MEL_PRIVATE_NESTED_SOME_NONE`
+- BREAKING(runtime): unify pipe-first / pipe-last libraries in `Js` modules
+  ([#731](https://github.com/melange-re/melange/issues/731),
+  [#893](https://github.com/melange-re/melange/pull/893),
+  [#895](https://github.com/melange-re/melange/pull/895))
+    - Modules ending with `2` (e.g. `Js.String2`, `Js.Array2`) are no longer
+      available in Melange
+    - The functions in their corresponding modules now take labeled arguments,
+      allowing them to be used with both `|.` and `|>`.
 - Consistently handle empty payloads in externals:
   ([#852](https://github.com/melange-re/melange/pull/852))
 - Fix crash when pattern matching in the presence of complex constant inlining
