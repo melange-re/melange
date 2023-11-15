@@ -145,7 +145,7 @@ let suites = Mt.[
     );
 
     "join", (fun _ ->
-      Eq("1,2,3", [| 1; 2; 3 |] |. Js.Array.join ~sep:"")
+      Eq("1,2,3", [| 1; 2; 3 |] |. Js.Array.join ~sep:",")
     );
     "joinWith", (fun _ ->
       Eq("1;2;3", [| 1; 2; 3 |] |. Js.Array.join ~sep:";")
