@@ -481,6 +481,7 @@ var suites_1 = {
                                                                               hd: [
                                                                                 "splitByRe",
                                                                                 (function (param) {
+                                                                                    var arg = /(#)(:)?/;
                                                                                     return {
                                                                                             TAG: /* Eq */0,
                                                                                             _0: [
@@ -492,7 +493,9 @@ var suites_1 = {
                                                                                               ":",
                                                                                               "c"
                                                                                             ],
-                                                                                            _1: "a#b#:c".split(/(#)(:)?/)
+                                                                                            _1: (function (param) {
+                                                                                                  return param.split(arg);
+                                                                                                })("a#b#:c")
                                                                                           };
                                                                                   })
                                                                               ],
@@ -500,6 +503,7 @@ var suites_1 = {
                                                                                 hd: [
                                                                                   "splitByReAtMost",
                                                                                   (function (param) {
+                                                                                      var arg = /(#)(:)?/;
                                                                                       return {
                                                                                               TAG: /* Eq */0,
                                                                                               _0: [
@@ -507,7 +511,9 @@ var suites_1 = {
                                                                                                 "#",
                                                                                                 undefined
                                                                                               ],
-                                                                                              _1: "a#b#:c".split(/(#)(:)?/, 3)
+                                                                                              _1: (function (param) {
+                                                                                                    return param.split(arg, 3);
+                                                                                                  })("a#b#:c")
                                                                                             };
                                                                                     })
                                                                                 ],
@@ -656,7 +662,7 @@ var suites_1 = {
                                                                                                           ],
                                                                                                           tl: {
                                                                                                             hd: [
-                                                                                                              "File \"jscomp/test/js_string_test.ml\", line 214, characters 4-11",
+                                                                                                              "File \"jscomp/test/js_string_test.ml\", line 222, characters 4-11",
                                                                                                               (function (param) {
                                                                                                                   return {
                                                                                                                           TAG: /* Ok */4,

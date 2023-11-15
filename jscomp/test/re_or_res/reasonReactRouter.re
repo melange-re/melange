@@ -30,11 +30,11 @@ external replaceState:
   unit =
   "replaceState";
 
- external event: 'a = "Event";
+external event: 'a = "Event";
 
 [@mel.new] external makeEventIE11Compatible: string => Dom.event = "Event";
 
- [@mel.scope "document"]
+[@mel.scope "document"]
 external createEventNonIEBrowsers: string => Dom.event = "createEvent";
 
 [@mel.send]
@@ -70,7 +70,7 @@ let arrayToList = a => {
 let path = () =>
   switch ([%external window]) {
   | None => []
-  | Some((window: Dom.window)) =>
+  | Some(window: Dom.window) =>
     switch (window |> location |> pathname) {
     | ""
     | "/" => []
@@ -83,13 +83,13 @@ let path = () =>
         | "/" => Js.String.slice(~from=0, ~to_=-1, raw)
         | _ => raw
         };
-      raw |> Js.String.split("/") |> arrayToList;
+      raw |> Js.String.split(~sep="/") |> arrayToList;
     }
   };
 let hash = () =>
   switch ([%external window]) {
   | None => ""
-  | Some((window: Dom.window)) =>
+  | Some(window: Dom.window) =>
     switch (window |> location |> hash) {
     | ""
     | "#" => ""
@@ -102,7 +102,7 @@ let hash = () =>
 let search = () =>
   switch ([%external window]) {
   | None => ""
-  | Some((window: Dom.window)) =>
+  | Some(window: Dom.window) =>
     switch (window |> location |> search) {
     | ""
     | "?" => ""
@@ -115,7 +115,7 @@ let push = path =>
   switch ([%external history], [%external window]) {
   | (None, _)
   | (_, None) => ()
-  | (Some((history: Dom.history)), Some((window: Dom.window))) =>
+  | (Some(history: Dom.history), Some(window: Dom.window)) =>
     pushState(history, ~href=path);
     dispatchEvent(window, safeMakeEvent("popstate"));
   };
@@ -123,7 +123,7 @@ let replace = path =>
   switch ([%external history], [%external window]) {
   | (None, _)
   | (_, None) => ()
-  | (Some((history: Dom.history)), Some((window: Dom.window))) =>
+  | (Some(history: Dom.history), Some(window: Dom.window)) =>
     replaceState(history, ~href=path);
     dispatchEvent(window, safeMakeEvent("popstate"));
   };
@@ -155,7 +155,7 @@ let dangerouslyGetInitialUrl = url;
 let watchUrl = callback =>
   switch ([%external window]) {
   | None => (() => ())
-  | Some((window: Dom.window)) =>
+  | Some(window: Dom.window) =>
     let watcherID = () => callback(url());
     addEventListener(window, "popstate", watcherID);
     watcherID;
@@ -163,7 +163,7 @@ let watchUrl = callback =>
 let unwatchUrl = watcherID =>
   switch ([%external window]) {
   | None => ()
-  | Some((window: Dom.window)) =>
+  | Some(window: Dom.window) =>
     removeEventListener(window, "popstate", watcherID)
   };
 
