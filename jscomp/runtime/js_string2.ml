@@ -702,7 +702,7 @@ external link : t -> t -> t = "link"
 [@@mel.send]
 (** ES2015 *)
 
-external castToArrayLike : t -> t Js_array2.array_like = "%identity"
+external castToArrayLike : t -> t Js_array.array_like = "%identity"
 (* FIXME: we should not encourage people to use [%identity], better
     to provide something using  so that we can track such
     casting

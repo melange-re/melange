@@ -12,9 +12,9 @@ let () =
   eq __LOC__  (4,Array.length v)
 
 let () =
-  eq __LOC__ (5,Js.Array2.push v 3 ); (* in Js array length can be changing .. *)
+  eq __LOC__ (5,Js.Array.push v ~value:3 ); (* in Js array length can be changing .. *)
   eq __LOC__ (5, Array.length v );
-  eq __LOC__ (5,Js.Array2.length v )
+  eq __LOC__ (5,Js.Array.length v )
 
 
 let () =
@@ -23,17 +23,17 @@ let () =
   eq __LOC__ (4,v.(2)) (* should not inline *)
 
 let () =
-  while Js.Array2.length v > 0 do
-    ignore @@ Js.Array2.pop v
+  while Js.Array.length v > 0 do
+    ignore @@ Js.Array.pop v
   done;
-  eq __LOC__ (0, Js.Array2.length v )
+  eq __LOC__ (0, Js.Array.length v )
 
 
 let f v =
-  (match Js.Array2.pop v with
+  (match Js.Array.pop v with
   | Some x -> Js.log "hi"
   | None -> Js.log "hi2");
-  Js.log (ignore @@ Js.Array2.pop v)
+  Js.log (ignore @@ Js.Array.pop v)
 
 
 let fff x =

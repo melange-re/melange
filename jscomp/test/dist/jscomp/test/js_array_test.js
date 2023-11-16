@@ -60,7 +60,7 @@ var suites_1 = {
                         3,
                         4,
                         5
-                      ].copyWithin(-2)
+                      ].copyWithin(-2, undefined, undefined)
                   };
           })
       ],
@@ -83,7 +83,7 @@ var suites_1 = {
                           3,
                           4,
                           5
-                        ].copyWithin(0, 3)
+                        ].copyWithin(0, 3, undefined)
                     };
             })
         ],
@@ -125,7 +125,7 @@ var suites_1 = {
                               1,
                               2,
                               3
-                            ].fill(4)
+                            ].fill(4, undefined, undefined)
                         };
                 })
             ],
@@ -144,7 +144,7 @@ var suites_1 = {
                                 1,
                                 2,
                                 3
-                              ].fill(4, 1)
+                              ].fill(4, 1, undefined)
                           };
                   })
               ],
@@ -525,7 +525,7 @@ var suites_1 = {
                                                                         1,
                                                                         2,
                                                                         3
-                                                                      ].indexOf(2)
+                                                                      ].indexOf(2, undefined)
                                                                   };
                                                           })
                                                       ],
@@ -556,7 +556,7 @@ var suites_1 = {
                                                                             1,
                                                                             2,
                                                                             3
-                                                                          ].join()
+                                                                          ].join(",")
                                                                       };
                                                               })
                                                           ],
@@ -666,7 +666,7 @@ var suites_1 = {
                                                                                         3,
                                                                                         4,
                                                                                         5
-                                                                                      ].slice(2)
+                                                                                      ].slice(2, undefined)
                                                                                   };
                                                                           })
                                                                       ],

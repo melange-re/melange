@@ -75,7 +75,7 @@ let eventObj  : <
   object (self)
     val events : (string * string) array = [||]
     method empty () = Js.Array.removeFromInPlace (self##events) ~pos:0 |. ignore
-    method push a = (Js.Array.push a (self##events) |. ignore : unit )
+    method push a = (Js.Array.push (self##events) ~value:a |. ignore : unit )
     method needRebuild () = Array.length self##events <> 0
     (* method currentEvents () = self##events *)
   end [@u]
