@@ -107,7 +107,7 @@ let suites = Mt.[
 
     (* es2015 *)
     "repeat", (fun _ ->
-      Eq("foofoofoo", "foo" |. Js.String.repeat ~n:3)
+      Eq("foofoofoo", "foo" |. Js.String.repeat ~count:3)
     );
 
     "replace", (fun _ ->
@@ -165,12 +165,12 @@ let suites = Mt.[
     "splitByRe", (fun _ ->
       Eq(
         [| Some "a"; Some "#"; None; Some "b"; Some "#"; Some ":"; Some "c" |],
-        "a#b#:c" |> Js.String.splitByRe ~regexp:[%re "/(#)(:)?/"])
+        "a#b#:c" |. Js.String.splitByRe ~regexp:[%re "/(#)(:)?/"] ())
     );
     "splitByReAtMost", (fun _ ->
       Eq(
         [| Some "a"; Some "#"; None |],
-        "a#b#:c" |> Js.String.splitByReAtMost ~regexp:[%re "/(#)(:)?/"] ~limit:3)
+        "a#b#:c" |. Js.String.splitByRe ~regexp:[%re "/(#)(:)?/"] ~limit:3 ())
     );
 
     (* es2015 *)

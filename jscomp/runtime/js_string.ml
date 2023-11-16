@@ -299,14 +299,14 @@ external normalizeByForm : t -> form:[ `NFC | `NFD | `NFKC | `NFKD ] -> t
   report for details
 *)
 
-external repeat : t -> n:int -> t = "repeat"
+external repeat : t -> count:int -> t = "repeat"
 [@@mel.send]
-(** [repeat s n] returns a string that consists of [n] repetitions of [s].
-    Raises [RangeError] if [n] is negative.
+(** [repeat s ~count] returns a string that consists of [count] repetitions of
+    [s]. Raises [RangeError] if [n] is negative.
 
 {[
-  repeat "ha" ~n:3 = "hahaha"
-  repeat "empty" ~n:0 = ""
+  repeat "ha" ~count:3 = "hahaha"
+  repeat "empty" ~count:0 = ""
 ]}
 *)
 
@@ -470,29 +470,18 @@ external split : t -> ?sep:t -> ?limit:int -> unit -> t array = "split"
 ]}
 *)
 
-external splitByRe : t -> regexp:Js_re.t -> t option array = "split"
-[@@mel.send]
-(** [splitByRe str ~regexp] splits the given [str] at every occurrence of
-    [regexp] and returns an array of the resulting substrings.
-
-{[
-  splitByRe "art; bed , cog ;dad" ~regexp:[%re "/\\s*[,;]\\s*/"] = [|"art"; "bed"; "cog"; "dad"|];;
-  splitByRe "has:no:match" ~regexp:[%re "/[,;]/"] = [|"has:no:match"|];;
-]};
-*)
-
-external splitByReAtMost : t -> regexp:Js_re.t -> limit:int -> t option array
+external splitByRe : t -> regexp:Js_re.t -> ?limit:int -> unit -> t option array
   = "split"
 [@@mel.send]
-(** [splitByReAtMost ~regexp ~limit:n str] splits the given [str] at every
+(** [splitByRe str ~regexp ?limit ()] splits the given [str] at every
     occurrence of [regexp] and returns an array of the first [n] resulting
     substrings. If [n] is negative or greater than the number of substrings,
     the array will contain all the substrings.
 
 {[
-  splitByReAtMost "one: two: three: four" [%re "/\\s*:\\s*/"] ~limit: 3 = [|"one"; "two"; "three"|];;
-  splitByReAtMost "one: two: three: four" [%re "/\\s*:\\s*/"] ~limit: 0 = [| |];;
-  splitByReAtMost "one: two: three: four" [%re "/\\s*:\\s*/"] ~limit: 8 = [|"one"; "two"; "three"; "four"|];;
+  splitByRe "one: two: three: four" [%re "/\\s*:\\s*/"] ~limit:3 () = [|"one"; "two"; "three"|];;
+  splitByRe "one: two: three: four" [%re "/\\s*:\\s*/"] ~limit:0 () = [| |];;
+  splitByRe "one: two: three: four" [%re "/\\s*:\\s*/"] ~limit:8 () = [|"one"; "two"; "three"; "four"|];;
 ]};
 *)
 
