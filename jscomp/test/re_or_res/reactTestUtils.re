@@ -82,7 +82,7 @@ module Simulate = {
   external focus: Dom.element => unit = "focus";
 };
 
- external document: Dom.document = "document";
+external document: Dom.document = "document";
 
 [@mel.send]
 external querySelector: (Dom.element, string) => option(Dom.element) =
@@ -125,7 +125,9 @@ module DOM = {
 
   let findBySelectorAndPartialTextContent = (element, selector, content) =>
     querySelectorAll(element, selector)
-    ->Array.getBy(node => node->textContent->Js.String2.includes(content));
+    ->Array.getBy(node =>
+        node->textContent->Js.String.includes(~sub=content, ())
+      );
 };
 
 let prepareContainer = (container: ref(option(Dom.element)), ()) => {

@@ -11409,20 +11409,6 @@ function directive_parse(token_with_comments, lexbuf) {
       }
     }
   };
-  var parse_or_aux = function (calc, v) {
-    var e = token(undefined);
-    if (e === 8) {
-      var calc$1 = calc && !v;
-      var b = parse_or_aux(calc$1, parse_and_aux(calc$1, parse_relation(calc$1)));
-      if (v) {
-        return true;
-      } else {
-        return b;
-      }
-    }
-    push(e);
-    return v;
-  };
   var parse_and_aux = function (calc, v) {
     var e = token(undefined);
     if (typeof e === "number") {
@@ -11436,6 +11422,20 @@ function directive_parse(token_with_comments, lexbuf) {
         return b;
       } else {
         return false;
+      }
+    }
+    push(e);
+    return v;
+  };
+  var parse_or_aux = function (calc, v) {
+    var e = token(undefined);
+    if (e === 8) {
+      var calc$1 = calc && !v;
+      var b = parse_or_aux(calc$1, parse_and_aux(calc$1, parse_relation(calc$1)));
+      if (v) {
+        return true;
+      } else {
+        return b;
       }
     }
     push(e);

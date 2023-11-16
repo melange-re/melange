@@ -87,9 +87,6 @@ module Nullable = Js_null_undefined
 module Array = Js_array
 (** Provide bindings to Js array*)
 
-module String2 = Js_string2
-(** Provide bindings to JS string *)
-
 module Re = Js_re
 (** Provide bindings to Js regex expression *)
 

@@ -14,9 +14,9 @@ Js.log {js|\x3f\u003f\b\t\n\v\f\r\0"'|js}
 ;;
 let convert (s : string) : int list  =
     Js.Array.fromMap
-        (Js.String.castToArrayLike s)
+        (Js.String.unsafeToArrayLike s)
         ~f:(fun x ->
-            match Js.String.codePointAt 0 x with
+            match Js.String.codePointAt ~pos:0 x with
             | None -> assert false
             | Some x -> x ) |> Array.to_list
 
