@@ -128,7 +128,7 @@ let ( ->~ ) a b =
   let loc = noloc in
   [%type: [%t a] -> [%t b]]
 
-let jsMapperRt = Longident.Ldot (Lident "Js", "MapperRt")
+let jsMapperRt = Longident.Lident "Js__Js_mapper_runtime"
 
 let fromInt len array exp =
   let loc = noloc in

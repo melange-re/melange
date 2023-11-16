@@ -148,8 +148,6 @@ module WeakMap = Js_weakmap
 
 (**/**)
 
-module MapperRt = Js_mapperRt
-
 module Private = struct
   module Js_OO = struct
     include Js_OO
