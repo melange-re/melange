@@ -33,6 +33,8 @@ Unreleased
       available in Melange
     - The functions in their corresponding modules now take labeled arguments,
       allowing them to be used with both `|.` and `|>`.
+- BREAKING(runtime): remove deprecated functions from `Js.*` modules
+  ([#897](https://github.com/melange-re/melange/pull/897))
 - Consistently handle empty payloads in externals:
   ([#852](https://github.com/melange-re/melange/pull/852))
 - Fix crash when pattern matching in the presence of complex constant inlining
@@ -42,7 +44,8 @@ Unreleased
 - Support `@mel.as` in `@mel.obj` labelled arguments
   ([#834](https://github.com/melange-re/melange/pull/834))
 - Fix error location for empty string interpolation in `{j| .. |j}`
-  ([#888](https://github.com/melange-re/melange/pull/888))
+  ([#888](https://github.com/melange-re/melange/pull/888),
+  [#890](https://github.com/melange-re/melange/pull/890))
 
 2.1.0 2023-10-22
 ---------------

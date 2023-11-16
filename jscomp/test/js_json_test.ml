@@ -31,7 +31,7 @@ let () =
         begin match ty2 with
         | J.JSONArray x ->  (* compiler infer x : J.t array *)
           x
-          |. Js.Array2.forEach (fun  x ->
+          |. Js.Array.forEach ~f:(fun  x ->
               let ty3 = J.classify x in
               match ty3 with
               | J.JSONNumber _ -> ()

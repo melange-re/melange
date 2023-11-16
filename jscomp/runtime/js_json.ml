@@ -50,7 +50,7 @@ let classify (x : t) : tagged_t =
   else if ty = "number" then JSONNumber (Obj.magic x)
   else if ty = "boolean" then if Obj.magic x = true then JSONTrue else JSONFalse
   else if Obj.magic x == Js_internal.null then JSONNull
-  else if Js_array2.isArray x then JSONArray (Obj.magic x)
+  else if Js_array.isArray x then JSONArray (Obj.magic x)
   else JSONObject (Obj.magic x)
 
 let test (type a) (x : 'a) (v : a kind) : bool =
@@ -59,11 +59,11 @@ let test (type a) (x : 'a) (v : a kind) : bool =
   | Boolean -> Js_internal.typeof x = "boolean"
   | String -> Js_internal.typeof x = "string"
   | Null -> Obj.magic x == Js_internal.null
-  | Array -> Js_array2.isArray x
+  | Array -> Js_array.isArray x
   | Object ->
       Obj.magic x != Js_internal.null
       && Js_internal.typeof x = "object"
-      && not (Js_array2.isArray x)
+      && not (Js_array.isArray x)
 
 let decodeString json =
   if Js_internal.typeof json = "string" then
@@ -77,13 +77,13 @@ let decodeNumber json =
 let decodeObject json =
   if
     Js_internal.typeof json = "object"
-    && (not (Js_array2.isArray json))
+    && (not (Js_array.isArray json))
     && not ((Obj.magic json : 'a Js_internal.null) == Js_internal.null)
   then Some (Obj.magic (json : t) : t Js_dict.t)
   else None
 
 let decodeArray json =
-  if Js_array2.isArray json then Some (Obj.magic (json : t) : t array) else None
+  if Js_array.isArray json then Some (Obj.magic (json : t) : t array) else None
 
 let decodeBoolean (json : t) =
   if Js_internal.typeof json = "boolean" then Some (Obj.magic (json : t) : bool)

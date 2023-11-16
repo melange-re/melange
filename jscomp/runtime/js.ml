@@ -64,13 +64,8 @@ type +'a nullable = 'a Js_null_undefined.t
 
 type +'a null_undefined = 'a nullable
 
-module Array2 = Js_array2
-(** Provide bindings to Js array*)
-
 module Exn = Js_exn
 (** Provide utilities for dealing with Js exceptions *)
-
-module Vector = Js_vector [@@alert deprecated "Use Belt.Array instead"]
 
 module String = Js_string
 (** Provide bindings to JS string *)

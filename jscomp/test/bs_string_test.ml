@@ -11,7 +11,7 @@ let () =
   eq __LOC__
   ("ghso ghso g"
   |. Js.String.split ~sep:" " ()
-  |. Js.Array2.reduce (fun x y ->  x ^  "-" ^ y) ""
+  |. Js.Array.reduce ~f:(fun x y ->  x ^  "-" ^ y) ~init:""
   ) "-ghso-ghso-g"
 
 

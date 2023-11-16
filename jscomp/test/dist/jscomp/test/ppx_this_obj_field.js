@@ -118,13 +118,11 @@ var eventObj = {
   events: [],
   empty: (function () {
       var self = this ;
-      var a = self.events;
-      a.splice(0);
+      self.events.splice(0);
     }),
   push: (function (a) {
       var self = this ;
-      var xs = self.events;
-      xs.push(a);
+      self.events.push(a);
     }),
   needRebuild: (function () {
       var self = this ;

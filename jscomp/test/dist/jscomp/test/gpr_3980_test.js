@@ -30,7 +30,7 @@ if (match !== undefined) {
             Error: new Error()
           };
     }
-    Js__Js_math.floor(1);
+    Js__Js_math.floor_int(1);
   }
   
 } else {
