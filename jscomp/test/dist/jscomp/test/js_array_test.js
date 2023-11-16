@@ -586,7 +586,7 @@ var suites_1 = {
                                                                                 1,
                                                                                 2,
                                                                                 3
-                                                                              ].lastIndexOf(2, undefined)
+                                                                              ].lastIndexOf(2)
                                                                           };
                                                                   })
                                                               ],

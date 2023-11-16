@@ -152,10 +152,10 @@ let suites = Mt.[
     );
 
     "lastIndexOf", (fun _ ->
-      Eq(1, [| 1; 2; 3 |] |. Js.Array.lastIndexOf ~value:2 ())
+      Eq(1, [| 1; 2; 3 |] |. Js.Array.lastIndexOf ~value:2 )
     );
     "lastIndexOfFrom", (fun _ ->
-      Eq(1, [| 1; 2; 3; 2 |] |. Js.Array.lastIndexOf ~value:2 ~start:2 ())
+      Eq(1, [| 1; 2; 3; 2 |] |. Js.Array.lastIndexOfFrom ~value:2 ~start:2 )
     );
 
     "slice", (fun _ ->

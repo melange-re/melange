@@ -107,8 +107,9 @@ external join : 'a t -> ?sep:string -> string = "join" [@@mel.send]
 external indexOf : 'a t -> value:'a -> ?start:int -> unit -> int = "indexOf"
 [@@mel.send]
 
-external lastIndexOf : 'a t -> value:'a -> ?start:int -> unit -> int
-  = "lastIndexOf"
+external lastIndexOf : 'a t -> value:'a -> int = "lastIndexOf" [@@mel.send]
+
+external lastIndexOfFrom : 'a t -> value:'a -> start:int -> int = "lastIndexOf"
 [@@mel.send]
 
 external copy : 'a t -> 'a t = "slice" [@@mel.send]
