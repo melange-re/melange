@@ -46,26 +46,12 @@ external length : 'a array -> int = "length" [@@mel.get]
 
 (** Mutating functions *)
 
-external copyWithin : 'a t -> to_:int -> 'a t = "copyWithin" [@@mel.send]
-(* ES2015 *)
-
-external copyWithinFrom : 'a t -> to_:int -> from:int -> 'a t = "copyWithin"
-[@@mel.send]
-(* ES2015 *)
-
-external copyWithinFromRange : 'a t -> to_:int -> start:int -> end_:int -> 'a t
+external copyWithin : 'a t -> to_:int -> ?start:int -> ?end_:int -> unit -> 'a t
   = "copyWithin"
 [@@mel.send]
 (* ES2015 *)
 
-external fillInPlace : 'a t -> value:'a -> 'a t = "fill" [@@mel.send]
-(* ES2015 *)
-
-external fillFromInPlace : 'a t -> value:'a -> from:int -> 'a t = "fill"
-[@@mel.send]
-(* ES2015 *)
-
-external fillRangeInPlace : 'a t -> value:'a -> start:int -> end_:int -> 'a t
+external fill : 'a t -> value:'a -> ?start:int -> ?end_:int -> unit -> 'a t
   = "fill"
 [@@mel.send]
 (* ES2015 *)
@@ -105,8 +91,6 @@ external unshift : 'a t -> value:'a -> int = "unshift" [@@mel.send]
 external unshiftMany : 'a t -> values:'a array -> int = "unshift"
 [@@mel.send] [@@mel.splice]
 
-(** Accessor functions *)
-
 external concat : 'a t -> other:'a t -> 'a t = "concat" [@@mel.send]
 
 external concatMany : 'a t -> arrays:'a t array -> 'a t = "concat"
@@ -116,20 +100,22 @@ external includes : 'a t -> value:'a -> bool = "includes"
 [@@mel.send]
 (** ES2015 *)
 
-external indexOf : 'a t -> value:'a -> int = "indexOf" [@@mel.send]
+external join : 'a t -> ?sep:string -> string = "join" [@@mel.send]
 
-external indexOfFrom : 'a t -> value:'a -> from:int -> int = "indexOf"
+(** Accessor functions *)
+
+external indexOf : 'a t -> value:'a -> ?start:int -> unit -> int = "indexOf"
 [@@mel.send]
 
-external join : 'a t -> sep:string -> string = "join" [@@mel.send]
-external lastIndexOf : 'a t -> value:'a -> int = "lastIndexOf" [@@mel.send]
-
-external lastIndexOfFrom : 'a t -> value:'a -> from:int -> int = "lastIndexOf"
+external lastIndexOf : 'a t -> value:'a -> ?start:int -> unit -> int
+  = "lastIndexOf"
 [@@mel.send]
 
-external slice : 'a t -> start:int -> end_:int -> 'a t = "slice" [@@mel.send]
 external copy : 'a t -> 'a t = "slice" [@@mel.send]
-external sliceFrom : 'a t -> pos:int -> 'a t = "slice" [@@mel.send]
+
+external slice : 'a t -> ?start:int -> ?end_:int -> unit -> 'a t = "slice"
+[@@mel.send]
+
 external toString : 'a t -> string = "toString" [@@mel.send]
 external toLocaleString : 'a t -> string = "toLocaleString" [@@mel.send]
 
