@@ -26,12 +26,6 @@
   (run cppo %{deps} -o %{target})))
 
 (rule
- (target js_typed_array2.ml)
- (deps js_typed_array2.cppo.ml)
- (action
-  (run cppo %{deps} -o %{target})))
-
-(rule
  (target caml_oo_curry.ml)
  (action
   (with-stdout-to

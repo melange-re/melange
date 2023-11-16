@@ -65,7 +65,7 @@ var suites_1 = {
             return {
                     TAG: /* Eq */0,
                     _0: 3,
-                    _1: new ArrayBuffer(5).slice(2).byteLength
+                    _1: new ArrayBuffer(5).slice(2, undefined).byteLength
                   };
           })
       ],
@@ -122,7 +122,7 @@ var suites_1 = {
                                     3,
                                     4,
                                     5
-                                  ]).buffer, 2)
+                                  ]).buffer, 2, undefined)
                         };
                 })
             ],
@@ -258,7 +258,7 @@ var suites_1 = {
                                               3,
                                               4,
                                               5
-                                            ]).copyWithin(-2)
+                                            ]).copyWithin(-2, undefined, undefined)
                                     };
                             })
                         ],
@@ -281,7 +281,7 @@ var suites_1 = {
                                                 3,
                                                 4,
                                                 5
-                                              ]).copyWithin(0, 3)
+                                              ]).copyWithin(0, 3, undefined)
                                       };
                               })
                           ],
@@ -323,7 +323,7 @@ var suites_1 = {
                                                     1,
                                                     2,
                                                     3
-                                                  ]).fill(4)
+                                                  ]).fill(4, undefined, undefined)
                                           };
                                   })
                               ],
@@ -342,7 +342,7 @@ var suites_1 = {
                                                       1,
                                                       2,
                                                       3
-                                                    ]).fill(4, 1)
+                                                    ]).fill(4, 1, undefined)
                                             };
                                     })
                                 ],
@@ -407,6 +407,9 @@ var suites_1 = {
                                         hd: [
                                           "typed_array - sortInPlaceWith",
                                           (function (param) {
+                                              var arg = function (a, b) {
+                                                return b - a | 0;
+                                              };
                                               return {
                                                       TAG: /* Eq */0,
                                                       _0: new Int8Array([
@@ -414,13 +417,13 @@ var suites_1 = {
                                                             2,
                                                             1
                                                           ]),
-                                                      _1: new Int8Array([
-                                                              3,
-                                                              1,
-                                                              2
-                                                            ]).sort(function (a, b) {
-                                                            return b - a | 0;
-                                                          })
+                                                      _1: (function (param) {
+                                                            return param.sort(arg);
+                                                          })(new Int8Array([
+                                                                3,
+                                                                1,
+                                                                2
+                                                              ]))
                                                     };
                                             })
                                         ],
@@ -450,7 +453,7 @@ var suites_1 = {
                                                                   1,
                                                                   2,
                                                                   3
-                                                                ]).indexOf(2)
+                                                                ]).indexOf(2, undefined)
                                                         };
                                                 })
                                             ],
@@ -481,7 +484,7 @@ var suites_1 = {
                                                                       1,
                                                                       2,
                                                                       3
-                                                                    ]).join()
+                                                                    ]).join(undefined)
                                                             };
                                                     })
                                                 ],
@@ -591,7 +594,7 @@ var suites_1 = {
                                                                                   3,
                                                                                   4,
                                                                                   5
-                                                                                ]).slice(2)
+                                                                                ]).slice(2, undefined)
                                                                         };
                                                                 })
                                                             ],
@@ -632,7 +635,7 @@ var suites_1 = {
                                                                                       3,
                                                                                       4,
                                                                                       5
-                                                                                    ]).subarray(2)
+                                                                                    ]).subarray(2, undefined)
                                                                             };
                                                                     })
                                                                 ],
@@ -670,16 +673,19 @@ var suites_1 = {
                                                                       hd: [
                                                                         "typed_array - every",
                                                                         (function (param) {
+                                                                            var arg = function (n) {
+                                                                              return n > 0;
+                                                                            };
                                                                             return {
                                                                                     TAG: /* Eq */0,
                                                                                     _0: true,
-                                                                                    _1: new Int8Array([
-                                                                                            1,
-                                                                                            2,
-                                                                                            3
-                                                                                          ]).every(function (n) {
-                                                                                          return n > 0;
-                                                                                        })
+                                                                                    _1: (function (param) {
+                                                                                          return param.every(arg);
+                                                                                        })(new Int8Array([
+                                                                                              1,
+                                                                                              2,
+                                                                                              3
+                                                                                            ]))
                                                                                   };
                                                                           })
                                                                       ],
@@ -687,16 +693,19 @@ var suites_1 = {
                                                                         hd: [
                                                                           "typed_array - everyi",
                                                                           (function (param) {
+                                                                              var arg = function (param, i) {
+                                                                                return i > 0;
+                                                                              };
                                                                               return {
                                                                                       TAG: /* Eq */0,
                                                                                       _0: false,
-                                                                                      _1: new Int8Array([
-                                                                                              1,
-                                                                                              2,
-                                                                                              3
-                                                                                            ]).every(function (param, i) {
-                                                                                            return i > 0;
-                                                                                          })
+                                                                                      _1: (function (param) {
+                                                                                            return param.every(arg);
+                                                                                          })(new Int8Array([
+                                                                                                1,
+                                                                                                2,
+                                                                                                3
+                                                                                              ]))
                                                                                     };
                                                                             })
                                                                         ],
@@ -704,20 +713,23 @@ var suites_1 = {
                                                                           hd: [
                                                                             "typed_array - filter",
                                                                             (function (param) {
+                                                                                var arg = function (n) {
+                                                                                  return n % 2 === 0;
+                                                                                };
                                                                                 return {
                                                                                         TAG: /* Eq */0,
                                                                                         _0: new Int8Array([
                                                                                               2,
                                                                                               4
                                                                                             ]),
-                                                                                        _1: new Int8Array([
-                                                                                                1,
-                                                                                                2,
-                                                                                                3,
-                                                                                                4
-                                                                                              ]).filter(function (n) {
-                                                                                              return n % 2 === 0;
-                                                                                            })
+                                                                                        _1: (function (param) {
+                                                                                              return param.filter(arg);
+                                                                                            })(new Int8Array([
+                                                                                                  1,
+                                                                                                  2,
+                                                                                                  3,
+                                                                                                  4
+                                                                                                ]))
                                                                                       };
                                                                               })
                                                                           ],
@@ -725,20 +737,23 @@ var suites_1 = {
                                                                             hd: [
                                                                               "typed_array - filteri",
                                                                               (function (param) {
+                                                                                  var arg = function (param, i) {
+                                                                                    return i % 2 === 0;
+                                                                                  };
                                                                                   return {
                                                                                           TAG: /* Eq */0,
                                                                                           _0: new Int8Array([
                                                                                                 1,
                                                                                                 3
                                                                                               ]),
-                                                                                          _1: new Int8Array([
-                                                                                                  1,
-                                                                                                  2,
-                                                                                                  3,
-                                                                                                  4
-                                                                                                ]).filter(function (param, i) {
-                                                                                                return i % 2 === 0;
-                                                                                              })
+                                                                                          _1: (function (param) {
+                                                                                                return param.filter(arg);
+                                                                                              })(new Int8Array([
+                                                                                                    1,
+                                                                                                    2,
+                                                                                                    3,
+                                                                                                    4
+                                                                                                  ]))
                                                                                         };
                                                                                 })
                                                                             ],
@@ -746,17 +761,20 @@ var suites_1 = {
                                                                               hd: [
                                                                                 "typed_array - find",
                                                                                 (function (param) {
+                                                                                    var arg = function (n) {
+                                                                                      return n % 2 === 0;
+                                                                                    };
                                                                                     return {
                                                                                             TAG: /* Eq */0,
                                                                                             _0: 2,
-                                                                                            _1: new Int8Array([
-                                                                                                    1,
-                                                                                                    2,
-                                                                                                    3,
-                                                                                                    4
-                                                                                                  ]).find(function (n) {
-                                                                                                  return n % 2 === 0;
-                                                                                                })
+                                                                                            _1: (function (param) {
+                                                                                                  return param.find(arg);
+                                                                                                })(new Int8Array([
+                                                                                                      1,
+                                                                                                      2,
+                                                                                                      3,
+                                                                                                      4
+                                                                                                    ]))
                                                                                           };
                                                                                   })
                                                                               ],
@@ -764,17 +782,20 @@ var suites_1 = {
                                                                                 hd: [
                                                                                   "typed_array - findi",
                                                                                   (function (param) {
+                                                                                      var arg = function (param, i) {
+                                                                                        return i % 2 === 0;
+                                                                                      };
                                                                                       return {
                                                                                               TAG: /* Eq */0,
                                                                                               _0: 1,
-                                                                                              _1: new Int8Array([
-                                                                                                      1,
-                                                                                                      2,
-                                                                                                      3,
-                                                                                                      4
-                                                                                                    ]).find(function (param, i) {
-                                                                                                    return i % 2 === 0;
-                                                                                                  })
+                                                                                              _1: (function (param) {
+                                                                                                    return param.find(arg);
+                                                                                                  })(new Int8Array([
+                                                                                                        1,
+                                                                                                        2,
+                                                                                                        3,
+                                                                                                        4
+                                                                                                      ]))
                                                                                             };
                                                                                     })
                                                                                 ],
@@ -782,17 +803,20 @@ var suites_1 = {
                                                                                   hd: [
                                                                                     "typed_array - findIndex",
                                                                                     (function (param) {
+                                                                                        var arg = function (n) {
+                                                                                          return n % 2 === 0;
+                                                                                        };
                                                                                         return {
                                                                                                 TAG: /* Eq */0,
                                                                                                 _0: 1,
-                                                                                                _1: new Int8Array([
-                                                                                                        1,
-                                                                                                        2,
-                                                                                                        3,
-                                                                                                        4
-                                                                                                      ]).findIndex(function (n) {
-                                                                                                      return n % 2 === 0;
-                                                                                                    })
+                                                                                                _1: (function (param) {
+                                                                                                      return param.findIndex(arg);
+                                                                                                    })(new Int8Array([
+                                                                                                          1,
+                                                                                                          2,
+                                                                                                          3,
+                                                                                                          4
+                                                                                                        ]))
                                                                                               };
                                                                                       })
                                                                                   ],
@@ -800,17 +824,20 @@ var suites_1 = {
                                                                                     hd: [
                                                                                       "typed_array - findIndexi",
                                                                                       (function (param) {
+                                                                                          var arg = function (param, i) {
+                                                                                            return i % 2 === 0;
+                                                                                          };
                                                                                           return {
                                                                                                   TAG: /* Eq */0,
                                                                                                   _0: 0,
-                                                                                                  _1: new Int8Array([
-                                                                                                          1,
-                                                                                                          2,
-                                                                                                          3,
-                                                                                                          4
-                                                                                                        ]).findIndex(function (param, i) {
-                                                                                                        return i % 2 === 0;
-                                                                                                      })
+                                                                                                  _1: (function (param) {
+                                                                                                        return param.findIndex(arg);
+                                                                                                      })(new Int8Array([
+                                                                                                            1,
+                                                                                                            2,
+                                                                                                            3,
+                                                                                                            4
+                                                                                                          ]))
                                                                                                 };
                                                                                         })
                                                                                     ],
@@ -821,13 +848,16 @@ var suites_1 = {
                                                                                             var sum = {
                                                                                               contents: 0
                                                                                             };
-                                                                                            new Int8Array([
-                                                                                                    1,
-                                                                                                    2,
-                                                                                                    3
-                                                                                                  ]).forEach(function (n) {
-                                                                                                  sum.contents = sum.contents + n | 0;
-                                                                                                });
+                                                                                            var arg = function (n) {
+                                                                                              sum.contents = sum.contents + n | 0;
+                                                                                            };
+                                                                                            ((function (param) {
+                                                                                                    param.forEach(arg);
+                                                                                                  })(new Int8Array([
+                                                                                                        1,
+                                                                                                        2,
+                                                                                                        3
+                                                                                                      ])));
                                                                                             return {
                                                                                                     TAG: /* Eq */0,
                                                                                                     _0: 6,
@@ -842,13 +872,16 @@ var suites_1 = {
                                                                                               var sum = {
                                                                                                 contents: 0
                                                                                               };
-                                                                                              new Int8Array([
-                                                                                                      1,
-                                                                                                      2,
-                                                                                                      3
-                                                                                                    ]).forEach(function (param, i) {
-                                                                                                    sum.contents = sum.contents + i | 0;
-                                                                                                  });
+                                                                                              var arg = function (param, i) {
+                                                                                                sum.contents = sum.contents + i | 0;
+                                                                                              };
+                                                                                              ((function (param) {
+                                                                                                      param.forEach(arg);
+                                                                                                    })(new Int8Array([
+                                                                                                          1,
+                                                                                                          2,
+                                                                                                          3
+                                                                                                        ])));
                                                                                               return {
                                                                                                       TAG: /* Eq */0,
                                                                                                       _0: 3,
@@ -860,6 +893,9 @@ var suites_1 = {
                                                                                           hd: [
                                                                                             "typed_array - map",
                                                                                             (function (param) {
+                                                                                                var arg = function (n) {
+                                                                                                  return (n << 1);
+                                                                                                };
                                                                                                 return {
                                                                                                         TAG: /* Eq */0,
                                                                                                         _0: new Int8Array([
@@ -868,14 +904,14 @@ var suites_1 = {
                                                                                                               6,
                                                                                                               8
                                                                                                             ]),
-                                                                                                        _1: new Int8Array([
-                                                                                                                1,
-                                                                                                                2,
-                                                                                                                3,
-                                                                                                                4
-                                                                                                              ]).map(function (n) {
-                                                                                                              return (n << 1);
-                                                                                                            })
+                                                                                                        _1: (function (param) {
+                                                                                                              return param.map(arg);
+                                                                                                            })(new Int8Array([
+                                                                                                                  1,
+                                                                                                                  2,
+                                                                                                                  3,
+                                                                                                                  4
+                                                                                                                ]))
                                                                                                       };
                                                                                               })
                                                                                           ],
@@ -883,6 +919,9 @@ var suites_1 = {
                                                                                             hd: [
                                                                                               "typed_array - map",
                                                                                               (function (param) {
+                                                                                                  var arg = function (param, i) {
+                                                                                                    return (i << 1);
+                                                                                                  };
                                                                                                   return {
                                                                                                           TAG: /* Eq */0,
                                                                                                           _0: new Int8Array([
@@ -891,14 +930,14 @@ var suites_1 = {
                                                                                                                 4,
                                                                                                                 6
                                                                                                               ]),
-                                                                                                          _1: new Int8Array([
-                                                                                                                  1,
-                                                                                                                  2,
-                                                                                                                  3,
-                                                                                                                  4
-                                                                                                                ]).map(function (param, i) {
-                                                                                                                return (i << 1);
-                                                                                                              })
+                                                                                                          _1: (function (param) {
+                                                                                                                return param.map(arg);
+                                                                                                              })(new Int8Array([
+                                                                                                                    1,
+                                                                                                                    2,
+                                                                                                                    3,
+                                                                                                                    4
+                                                                                                                  ]))
                                                                                                         };
                                                                                                 })
                                                                                             ],
@@ -906,17 +945,20 @@ var suites_1 = {
                                                                                               hd: [
                                                                                                 "typed_array - reduce",
                                                                                                 (function (param) {
+                                                                                                    var arg = function (acc, n) {
+                                                                                                      return acc - n | 0;
+                                                                                                    };
                                                                                                     return {
                                                                                                             TAG: /* Eq */0,
                                                                                                             _0: -10,
-                                                                                                            _1: new Int8Array([
-                                                                                                                    1,
-                                                                                                                    2,
-                                                                                                                    3,
-                                                                                                                    4
-                                                                                                                  ]).reduce((function (acc, n) {
-                                                                                                                    return acc - n | 0;
-                                                                                                                  }), 0)
+                                                                                                            _1: (function (param) {
+                                                                                                                  return param.reduce(arg, 0);
+                                                                                                                })(new Int8Array([
+                                                                                                                      1,
+                                                                                                                      2,
+                                                                                                                      3,
+                                                                                                                      4
+                                                                                                                    ]))
                                                                                                           };
                                                                                                   })
                                                                                               ],
@@ -924,17 +966,20 @@ var suites_1 = {
                                                                                                 hd: [
                                                                                                   "typed_array - reducei",
                                                                                                   (function (param) {
+                                                                                                      var arg = function (acc, param, i) {
+                                                                                                        return acc - i | 0;
+                                                                                                      };
                                                                                                       return {
                                                                                                               TAG: /* Eq */0,
                                                                                                               _0: -6,
-                                                                                                              _1: new Int8Array([
-                                                                                                                      1,
-                                                                                                                      2,
-                                                                                                                      3,
-                                                                                                                      4
-                                                                                                                    ]).reduce((function (acc, param, i) {
-                                                                                                                      return acc - i | 0;
-                                                                                                                    }), 0)
+                                                                                                              _1: (function (param) {
+                                                                                                                    return param.reduce(arg, 0);
+                                                                                                                  })(new Int8Array([
+                                                                                                                        1,
+                                                                                                                        2,
+                                                                                                                        3,
+                                                                                                                        4
+                                                                                                                      ]))
                                                                                                             };
                                                                                                     })
                                                                                                 ],
@@ -942,17 +987,20 @@ var suites_1 = {
                                                                                                   hd: [
                                                                                                     "typed_array - reduceRight",
                                                                                                     (function (param) {
+                                                                                                        var arg = function (acc, n) {
+                                                                                                          return acc - n | 0;
+                                                                                                        };
                                                                                                         return {
                                                                                                                 TAG: /* Eq */0,
                                                                                                                 _0: -10,
-                                                                                                                _1: new Int8Array([
-                                                                                                                        1,
-                                                                                                                        2,
-                                                                                                                        3,
-                                                                                                                        4
-                                                                                                                      ]).reduceRight((function (acc, n) {
-                                                                                                                        return acc - n | 0;
-                                                                                                                      }), 0)
+                                                                                                                _1: (function (param) {
+                                                                                                                      return param.reduceRight(arg, 0);
+                                                                                                                    })(new Int8Array([
+                                                                                                                          1,
+                                                                                                                          2,
+                                                                                                                          3,
+                                                                                                                          4
+                                                                                                                        ]))
                                                                                                               };
                                                                                                       })
                                                                                                   ],
@@ -960,17 +1008,20 @@ var suites_1 = {
                                                                                                     hd: [
                                                                                                       "typed_array - reduceRighti",
                                                                                                       (function (param) {
+                                                                                                          var arg = function (acc, param, i) {
+                                                                                                            return acc - i | 0;
+                                                                                                          };
                                                                                                           return {
                                                                                                                   TAG: /* Eq */0,
                                                                                                                   _0: -6,
-                                                                                                                  _1: new Int8Array([
-                                                                                                                          1,
-                                                                                                                          2,
-                                                                                                                          3,
-                                                                                                                          4
-                                                                                                                        ]).reduceRight((function (acc, param, i) {
-                                                                                                                          return acc - i | 0;
-                                                                                                                        }), 0)
+                                                                                                                  _1: (function (param) {
+                                                                                                                        return param.reduceRight(arg, 0);
+                                                                                                                      })(new Int8Array([
+                                                                                                                            1,
+                                                                                                                            2,
+                                                                                                                            3,
+                                                                                                                            4
+                                                                                                                          ]))
                                                                                                                 };
                                                                                                         })
                                                                                                     ],
@@ -978,17 +1029,20 @@ var suites_1 = {
                                                                                                       hd: [
                                                                                                         "typed_array - some",
                                                                                                         (function (param) {
+                                                                                                            var arg = function (n) {
+                                                                                                              return n <= 0;
+                                                                                                            };
                                                                                                             return {
                                                                                                                     TAG: /* Eq */0,
                                                                                                                     _0: false,
-                                                                                                                    _1: new Int8Array([
-                                                                                                                            1,
-                                                                                                                            2,
-                                                                                                                            3,
-                                                                                                                            4
-                                                                                                                          ]).some(function (n) {
-                                                                                                                          return n <= 0;
-                                                                                                                        })
+                                                                                                                    _1: (function (param) {
+                                                                                                                          return param.some(arg);
+                                                                                                                        })(new Int8Array([
+                                                                                                                              1,
+                                                                                                                              2,
+                                                                                                                              3,
+                                                                                                                              4
+                                                                                                                            ]))
                                                                                                                   };
                                                                                                           })
                                                                                                       ],
@@ -996,17 +1050,20 @@ var suites_1 = {
                                                                                                         hd: [
                                                                                                           "typed_array - somei",
                                                                                                           (function (param) {
+                                                                                                              var arg = function (param, i) {
+                                                                                                                return i <= 0;
+                                                                                                              };
                                                                                                               return {
                                                                                                                       TAG: /* Eq */0,
                                                                                                                       _0: true,
-                                                                                                                      _1: new Int8Array([
-                                                                                                                              1,
-                                                                                                                              2,
-                                                                                                                              3,
-                                                                                                                              4
-                                                                                                                            ]).some(function (param, i) {
-                                                                                                                            return i <= 0;
-                                                                                                                          })
+                                                                                                                      _1: (function (param) {
+                                                                                                                            return param.some(arg);
+                                                                                                                          })(new Int8Array([
+                                                                                                                                1,
+                                                                                                                                2,
+                                                                                                                                3,
+                                                                                                                                4
+                                                                                                                              ]))
                                                                                                                     };
                                                                                                             })
                                                                                                         ],
@@ -1043,7 +1100,7 @@ var suites_1 = {
                                                                                                                     return {
                                                                                                                             TAG: /* Eq */0,
                                                                                                                             _0: 32,
-                                                                                                                            _1: new Int8Array(new ArrayBuffer(32)).byteLength
+                                                                                                                            _1: new Int8Array(new ArrayBuffer(32), undefined, undefined).byteLength
                                                                                                                           };
                                                                                                                   })
                                                                                                               ],
@@ -1055,7 +1112,7 @@ var suites_1 = {
                                                                                                                       return {
                                                                                                                               TAG: /* Eq */0,
                                                                                                                               _0: 24,
-                                                                                                                              _1: new Int8Array(buffer, 8).byteLength
+                                                                                                                              _1: new Int8Array(buffer, 8, undefined).byteLength
                                                                                                                             };
                                                                                                                     })
                                                                                                                 ],
@@ -1134,7 +1191,7 @@ var suites_1 = {
                                                                                                                                   return {
                                                                                                                                           TAG: /* Eq */0,
                                                                                                                                           _0: 32,
-                                                                                                                                          _1: new Uint8Array(new ArrayBuffer(32)).byteLength
+                                                                                                                                          _1: new Uint8Array(new ArrayBuffer(32), undefined, undefined).byteLength
                                                                                                                                         };
                                                                                                                                 })
                                                                                                                             ],
@@ -1146,7 +1203,7 @@ var suites_1 = {
                                                                                                                                     return {
                                                                                                                                             TAG: /* Eq */0,
                                                                                                                                             _0: 24,
-                                                                                                                                            _1: new Uint8Array(buffer, 8).byteLength
+                                                                                                                                            _1: new Uint8Array(buffer, 8, undefined).byteLength
                                                                                                                                           };
                                                                                                                                   })
                                                                                                                               ],
@@ -1225,7 +1282,7 @@ var suites_1 = {
                                                                                                                                                 return {
                                                                                                                                                         TAG: /* Eq */0,
                                                                                                                                                         _0: 32,
-                                                                                                                                                        _1: new Uint8ClampedArray(new ArrayBuffer(32)).byteLength
+                                                                                                                                                        _1: new Uint8ClampedArray(new ArrayBuffer(32), undefined, undefined).byteLength
                                                                                                                                                       };
                                                                                                                                               })
                                                                                                                                           ],
@@ -1237,7 +1294,7 @@ var suites_1 = {
                                                                                                                                                   return {
                                                                                                                                                           TAG: /* Eq */0,
                                                                                                                                                           _0: 24,
-                                                                                                                                                          _1: new Uint8ClampedArray(buffer, 8).byteLength
+                                                                                                                                                          _1: new Uint8ClampedArray(buffer, 8, undefined).byteLength
                                                                                                                                                         };
                                                                                                                                                 })
                                                                                                                                             ],
@@ -1316,7 +1373,7 @@ var suites_1 = {
                                                                                                                                                               return {
                                                                                                                                                                       TAG: /* Eq */0,
                                                                                                                                                                       _0: 32,
-                                                                                                                                                                      _1: new Int16Array(new ArrayBuffer(32)).byteLength
+                                                                                                                                                                      _1: new Int16Array(new ArrayBuffer(32), undefined, undefined).byteLength
                                                                                                                                                                     };
                                                                                                                                                             })
                                                                                                                                                         ],
@@ -1328,7 +1385,7 @@ var suites_1 = {
                                                                                                                                                                 return {
                                                                                                                                                                         TAG: /* Eq */0,
                                                                                                                                                                         _0: 24,
-                                                                                                                                                                        _1: new Int16Array(buffer, 8).byteLength
+                                                                                                                                                                        _1: new Int16Array(buffer, 8, undefined).byteLength
                                                                                                                                                                       };
                                                                                                                                                               })
                                                                                                                                                           ],
@@ -1407,7 +1464,7 @@ var suites_1 = {
                                                                                                                                                                             return {
                                                                                                                                                                                     TAG: /* Eq */0,
                                                                                                                                                                                     _0: 32,
-                                                                                                                                                                                    _1: new Uint16Array(new ArrayBuffer(32)).byteLength
+                                                                                                                                                                                    _1: new Uint16Array(new ArrayBuffer(32), undefined, undefined).byteLength
                                                                                                                                                                                   };
                                                                                                                                                                           })
                                                                                                                                                                       ],
@@ -1419,7 +1476,7 @@ var suites_1 = {
                                                                                                                                                                               return {
                                                                                                                                                                                       TAG: /* Eq */0,
                                                                                                                                                                                       _0: 24,
-                                                                                                                                                                                      _1: new Uint16Array(buffer, 8).byteLength
+                                                                                                                                                                                      _1: new Uint16Array(buffer, 8, undefined).byteLength
                                                                                                                                                                                     };
                                                                                                                                                                             })
                                                                                                                                                                         ],
@@ -1500,7 +1557,7 @@ var suites_1 = {
                                                                                                                                                                                           return {
                                                                                                                                                                                                   TAG: /* Eq */0,
                                                                                                                                                                                                   _0: 32,
-                                                                                                                                                                                                  _1: new Int32Array(new ArrayBuffer(32)).byteLength
+                                                                                                                                                                                                  _1: new Int32Array(new ArrayBuffer(32), undefined, undefined).byteLength
                                                                                                                                                                                                 };
                                                                                                                                                                                         })
                                                                                                                                                                                     ],
@@ -1512,7 +1569,7 @@ var suites_1 = {
                                                                                                                                                                                             return {
                                                                                                                                                                                                     TAG: /* Eq */0,
                                                                                                                                                                                                     _0: 24,
-                                                                                                                                                                                                    _1: new Int32Array(buffer, 8).byteLength
+                                                                                                                                                                                                    _1: new Int32Array(buffer, 8, undefined).byteLength
                                                                                                                                                                                                   };
                                                                                                                                                                                           })
                                                                                                                                                                                       ],
@@ -1593,7 +1650,7 @@ var suites_1 = {
                                                                                                                                                                                                         return {
                                                                                                                                                                                                                 TAG: /* Eq */0,
                                                                                                                                                                                                                 _0: 32,
-                                                                                                                                                                                                                _1: new Uint32Array(new ArrayBuffer(32)).byteLength
+                                                                                                                                                                                                                _1: new Uint32Array(new ArrayBuffer(32), undefined, undefined).byteLength
                                                                                                                                                                                                               };
                                                                                                                                                                                                       })
                                                                                                                                                                                                   ],
@@ -1605,7 +1662,7 @@ var suites_1 = {
                                                                                                                                                                                                           return {
                                                                                                                                                                                                                   TAG: /* Eq */0,
                                                                                                                                                                                                                   _0: 24,
-                                                                                                                                                                                                                  _1: new Uint32Array(buffer, 8).byteLength
+                                                                                                                                                                                                                  _1: new Uint32Array(buffer, 8, undefined).byteLength
                                                                                                                                                                                                                 };
                                                                                                                                                                                                         })
                                                                                                                                                                                                     ],
@@ -1684,7 +1741,7 @@ var suites_1 = {
                                                                                                                                                                                                                       return {
                                                                                                                                                                                                                               TAG: /* Eq */0,
                                                                                                                                                                                                                               _0: 32,
-                                                                                                                                                                                                                              _1: new Float32Array(new ArrayBuffer(32)).byteLength
+                                                                                                                                                                                                                              _1: new Float32Array(new ArrayBuffer(32), undefined, undefined).byteLength
                                                                                                                                                                                                                             };
                                                                                                                                                                                                                     })
                                                                                                                                                                                                                 ],
@@ -1696,7 +1753,7 @@ var suites_1 = {
                                                                                                                                                                                                                         return {
                                                                                                                                                                                                                                 TAG: /* Eq */0,
                                                                                                                                                                                                                                 _0: 24,
-                                                                                                                                                                                                                                _1: new Float32Array(buffer, 8).byteLength
+                                                                                                                                                                                                                                _1: new Float32Array(buffer, 8, undefined).byteLength
                                                                                                                                                                                                                               };
                                                                                                                                                                                                                       })
                                                                                                                                                                                                                   ],
@@ -1775,7 +1832,7 @@ var suites_1 = {
                                                                                                                                                                                                                                     return {
                                                                                                                                                                                                                                             TAG: /* Eq */0,
                                                                                                                                                                                                                                             _0: 32,
-                                                                                                                                                                                                                                            _1: new Float64Array(new ArrayBuffer(32)).byteLength
+                                                                                                                                                                                                                                            _1: new Float64Array(new ArrayBuffer(32), undefined, undefined).byteLength
                                                                                                                                                                                                                                           };
                                                                                                                                                                                                                                   })
                                                                                                                                                                                                                               ],
@@ -1787,7 +1844,7 @@ var suites_1 = {
                                                                                                                                                                                                                                       return {
                                                                                                                                                                                                                                               TAG: /* Eq */0,
                                                                                                                                                                                                                                               _0: 24,
-                                                                                                                                                                                                                                              _1: new Float64Array(buffer, 8).byteLength
+                                                                                                                                                                                                                                              _1: new Float64Array(buffer, 8, undefined).byteLength
                                                                                                                                                                                                                                             };
                                                                                                                                                                                                                                     })
                                                                                                                                                                                                                                 ],
@@ -1851,7 +1908,7 @@ var suites_1 = {
                                                                                                                                                                                                                                                 return {
                                                                                                                                                                                                                                                         TAG: /* Eq */0,
                                                                                                                                                                                                                                                         _0: 32,
-                                                                                                                                                                                                                                                        _1: new DataView(new ArrayBuffer(32)).byteLength
+                                                                                                                                                                                                                                                        _1: new DataView(new ArrayBuffer(32), undefined, undefined).byteLength
                                                                                                                                                                                                                                                       };
                                                                                                                                                                                                                                               })
                                                                                                                                                                                                                                           ],
@@ -1863,7 +1920,7 @@ var suites_1 = {
                                                                                                                                                                                                                                                   return {
                                                                                                                                                                                                                                                           TAG: /* Eq */0,
                                                                                                                                                                                                                                                           _0: 24,
-                                                                                                                                                                                                                                                          _1: new DataView(buffer, 8).byteLength
+                                                                                                                                                                                                                                                          _1: new DataView(buffer, 8, undefined).byteLength
                                                                                                                                                                                                                                                         };
                                                                                                                                                                                                                                                 })
                                                                                                                                                                                                                                             ],
@@ -1887,7 +1944,7 @@ var suites_1 = {
                                                                                                                                                                                                                                                       return {
                                                                                                                                                                                                                                                               TAG: /* Eq */0,
                                                                                                                                                                                                                                                               _0: buffer,
-                                                                                                                                                                                                                                                              _1: new DataView(buffer).buffer
+                                                                                                                                                                                                                                                              _1: new DataView(buffer, undefined, undefined).buffer
                                                                                                                                                                                                                                                             };
                                                                                                                                                                                                                                                     })
                                                                                                                                                                                                                                                 ],
@@ -1899,7 +1956,7 @@ var suites_1 = {
                                                                                                                                                                                                                                                         return {
                                                                                                                                                                                                                                                                 TAG: /* Eq */0,
                                                                                                                                                                                                                                                                 _0: 8,
-                                                                                                                                                                                                                                                                _1: new DataView(buffer, 8).byteOffset
+                                                                                                                                                                                                                                                                _1: new DataView(buffer, 8, undefined).byteOffset
                                                                                                                                                                                                                                                               };
                                                                                                                                                                                                                                                       })
                                                                                                                                                                                                                                                   ],
