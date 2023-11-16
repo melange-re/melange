@@ -23,7 +23,7 @@ exception AAA = Exception_def.A
 let () =
     eq __LOC__ "hey" (Printexc.to_string Hi);
     eq __LOC__ "A(1)" (Printexc.to_string (A 1));
-    eq __LOC__  (Js.String.startsWith (Printexc.to_string Hello) ~prefix:"Exception_repr_test.Hello") true;
+    eq __LOC__  (Js.String.startsWith (Printexc.to_string Hello) ~prefix:"Exception_repr_test.Hello" ()) true;
     eq __LOC__ "A" (Printexc.to_string @@ AAA 3)
 
 ;; Mt.from_pair_suites __MODULE__ !suites

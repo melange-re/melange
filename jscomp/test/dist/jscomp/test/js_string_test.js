@@ -155,7 +155,7 @@ var suites_1 = {
                                 return {
                                         TAG: /* Eq */0,
                                         _0: true,
-                                        _1: "foobar".endsWith("bar")
+                                        _1: "foobar".endsWith("bar", undefined)
                                       };
                               })
                           ],
@@ -177,7 +177,7 @@ var suites_1 = {
                                     return {
                                             TAG: /* Eq */0,
                                             _0: true,
-                                            _1: "foobarbaz".includes("bar")
+                                            _1: "foobarbaz".includes("bar", undefined)
                                           };
                                   })
                               ],
@@ -199,7 +199,7 @@ var suites_1 = {
                                         return {
                                                 TAG: /* Eq */0,
                                                 _0: 3,
-                                                _1: "foobarbaz".indexOf("bar")
+                                                _1: "foobarbaz".indexOf("bar", undefined)
                                               };
                                       })
                                   ],
@@ -221,7 +221,7 @@ var suites_1 = {
                                             return {
                                                     TAG: /* Eq */0,
                                                     _0: 3,
-                                                    _1: "foobarbaz".lastIndexOf("bar")
+                                                    _1: "foobarbaz".lastIndexOf("bar", undefined)
                                                   };
                                           })
                                       ],
@@ -444,7 +444,7 @@ var suites_1 = {
                                                                               return {
                                                                                       TAG: /* Eq */0,
                                                                                       _0: "barbaz",
-                                                                                      _1: "foobarbaz".slice(3)
+                                                                                      _1: "foobarbaz".slice(3, undefined)
                                                                                     };
                                                                             })
                                                                         ],
@@ -459,7 +459,7 @@ var suites_1 = {
                                                                                           "bar",
                                                                                           "baz"
                                                                                         ],
-                                                                                        _1: "foo bar baz".split(" ")
+                                                                                        _1: "foo bar baz".split(" ", undefined)
                                                                                       };
                                                                               })
                                                                           ],
@@ -524,7 +524,7 @@ var suites_1 = {
                                                                                         return {
                                                                                                 TAG: /* Eq */0,
                                                                                                 _0: true,
-                                                                                                _1: "foobarbaz".startsWith("foo")
+                                                                                                _1: "foobarbaz".startsWith("foo", undefined)
                                                                                               };
                                                                                       })
                                                                                   ],
@@ -546,7 +546,7 @@ var suites_1 = {
                                                                                             return {
                                                                                                     TAG: /* Eq */0,
                                                                                                     _0: "barbaz",
-                                                                                                    _1: "foobarbaz".substr(3)
+                                                                                                    _1: "foobarbaz".substr(3, undefined)
                                                                                                   };
                                                                                           })
                                                                                       ],
@@ -579,7 +579,7 @@ var suites_1 = {
                                                                                                   return {
                                                                                                           TAG: /* Eq */0,
                                                                                                           _0: "barbaz",
-                                                                                                          _1: "foobarbaz".substring(3)
+                                                                                                          _1: "foobarbaz".substring(3, undefined)
                                                                                                         };
                                                                                                 })
                                                                                             ],
@@ -666,7 +666,7 @@ var suites_1 = {
                                                                                                               (function (param) {
                                                                                                                   return {
                                                                                                                           TAG: /* Ok */4,
-                                                                                                                          _0: "ab".includes("a")
+                                                                                                                          _0: "ab".includes("a", undefined)
                                                                                                                         };
                                                                                                                 })
                                                                                                             ],

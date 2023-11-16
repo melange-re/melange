@@ -139,8 +139,8 @@ external codePointAt : t -> pos:int -> int option = "codePointAt"
     function returns [None].
 
 {[
-  codePointAt {js|¿😺?|js} 1 = Some 0x1f63a
-  codePointAt "abc" 5 = None
+  codePointAt {js|¿😺?|js} ~pos:1 = Some 0x1f63a
+  codePointAt "abc" ~pos:5 = None
 ]}
 *)
 
@@ -166,10 +166,11 @@ external concatMany : t -> strings:t array -> t = "concat"
 ]}
 *)
 
-external endsWith : t -> suffix:t -> bool = "endsWith"
+external endsWith : t -> suffix:t -> ?len:int -> unit -> bool = "endsWith"
 [@@mel.send]
-(** [endsWith str ~suffix] returns [true] if the [str] ends with [suffix],
-    [false] otherwise.
+(** [endsWith str ~suffix ?len ()] returns [true] if the [str] ends with
+    [suffix], [false] otherwise. If [len] is specified, `endsWith` only takes
+    into account the first [len] characters.
 
 {[
   endsWith "Hello, World!" ~suffix:"World!" = true;;
@@ -178,93 +179,36 @@ external endsWith : t -> suffix:t -> bool = "endsWith"
 ]}
 *)
 
-external endsWithFrom : t -> suffix:t -> len:int -> bool = "endsWith"
-[@@mel.send]
-(** [endsWithFrom str ~len ~suffix] returns [true] if the first [len]
-    characters of [str] end with [ending], [false] otherwise. If [len] is
-    greater than or equal to the length of [str], then it works like
-    [endsWith].
-
-{[
-  endsWithFrom "abcd" ~suffix:"cd" ~len:4 = true;;
-  endsWithFrom "abcde" ~suffix:"cd" ~len:3 = false;;
-  endsWithFrom "abcde" ~suffix:"cde" ~len:99 = true;;
-  endsWithFrom "example.dat" ~suffix:"ple" ~len:7 = true;;
-]}
-*)
-
-external includes : t -> sub:t -> bool = "includes"
-[@@mel.send]
-(** [includes s ~sub:searchValue] returns [true] if [searchValue] is found
-    anywhere within [s], [false] otherwise.
-
-{[
-  includes "programmer" ~sub:"gram" = true;;
-  includes "programmer" ~sub:"er" = true;;
-  includes "programmer" ~sub:"pro" = true;;
-  includes "programmer" ~sub:"xyz" = false;;
-]}
-*)
-
-external includesFrom : t -> sub:t -> pos:int -> bool = "includes"
+external includes : t -> sub:t -> ?start:int -> unit -> bool = "includes"
 [@@mel.send]
 (**
-  [includes s ~sub:searchValue ~start] returns [true] if [searchValue] is found
-  anywhere within [s] starting at character number [start] (where 0 is the
-  first character), [false] otherwise.
+  [includes s ~sub:searchValue ?start ()] returns [true] if [searchValue] is
+  found anywhere within [s] starting at character number [start] (where 0 is
+  the first character), [false] otherwise.
 
 {[
-  includesFrom "programmer" ~sub:"gram" ~pos:1 = true;;
-  includesFrom "programmer" ~sub:"gram" ~pos:4 = false;;
-  includesFrom {js|대한민국|js} ~sub:{js|한|js} ~pos:1 = true;;
+  includesFrom "programmer" ~sub:"gram" ~start:1 () = true;;
+  includesFrom "programmer" ~sub:"gram" ~start:4 () = false;;
+  includesFrom {js|대한민국|js} ~sub:{js|한|js} ~start:1 () = true;;
 ]}
 *)
 
-external indexOf : t -> sub:t -> int = "indexOf"
+external indexOf : t -> sub:t -> ?start:int -> unit -> int = "indexOf"
 [@@mel.send]
-(**
-  [indexOf s ~sub:searchValue ] returns the position at which [searchValue] was
-  first found within [s], or [-1] if [searchValue] is not in [s].
-
-{[
-  indexOf "bookseller" ~sub:"ok" = 2;;
-  indexOf "bookseller" ~sub:"sell" = 4;;
-  indexOf "beekeeper" ~sub:"ee" = 1;;
-  indexOf "bookseller" ~sub:"xyz" = -1;;
-]}
-*)
-
-external indexOfFrom : t -> sub:t -> pos:int -> int = "indexOf"
-[@@mel.send]
-(** [indexOfFrom s ~sub:searchValue ~start] returns the position at which
+(** [indexOfFrom s ~sub:searchValue ?start ()] returns the position at which
     [searchValue] was found within [s] starting at character position [start],
     or [-1] if [searchValue] is not found in that portion of [s]. The return
     value is relative to the beginning of the string, no matter where the
     search started from.
 
 {[
-  indexOfFrom "bookseller" ~sub:"ok" ~pos:1 = 2;;
-  indexOfFrom "bookseller" ~sub:"sell" ~pos:2 = 4;;
-  indexOfFrom "bookseller" ~sub:"sell" ~pos:5 = -1;;
+  indexOfFrom "bookseller" ~sub:"ok" ~start:1 () = 2;;
+  indexOfFrom "bookseller" ~sub:"sell" ~start:2 () = 4;;
+  indexOfFrom "bookseller" ~sub:"sell" ~start:5 () = -1;;
 ]}
 *)
 
-external lastIndexOf : t -> sub:t -> int = "lastIndexOf"
-[@@mel.send]
-(**
-  [lastIndexOf s ~sub:searchValue ] returns the position of the {i last}
-  occurrence of [searchValue] within [s], searching backwards from the end of
-  the string. Returns [-1] if [searchValue] is not in [s]. The return value is
-  always relative to the beginning of the string.
-
-{[
-  lastIndexOf "bookseller" ~sub:"ok" = 2;;
-  lastIndexOf "beekeeper" ~sub:"ee" = 4;;
-  lastIndexOf "abcdefg" ~sub:"xyz" = -1;;
-]}
-*)
-
-external lastIndexOfFrom : t -> sub:t -> pos:int -> int = "lastIndexOf"
+external lastIndexOf : t -> sub:t -> ?start:int -> unit -> int = "lastIndexOf"
 [@@mel.send]
 (**
   [lastIndexOfFrom s ~sub:searchValue ~start] returns the position of the {i
@@ -273,10 +217,10 @@ external lastIndexOfFrom : t -> sub:t -> pos:int -> int = "lastIndexOf"
   return value is always relative to the beginning of the string.
 
 {[
-  lastIndexOfFrom "bookseller" ~sub:"ok" ~pos:6 = 2;;
-  lastIndexOfFrom "beekeeper" ~sub:"ee" ~pos:8 = 4;;
-  lastIndexOfFrom "beekeeper" ~sub:"ee" ~pos:3 = 1;;
-  lastIndexOfFrom "abcdefg" ~sub:"xyz" ~pos:4 = -1;;
+  lastIndexOfFrom "bookseller" ~sub:"ok" ~start:6 () = 2;;
+  lastIndexOfFrom "beekeeper" ~sub:"ee" ~start:8 () = 4;;
+  lastIndexOfFrom "beekeeper" ~sub:"ee" ~start:3 () = 1;;
+  lastIndexOfFrom "abcdefg" ~sub:"xyz" ~start:4 () = -1;;
 ]}
 *)
 
@@ -491,69 +435,38 @@ search "no numbers" [%re "/\\d+/"] = -1;;
 ]}
 *)
 
-external slice : t -> from:int -> to_:int -> t = "slice"
+external slice : t -> ?start:int -> ?end_:int -> unit -> t = "slice"
 [@@mel.send]
-(** [slice from:n1 to_:n2 str] returns the substring of [str] starting at
-    character [n1] up to but not including [n2]
+(** [slice ?start ?end str ()] returns the substring of [str] starting at
+    character [start] up to but not including [end]
 
-    If either [n1] or [n2] is negative, then it is evaluated as [length str -
-    n1] (or [length str - n2]).
+    If either [start] or [end] is negative, then it is evaluated as [length str
+    - start] (or [length str - end]).
 
-    If [n2] is greater than the length of [str], then it is treated as [length
+    If [end] is greater than the length of [str], then it is treated as [length
     str].
 
-    If [n1] is greater than [n2], [slice] returns the empty string.
+    If [start] is greater than [end], [slice] returns the empty string.
 
 {[
-  slice "abcdefg" ~from:2 ~to_:5 == "cde";;
-  slice "abcdefg" ~from:2 ~to_:9 == "cdefg";;
-  slice "abcdefg" ~from:(-4) ~to_:(-2) == "de";;
-  slice "abcdefg" ~from:5 ~to_:1 == "";;
+  slice "abcdefg" ~start:2 ~end_:5 () == "cde";;
+  slice "abcdefg" ~start:2 ~end_:9 () == "cdefg";;
+  slice "abcdefg" ~start:(-4) ~end_:(-2) () == "de";;
+  slice "abcdefg" ~start:5 ~end_:1 () == "";;
 ]}
 *)
 
-external sliceToEnd : t -> from:int -> t = "slice"
+external split : t -> ?sep:t -> ?limit:int -> unit -> t array = "split"
 [@@mel.send]
-(** [sliceToEnd from: n str] returns the substring of [str] starting at
-    character [n] to the end of the string
-
-    If [n] is negative, then it is evaluated as [length str - n].
-
-    If [n] is greater than the length of [str], then [sliceToEnd] returns the
-    empty string.
+(** [splitAtMost ?sep ?limit str ()] splits the given [str] at every
+    occurrence of [sep] and returns an array of the first [limit] resulting
+    substrings. If [limit] is negative or greater than the number of
+    substrings, the array will contain all the substrings.
 
 {[
-  sliceToEnd "abcdefg" ~from: 4 == "efg";;
-  sliceToEnd "abcdefg" ~from: (-2) == "fg";;
-  sliceToEnd "abcdefg" ~from: 7 == "";;
-]}
-*)
-
-external split : t -> sep:t -> t array = "split"
-[@@mel.send]
-(**
-  [split str ~sep:delimiter] splits the given [str] at every occurrence of
-  [delimiter] and returns an array of the resulting substrings.
-
-{[
-  split "2018-01-02" "-" = [|"2018"; "01"; "02"|];;
-  split "a,b,,c" "," = [|"a"; "b"; ""; "c"|];;
-  split "good::bad as great::awful" "::" = [|"good"; "bad as great"; "awful"|];;
-  split "has-no-delimiter" ";" = [|"has-no-delimiter"|];;
-]};
-*)
-
-external splitAtMost : t -> sep:t -> limit:int -> t array = "split"
-[@@mel.send]
-(** [splitAtMost delimiter ~limit: n str] splits the given [str] at every
-    occurrence of [delimiter] and returns an array of the first [n] resulting
-    substrings. If [n] is negative or greater than the number of substrings,
-    the array will contain all the substrings.
-
-{[
-  splitAtMost "ant/bee/cat/dog/elk" ~sep:"/" ~limit: 3 = [|"ant"; "bee"; "cat"|];;
-  splitAtMost "ant/bee/cat/dog/elk" ~sep:"/" ~limit: 0 = [| |];;
-  splitAtMost "ant/bee/cat/dog/elk" ~sep:"/" ~limit: 9 = [|"ant"; "bee"; "cat"; "dog"; "elk"|];;
+  splitAtMost "ant/bee/cat/dog/elk" ~sep:"/" ~limit: 3 () = [|"ant"; "bee"; "cat"|];;
+  splitAtMost "ant/bee/cat/dog/elk" ~sep:"/" ~limit: 0 () = [| |];;
+  splitAtMost "ant/bee/cat/dog/elk" ~sep:"/" ~limit: 9 () = [|"ant"; "bee"; "cat"; "dog"; "elk"|];;
 ]}
 *)
 
@@ -583,102 +496,54 @@ external splitByReAtMost : t -> regexp:Js_re.t -> limit:int -> t option array
 ]};
 *)
 
-external startsWith : t -> prefix:t -> bool = "startsWith"
+external startsWith : t -> prefix:t -> ?start:int -> unit -> bool = "startsWith"
 [@@mel.send]
-(** [startsWith str ~prefix] returns [true] if the [str] starts with [prefix],
-    [false] otherwise.
-
-{[
-  startsWith "Hello, World!" ~prefix:"Hello" = true;;
-  startsWith "Hello, World!" ~prefix:"hello" = false;; (* case-sensitive *)
-  startsWith "Hello, World!" ~prefix:"World" = false;; (* exact match *)
-]}
-*)
-
-external startsWithFrom : t -> prefix:t -> pos:int -> bool = "startsWith"
-[@@mel.send]
-(** [startsWithFrom str ~prefix ~start] returns [true] if the [str] starts with
-    [prefix] starting at position [start], [false] otherwise. If [n] is
+(** [startsWith str ~prefix ?start ()] returns [true] if the [str] starts with
+    [prefix] starting at position [start], [false] otherwise. If [start] is
     negative, the search starts at the beginning of [str].
 
 {[
-  startsWithFrom "Hello, World!" "Hello" 0 = true;;
-  startsWithFrom "Hello, World!" "World" 7 = true;;
-  startsWithFrom "Hello, World!" "World" 8 = false;;
+  startsWithFrom "Hello, World!" "Hello" ~start:0 () = true;;
+  startsWithFrom "Hello, World!" "World" ~start:7 () = true;;
+  startsWithFrom "Hello, World!" "World" ~start:8 () = false;;
 ]}
 *)
 
-external substr : t -> from:int -> t = "substr"
+external substr : t -> ?start:int -> ?len:int -> unit -> t = "substr"
 [@@mel.send]
-(** [substr ~from:n str] returns the substring of [str] from position [n] to
-    the end of the string.
+(** [substr ?start ?len str ()] returns the substring of [str] of
+    length [len] starting at position [start].
 
-    If [n] is less than zero, the starting position is the length of [str] -
-    [n].
+    If [start] is less than zero, the starting position is the length of [str]
+    - [start].
 
-    If [n] is greater than or equal to the length of [str], returns the empty
-    string.
+    If [start] is greater than or equal to the length of [str], returns the
+    empty string.
+
+    If [len] is less than or equal to zero, returns the empty string.
 
 {[
-  substr "abcdefghij" ~from: 3 = "defghij"
-  substr "abcdefghij" ~from: (-3) = "hij"
-  substr "abcdefghij" ~from: 12 = ""
+  substrAtMost "abcdefghij" ~start:3 ~len:4 () = "defghij"
+  substrAtMost "abcdefghij" ~start:(-3) ~le:4 () = "hij"
+  substrAtMost "abcdefghij" ~start:12 ~ len:2 () = ""
 ]}
 *)
 
-external substrAtMost : t -> from:int -> length:int -> t = "substr"
+external substring : t -> ?start:int -> ?end_:int -> unit -> t = "substring"
 [@@mel.send]
-(** [substrAtMost ~from:pos ~length:n str] returns the substring of [str] of
-    length [n] starting at position [pos].
-
-    If [pos] is less than zero, the starting position is the length of [str] -
-    [pos].
-
-    If [pos] is greater than or equal to the length of [str], returns the empty
-    string.
-
-    If [n] is less than or equal to zero, returns the empty string.
-
-{[
-  substrAtMost "abcdefghij" ~from: 3 ~length: 4 = "defghij"
-  substrAtMost "abcdefghij" ~from: (-3) ~length: 4 = "hij"
-  substrAtMost "abcdefghij" ~from: 12 ~ length: 2 = ""
-]}
-*)
-
-external substring : t -> from:int -> to_:int -> t = "substring"
-[@@mel.send]
-(** [substring ~from: start ~to_: finish str] returns characters [start] up to
-    but not including [finish] from [str].
+(** [substring ~start ~end_ str] returns characters [start] up to
+    but not including [end_] from [str].
 
     If [start] is less than zero, it is treated as zero.
 
-    If [finish] is zero or negative, the empty string is returned.
+    If [end_] is zero or negative, the empty string is returned.
 
-    If [start] is greater than [finish], the start and finish points are
-    swapped.
-
-{[
-  substring "playground" ~from: 3 ~to_: 6 = "ygr";;
-  substring "playground" ~from: 6 ~to_: 3 = "ygr";;
-  substring "playground" ~from: 4 ~to_: 12 = "ground";;
-]}
-*)
-
-external substringToEnd : t -> from:int -> t = "substring"
-[@@mel.send]
-(** [substringToEnd ~from: start str] returns the substring of [str] from
-    position [start] to the end.
-
-    If [start] is less than or equal to zero, the entire string is returned.
-
-    If [start] is greater than or equal to the length of [str], the empty
-    string is returned.
+    If [start] is greater than [end_], the start and finish points are swapped.
 
 {[
-  substringToEnd "playground" ~from: 4 = "ground";;
-  substringToEnd "playground" ~from: (-3) = "playground";;
-  substringToEnd "playground" ~from: 12 = "";
+  substring "playground" ~start:3 ~end_:6 = "ygr";;
+  substring "playground" ~start:6 ~end_:3 = "ygr";;
+  substring "playground" ~start:4 ~end_:12 = "ground";;
 ]}
 *)
 
@@ -758,8 +623,4 @@ external link : t -> href:t -> t = "link"
 ]}
 *)
 
-external castToArrayLike : t -> t Js_array.array_like = "%identity"
-(* FIXME: we should not encourage people to use [%identity], better
-    to provide something using  so that we can track such
-    casting
-*)
+external unsafeToArrayLike : t -> t Js_array.array_like = "%identity"
