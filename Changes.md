@@ -46,6 +46,9 @@ Unreleased
 - Fix error location for empty string interpolation in `{j| .. |j}`
   ([#888](https://github.com/melange-re/melange/pull/888),
   [#890](https://github.com/melange-re/melange/pull/890))
+- Add `Js.Obj.assign` to merge 2 JS objects immutably
+  ([#900](https://github.com/melange-re/melange/pull/900),
+  [#795](https://github.com/melange-re/melange/pull/795))
 
 2.1.0 2023-10-22
 ---------------
