@@ -11283,20 +11283,6 @@ function directive_parse(token_with_comments, lexbuf) {
     push(e);
     return v;
   };
-  var parse_or_aux = function (calc, v) {
-    var e = token(undefined);
-    if (e === 8) {
-      var calc$1 = calc && !v;
-      var b = parse_or_aux(calc$1, parse_and_aux(calc$1, parse_relation(calc$1)));
-      if (v) {
-        return true;
-      } else {
-        return b;
-      }
-    }
-    push(e);
-    return v;
-  };
   var parse_relation = function (calc) {
     var curr_token = token(undefined);
     var curr_loc = curr(lexbuf);
@@ -11441,25 +11427,6 @@ function directive_parse(token_with_comments, lexbuf) {
       }
     }
   };
-<<<<<<< HEAD
-  var parse_and_aux = function (calc, v) {
-    var e = token(undefined);
-    if (typeof e === "number") {
-      if (e) {
-        push(e);
-        return v;
-      }
-      var calc$1 = calc && v;
-      var b = parse_and_aux(calc$1, parse_relation(calc$1));
-      if (v) {
-        return b;
-      } else {
-        return false;
-      }
-    }
-    push(e);
-    return v;
-  };
   var parse_or_aux = function (calc, v) {
     var e = token(undefined);
     if (e === 8) {
@@ -11474,8 +11441,6 @@ function directive_parse(token_with_comments, lexbuf) {
     push(e);
     return v;
   };
-=======
->>>>>>> f6da1b578 (refactor: don't expose Js.MapperRt, provide a clearer name)
   var v = parse_or_aux(true, parse_and_aux(true, parse_relation(true)));
   var match = token(undefined);
   if (match === 88) {
@@ -12831,6 +12796,49 @@ function token(lexbuf) {
   };
 }
 
+function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
+  while(true) {
+    var __ocaml_lex_state = ___ocaml_lex_state;
+    var __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    switch (__ocaml_lex_state$1) {
+      case 0 :
+          update_loc(lexbuf, undefined, 1, false, 0);
+          store_string(Stdlib__Lexing.lexeme(lexbuf));
+          ___ocaml_lex_state = 183;
+          continue ;
+      case 1 :
+          is_in_string.contents = false;
+          throw {
+                MEL_EXN_ID: $$Error$2,
+                _1: /* Unterminated_string */0,
+                _2: string_start_loc.contents,
+                Error: new Error()
+              };
+      case 2 :
+          var edelim = Stdlib__Lexing.lexeme(lexbuf);
+          var edelim$1 = Stdlib__String.sub(edelim, 1, edelim.length - 2 | 0);
+          if (delim === edelim$1) {
+            return ;
+          }
+          store_string(Stdlib__Lexing.lexeme(lexbuf));
+          ___ocaml_lex_state = 183;
+          continue ;
+      case 3 :
+          store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
+          ___ocaml_lex_state = 183;
+          continue ;
+      default:
+        Curry._1(lexbuf.refill_buff, lexbuf);
+        ___ocaml_lex_state = __ocaml_lex_state$1;
+        continue ;
+    }
+  };
+}
+
+function comment(lexbuf) {
+  return __ocaml_lex_comment_rec(lexbuf, 132);
+}
+
 function string(lexbuf) {
   lexbuf.lex_mem = Caml_array.make(2, -1);
   var ___ocaml_lex_state = 164;
@@ -12880,49 +12888,6 @@ function string(lexbuf) {
       case 8 :
           store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
           return string(lexbuf);
-      default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
-        ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
-    }
-  };
-}
-
-function comment(lexbuf) {
-  return __ocaml_lex_comment_rec(lexbuf, 132);
-}
-
-function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
-  while(true) {
-    var __ocaml_lex_state = ___ocaml_lex_state;
-    var __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
-    switch (__ocaml_lex_state$1) {
-      case 0 :
-          update_loc(lexbuf, undefined, 1, false, 0);
-          store_string(Stdlib__Lexing.lexeme(lexbuf));
-          ___ocaml_lex_state = 183;
-          continue ;
-      case 1 :
-          is_in_string.contents = false;
-          throw {
-                MEL_EXN_ID: $$Error$2,
-                _1: /* Unterminated_string */0,
-                _2: string_start_loc.contents,
-                Error: new Error()
-              };
-      case 2 :
-          var edelim = Stdlib__Lexing.lexeme(lexbuf);
-          var edelim$1 = Stdlib__String.sub(edelim, 1, edelim.length - 2 | 0);
-          if (delim === edelim$1) {
-            return ;
-          }
-          store_string(Stdlib__Lexing.lexeme(lexbuf));
-          ___ocaml_lex_state = 183;
-          continue ;
-      case 3 :
-          store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
-          ___ocaml_lex_state = 183;
-          continue ;
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
