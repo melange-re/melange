@@ -17,6 +17,7 @@ depends: [
   "ppxlib" {>= "0.30.0"}
   "menhir" {>= "20201214"}
   "reason-react-ppx" {with-test & post}
+  "merlin" {with-test}
   "odoc" {with-doc}
 ]
 build: [

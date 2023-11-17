@@ -47,7 +47,8 @@
   (menhir
    (>= 20201214))
   (reason-react-ppx
-   (and :with-test :post))))
+   (and :with-test :post))
+  (merlin :with-test)))
 
 (package
  (name melange-playground)
