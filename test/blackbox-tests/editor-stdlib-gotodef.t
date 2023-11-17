@@ -1,7 +1,5 @@
 Test go to definition with modules that overlap with stdlib ones
 
-Similar to companion editor-stdlib-gotodef-reason-react.t, but for plain OCaml
-
   $ export BUILD_PATH_PREFIX_MAP="MELANGE_ROOT=$(dirname $INSIDE_DUNE):$BUILD_PATH_PREFIX_MAP"
   $ . ./setup.sh
   $ cat >dune-project <<EOF
