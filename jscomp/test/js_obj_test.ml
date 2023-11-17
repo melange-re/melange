@@ -21,6 +21,13 @@ let suites = Mt.[
     Eq(0, empty () |> keys |> Array.length));
   "assign", (fun _ ->
     Eq([%obj { a = 1 }], assign (empty ()) [%obj { a = 1 }]));
+  "merge", (fun _ ->
+    let original = [%obj { a = 1 }] in
+    Eq([%obj { a = 2 }], merge original [%obj { a = 2 }]));
+  "merge-preserves-original", (fun _ ->
+    let original = [%obj { a = 1 }] in
+    let _merged = merge original [%obj { a = 2 }] in
+    Eq([%obj { a = 1 }], original));
     (*
   "assignMany", (fun _ ->
     let o1 = [%obj { a = 1; b = 1; c = 1 }] in

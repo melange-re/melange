@@ -114,6 +114,10 @@ module Obj = struct
   external assign : < .. > t -> < .. > t -> < .. > t = "assign"
   [@@mel.scope "Object"]
 
+  external merge :
+    (_[@mel.as {json|{}|json}]) -> < .. > t -> < .. > t -> < .. > t = "assign"
+  [@@mel.scope "Object"]
+
   external keys : _ t -> string array = "keys" [@@mel.scope "Object"]
 end
 
