@@ -963,9 +963,9 @@ let () =
 let () =
   Driver.add_arg "-unsafe"
     (Unit (fun () -> Ocaml_common.Clflags.unsafe := true))
-    ~doc:"Do not compile bounds checking on array and string access";
+    ~doc:" Do not compile bounds checking on array and string access";
   Driver.add_arg "-alert" (String Ocaml_common.Warnings.parse_alert_option)
-    ~doc:"Turn off alerting from the PPX";
+    ~doc:"[redundant|deprecated] Turn off alerting from the PPX";
   Driver.V2.register_transformation "melange"
     ~rules:
       (Raw.rules
