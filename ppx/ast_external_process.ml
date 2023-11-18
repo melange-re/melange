@@ -860,7 +860,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    module_as_val = None;
    set_index = false;
    get_index = false;
-   new_name = `Nm_na;
+   new_name;
    set_name = `Nm_na;
    get_name = `Nm_na;
    external_module_name = None;
@@ -868,16 +868,31 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    return_wrapper = _;
    scopes;
    splice;
-  } ->
-      (* can be one argument *)
-      Js_send
-        {
-          splice;
-          name = string_of_bundle_source prim_name_or_pval_prim;
-          js_send_scopes = scopes;
-          pipe = true;
-          new_ = false;
-        }
+  } -> (
+      match new_name with
+      | `Nm_payload _ ->
+          Location.raise_errorf ~loc
+            "Incorrect FFI attribute found: (%@new should not carry a payload \
+             here)"
+      | `Nm_na ->
+          (* can be one argument *)
+          Js_send
+            {
+              splice;
+              name = string_of_bundle_source prim_name_or_pval_prim;
+              js_send_scopes = scopes;
+              pipe = true;
+              new_ = false;
+            }
+      | `Nm_external _ ->
+          Js_send
+            {
+              splice;
+              name = string_of_bundle_source prim_name_or_pval_prim;
+              js_send_scopes = scopes;
+              pipe = true;
+              new_ = true;
+            })
   | { val_send_pipe = Some _; _ } ->
       Location.raise_errorf ~loc
         "conflict attributes found with [%@%@mel.send.pipe]"
