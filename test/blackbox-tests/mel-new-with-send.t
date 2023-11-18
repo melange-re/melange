@@ -38,3 +38,18 @@ Test `@mel.splice` integration
   
   /*  Not a pure module */
 
+`@mel.send.pipe` also works
+
+  $ cat > x.ml <<EOF
+  > type blue
+  > type red
+  > external blue : blue = "path/to/blue.js" [@@mel.module]
+  > external red : string -> red = "Red" [@@mel.send.pipe: blue] [@@mel.new]
+  > let _ = red blue "foo"
+  > EOF
+  $ melc -ppx melppx x.ml
+  File "x.ml", line 4, characters 0-72:
+  4 | external red : string -> red = "Red" [@@mel.send.pipe: blue] [@@mel.new]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: conflict attributes found with [@@mel.send.pipe]
+  [2]
