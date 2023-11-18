@@ -101,7 +101,7 @@ end
   \
   external copy : t -> t = "slice" [@@mel.send]\
   \
-  external subarray : t -> start:int -> ?end_:int -> unit -> t = "subarray" [@@mel.send]\
+  external subarray : t -> ?start:int -> ?end_:int -> unit -> t = "subarray" [@@mel.send]\
   (** [start] is inclusive, [end_] exclusive *)\
   \
   external toString : t -> string = "toString" [@@mel.send]\
