@@ -36,7 +36,6 @@ type external_module_name = {
   module_bind_name : module_bind_name;
 }
 
-type pipe = bool
 type arg_type = External_arg_spec.attr
 type arg_label = External_arg_spec.label
 
@@ -61,7 +60,8 @@ type external_spec =
   | Js_send of {
       name : string;
       splice : bool;
-      pipe : pipe;
+      pipe : bool;
+      new_ : bool;
       js_send_scopes : string list;
     }
     (* we know it is a js send, but what will happen if you pass an ocaml objct *)

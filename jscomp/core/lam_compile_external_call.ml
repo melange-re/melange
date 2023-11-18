@@ -300,7 +300,7 @@ let translate_ffi (cxt : Lam_compile_context.t) arg_types
           (* cxt.continuation <- Assign (Ext_ident.make_js_object id) *)
           (* | EffectCall _ | NeedValue _ -> ()); *)
           (E.new_ fn args)
-  | Js_send { splice; name; pipe; js_send_scopes } -> (
+  | Js_send { splice; name; pipe; js_send_scopes; new_ } -> (
       if pipe then
         (* splice should not happen *)
         (* assert (js_splice = false) ;  *)
@@ -312,18 +312,24 @@ let translate_ffi (cxt : Lam_compile_context.t) arg_types
             (let self = translate_scoped_access js_send_scopes self in
              if dynamic then splice_obj_fn_apply self name args
              else
-               E.call
-                 ~info:{ arity = Full; call_info = Call_na }
-                 (E.dot self name) args)
+               match new_ with
+               | true -> E.new_ (E.dot self name) args
+               | false ->
+                   E.call
+                     ~info:{ arity = Full; call_info = Call_na }
+                     (E.dot self name) args)
         else
           let args, self = List.split_at_last args in
           let arg_types, _ = List.split_at_last arg_types in
           let args, eff = assemble_args_no_splice arg_types args in
           add_eff eff
             (let self = translate_scoped_access js_send_scopes self in
-             E.call
-               ~info:{ arity = Full; call_info = Call_na }
-               (E.dot self name) args)
+             match new_ with
+             | true -> E.new_ (E.dot self name) args
+             | false ->
+                 E.call
+                   ~info:{ arity = Full; call_info = Call_na }
+                   (E.dot self name) args)
       else
         match args with
         | self :: args ->
@@ -338,18 +344,27 @@ let translate_ffi (cxt : Lam_compile_context.t) arg_types
               in
               add_eff eff
                 (let self = translate_scoped_access js_send_scopes self in
-                 if dynamic then splice_obj_fn_apply self name args
+                 if dynamic then
+                   match new_ with
+                   | true -> splice_fn_new_apply (E.dot self name) args
+                   | false -> splice_obj_fn_apply self name args
                  else
-                   E.call
-                     ~info:{ arity = Full; call_info = Call_na }
-                     (E.dot self name) args)
+                   match new_ with
+                   | true -> E.new_ (E.dot self name) args
+                   | false ->
+                       E.call
+                         ~info:{ arity = Full; call_info = Call_na }
+                         (E.dot self name) args)
             else
               let args, eff = assemble_args_no_splice arg_types args in
               add_eff eff
                 (let self = translate_scoped_access js_send_scopes self in
-                 E.call
-                   ~info:{ arity = Full; call_info = Call_na }
-                   (E.dot self name) args)
+                 match new_ with
+                 | true -> E.new_ (E.dot self name) args
+                 | false ->
+                     E.call
+                       ~info:{ arity = Full; call_info = Call_na }
+                       (E.dot self name) args)
         | _ -> assert false)
   | Js_module_as_var module_name -> external_var module_name
   | Js_var { name; external_module_name; scopes } ->
