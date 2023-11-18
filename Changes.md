@@ -28,9 +28,10 @@ Unreleased
 - BREAKING(runtime): unify pipe-first / pipe-last libraries in `Js` modules
   ([#731](https://github.com/melange-re/melange/issues/731),
   [#893](https://github.com/melange-re/melange/pull/893),
-  [#895](https://github.com/melange-re/melange/pull/895))
-    - Modules ending with `2` (e.g. `Js.String2`, `Js.Array2`) are no longer
-      available in Melange
+  [#895](https://github.com/melange-re/melange/pull/895),
+  [#899](https://github.com/melange-re/melange/pull/899))
+    - Modules ending with `2` (e.g. `Js.String2`, `Js.Array2`,
+      `Js.TypedArray2`) are no longer available in Melange
     - The functions in their corresponding modules now take labeled arguments,
       allowing them to be used with both `|.` and `|>`.
 - BREAKING(runtime): remove deprecated functions from `Js.*` modules

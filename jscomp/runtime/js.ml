@@ -70,9 +70,6 @@ module Exn = Js_exn
 module String = Js_string
 (** Provide bindings to JS string *)
 
-module TypedArray2 = Js_typed_array2
-(** Provide bindings for JS typed array *)
-
 (** {12 nested modules}*)
 
 module Null = Js_null
