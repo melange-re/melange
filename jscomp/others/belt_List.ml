@@ -619,7 +619,6 @@ let rec keepU xs p =
       else keepU t p
 
 let keep xs p = keepU xs (fun [@u] x -> p x)
-let filter = keep
 
 let keepWithIndexU xs p =
   let rec auxKeepWithIndex xs p i =
@@ -635,7 +634,6 @@ let keepWithIndexU xs p =
   auxKeepWithIndex xs p 0
 
 let keepWithIndex xs p = keepWithIndexU xs (fun [@u] x i -> p x i)
-let filterWithIndex = keepWithIndex
 
 let rec keepMapU xs p =
   match xs with
