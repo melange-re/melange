@@ -58,7 +58,7 @@ type +'a undefined = 'a Js_undefined.t
 (** value of this type can be either [undefined] or ['a]
     this type is the same as type [t] in {!Undefined}  *)
 
-type +'a nullable = 'a Js_null_undefined.t
+type +'a nullable = 'a Js_nullable.t
 (** value of this type can be [undefined], [null] or ['a]
     this type is the same as type [t] n {!Null_undefined} *)
 
@@ -78,7 +78,7 @@ module Null = Js_null
 module Undefined = Js_undefined
 (** Provide utilities around {!undefined} *)
 
-module Nullable = Js_null_undefined
+module Nullable = Js_nullable
 (** Provide utilities around {!null_undefined} *)
 
 module Array = Js_array
