@@ -201,11 +201,10 @@ let get_opt_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
 *)
 type bundle_source =
   [ `Nm_payload of string (* from payload [@@val "xx" ]*)
-  | `Nm_external of string (* from "" in external *)
-  | `Nm_val of string lazy_t (* from function name *) ]
+  | `Nm_external of string lazy_t (* from "" in external *) ]
 
 let string_of_bundle_source (x : bundle_source) =
-  match x with `Nm_payload x | `Nm_external x | `Nm_val (lazy x) -> x
+  match x with `Nm_payload x | `Nm_external (lazy x) -> x
 
 type name_source = [ bundle_source | `Nm_na ]
 
@@ -709,8 +708,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       match (arg_types_ty, new_name) with
       | [], `Nm_na -> Js_module_as_var external_module_name
       | _, `Nm_na -> Js_module_as_fn { splice; external_module_name }
-      | _, (`Nm_val _ | `Nm_external _) ->
-          Js_module_as_class external_module_name
+      | _, `Nm_external _ -> Js_module_as_class external_module_name
       | _, `Nm_payload _ ->
           Location.raise_errorf ~loc
             "Incorrect FFI attribute found: (%@new should not carry a payload \
@@ -755,7 +753,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
         Js_var { name; external_module_name = None; scopes }
       else Js_call { splice; name; external_module_name = None; scopes }
   | {
-   call_name = `Nm_val (lazy name) | `Nm_external name | `Nm_payload name;
+   call_name = `Nm_external (lazy name) | `Nm_payload name;
    splice;
    scopes;
    external_module_name;
@@ -808,7 +806,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
         Js_var { name; external_module_name; scopes }
       else Js_call { splice; name; external_module_name; scopes }
   | {
-   val_send = `Nm_val (lazy name) | `Nm_external name | `Nm_payload name;
+   val_send = `Nm_external (lazy name) | `Nm_payload name;
    splice;
    scopes;
    val_send_pipe = None;
@@ -868,7 +866,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       Location.raise_errorf ~loc
         "conflict attributes found with [%@%@mel.send.pipe]"
   | {
-   new_name = `Nm_val (lazy name) | `Nm_external name | `Nm_payload name;
+   new_name = `Nm_external (lazy name) | `Nm_payload name;
    external_module_name;
    call_name = `Nm_na;
    module_as_val = None;
@@ -888,7 +886,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       Error.err ~loc
         (Conflict_ffi_attribute "Attribute found that conflicts with %@new")
   | {
-   set_name = `Nm_val (lazy name) | `Nm_external name | `Nm_payload name;
+   set_name = `Nm_external (lazy name) | `Nm_payload name;
    call_name = `Nm_na;
    module_as_val = None;
    set_index = false;
@@ -911,7 +909,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
   | { set_name = #bundle_source; _ } ->
       Location.raise_errorf ~loc "conflict attributes found with %@set"
   | {
-   get_name = `Nm_val (lazy name) | `Nm_external name | `Nm_payload name;
+   get_name = `Nm_external (lazy name) | `Nm_payload name;
    call_name = `Nm_na;
    module_as_val = None;
    set_index = false;
@@ -965,11 +963,12 @@ let handle_attributes (loc : Location.t) (type_annotation : Parsetree.core_type)
   else
     let prim_name_or_pval_name =
       if String.length prim_name = 0 then
-        `Nm_val
+        `Nm_external
           (lazy
             (Mel_ast_invariant.warn ~loc (Fragile_external pval_name);
              pval_name))
-      else `Nm_external prim_name (* need check name *)
+      else `Nm_external (lazy prim_name)
+      (* need check name *)
     in
     let result_type, arg_types_ty =
       (* Note this assumes external type is syntatic (no abstraction)*)
