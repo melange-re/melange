@@ -16,13 +16,11 @@ open Import
 
 module Ppx_entry = struct
   let rewrite_signature (ast : Parsetree.signature) : Parsetree.signature =
-    Mel_ast_invariant.iter_warnings_on_sigi ast;
     Ast_config.iter_on_mel_config_sigi ast;
     Mel_ast_invariant.emit_external_warnings_on_signature ast;
     ast
 
   let rewrite_implementation (ast : Parsetree.structure) : Parsetree.structure =
-    Mel_ast_invariant.iter_warnings_on_stru ast;
     Ast_config.iter_on_mel_config_stru ast;
     Mel_ast_invariant.emit_external_warnings_on_structure ast;
     ast

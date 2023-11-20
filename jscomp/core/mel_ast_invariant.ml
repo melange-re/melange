@@ -22,26 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let rec iter_warnings_on_stru (stru : Parsetree.structure) =
-  match stru with
-  | [] -> ()
-  | head :: rest -> (
-      match head.pstr_desc with
-      | Pstr_attribute attr ->
-          Builtin_attributes.warning_attribute attr;
-          iter_warnings_on_stru rest
-      | _ -> ())
-
-let rec iter_warnings_on_sigi (stru : Parsetree.signature) =
-  match stru with
-  | [] -> ()
-  | head :: rest -> (
-      match head.psig_desc with
-      | Psig_attribute attr ->
-          Builtin_attributes.warning_attribute attr;
-          iter_warnings_on_sigi rest
-      | _ -> ())
-
 type iterator = Ast_iterator.iterator
 
 let super = Ast_iterator.default_iterator
