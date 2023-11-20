@@ -580,8 +580,11 @@ module Mapper = struct
                   pvb_loc;
                 };
               ] ) -> (
+            let attrs, found =
+              Ast_attributes.has_mel_as_payload pvb_attributes
+            in
             let pvb_pat, pval_name =
-              match Ast_attributes.has_mel_as_payload pvb_attributes with
+              match found with
               | Some ({ attr_payload; _ } as attr) ->
                   Mel_ast_invariant.mark_used_mel_attribute attr;
                   let pval_name =
@@ -597,7 +600,7 @@ module Mapper = struct
               | None -> (pvb_pat_orig, pval_name_orig)
             in
             let pvb_expr = self#expression pvb_expr in
-            let pvb_attributes = self#attributes pvb_attributes in
+            let pvb_attributes = self#attributes attrs in
             let has_inline_property =
               Ast_attributes.has_inline_payload pvb_attributes
             in
@@ -717,8 +720,11 @@ module Mapper = struct
                pmb_loc;
                _;
              } as mb) ->
+            let attrs, found =
+              Ast_attributes.has_mel_as_payload pmb_attributes
+            in
             let pmb_name =
-              match Ast_attributes.has_mel_as_payload pmb_attributes with
+              match found with
               | Some ({ attr_payload; _ } as attr) ->
                   Mel_ast_invariant.mark_used_mel_attribute attr;
                   {
@@ -731,7 +737,11 @@ module Mapper = struct
               | None -> pmb_name_orig
             in
             super#structure_item
-              { str with pstr_desc = Pstr_module { mb with pmb_name } }
+              {
+                str with
+                pstr_desc =
+                  Pstr_module { mb with pmb_name; pmb_attributes = attrs };
+              }
         | _ -> super#structure_item str
 
       method! signature_item sigi =
@@ -744,8 +754,11 @@ module Mapper = struct
                pval_loc;
                _;
              } as value_desc_orig) -> (
+            let attrs, found =
+              Ast_attributes.has_mel_as_payload pval_attributes
+            in
             let value_desc =
-              match Ast_attributes.has_mel_as_payload pval_attributes with
+              match found with
               | Some ({ attr_payload; _ } as attr) ->
                   Mel_ast_invariant.mark_used_mel_attribute attr;
                   {
@@ -760,7 +773,7 @@ module Mapper = struct
                   }
               | None -> value_desc_orig
             in
-            let pval_attributes = self#attributes pval_attributes in
+            let pval_attributes = self#attributes attrs in
             if Ast_attributes.rs_externals pval_attributes pval_prim then
               Ast_external.handleExternalInSig self value_desc sigi
             else
@@ -883,8 +896,11 @@ module Mapper = struct
                pmd_loc;
                _;
              } as md) ->
+            let attrs, found =
+              Ast_attributes.has_mel_as_payload pmd_attributes
+            in
             let pmd_name =
-              match Ast_attributes.has_mel_as_payload pmd_attributes with
+              match found with
               | Some ({ attr_payload; _ } as attr) ->
                   Mel_ast_invariant.mark_used_mel_attribute attr;
                   {
@@ -897,7 +913,11 @@ module Mapper = struct
               | None -> pmd_name_orig
             in
             super#signature_item
-              { sigi with psig_desc = Psig_module { md with pmd_name } }
+              {
+                sigi with
+                psig_desc =
+                  Psig_module { md with pmd_name; pmd_attributes = attrs };
+              }
         | _ -> super#signature_item sigi
     end
 end

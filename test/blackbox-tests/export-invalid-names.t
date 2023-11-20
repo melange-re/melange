@@ -63,3 +63,19 @@ Export otherwise invalid OCaml identifiers to JavaScript
   exports.post = post;
   exports.POST = POST;
   /* No side effect */
+
+Duplicate `@mel.as` attributes
+
+  $ cat > z.ml <<EOF
+  > let post = 1
+  > let [@mel.as "POST"] [@mel.as "OTHER"] js_post = post
+  > EOF
+
+  $ dune build @melange
+  File "z.ml", line 2, characters 21-38:
+  2 | let [@mel.as "POST"] [@mel.as "OTHER"] js_post = post
+                           ^^^^^^^^^^^^^^^^^
+  Error: Duplicate `@mel.as' attribute found
+  [1]
+
+
