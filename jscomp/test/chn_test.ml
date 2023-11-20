@@ -16,7 +16,7 @@ let convert (s : string) : int list  =
     Js.Array.fromMap
         (Js.String.unsafeToArrayLike s)
         ~f:(fun x ->
-            match Js.String.codePointAt ~pos:0 x with
+            match Js.String.codePointAt ~index:0 x with
             | None -> assert false
             | Some x -> x ) |> Array.to_list
 
