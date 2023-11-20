@@ -22,7 +22,5 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val iter_warnings_on_stru : Parsetree.structure -> unit
-val iter_warnings_on_sigi : Parsetree.signature -> unit
 val emit_external_warnings_on_structure : Parsetree.structure -> unit
 val emit_external_warnings_on_signature : Parsetree.signature -> unit
