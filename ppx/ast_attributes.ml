@@ -407,7 +407,16 @@ let has_inline_payload (attrs : t) = List.find_opt is_inline attrs
 let is_mel_as : attr -> bool =
  fun { attr_name = { txt; _ }; _ } -> txt = "mel.as" || txt = "as"
 
-let has_mel_as_payload (attrs : t) = List.find_opt is_mel_as attrs
+let has_mel_as_payload (attrs : t) =
+  List.fold_left
+    (fun (attrs, found) attr ->
+      match (is_mel_as attr, found) with
+      | true, None -> (attrs, Some attr)
+      | false, Some _ | false, None -> (attr :: attrs, found)
+      | true, Some _ ->
+          Location.raise_errorf ~loc:attr.attr_loc
+            "Duplicate `%@mel.as' attribute found")
+    ([], None) attrs
 
 (* We disable warning 61 in Melange externals since they're substantially
    different from OCaml externals. This warning doesn't make sense for a JS
