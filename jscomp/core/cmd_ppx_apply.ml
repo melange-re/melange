@@ -11,7 +11,7 @@ let write_ast (type a) (kind : a Ml_binary.kind) fn (ast : a) =
 let temp_ppx_file () =
   Filename.temp_file "ppx" (Filename.basename !Location.input_name)
 
-let apply_rewriter _kind fn_in ppx =
+let apply_rewriter fn_in ppx =
   let fn_out = temp_ppx_file () in
   let comm =
     Printf.sprintf "%s %s %s" ppx (Filename.quote fn_in) (Filename.quote fn_out)
@@ -42,7 +42,7 @@ let rewrite kind ppxs ast =
       (fun ppx fns ->
         match fns with
         | [] -> assert false
-        | fn_in :: _ -> apply_rewriter kind fn_in ppx :: fns)
+        | fn_in :: _ -> apply_rewriter fn_in ppx :: fns)
       ppxs [ fn_in ]
   in
   match temp_files with
