@@ -51,12 +51,11 @@ type 'a t
 
 type +'a null = 'a Js_null.t
 (** nullable, value of this type can be either [null] or ['a]
-    this type is the same as type [t] in {!Null}
-*)
+    this type is the same as type [t] in {!Null} *)
 
 type +'a undefined = 'a Js_undefined.t
 (** value of this type can be either [undefined] or ['a]
-    this type is the same as type [t] in {!Undefined}  *)
+    this type is the same as type [t] in {!Undefined} *)
 
 type +'a nullable = 'a Js_nullable.t
 (** value of this type can be [undefined], [null] or ['a]
@@ -69,8 +68,6 @@ module Exn = Js_exn
 
 module String = Js_string
 (** Provide bindings to JS string *)
-
-(** {12 nested modules}*)
 
 module Null = Js_null
 (** Provide utilities around ['a null] *)
