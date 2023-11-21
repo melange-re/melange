@@ -150,7 +150,7 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
                   | Error s -> raise (Local s)))
             methods []
         in
-        { ty with ptyp_desc = Ptyp_object (new_methods, closed_flag) }
+        super { ty with ptyp_desc = Ptyp_object (new_methods, closed_flag) }
       with Local s ->
         [%type: [%ocaml.error [%e Exp.constant (Pconst_string (s, loc, None))]]]
       )
