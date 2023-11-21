@@ -1,12 +1,11 @@
 
   $ . ./setup.sh
-
   $ cat > x.ml <<EOF
   > external err :
   >   hi_should_error:([\`a of int | \`b of string ] [@mel.string]) ->
   >   unit -> _ = "" [@@mel.obj]
   > EOF
-  $ melc -ppx melppx x.ml
+  $ melc -ppx melppx -alert -unprocessed x.ml
   File "x.ml", lines 2-3, characters 2-11:
   2 | ..hi_should_error:([`a of int | `b of string ] [@mel.string]) ->
   3 |   unit -> _.................
@@ -18,7 +17,7 @@
   >   ?hi_should_error:([\`a of int | \`b of string ] [@mel.string]) ->
   >   unit -> _ = "" [@@mel.obj]
   > EOF
-  $ melc -ppx melppx x.ml
+  $ melc -ppx melppx -alert -unprocessed x.ml
   File "x.ml", lines 2-3, characters 2-11:
   2 | ..?hi_should_error:([`a of int | `b of string ] [@mel.string]) ->
   3 |   unit -> _.................

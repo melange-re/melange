@@ -290,8 +290,7 @@ let parse_external_attributes (prim_name_check : string)
             external_module_name =
               Some { bundle; module_bind_name = Phint_nothing };
           } )
-      else
- *)
+      else *)
       let action () =
         match txt with
         | "mel.module" | "module" -> (
@@ -325,8 +324,7 @@ let parse_external_attributes (prim_name_check : string)
             match Ast_payload.assert_strings loc payload with
             | [] -> Error.err ~loc Illegal_attribute
             (* We need err on empty scope, so we can tell the difference
-               between unset/set
-            *)
+               between unset/set *)
             | scopes -> { st with scopes })
         | "mel.splice" | "mel.variadic" | "variadic" ->
             { st with splice = true }
