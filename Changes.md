@@ -50,6 +50,8 @@ Unreleased
 - Add `Js.Obj.assign` to merge 2 JS objects immutably
   ([#900](https://github.com/melange-re/melange/pull/900),
   [#795](https://github.com/melange-re/melange/pull/795))
+- Turn off warning 20 (`ignored-extra-argument`) for `%mel.raw` application
+  ([#915](https://github.com/melange-re/melange/pull/915))
 
 2.1.0 2023-10-22
 ---------------
