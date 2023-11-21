@@ -22,10 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type iterator = Ast_iterator.iterator
-
-let super = Ast_iterator.default_iterator
-
 let check_constant loc kind (const : Parsetree.constant) =
   match const with
   | Pconst_string (_, _, Some s) -> (
@@ -60,9 +56,33 @@ module Core_type = struct
   let is_arity_one ty = get_curry_arity ty = 1
 end
 
-let emit_external_warnings : iterator =
+let emit_external_warnings : Ast_iterator.iterator =
+  let has_mel_attributes attrs =
+    Melange_ffi.External_ffi_attributes.has_mel_attributes
+      (List.map (fun { Parsetree.attr_name = { txt; _ }; _ } -> txt) attrs)
+  in
+  let print_unprocessed_alert loc =
+    Location.prerr_alert loc
+      {
+        Warnings.kind = "unprocessed";
+        message =
+          "[%@mel.*] attributes found in external declaration. Did you forget \
+           to preprocess with `melange.ppx'?";
+        def = Location.none;
+        use = loc;
+      }
+  in
+  let super = Ast_iterator.default_iterator in
   {
     super with
+    signature_item =
+      (fun self sigi ->
+        match sigi.psig_desc with
+        | Psig_value { pval_attributes; pval_loc; _ } ->
+            if has_mel_attributes pval_attributes then
+              print_unprocessed_alert pval_loc
+            else super.signature_item self sigi
+        | _ -> super.signature_item self sigi);
     expr =
       (fun self a ->
         match a.pexp_desc with
@@ -76,7 +96,10 @@ let emit_external_warnings : iterator =
           when not (Core_type.is_arity_one pval_type) ->
             Location.raise_errorf ~loc:pval_loc
               "%%identity expect its type to be of form 'a -> 'b (arity 1)"
-        | _ -> super.value_description self v);
+        | { pval_attributes; pval_loc; _ } ->
+            if has_mel_attributes pval_attributes then
+              print_unprocessed_alert pval_loc
+            else super.value_description self v);
     pat =
       (fun self (pat : Parsetree.pattern) ->
         match pat.ppat_desc with

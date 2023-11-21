@@ -9,7 +9,7 @@
   >   [@@mel.send.pipe:int]
   >   [@@mel.splice]
   > EOF
-  $ melc -ppx melppx x.ml
+  $ melc -ppx melppx -alert -unprocessed x.ml
   File "x.ml", lines 2-7, characters 0-16:
   2 | external
   3 |   f :
@@ -28,7 +28,7 @@
   >   [@@mel.send.pipe:int]
   >   [@@mel.splice]
   > EOF
-  $ melc -ppx melppx x.ml
+  $ melc -ppx melppx -alert -unprocessed x.ml
   File "x.ml", lines 1-6, characters 0-16:
   1 | external
   2 |   f2 :
@@ -76,7 +76,7 @@ Skip over the temporary file name printed in the error trace
   >     resp -> (_ [@mel.as "x"]) -> int -> unit =
   >     "x" [@@mel.set]
   > EOF
-  $ melc -ppx melppx x.ml
+  $ melc -ppx melppx -alert -unprocessed x.ml
   File "x.ml", lines 1-3, characters 0-19:
   1 | external ff :
   2 |     resp -> (_ [@mel.as "x"]) -> int -> unit =
@@ -102,7 +102,7 @@ Skip over the temporary file name printed in the error trace
   $ cat > x.ml <<EOF
   > external v4 : (int -> int -> int [@mel.uncurry]) = ""
   > EOF
-  $ melc -ppx melppx x.ml
+  $ melc -ppx melppx -alert -unprocessed x.ml
   File "x.ml", line 1, characters 0-53:
   1 | external v4 : (int -> int -> int [@mel.uncurry]) = ""
       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -219,7 +219,7 @@ Skip over the temporary file name printed in the error trace
   >  string = "bar"
   >  [@@mel.send]
   > EOF
-  $ melc -ppx melppx x.ml
+  $ melc -ppx melppx -alert -unprocessed x.ml
   File "x.ml", lines 1-5, characters 0-13:
   1 | external foo_bar :
   2 |  (_ [@mel.as "foo"]) ->

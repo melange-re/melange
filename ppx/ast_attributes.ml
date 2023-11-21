@@ -306,24 +306,6 @@ let iter_process_mel_string_as (attrs : t) : string option =
     attrs;
   !st
 
-let external_attrs =
-  [|
-    "get";
-    "set";
-    "get_index";
-    "return";
-    "obj";
-    "val";
-    "module";
-    "scope";
-    "variadic";
-    "send";
-    "new";
-    "set_index";
-    (* TODO(anmonteiro): re-enable when we enable gentype *)
-    (* Literals.gentype_import; *)
-  |]
-
 let first_char_special (x : string) =
   match x with
   | "" -> false
@@ -365,11 +347,8 @@ let rs_externals (attrs : t) pval_prim =
       (* No attributes found *)
       prims_to_be_encoded pval_prim
   | _, _ ->
-      List.exists
-        (fun { attr_name = { txt; loc = _ }; _ } ->
-          String.starts_with txt ~prefix:"mel."
-          || Array.exists (fun (x : string) -> txt = x) external_attrs)
-        attrs
+      Melange_ffi.External_ffi_attributes.has_mel_attributes
+        (List.map (fun { attr_name = { txt; _ }; _ } -> txt) attrs)
       || prims_to_be_encoded pval_prim
 
 let iter_process_mel_int_as (attrs : t) =
