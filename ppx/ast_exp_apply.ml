@@ -119,12 +119,12 @@ let app_exp_mapper (e : exp)
       | Some { op = "|."; args = [ a_; f_ ]; loc } -> (
           (*
         a |. f
-        a |. f b c [@bs]  --> f a b c [@bs]
+        a |. f b c [@u]  --> f a b c [@u]
         a |. M.(f b c) --> M.f a M.b M.c
         a |. (g |. b)
         a |. M.Some
         a |. `Variant
-        a |. (b |. f c [@bs])
+        a |. (b |. f c [@u])
       *)
           let a = self#expression a_ in
           let f = self#expression f_ in
@@ -220,7 +220,7 @@ let app_exp_mapper (e : exp)
                       f_.pexp_desc )
                   with
                   | Some other_attributes, Pexp_apply (fn1, args) ->
-                      (* a |. f b c [@bs]
+                      (* a |. f b c [@u]
                          Cannot process uncurried application early as the arity is wip *)
                       let fn1 = self#expression fn1 in
                       let args =
@@ -246,7 +246,7 @@ let app_exp_mapper (e : exp)
              gpr#1063 foo##(bar##baz) we should rewrite (bar##baz)
                  first  before pattern match.
                  currently the pattern match is written in a top down style.
-                 Another corner case: f##(g a b [@bs])
+                 Another corner case: f##(g a b [@u])
           *)
           match rest with
           | {
@@ -330,15 +330,22 @@ let app_exp_mapper (e : exp)
           Location.raise_errorf ~loc
             "Js object ## expect syntax like obj##(paint (a,b)) "
       | Some { op; _ } -> Location.raise_errorf "invalid %s syntax" op
-      | None -> (
-          match
-            exclude_with_val e.pexp_attributes Ast_attributes.is_uncurried
-          with
-          | None -> super e
-          | Some pexp_attributes ->
-              {
-                e with
-                pexp_desc =
-                  Ast_uncurry_apply.uncurry_fn_apply e.pexp_loc self fn args;
-                pexp_attributes;
-              }))
+      | None ->
+          let e =
+            match
+              exclude_with_val e.pexp_attributes Ast_attributes.is_uncurried
+            with
+            | None -> super e
+            | Some pexp_attributes ->
+                {
+                  e with
+                  pexp_desc =
+                    Ast_uncurry_apply.uncurry_fn_apply e.pexp_loc self fn args;
+                  pexp_attributes;
+                }
+          in
+          {
+            e with
+            pexp_attributes =
+              Ast_attributes.ignored_extra_argument :: e.pexp_attributes;
+          })

@@ -46,6 +46,7 @@ val mel_get_index : attr
 val mel_get_arity : attr
 val mel_set : attr
 val internal_expansive : attr
+val has_internal_expansive : t -> bool
 val mel_return_undefined : attr
 
 val iter_process_mel_string_int_unwrap_uncurry :
@@ -61,5 +62,6 @@ type as_const_payload = Int of int | Str of string | Js_literal_str of string
 
 val iter_process_mel_string_or_int_as : t -> as_const_payload option
 val unboxable_type_in_prim_decl : attr
+val ignored_extra_argument : attr
 val is_mel_as : attr -> bool
 val has_mel_as_payload : t -> attr list * attr option

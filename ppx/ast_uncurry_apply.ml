@@ -33,19 +33,6 @@ type exp = Parsetree.expression
 *)
 let jsInternal = Ast_literal.js_internal
 
-let ignored_extra_argument : Parsetree.attribute =
-  {
-    attr_name = { txt = "ocaml.warning"; loc = Location.none };
-    attr_payload =
-      PStr
-        [
-          Str.eval
-            (Exp.constant
-               (Pconst_string ("-ignored-extra-argument", Location.none, None)));
-        ];
-    attr_loc = Location.none;
-  }
-
 (* we use the trick
    [( opaque e : _) ] to avoid it being inspected,
    the type constraint is avoid some syntactic transformation, e.g ` e |. (f g [@bs])`
@@ -65,7 +52,7 @@ let opaque_full_apply ~loc (e : exp) : Parsetree.expression_desc =
              * OCaml thinks the extra argument is unused because we're
              * producing * an uncurried call to a JS function whose arity isn't
              * known at compile time. *)
-            ignored_extra_argument;
+            Ast_attributes.ignored_extra_argument;
           ]
         (Exp.ident { txt = Ast_literal.js_internal_full_apply; loc })
         [ (Nolabel, e) ],
