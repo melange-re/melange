@@ -59,7 +59,7 @@ val add_js_module :
    pay attention to for those modules are actually used or not
 *)
 
-val query_external_id_info : Ident.t -> string -> Js_cmj_format.keyed_cmj_value
+val query_external_id_info : Ident.t -> string -> Js_cmj_format.keyed_cmj_value option
 (**
   [query_external_id_info id pos env found]
   will raise if not found

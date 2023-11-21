@@ -190,7 +190,8 @@ type initialization = J.block
 let rec compile_external_field (* Like [List.empty]*)
     (lamba_cxt : Lam_compile_context.t) (id : Ident.t) name : Js_output.t =
   match Lam_compile_env.query_external_id_info id name with
-  | { persistent_closed_lambda = Some lam; _ } when Lam_util.not_function lam ->
+  | Some { persistent_closed_lambda = Some lam; _ }
+    when Lam_util.not_function lam ->
       compile_lambda lamba_cxt lam
   | _ ->
       Js_output.output_of_expression lamba_cxt.continuation
@@ -229,7 +230,12 @@ and compile_external_field_apply (appinfo : Lam.apply) (module_id : Ident.t)
     Lam_compile_env.query_external_id_info module_id field_name
   in
   let ap_args = appinfo.ap_args in
-  match ident_info.persistent_closed_lambda with
+  let persistent_closed_lambda =
+    match ident_info with
+    | None -> None
+    | Some ident_info -> ident_info.persistent_closed_lambda
+  in
+  match persistent_closed_lambda with
   | Some (Lfunction { params; body; _ }) when List.same_length params ap_args ->
       (* TODO: serialize it when exporting to save compile time *)
       let _, param_map =
@@ -253,16 +259,16 @@ and compile_external_field_apply (appinfo : Lam.apply) (module_id : Ident.t)
             ap_args ~init:dummy
       in
 
-      let fn = E.ml_var_dot module_id ident_info.name in
+      let fn = E.ml_var_dot module_id field_name in
       let expression =
         match appinfo.ap_info.ap_status with
         | (App_infer_full | App_uncurry) as ap_status ->
             E.call ~info:(call_info_of_ap_status ap_status) fn args
         | App_na -> (
-            match ident_info.arity with
-            | Submodule _ | Single Arity_na ->
+            match ident_info with
+            | Some { arity = Submodule _ | Single Arity_na; _ } | None ->
                 E.call ~info:Js_call_info.dummy fn args
-            | Single x ->
+            | Some { arity = Single x; _ } ->
                 apply_with_arity fn ~arity:(Lam_arity.extract_arity x) args)
       in
       Js_output.output_of_block_and_expression lambda_cxt.continuation args_code

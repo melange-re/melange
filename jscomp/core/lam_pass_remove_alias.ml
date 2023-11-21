@@ -133,7 +133,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
           ap_info;
         } -> (
         match Lam_compile_env.query_external_id_info ident fld_name with
-        | { persistent_closed_lambda = Some (Lfunction { params; body; _ }); _ }
+        | Some { persistent_closed_lambda = Some (Lfunction { params; body; _ }); _ }
         (* be more cautious when do cross module inlining *)
           when List.same_length params args
                && List.for_all

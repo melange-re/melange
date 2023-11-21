@@ -33,7 +33,7 @@ TODO: In the futrue, we should refine dependency [bsb]
 should not rely on such exception, it should have its own exception handling
 *)
 
-(* exception Error of error *)
+exception Error of error
 
 (* val report_error : Format.formatter -> error -> unit *)
 
