@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 open Ast_helper
 
 type exp = Parsetree.expression
@@ -63,7 +63,7 @@ let generic_apply loc (self : Ast_traverse.map) (obj : Parsetree.expression)
   let obj = self#expression obj in
   let args =
     List.map
-      (fun (lbl, e) ->
+      ~f:(fun (lbl, e) ->
         Error.optional_err ~loc lbl;
         (lbl, self#expression e))
       args
@@ -107,7 +107,7 @@ let method_apply loc (self : Ast_traverse.map) (obj : Parsetree.expression) name
   let obj = self#expression obj in
   let args =
     List.map
-      (fun (lbl, e) ->
+      ~f:(fun (lbl, e) ->
         Error.optional_err ~loc lbl;
         (lbl, self#expression e))
       args

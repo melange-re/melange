@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 open Ast_helper
 
 type exp = Parsetree.expression
@@ -45,7 +45,7 @@ let bound (e : exp) (cb : exp -> _) =
 
 let check_and_discard (args : (arg_label * Parsetree.expression) list) =
   List.map
-    (fun (label, x) ->
+    ~f:(fun (label, x) ->
       Error.err_if_label ~loc:x.pexp_loc label;
       x)
     args
@@ -64,7 +64,7 @@ let sane_property_name_check loc s =
 let view_as_app (fn : exp) (s : string list) : app_pattern option =
   match fn.pexp_desc with
   | Pexp_apply ({ pexp_desc = Pexp_ident { txt = Lident op; _ }; _ }, args)
-    when List.mem op s ->
+    when List.mem op ~set:s ->
       Some { op; loc = fn.pexp_loc; args = check_and_discard args }
   | _ -> None
 
@@ -164,7 +164,7 @@ let app_exp_mapper (e : exp)
                            pexp_desc =
                              Pexp_tuple
                                (List.map
-                                  (fun fn ->
+                                  ~f:(fun fn ->
                                     match fn.pexp_desc with
                                     | Pexp_construct (ctor, None) ->
                                         {
@@ -201,7 +201,7 @@ let app_exp_mapper (e : exp)
                   let fn = Ast_open_cxt.restore_exp e wholes in
                   let args =
                     List.map
-                      (fun (lab, exp) ->
+                      ~f:(fun (lab, exp) ->
                         (lab, Ast_open_cxt.restore_exp exp wholes))
                       args
                   in
@@ -224,7 +224,8 @@ let app_exp_mapper (e : exp)
                          Cannot process uncurried application early as the arity is wip *)
                       let fn1 = self#expression fn1 in
                       let args =
-                        args |> List.map (fun (l, e) -> (l, self#expression e))
+                        args
+                        |> List.map ~f:(fun (l, e) -> (l, self#expression e))
                       in
                       Mel_ast_invariant.warn_discarded_unused_attributes
                         fn1.pexp_attributes;

@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 open Ast_helper
 
 exception Local of string
@@ -99,7 +99,7 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
       try
         let new_methods =
           List.fold_right
-            (fun meth_ acc ->
+            ~f:(fun meth_ acc ->
               match meth_.pof_desc with
               | Parsetree.Oinherit _ -> meth_ :: acc
               | Parsetree.Otag (label, core_type) -> (
@@ -148,7 +148,7 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
                   with
                   | Ok x -> x
                   | Error s -> raise (Local s)))
-            methods []
+            methods ~init:[]
         in
         { ty with ptyp_desc = Ptyp_object (new_methods, closed_flag) }
       with Local s ->
@@ -219,5 +219,5 @@ let handle_class_type_fields =
         super ctf :: acc
   in
   fun self fields ->
-    try Ok (List.fold_right (handle_class_type_field self) fields [])
+    try Ok (List.fold_right ~f:(handle_class_type_field self) fields ~init:[])
     with Local s -> Error s

@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 type attr = Parsetree.attribute
 type t = attr list
@@ -41,8 +41,10 @@ let process_method_attributes_rev (attrs : t) =
   try
     let ret =
       List.fold_left
-        (fun (st, acc)
-             ({ attr_name = { txt; _ }; attr_payload = payload; _ } as attr) ->
+        ~f:(fun
+            (st, acc)
+            ({ attr_name = { txt; _ }; attr_payload = payload; _ } as attr)
+          ->
           match txt with
           | "mel.get" | "get" (* @bs.get{null; undefined}*) ->
               let result =
@@ -50,7 +52,7 @@ let process_method_attributes_rev (attrs : t) =
                 | Error s -> raise (Local s)
                 | Ok config ->
                     List.fold_left
-                      (fun (null, undefined) ({ txt; loc }, opt_expr) ->
+                      ~f:(fun (null, undefined) ({ txt; loc }, opt_expr) ->
                         match txt with
                         | "null" ->
                             ( (match opt_expr with
@@ -69,7 +71,7 @@ let process_method_attributes_rev (attrs : t) =
                                 let v = assert_bool_lit e in
                                 (v, v))
                         | _ -> Error.err ~loc Unsupported_predicates)
-                      (false, false) config
+                      ~init:(false, false) config
               in
 
               ({ st with get = Some result }, acc)
@@ -79,7 +81,7 @@ let process_method_attributes_rev (attrs : t) =
                 | Error s -> raise (Local s)
                 | Ok config ->
                     List.fold_left
-                      (fun _st ({ txt; loc }, opt_expr) ->
+                      ~f:(fun _st ({ txt; loc }, opt_expr) ->
                         (*FIXME*)
                         if txt = "no_get" then
                           match opt_expr with
@@ -87,14 +89,14 @@ let process_method_attributes_rev (attrs : t) =
                           | Some e ->
                               if assert_bool_lit e then `No_get else `Get
                         else Error.err ~loc Unsupported_predicates)
-                      `Get config
+                      ~init:`Get config
               in
               (* properties -- void
                     [@@set{only}]
               *)
               ({ st with set = Some result }, acc)
           | _ -> (st, attr :: acc))
-        ({ get = None; set = None }, [])
+        ~init:({ get = None; set = None }, [])
         attrs
     in
     Ok ret
@@ -108,7 +110,7 @@ type attr_kind =
 
 let process_attributes_rev (attrs : t) : attr_kind * t =
   List.fold_left
-    (fun (st, acc) ({ attr_name = { txt; loc }; _ } as attr) ->
+    ~f:(fun (st, acc) ({ attr_name = { txt; loc }; _ } as attr) ->
       match (txt, st) with
       | "u", (Nothing | Uncurry _) ->
           (Uncurry attr, acc) (* TODO: warn unused/duplicated attribute *)
@@ -118,19 +120,19 @@ let process_attributes_rev (attrs : t) : attr_kind * t =
       | ("u" | "mel.this" | "this"), _ ->
           Error.err ~loc Conflict_u_mel_this_mel_meth
       | _, _ -> (st, attr :: acc))
-    (Nothing, []) attrs
+    ~init:(Nothing, []) attrs
 
 let process_pexp_fun_attributes_rev (attrs : t) =
   List.fold_left
-    (fun (st, acc) ({ attr_name = { txt; _ }; _ } as attr) ->
+    ~f:(fun (st, acc) ({ attr_name = { txt; _ }; _ } as attr) ->
       match txt with "mel.open" -> (true, acc) | _ -> (st, attr :: acc))
-    (false, []) attrs
+    ~init:(false, []) attrs
 
 let process_uncurried (attrs : t) =
   List.fold_left
-    (fun (st, acc) ({ attr_name = { txt; _ }; _ } as attr) ->
+    ~f:(fun (st, acc) ({ attr_name = { txt; _ }; _ } as attr) ->
       match (txt, st) with "u", _ -> (true, acc) | _, _ -> (st, attr :: acc))
-    (false, []) attrs
+    ~init:(false, []) attrs
 
 let is_uncurried (attr : attr) =
   match attr with
@@ -192,7 +194,7 @@ let internal_expansive : attr =
 
 let has_internal_expansive attrs =
   List.exists
-    (fun { attr_name = { txt; _ }; _ } -> txt = "internal.expansive")
+    ~f:(fun { attr_name = { txt; _ }; _ } -> txt = "internal.expansive")
     attrs
 
 let mel_return_undefined : attr =
@@ -224,7 +226,7 @@ type as_const_payload = Int of int | Str of string | Js_literal_str of string
 let iter_process_mel_string_or_int_as (attrs : Parsetree.attributes) =
   let st = ref None in
   List.iter
-    (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
+    ~f:(fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
       match txt with
       | "mel.as" | "as" ->
           if !st = None then (
@@ -284,7 +286,7 @@ let iter_process_mel_string_int_unwrap_uncurry (attrs : t) =
     else Error.err ~loc Conflict_attributes
   in
   List.iter
-    (fun ({ attr_name = { txt; _ }; attr_payload = payload; _ } as attr) ->
+    ~f:(fun ({ attr_name = { txt; _ }; attr_payload = payload; _ } as attr) ->
       match txt with
       | "mel.string" | "string" -> assign `String attr
       | "mel.int" | "int" -> assign `Int attr
@@ -299,7 +301,7 @@ let iter_process_mel_string_int_unwrap_uncurry (attrs : t) =
 let iter_process_mel_string_as (attrs : t) : string option =
   let st = ref None in
   List.iter
-    (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
+    ~f:(fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
       match txt with
       | "mel.as" | "as" ->
           if !st = None then (
@@ -355,13 +357,13 @@ let rs_externals (attrs : t) pval_prim =
       prims_to_be_encoded pval_prim
   | _, _ ->
       Melange_ffi.External_ffi_attributes.has_mel_attributes
-        (List.map (fun { attr_name = { txt; _ }; _ } -> txt) attrs)
+        (List.map ~f:(fun { attr_name = { txt; _ }; _ } -> txt) attrs)
       || prims_to_be_encoded pval_prim
 
 let iter_process_mel_int_as (attrs : t) =
   let st = ref None in
   List.iter
-    (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
+    ~f:(fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
       match txt with
       | "mel.as" | "as" ->
           if !st = None then (
@@ -377,7 +379,7 @@ let iter_process_mel_int_as (attrs : t) =
 
 let has_mel_optional (attrs : t) : bool =
   List.exists
-    (fun ({ attr_name = { txt; _ }; _ } as attr) ->
+    ~f:(fun ({ attr_name = { txt; _ }; _ } as attr) ->
       match txt with
       | "mel.optional" | "optional" ->
           Mel_ast_invariant.mark_used_mel_attribute attr;
@@ -388,21 +390,21 @@ let has_mel_optional (attrs : t) : bool =
 let is_inline : attr -> bool =
  fun { attr_name = { txt; _ }; _ } -> txt = "mel.inline" || txt = "inline"
 
-let has_inline_payload (attrs : t) = List.find_opt is_inline attrs
+let has_inline_payload (attrs : t) = List.find_opt ~f:is_inline attrs
 
 let is_mel_as : attr -> bool =
  fun { attr_name = { txt; _ }; _ } -> txt = "mel.as" || txt = "as"
 
 let has_mel_as_payload (attrs : t) =
   List.fold_left
-    (fun (attrs, found) attr ->
+    ~f:(fun (attrs, found) attr ->
       match (is_mel_as attr, found) with
       | true, None -> (attrs, Some attr)
       | false, Some _ | false, None -> (attr :: attrs, found)
       | true, Some _ ->
           Location.raise_errorf ~loc:attr.attr_loc
             "Duplicate `%@mel.as' attribute found")
-    ([], None) attrs
+    ~init:([], None) attrs
 
 let ocaml_warning w =
   {

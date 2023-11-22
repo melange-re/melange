@@ -48,7 +48,7 @@
    And if it is inlined some where
 *)
 
-open Ppxlib
+open Import
 
 module External = struct
   let rule =
@@ -137,7 +137,7 @@ module Private = struct
 
     let check (x : Parsetree.structure) =
       List.iter
-        (fun x ->
+        ~f:(fun x ->
           if not (no_type_defined x) then
             Location.raise_errorf ~loc:x.pstr_loc
               "the structure is not supported in local extension")
