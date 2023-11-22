@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 module External_arg_spec = Melange_ffi.External_arg_spec
 module External_ffi_types = Melange_ffi.External_ffi_types
 
@@ -91,8 +91,10 @@ let spec_of_ptyp (nolabel : bool) (ptyp : Parsetree.core_type) :
              https://github.com/melange-re/melange/issues/578 *)
           let mel_as_type =
             List.fold_left
-              (fun mel_as_type { prf_attributes; prf_loc; _ } ->
-                match List.filter Ast_attributes.is_mel_as prf_attributes with
+              ~f:(fun mel_as_type { prf_attributes; prf_loc; _ } ->
+                match
+                  List.filter ~f:Ast_attributes.is_mel_as prf_attributes
+                with
                 | [] -> mel_as_type
                 | [ { attr_payload; attr_loc = loc; _ } ] -> (
                     match
@@ -108,7 +110,7 @@ let spec_of_ptyp (nolabel : bool) (ptyp : Parsetree.core_type) :
                     | `Int, Some _, None -> Error.err ~loc Expect_int_literal
                     | _, Some _, Some _ -> assert false)
                 | _ :: _ -> Error.err ~loc:prf_loc Duplicated_mel_as)
-              `Nothing row_fields
+              ~init:`Nothing row_fields
           in
           match mel_as_type with
           | `Nothing -> Nothing
@@ -273,8 +275,10 @@ let parse_external_attributes (prim_name_check : string)
   in
 
   List.fold_left
-    (fun (attrs, st)
-         ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
+    ~f:(fun
+        (attrs, st)
+        ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr)
+      ->
       (* TODO(anmonteiro): re-enable when we enable gentype *)
       (*
       if txt = Literals.gentype_import then
@@ -370,11 +374,11 @@ let parse_external_attributes (prim_name_check : string)
       in
       try (attrs, action ())
       with Not_handled_external_attribute -> (attr :: attrs, st))
-    ([], init_st) prim_attributes
+    ~init:([], init_st) prim_attributes
 
 let has_mel_uncurry (attrs : Ast_attributes.t) =
   List.exists
-    (fun { attr_name = { txt; loc = _ }; _ } ->
+    ~f:(fun { attr_name = { txt; loc = _ }; _ } ->
       txt = "mel.uncurry" || txt = "uncurry")
     attrs
 
@@ -421,14 +425,14 @@ type param_type = {
 let mk_fn_type (new_arg_types_ty : param_type list)
     (result : Parsetree.core_type) : Parsetree.core_type =
   List.fold_right
-    (fun { label; ty; attr; loc } acc ->
+    ~f:(fun { label; ty; attr; loc } acc ->
       {
         ptyp_desc = Ptyp_arrow (label, ty, acc);
         ptyp_loc = loc;
         ptyp_loc_stack = [ loc ];
         ptyp_attributes = attr;
       })
-    new_arg_types_ty result
+    new_arg_types_ty ~init:result
 
 let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
     (arg_types_ty : param_type list) (result_type : Parsetree.core_type) :
@@ -459,8 +463,10 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                 new_arg_types_ty,
                 (result_types : Parsetree.object_field list) ) =
             List.fold_right
-              (fun param_type
-                   (arg_labels, (arg_types : param_type list), result_types) ->
+              ~f:(fun
+                  param_type
+                  (arg_labels, (arg_types : param_type list), result_types)
+                ->
                 let arg_label =
                   match (param_type.label, param_type.ty.ptyp_desc) with
                   | Nolabel, _ | _, Ptyp_any -> param_type.label
@@ -612,7 +618,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                       )
                 in
                 (new_arg_label :: arg_labels, new_arg_types, output_tys))
-              arg_types_ty ([], [], [])
+              arg_types_ty ~init:([], [], [])
           in
 
           let result =
@@ -1042,7 +1048,7 @@ let handle_attributes (loc : Location.t) (type_annotation : Parsetree.core_type)
             | None -> ([], [], 0)
           in
           List.fold_right
-            (fun param_type (arg_type_specs, arg_types, i) ->
+            ~f:(fun param_type (arg_type_specs, arg_types, i) ->
               let arg_label = param_type.label in
               let ty = param_type.ty in
               (if i = 0 && splice then
@@ -1100,7 +1106,7 @@ let handle_attributes (loc : Location.t) (type_annotation : Parsetree.core_type)
               ( { External_arg_spec.arg_label; arg_type } :: arg_type_specs,
                 new_arg_types,
                 if arg_type = Ignore then i else i + 1 ))
-            arg_types_ty init
+            arg_types_ty ~init
         in
 
         let ffi : External_ffi_types.external_spec =
@@ -1135,11 +1141,11 @@ let handle_attributes_as_string (pval_loc : Location.t)
 let pval_prim_of_labels (labels : string Asttypes.loc list) =
   let arg_kinds =
     List.fold_right
-      (fun p arg_kinds ->
+      ~f:(fun p arg_kinds ->
         let obj_arg_label =
           External_arg_spec.obj_label (Melange_ffi.Lam_methname.translate p.txt)
         in
         { External_arg_spec.obj_arg_type = Nothing; obj_arg_label } :: arg_kinds)
-      labels []
+      labels ~init:[]
   in
   External_ffi_types.ffi_obj_as_prims arg_kinds

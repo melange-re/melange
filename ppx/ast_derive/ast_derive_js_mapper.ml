@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 open Ast_helper
 module U = Ast_derive_util
 
@@ -208,7 +208,7 @@ let gen ~newType:createType =
                   (Exp.mk ~loc
                      (Ast_external_mk.record_as_js_object loc
                         (List.map
-                           (fun { pld_name = { loc; txt }; _ } ->
+                           ~f:(fun { pld_name = { loc; txt }; _ } ->
                              let label =
                                { Asttypes.loc; txt = Longident.Lident txt }
                              in
@@ -219,7 +219,7 @@ let gen ~newType:createType =
               let obj_exp =
                 Exp.record
                   (List.map
-                     (fun { pld_name = { loc; txt }; _ } ->
+                     ~f:(fun { pld_name = { loc; txt }; _ } ->
                        let label =
                          { Asttypes.loc; txt = Longident.Lident txt }
                        in
@@ -316,7 +316,7 @@ let gen ~newType:createType =
                           { loc; txt = constantArray }
                           (Ast_helper.Exp.array
                              (List.map
-                                (fun x ->
+                                ~f:(fun x ->
                                   Exp.constant
                                     (Pconst_integer (string_of_int x, None)))
                                 xs));
@@ -412,7 +412,7 @@ let gen ~newType:createType =
                       (Pconst_string (U.notApplicable derivingName, loc, None))]]];
               ]
         in
-        List.concat_map handle_tdcl tdcls);
+        List.concat_map ~f:handle_tdcl tdcls);
     signature_gen =
       (fun (tdcls : tdcls) _ ->
         let handle_tdcl tdcl =
@@ -437,7 +437,7 @@ let gen ~newType:createType =
                 Ast_comb.to_js_type ~loc
                   (Typ.object_
                      (List.map
-                        (fun { pld_name; pld_type; _ } ->
+                        ~f:(fun { pld_name; pld_type; _ } ->
                           Of.tag pld_name pld_type)
                         label_declarations)
                      flag)
@@ -500,6 +500,6 @@ let gen ~newType:createType =
                       (Pconst_string (U.notApplicable derivingName, loc, None))]]];
               ]
         in
-        List.concat_map handle_tdcl tdcls);
+        List.concat_map ~f:handle_tdcl tdcls);
     expression_gen = None;
   }

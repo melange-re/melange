@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 (* let derivingName = "abstract" *)
 module U = Ast_derive_util
@@ -66,20 +66,23 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
       let is_private = tdcl.ptype_private = Private in
       let has_optional_field =
         List.exists
-          (fun (x : Parsetree.label_declaration) ->
+          ~f:(fun (x : Parsetree.label_declaration) ->
             Ast_attributes.has_mel_optional x.pld_attributes)
           label_declarations
       in
       let setter_accessor, makeType, labels =
         List.fold_right
-          (fun ({
-                  pld_name = { txt = label_name; loc = label_loc } as pld_name;
-                  pld_type;
-                  pld_mutable;
-                  pld_attributes;
-                  pld_loc;
-                } :
-                 Parsetree.label_declaration) (acc, maker, labels) ->
+          ~f:(fun
+              ({
+                 pld_name = { txt = label_name; loc = label_loc } as pld_name;
+                 pld_type;
+                 pld_mutable;
+                 pld_attributes;
+                 pld_loc;
+               } :
+                Parsetree.label_declaration)
+              (acc, maker, labels)
+            ->
             let prim_as_name, newLabel =
               match
                 Ast_attributes.iter_process_mel_string_as pld_attributes
@@ -132,10 +135,11 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
             in
             (acc, maker, (is_optional, newLabel) :: labels))
           label_declarations
-          ( [],
-            (if has_optional_field then [%type: unit -> [%t core_type]]
-             else core_type),
-            [] )
+          ~init:
+            ( [],
+              (if has_optional_field then [%type: unit -> [%t core_type]]
+               else core_type),
+              [] )
       in
       ( newTdcl,
         if is_private then setter_accessor
@@ -156,11 +160,11 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
 let handleTdclsInStr ~light _rf tdcls =
   let _tdcls, code =
     List.fold_right
-      (fun tdcl (tdcls, sts) ->
+      ~f:(fun tdcl (tdcls, sts) ->
         match handleTdcl light tdcl with
         | ntdcl, value_descriptions ->
-            (ntdcl :: tdcls, List.map Str.primitive value_descriptions @ sts))
-      tdcls ([], [])
+            (ntdcl :: tdcls, List.map ~f:Str.primitive value_descriptions @ sts))
+      tdcls ~init:([], [])
   in
   (* Str.include_ (Incl.mk (Mod.structure [ Str.type_ rf tdcls ])) ::  *)
   code
@@ -168,10 +172,10 @@ let handleTdclsInStr ~light _rf tdcls =
 let handleTdclsInSig ~light _rf tdcls =
   let _tdcls, code =
     List.fold_right
-      (fun tdcl (tdcls, sts) ->
+      ~f:(fun tdcl (tdcls, sts) ->
         match handleTdcl light tdcl with
         | ntdcl, value_descriptions ->
-            (ntdcl :: tdcls, List.map Sig.value value_descriptions @ sts))
-      tdcls ([], [])
+            (ntdcl :: tdcls, List.map ~f:Sig.value value_descriptions @ sts))
+      tdcls ~init:([], [])
   in
-  (*   Sig.type_ rf tdcls ::  *) code
+  code

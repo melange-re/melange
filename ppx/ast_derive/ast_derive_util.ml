@@ -22,18 +22,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 open Ast_helper
 
 let core_type_of_type_declaration (tdcl : Parsetree.type_declaration) =
   match tdcl with
   | { ptype_name = { txt; loc }; ptype_params; _ } ->
-      Typ.constr { txt = Lident txt; loc } (List.map fst ptype_params)
+      Typ.constr { txt = Lident txt; loc } (List.map ~f:fst ptype_params)
 
 let new_type_of_type_declaration (tdcl : Parsetree.type_declaration) newName =
   match tdcl with
   | { ptype_name = { loc; _ }; ptype_params; _ } ->
-      ( Typ.constr { txt = Lident newName; loc } (List.map fst ptype_params),
+      ( Typ.constr { txt = Lident newName; loc } (List.map ~f:fst ptype_params),
         {
           Parsetree.ptype_params = tdcl.ptype_params;
           ptype_name = { txt = newName; loc };

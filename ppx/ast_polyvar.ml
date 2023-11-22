@@ -26,8 +26,7 @@ open Import
 
 (** Note this is okay with enums, for variants,
     the underlying representation may change due to
-    unbox
-*)
+    unbox *)
 let map_constructor_declarations_into_ints
     (row_fields : Parsetree.constructor_declaration list) =
   let mark = ref `nothing in
