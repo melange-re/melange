@@ -181,12 +181,19 @@ let mel_set : attr =
     attr_loc = Location.none;
   }
 
+let internal_expansive_label = "internal.expansive"
+
 let internal_expansive : attr =
   {
-    attr_name = { txt = "internal.expansive"; loc = Location.none };
+    attr_name = { txt = internal_expansive_label; loc = Location.none };
     attr_payload = PStr [];
     attr_loc = Location.none;
   }
+
+let has_internal_expansive attrs =
+  List.exists
+    (fun { attr_name = { txt; _ }; _ } -> txt = "internal.expansive")
+    attrs
 
 let mel_return_undefined : attr =
   {
@@ -397,20 +404,18 @@ let has_mel_as_payload (attrs : t) =
             "Duplicate `%@mel.as' attribute found")
     ([], None) attrs
 
-(* We disable warning 61 in Melange externals since they're substantially
-   different from OCaml externals. This warning doesn't make sense for a JS
-   runtime *)
-let unboxable_type_in_prim_decl : Parsetree.attribute =
-  let open Ast_helper in
+let ocaml_warning w =
   {
     attr_name = { txt = "ocaml.warning"; loc = Location.none };
     attr_payload =
       PStr
-        [
-          Str.eval
-            (Exp.constant
-               (Pconst_string
-                  ("-unboxable-type-in-prim-decl", Location.none, None)));
-        ];
+        Ast_helper.
+          [ Str.eval (Exp.constant (Pconst_string (w, Location.none, None))) ];
     attr_loc = Location.none;
   }
+
+(* We disable warning 61 in Melange externals since they're substantially
+   different from OCaml externals. This warning doesn't make sense for a JS
+   runtime *)
+let unboxable_type_in_prim_decl = ocaml_warning "-unboxable-type-in-prim-decl"
+let ignored_extra_argument = ocaml_warning "-ignored-extra-argument"

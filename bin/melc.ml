@@ -278,17 +278,8 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       List.rev_append include_dirs !Clflags.include_dirs;
     List.iter ~f:Warnings.parse_alert_option alerts;
 
-    begin match warnings with
-    | [] -> ()
-    | first :: rest ->
-      (* If more than one `-w` arguments are present, we insert `"-20"` between
-         them to give a chance for the last one to turn it off. This also
-         happens to cover the common case of Dune, which explicitly passes
-         "+20" (so we override it). *)
-      Melc_warnings.parse_warnings ~warn_error:false first;
-      Melc_warnings.parse_warnings ~warn_error:false "-20";
-      List.iter ~f:(Melc_warnings.parse_warnings ~warn_error:false) rest;
-    end;
+    List.iter warnings ~f:(fun w ->
+      Melc_warnings.parse_warnings ~warn_error:false w);
 
     Option.iter
       (fun output_name -> Clflags.output_name := Some output_name)
