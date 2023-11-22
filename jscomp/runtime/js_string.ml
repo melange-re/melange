@@ -101,7 +101,7 @@ external get : t -> int -> t = ""
 ]}
 *)
 
-external charAt : t -> pos:int -> t = "charAt"
+external charAt : t -> index:int -> t = "charAt"
 [@@mel.send]
 (** [charAt s ~pos] gets the character at index [pos] within string [s]. If
     [pos] is negative or greater than the length of [s], returns the empty
@@ -110,13 +110,13 @@ external charAt : t -> pos:int -> t = "charAt"
     the string.
 
 {[
-  charAt "Reason" ~pos:0 = "R"
-  charAt "Reason" ~pos:12 = "";
-  charAt {js|Rẽasöń|js} ~pos:5 = {js|ń|js}
+  charAt "Reason" ~index:0 = "R"
+  charAt "Reason" ~index:12 = "";
+  charAt {js|Rẽasöń|js} ~index:5 = {js|ń|js}
 ]}
 *)
 
-external charCodeAt : t -> pos:int -> float = "charCodeAt"
+external charCodeAt : t -> index:int -> float = "charCodeAt"
 [@@mel.send]
 (** [charCodeAt s ~pos] returns the character code at position [pos] in string
     [s]; the result is in the range 0-65535, unlke [codePointAt], so it will
@@ -126,12 +126,12 @@ external charCodeAt : t -> pos:int -> float = "charCodeAt"
     less than zero or greater than the length of the string.
 
 {[
-  charCodeAt {js|😺|js} ~pos:0 returns 0xd83d
-  codePointAt {js|😺|js} ~pos:0 returns Some 0x1f63a
+  charCodeAt {js|😺|js} ~index:0 returns 0xd83d
+  codePointAt {js|😺|js} ~index:0 returns Some 0x1f63a
 ]}
 *)
 
-external codePointAt : t -> pos:int -> int option = "codePointAt"
+external codePointAt : t -> index:int -> int option = "codePointAt"
 [@@mel.send]
 (** [codePointAt s ~pos] returns the code point at position [pos] within string
     [s] as a [Some] value. The return value handles code points greater than or
@@ -139,8 +139,8 @@ external codePointAt : t -> pos:int -> int option = "codePointAt"
     function returns [None].
 
 {[
-  codePointAt {js|¿😺?|js} ~pos:1 = Some 0x1f63a
-  codePointAt "abc" ~pos:5 = None
+  codePointAt {js|¿😺?|js} ~index:1 = Some 0x1f63a
+  codePointAt "abc" ~index:5 = None
 ]}
 *)
 
@@ -179,48 +179,48 @@ external endsWith : t -> suffix:t -> ?len:int -> unit -> bool = "endsWith"
 ]}
 *)
 
-external includes : t -> sub:t -> ?start:int -> unit -> bool = "includes"
+external includes : t -> search:t -> ?start:int -> unit -> bool = "includes"
 [@@mel.send]
 (**
-  [includes s ~sub:searchValue ?start ()] returns [true] if [searchValue] is
-  found anywhere within [s] starting at character number [start] (where 0 is
-  the first character), [false] otherwise.
+  [includes s ~search ?start ()] returns [true] if [search] is found anywhere
+  within [s] starting at character number [start] (where 0 is the first
+  character), [false] otherwise.
 
 {[
-  includesFrom "programmer" ~sub:"gram" ~start:1 () = true;;
-  includesFrom "programmer" ~sub:"gram" ~start:4 () = false;;
-  includesFrom {js|대한민국|js} ~sub:{js|한|js} ~start:1 () = true;;
+  includesFrom "programmer" ~search:"gram" ~start:1 () = true;;
+  includesFrom "programmer" ~search:"gram" ~start:4 () = false;;
+  includesFrom {js|대한민국|js} ~search:{js|한|js} ~start:1 () = true;;
 ]}
 *)
 
-external indexOf : t -> sub:t -> ?start:int -> unit -> int = "indexOf"
+external indexOf : t -> search:t -> ?start:int -> unit -> int = "indexOf"
 [@@mel.send]
-(** [indexOfFrom s ~sub:searchValue ?start ()] returns the position at which
-    [searchValue] was found within [s] starting at character position [start],
-    or [-1] if [searchValue] is not found in that portion of [s]. The return
-    value is relative to the beginning of the string, no matter where the
-    search started from.
+(** [indexOfFrom s ~search ?start ()] returns the position at which [search]
+    was found within [s] starting at character position [start], or [-1] if
+    [search] is not found in that portion of [s]. The return value is relative
+    to the beginning of the string, no matter where the search started from.
 
 {[
-  indexOfFrom "bookseller" ~sub:"ok" ~start:1 () = 2;;
-  indexOfFrom "bookseller" ~sub:"sell" ~start:2 () = 4;;
-  indexOfFrom "bookseller" ~sub:"sell" ~start:5 () = -1;;
+  indexOfFrom "bookseller" ~search:"ok" ~start:1 () = 2;;
+  indexOfFrom "bookseller" ~search:"sell" ~start:2 () = 4;;
+  indexOfFrom "bookseller" ~search:"sell" ~start:5 () = -1;;
 ]}
 *)
 
-external lastIndexOf : t -> sub:t -> ?start:int -> unit -> int = "lastIndexOf"
+external lastIndexOf : t -> search:t -> ?start:int -> unit -> int
+  = "lastIndexOf"
 [@@mel.send]
 (**
-  [lastIndexOfFrom s ~sub:searchValue ~start] returns the position of the {i
-  last} occurrence of [searchValue] within [s], searching backwards from the
-  given [start] position. Returns [-1] if [searchValue] is not in [s]. The
-  return value is always relative to the beginning of the string.
+  [lastIndexOfFrom s ~search ~start] returns the position of the {i last}
+  occurrence of [searchValue] within [s], searching backwards from the given
+  [start] position. Returns [-1] if [searchValue] is not in [s]. The return
+  value is always relative to the beginning of the string.
 
 {[
-  lastIndexOfFrom "bookseller" ~sub:"ok" ~start:6 () = 2;;
-  lastIndexOfFrom "beekeeper" ~sub:"ee" ~start:8 () = 4;;
-  lastIndexOfFrom "beekeeper" ~sub:"ee" ~start:3 () = 1;;
-  lastIndexOfFrom "abcdefg" ~sub:"xyz" ~start:4 () = -1;;
+  lastIndexOfFrom "bookseller" ~search:"ok" ~start:6 () = 2;;
+  lastIndexOfFrom "beekeeper" ~search:"ee" ~start:8 () = 4;;
+  lastIndexOfFrom "beekeeper" ~search:"ee" ~start:3 () = 1;;
+  lastIndexOfFrom "abcdefg" ~search:"xyz" ~start:4 () = -1;;
 ]}
 *)
 
@@ -310,17 +310,18 @@ external repeat : t -> count:int -> t = "repeat"
 ]}
 *)
 
-external replace : t -> sub:t -> replacement:t -> t = "replace"
+external replace : t -> search:t -> replacement:t -> t = "replace"
 [@@mel.send]
-(** [replace string ~sub ~replacement] returns a new string which is
-    identical to [string] except with the first matching instance of [sub]
+(** [replace string ~search ~replacement] returns a new string which is
+    identical to [string] except with the first matching instance of [search]
     replaced by [replacement].
 
-    [sub] is treated as a verbatim string to match, not a regular expression.
+    [search] is treated as a verbatim string to match, not a regular
+    expression.
 
 {[
-  replace "old string" ~sub:"old" ~replacement:"new" = "new string"
-  replace "the cat and the dog" ~sub:"the" ~replacement:"this" = "this cat and the dog"
+  replace "old string" ~search:"old" ~replacement:"new" = "new string"
+  replace "the cat and the dog" ~search:"the" ~replacement:"this" = "this cat and the dog"
 ]}
 *)
 

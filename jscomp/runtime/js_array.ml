@@ -76,13 +76,13 @@ external sortInPlaceWith : 'a t -> f:(('a -> 'a -> int)[@mel.uncurry]) -> 'a t
   = "sort"
 [@@mel.send]
 
-external spliceInPlace : 'a t -> pos:int -> remove:int -> add:'a array -> 'a t
+external spliceInPlace : 'a t -> start:int -> remove:int -> add:'a array -> 'a t
   = "splice"
 [@@mel.send] [@@mel.splice]
 
-external removeFromInPlace : 'a t -> pos:int -> 'a t = "splice" [@@mel.send]
+external removeFromInPlace : 'a t -> start:int -> 'a t = "splice" [@@mel.send]
 
-external removeCountInPlace : 'a t -> pos:int -> count:int -> 'a t = "splice"
+external removeCountInPlace : 'a t -> start:int -> count:int -> 'a t = "splice"
 [@@mel.send]
 (* screwy naming, but screwy function *)
 

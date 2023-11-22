@@ -95,19 +95,19 @@ let suites = Mt.[
 
     "spliceInPlace", (fun _ ->
       let arr = [| 1; 2; 3; 4 |] in
-      let removed = arr |. Js.Array.spliceInPlace ~pos:2 ~remove:0 ~add:[| 5 |] in
+      let removed = arr |. Js.Array.spliceInPlace ~start:2 ~remove:0 ~add:[| 5 |] in
 
       Eq(([| 1; 2; 5; 3; 4 |], [||]), (arr, removed))
     );
     "removeFromInPlace", (fun _ ->
       let arr = [| 1; 2; 3; 4 |] in
-      let removed = arr |. Js.Array.removeFromInPlace ~pos:2 in
+      let removed = arr |. Js.Array.removeFromInPlace ~start:2 in
 
       Eq(([| 1; 2 |], [| 3; 4 |]), (arr, removed))
     );
     "removeCountInPlace", (fun _ ->
       let arr = [| 1; 2; 3; 4 |] in
-      let removed = arr |. Js.Array.removeCountInPlace ~pos:2 ~count:1 in
+      let removed = arr |. Js.Array.removeCountInPlace ~start:2 ~count:1 in
 
       Eq(([| 1; 2; 4 |], [| 3 |]), (arr, removed))
     );
