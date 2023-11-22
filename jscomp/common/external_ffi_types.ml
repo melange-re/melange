@@ -39,7 +39,6 @@ type external_module_name = {
   module_bind_name : module_bind_name;
 }
 
-type pipe = bool
 type arg_type = External_arg_spec.attr
 (* TODO: information between [arg_type] and [arg_label] are duplicated,
    design a more compact representation so that it is also easy to seralize by
@@ -68,10 +67,11 @@ type external_spec =
   | Js_send of {
       name : string;
       splice : bool;
-      pipe : pipe;
+      pipe : bool;
+      new_ : bool;
       js_send_scopes : string list;
     }
-    (* we know it is a js send, but what will happen if you pass an ocaml objct *)
+    (* we know it is a js send, but what will happen if you pass an ocaml object *)
   | Js_new of {
       name : string;
       external_module_name : external_module_name option;
