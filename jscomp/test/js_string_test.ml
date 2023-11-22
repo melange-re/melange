@@ -27,19 +27,19 @@ let suites = Mt.[
     );
 
     "charAt", (fun _ ->
-      Eq("a", "foobar" |. Js.String.charAt ~pos:4)
+      Eq("a", "foobar" |. Js.String.charAt ~index:4)
     );
 
     "charCodeAt", (fun _ ->
-      Eq(97., "foobar" |. Js.String.charCodeAt ~pos:4)
+      Eq(97., "foobar" |. Js.String.charCodeAt ~index:4)
     );
 
     (* es2015 *)
     "codePointAt", (fun _ ->
-      Eq(Some 0x61, "foobar" |. Js.String.codePointAt ~pos:4)
+      Eq(Some 0x61, "foobar" |. Js.String.codePointAt ~index:4)
     );
     "codePointAt - out of bounds", (fun _ ->
-      Eq(None, "foobar" |. Js.String.codePointAt ~pos:98)
+      Eq(None, "foobar" |. Js.String.codePointAt ~index:98)
     );
 
     "concat", (fun _ ->
@@ -59,24 +59,24 @@ let suites = Mt.[
 
     (* es2015 *)
     "includes", (fun _ ->
-      Eq(true, "foobarbaz" |. Js.String.includes ~sub:"bar" ())
+      Eq(true, "foobarbaz" |. Js.String.includes ~search:"bar" ())
     );
     "includesFrom", (fun _ ->
-      Eq(false, "foobarbaz" |. Js.String.includes ~sub:"bar" ~start:4 ())
+      Eq(false, "foobarbaz" |. Js.String.includes ~search:"bar" ~start:4 ())
     );
 
     "indexOf", (fun _ ->
-      Eq(3, "foobarbaz" |. Js.String.indexOf ~sub:"bar" ())
+      Eq(3, "foobarbaz" |. Js.String.indexOf ~search:"bar" ())
     );
     "indexOfFrom", (fun _ ->
-      Eq((-1), "foobarbaz" |. Js.String.indexOf ~sub:"bar" ~start:4 ())
+      Eq((-1), "foobarbaz" |. Js.String.indexOf ~search:"bar" ~start:4 ())
     );
 
     "lastIndexOf", (fun _ ->
-      Eq(3, "foobarbaz" |. Js.String.lastIndexOf ~sub:"bar" ())
+      Eq(3, "foobarbaz" |. Js.String.lastIndexOf ~search:"bar" ())
     );
     "lastIndexOfFrom", (fun _ ->
-      Eq(3, "foobarbaz" |. Js.String.lastIndexOf ~sub:"bar" ~start:4 ())
+      Eq(3, "foobarbaz" |. Js.String.lastIndexOf ~search:"bar" ~start:4 ())
     );
 
     "localeCompare", (fun _ ->
@@ -111,7 +111,7 @@ let suites = Mt.[
     );
 
     "replace", (fun _ ->
-      Eq("fooBORKbaz", "foobarbaz" |. Js.String.replace ~sub:"bar" ~replacement:"BORK")
+      Eq("fooBORKbaz", "foobarbaz" |. Js.String.replace ~search:"bar" ~replacement:"BORK")
     );
     "replaceByRe", (fun _ ->
       Eq("fooBORKBORK", "foobarbaz" |. Js.String.replaceByRe ~regexp:[%re "/ba./g"] ~replacement:"BORK")
@@ -219,6 +219,6 @@ let suites = Mt.[
     "link", (fun _ ->
       Eq("<a href=\"https://reason.ml\">foo</a>", "foo" |. Js.String.link ~href:"https://reason.ml")
     );
-    __LOC__ , (fun _ -> Ok (Js.String.includes "ab" ~sub:"a" ()))
+    __LOC__ , (fun _ -> Ok (Js.String.includes "ab" ~search:"a" ()))
 ]
 ;; Mt.from_pair_suites __MODULE__ suites
