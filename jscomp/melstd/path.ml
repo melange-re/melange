@@ -98,7 +98,8 @@ let concat =
       do
         incr idx
       done;
-      Bytes.(unsafe_to_string (sub (unsafe_of_string p) 0 (len - !idx))))
+      Bytes.(
+        unsafe_to_string (sub (unsafe_of_string p) ~pos:0 ~len:(len - !idx))))
     else p
   in
   fun dirname filename ->

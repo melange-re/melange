@@ -66,8 +66,8 @@ let new_extension name (ext : string) =
     else if String.unsafe_get name i = '.' then (
       let ext_len = String.length ext in
       let buf = Bytes.create (i + ext_len) in
-      Bytes.blit_string name 0 buf 0 i;
-      Bytes.blit_string ext 0 buf i ext_len;
+      Bytes.blit_string ~src:name ~src_pos:0 ~dst:buf ~dst_pos:0 ~len:i;
+      Bytes.blit_string ~src:ext ~src_pos:0 ~dst:buf ~dst_pos:i ~len:ext_len;
       Bytes.unsafe_to_string buf)
     else search_dot name (i - 1) ext
   in
