@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module Parser_flow = Js_parser.Parser_flow
 module Parser_env = Js_parser.Parser_env
 module Flow_ast = Js_parser.Flow_ast
@@ -30,10 +31,10 @@ let rec is_obj_literal (x : _ Flow_ast.Expression.t) : bool =
   match snd x with
   | Identifier (_, { name = "undefined"; _ }) | Literal _ -> true
   | Unary { operator = Minus; argument; _ } -> is_obj_literal argument
-  | Object { properties; _ } -> List.for_all is_literal_kv properties
+  | Object { properties; _ } -> List.for_all ~f:is_literal_kv properties
   | Array { elements; _ } ->
       List.for_all
-        (fun x ->
+        ~f:(fun x ->
           match x with
           | Flow_ast.Expression.Array.Expression x -> is_obj_literal x
           | _ -> false)
