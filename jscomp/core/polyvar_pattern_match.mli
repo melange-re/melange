@@ -1,3 +1,5 @@
+open Import
+
 val make_test_sequence_variant_constant :
   Lambda.lambda option ->
   Lambda.lambda ->

@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module E = Js_exp_make
 module S = Js_stmt_make
 
@@ -139,6 +140,6 @@ let append_output (x : t) (y : t) : t =
 
 (* Fold right is more efficient *)
 let concat (xs : t list) : t =
-  List.fold_right (fun x acc -> append_output x acc) xs dummy
+  List.fold_right ~f:(fun x acc -> append_output x acc) xs ~init:dummy
 
 let to_string x = Js_dump.string_of_block (output_as_block x)

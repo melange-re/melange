@@ -22,8 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(* type module_name = private string *)
-
+open Import
 module Set_string = Depend.String.Set
 
 (* FIXME: [Clflags.open_modules] seems not to be properly used *)
@@ -47,7 +46,7 @@ let read_parse_and_extract (type t) (k : t Ml_binary.kind) (ast : t) :
   Depend.free_structure_names := Set_string.empty;
   ref_protect Clflags.transparent_modules false (fun _ ->
       List.iter (* check *)
-        (fun modname ->
+        ~f:(fun modname ->
           ignore @@ Depend.open_module bound_vars (Longident.Lident modname))
         !Clflags.open_modules;
       (match k with

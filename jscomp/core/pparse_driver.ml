@@ -1,3 +1,5 @@
+open Import
+
 (* Optionally preprocess a source file *)
 let call_external_preprocessor sourcefile pp =
   let tmpfile = Filename.temp_file "ocamlpp" "" in
@@ -45,10 +47,10 @@ let parse_file (type a) (kind : a Ml_binary.kind) (sourcefile : string) : a =
   remove_preprocessed inputfile;
   match (kind, ast) with
   | Ml, Impl ast ->
-      let ast : Melange_compiler_libs.Parsetree.structure = Obj.magic ast in
+      let ast : Parsetree.structure = Obj.magic ast in
       ast
   | Mli, Intf ast ->
-      let ast : Melange_compiler_libs.Parsetree.signature = Obj.magic ast in
+      let ast : Parsetree.signature = Obj.magic ast in
       ast
   | _ -> assert false
 

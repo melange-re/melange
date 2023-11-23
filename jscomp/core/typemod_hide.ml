@@ -22,11 +22,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 let should_hide (x : Typedtree.module_binding) =
   match x.mb_attributes with
   | [] -> false
   | { attr_name = { txt = "internal.local"; _ }; _ } :: _ -> true
   | _ :: rest ->
       List.exists
-        (fun { Parsetree.attr_name = x; _ } -> x.txt = "internal.local")
+        ~f:(fun { Parsetree.attr_name = x; _ } -> x.txt = "internal.local")
         rest

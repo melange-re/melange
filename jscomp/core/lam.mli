@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module Constant = Melange_ffi.Lam_constant
 module Methname = Melange_ffi.Lam_methname
 module Tag_info = Melange_ffi.Lam_tag_info

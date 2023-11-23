@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (* open recursion is hard
    Take cond for example:
    CHECK? Trick semantics difference
@@ -43,14 +45,15 @@ let flatten_map =
         | Exp ({ expression_desc = Seq _; _ } as v) ->
             S.block
               (List.rev_map
-                 (fun x -> self.statement self x)
+                 ~f:(fun x -> self.statement self x)
                  (Js_analyzer.rev_flatten_seq v))
         | Exp
             {
               expression_desc = Caml_block (args, _mutable_flag, _tag, _tag_info);
               _;
             } ->
-            S.block (List.map (fun arg -> self.statement self (S.exp arg)) args)
+            S.block
+              (List.map ~f:(fun arg -> self.statement self (S.exp arg)) args)
         | Exp { expression_desc = Cond (a, b, c); comment; _ } ->
             {
               statement_desc =
@@ -71,7 +74,7 @@ let flatten_map =
             | { statement_desc = Exp last_one; _ } :: rest_rev ->
                 S.block
                   (List.rev_append
-                     (List.map (fun x -> self.statement self x) rest_rev)
+                     (List.map ~f:(fun x -> self.statement self x) rest_rev)
                      [ self.statement self (S.exp (E.assign a last_one)) ])
                 (* TODO: here we introduce a block, should avoid it *)
                 (* super#statement *)
@@ -93,7 +96,7 @@ let flatten_map =
                 super.statement self
                   (S.block
                      (List.rev_append
-                        (List.map (fun x -> self.statement self x) rest_rev)
+                        (List.map ~f:(fun x -> self.statement self x) rest_rev)
                         [ S.return_stmt last_one ]))
             | _ -> assert false)
         | Block [ x ] -> self.statement self x
