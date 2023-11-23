@@ -22,8 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module E = Js_exp_make
-(* module S = Js_stmt_make *)
 
 (* not exhaustive *)
 let args_const_unbox_approx_int_zero (args : J.expression list) =
@@ -171,7 +171,8 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
           (*Invariants: assuming bytes are [int array]*)
           E.array NA
             (if i = 0l then []
-             else List.init (Int32.to_int i) (fun _ -> E.zero_int_literal))
+             else
+               List.init ~len:(Int32.to_int i) ~f:(fun _ -> E.zero_int_literal))
       | _ -> E.runtime_call Js_runtime_modules.bytes "caml_create_bytes" args)
   | "caml_bool_compare" -> (
       match args with

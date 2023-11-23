@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module E = Js_exp_make
 module S = Js_stmt_make
 
@@ -38,7 +39,7 @@ let eval (arg : J.expression) (dispatches : (string * string) list) : E.t =
           [
             S.string_switch arg
               (List.map
-                 (fun (i, r) ->
+                 ~f:(fun (i, r) ->
                    ( i,
                      J.
                        {
@@ -72,7 +73,7 @@ let eval_as_event (arg : J.expression)
                   S.string_switch
                     (E.poly_var_tag_access arg)
                     (List.map
-                       (fun (i, r) ->
+                       ~f:(fun (i, r) ->
                          ( i,
                            J.
                              {
@@ -108,7 +109,7 @@ let eval_as_int (arg : J.expression) (dispatches : (string * int) list) : E.t =
           [
             S.string_switch arg
               (List.map
-                 (fun (i, r) ->
+                 ~f:(fun (i, r) ->
                    ( i,
                      J.
                        {

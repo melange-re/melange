@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module Compiler_version = Ppxlib_ast.Compiler_version
 
 module type OCaml_version = Ppxlib_ast.OCaml_version
@@ -145,10 +146,12 @@ let from_channel ch ~input_kind : (t, read_error) result =
             }
       | Unknown ->
           if
-            String.equal (String.sub s 0 9)
-              (String.sub Astlib.Config.ast_impl_magic_number 0 9)
-            || String.equal (String.sub s 0 9)
-                 (String.sub Astlib.Config.ast_intf_magic_number 0 9)
+            String.equal
+              (String.sub s ~pos:0 ~len:9)
+              (String.sub Astlib.Config.ast_impl_magic_number ~pos:0 ~len:9)
+            || String.equal
+                 (String.sub s ~pos:0 ~len:9)
+                 (String.sub Astlib.Config.ast_intf_magic_number ~pos:0 ~len:9)
           then Error (Unknown_version (s, fall_back_input_version))
           else handle_non_binary ())
 

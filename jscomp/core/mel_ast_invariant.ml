@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 let check_constant loc kind (const : Parsetree.constant) =
   match const with
   | Pconst_string (_, _, Some s) -> (
@@ -59,7 +61,7 @@ end
 let emit_external_warnings : Ast_iterator.iterator =
   let has_mel_attributes attrs =
     Melange_ffi.External_ffi_attributes.has_mel_attributes
-      (List.map (fun { Parsetree.attr_name = { txt; _ }; _ } -> txt) attrs)
+      (List.map ~f:(fun { Parsetree.attr_name = { txt; _ }; _ } -> txt) attrs)
   in
   let print_unprocessed_alert loc =
     Location.prerr_alert loc

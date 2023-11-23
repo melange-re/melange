@@ -1,3 +1,5 @@
+open Import
+
 (* Note: some of the functions here should go to Ast_mapper instead,
    which would encapsulate the "binary AST" protocol. *)
 
@@ -39,16 +41,16 @@ let rewrite kind ppxs ast =
   write_ast kind fn_in ast;
   let temp_files =
     List.fold_right
-      (fun ppx fns ->
+      ~f:(fun ppx fns ->
         match fns with
         | [] -> assert false
         | fn_in :: _ -> apply_rewriter fn_in ppx :: fns)
-      ppxs [ fn_in ]
+      ppxs ~init:[ fn_in ]
   in
   match temp_files with
   | last_fn :: _ ->
       let out = read_ast kind last_fn in
-      List.iter Misc.remove_file temp_files;
+      List.iter ~f:Misc.remove_file temp_files;
       out
   | _ -> assert false
 
