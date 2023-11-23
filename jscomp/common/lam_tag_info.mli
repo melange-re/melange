@@ -22,11 +22,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (* Similiar to {!Lambda.tag_info}
    In particular,
    it reduces some branches e.g,
-   [Blk_some], [Blk_some_not_nested]
-*)
+   [Blk_some], [Blk_some_not_nested] *)
 type t =
   | Blk_tuple
   | Blk_array

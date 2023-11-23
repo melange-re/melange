@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 let external_attrs =
   [|
     "get";
@@ -42,7 +44,7 @@ let external_attrs =
 
 let has_mel_attributes attrs =
   List.exists
-    (fun txt ->
+    ~f:(fun txt ->
       String.starts_with txt ~prefix:"mel."
-      || Array.exists (fun (x : string) -> txt = x) external_attrs)
+      || Array.exists ~f:(fun (x : string) -> txt = x) external_attrs)
     attrs
