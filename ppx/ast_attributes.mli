@@ -37,6 +37,7 @@ type attr_kind =
   | Uncurry of attr
   | Method of attr
 
+val warn_if_non_namespaced : loc:location -> label -> unit
 val process_attributes_rev : t -> attr_kind * t
 val process_pexp_fun_attributes_rev : t -> bool * t
 val process_uncurried : t -> bool * t
