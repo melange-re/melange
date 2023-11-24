@@ -52,6 +52,9 @@ Unreleased
   [#795](https://github.com/melange-re/melange/pull/795))
 - Turn off warning 20 (`ignored-extra-argument`) for `%mel.raw` application
   ([#915](https://github.com/melange-re/melange/pull/915))
+- Deprecate non-namespaced FFI attributes such as `@string` or `@obj` in favor
+  of e.g. `@mel.string` and `@mel.obj`
+  ([#923](https://github.com/melange-re/melange/pull/923))
 
 2.1.0 2023-10-22
 ---------------
