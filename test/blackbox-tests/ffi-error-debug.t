@@ -49,7 +49,7 @@ Each [@mel.unwrap] variant constructor requires an argument
   File "x.ml", line 2, characters 20-36:
   2 |   ?hi_should_error:([`a of int | `b] [@mel.unwrap]) ->
                           ^^^^^^^^^^^^^^^^
-  Error: Not a valid type for @unwrap. Type must be an inline variant (closed),
-         and each constructor must have an argument.
+  Error: Invalid type for `@mel.unwrap'. Type must be an inline variant
+         (closed), and each constructor must have an argument.
   [2]
 

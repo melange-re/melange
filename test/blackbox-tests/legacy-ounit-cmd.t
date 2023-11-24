@@ -148,12 +148,14 @@ Skip over the temporary file name printed in the error trace
   $ melc -ppx melppx -bs-eval 'let should_fail = fun [@mel.this] (Some x) y u -> y + u' 2>&1 | grep -v File
   1 | let should_fail = fun [@mel.this] (Some x) y u -> y + u
                                         ^^^^^^^^
-  Error: @this expect its pattern variable to be simple form
+  Error: `@mel.this' expects a simple pattern: an optionally constrained
+         variable (or wildcard)
 
   $ melc -ppx melppx -bs-eval 'let should_fail = fun [@mel.this] (Some x as v) y u -> y + u' 2>&1 | grep -v File
   1 | let should_fail = fun [@mel.this] (Some x as v) y u -> y + u
                                         ^^^^^^^^^^^^^
-  Error: @this expect its pattern variable to be simple form
+  Error: `@mel.this' expects a simple pattern: an optionally constrained
+         variable (or wildcard)
 
   $ cat > x.ml <<EOF
   > (* let rec must be rejected *)

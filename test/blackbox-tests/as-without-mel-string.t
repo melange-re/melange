@@ -55,7 +55,7 @@ Test `@mel.as` without `@mel.string` / `@mel.int` in external polyvars
   File "x.ml", line 6, characters 13-24:
   6 |   | `easeOut [@mel.as 1]
                    ^^^^^^^^^^^
-  Error: expect string literal
+  Error: Expected a string literal
   [2]
 
   $ cat > x.ml <<EOF
@@ -73,6 +73,6 @@ Test `@mel.as` without `@mel.string` / `@mel.int` in external polyvars
   File "x.ml", line 5, characters 4-43:
   5 |   | `easeIn [@mel.as 1] [@mel.as "ease-in"]
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  Error: duplicate @as
+  Error: Duplicate `@mel.as'
   [2]
 

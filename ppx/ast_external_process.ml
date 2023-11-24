@@ -74,11 +74,12 @@ let spec_of_ptyp (nolabel : bool) (ptyp : Parsetree.core_type) :
       let real_arity = Ast_core_type.get_uncurry_arity ptyp in
       match (opt_arity, real_arity) with
       | Some arity, None -> Fn_uncurry_arity arity
-      | None, None -> Error.err ~loc:ptyp.ptyp_loc Canot_infer_arity_by_syntax
+      | None, None -> Error.err ~loc:ptyp.ptyp_loc Cannot_infer_arity_by_syntax
       | None, Some arity -> Fn_uncurry_arity arity
       | Some arity, Some n ->
           if n <> arity then
-            Error.err ~loc:ptyp.ptyp_loc (Inconsistent_arity (arity, n))
+            Error.err ~loc:ptyp.ptyp_loc
+              (Inconsistent_arity { uncurry_attribute = arity; real = n })
           else Fn_uncurry_arity arity)
   | `Nothing -> (
       match ptyp_desc with
@@ -171,7 +172,7 @@ let refine_obj_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
   else (* ([`a|`b] [@string]) *)
     spec_of_ptyp nolabel ptyp
 
-(* Given the type of argument, process its [bs.] attribute and new type,
+(* Given the type of argument, process its [mel.*] attribute and new type,
     The new type is currently used to reconstruct the external type
     and result type in [@@obj]
     They are not the same though, for example
