@@ -1,4 +1,4 @@
-[@@@config { flags = [| "-w"; "a" |] }]
+[@@@mel.config { flags = [| "-w"; "a" |] }]
 
 module T0 = struct
   let myList = [ 1; 2 ]

@@ -673,7 +673,7 @@ val initU : int -> ((int -> 'a)[@u]) -> 'a t
 val init : int -> (int -> 'a) -> 'a t
 
 external push : 'a t -> 'a -> unit = "push"
-[@@send]
+[@@mel.send]
 (**
   [arr->push(item)]
   push element `item` into the array

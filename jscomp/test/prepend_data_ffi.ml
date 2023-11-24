@@ -77,7 +77,7 @@ external on_exit_slice4 :
     int
     -> (_ [@mel.as 3])
     -> (_ [@mel.as "xxx"])
-    -> ([`a|`b|`c] [@int])
+    -> ([`a|`b|`c] [@mel.int])
     -> ([`a|`b|`c] )
     -> int array
     -> unit

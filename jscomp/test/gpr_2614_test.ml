@@ -28,8 +28,8 @@ let ff () =
 
 type a = {
   mutable low : string option
-  [@optional]
-  [@as "lo-x"]
+  [@mel.optional]
+  [@mel.as "lo-x"]
 ;
   hi : int
 } [@@deriving abstract]
