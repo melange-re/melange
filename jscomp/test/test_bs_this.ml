@@ -23,7 +23,7 @@ let js_obj : 'self =
       }
   ]
 class type _x = object [@u]
-  method onload : _x Js.t -> unit [@this] [@@mel.set]
+  method onload : _x Js.t -> unit [@mel.this] [@@mel.set]
   method addEventListener : string -> (_x Js.t -> unit [@mel.this]) -> unit
   method response : string
 end
@@ -37,4 +37,4 @@ let f (x : x ) =
     end
   end
 
-let u = fun [@this] (_ : int) (x : int) -> x
+let u = fun [@mel.this] (_ : int) (x : int) -> x

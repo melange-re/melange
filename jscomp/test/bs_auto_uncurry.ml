@@ -1,5 +1,3 @@
-
-
 module Curry = struct
 end
 module Block = struct
@@ -39,11 +37,11 @@ external map2 :
 
 
 external ff :
-    int -> (int [@ignore]) -> (int -> int -> int [@mel.uncurry]) -> int
+    int -> (int [@mel.ignore]) -> (int -> int -> int [@mel.uncurry]) -> int
     = "ff"
 
 external ff1 :
-    int -> (_ [@as 3 ]) -> (int -> int -> int [@mel.uncurry]) -> int
+    int -> (_ [@mel.as 3 ]) -> (int -> int -> int [@mel.uncurry]) -> int
     = "ff1"
 
 

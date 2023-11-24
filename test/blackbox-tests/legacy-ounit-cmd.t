@@ -275,7 +275,7 @@ Skip over the temporary file name printed in the error trace
          (see manual section 6.1.2)
 
   $ cat > x.ml <<EOF
-  > external push : 'a array -> 'a -> unit = "push" [@@send]
+  > external push : 'a array -> 'a -> unit = "push" [@@mel.send]
   > let a = [||]
   > let () =
   >   push a 3 |. ignore ;

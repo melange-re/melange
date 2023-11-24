@@ -298,6 +298,7 @@ let parse_external_attributes (prim_name_check : string)
       let action () =
         match txt with
         | "mel.module" | "module" -> (
+            Ast_attributes.warn_if_non_namespaced ~loc txt;
             match Ast_payload.assert_strings loc payload with
             | [ bundle ] ->
                 {
@@ -325,16 +326,20 @@ let parse_external_attributes (prim_name_check : string)
                 }
             | _ -> Error.err ~loc Illegal_attribute)
         | "mel.scope" | "scope" -> (
+            Ast_attributes.warn_if_non_namespaced ~loc txt;
             match Ast_payload.assert_strings loc payload with
             | [] -> Error.err ~loc Illegal_attribute
             (* We need err on empty scope, so we can tell the difference
                between unset/set *)
             | scopes -> { st with scopes })
         | "mel.splice" | "mel.variadic" | "variadic" ->
+            Ast_attributes.warn_if_non_namespaced ~loc txt;
             { st with splice = true }
         | "mel.send" | "send" ->
+            Ast_attributes.warn_if_non_namespaced ~loc txt;
             { st with val_send = name_from_payload_or_prim ~loc payload }
         | "mel.send.pipe" ->
+            Ast_attributes.warn_if_non_namespaced ~loc txt;
             {
               st with
               val_send_pipe =
@@ -346,25 +351,33 @@ let parse_external_attributes (prim_name_check : string)
                        [@mel.send.pipe: t]");
             }
         | "mel.set" | "set" ->
+            Ast_attributes.warn_if_non_namespaced ~loc txt;
             { st with set_name = name_from_payload_or_prim ~loc payload }
         | "mel.get" | "get" ->
+            Ast_attributes.warn_if_non_namespaced ~loc txt;
             { st with get_name = name_from_payload_or_prim ~loc payload }
         | "mel.new" | "new" ->
+            Ast_attributes.warn_if_non_namespaced ~loc txt;
             { st with new_name = name_from_payload_or_prim ~loc payload }
         | "mel.set_index" | "set_index" ->
+            Ast_attributes.warn_if_non_namespaced ~loc txt;
             if String.length prim_name_check <> 0 then
               Location.raise_errorf ~loc
                 "%@set_index this particular external's name needs to be a \
                  placeholder empty string";
             { st with set_index = true }
         | "mel.get_index" | "get_index" ->
+            Ast_attributes.warn_if_non_namespaced ~loc txt;
             if String.length prim_name_check <> 0 then
               Location.raise_errorf ~loc
                 "%@get_index this particular external's name needs to be a \
                  placeholder empty string";
             { st with get_index = true }
-        | "mel.obj" | "obj" -> { st with mk_obj = true }
+        | "mel.obj" | "obj" ->
+            Ast_attributes.warn_if_non_namespaced ~loc txt;
+            { st with mk_obj = true }
         | "mel.return" | "return" -> (
+            Ast_attributes.warn_if_non_namespaced ~loc txt;
             match Ast_payload.ident_or_record_as_config payload with
             | Ok [ ({ txt; _ }, None) ] ->
                 { st with return_wrapper = return_wrapper loc txt }
@@ -826,8 +839,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    return_wrapper = _;
   } -> (
       (* PR #2162 - since when we assemble arguments the first argument in
-         [@@send] is ignored
-      *)
+         [@@send] is ignored *)
       match (arg_type_specs, new_name) with
       | [], _ ->
           Location.raise_errorf ~loc
@@ -990,8 +1002,7 @@ let handle_attributes (loc : Location.t) (type_annotation : Parsetree.core_type)
     Parsetree.core_type * External_ffi_types.t * Parsetree.attributes * bool =
   (* sanity check here
       {[ int -> int -> (int -> int -> int [@uncurry])]}
-      It does not make sense
-  *)
+      It does not make sense *)
   if has_mel_uncurry type_annotation.ptyp_attributes then
     Location.raise_errorf ~loc
       "@uncurry can not be applied to the whole definition"

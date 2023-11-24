@@ -96,12 +96,12 @@ external getGADTI3 :
 external setGADTI2 :
  t -> ('a kind [@mel.ignore]) ->
  ('b kind [@mel.ignore]) -> int
-  -> ('a * 'b) -> unit  = "" [@@set_index]
+  -> ('a * 'b) -> unit  = "" [@@mel.set_index]
 
 external setGADTI3 :
  t -> ('a kind [@mel.ignore]) ->
  ('b kind [@mel.ignore]) -> (_ [@mel.as 3] )
-  -> ('a * 'b) -> unit  = "" [@@set_index]
+  -> ('a * 'b) -> unit  = "" [@@mel.set_index]
 
 let ffff x =
   begin

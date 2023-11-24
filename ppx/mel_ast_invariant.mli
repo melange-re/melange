@@ -22,22 +22,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 module Warnings : sig
   type t =
     | Unused_attribute of string
     | Fragile_external of string
     | Redundant_mel_string
+    | Deprecated_non_namespaced_attribute
 end
 
+val is_mel_attribute : string -> bool
 val warn : loc:Location.t -> Warnings.t -> unit
 val mark_used_mel_attribute : Parsetree.attribute -> unit
 
-(** [warn_discarded_unused_attributes discarded]
-  warn if [discarded] has unused bs attribute
-*)
 val warn_discarded_unused_attributes : Parsetree.attributes -> unit
+(** [warn_discarded_unused_attributes discarded] warn if [discarded] has unused
+    mel attribute *)
+
 (** Ast invariant checking for detecting errors *)
 
 val emit_external_warnings_on_structure : Parsetree.structure -> unit

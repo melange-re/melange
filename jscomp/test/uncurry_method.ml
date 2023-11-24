@@ -48,7 +48,7 @@ end
    < hh : (unit -> 'c [@bs.meth]);
      hi : (name:string -> age:int -> unit [@bs.meth]) >
    Js.t  *)
-type add_meth = int -> int -> int [@meth]
+type add_meth = int -> int -> int [@mel.meth]
 
 let[@ocaml.warning "-61"] obj2 : <
   hi : add_meth;

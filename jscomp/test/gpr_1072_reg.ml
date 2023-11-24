@@ -1,4 +1,3 @@
-
   type t
 
 
@@ -19,7 +18,7 @@
         `short |
         `long |
         `numeric |
-        `two_digit [@as "2-digit"]] [@string]) ->
+        `two_digit [@mel.as "2-digit"]] [@mel.string]) ->
 
     ?day:([`numeric | `two_digit [@mel.as "2-digit"]] [@mel.string]) ->
     ?hour:([`numeric | `two_digit [@mel.as "2-digit"]] [@mel.string]) ->

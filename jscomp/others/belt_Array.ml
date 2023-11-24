@@ -506,4 +506,4 @@ let initU n f =
 
 let init n f = initU n (fun [@u] i -> f i)
 
-external push : 'a t -> 'a -> unit = "push" [@@send]
+external push : 'a t -> 'a -> unit = "push" [@@mel.send]
