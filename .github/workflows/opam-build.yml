@@ -53,6 +53,7 @@ jobs:
         uses: ocaml/setup-ocaml@v2
         with:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
+          cache-prefix: lol
 
       - name: Install dependencies
         working-directory: melange
