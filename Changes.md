@@ -58,6 +58,8 @@ Unreleased
 - Improve error messages returned by `melange.ppx`
   ([#924](https://github.com/melange-re/melange/pull/924),
   [#928](https://github.com/melange-re/melange/pull/928))
+- Fix a typo in `Node.node_module` (pa{r,}rent)
+  [#929](https://github.com/melange-re/melange/pull/929)
 
 2.1.0 2023-10-22
 ---------------
