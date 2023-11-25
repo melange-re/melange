@@ -50,16 +50,16 @@ type 'a t
 (** This used to be mark a Js object type. *)
 
 type +'a null = 'a Js_null.t
-(** nullable, value of this type can be either [null] or ['a]
-    this type is the same as type [t] in {!Null} *)
+(** A value of this type can be either [null] or ['a].
+    This type is the same as type [t] in {!Null} *)
 
 type +'a undefined = 'a Js_undefined.t
-(** value of this type can be either [undefined] or ['a]
-    this type is the same as type [t] in {!Undefined} *)
+(** A value of this type can be either [undefined] or ['a].
+    This type is the same as type [t] in {!Undefined} *)
 
 type +'a nullable = 'a Js_nullable.t
-(** value of this type can be [undefined], [null] or ['a]
-    this type is the same as type [t] n {!Null_undefined} *)
+(** A value of this type can be [undefined], [null] or ['a].
+    This type is the same as type [t] n {!Nullable} *)
 
 type +'a null_undefined = 'a nullable
 

@@ -70,17 +70,16 @@ end
 (**/**)
 
 type +'a null
-(** nullable, value of this type can be either [null] or ['a]
-    this type is the same as type [t] in {!Null}
-*)
+(** A value of this type can be either [null] or ['a].
+    This type is the same as type [t] in {!Null} *)
 
 type +'a undefined
-(** value of this type can be either [undefined] or ['a]
-    this type is the same as type [t] in {!Undefined}  *)
+(** A value of this type can be either [undefined] or ['a].
+    This type is the same as type [t] in {!Undefined} *)
 
 type +'a nullable
-(** value of this type can be [undefined], [null] or ['a]
-    this type is the same as type [t] n {!Null_undefined} *)
+(** A value of this type can be [undefined], [null] or ['a].
+    This type is the same as type [t] n {!Nullable} *)
 
 external toOption : 'a nullable -> 'a option = "#nullable_to_opt"
 external undefinedToOption : 'a undefined -> 'a option = "#undefined_to_opt"
