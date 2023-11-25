@@ -41,7 +41,7 @@ let warn_if_non_namespaced ~loc txt =
     Mel_ast_invariant.warn ~loc Deprecated_non_namespaced_attribute
 
 let process_method_attributes_rev (attrs : t) =
-  let exception Local of string in
+  let exception Local of Location.t * string in
   try
     let ret =
       List.fold_left
@@ -54,7 +54,7 @@ let process_method_attributes_rev (attrs : t) =
               warn_if_non_namespaced ~loc txt;
               let result =
                 match Ast_payload.ident_or_record_as_config payload with
-                | Error s -> raise (Local s)
+                | Error s -> raise (Local (loc, s))
                 | Ok config ->
                     List.fold_left
                       ~f:(fun (null, undefined) ({ txt; loc }, opt_expr) ->
@@ -83,7 +83,7 @@ let process_method_attributes_rev (attrs : t) =
               warn_if_non_namespaced ~loc txt;
               let result =
                 match Ast_payload.ident_or_record_as_config payload with
-                | Error s -> raise (Local s)
+                | Error s -> raise (Local (loc, s))
                 | Ok config ->
                     List.fold_left
                       ~f:(fun _st ({ txt; loc }, opt_expr) ->
@@ -104,7 +104,7 @@ let process_method_attributes_rev (attrs : t) =
         attrs
     in
     Ok ret
-  with Local s -> Error s
+  with Local (loc, s) -> Error (loc, s)
 
 type attr_kind =
   | Nothing

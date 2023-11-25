@@ -43,7 +43,7 @@ let rec same_length xs ys =
   [ let a = M.N.c
     and b = M.N.d ]
 *)
-let flattern_tuple_pattern_vb (self : Ast_traverse.map)
+let flatten_tuple_pattern_vb (self : Ast_traverse.map)
     (vb : Parsetree.value_binding) (acc : Parsetree.value_binding list) :
     Parsetree.value_binding list =
   let pvb_pat = self#pattern vb.pvb_pat in
@@ -82,7 +82,7 @@ let flattern_tuple_pattern_vb (self : Ast_traverse.map)
               }
           | _ ->
               Location.raise_errorf ~loc:lid.loc
-                "Not supported pattern match on modules")
+                "Pattern matching on modules requires simple labels")
         lid_pats
       @ acc
   | _ -> { pvb_pat; pvb_expr; pvb_loc = vb.pvb_loc; pvb_attributes } :: acc
@@ -93,4 +93,4 @@ let flattern_tuple_pattern_vb (self : Ast_traverse.map)
    introduced upstream. *)
 let value_bindings_mapper (self : Ast_traverse.map)
     (vbs : Parsetree.value_binding list) =
-  List.fold_right ~f:(flattern_tuple_pattern_vb self) vbs ~init:[]
+  List.fold_right ~f:(flatten_tuple_pattern_vb self) vbs ~init:[]

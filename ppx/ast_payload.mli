@@ -30,20 +30,11 @@ type action = string Asttypes.loc * Parsetree.expression option
 val ident_or_record_as_config :
   Parsetree.payload -> (action list, string) result
 
-val table_dispatch :
-  (Parsetree.expression option -> 'a) String.Map.t ->
-  action ->
-  ('a, string) result
 (** A utility module used when destructuring parsetree attributes, used for
     compiling FFI attributes and built-in ppx  *)
 
-val unrecognizedConfigRecord : string -> string
-(** Report to the user, as a warning, that the bs-attribute parser is bailing
-    out. (This is to allow external ppx, like ppx_deriving, to pick up where
-    the builtin ppx leave off.) *)
-
-val assert_strings : location -> t -> label list
+val assert_strings : Location.t -> t -> label list
 val is_single_string : t -> (string * string option) option
 val is_single_int : t -> int option
 val as_ident : t -> Longident.t loc option
-val extract_mel_as_ident : loc:location -> t -> string
+val extract_mel_as_ident : loc:Location.t -> t -> string

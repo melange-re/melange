@@ -40,7 +40,7 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
       but it does allow duplicates between instance variable and method name,
       we should enforce such rules
       {[
-        object [@bs]
+        object [@u]
           val x = 3
           method x = 3
         end
@@ -102,7 +102,8 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
                   "polymorphic type annotation not supported yet"
             | Pexp_poly (_, None) ->
                 Location.raise_errorf ~loc
-                  "Unsupported syntax, expect syntax like `method x () = x ` "
+                  "Unsupported JS Object syntax. Methods must take at least \
+                   one argument"
             | _ -> Location.raise_errorf ~loc "Unsupported syntax in js object")
         | Pcf_val (label, mutable_flag, Cfk_concrete (Fresh, _)) ->
             let _, label_attr =

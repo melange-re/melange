@@ -103,4 +103,4 @@ let table_dispatch table (action : action) =
       | fn -> Some (fn y)
       | exception _ ->
           Location.prerr_warning loc (Mel_unused_attribute name);
-          None (* Location.raise_errorf ~loc "%s is not supported" name *))
+          None)

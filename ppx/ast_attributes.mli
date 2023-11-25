@@ -29,7 +29,7 @@ type t = attr list
 type ('a, 'b) st = { get : 'a option; set : 'b option }
 
 val process_method_attributes_rev :
-  t -> ((bool * bool, [ `Get | `No_get ]) st * t, string) result
+  t -> ((bool * bool, [ `Get | `No_get ]) st * t, Location.t * string) result
 
 type attr_kind =
   | Nothing

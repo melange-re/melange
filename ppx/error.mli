@@ -39,11 +39,9 @@ type t =
   | Invalid_mel_unwrap_type
   | Conflict_ffi_attribute of string
   | Cannot_infer_arity_by_syntax
-  | Illegal_attribute
   | Inconsistent_arity of { uncurry_attribute : int; real : int }
-  (* we still rqeuire users to have explicit annotation to avoid
-     {[ (((int -> int) -> int) -> int )]}
-  *)
+  (* We require users to explicit annotate to avoid
+     {[ (((int -> int) -> int) -> int )]} *)
   | Not_supported_directive_in_mel_return
   | Expect_opt_in_mel_return_to_opt
   | Misplaced_label_syntax
