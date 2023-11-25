@@ -125,7 +125,6 @@ let gen =
                       (Pconst_string
                          (Ast_derive_util.notApplicable derivingName, loc, None))]]];
               ]
-          (* Location.raise_errorf "projector only works with record" *)
         in
         List.concat_map ~f:handle_tdcl tdcls);
     signature_gen =

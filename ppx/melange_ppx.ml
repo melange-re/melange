@@ -382,8 +382,7 @@ module Mapper = struct
                   with
                   | Ok pcsig_fields ->
                       Pcty_signature { pcsig_self; pcsig_fields }
-                  | Error s ->
-                      let loc = ctd.pcty_loc in
+                  | Error (loc, s) ->
                       let pcsig_self =
                         [%type:
                           [%ocaml.error
@@ -410,7 +409,7 @@ module Mapper = struct
             Utf8_string.Interp.transform e s loc delim
         (* End rewriting *)
         | Pexp_function cases -> (
-            (* {[ function [@mel.exn]
+            (* {[ function [@mel.open]
                   | Not_found -> 0
                   | Invalid_argument -> 1
                 ]}*)

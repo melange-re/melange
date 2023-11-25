@@ -25,7 +25,7 @@
 open Import
 open Ast_helper
 
-exception Local of string
+exception Local of Location.t * string
 
 let process_getter_setter ~not_getter_setter
     ~(get : Parsetree.core_type -> _ -> Parsetree.attributes -> _) ~set loc name
@@ -149,11 +149,11 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
                       meth_.pof_attributes core_type acc
                   with
                   | Ok x -> x
-                  | Error s -> raise (Local s)))
+                  | Error (loc, s) -> raise (Local (loc, s))))
             methods ~init:[]
         in
         { ty with ptyp_desc = Ptyp_object (new_methods, closed_flag) }
-      with Local s ->
+      with Local (loc, s) ->
         [%type: [%ocaml.error [%e Exp.constant (Pconst_string (s, loc, None))]]]
       )
   | _ -> super ty
@@ -215,11 +215,11 @@ let handle_class_type_fields =
             ctf.pctf_attributes ty acc
         with
         | Ok ctfs -> ctfs
-        | Error s -> raise (Local s))
+        | Error (loc, s) -> raise (Local (loc, s)))
     | Pctf_inherit _ | Pctf_val _ | Pctf_constraint _ | Pctf_attribute _
     | Pctf_extension _ ->
         super ctf :: acc
   in
   fun self fields ->
     try Ok (List.fold_right ~f:(handle_class_type_field self) fields ~init:[])
-    with Local s -> Error s
+    with Local (loc, s) -> Error (loc, s)

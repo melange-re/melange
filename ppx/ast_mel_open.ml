@@ -40,7 +40,8 @@ and check_pat (pat : Parsetree.pattern) =
       check_pat r
   | _ ->
       Location.raise_errorf ~loc:pat.ppat_loc
-        "Unsupported pattern in `mel.open`"
+        "Unsupported pattern. `[@mel.open]' requires patterns to be \
+         (exception) constructors"
 
 let convert_mel_error_function loc (self : Ast_traverse.map) attrs
     (cases : Parsetree.case list) =

@@ -57,7 +57,8 @@ Unreleased
   ([#923](https://github.com/melange-re/melange/pull/923))
 - Improve error messages returned by `melange.ppx`
   ([#924](https://github.com/melange-re/melange/pull/924),
-  [#928](https://github.com/melange-re/melange/pull/928))
+  [#928](https://github.com/melange-re/melange/pull/928),
+  [#931](https://github.com/melange-re/melange/pull/931))
 - Fix a typo in `Node.node_module` (pa{r,}rent)
   [#929](https://github.com/melange-re/melange/pull/929)
 - BREAKING(runtime): Remove `Js.null_undefined` in favor of `Js.nullable`

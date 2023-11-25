@@ -29,5 +29,5 @@ Adding a callback breaks
   File "main.ml", line 1, characters 22-44:
   1 | let unsafeDeleteKey = [%raw fun _foo -> "2"]
                             ^^^^^^^^^^^^^^^^^^^^^^
-  Error: mel.raw can only be applied to a string
+  Error: `%mel.raw' can only be applied to a string
   [1]

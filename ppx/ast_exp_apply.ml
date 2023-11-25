@@ -59,7 +59,7 @@ type app_pattern = {
 let sane_property_name_check loc s =
   if String.contains s '#' then
     Location.raise_errorf ~loc
-      "property name (%s) can not contain speical character #" s
+      "property name (`%s') cannot contain special character `#'" s
 
 let view_as_app (fn : exp) (s : string list) : app_pattern option =
   match fn.pexp_desc with
@@ -269,8 +269,8 @@ let app_exp_mapper (e : exp)
              | Pexp_constant (Pconst_string (name, _, None)) );
            pexp_loc;
            _;
-          }
-          (* f##paint  *) ->
+          } ->
+              (* f##paint  *)
               sane_property_name_check pexp_loc name;
               {
                 e with

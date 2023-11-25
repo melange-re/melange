@@ -325,11 +325,16 @@ let parse_external_attributes (prim_name_check : string)
                         module_bind_name = Phint_nothing;
                       };
                 }
-            | _ -> Error.err ~loc Illegal_attribute)
+            | _ ->
+                Location.raise_errorf ~loc
+                  "`[@mel.module ..]' expects, at most, a tuple of two strings \
+                   (module name, variable name)")
         | "mel.scope" | "scope" -> (
             Ast_attributes.warn_if_non_namespaced ~loc txt;
             match Ast_payload.assert_strings loc payload with
-            | [] -> Error.err ~loc Illegal_attribute
+            | [] ->
+                Location.raise_errorf ~loc
+                  "`[@mel.scope ..]' expects a tuple of strings in its payload"
             (* We need err on empty scope, so we can tell the difference
                between unset/set *)
             | scopes -> { st with scopes })
@@ -348,8 +353,8 @@ let parse_external_attributes (prim_name_check : string)
                 | PTyp x -> Some x
                 | _ ->
                     Location.raise_errorf ~loc
-                      "expected a type after [@mel.send.pipe], e.g. \
-                       [@mel.send.pipe: t]");
+                      "expected a type after `[@mel.send.pipe]', e.g. \
+                       `[@mel.send.pipe: t]'");
             }
         | "mel.set" | "set" ->
             Ast_attributes.warn_if_non_namespaced ~loc txt;

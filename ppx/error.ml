@@ -39,7 +39,6 @@ type t =
   | Invalid_mel_unwrap_type
   | Conflict_ffi_attribute of string
   | Cannot_infer_arity_by_syntax
-  | Illegal_attribute
   | Inconsistent_arity of { uncurry_attribute : int; real : int }
     (* we still require users to have explicit annotation to avoid
        {[ (((int -> int) -> int) -> int )]} *)
@@ -69,7 +68,6 @@ let pp_error fmt err =
          - null_to_opt@\n\
          - nullable / null_undefined_to_opt@\n\
          - identity"
-    | Illegal_attribute -> "Illegal attributes"
     | Cannot_infer_arity_by_syntax ->
         "Cannot infer arity through syntax.@\n\
          Use either `[@mel.uncurry n]' or the full arrow type"

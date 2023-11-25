@@ -45,8 +45,7 @@ let get_pld_type pld_type ~attrs =
     | Ptyp_constr ({ txt = Lident "option"; _ }, [ pld_type ]) -> pld_type
     | _ ->
         Location.raise_errorf ~loc:pld_type.ptyp_loc
-          "[@mel.optional] must appear on a type explicitly annotated with \
-           `option'"
+          "`[@mel.optional]' must appear on an option literal type (`_ option')"
   else pld_type
 
 let handleTdcl light (tdcl : Parsetree.type_declaration) :
@@ -166,7 +165,6 @@ let handleTdclsInStr ~light _rf tdcls =
             (ntdcl :: tdcls, List.map ~f:Str.primitive value_descriptions @ sts))
       tdcls ~init:([], [])
   in
-  (* Str.include_ (Incl.mk (Mod.structure [ Str.type_ rf tdcls ])) ::  *)
   code
 
 let handleTdclsInSig ~light _rf tdcls =

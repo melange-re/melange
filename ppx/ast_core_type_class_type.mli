@@ -22,12 +22,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 val handle_class_type_fields :
   Ast_traverse.map * (class_type_field -> class_type_field) ->
   Parsetree.class_type_field list ->
-  (Parsetree.class_type_field list, string) result
+  (Parsetree.class_type_field list, Location.t * string) result
 
 val typ_mapper :
   Ast_traverse.map * (core_type -> core_type) ->
