@@ -55,6 +55,9 @@ Unreleased
 - Deprecate non-namespaced FFI attributes such as `@string` or `@obj` in favor
   of e.g. `@mel.string` and `@mel.obj`
   ([#923](https://github.com/melange-re/melange/pull/923))
+- Improve error messages returned by `melange.ppx`
+  ([#924](https://github.com/melange-re/melange/pull/924),
+  [#928](https://github.com/melange-re/melange/pull/928))
 
 2.1.0 2023-10-22
 ---------------
