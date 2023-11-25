@@ -27,7 +27,7 @@ include module type of struct
 end
 
 val reverse_range : 'a array -> int -> int -> unit
-(** Some utilities for array operations *)
+(** Some utilities for {!Array} operations *)
 
 val reverse_of_list : 'a list -> 'a array
 val to_list_f : 'a array -> ('a -> 'b) -> 'b list

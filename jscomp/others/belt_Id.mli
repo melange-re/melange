@@ -66,7 +66,7 @@ type ('key, 'id) comparable =
     Unlike normal functions, when created, it comes with a unique identity (guaranteed
     by the type system).
 
-    It can be created using function {!comparableU} or{!val-comparable}.
+    It can be created using function {!comparableU} or {!val-comparable}.
 
     The idea of a unique identity when created is that it makes sure two sets would type
     mismatch if they use different comparison function
