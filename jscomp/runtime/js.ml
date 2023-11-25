@@ -61,8 +61,6 @@ type +'a nullable = 'a Js_nullable.t
 (** A value of this type can be [undefined], [null] or ['a].
     This type is the same as type [t] n {!Nullable} *)
 
-type +'a null_undefined = 'a nullable
-
 module Exn = Js_exn
 (** Provide utilities for dealing with Js exceptions *)
 

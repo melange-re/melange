@@ -49,7 +49,7 @@ let process_getter_setter ~not_getter_setter
               | false, false -> ty
               | true, false -> lift Ast_literal.js_null
               | false, true -> lift Ast_literal.js_undefined
-              | true, true -> lift Ast_literal.js_null_undefined
+              | true, true -> lift Ast_literal.js_nullable
             in
             get ty name pctf_attributes :: acc
       in

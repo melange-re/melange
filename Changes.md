@@ -60,6 +60,8 @@ Unreleased
   [#928](https://github.com/melange-re/melange/pull/928))
 - Fix a typo in `Node.node_module` (pa{r,}rent)
   [#929](https://github.com/melange-re/melange/pull/929)
+- BREAKING(runtime): Remove `Js.null_undefined` in favor of `Js.nullable`
+  ([#930](https://github.com/melange-re/melange/pull/930))
 
 2.1.0 2023-10-22
 ---------------
