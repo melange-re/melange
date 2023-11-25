@@ -31,7 +31,7 @@ val js_internal_full_apply : t
 val js_meth : t
 val js_meth_callback : t
 val js_null : t
-val js_null_undefined : t
+val js_nullable : t
 val js_obj : t
 val js_oo : t
 val js_re_id : t
