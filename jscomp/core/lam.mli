@@ -135,10 +135,10 @@ val false_ : t
 val unit : t
 
 val sequor : t -> t -> t
-(** convert [l || r] to [if l then true else r]*)
+(** convert [l || r] to [if l then true else r] *)
 
 val sequand : t -> t -> t
-(** convert [l && r] to [if l then r else false *)
+(** convert [l && r] to [if l then r else false] *)
 
 val not_ : Location.t -> t -> t
 (** constant folding *)

@@ -73,7 +73,7 @@ module Null = Js_null
 (** Provide utilities around ['a null] *)
 
 module Undefined = Js_undefined
-(** Provide utilities around {!undefined} *)
+(** Provide utilities around {!type-undefined} *)
 
 module Nullable = Js_nullable
 (** Provide utilities around {!null_undefined} *)

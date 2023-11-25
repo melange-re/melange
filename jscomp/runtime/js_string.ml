@@ -68,7 +68,6 @@ external fromCodePoint : int -> t = "String.fromCodePoint"
   fromCodePoint 0xd55c = {js|한|js};;
   fromCodePoint 0x1f63a = {js|😺|js};;
 ]}
-
 *)
 
 external fromCodePointMany : int array -> t = "String.fromCodePoint"
@@ -87,7 +86,6 @@ external length : t -> int = "length"
 {[
   length "abcd" = 4;;
 ]}
-
 *)
 
 external get : t -> int -> t = ""

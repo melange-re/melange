@@ -88,7 +88,7 @@ external nullToOption : 'a null -> 'a option = "#null_to_opt"
 external isNullable : 'a nullable -> bool = "#is_nullable"
 
 external testAny : 'a -> bool = "#is_nullable"
-(** The same as {!test} except that it is more permissive on the types of input *)
+(** The same as {!isNullable} except that it is more permissive on the types of input *)
 
 external null : 'a null = "#null"
 (** The same as [empty] in {!Js.Null} will be compiled as [null]*)

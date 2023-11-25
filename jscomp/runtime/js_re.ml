@@ -36,13 +36,9 @@ and subsequent uses will ocntinue the search from the previous {! lastIndex}.
 let maybeMatches = "banana" |> Js.String.match_ [\[%re "/na+/g"\]]
 ]}
 
-@see
-  <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp>
-  JavaScript API reference on MDN
+@see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp> JavaScript API reference on MDN
 
-@see
-  <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions>
-  JavaScript Regular Expressions Guide on MDN
+@see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions> JavaScript Regular Expressions Guide on MDN
 *)
 
 type t
