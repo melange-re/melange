@@ -24,6 +24,11 @@
 
 open Import
 
+let single_string_payload_error ~loc =
+  Ast_helper.Exp.constant
+    (Pconst_string
+       ("Melange requires a single string in `external` payloads", loc, None))
+
 let handleExternalInSig (self : Ast_traverse.map)
     (prim : Parsetree.value_description) (sigi : Parsetree.signature_item) :
     Parsetree.signature_item =
@@ -32,16 +37,8 @@ let handleExternalInSig (self : Ast_traverse.map)
   let pval_attributes = self#attributes prim.pval_attributes in
   match prim.pval_prim with
   | [] -> Location.raise_errorf ~loc "empty primitive string"
-  | a :: b :: _ ->
-      [%sigi:
-        [%%ocaml.error
-        [%e
-          Ast_helper.Exp.constant
-            (Pconst_string
-               ( Format.sprintf
-                   "only a single string is allowed in bs external %S %S" a b,
-                 loc,
-                 None ))]]]
+  | _ :: _ :: _ ->
+      [%sigi: [%%ocaml.error [%e single_string_payload_error ~loc]]]
   | [ v ] ->
       let {
         Ast_external_process.pval_type;
@@ -74,16 +71,7 @@ let handleExternalInStru (self : Ast_traverse.map)
   let pval_attributes = self#attributes prim.pval_attributes in
   match prim.pval_prim with
   | [] -> Location.raise_errorf ~loc "empty primitive string"
-  | a :: b :: _ ->
-      [%stri
-        [%%ocaml.error
-        [%e
-          Ast_helper.Exp.constant
-            (Pconst_string
-               ( Format.sprintf
-                   "only a single string is allowed in bs external %S %S" a b,
-                 loc,
-                 None ))]]]
+  | _ :: _ :: _ -> [%stri [%%ocaml.error [%e single_string_payload_error ~loc]]]
   | [ v ] ->
       let {
         Ast_external_process.pval_type;

@@ -335,7 +335,7 @@ module Obj = struct
               pexp_desc =
                 Ast_external_mk.record_as_js_object e.pexp_loc label_exprs;
             }
-        | _ -> Location.raise_errorf ~loc "Expect a record expression here"
+        | _ -> Location.raise_errorf ~loc "%%mel.obj requires a record literal"
       in
 
       let extender = Extension.V3.declare label Expression extractor handler in
