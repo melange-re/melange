@@ -34,7 +34,7 @@ let assert_bool_lit (e : Parsetree.expression) =
   | Pexp_construct ({ txt = Lident "false"; _ }, None) -> false
   | _ ->
       Location.raise_errorf ~loc:e.pexp_loc
-        "expect `true` or `false` in this field"
+        "expected this expression to be a boolean literal (`true` or `false`)"
 
 let warn_if_non_namespaced ~loc txt =
   if not (Mel_ast_invariant.is_mel_attribute txt) then
@@ -272,7 +272,8 @@ let iter_process_mel_string_or_int_as (attrs : Parsetree.attributes) =
                       | Js_literal _ -> ()
                       | _ ->
                           Location.raise_errorf ~loc:pexp_loc
-                            "an object literal expected");
+                            "`[@mel.as {json| ... |json}]' only supports \
+                             JavaScript literals");
                       st := Some (Js_literal_str s))
                 | _ -> Error.err ~loc Expect_int_or_string_or_json_literal)
             | Some v -> st := Some (Int v))

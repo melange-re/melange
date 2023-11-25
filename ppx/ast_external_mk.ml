@@ -204,7 +204,9 @@ let record_as_js_object loc (label_exprs : label_exprs) :
         match txt with
         | Lident x ->
             ({ Asttypes.loc; txt = x } :: labels, (x, e) :: args, i + 1)
-        | Ldot _ | Lapply _ -> Location.raise_errorf ~loc "invalid js label ")
+        | Ldot _ | Lapply _ ->
+            Location.raise_errorf ~loc
+              "`%%mel.obj' literals only support simple labels")
       label_exprs ~init:([], [], 0)
   in
   local_external_obj loc

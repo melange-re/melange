@@ -110,7 +110,8 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
                       | Uncurry attr, attrs -> (attrs, attr +> ty)
                       | Method _, _ ->
                           Location.raise_errorf ~loc
-                            "%@get/set conflicts with %@meth"
+                            "`%@mel.get' / `%@mel.set' cannot be used with \
+                             `%@mel.meth'"
                       | Meth_callback attr, attrs -> (attrs, attr +> ty)
                     in
                     Of.tag name ~attrs (self#core_type core_type)
@@ -122,7 +123,8 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
                       | Uncurry attr, attrs -> (attrs, attr +> ty)
                       | Method _, _ ->
                           Location.raise_errorf ~loc
-                            "%@get/set conflicts with %@meth"
+                            "`%@mel.get' / `%@mel.set' cannot be used with \
+                             `%@mel.meth'"
                       | Meth_callback attr, attrs -> (attrs, attr +> ty)
                     in
                     Of.tag name ~attrs

@@ -6,11 +6,11 @@
 
   $ node input.js
   {
-    js_warning_error_msg: 'Line 1, 8:\n  Error Expect a record expression here',
+    js_warning_error_msg: 'Line 1, 8:\n  Error %mel.obj requires a record literal',
     row: 0,
     column: 8,
     endRow: 0,
     endColumn: 20,
-    text: 'Expect a record expression here',
+    text: '%mel.obj requires a record literal',
     type: 'error'
   }
