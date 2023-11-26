@@ -47,7 +47,11 @@ jobs:
           env HOMEBREW_NO_AUTO_UPDATE=1 brew install tree
 
       - name: Uninstall zstd?
-        run: sudo apt-get remove --auto-remove libzstd-dev
+        run: |
+          # remove `libzstd-dev` until opam allows to turn off artifact
+          # compression int the OCaml compiler configure phase
+          # (https://github.com/ocaml/opam-repository/pull/24845)
+          sudo apt-get remove --auto-remove libzstd-dev
 
       - name: Use OCaml ${{ matrix.ocaml-compiler }}
         uses: ocaml/setup-ocaml@v2
