@@ -25,36 +25,35 @@
       };
     } // (flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = nixpkgs.legacyPackages."${system}".appendOverlays [
-          (self: super: {
-            ocamlPackages = super.ocaml-ng.ocamlPackages_5_1;
-          })
-        ];
+        pkgs = nixpkgs.legacyPackages."${system}".extend (self: super: {
+          ocamlPackages = super.ocaml-ng.ocamlPackages_5_1;
+        });
 
-        melange = pkgs.callPackage ./nix {
-          nix-filter = nix-filter.lib;
-          melange-compiler-libs-vendor-dir = melange-compiler-libs;
-        };
-      in
-
-      rec {
-        packages = {
-          inherit melange;
-          default = melange;
-          melange-playground = pkgs.ocamlPackages.callPackage ./nix/melange-playground.nix {
+        packages =
+          let
+            melange = pkgs.callPackage ./nix {
+              nix-filter = nix-filter.lib;
+              melange-compiler-libs-vendor-dir = melange-compiler-libs;
+            };
+          in
+          {
             inherit melange;
-            nix-filter = nix-filter.lib;
-            melange-compiler-libs-vendor-dir = melange-compiler-libs;
+            default = melange;
+            melange-playground = pkgs.ocamlPackages.callPackage ./nix/melange-playground.nix {
+              inherit melange;
+              nix-filter = nix-filter.lib;
+              melange-compiler-libs-vendor-dir = melange-compiler-libs;
+            };
           };
-        };
-
+        melange-shell = opts:
+          pkgs.callPackage ./nix/shell.nix ({ inherit packages; } // opts);
+      in
+      {
+        inherit packages;
         devShells = {
-          default = pkgs.callPackage ./nix/shell.nix {
-            inherit packages;
-          };
-          release = pkgs.callPackage ./nix/shell.nix {
+          default = melange-shell { };
+          release = melange-shell {
             release-mode = true;
-            inherit packages;
           };
         };
       }));
