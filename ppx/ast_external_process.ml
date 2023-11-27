@@ -351,10 +351,21 @@ let parse_external_attributes (prim_name_check : string)
               val_send_pipe =
                 (match payload with
                 | PTyp x -> Some x
+                | PStr
+                    [
+                      {
+                        pstr_desc =
+                          Pstr_eval
+                            ({ pexp_desc = Pexp_ident lident; pexp_loc; _ }, _);
+                        _;
+                      };
+                    ] ->
+                    Some (Ast_helper.Typ.constr ~loc:pexp_loc lident [])
                 | _ ->
                     Location.raise_errorf ~loc
-                      "expected a type after `[@mel.send.pipe]', e.g. \
-                       `[@mel.send.pipe: t]'");
+                      "Invalid `[@mel.send.pipe]' payload. Expected one of:\n\
+                       - a type payload e.g. `[@mel.send.pipe: 'a array]'\n\
+                       - an ident expression, e.g. `[@mel.send.pipe t]'");
             }
         | "mel.set" | "set" ->
             Ast_attributes.warn_if_non_namespaced ~loc txt;
