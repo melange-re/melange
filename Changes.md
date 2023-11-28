@@ -65,6 +65,9 @@ Unreleased
   ([#930](https://github.com/melange-re/melange/pull/930))
 - BREAKING(core): require OCaml 5.1.1
   ([#926](https://github.com/melange-re/melange/pull/926))
+- BREAKING(ppx): disallow attribute payload in `[@mel.new]` in favor of the
+  external primiative string
+  ([#938](https://github.com/melange-re/melange/pull/938))
 
 2.1.0 2023-10-22
 ---------------

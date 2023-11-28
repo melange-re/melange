@@ -922,7 +922,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       Location.raise_errorf ~loc
         "Found an attribute that can't be used with `%@mel.send.pipe'"
   | {
-   new_name = `Nm_external (lazy name) | `Nm_payload name;
+   new_name = `Nm_external (lazy name);
    external_module_name;
    call_name = `Nm_na;
    module_as_val = None;
