@@ -800,9 +800,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
         Js_var { name; external_module_name; scopes }
         (*FIXME: splice is not supported here *)
       else Js_call { splice; name; external_module_name; scopes }
-  | { call_name = #bundle_source; _ } ->
-      Error.err ~loc
-        (Conflict_ffi_attribute "Attribute found that conflicts with %@val")
   | {
    splice;
    scopes;
