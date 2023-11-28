@@ -9,7 +9,8 @@
   File "x.ml", lines 2-3, characters 2-11:
   2 | ..hi_should_error:([`a of int | `b of string ] [@mel.string]) ->
   3 |   unit -> _.................
-  Error: @obj label hi_should_error does not support such arg type
+  Error: `@mel.obj' must not be used with labelled polymorphic variants
+         carrying payloads
   [2]
 
   $ cat > x.ml <<EOF
@@ -21,7 +22,8 @@
   File "x.ml", lines 2-3, characters 2-11:
   2 | ..?hi_should_error:([`a of int | `b of string ] [@mel.string]) ->
   3 |   unit -> _.................
-  Error: @obj label hi_should_error does not support such arg type
+  Error: `@mel.obj' must not be used with optionally labelled polymorphic
+         variants carrying payloads
   [2]
 
   $ cat > x.ml <<EOF
@@ -30,12 +32,11 @@
   >   unit -> unit = "err"
   > EOF
   $ melc -ppx melppx x.ml
-  File "x.ml", lines 1-3, characters 0-22:
-  1 | external err :
+  File "x.ml", line 2, characters 20-47:
   2 |   ?hi_should_error:([`a of int | `b of string ] [@mel.string]) ->
-  3 |   unit -> unit = "err"
-  Error: @mel.string does not work with optional when it has arities in label
-         hi_should_error
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `[@mel.as ..]' must not be used with an optionally labelled
+         polymorphic variant
   [2]
 
 Each [@mel.unwrap] variant constructor requires an argument

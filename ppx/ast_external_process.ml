@@ -574,7 +574,8 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                       | Poly_var _ ->
                           raise
                             (Location.raise_errorf ~loc
-                               "%@obj label %s does not support such arg type"
+                               "`%@mel.obj' must not be used with labelled \
+                                polymorphic variants carrying payloads"
                                name))
                   | Optional name -> (
                       let obj_arg_type = get_opt_arg_type ~nolabel:false ty in
@@ -638,8 +639,8 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                       | Extern_unit -> assert false
                       | Poly_var _ ->
                           Location.raise_errorf ~loc
-                            "`%@mel.obj' label %s does not support such arg \
-                             type"
+                            "`%@mel.obj' must not be used with optionally \
+                             labelled polymorphic variants carrying payloads"
                             name)
                 in
                 (new_arg_label :: arg_labels, new_arg_types, output_tys))
