@@ -3,27 +3,27 @@ external addChild : stackPanel -> #widget -> unit = "x" [@@mel.send]
 
 
 external new_HostedWindow : unit -> hostedWindow Js.t = "HostedWindow"
-    [@@mel.new ] [@@mel.module "@blp/ui", "BUI"]
+    [@@mel.new] [@@mel.module "@blp/ui", "BUI"]
 
-external new_HostedContent : unit -> hostedContent Js.t = ""
-    [@@mel.new "HostedContent"] [@@mel.module "@blp/ui", "BUI"]
+external new_HostedContent : unit -> hostedContent Js.t = "HostedContent"
+    [@@mel.new] [@@mel.module "@blp/ui", "BUI"]
 
-external new_StackPanel : unit -> stackPanel Js.t = ""
-    [@@mel.new "StackPanel"] [@@mel.module "@ui", "UI"]
+external new_StackPanel : unit -> stackPanel Js.t = "StackPanel"
+    [@@mel.new] [@@mel.module "@ui", "UI"]
 
-external new_textArea : unit -> textArea Js.t = ""
-    [@@mel.new "TextArea"] [@@mel.module "@ui", "UI"]
+external new_textArea : unit -> textArea Js.t = "TextArea"
+    [@@mel.new] [@@mel.module "@ui", "UI"]
 
-external new_button : unit -> button Js.t = ""
-    [@@mel.new "Button"] [@@mel.module "@ui", "UI"]
+external new_button : unit -> button Js.t = "Button"
+    [@@mel.new] [@@mel.module "@ui", "UI"]
 
-external new_grid : unit -> grid Js.t = ""
-    [@@mel.new "Grid"] [@@mel.module "@ui", "UI"]
+external new_grid : unit -> grid Js.t =  "Grid"
+    [@@mel.new] [@@mel.module "@ui", "UI"]
 
 (* Note, strictly speaking, it 's not returning a primitive string, it returns
    an object string *)
-external stringify : 'a -> string = ""
-    [@@mel.new "String"]
+external stringify : 'a -> string = "String"
+    [@@mel.new]
 
 external random : unit -> float = "Math.random"
 

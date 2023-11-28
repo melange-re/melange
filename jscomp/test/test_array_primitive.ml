@@ -1,4 +1,4 @@
-external new_uninitialized_array : int -> 'a array = "" [@@mel.new "Array"]
+external new_uninitialized_array : int -> 'a array =  "Array" [@@mel.new]
 
 let caml_array_sub (x : 'a array) (offset : int) (len : int) =
   let result = new_uninitialized_array len  in
