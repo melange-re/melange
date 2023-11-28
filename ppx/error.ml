@@ -87,8 +87,8 @@ let pp_error fmt err =
         "Expected an integer, string or JSON literal (`{json|text here|json}')"
     | Unhandled_poly_type -> "Unhandled polymorphic variant type"
     | Invalid_underscore_type_in_external ->
-        "`_' is not allowed in an `external' declaration's optionally labelled \
-         argument type"
+        "`_' is not allowed in an `external' declaration's (optionally) \
+         labelled argument type"
     | Invalid_mel_string_type -> "Invalid type for `@mel.string'"
     | Invalid_mel_int_type -> "Invalid type for `@mel.int'"
     | Invalid_mel_unwrap_type ->

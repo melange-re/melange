@@ -231,3 +231,203 @@ Demonstrate PPX error messages
   Error: `[@mel.scope ..]' expects a tuple of strings in its payload
   [1]
 
+  $ cat > x.ml <<EOF
+  > type 'a t
+  > external set : 'a t -> string -> 'a -> unit = "payload" [@@mel.set_index]
+  > EOF
+  $ dune build @melange
+  File "x.ml", line 2, characters 59-72:
+  2 | external set : 'a t -> string -> 'a -> unit = "payload" [@@mel.set_index]
+                                                                 ^^^^^^^^^^^^^
+  Error: `@mel.set_index' requires its `external' payload to be the empty string
+  [1]
+
+  $ cat > x.ml <<EOF
+  > type 'a t
+  > external get : 'a t -> string -> 'a = "payload" [@@mel.get_index]
+  > EOF
+  $ dune build @melange
+  File "x.ml", line 2, characters 51-64:
+  2 | external get : 'a t -> string -> 'a = "payload" [@@mel.get_index]
+                                                         ^^^^^^^^^^^^^
+  Error: `@mel.get_index' requires its `external' payload to be the empty string
+  [1]
+
+  $ cat > x.ml <<EOF
+  > external mk : foo:string -> unit -> _ Js.t = "payload" [@@mel.obj]
+  > EOF
+  $ dune build @melange
+  File "x.ml", line 1, characters 0-66:
+  1 | external mk : foo:string -> unit -> _ Js.t = "payload" [@@mel.obj]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `@mel.obj requires its `external' payload to be the empty string
+  [1]
+
+  $ cat > x.ml <<EOF
+  > external mk : foo:string -> string -> _ Js.t = "" [@@mel.obj]
+  > EOF
+  $ dune build @melange
+  File "x.ml", line 1, characters 28-34:
+  1 | external mk : foo:string -> string -> _ Js.t = "" [@@mel.obj]
+                                  ^^^^^^
+  Error: `[@mel.obj]' external declaration arguments must be one of:
+  - a labelled argument
+  - an optionally labelled argument
+  - `unit' as the final argument
+  [1]
+
+  $ cat > x.ml <<EOF
+  > external mk : foo:(string -> string [@mel.uncurry]) -> unit -> _ Js.t = ""
+  > [@@mel.obj]
+  > EOF
+  $ dune build @melange
+  File "x.ml", line 1, characters 19-35:
+  1 | external mk : foo:(string -> string [@mel.uncurry]) -> unit -> _ Js.t = ""
+                         ^^^^^^^^^^^^^^^^
+  Error: `[@mel.uncurry]' can't be used within `[@mel.obj]'
+  [1]
+
+  $ cat > x.ml <<EOF
+  > type 'a t
+  > external set : 'a t -> string -> 'a -> 'a -> unit = "" [@@mel.set_index]
+  > EOF
+  $ dune build @melange
+  File "x.ml", line 2, characters 0-72:
+  2 | external set : 'a t -> string -> 'a -> 'a -> unit = "" [@@mel.set_index]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `@mel.set_index' requires a function of 3 arguments: `'t -> 'key -> 'value -> unit'
+  [1]
+
+  $ cat > x.ml <<EOF
+  > type 'a t
+  > external get : 'a t -> 'a = "" [@@mel.get_index]
+  > EOF
+  $ dune build @melange
+  File "x.ml", line 2, characters 0-48:
+  2 | external get : 'a t -> 'a = "" [@@mel.get_index]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `@mel.get_index' requires a function of 2 arguments: `'t -> 'key -> 'value'
+  [1]
+
+  $ cat > x.ml <<EOF
+  > type t
+  > external red : string -> t = "some-module"
+  > [@@mel.new "payload"] [@@mel.module]
+  > EOF
+  $ dune build @melange
+  File "x.ml", lines 2-3, characters 0-36:
+  2 | external red : string -> t = "some-module"
+  3 | [@@mel.new "payload"] [@@mel.module]
+  Error: `@mel.new' doesn't expect an attribute payload
+  [1]
+
+  $ cat > x.ml <<EOF
+  > external get : string = "some-fn" [@@mel.send]
+  > EOF
+  $ dune build @melange
+  File "x.ml", line 1, characters 0-46:
+  1 | external get : string = "some-fn" [@@mel.send]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `@mel.send` requires a function with at least one argument
+  [1]
+
+  $ cat > x.ml <<EOF
+  > external get : (_ [@mel.as {json|{}|json}]) -> string = "some-fn" [@@mel.send]
+  > EOF
+  $ dune build @melange
+  File "x.ml", line 1, characters 0-78:
+  1 | external get : (_ [@mel.as {json|{}|json}]) -> string = "some-fn" [@@mel.send]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `@mel.send`'s first argument must not be a constant
+  [1]
+
+  $ cat > x.ml <<EOF
+  > type t
+  > external get : t -> string = "some-fn" [@@mel.send] [@@mel.new "hi"]
+  > EOF
+  $ dune build @melange
+  File "x.ml", line 2, characters 0-68:
+  2 | external get : t -> string = "some-fn" [@@mel.send] [@@mel.new "hi"]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `@mel.new' doesn't expect an attribute payload
+  [1]
+
+  $ cat > x.ml <<EOF
+  > type t
+  > external get : string = "some-fn" [@@mel.send.pipe: t] [@@mel.new "hi"]
+  > EOF
+  $ dune build @melange
+  File "x.ml", line 2, characters 0-71:
+  2 | external get : string = "some-fn" [@@mel.send.pipe: t] [@@mel.new "hi"]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `@mel.new' doesn't expect an attribute payload
+  [1]
+
+  $ cat > x.ml <<EOF
+  > type t
+  > external setX1 : t -> unit = "set"
+  > [@@mel.set] [@@mel.scope "a0"]
+  > EOF
+  $ dune build @melange
+  File "x.ml", lines 2-3, characters 0-30:
+  2 | external setX1 : t -> unit = "set"
+  3 | [@@mel.set] [@@mel.scope "a0"]
+  Error: `@mel.set' requires a function of two arguments
+  [1]
+
+  $ cat > x.ml <<EOF
+  > type t
+  > external f: t -> int -> unit [@mel.uncurry] = "set"
+  > [@@mel.send]
+  > EOF
+  $ dune build @melange
+  File "x.ml", lines 2-3, characters 0-12:
+  2 | external f: t -> int -> unit [@mel.uncurry] = "set"
+  3 | [@@mel.send]
+  Error: `@mel.uncurry' must not be applied to the entire annotation
+  [1]
+
+  $ cat > x.ml <<EOF
+  > type t
+  > external f: t -> int -> (unit [@mel.uncurry]) = "set"
+  > [@@mel.send]
+  > EOF
+  $ dune build @melange
+  File "x.ml", lines 2-3, characters 0-12:
+  2 | external f: t -> int -> (unit [@mel.uncurry]) = "set"
+  3 | [@@mel.send]
+  Error: `@mel.uncurry' cannot be applied to the return type
+  [1]
+
+  $ cat > x.ml <<EOF
+  > type t
+  > external f: int -> unit = "set"
+  > [@@mel.send.pipe: (_ [@mel.as "x"])]
+  > EOF
+  $ dune build @melange
+  File "x.ml", lines 2-3, characters 0-36:
+  2 | external f: int -> unit = "set"
+  3 | [@@mel.send.pipe: (_ [@mel.as "x"])]
+  Error: `@mel.as' must not be used in the payload for `[@mel.send.pipe]'
+  [1]
+
+  $ cat > x.ml <<EOF
+  > external join : ?foo:string array -> string = "join"
+  > [@@mel.module "path"] [@@mel.variadic]
+  > EOF
+  $ dune build @melange
+  File "x.ml", lines 1-2, characters 0-38:
+  1 | external join : ?foo:string array -> string = "join"
+  2 | [@@mel.module "path"] [@@mel.variadic]
+  Error: `@mel.variadic' cannot be applied to an optionally labelled argument
+  [1]
+
+  $ cat > x.ml <<EOF
+  > external join : ?foo:[ | \`foo of int [@mel.as "hi"] ] -> string = "join"
+  > EOF
+  $ dune build @melange
+  File "x.ml", line 1, characters 21-53:
+  1 | external join : ?foo:[ | `foo of int [@mel.as "hi"] ] -> string = "join"
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `[@mel.as ..]' must not be used with an optionally labelled polymorphic variant
+  [1]
