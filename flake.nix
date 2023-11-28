@@ -26,7 +26,16 @@
     } // (flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages."${system}".extend (self: super: {
-          ocamlPackages = super.ocaml-ng.ocamlPackages_5_1;
+          ocamlPackages = super.ocaml-ng.ocamlPackages_5_1.overrideScope' (oself: osuper: {
+            ocaml = osuper.ocaml.overrideAttrs (_: {
+              src = super.fetchFromGitHub {
+                owner = "ocaml";
+                repo = "ocaml";
+                rev = "35fdd0226e2e05a1a8244ecfec780b563b23b59c";
+                hash = "sha256-SkxZhodkU5RBSaJ+p1NI/EtVEvHT1cOW8vks4Nf11tA=";
+              };
+            });
+          });
         });
 
         packages =

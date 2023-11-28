@@ -12,13 +12,23 @@ let
   nix-filter-src = findFlakeSrc { name = "nix-filter"; };
   melange-compiler-libs-src = findFlakeSrc {
     name = "melange-compiler-libs";
+    allRefs = true;
   };
   nix-filter = import "${nix-filter-src}";
 
   pkgs = import src {
     extraOverlays = [
       (self: super: {
-        ocamlPackages = super.ocaml-ng."ocamlPackages_${ocamlVersion}";
+        ocamlPackages = super.ocaml-ng."ocamlPackages_${ocamlVersion}".overrideScope' (oself: osuper: {
+          ocaml = osuper.ocaml.overrideAttrs (_: {
+            src = super.fetchFromGitHub {
+              owner = "ocaml";
+              repo = "ocaml";
+              rev = "35fdd0226e2e05a1a8244ecfec780b563b23b59c";
+              hash = "sha256-SkxZhodkU5RBSaJ+p1NI/EtVEvHT1cOW8vks4Nf11tA=";
+            };
+          });
+        });
       })
     ];
   };
