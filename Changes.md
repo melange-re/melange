@@ -68,6 +68,8 @@ Unreleased
 - BREAKING(ppx): disallow attribute payload in `[@mel.new]` in favor of the
   external primiative string
   ([#938](https://github.com/melange-re/melange/pull/938))
+- Don't process `[@mel.config]` twice
+  ([#940](https://github.com/melange-re/melange/pull/940/))
 
 2.1.0 2023-10-22
 ---------------
