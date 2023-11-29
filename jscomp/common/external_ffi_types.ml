@@ -142,28 +142,23 @@ let valid_ident (s : string) =
 let is_package_relative_path (x : string) =
   String.starts_with x ~prefix:"./" || String.starts_with x ~prefix:"../"
 
-let valid_global_name ?loc txt =
+let valid_global_name ~loc txt =
   if not (valid_ident txt) then
     let v = String.split_by ~keep_empty:true (fun x -> x = '.') txt in
     List.iter
       ~f:(fun s ->
         if not (valid_ident s) then
-          Location.raise_errorf ?loc "Not a valid global name %s" txt)
+          Location.raise_errorf ~loc "%S isn't a valid JavaScript identifier"
+            txt)
       v
 
-(* We lose such check (see #2583),
-   it also helps with the implementation deriving abstract [@as] *)
-let valid_method_name ?loc:_ _txt = ()
-(* if not (valid_ident txt) then
-   Location.raise_errorf ?loc "Not a valid method name %s"  txt *)
-
-let check_external_module_name ?loc x =
+let check_external_module_name ~loc x =
   match x with
   | { bundle = ""; _ } | { module_bind_name = Phint_name ""; _ } ->
-      Location.raise_errorf ?loc "empty name encountered"
+      Location.raise_errorf ~loc "`@mel.module' name cannot be empty"
   | _ -> ()
 
-let check_ffi ?loc ffi : bool =
+let check_ffi ~loc ffi : bool =
   let xrelative = ref false in
   let upgrade bool = if not !xrelative then xrelative := bool in
   (match ffi with
@@ -172,17 +167,16 @@ let check_ffi ?loc ffi : bool =
       Option.iter
         (fun name -> upgrade (is_package_relative_path name.bundle))
         external_module_name;
-      valid_global_name ?loc name
-  | Js_send { name; _ }
-  | Js_set { js_set_name = name; _ }
-  | Js_get { js_get_name = name; _ } ->
-      valid_method_name ?loc name
+      valid_global_name ~loc name
+  | Js_send _ | Js_set _ | Js_get _ ->
+      (* see https://github.com/rescript-lang/rescript-compiler/issues/2583 *)
+      ()
   | Js_get_index _ (* TODO: check scopes *) | Js_set_index _ -> ()
   | Js_module_as_var external_module_name
   | Js_module_as_fn { external_module_name; splice = _ }
   | Js_module_as_class external_module_name ->
       upgrade (is_package_relative_path external_module_name.bundle);
-      check_external_module_name external_module_name
+      check_external_module_name ~loc external_module_name
   | Js_new { external_module_name; name; _ }
   | Js_call { external_module_name; name; splice = _; scopes = _ } ->
       Option.iter
@@ -190,10 +184,10 @@ let check_ffi ?loc ffi : bool =
           upgrade (is_package_relative_path external_module_name.bundle))
         external_module_name;
       Option.iter
-        (fun name -> check_external_module_name ?loc name)
+        (fun name -> check_external_module_name ~loc name)
         external_module_name;
 
-      valid_global_name ?loc name);
+      valid_global_name ~loc name);
   !xrelative
 
 let to_string (t : t) = Marshal.to_string t []

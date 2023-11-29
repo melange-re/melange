@@ -34,7 +34,7 @@ let check_constant loc kind (const : Parsetree.constant) =
       | `pat ->
           if s = "j" then
             Location.raise_errorf ~loc
-              "Unicode string is not allowed in pattern match")
+              "Unicode strings cannot currently be used in pattern matching")
   | Pconst_integer (s, None) -> (
       (* range check using int32
          It is better to give a warning instead of error to avoid make people unhappy.
@@ -44,7 +44,9 @@ let check_constant loc kind (const : Parsetree.constant) =
       try ignore (Int32.of_string s)
       with _ -> Location.prerr_warning loc Mel_integer_literal_overflow)
   | Pconst_integer (_, Some 'n') ->
-      Location.raise_errorf ~loc "literal with `n` suffix is not supported"
+      Location.raise_errorf ~loc
+        "`nativeint' is not currently supported in Melange. The `n' suffix \
+         cannot be used."
   | _ -> ()
 
 module Core_type = struct
@@ -97,7 +99,8 @@ let emit_external_warnings : Ast_iterator.iterator =
             Parsetree.value_description)
           when not (Core_type.is_arity_one pval_type) ->
             Location.raise_errorf ~loc:pval_loc
-              "%%identity expect its type to be of form 'a -> 'b (arity 1)"
+              "The `%%identity' primitive type must take a single argument ('a \
+               -> 'b)"
         | { pval_attributes; pval_loc; _ } ->
             if has_mel_attributes pval_attributes then
               print_unprocessed_alert pval_loc

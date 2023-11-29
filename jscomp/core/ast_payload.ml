@@ -31,62 +31,64 @@ type action = string Asttypes.loc * Parsetree.expression option
 (* None means punning is hit
     {[ { x } ]}
     otherwise it comes with a payload
-    {[ { x = exp }]}
-*)
+    {[ { x = exp }]} *)
 
-let unrecognizedConfigRecord loc text =
-  Location.prerr_warning loc (Warnings.Mel_derive_warning text)
-
-let ident_or_record_as_config loc (x : t) :
-    (string Location.loc * Parsetree.expression option) list =
-  match x with
-  | PStr
-      [
-        {
-          pstr_desc =
-            Pstr_eval
-              ( {
-                  pexp_desc = Pexp_record (label_exprs, with_obj);
-                  pexp_loc = loc;
-                  _;
-                },
-                _ );
-          _;
-        };
-      ] -> (
-      match with_obj with
-      | None ->
-          List.map
-            ~f:(fun u ->
-              match u with
-              | ( { Asttypes.txt = Longident.Lident name; loc },
-                  {
-                    Parsetree.pexp_desc = Pexp_ident { txt = Lident name2; _ };
-                    _;
-                  } )
-                when name2 = name ->
-                  ({ Asttypes.txt = name; loc }, None)
-              | { txt = Lident name; loc }, y ->
-                  ({ Asttypes.txt = name; loc }, Some y)
-              | _ -> Location.raise_errorf ~loc "Qualified label is not allowed")
-            label_exprs
-      | Some _ ->
-          unrecognizedConfigRecord loc "`with` is not supported, discarding";
-          [])
-  | PStr
-      [
-        {
-          pstr_desc =
-            Pstr_eval
-              ({ pexp_desc = Pexp_ident { loc = lloc; txt = Lident txt }; _ }, _);
-          _;
-        };
-      ] ->
-      [ ({ Asttypes.txt; loc = lloc }, None) ]
-  | PStr [] -> []
-  | _ ->
-      unrecognizedConfigRecord loc "invalid attribute config-record, ignoring";
-      []
+let ident_or_record_as_config =
+  let exception Local of Location.t in
+  let error ?(loc = Location.none) more =
+    let msg =
+      let base =
+        "Unsupported attribute payload. Expected a configuration record literal"
+      in
+      match more with "" -> base | s -> Format.sprintf "%s %s" base s
+    in
+    Location.raise_errorf ~loc "%s" msg
+  in
+  fun ~loc (x : t) ->
+    match x with
+    | PStr
+        [
+          {
+            pstr_desc =
+              Pstr_eval
+                ({ pexp_desc = Pexp_record (label_exprs, with_obj); _ }, _);
+            _;
+          };
+        ] -> (
+        match with_obj with
+        | None -> (
+            try
+              List.map
+                ~f:(fun u ->
+                  match u with
+                  | ( { Location.txt = Longident.Lident name; loc },
+                      {
+                        Parsetree.pexp_desc =
+                          Pexp_ident { txt = Lident name2; _ };
+                        _;
+                      } )
+                    when name2 = name ->
+                      ({ Asttypes.txt = name; loc }, None)
+                  | { txt = Lident name; loc }, y ->
+                      ({ Asttypes.txt = name; loc }, Some y)
+                  | { loc; _ }, _ -> raise (Local loc))
+                label_exprs
+            with Local loc -> error ~loc "(qualified labels aren't supported)")
+        | Some { pexp_loc; _ } ->
+            error ~loc:pexp_loc "(`with' is not supported)")
+    | PStr
+        [
+          {
+            pstr_desc =
+              Pstr_eval
+                ( { pexp_desc = Pexp_ident { loc = lloc; txt = Lident txt }; _ },
+                  _ );
+            _;
+          };
+        ] ->
+        [ ({ Asttypes.txt; loc = lloc }, None) ]
+    | PStr [] -> []
+    | _ -> error ~loc ""
 
 let assert_bool_lit (e : Parsetree.expression) =
   match e.pexp_desc with
@@ -94,7 +96,7 @@ let assert_bool_lit (e : Parsetree.expression) =
   | Pexp_construct ({ txt = Lident "false"; _ }, None) -> false
   | _ ->
       Location.raise_errorf ~loc:e.pexp_loc
-        "expect `true` or `false` in this field"
+        "Expected a boolean literal (`true' or `false')"
 
 let table_dispatch table (action : action) =
   match action with

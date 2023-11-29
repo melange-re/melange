@@ -60,6 +60,8 @@ Unreleased
   [#928](https://github.com/melange-re/melange/pull/928),
   [#931](https://github.com/melange-re/melange/pull/931),
   [#936](https://github.com/melange-re/melange/pull/936))
+- Improve error messages in the Melange compiler core
+  ([#941](https://github.com/melange-re/melange/pull/941))
 - Fix a typo in `Node.node_module` (pa{r,}rent)
   [#929](https://github.com/melange-re/melange/pull/929)
 - BREAKING(runtime): Remove `Js.null_undefined` in favor of `Js.nullable`
