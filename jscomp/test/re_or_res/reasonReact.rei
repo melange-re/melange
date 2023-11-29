@@ -12,7 +12,7 @@ type reactElement = React.element;
 
 type reactRef;
 
- external null: reactElement = "null";
+external null: reactElement = "null";
 
 external string: string => reactElement = "%identity";
 
@@ -35,12 +35,12 @@ external refToJsObj: reactRef => Js.t({..}) = "%identity";
 
    In every other case, you should be using the JSX
    */
-[@mel.splice]  [@mel.module "react"]
+[@mel.variadic] [@mel.module "react"]
 external createElement:
   (reactClass, ~props: Js.t({..})=?, array(reactElement)) => reactElement =
   "createElement";
 
-[@mel.splice] [@mel.module "react"]
+[@mel.variadic] [@mel.module "react"]
 external cloneElement:
   (reactElement, ~props: Js.t({..})=?, array(reactElement)) => reactElement =
   "cloneElement";

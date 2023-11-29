@@ -18,12 +18,12 @@ external array: array(reactElement) => reactElement = "%identity";
 
 external refToJsObj: reactRef => Js.t({..}) = "%identity";
 
-[@mel.splice] [@mel.module "react"]
+[@mel.variadic] [@mel.module "react"]
 external createElement:
   (reactClass, ~props: Js.t({..})=?, array(reactElement)) => reactElement =
   "createElement";
 
-[@mel.splice] [@mel.module "react"]
+[@mel.variadic] [@mel.module "react"]
 external cloneElement:
   (reactElement, ~props: Js.t({..})=?, array(reactElement)) => reactElement =
   "cloneElement";

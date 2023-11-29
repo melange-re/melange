@@ -1,6 +1,6 @@
 type element;
 
- external null: element = "null";
+external null: element = "null";
 
 external float: float => element = "%identity";
 external int: int => element = "%identity";
@@ -19,7 +19,7 @@ external createElement: (component('props), 'props) => element =
 [@mel.module "react"]
 external cloneElement: (element, 'props) => element = "cloneElement";
 
-[@mel.splice] [@mel.module "react"]
+[@mel.variadic] [@mel.module "react"]
 external createElementVariadic:
   (component('props), 'props, array(element)) => element =
   "createElement";
@@ -205,7 +205,10 @@ external useEffect: ([@mel.uncurry] (unit => option(unit => unit))) => unit =
   "useEffect";
 [@mel.module "react"]
 external useEffect0:
-  ([@mel.uncurry] (unit => option(unit => unit)), [@mel.as {json|[]|json}] _) =>
+  (
+    [@mel.uncurry] (unit => option(unit => unit)),
+    [@mel.as {json|[]|json}] _
+  ) =>
   unit =
   "useEffect";
 [@mel.module "react"]
@@ -231,7 +234,10 @@ external useEffect5:
   "useEffect";
 [@mel.module "react"]
 external useEffect6:
-  ([@mel.uncurry] (unit => option(unit => unit)), ('a, 'b, 'c, 'd, 'e, 'f)) =>
+  (
+    [@mel.uncurry] (unit => option(unit => unit)),
+    ('a, 'b, 'c, 'd, 'e, 'f)
+  ) =>
   unit =
   "useEffect";
 [@mel.module "react"]
@@ -249,7 +255,10 @@ external useLayoutEffect:
   "useLayoutEffect";
 [@mel.module "react"]
 external useLayoutEffect0:
-  ([@mel.uncurry] (unit => option(unit => unit)), [@mel.as {json|[]|json}] _) =>
+  (
+    [@mel.uncurry] (unit => option(unit => unit)),
+    [@mel.as {json|[]|json}] _
+  ) =>
   unit =
   "useLayoutEffect";
 [@mel.module "react"]
@@ -275,7 +284,10 @@ external useLayoutEffect5:
   "useLayoutEffect";
 [@mel.module "react"]
 external useLayoutEffect6:
-  ([@mel.uncurry] (unit => option(unit => unit)), ('a, 'b, 'c, 'd, 'e, 'f)) =>
+  (
+    [@mel.uncurry] (unit => option(unit => unit)),
+    ('a, 'b, 'c, 'd, 'e, 'f)
+  ) =>
   unit =
   "useLayoutEffect";
 [@mel.module "react"]
@@ -332,7 +344,8 @@ external useCallback0:
   "useCallback";
 [@mel.module "react"]
 external useCallback1:
-  ([@mel.uncurry] ('input => 'output), array('a)) => callback('input, 'output) =
+  ([@mel.uncurry] ('input => 'output), array('a)) =>
+  callback('input, 'output) =
   "useCallback";
 [@mel.module "react"]
 external useCallback2:
@@ -381,7 +394,11 @@ external useImperativeHandle0:
 
 [@mel.module "react"]
 external useImperativeHandle1:
-  (Js.Nullable.t(ref('value)), [@mel.uncurry] (unit => 'value), array('a)) =>
+  (
+    Js.Nullable.t(ref('value)),
+    [@mel.uncurry] (unit => 'value),
+    array('a)
+  ) =>
   unit =
   "useImperativeHandle";
 

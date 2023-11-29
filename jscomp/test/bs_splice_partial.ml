@@ -11,7 +11,7 @@ external on_exit_slice3 :
     -> int array
     -> unit
     =
-    "xx"    [@@mel.send.pipe: t] [@@mel.splice]
+    "xx"    [@@mel.send.pipe: t] [@@mel.variadic]
 
 
 
@@ -23,7 +23,7 @@ external on_exit_slice3 :
 
 
 external hi : int array -> int option = "hi"
-    [@@mel.splice] [@@mel.return {null_to_opt}]
+    [@@mel.variadic] [@@mel.return {null_to_opt}]
     [@@mel.send.pipe:int]
 
 

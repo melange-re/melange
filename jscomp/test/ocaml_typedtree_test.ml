@@ -11650,7 +11650,7 @@ external fail : 'a -> 'a -> string Js.undefined -> string -> unit = "fail"
 
 
 external dump : 'a array -> unit = "console.log"
-[@@mel.splice]
+[@@mel.variadic]
 
 external throws : (unit -> unit) -> unit = "throws"
 [@@mel.module "assert"]

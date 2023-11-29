@@ -109,7 +109,7 @@ external log3 : 'a -> 'b -> 'c -> unit = "log" [@@mel.scope "console"]
 external log4 : 'a -> 'b -> 'c -> 'd -> unit = "log" [@@mel.scope "console"]
 
 external logMany : 'a array -> unit = "log"
-[@@mel.scope "console"] [@@mel.splice]
+[@@mel.scope "console"] [@@mel.variadic]
 (** A convenience function to log more than 4 arguments *)
 
 external eqNull : 'a -> 'a null -> bool = "%bs_equal_null"

@@ -3,7 +3,7 @@ external xx : string -> unit = "xx" [@@mel.module "x", "X"]
 type param
 
 external executeCommands : string -> param array -> unit = "executeCommands"
-[@@mel.scope "commands"] [@@mel.module "vscode"][@@mel.splice]
+[@@mel.scope "commands"] [@@mel.module "vscode"][@@mel.variadic]
 
 external env : string Js.Dict.t = "env" [@@mel.scope "process"]
 

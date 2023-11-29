@@ -7,16 +7,16 @@
   >   int -> int -> int arra -> unit
   >   = ""
   >   [@@mel.send.pipe:int]
-  >   [@@mel.splice]
+  >   [@@mel.variadic]
   > EOF
   $ melc -ppx melppx -alert -unprocessed x.ml
-  File "x.ml", lines 2-7, characters 0-16:
+  File "x.ml", lines 2-7, characters 0-18:
   2 | external
   3 |   f :
   4 |   int -> int -> int arra -> unit
   5 |   = ""
   6 |   [@@mel.send.pipe:int]
-  7 |   [@@mel.splice]
+  7 |   [@@mel.variadic]
   Error: `@mel.variadic' expects its last argument to be an array
   [2]
 
@@ -26,16 +26,16 @@
   >   int -> int -> ?y:int array -> unit
   >   = ""
   >   [@@mel.send.pipe:int]
-  >   [@@mel.splice]
+  >   [@@mel.variadic]
   > EOF
   $ melc -ppx melppx -alert -unprocessed x.ml
-  File "x.ml", lines 1-6, characters 0-16:
+  File "x.ml", lines 1-6, characters 0-18:
   1 | external
   2 |   f2 :
   3 |   int -> int -> ?y:int array -> unit
   4 |   = ""
   5 |   [@@mel.send.pipe:int]
-  6 |   [@@mel.splice]
+  6 |   [@@mel.variadic]
   Error: `@mel.variadic' cannot be applied to an optionally labelled argument
   [2]
 

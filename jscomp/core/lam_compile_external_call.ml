@@ -261,10 +261,10 @@ let translate_ffi =
       (ffi : Melange_ffi.External_ffi_types.external_spec)
       (args : J.expression list) ->
     match ffi with
-    | Js_call { external_module_name = module_name; name = fn; splice; scopes }
-      ->
+    | Js_call
+        { external_module_name = module_name; name = fn; variadic; scopes } ->
         let fn = translate_scoped_module_val module_name fn scopes in
-        if splice then
+        if variadic then
           let args, eff, dynamic = assemble_args_has_splice arg_types args in
           add_eff eff
             (if dynamic then splice_fn_apply fn args
@@ -273,9 +273,9 @@ let translate_ffi =
           let args, eff = assemble_args_no_splice arg_types args in
           add_eff eff
           @@ E.call ~info:{ arity = Full; call_info = Call_na } fn args
-    | Js_module_as_fn { external_module_name; splice } ->
+    | Js_module_as_fn { external_module_name; variadic } ->
         let fn = external_var external_module_name in
-        if splice then
+        if variadic then
           let args, eff, dynamic = assemble_args_has_splice arg_types args in
           (* TODO: fix in rest calling convention *)
           add_eff eff
@@ -286,7 +286,7 @@ let translate_ffi =
           (* TODO: fix in rest calling convention *)
           add_eff eff
             (E.call ~info:{ arity = Full; call_info = Call_na } fn args)
-    | Js_new { external_module_name = module_name; name = fn; splice; scopes }
+    | Js_new { external_module_name = module_name; name = fn; variadic; scopes }
       ->
         (* handle [@@new]*)
         (* This has some side effect, it will
@@ -298,7 +298,7 @@ let translate_ffi =
            as much as we can(in alias table)
         *)
         let fn = translate_scoped_module_val module_name fn scopes in
-        if splice then
+        if variadic then
           let args, eff, dynamic = assemble_args_has_splice arg_types args in
           add_eff eff
             (if dynamic then splice_fn_new_apply fn args else E.new_ fn args)
@@ -312,11 +312,11 @@ let translate_ffi =
             (* cxt.continuation <- Assign (Ext_ident.make_js_object id) *)
             (* | EffectCall _ | NeedValue _ -> ()); *)
             (E.new_ fn args)
-    | Js_send { splice; name; pipe; js_send_scopes; new_ } -> (
+    | Js_send { variadic; name; pipe; js_send_scopes; new_ } -> (
         if pipe then
-          (* splice should not happen *)
+          (* variadic should not happen *)
           (* assert (js_splice = false) ;  *)
-          if splice then
+          if variadic then
             let args, self = List.split_at_last args in
             let arg_types, _ = List.split_at_last arg_types in
             let args, eff, dynamic = assemble_args_has_splice arg_types args in
@@ -339,7 +339,7 @@ let translate_ffi =
               let[@ocaml.warning "-partial-match"] (_self_type :: arg_types) =
                 arg_types
               in
-              if splice then
+              if variadic then
                 let args, eff, dynamic =
                   assemble_args_has_splice arg_types args
                 in
