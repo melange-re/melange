@@ -403,14 +403,14 @@ let file_level_flags_handler (e : Parsetree.expression option) =
       ( List.map ~f:(fun (e: Parsetree.expression) ->
           match e.pexp_desc with
           | Pexp_constant (Pconst_string(name,_,_)) -> name
-          | _ -> Location.raise_errorf ~loc:e.pexp_loc "string literal expected" ) args)
+          | _ -> Location.raise_errorf ~loc:e.pexp_loc "Flags must be a literal array of strings") args)
     in
     let argv = Melc_cli.normalize_argv (Array.of_list (Sys.argv.(0) :: args)) in
     (match Cmdliner.Cmd.eval ~argv melc_cmd with
     | c when c = Cmdliner.Cmd.Exit.ok -> ()
     | _c -> Location.raise_errorf ~loc:pexp_loc "Invalid configuration")
   | Some e ->
-    Location.raise_errorf ~loc:e.pexp_loc "string array expected"
+    Location.raise_errorf ~loc:e.pexp_loc "Flags must be a literal array of strings"
 
 let () =
   Melangelib.Initialization.Global.run ();

@@ -95,7 +95,7 @@ type t = private
 
 (* val name_of_ffi : external_spec -> string *)
 
-val check_ffi : ?loc:Location.t -> external_spec -> bool
+val check_ffi : loc:Location.t -> external_spec -> bool
 val to_string : t -> string
 
 val from_string : string -> t

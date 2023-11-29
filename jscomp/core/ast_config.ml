@@ -57,7 +57,7 @@ let rec iter_on_mel_config_stru (x : Parsetree.structure) =
       List.iter
         ~f:(fun x ->
           Ast_payload.table_dispatch !structural_config_table x |> ignore)
-        (Ast_payload.ident_or_record_as_config loc payload)
+        (Ast_payload.ident_or_record_as_config ~loc payload)
   (* [ppxlib] adds a wrapper like:
 
      [@@@ocaml.ppx.context ...]
@@ -102,6 +102,6 @@ let rec iter_on_mel_config_sigi (x : Parsetree.signature) =
       List.iter
         ~f:(fun x ->
           Ast_payload.table_dispatch !signature_config_table x |> ignore)
-        (Ast_payload.ident_or_record_as_config loc payload)
+        (Ast_payload.ident_or_record_as_config ~loc payload)
   | { psig_desc = Psig_attribute _; _ } :: rest -> iter_on_mel_config_sigi rest
   | _ :: _ -> ()
