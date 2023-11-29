@@ -75,7 +75,6 @@ let process_with_gentype filename =
 *)
 
 let after_parsing_sig ppf outputprefix ast =
-  Ast_config.iter_on_mel_config_sigi ast;
   if !Js_config.modules then Meldep.output_deps_set !Location.input_name Mli ast;
   if !Js_config.as_pp then (
     output_string stdout Config.ast_intf_magic_number;
@@ -157,7 +156,6 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
   let sourceintf = Filename.remove_extension fname ^ !Config.interface_suffix in
   Js_config.all_module_aliases :=
     (not (Sys.file_exists sourceintf)) && all_module_alias ast;
-  Ast_config.iter_on_mel_config_stru ast;
   let ast = if !Js_config.no_export then no_export ast else ast in
   if !Js_config.modules then Meldep.output_deps_set !Location.input_name Ml ast;
   if !Js_config.as_pp then (
