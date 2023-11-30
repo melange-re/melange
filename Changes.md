@@ -78,7 +78,8 @@ Unreleased
 - Introduce an `unprocessed` alert to detect unprocessed Melange code, hinting
   users to preprocess with `melange.ppx`
   ([#911](https://github.com/melange-re/melange/pull/911),
-  [#945](https://github.com/melange-re/melange/pull/945))
+  [#945](https://github.com/melange-re/melange/pull/945),
+  [#947](https://github.com/melange-re/melange/pull/947))
 
 2.1.0 2023-10-22
 ---------------
