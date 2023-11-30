@@ -65,7 +65,7 @@ let emit_external_warnings : Ast_iterator.iterator =
     Melange_ffi.External_ffi_attributes.has_mel_attributes
       (List.map ~f:(fun { Parsetree.attr_name = { txt; _ }; _ } -> txt) attrs)
   in
-  let print_unprocessed_alert loc =
+  let print_unprocessed_alert ~loc =
     Location.prerr_alert loc
       {
         Warnings.kind = "unprocessed";
@@ -84,13 +84,18 @@ let emit_external_warnings : Ast_iterator.iterator =
         match sigi.psig_desc with
         | Psig_value { pval_attributes; pval_loc; _ } ->
             if has_mel_attributes pval_attributes then
-              print_unprocessed_alert pval_loc
+              print_unprocessed_alert ~loc:pval_loc
             else super.signature_item self sigi
         | _ -> super.signature_item self sigi);
     expr =
       (fun self a ->
         match a.pexp_desc with
         | Pexp_constant const -> check_constant a.pexp_loc `expr const
+        | Pexp_apply ({ pexp_desc = Pexp_ident { txt = Lident op; loc }; _ }, _)
+          ->
+            if
+              List.mem op ~set:Melange_ffi.External_ffi_types.Literals.infix_ops
+            then print_unprocessed_alert ~loc
         | _ -> super.expr self a);
     value_description =
       (fun self v ->
@@ -103,7 +108,7 @@ let emit_external_warnings : Ast_iterator.iterator =
                -> 'b)"
         | { pval_attributes; pval_loc; _ } ->
             if has_mel_attributes pval_attributes then
-              print_unprocessed_alert pval_loc
+              print_unprocessed_alert ~loc:pval_loc
             else super.value_description self v);
     pat =
       (fun self (pat : Parsetree.pattern) ->

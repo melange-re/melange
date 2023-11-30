@@ -69,7 +69,6 @@ let view_as_app (fn : exp) (s : string list) : app_pattern option =
   | _ -> None
 
 let inner_ops = [ "##"; "#@" ]
-let infix_ops = [ "|."; "#="; "##" ]
 
 let rec exclude_with_val =
   let rec exclude (xs : 'a list) (p : 'a -> bool) : 'a list =
@@ -115,7 +114,7 @@ let app_exp_mapper (e : exp)
   | Some { op; loc; _ } ->
       Location.raise_errorf ~loc "%s expect f%sproperty arg0 arg2 form" op op
   | None -> (
-      match view_as_app e infix_ops with
+      match view_as_app e Melange_ffi.External_ffi_types.Literals.infix_ops with
       | Some { op = "|."; args = [ a_; f_ ]; loc } -> (
           (*
         a |. f
@@ -124,8 +123,7 @@ let app_exp_mapper (e : exp)
         a |. (g |. b)
         a |. M.Some
         a |. `Variant
-        a |. (b |. f c [@u])
-      *)
+        a |. (b |. f c [@u]) *)
           let a = self#expression a_ in
           let f = self#expression f_ in
           match f.pexp_desc with

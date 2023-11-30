@@ -28,6 +28,8 @@ open External_ffi_types0
 module Literals = struct
   let setter_suffix = "#="
   (* let gentype_import = "genType.import" *)
+
+  let infix_ops = [ "|."; setter_suffix; "##" ]
 end
 
 type module_bind_name =

@@ -24,6 +24,7 @@
 
 module Literals : sig
   val setter_suffix : string
+  val infix_ops : string list
 end
 
 type module_bind_name =
