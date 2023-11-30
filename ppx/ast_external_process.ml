@@ -401,11 +401,6 @@ let has_mel_uncurry (attrs : Ast_attributes.t) =
       txt = "mel.uncurry" || txt = "uncurry")
     attrs
 
-let is_unit ty =
-  match ty.ptyp_desc with
-  | Ptyp_constr ({ txt = Lident "unit"; _ }, []) -> true
-  | _ -> false
-
 let is_user_option ty =
   match ty.ptyp_desc with
   | Ptyp_constr
@@ -419,7 +414,8 @@ let check_return_wrapper loc (wrapper : External_ffi_types.return_wrapper)
   match wrapper with
   | Return_identity -> wrapper
   | Return_unset ->
-      if is_unit result_type then Return_replaced_with_unit else wrapper
+      if Ast_core_type.is_unit result_type then Return_replaced_with_unit
+      else wrapper
   | Return_undefined_to_opt | Return_null_to_opt | Return_null_undefined_to_opt
     ->
       if is_user_option result_type then wrapper
