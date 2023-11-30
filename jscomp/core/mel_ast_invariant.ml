@@ -70,12 +70,24 @@ let emit_external_warnings : Ast_iterator.iterator =
       {
         Warnings.kind = "unprocessed";
         message =
-          "[%@mel.*] attributes found in external declaration. Did you forget \
+          "`[@mel.*]' attributes found in external declaration. Did you forget \
            to preprocess with `melange.ppx'?";
         def = Location.none;
         use = loc;
       }
   in
+  let print_unprocessed_uncurried_alert ~loc =
+    Location.prerr_alert loc
+      {
+        Warnings.kind = "unprocessed";
+        message =
+          "Found uncurried (`[@u]') attribute. Did you forget to preprocess \
+           with `melange.ppx'?";
+        def = Location.none;
+        use = loc;
+      }
+  in
+
   let super = Ast_iterator.default_iterator in
   {
     super with
@@ -89,6 +101,15 @@ let emit_external_warnings : Ast_iterator.iterator =
         | _ -> super.signature_item self sigi);
     expr =
       (fun self a ->
+        (match
+           List.find_opt
+             ~f:(fun { Parsetree.attr_name = { txt; _ }; _ } -> txt = "u")
+             a.pexp_attributes
+         with
+        | Some { attr_name = { loc; _ }; _ } ->
+            print_unprocessed_uncurried_alert ~loc
+        | None -> ());
+
         match a.pexp_desc with
         | Pexp_constant const -> check_constant a.pexp_loc `expr const
         | Pexp_apply ({ pexp_desc = Pexp_ident { txt = Lident op; loc }; _ }, _)
