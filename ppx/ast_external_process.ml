@@ -216,7 +216,7 @@ type external_desc = {
   module_as_val : External_ffi_types.external_module_name option;
   val_send : name_source;
   val_send_pipe : Parsetree.core_type option;
-  splice : bool; (* mutable *)
+  variadic : bool; (* mutable *)
   scopes : string list;
   set_index : bool; (* mutable *)
   get_index : bool;
@@ -234,7 +234,7 @@ let init_st =
     module_as_val = None;
     val_send = `Nm_na;
     val_send_pipe = None;
-    splice = false;
+    variadic = false;
     scopes = [];
     set_index = false;
     get_index = false;
@@ -338,9 +338,9 @@ let parse_external_attributes (prim_name_check : string)
             (* We need err on empty scope, so we can tell the difference
                between unset/set *)
             | scopes -> { st with scopes })
-        | "mel.splice" | "mel.variadic" | "variadic" ->
+        | "mel.variadic" | "variadic" ->
             Ast_attributes.warn_if_non_namespaced ~loc txt;
-            { st with splice = true }
+            { st with variadic = true }
         | "mel.send" | "send" ->
             Ast_attributes.warn_if_non_namespaced ~loc txt;
             { st with val_send = name_from_payload_or_prim ~loc payload }
@@ -459,7 +459,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
    module_as_val = None;
    val_send = `Nm_na;
    val_send_pipe = None;
-   splice = false;
+   variadic = false;
    new_name = `Nm_na;
    call_name = `Nm_na;
    set_name = `Nm_na;
@@ -671,7 +671,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    module_as_val = None;
    val_send = `Nm_na;
    val_send_pipe = None;
-   splice = false;
+   variadic = false;
    scopes;
    get_index = false;
    new_name = `Nm_na;
@@ -697,7 +697,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    module_as_val = None;
    val_send = `Nm_na;
    val_send_pipe = None;
-   splice = false;
+   variadic = false;
    scopes;
    new_name = `Nm_na;
    call_name = `Nm_na;
@@ -726,7 +726,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    val_send_pipe = None;
    scopes = [];
    (* module as var does not need scopes *)
-   splice;
+   variadic;
    call_name = `Nm_na;
    set_name = `Nm_na;
    get_name = `Nm_na;
@@ -736,7 +736,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
   } -> (
       match (arg_types_ty, new_name) with
       | [], `Nm_na -> Js_module_as_var external_module_name
-      | _, `Nm_na -> Js_module_as_fn { splice; external_module_name }
+      | _, `Nm_na -> Js_module_as_fn { variadic; external_module_name }
       | _, `Nm_external _ -> Js_module_as_class external_module_name
       | _, `Nm_payload _ ->
           Location.raise_errorf ~loc
@@ -764,7 +764,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    new_name = `Nm_na;
    set_name = `Nm_na;
    external_module_name = None;
-   splice;
+   variadic;
    scopes;
    mk_obj = _;
    (* mk_obj is always false *)
@@ -776,13 +776,13 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
          {[
            external ff : int -> int [@bs] = "" [@@module "xx"]
          ]}
-         FIXME: splice is not supported here
+         FIXME: variadic is not supported here
       *)
         Js_var { name; external_module_name = None; scopes }
-      else Js_call { splice; name; external_module_name = None; scopes }
+      else Js_call { variadic; name; external_module_name = None; scopes }
   | {
    call_name = `Nm_external (lazy name) | `Nm_payload name;
-   splice;
+   variadic;
    scopes;
    external_module_name;
    module_as_val = None;
@@ -803,10 +803,10 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
            ]}
         *)
         Js_var { name; external_module_name; scopes }
-        (*FIXME: splice is not supported here *)
-      else Js_call { splice; name; external_module_name; scopes }
+        (*FIXME: variadic is not supported here *)
+      else Js_call { variadic; name; external_module_name; scopes }
   | {
-   splice;
+   variadic;
    scopes;
    external_module_name = Some _ as external_module_name;
    call_name = `Nm_na;
@@ -829,10 +829,10 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
          ]}
       *)
         Js_var { name; external_module_name; scopes }
-      else Js_call { splice; name; external_module_name; scopes }
+      else Js_call { variadic; name; external_module_name; scopes }
   | {
    val_send = `Nm_external (lazy name) | `Nm_payload name;
-   splice;
+   variadic;
    scopes;
    val_send_pipe = None;
    call_name = `Nm_na;
@@ -861,7 +861,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       | _ :: _, `Nm_na ->
           Js_send
             {
-              splice;
+              variadic;
               name;
               js_send_scopes = scopes;
               pipe = false;
@@ -869,14 +869,19 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
             }
       | _ :: _, `Nm_external _ ->
           Js_send
-            { splice; name; js_send_scopes = scopes; pipe = false; new_ = true }
-      )
+            {
+              variadic;
+              name;
+              js_send_scopes = scopes;
+              pipe = false;
+              new_ = true;
+            })
   | { val_send = #bundle_source; _ } ->
       Location.raise_errorf ~loc
         "Found an attribute that can't be used with `%@mel.send'"
   | {
    val_send_pipe = Some _;
-   (* splice = (false as splice); *)
+   (* variadic = (false as variadic); *)
    val_send = `Nm_na;
    call_name = `Nm_na;
    module_as_val = None;
@@ -889,7 +894,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    mk_obj = _;
    return_wrapper = _;
    scopes;
-   splice;
+   variadic;
   } -> (
       match new_name with
       | `Nm_payload _ ->
@@ -899,7 +904,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
           (* can be one argument *)
           Js_send
             {
-              splice;
+              variadic;
               name = string_of_bundle_source prim_name_or_pval_prim;
               js_send_scopes = scopes;
               pipe = true;
@@ -908,7 +913,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       | `Nm_external _ ->
           Js_send
             {
-              splice;
+              variadic;
               name = string_of_bundle_source prim_name_or_pval_prim;
               js_send_scopes = scopes;
               pipe = true;
@@ -928,12 +933,12 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    val_send_pipe = None;
    set_name = `Nm_na;
    get_name = `Nm_na;
-   splice;
+   variadic;
    scopes;
    mk_obj = _;
    return_wrapper = _;
   } ->
-      Js_new { name; external_module_name; splice; scopes }
+      Js_new { name; external_module_name; variadic; scopes }
   | { new_name = #bundle_source; _ } ->
       Error.err ~loc
         (Conflict_ffi_attribute
@@ -949,7 +954,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    new_name = `Nm_na;
    get_name = `Nm_na;
    external_module_name = None;
-   splice = false;
+   variadic = false;
    mk_obj = _;
    return_wrapper = _;
    scopes;
@@ -973,7 +978,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    new_name = `Nm_na;
    set_name = `Nm_na;
    external_module_name = None;
-   splice = false;
+   variadic = false;
    mk_obj = _;
    return_wrapper = _;
    scopes;
@@ -1043,8 +1048,8 @@ let handle_attributes (loc : Location.t) (type_annotation : Parsetree.core_type)
         in
         (new_type, spec, unused_attrs, false)
       else
-        let splice = external_desc.splice in
         let arg_type_specs, new_arg_types_ty, arg_type_specs_length =
+          let variadic = external_desc.variadic in
           let (init : External_arg_spec.params * param_type list * int) =
             match external_desc.val_send_pipe with
             | Some obj -> (
@@ -1071,7 +1076,7 @@ let handle_attributes (loc : Location.t) (type_annotation : Parsetree.core_type)
             ~f:(fun param_type (arg_type_specs, arg_types, i) ->
               let arg_label = param_type.label in
               let ty = param_type.ty in
-              (if i = 0 && splice then
+              (if i = 0 && variadic then
                  match arg_label with
                  | Optional _ ->
                      Location.raise_errorf ~loc

@@ -1121,7 +1121,7 @@ type domProps = {
   suppressContentEditableWarning: option(bool),
 };
 
-[@mel.splice] [@mel.module "react"]
+[@mel.variadic] [@mel.module "react"]
 external createDOMElementVariadic:
   (string, ~props: domProps=?, array(React.element)) => React.element =
   "createElement";
@@ -2132,7 +2132,7 @@ external objToDOMProps: Js.t({..}) => props = "%identity";
 [@deprecated "Please use ReactDOMRe.props instead"]
 type reactDOMProps = props;
 
-[@mel.splice] [@mel.module "react"]
+[@mel.variadic] [@mel.module "react"]
 external createElement:
   (string, ~props: props=?, array(React.element)) => React.element =
   "createElement";

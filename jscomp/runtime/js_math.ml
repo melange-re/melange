@@ -150,7 +150,7 @@ external hypot : float -> float -> float = "hypot"
 (** pythagorean equation, ES2015 *)
 
 external hypotMany : float array -> float = "hypot"
-[@@mel.splice] [@@mel.scope "Math"]
+[@@mel.variadic] [@@mel.scope "Math"]
 (** generalized pythagorean equation, ES2015 *)
 
 external imul : int -> int -> int = "imul"
@@ -178,7 +178,7 @@ external max_int : int -> int -> int = "max"
 (** max value *)
 
 external maxMany_int : int array -> int = "max"
-[@@mel.splice] [@@mel.scope "Math"]
+[@@mel.variadic] [@@mel.scope "Math"]
 (** max value *)
 
 external max_float : float -> float -> float = "max"
@@ -186,7 +186,7 @@ external max_float : float -> float -> float = "max"
 (** max value *)
 
 external maxMany_float : float array -> float = "max"
-[@@mel.splice] [@@mel.scope "Math"]
+[@@mel.variadic] [@@mel.scope "Math"]
 (** max value *)
 
 external min_int : int -> int -> int = "min"
@@ -194,7 +194,7 @@ external min_int : int -> int -> int = "min"
 (** min value *)
 
 external minMany_int : int array -> int = "min"
-[@@mel.splice] [@@mel.scope "Math"]
+[@@mel.variadic] [@@mel.scope "Math"]
 (** min value *)
 
 external min_float : float -> float -> float = "min"
@@ -202,7 +202,7 @@ external min_float : float -> float -> float = "min"
 (** min value *)
 
 external minMany_float : float array -> float = "min"
-[@@mel.splice] [@@mel.scope "Math"]
+[@@mel.variadic] [@@mel.scope "Math"]
 (** min value *)
 
 external pow_float : base:float -> exp:float -> float = "pow"

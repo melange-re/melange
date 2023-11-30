@@ -63,7 +63,7 @@ external pop : 'a t -> 'a option = "pop"
 external push : 'a t -> value:'a -> int = "push" [@@mel.send]
 
 external pushMany : 'a t -> values:'a array -> int = "push"
-[@@mel.send] [@@mel.splice]
+[@@mel.send] [@@mel.variadic]
 
 external reverseInPlace : 'a t -> 'a t = "reverse" [@@mel.send]
 
@@ -78,7 +78,7 @@ external sortInPlaceWith : 'a t -> f:(('a -> 'a -> int)[@mel.uncurry]) -> 'a t
 
 external spliceInPlace : 'a t -> start:int -> remove:int -> add:'a array -> 'a t
   = "splice"
-[@@mel.send] [@@mel.splice]
+[@@mel.send] [@@mel.variadic]
 
 external removeFromInPlace : 'a t -> start:int -> 'a t = "splice" [@@mel.send]
 
@@ -89,12 +89,12 @@ external removeCountInPlace : 'a t -> start:int -> count:int -> 'a t = "splice"
 external unshift : 'a t -> value:'a -> int = "unshift" [@@mel.send]
 
 external unshiftMany : 'a t -> values:'a array -> int = "unshift"
-[@@mel.send] [@@mel.splice]
+[@@mel.send] [@@mel.variadic]
 
 external concat : 'a t -> other:'a t -> 'a t = "concat" [@@mel.send]
 
 external concatMany : 'a t -> arrays:'a t array -> 'a t = "concat"
-[@@mel.send] [@@mel.splice]
+[@@mel.send] [@@mel.variadic]
 
 external includes : 'a t -> value:'a -> bool = "includes"
 [@@mel.send]

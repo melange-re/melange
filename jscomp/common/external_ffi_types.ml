@@ -57,18 +57,18 @@ type external_spec =
   | Js_module_as_var of external_module_name
   | Js_module_as_fn of {
       external_module_name : external_module_name;
-      splice : bool;
+      variadic : bool;
     }
   | Js_module_as_class of external_module_name
   | Js_call of {
       name : string;
       external_module_name : external_module_name option;
-      splice : bool;
+      variadic : bool;
       scopes : string list;
     }
   | Js_send of {
       name : string;
-      splice : bool;
+      variadic : bool;
       pipe : bool;
       new_ : bool;
       js_send_scopes : string list;
@@ -77,7 +77,7 @@ type external_spec =
   | Js_new of {
       name : string;
       external_module_name : external_module_name option;
-      splice : bool;
+      variadic : bool;
       scopes : string list;
     }
   | Js_set of { js_set_name : string; js_set_scopes : string list }
@@ -175,12 +175,12 @@ let check_ffi ~loc ffi : bool =
       ()
   | Js_get_index _ (* TODO: check scopes *) | Js_set_index _ -> ()
   | Js_module_as_var external_module_name
-  | Js_module_as_fn { external_module_name; splice = _ }
+  | Js_module_as_fn { external_module_name; variadic = _ }
   | Js_module_as_class external_module_name ->
       upgrade (is_package_relative_path external_module_name.bundle);
       check_external_module_name ~loc external_module_name
   | Js_new { external_module_name; name; _ }
-  | Js_call { external_module_name; name; splice = _; scopes = _ } ->
+  | Js_call { external_module_name; name; variadic = _; scopes = _ } ->
       Option.iter
         (fun external_module_name ->
           upgrade (is_package_relative_path external_module_name.bundle))

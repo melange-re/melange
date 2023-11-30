@@ -200,6 +200,6 @@ let unit_magic () =
 
 let f_unit_magic  = unit_magic ()
 
-external f_0002 :  string  -> int array ->  unit = "f_0002" [@@mel.splice]
+external f_0002 :  string  -> int array ->  unit = "f_0002" [@@mel.variadic]
 
 let hh xs = f_0002 xs

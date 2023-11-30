@@ -73,6 +73,8 @@ Unreleased
   ([#938](https://github.com/melange-re/melange/pull/938))
 - Don't process `[@mel.config]` twice
   ([#940](https://github.com/melange-re/melange/pull/940/))
+- BREAKING(ppx): remove `@mel.splice` in favor of `@mel.variadic`
+  ([#943](https://github.com/melange-re/melange/pull/943))
 
 2.1.0 2023-10-22
 ---------------

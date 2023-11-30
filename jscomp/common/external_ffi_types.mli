@@ -49,18 +49,18 @@ type external_spec =
   | Js_module_as_var of external_module_name
   | Js_module_as_fn of {
       external_module_name : external_module_name;
-      splice : bool;
+      variadic : bool;
     }
   | Js_module_as_class of external_module_name
   | Js_call of {
       name : string;
       external_module_name : external_module_name option;
-      splice : bool;
+      variadic : bool;
       scopes : string list;
     }
   | Js_send of {
       name : string;
-      splice : bool;
+      variadic : bool;
       pipe : bool;
       new_ : bool;
       js_send_scopes : string list;
@@ -69,7 +69,7 @@ type external_spec =
   | Js_new of {
       name : string;
       external_module_name : external_module_name option;
-      splice : bool;
+      variadic : bool;
       scopes : string list;
     }
   | Js_set of { js_set_name : string; js_set_scopes : string list }

@@ -50,7 +50,7 @@ external fromCharCode : int -> t = "String.fromCharCode"
 *)
 
 external fromCharCodeMany : int array -> t = "String.fromCharCode"
-[@@mel.splice]
+[@@mel.variadic]
 (** [fromCharCodeMany \[|n1;n2;n3|\]] creates a string from the characters corresponding to the given numbers, using the same rules as [fromCharCode].
 
 {[
@@ -71,7 +71,7 @@ external fromCodePoint : int -> t = "String.fromCodePoint"
 *)
 
 external fromCodePointMany : int array -> t = "String.fromCodePoint"
-[@@mel.splice]
+[@@mel.variadic]
 (** [fromCharCodeMany \[|n1;n2;n3|\]] creates a string from the characters corresponding to the given code point numbers, using the same rules as [fromCodePoint].
 
 {[
@@ -155,7 +155,7 @@ external concat : t -> other:t -> t = "concat"
 *)
 
 external concatMany : t -> strings:t array -> t = "concat"
-[@@mel.send] [@@mel.splice]
+[@@mel.send] [@@mel.variadic]
 (** [concatMany original ~strings] returns a new string consisting of each item
     of the array of strings [strings] added to the [original] string.
 
