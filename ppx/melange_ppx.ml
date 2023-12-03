@@ -416,11 +416,12 @@ module Mapper = struct
         | Pexp_fun (label, _, pat, body) -> (
             match Ast_attributes.process_attributes_rev e.pexp_attributes with
             | Nothing, _ -> super#expression e
-            | Uncurry _, pexp_attributes ->
+            | Uncurry { zero_arity; _ }, pexp_attributes ->
                 {
                   e with
                   pexp_desc =
-                    Ast_uncurry_gen.to_uncurry_fn e.pexp_loc self label pat body;
+                    Ast_uncurry_gen.to_uncurry_fn e.pexp_loc self ~zero_arity
+                      label pat body;
                   pexp_attributes;
                 }
             | Method _, _ ->

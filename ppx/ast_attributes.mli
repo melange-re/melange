@@ -35,7 +35,7 @@ val process_method_attributes_rev :
 type attr_kind =
   | Nothing
   | Meth_callback of attribute
-  | Uncurry of attribute
+  | Uncurry of { attribute : attribute; zero_arity : bool }
   | Method of attribute
 
 val warn_if_non_namespaced : loc:location -> label -> unit
