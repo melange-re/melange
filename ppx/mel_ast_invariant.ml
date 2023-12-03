@@ -56,7 +56,7 @@ module Warnings = struct
     | Deprecated_non_namespaced_attribute ->
         Format.fprintf fmt
           "FFI attributes without a namespace are deprecated and will be \
-           removed in a future release.@\n\
+           removed in the next release.@\n\
            Use `mel.*' instead."
 end
 
