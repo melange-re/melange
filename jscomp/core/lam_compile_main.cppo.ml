@@ -24,8 +24,7 @@
 
 open Import
 
-let compile_group (meta : Lam_stats.t)
-    (x : Lam_group.t) : Js_output.t  =
+let compile_group (meta : Lam_stats.t) (x : Lam_group.t) : Js_output.t =
   match x with
   (*
         We need
@@ -100,10 +99,11 @@ let no_side_effects (rest : Lam_group.t list) : string option =
 
 let _d  = fun  s lam ->
 #ifndef BS_RELEASE_BUILD
-    Lam_dump.dump  s lam ;
-  Ext_log.dwarn ~__POS__ "START CHECKING PASS %s@." s;
+  Lam_dump.dump s lam;
+  let loc = Loc.of_pos __POS__ in
+  Log.warn ~loc (Pp.textf "START CHECKING PASS %s" s);
   ignore @@ Lam_check.check !Location.input_name lam;
-  Ext_log.dwarn ~__POS__ "FINISH CHECKING PASS %s@." s;
+  Log.warn ~loc (Pp.textf "FINISH CHECKING PASS %s" s);
 #endif
   lam
 
@@ -121,7 +121,10 @@ let compile
   let () =
 #ifndef BS_RELEASE_BUILD
     List.iter
-      ~f:(fun id -> Ext_log.dwarn ~__POS__ "export idents: %s/%d"  (Ident.name id) (Ident.stamp id))
+      ~f:(fun id ->
+        Log.warn
+          ~loc:(Loc.of_pos __POS__)
+          (Pp.textf "export idents: %s/%d"  (Ident.name id) (Ident.stamp id)))
       export_idents ;
 #endif
     Lam_compile_env.reset () ;
@@ -147,7 +150,12 @@ let compile
       |> (fun lam -> Lam_pass_collect.collect_info meta lam;
 #ifndef BS_RELEASE_BUILD
       let () =
-        Ext_log.dwarn ~__POS__ "Before simplify_alias: %a@." Lam_stats.print meta in
+        Log.warn ~loc:(Loc.of_pos __POS__)
+          (Pp.concat
+            [ (Pp.verbatim "Before simplify_alias: ")
+            ; Pp.of_fmt Lam_stats.print meta
+            ; Pp.newline])
+      in
 #endif
       lam)
       |>  Lam_pass_remove_alias.simplify_alias  meta
@@ -185,10 +193,14 @@ let compile
     |> _d "simplify_lets"
 #ifndef BS_RELEASE_BUILD
     |> (fun lam ->
-       let () =
-        Ext_log.dwarn ~__POS__ "Before coercion: %a@." Lam_stats.print meta in
-      Lam_check.check !Location.input_name lam
-    )
+         Log.warn
+           ~loc:(Loc.of_pos __POS__)
+           (Pp.concat
+             [ Pp.verbatim "Before coercion:"
+             ; Pp.of_fmt Lam_stats.print meta
+             ; Pp.newline
+             ]);
+         Lam_check.check !Location.input_name lam)
 #endif
   in
 
@@ -198,7 +210,12 @@ let compile
 
 #ifndef BS_RELEASE_BUILD
 let () =
-  Ext_log.dwarn ~__POS__ "After coercion: %a@." Lam_stats.print meta ;
+  Log.warn ~loc:(Loc.of_pos __POS__)
+    (Pp.concat
+      [ Pp.verbatim "After coercion: "
+      ; Pp.of_fmt Lam_stats.print meta
+      ; Pp.newline
+      ]);
   if !Js_config.diagnose then
     let f =
       Filename.new_extension !Location.input_name  ".lambda" in
@@ -215,7 +232,10 @@ in
 #endif
 let maybe_pure = no_side_effects groups in
 #ifndef BS_RELEASE_BUILD
-let () = Ext_log.dwarn ~__POS__ "\n@[[TIME:]Pre-compile: %f@]@."  (Sys.time () *. 1000.) in
+let () =
+  Log.warn ~loc:(Loc.of_pos __POS__)
+    (Pp.textf "[TIME:] Pre-compile: %f" (Sys.time () *. 1000.))
+in
 #endif
 let body  =
   groups
@@ -224,7 +244,10 @@ let body  =
   |> Js_output.output_as_block
 in
 #ifndef BS_RELEASE_BUILD
-let () = Ext_log.dwarn ~__POS__ "\n@[[TIME:]Post-compile: %f@]@."  (Sys.time () *. 1000.) in
+let () =
+  Log.warn ~loc:(Loc.of_pos __POS__)
+    (Pp.textf "[TIME:]Post-compile: %f"  (Sys.time () *. 1000.))
+in
 #endif
 let meta_exports = meta.exports in
 let export_set = Ident.Set.of_list meta_exports in

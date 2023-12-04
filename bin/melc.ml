@@ -335,7 +335,10 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       Js_config.no_version_header := bs_no_version_header;
     if bs_diagnose then Js_config.diagnose := bs_diagnose;
     if where then print_standard_library ();
-    if verbose then Clflags.verbose := verbose;
+    if verbose then begin
+      Log.set_level Verbose;
+      Clflags.verbose := verbose
+    end;
     Option.iter (fun keep_locs -> Clflags.keep_locs := keep_locs) keep_locs;
     if bs_no_check_div_by_zero then Js_config.check_div_by_zero := false;
     if bs_noassertfalse then Bs_clflags.no_assert_false := bs_noassertfalse;

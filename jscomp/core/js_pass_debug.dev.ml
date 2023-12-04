@@ -30,7 +30,8 @@ let dump name (prog : J.program) =
   let () =
     if !Js_config.diagnose then (
       incr log_counter;
-      Ext_log.dwarn ~__POS__ "\n@[[TIME:]%s: %f@]@." name (Sys.time () *. 1000.);
+      Log.warn ~loc:(Loc.of_pos __POS__)
+        (Pp.textf "[TIME] %s: %f" name (Sys.time () *. 1000.));
       let oc =
         let fn =
           Filename.new_extension !Location.input_name
