@@ -63,13 +63,13 @@ let pp_error fmt err =
         "`@mel.return' directive *_to_opt expects the return type to be an \
          option literal type (`_ option')"
     | Not_supported_directive_in_mel_return ->
-        "Unsupported `@mel.return' directive. Supported directives are one of:@\n\
-         - undefined_to_opt@\n\
-         - null_to_opt@\n\
-         - nullable / null_undefined_to_opt@\n\
+        "Unsupported `@mel.return' directive. Supported directives are one of:\n\
+         - undefined_to_opt\n\
+         - null_to_opt\n\
+         - nullable / null_undefined_to_opt\n\
          - identity"
     | Cannot_infer_arity_by_syntax ->
-        "Cannot infer arity through syntax.@\n\
+        "Cannot infer arity through syntax.\n\
          Use either `[@mel.uncurry n]' or the full arrow type"
     | Inconsistent_arity { uncurry_attribute; real } ->
         Printf.sprintf

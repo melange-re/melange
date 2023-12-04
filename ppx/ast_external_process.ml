@@ -26,7 +26,7 @@ open Import
 module External_arg_spec = Melange_ffi.External_arg_spec
 module External_ffi_types = Melange_ffi.External_ffi_types
 
-(* record pattern match complete checker*)
+(* record pattern match complete checker *)
 
 let rec variant_can_unwrap_aux (row_fields : Parsetree.row_field list) : bool =
   match row_fields with
@@ -158,8 +158,7 @@ let refine_obj_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
     let result = Ast_attributes.iter_process_mel_string_or_int_as ptyp_attrs in
     (* when ppx start dropping attributes
        we should warn, there is a trade off whether
-       we should warn dropped non bs attribute or not
-    *)
+       we should warn dropped non bs attribute or not *)
     Mel_ast_invariant.warn_discarded_unused_attributes ptyp_attrs;
     match result with
     | None -> Error.err ~loc:ptyp.ptyp_loc Invalid_underscore_type_in_external
@@ -179,8 +178,7 @@ let refine_obj_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
     {[
       external f : hi:([ `hi | `lo ] [@string]) -> unit -> _ = "" [@@obj]
     ]}
-    The result type would be [ hi:string ]
-*)
+    The result type would be [ hi:string ] *)
 let get_opt_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
     External_arg_spec.attr =
   if ptyp.ptyp_desc = Ptyp_any then
