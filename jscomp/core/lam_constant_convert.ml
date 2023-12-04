@@ -22,10 +22,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
   match const with
   | Const_base
-      (Const_int 0, Pt_constructor { name = "()"; const = 1; non_const = 0 }) ->
+      ( Const_int 0,
+        Pt_constructor { name = "()"; const = 1; non_const = 0; attributes = _ }
+      ) ->
       Const_js_undefined
   | Const_base (Const_int i, p) -> (
       match p with
@@ -34,11 +38,11 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
       | Pt_shape_none -> Lam.Constant.lam_none
       | Pt_assertfalse ->
           Const_int { i = Int32.of_int i; comment = Pt_assertfalse }
-      | Pt_constructor { name; const; non_const } ->
+      | Pt_constructor { name; const; non_const; attributes } ->
           Const_int
             {
               i = Int32.of_int i;
-              comment = Pt_constructor { name; const; non_const };
+              comment = Pt_constructor { name; const; non_const; attributes };
             }
       | Pt_constructor_access { cstr_name } ->
           Const_pointer
@@ -63,18 +67,20 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
       match t with
       | Blk_some_not_nested -> Const_some (convert_constant (List.hd xs))
       | Blk_some -> Const_some (convert_constant (List.hd xs))
-      | Blk_constructor { name; num_nonconst } ->
-          let t : Lam.Tag_info.t = Blk_constructor { name; num_nonconst } in
-          Const_block (i, t, List.map convert_constant xs)
+      | Blk_constructor { name; num_nonconst; attributes } ->
+          let t : Lam.Tag_info.t =
+            Blk_constructor { name; num_nonconst; attributes }
+          in
+          Const_block (i, t, List.map ~f:convert_constant xs)
       | Blk_tuple ->
           let t : Lam.Tag_info.t = Blk_tuple in
-          Const_block (i, t, List.map convert_constant xs)
+          Const_block (i, t, List.map ~f:convert_constant xs)
       | Blk_class ->
           let t : Lam.Tag_info.t = Blk_class in
-          Const_block (i, t, List.map convert_constant xs)
+          Const_block (i, t, List.map ~f:convert_constant xs)
       | Blk_array ->
           let t : Lam.Tag_info.t = Blk_array in
-          Const_block (i, t, List.map convert_constant xs)
+          Const_block (i, t, List.map ~f:convert_constant xs)
       | Blk_poly_var s -> (
           match xs with
           | [ _; value ] ->
@@ -88,29 +94,29 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
           | _ -> assert false)
       | Blk_record s ->
           let t : Lam.Tag_info.t = Blk_record s in
-          Const_block (i, t, List.map convert_constant xs)
+          Const_block (i, t, List.map ~f:convert_constant xs)
       | Blk_module s ->
           let t : Lam.Tag_info.t = Blk_module s in
-          Const_block (i, t, List.map convert_constant xs)
+          Const_block (i, t, List.map ~f:convert_constant xs)
       | Blk_module_export _ ->
           let t : Lam.Tag_info.t = Blk_module_export in
-          Const_block (i, t, List.map convert_constant xs)
+          Const_block (i, t, List.map ~f:convert_constant xs)
       | Blk_extension_slot ->
           assert false
           (* let t : Lam.Tag_info.t = Blk_extension_slot in
              Const_block (i,t, Ext_list.map xs convert_constant ) *)
       | Blk_extension ->
           let t : Lam.Tag_info.t = Blk_extension in
-          Const_block (i, t, List.map convert_constant xs)
+          Const_block (i, t, List.map ~f:convert_constant xs)
       | Blk_lazy_general -> assert false
       | Blk_na s ->
           let t : Lam.Tag_info.t = Blk_na s in
-          Const_block (i, t, List.map convert_constant xs)
+          Const_block (i, t, List.map ~f:convert_constant xs)
       | Blk_record_inlined { name; fields; num_nonconst } ->
           let t : Lam.Tag_info.t =
             Blk_record_inlined { name; fields; num_nonconst }
           in
-          Const_block (i, t, List.map convert_constant xs)
+          Const_block (i, t, List.map ~f:convert_constant xs)
       | Blk_record_ext s ->
           let t : Lam.Tag_info.t = Blk_record_ext s in
-          Const_block (i, t, List.map convert_constant xs))
+          Const_block (i, t, List.map ~f:convert_constant xs))

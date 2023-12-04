@@ -1,3 +1,5 @@
+open Import
+
 (* Note: some of the functions here should go to Ast_mapper instead,
    which would encapsulate the "binary AST" protocol. *)
 
@@ -11,7 +13,7 @@ let write_ast (type a) (kind : a Ml_binary.kind) fn (ast : a) =
 let temp_ppx_file () =
   Filename.temp_file "ppx" (Filename.basename !Location.input_name)
 
-let apply_rewriter _kind fn_in ppx =
+let apply_rewriter fn_in ppx =
   let fn_out = temp_ppx_file () in
   let comm =
     Printf.sprintf "%s %s %s" ppx (Filename.quote fn_in) (Filename.quote fn_out)
@@ -39,16 +41,16 @@ let rewrite kind ppxs ast =
   write_ast kind fn_in ast;
   let temp_files =
     List.fold_right
-      (fun ppx fns ->
+      ~f:(fun ppx fns ->
         match fns with
         | [] -> assert false
-        | fn_in :: _ -> apply_rewriter kind fn_in ppx :: fns)
-      ppxs [ fn_in ]
+        | fn_in :: _ -> apply_rewriter fn_in ppx :: fns)
+      ppxs ~init:[ fn_in ]
   in
   match temp_files with
   | last_fn :: _ ->
       let out = read_ast kind last_fn in
-      List.iter Misc.remove_file temp_files;
+      List.iter ~f:Misc.remove_file temp_files;
       out
   | _ -> assert false
 

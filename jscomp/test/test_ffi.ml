@@ -3,7 +3,7 @@ external log  : 'a -> unit = "console.log"
 
 *)
 
-external log2 : 'a -> unit = "log" [@@scope "console"]
+external log2 : 'a -> unit = "log" [@@mel.scope "console"]
 
 external log3 : 'a -> unit = "log"
 let v u =

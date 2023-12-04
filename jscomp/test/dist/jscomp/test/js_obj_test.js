@@ -99,7 +99,46 @@ var suites_1 = {
                     };
             })
         ],
-        tl: /* [] */0
+        tl: {
+          hd: [
+            "merge",
+            (function (param) {
+                var original = {
+                  a: 1
+                };
+                return {
+                        TAG: /* Eq */0,
+                        _0: {
+                          a: 2
+                        },
+                        _1: Object.assign({}, original, {
+                              a: 2
+                            })
+                      };
+              })
+          ],
+          tl: {
+            hd: [
+              "merge-preserves-original",
+              (function (param) {
+                  var original = {
+                    a: 1
+                  };
+                  Object.assign({}, original, {
+                        a: 2
+                      });
+                  return {
+                          TAG: /* Eq */0,
+                          _0: {
+                            a: 1
+                          },
+                          _1: original
+                        };
+                })
+            ],
+            tl: /* [] */0
+          }
+        }
       }
     }
   }

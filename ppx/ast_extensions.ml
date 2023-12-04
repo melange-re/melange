@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 open Ast_helper
 
 (*
@@ -67,7 +67,7 @@ let handle_debugger loc payload =
       Ast_external_mk.local_external_apply loc ~pval_prim:[ "#debugger" ]
         ~pval_type:(Typ.arrow Nolabel (Typ.any ()) [%type: unit])
         [ [%expr ()] ]
-  | _ -> Location.raise_errorf ~loc "mel.debugger does not accept payload"
+  | _ -> Location.raise_errorf ~loc "`%%mel.debugger' doesn't take payload"
 
 let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
     ?is_function (x : Parsetree.payload) : Parsetree.expression option =
@@ -101,7 +101,8 @@ let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
                | Literal { value = RegExp _; _ } -> ()
                | _ ->
                    Location.raise_errorf ~loc
-                     "Syntax error: a valid JS regex literal expected");
+                     "`%%mel.re' expects a valid JavaScript regular expression \
+                      literal (`/regex/opt-flags')");
             (match is_function with
             | Some is_function -> (
                 match Melange_ffi.Classify_function.classify_exp prog with
@@ -121,7 +122,13 @@ let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
 let handle_raw ~kind loc payload =
   let is_function = ref false in
   match raw_as_string_exp_exn ~kind ~is_function payload with
-  | None -> Location.raise_errorf ~loc "mel.raw can only be applied to a string"
+  | None ->
+      let ext =
+        match kind with
+        | Raw_re -> "mel.re"
+        | Raw_program | Raw_exp -> "mel.raw"
+      in
+      Location.raise_errorf ~loc "`%%%s' can only be applied to a string" ext
   | Some exp ->
       {
         exp with

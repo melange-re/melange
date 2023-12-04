@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 type t = Lam.t
 type ident = Ident.t
 
@@ -30,14 +32,14 @@ let inner_iter (l : t) (f : t -> unit) : unit =
   | Lvar (_ : ident) | Lmutvar _ | Lconst (_ : Lam.Constant.t) -> ()
   | Lapply { ap_func; ap_args; ap_info = _ } ->
       f ap_func;
-      List.iter f ap_args
+      List.iter ~f ap_args
   | Lfunction { body; arity = _; params = _; _ } -> f body
   | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) ->
       f arg;
       f body
   | Lletrec (decl, body) ->
       f body;
-      List.iter (fun (_, x) -> f x) decl
+      List.iter ~f:(fun (_, x) -> f x) decl
   | Lswitch
       ( arg,
         {
@@ -49,16 +51,16 @@ let inner_iter (l : t) (f : t -> unit) : unit =
           _;
         } ) ->
       f arg;
-      List.iter (fun (_, x) -> f x) sw_consts;
-      List.iter (fun (_, x) -> f x) sw_blocks;
+      List.iter ~f:(fun (_, x) -> f x) sw_consts;
+      List.iter ~f:(fun (_, x) -> f x) sw_blocks;
       Option.iter f sw_failaction
   | Lstringswitch (arg, cases, default) ->
       f arg;
-      List.iter (fun (_, x) -> f x) cases;
+      List.iter ~f:(fun (_, x) -> f x) cases;
       Option.iter f default
   | Lglobal_module _ -> ()
-  | Lprim { args; primitive = _; loc = _ } -> List.iter f args
-  | Lstaticraise (_id, args) -> List.iter f args
+  | Lprim { args; primitive = _; loc = _ } -> List.iter ~f args
+  | Lstaticraise (_id, args) -> List.iter ~f args
   | Lstaticcatch (e1, _vars, e2) ->
       f e1;
       f e2
@@ -83,7 +85,7 @@ let inner_iter (l : t) (f : t -> unit) : unit =
   | Lsend (_k, met, obj, args, _loc) ->
       f met;
       f obj;
-      List.iter f args
+      List.iter ~f args
   | Lifused (_v, e) -> f e
 
 let option_exists v f = match v with None -> false | Some x -> f x
@@ -95,10 +97,10 @@ let inner_exists (l : t) (f : t -> bool) : bool =
   | Lconst (_ : Lam.Constant.t) ->
       false
   | Lapply { ap_func; ap_args; ap_info = _ } ->
-      f ap_func || List.exists f ap_args
+      f ap_func || List.exists ~f ap_args
   | Lfunction { body; arity = _; params = _; _ } -> f body
   | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) -> f arg || f body
-  | Lletrec (decl, body) -> f body || List.exists (fun (_, x) -> f x) decl
+  | Lletrec (decl, body) -> f body || List.exists ~f:(fun (_, x) -> f x) decl
   | Lswitch
       ( arg,
         {
@@ -110,13 +112,15 @@ let inner_exists (l : t) (f : t -> bool) : bool =
           _;
         } ) ->
       f arg
-      || List.exists (fun (_, x) -> f x) sw_consts
-      || List.exists (fun (_, x) -> f x) sw_blocks
+      || List.exists ~f:(fun (_, x) -> f x) sw_consts
+      || List.exists ~f:(fun (_, x) -> f x) sw_blocks
       || option_exists sw_failaction f
   | Lstringswitch (arg, cases, default) ->
-      f arg || List.exists (fun (_, x) -> f x) cases || option_exists default f
-  | Lprim { args; primitive = _; loc = _ } -> List.exists f args
-  | Lstaticraise (_id, args) -> List.exists f args
+      f arg
+      || List.exists ~f:(fun (_, x) -> f x) cases
+      || option_exists default f
+  | Lprim { args; primitive = _; loc = _ } -> List.exists ~f args
+  | Lstaticraise (_id, args) -> List.exists ~f args
   | Lstaticcatch (e1, _vars, e2) -> f e1 || f e2
   | Ltrywith (e1, _exn, e2) -> f e1 || f e2
   | Lifthenelse (e1, e2, e3) -> f e1 || f e2 || f e3
@@ -124,5 +128,5 @@ let inner_exists (l : t) (f : t -> bool) : bool =
   | Lwhile (e1, e2) -> f e1 || f e2
   | Lfor (_v, e1, e2, _dir, e3) -> f e1 || f e2 || f e3
   | Lassign (_id, e) -> f e
-  | Lsend (_k, met, obj, args, _loc) -> f met || f obj || List.exists f args
+  | Lsend (_k, met, obj, args, _loc) -> f met || f obj || List.exists ~f args
   | Lifused (_v, e) -> f e

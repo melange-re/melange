@@ -22,29 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let rec iter_warnings_on_stru (stru : Parsetree.structure) =
-  match stru with
-  | [] -> ()
-  | head :: rest -> (
-      match head.pstr_desc with
-      | Pstr_attribute attr ->
-          Builtin_attributes.warning_attribute attr;
-          iter_warnings_on_stru rest
-      | _ -> ())
-
-let rec iter_warnings_on_sigi (stru : Parsetree.signature) =
-  match stru with
-  | [] -> ()
-  | head :: rest -> (
-      match head.psig_desc with
-      | Psig_attribute attr ->
-          Builtin_attributes.warning_attribute attr;
-          iter_warnings_on_sigi rest
-      | _ -> ())
-
-type iterator = Ast_iterator.iterator
-
-let super = Ast_iterator.default_iterator
+open Import
 
 let check_constant loc kind (const : Parsetree.constant) =
   match const with
@@ -56,7 +34,7 @@ let check_constant loc kind (const : Parsetree.constant) =
       | `pat ->
           if s = "j" then
             Location.raise_errorf ~loc
-              "Unicode string is not allowed in pattern match")
+              "Unicode strings cannot currently be used in pattern matching")
   | Pconst_integer (s, None) -> (
       (* range check using int32
          It is better to give a warning instead of error to avoid make people unhappy.
@@ -66,7 +44,9 @@ let check_constant loc kind (const : Parsetree.constant) =
       try ignore (Int32.of_string s)
       with _ -> Location.prerr_warning loc Mel_integer_literal_overflow)
   | Pconst_integer (_, Some 'n') ->
-      Location.raise_errorf ~loc "literal with `n` suffix is not supported"
+      Location.raise_errorf ~loc
+        "`nativeint' is not currently supported in Melange. The `n' suffix \
+         cannot be used."
   | _ -> ()
 
 module Core_type = struct
@@ -80,13 +60,63 @@ module Core_type = struct
   let is_arity_one ty = get_curry_arity ty = 1
 end
 
-let emit_external_warnings : iterator =
+let emit_external_warnings : Ast_iterator.iterator =
+  let has_mel_attributes attrs =
+    Melange_ffi.External_ffi_attributes.has_mel_attributes
+      (List.map ~f:(fun { Parsetree.attr_name = { txt; _ }; _ } -> txt) attrs)
+  in
+  let print_unprocessed_alert ~loc =
+    Location.prerr_alert loc
+      {
+        Warnings.kind = "unprocessed";
+        message =
+          "`[@mel.*]' attributes found in external declaration. Did you forget \
+           to preprocess with `melange.ppx'?";
+        def = Location.none;
+        use = loc;
+      }
+  in
+  let print_unprocessed_uncurried_alert ~loc =
+    Location.prerr_alert loc
+      {
+        Warnings.kind = "unprocessed";
+        message =
+          "Found uncurried (`[@u]') attribute. Did you forget to preprocess \
+           with `melange.ppx'?";
+        def = Location.none;
+        use = loc;
+      }
+  in
+
+  let super = Ast_iterator.default_iterator in
   {
     super with
+    signature_item =
+      (fun self sigi ->
+        match sigi.psig_desc with
+        | Psig_value { pval_attributes; pval_loc; _ } ->
+            if has_mel_attributes pval_attributes then
+              print_unprocessed_alert ~loc:pval_loc
+            else super.signature_item self sigi
+        | _ -> super.signature_item self sigi);
     expr =
       (fun self a ->
+        (match
+           List.find_opt
+             ~f:(fun { Parsetree.attr_name = { txt; _ }; _ } -> txt = "u")
+             a.pexp_attributes
+         with
+        | Some { attr_name = { loc; _ }; _ } ->
+            print_unprocessed_uncurried_alert ~loc
+        | None -> ());
+
         match a.pexp_desc with
         | Pexp_constant const -> check_constant a.pexp_loc `expr const
+        | Pexp_apply ({ pexp_desc = Pexp_ident { txt = Lident op; loc }; _ }, _)
+          ->
+            if
+              List.mem op ~set:Melange_ffi.External_ffi_types.Literals.infix_ops
+            then print_unprocessed_alert ~loc
         | _ -> super.expr self a);
     value_description =
       (fun self v ->
@@ -95,8 +125,12 @@ let emit_external_warnings : iterator =
             Parsetree.value_description)
           when not (Core_type.is_arity_one pval_type) ->
             Location.raise_errorf ~loc:pval_loc
-              "%%identity expect its type to be of form 'a -> 'b (arity 1)"
-        | _ -> super.value_description self v);
+              "The `%%identity' primitive type must take a single argument ('a \
+               -> 'b)"
+        | { pval_attributes; pval_loc; _ } ->
+            if has_mel_attributes pval_attributes then
+              print_unprocessed_alert ~loc:pval_loc
+            else super.value_description self v);
     pat =
       (fun self (pat : Parsetree.pattern) ->
         match pat.ppat_desc with

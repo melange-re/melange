@@ -30,7 +30,7 @@ type t = Parsetree.payload
 
 type action = string Asttypes.loc * Parsetree.expression option
 
-val ident_or_record_as_config : Location.t -> t -> action list
+val ident_or_record_as_config : loc:Location.t -> t -> action list
 val assert_bool_lit : Parsetree.expression -> bool
 
 val table_dispatch :

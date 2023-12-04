@@ -46,7 +46,7 @@ let () =
 
 external on_exit_slice :
     int -> (_ [@mel.as 3]) -> (_ [@mel.as "xxx"]) -> string array -> unit =
-    "xx"    [@@mel.splice]
+    "xx"    [@@mel.variadic]
 
 let () =
     on_exit_slice 3 [|"a";"b"|]
@@ -71,18 +71,18 @@ external on_exit_slice3 :
     -> int array
     -> unit
     =
-    "xx"    [@@mel.send.pipe: t] [@@mel.splice]
+    "xx"    [@@mel.send.pipe: t] [@@mel.variadic]
 
 external on_exit_slice4 :
     int
     -> (_ [@mel.as 3])
     -> (_ [@mel.as "xxx"])
-    -> ([`a|`b|`c] [@int])
+    -> ([`a|`b|`c] [@mel.int])
     -> ([`a|`b|`c] )
     -> int array
     -> unit
     =
-    "xx" [@@mel.send.pipe: t] [@@mel.splice]
+    "xx" [@@mel.send.pipe: t] [@@mel.variadic]
 
 
 external on_exit_slice5 :
@@ -101,7 +101,7 @@ external on_exit_slice5 :
     -> int array
     -> unit
     =
-    "xx" [@@mel.send.pipe: t] [@@mel.splice]
+    "xx" [@@mel.send.pipe: t] [@@mel.variadic]
 
 
 (**

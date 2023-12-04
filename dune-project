@@ -48,7 +48,8 @@
    (>= 20201214))
   pp
   (reason-react-ppx
-   (and :with-test :post))))
+   (and :with-test :post))
+  (merlin :with-test)))
 
 (package
  (name melange-playground)

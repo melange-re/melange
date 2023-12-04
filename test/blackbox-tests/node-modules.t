@@ -11,7 +11,7 @@ Set up a few directories we'll need
   $ echo "let t = 1" > node_modules/a.ml
   $ cat > app/b.ml << EOF
   > let u = A.t
-  > let t = ["Hello"] |. Belt.List.map(fun greeting -> greeting)
+  > let t = ["Hello"] |> List.map(fun greeting -> greeting)
   > EOF
 
 Generate the `.cmj` files
@@ -33,14 +33,14 @@ B depends on A, so it should import a.js in the right path
   'use strict';
   
   var A = require("../node_modules/a.js");
-  var Belt__Belt_List = require("melange.belt/belt_List.js");
+  var Stdlib__List = require("melange/list.js");
   
-  var t = Belt__Belt_List.map({
+  var t = Stdlib__List.map((function (greeting) {
+          return greeting;
+        }), {
         hd: "Hello",
         tl: /* [] */0
-      }, (function (greeting) {
-          return greeting;
-        }));
+      });
   
   var u = A.t;
   

@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module E = Js_exp_make
 
 (** return [val < 0] if not nested [Some (Some (Some None))]*)
@@ -75,7 +76,7 @@ and translate (x : Lam.Constant.t) : J.expression =
   | Const_pointer name -> E.str name
   | Const_block (tag, tag_info, xs) ->
       Js_of_lam_block.make_block NA tag_info (E.small_int tag)
-        (List.map translate xs)
+        (List.map ~f:translate xs)
   | Const_float_array ars ->
       (* according to the compiler
           const_float_array is immutable
@@ -88,7 +89,7 @@ and translate (x : Lam.Constant.t) : J.expression =
           we  deoptimized this in js backend? so it is actually mutable
       *)
       (* TODO-- *)
-      Js_of_lam_array.make_array Mutable (List.map E.float ars)
+      Js_of_lam_array.make_array Mutable (List.map ~f:E.float ars)
 (* E.arr Mutable ~comment:"float array" *)
 (*   (Ext_list.map (fun x ->  E.float  x ) ars) *)
 

@@ -53,7 +53,6 @@ module Global = struct
     Clflags.strict_sequence := true;
     Clflags.strict_formats := true;
     (* Turn on [-no-alias-deps] by default -- double check *)
-    Oprint.out_ident := Outcome_printer_ns.out_ident;
     Builtin_attributes.check_bs_attributes_inclusion :=
       Record_attributes_check.check_mel_attributes_inclusion;
     Builtin_attributes.check_duplicated_labels :=
@@ -90,7 +89,6 @@ module Perfile = struct
            Pp.text "Compiler include dirs:";
            Pp.enumerate (Load_path.get_paths ()) ~f:Pp.text;
          ]);
-
     Env.reset_cache ()
 
   (* Return the initial environment in which compilation proceeds. *)

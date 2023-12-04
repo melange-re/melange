@@ -33,19 +33,19 @@ Make.prototype.add = function(){
 type t
 
 
-external make : int -> int -> int -> int -> t = "Make"  [@@new]
+external make : int -> int -> int -> int -> t = "Make"  [@@mel.new]
 
 
 external sum : t -> unit -> int = "sum" [@@mel.send]
 
 (* compile error *)
-(* external join : string  -> string = "" [@@mel.module "path"] [@@mel.splice] *)
-external join : string array -> string = "join" [@@mel.module "path"] [@@mel.splice]
+(* external join : string  -> string = "" [@@mel.module "path"] [@@mel.variadic] *)
+external join : string array -> string = "join" [@@mel.module "path"] [@@mel.variadic]
 
-external test : string array -> t = "test" [@@mel.send.pipe: t ] [@@mel.splice] (*FIXME*)
+external test : string array -> t = "test" [@@mel.send.pipe: t ] [@@mel.variadic] (*FIXME*)
 
 (* compile error *)
-(* external test2 : int -> string -> t= "" [@@mel.send.pipe: t ] [@@mel.splice] *)
+(* external test2 : int -> string -> t= "" [@@mel.send.pipe: t ] [@@mel.variadic] *)
 let u = [|"x";"d" |]
 let f x  =
   x

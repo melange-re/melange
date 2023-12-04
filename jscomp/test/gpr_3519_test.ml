@@ -1,4 +1,3 @@
-
 module Foo :
   sig
     external makeProps : ?bar:string array -> string = ""[@@mel.obj ]
@@ -13,13 +12,12 @@ external
   int -> int -> int array -> unit
   = "f0"
   [@@mel.send.pipe:int]
-  [@@mel.splice]
+  [@@mel.variadic]
 
 external
   f1 :
   int -> int -> y:int array -> unit
   = "f1"
   [@@mel.send.pipe:int]
-  [@@mel.splice]
-
+  [@@mel.variadic]
 

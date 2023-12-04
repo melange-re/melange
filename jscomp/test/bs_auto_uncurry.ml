@@ -1,5 +1,3 @@
-
-
 module Curry = struct
 end
 module Block = struct
@@ -39,11 +37,11 @@ external map2 :
 
 
 external ff :
-    int -> (int [@ignore]) -> (int -> int -> int [@mel.uncurry]) -> int
+    int -> (int [@mel.ignore]) -> (int -> int -> int [@mel.uncurry]) -> int
     = "ff"
 
 external ff1 :
-    int -> (_ [@as 3 ]) -> (int -> int -> int [@mel.uncurry]) -> int
+    int -> (_ [@mel.as 3 ]) -> (int -> int -> int [@mel.uncurry]) -> int
     = "ff1"
 
 
@@ -202,6 +200,6 @@ let unit_magic () =
 
 let f_unit_magic  = unit_magic ()
 
-external f_0002 :  string  -> int array ->  unit = "f_0002" [@@mel.splice]
+external f_0002 :  string  -> int array ->  unit = "f_0002" [@@mel.variadic]
 
 let hh xs = f_0002 xs

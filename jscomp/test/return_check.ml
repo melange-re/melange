@@ -1,4 +1,3 @@
-
 type element
 type dom
 external getElementById : string -> element option = "getElementById"
@@ -23,7 +22,7 @@ let test dom =
 
 
 external get_undefined : int array -> int -> int option = ""
-[@@mel.get_index] [@@return undefined_to_opt ]
+[@@mel.get_index] [@@mel.return undefined_to_opt ]
 
 
 let f_undefined xs i =
@@ -67,6 +66,5 @@ let f_null_undefined xs i =
     match get_null_undefined xs i with
     | None -> assert false
     | Some k -> k
-
 
 

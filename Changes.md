@@ -25,8 +25,61 @@ Unreleased
     1. Exception ID `RE_EXN_ID` to `MEL_EXN_ID`
     2. `BS_PRIVATE_NESTED_SOME_NONE` option marker to
        `MEL_PRIVATE_NESTED_SOME_NONE`
+- BREAKING(runtime): unify pipe-first / pipe-last libraries in `Js` modules
+  ([#731](https://github.com/melange-re/melange/issues/731),
+  [#893](https://github.com/melange-re/melange/pull/893),
+  [#895](https://github.com/melange-re/melange/pull/895),
+  [#899](https://github.com/melange-re/melange/pull/899))
+    - Modules ending with `2` (e.g. `Js.String2`, `Js.Array2`,
+      `Js.TypedArray2`) are no longer available in Melange
+    - The functions in their corresponding modules now take labeled arguments,
+      allowing them to be used with both `|.` and `|>`.
+- BREAKING(runtime): remove deprecated functions from `Js.*` modules
+  ([#897](https://github.com/melange-re/melange/pull/897))
 - Consistently handle empty payloads in externals:
   ([#852](https://github.com/melange-re/melange/pull/852))
+- Fix crash when pattern matching in the presence of complex constant inlining
+  ([#871](https://github.com/melange-re/melange/pull/871))
+- Support renaming modules in the output JS with `@mel.as`
+  ([#879](https://github.com/melange-re/melange/pull/879))
+- Support `@mel.as` in `@mel.obj` labelled arguments
+  ([#834](https://github.com/melange-re/melange/pull/834))
+- Fix error location for empty string interpolation in `{j| .. |j}`
+  ([#888](https://github.com/melange-re/melange/pull/888),
+  [#890](https://github.com/melange-re/melange/pull/890))
+- Add `Js.Obj.assign` to merge 2 JS objects immutably
+  ([#900](https://github.com/melange-re/melange/pull/900),
+  [#795](https://github.com/melange-re/melange/pull/795))
+- Turn off warning 20 (`ignored-extra-argument`) for `%mel.raw` application
+  ([#915](https://github.com/melange-re/melange/pull/915))
+- Deprecate non-namespaced FFI attributes such as `@string` or `@obj` in favor
+  of e.g. `@mel.string` and `@mel.obj`
+  ([#923](https://github.com/melange-re/melange/pull/923))
+- Improve error messages returned by `melange.ppx`
+  ([#924](https://github.com/melange-re/melange/pull/924),
+  [#928](https://github.com/melange-re/melange/pull/928),
+  [#931](https://github.com/melange-re/melange/pull/931),
+  [#936](https://github.com/melange-re/melange/pull/936))
+- Improve error messages in the Melange compiler core
+  ([#941](https://github.com/melange-re/melange/pull/941))
+- Fix a typo in `Node.node_module` (pa{r,}rent)
+  [#929](https://github.com/melange-re/melange/pull/929)
+- BREAKING(runtime): Remove `Js.null_undefined` in favor of `Js.nullable`
+  ([#930](https://github.com/melange-re/melange/pull/930))
+- BREAKING(core): require OCaml 5.1.1
+  ([#926](https://github.com/melange-re/melange/pull/926))
+- BREAKING(ppx): disallow attribute payload in `[@mel.new]` in favor of the
+  external primiative string
+  ([#938](https://github.com/melange-re/melange/pull/938))
+- Don't process `[@mel.config]` twice
+  ([#940](https://github.com/melange-re/melange/pull/940/))
+- BREAKING(ppx): remove `@mel.splice` in favor of `@mel.variadic`
+  ([#943](https://github.com/melange-re/melange/pull/943))
+- Introduce an `unprocessed` alert to detect unprocessed Melange code, hinting
+  users to preprocess with `melange.ppx`
+  ([#911](https://github.com/melange-re/melange/pull/911),
+  [#945](https://github.com/melange-re/melange/pull/945),
+  [#947](https://github.com/melange-re/melange/pull/947))
 
 2.1.0 2023-10-22
 ---------------

@@ -10,7 +10,7 @@ type reactElement = React.element;
 
 type reactRef;
 
- external null: reactElement = "null";
+external null: reactElement = "null";
 
 external string: string => reactElement = "%identity";
 
@@ -18,27 +18,26 @@ external array: array(reactElement) => reactElement = "%identity";
 
 external refToJsObj: reactRef => Js.t({..}) = "%identity";
 
-[@mel.splice]  [@mel.module "react"]
+[@mel.variadic] [@mel.module "react"]
 external createElement:
   (reactClass, ~props: Js.t({..})=?, array(reactElement)) => reactElement =
   "createElement";
 
-[@mel.splice] [@mel.module "react"]
+[@mel.variadic] [@mel.module "react"]
 external cloneElement:
   (reactElement, ~props: Js.t({..})=?, array(reactElement)) => reactElement =
   "cloneElement";
 
- [@mel.module "react"]
-external createElementVerbatim: 'a = "createElement";
+[@mel.module "react"] external createElementVerbatim: 'a = "createElement";
 
 let createDomElement = (s, ~props, children) => {
   let vararg =
-    [|Obj.magic(s), Obj.magic(props)|] |> Js.Array.concat(children);
+    [|Obj.magic(s), Obj.magic(props)|] |> Js.Array.concat(~other=children);
   /* Use varargs to avoid warnings on duplicate keys in children */
   Obj.magic(createElementVerbatim)##apply(Js.Nullable.null, vararg);
 };
 
- external magicNull: 'a = "null";
+external magicNull: 'a = "null";
 
 type reactClassInternal = reactClass;
 
@@ -190,13 +189,15 @@ let convertPropsIfTheyreFromJs = (props, jsPropsToReason, debugName) => {
 let createClass =
     (type reasonState, type retainedProps, type action, debugName): reactClass =>
   ReasonReactOptimizedCreateClass.createClass(.
-    [@u] [@ocaml.warning "-27"] {
+    [@u]
+    [@ocaml.warning "-27"]
+    {
       /***
        * TODO: Null out fields that aren't overridden beyond defaults in
        * `component`. React optimizes components that don't implement
        * lifecycles!
        */
-       val displayName = debugName;
+      val displayName = debugName;
       val mutable subscriptions = Js.null;
       /***
        * TODO: Avoid allocating this every time we need it. Should be doable.
@@ -310,7 +311,8 @@ let createClass =
         };
         switch (Js.Null.toOption(this##subscriptions)) {
         | None => ()
-        | Some(subs) => Js.Array.forEach(unsubscribe => unsubscribe(), subs)
+        | Some(subs) =>
+          Js.Array.forEach(~f=unsubscribe => unsubscribe(), subs)
         };
       };
       /***
@@ -484,7 +486,7 @@ let createClass =
       pub onUnmountMethod = subscription =>
         switch (Js.Null.toOption(this##subscriptions)) {
         | None => this##subscriptions #= Js.Null.return([|subscription|])
-        | Some(subs) => ignore(Js.Array.push(subscription, subs))
+        | Some(subs) => ignore(Js.Array.push(subs, ~value=subscription))
         };
       pub handleMethod = callback => {
         let thisJs:
@@ -718,7 +720,7 @@ module WrapProps = {
       );
     let varargs =
       [|Obj.magic(reactClass), Obj.magic(props)|]
-      |> Js.Array.concat(Obj.magic(children));
+      |> Js.Array.concat(~other=Obj.magic(children));
     /* Use varargs under the hood */
     Obj.magic(createElementVerbatim)##apply(Js.Nullable.null, varargs);
   };

@@ -74,79 +74,80 @@ type action = lid * Parsetree.expression option
     {[ { x = exp }]}
 *)
 
-let unrecognizedConfigRecord text = "deriving: " ^ text
-
-let ident_or_record_as_config (x : t) :
-    ((string Location.loc * Parsetree.expression option) list, string) result =
-  match x with
-  | PStr
-      [
-        {
-          pstr_desc =
-            Pstr_eval ({ pexp_desc = Pexp_record (label_exprs, with_obj); _ }, _);
-          _;
-        };
-      ] -> (
-      match with_obj with
-      | None -> (
-          let exception Local in
-          try
-            Ok
-              (List.map
-                 ~f:(fun u ->
-                   match u with
-                   | ( { txt = Lident name; loc },
-                       {
-                         Parsetree.pexp_desc =
-                           Pexp_ident { txt = Lident name2; _ };
-                         _;
-                       } )
-                     when name2 = name ->
-                       ({ Asttypes.txt = name; loc }, None)
-                   | { txt = Lident name; loc }, y ->
-                       ({ Asttypes.txt = name; loc }, Some y)
-                   | _ -> raise Local)
-                 label_exprs)
-          with Local ->
-            Error (unrecognizedConfigRecord "Qualified label is not allowed"))
-      | Some _ ->
-          Error (unrecognizedConfigRecord "`with` is not supported, discarding")
-      )
-  | PStr
-      [
-        {
-          pstr_desc =
-            Pstr_eval
-              ({ pexp_desc = Pexp_ident { loc = lloc; txt = Lident txt }; _ }, _);
-          _;
-        };
-      ] ->
-      Ok [ ({ Asttypes.txt; loc = lloc }, None) ]
-  | PStr [] -> Ok []
-  | _ ->
-      Error
-        (unrecognizedConfigRecord "invalid attribute config-record, ignoring")
+let ident_or_record_as_config =
+  let error more =
+    let msg =
+      let base =
+        "Unsupported attribute payload. Expected a configuration record literal"
+      in
+      match more with "" -> base | s -> Format.sprintf "%s %s" base s
+    in
+    Error msg
+  in
+  fun (x : t) :
+      ((string Location.loc * Parsetree.expression option) list, string) result ->
+    match x with
+    | PStr
+        [
+          {
+            pstr_desc =
+              Pstr_eval
+                ({ pexp_desc = Pexp_record (label_exprs, with_obj); _ }, _);
+            _;
+          };
+        ] -> (
+        match with_obj with
+        | None -> (
+            let exception Local in
+            try
+              Ok
+                (List.map
+                   ~f:(fun u ->
+                     match u with
+                     | ( { txt = Lident name; loc },
+                         {
+                           Parsetree.pexp_desc =
+                             Pexp_ident { txt = Lident name2; _ };
+                           _;
+                         } )
+                       when name2 = name ->
+                         ({ Asttypes.txt = name; loc }, None)
+                     | { txt = Lident name; loc }, y ->
+                         ({ Asttypes.txt = name; loc }, Some y)
+                     | _ -> raise Local)
+                   label_exprs)
+            with Local -> error "(qualified labels aren't supported)")
+        | Some _ -> error "(`with' not supported)")
+    | PStr
+        [
+          {
+            pstr_desc =
+              Pstr_eval
+                ( { pexp_desc = Pexp_ident { loc = lloc; txt = Lident txt }; _ },
+                  _ );
+            _;
+          };
+        ] ->
+        Ok [ ({ Asttypes.txt; loc = lloc }, None) ]
+    | PStr [] -> Ok []
+    | _ -> error ""
 
 let assert_strings loc (x : t) : string list =
-  let exception Not_str in
+  let exception Not_str of Location.t in
   match x with
   | PStr
-      [
-        {
-          pstr_desc = Pstr_eval ({ pexp_desc = Pexp_tuple strs; _ }, _);
-          pstr_loc = loc;
-          _;
-        };
-      ] -> (
+      [ { pstr_desc = Pstr_eval ({ pexp_desc = Pexp_tuple strs; _ }, _); _ } ]
+    -> (
       try
         List.map
           ~f:(fun e ->
             match (e : Parsetree.expression) with
             | { pexp_desc = Pexp_constant (Pconst_string (name, _, _)); _ } ->
                 name
-            | _ -> raise Not_str)
+            | { pexp_loc; _ } -> raise (Not_str pexp_loc))
           strs
-      with Not_str -> Location.raise_errorf ~loc "expect string tuple list")
+      with Not_str loc ->
+        Location.raise_errorf ~loc "Expected a tuple of string literals")
   | PStr
       [
         {
@@ -159,16 +160,7 @@ let assert_strings loc (x : t) : string list =
       [ name ]
   | PStr [] -> []
   | PSig _ | PStr _ | PTyp _ | PPat _ ->
-      Location.raise_errorf ~loc "expect string tuple list"
-
-let table_dispatch table (action : action) =
-  match action with
-  | { txt = name; _ }, y -> (
-      match String.Map.find_exn table name with
-      | fn -> Ok (fn y)
-      | exception _ ->
-          Error ("Unused attribute: " ^ name)
-          (* Location.raise_errorf ~loc "%s is not supported" name *))
+      Location.raise_errorf ~loc "Expected a string or tuple of strings"
 
 let extract_mel_as_ident ~loc x =
   match x with
@@ -180,5 +172,5 @@ let extract_mel_as_ident ~loc x =
           name
       | _ ->
           Location.raise_errorf ~loc
-            "Invalid `%@mel.as' payload. Expected a string or an ident.")
+            "Invalid `%@mel.as' payload. Expected string or simple ident.")
   | _ -> Location.raise_errorf ~loc "Invalid attribute payload."

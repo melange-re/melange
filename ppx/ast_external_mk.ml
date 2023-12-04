@@ -25,7 +25,7 @@
 open Import
 open Ast_helper
 
-let local_external_apply loc ?(pval_attributes = []) ~(pval_prim : string list)
+let local_external_apply loc ~(pval_prim : string list)
     ~(pval_type : Parsetree.core_type) ?(local_module_name = "J")
     ?(local_fun_name = "unsafe_expr") (args : Parsetree.expression list) :
     Parsetree.expression_desc =
@@ -43,7 +43,7 @@ let local_external_apply loc ?(pval_attributes = []) ~(pval_prim : string list)
                       pval_type;
                       pval_loc = loc;
                       pval_prim;
-                      pval_attributes;
+                      pval_attributes = [];
                     };
                 pstr_loc = loc;
               };
@@ -204,7 +204,9 @@ let record_as_js_object loc (label_exprs : label_exprs) :
         match txt with
         | Lident x ->
             ({ Asttypes.loc; txt = x } :: labels, (x, e) :: args, i + 1)
-        | Ldot _ | Lapply _ -> Location.raise_errorf ~loc "invalid js label ")
+        | Ldot _ | Lapply _ ->
+            Location.raise_errorf ~loc
+              "`%%mel.obj' literals only support simple labels")
       label_exprs ~init:([], [], 0)
   in
   local_external_obj loc

@@ -1,4 +1,4 @@
-[@@@config {
+[@@@mel.config {
   flags = [|
     "-warn-error";
        "A-105";

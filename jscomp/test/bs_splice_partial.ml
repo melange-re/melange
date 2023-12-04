@@ -1,5 +1,3 @@
-
-
 (* let test _g =
     on_exit_slice3 __LINE__ [|1;2;3|]
 
@@ -13,7 +11,7 @@ external on_exit_slice3 :
     -> int array
     -> unit
     =
-    "xx"    [@@mel.send.pipe: t] [@@mel.splice]
+    "xx"    [@@mel.send.pipe: t] [@@mel.variadic]
 
 
 
@@ -25,7 +23,7 @@ external on_exit_slice3 :
 
 
 external hi : int array -> int option = "hi"
-    [@@mel.splice] [@@mel.return {null_to_opt}]
+    [@@mel.variadic] [@@mel.return {null_to_opt}]
     [@@mel.send.pipe:int]
 
 
@@ -36,7 +34,7 @@ let test_hi x =
 
 
 external hi__2 : int array -> int option = "hi__2"
-[@@variadic] [@@return nullable ]
+[@@mel.variadic] [@@mel.return nullable ]
 [@@mel.send.pipe:int]
 
 let test_hi__2 x =
@@ -47,12 +45,12 @@ let test_hi__2 x =
 type id = int -> int
 
 external cb : string -> int array -> id = "cb"
-[@@variadic] [@@mel.send.pipe: int]
+[@@mel.variadic] [@@mel.send.pipe: int]
 
 
 type id2 = int -> int [@u]
 external cb2 : string -> int array -> id2 = "cb2"
-[@@variadic] [@@mel.send.pipe: int]
+[@@mel.variadic] [@@mel.send.pipe: int]
 
 
 let test_cb x =

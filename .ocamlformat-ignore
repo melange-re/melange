@@ -5,10 +5,4 @@ jscomp/test/*/*/*
 jscomp/stdlib/*
 jscomp/stdlib/*/*
 
-jscomp/core/js_fold.ml
-jscomp/core/js_record_map.ml
-jscomp/core/js_record_fold.ml
-jscomp/core/js_record_iter.ml
-
-rescript-syntax/*
 jscomp/js_parser/*

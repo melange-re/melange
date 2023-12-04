@@ -22,14 +22,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 let isCamlExceptionOrOpenVariant : Longident.t =
   Ldot (Ldot (Lident "Js", "Exn"), "isCamlExceptionOrOpenVariant")
 
 let obj_magic : Longident.t = Ldot (Lident "Obj", "magic")
 
-let rec checkCases (cases : Parsetree.case list) = List.iter check_case cases
+let rec checkCases (cases : Parsetree.case list) = List.iter ~f:check_case cases
 and check_case case = check_pat case.pc_lhs
 
 and check_pat (pat : Parsetree.pattern) =
@@ -40,9 +40,10 @@ and check_pat (pat : Parsetree.pattern) =
       check_pat r
   | _ ->
       Location.raise_errorf ~loc:pat.ppat_loc
-        "Unsupported pattern in `mel.open`"
+        "Unsupported pattern. `[@mel.open]' requires patterns to be \
+         (exception) constructors"
 
-let convertBsErrorFunction loc (self : Ast_traverse.map) attrs
+let convert_mel_error_function loc (self : Ast_traverse.map) attrs
     (cases : Parsetree.case list) =
   let open Ast_helper in
   let txt = "match" in
@@ -61,7 +62,7 @@ let convertBsErrorFunction loc (self : Ast_traverse.map) attrs
              [%expr [%e Exp.ident ~loc { txt = obj_magic; loc }] [%e txt_expr]]
              [%type: exn])
           (List.map
-             (fun x ->
+             ~f:(fun x ->
                let pc_rhs = x.pc_rhs in
                let loc = pc_rhs.pexp_loc in
                {

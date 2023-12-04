@@ -29,11 +29,13 @@ module Warnings = struct
     | Unused_attribute of string
     | Fragile_external of string
     | Redundant_mel_string
+    | Deprecated_non_namespaced_attribute
 
   let kind = function
     | Unused_attribute _ -> "unused"
     | Fragile_external _ -> "fragile"
     | Redundant_mel_string -> "redundant"
+    | Deprecated_non_namespaced_attribute -> "deprecated"
 
   let pp fmt t =
     match t with
@@ -51,26 +53,29 @@ module Warnings = struct
     | Redundant_mel_string ->
         Format.fprintf fmt
           "[@mel.string] is redundant here, you can safely remove it"
+    | Deprecated_non_namespaced_attribute ->
+        Format.fprintf fmt
+          "FFI attributes without a namespace are deprecated and will be \
+           removed in the next release.@\n\
+           Use `mel.*' instead."
 end
 
-let warn ~loc msg =
+let warn =
   let module Location = Ocaml_common.Location in
-  Location.prerr_alert loc
-    {
-      Ocaml_common.Warnings.kind = Warnings.kind msg;
-      message = Format.asprintf "%a" Warnings.pp msg;
-      def = Location.none;
-      use = loc;
-    }
+  fun ~loc t ->
+    Location.prerr_alert loc
+      {
+        Ocaml_common.Warnings.kind = Warnings.kind t;
+        message = Format.asprintf "%a" Warnings.pp t;
+        def = Location.none;
+        use = loc;
+      }
 
-(** Warning unused bs attributes
-    Note if we warn `deriving` too,
-    it may fail third party ppxes
-*)
-let is_bs_attribute txt =
+let is_mel_attribute txt =
   let len = String.length txt in
   (len = 1 && String.unsafe_get txt 0 = 'u')
-  || String.unsafe_get txt 0 = 'm'
+  || len >= 5
+     && String.unsafe_get txt 0 = 'm'
      && String.unsafe_get txt 1 = 'e'
      && String.unsafe_get txt 2 = 'l'
      && String.unsafe_get txt 3 = '.'
@@ -78,39 +83,20 @@ let is_bs_attribute txt =
 let used_attributes : string Asttypes.loc Polyvariant.Hash_set.t =
   Polyvariant.Hash_set.create 16
 
-(* #if true *)
-(* let dump_attribute fmt = (fun (sloc : string Asttypes.loc) -> *)
-(* Format.fprintf fmt "@[%s @]" sloc.txt (* (Printast.payload 0 ) payload *) *)
-(* ) *)
-
-(* let dump_used_attributes fmt = *)
-(* Format.fprintf fmt "Used attributes Listing Start:@."; *)
-(* Polyvariant.Hash_set.iter  used_attributes (fun attr -> dump_attribute fmt attr) ; *)
-(* Format.fprintf fmt "Used attributes Listing End:@." *)
-(* #endif *)
-
-(* only mark non-ghost used bs attribute *)
+(* only mark non-ghost used mel attribute *)
 let mark_used_mel_attribute ({ attr_name = x; _ } : Parsetree.attribute) =
   if not x.loc.loc_ghost then Polyvariant.Hash_set.add used_attributes x
 
 let warn_unused_attribute
     ({ attr_name = { txt; loc } as sloc; _ } : Parsetree.attribute) : unit =
   if
-    is_bs_attribute txt && (not loc.loc_ghost)
+    is_mel_attribute txt && (not loc.loc_ghost)
     && not (Polyvariant.Hash_set.mem used_attributes sloc)
-  then
-    (* #if true *)
-    (* (*COMMENT*) *)
-    (* dump_used_attributes Format.err_formatter; *)
-    (* dump_attribute Format.err_formatter sloc; *)
-    (* #endif *)
-    warn ~loc (Unused_attribute txt)
+  then warn ~loc (Unused_attribute txt)
 
 let warn_discarded_unused_attributes (attrs : Parsetree.attributes) =
   if attrs <> [] then List.iter ~f:warn_unused_attribute attrs
 
-(* Note we only used Bs_ast_iterator here, we can reuse compiler-libs instead
-   of rolling our own *)
 let emit_external_warnings : Ast_traverse.iter =
   object (_self)
     inherit Ast_traverse.iter as super

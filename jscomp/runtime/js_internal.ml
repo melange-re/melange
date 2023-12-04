@@ -70,17 +70,16 @@ end
 (**/**)
 
 type +'a null
-(** nullable, value of this type can be either [null] or ['a]
-    this type is the same as type [t] in {!Null}
-*)
+(** A value of this type can be either [null] or ['a].
+    This type is the same as type [t] in {!Null} *)
 
 type +'a undefined
-(** value of this type can be either [undefined] or ['a]
-    this type is the same as type [t] in {!Undefined}  *)
+(** A value of this type can be either [undefined] or ['a].
+    This type is the same as type [t] in {!Undefined} *)
 
 type +'a nullable
-(** value of this type can be [undefined], [null] or ['a]
-    this type is the same as type [t] n {!Null_undefined} *)
+(** A value of this type can be [undefined], [null] or ['a].
+    This type is the same as type [t] n {!Nullable} *)
 
 external toOption : 'a nullable -> 'a option = "#nullable_to_opt"
 external undefinedToOption : 'a undefined -> 'a option = "#undefined_to_opt"
@@ -88,7 +87,7 @@ external nullToOption : 'a null -> 'a option = "#null_to_opt"
 external isNullable : 'a nullable -> bool = "#is_nullable"
 
 external testAny : 'a -> bool = "#is_nullable"
-(** The same as {!test} except that it is more permissive on the types of input *)
+(** The same as {!isNullable} except that it is more permissive on the types of input *)
 
 external null : 'a null = "#null"
 (** The same as [empty] in {!Js.Null} will be compiled as [null]*)
@@ -110,7 +109,7 @@ external log3 : 'a -> 'b -> 'c -> unit = "log" [@@mel.scope "console"]
 external log4 : 'a -> 'b -> 'c -> 'd -> unit = "log" [@@mel.scope "console"]
 
 external logMany : 'a array -> unit = "log"
-[@@mel.scope "console"] [@@mel.splice]
+[@@mel.scope "console"] [@@mel.variadic]
 (** A convenience function to log more than 4 arguments *)
 
 external eqNull : 'a -> 'a null -> bool = "%bs_equal_null"

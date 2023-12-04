@@ -36,13 +36,9 @@ and subsequent uses will ocntinue the search from the previous {! lastIndex}.
 let maybeMatches = "banana" |> Js.String.match_ [\[%re "/na+/g"\]]
 ]}
 
-@see
-  <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp>
-  JavaScript API reference on MDN
+@see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp> JavaScript API reference on MDN
 
-@see
-  <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions>
-  JavaScript Regular Expressions Guide on MDN
+@see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions> JavaScript Regular Expressions Guide on MDN
 *)
 
 type t
@@ -53,12 +49,6 @@ type result
 
 external captures : result -> string Js_internal.nullable array = "%identity"
 (** an array of the match and captures, the first is the full match and the remaining are the substring captures *)
-
-external matches : result -> string array = "%identity"
-[@@deprecated "Use Js.Re.captures instead"]
-(** an array of the matches, the first is the full match and the remaining are the substring matches
- *  @deprecated Use [captures] instead.
- *)
 
 external index : result -> int = "index"
 [@@mel.get]
@@ -164,7 +154,7 @@ external unicode : t -> bool = "unicode"
 [@@mel.get]
 (** returns a bool indicating whether the [unicode] flag is set *)
 
-external exec_ : t -> string -> result option = "exec"
+external exec : t -> string -> result option = "exec"
 [@@mel.send] [@@mel.return null_to_opt]
 (** executes a search on a given string using the given RegExp object
 
@@ -183,13 +173,7 @@ let result = re |. Js.Re.exec_ "The Quick Brown Fox Jumps Over The Lazy Dog"
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec> MDN
 *)
 
-external exec : string -> result option = "exec"
-[@@mel.send.pipe: t]
-[@@mel.return null_to_opt]
-[@@deprecated "please use Js.Re.exec_ instead"]
-(** @deprecated please use {!exec_} instead *)
-
-external test_ : t -> string -> bool = "test"
+external test : t -> string -> bool = "test"
 [@@mel.send]
 (** tests whether the given RegExp object will match a given string
 
@@ -208,10 +192,4 @@ let () = Js.log (str |. startsWith "hello") (* prints "true" *)
 ]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test> MDN
-*)
-
-external test : string -> bool = "test"
-[@@mel.send.pipe: t] [@@deprecated "Please use Js.Re.test_ instead"]
-(**
-  @deprecated please use {!test_} instead
 *)

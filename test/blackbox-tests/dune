@@ -3,4 +3,6 @@
  (deps
   (env_var MELANGE_LIB)
   setup.sh
-  (package melange)))
+  (package melange)
+  %{bin:jq}
+  %{bin:ocamlmerlin}))

@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 open Ast_helper
 
 type exp = Parsetree.expression
@@ -45,7 +45,7 @@ let bound (e : exp) (cb : exp -> _) =
 
 let check_and_discard (args : (arg_label * Parsetree.expression) list) =
   List.map
-    (fun (label, x) ->
+    ~f:(fun (label, x) ->
       Error.err_if_label ~loc:x.pexp_loc label;
       x)
     args
@@ -59,17 +59,16 @@ type app_pattern = {
 let sane_property_name_check loc s =
   if String.contains s '#' then
     Location.raise_errorf ~loc
-      "property name (%s) can not contain speical character #" s
+      "property name (`%s') cannot contain special character `#'" s
 
 let view_as_app (fn : exp) (s : string list) : app_pattern option =
   match fn.pexp_desc with
   | Pexp_apply ({ pexp_desc = Pexp_ident { txt = Lident op; _ }; _ }, args)
-    when List.mem op s ->
+    when List.mem op ~set:s ->
       Some { op; loc = fn.pexp_loc; args = check_and_discard args }
   | _ -> None
 
 let inner_ops = [ "##"; "#@" ]
-let infix_ops = [ "|."; "#="; "##" ]
 
 let rec exclude_with_val =
   let rec exclude (xs : 'a list) (p : 'a -> bool) : 'a list =
@@ -97,8 +96,7 @@ let app_exp_mapper (e : exp)
       Ast_traverse.map * (Parsetree.expression -> Parsetree.expression))
     (fn : exp) (args : Ast_util.args) : exp =
   (* - (f##paint) 1 2
-     - (f#@paint) 1 2
-  *)
+     - (f#@paint) 1 2 *)
   match view_as_app fn inner_ops with
   | Some
       {
@@ -116,17 +114,16 @@ let app_exp_mapper (e : exp)
   | Some { op; loc; _ } ->
       Location.raise_errorf ~loc "%s expect f%sproperty arg0 arg2 form" op op
   | None -> (
-      match view_as_app e infix_ops with
+      match view_as_app e Melange_ffi.External_ffi_types.Literals.infix_ops with
       | Some { op = "|."; args = [ a_; f_ ]; loc } -> (
           (*
         a |. f
-        a |. f b c [@bs]  --> f a b c [@bs]
+        a |. f b c [@u]  --> f a b c [@u]
         a |. M.(f b c) --> M.f a M.b M.c
         a |. (g |. b)
         a |. M.Some
         a |. `Variant
-        a |. (b |. f c [@bs])
-      *)
+        a |. (b |. f c [@u]) *)
           let a = self#expression a_ in
           let f = self#expression f_ in
           match f.pexp_desc with
@@ -165,7 +162,7 @@ let app_exp_mapper (e : exp)
                            pexp_desc =
                              Pexp_tuple
                                (List.map
-                                  (fun fn ->
+                                  ~f:(fun fn ->
                                     match fn.pexp_desc with
                                     | Pexp_construct (ctor, None) ->
                                         {
@@ -202,7 +199,7 @@ let app_exp_mapper (e : exp)
                   let fn = Ast_open_cxt.restore_exp e wholes in
                   let args =
                     List.map
-                      (fun (lab, exp) ->
+                      ~f:(fun (lab, exp) ->
                         (lab, Ast_open_cxt.restore_exp exp wholes))
                       args
                   in
@@ -216,15 +213,17 @@ let app_exp_mapper (e : exp)
                   }
               | _ -> (
                   match
-                    ( exclude_with_val f_.pexp_attributes Ast_attributes.is_bs,
+                    ( exclude_with_val f_.pexp_attributes
+                        Ast_attributes.is_uncurried,
                       f_.pexp_desc )
                   with
                   | Some other_attributes, Pexp_apply (fn1, args) ->
-                      (* a |. f b c [@bs]
+                      (* a |. f b c [@u]
                          Cannot process uncurried application early as the arity is wip *)
                       let fn1 = self#expression fn1 in
                       let args =
-                        args |> List.map (fun (l, e) -> (l, self#expression e))
+                        args
+                        |> List.map ~f:(fun (l, e) -> (l, self#expression e))
                       in
                       Mel_ast_invariant.warn_discarded_unused_attributes
                         fn1.pexp_attributes;
@@ -246,7 +245,7 @@ let app_exp_mapper (e : exp)
              gpr#1063 foo##(bar##baz) we should rewrite (bar##baz)
                  first  before pattern match.
                  currently the pattern match is written in a top down style.
-                 Another corner case: f##(g a b [@bs])
+                 Another corner case: f##(g a b [@u])
           *)
           match rest with
           | {
@@ -268,8 +267,8 @@ let app_exp_mapper (e : exp)
              | Pexp_constant (Pconst_string (name, _, None)) );
            pexp_loc;
            _;
-          }
-          (* f##paint  *) ->
+          } ->
+              (* f##paint  *)
               sane_property_name_check pexp_loc name;
               {
                 e with
@@ -330,13 +329,22 @@ let app_exp_mapper (e : exp)
           Location.raise_errorf ~loc
             "Js object ## expect syntax like obj##(paint (a,b)) "
       | Some { op; _ } -> Location.raise_errorf "invalid %s syntax" op
-      | None -> (
-          match exclude_with_val e.pexp_attributes Ast_attributes.is_bs with
-          | None -> super e
-          | Some pexp_attributes ->
-              {
-                e with
-                pexp_desc =
-                  Ast_uncurry_apply.uncurry_fn_apply e.pexp_loc self fn args;
-                pexp_attributes;
-              }))
+      | None ->
+          let e =
+            match
+              exclude_with_val e.pexp_attributes Ast_attributes.is_uncurried
+            with
+            | None -> super e
+            | Some pexp_attributes ->
+                {
+                  e with
+                  pexp_desc =
+                    Ast_uncurry_apply.uncurry_fn_apply e.pexp_loc self fn args;
+                  pexp_attributes;
+                }
+          in
+          {
+            e with
+            pexp_attributes =
+              Ast_attributes.ignored_extra_argument :: e.pexp_attributes;
+          })

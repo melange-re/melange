@@ -41,7 +41,7 @@ let () =
 
 type a =
   | A
-  | B [@as 3]
+  | B [@mel.as 3]
   | C
 [@@deriving jsConverter { newType }]
 

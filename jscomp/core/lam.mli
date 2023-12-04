@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module Constant = Melange_ffi.Lam_constant
 module Methname = Melange_ffi.Lam_methname
 module Tag_info = Melange_ffi.Lam_tag_info
@@ -134,10 +135,10 @@ val false_ : t
 val unit : t
 
 val sequor : t -> t -> t
-(** convert [l || r] to [if l then true else r]*)
+(** convert [l || r] to [if l then true else r] *)
 
 val sequand : t -> t -> t
-(** convert [l && r] to [if l then r else false *)
+(** convert [l && r] to [if l then r else false] *)
 
 val not_ : Location.t -> t -> t
 (** constant folding *)

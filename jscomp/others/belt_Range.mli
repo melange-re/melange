@@ -47,7 +47,7 @@ val everyByU : int -> int -> step:int -> ((int -> bool)[@u]) -> bool
 val everyBy : int -> int -> step:int -> (int -> bool) -> bool
 (** [everyBy start finish ~step p]
 
-    {b See} {!Belt_Array.rangeBy}
+    {b See} {!Belt.Array.rangeBy}
 
     equivalent to [Belt.Array.(every (rangeBy start finish ~step) p)]
 *)
@@ -65,7 +65,7 @@ val someByU : int -> int -> step:int -> ((int -> bool)[@u]) -> bool
 val someBy : int -> int -> step:int -> (int -> bool) -> bool
 (** [someBy start finish ~step  p]
 
-    {b See} {!Belt_Array.rangeBy}
+    {b See} {!Belt.Array.rangeBy}
 
     equivalent to [Belt.Array.(some (rangeBy start finish ~step) p)]
 *)

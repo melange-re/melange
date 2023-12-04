@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 open Ast_helper
 
 (* Handling `fun [@this]` used in `object [@u] end` *)
@@ -45,8 +45,8 @@ let to_method_callback loc (self : Ast_traverse.map) label pat body :
   let result, rev_extra_args = aux [ (label, first_arg) ] body in
   let body =
     List.fold_left
-      (fun e (label, p) -> Ast_helper.Exp.fun_ ~loc label None p e)
-      result rev_extra_args
+      ~f:(fun e (label, p) -> Ast_helper.Exp.fun_ ~loc label None p e)
+      ~init:result rev_extra_args
   in
   let arity = List.length rev_extra_args in
   let arity_s = string_of_int arity in
@@ -84,8 +84,8 @@ let to_uncurry_fn loc (self : Ast_traverse.map) (label : Asttypes.arg_label) pat
   let result, rev_extra_args = aux [ (label, first_arg) ] body in
   let body =
     List.fold_left
-      (fun e (label, p) -> Ast_helper.Exp.fun_ ~loc label None p e)
-      result rev_extra_args
+      ~f:(fun e (label, p) -> Ast_helper.Exp.fun_ ~loc label None p e)
+      ~init:result rev_extra_args
   in
   let len = List.length rev_extra_args in
   let arity =

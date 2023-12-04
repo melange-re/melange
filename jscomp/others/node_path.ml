@@ -50,7 +50,7 @@ external isAbsolute : string -> bool = "isAbsolute" [@@mel.module "path"]
 external join2 : string -> string -> string = "join" [@@mel.module "path"]
 
 external join : string array -> string = "join"
-[@@mel.module "path"] [@@mel.splice]
+[@@mel.module "path"] [@@mel.variadic]
 
 external normalize : string -> string = "normalize" [@@mel.module "path"]
 

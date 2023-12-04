@@ -24,33 +24,28 @@
 
 type node_exports
 
+(* NOTE: [Node.node_module] is emitted by the PPX. If the name of this module
+   ever changes, make sure to change the PPX accordingly. *)
 type node_module =
   < id : string
   ; exports : node_exports
-  ; parrent :
-      node_module Js.null_undefined
+  ; parent :
+      node_module Js.nullable
       (* in REPL V4 it is [undefined]
-         in CLI it can be [null]
-      *)
+         in CLI it can be [null] *)
   ; filename : string
   ; loaded : bool
   ; children : node_module array
   ; paths : string array >
   Js.t
-(* WARN:
-    its path name should not be changed
-    see {!Ppx_entry}
-*)
 
+(* NOTE: [Node.node_require] is emitted by the PPX. If the name of this module
+   ever changes, make sure to change the PPX accordingly. *)
 type node_require =
   < main : node_module Js.undefined
   ; resolve : string -> string [@u]
-  (* @raise exception   *) >
+  (* @raise exception *) >
   Js.t
-(* WARN:
-    its path name should not be changed
-    see {!Ppx_entry}
-*)
 
 type string_buffer (* can be either string or buffer *)
 type buffer

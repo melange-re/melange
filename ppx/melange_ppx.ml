@@ -48,8 +48,7 @@
    And if it is inlined some where
 *)
 
-open Ppxlib
-module Ast_literal = Ast_literal
+open Import
 
 module External = struct
   let rule =
@@ -73,31 +72,33 @@ module External = struct
 end
 
 module Raw = struct
-  let stru_rule =
-    let rule label =
-      let extractor = Ast_pattern.__' in
-      let handler ~ctxt:_ { loc; txt = payload } =
-        Ast_extensions.handle_raw_structure loc payload
+  let rules =
+    let stru_rule =
+      let rule label =
+        let extractor = Ast_pattern.__' in
+        let handler ~ctxt:_ { loc; txt = payload } =
+          Ast_extensions.handle_raw_structure loc payload
+        in
+        let extender =
+          Extension.V3.declare label Structure_item extractor handler
+        in
+        Context_free.Rule.extension extender
       in
-      let extender =
-        Extension.V3.declare label Structure_item extractor handler
+      rule "mel.raw"
+    and rule =
+      let rule label =
+        let extractor = Ast_pattern.__' in
+        let handler ~ctxt:_ { loc; txt = payload } =
+          Ast_extensions.handle_raw ~kind:Raw_exp loc payload
+        in
+        let extender =
+          Extension.V3.declare label Expression extractor handler
+        in
+        Context_free.Rule.extension extender
       in
-      Context_free.Rule.extension extender
+      rule "mel.raw"
     in
-    rule "mel.raw"
-
-  let rule =
-    let rule label =
-      let extractor = Ast_pattern.__' in
-      let handler ~ctxt:_ { loc; txt = payload } =
-        Ast_extensions.handle_raw ~kind:Raw_exp loc payload
-      in
-      let extender = Extension.V3.declare label Expression extractor handler in
-      Context_free.Rule.extension extender
-    in
-    rule "mel.raw"
-
-  let rules = [ stru_rule; rule ]
+    [ stru_rule; rule ]
 end
 
 module Private = struct
@@ -136,7 +137,7 @@ module Private = struct
 
     let check (x : Parsetree.structure) =
       List.iter
-        (fun x ->
+        ~f:(fun x ->
           if not (no_type_defined x) then
             Location.raise_errorf ~loc:x.pstr_loc
               "the structure is not supported in local extension")
@@ -152,20 +153,20 @@ module Private = struct
       ]
   end
 
-  let expand (stru : Parsetree.structure) =
-    Typemod_hide.check stru;
-    let last_loc = (List.hd stru).pstr_loc in
-    let first_loc = (List.hd stru).pstr_loc in
-    let loc = { first_loc with loc_end = last_loc.loc_end } in
-    Ast_helper.
-      [
-        Str.open_
-          (Opn.mk ~override:Override
-             (Mod.structure ~loc ~attrs:Typemod_hide.attrs stru));
-      ]
-    |> List.hd
-
   let rule =
+    let expand (stru : Parsetree.structure) =
+      Typemod_hide.check stru;
+      let last_loc = (List.hd stru).pstr_loc in
+      let first_loc = (List.hd stru).pstr_loc in
+      let loc = { first_loc with loc_end = last_loc.loc_end } in
+      Ast_helper.
+        [
+          Str.open_
+            (Opn.mk ~override:Override
+               (Mod.structure ~loc ~attrs:Typemod_hide.attrs stru));
+        ]
+      |> List.hd
+    in
     let rule label =
       let extractor = Ast_pattern.__' in
       let handler ~ctxt:_ { txt = payload; loc } =
@@ -259,7 +260,6 @@ module Time = struct
             Location.raise_errorf ~loc
               "expect a boolean expression in the payload"
       in
-
       let extender = Extension.V3.declare label Expression extractor handler in
       Context_free.Rule.extension extender
     in
@@ -308,7 +308,6 @@ module Node = struct
                    pattern  payload"
             | _ -> Location.raise_errorf ~loc "Illegal payload")
       in
-
       let extender = Extension.V3.declare label Expression extractor handler in
       Context_free.Rule.extension extender
     in
@@ -336,7 +335,7 @@ module Obj = struct
               pexp_desc =
                 Ast_external_mk.record_as_js_object e.pexp_loc label_exprs;
             }
-        | _ -> Location.raise_errorf ~loc "Expect a record expression here"
+        | _ -> Location.raise_errorf ~loc "%%mel.obj requires a record literal"
       in
 
       let extender = Extension.V3.declare label Expression extractor handler in
@@ -369,7 +368,7 @@ module Mapper = struct
              {[class type x = int -> object
                  end[@u]]}
         *)
-        match Ast_attributes.process_bs pcty_attributes with
+        match Ast_attributes.process_uncurried pcty_attributes with
         | false, _ -> super#class_type ctd
         | true, pcty_attributes -> (
             match ctd.pcty_desc with
@@ -383,8 +382,7 @@ module Mapper = struct
                   with
                   | Ok pcsig_fields ->
                       Pcty_signature { pcsig_self; pcsig_fields }
-                  | Error s ->
-                      let loc = ctd.pcty_loc in
+                  | Error (loc, s) ->
                       let pcsig_self =
                         [%type:
                           [%ocaml.error
@@ -411,7 +409,7 @@ module Mapper = struct
             Utf8_string.Interp.transform e s loc delim
         (* End rewriting *)
         | Pexp_function cases -> (
-            (* {[ function [@mel.exn]
+            (* {[ function [@mel.open]
                   | Not_found -> 0
                   | Invalid_argument -> 1
                 ]}*)
@@ -420,7 +418,7 @@ module Mapper = struct
             with
             | false, _ -> super#expression e
             | true, pexp_attributes ->
-                Ast_mel_open.convertBsErrorFunction e.pexp_loc self
+                Ast_mel_open.convert_mel_error_function e.pexp_loc self
                   pexp_attributes cases)
         | Pexp_fun (label, _, pat, body) -> (
             match Ast_attributes.process_attributes_rev e.pexp_attributes with
@@ -452,7 +450,7 @@ module Mapper = struct
                   pexp_attributes;
                 })
         | Pexp_object { pcstr_self; pcstr_fields } -> (
-            match Ast_attributes.process_bs e.pexp_attributes with
+            match Ast_attributes.process_uncurried e.pexp_attributes with
             | true, pexp_attributes ->
                 {
                   e with
@@ -581,8 +579,11 @@ module Mapper = struct
                   pvb_loc;
                 };
               ] ) -> (
+            let attrs, found =
+              Ast_attributes.has_mel_as_payload pvb_attributes
+            in
             let pvb_pat, pval_name =
-              match Ast_attributes.has_mel_as_payload pvb_attributes with
+              match found with
               | Some ({ attr_payload; _ } as attr) ->
                   Mel_ast_invariant.mark_used_mel_attribute attr;
                   let pval_name =
@@ -598,13 +599,14 @@ module Mapper = struct
               | None -> (pvb_pat_orig, pval_name_orig)
             in
             let pvb_expr = self#expression pvb_expr in
-            let pvb_attributes = self#attributes pvb_attributes in
-            let has_inline_property =
-              Ast_attributes.has_inline_payload pvb_attributes
-            in
-            match (has_inline_property, pvb_expr.pexp_desc) with
-            | Some attr, Pexp_constant (Pconst_string (s, _, dec)) ->
-                let loc = pvb_loc in
+            let pvb_attributes = self#attributes attrs in
+            match
+              ( Ast_attributes.has_inline_payload pvb_attributes,
+                pvb_expr.pexp_desc )
+            with
+            | ( Some ({ attr_name = { txt; loc }; _ } as attr),
+                Pexp_constant (Pconst_string (s, _, dec)) ) ->
+                Ast_attributes.warn_if_non_namespaced ~loc txt;
                 succeed attr pvb_attributes;
                 {
                   str with
@@ -613,16 +615,17 @@ module Mapper = struct
                       {
                         pval_name;
                         pval_type = [%type: string];
-                        pval_loc = loc;
+                        pval_loc = pvb_loc;
                         pval_attributes = [];
                         pval_prim =
                           Melange_ffi.External_ffi_types.inline_string_primitive
                             s dec;
                       };
                 }
-            | Some attr, Pexp_constant (Pconst_integer (s, None)) ->
+            | ( Some ({ attr_name = { txt; loc }; _ } as attr),
+                Pexp_constant (Pconst_integer (s, None)) ) ->
+                Ast_attributes.warn_if_non_namespaced ~loc txt;
                 let s = Int32.of_string s in
-                let loc = pvb_loc in
                 succeed attr pvb_attributes;
                 {
                   str with
@@ -631,15 +634,16 @@ module Mapper = struct
                       {
                         pval_name;
                         pval_type = [%type: int];
-                        pval_loc = loc;
+                        pval_loc = pvb_loc;
                         pval_attributes = [];
                         pval_prim =
                           Melange_ffi.External_ffi_types.inline_int_primitive s;
                       };
                 }
-            | Some attr, Pexp_constant (Pconst_integer (s, Some 'L')) ->
+            | ( Some ({ attr_name = { txt; loc }; _ } as attr),
+                Pexp_constant (Pconst_integer (s, Some 'L')) ) ->
+                Ast_attributes.warn_if_non_namespaced ~loc txt;
                 let s = Int64.of_string s in
-                let loc = pvb_loc in
                 succeed attr pvb_attributes;
                 {
                   str with
@@ -648,15 +652,16 @@ module Mapper = struct
                       {
                         pval_name;
                         pval_type = [%type: int64];
-                        pval_loc = loc;
+                        pval_loc = pvb_loc;
                         pval_attributes = [];
                         pval_prim =
                           Melange_ffi.External_ffi_types.inline_int64_primitive
                             s;
                       };
                 }
-            | Some attr, Pexp_constant (Pconst_float (s, None)) ->
-                let loc = pvb_loc in
+            | ( Some ({ attr_name = { txt; loc }; _ } as attr),
+                Pexp_constant (Pconst_float (s, None)) ) ->
+                Ast_attributes.warn_if_non_namespaced ~loc txt;
                 succeed attr pvb_attributes;
                 {
                   str with
@@ -665,17 +670,17 @@ module Mapper = struct
                       {
                         pval_name;
                         pval_type = [%type: float];
-                        pval_loc = loc;
+                        pval_loc = pvb_loc;
                         pval_attributes = [];
                         pval_prim =
                           Melange_ffi.External_ffi_types.inline_float_primitive
                             s;
                       };
                 }
-            | ( Some attr,
+            | ( Some ({ attr_name = { txt; loc }; _ } as attr),
                 Pexp_construct
-                  ({ txt = Lident (("true" | "false") as txt); _ }, None) ) ->
-                let loc = pvb_loc in
+                  ({ txt = Lident (("true" | "false") as bool); _ }, None) ) ->
+                Ast_attributes.warn_if_non_namespaced ~loc txt;
                 succeed attr pvb_attributes;
                 {
                   str with
@@ -684,11 +689,11 @@ module Mapper = struct
                       {
                         pval_name;
                         pval_type = [%type: bool];
-                        pval_loc = loc;
+                        pval_loc = pvb_loc;
                         pval_attributes = [];
                         pval_prim =
                           Melange_ffi.External_ffi_types.inline_bool_primitive
-                            (txt = "true");
+                            (bool = "true");
                       };
                 }
             | _ ->
@@ -708,9 +713,40 @@ module Mapper = struct
                   (r, Ast_tuple_pattern_flatten.value_bindings_mapper self vbs);
             }
         | Pstr_attribute
-            ({ attr_name = { txt = "mel.config" | "config"; _ }; _ } as attr) ->
+            ({ attr_name = { txt = ("mel.config" | "config") as txt; loc }; _ }
+             as attr) ->
+            Ast_attributes.warn_if_non_namespaced ~loc txt;
             Mel_ast_invariant.mark_used_mel_attribute attr;
             str
+        | Pstr_module
+            ({
+               pmb_name = { txt = Some _; loc = pmb_name_loc } as pmb_name_orig;
+               pmb_attributes;
+               pmb_loc;
+               _;
+             } as mb) ->
+            let attrs, found =
+              Ast_attributes.has_mel_as_payload pmb_attributes
+            in
+            let pmb_name =
+              match found with
+              | Some ({ attr_payload; _ } as attr) ->
+                  Mel_ast_invariant.mark_used_mel_attribute attr;
+                  {
+                    txt =
+                      Some
+                        (Ast_payload.extract_mel_as_ident ~loc:pmb_loc
+                           attr_payload);
+                    loc = pmb_name_loc;
+                  }
+              | None -> pmb_name_orig
+            in
+            super#structure_item
+              {
+                str with
+                pstr_desc =
+                  Pstr_module { mb with pmb_name; pmb_attributes = attrs };
+              }
         | _ -> super#structure_item str
 
       method! signature_item sigi =
@@ -723,8 +759,11 @@ module Mapper = struct
                pval_loc;
                _;
              } as value_desc_orig) -> (
+            let attrs, found =
+              Ast_attributes.has_mel_as_payload pval_attributes
+            in
             let value_desc =
-              match Ast_attributes.has_mel_as_payload pval_attributes with
+              match found with
               | Some ({ attr_payload; _ } as attr) ->
                   Mel_ast_invariant.mark_used_mel_attribute attr;
                   {
@@ -739,7 +778,7 @@ module Mapper = struct
                   }
               | None -> value_desc_orig
             in
-            let pval_attributes = self#attributes pval_attributes in
+            let pval_attributes = self#attributes attrs in
             if Ast_attributes.rs_externals pval_attributes pval_prim then
               Ast_external.handleExternalInSig self value_desc sigi
             else
@@ -852,9 +891,40 @@ module Mapper = struct
                           };
                     })
         | Psig_attribute
-            ({ attr_name = { txt = "mel.config" | "config"; _ }; _ } as attr) ->
+            ({ attr_name = { txt = ("mel.config" | "config") as txt; loc }; _ }
+             as attr) ->
+            Ast_attributes.warn_if_non_namespaced ~loc txt;
             Mel_ast_invariant.mark_used_mel_attribute attr;
             sigi
+        | Psig_module
+            ({
+               pmd_name = { txt = Some _; loc = pmd_name_loc } as pmd_name_orig;
+               pmd_attributes;
+               pmd_loc;
+               _;
+             } as md) ->
+            let attrs, found =
+              Ast_attributes.has_mel_as_payload pmd_attributes
+            in
+            let pmd_name =
+              match found with
+              | Some ({ attr_payload; _ } as attr) ->
+                  Mel_ast_invariant.mark_used_mel_attribute attr;
+                  {
+                    txt =
+                      Some
+                        (Ast_payload.extract_mel_as_ident ~loc:pmd_loc
+                           attr_payload);
+                    loc = pmd_name_loc;
+                  }
+              | None -> pmd_name_orig
+            in
+            super#signature_item
+              {
+                sigi with
+                psig_desc =
+                  Psig_module { md with pmd_name; pmd_attributes = attrs };
+              }
         | _ -> super#signature_item sigi
     end
 end
@@ -920,9 +990,9 @@ let () =
 let () =
   Driver.add_arg "-unsafe"
     (Unit (fun () -> Ocaml_common.Clflags.unsafe := true))
-    ~doc:"Do not compile bounds checking on array and string access";
+    ~doc:" Do not compile bounds checking on array and string access";
   Driver.add_arg "-alert" (String Ocaml_common.Warnings.parse_alert_option)
-    ~doc:"Turn off alerting from the PPX";
+    ~doc:"[redundant|deprecated] Turn off alerting from the PPX";
   Driver.V2.register_transformation "melange"
     ~rules:
       (Raw.rules

@@ -43,8 +43,8 @@ let v_obj = object method hi__x () = Js.log "hei" end [@u]
 let () =
   eq __LOC__ (Array.length (Js.Obj.keys int_config), 2 );
   eq __LOC__ (Array.length (Js.Obj.keys string_config), 2 );
-  eq __LOC__ (Js.Obj.keys v_obj |. Js.Array2.indexOf "hi_x" , -1 );
-  eq __LOC__ (Js.Obj.keys v_obj |. Js.Array2.indexOf "hi", 0 )
+  eq __LOC__ (Js.Obj.keys v_obj |. Js.Array.indexOf ~value:"hi_x" (), -1 );
+  eq __LOC__ (Js.Obj.keys v_obj |. Js.Array.indexOf ~value:"hi" (), 0 )
 
 let u = ref 3
 
@@ -96,12 +96,12 @@ external getGADTI3 :
 external setGADTI2 :
  t -> ('a kind [@mel.ignore]) ->
  ('b kind [@mel.ignore]) -> int
-  -> ('a * 'b) -> unit  = "" [@@set_index]
+  -> ('a * 'b) -> unit  = "" [@@mel.set_index]
 
 external setGADTI3 :
  t -> ('a kind [@mel.ignore]) ->
  ('b kind [@mel.ignore]) -> (_ [@mel.as 3] )
-  -> ('a * 'b) -> unit  = "" [@@set_index]
+  -> ('a * 'b) -> unit  = "" [@@mel.set_index]
 
 let ffff x =
   begin

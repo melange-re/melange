@@ -1,4 +1,3 @@
-
 class type titlex =
   object
     method title : string [@@mel.set] [@@mel.get {null ; undefined}]
@@ -22,12 +21,12 @@ class type title =
 
 class type text =
   object
-    method text : string [@@set]
+    method text : string [@@mel.set]
   end[@u]
 
 class type measure =
     object
-      method minHeight : int [@@set]
+      method minHeight : int [@@mel.set]
       method minWidth : int [@@mel.set]
       method maxHeight : int  [@@mel.set]
       method maxWidth : int [@@mel.set]
@@ -106,4 +105,4 @@ class type textArea =
 external set_interval : (unit -> unit [@u]) -> float -> unit  =  "setInterval"
      [@@mel.module "@runtime", "Runtime"]
 
-external toFixed : float -> int -> string = "toFixed" [@@send]
+external toFixed : float -> int -> string = "toFixed" [@@mel.send]

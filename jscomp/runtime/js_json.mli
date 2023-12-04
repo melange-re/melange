@@ -174,6 +174,7 @@ let getIds s =
   (* prints `1, 2, 3` *)
   let _ =
     Js.log (getIds {| { "ids" : [1, 2, 3] } |})
+]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse> MDN
 *)

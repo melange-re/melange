@@ -354,7 +354,7 @@ val update :
 val mergeMany : ('k, 'v, 'id) t -> ('k * 'v) array -> ('k, 'v, 'id) t
 (** [mergeMany s xs]
 
-    Adding each of [xs] to [s], note unlike {!add},
+    Add each of [xs] to [s], note unlike {!set},
     the reference of return value might be changed even if all values in [xs]
     exist [s]
 *)

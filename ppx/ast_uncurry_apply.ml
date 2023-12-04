@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 open Ast_helper
 
 type exp = Parsetree.expression
@@ -32,19 +32,6 @@ type exp = Parsetree.expression
      [#=],
 *)
 let jsInternal = Ast_literal.js_internal
-
-let ignored_extra_argument : Parsetree.attribute =
-  {
-    attr_name = { txt = "ocaml.warning"; loc = Location.none };
-    attr_payload =
-      PStr
-        [
-          Str.eval
-            (Exp.constant
-               (Pconst_string ("-ignored-extra-argument", Location.none, None)));
-        ];
-    attr_loc = Location.none;
-  }
 
 (* we use the trick
    [( opaque e : _) ] to avoid it being inspected,
@@ -65,7 +52,7 @@ let opaque_full_apply ~loc (e : exp) : Parsetree.expression_desc =
              * OCaml thinks the extra argument is unused because we're
              * producing * an uncurried call to a JS function whose arity isn't
              * known at compile time. *)
-            ignored_extra_argument;
+            Ast_attributes.ignored_extra_argument;
           ]
         (Exp.ident { txt = Ast_literal.js_internal_full_apply; loc })
         [ (Nolabel, e) ],
@@ -76,7 +63,7 @@ let generic_apply loc (self : Ast_traverse.map) (obj : Parsetree.expression)
   let obj = self#expression obj in
   let args =
     List.map
-      (fun (lbl, e) ->
+      ~f:(fun (lbl, e) ->
         Error.optional_err ~loc lbl;
         (lbl, self#expression e))
       args
@@ -120,7 +107,7 @@ let method_apply loc (self : Ast_traverse.map) (obj : Parsetree.expression) name
   let obj = self#expression obj in
   let args =
     List.map
-      (fun (lbl, e) ->
+      ~f:(fun (lbl, e) ->
         Error.optional_err ~loc lbl;
         (lbl, self#expression e))
       args

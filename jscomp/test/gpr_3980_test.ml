@@ -9,8 +9,8 @@ let _ =
      | 1 -> {name = "hi"; age = 1}
      | 2 -> {
          name = "bye";
-         age = Js.Math.floor 1.
+         age = Js.Math.floor_int 1.
        }
      | _ -> assert false
-    ) 
-   | _ -> assert false    
+    )
+   | _ -> assert false

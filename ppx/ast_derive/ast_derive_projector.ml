@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 open Ast_helper
 
 type tdcls = Parsetree.type_declaration list
@@ -38,8 +38,10 @@ let gen =
           match tdcl.ptype_kind with
           | Ptype_record label_declarations ->
               List.map
-                (fun ({ pld_name = { loc; txt = pld_label } as pld_name; _ } :
-                       Parsetree.label_declaration) ->
+                ~f:(fun
+                    ({ pld_name = { loc; txt = pld_label } as pld_name; _ } :
+                      Parsetree.label_declaration)
+                  ->
                   let txt = "param" in
                   Str.value Nonrecursive
                     [
@@ -53,13 +55,15 @@ let gen =
                 label_declarations
           | Ptype_variant constructor_declarations ->
               List.map
-                (fun {
-                       Parsetree.pcd_name = { loc; txt = con_name };
-                       pcd_args;
-                       pcd_loc = _;
-                       pcd_res;
-                       _;
-                     } ->
+                ~f:(fun
+                    {
+                      Parsetree.pcd_name = { loc; txt = con_name };
+                      pcd_args;
+                      pcd_loc = _;
+                      pcd_res;
+                      _;
+                    }
+                  ->
                   (* TODO: add type annotations *)
                   let pcd_args =
                     match pcd_args with
@@ -84,7 +88,7 @@ let gen =
                              annotate_type
                          else
                            let vars =
-                             List.init arity (fun x ->
+                             List.init ~len:arity ~f:(fun x ->
                                  "param_" ^ string_of_int x)
                            in
                            let exp =
@@ -98,17 +102,17 @@ let gen =
                                      else
                                        Exp.tuple
                                          (List.map
-                                            (fun x ->
+                                            ~f:(fun x ->
                                               Exp.ident { loc; txt = Lident x })
                                             vars)))
                                annotate_type
                            in
                            List.fold_right
-                             (fun var b ->
+                             ~f:(fun var b ->
                                Exp.fun_ Nolabel None
                                  (Pat.var { loc; txt = var })
                                  b)
-                             vars exp);
+                             vars ~init:exp);
                     ])
                 constructor_declarations
           | Ptype_abstract | Ptype_open ->
@@ -121,9 +125,8 @@ let gen =
                       (Pconst_string
                          (Ast_derive_util.notApplicable derivingName, loc, None))]]];
               ]
-          (* Location.raise_errorf "projector only works with record" *)
         in
-        List.concat_map handle_tdcl tdcls);
+        List.concat_map ~f:handle_tdcl tdcls);
     signature_gen =
       (fun (tdcls : Parsetree.type_declaration list) _explict_nonrec ->
         let handle_tdcl tdcl =
@@ -131,20 +134,22 @@ let gen =
           match tdcl.ptype_kind with
           | Ptype_record label_declarations ->
               List.map
-                (fun { Parsetree.pld_name; pld_type; pld_loc; _ } ->
+                ~f:(fun { Parsetree.pld_name; pld_type; pld_loc; _ } ->
                   let loc = pld_loc in
                   Sig.value
                     (Val.mk pld_name [%type: [%t core_type] -> [%t pld_type]]))
                 label_declarations
           | Ptype_variant constructor_declarations ->
               List.map
-                (fun {
-                       Parsetree.pcd_name = { loc; txt = con_name };
-                       pcd_args;
-                       pcd_loc = _;
-                       pcd_res;
-                       _;
-                     } ->
+                ~f:(fun
+                    {
+                      Parsetree.pcd_name = { loc; txt = con_name };
+                      pcd_args;
+                      pcd_loc = _;
+                      pcd_res;
+                      _;
+                    }
+                  ->
                   let pcd_args =
                     match pcd_args with
                     | Pcstr_tuple pcd_args -> pcd_args
@@ -157,8 +162,8 @@ let gen =
                     (Val.mk
                        { loc; txt = String.uncapitalize_ascii con_name }
                        (List.fold_right
-                          (fun x acc -> [%type: [%t x] -> [%t acc]])
-                          pcd_args annotate_type)))
+                          ~f:(fun x acc -> [%type: [%t x] -> [%t acc]])
+                          pcd_args ~init:annotate_type)))
                 constructor_declarations
           | Ptype_open | Ptype_abstract ->
               let loc = tdcl.ptype_loc in
@@ -171,6 +176,6 @@ let gen =
                          (Ast_derive_util.notApplicable derivingName, loc, None))]]];
               ]
         in
-        List.concat_map handle_tdcl tdcls);
+        List.concat_map ~f:handle_tdcl tdcls);
     expression_gen = None;
   }

@@ -4,14 +4,13 @@
    that takes in a reactElement, a dom element, and returns unit (nothing) */
 /* It's like `let`, except you're pointing the implementation to the JS side. The compiler will inline these
    calls and add the appropriate `require("react-dom")` in the file calling this `render` */
- [@mel.module "react-dom"]
+[@mel.module "react-dom"]
 external render: (React.element, Dom.element) => unit = "render";
-
 
 external _getElementsByClassName: string => array(Dom.element) =
   "document.getElementsByClassName";
 
- [@mel.return nullable]
+[@mel.return nullable]
 external _getElementById: string => option(Dom.element) =
   "document.getElementById";
 
@@ -68,7 +67,7 @@ module Experimental = {
     };
 };
 
- [@mel.module "react-dom"]
+[@mel.module "react-dom"]
 external hydrate: (React.element, Dom.element) => unit = "hydrate";
 
 let hydrateToElementWithClassName = (reactElement, className) =>
@@ -95,15 +94,15 @@ let hydrateToElementWithId = (reactElement, id) =>
   | Some(element) => hydrate(reactElement, element)
   };
 
- [@mel.module "react-dom"]
+[@mel.module "react-dom"]
 external createPortal: (React.element, Dom.element) => React.element =
   "createPortal";
 
- [@mel.module "react-dom"]
+[@mel.module "react-dom"]
 external unmountComponentAtNode: Dom.element => unit =
   "unmountComponentAtNode";
 
- [@mel.module "react-dom"]
+[@mel.module "react-dom"]
 external findDOMNode: ReasonReact.reactRef => Dom.element = "findDOMNode";
 
 external domElementToObj: Dom.element => Js.t({..}) = "%identity";
@@ -1122,7 +1121,7 @@ type domProps = {
   suppressContentEditableWarning: option(bool),
 };
 
-[@mel.splice] [@mel.module "react"]
+[@mel.variadic] [@mel.module "react"]
 external createDOMElementVariadic:
   (string, ~props: domProps=?, array(React.element)) => React.element =
   "createElement";
@@ -2133,7 +2132,7 @@ external objToDOMProps: Js.t({..}) => props = "%identity";
 [@deprecated "Please use ReactDOMRe.props instead"]
 type reactDOMProps = props;
 
-[@mel.splice]  [@mel.module "react"]
+[@mel.variadic] [@mel.module "react"]
 external createElement:
   (string, ~props: props=?, array(React.element)) => React.element =
   "createElement";
@@ -2142,7 +2141,7 @@ external createElement:
 include (
           /* Use varargs to avoid the ReactJS warning for duplicate keys in children */
           {
-             [@mel.module "react"]
+            [@mel.module "react"]
             external createElementInternalHack: 'a = "createElement";
             [@mel.send]
             external apply:
@@ -2153,7 +2152,7 @@ include (
             let createElementVariadic = (domClassName, ~props=?, children) => {
               let variadicArguments =
                 [|Obj.magic(domClassName), Obj.magic(props)|]
-                |> Js.Array.concat(children);
+                |> Js.Array.concat(~other=children);
               createElementInternalHack->(
                                            apply(
                                              Js.Nullable.null,
@@ -2601,7 +2600,6 @@ module Style = {
     Js.Dict.set(dict, key, value);
     combine(style, _dictToStyle(dict));
   };
-
 
   external unsafeAddStyle:
     ([@mel.as {json|{}|json}] _, style, Js.t({..})) => style =

@@ -21,7 +21,8 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
-open Ppxlib
+
+open Import
 
 type t = Parsetree.pattern
 
@@ -31,15 +32,11 @@ let is_unit_cont ~yes ~no (p : t) =
   | _ -> no
 
 (** [arity_of_fun pat e] tells the arity of
-    expression [fun pat -> e]
-*)
+    expression [fun pat -> e] *)
 let arity_of_fun (pat : Parsetree.pattern) (e : Parsetree.expression) =
   let rec aux (e : Parsetree.expression) =
     match e.pexp_desc with
     | Pexp_fun (_, _, _, e) -> 1 + aux e (*FIXME error on optional*)
-    (* | Pexp_fun _
-       -> Location.raise_errorf
-            ~loc:e.pexp_loc "Label is not allowed in JS object" *)
     | _ -> 0
   in
   is_unit_cont ~yes:0 ~no:1 pat + aux e

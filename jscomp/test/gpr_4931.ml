@@ -1,5 +1,4 @@
-
-[@@@config {
+[@@@mel.config {
   flags = [|"-w";"-103"|]
 }]
 

@@ -1,13 +1,9 @@
-
-
-
-
 external xx : string -> unit = "xx" [@@mel.module "x", "X"]
 
 type param
 
 external executeCommands : string -> param array -> unit = "executeCommands"
-[@@mel.scope "commands"] [@@mel.module "vscode"][@@mel.splice]
+[@@mel.scope "commands"] [@@mel.module "vscode"][@@mel.variadic]
 
 external env : string Js.Dict.t = "env" [@@mel.scope "process"]
 
@@ -59,10 +55,10 @@ external getMockFn3 : t -> int -> string = ""
 [@@mel.get_index] [@@mel.scope "a0", "a1", "a2"]
 
 external setMocFn1 : t -> int -> string -> unit = ""
-[@@set_index] [@@mel.scope "a0"]
+[@@mel.set_index] [@@mel.scope "a0"]
 
 external setMocFn2 : t -> int -> string -> unit = ""
-[@@set_index] [@@mel.scope "a0", "a1"]
+[@@mel.set_index] [@@mel.scope "a0", "a1"]
 
 external setMocFn3 : t -> int -> string -> unit = ""
 [@@mel.set_index] [@@mel.scope "a0", "a1", "a2"]

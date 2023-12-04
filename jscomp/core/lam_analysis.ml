@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (*used in effect analysis, it is sound but not-complete *)
 let not_zero_constant (x : Lam.Constant.t) =
   match x with
@@ -38,7 +40,7 @@ let rec no_side_effects (lam : Lam.t) : bool =
          this expression itself is side effect free
       *)
   | Lprim { primitive; args; _ } -> (
-      List.for_all no_side_effects args
+      List.for_all ~f:no_side_effects args
       &&
       match primitive with
       | Pccall { prim_name } -> (
@@ -136,7 +138,7 @@ let rec no_side_effects (lam : Lam.t) : bool =
       no_side_effects a && no_side_effects b && no_side_effects c
   | Lsequence (a, b) -> no_side_effects a && no_side_effects b
   | Lletrec (bindings, body) ->
-      List.for_all (fun (_, x) -> no_side_effects x) bindings
+      List.for_all ~f:(fun (_, x) -> no_side_effects x) bindings
       && no_side_effects body
   | Lwhile _ ->
       false (* conservative here, non-terminating loop does have side effect *)
@@ -195,7 +197,8 @@ let rec size (lam : Lam.t) =
     | Lfunction { body; _ } -> size body
     | Lswitch _ -> really_big ()
     | Lstringswitch (_, _, _) -> really_big ()
-    | Lstaticraise (_i, ls) -> List.fold_left (fun acc x -> size x + acc) 1 ls
+    | Lstaticraise (_i, ls) ->
+        List.fold_left ~f:(fun acc x -> size x + acc) ~init:1 ls
     | Lstaticcatch _ -> really_big ()
     | Ltrywith _ -> really_big ()
     | Lifthenelse (l1, l2, l3) -> 1 + size l1 + size l2 + size l3
@@ -216,15 +219,15 @@ and size_constant x =
   | Const_string _ -> 1
   | Const_some s -> size_constant s
   | Const_block (_, _, str) ->
-      List.fold_left (fun acc x -> acc + size_constant x) 0 str
+      List.fold_left ~f:(fun acc x -> acc + size_constant x) ~init:0 str
   | Const_float_array xs -> List.length xs
 
 and size_lams acc (lams : Lam.t list) =
-  List.fold_left (fun acc l -> acc + size l) acc lams
+  List.fold_left ~f:(fun acc l -> acc + size l) ~init:acc lams
 
 let args_all_const (args : Lam.t list) =
   List.for_all
-    (fun (x : Lam.t) -> match x with Lconst _ -> true | _ -> false)
+    ~f:(fun (x : Lam.t) -> match x with Lconst _ -> true | _ -> false)
     args
 
 let exit_inline_size = 7

@@ -1,4 +1,4 @@
-[@@@config {flags = [|"-w";"+unused-type-declaration";"-warn-error"; "A"|]}]
+[@@@mel.config {flags = [|"-w";"+unused-type-declaration";"-warn-error"; "A"|]}]
 
 type[@ocaml.warning "-69"] 'a linked_list =
   {

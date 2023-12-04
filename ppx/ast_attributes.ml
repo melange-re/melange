@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 type attr = Parsetree.attribute
 type t = attr list
@@ -34,23 +34,30 @@ let assert_bool_lit (e : Parsetree.expression) =
   | Pexp_construct ({ txt = Lident "false"; _ }, None) -> false
   | _ ->
       Location.raise_errorf ~loc:e.pexp_loc
-        "expect `true` or `false` in this field"
+        "expected this expression to be a boolean literal (`true` or `false`)"
+
+let warn_if_non_namespaced ~loc txt =
+  if not (Mel_ast_invariant.is_mel_attribute txt) then
+    Mel_ast_invariant.warn ~loc Deprecated_non_namespaced_attribute
 
 let process_method_attributes_rev (attrs : t) =
-  let exception Local of string in
+  let exception Local of Location.t * string in
   try
     let ret =
       List.fold_left
-        (fun (st, acc)
-             ({ attr_name = { txt; _ }; attr_payload = payload; _ } as attr) ->
+        ~f:(fun
+            (st, acc)
+            ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr)
+          ->
           match txt with
-          | "mel.get" | "get" (* @bs.get{null; undefined}*) ->
+          | "mel.get" | "get" ->
+              warn_if_non_namespaced ~loc txt;
               let result =
                 match Ast_payload.ident_or_record_as_config payload with
-                | Error s -> raise (Local s)
+                | Error s -> raise (Local (loc, s))
                 | Ok config ->
                     List.fold_left
-                      (fun (null, undefined) ({ txt; loc }, opt_expr) ->
+                      ~f:(fun (null, undefined) ({ txt; loc }, opt_expr) ->
                         match txt with
                         | "null" ->
                             ( (match opt_expr with
@@ -69,17 +76,17 @@ let process_method_attributes_rev (attrs : t) =
                                 let v = assert_bool_lit e in
                                 (v, v))
                         | _ -> Error.err ~loc Unsupported_predicates)
-                      (false, false) config
+                      ~init:(false, false) config
               in
-
               ({ st with get = Some result }, acc)
           | "mel.set" | "set" ->
+              warn_if_non_namespaced ~loc txt;
               let result =
                 match Ast_payload.ident_or_record_as_config payload with
-                | Error s -> raise (Local s)
+                | Error s -> raise (Local (loc, s))
                 | Ok config ->
                     List.fold_left
-                      (fun _st ({ txt; loc }, opt_expr) ->
+                      ~f:(fun _st ({ txt; loc }, opt_expr) ->
                         (*FIXME*)
                         if txt = "no_get" then
                           match opt_expr with
@@ -87,18 +94,17 @@ let process_method_attributes_rev (attrs : t) =
                           | Some e ->
                               if assert_bool_lit e then `No_get else `Get
                         else Error.err ~loc Unsupported_predicates)
-                      `Get config
+                      ~init:`Get config
               in
               (* properties -- void
-                    [@@set{only}]
-              *)
+                    [@@set{only}] *)
               ({ st with set = Some result }, acc)
           | _ -> (st, attr :: acc))
-        ({ get = None; set = None }, [])
+        ~init:({ get = None; set = None }, [])
         attrs
     in
     Ok ret
-  with Local s -> Error s
+  with Local (loc, s) -> Error (loc, s)
 
 type attr_kind =
   | Nothing
@@ -108,50 +114,53 @@ type attr_kind =
 
 let process_attributes_rev (attrs : t) : attr_kind * t =
   List.fold_left
-    (fun (st, acc) ({ attr_name = { txt; loc }; _ } as attr) ->
+    ~f:(fun (st, acc) ({ attr_name = { txt; loc }; _ } as attr) ->
       match (txt, st) with
       | "u", (Nothing | Uncurry _) ->
           (Uncurry attr, acc) (* TODO: warn unused/duplicated attribute *)
       | ("mel.this" | "this"), (Nothing | Meth_callback _) ->
+          warn_if_non_namespaced ~loc txt;
           (Meth_callback attr, acc)
-      | ("mel.meth" | "meth"), (Nothing | Method _) -> (Method attr, acc)
+      | ("mel.meth" | "meth"), (Nothing | Method _) ->
+          warn_if_non_namespaced ~loc txt;
+          (Method attr, acc)
       | ("u" | "mel.this" | "this"), _ ->
           Error.err ~loc Conflict_u_mel_this_mel_meth
       | _, _ -> (st, attr :: acc))
-    (Nothing, []) attrs
+    ~init:(Nothing, []) attrs
 
 let process_pexp_fun_attributes_rev (attrs : t) =
   List.fold_left
-    (fun (st, acc) ({ attr_name = { txt; _ }; _ } as attr) ->
+    ~f:(fun (st, acc) ({ attr_name = { txt; _ }; _ } as attr) ->
       match txt with "mel.open" -> (true, acc) | _ -> (st, attr :: acc))
-    (false, []) attrs
+    ~init:(false, []) attrs
 
-let process_bs (attrs : t) =
+let process_uncurried (attrs : t) =
   List.fold_left
-    (fun (st, acc) ({ attr_name = { txt; _ }; _ } as attr) ->
+    ~f:(fun (st, acc) ({ attr_name = { txt; _ }; _ } as attr) ->
       match (txt, st) with "u", _ -> (true, acc) | _, _ -> (st, attr :: acc))
-    (false, []) attrs
+    ~init:(false, []) attrs
 
-let is_bs (attr : attr) =
+let is_uncurried (attr : attr) =
   match attr with
   | { attr_name = { Location.txt = "u"; _ }; _ } -> true
   | _ -> false
 
-let bs_get : attr =
+let mel_get : attr =
   {
     attr_name = { txt = "mel.get"; loc = Location.none };
     attr_payload = Parsetree.PStr [];
     attr_loc = Location.none;
   }
 
-let bs_get_index : attr =
+let mel_get_index : attr =
   {
     attr_name = { txt = "mel.get_index"; loc = Location.none };
     attr_payload = Parsetree.PStr [];
     attr_loc = Location.none;
   }
 
-let bs_get_arity : attr =
+let mel_get_arity : attr =
   {
     attr_name = { txt = "internal.arity"; loc = Location.none };
     attr_payload =
@@ -174,21 +183,28 @@ let bs_get_arity : attr =
     attr_loc = Location.none;
   }
 
-let bs_set : attr =
+let mel_set : attr =
   {
     attr_name = { txt = "mel.set"; loc = Location.none };
     attr_payload = PStr [];
     attr_loc = Location.none;
   }
 
+let internal_expansive_label = "internal.expansive"
+
 let internal_expansive : attr =
   {
-    attr_name = { txt = "internal.expansive"; loc = Location.none };
+    attr_name = { txt = internal_expansive_label; loc = Location.none };
     attr_payload = PStr [];
     attr_loc = Location.none;
   }
 
-let bs_return_undefined : attr =
+let has_internal_expansive attrs =
+  List.exists
+    ~f:(fun { attr_name = { txt; _ }; _ } -> txt = "internal.expansive")
+    attrs
+
+let mel_return_undefined : attr =
   {
     attr_name = { txt = "mel.return"; loc = Location.none };
     attr_payload =
@@ -214,12 +230,13 @@ let bs_return_undefined : attr =
 
 type as_const_payload = Int of int | Str of string | Js_literal_str of string
 
-let iter_process_bs_string_or_int_as (attrs : Parsetree.attributes) =
+let iter_process_mel_string_or_int_as (attrs : Parsetree.attributes) =
   let st = ref None in
   List.iter
-    (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
+    ~f:(fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
       match txt with
       | "mel.as" | "as" ->
+          warn_if_non_namespaced ~loc txt;
           if !st = None then (
             Mel_ast_invariant.mark_used_mel_attribute attr;
             match Ast_payload.is_single_int payload with
@@ -255,7 +272,8 @@ let iter_process_bs_string_or_int_as (attrs : Parsetree.attributes) =
                       | Js_literal _ -> ()
                       | _ ->
                           Location.raise_errorf ~loc:pexp_loc
-                            "an object literal expected");
+                            "`[@mel.as {json| ... |json}]' only supports \
+                             JavaScript literals");
                       st := Some (Js_literal_str s))
                 | _ -> Error.err ~loc Expect_int_or_string_or_json_literal)
             | Some v -> st := Some (Int v))
@@ -266,9 +284,8 @@ let iter_process_bs_string_or_int_as (attrs : Parsetree.attributes) =
 
 (* duplicated @uncurry @string not allowed,
    it is worse in @uncurry since it will introduce
-   inconsistency in arity
-*)
-let iter_process_bs_string_int_unwrap_uncurry (attrs : t) =
+   inconsistency in arity *)
+let iter_process_mel_string_int_unwrap_uncurry (attrs : t) =
   let st = ref `Nothing in
   let assign v ({ attr_name = { loc; _ }; _ } as attr : attr) =
     if !st = `Nothing then (
@@ -277,24 +294,34 @@ let iter_process_bs_string_int_unwrap_uncurry (attrs : t) =
     else Error.err ~loc Conflict_attributes
   in
   List.iter
-    (fun ({ attr_name = { txt; _ }; attr_payload = payload; _ } as attr) ->
+    ~f:(fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
       match txt with
-      | "mel.string" | "string" -> assign `String attr
-      | "mel.int" | "int" -> assign `Int attr
-      | "mel.ignore" | "ignore" -> assign `Ignore attr
-      | "mel.unwrap" | "unwrap" -> assign `Unwrap attr
+      | "mel.string" | "string" ->
+          warn_if_non_namespaced ~loc txt;
+          assign `String attr
+      | "mel.int" | "int" ->
+          warn_if_non_namespaced ~loc txt;
+          assign `Int attr
+      | "mel.ignore" | "ignore" ->
+          warn_if_non_namespaced ~loc txt;
+          assign `Ignore attr
+      | "mel.unwrap" | "unwrap" ->
+          warn_if_non_namespaced ~loc txt;
+          assign `Unwrap attr
       | "mel.uncurry" | "uncurry" ->
+          warn_if_non_namespaced ~loc txt;
           assign (`Uncurry (Ast_payload.is_single_int payload)) attr
       | _ -> ())
     attrs;
   !st
 
-let iter_process_bs_string_as (attrs : t) : string option =
+let iter_process_mel_string_as (attrs : t) : string option =
   let st = ref None in
   List.iter
-    (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
+    ~f:(fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
       match txt with
       | "mel.as" | "as" ->
+          warn_if_non_namespaced ~loc txt;
           if !st = None then (
             match Ast_payload.is_single_string payload with
             | None -> Error.err ~loc Expect_string_literal
@@ -305,24 +332,6 @@ let iter_process_bs_string_as (attrs : t) : string option =
       | _ -> ())
     attrs;
   !st
-
-let external_attrs =
-  [|
-    "get";
-    "set";
-    "get_index";
-    "return";
-    "obj";
-    "val";
-    "module";
-    "scope";
-    "variadic";
-    "send";
-    "new";
-    "set_index";
-    (* TODO(anmonteiro): re-enable when we enable gentype *)
-    (* Literals.gentype_import; *)
-  |]
 
 let first_char_special (x : string) =
   match x with
@@ -365,19 +374,17 @@ let rs_externals (attrs : t) pval_prim =
       (* No attributes found *)
       prims_to_be_encoded pval_prim
   | _, _ ->
-      List.exists
-        (fun { attr_name = { txt; loc = _ }; _ } ->
-          String.starts_with txt ~prefix:"mel."
-          || Array.exists (fun (x : string) -> txt = x) external_attrs)
-        attrs
+      Melange_ffi.External_ffi_attributes.has_mel_attributes
+        (List.map ~f:(fun { attr_name = { txt; _ }; _ } -> txt) attrs)
       || prims_to_be_encoded pval_prim
 
-let iter_process_bs_int_as (attrs : t) =
+let iter_process_mel_int_as (attrs : t) =
   let st = ref None in
   List.iter
-    (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
+    ~f:(fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
       match txt with
       | "mel.as" | "as" ->
+          warn_if_non_namespaced ~loc txt;
           if !st = None then (
             match Ast_payload.is_single_int payload with
             | None -> Error.err ~loc Expect_int_literal
@@ -389,11 +396,12 @@ let iter_process_bs_int_as (attrs : t) =
     attrs;
   !st
 
-let has_bs_optional (attrs : t) : bool =
+let has_mel_optional (attrs : t) : bool =
   List.exists
-    (fun ({ attr_name = { txt; _ }; _ } as attr) ->
+    ~f:(fun ({ attr_name = { txt; loc }; _ } as attr) ->
       match txt with
       | "mel.optional" | "optional" ->
+          warn_if_non_namespaced ~loc txt;
           Mel_ast_invariant.mark_used_mel_attribute attr;
           true
       | _ -> false)
@@ -402,27 +410,34 @@ let has_bs_optional (attrs : t) : bool =
 let is_inline : attr -> bool =
  fun { attr_name = { txt; _ }; _ } -> txt = "mel.inline" || txt = "inline"
 
-let has_inline_payload (attrs : t) = List.find_opt is_inline attrs
+let has_inline_payload (attrs : t) = List.find_opt ~f:is_inline attrs
 
 let is_mel_as : attr -> bool =
  fun { attr_name = { txt; _ }; _ } -> txt = "mel.as" || txt = "as"
 
-let has_mel_as_payload (attrs : t) = List.find_opt is_mel_as attrs
+let has_mel_as_payload (attrs : t) =
+  List.fold_left
+    ~f:(fun (attrs, found) attr ->
+      match (is_mel_as attr, found) with
+      | true, None -> (attrs, Some attr)
+      | false, Some _ | false, None -> (attr :: attrs, found)
+      | true, Some _ ->
+          Location.raise_errorf ~loc:attr.attr_loc
+            "Duplicate `%@mel.as' attribute found")
+    ~init:([], None) attrs
 
-(* We disable warning 61 in Melange externals since they're substantially
-   different from OCaml externals. This warning doesn't make sense for a JS
-   runtime *)
-let unboxable_type_in_prim_decl : Parsetree.attribute =
-  let open Ast_helper in
+let ocaml_warning w =
   {
     attr_name = { txt = "ocaml.warning"; loc = Location.none };
     attr_payload =
       PStr
-        [
-          Str.eval
-            (Exp.constant
-               (Pconst_string
-                  ("-unboxable-type-in-prim-decl", Location.none, None)));
-        ];
+        Ast_helper.
+          [ Str.eval (Exp.constant (Pconst_string (w, Location.none, None))) ];
     attr_loc = Location.none;
   }
+
+(* We disable warning 61 in Melange externals since they're substantially
+   different from OCaml externals. This warning doesn't make sense for a JS
+   runtime *)
+let unboxable_type_in_prim_decl = ocaml_warning "-unboxable-type-in-prim-decl"
+let ignored_extra_argument = ocaml_warning "-ignored-extra-argument"

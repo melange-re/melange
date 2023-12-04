@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module E = Js_exp_make
 
 type t = J.statement
@@ -91,7 +92,7 @@ let int_switch ?(comment : string option)
       let continuation =
         match
           List.find_map
-            (fun (switch_case, (x : J.case_clause)) ->
+            ~f:(fun (switch_case, (x : J.case_clause)) ->
               if switch_case = Int32.to_int i then Some x.switch_body else None)
             clauses
         with
@@ -136,7 +137,7 @@ let string_switch ?(comment : string option)
       let continuation =
         match
           List.find_map
-            (fun (switch_case, (x : J.case_clause)) ->
+            ~f:(fun (switch_case, (x : J.case_clause)) ->
               if switch_case = txt then Some x.switch_body else None)
             clauses
         with

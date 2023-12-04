@@ -77,7 +77,7 @@ eq("File \"jscomp/test/exception_repr_test.ml\", line 25, characters 7-14", "A(1
 
 eq("File \"jscomp/test/exception_repr_test.ml\", line 26, characters 7-14", Stdlib__Printexc.to_string({
             MEL_EXN_ID: Hello
-          }).startsWith("Exception_repr_test.Hello"), true);
+          }).startsWith("Exception_repr_test.Hello", undefined), true);
 
 eq("File \"jscomp/test/exception_repr_test.ml\", line 27, characters 7-14", "A", Stdlib__Printexc.to_string({
           MEL_EXN_ID: Exception_def.A,

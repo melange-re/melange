@@ -25,10 +25,14 @@ test:
 
 .PHONY: opam-create-switch
 opam-create-switch: ## Create opam switch
-	opam switch create . 5.1.0 -y --no-install
+	opam switch create . ocaml-variants.5.1.1+trunk -y --no-install
 
 .PHONY: opam-install-test
 opam-install-test: ## Install test dependencies
+	opam pin add js_of_ocaml-compiler --dev-repo -y
+	opam pin add js_of_ocaml --dev-repo -y
+	opam pin add merlin-lib git+https://github.com/voodoos/merlin#5.1.1-upgrade
+	opam pin add merlin git+https://github.com/voodoos/merlin#5.1.1-upgrade
 	opam pin add melange.dev . --with-test -y
 	opam pin add melange-playground.dev . --with-test -y
 

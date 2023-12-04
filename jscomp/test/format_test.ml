@@ -19,7 +19,7 @@ let u () = "xx %s" ^^ "yy"
 
 module M = struct
   external infinity : float = "POSITIVE_INFINITY"
-    [@@scope "Number"]
+    [@@mel.scope "Number"]
   external neg_infinity : float = "NEGATIVE_INFINITY"
     [@@mel.scope "Number"]
   external nan : float = "NaN"

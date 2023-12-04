@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 type t =
   | Unsupported_predicates
@@ -38,9 +38,8 @@ type t =
   | Invalid_mel_int_type
   | Invalid_mel_unwrap_type
   | Conflict_ffi_attribute of string
-  | Canot_infer_arity_by_syntax
-  | Illegal_attribute
-  | Inconsistent_arity of int * int
+  | Cannot_infer_arity_by_syntax
+  | Inconsistent_arity of { uncurry_attribute : int; real : int }
     (* we still require users to have explicit annotation to avoid
        {[ (((int -> int) -> int) -> int )]} *)
   | Not_supported_directive_in_mel_return
@@ -54,42 +53,52 @@ let pp_error fmt err =
   Format.pp_print_string fmt
     (match err with
     | Mel_uncurried_arity_too_large ->
-        "Uncurried functions only supports only up to arity 22"
+        "Uncurried function arity is limited to 22 arguments"
     | Misplaced_label_syntax ->
+        (* let fn x = ((##) x ~hi) ~lo:1 ~hi:2 *)
         "Label syntax is not supported in this position"
-        (* let fn x = ((##) x ~hi)  ~lo:1 ~hi:2 *)
     | Optional_in_uncurried_mel_attribute ->
         "Uncurried function doesn't support optional arguments yet"
     | Expect_opt_in_mel_return_to_opt ->
-        "@return directive *_to_opt expect return type to be syntax wise `_ \
-         option` for safety"
-    | Not_supported_directive_in_mel_return -> "Not supported return directive"
-    | Illegal_attribute -> "Illegal attributes"
-    | Canot_infer_arity_by_syntax ->
-        "Cannot infer the arity through the syntax, either [@uncurry n] or \
-         write it in arrow syntax"
-    | Inconsistent_arity (arity, n) ->
-        Printf.sprintf "Inconsistent arity %d vs %d" arity n
-    | Unsupported_predicates -> "unsupported predicates"
+        "`@mel.return' directive *_to_opt expects the return type to be an \
+         option literal type (`_ option')"
+    | Not_supported_directive_in_mel_return ->
+        "Unsupported `@mel.return' directive. Supported directives are one of:\n\
+         - undefined_to_opt\n\
+         - null_to_opt\n\
+         - nullable / null_undefined_to_opt\n\
+         - identity"
+    | Cannot_infer_arity_by_syntax ->
+        "Cannot infer arity through syntax.\n\
+         Use either `[@mel.uncurry n]' or the full arrow type"
+    | Inconsistent_arity { uncurry_attribute; real } ->
+        Printf.sprintf
+          "Inconsistent arity: `[@mel.uncurry %d]' / arrow syntax with `%d' \
+           arguments"
+          uncurry_attribute real
+    | Unsupported_predicates -> "Unsupported predicate"
     | Conflict_u_mel_this_mel_meth ->
-        "@this, @bs, @meth can not be applied at the same time"
-    | Conflict_attributes -> "conflicting attributes"
-    | Expect_string_literal -> "expect string literal"
-    | Duplicated_mel_as -> "duplicate @as"
-    | Expect_int_literal -> "expect int literal"
+        "`@mel.this', `@u' and `@mel.meth' cannot be applied at the same time"
+    | Conflict_attributes -> "Conflicting attributes"
+    | Expect_string_literal -> "Expected a string literal"
+    | Duplicated_mel_as -> "Duplicate `@mel.as'"
+    | Expect_int_literal -> "Expected an integer literal"
     | Expect_int_or_string_or_json_literal ->
-        "expect int, string literal or json literal {json|text here|json}"
-    | Unhandled_poly_type -> "Unhandled poly type"
+        "Expected an integer, string or JSON literal (`{json|text here|json}')"
+    | Unhandled_poly_type -> "Unhandled polymorphic variant type"
     | Invalid_underscore_type_in_external ->
-        "_ is not allowed in combination with external optional type"
-    | Invalid_mel_string_type -> "Not a valid type for @string"
-    | Invalid_mel_int_type -> "Not a valid type for @int"
+        "`_' is not allowed in an `external' declaration's (optionally) \
+         labelled argument type"
+    | Invalid_mel_string_type -> "Invalid type for `@mel.string'"
+    | Invalid_mel_int_type -> "Invalid type for `@mel.int'"
     | Invalid_mel_unwrap_type ->
-        "Not a valid type for @unwrap. Type must be an inline variant \
+        "Invalid type for `@mel.unwrap'. Type must be an inline variant \
          (closed), and each constructor must have an argument."
-    | Conflict_ffi_attribute str -> "Conflicting attributes: " ^ str
+    | Conflict_ffi_attribute str ->
+        Format.sprintf "Conflicting FFI attributes: %s" str
     | Mel_this_simple_pattern ->
-        "@this expect its pattern variable to be simple form")
+        "`@mel.this' expects a simple pattern: an optionally constrained \
+         variable (or wildcard)")
 
 let err ~loc error = Location.raise_errorf ~loc "%a" pp_error error
 

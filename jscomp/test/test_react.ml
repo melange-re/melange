@@ -1,4 +1,3 @@
-
 (** TODO: binding -- document.getElementById -- to mount node *)
 
 type html_element
@@ -62,18 +61,18 @@ external vdom : vdom = "DOM" [@@mel.module "react"]
    ]}
 *)
 external h1 : vdom -> ?attrs:attrs -> component array  -> component = "h1"
-    [@@mel.send]  [@@mel.splice]
+    [@@mel.send]  [@@mel.variadic]
 external h2 : vdom -> ?attrs:attrs -> component array  -> component = "h2"
-    [@@mel.send]  [@@mel.splice]
+    [@@mel.send]  [@@mel.variadic]
 
 external h3 : vdom ->  ?attrs:attrs -> component array  -> component = "h3"
-    [@@mel.send]  [@@mel.splice]
+    [@@mel.send]  [@@mel.variadic]
 
 external h4 : vdom ->  ?attrs:attrs -> component array  -> component = "h4"
-    [@@mel.send]  [@@mel.splice]
+    [@@mel.send]  [@@mel.variadic]
 
 external div : vdom -> ?attrs:attrs -> component array ->  component = "div"
-    [@@mel.send]  [@@mel.splice]
+    [@@mel.send]  [@@mel.variadic]
 
 type component_class
 external createClass :

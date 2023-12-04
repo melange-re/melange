@@ -1,4 +1,4 @@
-(* Copyright (C) 2017 Authors of ReScript
+(* Copyright (C) 2023- Authors of Melange
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,8 +22,4 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val out_ident : Format.formatter -> Outcometree.out_ident -> unit
-(** This function is used to
-    reverse namespace printing to
-    avoid namespace leaking
-*)
+val has_mel_attributes : string list -> bool

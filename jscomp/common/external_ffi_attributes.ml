@@ -1,4 +1,4 @@
-(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
+(* Copyright (C) 2023- Authors of Melange
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,28 +22,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** Contains functionality for dealing with values that can be both [null] and [undefined] *)
+open Import
 
-open Melange_mini_stdlib
+let external_attrs =
+  [|
+    "get";
+    "set";
+    "get_index";
+    "return";
+    "obj";
+    "val";
+    "module";
+    "scope";
+    "variadic";
+    "send";
+    "new";
+    "set_index";
+    (* TODO(anmonteiro): re-enable when we enable gentype *)
+    (* Literals.gentype_import; *)
+  |]
 
-type +'a t = 'a Js_internal.nullable
-
-external toOption : 'a t -> 'a option = "#nullable_to_opt"
-external to_opt : 'a t -> 'a option = "#nullable_to_opt"
-external return : 'a -> 'a t = "%identity"
-external isNullable : 'a t -> bool = "#is_nullable"
-external null : 'a t = "#null"
-external undefined : 'a t = "#undefined"
-
-open struct
-  module Js = Js_internal
-end
-
-let bind x f =
-  match to_opt x with
-  | None -> (Obj.magic (x : 'a t) : 'b t)
-  | Some x -> return (f x [@u])
-
-let iter x f = match to_opt x with None -> () | Some x -> f x [@u]
-let fromOption x = match x with None -> undefined | Some x -> return x
-let from_opt = fromOption
+let has_mel_attributes attrs =
+  List.exists
+    ~f:(fun txt ->
+      String.starts_with txt ~prefix:"mel."
+      || Array.exists ~f:(fun (x : string) -> txt = x) external_attrs)
+    attrs

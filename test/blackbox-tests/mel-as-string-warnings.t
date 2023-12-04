@@ -63,5 +63,5 @@ The analog case with `@mel.int` fails to build
   File "x.ml", line 1, characters 16-31:
   1 | external foo : ([ `foo of int ][@mel.int]) -> string = "foo"
                       ^^^^^^^^^^^^^^^
-  Error: Not a valid type for @int
+  Error: Invalid type for `@mel.int'
   [2]

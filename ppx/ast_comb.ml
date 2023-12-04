@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 open Ast_helper
 
 (* let fun_no_label ?loc ?attrs  pat body =
@@ -46,16 +46,16 @@ let tuple_type_pair ?loc kind arity =
   else
     let number = arity + 1 in
     let tys =
-      List.init number (fun i ->
+      List.init ~len:number ~f:(fun i ->
           Typ.var ?loc (prefix ^ string_of_int (number - i - 1)))
     in
     match tys with
     | result :: rest ->
         ( List.fold_left
-            (fun r arg ->
+            ~f:(fun r arg ->
               let loc = Option.value ~default:Location.none loc in
               [%type: [%t arg] -> [%t r]])
-            result rest,
+            ~init:result rest,
           List.rev rest,
           result )
     | [] -> assert false

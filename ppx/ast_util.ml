@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 open Ast_helper
 
 type args = (Asttypes.arg_label * Parsetree.expression) list
@@ -40,7 +40,7 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
       but it does allow duplicates between instance variable and method name,
       we should enforce such rules
       {[
-        object [@bs]
+        object [@u]
           val x = 3
           method x = 3
         end
@@ -81,8 +81,10 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
   let ( (internal_label_attr_types : Parsetree.object_field list),
         (public_label_attr_types : Parsetree.object_field list) ) =
     List.fold_right
-      (fun ({ pcf_loc = loc; _ } as x : Parsetree.class_field)
-           (label_attr_types, public_label_attr_types) ->
+      ~f:(fun
+          ({ pcf_loc = loc; _ } as x : Parsetree.class_field)
+          (label_attr_types, public_label_attr_types)
+        ->
         match x.pcf_desc with
         | Pcf_method (label, public_flag, Cfk_concrete (Fresh, e)) -> (
             match e.pexp_desc with
@@ -100,7 +102,8 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
                   "polymorphic type annotation not supported yet"
             | Pexp_poly (_, None) ->
                 Location.raise_errorf ~loc
-                  "Unsupported syntax, expect syntax like `method x () = x ` "
+                  "Unsupported JS Object syntax. Methods must take at least \
+                   one argument"
             | _ -> Location.raise_errorf ~loc "Unsupported syntax in js object")
         | Pcf_val (label, mutable_flag, Cfk_concrete (Fresh, _)) ->
             let _, label_attr =
@@ -119,7 +122,7 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
         | Pcf_inherit _ | Pcf_initializer _ | Pcf_attribute _ | Pcf_extension _
         | Pcf_constraint _ ->
             Location.raise_errorf ~loc "Only method support currently")
-      clfs ([], [])
+      clfs ~init:([], [])
   in
   let internal_obj_type =
     Ast_core_type.make_obj ~loc internal_label_attr_types
@@ -129,7 +132,8 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
   in
   let labels, label_types, exprs, _ =
     List.fold_right
-      (fun (x : Parsetree.class_field) (labels, label_types, exprs, aliased) ->
+      ~f:(fun
+          (x : Parsetree.class_field) (labels, label_types, exprs, aliased) ->
         match x.pcf_desc with
         | Pcf_method (label, _public_flag, Cfk_concrete (Fresh, e)) -> (
             match e.pexp_desc with
@@ -181,18 +185,18 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
         | Pcf_inherit _ | Pcf_initializer _ | Pcf_attribute _ | Pcf_extension _
         | Pcf_constraint _ ->
             Location.raise_errorf ~loc "Only method support currently")
-      clfs ([], [], [], false)
+      clfs ~init:([], [], [], false)
   in
   let pval_type =
     List.fold_right2
-      (fun label label_type acc ->
+      ~f:(fun label label_type acc ->
         Typ.arrow ~loc:label.Asttypes.loc (Labelled label.Asttypes.txt)
           label_type acc)
-      labels label_types public_obj_type
+      labels label_types ~init:public_obj_type
   in
   Ast_external_mk.local_extern_cont_to_obj loc
     ~pval_prim:(Ast_external_mk.pval_prim_of_labels labels)
     (fun e ->
       Exp.apply ~loc e
-        (List.map2 (fun l expr -> (Labelled l.txt, expr)) labels exprs))
+        (List.map2 ~f:(fun l expr -> (Labelled l.txt, expr)) labels exprs))
     ~pval_type

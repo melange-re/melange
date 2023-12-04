@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module E = Js_exp_make
 
 (* If it is the return value, since it is a side-effect call,
@@ -328,7 +329,8 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
           (* 2 ^ 32 - 1*)
       | Backend_type ->
           E.make_block E.zero_int_literal
-            (Blk_constructor { name = "Other"; num_nonconst = 1 })
+            (Blk_constructor
+               { name = "Other"; num_nonconst = 1; attributes = [] })
             [ E.str "Melange" ]
             Immutable)
   | Pbswap16 -> E.runtime_call Js_runtime_modules.bytes "bswap16" args

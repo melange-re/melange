@@ -431,25 +431,34 @@ and eq_option l1 l2 =
 
 and eq_approx_list ls ls1 = List.for_all2_no_exn ls ls1 eq_approx
 
-let assoc_with_opt_default ~default i xs =
-  match List.assoc i xs with
-  | v -> v
-  | exception Not_found -> Option.get default
-
 let switch lam (lam_switch : lambda_switch) : t =
   match lam with
-  | Lconst (Const_int { i; _ }) ->
-      assoc_with_opt_default ~default:lam_switch.sw_failaction (Int32.to_int i)
-        lam_switch.sw_consts
-  | Lconst (Const_block (i, _, _)) ->
-      assoc_with_opt_default i lam_switch.sw_blocks
-        ~default:lam_switch.sw_failaction
+  | Lconst (Const_int { i; _ }) -> (
+      match List.assoc (Int32.to_int i) lam_switch.sw_consts with
+      | v -> v
+      | exception Not_found -> (
+          match lam_switch.sw_failaction with
+          | Some v -> v
+          | None ->
+              (* Because of inlining and dead code, we might be looking at a
+                 value of unexpected type e.g. an integer, so the const case
+                 might not be found *)
+              Lswitch (lam, lam_switch)))
+  | Lconst (Const_block (i, _, _)) -> (
+      match List.assoc i lam_switch.sw_blocks with
+      | v -> v
+      | exception Not_found -> (
+          match lam_switch.sw_failaction with
+          | Some v -> v
+          | None -> Lswitch (lam, lam_switch)))
   | _ -> Lswitch (lam, lam_switch)
 
 let stringswitch (lam : t) cases default : t =
   match lam with
-  | Lconst (Const_string { s; unicode = false }) ->
-      assoc_with_opt_default s cases ~default
+  | Lconst (Const_string { s; unicode = false }) -> (
+      match List.assoc s cases with
+      | v -> v
+      | exception Not_found -> Option.get default)
   | _ -> Lstringswitch (lam, cases, default)
 
 let true_ : t = Lconst Const_js_true

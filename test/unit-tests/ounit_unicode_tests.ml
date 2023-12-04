@@ -173,15 +173,6 @@ let suites =
                OUnit.assert_bool __LOC__ true
            | _ -> OUnit.assert_bool __LOC__ false );
          ( __LOC__ >:: fun _ ->
-           match Utf8_string.Interp.transform_test {|$()|} with
-           | exception
-               Utf8_string.Interp.Error
-                 ( { lnum = 0; offset = 0; byte_bol = 0 },
-                   { lnum = 0; offset = 3; byte_bol = 0 },
-                   Invalid_syntax_of_var "" ) ->
-               OUnit.assert_bool __LOC__ true
-           | _ -> OUnit.assert_bool __LOC__ false );
-         ( __LOC__ >:: fun _ ->
            match Utf8_string.Interp.transform_test {|$ ()|} with
            | exception
                Utf8_string.Interp.Error
@@ -195,7 +186,7 @@ let suites =
            | exception
                Utf8_string.Interp.Error
                  ( { lnum = 0; offset = 0; byte_bol = 0 },
-                   { lnum = 0; offset = 3; byte_bol = 0 },
+                   { lnum = 0; offset = 0; byte_bol = 3 },
                    Invalid_syntax_of_var "" ) ->
                OUnit.assert_bool __LOC__ true
            | _ -> OUnit.assert_bool __LOC__ false );

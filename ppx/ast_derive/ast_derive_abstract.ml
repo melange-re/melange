@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 (* let derivingName = "abstract" *)
 module U = Ast_derive_util
@@ -33,20 +33,19 @@ open Ast_helper
    so we can still reuse existing frame work
 *)
 let get_optional_attrs =
-  [ Ast_attributes.bs_get; Ast_attributes.bs_return_undefined ]
+  [ Ast_attributes.mel_get; Ast_attributes.mel_return_undefined ]
 
-let get_attrs = Ast_attributes.[ bs_get_arity; unboxable_type_in_prim_decl ]
-let set_attrs = Ast_attributes.[ bs_set; unboxable_type_in_prim_decl ]
+let get_attrs = Ast_attributes.[ mel_get_arity; unboxable_type_in_prim_decl ]
+let set_attrs = Ast_attributes.[ mel_set; unboxable_type_in_prim_decl ]
 
 let get_pld_type pld_type ~attrs =
-  let is_optional = Ast_attributes.has_bs_optional attrs in
+  let is_optional = Ast_attributes.has_mel_optional attrs in
   if is_optional then
     match pld_type.ptyp_desc with
     | Ptyp_constr ({ txt = Lident "option"; _ }, [ pld_type ]) -> pld_type
     | _ ->
         Location.raise_errorf ~loc:pld_type.ptyp_loc
-          "[@mel.optional] must appear on a type explicitly annotated with \
-           `option'"
+          "`[@mel.optional]' must appear on an option literal type (`_ option')"
   else pld_type
 
 let handleTdcl light (tdcl : Parsetree.type_declaration) :
@@ -66,27 +65,32 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
       let is_private = tdcl.ptype_private = Private in
       let has_optional_field =
         List.exists
-          (fun (x : Parsetree.label_declaration) ->
-            Ast_attributes.has_bs_optional x.pld_attributes)
+          ~f:(fun (x : Parsetree.label_declaration) ->
+            Ast_attributes.has_mel_optional x.pld_attributes)
           label_declarations
       in
       let setter_accessor, makeType, labels =
         List.fold_right
-          (fun ({
-                  pld_name = { txt = label_name; loc = label_loc } as pld_name;
-                  pld_type;
-                  pld_mutable;
-                  pld_attributes;
-                  pld_loc;
-                } :
-                 Parsetree.label_declaration) (acc, maker, labels) ->
+          ~f:(fun
+              ({
+                 pld_name = { txt = label_name; loc = label_loc } as pld_name;
+                 pld_type;
+                 pld_mutable;
+                 pld_attributes;
+                 pld_loc;
+               } :
+                Parsetree.label_declaration)
+              (acc, maker, labels)
+            ->
             let prim_as_name, newLabel =
-              match Ast_attributes.iter_process_bs_string_as pld_attributes with
+              match
+                Ast_attributes.iter_process_mel_string_as pld_attributes
+              with
               | None -> (label_name, pld_name)
               | Some new_name -> (new_name, { pld_name with txt = new_name })
             in
             let prim = [ prim_as_name ] in
-            let is_optional = Ast_attributes.has_bs_optional pld_attributes in
+            let is_optional = Ast_attributes.has_mel_optional pld_attributes in
 
             let maker, acc =
               if is_optional then
@@ -130,10 +134,11 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
             in
             (acc, maker, (is_optional, newLabel) :: labels))
           label_declarations
-          ( [],
-            (if has_optional_field then [%type: unit -> [%t core_type]]
-             else core_type),
-            [] )
+          ~init:
+            ( [],
+              (if has_optional_field then [%type: unit -> [%t core_type]]
+               else core_type),
+              [] )
       in
       ( newTdcl,
         if is_private then setter_accessor
@@ -154,22 +159,21 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
 let handleTdclsInStr ~light _rf tdcls =
   let _tdcls, code =
     List.fold_right
-      (fun tdcl (tdcls, sts) ->
+      ~f:(fun tdcl (tdcls, sts) ->
         match handleTdcl light tdcl with
         | ntdcl, value_descriptions ->
-            (ntdcl :: tdcls, List.map Str.primitive value_descriptions @ sts))
-      tdcls ([], [])
+            (ntdcl :: tdcls, List.map ~f:Str.primitive value_descriptions @ sts))
+      tdcls ~init:([], [])
   in
-  (* Str.include_ (Incl.mk (Mod.structure [ Str.type_ rf tdcls ])) ::  *)
   code
 
 let handleTdclsInSig ~light _rf tdcls =
   let _tdcls, code =
     List.fold_right
-      (fun tdcl (tdcls, sts) ->
+      ~f:(fun tdcl (tdcls, sts) ->
         match handleTdcl light tdcl with
         | ntdcl, value_descriptions ->
-            (ntdcl :: tdcls, List.map Sig.value value_descriptions @ sts))
-      tdcls ([], [])
+            (ntdcl :: tdcls, List.map ~f:Sig.value value_descriptions @ sts))
+      tdcls ~init:([], [])
   in
-  (*   Sig.type_ rf tdcls ::  *) code
+  code

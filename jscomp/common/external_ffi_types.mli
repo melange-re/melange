@@ -24,6 +24,7 @@
 
 module Literals : sig
   val setter_suffix : string
+  val infix_ops : string list
 end
 
 type module_bind_name =
@@ -36,7 +37,6 @@ type external_module_name = {
   module_bind_name : module_bind_name;
 }
 
-type pipe = bool
 type arg_type = External_arg_spec.attr
 type arg_label = External_arg_spec.label
 
@@ -49,26 +49,27 @@ type external_spec =
   | Js_module_as_var of external_module_name
   | Js_module_as_fn of {
       external_module_name : external_module_name;
-      splice : bool;
+      variadic : bool;
     }
   | Js_module_as_class of external_module_name
   | Js_call of {
       name : string;
       external_module_name : external_module_name option;
-      splice : bool;
+      variadic : bool;
       scopes : string list;
     }
   | Js_send of {
       name : string;
-      splice : bool;
-      pipe : pipe;
+      variadic : bool;
+      pipe : bool;
+      new_ : bool;
       js_send_scopes : string list;
     }
     (* we know it is a js send, but what will happen if you pass an ocaml objct *)
   | Js_new of {
       name : string;
       external_module_name : external_module_name option;
-      splice : bool;
+      variadic : bool;
       scopes : string list;
     }
   | Js_set of { js_set_name : string; js_set_scopes : string list }
@@ -95,7 +96,7 @@ type t = private
 
 (* val name_of_ffi : external_spec -> string *)
 
-val check_ffi : ?loc:Location.t -> external_spec -> bool
+val check_ffi : loc:Location.t -> external_spec -> bool
 val to_string : t -> string
 
 val from_string : string -> t

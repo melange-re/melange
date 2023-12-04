@@ -30,10 +30,6 @@ type +'a t = 'a Js_internal.null
 external return : 'a -> 'a t = "%identity"
 (** Constructs a value of ['a Js.null] containing a value of ['a] *)
 
-val test : 'a t -> bool
-[@@deprecated "Use = Js.null directly "]
-(** Returns [true] if the given value is [empty] ([null]), [false] otherwise *)
-
 external empty : 'a t = "#null"
 (** The empty value, [null] *)
 
@@ -77,8 +73,6 @@ val fromOption : 'a option -> 'a t
 %}
 *)
 
-val from_opt : 'a option -> 'a t [@@deprecated "Use fromOption instead"]
-
 external toOption : 'a t -> 'a option = "#null_to_opt"
 (** Maps ['a Js.null] to ['a option]
 
@@ -89,6 +83,3 @@ external toOption : 'a t -> 'a option = "#null_to_opt"
 </table>
 %}
 *)
-
-external to_opt : 'a t -> 'a option = "#null_to_opt"
-[@@deprecated "Use toOption instead"]

@@ -278,17 +278,8 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       List.rev_append include_dirs !Clflags.include_dirs;
     List.iter ~f:Warnings.parse_alert_option alerts;
 
-    begin match warnings with
-    | [] -> ()
-    | first :: rest ->
-      (* If more than one `-w` arguments are present, we insert `"-20"` between
-         them to give a chance for the last one to turn it off. This also
-         happens to cover the common case of Dune, which explicitly passes
-         "+20" (so we override it). *)
-      Melc_warnings.parse_warnings ~warn_error:false first;
-      Melc_warnings.parse_warnings ~warn_error:false "-20";
-      List.iter ~f:(Melc_warnings.parse_warnings ~warn_error:false) rest;
-    end;
+    List.iter warnings ~f:(fun w ->
+      Melc_warnings.parse_warnings ~warn_error:false w);
 
     Option.iter
       (fun output_name -> Clflags.output_name := Some output_name)
@@ -415,14 +406,14 @@ let file_level_flags_handler (e : Parsetree.expression option) =
       ( List.map ~f:(fun (e: Parsetree.expression) ->
           match e.pexp_desc with
           | Pexp_constant (Pconst_string(name,_,_)) -> name
-          | _ -> Location.raise_errorf ~loc:e.pexp_loc "string literal expected" ) args)
+          | _ -> Location.raise_errorf ~loc:e.pexp_loc "Flags must be a literal array of strings") args)
     in
     let argv = Melc_cli.normalize_argv (Array.of_list (Sys.argv.(0) :: args)) in
     (match Cmdliner.Cmd.eval ~argv melc_cmd with
     | c when c = Cmdliner.Cmd.Exit.ok -> ()
     | _c -> Location.raise_errorf ~loc:pexp_loc "Invalid configuration")
   | Some e ->
-    Location.raise_errorf ~loc:e.pexp_loc "string array expected"
+    Location.raise_errorf ~loc:e.pexp_loc "Flags must be a literal array of strings"
 
 let () =
   Melangelib.Initialization.Global.run ();

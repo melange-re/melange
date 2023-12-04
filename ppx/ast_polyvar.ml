@@ -26,8 +26,7 @@ open Import
 
 (** Note this is okay with enums, for variants,
     the underlying representation may change due to
-    unbox
-*)
+    unbox *)
 let map_constructor_declarations_into_ints
     (row_fields : Parsetree.constructor_declaration list) =
   let mark = ref `nothing in
@@ -35,7 +34,7 @@ let map_constructor_declarations_into_ints
     List.fold_left
       ~f:(fun (i, acc) rtag ->
         let attrs = rtag.pcd_attributes in
-        match Ast_attributes.iter_process_bs_int_as attrs with
+        match Ast_attributes.iter_process_mel_int_as attrs with
         | Some j ->
             if j <> i then if i = 0 then mark := `offset j else mark := `complex;
             (j + 1, j :: acc)
@@ -82,7 +81,7 @@ let map_row_fields_into_ints ptyp_loc (row_fields : Parsetree.row_field list) =
         | Rtag ({ txt; _ }, true, []) ->
             let i =
               match
-                Ast_attributes.iter_process_bs_int_as rtag.prf_attributes
+                Ast_attributes.iter_process_mel_int_as rtag.prf_attributes
               with
               | Some i -> i
               | None -> i
@@ -97,7 +96,7 @@ let map_row_fields_into_ints ptyp_loc (row_fields : Parsetree.row_field list) =
    {[ [`a  | `c of int ] ]} *)
 let map_row_fields_into_strings ptyp_loc (row_fields : Parsetree.row_field list)
     : Melange_ffi.External_arg_spec.attr =
-  let has_bs_as = ref false in
+  let has_mel_as = ref false in
   let case, result =
     List.fold_right
       ~f:(fun tag (nullary, acc) ->
@@ -105,10 +104,10 @@ let map_row_fields_into_strings ptyp_loc (row_fields : Parsetree.row_field list)
         | (`Nothing | `Null), Rtag ({ txt; _ }, true, []) ->
             let name =
               match
-                Ast_attributes.iter_process_bs_string_as tag.prf_attributes
+                Ast_attributes.iter_process_mel_string_as tag.prf_attributes
               with
               | Some name ->
-                  has_bs_as := true;
+                  has_mel_as := true;
                   name
               | None -> txt
             in
@@ -116,10 +115,10 @@ let map_row_fields_into_strings ptyp_loc (row_fields : Parsetree.row_field list)
         | (`Nothing | `NonNull), Rtag ({ txt; _ }, false, [ _ ]) ->
             let name =
               match
-                Ast_attributes.iter_process_bs_string_as tag.prf_attributes
+                Ast_attributes.iter_process_mel_string_as tag.prf_attributes
               with
               | Some name ->
-                  has_bs_as := true;
+                  has_mel_as := true;
                   name
               | None -> txt
             in
@@ -131,7 +130,7 @@ let map_row_fields_into_strings ptyp_loc (row_fields : Parsetree.row_field list)
   | `Nothing -> Error.err ~loc:ptyp_loc Invalid_mel_string_type
   | `Null | `NonNull -> (
       let has_payload = case = `NonNull in
-      let descr = if !has_bs_as then Some result else None in
+      let descr = if !has_mel_as then Some result else None in
       match (has_payload, descr) with
       | false, None ->
           Mel_ast_invariant.warn ~loc:ptyp_loc Redundant_mel_string;

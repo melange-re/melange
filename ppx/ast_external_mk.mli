@@ -26,7 +26,6 @@ open Import
 
 val local_external_apply :
   Location.t ->
-  ?pval_attributes:Parsetree.attributes ->
   pval_prim:string list ->
   pval_type:Parsetree.core_type ->
   ?local_module_name:string ->

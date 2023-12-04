@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 open Parsetree
 
 let default_loc = Location.none
@@ -32,7 +33,8 @@ let apply_simple ?(loc = default_loc) ?(attrs = []) (fn : expression)
     pexp_loc = loc;
     pexp_loc_stack = [ loc ];
     pexp_attributes = attrs;
-    pexp_desc = Pexp_apply (fn, List.map (fun x -> (Asttypes.Nolabel, x)) args);
+    pexp_desc =
+      Pexp_apply (fn, List.map ~f:(fun x -> (Asttypes.Nolabel, x)) args);
   }
 
 let const_exp_string ?(loc = default_loc) ?(attrs = []) ?delimiter (s : string)
