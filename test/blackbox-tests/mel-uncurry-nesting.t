@@ -16,7 +16,7 @@ Test the attribute @mel.uncurry at different level of nesting
 
 Normal uncurry at first level works fine
 
-  $ cat > x.ml <<\EOF
+  $ cat > x.ml <<EOF
   > external foo : ((unit -> unit)[@mel.uncurry]) -> unit
   >   = "foo"
   > EOF
@@ -25,12 +25,11 @@ Normal uncurry at first level works fine
 
 Using `mel.uncurry` at 2nd level of callbacks raises some alerts
 
-  $ cat > x.ml <<\EOF
+  $ cat > x.ml <<EOF
   > external foo :
   >   (((unit -> unit)[@mel.uncurry]) -> (unit -> unit[@mel.uncurry])) -> unit
   >   = "foo"
   > EOF
-
   $ dune build @melange
   File "x.ml", line 2, characters 20-31:
   2 |   (((unit -> unit)[@mel.uncurry]) -> (unit -> unit[@mel.uncurry])) -> unit
@@ -47,3 +46,13 @@ Using `mel.uncurry` at 2nd level of callbacks raises some alerts
   This means such annotation is not annotated properly.
   For example, some annotations are only meaningful in externals
   
+
+
+In the case of uncurry nesting, we have to resort to the `[@u]` attribute
+
+  $ cat > x.ml <<EOF
+  > external foo : (((unit -> unit)[@u]) -> unit) -> unit = "foo"
+  > let () = foo (fun f -> f () [@u])
+  > EOF
+  $ dune build @melange
+
