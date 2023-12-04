@@ -40,12 +40,9 @@ let variant_unwrap (row_fields : Parsetree.row_field list) : bool =
   | [] -> false (* impossible syntax *)
   | xs -> variant_can_unwrap_aux xs
 
-(*
-  TODO: [nolabel] is only used once turn Nothing into Unit, refactor later
-*)
-let spec_of_ptyp (nolabel : bool) (ptyp : Parsetree.core_type) :
+(* TODO: [nolabel] is only used once turn Nothing into Unit, refactor later *)
+let spec_of_ptyp (nolabel : bool) ({ ptyp_desc; _ } as ptyp : core_type) :
     External_arg_spec.attr =
-  let ptyp_desc = ptyp.ptyp_desc in
   match
     Ast_attributes.iter_process_mel_string_int_unwrap_uncurry
       ptyp.ptyp_attributes
@@ -122,8 +119,26 @@ let spec_of_ptyp (nolabel : bool) (ptyp : Parsetree.core_type) :
                 (Ast_polyvar.map_row_fields_into_ints ptyp.ptyp_loc row_fields))
       | _ -> Nothing)
 
-(* is_optional = false
-*)
+let rec collapse_arrow ~label arg return =
+  spec_of_ptyp (match label with Nolabel -> true | _ -> false) arg
+  ::
+  (match return.ptyp_desc with
+  | Ptyp_arrow (arg_label, arg_typ, return_typ) ->
+      collapse_arrow ~label:arg_label arg_typ return_typ
+  | _ -> [])
+
+let spec_of_ptyp (nolabel : bool) ({ ptyp_desc; _ } as ptyp : core_type) :
+    External_arg_spec.attr =
+  match ptyp_desc with
+  | Ptyp_arrow (arg_label, arg_typ, return_typ) ->
+      Nested_callback
+        {
+          this = spec_of_ptyp nolabel ptyp;
+          args = collapse_arrow ~label:arg_label arg_typ return_typ;
+        }
+  | _ -> spec_of_ptyp nolabel ptyp
+
+(* is_optional = false *)
 let refine_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
     External_arg_spec.attr =
   match ptyp.ptyp_desc with
@@ -566,6 +581,9 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                           Location.raise_errorf ~loc:ty.ptyp_loc
                             "`[%@mel.uncurry]' can't be used within \
                              `[@mel.obj]'"
+                      | Nested_callback _ ->
+                          Location.raise_errorf ~loc:ty.ptyp_loc
+                            "`[@mel.obj]' doesn't support nested attributes"
                       | Extern_unit -> assert false
                       | Poly_var _ ->
                           raise
@@ -582,11 +600,12 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                             result_types )
                       | Nothing | Unwrap ->
                           let s = Melange_ffi.Lam_methname.translate name in
-                          (* XXX(anmonteiro): it's unsafe to just read the type of the
-                                                              labelled argument declaration, since it could be `'a` in
-                             the implementation, and e.g. `bool` in the interface. See
-                                                              https://github.com/melange-re/melange/pull/58 for
-                                                              a test case. *)
+                          (* XXX(anmonteiro): it's unsafe to just read the type
+                             of the labelled argument declaration, since it
+                             could be `'a` in the implementation, and e.g.
+                             `bool` in the interface. See
+                             https://github.com/melange-re/melange/pull/58 for
+                             a test case. *)
                           ( {
                               obj_arg_label = External_arg_spec.optional false s;
                               obj_arg_type;
@@ -632,6 +651,9 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                           Location.raise_errorf ~loc
                             "`[%@mel.uncurry]' can't be used within \
                              `[@mel.obj]'"
+                      | Nested_callback _ ->
+                          Location.raise_errorf ~loc:ty.ptyp_loc
+                            "`[@mel.obj]' doesn't support nested attributes"
                       | Extern_unit -> assert false
                       | Poly_var _ ->
                           Location.raise_errorf ~loc

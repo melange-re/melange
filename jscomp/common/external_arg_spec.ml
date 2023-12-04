@@ -61,6 +61,7 @@ type attr =
   | Nothing
   | Ignore
   | Unwrap
+  | Nested_callback of { this : attr; args : attr list }
 
 type param = { arg_type : attr; arg_label : label_noname }
 type obj_param = { obj_arg_type : attr; obj_arg_label : label }

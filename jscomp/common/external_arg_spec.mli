@@ -45,6 +45,7 @@ type attr =
   | Nothing
   | Ignore
   | Unwrap
+  | Nested_callback of { this : attr; args : attr list }
 
 type label_noname = Arg_label | Arg_empty | Arg_optional
 type obj_param = { obj_arg_type : attr; obj_arg_label : label }
@@ -56,8 +57,6 @@ val cst_obj_literal : string -> cst
 val cst_int : int -> cst
 val cst_string : string -> cst
 val empty_label : label
-
-(* val empty_lit : cst -> label  *)
 val obj_label : string -> label
 val optional : bool -> string -> label
 val empty_kind : attr -> obj_param

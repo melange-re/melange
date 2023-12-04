@@ -106,8 +106,8 @@ let ocaml_to_js_eff ~(arg_label : Melange_ffi.External_arg_spec.label_noname)
   in
   match arg_type with
   | Arg_cst _ -> assert false
-  | Fn_uncurry_arity _ -> assert false
-  (* has to be preprocessed by {!Lam} module first *)
+  | Nested_callback { this = Fn_uncurry_arity _; _ } | Fn_uncurry_arity _ ->
+      assert false (* has to be preprocessed by {!Lam} module first *)
   | Extern_unit ->
       ( (if arg_label = Arg_empty then Splice0 else Splice1 E.unit),
         if Js_analyzer.no_side_effect_expression arg then [] else [ arg ] )
@@ -142,7 +142,8 @@ let ocaml_to_js_eff ~(arg_label : Melange_ffi.External_arg_spec.label_noname)
         | _ -> Js_of_lam_variant.eval_as_unwrap raw_arg
       in
       (Splice1 single_arg, [])
-  | Nothing -> (Splice1 arg, [])
+  | Nothing | Nested_callback { this = Nothing; args = [] } -> (Splice1 arg, [])
+  | Nested_callback _ -> assert false
 
 let empty_pair = ([], [])
 let add_eff eff e = match eff with None -> e | Some v -> E.seq v e

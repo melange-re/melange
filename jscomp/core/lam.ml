@@ -26,6 +26,8 @@ open Import
 module Constant = Melange_ffi.Lam_constant
 module Methname = Melange_ffi.Lam_methname
 module Tag_info = Melange_ffi.Lam_tag_info
+module External_arg_spec = Melange_ffi.External_arg_spec
+module External_ffi_types = Melange_ffi.External_ffi_types
 
 type ident = Ident.t
 type apply_status = App_na | App_infer_full | App_uncurry
@@ -805,21 +807,8 @@ let sequor l r = if_ l true_ r
 let sequand l r = if_ l r false_
 
 (*********************************)
-(* only [handle_mel_non_obj_ffi] will be used outside *)
-(*
-   [no_auto_uncurried_arg_types xs]
-   check if the FFI have @uncurry attribute.
-   if it does not we wrap it in a nomral way otherwise
-*)
-let rec no_auto_uncurried_arg_types (xs : Melange_ffi.External_arg_spec.params)
-    =
-  match xs with
-  | [] -> true
-  | { arg_type = Fn_uncurry_arity _; _ } :: _ -> false
-  | _ :: xs -> no_auto_uncurried_arg_types xs
 
-let result_wrap loc
-    (result_type : Melange_ffi.External_ffi_types.return_wrapper) result =
+let result_wrap loc (result_type : External_ffi_types.return_wrapper) result =
   match result_type with
   | Return_replaced_with_unit -> seq result unit
   | Return_null_to_opt -> prim ~primitive:Pnull_to_opt ~args:[ result ] loc
@@ -829,14 +818,21 @@ let result_wrap loc
       prim ~primitive:Pundefined_to_opt ~args:[ result ] loc
   | Return_unset | Return_identity -> result
 
-let rec transform_uncurried_arg_type loc
-    (arg_types : Melange_ffi.External_arg_spec.params) (args : t list) =
+let rec transform_uncurried_arg_type loc (arg_types : External_arg_spec.params)
+    (args : t list) =
   match (arg_types, args) with
-  | { arg_type = Fn_uncurry_arity n; arg_label } :: xs, y :: ys ->
+  | ( {
+        arg_type =
+          ( Fn_uncurry_arity n
+          | Nested_callback { this = Fn_uncurry_arity n; args = _ } );
+        arg_label;
+      }
+      :: xs,
+      y :: ys ) ->
       let o_arg_types, o_args = transform_uncurried_arg_type loc xs ys in
-      ( { Melange_ffi.External_arg_spec.arg_type = Nothing; arg_label }
-        :: o_arg_types,
+      ( { External_arg_spec.arg_type = Nothing; arg_label } :: o_arg_types,
         prim ~primitive:(Pjs_fn_make n) ~args:[ y ] loc :: o_args )
+  | { arg_type = Nested_callback _; _ } :: _, _ :: _ -> assert false
   | x :: xs, y :: ys -> (
       match x with
       | { arg_type = Arg_cst _; _ } ->
@@ -847,15 +843,39 @@ let rec transform_uncurried_arg_type loc
           (x :: o_arg_types, y :: o_args))
   | ([], [] | _ :: _, [] | [], _ :: _) as ok -> ok
 
-let handle_mel_non_obj_ffi (arg_types : Melange_ffi.External_arg_spec.params)
-    (result_type : Melange_ffi.External_ffi_types.return_wrapper) ffi args loc
-    prim_name =
-  if no_auto_uncurried_arg_types arg_types then
-    result_wrap loc result_type
-      (prim ~primitive:(Pjs_call { prim_name; arg_types; ffi }) ~args loc)
-  else
-    let n_arg_types, n_args = transform_uncurried_arg_type loc arg_types args in
-    result_wrap loc result_type
-      (prim
-         ~primitive:(Pjs_call { prim_name; arg_types = n_arg_types; ffi })
-         ~args:n_args loc)
+let handle_mel_non_obj_ffi =
+  (* only [handle_mel_non_obj_ffi] will be used outside
+     [no_auto_uncurried_arg_types xs]
+     check if the FFI have @uncurry attribute.
+     if it does not we wrap it in a normal way otherwise *)
+  let rec no_auto_uncurried_arg_types (xs : External_arg_spec.params) =
+    match xs with
+    | [] -> true
+    | {
+        arg_type =
+          Fn_uncurry_arity _ | Nested_callback { this = Fn_uncurry_arity _; _ };
+        _;
+      }
+      :: _ ->
+        false
+    | { arg_type = Nested_callback { this = _; args }; _ } :: _ ->
+        not
+          (List.exists
+             ~f:(function
+               | External_arg_spec.Fn_uncurry_arity _ -> true | _ -> false)
+             args)
+    | _ :: xs -> no_auto_uncurried_arg_types xs
+  in
+  fun (arg_types : External_arg_spec.params)
+      (result_type : External_ffi_types.return_wrapper) ffi args loc prim_name ->
+    if no_auto_uncurried_arg_types arg_types then
+      result_wrap loc result_type
+        (prim ~primitive:(Pjs_call { prim_name; arg_types; ffi }) ~args loc)
+    else
+      let n_arg_types, n_args =
+        transform_uncurried_arg_type loc arg_types args
+      in
+      result_wrap loc result_type
+        (prim
+           ~primitive:(Pjs_call { prim_name; arg_types = n_arg_types; ffi })
+           ~args:n_args loc)
