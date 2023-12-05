@@ -118,8 +118,6 @@ let add_char b c =
   ) else
     Bytes.unsafe_set buffer pos c;
   b.position <- pos + 1
-#ifdef BS
-#else
 
 let uchar_utf_8_byte_length_max = 4
 let uchar_utf_16_byte_length_max = 4
@@ -147,7 +145,6 @@ let rec add_utf_16le_uchar b u =
   if n = 0
   then (resize b uchar_utf_16_byte_length_max; add_utf_16le_uchar b u)
   else (b.position <- pos + n)
-#endif
 
 let add_substring b s offset len =
   if offset < 0 || len < 0 || offset > String.length s - len
