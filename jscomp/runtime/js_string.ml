@@ -101,8 +101,8 @@ external get : t -> int -> t = ""
 
 external charAt : t -> index:int -> t = "charAt"
 [@@mel.send]
-(** [charAt s ~pos] gets the character at index [pos] within string [s]. If
-    [pos] is negative or greater than the length of [s], returns the empty
+(** [charAt s ~index] gets the character at position [index] within string [s]. If
+    [index] is negative or greater than the length of [s], returns the empty
     string. If the string contains characters outside the range
     [\u0000-\uffff], it will return the first 16-bit value at that position in
     the string.
@@ -116,11 +116,11 @@ external charAt : t -> index:int -> t = "charAt"
 
 external charCodeAt : t -> index:int -> float = "charCodeAt"
 [@@mel.send]
-(** [charCodeAt s ~pos] returns the character code at position [pos] in string
+(** [charCodeAt s ~index] returns the character code at position [index] in string
     [s]; the result is in the range 0-65535, unlke [codePointAt], so it will
     not work correctly for characters with code points greater than or equal to
     [0x10000].
-    The return type is [float] because this function returns [NaN] if [pos] is
+    The return type is [float] because this function returns [NaN] if [index] is
     less than zero or greater than the length of the string.
 
 {[
@@ -131,7 +131,7 @@ external charCodeAt : t -> index:int -> float = "charCodeAt"
 
 external codePointAt : t -> index:int -> int option = "codePointAt"
 [@@mel.send]
-(** [codePointAt s ~pos] returns the code point at position [pos] within string
+(** [codePointAt s ~index] returns the code point at position [index] within string
     [s] as a [Some] value. The return value handles code points greater than or
     equal to [0x10000]. If there is no code point at the given position, the
     function returns [None].
@@ -171,9 +171,13 @@ external endsWith : t -> suffix:t -> ?len:int -> unit -> bool = "endsWith"
     into account the first [len] characters.
 
 {[
-  endsWith "Hello, World!" ~suffix:"World!" = true;;
-  endsWith "Hello, World!" ~suffix:"world!" = false;; (* case-sensitive *)
-  endsWith "Hello, World!" ~suffix:"World" = false;; (* exact match *)
+  endsWith "abcd" ~suffix:"cd" ~len:4 () = true;;
+  endsWith "abcde" ~suffix:"cd" ~len:3 () = false;;
+  endsWith "abcde" ~suffix:"cde" ~len:99 () = true;;
+  endsWith "example.dat" ~suffix:"ple" ~len:7 () = true;;
+  endsWith "Hello, World!" ~suffix:"World!" () = true;;
+  endsWith "Hello, World!" ~suffix:"world!" () = false;; (* case-sensitive *)
+  endsWith "Hello, World!" ~suffix:"World" () = false;; (* exact match *)
 ]}
 *)
 
@@ -185,23 +189,31 @@ external includes : t -> search:t -> ?start:int -> unit -> bool = "includes"
   character), [false] otherwise.
 
 {[
-  includesFrom "programmer" ~search:"gram" ~start:1 () = true;;
-  includesFrom "programmer" ~search:"gram" ~start:4 () = false;;
-  includesFrom {js|대한민국|js} ~search:{js|한|js} ~start:1 () = true;;
+  includes "programmer" ~search:"gram" () = true;;
+  includes "programmer" ~search:"er" () = true;;
+  includes "programmer" ~search:"pro" () = true;;
+  includes "programmer" ~search:"xyz" () = false;;
+  includes "programmer" ~search:"gram" ~start:1 () = true;;
+  includes "programmer" ~search:"gram" ~start:4 () = false;;
+  includes {js|대한민국|js} ~search:{js|한|js} ~start:1 () = true;;
 ]}
 *)
 
 external indexOf : t -> search:t -> ?start:int -> unit -> int = "indexOf"
 [@@mel.send]
-(** [indexOfFrom s ~search ?start ()] returns the position at which [search]
+(** [indexOf s ~search ?start ()] returns the position at which [search]
     was found within [s] starting at character position [start], or [-1] if
     [search] is not found in that portion of [s]. The return value is relative
     to the beginning of the string, no matter where the search started from.
 
 {[
-  indexOfFrom "bookseller" ~search:"ok" ~start:1 () = 2;;
-  indexOfFrom "bookseller" ~search:"sell" ~start:2 () = 4;;
-  indexOfFrom "bookseller" ~search:"sell" ~start:5 () = -1;;
+  indexOf "bookseller" ~search:"ok" () = 2;;
+  indexOf "bookseller" ~search:"sell" () = 4;;
+  indexOf "beekeeper" ~search:"ee" () = 1;;
+  indexOf "bookseller" ~search:"xyz" () = -1;;
+  indexOf "bookseller" ~search:"ok" ~start:1 () = 2;;
+  indexOf "bookseller" ~search:"sell" ~start:2 () = 4;;
+  indexOf "bookseller" ~search:"sell" ~start:5 () = -1;;
 ]}
 *)
 
@@ -209,16 +221,19 @@ external lastIndexOf : t -> search:t -> ?start:int -> unit -> int
   = "lastIndexOf"
 [@@mel.send]
 (**
-  [lastIndexOfFrom s ~search ~start] returns the position of the {i last}
+  [lastIndexOf s ~search ~start ()] returns the position of the {i last}
   occurrence of [searchValue] within [s], searching backwards from the given
   [start] position. Returns [-1] if [searchValue] is not in [s]. The return
   value is always relative to the beginning of the string.
 
 {[
-  lastIndexOfFrom "bookseller" ~search:"ok" ~start:6 () = 2;;
-  lastIndexOfFrom "beekeeper" ~search:"ee" ~start:8 () = 4;;
-  lastIndexOfFrom "beekeeper" ~search:"ee" ~start:3 () = 1;;
-  lastIndexOfFrom "abcdefg" ~search:"xyz" ~start:4 () = -1;;
+  lastIndexOf "bookseller" ~search:"ok" () = 2;;
+  lastIndexOf "beekeeper" ~search:"ee" () = 4;;
+  lastIndexOf "abcdefg" ~search:"xyz" () = -1;;
+  lastIndexOf "bookseller" ~search:"ok" ~start:6 () = 2;;
+  lastIndexOf "beekeeper" ~search:"ee" ~start:8 () = 4;;
+  lastIndexOf "beekeeper" ~search:"ee" ~start:3 () = 1;;
+  lastIndexOf "abcdefg" ~search:"xyz" ~start:4 () = -1;;
 ]}
 *)
 
@@ -235,10 +250,10 @@ external localeCompare : t -> other:t -> float = "localeCompare"
   {- a positive value if [reference] comes after [comparison] in sort order}}
 
 {[
-  (localeCompare "zebra" "ant") > 0.0;;
-  (localeCompare "ant" "zebra") < 0.0;;
-  (localeCompare "cat" "cat") = 0.0;;
-  (localeCompare "CAT" "cat") > 0.0;;
+  (localeCompare "zebra" ~other:"ant") > 0.0;;
+  (localeCompare "ant" ~other:"zebra") < 0.0;;
+  (localeCompare "cat" ~other:"cat") = 0.0;;
+  (localeCompare "CAT" ~other:"cat") > 0.0;;
 ]}
 *)
 
@@ -266,24 +281,10 @@ external match_ : t -> regexp:Js_re.t -> t option array option = "match"
 ]}
 *)
 
-external normalize : t -> t = "normalize"
-[@@mel.send]
-(** [normalize str] returns the normalized Unicode string using Normalization
-    Form Canonical (NFC) Composition.
-
-    Consider the character [ã], which can be represented as the single
-    codepoint [\u00e3] or the combination of a lower case letter A [\u0061] and
-    a combining tilde [\u0303]. Normalization ensures that both can be stored
-    in an equivalent binary representation.
-
-    @see <https://www.unicode.org/reports/tr15/tr15-45.html> Unicode technical
-    report for details
-*)
-
-external normalizeByForm : t -> form:[ `NFC | `NFD | `NFKC | `NFKD ] -> t
+external normalize : t -> ?form:[ `NFC | `NFD | `NFKC | `NFKD ] -> unit -> t
   = "normalize"
 [@@mel.send]
-(** [normalize str ~form] returns the normalized Unicode string using the
+(** [normalize str ~form ()] returns the normalized Unicode string using the
     specified form of normalization, which may be one of:
 
   {ul
@@ -292,6 +293,13 @@ external normalizeByForm : t -> form:[ `NFC | `NFD | `NFKC | `NFKD ] -> t
     {- [`NFKC] — Normalization Form Compatibility Composition.}
     {- [`NFKD] — Normalization Form Compatibility Decomposition.}
   }
+
+  If [form] is omitted, [`NFC] is used.
+
+  Consider the character [ã], which can be represented as the single
+  codepoint [\u00e3] or the combination of a lower case letter A [\u0061] and
+  a combining tilde [\u0303]. Normalization ensures that both can be stored
+  in an equivalent binary representation.
 
   @see <https://www.unicode.org/reports/tr15/tr15-45.html> Unicode technical
   report for details
@@ -362,7 +370,7 @@ external unsafeReplaceBy1 :
   t -> regexp:Js_re.t -> f:((t -> t -> int -> t -> t)[@mel.uncurry]) -> t
   = "replace"
 [@@mel.send]
-(** [unsafeReplaceBy0 s ~regexp ~f] returns a new string with some or all
+(** [unsafeReplaceBy1 s ~regexp ~f] returns a new string with some or all
     matches of a pattern with one set of capturing parentheses replaced by the
     value returned from the given function. The function receives as its
     parameters the matched string, the captured strings, the offset at which
@@ -429,8 +437,8 @@ external search : t -> regexp:Js_re.t -> int = "search"
     [regexp] in the given [str], or -1 if there is no match.
 
 {[
-search "testing 1 2 3" [%re "/\\d+/"] = 8;;
-search "no numbers" [%re "/\\d+/"] = -1;;
+search "testing 1 2 3" ~regexp:[%re "/\\d+/"] = 8;;
+search "no numbers" ~regexp:[%re "/\\d+/"] = -1;;
 ]}
 *)
 
@@ -457,15 +465,15 @@ external slice : t -> ?start:int -> ?end_:int -> unit -> t = "slice"
 
 external split : t -> ?sep:t -> ?limit:int -> unit -> t array = "split"
 [@@mel.send]
-(** [splitAtMost ?sep ?limit str ()] splits the given [str] at every
+(** [split ?sep ?limit str ()] splits the given [str] at every
     occurrence of [sep] and returns an array of the first [limit] resulting
     substrings. If [limit] is negative or greater than the number of
     substrings, the array will contain all the substrings.
 
 {[
-  splitAtMost "ant/bee/cat/dog/elk" ~sep:"/" ~limit: 3 () = [|"ant"; "bee"; "cat"|];;
-  splitAtMost "ant/bee/cat/dog/elk" ~sep:"/" ~limit: 0 () = [| |];;
-  splitAtMost "ant/bee/cat/dog/elk" ~sep:"/" ~limit: 9 () = [|"ant"; "bee"; "cat"; "dog"; "elk"|];;
+  split "ant/bee/cat/dog/elk" ~sep:"/" ~limit: 3 () = [|"ant"; "bee"; "cat"|];;
+  split "ant/bee/cat/dog/elk" ~sep:"/" ~limit: 0 () = [| |];;
+  split "ant/bee/cat/dog/elk" ~sep:"/" ~limit: 9 () = [|"ant"; "bee"; "cat"; "dog"; "elk"|];;
 ]}
 *)
 
@@ -473,14 +481,14 @@ external splitByRe : t -> regexp:Js_re.t -> ?limit:int -> unit -> t option array
   = "split"
 [@@mel.send]
 (** [splitByRe str ~regexp ?limit ()] splits the given [str] at every
-    occurrence of [regexp] and returns an array of the first [n] resulting
-    substrings. If [n] is negative or greater than the number of substrings,
+    occurrence of [regexp] and returns an array of the first [limit] resulting
+    substrings. If [limit] is negative or greater than the number of substrings,
     the array will contain all the substrings.
 
 {[
-  splitByRe "one: two: three: four" [%re "/\\s*:\\s*/"] ~limit:3 () = [|"one"; "two"; "three"|];;
-  splitByRe "one: two: three: four" [%re "/\\s*:\\s*/"] ~limit:0 () = [| |];;
-  splitByRe "one: two: three: four" [%re "/\\s*:\\s*/"] ~limit:8 () = [|"one"; "two"; "three"; "four"|];;
+  splitByRe "one: two: three: four" ~regexp:[%re "/\\s*:\\s*/"] ~limit:3 () = [|"one"; "two"; "three"|];;
+  splitByRe "one: two: three: four" ~regexp:[%re "/\\s*:\\s*/"] ~limit:0 () = [| |];;
+  splitByRe "one: two: three: four" ~regexp:[%re "/\\s*:\\s*/"] ~limit:8 () = [|"one"; "two"; "three"; "four"|];;
 ]};
 *)
 
@@ -491,9 +499,9 @@ external startsWith : t -> prefix:t -> ?start:int -> unit -> bool = "startsWith"
     negative, the search starts at the beginning of [str].
 
 {[
-  startsWithFrom "Hello, World!" "Hello" ~start:0 () = true;;
-  startsWithFrom "Hello, World!" "World" ~start:7 () = true;;
-  startsWithFrom "Hello, World!" "World" ~start:8 () = false;;
+  startsWith "Hello, World!" ~prefix:"Hello" ~start:0 () = true;;
+  startsWith "Hello, World!" ~prefix:"World" ~start:7 () = true;;
+  startsWith "Hello, World!" ~prefix:"World" ~start:8 () = false;;
 ]}
 *)
 
@@ -511,9 +519,9 @@ external substr : t -> ?start:int -> ?len:int -> unit -> t = "substr"
     If [len] is less than or equal to zero, returns the empty string.
 
 {[
-  substrAtMost "abcdefghij" ~start:3 ~len:4 () = "defghij"
-  substrAtMost "abcdefghij" ~start:(-3) ~le:4 () = "hij"
-  substrAtMost "abcdefghij" ~start:12 ~ len:2 () = ""
+  substr "abcdefghij" ~start:3 ~len:4 () = "defghij"
+  substr "abcdefghij" ~start:(-3) ~len:4 () = "hij"
+  substr "abcdefghij" ~start:12 ~len:2 () = ""
 ]}
 *)
 
@@ -567,7 +575,7 @@ external toUpperCase : t -> t = "toUpperCase"
 {[
   toUpperCase "abc" = "ABC";;
   toUpperCase {js|Straße|js} = {js|STRASSE|js};;
-  toLowerCase {js|πς|js} = {js|ΠΣ|js};;
+  toUpperCase {js|πς|js} = {js|ΠΣ|js};;
 ]}
 *)
 
@@ -592,12 +600,12 @@ external trim : t -> t = "trim"
 
 external anchor : t -> name:t -> t = "anchor"
 [@@mel.send]
-(** [anchor anchorName ~text:anchorText] creates a string with an HTML [<a>]
+(** [anchor anchorText ~name:anchorName] creates a string with an HTML [<a>]
     element with [name] attribute of [anchorName] and [anchorText] as its
     content.
 
 {[
-  anchor "page1" "Page One" = "<a name=\"page1\">Page One</a>"
+  anchor "Page One" ~name:"page1" = "<a name=\"page1\">Page One</a>"
 ]}
 *)
 
@@ -607,7 +615,7 @@ external link : t -> href:t -> t = "link"
     with [href] attribute of [urlText] and [linkText] as its content.
 
 {[
-  link "Go to page two" "page2.html" = "<a href=\"page2.html\">Go to page two</a>"
+  link "Go to page two" ~href:"page2.html" = "<a href=\"page2.html\">Go to page two</a>"
 ]}
 *)
 

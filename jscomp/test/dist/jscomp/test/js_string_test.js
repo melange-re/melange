@@ -295,7 +295,7 @@ var suites_1 = {
                                                         return {
                                                                 TAG: /* Eq */0,
                                                                 _0: "foo",
-                                                                _1: "foo".normalize()
+                                                                _1: "foo".normalize(undefined)
                                                               };
                                                       })
                                                   ],

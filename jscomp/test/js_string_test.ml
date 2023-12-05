@@ -99,10 +99,10 @@ let suites = Mt.[
 
     (* es2015 *)
     "normalize", (fun _ ->
-      Eq("foo", "foo" |. Js.String.normalize)
+      Eq("foo", Js.String.normalize "foo" ())
     );
     "normalizeByForm", (fun _ ->
-      Eq("foo", "foo" |. Js.String.normalizeByForm ~form:`NFKD)
+      Eq("foo", Js.String.normalize ~form:`NFKD "foo" ())
     );
 
     (* es2015 *)
