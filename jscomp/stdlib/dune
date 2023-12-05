@@ -74,12 +74,6 @@
   (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
- (deps bytesLabels.cppo.mli)
- (target bytesLabels.mli)
- (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
-
-(rule
  (deps buffer.cppo.ml)
  (target buffer.ml)
  (action

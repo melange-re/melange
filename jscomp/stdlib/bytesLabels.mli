@@ -493,9 +493,6 @@ val of_seq : char Seq.t -> t
 
 (** {2:utf_8 UTF-8} *)
 
-#ifdef BS
-#else
-
 val get_utf_8_uchar : t -> int -> Uchar.utf_decode
 (** [get_utf_8_uchar b i] decodes an UTF-8 character at index [i] in
     [b]. *)
@@ -740,8 +737,6 @@ val set_int64_le : bytes -> int -> int64 -> unit
     starting at byte index [i] to [v].
     @since 4.08
 *)
-#endif
-
 
 
 (** {1:bytes_concurrency Byte sequences and concurrency safety}
