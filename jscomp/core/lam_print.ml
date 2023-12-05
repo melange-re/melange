@@ -160,6 +160,9 @@ let primitive ppf (prim : Lam_primitive.t) =
   | Pbytessetu -> fprintf ppf "bytes.unsafe_set"
   | Pbytesrefs -> fprintf ppf "bytes.get"
   | Pbytessets -> fprintf ppf "bytes.set"
+  | Pstring_load_16 b -> fprintf ppf "string.get16%s" (if b then "u" else "")
+  | Pstring_load_32 b -> fprintf ppf "string.get32%s" (if b then "u" else "")
+  | Pstring_load_64 b -> fprintf ppf "string.get64%s" (if b then "u" else "")
   | Pbytes_load_16 b -> fprintf ppf "bytes.get16%s" (if b then "u" else "")
   | Pbytes_load_32 b -> fprintf ppf "bytes.get32%s" (if b then "u" else "")
   | Pbytes_load_64 b -> fprintf ppf "bytes.get64%s" (if b then "u" else "")

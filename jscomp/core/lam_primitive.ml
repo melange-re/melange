@@ -97,6 +97,9 @@ type t =
   | Pbytessetu
   | Pbytesrefs
   | Pbytessets
+  | Pstring_load_16 of bool
+  | Pstring_load_32 of bool
+  | Pstring_load_64 of bool
   | Pbytes_load_16 of bool
   | Pbytes_load_32 of bool
   | Pbytes_load_64 of bool
@@ -235,6 +238,12 @@ let eq_primitive_approx (lhs : t) (rhs : t) =
   | Pbytessetu -> rhs = Pbytessetu
   | Pbytesrefs -> rhs = Pbytesrefs
   | Pbytessets -> rhs = Pbytessets
+  | Pstring_load_16 b1 -> (
+      match rhs with Pstring_load_16 b2 -> b1 = b2 | _ -> false)
+  | Pstring_load_32 b1 -> (
+      match rhs with Pstring_load_32 b2 -> b1 = b2 | _ -> false)
+  | Pstring_load_64 b1 -> (
+      match rhs with Pstring_load_64 b2 -> b1 = b2 | _ -> false)
   | Pbytes_load_16 b1 -> (
       match rhs with Pbytes_load_16 b2 -> b1 = b2 | _ -> false)
   | Pbytes_load_32 b1 -> (

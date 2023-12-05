@@ -89,6 +89,9 @@ type t =
   | Pbytessetu
   | Pbytesrefs
   | Pbytessets
+  | Pstring_load_16 of bool
+  | Pstring_load_32 of bool
+  | Pstring_load_64 of bool
   | Pbytes_load_16 of bool
   | Pbytes_load_32 of bool
   | Pbytes_load_64 of bool
