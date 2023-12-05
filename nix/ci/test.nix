@@ -19,16 +19,7 @@ let
   pkgs = import src {
     extraOverlays = [
       (self: super: {
-        ocamlPackages = super.ocaml-ng."ocamlPackages_${ocamlVersion}".overrideScope' (oself: osuper: {
-          ocaml = osuper.ocaml.overrideAttrs (_: {
-            src = super.fetchFromGitHub {
-              owner = "ocaml";
-              repo = "ocaml";
-              rev = "eee78bf992a2b3e1e99af5e2af1c6ae5ba291ff1";
-              hash = "sha256-PViNwld8Za6F5v8np3x8cP70JXpTrcIkgodPuJGpfyo=";
-            };
-          });
-        });
+        ocamlPackages = super.ocaml-ng."ocamlPackages_${ocamlVersion}";
       })
     ];
   };
