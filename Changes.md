@@ -29,11 +29,14 @@ Unreleased
   ([#731](https://github.com/melange-re/melange/issues/731),
   [#893](https://github.com/melange-re/melange/pull/893),
   [#895](https://github.com/melange-re/melange/pull/895),
-  [#899](https://github.com/melange-re/melange/pull/899))
+  [#899](https://github.com/melange-re/melange/pull/899),
+  [#963](https://github.com/melange-re/melange/pull/963))
     - Modules ending with `2` (e.g. `Js.String2`, `Js.Array2`,
       `Js.TypedArray2`) are no longer available in Melange
-    - The functions in their corresponding modules now take labeled arguments,
-      allowing them to be used with both `|.` and `|>`.
+    - The functions in their corresponding modules now take labeled arguments
+      and one positional argument, prioritizing the usage of `|>` but still
+      allowing `|.` (`->` in Reason) when optionally labeled arguments aren't
+      omitted.
 - BREAKING(runtime): remove deprecated functions from `Js.*` modules
   ([#897](https://github.com/melange-re/melange/pull/897))
 - Consistently handle empty payloads in externals:
