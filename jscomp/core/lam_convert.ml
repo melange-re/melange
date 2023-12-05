@@ -396,8 +396,10 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
   | Pbytes_set_16 b -> prim ~primitive:(Pbytes_set_16 b) ~args loc
   | Pbytes_set_32 b -> prim ~primitive:(Pbytes_set_32 b) ~args loc
   | Pbytes_set_64 b -> prim ~primitive:(Pbytes_set_64 b) ~args loc
-  | Pstring_load_16 _ | Pstring_load_32 _ | Pstring_load_64 _ | Pbigarrayref _
-  | Pbigarrayset _ ->
+  | Pstring_load_16 b -> prim ~primitive:(Pstring_load_16 b) ~args loc
+  | Pstring_load_32 b -> prim ~primitive:(Pstring_load_32 b) ~args loc
+  | Pstring_load_64 b -> prim ~primitive:(Pstring_load_64 b) ~args loc
+  | Pbigarrayref _ | Pbigarrayset _ ->
       Location.raise_errorf ~loc "unsupported primitive"
   | Pctconst x -> (
       match x with

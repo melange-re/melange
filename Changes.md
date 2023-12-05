@@ -80,6 +80,10 @@ Unreleased
   ([#911](https://github.com/melange-re/melange/pull/911),
   [#945](https://github.com/melange-re/melange/pull/945),
   [#947](https://github.com/melange-re/melange/pull/947))
+- Implement more Stdlib functions in modules String, Bytes, Buffer, BytesLabels
+  and StringLabels ([#711](https://github.com/melange-re/melange/pull/711),
+  [#956](https://github.com/melange-re/melange/pull/956),
+  [#958](https://github.com/melange-re/melange/pull/958))
 
 2.1.0 2023-10-22
 ---------------

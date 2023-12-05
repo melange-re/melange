@@ -242,6 +242,15 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       | [ e; e1 ] -> Js_of_lam_string.ref_byte e e1
       | _ -> assert false)
   | Pbytesrefs -> E.runtime_call Js_runtime_modules.bytes "get" args
+  | Pstring_load_16 unsafe ->
+      let fn = if unsafe then "get16u" else "get16" in
+      E.runtime_call Js_runtime_modules.bytes fn args
+  | Pstring_load_32 unsafe ->
+      let fn = if unsafe then "get32u" else "get32" in
+      E.runtime_call Js_runtime_modules.bytes fn args
+  | Pstring_load_64 unsafe ->
+      let fn = if unsafe then "get64u" else "get64" in
+      E.runtime_call Js_runtime_modules.bytes fn args
   | Pbytes_load_16 unsafe ->
       let fn = if unsafe then "get16u" else "get16" in
       E.runtime_call Js_runtime_modules.bytes fn args

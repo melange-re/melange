@@ -91,8 +91,9 @@ let rec no_side_effects (lam : Lam.t) : bool =
       | Paddfloat | Psubfloat | Pmulfloat | Pdivfloat | Pfloatcomp _ | Pjscomp _
       (* String operations *)
       | Pstringlength | Pstringrefu | Pstringrefs | Pbyteslength | Pbytesrefu
-      | Pbytesrefs | Pbytes_load_16 _ | Pbytes_load_32 _ | Pbytes_load_64 _
-      | Pmakearray | Parraylength | Parrayrefu | Parrayrefs
+      | Pbytesrefs | Pstring_load_16 _ | Pstring_load_32 _ | Pstring_load_64 _
+      | Pbytes_load_16 _ | Pbytes_load_32 _ | Pbytes_load_64 _ | Pmakearray
+      | Parraylength | Parrayrefu | Parrayrefs
       (* Test if the argument is a block or an immediate integer *)
       | Pisint | Pis_poly_var_const
       (* Test if the (integer) argument is outside an interval *)

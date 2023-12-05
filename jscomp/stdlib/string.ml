@@ -246,8 +246,6 @@ let to_seqi s = bos s |> B.to_seqi
 
 let of_seq g = B.of_seq g |> bts
 
-#ifdef BS
-#else
 (* UTF decoders and validators *)
 
 let get_utf_8_uchar s i = B.get_utf_8_uchar (bos s) i
@@ -276,5 +274,3 @@ let get_int32_le s i = B.get_int32_le (bos s) i
 let get_int32_be s i = B.get_int32_be (bos s) i
 let get_int64_le s i = B.get_int64_le (bos s) i
 let get_int64_be s i = B.get_int64_be (bos s) i
-
-#endif

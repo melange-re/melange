@@ -363,9 +363,6 @@ val of_seq : char Seq.t -> t
 
 (** {2:utf_8 UTF-8} *)
 
-#ifdef BS
-#else
-
 val get_utf_8_uchar : t -> int -> Uchar.utf_decode
 (** [get_utf_8_uchar b i] decodes an UTF-8 character at index [i] in
     [b]. *)
@@ -393,8 +390,6 @@ val get_utf_16le_uchar : t -> int -> Uchar.utf_decode
 val is_valid_utf_16le : t -> bool
 (** [is_valid_utf_16le b] is [true] if and only if [b] contains valid
     UTF-16LE data. *)
-
-#endif
 
 val blit :
   string -> int -> bytes -> int -> int -> unit
@@ -428,8 +423,6 @@ val blit :
     or 16-bit integers and represented them with [int] values.
 *)
 
-#ifdef BS
-#else
 val get_uint8 : string -> int -> int
 (** [get_uint8 b i] is [b]'s unsigned 8-bit integer starting at character
     index [i].
@@ -527,8 +520,6 @@ val get_int64_le : string -> int -> int64
 
     @since 4.13
 *)
-#endif
-
 
 val hash : t -> int
 (** An unseeded hash function for strings, with the same output value as

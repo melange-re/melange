@@ -152,18 +152,6 @@
   (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
- (deps string.cppo.ml)
- (target string.ml)
- (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
-
-(rule
- (deps string.cppo.mli)
- (target string.mli)
- (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
-
-(rule
  (deps stringLabels.cppo.mli)
  (target stringLabels.mli)
  (action
