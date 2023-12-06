@@ -34,29 +34,29 @@ let suites = Mt.[
     (* es2015 *)
     "copyWithin", (fun _ ->
       Eq([| 1; 2; 3; 1; 2 |],
-         [| 1; 2; 3; 4; 5 |] |. Js.Array.copyWithin ~to_:(-2) ())
+         [| 1; 2; 3; 4; 5 |] |. Js.Array.copyWithin ~to_:(-2))
     );
     "copyWithinFrom", (fun _ ->
       Eq([| 4; 5; 3; 4; 5 |],
-         [| 1; 2; 3; 4; 5 |] |. Js.Array.copyWithin ~to_:0 ~start:3 ())
+         [| 1; 2; 3; 4; 5 |] |. Js.Array.copyWithin ~to_:0 ~start:3)
     );
     "copyWithinFromRange", (fun _ ->
       Eq([| 4; 2; 3; 4; 5 |],
-         [| 1; 2; 3; 4; 5 |] |. Js.Array.copyWithin ~to_:0 ~start:3 ~end_:4 ())
+         [| 1; 2; 3; 4; 5 |] |. Js.Array.copyWithin ~to_:0 ~start:3 ~end_:4)
     );
 
     (* es2015 *)
     "fillInPlace", (fun _ ->
       Eq([| 4; 4; 4 |],
-         [| 1; 2; 3 |] |. Js.Array.fill ~value:4 ())
+         [| 1; 2; 3 |] |. Js.Array.fill ~value:4)
     );
     "fillFromInPlace", (fun _ ->
       Eq([| 1; 4; 4 |],
-         [| 1; 2; 3 |] |. Js.Array.fill ~value:4 ~start:1 ())
+         [| 1; 2; 3 |] |. Js.Array.fill ~value:4 ~start:1)
     );
     "fillRangeInPlace", (fun _ ->
       Eq([| 1; 4; 3 |],
-         [| 1; 2; 3 |] |. Js.Array.fill ~value:4 ~start:1 ~end_:2 ())
+         [| 1; 2; 3 |] |. Js.Array.fill ~value:4 ~start:1 ~end_:2)
     );
 
     "pop", (fun _ ->
@@ -138,10 +138,10 @@ let suites = Mt.[
     );
 
     "indexOf", (fun _ ->
-      Eq(1, [| 1; 2; 3 |] |. Js.Array.indexOf ~value:2 ())
+      Eq(1, [| 1; 2; 3 |] |. Js.Array.indexOf ~value:2)
     );
     "indexOfFrom", (fun _ ->
-      Eq(3, [| 1; 2; 3; 2 |] |. Js.Array.indexOf ~value:2 ~start:2 ())
+      Eq(3, [| 1; 2; 3; 2 |] |. Js.Array.indexOf ~value:2 ~start:2)
     );
 
     "join", (fun _ ->
@@ -160,7 +160,7 @@ let suites = Mt.[
 
     "slice", (fun _ ->
       Eq([| 2; 3; |],
-         [| 1; 2; 3; 4; 5 |] |. Js.Array.slice ~start:1 ~end_:3 ())
+         [| 1; 2; 3; 4; 5 |] |. Js.Array.slice ~start:1 ~end_:3)
     );
     "copy", (fun _ ->
       Eq([| 1; 2; 3; 4; 5 |],
@@ -168,7 +168,7 @@ let suites = Mt.[
     );
     "sliceFrom", (fun _ ->
       Eq([| 3; 4; 5 |],
-         [| 1; 2; 3; 4; 5 |] |. Js.Array.slice ~start:2 ())
+         [| 1; 2; 3; 4; 5 |] |. Js.Array.slice ~start:2)
     );
 
     "toString", (fun _ ->
