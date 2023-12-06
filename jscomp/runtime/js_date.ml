@@ -36,26 +36,18 @@ external make : unit -> t = "Date"
 
 external fromFloat : float -> t = "Date" [@@mel.new]
 external fromString : string -> t = "Date" [@@mel.new]
+external makeWithYM : year:float -> month:float -> t = "Date" [@@mel.new]
 
-external makeWithYM : year:float -> month:float -> unit -> t = "Date"
-[@@mel.new]
-
-external makeWithYMD : year:float -> month:float -> date:float -> unit -> t
-  = "Date"
+external makeWithYMD : year:float -> month:float -> date:float -> t = "Date"
 [@@mel.new]
 
 external makeWithYMDH :
-  year:float -> month:float -> date:float -> hours:float -> unit -> t = "Date"
+  year:float -> month:float -> date:float -> hours:float -> t = "Date"
 [@@mel.new]
 
 external makeWithYMDHM :
-  year:float ->
-  month:float ->
-  date:float ->
-  hours:float ->
-  minutes:float ->
-  unit ->
-  t = "Date"
+  year:float -> month:float -> date:float -> hours:float -> minutes:float -> t
+  = "Date"
 [@@mel.new]
 
 external makeWithYMDHMS :
@@ -65,20 +57,17 @@ external makeWithYMDHMS :
   hours:float ->
   minutes:float ->
   seconds:float ->
-  unit ->
   t = "Date"
 [@@mel.new]
 
-external utcWithYM : year:float -> month:float -> unit -> float = "UTC"
+external utcWithYM : year:float -> month:float -> float = "UTC"
 [@@mel.scope "Date"]
 
-external utcWithYMD : year:float -> month:float -> date:float -> unit -> float
-  = "UTC"
+external utcWithYMD : year:float -> month:float -> date:float -> float = "UTC"
 [@@mel.scope "Date"]
 
 external utcWithYMDH :
-  year:float -> month:float -> date:float -> hours:float -> unit -> float
-  = "UTC"
+  year:float -> month:float -> date:float -> hours:float -> float = "UTC"
 [@@mel.scope "Date"]
 
 external utcWithYMDHM :
@@ -87,7 +76,6 @@ external utcWithYMDHM :
   date:float ->
   hours:float ->
   minutes:float ->
-  unit ->
   float = "UTC"
 [@@mel.scope "Date"]
 
@@ -98,7 +86,6 @@ external utcWithYMDHMS :
   hours:float ->
   minutes:float ->
   seconds:float ->
-  unit ->
   float = "UTC"
 [@@mel.scope "Date"]
 
@@ -196,7 +183,7 @@ external setMonthD : month:float -> date:float -> float = "setMonth"
 
 external setSeconds : float -> float = "setSeconds" [@@mel.send.pipe: t]
 
-external setSecondsMs : seconds:float -> milliseconds:float -> unit -> float
+external setSecondsMs : seconds:float -> milliseconds:float -> float
   = "setSeconds"
 [@@mel.send.pipe: t]
 
