@@ -69,7 +69,7 @@ external then_ : (('a -> 'b t)[@mel.uncurry]) -> 'b t = "then"
 
 external catch : ((error -> 'a t)[@mel.uncurry]) -> 'a t = "catch"
 [@@mel.send.pipe: 'a t]
-(* [ p|> catch handler]
+(* [ p |> catch handler]
     Note in JS the returned promise type is actually runtime dependent,
     if promise is rejected, it will pick the [handler] otherwise the original promise,
     to make it strict we enforce reject handler

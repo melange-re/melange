@@ -35,23 +35,7 @@ type t = int
   *)
 (* + conversion*)
 
-external toExponential : t -> string = "toExponential"
-[@@mel.send]
-(** Formats an [int] using exponential (scientific) notation
-
-{b Returns} a [string] representing the given value in exponential notation
-
-@raise RangeError if digits is not in the range \[0, 20\] (inclusive)
-
-{[
-  (* prints "7.7e+1" *)
-  let _ = Js.log (Js.Int.toExponential 77)
-]}
-
-@see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential> MDN
-*)
-
-external toExponentialWithPrecision : digits:t -> string = "toExponential"
+external toExponential : ?digits:t -> string = "toExponential"
 [@@mel.send.pipe: t]
 (** Formats an [int] using exponential (scientific) notation
 
@@ -65,38 +49,15 @@ The output will be rounded or padded with zeroes if necessary.
 @raise RangeError if digits is not in the range \[0, 20\] (inclusive)
 
 {[
-  (* prints "7.70e+1" *)
-  let _ = Js.log  (Js.Int.toExponentialWithPrecision 77 ~digits:2)
-
-  (* prints "5.68e+3" *)
-  let _ = Js.log  (Js.Int.toExponentialWithPrecision 5678 ~digits:2)
+  Js.Int.toExponential 77 = "7.7e+1"
+  Js.Int.toExponential ~digits:2 77 = "7.70e+1"
+  Js.Int.toExponential ~digits:2 5678 = "5.68e+3"
 ]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential> MDN
 *)
 
-external toPrecision : t -> string = "toPrecision"
-[@@mel.send]
-(** Formats a [int] using some fairly arbitrary rules
-
-{b Returns} a [string] representing the given value in fixed-point (usually)
-
-[toPrecision] differs from [toFixed] in that the former will format the number
-with full precision, while the latter will not output any digits after the
-decimal point.
-
-@raise RangeError if digits is not in the range accepted by this function (what do you mean "vague"?)
-
-{[
-  (* prints "123456789" *)
-  let _ = Js.log (Js.Int.toPrecision 123456789)
-]}
-
-@see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toPrecision> MDN
-*)
-(* equivalent to `toString` I think *)
-
-external toPrecisionWithPrecision : digits:t -> string = "toPrecision"
+external toPrecision : ?digits:t -> string = "toPrecision"
 [@@mel.send.pipe: t]
 (** Formats an [int] using some fairly arbitrary rules
 
@@ -117,31 +78,15 @@ before the decimal point.
 @raise RangeError if digits is not in the range accepted by this function (what do you mean "vague"?)
 
 {[
-  (* prints "1.2e+8" *)
-  let _ = Js.log (Js.Int.toPrecisionWithPrecision 123456789 ~digits:2)
-
-  (* prints "0.0" *)
-  let _ = Js.log (Js.Int.toPrecisionWithPrecision 0 ~digits:2)
+  Js.Int.toPrecision 123456789 = "123456789"
+  Js.Int.toPrecision ~digits:2 123456789 = "1.2e+8"
+  Js.Int.toPrecision ~digits:2 0 = "0.0"
 ]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toPrecision> MDN
 *)
 
-external toString : t -> string = "toString"
-[@@mel.send]
-(** Formats a [int] as a string
-
-{b Returns} a [string] representing the given value in fixed-point (usually)
-
-{[
-  (* prints "123456789" *)
-  let _ = Js.log (Js.Int.toString 123456789)
-]}
-
-@see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toString> MDN
-*)
-
-external toStringWithRadix : radix:t -> string = "toString"
+external toString : ?radix:t -> string = "toString"
 [@@mel.send.pipe: t]
 (** Formats an [int] as a string
 
@@ -153,14 +98,10 @@ value must be in the range \[2, 36\] (inclusive).
 @raise RangeError if radix is not in the range \[2, 36\] (inclusive)
 
 {[
-  (* prints "110" *)
-  let _ = Js.log (Js.Int.toStringWithRadix 6 ~radix:2)
-
-  (* prints "deadbeef" *)
-  let _ = Js.log (Js.Int.toStringWithRadix 3735928559 ~radix:16)
-
-  (* prints "2n9c" *)
-  let _ = Js.log (Js.Int.toStringWithRadix 123456 ~radix:36)
+  Js.Int.toString 123456789 = "123456789"
+  Js.Int.toString ~radix:2 6 = "110"
+  Js.Int.toString ~radix:16 3735928559 = "deadbeef"
+  Js.Int.toString ~radix:36 123456 = "2n9c"
 ]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toString> MDN
