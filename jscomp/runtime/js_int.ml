@@ -26,6 +26,8 @@ open Melange_mini_stdlib
 
 (** Provides functions for inspecting and manipulating [int]s *)
 
+type t = int
+
 (** If we use number, we need coerce to int32 by adding `|0`,
     otherwise `+0` can be wrong.
     Most JS API is float oriented, it may overflow int32 or
@@ -33,7 +35,7 @@ open Melange_mini_stdlib
   *)
 (* + conversion*)
 
-external toExponential : int -> string = "toExponential"
+external toExponential : t -> string = "toExponential"
 [@@mel.send]
 (** Formats an [int] using exponential (scientific) notation
 
@@ -49,9 +51,8 @@ external toExponential : int -> string = "toExponential"
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential> MDN
 *)
 
-external toExponentialWithPrecision : int -> digits:int -> string
-  = "toExponential"
-[@@mel.send]
+external toExponentialWithPrecision : digits:t -> string = "toExponential"
+[@@mel.send.pipe: t]
 (** Formats an [int] using exponential (scientific) notation
 
 {b digits} specifies how many digits should appear after the decimal point. The
@@ -74,7 +75,7 @@ The output will be rounded or padded with zeroes if necessary.
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential> MDN
 *)
 
-external toPrecision : int -> string = "toPrecision"
+external toPrecision : t -> string = "toPrecision"
 [@@mel.send]
 (** Formats a [int] using some fairly arbitrary rules
 
@@ -95,8 +96,8 @@ decimal point.
 *)
 (* equivalent to `toString` I think *)
 
-external toPrecisionWithPrecision : int -> digits:int -> string = "toPrecision"
-[@@mel.send]
+external toPrecisionWithPrecision : digits:t -> string = "toPrecision"
+[@@mel.send.pipe: t]
 (** Formats an [int] using some fairly arbitrary rules
 
 {b digits} specifies how many digits should appear in total. The
@@ -126,7 +127,7 @@ before the decimal point.
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toPrecision> MDN
 *)
 
-external toString : int -> string = "toString"
+external toString : t -> string = "toString"
 [@@mel.send]
 (** Formats a [int] as a string
 
@@ -140,8 +141,8 @@ external toString : int -> string = "toString"
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toString> MDN
 *)
 
-external toStringWithRadix : int -> radix:int -> string = "toString"
-[@@mel.send]
+external toStringWithRadix : radix:t -> string = "toString"
+[@@mel.send.pipe: t]
 (** Formats an [int] as a string
 
 {b radix} specifies the radix base to use for the formatted number. The
@@ -165,8 +166,8 @@ value must be in the range \[2, 36\] (inclusive).
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toString> MDN
 *)
 
-external toFloat : int -> float = "%floatofint"
+external toFloat : t -> float = "%floatofint"
 
-let equal (x : int) y = x = y
-let max : int = 2147483647
-let min : int = -2147483648
+let equal (x : t) y = x = y
+let max : t = 2147483647
+let min : t = -2147483648
