@@ -1,3 +1,9 @@
+2.2.0 2023-12-05
+---------------
+
+- BREAKING(core): require OCaml 5.1.1
+  ([#926](https://github.com/melange-re/melange/pull/926))
+
 2.1.0 2023-10-22
 ---------------
 
