@@ -25,7 +25,7 @@ jobs:
           - ubuntu-latest
           # - windows-latest # for some reason windows build is not picking dune 3.5
         ocaml-compiler:
-          - 5.1.x
+          - ocaml-base-compiler.5.1.1~rc1
 
     runs-on: ${{ matrix.os }}
 
@@ -37,7 +37,7 @@ jobs:
           path: melange
 
       - name: Use Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
 
@@ -71,7 +71,7 @@ jobs:
       - name: Build basic template
         working-directory: melange-opam-template
         run: |
-          opam exec -- dune build @react @node --display=short
+          opam exec -- dune build @react @node --profile=release --display=short
           npm run bundle
 
       - name: Run resulting .js files
