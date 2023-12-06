@@ -59,7 +59,8 @@ function findBySelectorAndTextContent(element, selector, content) {
 
 function findBySelectorAndPartialTextContent(element, selector, content) {
   return Belt__Belt_Array.getBy(Array.from(element.querySelectorAll(selector)), (function (node) {
-                return node.textContent.includes(content, undefined);
+                var arg = node.textContent;
+                return arg.includes(content, undefined);
               }));
 }
 

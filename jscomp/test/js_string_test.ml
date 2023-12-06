@@ -51,32 +51,32 @@ let suites = Mt.[
 
     (* es2015 *)
     "endsWith", (fun _ ->
-      Eq(true, "foobar" |. Js.String.endsWith ~suffix:"bar" ())
+      Eq(true, "foobar" |. Js.String.endsWith ~suffix:"bar")
     );
     "endsWithFrom", (fun _ ->
-      Eq(false, "foobar" |. Js.String.endsWith ~suffix:"bar" ~len:1 ())
+      Eq(false, "foobar" |. Js.String.endsWith ~suffix:"bar" ~len:1)
     );
 
     (* es2015 *)
     "includes", (fun _ ->
-      Eq(true, "foobarbaz" |. Js.String.includes ~search:"bar" ())
+      Eq(true, "foobarbaz" |. Js.String.includes ~search:"bar")
     );
     "includesFrom", (fun _ ->
-      Eq(false, "foobarbaz" |. Js.String.includes ~search:"bar" ~start:4 ())
+      Eq(false, "foobarbaz" |. Js.String.includes ~search:"bar" ~start:4)
     );
 
     "indexOf", (fun _ ->
-      Eq(3, "foobarbaz" |. Js.String.indexOf ~search:"bar" ())
+      Eq(3, "foobarbaz" |. Js.String.indexOf ~search:"bar")
     );
     "indexOfFrom", (fun _ ->
-      Eq((-1), "foobarbaz" |. Js.String.indexOf ~search:"bar" ~start:4 ())
+      Eq((-1), "foobarbaz" |. Js.String.indexOf ~search:"bar" ~start:4)
     );
 
     "lastIndexOf", (fun _ ->
-      Eq(3, "foobarbaz" |. Js.String.lastIndexOf ~search:"bar" ())
+      Eq(3, "foobarbaz" |. Js.String.lastIndexOf ~search:"bar")
     );
     "lastIndexOfFrom", (fun _ ->
-      Eq(3, "foobarbaz" |. Js.String.lastIndexOf ~search:"bar" ~start:4 ())
+      Eq(3, "foobarbaz" |. Js.String.lastIndexOf ~search:"bar" ~start:4)
     );
 
     "localeCompare", (fun _ ->
@@ -99,10 +99,10 @@ let suites = Mt.[
 
     (* es2015 *)
     "normalize", (fun _ ->
-      Eq("foo", Js.String.normalize "foo" ())
+      Eq("foo", Js.String.normalize "foo")
     );
     "normalizeByForm", (fun _ ->
-      Eq("foo", Js.String.normalize ~form:`NFKD "foo" ())
+      Eq("foo", Js.String.normalize ~form:`NFKD "foo")
     );
 
     (* es2015 *)
@@ -150,49 +150,49 @@ let suites = Mt.[
     );
 
     "slice", (fun _ ->
-      Eq("bar", "foobarbaz" |. Js.String.slice ~start:3 ~end_:6 ())
+      Eq("bar", "foobarbaz" |. Js.String.slice ~start:3 ~end_:6)
     );
     "sliceToEnd", (fun _ ->
-      Eq("barbaz", "foobarbaz" |. Js.String.slice ~start:3 ())
+      Eq("barbaz", "foobarbaz" |. Js.String.slice ~start:3)
     );
 
     "split", (fun _ ->
-      Eq([| "foo"; "bar"; "baz" |], "foo bar baz" |. Js.String.split ~sep:" " ())
+      Eq([| "foo"; "bar"; "baz" |], "foo bar baz" |. Js.String.split ~sep:" ")
     );
     "splitAtMost", (fun _ ->
-      Eq([| "foo"; "bar" |], "foo bar baz" |. Js.String.split ~sep:" " ~limit:2 ())
+      Eq([| "foo"; "bar" |], "foo bar baz" |. Js.String.split ~sep:" " ~limit:2)
     );
     "splitByRe", (fun _ ->
       Eq(
         [| Some "a"; Some "#"; None; Some "b"; Some "#"; Some ":"; Some "c" |],
-        "a#b#:c" |. Js.String.splitByRe ~regexp:[%re "/(#)(:)?/"] ())
+        "a#b#:c" |. Js.String.splitByRe ~regexp:[%re "/(#)(:)?/"])
     );
     "splitByReAtMost", (fun _ ->
       Eq(
         [| Some "a"; Some "#"; None |],
-        "a#b#:c" |. Js.String.splitByRe ~regexp:[%re "/(#)(:)?/"] ~limit:3 ())
+        "a#b#:c" |. Js.String.splitByRe ~regexp:[%re "/(#)(:)?/"] ~limit:3)
     );
 
     (* es2015 *)
     "startsWith", (fun _ ->
-      Eq(true, "foobarbaz" |. Js.String.startsWith ~prefix:"foo" ())
+      Eq(true, "foobarbaz" |. Js.String.startsWith ~prefix:"foo")
     );
     "startsWithFrom", (fun _ ->
-      Eq(false, "foobarbaz" |. Js.String.startsWith ~prefix:"foo" ~start:1 ())
+      Eq(false, "foobarbaz" |. Js.String.startsWith ~prefix:"foo" ~start:1)
     );
 
     "substr", (fun _ ->
-      Eq("barbaz", "foobarbaz" |. Js.String.substr ~start:3 ())
+      Eq("barbaz", "foobarbaz" |. Js.String.substr ~start:3)
     );
     "substrAtMost", (fun _ ->
-      Eq("bar", "foobarbaz" |. Js.String.substr ~start:3 ~len:3 ())
+      Eq("bar", "foobarbaz" |. Js.String.substr ~start:3 ~len:3)
     );
 
     "substring", (fun _ ->
-      Eq("bar", "foobarbaz" |. Js.String.substring ~start:3 ~end_:6 ())
+      Eq("bar", "foobarbaz" |. Js.String.substring ~start:3 ~end_:6)
     );
     "substringToEnd", (fun _ ->
-      Eq("barbaz", "foobarbaz" |. Js.String.substring ~start:3 ())
+      Eq("barbaz", "foobarbaz" |. Js.String.substring ~start:3)
     );
 
     "toLowerCase", (fun _ ->
@@ -219,6 +219,6 @@ let suites = Mt.[
     "link", (fun _ ->
       Eq("<a href=\"https://reason.ml\">foo</a>", "foo" |. Js.String.link ~href:"https://reason.ml")
     );
-    __LOC__ , (fun _ -> Ok (Js.String.includes "ab" ~search:"a" ()))
+    __LOC__ , (fun _ -> Ok (Js.String.includes "ab" ~search:"a"))
 ]
 ;; Mt.from_pair_suites __MODULE__ suites
