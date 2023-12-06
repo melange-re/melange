@@ -87,7 +87,8 @@ Unreleased
 - Implement more Stdlib functions in modules String, Bytes, Buffer, BytesLabels
   and StringLabels ([#711](https://github.com/melange-re/melange/pull/711),
   [#956](https://github.com/melange-re/melange/pull/956),
-  [#958](https://github.com/melange-re/melange/pull/958))
+  [#958](https://github.com/melange-re/melange/pull/958),
+  [#961](https://github.com/melange-re/melange/pull/961))
 
 2.1.0 2023-10-22
 ---------------
