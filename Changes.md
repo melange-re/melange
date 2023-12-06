@@ -31,7 +31,8 @@ Unreleased
   [#895](https://github.com/melange-re/melange/pull/895),
   [#899](https://github.com/melange-re/melange/pull/899),
   [#963](https://github.com/melange-re/melange/pull/963),
-  [#964](https://github.com/melange-re/melange/pull/964))
+  [#964](https://github.com/melange-re/melange/pull/964),
+  [#965](https://github.com/melange-re/melange/pull/965))
     - Modules ending with `2` (e.g. `Js.String2`, `Js.Array2`,
       `Js.TypedArray2`) are no longer available in Melange
     - The functions in their corresponding modules now take labeled arguments
