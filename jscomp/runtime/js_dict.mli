@@ -51,8 +51,8 @@ external set : 'a t -> key -> 'a -> unit = ""
 [@@mel.set_index]
 (** [set dict key value] sets the [key]/[value] in [dict] *)
 
-external keys : 'a t -> string array = "Object.keys"
-
+external keys : 'a t -> string array = "keys"
+[@@mel.scope "Object"]
 (** [keys dict] returns all the keys in the dictionary [dict]*)
 
 external empty : unit -> 'a t = ""
@@ -64,11 +64,9 @@ module Js := Js_internal
 val unsafeDeleteKey : (string t -> string -> unit[@u])
 (** Experimental internal function *)
 
-(* external entries : 'a t -> (key * 'a) array = "Object.entries"  *)
 val entries : 'a t -> (key * 'a) array
 (** [entries dict] returns the key value pairs in [dict] (ES2017) *)
 
-(* external values : 'a t -> 'a array = "Object.values"  *)
 val values : 'a t -> 'a array
 (** [values dict] returns the values in [dict] (ES2017) *)
 
@@ -80,6 +78,6 @@ val fromArray : (key * 'a) array -> 'a t
 (** [fromArray entries] creates a new dictionary containing each
 [(key, value)] pair in [entries] *)
 
-val map : (('a -> 'b)[@u]) -> 'a t -> 'b t
+val map : f:(('a -> 'b)[@u]) -> 'a t -> 'b t
 (** [map f dict] maps [dict] to a new dictionary with the same keys,
 using [f] to map each value *)
