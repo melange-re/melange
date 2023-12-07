@@ -97,6 +97,8 @@ Unreleased
 - BREAKING(runtime): Improve docstrings in the `Node` library and change some
   of its functions to pipe-last
   ([#970](https://github.com/melange-re/melange/pull/970))
+- BREAKING(runtime): Improve `Js.Float` and change some of its functions to
+  pipe-last ([#968](https://github.com/melange-re/melange/pull/968))
 
 2.2.0 2023-12-05
 ---------------
