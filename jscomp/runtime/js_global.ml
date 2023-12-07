@@ -32,7 +32,6 @@ type timeoutId
 (** Identify timeout started by {! setTimeout} *)
 
 external clearInterval : intervalId -> unit = "clearInterval"
-
 (** Clear an interval started by {! setInterval}
 
 {[
@@ -55,7 +54,6 @@ let cancel () =
 *)
 
 external clearTimeout : timeoutId -> unit = "clearTimeout"
-
 (** Clear a timeout started by {! setTimeout}
 {[
 (* A simple model of a code monkey's brain *)
@@ -73,8 +71,7 @@ let procrastinate mins =
 @see <https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/clearTimeout> MDN
 *)
 
-external setInterval : (unit -> unit) -> int -> intervalId = "setInterval"
-
+external setInterval : f:(unit -> unit) -> int -> intervalId = "setInterval"
 (** {i Repeatedly} executes a callback with a specified interval (in milliseconds) between calls
 
 {b Return} an {! intervalId} that can be passed to {! clearInterval} to cancel the timeout
@@ -94,9 +91,8 @@ let _ =
 ]}
 *)
 
-external setIntervalFloat : (unit -> unit) -> float -> intervalId
+external setIntervalFloat : f:(unit -> unit) -> float -> intervalId
   = "setInterval"
-
 (** {i Repeatedly} executes a callback with a specified interval (in milliseconds) between calls
 
 {b Return} an {! intervalId} that can be passed to {! clearInterval} to cancel the timeout
@@ -116,8 +112,7 @@ let _ =
 ]}
 *)
 
-external setTimeout : (unit -> unit) -> int -> timeoutId = "setTimeout"
-
+external setTimeout : f:(unit -> unit) -> int -> timeoutId = "setTimeout"
 (** Execute a callback after a specified delay (in milliseconds)
 
 {b returns} a {! timeoutId} that can be passed to {! clearTimeout} to cancel the timeout
@@ -134,8 +129,7 @@ let _ =
 ]}
 *)
 
-external setTimeoutFloat : (unit -> unit) -> float -> timeoutId = "setTimeout"
-
+external setTimeoutFloat : f:(unit -> unit) -> float -> timeoutId = "setTimeout"
 (** Execute a callback after a specified delay (in milliseconds)
 
 {b returns} a {! timeoutId} that can be passed to {! clearTimeout} to cancel the timeout
@@ -153,28 +147,24 @@ let _ =
 *)
 
 external encodeURI : string -> string = "encodeURI"
-
 (** URL-encodes a string.
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI> MDN
 *)
 
 external decodeURI : string -> string = "decodeURI"
-
 (** Decodes a URL-enmcoded string produced by [encodeURI]
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURI> MDN
 *)
 
 external encodeURIComponent : string -> string = "encodeURIComponent"
-
 (** URL-encodes a string, including characters with special meaning in a URI.
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent> MDN
 *)
 
 external decodeURIComponent : string -> string = "decodeURIComponent"
-
 (** Decodes a URL-enmcoded string produced by [encodeURIComponent]
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent> MDN
