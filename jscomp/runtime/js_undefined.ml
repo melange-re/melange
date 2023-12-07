@@ -45,8 +45,9 @@ let getExn f =
   | None -> Js_exn.raiseError "Js.Undefined.getExn"
   | Some x -> x
 
-let bind x f =
+let map ~f x =
   match toOption x with None -> empty | Some x -> return (f x [@u])
 
-let iter x f = match toOption x with None -> () | Some x -> f x [@u]
+let bind ~f x = match toOption x with None -> empty | Some x -> f x [@u]
+let iter ~f x = match toOption x with None -> () | Some x -> f x [@u]
 let fromOption x = match x with None -> empty | Some x -> return x

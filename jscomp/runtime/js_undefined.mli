@@ -33,18 +33,16 @@ external return : 'a -> 'a t = "%identity"
 (** Constructs a value of ['a Js.undefined] containing a value of ['a] *)
 
 val testAny : 'a -> bool
-(**
-   Returns [true] if the given value is [empty] ([undefined])
-   @since 1.6.1
-*)
+(** Returns [true] if the given value is [empty] ([undefined]) *)
 
 external empty : 'a t = "#undefined"
 (** The empty value, [undefined] *)
 
 external getUnsafe : 'a t -> 'a = "%identity"
 val getExn : 'a t -> 'a
+val map : f:(('a -> 'b)[@u]) -> 'a t -> 'b t
 
-val bind : 'a t -> (('a -> 'b)[@u]) -> 'b t
+val bind : f:(('a -> 'b t)[@u]) -> 'a t -> 'b t
 (** Maps the contained value using the given function
 
 If ['a Js.undefined] contains a value, that value is unwrapped, mapped to a ['b] using
@@ -56,7 +54,7 @@ let maybeGreetWorld (maybeGreeting: string Js.undefined) =
 ]}
 *)
 
-val iter : 'a t -> (('a -> unit)[@u]) -> unit
+val iter : f:(('a -> unit)[@u]) -> 'a t -> unit
 (** Iterates over the contained value with the given function
 
 If ['a Js.undefined] contains a value, that value is unwrapped and applied to

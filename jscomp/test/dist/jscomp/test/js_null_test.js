@@ -67,9 +67,9 @@ var suites_1 = {
                 return {
                         TAG: /* StrictEq */2,
                         _0: null,
-                        _1: Js__Js_null.bind(null, (function (v) {
+                        _1: Js__Js_null.bind((function (v) {
                                 return v;
-                              }))
+                              }), null)
                       };
               })
           ],
@@ -80,9 +80,9 @@ var suites_1 = {
                   return {
                           TAG: /* StrictEq */2,
                           _0: 4,
-                          _1: Js__Js_null.bind(2, (function (n) {
+                          _1: Js__Js_null.map((function (n) {
                                   return (n << 1);
-                                }))
+                                }), 2)
                         };
                 })
             ],
@@ -93,9 +93,9 @@ var suites_1 = {
                     var hit = {
                       contents: false
                     };
-                    Js__Js_null.iter(null, (function (param) {
+                    Js__Js_null.iter((function (param) {
                             hit.contents = true;
-                          }));
+                          }), null);
                     return {
                             TAG: /* Eq */0,
                             _0: false,
@@ -110,9 +110,9 @@ var suites_1 = {
                       var hit = {
                         contents: 0
                       };
-                      Js__Js_null.iter(2, (function (v) {
+                      Js__Js_null.iter((function (v) {
                               hit.contents = v;
-                            }));
+                            }), 2);
                       return {
                               TAG: /* Eq */0,
                               _0: 2,

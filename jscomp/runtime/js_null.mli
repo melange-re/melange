@@ -38,7 +38,9 @@ val getExn : 'a t -> 'a
 
 module Js := Js_internal
 
-val bind : 'a t -> (('a -> 'b)[@u]) -> 'b t
+val bind : f:(('a -> 'b t)[@u]) -> 'a t -> 'b t
+
+val map : f:(('a -> 'b)[@u]) -> 'a t -> 'b t
 (** Maps the contained value using the given function
 
 If ['a Js.null] contains a value, that value is unwrapped, mapped to a ['b] using
@@ -50,7 +52,7 @@ let maybeGreetWorld (maybeGreeting: string Js.null) =
 ]}
 *)
 
-val iter : 'a t -> (('a -> unit)[@u]) -> unit
+val iter : f:(('a -> unit)[@u]) -> 'a t -> unit
 (** Iterates over the contained value with the given function
 
 If ['a Js.null] contains a value, that value is unwrapped and applied to

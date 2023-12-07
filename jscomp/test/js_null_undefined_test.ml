@@ -10,28 +10,28 @@ let suites = Mt.[
   "test - undefined", (fun _ -> Eq(true, undefined |> isNullable));
   "test - empty", (fun _ -> Eq(true, undefined |> isNullable));
   __LOC__, (fun _ -> Eq(true, return () |> isNullable));
-  "bind - null", (fun _ -> StrictEq(null, bind null ((fun v -> v) [@u])));
-  "bind - undefined", (fun _ -> StrictEq(undefined, bind undefined ((fun v -> v) [@u])));
-  "bind - empty", (fun _ -> StrictEq(undefined, bind undefined ((fun v -> v) [@u])));
-  "bind - 'a", (fun _ -> Eq(return 4, bind (return 2) ((fun n -> n * 2) [@u])));
+  "bind - null", (fun _ -> StrictEq(null, map null ~f:((fun v -> v) [@u])));
+  "bind - undefined", (fun _ -> StrictEq(undefined, map undefined ~f:((fun v -> v) [@u])));
+  "bind - empty", (fun _ -> StrictEq(undefined, map undefined ~f:((fun v -> v) [@u])));
+  "bind - 'a", (fun _ -> Eq(return 4, map (return 2) ~f:((fun n -> n * 2) [@u])));
   "iter - null", (fun _ ->
     let hit = ref false in
-    let _ = iter null ((fun _ -> hit := true) [@u]) in
+    let _ = iter null ~f:((fun _ -> hit := true) [@u]) in
     Eq(false, !hit)
   );
   "iter - undefined", (fun _ ->
     let hit = ref false in
-    let _ = iter undefined ((fun _ -> hit := true) [@u]) in
+    let _ = iter undefined ~f:((fun _ -> hit := true) [@u]) in
     Eq(false, !hit)
   );
   "iter - empty", (fun _ ->
     let hit = ref false in
-    let _ = iter undefined ((fun _ -> hit := true) [@u]) in
+    let _ = iter undefined ~f:((fun _ -> hit := true) [@u]) in
     Eq(false, !hit)
   );
   "iter - 'a", (fun _ ->
     let hit = ref 0 in
-    let _ = iter (return 2) ((fun v -> hit := v) [@u]) in
+    let _ = iter (return 2) ~f:((fun v -> hit := v) [@u]) in
     Eq(2, !hit)
   );
   "fromOption - None", (fun _ -> Eq(undefined, None |> fromOption));
