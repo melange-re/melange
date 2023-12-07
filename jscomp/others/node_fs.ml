@@ -31,8 +31,7 @@ external readdirSync : string -> string array = "readdirSync"
 [@@mel.module "fs"]
 (** Most fs functions let you omit the callback argument. If you do, a default
     callback is used that rethrows errors. To get a trace to the original call
-    site, set the `NODE_DEBUG` environment variable:
-*)
+    site, set the `NODE_DEBUG` environment variable. *)
 
 external renameSync : string -> string -> unit = "renameSync"
 [@@mel.module "fs"]
@@ -40,10 +39,8 @@ external renameSync : string -> string -> unit = "renameSync"
 type fd = private int
 
 type path = string
-(**
-   The relative path to a filename can be used. Remember, however, that this path
-   will be relative to [process.cwd()].
-*)
+(** The relative path to a filename can be used. Remember, however, that this
+    path will be relative to [process.cwd()]. *)
 
 module Watch = struct
   type t
@@ -59,13 +56,11 @@ module Watch = struct
 
   external watch : string -> ?config:config -> unit -> t = "watch"
   [@@mel.module "fs"]
-  (** there is no need to accept listener, since we return a [watcher]
-      back it can register event listener there .
-      Currently we introduce a type [string_buffer], for the
-      [filename], it will be [Buffer] when the encoding is `utf8.
-      This is dependent type which can be tracked by GADT in some way,
-      but to make things simple, let's just introduce an or type
-  *)
+  (** there is no need to accept listener, since we return a [watcher] back it
+      can register event listener there. Currently we introduce a type
+      [string_buffer], for the [filename], it will be [Buffer] when the
+      encoding is [`utf8]. This is dependent type which can be tracked by GADT
+      in some way, but to make things simple, let's just introduce an or type *)
 
   external on :
     t ->
