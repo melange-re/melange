@@ -44,7 +44,7 @@ let deprecated_abstract : Parsetree.attribute =
         [
           [%stri
             deprecated
-              "The `@deriving abstract` payload is deprecated, use `@deriving \
+              "The `@deriving abstract` deriver is deprecated, use `@deriving \
                dynamicKeys` instead."];
         ];
     attr_loc = Location.none;
