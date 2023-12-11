@@ -49,17 +49,10 @@ let get_pld_type pld_type ~attrs =
   else pld_type
 
 let handleTdcl light (tdcl : Parsetree.type_declaration) :
-    Parsetree.type_declaration * Parsetree.value_description list =
+    Parsetree.value_description list =
   let loc = tdcl.ptype_loc in
   let type_name = tdcl.ptype_name.txt in
-  let newTdcl =
-    {
-      tdcl with
-      ptype_kind = Ptype_abstract;
-      ptype_attributes = [] (* avoid non-terminating*);
-    }
-  in
-  let core_type = U.core_type_of_type_declaration newTdcl in
+  let core_type = U.core_type_of_type_declaration tdcl in
   match tdcl.ptype_kind with
   | Ptype_record label_declarations ->
       let is_private = tdcl.ptype_private = Private in
@@ -140,40 +133,31 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
                else core_type),
               [] )
       in
-      ( newTdcl,
-        if is_private then setter_accessor
-        else
-          let myPrims =
-            Ast_external_mk.pval_prim_of_option_labels labels has_optional_field
-          in
-          let myMaker =
-            Val.mk ~loc { loc; txt = type_name }
-              ~attrs:[ Ast_attributes.unboxable_type_in_prim_decl ]
-              ~prim:myPrims makeType
-          in
-          myMaker :: setter_accessor )
+      if is_private then setter_accessor
+      else
+        let myPrims =
+          Ast_external_mk.pval_prim_of_option_labels labels has_optional_field
+        in
+        let myMaker =
+          Val.mk ~loc { loc; txt = type_name }
+            ~attrs:[ Ast_attributes.unboxable_type_in_prim_decl ]
+            ~prim:myPrims makeType
+        in
+        myMaker :: setter_accessor
   | Ptype_abstract | Ptype_variant _ | Ptype_open ->
       (* Looks obvious that it does not make sense to warn *)
-      (newTdcl, [])
+      []
 
 let handleTdclsInStr ~light _rf tdcls =
-  let _tdcls, code =
-    List.fold_right
-      ~f:(fun tdcl (tdcls, sts) ->
-        match handleTdcl light tdcl with
-        | ntdcl, value_descriptions ->
-            (ntdcl :: tdcls, List.map ~f:Str.primitive value_descriptions @ sts))
-      tdcls ~init:([], [])
-  in
-  code
+  List.fold_right
+    ~f:(fun tdcl sts ->
+      match handleTdcl light tdcl with
+      | value_descriptions -> List.map ~f:Str.primitive value_descriptions @ sts)
+    tdcls ~init:[]
 
 let handleTdclsInSig ~light _rf tdcls =
-  let _tdcls, code =
-    List.fold_right
-      ~f:(fun tdcl (tdcls, sts) ->
-        match handleTdcl light tdcl with
-        | ntdcl, value_descriptions ->
-            (ntdcl :: tdcls, List.map ~f:Sig.value value_descriptions @ sts))
-      tdcls ~init:([], [])
-  in
-  code
+  List.fold_right
+    ~f:(fun tdcl sts ->
+      match handleTdcl light tdcl with
+      | value_descriptions -> List.map ~f:Sig.value value_descriptions @ sts)
+    tdcls ~init:[]
