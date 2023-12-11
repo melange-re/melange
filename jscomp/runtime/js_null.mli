@@ -43,12 +43,13 @@ val bind : f:(('a -> 'b t)[@u]) -> 'a t -> 'b t
 val map : f:(('a -> 'b)[@u]) -> 'a t -> 'b t
 (** Maps the contained value using the given function
 
-If ['a Js.null] contains a value, that value is unwrapped, mapped to a ['b] using
-the given function [a' -> 'b], then wrapped back up and returned as ['b Js.null]
+If ['a Js.null] contains a value, that value is unwrapped, mapped to a ['b]
+using the given function [a' -> 'b], then wrapped back up and returned as ['b
+Js.null]
 
 {[
 let maybeGreetWorld (maybeGreeting: string Js.null) =
-  Js.Null.bind maybeGreeting (fun greeting -> greeting ^ " world!")
+  Js.Null.bind maybeGreeting ~f:(fun greeting -> greeting ^ " world!")
 ]}
 *)
 
@@ -60,7 +61,7 @@ the given function.
 
 {[
 let maybeSay (maybeMessage: string Js.null) =
-  Js.Null.iter maybeMessage (fun message -> Js.log message)
+  Js.Null.iter maybeMessage ~f:(fun message -> Js.log message)
 ]}
 *)
 

@@ -43,14 +43,15 @@ val getExn : 'a t -> 'a
 val map : f:(('a -> 'b)[@u]) -> 'a t -> 'b t
 
 val bind : f:(('a -> 'b t)[@u]) -> 'a t -> 'b t
-(** Maps the contained value using the given function
+(** Bind the contained value using the given function
 
-If ['a Js.undefined] contains a value, that value is unwrapped, mapped to a ['b] using
-the given function [a' -> 'b], then wrapped back up and returned as ['b Js.undefined]
+If ['a Js.undefined] contains a value, that value is unwrapped, mapped to a
+['b] using the given function [a' -> 'b], then wrapped back up and returned as
+['b Js.undefined]
 
 {[
 let maybeGreetWorld (maybeGreeting: string Js.undefined) =
-  Js.Undefined.bind maybeGreeting (fun greeting -> greeting ^ " world!")
+  Js.Undefined.bind maybeGreeting ~f:(fun greeting -> greeting ^ " world!")
 ]}
 *)
 
@@ -62,7 +63,7 @@ the given function.
 
 {[
 let maybeSay (maybeMessage: string Js.undefined) =
-  Js.Undefined.iter maybeMessage (fun message -> Js.log message)
+  Js.Undefined.iter maybeMessage ~f:(fun message -> Js.log message)
 ]}
 *)
 

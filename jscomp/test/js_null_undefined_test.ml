@@ -10,10 +10,10 @@ let suites = Mt.[
   "test - undefined", (fun _ -> Eq(true, undefined |> isNullable));
   "test - empty", (fun _ -> Eq(true, undefined |> isNullable));
   __LOC__, (fun _ -> Eq(true, return () |> isNullable));
-  "bind - null", (fun _ -> StrictEq(null, map null ~f:((fun v -> v) [@u])));
-  "bind - undefined", (fun _ -> StrictEq(undefined, map undefined ~f:((fun v -> v) [@u])));
-  "bind - empty", (fun _ -> StrictEq(undefined, map undefined ~f:((fun v -> v) [@u])));
-  "bind - 'a", (fun _ -> Eq(return 4, map (return 2) ~f:((fun n -> n * 2) [@u])));
+  "map - null", (fun _ -> StrictEq(null, map null ~f:((fun v -> v) [@u])));
+  "map - undefined", (fun _ -> StrictEq(undefined, map undefined ~f:((fun v -> v) [@u])));
+  "map - empty", (fun _ -> StrictEq(undefined, map undefined ~f:((fun v -> v) [@u])));
+  "map - 'a", (fun _ -> Eq(return 4, map (return 2) ~f:((fun n -> n * 2) [@u])));
   "iter - null", (fun _ ->
     let hit = ref false in
     let _ = iter null ~f:((fun _ -> hit := true) [@u]) in

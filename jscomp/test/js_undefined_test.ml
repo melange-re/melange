@@ -7,7 +7,7 @@ let suites = Mt.[
   "test - empty", (fun _ -> Eq(true, empty = Js.undefined));
   __LOC__, (fun _ -> Eq(true, return () = Js.undefined));
   "bind - empty", (fun _ -> Eq(empty, bind empty ~f:((fun v -> v) [@u])));
-  "bind - 'a", (fun _ -> Eq(return 4, map (return 2) ~f:((fun n -> n * 2) [@u])));
+  "map - 'a", (fun _ -> Eq(return 4, map (return 2) ~f:((fun n -> n * 2) [@u])));
   "iter - empty", (fun _ ->
     let hit = ref false in
     let _ = iter empty ~f:((fun _ -> hit := true) [@u]) in
