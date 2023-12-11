@@ -35,8 +35,27 @@ open Ast_helper
 let get_optional_attrs =
   [ Ast_attributes.mel_get; Ast_attributes.mel_return_undefined ]
 
-let get_attrs = Ast_attributes.[ mel_get_arity; unboxable_type_in_prim_decl ]
-let set_attrs = Ast_attributes.[ mel_set; unboxable_type_in_prim_decl ]
+let deprecated_abstract : Parsetree.attribute =
+  let loc = Location.none in
+  {
+    attr_name = { txt = "alert"; loc = Location.none };
+    attr_payload =
+      PStr
+        [
+          [%stri
+            deprecated
+              "The `@deriving abstract` payload is deprecated, use `@deriving \
+               dynamicKeys` instead."];
+        ];
+    attr_loc = Location.none;
+  }
+
+let get_attrs =
+  Ast_attributes.
+    [ deprecated_abstract; mel_get_arity; unboxable_type_in_prim_decl ]
+
+let set_attrs =
+  Ast_attributes.[ deprecated_abstract; mel_set; unboxable_type_in_prim_decl ]
 
 let get_pld_type pld_type ~attrs =
   let is_optional = Ast_attributes.has_mel_optional attrs in
@@ -140,7 +159,10 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
         in
         let myMaker =
           Val.mk ~loc { loc; txt = type_name }
-            ~attrs:[ Ast_attributes.unboxable_type_in_prim_decl ]
+            ~attrs:
+              [
+                deprecated_abstract; Ast_attributes.unboxable_type_in_prim_decl;
+              ]
             ~prim:myPrims makeType
         in
         myMaker :: setter_accessor

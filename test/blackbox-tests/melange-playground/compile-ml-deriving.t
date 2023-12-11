@@ -23,7 +23,20 @@
       '  person1 ,\n' +
       '}\n' +
       '/* No side effect */\n',
-    warnings: [],
+    warnings: [
+      {
+        js_warning_error_msg: 'Line 6, 22:\n' +
+          '  Alert: deprecated person\n' +
+          'The `@deriving abstract` payload is deprecated, use `@deriving dynamicKeys` instead.',
+        row: 5,
+        column: 22,
+        endRow: 5,
+        endColumn: 28,
+        text: 'person\n' +
+          'The `@deriving abstract` payload is deprecated, use `@deriving dynamicKeys` instead.',
+        type: 'alert'
+      }
+    ],
     type_hints: [
       { start: [Object], end: [Object], kind: 'expression', hint: 'int' },
       {
