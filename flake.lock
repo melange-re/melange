@@ -64,11 +64,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1701741952,
-        "narHash": "sha256-EVUxBPAWbSsCxLIl0jMkxVh36cVa9RV7+LNXI87Syh8=",
+        "lastModified": 1702307644,
+        "narHash": "sha256-uehhPApUVm+7jZ/MuHeZvJlWV8BB4ckkGb4iLZ5F0fU=",
         "owner": "nix-ocaml",
         "repo": "nix-overlays",
-        "rev": "ddcf8f89e9a5fce2a44a283c07a9c76770245926",
+        "rev": "a6364bea92bb35b01a3a70eed9a5cdb1063e128e",
         "type": "github"
       },
       "original": {
