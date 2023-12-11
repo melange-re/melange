@@ -71,8 +71,6 @@ Unreleased
   [#929](https://github.com/melange-re/melange/pull/929)
 - BREAKING(runtime): Remove `Js.null_undefined` in favor of `Js.nullable`
   ([#930](https://github.com/melange-re/melange/pull/930))
-- BREAKING(core): require OCaml 5.1.1
-  ([#926](https://github.com/melange-re/melange/pull/926))
 - BREAKING(ppx): disallow attribute payload in `[@mel.new]` in favor of the
   external primiative string
   ([#938](https://github.com/melange-re/melange/pull/938))
@@ -90,6 +88,12 @@ Unreleased
   [#956](https://github.com/melange-re/melange/pull/956),
   [#958](https://github.com/melange-re/melange/pull/958),
   [#961](https://github.com/melange-re/melange/pull/961))
+
+2.2.0 2023-12-05
+---------------
+
+- BREAKING(core): require OCaml 5.1.1
+  ([#926](https://github.com/melange-re/melange/pull/926))
 
 2.1.0 2023-10-22
 ---------------
