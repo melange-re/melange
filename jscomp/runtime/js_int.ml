@@ -61,9 +61,8 @@ external toPrecision : ?digits:t -> string = "toPrecision"
 [@@mel.send.pipe: t]
 (** Formats an [int] using some fairly arbitrary rules
 
-{b digits} specifies how many digits should appear in total. The
-value must between 0 and some arbitrary number that's hopefully at least larger
-than 20 (for Node it's 21. Why? Who knows).
+{b digits} specifies how many digits should appear in total. The value must
+between 1 and some 100.
 
 {b Returns} a [string] representing the given value in fixed-point or scientific notation
 
@@ -75,7 +74,7 @@ after the decimal point. [toPrecision] will also use scientific notation if the
 specified precision is less than the number for digits before the decimal
 point.
 
-@raise RangeError if digits is not in the range accepted by this function (what do you mean "vague"?)
+@raise RangeError if digits is not between 1 and 100.
 
 {[
   Js.Int.toPrecision 123456789 = "123456789"
