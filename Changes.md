@@ -88,13 +88,14 @@ Unreleased
   [#956](https://github.com/melange-re/melange/pull/956),
   [#958](https://github.com/melange-re/melange/pull/958),
   [#961](https://github.com/melange-re/melange/pull/961))
-- BREAKING(runtime): Improve `Js.Int` and change some of its functions to pipe-last
-  ([#966](https://github.com/melange-re/melange/pull/966))
-- BREAKING(runtime): Improve `Js.Date` and change some of its functions to pipe-last
-  ([#967](https://github.com/melange-re/melange/pull/967))
+- BREAKING(runtime): Improve `Js.Int` and change some of its functions to
+  pipe-last ([#966](https://github.com/melange-re/melange/pull/966))
+- BREAKING(runtime): Improve `Js.Date` and change some of its functions to
+  pipe-last ([#967](https://github.com/melange-re/melange/pull/967))
 - BREAKING(runtime): Improve `Js.Re` and change some of its functions to
   pipe-last ([#969](https://github.com/melange-re/melange/pull/969))
-- runtime: Improve docstrings in the `Node` library
+- BREAKING(runtime): Improve docstrings in the `Node` library and change some
+  of its functions to pipe-last
   ([#970](https://github.com/melange-re/melange/pull/970))
 
 2.2.0 2023-12-05
