@@ -90,7 +90,7 @@ Unreleased
   [#956](https://github.com/melange-re/melange/pull/956),
   [#958](https://github.com/melange-re/melange/pull/958),
   [#961](https://github.com/melange-re/melange/pull/961))
-- Improve `Js.Int` and change some of its functions to pipe-last
+- BREAKING(runtime): Improve `Js.Int` and change some of its functions to pipe-last
   ([#966](https://github.com/melange-re/melange/pull/966))
 
 2.1.0 2023-10-22
