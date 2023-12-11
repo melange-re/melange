@@ -69,11 +69,11 @@ than 20 (for Node it's 21. Why? Who knows).
 
 The output will be rounded or padded with zeroes if necessary.
 
-[toPrecisionWithPrecision] differs from [toFixedWithPrecision] in that the former
-will count all digits against the precision, while the latter will count only
-the digits after the decimal point. [toPrecisionWithPrecision] will also use
-scientific notation if the specified precision is less than the number for digits
-before the decimal point.
+[toPrecision] differs from {!Js.Float.toFixed} in that the former will count
+all digits against the precision, while the latter will count only the digits
+after the decimal point. [toPrecision] will also use scientific notation if the
+specified precision is less than the number for digits before the decimal
+point.
 
 @raise RangeError if digits is not in the range accepted by this function (what do you mean "vague"?)
 
