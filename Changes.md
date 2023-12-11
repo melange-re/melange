@@ -90,6 +90,8 @@ Unreleased
   [#956](https://github.com/melange-re/melange/pull/956),
   [#958](https://github.com/melange-re/melange/pull/958),
   [#961](https://github.com/melange-re/melange/pull/961))
+- BREAKING(ppx): Deprecate `deriving abstract` and add new option
+  `deriving dynamicKeys`, [#979](https://github.com/melange-re/melange/pull/979)
 
 2.1.0 2023-10-22
 ---------------
