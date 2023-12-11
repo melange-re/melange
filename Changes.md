@@ -92,6 +92,8 @@ Unreleased
   ([#966](https://github.com/melange-re/melange/pull/966))
 - BREAKING(runtime): Improve `Js.Date` and change some of its functions to pipe-last
   ([#967](https://github.com/melange-re/melange/pull/967))
+- BREAKING(runtime): Improve `Js.Re` and change some of its functions to
+  pipe-last ([#969](https://github.com/melange-re/melange/pull/969))
 
 2.2.0 2023-12-05
 ---------------
