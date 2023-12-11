@@ -25,12 +25,14 @@
 open Ppxlib
 
 val handleTdclsInStr :
+  is_deprecated:bool ->
   light:bool ->
   Asttypes.rec_flag ->
   Parsetree.type_declaration list ->
   Parsetree.structure
 
 val handleTdclsInSig :
+  is_deprecated:bool ->
   light:bool ->
   Asttypes.rec_flag ->
   Parsetree.type_declaration list ->

@@ -50,12 +50,18 @@ let deprecated_abstract : Parsetree.attribute =
     attr_loc = Location.none;
   }
 
-let get_attrs =
-  Ast_attributes.
-    [ deprecated_abstract; mel_get_arity; unboxable_type_in_prim_decl ]
+let with_deprecation ~is_deprecated attrs =
+  match is_deprecated with
+  | false -> attrs
+  | true -> deprecated_abstract :: attrs
 
-let set_attrs =
-  Ast_attributes.[ deprecated_abstract; mel_set; unboxable_type_in_prim_decl ]
+let get_attrs ~is_deprecated =
+  with_deprecation ~is_deprecated
+    Ast_attributes.[ mel_get_arity; unboxable_type_in_prim_decl ]
+
+let set_attrs ~is_deprecated =
+  with_deprecation ~is_deprecated
+    Ast_attributes.[ mel_set; unboxable_type_in_prim_decl ]
 
 let get_pld_type pld_type ~attrs =
   let is_optional = Ast_attributes.has_mel_optional attrs in
@@ -67,7 +73,7 @@ let get_pld_type pld_type ~attrs =
           "`[@mel.optional]' must appear on an option literal type (`_ option')"
   else pld_type
 
-let handleTdcl light (tdcl : Parsetree.type_declaration) :
+let handleTdcl ~is_deprecated light (tdcl : Parsetree.type_declaration) :
     Parsetree.value_description list =
   let loc = tdcl.ptype_loc in
   let type_name = tdcl.ptype_name.txt in
@@ -120,7 +126,7 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
                   Val.mk ~loc:pld_loc
                     (if light then pld_name
                      else { pld_name with txt = pld_name.txt ^ "Get" })
-                    ~attrs:get_attrs
+                    ~attrs:(get_attrs ~is_deprecated)
                     ~prim:
                       ((* Not needed actually*)
                        Melange_ffi.External_ffi_types.ffi_mel_as_prims
@@ -140,7 +146,7 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
                 in
                 Val.mk ~loc:pld_loc
                   { loc = label_loc; txt = label_name ^ "Set" } (* setter *)
-                  ~attrs:set_attrs ~prim setter_type
+                  ~attrs:(set_attrs ~is_deprecated) ~prim setter_type
                 :: acc
               else acc
             in
@@ -160,9 +166,8 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
         let myMaker =
           Val.mk ~loc { loc; txt = type_name }
             ~attrs:
-              [
-                deprecated_abstract; Ast_attributes.unboxable_type_in_prim_decl;
-              ]
+              (with_deprecation ~is_deprecated
+                 [ Ast_attributes.unboxable_type_in_prim_decl ])
             ~prim:myPrims makeType
         in
         myMaker :: setter_accessor
@@ -170,16 +175,16 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
       (* Looks obvious that it does not make sense to warn *)
       []
 
-let handleTdclsInStr ~light _rf tdcls =
+let handleTdclsInStr ~is_deprecated ~light _rf tdcls =
   List.fold_right
     ~f:(fun tdcl sts ->
-      match handleTdcl light tdcl with
+      match handleTdcl ~is_deprecated light tdcl with
       | value_descriptions -> List.map ~f:Str.primitive value_descriptions @ sts)
     tdcls ~init:[]
 
-let handleTdclsInSig ~light _rf tdcls =
+let handleTdclsInSig ~is_deprecated ~light _rf tdcls =
   List.fold_right
     ~f:(fun tdcl sts ->
-      match handleTdcl light tdcl with
+      match handleTdcl ~is_deprecated light tdcl with
       | value_descriptions -> List.map ~f:Sig.value value_descriptions @ sts)
     tdcls ~init:[]

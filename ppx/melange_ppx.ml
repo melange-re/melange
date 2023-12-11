@@ -947,12 +947,27 @@ module Derivers = struct
     let args () = Deriving.Args.(empty +> flag "light") in
     let str_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) light ->
-          Ast_derive_abstract.handleTdclsInStr ~light rf tdcls)
+          Ast_derive_abstract.handleTdclsInStr ~is_deprecated:true ~light rf
+            tdcls)
     and sig_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) light ->
-          Ast_derive_abstract.handleTdclsInSig ~light rf tdcls)
+          Ast_derive_abstract.handleTdclsInSig ~is_deprecated:true ~light rf
+            tdcls)
     in
     Deriving.add ~str_type_decl ~sig_type_decl "abstract"
+
+  let dynamicKeys =
+    let args () = Deriving.Args.(empty +> flag "light") in
+    let str_type_decl =
+      Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) light ->
+          Ast_derive_abstract.handleTdclsInStr ~is_deprecated:false ~light rf
+            tdcls)
+    and sig_type_decl =
+      Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) light ->
+          Ast_derive_abstract.handleTdclsInSig ~is_deprecated:false ~light rf
+            tdcls)
+    in
+    Deriving.add ~str_type_decl ~sig_type_decl "dynamicKeys"
 
   let jsConverter =
     let args () = Deriving.Args.(empty +> flag "newType") in
