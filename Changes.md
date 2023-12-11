@@ -103,6 +103,8 @@ Unreleased
   ([#972](https://github.com/melange-re/melange/pull/972))
 - BREAKING(runtime): Add labeled arguments to the callbacks in `Js.Global`
   ([#973](https://github.com/melange-re/melange/pull/973))
+- BREAKING(runtime): Add a label to `Js.Dict.map`'s function argument pipe-last
+  ([#974](https://github.com/melange-re/melange/pull/974))
 
 2.2.0 2023-12-05
 ---------------
