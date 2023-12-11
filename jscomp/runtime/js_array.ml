@@ -31,14 +31,15 @@ type 'a array_like
    type 'a array_iter = 'a array_like
 *)
 
-external from : 'a array_like -> 'a array = "Array.from"
+external from : 'a array_like -> 'a array = "from" [@@mel.scope "Array"]
 (* ES2015 *)
 
 external fromMap : 'a array_like -> f:(('a -> 'b)[@mel.uncurry]) -> 'b array
-  = "Array.from"
+  = "from"
+[@@mel.scope "Array"]
 (* ES2015 *)
 
-external isArray : 'a -> bool = "Array.isArray"
+external isArray : 'a -> bool = "isArray" [@@mel.scope "Array"]
 (* ES2015 *)
 
 (* Array.of: seems pointless unless you can bind *)

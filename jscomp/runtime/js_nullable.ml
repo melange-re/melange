@@ -38,10 +38,15 @@ open struct
   module Js = Js_internal
 end
 
-let bind x f =
+let map ~f x =
   match toOption x with
   | None -> (Obj.magic (x : 'a t) : 'b t)
   | Some x -> return (f x [@u])
 
-let iter x f = match toOption x with None -> () | Some x -> f x [@u]
+let bind ~f x =
+  match toOption x with
+  | None -> (Obj.magic (x : 'a t) : 'b t)
+  | Some x -> f x [@u]
+
+let iter ~f x = match toOption x with None -> () | Some x -> f x [@u]
 let fromOption x = match x with None -> undefined | Some x -> return x
