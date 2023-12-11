@@ -1,6 +1,0 @@
-pin-depends: [
-  [ "js_of_ocaml-compiler.dev" "https://github.com/ocsigen/js_of_ocaml/archive/31e5d22f96435e511c8bd6e2a6d43f7c5fb13dec.tar.gz" ]
-  [ "js_of_ocaml.dev" "https://github.com/ocsigen/js_of_ocaml/archive/31e5d22f96435e511c8bd6e2a6d43f7c5fb13dec.tar.gz" ]
-  [ "merlin-lib.4.13.1-501" "https://github.com/voodoos/merlin/archive/15491d05db13ec6beaf3c84632914c29b674270d.tar.gz" ]
-  [ "merlin.4.13.1-501" "https://github.com/voodoos/merlin/archive/15491d05db13ec6beaf3c84632914c29b674270d.tar.gz" ]
-]
