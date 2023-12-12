@@ -20,7 +20,8 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ *)
 
 open Melange_mini_stdlib
 
@@ -86,7 +87,7 @@ external atanh : float -> float = "atanh"
 [@@mel.scope "Math"]
 (** hyperbolic arctangent in radians, can return NaN, ES2015 *)
 
-external atan2 : y:float -> x:float -> unit -> float = "atan2"
+external atan2 : y:float -> x:float -> float = "atan2"
 [@@mel.scope "Math"]
 (** arctangent of the quotient of x and y, mostly... this one's a bit weird *)
 
@@ -110,7 +111,8 @@ external ceil_float : float -> float = "ceil"
 
 external clz32 : int -> int = "clz32"
 [@@mel.scope "Math"]
-(** number of leading zero bits of the argument's 32 bit int representation, ES2015 *)
+(** number of leading zero bits of the argument's 32 bit int representation,
+    ES2015 *)
 (* can convert string, float etc. to number *)
 
 external cos : float -> float = "cos"
@@ -219,7 +221,8 @@ let random_int min max =
 
 external unsafe_round : float -> int = "round"
 [@@mel.scope "Math"]
-(** rounds to nearest integer, returns a value not representable as [int] if NaN *)
+(** rounds to nearest integer, returns a value not representable as [int] if
+    NaN *)
 
 external round : float -> float = "round"
 [@@mel.scope "Math"]
@@ -254,8 +257,10 @@ external tanh : float -> float = "tanh"
 
 external unsafe_trunc : float -> int = "trunc"
 [@@mel.scope "Math"]
-(** truncate, ie. remove fractional digits, returns a value not representable as [int] if NaN, ES2015 *)
+(** truncate, ie. remove fractional digits, returns a value not representable
+    as [int] if NaN, ES2015 *)
 
 external trunc : float -> float = "trunc"
 [@@mel.scope "Math"]
-(** truncate, ie. remove fractional digits, returns a value not representable as [int] if NaN, ES2015 *)
+(** truncate, ie. remove fractional digits, returns a value not representable
+    as [int] if NaN, ES2015 *)

@@ -99,6 +99,8 @@ Unreleased
   ([#970](https://github.com/melange-re/melange/pull/970))
 - BREAKING(runtime): Improve `Js.Float` and change some of its functions to
   pipe-last ([#968](https://github.com/melange-re/melange/pull/968))
+- BREAKING(runtime): Remove unnecessary `unit` argument from `Js.Math.atan2`
+  ([#972](https://github.com/melange-re/melange/pull/972))
 
 2.2.0 2023-12-05
 ---------------
