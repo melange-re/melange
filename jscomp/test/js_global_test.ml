@@ -3,13 +3,13 @@ open Js.Global
 let suites = Mt.[
 
   ("setTimeout/clearTimeout sanity check", (fun _ ->
-    let handle = setTimeout (fun () -> ()) 0 in
+    let handle = setTimeout ~f:(fun () -> ()) 0 in
     clearTimeout handle;
     Ok true
   ));
 
   ("setInerval/clearInterval sanity check", (fun _ ->
-    let handle = setInterval (fun () -> ()) 0 in
+    let handle = setInterval ~f:(fun () -> ()) 0 in
     clearInterval handle;
     Ok true
   ));
