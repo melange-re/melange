@@ -101,6 +101,8 @@ Unreleased
   pipe-last ([#968](https://github.com/melange-re/melange/pull/968))
 - BREAKING(runtime): Remove unnecessary `unit` argument from `Js.Math.atan2`
   ([#972](https://github.com/melange-re/melange/pull/972))
+- BREAKING(runtime): Add labeled arguments to the callbacks in `Js.Global`
+  ([#973](https://github.com/melange-re/melange/pull/973))
 
 2.2.0 2023-12-05
 ---------------
