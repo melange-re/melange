@@ -106,7 +106,7 @@ var suites_1 = {
                 ],
                 tl: {
                   hd: [
-                    "bind - null",
+                    "map - null",
                     (function (param) {
                         return {
                                 TAG: /* StrictEq */2,
@@ -119,7 +119,7 @@ var suites_1 = {
                   ],
                   tl: {
                     hd: [
-                      "bind - undefined",
+                      "map - undefined",
                       (function (param) {
                           return {
                                   TAG: /* StrictEq */2,
@@ -132,7 +132,7 @@ var suites_1 = {
                     ],
                     tl: {
                       hd: [
-                        "bind - empty",
+                        "map - empty",
                         (function (param) {
                             return {
                                     TAG: /* StrictEq */2,
@@ -145,7 +145,7 @@ var suites_1 = {
                       ],
                       tl: {
                         hd: [
-                          "bind - 'a",
+                          "map - 'a",
                           (function (param) {
                               return {
                                       TAG: /* Eq */0,
