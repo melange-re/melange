@@ -75,7 +75,7 @@ var suites_1 = {
           ],
           tl: {
             hd: [
-              "bind - 'a",
+              "map - 'a",
               (function (param) {
                   return {
                           TAG: /* Eq */0,
