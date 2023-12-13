@@ -10,8 +10,7 @@ Showcase how to use `[@mel.meth]`
   > (melange.emit
   >  (target melange)
   >  (alias mel)
-  >  (preprocess (pps melange.ppx))
-  >  (emit_stdlib false))
+  >  (preprocess (pps melange.ppx)))
   > EOF
 
   $ cat > main.ml <<EOF
