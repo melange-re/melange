@@ -108,6 +108,8 @@ Unreleased
 - runtime(`Js.String`): deprecate `anchor`, `link` and `substr` functions to
   match the JS standard deprecations
   [#982](https://github.com/melange-re/melange/pull/982)
+- Fix error messages related to `[@mel.meth]` arity mismatches
+  ([PR](https://github.com/melange-re/melange/pull/986))
 
 2.2.0 2023-12-05
 ---------------
