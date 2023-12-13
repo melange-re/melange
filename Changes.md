@@ -105,6 +105,9 @@ Unreleased
   ([#973](https://github.com/melange-re/melange/pull/973))
 - BREAKING(runtime): Add a label to `Js.Dict.map`'s function argument pipe-last
   ([#974](https://github.com/melange-re/melange/pull/974))
+- runtime(`Js.String`): deprecate `anchor`, `link` and `substr` functions to
+  match the JS standard deprecations
+  [#982](https://github.com/melange-re/melange/pull/982)
 
 2.2.0 2023-12-05
 ---------------
