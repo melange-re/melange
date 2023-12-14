@@ -28,7 +28,7 @@ type node_module =
   < id : string
   ; exports : node_exports
   ; parrent :
-      node_module Js.null_undefined
+      node_module Js.nullable
       (* in REPL V4 it is [undefined]
          in CLI it can be [null]
       *)

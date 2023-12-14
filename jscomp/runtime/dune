@@ -7,8 +7,9 @@
  (melange.compile_flags
   -nopervasives
   -nostdlib
-  -mel-no-check-div-by-zero
-  -mel-cross-module-opt
+  -bs-no-version-header
+  -bs-no-check-div-by-zero
+  -bs-cross-module-opt
   -unsafe))
 
 (rule

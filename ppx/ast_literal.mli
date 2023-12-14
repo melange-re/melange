@@ -24,21 +24,19 @@
 
 type t = Longident.t
 
-val predef_prefix_ident : t
-val predef_option : t
-val predef_some : t
-val predef_none : t
+val hidden_field : string -> t
 val js_fn : t
+val js_internal : t
 val js_internal_full_apply : t
-val opaque : t
-val js_oo : t
 val js_meth : t
 val js_meth_callback : t
-val js_obj : t
-val hidden_field : string -> t
-val ignore_id : t
 val js_null : t
-val js_undefined : t
-val js_null_undefined : t
+val js_nullable : t
+val js_obj : t
+val js_oo : t
 val js_re_id : t
-val js_internal : t
+val js_undefined : t
+val opaque : t
+val predef_some : t
+val predef_none : t
+val unsafe_downgrade : t
