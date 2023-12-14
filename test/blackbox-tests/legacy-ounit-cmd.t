@@ -65,7 +65,6 @@ Skip over the temporary file name printed in the error trace
                                                              ^^^^^^^
   Alert deprecated: `[@mel.val]' attributes are redundant and will be removed in the next release.
   Consider removing them from any external declarations.
-  
   1 | external mk : int -> ([`a|`b [@mel.string]]) = "mk" [@@mel.val]
                                      ^^^^^^^^^^
   Alert unused: Unused attribute [@mel.string]
@@ -99,7 +98,6 @@ Skip over the temporary file name printed in the error trace
                                                                   ^^^^^^^
   Alert deprecated: `[@mel.val]' attributes are redundant and will be removed in the next release.
   Consider removing them from any external declarations.
-  
   File "x.ml", line 2, characters 37-48:
   2 |   int -> int -> (int -> int -> int [@mel.uncurry]) = "v3"[@@mel.val]
                                            ^^^^^^^^^^^
@@ -289,7 +287,6 @@ Skip over the temporary file name printed in the error trace
                   ^^^^^^^
   Alert deprecated: `[@mel.val]' attributes are redundant and will be removed in the next release.
   Consider removing them from any external declarations.
-  
   File "x.ml", line 4, characters 5-15:
   4 |    [@mel.string]
            ^^^^^^^^^^

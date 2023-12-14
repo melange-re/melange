@@ -38,7 +38,7 @@ Test to showcase "inconsistent assumption" issues when using melange ppx
 
   $ cat > lib/c.ml <<EOF
   > type t = < a : D.t >
-  > let t: < a : D.t > = [%mel.obj { a = D.t }]
+  > let t: < a : D.t > Js.t = [%mel.obj { a = D.t }]
   > EOF
 
   $ cat > lib/d.ml <<EOF

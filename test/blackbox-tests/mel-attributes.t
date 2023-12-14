@@ -51,13 +51,11 @@
   Alert deprecated: The `[@bs.*]' attributes are deprecated and will be removed in the
   next release.
   Use `[@mel.*]' instead.
-  
   File "x.ml", line 6, characters 26-32:
   6 |   unit -> unit = "err" [@@bs.val]
                                 ^^^^^^
   Alert deprecated: `[@mel.val]' attributes are redundant and will be removed in the next release.
   Consider removing them from any external declarations.
-  
   File "x.ml", line 5, characters 35-44:
   5 |   x:([`a of int | `b of string ] [@bs.string]) ->
                                          ^^^^^^^^^

@@ -16,7 +16,6 @@ Demonstrate `@@mel.val` is redundant and unnecessary
                                               ^^^^^^^
   Alert deprecated: `[@mel.val]' attributes are redundant and will be removed in the next release.
   Consider removing them from any external declarations.
-  
   File "x.ml", line 3, characters 37-44:
   3 | external log : 'a -> unit = "log" [@@mel.val] [@@mel.scope "console"]
                                            ^^^^^^^
