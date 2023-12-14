@@ -27,7 +27,6 @@
 type t = string
 
 external make : 'a -> t = "String"
-
 (** [make value] converts the given value to a string
 
 {[
@@ -37,7 +36,6 @@ external make : 'a -> t = "String"
 *)
 
 external fromCharCode : int -> t = "String.fromCharCode"
-
 (** [fromCharCode n]
   creates a string containing the character corresponding to that number; {i n} ranges from 0 to 65535. If out of range, the lower 16 bits of the value are used. Thus, [fromCharCode 0x1F63A] gives the same result as [fromCharCode 0xF63A].
 
@@ -50,7 +48,7 @@ external fromCharCode : int -> t = "String.fromCharCode"
 *)
 
 external fromCharCodeMany : int array -> t = "String.fromCharCode"
-[@@mel.splice]
+[@@mel.variadic]
 (** [fromCharCodeMany \[|n1;n2;n3|\]] creates a string from the characters corresponding to the given numbers, using the same rules as [fromCharCode].
 
 {[
@@ -68,22 +66,16 @@ external fromCodePoint : int -> t = "String.fromCodePoint"
   fromCodePoint 0xd55c = {js|한|js};;
   fromCodePoint 0x1f63a = {js|😺|js};;
 ]}
-
 *)
 
-(** ES2015 *)
-
+external fromCodePointMany : int array -> t = "String.fromCodePoint"
+[@@mel.variadic]
 (** [fromCharCodeMany \[|n1;n2;n3|\]] creates a string from the characters corresponding to the given code point numbers, using the same rules as [fromCodePoint].
 
 {[
   fromCodePointMany([|0xd55c; 0xae00; 0x1f63a|]) = {js|한글😺|js}
 ]}
 *)
-external fromCodePointMany : int array -> t = "String.fromCodePoint"
-[@@mel.splice]
-(** ES2015 *)
-
-(* String.raw: ES2015, meant to be used with template strings, not directly *)
 
 external length : t -> int = "length"
 [@@mel.get]
@@ -92,7 +84,6 @@ external length : t -> int = "length"
 {[
   length "abcd" = 4;;
 ]}
-
 *)
 
 external get : t -> int -> t = ""
@@ -106,167 +97,149 @@ external get : t -> int -> t = ""
 ]}
 *)
 
-external charAt : int -> t = "charAt"
+external charAt : index:int -> t = "charAt"
 [@@mel.send.pipe: t]
-(** [charAt n s] gets the character at index [n] within string [s]. If [n] is negative or greater than the length of [s], returns the empty string. If the string contains characters outside the range [\u0000-\uffff], it will return the first 16-bit value at that position in the string.
+(** [charAt ~index s] gets the character at position [index] within string [s].
+    If [index] is negative or greater than the length of [s], returns the empty
+    string. If the string contains characters outside the range
+    [\u0000-\uffff], it will return the first 16-bit value at that position in
+    the string.
 
 {[
-  charAt 0, "Reason" = "R"
-  charAt( 12, "Reason") = "";
-  charAt( 5, {js|Rẽasöń|js} = {js|ń|js}
+  charAt ~index:0 "Reason" = "R"
+  charAt ~index:12 "Reason" = "";
+  charAt ~index:5 {js|Rẽasöń|js} = {js|ń|js}
 ]}
 *)
 
-external charCodeAt : int -> float = "charCodeAt"
+external charCodeAt : index:int -> float = "charCodeAt"
 [@@mel.send.pipe: t]
-(** [charCodeAt n s] returns the character code at position [n] in string [s]; the result is in the range 0-65535, unlke [codePointAt], so it will not work correctly for characters with code points greater than or equal to [0x10000].
-The return type is [float] because this function returns [NaN] if [n] is less than zero or greater than the length of the string.
+(** [charCodeAt s ~index] returns the character code at position [index] in string
+    [s]; the result is in the range 0-65535, unlke [codePointAt], so it will
+    not work correctly for characters with code points greater than or equal to
+    [0x10000].
+    The return type is [float] because this function returns [NaN] if [index] is
+    less than zero or greater than the length of the string.
 
 {[
-  charCodeAt 0 {js|😺|js} returns 0xd83d
-  codePointAt 0 {js|😺|js} returns Some 0x1f63a
+  charCodeAt ~index:0 {js|😺|js} = 0xd83d
+  codePointAt ~index:0 {js|😺|js} = Some 0x1f63a
 ]}
-
 *)
 
-(** [codePointAt n s] returns the code point at position [n] within string [s] as a [Some] value. The return value handles code points greater than or equal to [0x10000]. If there is no code point at the given position, the function returns [None].
+external codePointAt : index:int -> int option = "codePointAt"
+[@@mel.send.pipe: t]
+(** [codePointAt s ~index] returns the code point at position [index] within string
+    [s] as a [Some] value. The return value handles code points greater than or
+    equal to [0x10000]. If there is no code point at the given position, the
+    function returns [None].
 
 {[
-  codePointAt 1 {js|¿😺?|js} = Some 0x1f63a
-  codePointAt 5 "abc" = None
+  codePointAt ~index:1 {js|¿😺?|js} = Some 0x1f63a
+  codePointAt ~index:5 "abc" = None
 ]}
 *)
-external codePointAt : int -> int option = "codePointAt"
-[@@mel.send.pipe: t]
+
 (** ES2015 *)
 
-external concat : t -> t = "concat"
+external concat : other:t -> t = "concat"
 [@@mel.send.pipe: t]
-(** [concat append original] returns a new string with [append] added after [original].
+(** [concat ~other original] returns a new string with [other] added after
+    [original].
 
 {[
-  concat "bell" "cow" = "cowbell";;
+  concat ~other:"bell" "cow" = "cowbell";;
 ]}
 *)
 
-external concatMany : t array -> t = "concat"
-[@@mel.send.pipe: t] [@@mel.splice]
-(** [concat arr original] returns a new string consisting of each item of an array of strings added to the [original] string.
+external concatMany : strings:t array -> t = "concat"
+[@@mel.send.pipe: t] [@@mel.variadic]
+(** [concatMany ~strings original] returns a new string consisting of each item
+    of the array of strings [strings] added to the [original] string.
 
 {[
-  concatMany [|"2nd"; "3rd"; "4th"|] "1st" = "1st2nd3rd4th";;
+  concatMany ~strings:[|"2nd"; "3rd"; "4th"|] "1st" = "1st2nd3rd4th";;
 ]}
 *)
 
-external endsWith : t -> bool = "endsWith"
+external endsWith : suffix:t -> ?len:int -> bool = "endsWith"
 [@@mel.send.pipe: t]
-(** ES2015:
-    [endsWith substr str] returns [true] if the [str] ends with [substr], [false] otherwise.
+(** [endsWith ~suffix ?len str] returns [true] if the [str] ends with [suffix],
+    [false] otherwise. If [len] is specified, `endsWith` only takes into
+    account the first [len] characters.
 
 {[
-  endsWith "World!" "Hello, World!" = true;;
-  endsWith "world!" "Hello, World!" = false;; (* case-sensitive *)
-  endsWith "World" "Hello, World!" = false;; (* exact match *)
+  endsWith ~suffix:"cd" ~len:4 "abcd" = true;;
+  endsWith ~suffix:"cd" ~len:3 "abcde" = false;;
+  endsWith ~suffix:"cde" ~len:99 "abcde" = true;;
+  endsWith ~suffix:"ple" ~len:7 "example.dat" = true;;
+  endsWith ~suffix:"World!" "Hello, World!" = true;;
+  endsWith ~suffix:"world!" "Hello, World!" = false;; (* case-sensitive *)
+  endsWith ~suffix:"World" "Hello, World!" = false;; (* exact match *)
 ]}
 *)
 
-(** [endsWithFrom ending len str] returns [true] if the first [len] characters of [str] end with [ending], [false] otherwise. If [n] is greater than or equal to the length of [str], then it works like [endsWith]. (Honestly, this should have been named [endsWithAt], but oh well.)
-
-{[
-  endsWithFrom "cd" 4 "abcd" = true;;
-  endsWithFrom "cd" 3 "abcde" = false;;
-  endsWithFrom "cde" 99 "abcde" = true;;
-  endsWithFrom "ple" 7 "example.dat" = true;;
-]}
-*)
-external endsWithFrom : t -> int -> bool = "endsWith"
-[@@mel.send.pipe: t]
-(** ES2015 *)
-
-(**
-  [includes searchValue s] returns [true] if [searchValue] is found anywhere within [s], [false] otherwise.
-
-{[
-  includes "gram" "programmer" = true;;
-  includes "er" "programmer" = true;;
-  includes "pro" "programmer" = true;;
-  includes "xyz" "programmer" = false;;
-]}
-*)
-external includes : t -> bool = "includes"
-[@@mel.send.pipe: t]
-(** ES2015 *)
-
-(**
-  [includes searchValue start s] returns [true] if [searchValue] is found anywhere within [s] starting at character number [start] (where 0 is the first character), [false] otherwise.
-
-{[
-  includesFrom "gram" 1 "programmer" = true;;
-  includesFrom "gram" 4 "programmer" = false;;
-  includesFrom {js|한|js} 1 {js|대한민국|js} = true;;
-]}
-*)
-external includesFrom : t -> int -> bool = "includes"
-[@@mel.send.pipe: t]
-(** ES2015 *)
-
-external indexOf : t -> int = "indexOf"
+external includes : search:t -> ?start:int -> bool = "includes"
 [@@mel.send.pipe: t]
 (**
-  [indexOf searchValue s] returns the position at which [searchValue] was first found within [s], or [-1] if [searchValue] is not in [s].
+  [includes ~search ?start s] returns [true] if [search] is found anywhere
+  within [s] starting at character number [start] (where 0 is the first
+  character), [false] otherwise.
 
 {[
-  indexOf "ok" "bookseller" = 2;;
-  indexOf "sell" "bookseller" = 4;;
-  indexOf "ee" "beekeeper" = 1;;
-  indexOf "xyz" "bookseller" = -1;;
+  includes ~search:"gram" "programmer" = true;;
+  includes ~search:"er" "programmer" = true;;
+  includes ~search:"pro" "programmer" = true;;
+  includes ~search:"xyz" "programmer" = false;;
+  includes ~search:"gram" ~start:1 "programmer" = true;;
+  includes ~search:"gram" ~start:4 "programmer" = false;;
+  includes ~search:{js|한|js} ~start:1 {js|대한민국|js} = true;;
 ]}
 *)
 
-external indexOfFrom : t -> int -> int = "indexOf"
+external indexOf : search:t -> ?start:int -> int = "indexOf"
 [@@mel.send.pipe: t]
-(**
-  [indexOfFrom searchValue start s] returns the position at which [searchValue] was found within [s] starting at character position [start], or [-1] if [searchValue] is not found in that portion of [s]. The return value is relative to the beginning of the string, no matter where the search started from.
+(** [indexOf ~search ?start s] returns the position at which [search] was found
+    within [s] starting at character position [start], or [-1] if [search] is
+    not found in that portion of [s]. The return value is relative to the
+    beginning of the string, no matter where the search started from.
 
 {[
-  indexOfFrom "ok" 1 "bookseller" = 2;;
-  indexOfFrom "sell" 2 "bookseller" = 4;;
-  indexOfFrom "sell" 5 "bookseller" = -1;;
-  indexOf "xyz" "bookseller" = -1;;
+  indexOf ~search:"ok" "bookseller" = 2;;
+  indexOf ~search:"sell" "bookseller" = 4;;
+  indexOf ~search:"ee" "beekeeper" = 1;;
+  indexOf ~search:"xyz" "bookseller" = -1;;
+  indexOf ~search:"ok" ~start:1 "bookseller" = 2;;
+  indexOf ~search:"sell" ~start:2 "bookseller" = 4;;
+  indexOf ~search:"sell" ~start:5 "bookseller" = -1;;
 ]}
 *)
 
-external lastIndexOf : t -> int = "lastIndexOf"
+external lastIndexOf : search:t -> ?start:int -> int = "lastIndexOf"
 [@@mel.send.pipe: t]
 (**
-  [lastIndexOf searchValue s] returns the position of the {i last} occurrence of [searchValue] within [s], searching backwards from the end of the string. Returns [-1] if [searchValue] is not in [s]. The return value is always relative to the beginning of the string.
+  [lastIndexOf ~search ~start s] returns the position of the {i last}
+  occurrence of [searchValue] within [s], searching backwards from the given
+  [start] position. Returns [-1] if [searchValue] is not in [s]. The return
+  value is always relative to the beginning of the string.
 
 {[
-  lastIndexOf "ok" "bookseller" = 2;;
-  lastIndexOf "ee" "beekeeper" = 4;;
-  lastIndexOf "xyz" "abcdefg" = -1;;
-]}
-*)
-
-external lastIndexOfFrom : t -> int -> int = "lastIndexOf"
-[@@mel.send.pipe: t]
-(**
-  [lastIndexOfFrom searchValue start s] returns the position of the {i last} occurrence of [searchValue] within [s], searching backwards from the given [start] position. Returns [-1] if [searchValue] is not in [s]. The return value is always relative to the beginning of the string.
-
-{[
-  lastIndexOfFrom "ok" 6 "bookseller" = 2;;
-  lastIndexOfFrom "ee" 8 "beekeeper" = 4;;
-  lastIndexOfFrom "ee" 3 "beekeeper" = 1;;
-  lastIndexOfFrom "xyz" 4 "abcdefg" = -1;;
+  lastIndexOf ~search:"ok" "bookseller" = 2;;
+  lastIndexOf ~search:"ee" "beekeeper" = 4;;
+  lastIndexOf ~search:"xyz" "abcdefg" = -1;;
+  lastIndexOf ~search:"ok" ~start:6 "bookseller" = 2;;
+  lastIndexOf ~search:"ee" ~start:8 "beekeeper" = 4;;
+  lastIndexOf ~search:"ee" ~start:3 "beekeeper" = 1;;
+  lastIndexOf ~search:"xyz" ~start:4 "abcdefg" = -1;;
 ]}
 *)
 
 (* extended by ECMA-402 *)
 
-external localeCompare : t -> float = "localeCompare"
+external localeCompare : other:t -> float = "localeCompare"
 [@@mel.send.pipe: t]
 (**
-  [localeCompare comparison reference] returns
+  [localeCompare ~other:comparison reference] returns:
 
 {ul
   {- a negative value if [reference] comes before [comparison] in sort order}
@@ -274,150 +247,155 @@ external localeCompare : t -> float = "localeCompare"
   {- a positive value if [reference] comes after [comparison] in sort order}}
 
 {[
-  (localeCompare "ant" "zebra") > 0.0;;
-  (localeCompare "zebra" "ant") < 0.0;;
-  (localeCompare "cat" "cat") = 0.0;;
-  (localeCompare "cat" "CAT") > 0.0;;
+  (localeCompare ~other:"ant" "zebra") > 0.0;;
+  (localeCompare ~other:"zebra" "ant") < 0.0;;
+  (localeCompare ~other:"cat" "cat") = 0.0;;
+  (localeCompare ~other:"cat" "CAT") > 0.0;;
 ]}
 *)
 
-external match_ : Js_re.t -> t option array option = "match"
+external match_ : regexp:Js_re.t -> t option array option = "match"
 [@@mel.send.pipe: t] [@@mel.return { null_to_opt }]
 (**
-  [match regexp str] matches a string against the given [regexp]. If there is no match, it returns [None].
-  For regular expressions without the [g] modifier, if there is a match, the return value is [Some array] where the array contains:
+  [match ~regexp str] matches a string against the given [regexp]. If there is
+  no match, it returns [None]. For regular expressions without the [g]
+  modifier, if there is a match, the return value is [Some array] where the
+  array contains:
 
   {ul
     {- The entire matched string}
     {- Any capture groups if the [regexp] had parentheses}
   }
 
-  For regular expressions with the [g] modifier, a matched expression returns [Some array] with all the matched substrings and no capture groups.
+  For regular expressions with the [g] modifier, a matched expression returns
+  [Some array] with all the matched substrings and no capture groups.
 
 {[
-  match [%re "/b[aeiou]t/"] "The better bats" = Some [|"bet"|]
-  match [%re "/b[aeiou]t/g"] "The better bats" = Some [|"bet";"bat"|]
-  match [%re "/(\\d+)-(\\d+)-(\\d+)/"] "Today is 2018-04-05." =
-    Some [|"2018-04-05"; "2018"; "04"; "05"|]
-  match [%re "/b[aeiou]g/"] "The large container." = None
+  match "The better bats" ~regexp:[%re "/b[aeiou]t/"] = Some [|"bet"|]
+  match "The better bats" ~regexp:[%re "/b[aeiou]t/g"] = Some [|"bet";"bat"|]
+  match "Today is 2018-04-05." ~regexp:[%re "/(\\d+)-(\\d+)-(\\d+)/"] = Some [|"2018-04-05"; "2018"; "04"; "05"|]
+  match "The large container." ~regexp:[%re "/b[aeiou]g/"] = None
 ]}
-
 *)
 
-(** [normalize str] returns the normalized Unicode string using Normalization Form Canonical (NFC) Composition.
-
-Consider the character [ã], which can be represented as the single codepoint [\u00e3] or the combination of a lower case letter A [\u0061] and a combining tilde [\u0303]. Normalization ensures that both can be stored in an equivalent binary representation.
-
-@see <https://www.unicode.org/reports/tr15/tr15-45.html> Unicode technical report for details
-*)
-external normalize : t = "normalize"
+external normalize : ?form:[ `NFC | `NFD | `NFKC | `NFKD ] -> t = "normalize"
 [@@mel.send.pipe: t]
-(** ES2015 *)
-
-external normalizeByForm : t -> t = "normalize"
-[@@mel.send.pipe: t]
-(**
-  [normalize str form] (ES2015) returns the normalized Unicode string using the specified form of normalization, which may be one of:
+(** [normalize ~form str] returns the normalized Unicode string using the
+    specified form of normalization, which may be one of:
 
   {ul
-    {- "NFC" — Normalization Form Canonical Composition.}
-    {- "NFD" — Normalization Form Canonical Decomposition.}
-    {- "NFKC" — Normalization Form Compatibility Composition.}
-    {- "NFKD" — Normalization Form Compatibility Decomposition.}
+    {- [`NFC] — Normalization Form Canonical Composition.}
+    {- [`NFD] — Normalization Form Canonical Decomposition.}
+    {- [`NFKC] — Normalization Form Compatibility Composition.}
+    {- [`NFKD] — Normalization Form Compatibility Decomposition.}
   }
 
-  @see <https://www.unicode.org/reports/tr15/tr15-45.html> Unicode technical report for details
+  If [form] is omitted, [`NFC] is used.
+
+  Consider the character [ã], which can be represented as the single codepoint
+  [\u00e3] or the combination of a lower case letter A [\u0061] and a combining
+  tilde [\u0303]. Normalization ensures that both can be stored in an
+  equivalent binary representation.
+
+  @see <https://www.unicode.org/reports/tr15/tr15-45.html> Unicode technical
+  report for details
 *)
 
-(**
-  [repeat n s] returns a string that consists of [n] repetitions of [s]. Raises [RangeError] if [n] is negative.
+external repeat : count:int -> t = "repeat"
+[@@mel.send.pipe: t]
+(** [repeat ~count s] returns a string that consists of [count] repetitions of
+    [s]. Raises [RangeError] if [n] is negative.
 
 {[
-  repeat 3 "ha" = "hahaha"
-  repeat 0 "empty" = ""
-]}
-*)
-external repeat : int -> t = "repeat"
-[@@mel.send.pipe: t]
-(** ES2015 *)
-
-external replace : t -> t -> t = "replace"
-[@@mel.send.pipe: t]
-(** [replace substr newSubstr string] returns a new string which is
-identical to [string] except with the first matching instance of [substr]
-replaced by [newSubstr].
-
-[substr] is treated as a verbatim string to match, not a regular
-expression.
-
-{[
-  replace "old" "new" "old string" = "new string"
-  replace "the" "this" "the cat and the dog" = "this cat and the dog"
+  repeat ~count:3 "ha" = "hahaha"
+  repeat ~count:0 "empty" = ""
 ]}
 *)
 
-external replaceByRe : Js_re.t -> t -> t = "replace"
+external replace : search:t -> replacement:t -> t = "replace"
 [@@mel.send.pipe: t]
-(** [replaceByRe regex replacement string] returns a new string where occurrences matching [regex]
-have been replaced by [replacement].
+(** [replace ~search ~replacement string] returns a new string which is
+    identical to [string] except with the first matching instance of [search]
+    replaced by [replacement].
+
+    [search] is treated as a verbatim string to match, not a regular
+    expression.
 
 {[
-  replaceByRe [%re "/[aeiou]/g"] "x" "vowels be gone" = "vxwxls bx gxnx"
-  replaceByRe [%re "/(\\w+) (\\w+)/"] "$2, $1" "Juan Fulano" = "Fulano, Juan"
+  replace ~search:"old" ~replacement:"new" "old string" = "new string"
+  replace ~search:"the" ~replacement:"this" "the cat and the dog" = "this cat and the dog"
 ]}
 *)
 
-external unsafeReplaceBy0 : Js_re.t -> ((t -> int -> t -> t)[@mel.uncurry]) -> t
-  = "replace"
+external replaceByRe : regexp:Js_re.t -> replacement:t -> t = "replace"
 [@@mel.send.pipe: t]
-(** returns a new string with some or all matches of a pattern with no capturing
-parentheses replaced by the value returned from the given function.
-The function receives as its parameters the matched string, the offset at which the
-match begins, and the whole string being matched
+(** [replaceByRe ~regexp ~replacement string] returns a new string where
+    occurrences matching [regexp] have been replaced by [replacement].
+
+{[
+  replaceByRe ~regexp:[%re "/[aeiou]/g"] ~replacement:"x" "vowels be gone" = "vxwxls bx gxnx"
+  replaceByRe ~regexp:[%re "/(\\w+) (\\w+)/"] ~replacement:"$2, $1" "Juan Fulano" = "Fulano, Juan"
+]}
+*)
+
+external unsafeReplaceBy0 :
+  regexp:Js_re.t -> f:((t -> int -> t -> t)[@mel.uncurry]) -> t = "replace"
+[@@mel.send.pipe: t]
+(** [unsafeReplaceBy0 ~regexp ~f s] returns a new string with some or all
+    matches of a pattern with no capturing parentheses replaced by the value
+    returned from the given function. The function receives as its parameters
+    the matched string, the offset at which the match begins, and the whole
+    string being matched
 
 {[
 let str = "beautiful vowels"
 let re = [%re "/[aeiou]/g"]
-let matchFn matchPart offset wholeString =
-  Js.String.toUpperCase matchPart
+let matchFn matchPart offset wholeString = Js.String.toUpperCase matchPart
 
-let replaced = Js.String.unsafeReplaceBy0 re matchFn str
+let replaced = Js.String.unsafeReplaceBy0 ~regexp:re ~f:matchFn str
 
 let () = Js.log replaced (* prints "bEAUtifUl vOwEls" *)
 ]}
 
-@see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_function_as_a_parameter> MDN
+  @see
+  <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_function_as_a_parameter>
+  MDN
 *)
 
 external unsafeReplaceBy1 :
-  Js_re.t -> ((t -> t -> int -> t -> t)[@mel.uncurry]) -> t = "replace"
+  regexp:Js_re.t -> f:((t -> t -> int -> t -> t)[@mel.uncurry]) -> t = "replace"
 [@@mel.send.pipe: t]
-(** returns a new string with some or all matches of a pattern with one set of capturing
-parentheses replaced by the value returned from the given function.
-The function receives as its parameters the matched string, the captured string,
-the offset at which the match begins, and the whole string being matched.
+(** [unsafeReplaceBy1 ~regexp ~f s] returns a new string with some or all
+    matches of a pattern with one set of capturing parentheses replaced by the
+    value returned from the given function. The function receives as its
+    parameters the matched string, the captured strings, the offset at which
+    the match begins, and the whole string being matched.
 
-{[
-let str = "increment 23"
-let re = [%re "/increment (\\d+)/g"]
-let matchFn matchPart p1 offset wholeString =
-  wholeString ^ " is " ^ (string_of_int ((int_of_string p1) + 1))
+   {[
+   let str = "increment 23"
+   let re = [%re "/increment (\\d+)/g"]
+   let matchFn matchPart p1 offset wholeString =
+     wholeString ^ " is " ^ (string_of_int ((int_of_string p1) + 1))
 
-let replaced = Js.String.unsafeReplaceBy1 re matchFn str
+   let replaced = Js.String.unsafeReplaceBy1 ~regexp:re ~f:matchFn str
 
-let () = Js.log replaced (* prints "increment 23 is 24" *)
-]}
+   let () = Js.log replaced (* prints "increment 23 is 24" *)
+   ]}
 
-@see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_function_as_a_parameter> MDN
+   @see
+   <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_function_as_a_parameter>
+MDN
 *)
 
 external unsafeReplaceBy2 :
-  Js_re.t -> ((t -> t -> t -> int -> t -> t)[@mel.uncurry]) -> t = "replace"
+  regexp:Js_re.t -> f:((t -> t -> t -> int -> t -> t)[@mel.uncurry]) -> t
+  = "replace"
 [@@mel.send.pipe: t]
-(** returns a new string with some or all matches of a pattern with two sets of capturing
-parentheses replaced by the value returned from the given function.
-The function receives as its parameters the matched string, the captured strings,
-the offset at which the match begins, and the whole string being matched.
+(** [unsafeReplaceBy2 ~regexp ~f s] returns a new string with some or all
+    matches of a pattern with two sets of capturing parentheses replaced by the
+    value returned from the given function. The function receives as its
+    parameters the matched string, the captured strings, the offset at which
+    the match begins, and the whole string being matched.
 
 {[
 let str = "7 times 6"
@@ -425,7 +403,7 @@ let re = [%re "/(\\d+) times (\\d+)/"]
 let matchFn matchPart p1 p2 offset wholeString =
   string_of_int ((int_of_string p1) * (int_of_string p2))
 
-let replaced = Js.String.unsafeReplaceBy2 re matchFn str
+let replaced = Js.String.unsafeReplaceBy2 ~regexp:re ~f:matchFn str
 
 let () = Js.log replaced (* prints "42" *)
 ]}
@@ -434,221 +412,140 @@ let () = Js.log replaced (* prints "42" *)
 *)
 
 external unsafeReplaceBy3 :
-  Js_re.t -> ((t -> t -> t -> t -> int -> t -> t)[@mel.uncurry]) -> t
+  regexp:Js_re.t -> f:((t -> t -> t -> t -> int -> t -> t)[@mel.uncurry]) -> t
   = "replace"
 [@@mel.send.pipe: t]
-(** returns a new string with some or all matches of a pattern with three sets of capturing
-parentheses replaced by the value returned from the given function.
-The function receives as its parameters the matched string, the captured strings,
-the offset at which the match begins, and the whole string being matched.
+(** [unsafeReplaceBy3 ~regexp ~f s] returns a new string with some or all
+    matches of a pattern with three sets of capturing parentheses replaced by
+    the value returned from the given function. The function receives as its
+    parameters the matched string, the captured strings, the offset at which
+    the match begins, and the whole string being matched.
 
-@see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_function_as_a_parameter> MDN
+    @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_function_as_a_parameter> MDN
 *)
 
-external search : Js_re.t -> int = "search"
+external search : regexp:Js_re.t -> int = "search"
 [@@mel.send.pipe: t]
-(** [search regexp str] returns the starting position of the first match of [regexp] in the given [str], or -1 if there is no match.
+(** [search ~regexp str] returns the starting position of the first match of
+    [regexp] in the given [str], or -1 if there is no match.
 
 {[
-search [%re "/\\d+/"] "testing 1 2 3" = 8;;
-search [%re "/\\d+/"] "no numbers" = -1;;
+search ~regexp:[%re "/\\d+/"] "testing 1 2 3" = 8;;
+search ~regexp:[%re "/\\d+/"] "no numbers" = -1;;
 ]}
 *)
 
-external slice : from:int -> to_:int -> t = "slice"
+external slice : ?start:int -> ?end_:int -> t = "slice"
 [@@mel.send.pipe: t]
-(** [slice from:n1 to_:n2 str] returns the substring of [str] starting at character [n1] up to but not including [n2]
+(** [slice ?start ?end str] returns the substring of [str] starting at
+    character [start] up to but not including [end]
 
-If either [n1] or [n2] is negative, then it is evaluated as [length str - n1] (or [length str - n2].
+    If either [start] or [end] is negative, then it is evaluated as [length str
+    - start] (or [length str - end]).
 
-If [n2] is greater than the length of [str], then it is treated as [length str].
+    If [end] is greater than the length of [str], then it is treated as [length
+    str].
 
-If [n1] is greater than [n2], [slice] returns the empty string.
+    If [start] is greater than [end], [slice] returns the empty string.
 
 {[
-  slice ~from:2 ~to_:5 "abcdefg" == "cde";;
-  slice ~from:2 ~to_:9 "abcdefg" == "cdefg";;
-  slice ~from:(-4) ~to_:(-2) "abcdefg" == "de";;
-  slice ~from:5 ~to_:1 "abcdefg" == "";;
+  slice ~start:2 ~end_:5 "abcdefg" = "cde";;
+  slice ~start:2 ~end_:9 "abcdefg" = "cdefg";;
+  slice ~start:(-4) ~end_:(-2) "abcdefg" = "de";;
+  slice ~start:5 ~end_:1 "abcdefg" = "";;
 ]}
 *)
 
-external sliceToEnd : from:int -> t = "slice"
+external split : ?sep:t -> ?limit:int -> t array = "split"
 [@@mel.send.pipe: t]
-(** [sliceToEnd from: n str] returns the substring of [str] starting at character [n] to the end of the string
-
-If [n] is negative, then it is evaluated as [length str - n].
-
-If [n] is greater than the length of [str], then [sliceToEnd] returns the empty string.
+(** [split ?sep ?limit str] splits the given [str] at every occurrence of
+    [sep] and returns an array of the first [limit] resulting substrings. If
+    [limit] is negative or greater than the number of substrings, the array
+    will contain all the substrings.
 
 {[
-  sliceToEnd ~from: 4 "abcdefg" == "efg";;
-  sliceToEnd ~from: (-2) "abcdefg" == "fg";;
-  sliceToEnd ~from: 7 "abcdefg" == "";;
+  split ~sep:"/" ~limit: 3 "ant/bee/cat/dog/elk" = [|"ant"; "bee"; "cat"|];;
+  split ~sep:"/" ~limit: 0 "ant/bee/cat/dog/elk" = [| |];;
+  split ~sep:"/" ~limit: 9 "ant/bee/cat/dog/elk" = [|"ant"; "bee"; "cat"; "dog"; "elk"|];;
 ]}
 *)
 
-external split : t -> t array = "split"
+external splitByRe : regexp:Js_re.t -> ?limit:int -> t option array = "split"
 [@@mel.send.pipe: t]
-(**
-  [split delimiter str] splits the given [str] at every occurrence of [delimiter] and returns an
-  array of the resulting substrings.
+(** [splitByRe str ~regexp ?limit ()] splits the given [str] at every
+    occurrence of [regexp] and returns an array of the first [limit] resulting
+    substrings. If [limit] is negative or greater than the number of
+    substrings, the array will contain all the substrings.
 
 {[
-  split "-" "2018-01-02" = [|"2018"; "01"; "02"|];;
-  split "," "a,b,,c" = [|"a"; "b"; ""; "c"|];;
-  split "::" "good::bad as great::awful" = [|"good"; "bad as great"; "awful"|];;
-  split ";" "has-no-delimiter" = [|"has-no-delimiter"|];;
+  splitByRe ~regexp:[%re "/\\s*:\\s*/"] ~limit:3 "one: two: three: four" = [|"one"; "two"; "three"|];;
+  splitByRe ~regexp:[%re "/\\s*:\\s*/"] ~limit:0 "one: two: three: four" = [| |];;
+  splitByRe ~regexp:[%re "/\\s*:\\s*/"] ~limit:8 "one: two: three: four" = [|"one"; "two"; "three"; "four"|];;
 ]};
 *)
 
-external splitAtMost : t -> limit:int -> t array = "split"
+external startsWith : prefix:t -> ?start:int -> bool = "startsWith"
 [@@mel.send.pipe: t]
-(**
-  [splitAtMost delimiter ~limit: n str] splits the given [str] at every occurrence of [delimiter] and returns an array of the first [n] resulting substrings. If [n] is negative or greater than the number of substrings, the array will contain all the substrings.
+(** [startsWith ~prefix ?start str] returns [true] if the [str] starts with
+    [prefix] starting at position [start], [false] otherwise. If [start] is
+    negative, the search starts at the beginning of [str].
 
 {[
-  splitAtMost "/" ~limit: 3 "ant/bee/cat/dog/elk" = [|"ant"; "bee"; "cat"|];;
-  splitAtMost "/" ~limit: 0 "ant/bee/cat/dog/elk" = [| |];;
-  splitAtMost "/" ~limit: 9 "ant/bee/cat/dog/elk" = [|"ant"; "bee"; "cat"; "dog"; "elk"|];;
+  startsWith ~prefix:"Hello" ~start:0 "Hello, World!" = true;;
+  startsWith ~prefix:"World" ~start:7 "Hello, World!" = true;;
+  startsWith ~prefix:"World" ~start:8 "Hello, World!" = false;;
 ]}
 *)
 
-external splitLimited : t -> int -> t array = "split"
-[@@mel.send.pipe: t] [@@deprecated "Please use splitAtMost"]
-(**
-  Deprecated - Please use [splitAtMost]
-*)
-
-external splitByRe : Js_re.t -> t option array = "split"
+external substr : ?start:int -> ?len:int -> t = "substr"
 [@@mel.send.pipe: t]
-(**
-  [splitByRe regex str] splits the given [str] at every occurrence of [regex] and returns an
-  array of the resulting substrings.
+[@@alert
+  deprecated
+    "This function is deprecated, see \
+     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substr#sect1"]
+(** [substr ?start ?len str] returns the substring of [str] of length [len]
+    starting at position [start].
+
+    If [start] is less than zero, the starting position is the length of [str]
+    - [start].
+
+    If [start] is greater than or equal to the length of [str], returns the
+    empty string.
+
+    If [len] is less than or equal to zero, returns the empty string.
 
 {[
-  splitByRe [%re "/\\s*[,;]\\s*/"] "art; bed , cog ;dad" = [|Some "art"; Some "bed"; Some "cog"; Some "dad"|];;
-  splitByRe [%re "/[,;]/"] "has:no:match" = [|Some "has:no:match"|];;
-  splitByRe [%re "/(#)(:)?/"] "a#b#:c" = [|Some "a"; Some "#"; None; Some "b"; Some "#"; Some ":"; Some "c"|];;
-]};
-*)
-
-external splitByReAtMost : Js_re.t -> limit:int -> t option array = "split"
-[@@mel.send.pipe: t]
-(**
-  [splitByReAtMost regex ~limit: n str] splits the given [str] at every occurrence of [regex] and returns an
-  array of the first [n] resulting substrings. If [n] is negative or greater than the number of substrings, the array will contain all the substrings.
-
-{[
-  splitByReAtMost [%re "/\\s*:\\s*/"] ~limit: 3 "one: two: three: four" = [|Some "one"; Some "two"; Some "three"|];;
-  splitByReAtMost [%re "/\\s*:\\s*/"] ~limit: 0 "one: two: three: four" = [| |];;
-  splitByReAtMost [%re "/\\s*:\\s*/"] ~limit: 8 "one: two: three: four" = [|Some "one"; Some "two"; Some "three"; Some "four"|];;
-  splitByReAtMost [%re "/(#)(:)?/"] ~limit:3 "a#b#:c" = [|Some "a"; Some "#"; None|];;
-]};
-*)
-
-external splitRegexpLimited : Js_re.t -> int -> t array = "split"
-[@@mel.send.pipe: t] [@@deprecated "Please use splitByReAtMost"]
-(**
-  Deprecated - Please use [splitByReAtMost]
-*)
-
-external startsWith : t -> bool = "startsWith"
-[@@mel.send.pipe: t]
-(** ES2015:
-    [startsWith substr str] returns [true] if the [str] starts with [substr], [false] otherwise.
-
-{[
-  startsWith "Hello" "Hello, World!" = true;;
-  startsWith "hello" "Hello, World!" = false;; (* case-sensitive *)
-  startsWith "World" "Hello, World!" = false;; (* exact match *)
+  substr ~start:3 ~len:4 "abcdefghij" = "defghij"
+  substr ~start:(-3) ~len:4 "abcdefghij" = "hij"
+  substr ~start:12 ~len:2 "abcdefghij" = ""
 ]}
 *)
 
-external startsWithFrom : t -> int -> bool = "startsWith"
+external substring : ?start:int -> ?end_:int -> t = "substring"
 [@@mel.send.pipe: t]
-(** ES2015:
-    [startsWithFrom substr n str] returns [true] if the [str] starts with [substr] starting at position [n], [false] otherwise. If [n] is negative, the search starts at the beginning of [str].
+(** [substring ~start ~end_ str] returns characters [start] up to but not
+    including [end_] from [str].
+
+    If [start] is less than zero, it is treated as zero.
+
+    If [end_] is zero or negative, the empty string is returned.
+
+    If [start] is greater than [end_], the start and finish points are swapped.
 
 {[
-  startsWithFrom "Hello" 0 "Hello, World!" = true;;
-  startsWithFrom "World" 7 "Hello, World!" = true;;
-  startsWithFrom "World" 8 "Hello, World!" = false;;
+  substring ~start:3 ~end_:6 "playground" = "ygr";;
+  substring ~start:6 ~end_:3 "playground" = "ygr";;
+  substring ~start:4 ~end_:12 "playground" = "ground";;
 ]}
 *)
 
-external substr : from:int -> t = "substr"
-[@@mel.send.pipe: t]
-(**
-  [substr ~from: n str] returns the substring of [str] from position [n] to the end of the string.
-
-  If [n] is less than zero, the starting position is the length of [str] - [n].
-
-  If [n] is greater than or equal to the length of [str], returns the empty string.
-
-{[
-  substr ~from: 3 "abcdefghij" = "defghij"
-  substr ~from: (-3) "abcdefghij" = "hij"
-  substr ~from: 12 "abcdefghij" = ""
-]}
-*)
-
-external substrAtMost : from:int -> length:int -> t = "substr"
-[@@mel.send.pipe: t]
-(**
-  [substrAtMost ~from: pos ~length: n str] returns the substring of [str] of length [n] starting at position [pos].
-
-  If [pos] is less than zero, the starting position is the length of [str] - [pos].
-
-  If [pos] is greater than or equal to the length of [str], returns the empty string.
-
-  If [n] is less than or equal to zero, returns the empty string.
-
-{[
-  substrAtMost ~from: 3 ~length: 4 "abcdefghij" = "defghij"
-  substrAtMost ~from: (-3) ~length: 4 "abcdefghij" = "hij"
-  substrAtMost ~from: 12 ~ length: 2 "abcdefghij" = ""
-]}
-*)
-
-external substring : from:int -> to_:int -> t = "substring"
-[@@mel.send.pipe: t]
-(**
-  [substring ~from: start ~to_: finish str] returns characters [start] up to but not including [finish] from [str].
-
-  If [start] is less than zero, it is treated as zero.
-
-  If [finish] is zero or negative, the empty string is returned.
-
-  If [start] is greater than [finish], the start and finish points are swapped.
-
-{[
-  substring ~from: 3 ~to_: 6 "playground" = "ygr";;
-  substring ~from: 6 ~to_: 3 "playground" = "ygr";;
-  substring ~from: 4 ~to_: 12 "playground" = "ground";;
-]}
-*)
-
-external substringToEnd : from:int -> t = "substring"
-[@@mel.send.pipe: t]
-(**
-  [substringToEnd ~from: start str] returns the substring of [str] from position [start] to the end.
-
-  If [start] is less than or equal to zero, the entire string is returned.
-
-  If [start] is greater than or equal to the length of [str], the empty string is returned.
-
-{[
-  substringToEnd ~from: 4 "playground" = "ground";;
-  substringToEnd ~from: (-3) "playground" = "playground";;
-  substringToEnd ~from: 12 "playground" = "";
-]}
-*)
-
-external toLowerCase : t = "toLowerCase"
-[@@mel.send.pipe: t]
-(**
-  [toLowerCase str] converts [str] to lower case using the locale-insensitive case mappings in the Unicode Character Database. Notice that the conversion can give different results depending upon context, for example with the Greek letter sigma, which has two different lower case forms when it is the last character in a string or not.
+external toLowerCase : t -> t = "toLowerCase"
+[@@mel.send]
+(** [toLowerCase str] converts [str] to lower case using the locale-insensitive
+    case mappings in the Unicode Character Database. Notice that the conversion
+    can give different results depending upon context, for example with the
+    Greek letter sigma, which has two different lower case forms when it is the
+    last character in a string or not.
 
 {[
   toLowerCase "ABC" = "abc";;
@@ -657,34 +554,37 @@ external toLowerCase : t = "toLowerCase"
 ]}
 *)
 
-external toLocaleLowerCase : t = "toLocaleLowerCase"
-[@@mel.send.pipe: t]
+external toLocaleLowerCase : t -> t = "toLocaleLowerCase"
+[@@mel.send]
 (**
   [toLocaleLowerCase str] converts [str] to lower case using the current locale
 *)
 
-external toUpperCase : t = "toUpperCase"
-[@@mel.send.pipe: t]
+external toUpperCase : t -> t = "toUpperCase"
+[@@mel.send]
 (**
-  [toUpperCase str] converts [str] to upper case using the locale-insensitive case mappings in the Unicode Character Database. Notice that the conversion can expand the number of letters in the result; for example the German [ß] capitalizes to two [S]es in a row.
+  [toUpperCase str] converts [str] to upper case using the locale-insensitive
+  case mappings in the Unicode Character Database. Notice that the conversion
+  can expand the number of letters in the result; for example the German [ß]
+  capitalizes to two [S]es in a row.
 
 {[
   toUpperCase "abc" = "ABC";;
   toUpperCase {js|Straße|js} = {js|STRASSE|js};;
-  toLowerCase {js|πς|js} = {js|ΠΣ|js};;
+  toUpperCase {js|πς|js} = {js|ΠΣ|js};;
 ]}
 *)
 
-external toLocaleUpperCase : t = "toLocaleUpperCase"
-[@@mel.send.pipe: t]
-(**
-  [toLocaleUpperCase str] converts [str] to upper case using the current locale
+external toLocaleUpperCase : t -> t = "toLocaleUpperCase"
+[@@mel.send]
+(** [toLocaleUpperCase str] converts [str] to upper case using the current
+    locale
 *)
 
-external trim : t = "trim"
-[@@mel.send.pipe: t]
-(**
-  [trim str] returns a string that is [str] with whitespace stripped from both ends. Internal whitespace is not removed.
+external trim : t -> t = "trim"
+[@@mel.send]
+(** [trim str] returns a string that is [str] with whitespace stripped from
+    both ends. Internal whitespace is not removed.
 
 {[
   trim "   abc def   " = "abc def"
@@ -694,30 +594,33 @@ external trim : t = "trim"
 
 (* HTML wrappers *)
 
-(**
-  [anchor anchorName anchorText] creates a string with an HTML [<a>] element with [name] attribute of [anchorName] and [anchorText] as its content.
+external anchor : name:t -> t = "anchor"
+[@@mel.send.pipe: t]
+[@@alert
+  deprecated
+    "This function is deprecated, see \
+     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/anchor#sect1"]
+(** [anchor ~name:anchorName anchorText] creates a string with an HTML [<a>]
+    element with [name] attribute of [anchorName] and [anchorText] as its
+    content.
 
 {[
-  anchor "page1" "Page One" = "<a name=\"page1\">Page One</a>"
+  anchor ~name:"page1" "Page One" = "<a name=\"page1\">Page One</a>"
 ]}
 *)
-external anchor : t -> t = "anchor"
-[@@mel.send.pipe: t]
-(** ES2015 *)
 
-(**
-  [link urlText linkText] creates a string withan HTML [<a>] element with [href] attribute of [urlText] and [linkText] as its content.
+external link : href:t -> t = "link"
+[@@mel.send.pipe: t]
+[@@alert
+  deprecated
+    "This function is deprecated, see \
+     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/link#sect1"]
+(** [link ~href:urlText linkText] creates a string with an HTML [<a>] element
+    with [href] attribute of [urlText] and [linkText] as its content.
 
 {[
-  link "page2.html" "Go to page two" = "<a href=\"page2.html\">Go to page two</a>"
+  link ~href:"page2.html" "Go to page two" = "<a href=\"page2.html\">Go to page two</a>"
 ]}
 *)
-external link : t -> t = "link"
-[@@mel.send.pipe: t]
-(** ES2015 *)
 
-external castToArrayLike : t -> t Js_array2.array_like = "%identity"
-(* FIXME: we should not encourage people to use [%identity], better
-    to provide something using  so that we can track such
-    casting
-*)
+external unsafeToArrayLike : t -> t Js_array.array_like = "%identity"

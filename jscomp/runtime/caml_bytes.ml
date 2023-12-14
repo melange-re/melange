@@ -182,3 +182,146 @@ let caml_bytes_greaterthan (s1 : bytes) s2 = caml_bytes_compare s1 s2 > 0
 let caml_bytes_greaterequal (s1 : bytes) s2 = caml_bytes_compare s1 s2 >= 0
 let caml_bytes_lessthan (s1 : bytes) s2 = caml_bytes_compare s1 s2 < 0
 let caml_bytes_lessequal (s1 : bytes) s2 = caml_bytes_compare s1 s2 <= 0
+let bswap16 x = ((x land 0x00FF) lsl 8) lor ((x land 0xFF00) lsr 8)
+
+let {
+      logand = ( &~ );
+      logor = ( |~ );
+      shift_left = ( <<~ );
+      shift_right_logical = ( >>~ );
+    } =
+  (module Caml_int32_extern)
+
+let bswap32 (x : int32) =
+  x &~ 0x000000FFl <<~ 24
+  |~ (x &~ 0x0000FF00l <<~ 8)
+  |~ (x &~ 0x00FF0000l >>~ 8)
+  |~ (x &~ 0xFF000000l >>~ 24)
+
+let { and_ = ( &&~ ); or_ = ( ||~ ); lsl_ = ( <<<~ ); lsr_ = ( >>>~ ) } =
+  (module Caml_int64)
+
+let bswap64 (x : int64) =
+  let x = Caml_int64.unsafe_of_int64 x in
+  let r =
+    x
+    &&~ Caml_int64.unsafe_of_int64 0x00000000000000FFL
+    <<<~ 56
+    ||~ (x &&~ Caml_int64.unsafe_of_int64 0x000000000000FF00L <<<~ 40)
+    ||~ (x &&~ Caml_int64.unsafe_of_int64 0x0000000000FF0000L <<<~ 24)
+    ||~ (x &&~ Caml_int64.unsafe_of_int64 0x00000000FF000000L <<<~ 8)
+    ||~ (x &&~ Caml_int64.unsafe_of_int64 0x000000FF00000000L >>>~ 8)
+    ||~ (x &&~ Caml_int64.unsafe_of_int64 0x0000FF0000000000L >>>~ 24)
+    ||~ (x &&~ Caml_int64.unsafe_of_int64 0x00FF000000000000L >>>~ 40)
+    ||~ (x &&~ Caml_int64.unsafe_of_int64 0xFF00000000000000L >>>~ 56)
+  in
+  Caml_int64.unsafe_to_int64 r
+
+external unsafe_code : int -> char = "%identity"
+external unsafe_chr : char -> int = "%identity"
+
+let get16u str idx =
+  let b1 = str.![idx] in
+  let b2 = str.![idx + 1] in
+  (unsafe_chr b2 lsl 8) lor unsafe_chr b1
+
+let get16 str idx =
+  if idx < 0 || idx + 1 >= length str then
+    raise (Invalid_argument "index out of bounds");
+  get16u str idx
+
+let get32 str idx =
+  if idx < 0 || idx + 3 >= length str then
+    raise (Invalid_argument "index out of bounds");
+  let b1 = str.![idx] in
+  let b2 = str.![idx + 1] in
+  let b3 = str.![idx + 2] in
+  let b4 = str.![idx + 3] in
+  let res =
+    (unsafe_chr b4 lsl 24)
+    lor (unsafe_chr b3 lsl 16)
+    lor (unsafe_chr b2 lsl 8)
+    lor unsafe_chr b1
+  in
+  Caml_int32_extern.of_int res
+
+let get64 str idx =
+  if idx < 0 || idx + 7 >= length str then
+    raise (Invalid_argument "index out of bounds");
+  let b1 = str.![idx] in
+  let b2 = str.![idx + 1] in
+  let b3 = str.![idx + 2] in
+  let b4 = str.![idx + 3] in
+  let b5 = str.![idx + 4] in
+  let b6 = str.![idx + 5] in
+  let b7 = str.![idx + 6] in
+  let b8 = str.![idx + 7] in
+  let res =
+    Caml_int64.of_int32 (unsafe_chr b8)
+    <<<~ 56
+    ||~ Caml_int64.of_int32 (unsafe_chr b7)
+    <<<~ 48
+    ||~ Caml_int64.of_int32 (unsafe_chr b6)
+    <<<~ 40
+    ||~ Caml_int64.of_int32 (unsafe_chr b5)
+    <<<~ 32
+    ||~ Caml_int64.of_int32 (unsafe_chr b4)
+    <<<~ 24
+    ||~ Caml_int64.of_int32 (unsafe_chr b3)
+    <<<~ 16
+    ||~ Caml_int64.of_int32 (unsafe_chr b2)
+    <<<~ 8
+    ||~ Caml_int64.of_int32 (unsafe_chr b1)
+  in
+  Caml_int64.unsafe_to_int64 res
+
+let set16u b idx newval =
+  (* XXX(anmonteiro): assumes little endian *)
+  let b2 = 0xFF land (newval lsr 8) in
+  let b1 = 0xFF land newval in
+  b.![idx] <- unsafe_code b1;
+  b.![idx + 1] <- unsafe_code b2
+
+let set16 b idx newval =
+  if idx < 0 || idx + 1 >= length b then
+    raise (Invalid_argument "index out of bounds");
+  set16u b idx newval
+
+let set32u str idx newval =
+  let b4 = 0xFFl &~ (newval >>~ 24) in
+  let b3 = 0xFFl &~ (newval >>~ 16) in
+  let b2 = 0xFFl &~ (newval >>~ 8) in
+  let b1 = 0xFFl &~ newval in
+  str.![idx] <- unsafe_code (Caml_int32_extern.to_int b1);
+  str.![idx + 1] <- unsafe_code (Caml_int32_extern.to_int b2);
+  str.![idx + 2] <- unsafe_code (Caml_int32_extern.to_int b3);
+  str.![idx + 3] <- unsafe_code (Caml_int32_extern.to_int b4)
+
+let set32 str idx newval =
+  if idx < 0 || idx + 3 >= length str then
+    raise (Invalid_argument "index out of bounds");
+  set32u str idx newval
+
+let set64u str idx newval =
+  let newval = Caml_int64.unsafe_of_int64 newval in
+  let b8 = 0xFF land Caml_int64.to_int32 (newval >>>~ 56) in
+  let b7 = 0xFF land Caml_int64.to_int32 (newval >>>~ 48) in
+  let b6 = 0xFF land Caml_int64.to_int32 (newval >>>~ 40) in
+  let b5 = 0xFF land Caml_int64.to_int32 (newval >>>~ 32) in
+  let b4 = 0xFF land Caml_int64.to_int32 (newval >>>~ 24) in
+  let b3 = 0xFF land Caml_int64.to_int32 (newval >>>~ 16) in
+  let b2 = 0xFF land Caml_int64.to_int32 (newval >>>~ 8) in
+  let b1 = 0xFF land Caml_int64.to_int32 newval in
+  str.![idx] <- unsafe_code b1;
+  str.![idx + 1] <- unsafe_code b2;
+  str.![idx + 2] <- unsafe_code b3;
+  str.![idx + 3] <- unsafe_code b4;
+  str.![idx + 4] <- unsafe_code b5;
+  str.![idx + 5] <- unsafe_code b6;
+  str.![idx + 6] <- unsafe_code b7;
+  str.![idx + 7] <- unsafe_code b8
+
+let set64 str idx newval =
+  if idx < 0 || idx + 7 >= length str then
+    raise (Invalid_argument "index out of bounds");
+  set64u str idx newval

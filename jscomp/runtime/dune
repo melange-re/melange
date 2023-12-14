@@ -7,9 +7,8 @@
  (melange.compile_flags
   -nopervasives
   -nostdlib
-  -bs-no-version-header
-  -bs-no-check-div-by-zero
-  -bs-cross-module-opt
+  -mel-no-check-div-by-zero
+  -mel-cross-module-opt
   -unsafe))
 
 (rule
@@ -27,7 +26,15 @@
   (run cppo %{deps} -o %{target})))
 
 (rule
- (target js_typed_array2.ml)
- (deps js_typed_array2.cppo.ml)
+ (target caml_oo_curry.ml)
  (action
-  (run cppo %{deps} -o %{target})))
+  (with-stdout-to
+   %{target}
+   (run ./gen/gen_caml_oo_curry.exe))))
+
+(rule
+ (target curry.ml)
+ (action
+  (with-stdout-to
+   %{target}
+   (run ./gen/gen_curry.exe))))

@@ -24,56 +24,60 @@
 
 [@@@mel.config { flags = [| "-unboxed-types" |] }]
 
-include Js_internal
-
-type +'a null = 'a Js_null.t
-(** nullable, value of this type can be either [null] or ['a]
-    this type is the same as type [t] in {!Null}
+(* DESIGN:
+   - It does not have any code, all its code will be inlined so that
+       there will never be
+   {[ require('js')]}
+   - Its interface should be minimal
 *)
 
+(** This library provides bindings and necessary support for JS FFI.
+    It contains all bindings into [Js] namespace.
+
+    {[
+      [| 1;2;3;4|]
+      |. Js.Array2.map (fun x -> x + 1 )
+      |. Js.Array2.reduce (+) 0
+      |. Js.log
+    ]}
+*)
+
+include Js_internal
+
+(** Types for JS objects *)
+
+type 'a t
+(** This used to be mark a Js object type. *)
+
+type +'a null = 'a Js_null.t
+(** A value of this type can be either [null] or ['a].
+    This type is the same as type [t] in {!Null} *)
+
 type +'a undefined = 'a Js_undefined.t
-(** value of this type can be either [undefined] or ['a]
-    this type is the same as type [t] in {!Undefined}  *)
+(** A value of this type can be either [undefined] or ['a].
+    This type is the same as type [t] in {!Undefined} *)
 
-type +'a nullable = 'a Js_null_undefined.t
-(** value of this type can be [undefined], [null] or ['a]
-    this type is the same as type [t] n {!Null_undefined} *)
-
-type +'a null_undefined = 'a nullable
-
-module Array2 = Js_array2
-(** Provide bindings to Js array*)
+type +'a nullable = 'a Js_nullable.t
+(** A value of this type can be [undefined], [null] or ['a].
+    This type is the same as type [t] n {!Nullable} *)
 
 module Exn = Js_exn
 (** Provide utilities for dealing with Js exceptions *)
 
-module Vector = Js_vector [@@alert deprecated "Use Belt.Array instead"]
-
 module String = Js_string
 (** Provide bindings to JS string *)
-
-module TypedArray2 = Js_typed_array2
-(** Provide bindings for JS typed array *)
-
-(** {12 nested modules}*)
 
 module Null = Js_null
 (** Provide utilities around ['a null] *)
 
 module Undefined = Js_undefined
-(** Provide utilities around {!undefined} *)
+(** Provide utilities around {!type-undefined} *)
 
-module Nullable = Js_null_undefined
+module Nullable = Js_nullable
 (** Provide utilities around {!null_undefined} *)
-
-module Null_undefined = Js_null_undefined
-(** @deprecated please use {!Js.Nullable} *)
 
 module Array = Js_array
 (** Provide bindings to Js array*)
-
-module String2 = Js_string2
-(** Provide bindings to JS string *)
 
 module Re = Js_re
 (** Provide bindings to Js regex expression *)
@@ -96,8 +100,21 @@ module Json = Js_json
 module Math = Js_math
 (** Provide bindings for JS [Math] object *)
 
-module Obj = Js_obj
-(** Provide utilities for {!Js.t} *)
+module Obj = struct
+  external empty : unit -> < .. > t = "" [@@mel.obj]
+
+  external assign : < .. > t -> < .. > t -> < .. > t = "assign"
+  [@@mel.scope "Object"]
+
+  external merge :
+    (_[@mel.as {json|{}|json}]) -> < .. > t -> < .. > t -> < .. > t = "assign"
+  [@@mel.scope "Object"]
+  (** [merge obj1 obj2] assigns the properties in [obj2] to a copy of
+      [obj1]. The function returns a new object, and both arguments are not
+      mutated *)
+
+  external keys : _ t -> string array = "keys" [@@mel.scope "Object"]
+end
 
 module Typed_array = Js_typed_array
 (** Provide bindings for JS typed array *)
@@ -113,15 +130,6 @@ module Int = Js_int
 
 module Bigint = Js_bigint
 (** Provide utilities for bigint *)
-
-module Option = Js_option
-(** Provide utilities for option *)
-
-module Result = Js_result
-(** Define the interface for result *)
-
-module List = Js_list
-(** Provide utilities for list *)
 
 module Console = Js_console
 
@@ -139,7 +147,14 @@ module WeakMap = Js_weakmap
 
 (**/**)
 
-module Cast = Js_cast
-module MapperRt = Js_mapperRt
+module Private = struct
+  module Js_OO = struct
+    include Js_OO
+
+    (* NOTE(anmonteiro): unsafe_downgrade is exposed here instead of Js_OO
+       since it depends on `'a Js.t`, defined above. *)
+    external unsafe_downgrade : 'a t -> 'a = "#unsafe_downgrade"
+  end
+end
 
 (**/**)

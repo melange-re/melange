@@ -24,7 +24,7 @@
 
 open Melange_mini_stdlib
 
-type t = { id : string [@mel.as "RE_EXN_ID"] }
+type t = { id : string [@mel.as "MEL_EXN_ID"] }
 
 (**
    Could be exported for better inlining
@@ -81,8 +81,8 @@ let caml_exn_slot_name (x : t) : string = x.id
 let caml_exn_slot_id : t -> int =
   [%raw
     {|function(x){
-  if (x.RE_EXN_ID != null) {
-    var parts = x.RE_EXN_ID.split("/");
+  if (x.MEL_EXN_ID != null) {
+    var parts = x.MEL_EXN_ID.split("/");
     if (parts.length > 1) {
       return Number(parts[parts.length - 1])
     } else {

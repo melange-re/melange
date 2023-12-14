@@ -104,7 +104,7 @@ external object_ : t Js_dict.t -> t = "%identity"
 (** [object_ dict] makes a JSON object of the [Js.Dict.t] [dict] *)
 
 external array : t array -> t = "%identity"
-(** [array_ a] makes a JSON array of the [Js.Json.t array] [a] *)
+(** [array a] makes a JSON array of the [Js.Json.t array] [a] *)
 
 (** The functions below are specialized for specific array type which
     happened to be already JSON object in the Melange runtime. Therefore
@@ -174,6 +174,7 @@ let getIds s =
   (* prints `1, 2, 3` *)
   let _ =
     Js.log (getIds {| { "ids" : [1, 2, 3] } |})
+]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse> MDN
 *)

@@ -24,9 +24,6 @@
 
 (** Specialized bindings to Promise. Note: For simplicity,
     this binding does not track the error type, it treat it as an opaque type
-    {[
-
-    ]}
 *)
 
 type +'a t
@@ -72,7 +69,7 @@ external then_ : (('a -> 'b t)[@mel.uncurry]) -> 'b t = "then"
 
 external catch : ((error -> 'a t)[@mel.uncurry]) -> 'a t = "catch"
 [@@mel.send.pipe: 'a t]
-(* [ p|> catch handler]
+(* [ p |> catch handler]
     Note in JS the returned promise type is actually runtime dependent,
     if promise is rejected, it will pick the [handler] otherwise the original promise,
     to make it strict we enforce reject handler
@@ -84,5 +81,5 @@ let errorAsExn (x :  error) (e  : (exn ->'a option))=
   if Caml_exceptions.isCamlExceptionOrOpenVariant (Obj.magic x ) then
      e (Obj.magic x)
   else None
-[%bs.error?  ]
+[%mel.error?  ]
 *)

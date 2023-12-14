@@ -101,13 +101,12 @@ let caml_sys_executable_name () : string =
     if Js.testAny argv then "" else Caml_array_extern.unsafe_get argv 0
 
 (* Called by {!Sys} in the toplevel, should never fail*)
-let caml_sys_argv () : string * string array =
+let caml_sys_argv () : string array =
   let module Js = Js_internal in
-  if Js.typeof [%raw {|process|}] = "undefined" then ("", [| "" |])
+  if Js.typeof [%raw {|process|}] = "undefined" then [| "" |]
   else
     let argv = [%raw {|process.argv|}] in
-    if Js.testAny argv then ("", [| "" |])
-    else (Caml_array_extern.unsafe_get argv 0, argv)
+    if Js.testAny argv then [| "" |] else argv
 
 (** {!Pervasives.sys_exit} *)
 let caml_sys_exit : int -> 'a =

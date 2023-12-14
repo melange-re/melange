@@ -46,7 +46,7 @@ external of_small_int_array :
   = "String.fromCharCode.apply"
 
 external of_small_int32_array : int32 array -> string = "String.fromCharCode"
-[@@mel.splice]
+[@@mel.variadic]
 
 external lastIndexOf : string -> string -> int = "lastIndexOf" [@@mel.send]
 (* used in {!Caml_io} *)

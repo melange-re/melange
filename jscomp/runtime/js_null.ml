@@ -22,18 +22,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Melange_mini_stdlib
-
 (** Provides functionality for dealing with the ['a Js.null] type *)
 
 type +'a t = 'a Js_internal.null
 
-external to_opt : 'a t -> 'a option = "#null_to_opt"
 external toOption : 'a t -> 'a option = "#null_to_opt"
 external return : 'a -> 'a t = "%identity"
-
-let test : 'a t -> bool = fun x -> x = Js_internal.null
-
 external empty : 'a t = "#null"
 external getUnsafe : 'a t -> 'a = "%identity"
 
@@ -46,9 +40,9 @@ let getExn f =
   | None -> Js_exn.raiseError "Js.Null.getExn"
   | Some x -> x
 
-let bind x f =
+let map ~f x =
   match toOption x with None -> empty | Some x -> return (f x [@u])
 
-let iter x f = match toOption x with None -> () | Some x -> f x [@u]
+let bind ~f x = match toOption x with None -> empty | Some x -> f x [@u]
+let iter ~f x = match toOption x with None -> () | Some x -> f x [@u]
 let fromOption x = match x with None -> empty | Some x -> return x
-let from_opt = fromOption

@@ -26,6 +26,8 @@ open Melange_mini_stdlib
 
 (** Provides functions for inspecting and manipulating [int]s *)
 
+type t = int
+
 (** If we use number, we need coerce to int32 by adding `|0`,
     otherwise `+0` can be wrong.
     Most JS API is float oriented, it may overflow int32 or
@@ -33,25 +35,8 @@ open Melange_mini_stdlib
   *)
 (* + conversion*)
 
-external toExponential : int -> string = "toExponential"
-  [@@mel.send]
-(** Formats an [int] using exponential (scientific) notation
-
-{b Returns} a [string] representing the given value in exponential notation
-
-@raise RangeError if digits is not in the range \[0, 20\] (inclusive)
-
-{[
-  (* prints "7.7e+1" *)
-  let _ = Js.log (Js.Int.toExponential 77)
-]}
-
-@see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential> MDN
-*)
-
-external toExponentialWithPrecision : int -> digits:int -> string
-  = "toExponential"
-  [@@mel.send]
+external toExponential : ?digits:t -> string = "toExponential"
+[@@mel.send.pipe: t]
 (** Formats an [int] using exponential (scientific) notation
 
 {b digits} specifies how many digits should appear after the decimal point. The
@@ -64,84 +49,44 @@ The output will be rounded or padded with zeroes if necessary.
 @raise RangeError if digits is not in the range \[0, 20\] (inclusive)
 
 {[
-  (* prints "7.70e+1" *)
-  let _ = Js.log  (Js.Int.toExponentialWithPrecision 77 ~digits:2)
-
-  (* prints "5.68e+3" *)
-  let _ = Js.log  (Js.Int.toExponentialWithPrecision 5678 ~digits:2)
+  Js.Int.toExponential 77 = "7.7e+1"
+  Js.Int.toExponential ~digits:2 77 = "7.70e+1"
+  Js.Int.toExponential ~digits:2 5678 = "5.68e+3"
 ]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential> MDN
 *)
 
-external toPrecision : int -> string = "toPrecision"
-  [@@mel.send]
-(** Formats a [int] using some fairly arbitrary rules
-
-{b Returns} a [string] representing the given value in fixed-point (usually)
-
-[toPrecision] differs from [toFixed] in that the former will format the number
-with full precision, while the latter will not output any digits after the
-decimal point.
-
-@raise RangeError if digits is not in the range accepted by this function (what do you mean "vague"?)
-
-{[
-  (* prints "123456789" *)
-  let _ = Js.log (Js.Int.toPrecision 123456789)
-]}
-
-@see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toPrecision> MDN
-*)
-(* equivalent to `toString` I think *)
-
-external toPrecisionWithPrecision : int -> digits:int -> string = "toPrecision"
-  [@@mel.send]
+external toPrecision : ?digits:t -> string = "toPrecision"
+[@@mel.send.pipe: t]
 (** Formats an [int] using some fairly arbitrary rules
 
-{b digits} specifies how many digits should appear in total. The
-value must between 0 and some arbitrary number that's hopefully at least larger
-than 20 (for Node it's 21. Why? Who knows).
+{b digits} specifies how many digits should appear in total. The value must
+between 1 and some 100.
 
 {b Returns} a [string] representing the given value in fixed-point or scientific notation
 
 The output will be rounded or padded with zeroes if necessary.
 
-[toPrecisionWithPrecision] differs from [toFixedWithPrecision] in that the former
-will count all digits against the precision, while the latter will count only
-the digits after the decimal point. [toPrecisionWithPrecision] will also use
-scientific notation if the specified precision is less than the number for digits
-before the decimal point.
+[toPrecision] differs from {!Js.Float.toFixed} in that the former will count
+all digits against the precision, while the latter will count only the digits
+after the decimal point. [toPrecision] will also use scientific notation if the
+specified precision is less than the number for digits before the decimal
+point.
 
-@raise RangeError if digits is not in the range accepted by this function (what do you mean "vague"?)
+@raise RangeError if digits is not between 1 and 100.
 
 {[
-  (* prints "1.2e+8" *)
-  let _ = Js.log (Js.Int.toPrecisionWithPrecision 123456789 ~digits:2)
-
-  (* prints "0.0" *)
-  let _ = Js.log (Js.Int.toPrecisionWithPrecision 0 ~digits:2)
+  Js.Int.toPrecision 123456789 = "123456789"
+  Js.Int.toPrecision ~digits:2 123456789 = "1.2e+8"
+  Js.Int.toPrecision ~digits:2 0 = "0.0"
 ]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toPrecision> MDN
 *)
 
-external toString : int -> string = "toString"
-  [@@mel.send]
-(** Formats a [int] as a string
-
-{b Returns} a [string] representing the given value in fixed-point (usually)
-
-{[
-  (* prints "123456789" *)
-  let _ = Js.log (Js.Int.toString 123456789)
-]}
-
-@see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toString> MDN
-*)
-
-external toStringWithRadix : int -> radix:int -> string = "toString"
-  [@@mel.send]
+external toString : ?radix:t -> string = "toString"
+[@@mel.send.pipe: t]
 (** Formats an [int] as a string
 
 {b radix} specifies the radix base to use for the formatted number. The
@@ -152,21 +97,17 @@ value must be in the range \[2, 36\] (inclusive).
 @raise RangeError if radix is not in the range \[2, 36\] (inclusive)
 
 {[
-  (* prints "110" *)
-  let _ = Js.log (Js.Int.toStringWithRadix 6 ~radix:2)
-
-  (* prints "deadbeef" *)
-  let _ = Js.log (Js.Int.toStringWithRadix 3735928559 ~radix:16)
-
-  (* prints "2n9c" *)
-  let _ = Js.log (Js.Int.toStringWithRadix 123456 ~radix:36)
+  Js.Int.toString 123456789 = "123456789"
+  Js.Int.toString ~radix:2 6 = "110"
+  Js.Int.toString ~radix:16 3735928559 = "deadbeef"
+  Js.Int.toString ~radix:36 123456 = "2n9c"
 ]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toString> MDN
 *)
 
-external toFloat : int -> float = "%floatofint"
+external toFloat : t -> float = "%floatofint"
 
-let equal (x : int) y = x = y
-let max : int = 2147483647
-let min : int = -2147483648
+let equal (x : t) y = x = y
+let max : t = 2147483647
+let min : t = -2147483648
