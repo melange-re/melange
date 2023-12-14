@@ -35,3 +35,21 @@ val handleTdclsInSig :
   Asttypes.rec_flag ->
   Parsetree.type_declaration list ->
   Parsetree.signature
+
+val handleCstrTdclsInStr :
+  Asttypes.rec_flag -> Parsetree.type_declaration list -> Parsetree.structure
+
+val handleCstrTdclsInSig :
+  Asttypes.rec_flag -> Parsetree.type_declaration list -> Parsetree.signature
+
+val handleGettersSettersTdclsInStr :
+  light:bool ->
+  Asttypes.rec_flag ->
+  Parsetree.type_declaration list ->
+  Parsetree.structure
+
+val handleGettersSettersTdclsInSig :
+  light:bool ->
+  Asttypes.rec_flag ->
+  Parsetree.type_declaration list ->
+  Parsetree.signature

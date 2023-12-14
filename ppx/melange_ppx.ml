@@ -23,9 +23,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(* When we design a ppx, we should keep it simple, and also think about
-   how it would work with other tools like merlin and ocamldep *)
-
 (*
    1. extension point
    {[
@@ -953,6 +950,28 @@ module Derivers = struct
           Ast_derive_abstract.handleTdclsInSig ~light rf tdcls)
     in
     Deriving.add ~str_type_decl ~sig_type_decl "abstract"
+
+  let record_constructor =
+    let args () = Deriving.Args.empty in
+    let str_type_decl =
+      Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) ->
+          Ast_derive_abstract.handleCstrTdclsInStr rf tdcls)
+    and sig_type_decl =
+      Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) ->
+          Ast_derive_abstract.handleCstrTdclsInSig rf tdcls)
+    in
+    Deriving.add ~str_type_decl ~sig_type_decl "make_opt_keys"
+
+  let record_getters_setters =
+    let args () = Deriving.Args.(empty +> flag "light") in
+    let str_type_decl =
+      Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) light ->
+          Ast_derive_abstract.handleGettersSettersTdclsInStr ~light rf tdcls)
+    and sig_type_decl =
+      Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) light ->
+          Ast_derive_abstract.handleGettersSettersTdclsInSig ~light rf tdcls)
+    in
+    Deriving.add ~str_type_decl ~sig_type_decl "getters_setters"
 
   let jsConverter =
     let args () = Deriving.Args.(empty +> flag "newType") in
