@@ -955,10 +955,10 @@ module Derivers = struct
     let args () = Deriving.Args.empty in
     let str_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) ->
-          Ast_derive_abstract.handleCstrTdclsInStr rf tdcls)
+          Ast_derive_abstract.derive_js_constructor_str rf tdcls)
     and sig_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) ->
-          Ast_derive_abstract.handleCstrTdclsInSig rf tdcls)
+          Ast_derive_abstract.derive_js_constructor_sig rf tdcls)
     in
     Deriving.add ~str_type_decl ~sig_type_decl "make_opt_keys"
 
@@ -966,10 +966,10 @@ module Derivers = struct
     let args () = Deriving.Args.(empty +> flag "light") in
     let str_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) light ->
-          Ast_derive_abstract.handleGettersSettersTdclsInStr ~light rf tdcls)
+          Ast_derive_abstract.derive_getters_setters_str ~light rf tdcls)
     and sig_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) light ->
-          Ast_derive_abstract.handleGettersSettersTdclsInSig ~light rf tdcls)
+          Ast_derive_abstract.derive_getters_setters_sig ~light rf tdcls)
     in
     Deriving.add ~str_type_decl ~sig_type_decl "getters_setters"
 
