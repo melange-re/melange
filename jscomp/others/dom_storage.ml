@@ -1,4 +1,4 @@
-type t = Dom_storage2.t
+type t
 
 external getItem : string -> string option = "getItem"
 [@@mel.send.pipe: t] [@@mel.return null_to_opt]
