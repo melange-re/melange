@@ -17,8 +17,7 @@
   node_process
   node_process
   dom
-  dom_storage
-  dom_storage2)
+  dom_storage)
  (melange.compile_flags
   -mel-no-check-div-by-zero
   -mel-cross-module-opt
@@ -34,7 +33,7 @@
  (public_name melange.dom)
  (preprocess
   (pps melange.ppx -unsafe))
- (modules dom dom_storage dom_storage2)
+ (modules dom dom_storage)
  (melange.compile_flags
   -mel-no-check-div-by-zero
   -mel-cross-module-opt
