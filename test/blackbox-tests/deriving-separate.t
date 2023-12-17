@@ -1,4 +1,4 @@
-Tests for deriving `make_opt_keys, getters_setters`
+Tests for deriving `jsProperties, getSet`
 
   $ . ./setup.sh
 
@@ -8,14 +8,14 @@ Tests for deriving `make_opt_keys, getters_setters`
   > type chartDataItemType =
   >   { height : int
   >   ; foo : string [@mel.as "width"]
-  >   } [@@deriving make_opt_keys]
+  >   } [@@deriving jsProperties]
   > 
   > let t = chartDataItemType ~height:2 ~foo:"bar"
   > EOF
   $ melc -ppx melppx -dsource x.ml
   type chartDataItemType = {
     height: int ;
-    foo: string [@mel.as "width"]}[@@deriving make_opt_keys]
+    foo: string [@mel.as "width"]}[@@deriving jsProperties]
   include
     struct
       let _ = fun (_ : chartDataItemType) -> ()
@@ -40,19 +40,19 @@ Tests for deriving `make_opt_keys, getters_setters`
   exports.t = t;
   /* No side effect */
 
-`[@@deriving getters_setters]` just derives the getters / setters
+`[@@deriving getSet]` just derives the getters / setters
 
   $ cat > x.ml <<EOF
   > type chartDataItemType =
   >   { height : int
   >   ; foo : string [@mel.as "width"]
-  >   } [@@deriving getters_setters]
+  >   } [@@deriving getSet]
   > 
   > EOF
   $ melc -ppx melppx -dsource x.ml
   type chartDataItemType = {
     height: int ;
-    foo: string [@mel.as "width"]}[@@deriving getters_setters]
+    foo: string [@mel.as "width"]}[@@deriving getSet]
   include
     struct
       let _ = fun (_ : chartDataItemType) -> ()
@@ -71,18 +71,18 @@ Tests for deriving `make_opt_keys, getters_setters`
   /* This output is empty. Its source's type definitions, externals and/or unused code got optimized away. */
 
 
-`[@@deriving make_opt_keys, getters_setters]` derives both
+`[@@deriving jsProperties, getSet]` derives both
 
   $ cat > x.ml <<EOF
   > type chartDataItemType =
   >   { height : int
   >   ; foo : string [@mel.as "width"]
-  >   } [@@deriving make_opt_keys, getters_setters]
+  >   } [@@deriving jsProperties, getSet]
   > EOF
   $ melc -ppx melppx -dsource x.ml
   type chartDataItemType = {
     height: int ;
-    foo: string [@mel.as "width"]}[@@deriving (make_opt_keys, getters_setters)]
+    foo: string [@mel.as "width"]}[@@deriving (jsProperties, getSet)]
   include
     struct
       let _ = fun (_ : chartDataItemType) -> ()

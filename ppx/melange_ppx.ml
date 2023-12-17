@@ -960,7 +960,7 @@ module Derivers = struct
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) ->
           Ast_derive_abstract.derive_js_constructor_sig rf tdcls)
     in
-    Deriving.add ~str_type_decl ~sig_type_decl "make_opt_keys"
+    Deriving.add ~str_type_decl ~sig_type_decl "jsProperties"
 
   let record_getters_setters =
     let args () = Deriving.Args.(empty +> flag "light") in
@@ -971,7 +971,7 @@ module Derivers = struct
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) light ->
           Ast_derive_abstract.derive_getters_setters_sig ~light rf tdcls)
     in
-    Deriving.add ~str_type_decl ~sig_type_decl "getters_setters"
+    Deriving.add ~str_type_decl ~sig_type_decl "getSet"
 
   let jsConverter =
     let args () = Deriving.Args.(empty +> flag "newType") in
