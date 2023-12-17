@@ -117,6 +117,8 @@ Unreleased
        derived by the underlying record.
 - ppx: Deprecate `[@@deriving abstract]`
   ([#979](https://github.com/melange-re/melange/pull/979))
+- BREAKING(dom): remove `Dom.Storage2` in favor of `Dom.Storage`
+  ([988](https://github.com/melange-re/melange/pull/988))
 
 2.2.0 2023-12-05
 ---------------
