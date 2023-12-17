@@ -88,7 +88,7 @@ var suites_1 = {
                     return {
                             TAG: /* Eq */0,
                             _0: "1.23456e+2",
-                            _1: (123.456).toExponential()
+                            _1: (123.456).toExponential(undefined)
                           };
                   })
               ],
@@ -99,7 +99,7 @@ var suites_1 = {
                       return {
                               TAG: /* Eq */0,
                               _0: "1.2e+21",
-                              _1: (1.2e21).toExponential()
+                              _1: (1.2e21).toExponential(undefined)
                             };
                     })
                 ],
@@ -167,7 +167,7 @@ var suites_1 = {
                                   return {
                                           TAG: /* Eq */0,
                                           _0: "123",
-                                          _1: (123.456).toFixed()
+                                          _1: (123.456).toFixed(undefined)
                                         };
                                 })
                             ],
@@ -178,7 +178,7 @@ var suites_1 = {
                                     return {
                                             TAG: /* Eq */0,
                                             _0: "1.2e+21",
-                                            _1: (1.2e21).toFixed()
+                                            _1: (1.2e21).toFixed(undefined)
                                           };
                                   })
                               ],
@@ -246,7 +246,7 @@ var suites_1 = {
                                                 return {
                                                         TAG: /* Eq */0,
                                                         _0: "123.456",
-                                                        _1: (123.456).toPrecision()
+                                                        _1: (123.456).toPrecision(undefined)
                                                       };
                                               })
                                           ],
@@ -257,7 +257,7 @@ var suites_1 = {
                                                   return {
                                                           TAG: /* Eq */0,
                                                           _0: "1.2e+21",
-                                                          _1: (1.2e21).toPrecision()
+                                                          _1: (1.2e21).toPrecision(undefined)
                                                         };
                                                 })
                                             ],
@@ -325,7 +325,7 @@ var suites_1 = {
                                                               return {
                                                                       TAG: /* Eq */0,
                                                                       _0: "1.23",
-                                                                      _1: (1.23).toString()
+                                                                      _1: (1.23).toString(undefined)
                                                                     };
                                                             })
                                                         ],
@@ -336,7 +336,7 @@ var suites_1 = {
                                                                 return {
                                                                         TAG: /* Eq */0,
                                                                         _0: "1.2e+21",
-                                                                        _1: (1.2e21).toString()
+                                                                        _1: (1.2e21).toString(undefined)
                                                                       };
                                                               })
                                                           ],

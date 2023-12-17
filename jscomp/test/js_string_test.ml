@@ -182,10 +182,10 @@ let suites = Mt.[
     );
 
     "substr", (fun _ ->
-      Eq("barbaz", "foobarbaz" |. Js.String.substr ~start:3)
+      Eq("barbaz", "foobarbaz" |. Js.String.substr ~start:3) [@ocaml.warning "-3"]
     );
     "substrAtMost", (fun _ ->
-      Eq("bar", "foobarbaz" |. Js.String.substr ~start:3 ~len:3)
+      Eq("bar", "foobarbaz" |. Js.String.substr ~start:3 ~len:3) [@ocaml.warning "-3"]
     );
 
     "substring", (fun _ ->
@@ -214,10 +214,10 @@ let suites = Mt.[
 
     (* es2015 *)
     "anchor", (fun _ ->
-      Eq("<a name=\"bar\">foo</a>", "foo" |. Js.String.anchor ~name:"bar")
+      Eq("<a name=\"bar\">foo</a>", "foo" |. Js.String.anchor ~name:"bar") [@ocaml.warning "-3"]
     );
     "link", (fun _ ->
-      Eq("<a href=\"https://reason.ml\">foo</a>", "foo" |. Js.String.link ~href:"https://reason.ml")
+      Eq("<a href=\"https://reason.ml\">foo</a>", "foo" |. Js.String.link ~href:"https://reason.ml") [@ocaml.warning "-3"]
     );
     __LOC__ , (fun _ -> Ok (Js.String.includes "ab" ~search:"a"))
 ]

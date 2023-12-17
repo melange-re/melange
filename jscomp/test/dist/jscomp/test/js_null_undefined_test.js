@@ -106,53 +106,53 @@ var suites_1 = {
                 ],
                 tl: {
                   hd: [
-                    "bind - null",
+                    "map - null",
                     (function (param) {
                         return {
                                 TAG: /* StrictEq */2,
                                 _0: null,
-                                _1: Js__Js_nullable.bind(null, (function (v) {
+                                _1: Js__Js_nullable.map((function (v) {
                                         return v;
-                                      }))
+                                      }), null)
                               };
                       })
                   ],
                   tl: {
                     hd: [
-                      "bind - undefined",
+                      "map - undefined",
                       (function (param) {
                           return {
                                   TAG: /* StrictEq */2,
                                   _0: undefined,
-                                  _1: Js__Js_nullable.bind(undefined, (function (v) {
+                                  _1: Js__Js_nullable.map((function (v) {
                                           return v;
-                                        }))
+                                        }), undefined)
                                 };
                         })
                     ],
                     tl: {
                       hd: [
-                        "bind - empty",
+                        "map - empty",
                         (function (param) {
                             return {
                                     TAG: /* StrictEq */2,
                                     _0: undefined,
-                                    _1: Js__Js_nullable.bind(undefined, (function (v) {
+                                    _1: Js__Js_nullable.map((function (v) {
                                             return v;
-                                          }))
+                                          }), undefined)
                                   };
                           })
                       ],
                       tl: {
                         hd: [
-                          "bind - 'a",
+                          "map - 'a",
                           (function (param) {
                               return {
                                       TAG: /* Eq */0,
                                       _0: 4,
-                                      _1: Js__Js_nullable.bind(2, (function (n) {
+                                      _1: Js__Js_nullable.map((function (n) {
                                               return (n << 1);
-                                            }))
+                                            }), 2)
                                     };
                             })
                         ],
@@ -163,9 +163,9 @@ var suites_1 = {
                                 var hit = {
                                   contents: false
                                 };
-                                Js__Js_nullable.iter(null, (function (param) {
+                                Js__Js_nullable.iter((function (param) {
                                         hit.contents = true;
-                                      }));
+                                      }), null);
                                 return {
                                         TAG: /* Eq */0,
                                         _0: false,
@@ -180,9 +180,9 @@ var suites_1 = {
                                   var hit = {
                                     contents: false
                                   };
-                                  Js__Js_nullable.iter(undefined, (function (param) {
+                                  Js__Js_nullable.iter((function (param) {
                                           hit.contents = true;
-                                        }));
+                                        }), undefined);
                                   return {
                                           TAG: /* Eq */0,
                                           _0: false,
@@ -197,9 +197,9 @@ var suites_1 = {
                                     var hit = {
                                       contents: false
                                     };
-                                    Js__Js_nullable.iter(undefined, (function (param) {
+                                    Js__Js_nullable.iter((function (param) {
                                             hit.contents = true;
-                                          }));
+                                          }), undefined);
                                     return {
                                             TAG: /* Eq */0,
                                             _0: false,
@@ -214,9 +214,9 @@ var suites_1 = {
                                       var hit = {
                                         contents: 0
                                       };
-                                      Js__Js_nullable.iter(2, (function (v) {
+                                      Js__Js_nullable.iter((function (v) {
                                               hit.contents = v;
-                                            }));
+                                            }), 2);
                                       return {
                                               TAG: /* Eq */0,
                                               _0: 2,

@@ -41,27 +41,30 @@ external undefined : 'a t = "#undefined"
 
 module Js := Js_internal
 
-val bind : 'a t -> (('a -> 'b)[@u]) -> 'b t
-(** Maps the contained value using the given function
+val map : f:(('a -> 'b)[@u]) -> 'a t -> 'b t
 
-If ['a Js.null_undefined] contains a value, that value is unwrapped, mapped to a ['b] using
-the given function [a' -> 'b], then wrapped back up and returned as ['b Js.null_undefined]
+val bind : f:(('a -> 'b t)[@u]) -> 'a t -> 'b t
+(** Binds the contained value using the given function
+
+If ['a Js.null_undefined] contains a value, that value is unwrapped, mapped to
+a ['b] using the given function [a' -> 'b], then wrapped back up and returned
+as ['b Js.null_undefined]
 
 {[
 let maybeGreetWorld (maybeGreeting: string Js.null_undefined) =
-  Js.Undefined.bind maybeGreeting (fun greeting -> greeting ^ " world!")
+  Js.Undefined.bind maybeGreeting ~f:(fun greeting -> greeting ^ " world!")
 ]}
 *)
 
-val iter : 'a t -> (('a -> unit)[@u]) -> unit
+val iter : f:(('a -> unit)[@u]) -> 'a t -> unit
 (** Iterates over the contained value with the given function
 
-If ['a Js.null_undefined] contains a value, that value is unwrapped and applied to
-the given function.
+If ['a Js.null_undefined] contains a value, that value is unwrapped and applied
+to the given function.
 
 {[
 let maybeSay (maybeMessage: string Js.null_undefined) =
-  Js.Null_undefined.iter maybeMessage (fun message -> Js.log message)
+  Js.Null_undefined.iter maybeMessage ~f:(fun message -> Js.log message)
 ]}
 *)
 

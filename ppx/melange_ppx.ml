@@ -23,9 +23,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(* When we design a ppx, we should keep it simple, and also think about
-   how it would work with other tools like merlin and ocamldep *)
-
 (*
    1. extension point
    {[
@@ -947,27 +944,34 @@ module Derivers = struct
     let args () = Deriving.Args.(empty +> flag "light") in
     let str_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) light ->
-          Ast_derive_abstract.handleTdclsInStr ~is_deprecated:true ~light rf
-            tdcls)
+          Ast_derive_abstract.derive_abstract_str ~light rf tdcls)
     and sig_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) light ->
-          Ast_derive_abstract.handleTdclsInSig ~is_deprecated:true ~light rf
-            tdcls)
+          Ast_derive_abstract.derive_abstract_sig ~light rf tdcls)
     in
     Deriving.add ~str_type_decl ~sig_type_decl "abstract"
 
-  let dynamicKeys =
+  let record_constructor =
+    let args () = Deriving.Args.empty in
+    let str_type_decl =
+      Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) ->
+          Ast_derive_abstract.derive_js_constructor_str rf tdcls)
+    and sig_type_decl =
+      Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) ->
+          Ast_derive_abstract.derive_js_constructor_sig rf tdcls)
+    in
+    Deriving.add ~str_type_decl ~sig_type_decl "jsProperties"
+
+  let record_getters_setters =
     let args () = Deriving.Args.(empty +> flag "light") in
     let str_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) light ->
-          Ast_derive_abstract.handleTdclsInStr ~is_deprecated:false ~light rf
-            tdcls)
+          Ast_derive_abstract.derive_getters_setters_str ~light rf tdcls)
     and sig_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) light ->
-          Ast_derive_abstract.handleTdclsInSig ~is_deprecated:false ~light rf
-            tdcls)
+          Ast_derive_abstract.derive_getters_setters_sig ~light rf tdcls)
     in
-    Deriving.add ~str_type_decl ~sig_type_decl "dynamicKeys"
+    Deriving.add ~str_type_decl ~sig_type_decl "getSet"
 
   let jsConverter =
     let args () = Deriving.Args.(empty +> flag "newType") in

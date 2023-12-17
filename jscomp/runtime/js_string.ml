@@ -499,6 +499,10 @@ external startsWith : prefix:t -> ?start:int -> bool = "startsWith"
 
 external substr : ?start:int -> ?len:int -> t = "substr"
 [@@mel.send.pipe: t]
+[@@alert
+  deprecated
+    "This function is deprecated, see \
+     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substr#sect1"]
 (** [substr ?start ?len str] returns the substring of [str] of length [len]
     starting at position [start].
 
@@ -592,6 +596,10 @@ external trim : t -> t = "trim"
 
 external anchor : name:t -> t = "anchor"
 [@@mel.send.pipe: t]
+[@@alert
+  deprecated
+    "This function is deprecated, see \
+     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/anchor#sect1"]
 (** [anchor ~name:anchorName anchorText] creates a string with an HTML [<a>]
     element with [name] attribute of [anchorName] and [anchorText] as its
     content.
@@ -603,6 +611,10 @@ external anchor : name:t -> t = "anchor"
 
 external link : href:t -> t = "link"
 [@@mel.send.pipe: t]
+[@@alert
+  deprecated
+    "This function is deprecated, see \
+     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/link#sect1"]
 (** [link ~href:urlText linkText] creates a string with an HTML [<a>] element
     with [href] attribute of [urlText] and [linkText] as its content.
 

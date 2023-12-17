@@ -71,8 +71,6 @@ Unreleased
   [#929](https://github.com/melange-re/melange/pull/929)
 - BREAKING(runtime): Remove `Js.null_undefined` in favor of `Js.nullable`
   ([#930](https://github.com/melange-re/melange/pull/930))
-- BREAKING(core): require OCaml 5.1.1
-  ([#926](https://github.com/melange-re/melange/pull/926))
 - BREAKING(ppx): disallow attribute payload in `[@mel.new]` in favor of the
   external primiative string
   ([#938](https://github.com/melange-re/melange/pull/938))
@@ -90,8 +88,41 @@ Unreleased
   [#956](https://github.com/melange-re/melange/pull/956),
   [#958](https://github.com/melange-re/melange/pull/958),
   [#961](https://github.com/melange-re/melange/pull/961))
-- BREAKING(ppx): Deprecate `deriving abstract` and add new option
-  `deriving dynamicKeys`, [#979](https://github.com/melange-re/melange/pull/979)
+- BREAKING(runtime): Improve `Js.Int` and change some of its functions to
+  pipe-last ([#966](https://github.com/melange-re/melange/pull/966))
+- BREAKING(runtime): Improve `Js.Date` and change some of its functions to
+  pipe-last ([#967](https://github.com/melange-re/melange/pull/967))
+- BREAKING(runtime): Improve `Js.Re` and change some of its functions to
+  pipe-last ([#969](https://github.com/melange-re/melange/pull/969))
+- BREAKING(runtime): Improve docstrings in the `Node` library and change some
+  of its functions to pipe-last
+  ([#970](https://github.com/melange-re/melange/pull/970))
+- BREAKING(runtime): Improve `Js.Float` and change some of its functions to
+  pipe-last ([#968](https://github.com/melange-re/melange/pull/968))
+- BREAKING(runtime): Remove unnecessary `unit` argument from `Js.Math.atan2`
+  ([#972](https://github.com/melange-re/melange/pull/972))
+- BREAKING(runtime): Add labeled arguments to the callbacks in `Js.Global`
+  ([#973](https://github.com/melange-re/melange/pull/973))
+- BREAKING(runtime): Add a label to `Js.Dict.map`'s function argument pipe-last
+  ([#974](https://github.com/melange-re/melange/pull/974))
+- runtime(`Js.String`): deprecate `anchor`, `link` and `substr` functions to
+  match the JS standard deprecations
+  [#982](https://github.com/melange-re/melange/pull/982)
+- Fix error messages related to `[@mel.meth]` arity mismatches
+  ([PR](https://github.com/melange-re/melange/pull/986))
+- ppx: split `[@@deriving abstract]` into two:
+    - `[@@deriving jsProperties]` derives a JS object creation function that
+      can generate a JS object with optional keys (when using `[@mel.optiona]`)
+    - `[@@deriving getSet]` derives getter / setter functions for the JS object
+       derived by the underlying record.
+- ppx: Deprecate `[@@deriving abstract]`
+  ([#979](https://github.com/melange-re/melange/pull/979))
+
+2.2.0 2023-12-05
+---------------
+
+- BREAKING(core): require OCaml 5.1.1
+  ([#926](https://github.com/melange-re/melange/pull/926))
 
 2.1.0 2023-10-22
 ---------------
