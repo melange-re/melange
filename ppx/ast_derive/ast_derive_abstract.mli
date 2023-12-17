@@ -35,3 +35,21 @@ val handleTdclsInSig :
   Asttypes.rec_flag ->
   Parsetree.type_declaration list ->
   Parsetree.signature
+
+val derive_js_constructor_str :
+  Asttypes.rec_flag -> Parsetree.type_declaration list -> Parsetree.structure
+
+val derive_js_constructor_sig :
+  Asttypes.rec_flag -> Parsetree.type_declaration list -> Parsetree.signature
+
+val derive_getters_setters_str :
+  light:bool ->
+  Asttypes.rec_flag ->
+  Parsetree.type_declaration list ->
+  Parsetree.structure
+
+val derive_getters_setters_sig :
+  light:bool ->
+  Asttypes.rec_flag ->
+  Parsetree.type_declaration list ->
+  Parsetree.signature

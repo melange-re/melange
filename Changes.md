@@ -110,6 +110,11 @@ Unreleased
   [#982](https://github.com/melange-re/melange/pull/982)
 - Fix error messages related to `[@mel.meth]` arity mismatches
   ([PR](https://github.com/melange-re/melange/pull/986))
+- ppx: split `[@@deriving abstract]` into two:
+    - `[@@deriving jsProperties]` derives a JS object creation function that
+      can generate a JS object with optional keys (when using `[@mel.optiona]`)
+    - `[@@deriving getSet]` derives getter / setter functions for the JS object
+       derived by the underlying record.
 
 2.2.0 2023-12-05
 ---------------
