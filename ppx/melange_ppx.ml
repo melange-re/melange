@@ -944,10 +944,10 @@ module Derivers = struct
     let args () = Deriving.Args.(empty +> flag "light") in
     let str_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) light ->
-          Ast_derive_abstract.handleTdclsInStr ~light rf tdcls)
+          Ast_derive_abstract.derive_abstract_str ~light rf tdcls)
     and sig_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) light ->
-          Ast_derive_abstract.handleTdclsInSig ~light rf tdcls)
+          Ast_derive_abstract.derive_abstract_sig ~light rf tdcls)
     in
     Deriving.add ~str_type_decl ~sig_type_decl "abstract"
 

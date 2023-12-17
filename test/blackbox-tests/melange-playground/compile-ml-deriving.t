@@ -4,7 +4,7 @@
   > console.log(ocaml.compileML(\`type person = {
   >   name: string ;
   >   age: int
-  > }[@@deriving abstract]
+  > }[@@deriving jsProperties, getSet]
   > 
   > let person1: person = person ~name:"joe" ~age:10\`));
   > EOF

@@ -25,6 +25,26 @@
 open Import
 open Ast_helper
 
+let deprecated_abstract =
+  let loc = Location.none in
+  {
+    attr_name = { txt = "alert"; loc };
+    attr_payload =
+      PStr
+        [
+          [%stri
+            deprecated
+              "`@@deriving abstract' deprecated. Use `@@deriving jsProperties, \
+               getSet' instead."];
+        ];
+    attr_loc = loc;
+  }
+
+let with_deprecation ~is_deprecated attrs =
+  match is_deprecated with
+  | false -> attrs
+  | true -> deprecated_abstract :: attrs
+
 let get_pld_type pld_type ~attrs =
   let is_optional = Ast_attributes.has_mel_optional attrs in
   if is_optional then
@@ -35,7 +55,7 @@ let get_pld_type pld_type ~attrs =
           "`[@mel.optional]' must appear on an option literal type (`_ option')"
   else pld_type
 
-let derive_js_constructor tdcl =
+let derive_js_constructor ?(is_deprecated = false) tdcl =
   match tdcl.ptype_kind with
   | Ptype_record label_declarations -> (
       let loc = tdcl.ptype_loc in
@@ -90,7 +110,9 @@ let derive_js_constructor tdcl =
           [
             Val.mk ~loc
               { loc; txt = tdcl.ptype_name.txt }
-              ~attrs:[ Ast_attributes.unboxable_type_in_prim_decl ]
+              ~attrs:
+                (with_deprecation ~is_deprecated
+                   [ Ast_attributes.unboxable_type_in_prim_decl ])
               ~prim:myPrims makeType;
           ])
   | Ptype_abstract | Ptype_variant _ | Ptype_open ->
@@ -107,7 +129,7 @@ let derive_getters_setters =
     Ast_attributes.[ mel_get_arity; unboxable_type_in_prim_decl ]
   in
   let set_attrs = Ast_attributes.[ mel_set; unboxable_type_in_prim_decl ] in
-  fun ~light tdcl ->
+  fun ?(is_deprecated = false) ~light tdcl ->
     match tdcl.ptype_kind with
     | Ptype_record label_declarations ->
         let loc = tdcl.ptype_loc in
@@ -144,7 +166,7 @@ let derive_getters_setters =
                 Val.mk ~loc:pld_loc
                   (if light then pld_name
                    else { pld_name with txt = pld_name.txt ^ "Get" })
-                  ~attrs:get_attrs
+                  ~attrs:(with_deprecation ~is_deprecated get_attrs)
                   ~prim:
                     ((* Not needed actually*)
                      Melange_ffi.External_ffi_types.ffi_mel_as_prims
@@ -163,7 +185,8 @@ let derive_getters_setters =
                 in
                 Val.mk ~loc:pld_loc
                   { loc = label_loc; txt = label_name ^ "Set" } (* setter *)
-                  ~attrs:set_attrs ~prim setter_type
+                  ~attrs:(with_deprecation ~is_deprecated set_attrs)
+                  ~prim setter_type
                 :: acc
             | Immutable -> acc)
           label_declarations ~init:[]
@@ -199,18 +222,22 @@ let derive_getters_setters_sig ~light _rf tdcls =
       List.map ~f:Sig.value value_descriptions @ sts)
     tdcls ~init:[]
 
-let handleTdclsInStr ~light _rf tdcls =
+let derive_abstract_str ~light _rf tdcls =
   List.fold_right
     ~f:(fun tdcl sts ->
-      let cstr_descriptions = derive_js_constructor tdcl in
-      let value_descriptions = derive_getters_setters ~light tdcl in
+      let cstr_descriptions = derive_js_constructor ~is_deprecated:true tdcl in
+      let value_descriptions =
+        derive_getters_setters ~is_deprecated:true ~light tdcl
+      in
       List.map ~f:Str.primitive (cstr_descriptions @ value_descriptions) @ sts)
     tdcls ~init:[]
 
-let handleTdclsInSig ~light _rf tdcls =
+let derive_abstract_sig ~light _rf tdcls =
   List.fold_right
     ~f:(fun tdcl sts ->
-      let cstr_descriptions = derive_js_constructor tdcl in
-      let value_descriptions = derive_getters_setters ~light tdcl in
+      let cstr_descriptions = derive_js_constructor ~is_deprecated:true tdcl in
+      let value_descriptions =
+        derive_getters_setters ~is_deprecated:true ~light tdcl
+      in
       List.map ~f:Sig.value (cstr_descriptions @ value_descriptions) @ sts)
     tdcls ~init:[]

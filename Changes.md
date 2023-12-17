@@ -115,6 +115,8 @@ Unreleased
       can generate a JS object with optional keys (when using `[@mel.optiona]`)
     - `[@@deriving getSet]` derives getter / setter functions for the JS object
        derived by the underlying record.
+- ppx: Deprecate `[@@deriving abstract]`
+  ([#979](https://github.com/melange-re/melange/pull/979))
 
 2.2.0 2023-12-05
 ---------------

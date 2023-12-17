@@ -24,13 +24,13 @@
 
 open Ppxlib
 
-val handleTdclsInStr :
+val derive_abstract_str :
   light:bool ->
   Asttypes.rec_flag ->
   Parsetree.type_declaration list ->
   Parsetree.structure
 
-val handleTdclsInSig :
+val derive_abstract_sig :
   light:bool ->
   Asttypes.rec_flag ->
   Parsetree.type_declaration list ->

@@ -9,7 +9,7 @@ type test = {
   s : string option [@mel.optional];
   b : bool option [@mel.optional];
   i : int option  [@mel.optional];
-} [@@deriving abstract]
+} [@@deriving jsProperties, getSet]
 
 
 let make ?s ?b ?i  = test ?s ?b ?i

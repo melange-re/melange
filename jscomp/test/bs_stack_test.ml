@@ -10,7 +10,7 @@ type node = {
   right : t
 }
 and t = node Js.undefined
-[@@deriving abstract]
+[@@deriving jsProperties, getSet]
 
 
 
