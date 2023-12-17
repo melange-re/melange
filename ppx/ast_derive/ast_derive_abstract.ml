@@ -34,8 +34,8 @@ let deprecated_abstract =
         [
           [%stri
             deprecated
-              "The `@deriving abstract` deriver is deprecated, use `@deriving \
-               dynamicKeys` instead."];
+              "`@@deriving abstract' deprecated. Use `@@deriving jsProperties, \
+               getSet' instead."];
         ];
     attr_loc = loc;
   }

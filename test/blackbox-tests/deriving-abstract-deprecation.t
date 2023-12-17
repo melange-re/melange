@@ -28,7 +28,7 @@ Shows when using the creation function
   3 | let t = chartDataItemType ~height:2 ~foo:"bar"
               ^^^^^^^^^^^^^^^^^
   Error (alert deprecated): chartDataItemType
-  The `@deriving abstract` deriver is deprecated, use `@deriving dynamicKeys` instead.
+  `@@deriving abstract' deprecated. Use `@@deriving jsProperties, getSet' instead.
   [1]
 
 Shows when using setters or accessors
@@ -45,12 +45,12 @@ Shows when using setters or accessors
   3 | let t = chartDataItemType ~height:2 ~foo:"bar"
               ^^^^^^^^^^^^^^^^^
   Error (alert deprecated): chartDataItemType
-  The `@deriving abstract` deriver is deprecated, use `@deriving dynamicKeys` instead.
+  `@@deriving abstract' deprecated. Use `@@deriving jsProperties, getSet' instead.
   
   File "x.ml", line 4, characters 8-17:
   4 | let u = heightGet t
               ^^^^^^^^^
   Error (alert deprecated): heightGet
-  The `@deriving abstract` deriver is deprecated, use `@deriving dynamicKeys` instead.
+  `@@deriving abstract' deprecated. Use `@@deriving jsProperties, getSet' instead.
   [1]
 
