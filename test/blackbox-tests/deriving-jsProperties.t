@@ -16,7 +16,8 @@ Tests for deriving dynamicKeys
   > EOF
 
   $ cat > x.ml <<EOF
-  > type chartDataItemType = { height : int; foo : string } [@@deriving dynamicKeys]
+  > type chartDataItemType = { height : int; foo : string }
+  > [@@deriving jsProperties]
   > 
   > let t = chartDataItemType ~height:2 ~foo:"bar"
   > EOF
@@ -24,7 +25,8 @@ Tests for deriving dynamicKeys
   $ dune build ./.x.objs/melange/x.cmj
 
   $ cat > x.ml <<EOF
-  > type chartDataItemType = { height : int; foo : string } [@@deriving dynamicKeys]
+  > type chartDataItemType = { height : int; foo : string }
+  > [@@deriving jsProperties, getSet]
   > 
   > let t = chartDataItemType ~height:2 ~foo:"bar"
   > let u = heightGet t
