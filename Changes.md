@@ -120,6 +120,8 @@ Unreleased
   ([#979](https://github.com/melange-re/melange/pull/979))
 - BREAKING(dom): remove `Dom.Storage2` in favor of `Dom.Storage`
   ([988](https://github.com/melange-re/melange/pull/988))
+- playground: fix reporting of PPX alerts
+  ([#991](https://github.com/melange-re/melange/pull/991))
 
 2.2.0 2023-12-05
 ---------------
