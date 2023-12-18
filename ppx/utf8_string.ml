@@ -144,17 +144,15 @@ module Utf8_string = struct
      console.log('\u{1F680}');
   *)
 
-  let transform_test s =
-    let s_len = String.length s in
-    let buf = Buffer.create (s_len * 2) in
-    check_and_transform 0 buf s 0 s_len;
-    Buffer.contents buf
-
   let transform s =
     let s_len = String.length s in
     let buf = Buffer.create (s_len * 2) in
     check_and_transform 0 buf s 0 s_len;
     Buffer.contents buf
+
+  module Private = struct
+    let transform = transform
+  end
 end
 
 module Interp = struct
@@ -466,12 +464,9 @@ module Interp = struct
   let unescaped_j_delimiter = "j"
   let unescaped_js_delimiter = "js"
 
-  let escaped =
-    let escaped_j_delimiter =
-      (* syntax not allowed at the user level *)
-      "*j"
-    in
-    Some escaped_j_delimiter
+  let escaped_j_delimiter =
+    (* syntax not allowed at the user level *)
+    Some "*j"
 
   let border = String.length "{j|"
 
@@ -481,7 +476,7 @@ module Interp = struct
         match kind with
         | String ->
             let loc = update border start finish loc in
-            Exp.constant (Pconst_string (content, loc, escaped))
+            Exp.constant (Pconst_string (content, loc, escaped_j_delimiter))
         | Var (soffset, foffset) ->
             let loc =
               {
@@ -506,7 +501,7 @@ module Interp = struct
   (* Invariant: the [lhs] is always of type string *)
   let rec handle_segments loc (rev_segments : segment list) =
     match rev_segments with
-    | [] -> Exp.constant (Pconst_string ("", loc, escaped))
+    | [] -> Exp.constant (Pconst_string ("", loc, escaped_j_delimiter))
     | [ segment ] -> aux loc segment ~to_string_ident (* string literal *)
     | { content = ""; _ } :: rest -> handle_segments loc rest
     | a :: rest -> concat_exp loc a ~lhs:(handle_segments loc rest)
@@ -546,34 +541,39 @@ module Interp = struct
     check_and_transform 0 s 0 cxt;
     List.rev cxt.segments
 
-  let transform (e : Parsetree.expression) s loc delim : Parsetree.expression =
-    if String.equal delim unescaped_js_delimiter then
-      {
-        e with
-        pexp_desc =
-          Pexp_constant (Pconst_string (Utf8_string.transform s, loc, escaped));
-      }
-    else if String.equal delim unescaped_j_delimiter then
-      transform_interp e.pexp_loc s
-    else e
-
-  let transform (e : Parsetree.expression) s loc delim : Parsetree.expression =
-    try transform e s loc delim with
-    | Utf8_string.Error (offset, error) ->
-        [%expr
-          [%ocaml.error
-            [%e
-              Exp.constant
+  let transform =
+    let transform e s ~loc ~delim =
+      match String.equal delim unescaped_js_delimiter with
+      | true ->
+          {
+            e with
+            pexp_desc =
+              Pexp_constant
                 (Pconst_string
-                   ( Format.asprintf "Offset: %d, %a" offset
-                       Utf8_string.pp_error error,
-                     loc,
-                     None ))]]]
-    | Error (start, pos, error) ->
-        let loc = update border start pos loc in
-        [%expr
-          [%ocaml.error
-            [%e
-              Exp.constant
-                (Pconst_string (Format.asprintf "%a" pp_error error, loc, None))]]]
+                   (Utf8_string.transform s, loc, escaped_j_delimiter));
+          }
+      | false -> (
+          match String.equal delim unescaped_j_delimiter with
+          | true -> transform_interp e.pexp_loc s
+          | false -> e)
+    in
+    fun ~loc ~delim expr s ->
+      try transform expr s ~loc ~delim with
+      | Utf8_string.Error (offset, error) ->
+          [%expr
+            [%ocaml.error
+              [%e
+                Exp.constant
+                  (Pconst_string
+                     ( Format.asprintf "Offset: %d, %a" offset
+                         Utf8_string.pp_error error,
+                       loc,
+                       None ))]]]
+      | Error (start, pos, error) ->
+          let loc = update border start pos loc in
+          [%expr
+            [%ocaml.error
+              [%e
+                Exp.constant
+                  (Pconst_string (Format.asprintf "%a" pp_error error, loc, None))]]]
 end
