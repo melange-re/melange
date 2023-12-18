@@ -309,6 +309,7 @@ let () =
   Clflags.binary_annotations := false;
   Clflags.color := None;
   Location.warning_reporter := playground_warning_reporter;
+  Ocaml_common.Location.alert_reporter := playground_alert_reporter;
   Location.alert_reporter := playground_alert_reporter;
   (* To add a directory to the load path *)
   Load_path.add_dir "/static"
