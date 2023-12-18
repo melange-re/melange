@@ -41,11 +41,11 @@ opam-init: opam-create-switch opam-install-test ## Configure everything to devel
 
 .PHONY: playground
 playground:
-	opam exec -- dune build --profile=release bin/jsoo_main.bc.js
+	opam exec -- dune build --profile=release playground/mel_playground.bc.js
 
 .PHONY: playground-dev
 playground-dev:
-	opam exec -- dune build --profile=dev bin/jsoo_main.bc.js
+	opam exec -- dune build --profile=dev playground/mel_playground.bc.js
 
 .PHONY: playground-dev-test
 playground-dev-test:

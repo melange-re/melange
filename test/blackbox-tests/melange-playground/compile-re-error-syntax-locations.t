@@ -1,8 +1,8 @@
 Some Reason errors dont have locations
 
   $ cat > input.js <<EOF
-  > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/jsoo_main.bc.js');
-  > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/melange-cmijs.js');
+  > require(process.env.DUNE_SOURCEROOT + '/_build/default/playground/mel_playground.bc.js');
+  > require(process.env.DUNE_SOURCEROOT + '/_build/default/playground/melange-cmijs.js');
   > console.log(ocaml.compileRE("let sum = item => swiftch (item) { | Leaf => 0 };").js_warning_error_msg.trim());
   > EOF
 
@@ -13,8 +13,8 @@ Some Reason errors dont have locations
 But some do
 
   $ cat > input.js <<EOF
-  > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/jsoo_main.bc.js');
-  > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/melange-cmijs.js');
+  > require(process.env.DUNE_SOURCEROOT + '/_build/default/playground/mel_playground.bc.js');
+  > require(process.env.DUNE_SOURCEROOT + '/_build/default/playground/melange-cmijs.js');
   > console.log(ocaml.compileRE("let sum = item => swiftch (item) { 2 };"));
   > EOF
 
