@@ -1,6 +1,6 @@
   $ cat > input.js <<EOF
-  > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/jsoo_main.bc.js');
-  > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/melange-cmijs.js');
+  > require(process.env.DUNE_SOURCEROOT + '/_build/default/playground/mel_playground.bc.js');
+  > require(process.env.DUNE_SOURCEROOT + '/_build/default/playground/melange-cmijs.js');
   > console.log(
   >   JSON.stringify(
   >     ocaml.compileML(

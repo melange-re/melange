@@ -1,0 +1,43 @@
+(executable
+ (name mel_playground)
+ (public_name playground)
+ (package melange-playground)
+ (modes byte js)
+ (libraries
+  melangelib
+  js_of_ocaml-compiler.runtime
+  melange.ppx
+  reason-react-ppx
+  reason))
+
+(install
+ (section bin)
+ (package melange-playground)
+ (files mel_playground.bc.js melange-cmijs.js))
+
+(rule
+ (deps
+  (package melange)
+  %{bin:js_of_ocaml}
+  (:some-js-cmi %{lib:melange:js/melange/js.cmi})
+  (:some-stdlib-cmi %{lib:melange:melange/stdlib.cmi})
+  (:some-belt-cmi %{lib:melange:belt/melange/belt.cmi})
+  (:some-dom-cmi %{lib:melange:dom/melange/dom.cmi}))
+ (target cmi-files.txt)
+ (action
+  (progn
+   (bash
+    "find $(dirname %{some-js-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" > %{target}")
+   (bash
+    "find $(dirname %{some-belt-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}")
+   (bash
+    "find $(dirname %{some-stdlib-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}")
+   (bash
+    "find $(dirname %{some-dom-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}"))))
+
+(rule
+ (deps cmi-files.txt)
+ (alias playground-cmijs)
+ (target melange-cmijs.js)
+ (action
+  (bash "cat %{deps} | xargs js_of_ocaml build-fs -o %{target}")))
