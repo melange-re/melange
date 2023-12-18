@@ -70,7 +70,7 @@ Regex literals ([\[%re "/.../"\]]) should generally be preferred, but
 
 let contentOf tag xmlString =
   Js.Re.fromString ("<" ^ tag ^ ">(.*?)<\\/" ^ tag ^">")
-    |> Js.Re.exec xmlString
+    |> Js.Re.exec ~str:xmlString
     |> function
       | Some result -> Js.Nullable.toOption (Js.Re.captures result).(1)
       | None -> None
@@ -122,7 +122,7 @@ let str = "abbcdefabh" in
 
 let break = ref false in
 while not !break do
-  match re |> Js.Re.exec str with
+  match re |> Js.Re.exec ~str with
   | None -> break := true
   | Some result ->
     Js.Nullable.iter (Js.Re.captures result).(0) ((fun match_ ->
@@ -154,7 +154,7 @@ external unicode : t -> bool = "unicode"
 [@@mel.get]
 (** returns a bool indicating whether the [unicode] flag is set *)
 
-external exec : string -> result option = "exec"
+external exec : str:string -> result option = "exec"
 [@@mel.send.pipe: t] [@@mel.return null_to_opt]
 (** executes a search on a given string using the given RegExp object
 
@@ -167,13 +167,13 @@ external exec : string -> result option = "exec"
  *)
 
 let re = [%re "/quick\s(brown).+?(jumps)/ig"] in
-let result = re |. Js.Re.exec_ "The Quick Brown Fox Jumps Over The Lazy Dog"
+let result = re |. Js.Re.exec ~str:"The Quick Brown Fox Jumps Over The Lazy Dog"
 ]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec> MDN
 *)
 
-external test : string -> bool = "test"
+external test : str:string -> bool = "test"
 [@@mel.send.pipe: t]
 (** tests whether the given RegExp object will match a given string
 
@@ -186,7 +186,7 @@ let str = "hello world!"
 
 let startsWith target substring =
   Js.Re.fromString ("^" ^ substring)
-    |. Js.Re.test_ target
+    |. Js.Re.test ~str:target
 
 let () = Js.log (str |. startsWith "hello") (* prints "true" *)
 ]}
