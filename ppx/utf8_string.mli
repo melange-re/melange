@@ -33,7 +33,9 @@ module Utf8_string : sig
 
   type exn += Error of int (* offset *) * error
 
-  val transform_test : string -> string
+  module Private : sig
+    val transform : string -> string
+  end
 end
 
 module Interp : sig
@@ -58,8 +60,13 @@ module Interp : sig
   }
 
   type exn += Error of pos * pos * error
-  type segment = { start : pos; finish : pos; kind : kind; content : string }
 
-  val transform : expression -> string -> location -> string -> expression
-  val transform_test : string -> segment list
+  val transform :
+    loc:location -> delim:string -> expression -> string -> expression
+
+  module Private : sig
+    type segment = { start : pos; finish : pos; kind : kind; content : string }
+
+    val transform_test : string -> segment list
+  end
 end

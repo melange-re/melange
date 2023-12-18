@@ -4,7 +4,8 @@ let ( =~ ) a b = OUnit.assert_equal ~cmp:String.equal a b
 module Utf8_string = Melange_ppx__Utf8_string
 
 (* Note [Var] kind can not be mpty  *)
-let empty_segment { Utf8_string.Interp.content; _ } = String.length content = 0
+let empty_segment { Utf8_string.Interp.Private.content; _ } =
+  String.length content = 0
 
 (** Test for single line *)
 let ( ==~ ) a b =
@@ -16,8 +17,8 @@ let ( ==~ ) a b =
                kind;
                content;
              } :
-              Utf8_string.Interp.segment) -> (a, b, kind, content))
-       (Utf8_string.Interp.transform_test a
+              Utf8_string.Interp.Private.segment) -> (a, b, kind, content))
+       (Utf8_string.Interp.Private.transform_test a
        |> List.filter (fun x -> not @@ empty_segment x)))
     b
 
@@ -30,8 +31,9 @@ let ( ==* ) a b =
               kind;
               content;
             } :
-             Utf8_string.Interp.segment) -> (la, a, lb, b, kind, content))
-      (Utf8_string.Interp.transform_test a
+             Utf8_string.Interp.Private.segment) ->
+        (la, a, lb, b, kind, content))
+      (Utf8_string.Interp.Private.transform_test a
       |> List.filter (fun x -> not @@ empty_segment x))
   in
   OUnit.assert_equal segments b
@@ -43,30 +45,32 @@ let suites =
   __FILE__
   >::: [
          ( __LOC__ >:: fun _ ->
-           Utf8_string.Utf8_string.transform_test {|x|} =~ {|x|} );
+           Utf8_string.Utf8_string.Private.transform {|x|} =~ {|x|} );
          ( __LOC__ >:: fun _ ->
-           Utf8_string.Utf8_string.transform_test "a\nb" =~ {|a\nb|} );
+           Utf8_string.Utf8_string.Private.transform "a\nb" =~ {|a\nb|} );
          ( __LOC__ >:: fun _ ->
-           Utf8_string.Utf8_string.transform_test "\\n" =~ "\\n" );
+           Utf8_string.Utf8_string.Private.transform "\\n" =~ "\\n" );
          ( __LOC__ >:: fun _ ->
-           Utf8_string.Utf8_string.transform_test "\\\\\\b\\t\\n\\v\\f\\r\\0\\$"
+           Utf8_string.Utf8_string.Private.transform
+             "\\\\\\b\\t\\n\\v\\f\\r\\0\\$"
            =~ "\\\\\\b\\t\\n\\v\\f\\r\\0\\$" );
          ( __LOC__ >:: fun _ ->
-           match Utf8_string.Utf8_string.transform_test {|\|} with
+           match Utf8_string.Utf8_string.Private.transform {|\|} with
            | exception Utf8_string.Utf8_string.Error (offset, _) ->
                OUnit.assert_equal offset 1
            | _ -> OUnit.assert_failure __LOC__ );
          ( __LOC__ >:: fun _ ->
-           match Utf8_string.Utf8_string.transform_test {|你\|} with
+           match Utf8_string.Utf8_string.Private.transform {|你\|} with
            | exception Utf8_string.Utf8_string.Error (offset, _) ->
                OUnit.assert_equal offset 2
            | _ -> OUnit.assert_failure __LOC__ );
          ( __LOC__ >:: fun _ ->
-           Utf8_string.Utf8_string.transform_test {|\h\e\l\lo \"world\"!|}
+           Utf8_string.Utf8_string.Private.transform {|\h\e\l\lo \"world\"!|}
            =~ {|\h\e\l\lo \"world\"!|} );
          ( __LOC__ >:: fun _ ->
            match
-             Utf8_string.Utf8_string.transform_test {|你BuckleScript,好啊\uffff\|}
+             Utf8_string.Utf8_string.Private.transform
+               {|你BuckleScript,好啊\uffff\|}
            with
            | exception Utf8_string.Utf8_string.Error (offset, _) ->
                OUnit.assert_equal offset 23
@@ -164,7 +168,7 @@ let suites =
          ( __LOC__ >:: fun _ ->
            {|$x)|} ==* [ (0, 0, 0, 2, var, "x"); (0, 2, 0, 3, String, ")") ] );
          ( __LOC__ >:: fun _ ->
-           match Utf8_string.Interp.transform_test {j| $( ()) |j} with
+           match Utf8_string.Interp.Private.transform_test {j| $( ()) |j} with
            | exception
                Utf8_string.Interp.Error
                  ( { lnum = 0; offset = 1; byte_bol = 0 },
@@ -173,7 +177,7 @@ let suites =
                OUnit.assert_bool __LOC__ true
            | _ -> OUnit.assert_bool __LOC__ false );
          ( __LOC__ >:: fun _ ->
-           match Utf8_string.Interp.transform_test {|$ ()|} with
+           match Utf8_string.Interp.Private.transform_test {|$ ()|} with
            | exception
                Utf8_string.Interp.Error
                  ( { lnum = 0; offset = 0; byte_bol = 0 },
@@ -182,7 +186,7 @@ let suites =
                OUnit.assert_bool __LOC__ true
            | _ -> OUnit.assert_bool __LOC__ false );
          ( __LOC__ >:: fun _ ->
-           match Utf8_string.Interp.transform_test {|$()|} with
+           match Utf8_string.Interp.Private.transform_test {|$()|} with
            | exception
                Utf8_string.Interp.Error
                  ( { lnum = 0; offset = 0; byte_bol = 0 },
@@ -191,7 +195,9 @@ let suites =
                OUnit.assert_bool __LOC__ true
            | _ -> OUnit.assert_bool __LOC__ false );
          ( __LOC__ >:: fun _ ->
-           match Utf8_string.Interp.transform_test {|$(hello world)|} with
+           match
+             Utf8_string.Interp.Private.transform_test {|$(hello world)|}
+           with
            | exception
                Utf8_string.Interp.Error
                  ( { lnum = 0; offset = 0; byte_bol = 0 },
@@ -200,7 +206,7 @@ let suites =
                OUnit.assert_bool __LOC__ true
            | _ -> OUnit.assert_bool __LOC__ false );
          ( __LOC__ >:: fun _ ->
-           match Utf8_string.Interp.transform_test {|$( hi*) |} with
+           match Utf8_string.Interp.Private.transform_test {|$( hi*) |} with
            | exception
                Utf8_string.Interp.Error
                  ( { lnum = 0; offset = 0; byte_bol = 0 },
@@ -209,7 +215,7 @@ let suites =
                OUnit.assert_bool __LOC__ true
            | _ -> OUnit.assert_bool __LOC__ false );
          ( __LOC__ >:: fun _ ->
-           match Utf8_string.Interp.transform_test {|xx $|} with
+           match Utf8_string.Interp.Private.transform_test {|xx $|} with
            | exception
                Utf8_string.Interp.Error
                  ( { lnum = 0; offset = 3; byte_bol = 0 },
@@ -218,7 +224,7 @@ let suites =
                OUnit.assert_bool __LOC__ true
            | _ -> OUnit.assert_bool __LOC__ false );
          ( __LOC__ >:: fun _ ->
-           match Utf8_string.Interp.transform_test {|$(world |} with
+           match Utf8_string.Interp.Private.transform_test {|$(world |} with
            | exception
                Utf8_string.Interp.Error
                  ( { lnum = 0; offset = 0; byte_bol = 0 },
