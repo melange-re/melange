@@ -60,10 +60,13 @@ module Interp : sig
   }
 
   type exn += Error of pos * pos * error
-  type segment = { start : pos; finish : pos; kind : kind; content : string }
 
   val transform :
     loc:location -> delim:string -> expression -> string -> expression
 
-  val transform_test : string -> segment list
+  module Private : sig
+    type segment = { start : pos; finish : pos; kind : kind; content : string }
+
+    val transform_test : string -> segment list
+  end
 end

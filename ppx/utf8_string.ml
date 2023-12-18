@@ -524,23 +524,6 @@ module Interp = struct
     check_and_transform 0 s 0 cxt;
     handle_segments loc cxt.segments
 
-  let transform_test s =
-    let s_len = String.length s in
-    let buf = Buffer.create (s_len * 2) in
-    let cxt =
-      {
-        segment_start = { lnum = 0; offset = 0; byte_bol = 0 };
-        buf;
-        s_len;
-        segments = [];
-        pos_lnum = 0;
-        byte_bol = 0;
-        pos_bol = 0;
-      }
-    in
-    check_and_transform 0 s 0 cxt;
-    List.rev cxt.segments
-
   let transform =
     let transform e s ~loc ~delim =
       match String.equal delim unescaped_js_delimiter with
@@ -576,4 +559,30 @@ module Interp = struct
               [%e
                 Exp.constant
                   (Pconst_string (Format.asprintf "%a" pp_error error, loc, None))]]]
+
+  module Private = struct
+    type nonrec segment = segment = {
+      start : pos;
+      finish : pos;
+      kind : kind;
+      content : string;
+    }
+
+    let transform_test s =
+      let s_len = String.length s in
+      let buf = Buffer.create (s_len * 2) in
+      let cxt =
+        {
+          segment_start = { lnum = 0; offset = 0; byte_bol = 0 };
+          buf;
+          s_len;
+          segments = [];
+          pos_lnum = 0;
+          byte_bol = 0;
+          pos_bol = 0;
+        }
+      in
+      check_and_transform 0 s 0 cxt;
+      List.rev cxt.segments
+  end
 end
