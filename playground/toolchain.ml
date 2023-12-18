@@ -1,18 +1,18 @@
 module Js = Jsoo_runtime.Js
+module RE = Reason_toolchain.RE
+module ML = Reason_toolchain.ML
 
 let intToJsFloat i = Js.number_of_float (float_of_int i)
 
-module Reason = struct
-  (* Adapted from https://github.com/reasonml/reason/blob/da280770cf905502d4b99788d9f3d1462893b53e/js/refmt.ml *)
-  module RE = Reason_toolchain.RE
-  module ML = Reason_toolchain.ML
-
+let parseWith =
+  (* Adapted from:
+     https://github.com/reasonml/reason/blob/da280770c/js/refmt.ml *)
   let locationToJsObj (loc : Location.t) =
     let _file, start_line, start_char = Location.get_pos_info loc.loc_start in
     let _, end_line, end_char = Location.get_pos_info loc.loc_end in
     (* The right way of handling ocaml syntax error locations. Do do this at home
        copied over from
-       https://github.com/BuckleScript/bucklescript/blob/2ad2310f18567aa13030cdf32adb007d297ee717/jscomp/super_errors/super_location.ml#L73
+       https://github.com/BuckleScript/bucklescript/blob/2ad2310f1/jscomp/super_errors/super_location.ml#L73
     *)
     let normalizedRange =
       if start_char == -1 || end_char == -1 then
@@ -40,19 +40,19 @@ module Reason = struct
             ("endLine", intToJsFloat end_line);
             ("endLineEndChar", intToJsFloat end_line_end_char);
           |]
-
-  let parseWith
-      (f :
+  in
+  fun (f :
         Lexing.lexbuf -> Ppxlib_ast.Parsetree.structure * Reason_comment.t list)
-      code =
-    (* you can't throw an Error here. jsoo parses the string and turns it
-       into something else *)
+      code ->
+    (* you can't throw an Error here. jsoo parses the string and turns it into
+       something else *)
     let throwAnything = Js.js_expr "function(a) {throw a}" in
     let code =
-      (* Add ending new line as otherwise reason parser chokes with inputs such as "//" *)
+      (* Add ending new line as otherwise reason parser chokes with inputs such
+         as "//" *)
       Js.to_string code ^ "\n"
     in
-    try code |> Lexing.from_string |> f
+    try f (Lexing.from_string code)
     with (* from ocaml and reason *)
     | Reason_errors.Reason_error (err, loc) ->
       let jsLocation = locationToJsObj loc in
@@ -68,15 +68,14 @@ module Reason = struct
       in
       Obj.magic (Js.fun_call throwAnything [| jsError |])
 
-  let parseRE = parseWith RE.implementation_with_comments
-  let parseML = parseWith ML.implementation_with_comments
+let parseRE = parseWith RE.implementation_with_comments
+let parseML = parseWith ML.implementation_with_comments
 
-  let printWith ~f structureAndComments =
-    Js.string (Format.asprintf "%a" f structureAndComments)
+let printWith ~f structureAndComments =
+  Js.string (Format.asprintf "%a" f structureAndComments)
 
-  let printRE = printWith ~f:RE.print_implementation_with_comments
-  let printML = printWith ~f:ML.print_implementation_with_comments
-end
+let printRE = printWith ~f:RE.print_implementation_with_comments
+let printML = printWith ~f:ML.print_implementation_with_comments
 
 let warning_error_to_js (error : Location.report) : Js.t =
   let kind, type_ =
