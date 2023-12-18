@@ -2,7 +2,7 @@ let suites = Mt.[
   "captures", (fun _ ->
     let re = [%re "/(\\d+)-(?:(\\d+))?/g"] in
     let str = "3-" in
-    match re |> Js.Re.exec str with
+    match re |> Js.Re.exec ~str with
       | Some result ->
         let defined = (Js.Re.captures result).(1) in
         let undefined = (Js.Re.captures result).(2) in
@@ -14,7 +14,7 @@ let suites = Mt.[
     (* From the example in js_re.mli *)
     let contentOf tag xmlString =
       Js.Re.fromString ("<" ^ tag ^ ">(.*?)<\\/" ^ tag ^">")
-        |> Js.Re.exec xmlString
+        |> Js.Re.exec ~str:xmlString
         |. function
           | Some result -> Js.Nullable.toOption (Js.Re.captures result).(1)
           | None -> None in
@@ -22,7 +22,7 @@ let suites = Mt.[
   );
 
   "exec_literal", (fun _ ->
-    match [%re "/[^.]+/"] |> Js.Re.exec "http://xxx.domain.com" with
+    match [%re "/[^.]+/"] |> Js.Re.exec ~str:"http://xxx.domain.com" with
     | Some res ->
       Eq(Js.Nullable.return "http://xxx", (Js.Re.captures res).(0))
     | None ->
@@ -30,7 +30,7 @@ let suites = Mt.[
   );
 
   "exec_no_match", (fun _ ->
-    match [%re "/https:\\/\\/(.*)/"] |> Js.Re.exec "http://xxx.domain.com" with
+    match [%re "/https:\\/\\/(.*)/"] |> Js.Re.exec ~str:"http://xxx.domain.com" with
     | Some _ ->  FailWith "regex should not match"
     | None -> Ok true
   );
@@ -38,7 +38,7 @@ let suites = Mt.[
   "test_str", (fun _ ->
     let res = "foo"
       |. Js.Re.fromString
-      |> Js.Re.test "#foo#" in
+      |> Js.Re.test ~str:"#foo#" in
 
     Eq(true, res)
   );
@@ -49,7 +49,7 @@ let suites = Mt.[
     Eq(true, res |. Js.Re.global)
   );
   "result_index", (fun _ ->
-    match "zbar" |. Js.Re.fromString |> Js.Re.exec "foobarbazbar" with
+    match "zbar" |. Js.Re.fromString |> Js.Re.exec ~str:"foobarbazbar" with
     | Some res ->
       Eq(8, res |> Js.Re.index)
     | None ->
@@ -58,7 +58,7 @@ let suites = Mt.[
   "result_input", (fun _ ->
     let input = "foobar" in
 
-    match [%re "/foo/g"] |> Js.Re.exec input with
+    match [%re "/foo/g"] |> Js.Re.exec ~str:input with
     | Some res ->
       Eq(input,  res |> Js.Re.input)
     | None ->
@@ -78,7 +78,7 @@ let suites = Mt.[
   );
   "t_lastIndex", (fun _ ->
     let re = [%re "/na/g"] in
-    let _ = re |> Js.Re.exec "banana" in     (* Caml_option.null_to_opt post operation is not dropped in 4.06 which seems to be reduandant *)
+    let _ = re |> Js.Re.exec ~str:"banana" in     (* Caml_option.null_to_opt post operation is not dropped in 4.06 which seems to be reduandant *)
     Eq(4,  re |. Js.Re.lastIndex)
   );
   "t_setLastIndex", (fun _ ->
