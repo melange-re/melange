@@ -196,14 +196,20 @@ module Utf8_string = struct
      console.log('\u{1F680}');
   *)
 
-  let transform s =
-    let s_len = String.length s in
-    let buf = Buffer.create (s_len * 2) in
-    check_and_transform 0 buf s 0 s_len;
-    Buffer.contents buf
+  let transform =
+    let transform s =
+      let s_len = String.length s in
+      let buf = Buffer.create (s_len * 2) in
+      check_and_transform 0 buf s 0 s_len;
+      Buffer.contents buf
+    in
+    fun ~loc s ->
+      try transform s
+      with Error (offset, error) ->
+        Location.raise_errorf ~loc "Offset: %d, %a" offset pp_error error
 
   module Private = struct
-    let transform = transform
+    let transform = transform ~loc:Location.none
   end
 end
 
@@ -583,7 +589,7 @@ module Interp = struct
             pexp_desc =
               Pexp_constant
                 (Pconst_string
-                   (Utf8_string.transform s, loc, escaped_j_delimiter));
+                   (Utf8_string.transform ~loc s, loc, escaped_j_delimiter));
           }
       | false -> (
           match String.equal delim unescaped_j_delimiter with
@@ -591,13 +597,10 @@ module Interp = struct
           | false -> e)
     in
     fun ~loc ~delim expr s ->
-      try transform expr s ~loc ~delim with
-      | Utf8_string.Error (offset, error) ->
-          Location.raise_errorf ~loc "Offset: %d, %a" offset
-            Utf8_string.pp_error error
-      | Error (start, pos, error) ->
-          let loc = update border start pos loc in
-          Location.raise_errorf ~loc "%a" pp_error error
+      try transform expr s ~loc ~delim
+      with Error (start, pos, error) ->
+        let loc = update border start pos loc in
+        Location.raise_errorf ~loc "%a" pp_error error
 
   module Private = struct
     type nonrec segment = segment = {

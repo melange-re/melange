@@ -199,7 +199,7 @@ let () =
 
 external from_bytes_unsafe : bytes -> int -> 'a = "caml_input_value_from_bytes"
 
-(* TODO:  better error message when version mismatch *)
+(* TODO: better error message when version mismatch *)
 let from_string s : t =
   if is_mel_primitive s then from_bytes_unsafe (Bytes.unsafe_of_string s) 0
   else Ffi_normal

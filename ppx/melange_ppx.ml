@@ -599,7 +599,7 @@ module Mapper = struct
                 pvb_expr.pexp_desc )
             with
             | ( Some ({ attr_name = { txt; loc }; _ } as attr),
-                Pexp_constant (Pconst_string (s, _, dec)) ) ->
+                Pexp_constant (Pconst_string (s, _, None)) ) ->
                 Ast_attributes.warn_if_non_namespaced ~loc txt;
                 succeed attr pvb_attributes;
                 {
@@ -613,9 +613,36 @@ module Mapper = struct
                         pval_attributes = [];
                         pval_prim =
                           Melange_ffi.External_ffi_types.inline_string_primitive
-                            s dec;
+                            s None;
                       };
                 }
+            | ( Some ({ attr_name = { txt; loc }; _ } as attr),
+                Pexp_constant (Pconst_string (s, _, Some dec)) ) -> (
+                match
+                  Melange_ffi.Utf8_string.Interp.transform ~loc ~delim:dec
+                    (Melange_compiler_libs.Ast_helper.Exp.constant
+                       (Pconst_string (s, loc, Some dec)))
+                    s
+                with
+                | { pexp_desc = Pexp_constant (Pconst_string (s, _, dec)); _ }
+                  ->
+                    Ast_attributes.warn_if_non_namespaced ~loc txt;
+                    succeed attr pvb_attributes;
+                    {
+                      str with
+                      pstr_desc =
+                        Pstr_primitive
+                          {
+                            pval_name;
+                            pval_type = [%type: string];
+                            pval_loc = pvb_loc;
+                            pval_attributes = [];
+                            pval_prim =
+                              Melange_ffi.External_ffi_types
+                              .inline_string_primitive s dec;
+                          };
+                    }
+                | _ -> str)
             | ( Some ({ attr_name = { txt; loc }; _ } as attr),
                 Pexp_constant (Pconst_integer (s, None)) ) ->
                 Ast_attributes.warn_if_non_namespaced ~loc txt;
@@ -785,7 +812,7 @@ module Mapper = struct
                      _;
                    } as attr) -> (
                   match pexp_desc with
-                  | Pexp_constant (Pconst_string (s, _, dec)) ->
+                  | Pexp_constant (Pconst_string (s, _, None)) ->
                       succeed attr pval_attributes;
                       {
                         sigi with
@@ -795,10 +822,35 @@ module Mapper = struct
                               value_desc with
                               pval_prim =
                                 Melange_ffi.External_ffi_types
-                                .inline_string_primitive s dec;
+                                .inline_string_primitive s None;
                               pval_attributes = [];
                             };
                       }
+                  | Pexp_constant (Pconst_string (s, loc, Some dec)) -> (
+                      match
+                        Melange_ffi.Utf8_string.Interp.transform ~loc ~delim:dec
+                          (Melange_compiler_libs.Ast_helper.Exp.constant
+                             (Pconst_string (s, loc, Some dec)))
+                          s
+                      with
+                      | {
+                       pexp_desc = Pexp_constant (Pconst_string (s, _, dec));
+                       _;
+                      } ->
+                          succeed attr pval_attributes;
+                          {
+                            sigi with
+                            psig_desc =
+                              Psig_value
+                                {
+                                  value_desc with
+                                  pval_prim =
+                                    Melange_ffi.External_ffi_types
+                                    .inline_string_primitive s dec;
+                                  pval_attributes = [];
+                                };
+                          }
+                      | _ -> sigi)
                   | Pexp_constant (Pconst_integer (s, None)) ->
                       succeed attr pval_attributes;
                       let s = Int32.of_string s in
