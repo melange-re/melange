@@ -22,6 +22,7 @@ module Ppx_entry = struct
 
   let rewrite_implementation (ast : Parsetree.structure) : Parsetree.structure =
     Ast_config.iter_on_mel_config_stru ast;
+    let ast = Melange_ffi.Utf8_string.rewrite_structure ast in
     Mel_ast_invariant.emit_external_warnings_on_structure ast;
     ast
 end

@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 type byte = Single of int | Cont of int | Leading of int * int | Invalid
 
 val classify : char -> byte
@@ -31,3 +33,56 @@ val next : string -> remaining:int -> int -> int
 val simple_comparison : string -> bool
 val is_unicode_string : string -> bool
 val is_unescaped : string -> bool
+
+module Utf8_string : sig
+  type error =
+    | Invalid_code_point
+    | Unterminated_backslash
+    | Invalid_hex_escape
+    | Invalid_unicode_escape
+
+  type exn += Error of int (* offset *) * error
+
+  module Private : sig
+    val transform : string -> string
+  end
+end
+
+module Interp : sig
+  type error =
+    | Invalid_code_point
+    | Unterminated_backslash
+    | Invalid_escape_code of char
+    | Invalid_hex_escape
+    | Invalid_unicode_escape
+    | Unterminated_variable
+    | Unmatched_paren
+    | Invalid_syntax_of_var of string
+
+  type kind = String | Var of int * int
+
+  (* Note the position is about code point *)
+  type pos = {
+    lnum : int;
+    offset : int;
+    byte_bol : int;
+        (* Note it actually needs to be in sync with OCaml's lexing semantics *)
+  }
+
+  type exn += Error of pos * pos * error
+
+  val transform :
+    loc:Location.t ->
+    delim:string ->
+    Parsetree.expression ->
+    string ->
+    Parsetree.expression
+
+  module Private : sig
+    type segment = { start : pos; finish : pos; kind : kind; content : string }
+
+    val transform_test : string -> segment list
+  end
+end
+
+val rewrite_structure : Parsetree.structure -> Parsetree.structure
