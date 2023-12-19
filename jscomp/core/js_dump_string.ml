@@ -28,7 +28,6 @@ module P = Js_pp
 (** Avoid to allocate single char string too many times*)
 let array_str1 = Array.init 256 ~f:(fun i -> String.make 1 (Char.chr i))
 
-(* For converting *)
 let array_conv =
   [|
     "0";

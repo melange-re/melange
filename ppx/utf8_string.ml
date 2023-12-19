@@ -457,10 +457,6 @@ module Interp = struct
   module Exp = Ast_helper.Exp
 
   let concat_ident : Longident.t = Ldot (Lident "Stdlib", "^")
-
-  let to_string_ident : Longident.t =
-    Ldot (Ldot (Lident "Js", "String2"), "make")
-
   let unescaped_j_delimiter = "j"
   let unescaped_js_delimiter = "js"
 
@@ -470,41 +466,44 @@ module Interp = struct
 
   let border = String.length "{j|"
 
-  let aux loc (segment : segment) ~to_string_ident : Parsetree.expression =
-    match segment with
-    | { start; finish; kind; content } -> (
-        match kind with
-        | String ->
-            let loc = update border start finish loc in
-            Exp.constant (Pconst_string (content, loc, escaped_j_delimiter))
-        | Var (soffset, foffset) ->
-            let loc =
-              {
-                loc with
-                loc_start =
-                  update_position (soffset + border) start loc.loc_start;
-                loc_end =
-                  update_position (foffset + border) finish loc.loc_start;
-              }
-            in
-            [%expr
-              [%e Exp.ident ~loc { loc; txt = to_string_ident }]
-                [%e Exp.ident ~loc { loc; txt = Lident content }]])
-
-  let concat_exp a_loc x ~(lhs : Parsetree.expression) : Parsetree.expression =
-    let loc = merge_loc a_loc lhs.pexp_loc in
-    [%expr
-      [%e Exp.ident { txt = concat_ident; loc }]
-        [%e lhs]
-        [%e aux loc x ~to_string_ident:(Longident.Ldot (Lident "Obj", "magic"))]]
-
   (* Invariant: the [lhs] is always of type string *)
-  let rec handle_segments loc (rev_segments : segment list) =
-    match rev_segments with
-    | [] -> Exp.constant (Pconst_string ("", loc, escaped_j_delimiter))
-    | [ segment ] -> aux loc segment ~to_string_ident (* string literal *)
-    | { content = ""; _ } :: rest -> handle_segments loc rest
-    | a :: rest -> concat_exp loc a ~lhs:(handle_segments loc rest)
+  let rec handle_segments =
+    let aux loc (segment : segment) ~to_string_ident : Parsetree.expression =
+      match segment with
+      | { start; finish; kind; content } -> (
+          match kind with
+          | String ->
+              let loc = update border start finish loc in
+              Exp.constant (Pconst_string (content, loc, escaped_j_delimiter))
+          | Var (soffset, foffset) ->
+              let loc =
+                {
+                  loc with
+                  loc_start =
+                    update_position (soffset + border) start loc.loc_start;
+                  loc_end =
+                    update_position (foffset + border) finish loc.loc_start;
+                }
+              in
+              [%expr
+                [%e Exp.ident ~loc { loc; txt = to_string_ident }]
+                  [%e Exp.ident ~loc { loc; txt = Lident content }]])
+    in
+    let concat_exp =
+      let to_string_ident = Ldot (Lident "Obj", "magic") in
+      fun a_loc x ~(lhs : Parsetree.expression) : Parsetree.expression ->
+        let loc = merge_loc a_loc lhs.pexp_loc in
+        [%expr
+          [%e Exp.ident { txt = concat_ident; loc }]
+            [%e lhs] [%e aux loc x ~to_string_ident]]
+    in
+    let to_string_ident = Ldot (Ldot (Lident "Js", "String"), "make") in
+    fun loc (rev_segments : segment list) ->
+      match rev_segments with
+      | [] -> Exp.constant (Pconst_string ("", loc, escaped_j_delimiter))
+      | [ segment ] -> aux loc segment ~to_string_ident (* string literal *)
+      | { content = ""; _ } :: rest -> handle_segments loc rest
+      | a :: rest -> concat_exp loc a ~lhs:(handle_segments loc rest)
 
   let transform_interp loc s =
     let s_len = String.length s in

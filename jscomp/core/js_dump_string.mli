@@ -25,7 +25,6 @@
 open Import
 
 (* Make sure the escaped string conforms to
-   JS lexing convention
-*)
+   JS lexing convention *)
 val escape_to_string : string -> string
 val pp_string : Js_pp.t -> string -> unit
