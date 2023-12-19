@@ -195,22 +195,20 @@ module Utf8_string = struct
      console.log('\uD83D\uDE80'); (* ES6*)
      console.log('\u{1F680}');
   *)
-
-  let transform =
-    let transform s =
-      let s_len = String.length s in
-      let buf = Buffer.create (s_len * 2) in
-      check_and_transform 0 buf s 0 s_len;
-      Buffer.contents buf
-    in
-    fun ~loc s ->
-      try transform s
-      with Error (offset, error) ->
-        Location.raise_errorf ~loc "Offset: %d, %a" offset pp_error error
+  let transform s =
+    let s_len = String.length s in
+    let buf = Buffer.create (s_len * 2) in
+    check_and_transform 0 buf s 0 s_len;
+    Buffer.contents buf
 
   module Private = struct
-    let transform = transform ~loc:Location.none
+    let transform = transform
   end
+
+  let transform ~loc s =
+    try transform s
+    with Error (offset, error) ->
+      Location.raise_errorf ~loc "Offset: %d, %a" offset pp_error error
 end
 
 module Interp = struct
