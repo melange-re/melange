@@ -122,6 +122,11 @@ Unreleased
   ([988](https://github.com/melange-re/melange/pull/988))
 - playground: fix reporting of PPX alerts
   ([#991](https://github.com/melange-re/melange/pull/991))
+- Move the unicode string transformation to the compiler core so that it runs
+  after PPX preprocessing
+  ([#995](https://github.com/melange-re/melange/pull/995))
+    - PPXes will no longer see the internal `*j` delimiter in unicode strings
+      and can hook on either `j` or `js`
 
 2.2.0 2023-12-05
 ---------------
