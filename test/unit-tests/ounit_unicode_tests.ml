@@ -1,7 +1,7 @@
 let ( >:: ), ( >::: ) = OUnit.(( >:: ), ( >::: ))
 let ( =~ ) a b = OUnit.assert_equal ~cmp:String.equal a b
 
-module Utf8_string = Melange_ppx__Utf8_string
+module Utf8_string = Melange_ffi.Utf8_string
 
 (* Note [Var] kind can not be mpty  *)
 let empty_segment { Utf8_string.Interp.Private.content; _ } =
