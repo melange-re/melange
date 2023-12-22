@@ -22,34 +22,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
-val derive_abstract_str :
-  light:bool ->
-  Asttypes.rec_flag ->
-  Parsetree.type_declaration list ->
-  Parsetree.structure
-
-val derive_abstract_sig :
-  light:bool ->
-  Asttypes.rec_flag ->
-  Parsetree.type_declaration list ->
-  Parsetree.signature
-
-val derive_js_constructor_str :
-  Asttypes.rec_flag -> Parsetree.type_declaration list -> Parsetree.structure
-
-val derive_js_constructor_sig :
-  Asttypes.rec_flag -> Parsetree.type_declaration list -> Parsetree.signature
+val derive_abstract_str : light:bool -> type_declaration list -> structure
+val derive_abstract_sig : light:bool -> type_declaration list -> signature
+val derive_js_constructor_str : type_declaration list -> structure
+val derive_js_constructor_sig : type_declaration list -> signature
 
 val derive_getters_setters_str :
-  light:bool ->
-  Asttypes.rec_flag ->
-  Parsetree.type_declaration list ->
-  Parsetree.structure
+  light:bool -> type_declaration list -> structure
 
 val derive_getters_setters_sig :
-  light:bool ->
-  Asttypes.rec_flag ->
-  Parsetree.type_declaration list ->
-  Parsetree.signature
+  light:bool -> type_declaration list -> signature

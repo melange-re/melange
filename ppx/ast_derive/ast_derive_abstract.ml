@@ -194,35 +194,35 @@ let derive_getters_setters =
         (* Looks obvious that it does not make sense to warn *)
         []
 
-let derive_js_constructor_str _rf tdcls =
+let derive_js_constructor_str tdcls =
   List.fold_right
     ~f:(fun tdcl sts ->
       let value_descriptions = derive_js_constructor tdcl in
       List.map ~f:Str.primitive value_descriptions @ sts)
     tdcls ~init:[]
 
-let derive_js_constructor_sig _rf tdcls =
+let derive_js_constructor_sig tdcls =
   List.fold_right
     ~f:(fun tdcl sts ->
       let value_descriptions = derive_js_constructor tdcl in
       List.map ~f:Sig.value value_descriptions @ sts)
     tdcls ~init:[]
 
-let derive_getters_setters_str ~light _rf tdcls =
+let derive_getters_setters_str ~light tdcls =
   List.fold_right
     ~f:(fun tdcl sts ->
       let value_descriptions = derive_getters_setters tdcl ~light in
       List.map ~f:Str.primitive value_descriptions @ sts)
     tdcls ~init:[]
 
-let derive_getters_setters_sig ~light _rf tdcls =
+let derive_getters_setters_sig ~light tdcls =
   List.fold_right
     ~f:(fun tdcl sts ->
       let value_descriptions = derive_getters_setters ~light tdcl in
       List.map ~f:Sig.value value_descriptions @ sts)
     tdcls ~init:[]
 
-let derive_abstract_str ~light _rf tdcls =
+let derive_abstract_str ~light tdcls =
   List.fold_right
     ~f:(fun tdcl sts ->
       let cstr_descriptions = derive_js_constructor ~is_deprecated:true tdcl in
@@ -232,7 +232,7 @@ let derive_abstract_str ~light _rf tdcls =
       List.map ~f:Str.primitive (cstr_descriptions @ value_descriptions) @ sts)
     tdcls ~init:[]
 
-let derive_abstract_sig ~light _rf tdcls =
+let derive_abstract_sig ~light tdcls =
   List.fold_right
     ~f:(fun tdcl sts ->
       let cstr_descriptions = derive_js_constructor ~is_deprecated:true tdcl in
