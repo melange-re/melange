@@ -22,15 +22,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
-type t = Parsetree.pattern
+val is_unit_cont : yes:'a -> no:'a -> pattern -> 'a
 
-val is_unit_cont : yes:'a -> no:'a -> t -> 'a
-
-val arity_of_fun : t -> Parsetree.expression -> int
+val arity_of_fun : pattern -> expression -> int
 (** [arity_of_fun pat e] tells the arity of
     expression [fun pat -> e]*)
 
-val labels_of_fun : Parsetree.expression -> Asttypes.arg_label list
-val is_single_variable_pattern_conservative : t -> bool
+val labels_of_fun : expression -> Asttypes.arg_label list
+val is_single_variable_pattern_conservative : pattern -> bool

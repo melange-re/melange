@@ -37,17 +37,16 @@ open Import
     and  [fn] requires (unit -> 'a) to encode arity zero
 *)
 
-type typ = Parsetree.core_type
 type 'a cxt = Ast_helper.loc -> Ast_traverse.map -> 'a
 
 type uncurry_type_gen =
   (Asttypes.arg_label ->
   (* label for error checking *)
-  typ ->
+  core_type ->
   (* First arg *)
-  typ ->
+  core_type ->
   (* Tail *)
-  typ)
+  core_type)
   cxt
 
 val to_uncurry_type : uncurry_type_gen
@@ -68,18 +67,18 @@ val to_method_callback_type : uncurry_type_gen
 val generate_method_type :
   Location.t ->
   Ast_traverse.map ->
-  ?alias_type:Parsetree.core_type ->
+  ?alias_type:core_type ->
   string ->
   Asttypes.arg_label ->
-  Parsetree.pattern ->
-  Parsetree.expression ->
-  Parsetree.core_type
+  pattern ->
+  expression ->
+  core_type
 
 val generate_arg_type :
   Location.t ->
   Ast_traverse.map ->
   string ->
   Asttypes.arg_label ->
-  Parsetree.pattern ->
-  Parsetree.expression ->
-  Parsetree.core_type
+  pattern ->
+  expression ->
+  core_type

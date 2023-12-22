@@ -33,7 +33,7 @@ open Ast_helper
 
 ]}
 *)
-let handle_external loc (x : string) : Parsetree.expression =
+let handle_external loc (x : string) =
   let raw_exp =
     let str_exp =
       Exp.constant ~loc (Pconst_string (x, loc, Some String.empty))
@@ -70,7 +70,7 @@ let handle_debugger loc payload =
   | _ -> Location.raise_errorf ~loc "`%%mel.debugger' doesn't take payload"
 
 let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
-    ?is_function (x : Parsetree.payload) : Parsetree.expression option =
+    ?is_function (x : payload) =
   match x with
   (* TODO also need detect empty phrase case *)
   | PStr

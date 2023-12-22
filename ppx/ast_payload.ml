@@ -24,9 +24,7 @@
 
 open Import
 
-type t = Parsetree.payload
-
-let is_single_string (x : t) =
+let is_single_string (x : payload) =
   match x with
   (* TODO also need detect empty phrase case *)
   | PStr
@@ -43,7 +41,7 @@ let is_single_string (x : t) =
   | _ -> None
 
 (* TODO also need detect empty phrase case *)
-let is_single_int (x : t) : int option =
+let is_single_int (x : payload) : int option =
   match x with
   | PStr
       [
@@ -57,7 +55,7 @@ let is_single_int (x : t) : int option =
       Some (int_of_string name)
   | _ -> None
 
-let as_ident (x : t) =
+let as_ident (x : payload) =
   match x with
   | PStr
       [ { pstr_desc = Pstr_eval ({ pexp_desc = Pexp_ident ident; _ }, _); _ } ]
@@ -65,8 +63,7 @@ let as_ident (x : t) =
       Some ident
   | _ -> None
 
-type lid = string Asttypes.loc
-type action = lid * Parsetree.expression option
+type action = string Asttypes.loc * expression option
 
 (* None means punning is hit
     {[ { x } ]}
@@ -84,8 +81,8 @@ let ident_or_record_as_config =
     in
     Error msg
   in
-  fun (x : t) :
-      ((string Location.loc * Parsetree.expression option) list, string) result ->
+  fun (x : payload) :
+      ((string Location.loc * expression option) list, string) result ->
     match x with
     | PStr
         [
@@ -105,11 +102,8 @@ let ident_or_record_as_config =
                    ~f:(fun u ->
                      match u with
                      | ( { txt = Lident name; loc },
-                         {
-                           Parsetree.pexp_desc =
-                             Pexp_ident { txt = Lident name2; _ };
-                           _;
-                         } )
+                         { pexp_desc = Pexp_ident { txt = Lident name2; _ }; _ }
+                       )
                        when name2 = name ->
                          ({ Asttypes.txt = name; loc }, None)
                      | { txt = Lident name; loc }, y ->
@@ -132,7 +126,7 @@ let ident_or_record_as_config =
     | PStr [] -> Ok []
     | _ -> error ""
 
-let assert_strings loc (x : t) : string list =
+let assert_strings loc (x : payload) : string list =
   let exception Not_str of Location.t in
   match x with
   | PStr
@@ -141,7 +135,7 @@ let assert_strings loc (x : t) : string list =
       try
         List.map
           ~f:(fun e ->
-            match (e : Parsetree.expression) with
+            match (e : expression) with
             | { pexp_desc = Pexp_constant (Pconst_string (name, _, _)); _ } ->
                 name
             | { pexp_loc; _ } -> raise (Not_str pexp_loc))

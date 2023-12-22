@@ -22,66 +22,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
-val handle_external : Location.t -> string -> Parsetree.expression
-
-val handle_debugger :
-  Location.t -> Parsetree.payload -> Parsetree.expression_desc
+val handle_external : Location.t -> string -> expression
+val handle_debugger : Location.t -> payload -> expression_desc
 
 val handle_raw :
-  kind:Melange_ffi.Js_raw_info.raw_kind ->
-  Location.t ->
-  Parsetree.payload ->
-  Parsetree.expression
+  kind:Melange_ffi.Js_raw_info.raw_kind -> Location.t -> payload -> expression
 
-val handle_raw_structure :
-  Location.t -> Parsetree.payload -> Parsetree.structure_item
-
-(* module Make : sig *)
-(* val local_external_apply : *)
-(* Location.t -> *)
-(* ?pval_attributes:Parsetree.attributes -> *)
-(* pval_prim:string list -> *)
-(* pval_type:Parsetree.core_type -> *)
-(* ?local_module_name:string -> *)
-(* ?local_fun_name:string -> *)
-(* Parsetree.expression list -> *)
-(* Parsetree.expression_desc *)
-(* (** *)
-     (* [local_module loc ~pval_prim ~pval_type args] *)
-     (* generate such code *)
-     (* {[ *)
-       (* let module J = struct *)
-          (* external unsafe_expr : pval_type = pval_prim *)
-       (* end in *)
-       (* J.unssafe_expr args *)
-     (* ]} *)
-   (* *) *)
-
-(* val local_external_obj : *)
-(* Location.t -> *)
-(* ?pval_attributes:Parsetree.attributes -> *)
-(* pval_prim:string list -> *)
-(* pval_type:Parsetree.core_type -> *)
-(* ?local_module_name:string -> *)
-(* ?local_fun_name:string -> *)
-(* (string * Parsetree.expression) list -> *)
-(* (* [ (label, exp )]*) *)
-(* Parsetree.expression_desc *)
-
-(* val local_extern_cont_to_obj : *)
-(* Location.t -> *)
-(* ?pval_attributes:Parsetree.attributes -> *)
-(* pval_prim:string list -> *)
-(* pval_type:Parsetree.core_type -> *)
-(* ?local_module_name:string -> *)
-(* ?local_fun_name:string -> *)
-(* (Parsetree.expression -> Parsetree.expression) -> *)
-(* Parsetree.expression_desc *)
-
-(* type label_exprs = (Longident.t Asttypes.loc * Parsetree.expression) list *)
-
-(* val record_as_js_object : *)
-(* Location.t -> label_exprs -> Parsetree.expression_desc *)
-(* end *)
+val handle_raw_structure : Location.t -> payload -> structure_item

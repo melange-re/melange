@@ -27,9 +27,9 @@ open Ast_helper
 
 (* Handling `fun [@this]` used in `object [@u] end` *)
 let to_method_callback loc (self : Ast_traverse.map) label pat body :
-    Parsetree.expression_desc =
+    expression_desc =
   Error.optional_err ~loc label;
-  let rec aux acc (body : Parsetree.expression) =
+  let rec aux acc (body : expression) =
     match Ast_attributes.process_attributes_rev body.pexp_attributes with
     | Nothing, _ -> (
         match body.pexp_desc with
@@ -50,7 +50,7 @@ let to_method_callback loc (self : Ast_traverse.map) label pat body :
   in
   let arity = List.length rev_extra_args in
   let arity_s = string_of_int arity in
-  Parsetree.Pexp_apply
+  Pexp_apply
     ( Exp.ident ~loc { loc; txt = Ldot (Ast_literal.js_oo, "unsafe_to_method") },
       [
         ( Nolabel,
@@ -67,9 +67,9 @@ let to_method_callback loc (self : Ast_traverse.map) label pat body :
       ] )
 
 let to_uncurry_fn loc (self : Ast_traverse.map) (label : Asttypes.arg_label) pat
-    body : Parsetree.expression_desc =
+    body : expression_desc =
   Error.optional_err ~loc label;
-  let rec aux acc (body : Parsetree.expression) =
+  let rec aux acc (body : expression) =
     match Ast_attributes.process_attributes_rev body.pexp_attributes with
     | Nothing, _ -> (
         match body.pexp_desc with

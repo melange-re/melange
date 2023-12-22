@@ -24,45 +24,49 @@
 
 open Import
 
-type attr = Parsetree.attribute
-type t = attr list
 type ('a, 'b) st = { get : 'a option; set : 'b option }
 
 val process_method_attributes_rev :
-  t -> ((bool * bool, [ `Get | `No_get ]) st * t, Location.t * string) result
+  attribute list ->
+  ( (bool * bool, [ `Get | `No_get ]) st * attribute list,
+    Location.t * string )
+  result
 
 type attr_kind =
   | Nothing
-  | Meth_callback of attr
-  | Uncurry of attr
-  | Method of attr
+  | Meth_callback of attribute
+  | Uncurry of attribute
+  | Method of attribute
 
 val warn_if_non_namespaced : loc:location -> label -> unit
-val process_attributes_rev : t -> attr_kind * t
-val process_pexp_fun_attributes_rev : t -> bool * t
-val process_uncurried : t -> bool * t
-val is_uncurried : attr -> bool
-val mel_get : attr
-val mel_get_index : attr
-val mel_get_arity : attr
-val mel_set : attr
-val internal_expansive : attr
-val has_internal_expansive : t -> bool
-val mel_return_undefined : attr
+val process_attributes_rev : attribute list -> attr_kind * attribute list
+val process_pexp_fun_attributes_rev : attribute list -> bool * attribute list
+val process_uncurried : attribute list -> bool * attribute list
+val is_uncurried : attribute -> bool
+val mel_get : attribute
+val mel_get_index : attribute
+val mel_get_arity : attribute
+val mel_set : attribute
+val internal_expansive : attribute
+val has_internal_expansive : attribute list -> bool
+val mel_return_undefined : attribute
 
 val iter_process_mel_string_int_unwrap_uncurry :
-  t -> [ `Nothing | `String | `Int | `Ignore | `Unwrap | `Uncurry of int option ]
+  attribute list ->
+  [ `Nothing | `String | `Int | `Ignore | `Unwrap | `Uncurry of int option ]
 
-val iter_process_mel_string_as : t -> label option
-val iter_process_mel_int_as : t -> int option
-val has_mel_optional : t -> bool
-val has_inline_payload : t -> attr option
-val rs_externals : t -> string list -> bool
+val iter_process_mel_string_as : attribute list -> label option
+val iter_process_mel_int_as : attribute list -> int option
+val has_mel_optional : attribute list -> bool
+val has_inline_payload : attribute list -> attribute option
+val rs_externals : attribute list -> string list -> bool
 
 type as_const_payload = Int of int | Str of string | Js_literal_str of string
 
-val iter_process_mel_string_or_int_as : t -> as_const_payload option
-val unboxable_type_in_prim_decl : attr
-val ignored_extra_argument : attr
-val is_mel_as : attr -> bool
-val has_mel_as_payload : t -> attr list * attr option
+val iter_process_mel_string_or_int_as :
+  attribute list -> as_const_payload option
+
+val unboxable_type_in_prim_decl : attribute
+val ignored_extra_argument : attribute
+val is_mel_as : attribute -> bool
+val has_mel_as_payload : attribute list -> attribute list * attribute option

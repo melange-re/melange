@@ -28,8 +28,8 @@ open Ast_helper
 exception Local of Location.t * string
 
 let process_getter_setter ~not_getter_setter
-    ~(get : Parsetree.core_type -> _ -> Parsetree.attributes -> _) ~set loc name
-    (attrs : Ast_attributes.t) (ty : Parsetree.core_type) (acc : _ list) =
+    ~(get : core_type -> _ -> attributes -> _) ~set loc name
+    (attrs : attribute list) (ty : core_type) (acc : _ list) =
   match Ast_attributes.process_method_attributes_rev attrs with
   | Error s -> Error s
   | Ok ({ get = None; set = None }, _) -> Ok (not_getter_setter ty :: acc)
@@ -75,7 +75,7 @@ let process_getter_setter ~not_getter_setter
 *)
 
 let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
-    (ty : Parsetree.core_type) =
+    (ty : core_type) =
   match ty with
   | {
    ptyp_attributes;
@@ -93,7 +93,7 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
       | Method _ -> Ast_typ_uncurry.to_method_type loc self label args body
       | Nothing -> super ty)
   | { ptyp_desc = Ptyp_object (methods, closed_flag); ptyp_loc = loc; _ } -> (
-      let ( +> ) attr (typ : Parsetree.core_type) =
+      let ( +> ) attr (typ : core_type) =
         { typ with ptyp_attributes = attr :: typ.ptyp_attributes }
       in
       try
@@ -101,8 +101,8 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
           List.fold_right
             ~f:(fun meth_ acc ->
               match meth_.pof_desc with
-              | Parsetree.Oinherit _ -> meth_ :: acc
-              | Parsetree.Otag (label, core_type) -> (
+              | Oinherit _ -> meth_ :: acc
+              | Otag (label, core_type) -> (
                   let get ty name attrs =
                     let attrs, core_type =
                       match Ast_attributes.process_attributes_rev attrs with
@@ -162,10 +162,10 @@ let handle_class_type_fields =
   let handle_class_type_field
       ((self, super) :
         Ast_traverse.map * (class_type_field -> class_type_field))
-      ({ pctf_loc = loc; _ } as ctf : Parsetree.class_type_field) acc =
+      ({ pctf_loc = loc; _ } as ctf : class_type_field) acc =
     match ctf.pctf_desc with
     | Pctf_method (name, private_flag, virtual_flag, ty) -> (
-        let not_getter_setter (ty : Parsetree.core_type) =
+        let not_getter_setter (ty : core_type) =
           let ty =
             match ty.ptyp_desc with
             | Ptyp_arrow (label, args, body) ->

@@ -24,11 +24,9 @@
 
 open Import
 
-type attr = Parsetree.attribute
-type t = attr list
 type ('a, 'b) st = { get : 'a option; set : 'b option }
 
-let assert_bool_lit (e : Parsetree.expression) =
+let assert_bool_lit (e : expression) =
   match e.pexp_desc with
   | Pexp_construct ({ txt = Lident "true"; _ }, None) -> true
   | Pexp_construct ({ txt = Lident "false"; _ }, None) -> false
@@ -40,7 +38,7 @@ let warn_if_non_namespaced ~loc txt =
   if not (Mel_ast_invariant.is_mel_attribute txt) then
     Mel_ast_invariant.warn ~loc Deprecated_non_namespaced_attribute
 
-let process_method_attributes_rev (attrs : t) =
+let process_method_attributes_rev attrs =
   let exception Local of Location.t * string in
   try
     let ret =
@@ -108,11 +106,11 @@ let process_method_attributes_rev (attrs : t) =
 
 type attr_kind =
   | Nothing
-  | Meth_callback of attr
-  | Uncurry of attr
-  | Method of attr
+  | Meth_callback of attribute
+  | Uncurry of attribute
+  | Method of attribute
 
-let process_attributes_rev (attrs : t) : attr_kind * t =
+let process_attributes_rev attrs : attr_kind * attribute list =
   List.fold_left
     ~f:(fun (st, acc) ({ attr_name = { txt; loc }; _ } as attr) ->
       match (txt, st) with
@@ -129,38 +127,38 @@ let process_attributes_rev (attrs : t) : attr_kind * t =
       | _, _ -> (st, attr :: acc))
     ~init:(Nothing, []) attrs
 
-let process_pexp_fun_attributes_rev (attrs : t) =
+let process_pexp_fun_attributes_rev attrs =
   List.fold_left
     ~f:(fun (st, acc) ({ attr_name = { txt; _ }; _ } as attr) ->
       match txt with "mel.open" -> (true, acc) | _ -> (st, attr :: acc))
     ~init:(false, []) attrs
 
-let process_uncurried (attrs : t) =
+let process_uncurried attrs =
   List.fold_left
     ~f:(fun (st, acc) ({ attr_name = { txt; _ }; _ } as attr) ->
       match (txt, st) with "u", _ -> (true, acc) | _, _ -> (st, attr :: acc))
     ~init:(false, []) attrs
 
-let is_uncurried (attr : attr) =
+let is_uncurried attr =
   match attr with
   | { attr_name = { Location.txt = "u"; _ }; _ } -> true
   | _ -> false
 
-let mel_get : attr =
+let mel_get =
   {
     attr_name = { txt = "mel.get"; loc = Location.none };
-    attr_payload = Parsetree.PStr [];
+    attr_payload = PStr [];
     attr_loc = Location.none;
   }
 
-let mel_get_index : attr =
+let mel_get_index =
   {
     attr_name = { txt = "mel.get_index"; loc = Location.none };
-    attr_payload = Parsetree.PStr [];
+    attr_payload = PStr [];
     attr_loc = Location.none;
   }
 
-let mel_get_arity : attr =
+let mel_get_arity =
   {
     attr_name = { txt = "internal.arity"; loc = Location.none };
     attr_payload =
@@ -183,16 +181,15 @@ let mel_get_arity : attr =
     attr_loc = Location.none;
   }
 
-let mel_set : attr =
+let mel_set =
   {
     attr_name = { txt = "mel.set"; loc = Location.none };
     attr_payload = PStr [];
     attr_loc = Location.none;
   }
 
-let internal_expansive_label = "internal.expansive"
-
-let internal_expansive : attr =
+let internal_expansive =
+  let internal_expansive_label = "internal.expansive" in
   {
     attr_name = { txt = internal_expansive_label; loc = Location.none };
     attr_payload = PStr [];
@@ -204,7 +201,7 @@ let has_internal_expansive attrs =
     ~f:(fun { attr_name = { txt; _ }; _ } -> txt = "internal.expansive")
     attrs
 
-let mel_return_undefined : attr =
+let mel_return_undefined =
   {
     attr_name = { txt = "mel.return"; loc = Location.none };
     attr_payload =
@@ -230,7 +227,7 @@ let mel_return_undefined : attr =
 
 type as_const_payload = Int of int | Str of string | Js_literal_str of string
 
-let iter_process_mel_string_or_int_as (attrs : Parsetree.attributes) =
+let iter_process_mel_string_or_int_as (attrs : attributes) =
   let st = ref None in
   List.iter
     ~f:(fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
@@ -285,9 +282,9 @@ let iter_process_mel_string_or_int_as (attrs : Parsetree.attributes) =
 (* duplicated @uncurry @string not allowed,
    it is worse in @uncurry since it will introduce
    inconsistency in arity *)
-let iter_process_mel_string_int_unwrap_uncurry (attrs : t) =
+let iter_process_mel_string_int_unwrap_uncurry attrs =
   let st = ref `Nothing in
-  let assign v ({ attr_name = { loc; _ }; _ } as attr : attr) =
+  let assign v ({ attr_name = { loc; _ }; _ } as attr) =
     if !st = `Nothing then (
       Mel_ast_invariant.mark_used_mel_attribute attr;
       st := v)
@@ -315,7 +312,7 @@ let iter_process_mel_string_int_unwrap_uncurry (attrs : t) =
     attrs;
   !st
 
-let iter_process_mel_string_as (attrs : t) : string option =
+let iter_process_mel_string_as attrs : string option =
   let st = ref None in
   List.iter
     ~f:(fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
@@ -366,7 +363,7 @@ let prims_to_be_encoded (attrs : string list) =
    They are not considered externals, they are part of the language
 *)
 
-let rs_externals (attrs : t) pval_prim =
+let rs_externals attrs pval_prim =
   match (attrs, pval_prim) with
   | _, [] -> false
   (* This is  val *)
@@ -378,7 +375,7 @@ let rs_externals (attrs : t) pval_prim =
         (List.map ~f:(fun { attr_name = { txt; _ }; _ } -> txt) attrs)
       || prims_to_be_encoded pval_prim
 
-let iter_process_mel_int_as (attrs : t) =
+let iter_process_mel_int_as attrs =
   let st = ref None in
   List.iter
     ~f:(fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
@@ -396,7 +393,7 @@ let iter_process_mel_int_as (attrs : t) =
     attrs;
   !st
 
-let has_mel_optional (attrs : t) : bool =
+let has_mel_optional attrs : bool =
   List.exists
     ~f:(fun ({ attr_name = { txt; loc }; _ } as attr) ->
       match txt with
@@ -407,15 +404,13 @@ let has_mel_optional (attrs : t) : bool =
       | _ -> false)
     attrs
 
-let is_inline : attr -> bool =
- fun { attr_name = { txt; _ }; _ } -> txt = "mel.inline" || txt = "inline"
+let is_inline { attr_name = { txt; _ }; _ } =
+  txt = "mel.inline" || txt = "inline"
 
-let has_inline_payload (attrs : t) = List.find_opt ~f:is_inline attrs
+let has_inline_payload attrs = List.find_opt ~f:is_inline attrs
+let is_mel_as { attr_name = { txt; _ }; _ } = txt = "mel.as" || txt = "as"
 
-let is_mel_as : attr -> bool =
- fun { attr_name = { txt; _ }; _ } -> txt = "mel.as" || txt = "as"
-
-let has_mel_as_payload (attrs : t) =
+let has_mel_as_payload attrs =
   List.fold_left
     ~f:(fun (attrs, found) attr ->
       match (is_mel_as attr, found) with

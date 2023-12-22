@@ -25,9 +25,7 @@
 open Import
 open Ast_helper
 
-type exp = Parsetree.expression
-
-let rec no_need_bound (exp : exp) =
+let rec no_need_bound exp =
   match exp.pexp_desc with
   | Pexp_ident { txt = Lident _; _ } -> true
   | Pexp_constraint (e, _) -> no_need_bound e
@@ -35,7 +33,7 @@ let rec no_need_bound (exp : exp) =
 
 let ocaml_obj_id = "__ocaml_internal_obj"
 
-let bound (e : exp) (cb : exp -> _) =
+let bound e (cb : expression -> _) =
   if no_need_bound e then cb e
   else
     let loc = e.pexp_loc in
@@ -43,7 +41,7 @@ let bound (e : exp) (cb : exp -> _) =
       [ Vb.mk ~loc (Pat.var ~loc { txt = ocaml_obj_id; loc }) e ]
       (cb (Exp.ident ~loc { txt = Lident ocaml_obj_id; loc }))
 
-let check_and_discard (args : (arg_label * Parsetree.expression) list) =
+let check_and_discard (args : (arg_label * expression) list) =
   List.map
     ~f:(fun (label, x) ->
       Error.err_if_label ~loc:x.pexp_loc label;
@@ -53,7 +51,7 @@ let check_and_discard (args : (arg_label * Parsetree.expression) list) =
 type app_pattern = {
   op : string;
   loc : Location.t; (* locatoin is the location of whole expression #4451 *)
-  args : Parsetree.expression list;
+  args : expression list;
 }
 
 let sane_property_name_check loc s =
@@ -61,7 +59,7 @@ let sane_property_name_check loc s =
     Location.raise_errorf ~loc
       "property name (`%s') cannot contain special character `#'" s
 
-let view_as_app (fn : exp) (s : string list) : app_pattern option =
+let view_as_app fn (s : string list) : app_pattern option =
   match fn.pexp_desc with
   | Pexp_apply ({ pexp_desc = Pexp_ident { txt = Lident op; _ }; _ }, args)
     when List.mem op ~set:s ->
@@ -91,10 +89,9 @@ let rec exclude_with_val =
                 | None -> None
                 | Some rest -> Some (a0 :: a1 :: rest)))
 
-let app_exp_mapper (e : exp)
-    ((self, super) :
-      Ast_traverse.map * (Parsetree.expression -> Parsetree.expression))
-    (fn : exp) (args : Ast_util.args) : exp =
+let app_exp_mapper e
+    ((self, super) : Ast_traverse.map * (expression -> expression)) fn
+    (args : Ast_util.args) =
   (* - (f##paint) 1 2
      - (f#@paint) 1 2 *)
   match view_as_app fn inner_ops with
@@ -176,7 +173,7 @@ let app_exp_mapper (e : exp)
                                         .warn_discarded_unused_attributes
                                           fn.pexp_attributes;
                                         {
-                                          Parsetree.pexp_desc =
+                                          pexp_desc =
                                             Pexp_apply
                                               ( { fn with pexp_attributes = [] },
                                                 (Nolabel, bounded_obj_arg)

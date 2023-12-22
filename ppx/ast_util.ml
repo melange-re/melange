@@ -25,15 +25,15 @@
 open Import
 open Ast_helper
 
-type args = (Asttypes.arg_label * Parsetree.expression) list
+type args = (Asttypes.arg_label * expression) list
 
 let js_property loc obj (name : string) =
-  Parsetree.Pexp_send
+  Pexp_send
     ( [%expr [%e Exp.ident { txt = Ast_literal.unsafe_downgrade; loc }] [%e obj]],
       { loc; txt = name } )
 
-let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
-    (self_pat : Parsetree.pattern) (clfs : Parsetree.class_field list) =
+let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map) (self_pat : pattern)
+    (clfs : class_field list) =
   (* Attention: we should avoid type variable conflict for each method
       Since the method name is unique, there would be no conflict
       OCaml does not allow duplicate instance variable and duplicate methods,
@@ -78,11 +78,11 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
       for public object type its [@meth] it does not depend on itself
       while for label argument it is [@this] which depends internal object
   *)
-  let ( (internal_label_attr_types : Parsetree.object_field list),
-        (public_label_attr_types : Parsetree.object_field list) ) =
+  let ( (internal_label_attr_types : object_field list),
+        (public_label_attr_types : object_field list) ) =
     List.fold_right
       ~f:(fun
-          ({ pcf_loc = loc; _ } as x : Parsetree.class_field)
+          ({ pcf_loc = loc; _ } as x : class_field)
           (label_attr_types, public_label_attr_types)
         ->
         match x.pcf_desc with
@@ -132,8 +132,7 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
   in
   let labels, label_types, exprs, _ =
     List.fold_right
-      ~f:(fun
-          (x : Parsetree.class_field) (labels, label_types, exprs, aliased) ->
+      ~f:(fun (x : class_field) (labels, label_types, exprs, aliased) ->
         match x.pcf_desc with
         | Pcf_method (label, _public_flag, Cfk_concrete (Fresh, e)) -> (
             match e.pexp_desc with

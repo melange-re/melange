@@ -22,16 +22,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
-val core_type_of_type_declaration :
-  Parsetree.type_declaration -> Parsetree.core_type
+val core_type_of_type_declaration : type_declaration -> core_type
 (** Given a type declaration, extaract the type expression, mostly
     used in code gen later *)
 
 val new_type_of_type_declaration :
-  Parsetree.type_declaration ->
-  string ->
-  Parsetree.core_type * Parsetree.type_declaration
+  type_declaration -> string -> core_type * type_declaration
 
 val notApplicable : string -> string

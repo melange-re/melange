@@ -28,14 +28,14 @@ module External_ffi_types = Melange_ffi.External_ffi_types
 
 (* record pattern match complete checker *)
 
-let rec variant_can_unwrap_aux (row_fields : Parsetree.row_field list) : bool =
+let rec variant_can_unwrap_aux (row_fields : row_field list) : bool =
   match row_fields with
   | [] -> true
   | { prf_desc = Rtag (_, false, [ _ ]); _ } :: rest ->
       variant_can_unwrap_aux rest
   | _ :: _ -> false
 
-let variant_unwrap (row_fields : Parsetree.row_field list) : bool =
+let variant_unwrap (row_fields : row_field list) : bool =
   match row_fields with
   | [] -> false (* impossible syntax *)
   | xs -> variant_can_unwrap_aux xs
@@ -43,8 +43,7 @@ let variant_unwrap (row_fields : Parsetree.row_field list) : bool =
 (*
   TODO: [nolabel] is only used once turn Nothing into Unit, refactor later
 *)
-let spec_of_ptyp (nolabel : bool) (ptyp : Parsetree.core_type) :
-    External_arg_spec.attr =
+let spec_of_ptyp (nolabel : bool) (ptyp : core_type) : External_arg_spec.attr =
   let ptyp_desc = ptyp.ptyp_desc in
   match
     Ast_attributes.iter_process_mel_string_int_unwrap_uncurry
@@ -124,7 +123,7 @@ let spec_of_ptyp (nolabel : bool) (ptyp : Parsetree.core_type) :
 
 (* is_optional = false
 *)
-let refine_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
+let refine_arg_type ~(nolabel : bool) (ptyp : core_type) :
     External_arg_spec.attr =
   match ptyp.ptyp_desc with
   | Ptyp_any -> (
@@ -151,7 +150,7 @@ let refine_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
       (* ([`a|`b] [@string]) *)
       spec_of_ptyp nolabel ptyp
 
-let refine_obj_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
+let refine_obj_arg_type ~(nolabel : bool) (ptyp : core_type) :
     External_arg_spec.attr =
   if ptyp.ptyp_desc = Ptyp_any then (
     let ptyp_attrs = ptyp.ptyp_attributes in
@@ -179,7 +178,7 @@ let refine_obj_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
       external f : hi:([ `hi | `lo ] [@string]) -> unit -> _ = "" [@@obj]
     ]}
     The result type would be [ hi:string ] *)
-let get_opt_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
+let get_opt_arg_type ~(nolabel : bool) (ptyp : core_type) :
     External_arg_spec.attr =
   if ptyp.ptyp_desc = Ptyp_any then
     (* (_[@as ])*)
@@ -213,7 +212,7 @@ type external_desc = {
   external_module_name : External_ffi_types.external_module_name option;
   module_as_val : External_ffi_types.external_module_name option;
   val_send : name_source;
-  val_send_pipe : Parsetree.core_type option;
+  val_send_pipe : core_type option;
   variadic : bool; (* mutable *)
   scopes : string list;
   set_index : bool; (* mutable *)
@@ -256,14 +255,13 @@ exception Not_handled_external_attribute
 
 (* The processed attributes will be dropped *)
 let parse_external_attributes (prim_name_check : string)
-    (prim_name_or_pval_prim : bundle_source)
-    (prim_attributes : Ast_attributes.t) : Ast_attributes.t * external_desc =
+    (prim_name_or_pval_prim : bundle_source) (prim_attributes : attribute list)
+    : attribute list * external_desc =
   (* shared by `[@@val]`, `[@@send]`,
      `[@@set]`, `[@@get]` , `[@@new]`
      `[@@mel.send.pipe]` does not use it
   *)
-  let name_from_payload_or_prim ~loc (payload : Parsetree.payload) : name_source
-      =
+  let name_from_payload_or_prim ~loc (payload : payload) : name_source =
     match payload with
     | PStr [] -> (prim_name_or_pval_prim :> name_source)
     (* It is okay to have [@@val] without payload *)
@@ -393,7 +391,7 @@ let parse_external_attributes (prim_name_check : string)
       with Not_handled_external_attribute -> (attr :: attrs, st))
     ~init:([], init_st) prim_attributes
 
-let has_mel_uncurry (attrs : Ast_attributes.t) =
+let has_mel_uncurry (attrs : attribute list) =
   List.exists
     ~f:(fun { attr_name = { txt; loc = _ }; _ } ->
       txt = "mel.uncurry" || txt = "uncurry")
@@ -422,21 +420,21 @@ let check_return_wrapper loc (wrapper : External_ffi_types.return_wrapper)
       assert false (* Not going to happen from user input*)
 
 type response = {
-  pval_type : Parsetree.core_type;
+  pval_type : core_type;
   pval_prim : string list;
-  pval_attributes : Parsetree.attributes;
+  pval_attributes : attributes;
   no_inline_cross_module : bool;
 }
 
 type param_type = {
   label : Asttypes.arg_label;
-  ty : Parsetree.core_type;
-  attr : Parsetree.attributes;
+  ty : core_type;
+  attr : attributes;
   loc : location;
 }
 
-let mk_fn_type (new_arg_types_ty : param_type list)
-    (result : Parsetree.core_type) : Parsetree.core_type =
+let mk_fn_type (new_arg_types_ty : param_type list) (result : core_type) :
+    core_type =
   List.fold_right
     ~f:(fun { label; ty; attr; loc } acc ->
       {
@@ -448,9 +446,9 @@ let mk_fn_type (new_arg_types_ty : param_type list)
     new_arg_types_ty ~init:result
 
 let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
-    (arg_types_ty : param_type list) (result_type : Parsetree.core_type) :
-    Parsetree.core_type * External_ffi_types.t =
-  (* (Parsetree.core_type * External_ffi_types.t, string) result = *)
+    (arg_types_ty : param_type list) (result_type : core_type) :
+    core_type * External_ffi_types.t =
+  (* (core_type * External_ffi_types.t, string) result = *)
   match st with
   | {
    external_module_name = None;
@@ -472,9 +470,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
   } -> (
       match String.length prim_name with
       | 0 ->
-          let ( arg_kinds,
-                new_arg_types_ty,
-                (result_types : Parsetree.object_field list) ) =
+          let arg_kinds, new_arg_types_ty, (result_types : object_field list) =
             List.fold_right
               ~f:(fun
                   param_type
@@ -990,9 +986,8 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       Location.raise_errorf ~loc
         "Found an attribute that conflicts with %@mel.get"
 
-let list_of_arrow (ty : Parsetree.core_type) :
-    Parsetree.core_type * param_type list =
-  let rec aux (ty : Parsetree.core_type) acc =
+let list_of_arrow (ty : core_type) : core_type * param_type list =
+  let rec aux (ty : core_type) acc =
     match ty.ptyp_desc with
     | Ptyp_arrow (label, t1, t2) ->
         aux t2
@@ -1007,10 +1002,9 @@ let list_of_arrow (ty : Parsetree.core_type) :
   aux ty []
 
 (* Note that the passed [type_annotation] is already processed by visitor pattern before*)
-let handle_attributes (loc : Location.t) (type_annotation : Parsetree.core_type)
-    (prim_attributes : Ast_attributes.t) (pval_name : string)
-    (prim_name : string) :
-    Parsetree.core_type * External_ffi_types.t * Parsetree.attributes * bool =
+let handle_attributes (loc : Location.t) (type_annotation : core_type)
+    (prim_attributes : attribute list) (pval_name : string) (prim_name : string)
+    : core_type * External_ffi_types.t * attributes * bool =
   (* sanity check here
       {[ int -> int -> (int -> int -> int [@uncurry])]}
       It does not make sense *)
@@ -1149,9 +1143,9 @@ let handle_attributes (loc : Location.t) (type_annotation : Parsetree.core_type)
           unused_attrs,
           relative )
 
-let handle_attributes_as_string (pval_loc : Location.t)
-    (typ : Parsetree.core_type) (attrs : Ast_attributes.t) (pval_name : string)
-    (prim_name : string) : response =
+let handle_attributes_as_string (pval_loc : Location.t) (typ : core_type)
+    (attrs : attribute list) (pval_name : string) (prim_name : string) :
+    response =
   let pval_type, ffi, pval_attributes, no_inline_cross_module =
     handle_attributes pval_loc typ attrs pval_name prim_name
   in

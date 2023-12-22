@@ -27,11 +27,11 @@ open Import
 val local_external_apply :
   Location.t ->
   pval_prim:string list ->
-  pval_type:Parsetree.core_type ->
+  pval_type:core_type ->
   ?local_module_name:string ->
   ?local_fun_name:string ->
-  Parsetree.expression list ->
-  Parsetree.expression_desc
+  expression list ->
+  expression_desc
 (**
   [local_module loc ~pval_prim ~pval_type args]
   generate such code
@@ -45,26 +45,26 @@ val local_external_apply :
 
 val local_external_obj :
   Location.t ->
-  ?pval_attributes:Parsetree.attributes ->
+  ?pval_attributes:attributes ->
   pval_prim:string list ->
-  pval_type:Parsetree.core_type ->
+  pval_type:core_type ->
   ?local_module_name:string ->
   ?local_fun_name:string ->
-  (string * Parsetree.expression) list ->
+  (string * expression) list ->
   (* [ (label, exp )]*)
-  Parsetree.expression_desc
+  expression_desc
 
 val local_extern_cont_to_obj :
   Location.t ->
-  ?pval_attributes:Parsetree.attributes ->
+  ?pval_attributes:attributes ->
   pval_prim:string list ->
-  pval_type:Parsetree.core_type ->
+  pval_type:core_type ->
   ?local_module_name:string ->
   ?local_fun_name:string ->
-  (Parsetree.expression -> Parsetree.expression) ->
-  Parsetree.expression_desc
+  (expression -> expression) ->
+  expression_desc
 
-type label_exprs = (Longident.t Asttypes.loc * Parsetree.expression) list
+type label_exprs = (Longident.t Asttypes.loc * expression) list
 
 val pval_prim_of_labels : string Asttypes.loc list -> string list
 (** [pval_prim_of_labels labels]
@@ -76,4 +76,4 @@ val pval_prim_of_labels : string Asttypes.loc list -> string list
 val pval_prim_of_option_labels :
   (bool * string Asttypes.loc) list -> bool -> string list
 
-val record_as_js_object : Location.t -> label_exprs -> Parsetree.expression_desc
+val record_as_js_object : Location.t -> label_exprs -> expression_desc

@@ -22,31 +22,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 (* TODO: the interface is not reusable, it depends on too much context *)
 (* syntax: {[f arg0 arg1 [@bs]]}*)
 val uncurry_fn_apply :
   Location.t ->
   Ast_traverse.map ->
-  Parsetree.expression ->
+  expression ->
   Ast_util.args ->
-  Parsetree.expression_desc
+  expression_desc
 
 (* syntax : {[f## arg0 arg1 ]}*)
 val method_apply :
   Location.t ->
   Ast_traverse.map ->
-  Parsetree.expression ->
+  expression ->
   string ->
   Ast_util.args ->
-  Parsetree.expression_desc
+  expression_desc
 
 (* syntax {[f#@ arg0 arg1 ]}*)
 val property_apply :
   Location.t ->
   Ast_traverse.map ->
-  Parsetree.expression ->
+  expression ->
   string ->
   Ast_util.args ->
-  Parsetree.expression_desc
+  expression_desc

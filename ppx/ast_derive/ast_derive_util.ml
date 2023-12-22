@@ -25,17 +25,17 @@
 open Import
 open Ast_helper
 
-let core_type_of_type_declaration (tdcl : Parsetree.type_declaration) =
+let core_type_of_type_declaration (tdcl : type_declaration) =
   match tdcl with
   | { ptype_name = { txt; loc }; ptype_params; _ } ->
       Typ.constr { txt = Lident txt; loc } (List.map ~f:fst ptype_params)
 
-let new_type_of_type_declaration (tdcl : Parsetree.type_declaration) newName =
+let new_type_of_type_declaration (tdcl : type_declaration) newName =
   match tdcl with
   | { ptype_name = { loc; _ }; ptype_params; _ } ->
       ( Typ.constr { txt = Lident newName; loc } (List.map ~f:fst ptype_params),
         {
-          Parsetree.ptype_params = tdcl.ptype_params;
+          ptype_params = tdcl.ptype_params;
           ptype_name = { txt = newName; loc };
           ptype_kind = Ptype_abstract;
           ptype_attributes = [];

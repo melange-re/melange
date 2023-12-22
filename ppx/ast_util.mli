@@ -22,12 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
-type args = (Asttypes.arg_label * Parsetree.expression) list
+type args = (Asttypes.arg_label * expression) list
 
-val js_property :
-  Location.t -> Parsetree.expression -> string -> Parsetree.expression_desc
+val js_property : Location.t -> expression -> string -> expression_desc
 
 val ocaml_obj_as_js_object :
   location -> Ast_traverse.map -> pattern -> class_field list -> expression_desc

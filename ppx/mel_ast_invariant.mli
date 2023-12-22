@@ -34,13 +34,13 @@ end
 
 val is_mel_attribute : string -> bool
 val warn : loc:Location.t -> Warnings.t -> unit
-val mark_used_mel_attribute : Parsetree.attribute -> unit
+val mark_used_mel_attribute : attribute -> unit
 
-val warn_discarded_unused_attributes : Parsetree.attributes -> unit
+val warn_discarded_unused_attributes : attributes -> unit
 (** [warn_discarded_unused_attributes discarded] warn if [discarded] has unused
     mel attribute *)
 
 (** Ast invariant checking for detecting errors *)
 
-val emit_external_warnings_on_structure : Parsetree.structure -> unit
-val emit_external_warnings_on_signature : Parsetree.signature -> unit
+val emit_external_warnings_on_structure : structure -> unit
+val emit_external_warnings_on_signature : signature -> unit

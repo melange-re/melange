@@ -25,9 +25,7 @@
 open Import
 open Ast_helper
 
-type t = Parsetree.core_type
-
-let lift_option_type ({ ptyp_loc; _ } as ty : t) : t =
+let lift_option_type ({ ptyp_loc; _ } as ty) =
   {
     ptyp_desc =
       Ptyp_constr
@@ -42,7 +40,7 @@ let lift_option_type ({ ptyp_loc; _ } as ty : t) : t =
   }
 
 (* let replace_result (ty : t) (result : t) : t =
-   let rec aux (ty : Parsetree.core_type) =
+   let rec aux (ty : core_type) =
      match ty with
      | { ptyp_desc =
            Ptyp_arrow (label,t1,t2)
@@ -59,7 +57,7 @@ let is_builtin_rank0_type txt =
       true
   | _ -> false
 
-let is_unit (ty : t) =
+let is_unit ty =
   match ty.ptyp_desc with
   | Ptyp_constr ({ txt = Lident "unit"; _ }, []) -> true
   | _ -> false
@@ -69,7 +67,7 @@ let is_unit (ty : t) =
    | Ptyp_constr({txt =Lident "array"}, [_]) -> true
    | _ -> false *)
 
-let is_user_option (ty : t) =
+let is_user_option ty =
   match ty.ptyp_desc with
   | Ptyp_constr
       ({ txt = Lident "option" | Ldot (Lident "*predef*", "option"); _ }, [ _ ])
@@ -96,7 +94,7 @@ OCaml does not support such syntax yet
 {[ 'a -> ('a. 'a -> 'b) ]}
 
 *)
-let rec get_uncurry_arity_aux (ty : t) acc =
+let rec get_uncurry_arity_aux ty acc =
   match ty.ptyp_desc with
   | Ptyp_arrow (_, _, new_ty) -> get_uncurry_arity_aux new_ty (succ acc)
   | Ptyp_poly (_, ty) -> get_uncurry_arity_aux ty acc
@@ -107,7 +105,7 @@ let rec get_uncurry_arity_aux (ty : t) acc =
    {[ unit -> 'a1 -> a2']} arity 2
    {[ 'a1 -> 'a2 -> ... 'aN -> 'b ]} return arity N
 *)
-let get_uncurry_arity (ty : t) =
+let get_uncurry_arity ty =
   match ty.ptyp_desc with
   | Ptyp_arrow
       ( Nolabel,
@@ -124,12 +122,12 @@ let is_arity_one ty = get_curry_arity ty = 1
 
 type param_type = {
   label : Asttypes.arg_label;
-  ty : Parsetree.core_type;
-  attr : Parsetree.attributes;
+  ty : core_type;
+  attr : attributes;
   loc : loc;
 }
 
-let mk_fn_type (new_arg_types_ty : param_type list) (result : t) : t =
+let mk_fn_type (new_arg_types_ty : param_type list) result =
   List.fold_right
     ~f:(fun { label; ty; attr; loc } acc ->
       {
@@ -140,8 +138,8 @@ let mk_fn_type (new_arg_types_ty : param_type list) (result : t) : t =
       })
     new_arg_types_ty ~init:result
 
-let list_of_arrow (ty : t) : t * param_type list =
-  let rec aux (ty : t) acc =
+let list_of_arrow ty : core_type * param_type list =
+  let rec aux ty acc =
     match ty.ptyp_desc with
     | Ptyp_arrow (label, t1, t2) ->
         aux t2

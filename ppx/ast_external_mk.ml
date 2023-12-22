@@ -25,10 +25,9 @@
 open Import
 open Ast_helper
 
-let local_external_apply loc ~(pval_prim : string list)
-    ~(pval_type : Parsetree.core_type) ?(local_module_name = "J")
-    ?(local_fun_name = "unsafe_expr") (args : Parsetree.expression list) :
-    Parsetree.expression_desc =
+let local_external_apply loc ~(pval_prim : string list) ~(pval_type : core_type)
+    ?(local_module_name = "J") ?(local_fun_name = "unsafe_expr")
+    (args : expression list) : expression_desc =
   Pexp_letmodule
     ( { txt = Some local_module_name; loc },
       {
@@ -60,13 +59,13 @@ let local_external_apply loc ~(pval_prim : string list)
            pexp_loc = loc;
            pexp_loc_stack = [ loc ];
          }
-          : Parsetree.expression)
+          : expression)
         (List.map ~f:(fun x -> (Asttypes.Nolabel, x)) args)
         ~loc )
 
 let local_external_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
     ?(local_module_name = "J") ?(local_fun_name = "unsafe_expr") args :
-    Parsetree.expression_desc =
+    expression_desc =
   Pexp_letmodule
     ( { txt = Some local_module_name; loc },
       {
@@ -98,13 +97,13 @@ let local_external_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
            pexp_loc = loc;
            pexp_loc_stack = [ loc ];
          }
-          : Parsetree.expression)
+          : expression)
         (List.map ~f:(fun (l, a) -> (Asttypes.Labelled l, a)) args)
         ~loc )
 
 let local_extern_cont_to_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
     ?(local_module_name = "J") ?(local_fun_name = "unsafe_expr")
-    (cb : Parsetree.expression -> 'a) : Parsetree.expression_desc =
+    (cb : expression -> 'a) : expression_desc =
   Pexp_letmodule
     ( { txt = Some local_module_name; loc },
       {
@@ -137,7 +136,7 @@ let local_extern_cont_to_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
           pexp_loc_stack = [ loc ];
         } )
 
-type label_exprs = (Longident.t Asttypes.loc * Parsetree.expression) list
+type label_exprs = (Longident.t Asttypes.loc * expression) list
 
 (* Note that OCaml type checker will not allow arbitrary
    name as type variables, for example:
@@ -146,7 +145,7 @@ type label_exprs = (Longident.t Asttypes.loc * Parsetree.expression) list
    ]}
    will be recognized as a invalid program
 *)
-let from_labels ~loc arity labels : Parsetree.core_type =
+let from_labels ~loc arity labels : core_type =
   let tyvars =
     List.init ~len:arity ~f:(fun i -> Typ.var ~loc ("a" ^ string_of_int i))
   in
@@ -196,8 +195,7 @@ let pval_prim_of_option_labels (labels : (bool * string Asttypes.loc) list)
   in
   Melange_ffi.External_ffi_types.ffi_obj_as_prims arg_kinds
 
-let record_as_js_object loc (label_exprs : label_exprs) :
-    Parsetree.expression_desc =
+let record_as_js_object loc (label_exprs : label_exprs) : expression_desc =
   let labels, args, arity =
     List.fold_right
       ~f:(fun ({ txt; loc }, e) (labels, args, i) ->

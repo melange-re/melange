@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 (* note we first declare its type is [unit],
    then [ignore] it, [ignore] is necessary since
@@ -35,17 +35,10 @@ val tuple_type_pair :
   ?loc:Ast_helper.loc ->
   [< `Make | `Run ] ->
   int ->
-  Parsetree.core_type * Parsetree.core_type list * Parsetree.core_type
+  core_type * core_type list * core_type
 
-val to_js_type : loc:Location.t -> Parsetree.core_type -> Parsetree.core_type
-
-val to_undefined_type :
-  loc:Location.t -> Parsetree.core_type -> Parsetree.core_type
-
-val to_js_re_type : loc:Location.t -> Parsetree.core_type
-
-val single_non_rec_value :
-  Ast_helper.str -> Parsetree.expression -> Parsetree.structure_item
-
-val single_non_rec_val :
-  Ast_helper.str -> Parsetree.core_type -> Parsetree.signature_item
+val to_js_type : loc:Location.t -> core_type -> core_type
+val to_undefined_type : loc:Location.t -> core_type -> core_type
+val to_js_re_type : loc:Location.t -> core_type
+val single_non_rec_value : Ast_helper.str -> expression -> structure_item
+val single_non_rec_val : Ast_helper.str -> core_type -> signature_item

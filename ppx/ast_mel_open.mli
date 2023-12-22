@@ -22,11 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 val convert_mel_error_function :
-  Location.t ->
-  Ast_traverse.map ->
-  Ast_helper.attrs ->
-  Parsetree.case list ->
-  Parsetree.expression
+  Location.t -> Ast_traverse.map -> Ast_helper.attrs -> case list -> expression
