@@ -24,63 +24,68 @@
 
 open Import
 
-type loc = Location.t
-
-type whole =
-  | Let_open of
-      (Asttypes.override_flag
-      * Longident.t Asttypes.loc
-      * loc
-      * Parsetree.attributes)
+type whole = {
+  override_flag : override_flag;
+  ident : Longident.t Asttypes.loc;
+  loc : location;
+  attributes : attributes;
+}
 
 type t = whole list
-type exp = Parsetree.expression
-type destruct_output = exp list
 
-let rec destruct (e : Parsetree.expression) (acc : t) =
+let rec destruct (e : expression) (acc : t) =
   match e.pexp_desc with
   | Pexp_open
       ( {
-          popen_override = flag;
+          popen_override = override_flag;
           popen_expr = { pmod_desc = Pmod_ident lid; _ };
           _;
         },
         cont ) ->
-      destruct cont (Let_open (flag, lid, e.pexp_loc, e.pexp_attributes) :: acc)
+      destruct cont
+        ({
+           override_flag;
+           ident = lid;
+           loc = e.pexp_loc;
+           attributes = e.pexp_attributes;
+         }
+        :: acc)
   | _ -> (e, acc)
 
 (**
    destruct such pattern
    {[ A.B.let open C in (a,b)]}
 *)
-let rec destruct_open_tuple (e : Parsetree.expression) (acc : t) :
-    (t * destruct_output * _) option =
+let rec destruct_open_tuple (e : expression) (acc : t) :
+    (t * expression list * _) option =
   match e.pexp_desc with
   | Pexp_open
       ( {
-          popen_override = flag;
+          popen_override = override_flag;
           popen_expr = { pmod_desc = Pmod_ident lid; _ };
           _;
         },
         cont ) ->
       destruct_open_tuple cont
-        (Let_open (flag, lid, e.pexp_loc, e.pexp_attributes) :: acc)
+        ({
+           override_flag;
+           ident = lid;
+           loc = e.pexp_loc;
+           attributes = e.pexp_attributes;
+         }
+        :: acc)
   | Pexp_tuple es -> Some (acc, es, e.pexp_attributes)
   | _ -> None
 
-let restore_exp (xs : Parsetree.expression) (qualifiers : t) :
-    Parsetree.expression =
+let restore_exp (xs : expression) (qualifiers : t) =
   List.fold_left
-    ~f:(fun x hole ->
-      match hole with
-      | Let_open (flag, lid, loc, attrs) ->
-          ({
-             pexp_desc =
-               Pexp_open
-                 (Ast_helper.Opn.mk ~override:flag (Ast_helper.Mod.ident lid), x);
-             pexp_attributes = attrs;
-             pexp_loc = loc;
-             pexp_loc_stack = [ loc ];
-           }
-            : Parsetree.expression))
+    ~f:(fun x { override_flag = flag; ident = lid; loc; attributes = attrs } ->
+      {
+        pexp_desc =
+          Pexp_open
+            (Ast_helper.Opn.mk ~override:flag (Ast_helper.Mod.ident lid), x);
+        pexp_attributes = attrs;
+        pexp_loc = loc;
+        pexp_loc_stack = [ loc ];
+      })
     ~init:xs qualifiers

@@ -22,16 +22,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 val handleExternalInSig :
-  Ast_traverse.map ->
-  Parsetree.value_description ->
-  Parsetree.signature_item ->
-  Parsetree.signature_item
+  Ast_traverse.map -> value_description -> signature_item -> signature_item
 
 val handleExternalInStru :
-  Ast_traverse.map ->
-  Parsetree.value_description ->
-  Parsetree.structure_item ->
-  Parsetree.structure_item
+  Ast_traverse.map -> value_description -> structure_item -> structure_item

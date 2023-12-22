@@ -24,15 +24,15 @@
 
 open Import
 
-type typ = Parsetree.core_type
 type 'a cxt = Ast_helper.loc -> Ast_traverse.map -> 'a
-type uncurry_type_gen = (Asttypes.arg_label -> typ -> typ -> typ) cxt
+
+type uncurry_type_gen =
+  (Asttypes.arg_label -> core_type -> core_type -> core_type) cxt
 
 module Typ = Ast_helper.Typ
 
 let to_method_callback_type loc (mapper : Ast_traverse.map)
-    (label : Asttypes.arg_label) (first_arg : Parsetree.core_type)
-    (typ : Parsetree.core_type) =
+    (label : Asttypes.arg_label) (first_arg : core_type) (typ : core_type) =
   let first_arg = mapper#core_type first_arg in
   let typ = mapper#core_type typ in
   let meth_type = Typ.arrow ~loc label first_arg typ in
@@ -50,7 +50,7 @@ let to_method_callback_type loc (mapper : Ast_traverse.map)
 let self_type_lit = "self_type"
 
 let generate_method_type loc (mapper : Ast_traverse.map) ?alias_type method_name
-    lbl pat e : Parsetree.core_type =
+    lbl pat e : core_type =
   let arity = Ast_pat.arity_of_fun pat e in
   let result = Typ.var ~loc method_name in
   let self_type loc = Typ.var ~loc self_type_lit in
@@ -80,7 +80,7 @@ let generate_method_type loc (mapper : Ast_traverse.map) ?alias_type method_name
     | _ -> assert false
 
 let to_method_type loc (mapper : Ast_traverse.map) (label : Asttypes.arg_label)
-    (first_arg : Parsetree.core_type) (typ : Parsetree.core_type) =
+    (first_arg : core_type) (typ : core_type) =
   let first_arg = mapper#core_type first_arg in
   let typ = mapper#core_type typ in
   let meth_type = Typ.arrow ~loc label first_arg typ in
@@ -95,7 +95,7 @@ let to_method_type loc (mapper : Ast_traverse.map) (label : Asttypes.arg_label)
   | None -> assert false
 
 let generate_arg_type loc (mapper : Ast_traverse.map) method_name label pat body
-    : Parsetree.core_type =
+    : core_type =
   let arity = Ast_pat.arity_of_fun pat body in
   let result = Typ.var ~loc method_name in
   if arity = 0 then to_method_type loc mapper Nolabel [%type: unit] result
@@ -116,7 +116,7 @@ let generate_arg_type loc (mapper : Ast_traverse.map) method_name label pat body
     | _ -> assert false
 
 let to_uncurry_type loc (mapper : Ast_traverse.map) (label : Asttypes.arg_label)
-    (first_arg : Parsetree.core_type) (typ : Parsetree.core_type) =
+    (first_arg : core_type) (typ : core_type) =
   (* no need to error for optional here,
      since we can not make it
      TODO: still error out for external?

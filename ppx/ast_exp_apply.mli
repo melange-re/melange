@@ -22,11 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 val app_exp_mapper :
-  Parsetree.expression ->
-  Ast_traverse.map * (Parsetree.expression -> Parsetree.expression) ->
-  Parsetree.expression ->
+  expression ->
+  Ast_traverse.map * (expression -> expression) ->
+  expression ->
   Ast_util.args ->
-  Parsetree.expression
+  expression

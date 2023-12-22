@@ -84,17 +84,17 @@ let used_attributes : string Asttypes.loc Polyvariant.Hash_set.t =
   Polyvariant.Hash_set.create 16
 
 (* only mark non-ghost used mel attribute *)
-let mark_used_mel_attribute ({ attr_name = x; _ } : Parsetree.attribute) =
+let mark_used_mel_attribute ({ attr_name = x; _ } : attribute) =
   if not x.loc.loc_ghost then Polyvariant.Hash_set.add used_attributes x
 
-let warn_unused_attribute
-    ({ attr_name = { txt; loc } as sloc; _ } : Parsetree.attribute) : unit =
+let warn_unused_attribute ({ attr_name = { txt; loc } as sloc; _ } : attribute)
+    : unit =
   if
     is_mel_attribute txt && (not loc.loc_ghost)
     && not (Polyvariant.Hash_set.mem used_attributes sloc)
   then warn ~loc (Unused_attribute txt)
 
-let warn_discarded_unused_attributes (attrs : Parsetree.attributes) =
+let warn_discarded_unused_attributes (attrs : attributes) =
   if attrs <> [] then List.iter ~f:warn_unused_attribute attrs
 
 let emit_external_warnings : Ast_traverse.iter =
@@ -113,8 +113,8 @@ let emit_external_warnings : Ast_traverse.iter =
       super#label_declaration lbl
   end
 
-let emit_external_warnings_on_structure (stru : Parsetree.structure) =
+let emit_external_warnings_on_structure stru =
   emit_external_warnings#structure stru
 
-let emit_external_warnings_on_signature (sigi : Parsetree.signature) =
+let emit_external_warnings_on_signature sigi =
   emit_external_warnings#signature sigi

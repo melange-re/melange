@@ -26,7 +26,7 @@ open Import
 open Ast_helper
 module U = Ast_derive_util
 
-let js_field (o : Parsetree.expression) m =
+let js_field o m =
   let loc = o.pexp_loc in
   [%expr
     [%e Exp.ident { txt = Lident "##"; loc = o.pexp_loc }]
@@ -71,14 +71,14 @@ let add_key_value buf key value last =
   Buffer.add_string buf value;
   if last then Buffer.add_string buf "\"" else Buffer.add_string buf "\","
 
-let buildMap (row_fields : Parsetree.row_field list) =
+let buildMap (row_fields : row_field list) =
   let has_mel_as = ref false in
   let data, revData =
     let buf = Buffer.create 50 in
     let revBuf = Buffer.create 50 in
     Buffer.add_string buf "{";
     Buffer.add_string revBuf "{";
-    let rec aux (row_fields : Parsetree.row_field list) =
+    let rec aux (row_fields : row_field list) =
       match row_fields with
       | [] -> ()
       | tag :: rest ->

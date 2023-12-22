@@ -28,7 +28,7 @@ open Import
     the underlying representation may change due to
     unbox *)
 let map_constructor_declarations_into_ints
-    (row_fields : Parsetree.constructor_declaration list) =
+    (row_fields : constructor_declaration list) =
   let mark = ref `nothing in
   let _, acc =
     List.fold_left
@@ -48,21 +48,20 @@ let map_constructor_declarations_into_ints
 
 let is_enum row_fields =
   List.for_all
-    ~f:(fun (x : Parsetree.row_field) ->
+    ~f:(fun (x : row_field) ->
       match x.prf_desc with Rtag (_label, true, []) -> true | _ -> false)
     row_fields
 
-let is_enum_polyvar (ty : Parsetree.type_declaration) =
+let is_enum_polyvar (ty : type_declaration) =
   match ty.ptype_manifest with
   | Some { ptyp_desc = Ptyp_variant (row_fields, Closed, None); _ }
     when is_enum row_fields ->
       Some row_fields
   | _ -> None
 
-let is_enum_constructors (constructors : Parsetree.constructor_declaration list)
-    =
+let is_enum_constructors (constructors : constructor_declaration list) =
   List.for_all
-    ~f:(fun (x : Parsetree.constructor_declaration) ->
+    ~f:(fun (x : constructor_declaration) ->
       match x with
       | {
        pcd_args =
@@ -73,7 +72,7 @@ let is_enum_constructors (constructors : Parsetree.constructor_declaration list)
       | _ -> false)
     constructors
 
-let map_row_fields_into_ints ptyp_loc (row_fields : Parsetree.row_field list) =
+let map_row_fields_into_ints ptyp_loc (row_fields : row_field list) =
   let _, acc =
     List.fold_left
       ~f:(fun (i, acc) rtag ->
@@ -94,8 +93,8 @@ let map_row_fields_into_ints ptyp_loc (row_fields : Parsetree.row_field list) =
 
 (* It also check in-consistency of cases like
    {[ [`a  | `c of int ] ]} *)
-let map_row_fields_into_strings ptyp_loc (row_fields : Parsetree.row_field list)
-    : Melange_ffi.External_arg_spec.attr =
+let map_row_fields_into_strings ptyp_loc (row_fields : row_field list) :
+    Melange_ffi.External_arg_spec.attr =
   let has_mel_as = ref false in
   let case, result =
     List.fold_right

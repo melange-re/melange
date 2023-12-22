@@ -24,31 +24,29 @@
 
 open Import
 
-type t = Parsetree.pattern
-
-let is_unit_cont ~yes ~no (p : t) =
+let is_unit_cont ~yes ~no p =
   match p with
   | { ppat_desc = Ppat_construct ({ txt = Lident "()"; _ }, None); _ } -> yes
   | _ -> no
 
 (** [arity_of_fun pat e] tells the arity of
     expression [fun pat -> e] *)
-let arity_of_fun (pat : Parsetree.pattern) (e : Parsetree.expression) =
-  let rec aux (e : Parsetree.expression) =
+let arity_of_fun pat e =
+  let rec aux e =
     match e.pexp_desc with
     | Pexp_fun (_, _, _, e) -> 1 + aux e (*FIXME error on optional*)
     | _ -> 0
   in
   is_unit_cont ~yes:0 ~no:1 pat + aux e
 
-let rec labels_of_fun (e : Parsetree.expression) =
+let rec labels_of_fun e =
   match e.pexp_desc with
   | Pexp_fun (l, _, _, e) -> l :: labels_of_fun e
   | _ -> []
 
-let rec is_single_variable_pattern_conservative (p : t) =
+let rec is_single_variable_pattern_conservative p =
   match p.ppat_desc with
-  | Parsetree.Ppat_any | Parsetree.Ppat_var _ -> true
-  | Parsetree.Ppat_alias (p, _) | Parsetree.Ppat_constraint (p, _) ->
+  | Ppat_any | Ppat_var _ -> true
+  | Ppat_alias (p, _) | Ppat_constraint (p, _) ->
       is_single_variable_pattern_conservative p
   | _ -> false

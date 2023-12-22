@@ -25,8 +25,6 @@
 open Import
 open Ast_helper
 
-type exp = Parsetree.expression
-
 (* TODO:
    have a final checking for property arities
      [#=],
@@ -38,7 +36,7 @@ let jsInternal = Ast_literal.js_internal
    the type constraint is avoid some syntactic transformation, e.g ` e |. (f g [@bs])`
    `opaque` is to avoid it being inspected in the type level
 *)
-let opaque_full_apply ~loc (e : exp) : Parsetree.expression_desc =
+let opaque_full_apply ~loc e =
   Pexp_constraint
     ( Exp.apply ~loc
         ~attrs:
@@ -58,8 +56,8 @@ let opaque_full_apply ~loc (e : exp) : Parsetree.expression_desc =
         [ (Nolabel, e) ],
       Typ.any ~loc () )
 
-let generic_apply loc (self : Ast_traverse.map) (obj : Parsetree.expression)
-    (args : Ast_util.args) (cb : loc -> exp -> exp) =
+let generic_apply loc (self : Ast_traverse.map) obj (args : Ast_util.args)
+    (cb : loc -> expression -> expression) =
   let obj = self#expression obj in
   let args =
     List.map
@@ -80,7 +78,7 @@ let generic_apply loc (self : Ast_traverse.map) (obj : Parsetree.expression)
   in
   let arity = List.length args in
   if arity = 0 then
-    Parsetree.Pexp_apply
+    Pexp_apply
       (Exp.ident { txt = Ldot (jsInternal, "run"); loc }, [ (Nolabel, fn) ])
   else
     let arity_s = string_of_int arity in
@@ -102,8 +100,7 @@ let generic_apply loc (self : Ast_traverse.map) (obj : Parsetree.expression)
             ])
          args)
 
-let method_apply loc (self : Ast_traverse.map) (obj : Parsetree.expression) name
-    (args : Ast_util.args) =
+let method_apply loc (self : Ast_traverse.map) obj name (args : Ast_util.args) =
   let obj = self#expression obj in
   let args =
     List.map
@@ -124,7 +121,7 @@ let method_apply loc (self : Ast_traverse.map) (obj : Parsetree.expression) name
   in
   let arity = List.length args in
   if arity = 0 then
-    Parsetree.Pexp_apply
+    Pexp_apply
       ( Exp.ident
           { txt = Ldot (Ldot (Ast_literal.js_oo, "Internal"), "run"); loc },
         [ (Nolabel, fn) ] )

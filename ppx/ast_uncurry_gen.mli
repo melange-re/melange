@@ -22,15 +22,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 val to_uncurry_fn :
   Location.t ->
   Ast_traverse.map ->
   Asttypes.arg_label ->
-  Parsetree.pattern ->
-  Parsetree.expression ->
-  Parsetree.expression_desc
+  pattern ->
+  expression ->
+  expression_desc
 (**
     [function] can only take one argument, that is the reason we did not adopt it
     syntax:
@@ -43,9 +43,9 @@ val to_method_callback :
   Location.t ->
   Ast_traverse.map ->
   Asttypes.arg_label ->
-  Parsetree.pattern ->
-  Parsetree.expression ->
-  Parsetree.expression_desc
+  pattern ->
+  expression ->
+  expression_desc
 (** syntax:
     {[fun [@mel.this] obj pat pat1 -> body]}
 *)

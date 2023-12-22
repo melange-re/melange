@@ -22,23 +22,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type t = Longident.t
+open Import
 
-let hidden_field n : t = Lident ("I" ^ n)
-let js : t = Lident "Js"
-let js_fn : t = Ldot (js, "Fn")
-let js_internal : t = Ldot (js, "Internal")
-let js_internal_full_apply : t = Ldot (js_internal, "opaqueFullApply")
-let js_oo : t = Ldot (Ldot (js, "Private"), "Js_OO")
-let js_meth : t = Ldot (js_oo, "Meth")
-let js_meth_callback : t = Ldot (js_oo, "Callback")
-let js_null : t = Ldot (js, "null")
-let js_nullable : t = Ldot (js, "nullable")
-let js_obj : t = Ldot (js, "t")
-let js_re_id : t = Ldot (Ldot (js, "Re"), "t")
-let js_undefined : t = Ldot (js, "undefined")
-let opaque : t = Ldot (js_internal, "opaque")
-let predef_prefix_ident : t = Lident "*predef*"
-let predef_some : t = Ldot (predef_prefix_ident, "Some")
-let predef_none : t = Ldot (predef_prefix_ident, "None")
-let unsafe_downgrade : t = Ldot (js_oo, "unsafe_downgrade")
+let hidden_field n = Lident ("I" ^ n)
+let js = Lident "Js"
+let js_fn = Ldot (js, "Fn")
+let js_internal = Ldot (js, "Internal")
+let js_internal_full_apply = Ldot (js_internal, "opaqueFullApply")
+let js_oo = Ldot (Ldot (js, "Private"), "Js_OO")
+let js_meth = Ldot (js_oo, "Meth")
+let js_meth_callback = Ldot (js_oo, "Callback")
+let js_null = Ldot (js, "null")
+let js_nullable = Ldot (js, "nullable")
+let js_obj = Ldot (js, "t")
+let js_re_id = Ldot (Ldot (js, "Re"), "t")
+let js_undefined = Ldot (js, "undefined")
+let opaque = Ldot (js_internal, "opaque")
+let predef_prefix_ident = Lident "*predef*"
+let predef_some = Ldot (predef_prefix_ident, "Some")
+let predef_none = Ldot (predef_prefix_ident, "None")
+let unsafe_downgrade = Ldot (js_oo, "unsafe_downgrade")

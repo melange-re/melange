@@ -23,18 +23,17 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Import
-open Parsetree
 
 val const_exp_string :
   ?loc:Location.t ->
-  ?attrs:Parsetree.attribute list ->
+  ?attrs:attribute list ->
   ?delimiter:string ->
   string ->
   expression
 
 val apply_simple :
   ?loc:Location.t ->
-  ?attrs:Parsetree.attribute list ->
+  ?attrs:attribute list ->
   expression ->
   expression list ->
   expression

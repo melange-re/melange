@@ -22,32 +22,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
-type t = Parsetree.core_type
-
-val lift_option_type : t -> t
-val is_unit : t -> bool
+val lift_option_type : core_type -> core_type
+val is_unit : core_type -> bool
 val is_builtin_rank0_type : string -> bool
-val make_obj : loc:Location.t -> Parsetree.object_field list -> t
-val is_user_option : t -> bool
+val make_obj : loc:Location.t -> object_field list -> core_type
+val is_user_option : core_type -> bool
 
-val get_uncurry_arity : t -> int option
-(**
-  returns 0 when it can not tell arity from the syntax
-  None -- means not a function
-*)
+val get_uncurry_arity : core_type -> int option
+(** returns 0 when it can not tell arity from the syntax. [None] means not a
+    function *)
 
 type param_type = {
   label : Asttypes.arg_label;
-  ty : t;
-  attr : Parsetree.attributes;
+  ty : core_type;
+  attr : attributes;
   loc : Location.t;
 }
 
-val mk_fn_type : param_type list -> t -> t
+val mk_fn_type : param_type list -> core_type -> core_type
 
-val list_of_arrow : t -> t * param_type list
+val list_of_arrow : core_type -> core_type * param_type list
 (** fails when Ptyp_poly *)
 
-val is_arity_one : t -> bool
+val is_arity_one : core_type -> bool

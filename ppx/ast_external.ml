@@ -29,9 +29,8 @@ let single_string_payload_error ~loc =
     (Pconst_string
        ("Melange requires a single string in `external` payloads", loc, None))
 
-let handleExternalInSig (self : Ast_traverse.map)
-    (prim : Parsetree.value_description) (sigi : Parsetree.signature_item) :
-    Parsetree.signature_item =
+let handleExternalInSig (self : Ast_traverse.map) (prim : value_description)
+    (sigi : signature_item) : signature_item =
   let loc = prim.pval_loc in
   let pval_type = self#core_type prim.pval_type in
   let pval_attributes = self#attributes prim.pval_attributes in
@@ -63,9 +62,8 @@ let handleExternalInSig (self : Ast_traverse.map)
             };
       }
 
-let handleExternalInStru (self : Ast_traverse.map)
-    (prim : Parsetree.value_description) (str : Parsetree.structure_item) :
-    Parsetree.structure_item =
+let handleExternalInStru (self : Ast_traverse.map) (prim : value_description)
+    (str : structure_item) : structure_item =
   let loc = prim.pval_loc in
   let pval_type = self#core_type prim.pval_type in
   let pval_attributes = self#attributes prim.pval_attributes in

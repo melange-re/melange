@@ -61,7 +61,7 @@ let derive_js_constructor ?(is_deprecated = false) tdcl =
       let loc = tdcl.ptype_loc in
       let has_optional_field =
         List.exists
-          ~f:(fun (x : Parsetree.label_declaration) ->
+          ~f:(fun (x : label_declaration) ->
             Ast_attributes.has_mel_optional x.pld_attributes)
           label_declarations
       in

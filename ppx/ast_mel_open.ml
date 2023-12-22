@@ -29,10 +29,10 @@ let isCamlExceptionOrOpenVariant : Longident.t =
 
 let obj_magic : Longident.t = Ldot (Lident "Obj", "magic")
 
-let rec checkCases (cases : Parsetree.case list) = List.iter ~f:check_case cases
+let rec checkCases (cases : case list) = List.iter ~f:check_case cases
 and check_case case = check_pat case.pc_lhs
 
-and check_pat (pat : Parsetree.pattern) =
+and check_pat pat =
   match pat.ppat_desc with
   | Ppat_construct _ -> ()
   | Ppat_or (l, r) ->
@@ -44,7 +44,7 @@ and check_pat (pat : Parsetree.pattern) =
          (exception) constructors"
 
 let convert_mel_error_function loc (self : Ast_traverse.map) attrs
-    (cases : Parsetree.case list) =
+    (cases : case list) =
   let open Ast_helper in
   let txt = "match" in
   let txt_expr = Exp.ident ~loc { txt = Lident txt; loc } in

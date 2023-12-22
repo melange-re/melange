@@ -22,22 +22,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Ppxlib
+open Import
 
 type response = {
-  pval_type : Parsetree.core_type;
+  pval_type : core_type;
   pval_prim : string list;
-  pval_attributes : Parsetree.attributes;
+  pval_attributes : attributes;
   no_inline_cross_module : bool;
 }
 
 val handle_attributes_as_string :
-  Location.t ->
-  Parsetree.core_type ->
-  Ast_attributes.t ->
-  string ->
-  string ->
-  response
+  Location.t -> core_type -> attribute list -> string -> string -> response
 (**
   [handle_attributes_as_string
   loc pval_name.txt pval_type pval_attributes pval_prim]

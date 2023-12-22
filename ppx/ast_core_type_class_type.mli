@@ -26,10 +26,8 @@ open Import
 
 val handle_class_type_fields :
   Ast_traverse.map * (class_type_field -> class_type_field) ->
-  Parsetree.class_type_field list ->
-  (Parsetree.class_type_field list, Location.t * string) result
+  class_type_field list ->
+  (class_type_field list, Location.t * string) result
 
 val typ_mapper :
-  Ast_traverse.map * (core_type -> core_type) ->
-  Parsetree.core_type ->
-  Parsetree.core_type
+  Ast_traverse.map * (core_type -> core_type) -> core_type -> core_type

@@ -100,7 +100,7 @@ end
 
 module Private = struct
   module Typemod_hide = struct
-    let no_type_defined (x : Parsetree.structure_item) =
+    let no_type_defined (x : structure_item) =
       match x.pstr_desc with
       | Pstr_eval _ | Pstr_value _ | Pstr_primitive _ | Pstr_typext _
       | Pstr_exception _
@@ -132,7 +132,7 @@ module Private = struct
           *)
       | _ -> false
 
-    let check (x : Parsetree.structure) =
+    let check (x : structure) =
       List.iter
         ~f:(fun x ->
           if not (no_type_defined x) then
@@ -140,7 +140,7 @@ module Private = struct
               "the structure is not supported in local extension")
         x
 
-    let attrs : Parsetree.attributes =
+    let attrs : attributes =
       [
         {
           attr_name = { txt = "internal.local"; loc = Location.none };
@@ -151,7 +151,7 @@ module Private = struct
   end
 
   let rule =
-    let expand (stru : Parsetree.structure) =
+    let expand (stru : structure) =
       Typemod_hide.check stru;
       let last_loc = (List.hd stru).pstr_loc in
       let first_loc = (List.hd stru).pstr_loc in
@@ -267,8 +267,7 @@ module Node = struct
   let rule =
     let rule label =
       let extractor = Ast_pattern.__' in
-      let handler ~ctxt:_
-          ({ txt = payload; loc } : Parsetree.payload Location.loc) =
+      let handler ~ctxt:_ ({ txt = payload; loc } : payload Location.loc) =
         let strip s = match s with "_module" -> "module" | x -> x in
         match Ast_payload.as_ident payload with
         | Some
@@ -354,8 +353,8 @@ module Mapper = struct
       inherit Ppxlib.Ast_traverse.map as super
       (* [Expansion_context.Base.t] Ppxlib.Ast_traverse.map_with_context as super *)
 
-      method! class_type
-          ({ pcty_attributes; pcty_loc; _ } as ctd : Parsetree.class_type) =
+      method! class_type ({ pcty_attributes; pcty_loc; _ } as ctd : class_type)
+          =
         (* {[class x : int -> object
                      end [@u]
                    ]}

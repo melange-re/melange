@@ -25,20 +25,14 @@
 open Import
 
 val map_constructor_declarations_into_ints :
-  Parsetree.constructor_declaration list -> [ `Offset of int | `New of int list ]
+  constructor_declaration list -> [ `Offset of int | `New of int list ]
 
-(* val is_enum :
-   Parsetree.row_field list ->
-   bool *)
-
-val is_enum_polyvar :
-  Parsetree.type_declaration -> Parsetree.row_field list option
-
-val is_enum_constructors : Parsetree.constructor_declaration list -> bool
+val is_enum_polyvar : type_declaration -> row_field list option
+val is_enum_constructors : constructor_declaration list -> bool
 
 val map_row_fields_into_ints :
-  Location.t -> Parsetree.row_field list -> (string * int) list
+  Location.t -> row_field list -> (string * int) list
 (** side effect: it will mark used attributes `mel.as`  *)
 
 val map_row_fields_into_strings :
-  Location.t -> Parsetree.row_field list -> Melange_ffi.External_arg_spec.attr
+  Location.t -> row_field list -> Melange_ffi.External_arg_spec.attr
