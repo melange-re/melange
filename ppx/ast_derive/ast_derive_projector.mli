@@ -22,4 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val gen : Ast_derive.gen
+open Import
+
+val derive_structure : type_declaration list -> structure_item list
+val derive_signature : type_declaration list -> signature_item list

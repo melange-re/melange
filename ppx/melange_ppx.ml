@@ -976,19 +976,6 @@ module Mapper = struct
 end
 
 module Derivers = struct
-  let gen_structure_signature loc (tdcls : Parsetree.type_declaration list)
-      (gen : Ast_derive.gen) (explicit_nonrec : Asttypes.rec_flag) =
-    let u = gen in
-
-    let a = u.structure_gen tdcls explicit_nonrec in
-    let b = u.signature_gen tdcls explicit_nonrec in
-    let open Ast_helper in
-    [
-      Str.include_ ~loc
-        (Incl.mk ~loc
-           (Mod.constraint_ ~loc (Mod.structure ~loc a) (Mty.signature ~loc b)));
-    ]
-
   let abstract =
     let args () = Deriving.Args.(empty +> flag "light") in
     let str_type_decl =
@@ -1022,28 +1009,40 @@ module Derivers = struct
     in
     Deriving.add ~str_type_decl ~sig_type_decl "getSet"
 
+  let gen_structure_signature loc (tdcls : type_declaration list) ~str ~sig_ =
+    Ast_helper.
+      [
+        Str.include_ ~loc
+          (Incl.mk ~loc
+             (Mod.constraint_ ~loc
+                (Mod.structure ~loc (str tdcls))
+                (Mty.signature ~loc (sig_ tdcls))));
+      ]
+
   let jsConverter =
     let args () = Deriving.Args.(empty +> flag "newType") in
     let str_type_decl =
-      Deriving.Generator.V2.make (args ()) (fun ~ctxt (rf, tdcls) newType ->
+      Deriving.Generator.V2.make (args ()) (fun ~ctxt (_, tdcls) newType ->
           let loc = Expansion_context.Deriver.derived_item_loc ctxt in
-          let gen = Ast_derive_js_mapper.gen ~newType in
-          gen_structure_signature loc tdcls gen rf)
+          let str = Ast_derive_js_mapper.derive_structure ~newType
+          and sig_ = Ast_derive_js_mapper.derive_signature ~newType in
+          gen_structure_signature loc tdcls ~str ~sig_)
     and sig_type_decl =
-      Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (rf, tdcls) newType ->
-          let gen = Ast_derive_js_mapper.gen ~newType in
-          gen.signature_gen tdcls rf)
+      Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (_, tdcls) newType ->
+          Ast_derive_js_mapper.derive_signature ~newType tdcls)
     in
     Deriving.add ~str_type_decl ~sig_type_decl "jsConverter"
 
   let accessors =
     let str_type_decl =
-      Deriving.Generator.V2.make Deriving.Args.empty (fun ~ctxt (rf, tdcls) ->
+      Deriving.Generator.V2.make Deriving.Args.empty (fun ~ctxt (_, tdcls) ->
           let loc = Expansion_context.Deriver.derived_item_loc ctxt in
-          gen_structure_signature loc tdcls Ast_derive_projector.gen rf)
+          let str = Ast_derive_projector.derive_structure
+          and sig_ = Ast_derive_projector.derive_signature in
+          gen_structure_signature loc tdcls ~str ~sig_)
     and sig_type_decl =
-      Deriving.Generator.V2.make Deriving.Args.empty (fun ~ctxt:_ (rf, tdcls) ->
-          Ast_derive_projector.gen.signature_gen tdcls rf)
+      Deriving.Generator.V2.make Deriving.Args.empty (fun ~ctxt:_ (_, tdcls) ->
+          Ast_derive_projector.derive_signature tdcls)
     in
     Deriving.add ~str_type_decl ~sig_type_decl "accessors"
 end
