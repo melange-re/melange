@@ -13,14 +13,14 @@
   Curry._1(Stdlib__Format.printf(/* Format */{
             _0: {
               TAG: /* String_literal */11,
-              _0: "\xe4\xbd\xa0 ",
+              _0: "你 ",
               _1: {
                 TAG: /* String */2,
                 _0: /* No_padding */0,
                 _1: /* End_of_format */0
               }
             },
-            _1: "\xe4\xbd\xa0 %s"
+            _1: "你 %s"
           }), "xx");
   
   /*  Not a pure module */

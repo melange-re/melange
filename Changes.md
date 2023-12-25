@@ -127,6 +127,8 @@ Unreleased
   ([#995](https://github.com/melange-re/melange/pull/995))
     - PPXes will no longer see the internal `*j` delimiter in unicode strings
       and can hook on either `j` or `js`
+- Preserve unicode in format strings
+  ([#1001](https://github.com/melange-re/melange/pull/1001))
 
 2.2.0 2023-12-05
 ---------------
