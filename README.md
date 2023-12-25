@@ -27,9 +27,11 @@ Sponsored by:
   <a href="https://ocaml-sf.org/">
     <img src="./docs/images/ocsf_logo.svg" height="50px">
   </a>
-  <a href="https://www.instapainting.com" style="margin-left: 6px;">
-    <img src="./docs/images/instapainting-logo.png" height="30px">
-  </a>
+  <div style="display: inline; margin-left: 6px;">
+    <a href="https://www.instapainting.com">
+      <img src="./docs/images/instapainting-logo.png" height="30px">
+    </a>
+  </div>
 </div>
 
 ## Installation
