@@ -48,12 +48,12 @@ function f(check) {
   }
 }
 
-eq("File \"gpr_904_test.ml\", line 23, characters 5-12", f({
+eq("File \"jscomp/test/gpr_904_test.ml\", line 23, characters 5-12", f({
           x: true,
           y: false
         }), false);
 
-eq("File \"gpr_904_test.ml\", line 26, characters 5-12", check_healty({
+eq("File \"jscomp/test/gpr_904_test.ml\", line 26, characters 5-12", check_healty({
           a: false,
           b: false,
           c: true

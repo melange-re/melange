@@ -1,10 +1,6 @@
 {
-external log : string -> unit = "caml_alloc_dummy" [@@bs.val "console.log"]
-let l = 
-#if BS then 
- log 
-#else output_string stdout
-#end
+external log : string -> unit = "console.log"
+let l = log
 
 }
 

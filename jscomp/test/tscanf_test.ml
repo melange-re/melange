@@ -13,12 +13,12 @@
 (*
 
 A testbed file for the module Scanf.
-Adapted by Hongbo Zhang 
+Adapted by Hongbo Zhang
 *)
 
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0
-let eq f (a,b) = Mt_global.collect_eq test_id suites f a b 
+let eq f (a,b) = Mt_global.collect_eq test_id suites f a b
 
 open Testing;;
 let test loc b = eq loc (b, true)
@@ -325,7 +325,7 @@ test __LOC__ (test13 ())
 ;;
 
 (* A general int list scanner. *)
-let rec scan_int_list ib =
+let scan_int_list ib =
   bscanf ib "[ " ();
   let accu = scan_elems ib [] in
   bscanf ib " ]" ();
@@ -346,7 +346,7 @@ let rec scan_elems ib accu =
      | c -> failwith "scan_elems")
 ;;
 
-let rec scan_int_list ib =
+let scan_int_list ib =
   bscanf ib "[ " ();
   scan_elems ib []
 ;;
@@ -496,7 +496,7 @@ let scan_int_list ib =
 ;;
 
 let test22 () =
-  (* [%bs.debugger]; *)
+  (* [%mel.debugger]; *)
   scan_int_list (Scanning.from_string "[]") = [] &&
   scan_int_list (Scanning.from_string "[ ]") = [] &&
   scan_int_list (Scanning.from_string "[1]") = [1] &&
@@ -522,7 +522,7 @@ let rec scan_elems ib accu =
 ;;
 
 (* The general int list scanner. *)
-let rec scan_int_list ib =
+let scan_int_list ib =
   bscanf ib "[ " ();
   let accu = scan_elems ib [] in
   bscanf ib " ]" ();

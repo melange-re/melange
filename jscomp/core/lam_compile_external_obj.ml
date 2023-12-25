@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,11 +17,12 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module E = Js_exp_make
 module S = Js_stmt_make
 
@@ -37,9 +38,9 @@ module S = Js_stmt_make
 *)
 
 (* TODO: check stackoverflow *)
-let assemble_obj_args (labels : External_arg_spec.obj_params)
+let assemble_obj_args (labels : Melange_ffi.External_arg_spec.obj_params)
     (args : J.expression list) : J.block * J.expression =
-  let rec aux (labels : External_arg_spec.obj_params) args :
+  let rec aux (labels : Melange_ffi.External_arg_spec.obj_params) args :
       (Js_op.property_name * E.t) list * J.expression list * _ =
     match (labels, args) with
     | [], [] -> ([], [], [])
@@ -54,12 +55,12 @@ let assemble_obj_args (labels : External_arg_spec.obj_params)
           eff,
           assign )
     (* | {obj_arg_label = EmptyCst _ } :: rest  , args -> assert false  *)
-    | { obj_arg_label = Obj_empty } :: labels, arg :: args ->
+    | { obj_arg_label = Obj_empty; _ } :: labels, arg :: args ->
         (* unit type*)
         let ((accs, eff, assign) as r) = aux labels args in
         if Js_analyzer.no_side_effect_expression arg then r
         else (accs, arg :: eff, assign)
-    | ( ({ obj_arg_label = Obj_label { name = label } } as arg_kind) :: labels,
+    | ( ({ obj_arg_label = Obj_label { name = label }; _ } as arg_kind) :: labels,
         arg :: args ) -> (
         let accs, eff, assign = aux labels args in
         let acc, new_eff =
@@ -69,10 +70,10 @@ let assemble_obj_args (labels : External_arg_spec.obj_params)
         match acc with
         | Splice2 _ | Splice0 -> assert false
         | Splice1 x ->
-            ((Js_op.Lit label, x) :: accs, Ext_list.append new_eff eff, assign)
+            ((Js_op.Lit label, x) :: accs, List.append new_eff eff, assign)
         (* evaluation order is undefined *))
-    | ( ({ obj_arg_label = Obj_optional { name = label }; obj_arg_type } as
-        arg_kind)
+    | ( ({ obj_arg_label = Obj_optional { name = label; _ }; obj_arg_type } as
+         arg_kind)
         :: labels,
         arg :: args ) ->
         let ((accs, eff, assign) as r) = aux labels args in
@@ -85,35 +86,37 @@ let assemble_obj_args (labels : External_arg_spec.obj_params)
             match acc with
             | Splice2 _ | Splice0 -> assert false
             | Splice1 x ->
-                ( (Js_op.Lit label, x) :: accs,
-                  Ext_list.append new_eff eff,
-                  assign ))
+                ((Js_op.Lit label, x) :: accs, List.append new_eff eff, assign))
           ~not_sure:(fun _ -> (accs, eff, (arg_kind, arg) :: assign))
-    | { obj_arg_label = Obj_empty | Obj_label _ | Obj_optional _ } :: _, [] ->
+    | { obj_arg_label = Obj_empty | Obj_label _ | Obj_optional _; _ } :: _, []
+      ->
         assert false
     | [], _ :: _ -> assert false
   in
   let map, eff, assignment = aux labels args in
   match assignment with
-  | [] -> (
+  | [] ->
       ( [],
         match eff with
         | [] -> E.obj map
-        | x :: xs -> E.seq (E.fuse_to_seq x xs) (E.obj map) ))
+        | x :: xs -> E.seq (E.fuse_to_seq x xs) (E.obj map) )
   | _ ->
-      let v = Ext_ident.create_tmp () in
+      let v = Ident.create_tmp () in
       let var_v = E.var v in
       ( S.define_variable ~kind:Variable v
           (match eff with
           | [] -> E.obj map
           | x :: xs -> E.seq (E.fuse_to_seq x xs) (E.obj map))
-        :: Ext_list.flat_map assignment
-             (fun ((xlabel : External_arg_spec.obj_param), (arg : J.expression))
-             ->
+        :: List.concat_map
+             ~f:(fun
+                 ( (xlabel : Melange_ffi.External_arg_spec.obj_param),
+                   (arg : J.expression) )
+               ->
                match xlabel with
                | {
                 obj_arg_label =
                   Obj_optional { name = label; for_sure_no_nested_option };
+                _;
                } -> (
                    (* Need make sure whether assignment is effectful or not
                       to avoid code duplication
@@ -124,7 +127,7 @@ let assemble_obj_args (labels : External_arg_spec.obj_params)
                          Lam_compile_external_call.ocaml_to_js_eff
                            ~arg_label:Arg_empty ~arg_type:xlabel.obj_arg_type
                            (if for_sure_no_nested_option then arg
-                           else Js_of_lam_option.val_from_option arg)
+                            else Js_of_lam_option.val_from_option arg)
                        in
                        match acc with
                        | Splice1 v ->
@@ -147,7 +150,7 @@ let assemble_obj_args (labels : External_arg_spec.obj_params)
                          Lam_compile_external_call.ocaml_to_js_eff
                            ~arg_label:Arg_empty ~arg_type:xlabel.obj_arg_type
                            (if for_sure_no_nested_option then arg
-                           else Js_of_lam_option.val_from_option arg)
+                            else Js_of_lam_option.val_from_option arg)
                        in
                        match acc with
                        | Splice1 v ->
@@ -165,5 +168,6 @@ let assemble_obj_args (labels : External_arg_spec.obj_params)
                                   ];
                               ]
                        | Splice0 | Splice2 _ -> assert false))
-               | _ -> assert false),
+               | _ -> assert false)
+             assignment,
         var_v )

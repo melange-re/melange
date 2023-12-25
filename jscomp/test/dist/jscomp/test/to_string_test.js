@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 
 var ff = Stdlib.string_of_float;
 
@@ -12,7 +12,7 @@ function f(v) {
 
 Mt.from_pair_suites("To_string_test", {
       hd: [
-        "File \"to_string_test.ml\", line 7, characters 2-9",
+        "File \"jscomp/test/to_string_test.ml\", line 7, characters 2-9",
         (function (param) {
             return {
                     TAG: /* Eq */0,
@@ -23,7 +23,7 @@ Mt.from_pair_suites("To_string_test", {
       ],
       tl: {
         hd: [
-          "File \"to_string_test.ml\", line 8, characters 1-8",
+          "File \"jscomp/test/to_string_test.ml\", line 8, characters 1-8",
           (function (param) {
               return {
                       TAG: /* Eq */0,

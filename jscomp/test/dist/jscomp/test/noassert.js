@@ -4,9 +4,9 @@
 
 function f(param) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
-          "noassert.ml",
+          "jscomp/test/noassert.ml",
           5,
           11
         ],

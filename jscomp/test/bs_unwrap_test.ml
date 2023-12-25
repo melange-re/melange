@@ -3,9 +3,9 @@ external log1 :
     [ `Pair of string * int
     | `Int of int
     | `String of string
-    ] [@bs.unwrap]
+    ] [@mel.unwrap]
   )
-  -> unit = "console.log" [@@bs.val]
+  -> unit = "console.log"
 
 let _ = log1 (`Pair ("hello world", 1))
 let _ = log1 (`Int 1337)
@@ -20,22 +20,22 @@ let _ = log1 arg_pair
 external log2 :
   (
     [ `Unit of unit
-    ] [@unwrap]
+    ] [@mel.unwrap]
   )
-  -> unit = "console.log" [@@bs.val]
+  -> unit = "console.log"
 
 let _ = log2 (`Unit ())
 
 external log3 :
-  req:([ 
+  req:([
     `String of string
-       | `Int of int 
-       ] [@bs.unwrap])
+       | `Int of int
+       ] [@mel.unwrap])
   -> ?opt:([ `String of string
            | `Bool of bool
-           ] [@bs.unwrap])
+           ] [@mel.unwrap])
   -> unit
-  -> unit = "console.log" [@@bs.val]
+  -> unit = "console.log"
 
 let _ = log3 ~req:(`Int 1) ()
 let _ = log3 ~req:(`Int 2) ~opt:(`String "hi") ()
@@ -71,28 +71,28 @@ let _ = dyn_log3 ~req:(`Int 8) ~opt:(`Bool true) ()
 external log4 :
   ([ `String of string
    | `Options of  < foo : int > Js.t
-   ] [@bs.unwrap])
-  -> unit = "console.log" [@@bs.val]
+   ] [@mel.unwrap])
+  -> unit = "console.log"
 
-(* Make sure [@bs.unwrap] plays nicely with [%bs.obj] *)
+(* Make sure [@mel.unwrap] plays nicely with [%mel.obj] *)
 let _ = log4 (`String "foo")
-let _ = log4 (`Options [%bs.obj { foo = 1 }])
+let _ = log4 (`Options [%mel.obj { foo = 1 }])
 
 let dyn_log4 = log4
-let _ = dyn_log4 (`Options [%bs.obj { foo = 2 }])
+let _ = dyn_log4 (`Options [%mel.obj { foo = 2 }])
 
 
-let f x = dyn_log4 x 
+let f x = dyn_log4 x
 
-external log5: ?h:([`A of int | `B of string] [@bs.unwrap]) -> int -> unit = "console.log" [@@bs.val]
-
-
-let ff0 x p = log5 ?h:x p 
-
-let ff1 x p = log5 ?h:(x ()) p 
+external log5: ?h:([`A of int | `B of string] [@mel.unwrap]) -> int -> unit = "console.log"
 
 
-external ff : a:int -> b:int-> x: unit  -> _ = "" [@@bs.obj]
+let ff0 x p = log5 ?h:x p
+
+let ff1 x p = log5 ?h:(x ()) p
+
+
+external ff : a:int -> b:int-> x: unit  -> _ = "" [@@mel.obj]
 
 
 let test00 () = ff  ~a:1 ~b:2 ~x:()

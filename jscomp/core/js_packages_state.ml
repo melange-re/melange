@@ -28,15 +28,9 @@ let output_info = ref None
 let set_package_name name =
   packages_info := Js_packages_info.from_name ~t:!packages_info name
 
-let set_package_map module_name =
-  (* set_package_name name ;
-     let module_name = Ext_namespace.namespace_of_package_name name  in *)
-  Bs_clflags.dont_record_crc_unit := Some module_name;
-  Clflags.open_modules := module_name :: !Clflags.open_modules
-
-let update_npm_package_path ?module_name s =
+let update_npm_package_path ?module_name path =
   packages_info :=
-    Js_packages_info.add_npm_package_path ?module_name !packages_info s
+    Js_packages_info.add_npm_package_path ?module_name !packages_info path
 
 let set_output_info ~suffix module_system =
   output_info := Some { Js_packages_info.suffix; module_system }
@@ -44,6 +38,8 @@ let set_output_info ~suffix module_system =
 let get_packages_info () = !packages_info
 
 let get_output_info () =
-  Js_packages_info.assemble_output_info ?output_info:!output_info !packages_info
+  match !output_info with
+  | Some info -> [ info ]
+  | None -> Js_packages_info.assemble_output_info !packages_info
 
-let get_packages_info_for_cmj () = Js_packages_info.for_cmj !packages_info
+let get_packages_info_for_cmj () = !packages_info

@@ -1,6 +1,5 @@
-
-external join : string array -> string = "join" 
-[@@bs.module "path"]  [@@bs.splice]
+external join : string array -> string = "join"
+[@@mel.module "path"]  [@@mel.variadic]
 
 let () = Js.log (join [| "." ; __MODULE__  |])
 

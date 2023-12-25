@@ -22,14 +22,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-module P = Ext_pp
+open Import
+module P = Js_pp
 
 (** Avoid to allocate single char string too many times*)
-let array_str1 = Array.init 256 (fun i -> String.make 1 (Char.chr i))
+let array_str1 = Array.init 256 ~f:(fun i -> String.make 1 (Char.chr i))
 
-(** For converting
-
-*)
 let array_conv =
   [|
     "0";

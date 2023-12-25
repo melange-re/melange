@@ -1,0 +1,6 @@
+(melange.emit
+ (target dist)
+ (alias melange-dist)
+ (modules entry_module)
+ (emit_stdlib false)
+ (libraries parent))

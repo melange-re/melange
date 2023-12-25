@@ -14,9 +14,9 @@ function bench(param) {
   for(var i$1 = 0; i$1 <= 1000000; ++i$1){
     if (!Rbset.mem(i$1, data)) {
       throw {
-            RE_EXN_ID: "Assert_failure",
+            MEL_EXN_ID: "Assert_failure",
             _1: [
-              "bs_rbset_int_bench.ml",
+              "jscomp/test/bs_rbset_int_bench.ml",
               12,
               4
             ],
@@ -35,9 +35,9 @@ function bench(param) {
     return ;
   }
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
-          "bs_rbset_int_bench.ml",
+          "jscomp/test/bs_rbset_int_bench.ml",
           17,
           2
         ],

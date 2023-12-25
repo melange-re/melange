@@ -22,10 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 val set_package_name : string -> unit
-val set_package_map : string -> unit
 val get_packages_info : unit -> Js_packages_info.t
 val get_packages_info_for_cmj : unit -> Js_packages_info.t
 val update_npm_package_path : ?module_name:string -> string -> unit
-val set_output_info : suffix:Ext_js_suffix.t -> Ext_module_system.t -> unit
+val set_output_info : suffix:Js_suffix.t -> Module_system.t -> unit
 val get_output_info : unit -> Js_packages_info.output_info list

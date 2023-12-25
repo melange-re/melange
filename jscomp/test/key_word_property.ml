@@ -1,4 +1,4 @@
-(* [@@@bs.config {flags = [|
+(* [@@@mel.config {flags = [|
   "-bs-package-output"; "es6:."
 |]}]
 *)
@@ -8,18 +8,18 @@
 type t
 
 
-external default :   t = "default" [@@bs.module "some-es6-module"]
-external default2 :   t = "default2" [@@bs.module "some-es6-module"]
+external default :   t = "default" [@@mel.module "some-es6-module"]
+external default2 :   t = "default2" [@@mel.module "some-es6-module"]
 let default,default2  = default, default2
 
 
-external oefault :   t = "default" [@@bs.module "./ome-es6-module"]
-external oefault2 :   t = "default2" [@@bs.module "./ome-es6-module"]
+external oefault :   t = "default" [@@mel.module "./ome-es6-module"]
+external oefault2 :   t = "default2" [@@mel.module "./ome-es6-module"]
 let oefault,oefault2  = oefault, oefault2
 
 
 type window
-external window : window = "window" [@@bs.val] [@@bs.module "vscode"]
+external window : window = "window"  [@@mel.module "vscode"]
 
 let window = window
 let mk window default = [%obj{window; default ; }]
@@ -34,7 +34,7 @@ let case = 3
 
 let test =  [%obj{case ; window = 3}]
 
-external switch : window -> string = "switch" [@@bs.send]
+external switch : window -> string = "switch" [@@mel.send]
 
 let u () = switch window
 

@@ -22,11 +22,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type constructor_tag = { name : string; const : int; non_const : int }
+open Import
 
 type pointer_info =
   | None
-  | Pt_constructor of constructor_tag
+  | Pt_constructor of {
+      name : string;
+      const : int;
+      non_const : int;
+      attributes : Parsetree.attributes;
+    }
   | Pt_assertfalse
   | Some of string
 
@@ -43,8 +48,7 @@ type t =
   | Const_js_false
   | Const_int of { i : int32; comment : pointer_info }
   | Const_char of char
-  | Const_string of string (* use record later *)
-  | Const_unicode of string
+  | Const_string of { s : string; unicode : bool }
   | Const_float of string
   | Const_int64 of int64
   | Const_pointer of string
@@ -65,9 +69,10 @@ let rec eq_approx (x : t) (y : t) =
   | Const_js_false -> y = Const_js_false
   | Const_int ix -> ( match y with Const_int iy -> ix.i = iy.i | _ -> false)
   | Const_char ix -> ( match y with Const_char iy -> ix = iy | _ -> false)
-  | Const_string ix -> ( match y with Const_string iy -> ix = iy | _ -> false)
-  | Const_unicode ix -> (
-      match y with Const_unicode iy -> ix = iy | _ -> false)
+  | Const_string { s = sx; unicode = ux } -> (
+      match y with
+      | Const_string { s = sy; unicode = uy } -> sx = sy && ux = uy
+      | _ -> false)
   | Const_float ix -> ( match y with Const_float iy -> ix = iy | _ -> false)
   | Const_int64 ix -> ( match y with Const_int64 iy -> ix = iy | _ -> false)
   | Const_pointer ix -> (
@@ -75,12 +80,11 @@ let rec eq_approx (x : t) (y : t) =
   | Const_block (ix, _, ixs) -> (
       match y with
       | Const_block (iy, _, iys) ->
-          ix = iy && Ext_list.for_all2_no_exn ixs iys eq_approx
+          ix = iy && List.for_all2_no_exn ixs iys eq_approx
       | _ -> false)
   | Const_float_array ixs -> (
       match y with
-      | Const_float_array iys ->
-          Ext_list.for_all2_no_exn ixs iys Ext_string.equal
+      | Const_float_array iys -> List.for_all2_no_exn ixs iys String.equal
       | _ -> false)
   | Const_some ix -> (
       match y with Const_some iy -> eq_approx ix iy | _ -> false)

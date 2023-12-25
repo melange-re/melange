@@ -22,23 +22,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
-
-
-
-
 (** *)
 
 val caml_format_float : string -> float -> string
-
 val caml_hexstring_of_float : float -> int -> char -> string
-
 val caml_format_int : string -> int -> string
-val caml_nativeint_format : string -> int -> string     
+val caml_nativeint_format : string -> int -> string
 val caml_int32_format : string -> int -> string
-
-val caml_float_of_string : string -> float 
+val caml_float_of_string : string -> float
 val caml_int64_format : string -> int64 -> string
 val caml_int_of_string : string -> int
 val caml_int32_of_string : string -> int

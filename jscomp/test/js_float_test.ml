@@ -1,4 +1,4 @@
-open Js_float
+open Js.Float
 
 let suites = Mt.[
   ("_NaN <> _NaN", (fun _ ->
@@ -23,45 +23,45 @@ let suites = Mt.[
   ("toExponential - large number", (fun _ ->
     Eq("1.2e+21", toExponential 1.2e21)));
   ("toExponentialWithPrecision - digits:2", (fun _ ->
-    Eq("1.23e+2", toExponentialWithPrecision 123.456 ~digits:2)));
+    Eq("1.23e+2", toExponential 123.456 ~digits:2)));
   ("toExponentialWithPrecision - digits:4", (fun _ ->
-    Eq("1.2346e+2", toExponentialWithPrecision 123.456 ~digits:4)));
+    Eq("1.2346e+2", toExponential 123.456 ~digits:4)));
   ("toExponentialWithPrecision - digits:20", (fun _ ->
-    Eq("0.00000000000000000000e+0", toExponentialWithPrecision 0. ~digits:20)));
+    Eq("0.00000000000000000000e+0", toExponential 0. ~digits:20)));
   (__LOC__, (fun _ ->
-    ThrowAny(fun () -> ignore @@ toExponentialWithPrecision 0. ~digits:101)));
+    ThrowAny(fun () -> ignore @@ toExponential 0. ~digits:101)));
   ("toExponentialWithPrecision - digits:-1", (fun _ ->
-    ThrowAny(fun () -> ignore @@ toExponentialWithPrecision 0. ~digits:(-1))));
+    ThrowAny(fun () -> ignore @@ toExponential 0. ~digits:(-1))));
 
   ("toFixed", (fun _ ->
     Eq("123", toFixed 123.456)));
   ("toFixed - large number", (fun _ ->
     Eq("1.2e+21", toFixed 1.2e21)));
   ("toFixedWithPrecision - digits:2", (fun _ ->
-    Eq("123.46", toFixedWithPrecision 123.456 ~digits:2)));
+    Eq("123.46", toFixed 123.456 ~digits:2)));
   ("toFixedWithPrecision - digits:4", (fun _ ->
-    Eq("123.4560", toFixedWithPrecision 123.456 ~digits:4)));
+    Eq("123.4560", toFixed 123.456 ~digits:4)));
   ("toFixedWithPrecision - digits:20", (fun _ ->
-    Eq("0.00000000000000000000", toFixedWithPrecision 0. ~digits:20)));
+    Eq("0.00000000000000000000", toFixed 0. ~digits:20)));
   ("toFixedWithPrecision - digits:101", (fun _ ->
-    ThrowAny(fun () -> ignore @@ toFixedWithPrecision 0. ~digits:101)));
+    ThrowAny(fun () -> ignore @@ toFixed 0. ~digits:101)));
   ("toFixedWithPrecision - digits:-1", (fun _ ->
-    ThrowAny(fun () -> ignore @@ toFixedWithPrecision 0. ~digits:(-1))));
+    ThrowAny(fun () -> ignore @@ toFixed 0. ~digits:(-1))));
 
   ("toPrecision", (fun _ ->
     Eq("123.456", toPrecision 123.456)));
   ("toPrecision - large number", (fun _ ->
     Eq("1.2e+21", toPrecision 1.2e21)));
   ("toPrecisionWithPrecision - digits:2", (fun _ ->
-    Eq("1.2e+2", toPrecisionWithPrecision 123.456 ~digits:2)));
+    Eq("1.2e+2", toPrecision 123.456 ~digits:2)));
   ("toPrecisionWithPrecision - digits:4", (fun _ ->
-    Eq("123.5", toPrecisionWithPrecision 123.456 ~digits:4)));
+    Eq("123.5", toPrecision 123.456 ~digits:4)));
   ("toPrecisionWithPrecision - digits:20", (fun _ ->
-    Eq("0.0000000000000000000", toPrecisionWithPrecision 0. ~digits:20)));
+    Eq("0.0000000000000000000", toPrecision 0. ~digits:20)));
   (__LOC__, (fun _ ->
-    ThrowAny(fun () -> ignore @@ toPrecisionWithPrecision 0. ~digits:101)));
+    ThrowAny(fun () -> ignore @@ toPrecision 0. ~digits:101)));
   ("toPrecisionWithPrecision - digits:-1", (fun _ ->
-    ThrowAny(fun () -> ignore @@ toPrecisionWithPrecision 0. ~digits:(-1))));
+    ThrowAny(fun () -> ignore @@ toPrecision 0. ~digits:(-1))));
 
   ("toString", (fun _ ->
     Eq("1.23", toString 1.23)));
@@ -69,17 +69,17 @@ let suites = Mt.[
     Eq("1.2e+21", toString 1.2e21)));
   ("toStringWithRadix - radix:2", (fun _ ->
     Eq( "1111011.0111010010111100011010100111111011111001110111",
-        toStringWithRadix 123.456 ~radix:2)));
+        toString 123.456 ~radix:2)));
   ("toStringWithRadix - radix:16", (fun _ ->
-    Eq("7b.74bc6a7ef9dc", toStringWithRadix 123.456 ~radix:16)));
+    Eq("7b.74bc6a7ef9dc", toString 123.456 ~radix:16)));
   ("toStringWithRadix - radix:36", (fun _ ->
-    Eq("3f", toStringWithRadix 123. ~radix:36)));
+    Eq("3f", toString 123. ~radix:36)));
   ("toStringWithRadix - radix:37", (fun _ ->
-    ThrowAny(fun () -> ignore @@ toStringWithRadix 0. ~radix:37)));
+    ThrowAny(fun () -> ignore @@ toString 0. ~radix:37)));
   ("toStringWithRadix - radix:1", (fun _ ->
-    ThrowAny(fun () -> ignore @@ toStringWithRadix 0. ~radix:1)));
+    ThrowAny(fun () -> ignore @@ toString 0. ~radix:1)));
   ("toStringWithRadix - radix:-1", (fun _ ->
-    ThrowAny(fun () -> ignore @@ toStringWithRadix 0. ~radix:(-1))));
+    ThrowAny(fun () -> ignore @@ toString 0. ~radix:(-1))));
 
   ("fromString - 123", (fun _ ->
     Eq(123., fromString "123")));

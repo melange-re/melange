@@ -22,11 +22,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 let arity_of_var (meta : Lam_stats.t) (v : Ident.t) =
   (* for functional parameter, if it is a high order function,
       if it's not from function parameter, we should warn
   *)
-  match Hash_ident.find_opt meta.ident_tbl v with
+  match Ident.Hash.find_opt meta.ident_tbl v with
   | Some (FunctionId { arity; _ }) -> arity
   | Some _ | None -> Lam_arity.na
 
@@ -58,6 +60,7 @@ let rec get_arity (meta : Lam_stats.t) (lam : Lam.t) : Lam_arity.t =
               {
                 primitive = Pfield (_, Fld_module { name });
                 args = [ Lglobal_module id ];
+                _;
               };
           ];
         _;
@@ -69,8 +72,11 @@ let rec get_arity (meta : Lam_stats.t) (lam : Lam.t) : Lam_arity.t =
      get more arity information
   *)
   | Lprim
-      { primitive = Praw_js_code { code_info = Exp (Js_function { arity }) } }
-    ->
+      {
+        primitive =
+          Praw_js_code { code_info = Exp (Js_function { arity; _ }); _ };
+        _;
+      } ->
       Lam_arity.info [ arity ] false
   | Lprim { primitive = Praise; _ } -> Lam_arity.raise_arity_info
   | Lglobal_module _ (* TODO: fix me never going to happen *) | Lprim _ ->
@@ -106,7 +112,7 @@ let rec get_arity (meta : Lam_stats.t) (lam : Lam.t) : Lam_arity.t =
             *)
           in
           take xs (List.length args))
-  | Lfunction { arity; body } -> Lam_arity.merge arity (get_arity meta body)
+  | Lfunction { arity; body; _ } -> Lam_arity.merge arity (get_arity meta body)
   | Lswitch
       ( _,
         {
@@ -115,21 +121,21 @@ let rec get_arity (meta : Lam_stats.t) (lam : Lam.t) : Lam_arity.t =
           sw_blocks;
           sw_blocks_full = _;
           sw_consts_full = _;
+          _;
         } ) ->
       all_lambdas meta
-        (let rest =
-           Ext_list.map_append sw_consts (Ext_list.map sw_blocks snd) snd
-         in
+        (let rest = List.map ~f:snd sw_consts @ List.map ~f:snd sw_blocks in
          match sw_failaction with None -> rest | Some x -> x :: rest)
   | Lstringswitch (_, sw, d) -> (
       match d with
-      | None -> all_lambdas meta (Ext_list.map sw snd)
-      | Some v -> all_lambdas meta (v :: Ext_list.map sw snd))
+      | None -> all_lambdas meta (List.map ~f:snd sw)
+      | Some v -> all_lambdas meta (v :: List.map ~f:snd sw))
   | Lstaticcatch (_, _, handler) -> get_arity meta handler
   | Ltrywith (l1, _, l2) -> all_lambdas meta [ l1; l2 ]
   | Lifthenelse (_, l2, l3) -> all_lambdas meta [ l2; l3 ]
   | Lsequence (_, l2) -> get_arity meta l2
-  | Lstaticraise _ (* since it will not be in tail position *) | Lsend _ ->
+  | Lstaticraise _ (* since it will not be in tail position *) | Lsend _
+  | Lifused _ ->
       Lam_arity.na
   | Lwhile _ | Lfor _ | Lassign _ -> Lam_arity.non_function_arity_info
 

@@ -20,14 +20,14 @@ var u = {
 };
 
 function div(children, param) {
-  for(var i = 0; i <= 1; ++i){
+  for(var _i = 0; _i <= 1; ++_i){
     u.contents = 300;
     console.log("nonline");
   }
 }
 
 function string(s) {
-  for(var i = 0; i <= 1; ++i){
+  for(var _i = 0; _i <= 1; ++_i){
     u.contents = 200;
     console.log("no");
   }
@@ -84,21 +84,21 @@ function fn(authState, route) {
   return 0;
 }
 
-eq("File \"gpr_4280_test.ml\", line 46, characters 6-13", fn("Unauthenticated", "Invite"), 1);
+eq("File \"jscomp/test/gpr_4280_test.ml\", line 45, characters 6-13", fn("Unauthenticated", "Invite"), 1);
 
-eq("File \"gpr_4280_test.ml\", line 47, characters 6-13", fn("Unauthenticated", {
+eq("File \"jscomp/test/gpr_4280_test.ml\", line 46, characters 6-13", fn("Unauthenticated", {
           NAME: "Onboarding",
           VAL: 0
         }), 0);
 
-eq("File \"gpr_4280_test.ml\", line 48, characters 6-13", fn({
+eq("File \"jscomp/test/gpr_4280_test.ml\", line 47, characters 6-13", fn({
           NAME: "Unverified",
           VAL: 0
         }, "Invite"), 2);
 
-eq("File \"gpr_4280_test.ml\", line 49, characters 6-13", fn("Unauthenticated", "xx"), 3);
+eq("File \"jscomp/test/gpr_4280_test.ml\", line 48, characters 6-13", fn("Unauthenticated", "xx"), 3);
 
-Mt.from_pair_suites("gpr_4280_test.ml", suites.contents);
+Mt.from_pair_suites("jscomp/test/gpr_4280_test.ml", suites.contents);
 
 exports.suites = suites;
 exports.test_id = test_id;

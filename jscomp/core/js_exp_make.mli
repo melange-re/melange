@@ -42,7 +42,9 @@ type t = J.expression
 val remove_pure_sub_exp : t -> t option
 val var : ?loc:Location.t -> ?comment:string -> J.ident -> t
 val js_global : ?loc:Location.t -> ?comment:string -> string -> t
-val runtime_var_dot : ?loc:Location.t -> ?comment:string -> string -> string -> t
+
+val runtime_var_dot :
+  ?loc:Location.t -> ?comment:string -> string -> string -> t
 
 (* val runtime_var_vid : string -> string -> J.vident *)
 
@@ -51,7 +53,8 @@ val ml_var_dot : ?loc:Location.t -> ?comment:string -> Ident.t -> string -> t
 *)
 
 val external_var_field :
-  ?loc:Location.t -> ?comment:string ->
+  ?loc:Location.t ->
+  ?comment:string ->
   external_name:string ->
   Ident.t ->
   field:string ->
@@ -61,7 +64,9 @@ val external_var_field :
   Used in FFI
 *)
 
-val external_var : ?loc:Location.t -> ?comment:string -> external_name:string -> Ident.t -> t
+val external_var :
+  ?loc:Location.t -> ?comment:string -> external_name:string -> Ident.t -> t
+
 val ml_module_as_var : ?loc:Location.t -> ?comment:string -> Ident.t -> t
 
 val runtime_call :
@@ -147,6 +152,7 @@ val array_index : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val array_index_by_int : ?loc:Location.t -> ?comment:string -> t -> Int32.t -> t
 val record_access : t -> string -> Int32.t -> t
 val inline_record_access : t -> string -> Int32.t -> t
+val variant_pos : constr:string -> int32 -> string
 val variant_access : t -> int32 -> t
 val cons_access : t -> int32 -> t
 val extension_access : t -> string option -> Int32.t -> t
@@ -171,8 +177,13 @@ val triple_equal : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val float_equal : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val int_equal : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val string_equal : ?loc:Location.t -> ?comment:string -> t -> t -> t
-val eq_null_undefined_boolean : ?loc:Location.t -> ?comment:string -> t -> t -> t
-val neq_null_undefined_boolean : ?loc:Location.t -> ?comment:string -> t -> t -> t
+
+val eq_null_undefined_boolean :
+  ?loc:Location.t -> ?comment:string -> t -> t -> t
+
+val neq_null_undefined_boolean :
+  ?loc:Location.t -> ?comment:string -> t -> t -> t
+
 val is_type_number : ?loc:Location.t -> ?comment:string -> t -> t
 val is_type_string : ?loc:Location.t -> ?comment:string -> t -> t
 val typeof : ?loc:Location.t -> ?comment:string -> t -> t
@@ -185,8 +196,13 @@ val unchecked_int32_minus : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val int32_minus : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val int32_mul : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val unchecked_int32_mul : ?loc:Location.t -> ?comment:string -> t -> t -> t
-val int32_div : checked:bool -> ?loc:Location.t -> ?comment:string -> t -> t -> t
-val int32_mod : checked:bool -> ?loc:Location.t -> ?comment:string -> t -> t -> t
+
+val int32_div :
+  checked:bool -> ?loc:Location.t -> ?comment:string -> t -> t -> t
+
+val int32_mod :
+  checked:bool -> ?loc:Location.t -> ?comment:string -> t -> t -> t
+
 val int32_lsl : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val int32_lsr : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val int32_asr : ?loc:Location.t -> ?comment:string -> t -> t -> t
@@ -199,21 +215,60 @@ val float_mul : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val float_div : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val float_notequal : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val float_mod : ?loc:Location.t -> ?comment:string -> t -> t -> t
-val int_comp : Lam_compat.integer_comparison -> ?loc:Location.t -> ?comment:string -> t -> t -> t
-val bool_comp : Lam_compat.integer_comparison -> ?loc:Location.t -> ?comment:string -> t -> t -> t
-val string_comp : Js_op.binop -> ?loc:Location.t -> ?comment:string -> t -> t -> t
-val float_comp : Lam_compat.float_comparison -> ?loc:Location.t -> ?comment:string -> t -> t -> t
-val js_comp : Lam_compat.integer_comparison -> ?loc:Location.t -> ?comment:string -> t -> t -> t
+
+val int_comp :
+  Lam_compat.integer_comparison ->
+  ?loc:Location.t ->
+  ?comment:string ->
+  t ->
+  t ->
+  t
+
+val bool_comp :
+  Lam_compat.integer_comparison ->
+  ?loc:Location.t ->
+  ?comment:string ->
+  t ->
+  t ->
+  t
+
+val string_comp :
+  Js_op.binop -> ?loc:Location.t -> ?comment:string -> t -> t -> t
+
+val float_comp :
+  Lam_compat.float_comparison ->
+  ?loc:Location.t ->
+  ?comment:string ->
+  t ->
+  t ->
+  t
+
+val js_comp :
+  Lam_compat.integer_comparison ->
+  ?loc:Location.t ->
+  ?comment:string ->
+  t ->
+  t ->
+  t
+
 val not : t -> t
-val call : ?loc:Location.t -> ?comment:string -> info:Js_call_info.t -> t -> t list -> t
+
+val call :
+  ?loc:Location.t -> ?comment:string -> info:Js_call_info.t -> t -> t list -> t
+
 val flat_call : ?loc:Location.t -> ?comment:string -> t -> t -> t
-val new_ : ?loc:Location.t -> ?comment:string -> J.expression -> J.expression list -> t
-val array : ?loc:Location.t -> ?comment:string -> J.mutable_flag -> J.expression list -> t
+
+val new_ :
+  ?loc:Location.t -> ?comment:string -> J.expression -> J.expression list -> t
+
+val array :
+  ?loc:Location.t -> ?comment:string -> J.mutable_flag -> J.expression list -> t
+
 val optional_block : J.expression -> J.expression
 val optional_not_nest_block : J.expression -> J.expression
 
 val make_block :
-  ?loc:Location.t -> 
+  ?loc:Location.t ->
   ?comment:string ->
   J.expression ->
   (* tag *)
@@ -247,13 +302,20 @@ val or_ : ?loc:Location.t -> ?comment:string -> t -> t -> t
 
 (** we don't expose a general interface, since a general interface is generally not safe *)
 
-val dummy_obj : ?loc:Location.t -> ?comment:string -> Lam_tag_info.t -> t
+val dummy_obj : ?loc:Location.t -> ?comment:string -> Lam.Tag_info.t -> t
 (** used combined with [caml_update_dummy]*)
 
-val of_block : ?loc:Location.t -> ?comment:string -> ?e:J.expression -> J.statement list -> t
+val of_block :
+  ?loc:Location.t -> ?comment:string -> ?e:J.expression -> J.statement list -> t
 (** convert a block to expresion by using IIFE *)
 
-val raw_js_code : ?loc:Location.t -> ?comment:string -> Js_raw_info.code_info -> string -> t
+val raw_js_code :
+  ?loc:Location.t ->
+  ?comment:string ->
+  Melange_ffi.Js_raw_info.code_info ->
+  string ->
+  t
+
 val nil : t
 val is_null : ?loc:Location.t -> ?comment:string -> t -> t
 val is_undef : ?loc:Location.t -> ?comment:string -> t -> t

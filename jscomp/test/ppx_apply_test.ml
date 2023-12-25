@@ -1,25 +1,25 @@
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0
-let eq loc x y = 
-  incr test_id ; 
-  suites := 
+let eq loc x y =
+  incr test_id ;
+  suites :=
     (loc ^" id " ^ (string_of_int !test_id), (fun _ -> Mt.Eq(x,y))) :: !suites
 
 
-let u = (fun [@bs] a  b -> a + b )  1  2  [@bs]
+let u = (fun [@u] a  b -> a + b )  1  2  [@u]
 
-let nullary = fun [@bs] () -> 3 
+let nullary = fun [@u] () -> 3
 
-let unary = fun [@bs] a -> a + 3 
+let unary = fun [@u] a -> a + 3
 
-let xx = unary  3 [@bs]
-let () = 
-  eq __LOC__ u 3 
+let xx = unary  3 [@u]
+let () =
+  eq __LOC__ u 3
 
 ;;
-external f : int -> int [@bs] = "xx" [@@bs.val]
+external f : int -> int [@u] = "xx"
 
 let h a =
-  f a [@bs]  
-;;  
+  f a [@u]
+;;
 Mt.from_pair_suites __MODULE__ !suites

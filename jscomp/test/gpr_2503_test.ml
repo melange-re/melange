@@ -1,37 +1,37 @@
 let suites = ref []
-let test_id = ref 0 
-let eq loc x y = Mt.eq_suites ~suites ~test_id loc x y 
+let test_id = ref 0
+let eq loc x y = Mt.eq_suites ~suites ~test_id loc x y
 
-let b loc b = Mt.bool_suites ~suites ~test_id loc b 
+let b loc b = Mt.bool_suites ~suites ~test_id loc b
 (* TODO:*)
 
 
-external make: ?foo:([`a|`b] ) -> unit -> _ = "" [@@bs.obj]
+external make: ?foo:([`a|`b] ) -> unit -> _ = "" [@@mel.obj]
 
 let makeWrapper ?foo () = Js.log (make ?foo ())
 
-external make2: foo:([`a|`b] ) -> unit -> _ = "" [@@bs.obj]
+external make2: foo:([`a|`b] ) -> unit -> _ = "" [@@mel.obj]
 
-let makeWrapper2 foo () = Js.log (make2 foo ())
+let makeWrapper2 foo () = Js.log (make2 ~foo ())
 
-let _ = 
-  makeWrapper2 `a () 
+let _ =
+  makeWrapper2 `a ()
 
 
-external make3: ?foo:([`a|`b] ) -> unit -> _ = "" [@@bs.obj]
+external make3: ?foo:([`a|`b] ) -> unit -> _ = "" [@@mel.obj]
 
-let makeWrapper3 ?foo () = Js.log 2;  (make ?foo ())  
-  
-let makeWrapper4 foo () = Js.log 2;  
-  (make ?foo:(if foo  > 100 then None 
-    else if foo > 10 then Some `b 
-    else Some `a) ())  
-  
+let makeWrapper3 ?foo () = Js.log 2;  (make ?foo ())
 
-;; b __LOC__ 
+let makeWrapper4 foo () = Js.log 2;
+  (make ?foo:(if foo  > 100 then None
+    else if foo > 10 then Some `b
+    else Some `a) ())
+
+
+;; b __LOC__
 ( Js.eqUndefined `a (makeWrapper3 ~foo:`a ())##foo)
 
-;; b __LOC__ 
+;; b __LOC__
 ( Js.undefined =  (makeWrapper3  ())##foo)
 
 ;; b __LOC__
@@ -43,4 +43,4 @@ let makeWrapper4 foo () = Js.log 2;
 ;; b __LOC__
 (Js.undefined = (makeWrapper4 111 ())##foo)
 
-;; Mt.from_pair_suites __MODULE__ !suites  
+;; Mt.from_pair_suites __MODULE__ !suites

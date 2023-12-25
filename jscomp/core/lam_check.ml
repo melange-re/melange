@@ -22,33 +22,34 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (**
    checks
    1. variables are not bound twice
    2. all variables are of right scope
 *)
 let check file lam =
-  let defined_variables = Hash_set_ident.create 1000 in
+  let defined_variables = Ident.Hash_set.create 1000 in
   let success = ref true in
   let use (id : Ident.t) =
-    if not @@ Hash_set_ident.mem defined_variables id then (
-      Format.fprintf Format.err_formatter
-        "\n[SANITY]:%s/%d used before defined in %s@." (Ident.name id)
-        (Ext_ident.stamp id) file;
+    if not @@ Ident.Hash_set.mem defined_variables id then (
+      Format.eprintf "[SANITY]:%s/%d used before defined in %s@."
+        (Ident.name id) (Ident.stamp id) file;
       success := false)
   in
   let def (id : Ident.t) =
-    if Hash_set_ident.mem defined_variables id then (
-      Format.fprintf Format.err_formatter "\n[SANITY]:%s/%d bound twice in %s@."
-        (Ident.name id) (Ext_ident.stamp id) file;
+    if Ident.Hash_set.mem defined_variables id then (
+      Format.eprintf "[SANITY]:%s/%d bound twice in %s@." (Ident.name id)
+        (Ident.stamp id) file;
       success := false)
-    else Hash_set_ident.add defined_variables id
+    else Ident.Hash_set.add defined_variables id
   in
   (* TODO: replaced by a slow version of {!Lam_iter.inner_iter} *)
   let rec check_list xs (cxt : Set_int.t) =
-    Ext_list.iter xs (fun x -> check_staticfails x cxt)
+    List.iter ~f:(fun x -> check_staticfails x cxt) xs
   and check_list_snd : 'a. ('a * Lam.t) list -> _ -> unit =
-   fun xs cxt -> Ext_list.iter_snd xs (fun x -> check_staticfails x cxt)
+   fun xs cxt -> List.iter ~f:(fun (_, x) -> check_staticfails x cxt) xs
   and check_staticfails (l : Lam.t) (cxt : Set_int.t) =
     match l with
     | Lvar _ | Lmutvar _ | Lconst _ | Lglobal_module _ -> ()
@@ -56,7 +57,7 @@ let check file lam =
     | Lapply { ap_func; ap_args; _ } ->
         check_list (ap_func :: ap_args) cxt
         (* check invariant that staticfaill does not cross function/while/for loop*)
-    | Lfunction { body; params = _ } -> check_staticfails body Set_int.empty
+    | Lfunction { body; params = _; _ } -> check_staticfails body Set_int.empty
     | Lwhile (e1, e2) ->
         check_staticfails e1 cxt;
         check_staticfails e2 Set_int.empty
@@ -91,10 +92,11 @@ let check file lam =
     | Lsequence (e1, e2) -> check_list [ e1; e2 ] cxt
     | Lassign (_id, e) -> check_staticfails e cxt
     | Lsend (_k, met, obj, args, _) -> check_list (met :: obj :: args) cxt
+    | Lifused (_v, e) -> check_staticfails e cxt
   in
-  let rec iter_list xs = Ext_list.iter xs iter
+  let rec iter_list xs = List.iter ~f:iter xs
   and iter_list_snd : 'a. ('a * Lam.t) list -> unit =
-   fun xs -> Ext_list.iter_snd xs iter
+   fun xs -> List.iter ~f:(fun (_, x) -> iter x) xs
   and iter (l : Lam.t) =
     match l with
     | Lvar id | Lmutvar id -> use id
@@ -104,15 +106,15 @@ let check file lam =
     | Lapply { ap_func; ap_args; _ } ->
         iter ap_func;
         iter_list ap_args
-    | Lfunction { body; params } ->
-        List.iter def params;
+    | Lfunction { body; params; _ } ->
+        List.iter ~f:def params;
         iter body
     | Llet (_, id, arg, body) | Lmutlet (id, arg, body) ->
         iter arg;
         def id;
         iter body
     | Lletrec (decl, body) ->
-        Ext_list.iter_fst decl def;
+        List.iter ~f:(fun (x, _) -> def x) decl;
         iter_list_snd decl;
         iter body
     | Lswitch (arg, sw) ->
@@ -130,7 +132,7 @@ let check file lam =
     | Lstaticraise (_i, args) -> iter_list args
     | Lstaticcatch (e1, (_, vars), e2) ->
         iter e1;
-        List.iter def vars;
+        List.iter ~f:def vars;
         iter e2
     | Ltrywith (e1, exn, e2) ->
         iter e1;
@@ -158,6 +160,7 @@ let check file lam =
         iter met;
         iter obj;
         iter_list args
+    | Lifused (_v, e) -> iter e
   in
 
   check_staticfails lam Set_int.empty;

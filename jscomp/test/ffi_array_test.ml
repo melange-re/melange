@@ -6,11 +6,11 @@ let eq loc x y =
     (loc ^" id " ^ (string_of_int !test_id), (fun _ -> Mt.Eq(x,y))) :: !suites
 
 
-external map : 'a Js_array2.t -> ('a -> 'b [@bs]) -> 'b Js_array2.t = "map" [@@bs.send]
+external map : 'a Js.Array.t -> ('a -> 'b [@u]) -> 'b Js.Array.t = "map" [@@mel.send]
 
 let () =
   eq __LOC__
-    (map [| 1;2;3;4 |] (fun[@bs] x  -> x +  1))
+    (map [| 1;2;3;4 |] (fun[@u] x  -> x +  1))
     [|2;3;4;5|]
 
 ;; Mt.from_pair_suites __MODULE__ !suites

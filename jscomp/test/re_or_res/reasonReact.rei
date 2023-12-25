@@ -12,7 +12,7 @@ type reactElement = React.element;
 
 type reactRef;
 
-[@bs.val] external null: reactElement = "null";
+external null: reactElement = "null";
 
 external string: string => reactElement = "%identity";
 
@@ -35,12 +35,12 @@ external refToJsObj: reactRef => Js.t({..}) = "%identity";
 
    In every other case, you should be using the JSX
    */
-[@bs.splice] [@bs.val] [@bs.module "react"]
+[@mel.variadic] [@mel.module "react"]
 external createElement:
   (reactClass, ~props: Js.t({..})=?, array(reactElement)) => reactElement =
   "createElement";
 
-[@bs.splice] [@bs.module "react"]
+[@mel.variadic] [@mel.module "react"]
 external cloneElement:
   (reactElement, ~props: Js.t({..})=?, array(reactElement)) => reactElement =
   "cloneElement";
@@ -224,6 +224,6 @@ let wrapJsForReason:
   (~reactClass: reactClass, ~props: 'a, 'b) =>
   component(stateless, noRetainedProps, actionless);
 
-[@bs.module "react"] external fragment: 'a = "Fragment";
+[@mel.module "react"] external fragment: 'a = "Fragment";
 
 module Router = ReasonReactRouter;

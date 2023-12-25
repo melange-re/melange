@@ -1,4 +1,4 @@
-[@@@config
+[@@@mel.config
 {
   flags =
     [|
@@ -42,12 +42,6 @@ let rec fib =
         v := Lazy.force h ;
         one
     | n -> fib (n - 1) + u (n - 2)
-#if OCAML_VERSION =~ "<4.03.0" then (* recursive lhs not allowed *)
-let rec xs =
-  let rec ys = 1 :: ys
-  and _zs () = (List.hd ys, List.hd (fst xs)) in
-  (2 :: List.hd ys :: [], _zs)
-#end
 let rec xs =
   let zs () = ( List.hd (fst xs)) in
   (2 :: [], zs)
@@ -86,7 +80,7 @@ let rec sum =
 (*   else  *)
 (*     fun _-> print_endline "hey"; v () *)
 
-let rec fake_v = 1::2::[]
+let[@ocaml.warning "-39"] rec fake_v = 1::2::[]
 
 let rec fake_y = 2::3::[]
 and fake_z = 1::fake_y
@@ -95,7 +89,7 @@ and fake_z = 1::fake_y
 let rec fake_z2 = 1::(sum 0 10) :: fake_y2
 and fake_y2 = 2::3::[]
 
-let rec v = 3
+let[@ocaml.warning "-39"] rec v = 3
 
 type u =
   | B of string * (unit -> u)
@@ -124,11 +118,11 @@ let rec y00 = C1 { hd = 1 ; tail = y00 }
 
 let xhd (h : h)=
   match h with
-  | C0 {hd} | C1 {hd} -> hd
+  | C0 {hd;_} | C1 {hd;_} -> hd
 
 let xtl (h : h)=
   match h with
-  | C0 {tail} | C1 {tail} -> tail
+  | C0 {tail;_} | C1 {tail;_} -> tail
 
 let suites = Mt.[
   __LOC__, (fun _ ->
@@ -203,4 +197,3 @@ let () =
    assert  (fst (! (! (! (!u)))).x   = 1 )
 
  ;; Mt.from_pair_suites __MODULE__ suites
-

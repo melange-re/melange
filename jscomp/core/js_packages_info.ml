@@ -22,15 +22,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-[@@@warning "+9"]
+open Import
 
-let ( // ) = Filename.concat
+let ( // ) = Path.( // )
 
-type output_info = {
-  module_system : Ext_module_system.t;
-  suffix : Ext_js_suffix.t;
-}
-
+type file_case = Uppercase | Lowercase
+type output_info = { module_system : Module_system.t; suffix : Js_suffix.t }
 type batch_info = { path : string; output_info : output_info }
 
 type package_info =
@@ -40,43 +37,17 @@ type package_info =
 
 type t = { name : string option; info : package_info }
 
-let is_runtime_name name =
-  Ext_string.starts_with name Literals.mel_runtime_package_prefix
-
-let is_runtime_package (x : t) =
-  match x.name with Some name -> is_runtime_name name | None -> false
-
-let for_cmj t =
-  if is_runtime_package t then
-    {
-      t with
-      info =
-        Batch_compilation
-          [
-            {
-              path = "lib/js";
-              output_info = { module_system = NodeJS; suffix = Js };
-            };
-            {
-              path = "lib/es6";
-              output_info = { module_system = Es6; suffix = Mjs };
-            };
-          ];
-    }
-  else t
-
 let same_package_by_name (x : t) (y : t) =
   match (x.name, y.name) with
   | None, None -> true
   | None, Some _ | Some _, None -> false
-  | Some s1, Some s2 ->
-      (is_runtime_package x && is_runtime_package y) || s1 = s2
+  | Some s1, Some s2 -> s1 = s2
 
 (* we don't want force people to use package *)
 
 (**
    TODO: not allowing user to provide such specific package name
-   For empty package, [-bs-package-output] does not make sense
+   For empty package, [-mel-package-output] does not make sense
    it is only allowed to generate commonjs file in the same directory
 *)
 let empty : t = { name = None; info = Empty }
@@ -85,8 +56,8 @@ let from_name ?(t = empty) (name : string) : t = { t with name = Some name }
 
 let dump_output_info fmt { module_system; suffix } =
   Format.fprintf fmt "%s %s"
-    (Ext_module_system.to_string module_system)
-    (Ext_js_suffix.to_string suffix)
+    (Module_system.to_string module_system)
+    (Js_suffix.to_string suffix)
 
 let dump_package_info (fmt : Format.formatter)
     ({ path = name; output_info } : batch_info) =
@@ -123,141 +94,120 @@ type path_info = {
   module_name : string option;
 }
 
-type package_found_batch_info = {
-  path_info : path_info;
-  suffix : Ext_js_suffix.t;
-}
-
-type package_found_info =
-  | Separate of path_info
-  | Batch of package_found_batch_info
-
 type info_query =
   | Package_script
   | Package_not_found
-  | Package_found of package_found_info
-
-let runtime_package_name = function
-  | Some name when is_runtime_name name -> Some Literals.package_name
-  | Some name -> Some name
-  | None -> None
-
-let path_info = function
-  | Batch { path_info; _ } | Separate path_info -> path_info
+  | Package_found of path_info
 
 (* Note that package-name has to be exactly the same as
    npm package name, otherwise the path resolution will be wrong *)
-let query_package_infos (t : t) (module_system : Ext_module_system.t) :
-    info_query =
+let query_package_infos (t : t) (module_system : Module_system.t) : info_query =
   match t.info with
   | Empty -> (
       match t.name with Some _ -> Package_not_found | None -> Package_script)
   | Separate_emission { module_path; module_name } -> (
-      match runtime_package_name t.name with
+      match t.name with
       | Some pkg_name ->
           Package_found
-            (Separate
-               {
-                 rel_path = module_path;
-                 pkg_rel_path = pkg_name // module_path;
-                 module_name;
-               })
+            {
+              rel_path = module_path;
+              pkg_rel_path = pkg_name // module_path;
+              module_name;
+            }
       | None ->
           Package_found
-            (Separate
-               {
-                 rel_path = module_path;
-                 pkg_rel_path = module_path;
-                 module_name;
-               }))
+            { rel_path = module_path; pkg_rel_path = module_path; module_name })
   | Batch_compilation module_systems -> (
       match
-        Ext_list.find_first_exn module_systems (fun k ->
-            Ext_module_system.compatible ~dep:k.output_info.module_system
+        List.find
+          ~f:(fun k ->
+            Module_system.compatible ~dep:k.output_info.module_system
               module_system)
+          module_systems
       with
       | k ->
           let pkg_rel_path =
-            match runtime_package_name t.name with
+            match t.name with
             | Some pkg_name -> pkg_name // k.path
             | None -> k.path
           in
-          Package_found
-            (Batch
-               {
-                 path_info =
-                   { rel_path = k.path; pkg_rel_path; module_name = None };
-                 suffix = k.output_info.suffix;
-               })
+          Package_found { rel_path = k.path; pkg_rel_path; module_name = None }
       | exception Not_found -> (
           match t.name with
           | Some _ -> Package_not_found
           | None -> Package_script))
 
 let get_js_path (module_systems : batch_info list)
-    (module_system : Ext_module_system.t) : string =
+    (module_system : Module_system.t) : string =
   let k =
-    Ext_list.find_first_exn module_systems (fun k ->
-        Ext_module_system.compatible ~dep:k.output_info.module_system
-          module_system)
+    List.find
+      ~f:(fun k ->
+        Module_system.compatible ~dep:k.output_info.module_system module_system)
+      module_systems
   in
   k.path
 
-(* for a single pass compilation, [output_dir]
-   can be cached
-*)
+(* XXX(anmonteiro): used for es6-global, which we also need to fix. *)
 let get_output_dir ({ info; _ } : t) ~package_dir module_system =
   match info with
   | Empty | Separate_emission _ -> assert false
-  | Batch_compilation specs ->
-      Filename.concat package_dir (get_js_path specs module_system)
+  | Batch_compilation specs -> package_dir // get_js_path specs module_system
 
-let add_npm_package_path ?module_name (packages_info : t) (s : string) : t =
-  let existing =
-    match packages_info.info with
-    | Empty -> []
-    | Separate_emission _ -> []
-    | Batch_compilation xs -> xs
-  in
-  match packages_info.info with
+let add_npm_package_path (t : t) ?module_name s =
+  match t.info with
   | Empty (* allowed to upgrade *) | Batch_compilation _ ->
+      let existing =
+        match t.info with
+        | Empty -> []
+        | Separate_emission _ -> []
+        | Batch_compilation xs -> xs
+      in
       let new_info =
-        match Ext_string.split ~keep_empty:true s ':' with
+        match String.split ~keep_empty:true s ':' with
         | [ path ] ->
-            (* -bs-package-output just/the/path/segment *)
+            (* `--mel-package-output just/the/path/segment' means module system
+               / js extension to come later; separate emission *)
             Separate_emission { module_path = path; module_name }
         | [ module_system; path ] ->
+            (* `--mel-package-output module_system:the/path/segment' assumes
+               `.js' extension. This is batch compilation (`.cmj' + `.js'
+               emitted). *)
             Batch_compilation
               ({
                  path;
                  output_info =
                    {
-                     module_system =
-                       Ext_module_system.of_string_exn module_system;
-                     suffix = Js;
+                     module_system = Module_system.of_string_exn module_system;
+                     suffix = Js_suffix.default;
                    };
                }
               :: existing)
         | [ module_system; path; suffix ] ->
+            (* `--mel-package-output module_system:the/path/segment:.ext', batch
+               compilation with all info. *)
             Batch_compilation
               ({
                  path;
                  output_info =
                    {
-                     module_system =
-                       Ext_module_system.of_string_exn module_system;
-                     suffix = Ext_js_suffix.of_string suffix;
+                     module_system = Module_system.of_string_exn module_system;
+                     suffix = Js_suffix.of_string suffix;
                    };
                }
               :: existing)
         | _ -> raise (Arg.Bad ("invalid npm package path: " ^ s))
       in
-      { packages_info with info = new_info }
+      { t with info = new_info }
   | Separate_emission _ ->
       raise
         (Arg.Bad
-           "Can't add multiple `-bs-package-output` specs when \
-            `-bs-stop-after-cmj` is present")
+           "Can't add multiple `--mel-package-output` specs when \
+            `--mel-stop-after-cmj` is present")
+
+let is_lower_case c =
+  (c >= 'a' && c <= 'z')
+  || (c >= (* à *) '\224' && c <= (* ö *) '\246')
+  || (c >= (* ø *) '\248' && c <= (* ÿ *) '\255')
 
 let module_case t ~output_prefix =
   let module_name =
@@ -267,23 +217,22 @@ let module_case t ~output_prefix =
       ->
         Filename.basename output_prefix
   in
-  if Ext_char.is_lower_case module_name.[0] then Ext_js_file_kind.Lowercase
-  else Uppercase
+  match is_lower_case module_name.[0] with
+  | true -> Lowercase
+  | false -> Uppercase
 
-let default_output_info = { suffix = Js; module_system = NodeJS }
+let default_output_info =
+  { suffix = Js_suffix.default; module_system = Module_system.default }
 
-let assemble_output_info ?output_info (t : t) =
-  match output_info with
-  | Some info -> [ info ]
-  | None -> (
-      match t.info with
-      | Empty -> [ default_output_info ]
-      | Batch_compilation infos ->
-          Ext_list.map infos (fun { output_info; _ } -> output_info)
-      | Separate_emission _ ->
-          (* Combination of `-bs-package-output -just-dir` and the absence of
-             `-bs-module-type` *)
-          [ default_output_info ])
+let assemble_output_info (t : t) =
+  match t.info with
+  | Empty -> [ default_output_info ]
+  | Batch_compilation infos ->
+      List.map ~f:(fun { output_info; _ } -> output_info) infos
+  | Separate_emission _ ->
+      (* Combination of `-mel-package-output -just-dir` and the absence of
+         `-mel-module-type` *)
+      [ default_output_info ]
 
 (* support es6 modules instead
    TODO: enrich ast to support import export

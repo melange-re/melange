@@ -1,8 +1,8 @@
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0
-let eq loc x y = 
-  incr test_id ; 
-  suites := 
+let eq loc x y =
+  incr test_id ;
+  suites :=
     (loc ^" id " ^ (string_of_int !test_id), (fun _ -> Mt.Eq(x,y))) :: !suites
 
 (**
@@ -23,32 +23,32 @@ Make.prototype.sum = function(){
     result = result + this.data[k]
   };
   return result
-}  
+}
 
 Make.prototype.add = function(){
-  
-} 
+
+}
 |}]
 
-type t 
+type t
 
 
-external make : int -> int -> int -> int -> t = "Make"  [@@new]
+external make : int -> int -> int -> int -> t = "Make"  [@@mel.new]
 
 
-external sum : t -> unit -> int = "sum" [@@bs.send]
-
-(* compile error *)
-(* external join : string  -> string = "" [@@bs.module "path"] [@@bs.splice] *)
-external join : string array -> string = "join" [@@bs.module "path"] [@@bs.splice]
-
-external test : string array -> t = "test" [@@bs.send.pipe: t ] [@@bs.splice] (*FIXME*)
+external sum : t -> unit -> int = "sum" [@@mel.send]
 
 (* compile error *)
-(* external test2 : int -> string -> t= "" [@@bs.send.pipe: t ] [@@bs.splice] *)
+(* external join : string  -> string = "" [@@mel.module "path"] [@@mel.variadic] *)
+external join : string array -> string = "join" [@@mel.module "path"] [@@mel.variadic]
+
+external test : string array -> t = "test" [@@mel.send.pipe: t ] [@@mel.variadic] (*FIXME*)
+
+(* compile error *)
+(* external test2 : int -> string -> t= "" [@@mel.send.pipe: t ] [@@mel.variadic] *)
 let u = [|"x";"d" |]
-let f x  = 
-  x 
+let f x  =
+  x
   |> test  [| "a"; "b" |]
   |> test  [| "a"; "b" |]
   (* |> test u *)

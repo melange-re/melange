@@ -1,0 +1,3 @@
+[submodule "vendor/melange-compiler-libs"]
+	path = vendor/melange-compiler-libs
+	url = https://github.com/melange-re/melange-compiler-libs.git

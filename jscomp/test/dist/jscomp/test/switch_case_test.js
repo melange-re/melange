@@ -43,13 +43,13 @@ function f(x) {
   }
 }
 
-eq("File \"switch_case_test.ml\", line 19, characters 7-14", f("xx'''"), 0);
+eq("File \"jscomp/test/switch_case_test.ml\", line 19, characters 7-14", f("xx'''"), 0);
 
-eq("File \"switch_case_test.ml\", line 20, characters 7-14", f("xx\""), 1);
+eq("File \"jscomp/test/switch_case_test.ml\", line 20, characters 7-14", f("xx\""), 1);
 
-eq("File \"switch_case_test.ml\", line 21, characters 7-14", f("xx\\\""), 2);
+eq("File \"jscomp/test/switch_case_test.ml\", line 21, characters 7-14", f("xx\\\""), 2);
 
-eq("File \"switch_case_test.ml\", line 22, characters 7-14", f("xx\\\"\""), 3);
+eq("File \"jscomp/test/switch_case_test.ml\", line 22, characters 7-14", f("xx\\\"\""), 3);
 
 Mt.from_pair_suites("Switch_case_test", suites.contents);
 

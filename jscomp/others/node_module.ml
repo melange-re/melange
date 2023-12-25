@@ -22,9 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-module Node = Node__no_aliases
 (** Node Module API *)
 
-external module_ :
-  < __cache : Node.node_module Js_dict.t  > Js.t
-    = "module" [@@bs.val]
+external module_ : < __cache : Node.node_module Js.Dict.t > Js.t = "module"

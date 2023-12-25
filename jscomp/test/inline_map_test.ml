@@ -1,5 +1,5 @@
-module Ord  = struct 
-  type t = int 
+module Ord  = struct
+  type t = int
 
 end
 let compare (x : int) (y : int) = compare x y
@@ -292,13 +292,12 @@ let choose = min_binding
 (* end *)
 let m = List.fold_left (fun acc (k,v) -> add k v  acc ) empty [(10,'a'); (3,'b'); (7,'c'); (20,'d') ]
 
-external log : 'a -> unit = "" [@@bs.val "console.log"]
+external log : 'a -> unit = "console.log"
 
 ;; Mt.from_pair_suites __MODULE__
   [ "find", (fun _ ->
         Mt.Eq  (find 10 m , 'a'))
   ]
-
 
 
 

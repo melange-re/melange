@@ -22,21 +22,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Bs_stdlib_mini
+open Melange_mini_stdlib
 
-let caml_int_compare (x : int) (y: int) : int =
-  if  x < y then -1 else if x = y then 0 else  1
-let caml_bool_compare (x : bool) (y : bool): int =
-  match x,y with
-  | true, true | false , false -> 0
+let caml_int_compare (x : int) (y : int) : int =
+  if x < y then -1 else if x = y then 0 else 1
+
+let caml_bool_compare (x : bool) (y : bool) : int =
+  match (x, y) with
+  | true, true | false, false -> 0
   | true, false -> 1
   | false, true -> -1
 
-
-
-let caml_float_compare (x : float) (y : float ) =
+let caml_float_compare (x : float) (y : float) =
   if x = y then 0
-  else if x < y then  -1
+  else if x < y then -1
   else if x > y then 1
   else if x = x then 1
   else if y = y then -1
@@ -44,56 +43,37 @@ let caml_float_compare (x : float) (y : float ) =
 
 (* Lexical order *)
 let caml_string_compare (s1 : string) (s2 : string) : int =
-  if s1 = s2 then 0
-  else if s1 < s2 then -1
-  else 1
-
+  if s1 = s2 then 0 else if s1 < s2 then -1 else 1
 
 type 'a selector = 'a -> 'a -> 'a
 
 (* could be replaced by [Math.min], but it seems those built-ins are slower *)
-let caml_bool_min (x : bool) y : bool =
-  if x then y else x
-let caml_int_min (x : int) (y : int) : int =
-  if x < y then x else y
-let caml_float_min (x : float) y   =
-  if x < y then x else y
-let caml_string_min (x : string) y =
-  if x < y then x else y
-let caml_int32_min (x : int32) y   =
-  if x < y then x else y
+let caml_bool_min (x : bool) y : bool = if x then y else x
+let caml_int_min (x : int) (y : int) : int = if x < y then x else y
+let caml_float_min (x : float) y = if x < y then x else y
+let caml_string_min (x : string) y = if x < y then x else y
+let caml_int32_min (x : int32) y = if x < y then x else y
+let caml_bool_max (x : bool) y : bool = if x then x else y
+let caml_int_max (x : int) (y : int) : int = if x > y then x else y
+let caml_float_max (x : float) y = if x > y then x else y
+let caml_string_max (x : string) y = if x > y then x else y
+let caml_int32_max (x : int32) y = if x > y then x else y
 
-let caml_bool_max (x : bool) y : bool =
-  if x then x else y
-let caml_int_max (x : int) (y : int) : int =
-  if x > y then x else y
-let caml_float_max (x : float) y   =
-  if x > y then x else y
-let caml_string_max (x : string) y =
-  if x > y then x else y
-let caml_int32_max (x : int32) y   =
-  if x > y then x else y
 type i64 = Caml_int64_extern.t
-let i64_eq ( x : i64) (y : i64) =
-  x.lo = y.lo && x.hi = y.hi
 
-let  i64_ge ( {hi; lo } : i64)  ( {hi = other_hi; lo = other_lo}: i64) : bool =
+let i64_eq (x : i64) (y : i64) = x.lo = y.lo && x.hi = y.hi
+
+let i64_ge ({ hi; lo } : i64) ({ hi = other_hi; lo = other_lo } : i64) : bool =
   if hi > other_hi then true
   else if hi < other_hi then false
-  else  lo  >=  other_lo
+  else lo >= other_lo
 
 let i64_neq x y = Pervasives.not (i64_eq x y)
-let i64_lt x y  = Pervasives.not (i64_ge x y)
-let i64_gt ( x : i64) ( y : i64) =
-  if x.hi > y.hi then
-    true
-  else if x.hi < y.hi  then
-    false
-  else
-    x.lo >  y.lo
+let i64_lt x y = Pervasives.not (i64_ge x y)
 
+let i64_gt (x : i64) (y : i64) =
+  if x.hi > y.hi then true else if x.hi < y.hi then false else x.lo > y.lo
 
 let i64_le x y = Pervasives.not (i64_gt x y)
-
-let i64_min x y = if i64_lt x  y then x else y
+let i64_min x y = if i64_lt x y then x else y
 let i64_max x y = if i64_gt x y then x else y

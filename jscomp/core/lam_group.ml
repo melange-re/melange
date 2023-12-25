@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 type let_kind = Strict | Alias | StrictOpt | Variable
 
 type nonrec t =
@@ -64,7 +66,7 @@ let pp_group fmt (x : t) =
         (str_of_kind kind) Lam_print.lambda lam
   | Recursive lst ->
       List.iter
-        (fun (id, lam) ->
+        ~f:(fun (id, lam) ->
           Format.fprintf fmt "@[let %a@ =r@ %a@ @]" Ident.print id
             Lam_print.lambda lam)
         lst

@@ -3,7 +3,7 @@
 
 
 throw {
-      RE_EXN_ID: "Match_failure",
+      MEL_EXN_ID: "Match_failure",
       _1: [
         "gpr_2474.ml",
         6,

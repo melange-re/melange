@@ -37,7 +37,7 @@ var area;
 
 area = myShape.TAG === /* Circle */0 ? 100 * 3.14 : Math.imul(10, myShape._1);
 
-eq("File \"gpr_1822_test.ml\", line 21, characters 6-13", area, 314);
+eq("File \"jscomp/test/gpr_1822_test.ml\", line 21, characters 6-13", area, 314);
 
 Mt.from_pair_suites("Gpr_1822_test", suites.contents);
 

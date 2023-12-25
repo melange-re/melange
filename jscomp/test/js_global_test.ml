@@ -1,32 +1,32 @@
-open Js_global
+open Js.Global
 
 let suites = Mt.[
 
-  ("setTimeout/clearTimeout sanity check", (fun _ -> 
-    let handle = setTimeout (fun () -> ()) 0 in
+  ("setTimeout/clearTimeout sanity check", (fun _ ->
+    let handle = setTimeout ~f:(fun () -> ()) 0 in
     clearTimeout handle;
     Ok true
   ));
 
-  ("setInerval/clearInterval sanity check", (fun _ -> 
-    let handle = setInterval (fun () -> ()) 0 in
+  ("setInerval/clearInterval sanity check", (fun _ ->
+    let handle = setInterval ~f:(fun () -> ()) 0 in
     clearInterval handle;
     Ok true
   ));
 
-  ("encodeURI", (fun _ -> 
+  ("encodeURI", (fun _ ->
     Eq(encodeURI "[-=-]", "%5B-=-%5D")
   ));
 
-  ("decodeURI", (fun _ -> 
+  ("decodeURI", (fun _ ->
     Eq(decodeURI "%5B-=-%5D", "[-=-]")
   ));
 
-  ("encodeURIComponent", (fun _ -> 
+  ("encodeURIComponent", (fun _ ->
     Eq(encodeURIComponent "[-=-]", "%5B-%3D-%5D")
   ));
 
-  ("decodeURIComponent", (fun _ -> 
+  ("decodeURIComponent", (fun _ ->
     Eq(decodeURIComponent "%5B-%3D-%5D", "[-=-]")
   ));
 

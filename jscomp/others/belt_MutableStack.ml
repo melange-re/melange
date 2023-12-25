@@ -22,83 +22,58 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-type  'a t = { mutable root : 'a opt_cell}
+type 'a t = { mutable root : 'a opt_cell }
 and 'a opt_cell = 'a cell option
-and 'a cell = {
-  head : 'a ;
-  tail : 'a opt_cell
-}
+and 'a cell = { head : 'a; tail : 'a opt_cell }
 
-
-let make () = {root = None}
-
-let clear s =  s.root <- None
-
-let copy (s : _ t) : _ t = {root = s.root}
-
-let push s x =
-  s.root <- Some {head = x; tail = s.root}
+let make () = { root = None }
+let clear s = s.root <- None
+let copy (s : _ t) : _ t = { root = s.root }
+let push s x = s.root <- Some { head = x; tail = s.root }
 
 let topUndefined (s : 'a t) =
-   match s.root with
-   | None -> Js.undefined
-   | Some x -> Js_undefined.return x.head
-
-let top s =
   match s.root with
-  | None -> None
-  | Some x -> Some x.head
+  | None -> Js.undefined
+  | Some x -> Js.Undefined.return x.head
 
+let top s = match s.root with None -> None | Some x -> Some x.head
 let isEmpty s = s.root = None
 
 let popUndefined s =
   match s.root with
   | None -> Js.undefined
   | Some x ->
-    s.root <- x.tail;
-    Js_undefined.return x.head
+      s.root <- x.tail;
+      Js.Undefined.return x.head
 
 let pop s =
-    match s.root with
+  match s.root with
   | None -> None
   | Some x ->
-    s.root <- x.tail;
-    Some x.head
-
-
+      s.root <- x.tail;
+      Some x.head
 
 let rec lengthAux (x : _ cell) acc =
-  match x.tail with
-  | None -> acc + 1
-  | Some x -> lengthAux x (acc + 1)
+  match x.tail with None -> acc + 1 | Some x -> lengthAux x (acc + 1)
 
-let size s =
-  match s.root with
-  | None -> 0
-  | Some x -> lengthAux x 0
+let size s = match s.root with None -> 0 | Some x -> lengthAux x 0
 
 let rec iterAux (s : _ opt_cell) f =
   match s with
   | None -> ()
   | Some x ->
-    f x.head [@bs];
-    iterAux x.tail f
+      f x.head [@u];
+      iterAux x.tail f
 
-let forEachU s f =
-  iterAux s.root f
+let forEachU s f = iterAux s.root f
+let forEach s f = forEachU s (fun [@u] x -> f x)
 
-let forEach s f = forEachU s (fun [@bs] x -> f x)
-
-
-let rec dynamicPopIterU s  f =
+let rec dynamicPopIterU s f =
   match s.root with
-  | Some {tail; head }->
-    s.root <- tail;
-    f head [@bs] ;
-    dynamicPopIterU s  f (* using root, [f] may change it*)
- | None -> ()
+  | Some { tail; head } ->
+      s.root <- tail;
+      f head [@u];
+      dynamicPopIterU s f (* using root, [f] may change it*)
+  | None -> ()
 
-
-
-let dynamicPopIter s f = dynamicPopIterU s (fun [@bs] x -> f x)
+let dynamicPopIter s f = dynamicPopIterU s (fun [@u] x -> f x)

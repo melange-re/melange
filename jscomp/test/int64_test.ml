@@ -1,14 +1,14 @@
 (* module Mt = Mock_mt *)
-let f (u : nativeint) v = u > v  
-let v   = 
+let f (u : nativeint) v = u > v
+let v   =
   Int64.add (Int64.of_int32 Int32.max_int ) Int64.one
-let h = Int64.neg v  
+let h = Int64.neg v
 let a  = Int64.of_int32 2147483647l
 
 open Int64
 
 let commutative_add result a b = Mt.Eq((result, result), (add a b, add b a))
-let generic_compare = Pervasives.compare
+let generic_compare = Stdlib.compare
 
 let shift_left_tests =
   (Ext_array_test.range 0 63 |> Array.map (fun i -> Int64.shift_left 1L i) , [|1L; 2L; 4L; 8L; 16L; 32L; 64L; 128L; 256L; 512L; 1024L; 2048L; 4096L;
@@ -23,9 +23,9 @@ let shift_left_tests =
   18014398509481984L; 36028797018963968L; 72057594037927936L;
   144115188075855872L; 288230376151711744L; 576460752303423488L;
   1152921504606846976L; 2305843009213693952L; 4611686018427387904L;
-  -9223372036854775808L|]) 
+  -9223372036854775808L|])
 
-let shift_right_tests = 
+let shift_right_tests =
   (Ext_array_test.range 0 63 |> Array.map (fun i -> Int64.shift_right 0x8000_0000_0000_0000L i),
    [|-9223372036854775808L; -4611686018427387904L; -2305843009213693952L;
   -1152921504606846976L; -576460752303423488L; -288230376151711744L;
@@ -42,7 +42,7 @@ let shift_right_tests =
   -4096L; -2048L; -1024L; -512L; -256L; -128L; -64L; -32L; -16L; -8L; -4L;
   -2L; -1L|])
 
-let shift_right_logical_suites = 
+let shift_right_logical_suites =
   (Ext_array_test.range 0 63 |> Array.map (fun i -> Int64.shift_right_logical 0x8000_0000_0000_0000L i),
    [|-9223372036854775808L; 4611686018427387904L; 2305843009213693952L;
      1152921504606846976L; 576460752303423488L; 288230376151711744L;
@@ -80,8 +80,8 @@ let suites :  Mt.pair_suites = Mt.[
     __LOC__, (fun _ -> Eq(Int64.min_int, Int64.neg Int64.min_int));
     __LOC__, (fun _ -> Eq (Int64.max_int, Int64.neg Int64.(add min_int 1L)));
     "sub1", (fun _ -> Eq (2L, Int64.(sub 3L 1L)));
-    "xor1", (fun _ -> 
-        Eq ((logxor 0xEEFFEEFFL 0xFFEEFFEEL, logxor a 0xEEFFEEFFL), 
+    "xor1", (fun _ ->
+        Eq ((logxor 0xEEFFEEFFL 0xFFEEFFEEL, logxor a 0xEEFFEEFFL),
             (286331153L, 2432700672L))
       );
     "or", (fun _ -> Eq(logor 0xEEFFEEFFL 0xFFEEFFEEL, 4294967295L)
@@ -101,7 +101,7 @@ let suites :  Mt.pair_suites = Mt.[
           18014398509481984L; 36028797018963968L; 72057594037927936L;
           144115188075855872L; 288230376151711744L; 576460752303423488L;
           1152921504606846976L; 2305843009213693952L; 4611686018427387904L;
-          -9223372036854775808L|]        
+          -9223372036854775808L|]
                        ));
     "lsr", (fun _ -> (Eq (Array.init 64 (fun i -> i) |> Array.map (fun x -> shift_right_logical (-1L) x ),
                           [|-1L; 9223372036854775807L; 4611686018427387903L; 2305843009213693951L;
@@ -126,79 +126,79 @@ let suites :  Mt.pair_suites = Mt.[
                        ));
     "mul simple", (fun _ -> Eq (6L, mul 3L 2L ));
     "of_int32", (fun _ ->
-        Eq(Array.map Int64.of_int32 [|0l;(-2147483648l)|], [|0L; (-2147483648L)|]);        
+        Eq(Array.map Int64.of_int32 [|0l;(-2147483648l)|], [|0L; (-2147483648L)|]);
         );
-    "of_int32_singleton",(fun _ -> 
+    "of_int32_singleton",(fun _ ->
         Eq ( Int64.of_int32 (-3l), -3L )
-      ) ;  
+      ) ;
     __LOC__ , (fun _ ->
         Eq (Int64.of_int32 3l , 3L)
       );
-    "to_int32", (fun _ -> 
+    "to_int32", (fun _ ->
         Eq(Array.map Int64.to_int32
              [|0L; 0x0000_0000_8000_0000L|], [|0l;-2147483648l|]));
     "discard_sign", (fun _ ->
-        Eq(Caml_int64.discard_sign (-1L), 0x7fff_ffff_ffff_ffffL));
-    "div_mod", (fun _ -> Eq(Caml_int64.div_mod 7L 3L , (2L,1L)));
-    "to_hex", (fun _ -> Eq(Caml_int64.to_hex (-1L), "ffffffffffffffff"));
+        Eq(Js__Caml_int64.discard_sign (-1L), 0x7fff_ffff_ffff_ffffL));
+    "div_mod", (fun _ -> Eq(Js__Caml_int64.div_mod 7L 3L , (2L,1L)));
+    "to_hex", (fun _ -> Eq(Js__Caml_int64.to_hex (-1L), "ffffffffffffffff"));
     "generic_compare", (fun _ ->
         Eq(generic_compare 0x0000_0001_0000_0000L 0x0000_0000_0000_0001L > 0 , true));
     "test_compier_literal", (fun _ ->
-        Eq(0x0000_0000_ffff_ffffL, 
-           Int64.add (Int64.add 0x0000_0000_7fff_ffffL 0x0000_0000_7fff_ffffL) 1L)        
+        Eq(0x0000_0000_ffff_ffffL,
+           Int64.add (Int64.add 0x0000_0000_7fff_ffffL 0x0000_0000_7fff_ffffL) 1L)
       )    ;
     "generic_compare2", (fun _ ->
         Eq(generic_compare 0x0000_0000_8000_0000L 0x0000_0000_0000_0001L > 0 , true));
-    "shift_left", (fun _ -> 
+    "shift_left", (fun _ ->
         Eq(Int64.shift_left 0x00ff_ffffL 8, 0xffff_ff00L));
     (* "shift_right",(fun _ ->
         Eq(Nativeint.shift_right_logical 0xffff_ffffn 0, 0xffff_ffffn)
       );  *)
-    "fib_int64", (fun _ -> 
+    "fib_int64", (fun _ ->
         Eq(fib 1000 1L 2L, -8549408682174725832L)
       );
-    "fac_int64", (fun _ -> 
+    "fac_int64", (fun _ ->
         Eq(fac 30 1L, -8764578968847253504L)
       );
-      __LOC__, (fun _ -> 
+      __LOC__, (fun _ ->
       Eq (Int64.(add max_int max_int), -2L)
       );
-      __LOC__,  (fun _ -> 
+      __LOC__,  (fun _ ->
       Eq (Int64.(add min_int min_int), 0L)
       )
       ;
-      __LOC__, (fun _ -> 
+      __LOC__, (fun _ ->
       Eq (Int64.(add 0x1111_1111_1111_1111L  0xeeee_eeee_eeee_eeeeL), -1L)
       )
 ]
-                                 @ (let (a,b) = shift_left_tests in    
+                                 @ (let (a,b) = shift_left_tests in
      Ext_array_test.map2i (fun i a b -> Format.asprintf "shift_left_cases %d" i, (fun _ -> Mt.Eq(a,b)) ) a b
      |>  Array.to_list)
-                                 @ 
-                                 ((let (a,b) = shift_right_tests in    
+                                 @
+                                 ((let (a,b) = shift_right_tests in
                                    Ext_array_test.map2i (fun i a b -> Format.asprintf "shift_right_cases %d" i, (fun _ -> Mt.Eq(a,b)) ) a b
                                    |>  Array.to_list))    @
-                                 ((let (a,b) = shift_right_logical_suites in    
+                                 ((let (a,b) = shift_right_logical_suites in
                                    Ext_array_test.map2i (fun i a b -> Format.asprintf "shift_right_logical_cases %d" i, (fun _ -> Mt.Eq(a,b)) ) a b
-                                   |>  Array.to_list)) 
+                                   |>  Array.to_list))
 
 
 
 let suites = ref suites
 let test_id = ref 0
-let eq loc x y = Mt.eq_suites ~test_id ~suites loc x y 
+let eq loc x y = Mt.eq_suites ~test_id ~suites loc x y
 
-let id loc (x : int64) =  
+let id loc (x : int64) =
   (* This is not a round trip, since NaN is not distinguishable in JS*)
-  let float_value = (Int64.float_of_bits x) in 
+  let float_value = (Int64.float_of_bits x) in
   match classify_float float_value  with
   | FP_nan -> ()
-  | _  -> 
-     eq loc (Int64.bits_of_float float_value) x 
+  | _  ->
+     eq loc (Int64.bits_of_float float_value) x
 
 
-let () = 
-  let open Int64 in   
+let () =
+  let open Int64 in
   eq __LOC__ (Int64.bits_of_float 0.3) 4599075939470750515L;
   eq __LOC__ (Int64.float_of_bits 4599075939470750515L) 0.3;
   id __LOC__ (-1L);
@@ -209,7 +209,7 @@ let () =
   eq __LOC__ Int64.(div min_int 10L) (-922337203685477580L);
   eq __LOC__ Int64.(to_string (div min_int 10L)) "-922337203685477580";
   eq __LOC__ Int64.(mul min_int 10L) 0L;
-  eq __LOC__ Int64.(mul  10L min_int) 0L; 
+  eq __LOC__ Int64.(mul  10L min_int) 0L;
   eq __LOC__ Int64.(mul  1L min_int) min_int;
   eq __LOC__ Int64.(mul max_int 10L) (-10L);
   eq __LOC__ Int64.(succ max_int) (min_int);

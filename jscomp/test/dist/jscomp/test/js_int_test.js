@@ -9,7 +9,7 @@ var suites_0 = [
       return {
               TAG: /* Eq */0,
               _0: "1.23456e+5",
-              _1: (123456).toExponential()
+              _1: (123456).toExponential(undefined)
             };
     })
 ];
@@ -49,7 +49,7 @@ var suites_1 = {
       ],
       tl: {
         hd: [
-          "File \"js_int_test.ml\", line 12, characters 3-10",
+          "File \"jscomp/test/js_int_test.ml\", line 12, characters 3-10",
           (function (param) {
               return {
                       TAG: /* ThrowAny */7,
@@ -78,7 +78,7 @@ var suites_1 = {
                   return {
                           TAG: /* Eq */0,
                           _0: "123456",
-                          _1: (123456).toPrecision()
+                          _1: (123456).toPrecision(undefined)
                         };
                 })
             ],
@@ -117,7 +117,7 @@ var suites_1 = {
                   ],
                   tl: {
                     hd: [
-                      "File \"js_int_test.ml\", line 25, characters 3-10",
+                      "File \"jscomp/test/js_int_test.ml\", line 25, characters 3-10",
                       (function (param) {
                           return {
                                   TAG: /* ThrowAny */7,
@@ -146,7 +146,7 @@ var suites_1 = {
                               return {
                                       TAG: /* Eq */0,
                                       _0: "123",
-                                      _1: (123).toString()
+                                      _1: (123).toString(undefined)
                                     };
                             })
                         ],

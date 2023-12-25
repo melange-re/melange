@@ -2,18 +2,18 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 
 var v = {
-  RE_EXN_ID: Stdlib.Not_found
+  MEL_EXN_ID: Stdlib.Not_found
 };
 
 var u = {
-  RE_EXN_ID: Stdlib.Not_found
+  MEL_EXN_ID: Stdlib.Not_found
 };
 
 var s = {
-  RE_EXN_ID: Stdlib.End_of_file
+  MEL_EXN_ID: Stdlib.End_of_file
 };
 
 var suites_0 = [

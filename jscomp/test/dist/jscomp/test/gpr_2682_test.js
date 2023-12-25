@@ -47,9 +47,9 @@ var bbbb = f3();
 
 if (!bbbb) {
   throw {
-        RE_EXN_ID: "Assert_failure",
+        MEL_EXN_ID: "Assert_failure",
         _1: [
-          "gpr_2682_test.ml",
+          "jscomp/test/gpr_2682_test.ml",
           59,
           2
         ],

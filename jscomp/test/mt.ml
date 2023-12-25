@@ -1,47 +1,19 @@
+external describe : string -> (unit -> unit[@u]) -> unit = "describe"
 
+external it : string -> (unit -> unit[@mel.uncurry]) -> unit = "it"
+external it_promise : string -> (unit -> _ Js.Promise.t [@mel.uncurry]) -> unit = "it"
 
+external eq : 'a -> 'a -> unit = "deepEqual" [@@mel.module "assert"]
+external neq : 'a -> 'a -> unit = "notDeepEqual" [@@mel.module "assert"]
 
-external describe : string -> (unit -> unit[@bs]) -> unit = "describe"
-[@@bs.val]
+external strict_eq : 'a -> 'a -> unit = "strictEqual" [@@mel.module "assert"]
+external strict_neq : 'a -> 'a -> unit = "notStrictEqual" [@@mel.module "assert"]
 
-external it : string -> (unit -> unit[@bs.uncurry]) -> unit = "it"
-[@@bs.val]
-
-external it_promise : string -> (unit -> _ Js.Promise.t [@bs.uncurry]) -> unit = "it"
-[@@bs.val]
-
-external eq : 'a -> 'a -> unit = "deepEqual"
-[@@bs.val]
-[@@bs.module "assert"]
-
-external neq : 'a -> 'a -> unit = "notDeepEqual"
-[@@bs.val]
-[@@bs.module "assert"]
-
-external strict_eq : 'a -> 'a -> unit = "strictEqual"
-[@@bs.val]
-[@@bs.module "assert"]
-
-external strict_neq : 'a -> 'a -> unit = "notStrictEqual"
-[@@bs.val]
-[@@bs.module "assert"]
-
-external ok : bool -> unit = "ok"
-[@@bs.val]
-[@@bs.module "assert"]
-
+external ok : bool -> unit = "ok" [@@mel.module "assert"]
 external fail : 'a -> 'a -> string Js.undefined -> string -> unit = "fail"
-[@@bs.val]
-[@@bs.module "assert"]
+[@@mel.module "assert"]
 
-
-external dump : 'a array -> unit = "console.log"
-[@@bs.val]
-[@@bs.splice]
-
-external throws : (unit -> unit) -> unit = "throws"
-[@@bs.val]
-[@@bs.module "assert"]
+external throws : (unit -> unit) -> unit = "throws" [@@mel.module "assert"]
 (** There is a problem --
     it does not return [unit]
 *)
@@ -63,9 +35,9 @@ let is_mocha () =
 *)
 let from_suites name (suite :  (string * ('a -> unit)) list) =
   match Array.to_list Node.Process.process##argv with
-  | cmd :: _ ->
+  | _cmd :: _ ->
     if is_mocha () then
-      describe name (fun [@bs] () ->
+      describe name (fun [@u] () ->
           List.iter (fun (name, code) -> it name code) suite)
 
   | _ -> ()
@@ -98,7 +70,7 @@ let node_from_pair_suites (name : string) (suites :  pair_suites) =
       | StrictNeq(a,b) -> Js.log (name, a, "strict_neq?",   b )
       | Approx(a,b) -> Js.log (name, a, "~",  b)
       | ApproxThreshold(t, a, b) -> Js.log (name, a, "~", b, " (", t, ")")
-      | ThrowAny fn -> ()
+      | ThrowAny _fn -> ()
       | Fail _ -> Js.log "failed"
       | FailWith msg -> Js.log ("failed: " ^ msg)
       | Ok a -> Js.log (name, a, "ok?")
@@ -122,9 +94,9 @@ let handleCode spec =
 
 let from_pair_suites name (suites :  pair_suites) =
   match Array.to_list Node.Process.process##argv with
-  | cmd :: _ ->
+  | _cmd :: _ ->
     if is_mocha () then
-      describe name (fun [@bs] () ->
+      describe name (fun [@u] () ->
           suites |>
           List.iter (fun (name, code) ->
               it name (fun _ ->
@@ -137,9 +109,9 @@ let from_pair_suites name (suites :  pair_suites) =
 let val_unit = Js.Promise.resolve ()
 let from_promise_suites name (suites : (string * _ Js.Promise.t ) list) =
   match Array.to_list Node.Process.process##argv with
-  | cmd :: _ ->
+  | _cmd :: _ ->
     if is_mocha () then
-      describe name (fun [@bs] () ->
+      describe name (fun [@u] () ->
           suites |>
           List.iter (fun (name, code) ->
               it_promise name (fun _ ->
@@ -155,7 +127,7 @@ let from_promise_suites name (suites : (string * _ Js.Promise.t ) list) =
 Note that [require] is a file local value,
 we need type [require]
 
-let is_top : unit -> bool = [%bs.raw{|
+let is_top : unit -> bool = [%mel.raw{|
 function (_){
 console.log('hi');
 if (typeof require === "undefined"){

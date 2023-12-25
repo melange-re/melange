@@ -1,11 +1,10 @@
-
-let obj = object [@bs]
+let obj = object [@u]
   method hi  a b = a + b
   method say a b = a - b
   method xx a b = a - b
 end
 
-let f x (a:int) (b:int) = x##hi a b 
+let f x (a:int) (b:int) = x##hi a b
 
 let h = obj##hi
 
@@ -16,7 +15,7 @@ let h = obj##hi
 
 let x h = h##raw ~x:0 ~y:0
 
-class type pro = object [@bs]
+class type pro = object [@u]
   method exit : code:int -> unit
 end
 
@@ -38,10 +37,10 @@ let f1 (u : pro Js.t) = u##exit ~code:2
       ~hi:(
                  (fun [@bs.this] _ -> fun ~name -> fun ~age -> Js.log name)
              ) *)
-let obj3 = object [@bs](self)
+let obj3 = object [@u](self)
   method hi ~(name : string) ~(age : int) = name |. Js.log
   method hh () =  self##hi ~name:"x" ~age:20
-end 
+end
 (* TODO: not supported yet
  *)
  (* Type < hi : name:string -> age:int -> 'b; .. > as 'a
@@ -49,14 +48,14 @@ end
    < hh : (unit -> 'c [@bs.meth]);
      hi : (name:string -> age:int -> unit [@bs.meth]) >
    Js.t  *)
-type add_meth = int -> int -> int [@meth] 
+type add_meth = int -> int -> int [@mel.meth]
 
-let obj2 : <
+let[@ocaml.warning "-61"] obj2 : <
   hi : add_meth;
   say : add_meth;
   xx : add_meth
-> Js.t = object [@bs] (self : 'a)
+> Js.t = object [@u] (self : 'a)
   method hi  a b = a + b
   method say a b = self##hi a  b - 1
   method xx a b = a - b
-end 
+end

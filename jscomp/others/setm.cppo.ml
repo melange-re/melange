@@ -52,7 +52,7 @@ type t = {
 let rec remove0 nt (x : value)=
   let k = nt.N.value in
   if x = k then
-    let {N.left = l; right = r} = nt in
+    let {N.left = l; right = r; _} = nt in
     match l, r with
     | None, _ -> r
     | _, None -> l
@@ -106,7 +106,7 @@ let rec removeCheck0  nt (x : value) removed =
   let k = nt.N.value in
   if x = k then
     let () = removed .contents<- true in
-    let {N.left = l; right = r} = nt in
+    let {N.left = l; right = r; _} = nt in
     match l, r with
     | None, _ -> r
     | _ , None -> l
@@ -152,7 +152,7 @@ let rec addCheck0  t (x : value) added  =
     let k = nt.N.value in
     if x = k then t
     else
-      let {N.left = l; right =  r} = nt in
+      let {N.left = l; right =  r; _} = nt in
       (if x < k then
          let ll = addCheck0  l x added in
          nt.left <- ll
@@ -204,15 +204,15 @@ let maximum d = N.maximum (d.data)
 let maxUndefined d = N.maxUndefined (d.data)
 
 let forEachU d f = N.forEachU (d.data) f
-let forEach d f = forEachU d (fun[@bs] a -> f a)
+let forEach d f = forEachU d (fun[@u] a -> f a)
 
 let reduceU d acc cb = N.reduceU (d.data) acc cb
-let reduce d acc cb = reduceU d acc (fun[@bs] a b -> cb a b)
+let reduce d acc cb = reduceU d acc (fun[@u] a b -> cb a b)
 
 let everyU d p = N.everyU (d.data) p
-let every d p = everyU d (fun[@bs] a -> p a)
+let every d p = everyU d (fun[@u] a -> p a)
 let someU d p = N.someU (d.data) p
-let some d p = someU d (fun [@bs] a -> p a)
+let some d p = someU d (fun [@u] a -> p a)
 let size d =
   N.size (d.data)
 let toList d =
@@ -265,12 +265,12 @@ let split d  key =
 
 let keepU d p =
   {data = (N.keepCopyU (d.data) p )}
-let keep d p = keepU d (fun[@bs] a -> p a)
+let keep d p = keepU d (fun[@u] a -> p a)
 
 let partitionU d p =
   let a , b = N.partitionCopyU (d.data) p in
   {data = a}, {data = b}
-let partition d p = partitionU d (fun[@bs] a -> p a)
+let partition d p = partitionU d (fun[@u] a -> p a)
 
 let subset a b = I.subset  a.data b.data
 let intersect dataa datab  =

@@ -26,12 +26,12 @@ class point2 =
       method move d = x <- x + d
     end;;
 
-let one = new point2#get_x 
+let one = new point2#get_x
 let two = new point2#get_x
 
 
 (* let u = {%obj x = 3; y = 2} *)
-let u = object [@bs] (self) val x = 3  method getX () = self##x end
+let u = object [@u] (self) val x = 3  method getX () = self##x end
 
 
 ;; Mt.from_pair_suites __MODULE__ Mt.[

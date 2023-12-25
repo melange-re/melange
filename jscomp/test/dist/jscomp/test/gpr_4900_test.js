@@ -19,15 +19,15 @@ function showToJs(x) {
   }
 }
 
-Mt.eq_suites(id, suites, "File \"gpr_4900_test.ml\", line 15, characters 23-30", showToJs(/* Yes */1), true);
+Mt.eq_suites(id, suites, "File \"jscomp/test/gpr_4900_test.ml\", line 13, characters 33-40", showToJs(/* Yes */1), true);
 
-Mt.eq_suites(id, suites, "File \"gpr_4900_test.ml\", line 16, characters 23-30", showToJs(/* No */0), false);
+Mt.eq_suites(id, suites, "File \"jscomp/test/gpr_4900_test.ml\", line 14, characters 33-40", showToJs(/* No */0), false);
 
-Mt.eq_suites(id, suites, "File \"gpr_4900_test.ml\", line 17, characters 23-30", showToJs(/* After */{
+Mt.eq_suites(id, suites, "File \"jscomp/test/gpr_4900_test.ml\", line 15, characters 33-40", showToJs(/* After */{
           _0: 3
         }), true);
 
-Mt.from_pair_suites("File \"gpr_4900_test.ml\", line 19, characters 20-27", suites.contents);
+Mt.from_pair_suites("File \"jscomp/test/gpr_4900_test.ml\", line 17, characters 20-27", suites.contents);
 
 var from_pair_suites = Mt.from_pair_suites;
 

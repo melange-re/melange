@@ -1,6 +1,3 @@
 docs/Manual.html binary
 docs/Manual.pdf binary
 
-dune.mel linguist-generated=true diff=lisp
-lib/checked-in-artifacts.sexp linguist-generated=true diff=lisp
-

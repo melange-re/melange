@@ -1,10 +1,10 @@
-[@@@bs.config { no_export = true }]
+[@@@mel.config { no_export = true }]
 type value =
   | Natural of int
   | Symbol of string
 type context =
   | InSum
-type t =
+type [@ocaml.warning "-37"]t =
   | Val of value
   | Neg of t
   | Sum of t list
@@ -23,7 +23,7 @@ let rec compare context state a b =
   (*Js.log {j|$a vs $b |j};*)
   (match (a, b, context) with
    | (((Neg (x)) ),y,_)|(x,((Neg (y)) ),_)
-       -> 
+       ->
        (*Js.log "";*)
       compare context state x y
    | (Val _,Val _,_) -> 111
@@ -45,7 +45,7 @@ let rec compare context state a b =
    | _ -> assert false)
 let a = ((Sum ([sym "a"; Val (Natural 2) ])) )
 let b = sym "x"
-type st = {
+type[@ocaml.warning "-69"] st = {
   complex: bool;}
 let empty () = { complex = true }
 let _ = Js.log @@ (compare InSum (empty ()) a b)

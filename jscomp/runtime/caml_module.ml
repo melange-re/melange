@@ -26,9 +26,9 @@
     due to we believe this is an even low level dependency
 *)
 
-open Bs_stdlib_mini
+open Melange_mini_stdlib
 
-[@@@warning "-37"] (* `Function` may be used in runtime *)
+[@@@ocaml.warning "-unused-constructor"] (* `Function` may be used in runtime *)
 
 type shape =
   | Function
@@ -36,14 +36,12 @@ type shape =
   | Class
   | Module of (shape * string) array
   | Value of Obj.t
-  (* ATTENTION: check across versions *)
+(* ATTENTION: check across versions *)
+
 module Array = Caml_array_extern
 
-external set_field : Obj.t -> string -> Obj.t -> unit   = ""
-[@@bs.set_index]
-
-external get_field : Obj.t -> string -> Obj.t = ""
-[@@bs.get_index]
+external set_field : Obj.t -> string -> Obj.t -> unit = "" [@@mel.set_index]
+external get_field : Obj.t -> string -> Obj.t = "" [@@mel.get_index]
 
 module type Empty = sig end
 
@@ -55,28 +53,24 @@ let init_mod (loc : string * int * int) (shape : shape) =
   let undef_module _ = raise (Undefined_recursive_module loc) in
   let rec loop (shape : shape) (struct_ : Obj.t) idx =
     match shape with
-    | Function ->
-      set_field struct_ idx (Obj.magic undef_module)
-    | Lazy ->
-      set_field struct_ idx (Obj.magic (lazy undef_module))
+    | Function -> set_field struct_ idx (Obj.magic undef_module)
+    | Lazy -> set_field struct_ idx (Obj.magic (lazy undef_module))
     | Class ->
-      set_field struct_ idx
-        (Obj.magic (*ref {!CamlinternalOO.dummy_class loc} *)
-           (undef_module, undef_module, undef_module,  0)
-           (* depends on dummy class representation *)
-        )
-    | Module comps
-      ->
-      let v = Obj.repr (module struct end :  Empty) in
-      set_field struct_ idx v ;
-      let len = Array.length comps in
-      for i = 0 to len - 1 do
-        let shape, name = comps.(i) in
-        loop shape v name
-      done
-    | Value v ->
-      set_field struct_ idx v in
-  let res = Obj.repr (module struct end :  Empty) in
+        set_field struct_ idx
+          (Obj.magic (*ref {!CamlinternalOO.dummy_class loc} *)
+             (undef_module, undef_module, undef_module, 0)
+             (* depends on dummy class representation *))
+    | Module comps ->
+        let v = Obj.repr (module struct end : Empty) in
+        set_field struct_ idx v;
+        let len = Array.length comps in
+        for i = 0 to len - 1 do
+          let shape, name = comps.(i) in
+          loop shape v name
+        done
+    | Value v -> set_field struct_ idx v
+  in
+  let res = Obj.repr (module struct end : Empty) in
   let dummy_name = "dummy" in
   loop shape res dummy_name;
   get_field res dummy_name
@@ -84,26 +78,22 @@ let init_mod (loc : string * int * int) (shape : shape) =
 (* Note the [shape] passed between [init_mod] and [update_mod] is always the same
    and we assume [module] is encoded as an array
 *)
-let update_mod (shape : shape)  (o : Obj.t)  (n : Obj.t) :  unit =
-  let rec aux (shape : shape) o n parent i  =
+let update_mod (shape : shape) (o : Obj.t) (n : Obj.t) : unit =
+  let rec aux (shape : shape) o n parent i =
     match shape with
-    | Function
-      -> set_field parent i n
-
-    | Lazy
-    | Class ->
-      Caml_obj.update_dummy o n
-    | Module comps
-      ->
-      for i = 0 to Array.length comps - 1 do
-        let shape, name = comps.(i) in
-        aux shape (get_field o name ) (get_field n name) o name
-      done
-    | Value _ -> () in
+    | Function -> set_field parent i n
+    | Lazy | Class -> Caml_obj.update_dummy o n
+    | Module comps ->
+        for i = 0 to Array.length comps - 1 do
+          let shape, name = comps.(i) in
+          aux shape (get_field o name) (get_field n name) o name
+        done
+    | Value _ -> ()
+  in
   match shape with
   | Module comps ->
-    for i = 0 to Array.length comps - 1 do
-      let shape, name = comps.(i) in
-      aux shape (get_field o name) (get_field n name) o name
-    done
-  |  _ -> assert false
+      for i = 0 to Array.length comps - 1 do
+        let shape, name = comps.(i) in
+        aux shape (get_field o name) (get_field n name) o name
+      done
+  | _ -> assert false

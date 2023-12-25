@@ -1,18 +1,16 @@
-
-
 (*
 external log : 'a -> unit = "#console.log"
 
 external log2 : 'a -> unit = "#console.log"
 
 
-let f x = 
+let f x =
     log x;
-    log2 x  
+    log2 x
     *)
 
 
-external xx : 'a -> string = "#anything_to_string" 
+external xx : 'a -> string = "#anything_to_string"
 
 external lt : 'a -> 'a -> bool = "#unsafe_lt"
 external le : 'a -> 'a -> bool = "#unsafe_le"
@@ -35,14 +33,13 @@ external append : 'a array -> 'a array -> 'a array = "#array_append"
 let f x y = append x y
 *)
 
-external of_small_int_array :  
-    (_ [@bs.as {json|null|json}] ) -> 
-    int array -> string = 
-    "String.fromCharCode.apply" 
-[@@bs.val]
+external of_small_int_array :
+    (_ [@mel.as {json|null|json}] ) ->
+    int array -> string =
+    "String.fromCharCode.apply"
 
 
 
-let f x y = 
+
+let f x y =
   of_small_int_array x, 0
-  

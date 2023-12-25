@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,31 +17,32 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** Define intemediate format to be serialized for cross module optimization
- *)
+open Import
 
-(** In this module, 
-    currently only arity information is  exported, 
+(** Define intemediate format to be serialized for cross module optimization *)
 
-    Short term: constant literals are also exported 
+(** In this module,
+    currently only arity information is  exported,
+
+    Short term: constant literals are also exported
 
     Long term:
     Benefit? since Google Closure Compiler already did such huge amount of work
-    TODO: simple expression, literal small function  can be stored, 
+    TODO: simple expression, literal small function  can be stored,
     but what would happen if small function captures other environment
-    for example 
+    for example
 
     {[
-      let f  = fun x -> g x 
+      let f  = fun x -> g x
     ]}
 
     {[
-      let f = g 
+      let f = g
     ]}
 *)
 
@@ -65,15 +66,15 @@ type t = {
   values : keyed_cmj_value array;
   pure : bool;
   package_spec : Js_packages_info.t;
-  case : Ext_js_file_kind.case;
+  case : Js_packages_info.file_case;
   delayed_program : J.deps_program;
 }
 
 val make :
-  values:cmj_value Map_string.t ->
+  values:cmj_value String.Map.t ->
   effect:effect ->
   package_spec:Js_packages_info.t ->
-  case:Ext_js_file_kind.case ->
+  case:Js_packages_info.file_case ->
   delayed_program:J.deps_program ->
   t
 
@@ -86,7 +87,9 @@ val from_string : string -> t
 (*
    Note writing the file if its content is not changed
 *)
-val to_file : string -> check_exists:bool -> t -> unit
+val to_file : string -> t -> unit
 
 type path = string
-type cmj_load_info = { cmj_table : t; package_path : path }
+type cmj_load_info = { cmj_table : t (* ; package_path : path *) }
+
+val load_unit : string -> cmj_load_info

@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib__String = require("melange/stdlib_modules/string.js");
+var Stdlib__String = require("melange/string.js");
 
 function u(v) {
   return v;

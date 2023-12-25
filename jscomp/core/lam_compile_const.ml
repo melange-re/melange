@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,15 +17,16 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module E = Js_exp_make
 
 (** return [val < 0] if not nested [Some (Some (Some None))]*)
-let rec is_some_none_aux (x : Lam_constant.t) acc =
+let rec is_some_none_aux (x : Lam.Constant.t) acc =
   match x with
   | Const_some v -> is_some_none_aux v (acc + 1)
   | Const_module_alias | Const_js_undefined -> acc
@@ -34,12 +35,12 @@ let rec is_some_none_aux (x : Lam_constant.t) acc =
 let rec nested_some_none n none =
   if n = 0 then none else nested_some_none (n - 1) (E.optional_block none)
 
-let rec translate_some (x : Lam_constant.t) : J.expression =
+let rec translate_some (x : Lam.Constant.t) : J.expression =
   let depth = is_some_none_aux x 0 in
   if depth < 0 then E.optional_not_nest_block (translate x)
   else nested_some_none depth (E.optional_block (translate Const_js_undefined))
 
-and translate (x : Lam_constant.t) : J.expression =
+and translate (x : Lam.Constant.t) : J.expression =
   match x with
   | Const_module_alias -> E.undefined (*  TODO *)
   | Const_some s -> translate_some s
@@ -48,7 +49,7 @@ and translate (x : Lam_constant.t) : J.expression =
   | Const_js_null -> E.nil
   | Const_js_undefined -> E.undefined
   | Const_int { i; comment } ->
-      E.int i ?comment:(Lam_constant.string_of_pointer_info comment)
+      E.int i ?comment:(Lam.Constant.string_of_pointer_info comment)
   | Const_char i -> Js_of_lam_string.const_char i
   (* E.float (Int32.to_string i) *)
   | Const_int64 i ->
@@ -62,20 +63,20 @@ and translate (x : Lam_constant.t) : J.expression =
          Int64.(to_float max_int);;
          - : float = 9.22337203685477581e+18
        ]}
-       Note we should compile it to Int64 as JS's 
-       speical representation -- 
+       Note we should compile it to Int64 as JS's
+       speical representation --
        it is not representatble in JS number
     *)
       (* E.float (Int64.to_string i) *)
       Js_long.of_const i
       (* https://github.com/google/closure-library/blob/master/closure%2Fgoog%2Fmath%2Flong.js *)
   | Const_float f -> E.float f (* TODO: preserve float *)
-  | Const_string i (*TODO: here inline js*) -> E.str i
-  | Const_unicode i -> E.unicode i
+  | Const_string { s; unicode = false } -> E.str s
+  | Const_string { s; unicode = true } -> E.unicode s
   | Const_pointer name -> E.str name
   | Const_block (tag, tag_info, xs) ->
       Js_of_lam_block.make_block NA tag_info (E.small_int tag)
-        (Ext_list.map xs translate)
+        (List.map ~f:translate xs)
   | Const_float_array ars ->
       (* according to the compiler
           const_float_array is immutable
@@ -88,7 +89,7 @@ and translate (x : Lam_constant.t) : J.expression =
           we  deoptimized this in js backend? so it is actually mutable
       *)
       (* TODO-- *)
-      Js_of_lam_array.make_array Mutable (Ext_list.map ars E.float)
+      Js_of_lam_array.make_array Mutable (List.map ~f:E.float ars)
 (* E.arr Mutable ~comment:"float array" *)
 (*   (Ext_list.map (fun x ->  E.float  x ) ars) *)
 
@@ -97,7 +98,7 @@ and translate (x : Lam_constant.t) : J.expression =
    match s with
    | Const_js_undefined -> E.optional_block (translate s) *)
 
-let translate_arg_cst (cst : External_arg_spec.cst) =
+let translate_arg_cst (cst : Melange_ffi.External_arg_spec.cst) =
   match cst with
   | Arg_int_lit i -> E.int (Int32.of_int i)
   | Arg_string_lit i -> E.str i

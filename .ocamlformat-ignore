@@ -1,24 +1,8 @@
-jscomp/build-tests/*
-jscomp/build_tests/*/*
-jscomp/build_tests/*/*/*
-jscomp/build_tests/*/*/*/*
-jscomp/build_tests/*/*/*/*/*
-jscomp/build_tests/*/*/*/*/*/*
 jscomp/test/*
 jscomp/test/*/*
 jscomp/test/*/*/*
 
-jscomp/stdlib-412/*
-jscomp/stdlib-412/*/*
+jscomp/stdlib/*
+jscomp/stdlib/*/*
 
-jscomp/runtime/*
-jscomp/runtime/bs_stdlib_mini/*
-
-jscomp/core/js_fold.ml
-jscomp/core/js_record_map.ml
-jscomp/core/js_record_fold.ml
-jscomp/core/js_record_iter.ml
-
-jscomp/others/*
-jscomp/napkin/*
 jscomp/js_parser/*

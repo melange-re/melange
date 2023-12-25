@@ -1,12 +1,7 @@
-[@@@config {
+[@@@mel.config {
   flags = [|
     "-w";
        "@A-70";
-    "-drawlambda";
-    "-dtypedtree";
-    "-bs-diagnose";
-    "-dparsetree";
-    (* "-dsource"; *)
   |]
 }]
 

@@ -41,10 +41,10 @@ Make.prototype.sum = function(){
     result = result + this.data[k]
   };
   return result
-}  
+}
 
 Make.prototype.add = function(){
-  
+
 }
 ;
 
@@ -56,7 +56,7 @@ var v = new Make(1, 2, 3, 4);
 
 var u = v.sum();
 
-eq("File \"ffi_splice_test.ml\", line 61, characters 12-19", u, 10);
+eq("File \"jscomp/test/ffi_splice_test.ml\", line 61, characters 12-19", u, 10);
 
 Mt.from_pair_suites("Ffi_splice_test", suites.contents);
 

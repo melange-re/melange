@@ -1,3 +1,4 @@
+[@@@ocaml.warning "-3"]
 
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0
@@ -14,12 +15,12 @@ module L = Belt.List
 
 let {push } = (module A)
 
-type 'a t = 'a Js.Array2.t
+type 'a t = 'a Js.Array.t
 let () =
   [| 1; 2; 3; 4 |]
-  |. Js.Array2.filter (fun  x -> x > 2)
-  |. Js.Array2.mapi (fun  x i -> x + i)
-  |. Js.Array2.reduce (fun  x y -> x + y) 0
+  |. Js.Array.filter ~f:(fun  x -> x > 2)
+  |. Js.Array.mapi ~f:(fun  x i -> x + i)
+  |. Js.Array.reduce ~f:(fun  x y -> x + y) ~init:0
   |. Js.log
 
 
@@ -39,39 +40,6 @@ let () =
   b __LOC__ (let v = [|1;2|] in  (A.setExn v 0 0) ; A.getExn v 0 = 0);
   b __LOC__ (let v = [|1;2|] in (A.setExn v 1 0); A.getExn v 1 = 0 )
 
-let id x =
-  eq __LOC__
-    (Js.Vector.toList @@ Js.List.toVector x ) x
-
-let () =
-  eq __LOC__ (Js.List.toVector [1;2;3]) [|1;2;3|];
-  eq  __LOC__
-    ( Js.Vector.map (fun [@bs] x -> x + 1) [|1;2;3|] )
-    [|2;3;4|];
-  eq __LOC__  (Js.Vector.make 5 3)
-    [|3;3;3;3;3|];
-  eq __LOC__
-    ( let a = Js.Vector.init 5  (fun [@bs] i -> i + 1) in
-      Js.Vector.filterInPlace (fun [@bs] j -> j mod 2 = 0) a ;
-      a
-    )
-    [|2;4|];
-
-  eq __LOC__
-    ( let a = Js.Vector.init 5  (fun [@bs] i -> i + 1) in
-      Js.Vector.filterInPlace (fun [@bs] j -> j mod 2 <> 0) a ;
-      a
-    )
-    [|1;3;5|];
-
-  eq __LOC__
-    (Js.List.toVector [1;2;3] ) [|1;2;3|];
-  eq __LOC__
-    (Js.List.toVector [1])   [|1|];
-  id []  ;
-  id [1];
-  id [1;2;3;4;5];
-  id (Js.Vector.(toList @@ init 100 (fun [@bs] i -> i  ) ))
 
 let add = fun  x y -> x + y
 let () =
@@ -105,7 +73,7 @@ let () =
   eq __LOC__ (A.reduceWithIndex [|1;2;3;4|] 0 (fun acc x i -> acc + x + i)) 16;
   b __LOC__
     (A.reduceReverse2 [|1;2;3|] [|1;2|] 0 (fun acc x y -> acc + x + y) = 6)
-let addone = fun [@bs] x -> x + 1
+let addone = fun [@u] x -> x + 1
 
 let makeMatrixExn sx sy init =
   (* let open A in *)
@@ -342,12 +310,12 @@ let () =
   eq __LOC__ (A.getIndexBy [|1;2;3|] (fun x -> x > 3)) None
 
 
-let ()= 
-  let arr =   
-    [||]  in 
-  arr |. push 3 ; 
-  arr |. push  2 ; 
-  arr |. push 1 ; 
+let ()=
+  let arr =
+    [||]  in
+  arr |. push 3 ;
+  arr |. push  2 ;
+  arr |. push 1 ;
   eq __LOC__ arr [|3;2;1|]
-  
+
 ;; Mt.from_pair_suites __LOC__ !suites

@@ -27,7 +27,7 @@ function nextFor(x) {
   }
 }
 
-eq("File \"gpr_4519_test.ml\", line 17, characters 6-13", /* Optional */1, /* Optional */1);
+eq("File \"jscomp/test/gpr_4519_test.ml\", line 17, characters 6-13", /* Optional */1, /* Optional */1);
 
 Mt.from_pair_suites("Gpr_4519_test", suites.contents);
 

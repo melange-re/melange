@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-[@@@warning "+9"]
+open Import
 
 type arity = Single of Lam_arity.t | Submodule of Lam_arity.t array
 
@@ -49,15 +49,15 @@ type t = {
   values : keyed_cmj_values;
   pure : bool;
   package_spec : Js_packages_info.t;
-  case : Ext_js_file_kind.case;
+  case : Js_packages_info.file_case;
   delayed_program : J.deps_program;
 }
 
-let make ~(values : cmj_value Map_string.t) ~effect ~package_spec ~case
+let make ~(values : cmj_value String.Map.t) ~effect ~package_spec ~case
     ~delayed_program : t =
   {
     values =
-      Map_string.to_sorted_array_with_f values (fun k v ->
+      String.Map.to_sorted_array_with_f values (fun k v ->
           {
             name = k;
             arity = v.arity;
@@ -98,17 +98,17 @@ let for_sure_not_changed (name : string) (header : string) =
 (* This may cause some build system always rebuild
    maybe should not be turned on by default
 *)
-let to_file name ~check_exists (v : t) =
+let to_file name (v : t) =
   let s = Marshal.to_string v [] in
   let cur_digest = Digest.string s in
   let header = cur_digest in
-  if not (check_exists && for_sure_not_changed name header) then (
+  if not (for_sure_not_changed name header) then (
     let oc = open_out_bin name in
     output_string oc header;
     output_string oc s;
     close_out oc)
 
-let keyComp (a : string) b = Map_string.compare_key a b.name
+let keyComp (a : string) b = String.Map.compare_key a b.name
 
 let not_found key =
   { name = key; arity = single_na; persistent_closed_lambda = None }
@@ -164,10 +164,16 @@ type path = string
 
 type cmj_load_info = {
   cmj_table : t;
-  package_path : path;
-      (*
-    Note it is the package path we want
-    for ES6_global module spec
-    Maybe we can employ package map in the future
-  *)
+      (* TODO(anmonteiro): re-enable for es6-global support *)
+      (* package_path : path; *)
+      (* Note it is the package path we want
+         for ES6_global module spec
+         Maybe we can employ package map in the future
+      *)
 }
+
+let load_unit unit_name : cmj_load_info =
+  let file = Artifact_extension.append_extension unit_name Cmj in
+  match Initialization.find_in_path_exn file with
+  | f -> { cmj_table = from_file f }
+  | exception Not_found -> Mel_exception.error (Cmj_not_found unit_name)

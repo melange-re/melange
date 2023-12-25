@@ -1,19 +1,17 @@
-
-
-class x0 v = 
+class x0 v =
   object (* no pat means -> selfpat-*)
     val x = v + 2 (* Tcf_val *)
   end  (* only new_variables *)
 
-class x (v : int) = object 
-  val x = v 
-  method get_x = x 
+class x (v : int) = object
+  val x = v
+  method get_x = x
     (* Tcf_method -> Texp_function (self-
        Texp_instvar x/1019
     *)
 end
 
-(* let () = [%bs.debugger] *)
+(* let () = [%mel.debugger] *)
 let v = new x 3 (*Texp_new
 {[
    | Texp_new (cl, {Location.loc=loc}, _) ->
@@ -25,31 +23,31 @@ let v = new x 3 (*Texp_new
              ap_specialised=Default_specialise}
 ]}
 *)
-let u = CamlinternalOO.copy v 
+let u = CamlinternalOO.copy v
 
 let () = assert (v#get_x = 3) (* Texp_send*)
 
 let () = assert (u#get_x = 3)
 
 class xx (x : float)= object (self)
-  val money = x 
+  val money = x
   method get_money = money (* Texp_instvar *)
   method incr = {< money = 2. *. x +. self#get_money >}
     (* Texp_instvar *)
 end
 
 let v1 = new xx 3.
-let v2 = v1#incr 
+let v2 = v1#incr
 
 let () = assert (v1#get_money = 3.)
 
-    
 
-let () = 
-  match Sys.backend_type with 
-  | Other "BS" -> 
+
+let () =
+  match Sys.backend_type with
+  | Other "Melange" ->
     Js.log (v1#get_money, v2#get_money)
-  | _ -> () 
+  | _ -> ()
   (* another code path
     {[
       if Sys.backend_type = Other "BS" then ...
@@ -63,28 +61,28 @@ let () = assert (v2#get_money = 9.)
     Nolabel
     [
       <case>
-      pattern 
+      pattern
         Tpat_alias "self-3/1036"
-        pattern 
+        pattern
         Tpat_var "self-*/1035"
-        expression 
+        expression
         Texp_poly
         None
         Texp_override
         [
           <override> ""money/1033""
-                       expression 
+                       expression
                        Texp_apply
-                       expression 
+                       expression
                        Texp_ident "Pervasives!.*."
                        [
                          <arg>
                          Nolabel
-                           expression 
+                           expression
                            Texp_constant Const_float 2.
                          <arg>
                          Nolabel
-                           expression 
+                           expression
                            Texp_instvar "x/1030"
                        ]
         ]
@@ -93,20 +91,20 @@ let () = assert (v2#get_money = 9.)
 *)
 
 (* check dispatch of s#get_x*)
-class point = 
-object (s) 
-  val mutable x = 0 
-  method get_x = x 
-  method get_x5 = s#get_x + 5 
-end 
+class point =
+object (s)
+  val mutable x = 0
+  method get_x = x
+  method get_x5 = s#get_x + 5
+end
 
-let v = new point 
+let v = new point
 
-let () = 
+let () =
   assert (v#get_x5 = 5)
 
 class xx0 (x : float)= object (self)
-  val money = x 
+  val money = x
   val a0 = 0
   val a1 = 1
   val a2 = 2

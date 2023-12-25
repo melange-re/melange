@@ -1,4 +1,4 @@
-[@@@bs.config {flags = [|"-w";"a"|]}]
+[@@@mel.config {flags = [|"-w";"a"|]}]
 module Config : sig
 #1 "config.mli"
 (***********************************************************************)
@@ -867,7 +867,7 @@ let find_in_path_rel path name =
   in try_dir path
 
 let find_in_path_uncap path name =
-  let uname = String.uncapitalize name in
+  let uname = String.uncapitalize_ascii name in
   let rec try_dir = function
     [] -> raise Not_found
   | dir::rem ->
@@ -1188,7 +1188,7 @@ module Color = struct
 
   (* map a tag to a style, if the tag is known.
      @raise Not_found otherwise *)
-  let style_of_tag s = match s with
+  let style_of_tag (Format.String_tag s) = match s with
     | "error" -> (!cur_styles).error
     | "warning" -> (!cur_styles).warning
     | "loc" -> (!cur_styles).loc
@@ -1217,13 +1217,13 @@ module Color = struct
   (* add color handling to formatter [ppf] *)
   let set_color_tag_handling ppf =
     let open Format in
-    let functions = pp_get_formatter_tag_functions ppf () in
+    let functions = pp_get_formatter_stag_functions ppf () in
     let functions' = {functions with
-      mark_open_tag=(mark_open_tag ~or_else:functions.mark_open_tag);
-      mark_close_tag=(mark_close_tag ~or_else:functions.mark_close_tag);
+      mark_open_stag=(mark_open_tag ~or_else:functions.mark_open_stag);
+      mark_close_stag=(mark_close_tag ~or_else:functions.mark_close_stag);
     } in
     pp_set_mark_tags ppf true; (* enable tags *)
-    pp_set_formatter_tag_functions ppf functions'
+    pp_set_formatter_stag_functions ppf functions'
 
   (* external isatty : out_channel -> bool = "caml_sys_isatty" *)
 
@@ -1375,9 +1375,9 @@ type t =
   | No_cmi_file of string                   (* 49 *)
   | Bad_docstring of bool                   (* 50 *)
 
-  | Bs_unused_attribute of string           (* 101 *)
+  | Mel_unused_attribute of string          (* 101 *)
   | Bs_polymorphic_comparison               (* 102 *)
-  | Bs_ffi_warning of string                (* 103 *)
+  | Mel_ffi_warning of string               (* 103 *)
   | Bs_derive_warning of string             (* 104 *)
 ;;
 
@@ -1480,9 +1480,9 @@ type t =
   | No_cmi_file of string                   (* 49 *)
   | Bad_docstring of bool                   (* 50 *)
 
-  | Bs_unused_attribute of string           (* 101 *)
+  | Mel_unused_attribute of string           (* 101 *)
   | Bs_polymorphic_comparison               (* 102 *)
-  | Bs_ffi_warning of string                (* 103 *)
+  | Mel_ffi_warning of string                (* 103 *)
   | Bs_derive_warning of string             (* 104 *)
 ;;
 
@@ -1544,9 +1544,9 @@ let number = function
   | No_cmi_file _ -> 49
   | Bad_docstring _ -> 50
 
-  | Bs_unused_attribute _ -> 101
+  | Mel_unused_attribute _ -> 101
   | Bs_polymorphic_comparison -> 102
-  | Bs_ffi_warning _ -> 103
+  | Mel_ffi_warning _ -> 103
   | Bs_derive_warning _ -> 104
 ;;
 
@@ -1631,7 +1631,7 @@ let parse_opt error active flags s =
     if i >= String.length s then () else
     match s.[i] with
     | 'A' .. 'Z' ->
-       List.iter set (letter (Char.lowercase s.[i]));
+       List.iter set (letter (Char.lowercase_ascii s.[i]));
        loop (i+1)
     | 'a' .. 'z' ->
        List.iter clear (letter s.[i]);
@@ -1648,7 +1648,7 @@ let parse_opt error active flags s =
         for n = n1 to min n2 last_warning_number do myset n done;
         loop i
     | 'A' .. 'Z' ->
-       List.iter myset (letter (Char.lowercase s.[i]));
+       List.iter myset (letter (Char.lowercase_ascii s.[i]));
        loop (i+1)
     | 'a' .. 'z' ->
        List.iter myset (letter s.[i]);
@@ -1812,11 +1812,11 @@ let message = function
   | Bad_docstring unattached ->
       if unattached then "unattached documentation comment (ignored)"
       else "ambiguous documentation comment"
-  | Bs_unused_attribute s ->
+  | Mel_unused_attribute s ->
       "Unused BuckleScript attribute: " ^ s
   | Bs_polymorphic_comparison ->
       "polymorphic comparison introduced (maybe unsafe)"
-  | Bs_ffi_warning s ->
+  | Mel_ffi_warning s ->
       "BuckleScript FFI warning: " ^ s
   | Bs_derive_warning s ->
       "BuckleScript bs.deriving warning: " ^ s
@@ -1928,10 +1928,10 @@ let help_warnings () =
     match letter c with
     | [] -> ()
     | [n] ->
-        Printf.printf "  %c warning %i\n" (Char.uppercase c) n
+        Printf.printf "  %c warning %i\n" (Char.uppercase_ascii c) n
     | l ->
         Printf.printf "  %c warnings %s.\n"
-          (Char.uppercase c)
+          (Char.uppercase_ascii c)
           (String.concat ", " (List.map string_of_int l))
   done;
   exit 0
@@ -17621,7 +17621,7 @@ let query loc str =
 
 let define_key_value key v  =
   if String.length key > 0
-      && Char.uppercase (key.[0]) = key.[0] then
+      && Char.uppercase_ascii (key.[0]) = key.[0] then
     begin
       replace_directive_built_in_value key
       begin

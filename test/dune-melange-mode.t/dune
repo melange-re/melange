@@ -1,5 +1,0 @@
-(melange.emit
- (target dist)
- (alias melange-dist)
- (module_system es6)
- (libraries b))

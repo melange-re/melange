@@ -1,9 +1,9 @@
 let _assign = Js.Obj.assign;
 
-let emptyObject = Js.Obj.empty();
+let emptyObject: Js.t({.}) = Js.Obj.empty();
 
-%bs.raw
-{|
+[%%mel.raw
+  {|
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -43,9 +43,10 @@ var ReactPropTypeLocationNames;
 // } else {
   ReactPropTypeLocationNames = {};
 // }
-|};
+|}
+];
 
-let factory = [%bs.raw
+let factory = [%mel.raw
   {|
 function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
   /**
@@ -880,11 +881,11 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
 |}
 ];
 
-[@bs.module "react"] external reactComponent: 'a = "Component";
+[@mel.module "react"] external reactComponent: 'a = "Component";
 
-[@bs.module "react"] external reactIsValidElement: bool = "isValidElement";
+[@mel.module "react"] external reactIsValidElement: bool = "isValidElement";
 
-[@bs.module "react"] [@bs.new]
+[@mel.module "react"] [@mel.new]
 external newReactComponent: unit => {. "updater": 'a} = "Component";
 
 let reactNoopUpdateQueue = newReactComponent()##updater;

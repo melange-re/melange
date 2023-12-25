@@ -22,13 +22,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Bs_stdlib_mini
+open Melange_mini_stdlib
 
-type t = {
-  id : string [@bs.as "RE_EXN_ID"];
-
-}
-
+type t = { id : string [@mel.as "MEL_EXN_ID"] }
 
 (**
    Could be exported for better inlining
@@ -40,13 +36,9 @@ type t = {
 
 let id = ref 0
 
-
 let create (str : string) : string =
-  id .contents <-  id.contents + 1;
-  str ^ "/" ^(Obj.magic (id.contents : int) : string)
-
-
-
+  id.contents <- id.contents + 1;
+  str ^ "/" ^ (Obj.magic (id.contents : int) : string)
 
 (**
    This function should never throw
@@ -79,18 +71,18 @@ let create (str : string) : string =
 
    This is not a problem in `try .. with` since the logic above is not expressible, see more design in [destruct_exn.md]
 *)
-let caml_is_extension (type a ) (e : a) :  bool  =
-  if Js.testAny e then false
-  else Js.typeof (Obj.magic e : t) .id = "string"
-
-
-
+let caml_is_extension (type a) (e : a) : bool =
+  if Js_internal.testAny e then false
+  else Js_internal.typeof (Obj.magic e : t).id = "string"
 
 (**FIXME: remove the trailing `/` *)
 let caml_exn_slot_name (x : t) : string = x.id
-let caml_exn_slot_id : t -> int = [%raw{|function(x){
-  if (x.RE_EXN_ID != null) {
-    var parts = x.RE_EXN_ID.split("/");
+
+let caml_exn_slot_id : t -> int =
+  [%raw
+    {|function(x){
+  if (x.MEL_EXN_ID != null) {
+    var parts = x.MEL_EXN_ID.split("/");
     if (parts.length > 1) {
       return Number(parts[parts.length - 1])
     } else {
@@ -101,4 +93,3 @@ let caml_exn_slot_id : t -> int = [%raw{|function(x){
   }
 }
 |}]
-

@@ -1,16 +1,15 @@
-
 [@@@ocaml.warning "-a"]
 
 type t = {
 
   mutable hi : int
-    [@bs.as "Content-Type"];
+    [@mel.as "Content-Type"];
   mutable low : int
-    [@bs.as "l"];
+    [@mel.as "l"];
   mutable x : int;
-    [@bs.as "open"]
-} [@@bs.deriving abstract]
-  (* [@@bs.x] *)
+    [@mel.as "open"]
+} [@@deriving abstract]
+  (* [@@mel.x] *)
 
 
 let v = t ~hi:3 ~low:2 ~x:2
@@ -28,9 +27,9 @@ let ff () =
 
 
 type a = {
-  mutable low : string
-  [@optional]
-  [@as "lo-x"]
+  mutable low : string option
+  [@mel.optional]
+  [@mel.as "lo-x"]
 ;
   hi : int
 } [@@deriving abstract]
@@ -38,7 +37,7 @@ type a = {
 
 (**
 external a : ?low:int -> hi:int -> a
-low: a -> int option [@@bs.return undefined_to_opt]
+low: a -> int option [@@mel.return undefined_to_opt]
 lowSet : a -> int -> unit
 *)
 let h0 =
@@ -66,41 +65,41 @@ let hh2 x =
 
 type css =
   {
-    a0 : int
-    [@bs.optional] ;
-    a1 : int
-    [@bs.optional];
-    a2 : int
-    [@bs.optional];
-    a3 : int
-    [@bs.optional];
-    a4 : int
-    [@bs.optional];
-    a5 : int
-    [@bs.optional];
-    a6 : int
-    [@bs.optional];
-    a7 : int
-    [@bs.optional];
-    a8 : int
-    [@bs.optional];
-    a9 : int
-    [@bs.optional]
-    [@bs.as "xx-yy"];
-    a10 : int
-    [@bs.optional];
-    a11 : int
-    [@bs.optional];
-    a12 : int
-    [@bs.optional];
-    a13 : int
-    [@bs.optional];
-    a14 : int
-    [@bs.optional];
-    a15 : int
-    [@bs.optional] ;
+    a0 : int option
+    [@mel.optional] ;
+    a1 : int option
+    [@mel.optional];
+    a2 : int option
+    [@mel.optional];
+    a3 : int option
+    [@mel.optional];
+    a4 : int option
+    [@mel.optional];
+    a5 : int option
+    [@mel.optional];
+    a6 : int option
+    [@mel.optional];
+    a7 : int option
+    [@mel.optional];
+    a8 : int option
+    [@mel.optional];
+    a9 : int option
+    [@mel.optional]
+    [@mel.as "xx-yy"];
+    a10 : int option
+    [@mel.optional];
+    a11 : int option
+    [@mel.optional];
+    a12 : int option
+    [@mel.optional];
+    a13 : int option
+    [@mel.optional];
+    a14 : int option
+    [@mel.optional];
+    a15 : int option
+    [@mel.optional] ;
   }
-  [@@bs.deriving abstract]
+  [@@deriving abstract]
 
 
 let u = css ~a9:3 ()

@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (*
    Given an [map], rewrite all let bound variables into new variables,
    note that the [map] is changed
@@ -61,17 +63,17 @@
     2. number of invoked times
     3. arguments are const or not
 *)
-let rewrite (map : _ Hash_ident.t) (lam : Lam.t) : Lam.t =
+let rewrite (map : _ Ident.Hash.t) (lam : Lam.t) : Lam.t =
   let rebind i =
     let i' = Ident.rename i in
-    Hash_ident.add map i (Lam.var i');
+    Ident.Hash.add map i (Lam.var i');
     i'
   in
   (* order matters, especially for let bindings *)
   let rec option_map op = match op with None -> None | Some x -> Some (aux x)
   and aux (lam : Lam.t) : Lam.t =
     match lam with
-    | Lvar v | Lmutvar v -> Hash_ident.find_default map v lam
+    | Lvar v | Lmutvar v -> Ident.Hash.find_default map v lam
     | Llet (str, v, l1, l2) ->
         let v = rebind v in
         let l1 = aux l1 in
@@ -84,19 +86,19 @@ let rewrite (map : _ Hash_ident.t) (lam : Lam.t) : Lam.t =
         Lam.mutlet v l1 l2
     | Lletrec (bindings, body) ->
         (*order matters see GPR #405*)
-        let vars = Ext_list.map bindings (fun (k, _) -> rebind k) in
+        let vars = List.map ~f:(fun (k, _) -> rebind k) bindings in
         let bindings =
-          Ext_list.map2 vars bindings (fun var (_, l) -> (var, aux l))
+          List.map2 ~f:(fun var (_, l) -> (var, aux l)) vars bindings
         in
         let body = aux body in
         Lam.letrec bindings body
     | Lfunction { arity; params; body; attr } ->
-        let params = Ext_list.map params rebind in
+        let params = List.map ~f:rebind params in
         let body = aux body in
         Lam.function_ ~arity ~params ~body ~attr
     | Lstaticcatch (l1, (i, xs), l2) ->
         let l1 = aux l1 in
-        let xs = Ext_list.map xs rebind in
+        let xs = List.map ~f:rebind xs in
         let l2 = aux l2 in
         Lam.staticcatch l1 (i, xs) l2
     | Lfor (ident, l1, l2, dir, l3) ->
@@ -108,11 +110,11 @@ let rewrite (map : _ Hash_ident.t) (lam : Lam.t) : Lam.t =
     | Lconst _ -> lam
     | Lprim { primitive; args; loc } ->
         (* here it makes sure that global vars are not rebound *)
-        Lam.prim ~primitive ~args:(Ext_list.map args aux) loc
+        Lam.prim ~primitive ~args:(List.map ~f:aux args) loc
     | Lglobal_module _ -> lam
     | Lapply { ap_func; ap_args; ap_info } ->
         let fn = aux ap_func in
-        let args = Ext_list.map ap_args aux in
+        let args = List.map ~f:aux ap_args in
         Lam.apply fn args ap_info
     | Lswitch
         ( l,
@@ -127,8 +129,8 @@ let rewrite (map : _ Hash_ident.t) (lam : Lam.t) : Lam.t =
         let l = aux l in
         Lam.switch l
           {
-            sw_consts = Ext_list.map_snd sw_consts aux;
-            sw_blocks = Ext_list.map_snd sw_blocks aux;
+            sw_consts = List.map_snd sw_consts aux;
+            sw_blocks = List.map_snd sw_blocks aux;
             sw_consts_full;
             sw_blocks_full;
             sw_failaction = option_map sw_failaction;
@@ -136,8 +138,8 @@ let rewrite (map : _ Hash_ident.t) (lam : Lam.t) : Lam.t =
           }
     | Lstringswitch (l, sw, d) ->
         let l = aux l in
-        Lam.stringswitch l (Ext_list.map_snd sw aux) (option_map d)
-    | Lstaticraise (i, ls) -> Lam.staticraise i (Ext_list.map ls aux)
+        Lam.stringswitch l (List.map_snd sw aux) (option_map d)
+    | Lstaticraise (i, ls) -> Lam.staticraise i (List.map ~f:aux ls)
     | Ltrywith (l1, v, l2) ->
         let l1 = aux l1 in
         let v = rebind v in
@@ -160,9 +162,10 @@ let rewrite (map : _ Hash_ident.t) (lam : Lam.t) : Lam.t =
     | Lsend (u, m, o, ll, v) ->
         let m = aux m in
         let o = aux o in
-        let ll = Ext_list.map ll aux in
+        let ll = List.map ~f:aux ll in
         Lam.send u m o ll v
+    | Lifused (v, l) ->
+        let l = aux l in
+        Lam.ifused v l
   in
   aux lam
-
-(* let refresh lam = rewrite (Hash_ident.create 17 : Lam.t Hash_ident.t ) lam *)

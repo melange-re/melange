@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module E = Js_exp_make
 module S = Js_stmt_make
 
@@ -32,14 +33,13 @@ let eval (arg : J.expression) (dispatches : (string * string) list) : E.t =
   if arg == E.undefined then E.undefined
   else
     match arg.expression_desc with
-    | Str (_, s) ->
-        let s = Ext_list.assoc_by_string dispatches s None in
-        E.str s
+    | Str (_, s) -> E.str (List.assoc s dispatches)
     | _ ->
         E.of_block
           [
             S.string_switch arg
-              (Ext_list.map dispatches (fun (i, r) ->
+              (List.map
+                 ~f:(fun (i, r) ->
                    ( i,
                      J.
                        {
@@ -47,7 +47,8 @@ let eval (arg : J.expression) (dispatches : (string * string) list) : E.t =
                          should_break = false;
                          (* FIXME: if true, still print break*)
                          comment = None;
-                       } )));
+                       } ))
+                 dispatches);
           ]
 
 (* invariant: optional is not allowed in this case *)
@@ -55,11 +56,11 @@ let eval (arg : J.expression) (dispatches : (string * string) list) : E.t =
 let eval_as_event (arg : J.expression)
     (dispatches : (string * string) list option) =
   match arg.expression_desc with
-  | Caml_block ([ { expression_desc = Str (_, s) }; cb ], _, _, Blk_poly_var)
+  | Caml_block ([ { expression_desc = Str (_, s); _ }; cb ], _, _, Blk_poly_var)
     when Js_analyzer.no_side_effect_expression cb ->
       let v =
         match dispatches with
-        | Some dispatches -> Ext_list.assoc_by_string dispatches s None
+        | Some dispatches -> List.assoc s dispatches
         | None -> s
       in
       Splice2 (E.str v, cb)
@@ -71,7 +72,8 @@ let eval_as_event (arg : J.expression)
                 [
                   S.string_switch
                     (E.poly_var_tag_access arg)
-                    (Ext_list.map dispatches (fun (i, r) ->
+                    (List.map
+                       ~f:(fun (i, r) ->
                          ( i,
                            J.
                              {
@@ -79,7 +81,8 @@ let eval_as_event (arg : J.expression)
                                should_break = false;
                                (* FIXME: if true, still print break*)
                                comment = None;
-                             } )));
+                             } ))
+                       dispatches);
                 ]
           | None -> E.poly_var_tag_access arg),
           (* TODO: improve, one dispatch later,
@@ -100,13 +103,13 @@ let eval_as_int (arg : J.expression) (dispatches : (string * int) list) : E.t =
   if arg == E.undefined then E.undefined
   else
     match arg.expression_desc with
-    | Str (_, i) ->
-        E.int (Int32.of_int (Ext_list.assoc_by_string dispatches i None))
+    | Str (_, i) -> E.int (Int32.of_int (List.assoc i dispatches))
     | _ ->
         E.of_block
           [
             S.string_switch arg
-              (Ext_list.map dispatches (fun (i, r) ->
+              (List.map
+                 ~f:(fun (i, r) ->
                    ( i,
                      J.
                        {
@@ -115,10 +118,11 @@ let eval_as_int (arg : J.expression) (dispatches : (string * int) list) : E.t =
                          should_break = false;
                          (* FIXME: if true, still print break*)
                          comment = None;
-                       } )));
+                       } ))
+                 dispatches);
           ]
 
 let eval_as_unwrap (arg : J.expression) : E.t =
   match arg.expression_desc with
-  | Caml_block ([ { expression_desc = Number _ }; cb ], _, _, _) -> cb
+  | Caml_block ([ { expression_desc = Number _; _ }; cb ], _, _, _) -> cb
   | _ -> E.poly_var_value_access arg

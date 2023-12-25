@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib__Complex = require("melange/stdlib_modules/complex.js");
+var Stdlib__Complex = require("melange/complex.js");
 
 var suites_0 = [
   "basic_add",

@@ -3,51 +3,34 @@
  (wrapped false)
  (modes melange)
  (modules mt)
- (libraries melange)
- (melange.compile_flags -w -27-32 -bs-no-version-header -bs-cross-module-opt))
+ (preprocess
+  (pps melange.ppx))
+ (melange.compile_flags -bs-cross-module-opt)
+ (libraries melange melange.node))
 
 (library
  (name melange_runtime_tests)
  (modes melange)
- (libraries melange test_runner)
+ (libraries test_runner melange.dom melange.belt)
  (wrapped false)
  (preprocess
-  (action
-   (run melc -as-pp -bs-cross-module-opt %{input-file})))
- (modules :standard \ mt)
- (melange.compile_flags
-  -w
-  -3-6-9-20-26-27-30-32..39-52-61-67-69-106+104
-  -bs-no-version-header
-  -bs-cross-module-opt
-  -bs-no-builtin-ppx))
+  (pps melange.ppx reason-react-ppx))
+ (modules :standard \ mt es6_export es6_import es6_module_test)
+ (melange.compile_flags -w -27-32+104 -bs-cross-module-opt))
 
-;; same as above but no preprocessing
+(include_subdirs unqualified)
 
-(subdir
- re_or_res
- (library
-  (name melange_tests_re_res)
-  (modes melange)
-  (libraries melange test_runner)
-  (wrapped false)
-  (modules :standard \ res_debug record_regression)
-  (melange.compile_flags
-   -w
-   -3-6-9-20-26-27-30-32..39-52-61-67-69-106+104
-   -bs-cross-module-opt)))
+;; same as above but no preprocessing with reason-react-ppx
 
-(subdir
- es6_tests
- (library
-  (name melange_runtime_es6_tests)
-  (modes melange)
-  (libraries melange test_runner)
-  (wrapped false)
-  (melange.compile_flags
-   -w
-   -3-6-9-20-26-27-30-32..39-52-61-67-69-106+104
-   -bs-cross-module-opt)))
+(library
+ (name melange_runtime_es6_tests)
+ (modes melange)
+ (libraries test_runner)
+ (preprocess
+  (pps melange.ppx))
+ (wrapped false)
+ (modules es6_export es6_import es6_module_test)
+ (melange.compile_flags -w +104 -bs-cross-module-opt))
 
 (ocamllex arith_lexer)
 
@@ -55,35 +38,22 @@
 
 (ocamllex simple_lexer_test)
 
-(subdir
- dist/jscomp/test
- (copy_files ../../../*.js)
- (alias
-  (name melange-runtime-tests)
-  (deps
-   (glob_files *.js))))
-
-(subdir
- dist
- (copy_files ../*.js)
- (alias
-  (name melange-runtime-tests)
-  (deps
-   (glob_files *.js))))
-
 (melange.emit
  (target dist)
  (alias melange-runtime-tests)
  (promote (until-clean))
- (entries)
- (module_system commonjs)
- (libraries melange_runtime_tests melange_tests_re_res))
+ (modules)
+ (module_systems
+  (commonjs js))
+ (libraries melange melange_runtime_tests)
+ (runtime_deps
+  (glob_files *.js)))
 
 (melange.emit
  (target dist-es6)
  (alias melange-runtime-tests)
  (promote (until-clean))
- (entries)
- (module_system es6)
- (javascript_extension mjs)
- (libraries melange_runtime_es6_tests))
+ (modules)
+ (module_systems
+  (es6 mjs))
+ (libraries melange melange_runtime_es6_tests))

@@ -1,51 +1,51 @@
 type synthetic('a);
 
 module MakeEventWithType = (Type: {type t;}) => {
-  [@bs.get] external bubbles: Type.t => bool = "bubbles";
-  [@bs.get] external cancelable: Type.t => bool = "cancelable";
-  [@bs.get] external currentTarget: Type.t => Js.t({..}) = "currentTarget"; /* Should return Dom.eventTarget */
-  [@bs.get] external defaultPrevented: Type.t => bool = "defaultPrevented";
-  [@bs.get] external eventPhase: Type.t => int = "eventPhase";
-  [@bs.get] external isTrusted: Type.t => bool = "isTrusted";
-  [@bs.get] external nativeEvent: Type.t => Js.t({..}) = "nativeEvent"; /* Should return Dom.event */
-  [@bs.send] external preventDefault: Type.t => unit = "preventDefault";
-  [@bs.send]
+  [@mel.get] external bubbles: Type.t => bool = "bubbles";
+  [@mel.get] external cancelable: Type.t => bool = "cancelable";
+  [@mel.get] external currentTarget: Type.t => Js.t({..}) = "currentTarget"; /* Should return Dom.eventTarget */
+  [@mel.get] external defaultPrevented: Type.t => bool = "defaultPrevented";
+  [@mel.get] external eventPhase: Type.t => int = "eventPhase";
+  [@mel.get] external isTrusted: Type.t => bool = "isTrusted";
+  [@mel.get] external nativeEvent: Type.t => Js.t({..}) = "nativeEvent"; /* Should return Dom.event */
+  [@mel.send] external preventDefault: Type.t => unit = "preventDefault";
+  [@mel.send]
   external isDefaultPrevented: Type.t => bool = "isDefaultPrevented";
-  [@bs.send] external stopPropagation: Type.t => unit = "stopPropagation";
-  [@bs.send]
+  [@mel.send] external stopPropagation: Type.t => unit = "stopPropagation";
+  [@mel.send]
   external isPropagationStopped: Type.t => bool = "isPropagationStopped";
-  [@bs.get] external target: Type.t => Js.t({..}) = "target"; /* Should return Dom.eventTarget */
-  [@bs.get] external timeStamp: Type.t => float = "timeStamp";
-  [@bs.get] external type_: Type.t => string = "type";
-  [@bs.send] external persist: Type.t => unit = "persist";
+  [@mel.get] external target: Type.t => Js.t({..}) = "target"; /* Should return Dom.eventTarget */
+  [@mel.get] external timeStamp: Type.t => float = "timeStamp";
+  [@mel.get] external type_: Type.t => string = "type";
+  [@mel.send] external persist: Type.t => unit = "persist";
 };
 
 module Synthetic = {
   type tag;
   type t = synthetic(tag);
-  [@bs.get] external bubbles: synthetic('a) => bool = "bubbles";
-  [@bs.get] external cancelable: synthetic('a) => bool = "cancelable";
-  [@bs.get]
+  [@mel.get] external bubbles: synthetic('a) => bool = "bubbles";
+  [@mel.get] external cancelable: synthetic('a) => bool = "cancelable";
+  [@mel.get]
   external currentTarget: synthetic('a) => Js.t({..}) = "currentTarget"; /* Should return Dom.eventTarget */
-  [@bs.get]
+  [@mel.get]
   external defaultPrevented: synthetic('a) => bool = "defaultPrevented";
-  [@bs.get] external eventPhase: synthetic('a) => int = "eventPhase";
-  [@bs.get] external isTrusted: synthetic('a) => bool = "isTrusted";
-  [@bs.get]
+  [@mel.get] external eventPhase: synthetic('a) => int = "eventPhase";
+  [@mel.get] external isTrusted: synthetic('a) => bool = "isTrusted";
+  [@mel.get]
   external nativeEvent: synthetic('a) => Js.t({..}) = "nativeEvent"; /* Should return Dom.event */
-  [@bs.send]
+  [@mel.send]
   external preventDefault: synthetic('a) => unit = "preventDefault";
-  [@bs.send]
+  [@mel.send]
   external isDefaultPrevented: synthetic('a) => bool = "isDefaultPrevented";
-  [@bs.send]
+  [@mel.send]
   external stopPropagation: synthetic('a) => unit = "stopPropagation";
-  [@bs.send]
+  [@mel.send]
   external isPropagationStopped: synthetic('a) => bool =
     "isPropagationStopped";
-  [@bs.get] external target: synthetic('a) => Js.t({..}) = "target"; /* Should return Dom.eventTarget */
-  [@bs.get] external timeStamp: synthetic('a) => float = "timeStamp";
-  [@bs.get] external type_: synthetic('a) => string = "type";
-  [@bs.send] external persist: synthetic('a) => unit = "persist";
+  [@mel.get] external target: synthetic('a) => Js.t({..}) = "target"; /* Should return Dom.eventTarget */
+  [@mel.get] external timeStamp: synthetic('a) => float = "timeStamp";
+  [@mel.get] external type_: synthetic('a) => string = "type";
+  [@mel.send] external persist: synthetic('a) => unit = "persist";
 };
 
 /* Cast any event type to the general synthetic type. This is safe, since synthetic is more general */
@@ -57,7 +57,7 @@ module Clipboard = {
   include MakeEventWithType({
     type nonrec t = t;
   });
-  [@bs.get] external clipboardData: t => Js.t({..}) = "clipboardData"; /* Should return Dom.dataTransfer */
+  [@mel.get] external clipboardData: t => Js.t({..}) = "clipboardData"; /* Should return Dom.dataTransfer */
 };
 
 module Composition = {
@@ -66,7 +66,7 @@ module Composition = {
   include MakeEventWithType({
     type nonrec t = t;
   });
-  [@bs.get] external data: t => string = "data";
+  [@mel.get] external data: t => string = "data";
 };
 
 module Keyboard = {
@@ -75,19 +75,19 @@ module Keyboard = {
   include MakeEventWithType({
     type nonrec t = t;
   });
-  [@bs.get] external altKey: t => bool = "altKey";
-  [@bs.get] external charCode: t => int = "charCode";
-  [@bs.get] external ctrlKey: t => bool = "ctrlKey";
-  [@bs.send]
+  [@mel.get] external altKey: t => bool = "altKey";
+  [@mel.get] external charCode: t => int = "charCode";
+  [@mel.get] external ctrlKey: t => bool = "ctrlKey";
+  [@mel.send]
   external getModifierState: (t, string) => bool = "getModifierState";
-  [@bs.get] external key: t => string = "key";
-  [@bs.get] external keyCode: t => int = "keyCode";
-  [@bs.get] external locale: t => string = "locale";
-  [@bs.get] external location: t => int = "location";
-  [@bs.get] external metaKey: t => bool = "metaKey";
-  [@bs.get] external repeat: t => bool = "repeat";
-  [@bs.get] external shiftKey: t => bool = "shiftKey";
-  [@bs.get] external which: t => int = "which";
+  [@mel.get] external key: t => string = "key";
+  [@mel.get] external keyCode: t => int = "keyCode";
+  [@mel.get] external locale: t => string = "locale";
+  [@mel.get] external location: t => int = "location";
+  [@mel.get] external metaKey: t => bool = "metaKey";
+  [@mel.get] external repeat: t => bool = "repeat";
+  [@mel.get] external shiftKey: t => bool = "shiftKey";
+  [@mel.get] external which: t => int = "which";
 };
 
 module Focus = {
@@ -96,7 +96,7 @@ module Focus = {
   include MakeEventWithType({
     type nonrec t = t;
   });
-  [@bs.get] [@bs.return nullable]
+  [@mel.get] [@mel.return nullable]
   external relatedTarget: t => option(Js.t({..})) = "relatedTarget"; /* Should return Dom.eventTarget */
 };
 
@@ -114,24 +114,24 @@ module Mouse = {
   include MakeEventWithType({
     type nonrec t = t;
   });
-  [@bs.get] external altKey: t => bool = "altKey";
-  [@bs.get] external button: t => int = "button";
-  [@bs.get] external buttons: t => int = "buttons";
-  [@bs.get] external clientX: t => int = "clientX";
-  [@bs.get] external clientY: t => int = "clientY";
-  [@bs.get] external ctrlKey: t => bool = "ctrlKey";
-  [@bs.send]
+  [@mel.get] external altKey: t => bool = "altKey";
+  [@mel.get] external button: t => int = "button";
+  [@mel.get] external buttons: t => int = "buttons";
+  [@mel.get] external clientX: t => int = "clientX";
+  [@mel.get] external clientY: t => int = "clientY";
+  [@mel.get] external ctrlKey: t => bool = "ctrlKey";
+  [@mel.send]
   external getModifierState: (t, string) => bool = "getModifierState";
-  [@bs.get] external metaKey: t => bool = "metaKey";
-  [@bs.get] external movementX: t => int = "movementX";
-  [@bs.get] external movementY: t => int = "movementY";
-  [@bs.get] external pageX: t => int = "pageX";
-  [@bs.get] external pageY: t => int = "pageY";
-  [@bs.get] [@bs.return nullable]
+  [@mel.get] external metaKey: t => bool = "metaKey";
+  [@mel.get] external movementX: t => int = "movementX";
+  [@mel.get] external movementY: t => int = "movementY";
+  [@mel.get] external pageX: t => int = "pageX";
+  [@mel.get] external pageY: t => int = "pageY";
+  [@mel.get] [@mel.return nullable]
   external relatedTarget: t => option(Js.t({..})) = "relatedTarget"; /* Should return Dom.eventTarget */
-  [@bs.get] external screenX: t => int = "screenX";
-  [@bs.get] external screenY: t => int = "screenY";
-  [@bs.get] external shiftKey: t => bool = "shiftKey";
+  [@mel.get] external screenX: t => int = "screenX";
+  [@mel.get] external screenY: t => int = "screenY";
+  [@mel.get] external shiftKey: t => bool = "shiftKey";
 };
 
 module Selection = {
@@ -148,15 +148,15 @@ module Touch = {
   include MakeEventWithType({
     type nonrec t = t;
   });
-  [@bs.get] external altKey: t => bool = "altKey";
-  [@bs.get] external changedTouches: t => Js.t({..}) = "changedTouches"; /* Should return Dom.touchList */
-  [@bs.get] external ctrlKey: t => bool = "ctrlKey";
-  [@bs.send]
+  [@mel.get] external altKey: t => bool = "altKey";
+  [@mel.get] external changedTouches: t => Js.t({..}) = "changedTouches"; /* Should return Dom.touchList */
+  [@mel.get] external ctrlKey: t => bool = "ctrlKey";
+  [@mel.send]
   external getModifierState: (t, string) => bool = "getModifierState";
-  [@bs.get] external metaKey: t => bool = "metaKey";
-  [@bs.get] external shiftKey: t => bool = "shiftKey";
-  [@bs.get] external targetTouches: t => Js.t({..}) = "targetTouches"; /* Should return Dom.touchList */
-  [@bs.get] external touches: t => Js.t({..}) = "touches"; /* Should return Dom.touchList */
+  [@mel.get] external metaKey: t => bool = "metaKey";
+  [@mel.get] external shiftKey: t => bool = "shiftKey";
+  [@mel.get] external targetTouches: t => Js.t({..}) = "targetTouches"; /* Should return Dom.touchList */
+  [@mel.get] external touches: t => Js.t({..}) = "touches"; /* Should return Dom.touchList */
 };
 
 module UI = {
@@ -165,8 +165,8 @@ module UI = {
   include MakeEventWithType({
     type nonrec t = t;
   });
-  [@bs.get] external detail: t => int = "detail";
-  [@bs.get] external view: t => Dom.window = "view"; /* Should return DOMAbstractView/WindowProxy */
+  [@mel.get] external detail: t => int = "detail";
+  [@mel.get] external view: t => Dom.window = "view"; /* Should return DOMAbstractView/WindowProxy */
 };
 
 module Wheel = {
@@ -175,10 +175,10 @@ module Wheel = {
   include MakeEventWithType({
     type nonrec t = t;
   });
-  [@bs.get] external deltaMode: t => int = "deltaMode";
-  [@bs.get] external deltaX: t => float = "deltaX";
-  [@bs.get] external deltaY: t => float = "deltaY";
-  [@bs.get] external deltaZ: t => float = "deltaZ";
+  [@mel.get] external deltaMode: t => int = "deltaMode";
+  [@mel.get] external deltaX: t => float = "deltaX";
+  [@mel.get] external deltaY: t => float = "deltaY";
+  [@mel.get] external deltaZ: t => float = "deltaZ";
 };
 
 module Media = {
@@ -203,9 +203,9 @@ module Animation = {
   include MakeEventWithType({
     type nonrec t = t;
   });
-  [@bs.get] external animationName: t => string = "animationName";
-  [@bs.get] external pseudoElement: t => string = "pseudoElement";
-  [@bs.get] external elapsedTime: t => float = "elapsedTime";
+  [@mel.get] external animationName: t => string = "animationName";
+  [@mel.get] external pseudoElement: t => string = "pseudoElement";
+  [@mel.get] external elapsedTime: t => float = "elapsedTime";
 };
 
 module Transition = {
@@ -214,7 +214,7 @@ module Transition = {
   include MakeEventWithType({
     type nonrec t = t;
   });
-  [@bs.get] external propertyName: t => string = "propertyName";
-  [@bs.get] external pseudoElement: t => string = "pseudoElement";
-  [@bs.get] external elapsedTime: t => float = "elapsedTime";
+  [@mel.get] external propertyName: t => string = "propertyName";
+  [@mel.get] external pseudoElement: t => string = "pseudoElement";
+  [@mel.get] external elapsedTime: t => float = "elapsedTime";
 };

@@ -1,27 +1,27 @@
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0
-let throw loc x  = 
-  incr test_id ; 
-  suites := 
+let throw loc x  =
+  incr test_id ;
+  suites :=
     (loc ^" id " ^ (string_of_int !test_id),
      (fun _ -> Mt.ThrowAny(x))) :: !suites
 
 
 
-type a = 
-  | A0 
+type a =
+  | A0
   | A1
   | A2
-and  b =  
-  | B0 
-  | B1 [@bs.as 3]
-  | B2 
+and  b =
+  | B0
+  | B1 [@mel.as 3]
+  | B2
 and c = [
-  | `c0 
-  | `c1 
-  | `c2 
-  ]   
-[@@bs.deriving { jsConverter =  newType  }]
+  | `c0
+  | `c1
+  | `c2
+  ]
+[@@deriving  jsConverter {  newType }  ]
 
 
 (* ;; aFromJs (Obj.magic 3) *)

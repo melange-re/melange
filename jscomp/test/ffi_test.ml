@@ -1,4 +1,4 @@
-[@@@config {
+[@@@mel.config {
   flags = [|
     "-warn-error";
        "A-105";
@@ -7,7 +7,7 @@
 
 
 
-external f : int -> int = "xx" [@@bs.val ]
+external f : int -> int = "xx"
 
 
 let u () = f 3
@@ -17,24 +17,24 @@ let a, b ,c, d = (true, false, Js.Null.empty, Js.Undefined.empty)
 
 module Textarea = struct
   type t
-  external create : unit -> t  = "TextArea" [@@ bs.new ]
+  external create : unit -> t  = "TextArea" [@@mel.new ]
   (* TODO: *)
-  external set_minHeight : t -> int -> unit = "minHeight" [@@bs.set ]
-  external get_minHeight : t ->  int = "minHeight" [@@bs.get]
-  external draw : t -> string  -> unit = "string" [@@bs.send ]
+  external set_minHeight : t -> int -> unit = "minHeight" [@@mel.set ]
+  external get_minHeight : t ->  int = "minHeight" [@@mel.get]
+  external draw : t -> string  -> unit = "string" [@@mel.send ]
 
 end
 
 (*
-external never_used : Textarea.t ->  int -> int  = "minHeight" [@@bs.get]
+external never_used : Textarea.t ->  int -> int  = "minHeight" [@@mel.get]
 
 let v = never_used (Textarea.create ()) 3
 *)
 module Int32Array = struct
   type t
-  external create : int -> t = "Int32Array" [@@bs.new]
-  external get : t -> int -> int = "" [@@bs.get_index]
-  external set : t -> int -> int -> unit = "" [@@bs.set_index]
+  external create : int -> t = "Int32Array" [@@mel.new]
+  external get : t -> int -> int = "" [@@mel.get_index]
+  external set : t -> int -> int -> unit = "" [@@mel.set_index]
 end
 
 let v () =
@@ -52,5 +52,5 @@ let f () =
     v.(0)
   end
 
-external removeItem : string -> unit  = ""
-[@@bs.val]  [@@bs.scope "localStorage"]
+external removeItem : string -> unit  = "removeItem"
+  [@@mel.scope "localStorage"]

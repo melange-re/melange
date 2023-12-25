@@ -1,0 +1,5 @@
+(melange.emit
+ (target dist)
+ (alias melange-dist)
+ (emit_stdlib false)
+ (libraries melange))

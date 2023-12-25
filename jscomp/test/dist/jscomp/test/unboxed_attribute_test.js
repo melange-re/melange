@@ -19,27 +19,27 @@ function make(x) {
   return x;
 }
 
-function get(x) {
-  return x;
+function get(param) {
+  return param;
 }
 
 var x = "foo";
 
-eq("File \"unboxed_attribute_test.ml\", line 18, characters 3-10", x, x);
+eq("File \"jscomp/test/unboxed_attribute_test.ml\", line 18, characters 3-10", x, x);
 
 var x$1 = "foo";
 
-eq("File \"unboxed_attribute_test.ml\", line 26, characters 3-10", x$1, x$1);
+eq("File \"jscomp/test/unboxed_attribute_test.ml\", line 26, characters 3-10", x$1, x$1);
 
 var x$2 = "foo";
 
-eq("File \"unboxed_attribute_test.ml\", line 33, characters 3-10", x$2, x$2);
+eq("File \"jscomp/test/unboxed_attribute_test.ml\", line 33, characters 3-10", x$2, x$2);
 
 var y = {};
 
 y._0 = y;
 
-Mt.from_pair_suites("unboxed_attribute_test.ml", suites.contents);
+Mt.from_pair_suites("jscomp/test/unboxed_attribute_test.ml", suites.contents);
 
 var v0 = 3;
 

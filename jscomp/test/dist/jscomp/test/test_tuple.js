@@ -4,7 +4,7 @@
 
 var r = 0;
 
-for(var k = 1; k <= 10; ++k){
+for(var _k = 1; _k <= 10; ++_k){
   for(var i = 1; i <= 10; ++i){
     var match = i % 2 === 0 ? [
         1,

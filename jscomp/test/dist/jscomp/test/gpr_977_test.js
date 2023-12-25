@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib__Int32 = require("melange/stdlib_modules/int32.js");
+var Stdlib__Int32 = require("melange/int32.js");
 
 var suites = {
   contents: /* [] */0
@@ -30,14 +30,14 @@ function eq(loc, x, y) {
 }
 
 function f(x) {
-  for(var i = 0; i <= 100; ++i){
+  for(var _i = 0; _i <= 100; ++_i){
     console.log(".");
   }
   return -x | 0;
 }
 
 function int32_f(x) {
-  for(var i = 0; i <= 100; ++i){
+  for(var _i = 0; _i <= 100; ++_i){
     console.log(".");
   }
   return -x | 0;
@@ -45,9 +45,9 @@ function int32_f(x) {
 
 var u = f(-2147483648);
 
-eq("File \"gpr_977_test.ml\", line 32, characters 5-12", -2147483648, u);
+eq("File \"jscomp/test/gpr_977_test.ml\", line 32, characters 5-12", -2147483648, u);
 
-eq("File \"gpr_977_test.ml\", line 33, characters 5-12", Stdlib__Int32.min_int, int32_f(Stdlib__Int32.min_int));
+eq("File \"jscomp/test/gpr_977_test.ml\", line 33, characters 5-12", Stdlib__Int32.min_int, int32_f(Stdlib__Int32.min_int));
 
 Mt.from_pair_suites("Gpr_977_test", suites.contents);
 

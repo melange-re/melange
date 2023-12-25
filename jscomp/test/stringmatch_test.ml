@@ -12,7 +12,7 @@
 
 (* Empty string oddities *)
 
-let rec tst01 s = match s with
+let tst01 s = match s with
 | "" -> 0
 | _ -> 1
 

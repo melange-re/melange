@@ -11,6 +11,8 @@
 (************************************)
 (* Adapted for Javascript backend : Hongbo Zhang,  *)
 
+open Import
+
 exception Real_reference
 
 let rec eliminate_ref id (lam : Lam.t) =
@@ -22,8 +24,8 @@ let rec eliminate_ref id (lam : Lam.t) =
   *)
   | Lvar v | Lmutvar v ->
       if Ident.same v id then raise_notrace Real_reference else lam
-  | Lprim { primitive = Pfield (0, _); args = [ Lvar v ] } when Ident.same v id
-    ->
+  | Lprim { primitive = Pfield (0, _); args = [ Lvar v ]; _ }
+    when Ident.same v id ->
       Lam.var id
   | Lfunction _ ->
       if Lam_hit.hit_variable id lam then raise_notrace Real_reference else lam
@@ -50,7 +52,7 @@ let rec eliminate_ref id (lam : Lam.t) =
      TODO: we can refine analysis in later
   *)
   (* Lfunction(kind, params, eliminate_ref id body) *)
-  | Lprim { primitive = Psetfield (0, _); args = [ Lvar v; e ] }
+  | Lprim { primitive = Psetfield (0, _); args = [ Lvar v; e ]; _ }
     when Ident.same v id ->
       Lam.assign id (eliminate_ref id e)
   | Lprim { primitive = Poffsetref delta; args = [ Lvar v ]; loc }
@@ -60,7 +62,7 @@ let rec eliminate_ref id (lam : Lam.t) =
   | Lconst _ -> lam
   | Lapply { ap_func = e1; ap_args = el; ap_info } ->
       Lam.apply (eliminate_ref id e1)
-        (Ext_list.map el (eliminate_ref id))
+        (List.map ~f:(eliminate_ref id) el)
         ap_info
   | Llet (str, v, e1, e2) ->
       Lam.let_ str v (eliminate_ref id e1) (eliminate_ref id e2)
@@ -68,20 +70,20 @@ let rec eliminate_ref id (lam : Lam.t) =
       Lam.mutlet v (eliminate_ref id e1) (eliminate_ref id e2)
   | Lletrec (idel, e2) ->
       Lam.letrec
-        (Ext_list.map idel (fun (v, e) -> (v, eliminate_ref id e)))
+        (List.map ~f:(fun (v, e) -> (v, eliminate_ref id e)) idel)
         (eliminate_ref id e2)
   | Lglobal_module _ -> lam
   | Lprim { primitive; args; loc } ->
-      Lam.prim ~primitive ~args:(Ext_list.map args (eliminate_ref id)) loc
+      Lam.prim ~primitive ~args:(List.map ~f:(eliminate_ref id) args) loc
   | Lswitch (e, sw) ->
       Lam.switch (eliminate_ref id e)
         {
           sw_consts_full = sw.sw_consts_full;
           sw_consts =
-            Ext_list.map sw.sw_consts (fun (n, e) -> (n, eliminate_ref id e));
+            List.map ~f:(fun (n, e) -> (n, eliminate_ref id e)) sw.sw_consts;
           sw_blocks_full = sw.sw_blocks_full;
           sw_blocks =
-            Ext_list.map sw.sw_blocks (fun (n, e) -> (n, eliminate_ref id e));
+            List.map ~f:(fun (n, e) -> (n, eliminate_ref id e)) sw.sw_blocks;
           sw_failaction =
             (match sw.sw_failaction with
             | None -> None
@@ -90,12 +92,12 @@ let rec eliminate_ref id (lam : Lam.t) =
         }
   | Lstringswitch (e, sw, default) ->
       Lam.stringswitch (eliminate_ref id e)
-        (Ext_list.map sw (fun (s, e) -> (s, eliminate_ref id e)))
+        (List.map ~f:(fun (s, e) -> (s, eliminate_ref id e)) sw)
         (match default with
         | None -> None
         | Some x -> Some (eliminate_ref id x))
   | Lstaticraise (i, args) ->
-      Lam.staticraise i (Ext_list.map args (eliminate_ref id))
+      Lam.staticraise i (List.map ~f:(eliminate_ref id) args)
   | Lstaticcatch (e1, i, e2) ->
       Lam.staticcatch (eliminate_ref id e1) i (eliminate_ref id e2)
   | Ltrywith (e1, v, e2) ->
@@ -110,5 +112,6 @@ let rec eliminate_ref id (lam : Lam.t) =
   | Lassign (v, e) -> Lam.assign v (eliminate_ref id e)
   | Lsend (k, m, o, el, loc) ->
       Lam.send k (eliminate_ref id m) (eliminate_ref id o)
-        (Ext_list.map el (eliminate_ref id))
+        (List.map ~f:(eliminate_ref id) el)
         loc
+  | Lifused (v, e) -> Lam.ifused v (eliminate_ref id e)

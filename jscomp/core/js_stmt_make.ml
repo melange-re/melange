@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module E = Js_exp_make
 
 type t = J.statement
@@ -35,7 +36,7 @@ let throw_stmt ?comment v : t = { statement_desc = Throw v; comment }
 (* avoid nested block *)
 let rec block ?comment (b : J.block) : t =
   match b with
-  | [ { statement_desc = Block bs } ] -> block bs
+  | [ { statement_desc = Block bs; _ } ] -> block bs
   | [ b ] -> b
   | [] -> empty_stmt
   | _ -> { statement_desc = Block b; comment }
@@ -43,8 +44,8 @@ let rec block ?comment (b : J.block) : t =
 (* It's a statement, we can discard some values *)
 let rec exp ?comment (e : E.t) : t =
   match e.expression_desc with
-  | Seq ({ expression_desc = Number _ | Undefined }, b)
-  | Seq (b, { expression_desc = Number _ | Undefined }) ->
+  | Seq ({ expression_desc = Number _ | Undefined; _ }, b)
+  | Seq (b, { expression_desc = Number _ | Undefined; _ }) ->
       exp ?comment b
   | Number _ | Undefined -> block []
   (* TODO: we can do more *)
@@ -90,8 +91,10 @@ let int_switch ?(comment : string option)
   | Number (Int { i; _ }) -> (
       let continuation =
         match
-          Ext_list.find_opt clauses (fun (switch_case, x) ->
+          List.find_map
+            ~f:(fun (switch_case, (x : J.case_clause)) ->
               if switch_case = Int32.to_int i then Some x.switch_body else None)
+            clauses
         with
         | Some case -> case
         | None -> ( match default with Some x -> x | None -> assert false)
@@ -130,11 +133,13 @@ let string_switch ?(comment : string option)
     ?(declaration : (J.property * Ident.t) option) ?(default : J.block option)
     (e : J.expression) (clauses : (string * J.case_clause) list) : t =
   match e.expression_desc with
-  | Str (_, s) -> (
+  | Str (_, txt) | Unicode txt -> (
       let continuation =
         match
-          Ext_list.find_opt clauses (fun (switch_case, x) ->
-              if switch_case = s then Some x.switch_body else None)
+          List.find_map
+            ~f:(fun (switch_case, (x : J.case_clause)) ->
+              if switch_case = txt then Some x.switch_body else None)
+            clauses
         with
         | Some case -> case
         | None -> ( match default with Some x -> x | None -> assert false)
@@ -233,7 +238,7 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
         | ( [ { statement_desc = Return ret_ifso; _ } ],
             [ { statement_desc = Return ret_ifnot; _ } ] ) ->
             return_stmt (E.econd e ret_ifso ret_ifnot)
-        | _, [ { statement_desc = Return _ } ] ->
+        | _, [ { statement_desc = Return _; _ } ] ->
             block ({ statement_desc = If (E.not e, ifnot, []); comment } :: ifso)
         | _, _ when block_last_is_return_throw_or_continue ifso ->
             block ({ statement_desc = If (e, ifso, []); comment } :: ifnot)
@@ -246,7 +251,7 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
                         Bin
                           ( Eq,
                             ({ expression_desc = Var (Id var_ifso); _ } as
-                            lhs_ifso),
+                             lhs_ifso),
                             rhs_ifso );
                       _;
                     };
@@ -277,16 +282,16 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
         | ( [ { statement_desc = Exp exp_ifso; _ } ],
             [ { statement_desc = Exp exp_ifnot; _ } ] ) ->
             exp (E.econd e exp_ifso exp_ifnot)
-        | [ { statement_desc = If (pred1, ifso1, ifnot1) } ], _
+        | [ { statement_desc = If (pred1, ifso1, ifnot1); _ } ], _
           when Js_analyzer.eq_block ifnot1 ifnot ->
             aux ?comment (E.and_ e pred1) ifso1 ifnot1
-        | [ { statement_desc = If (pred1, ifso1, ifnot1) } ], _
+        | [ { statement_desc = If (pred1, ifso1, ifnot1); _ } ], _
           when Js_analyzer.eq_block ifso1 ifnot ->
             aux ?comment (E.and_ e (E.not pred1)) ifnot1 ifso1
-        | _, [ { statement_desc = If (pred1, ifso1, else_) } ]
+        | _, [ { statement_desc = If (pred1, ifso1, else_); _ } ]
           when Js_analyzer.eq_block ifso ifso1 ->
             aux ?comment (E.or_ e pred1) ifso else_
-        | _, [ { statement_desc = If (pred1, ifso1, ifnot1) } ]
+        | _, [ { statement_desc = If (pred1, ifso1, ifnot1); _ } ]
           when Js_analyzer.eq_block ifso ifnot1 ->
             aux ?comment (E.or_ e (E.not pred1)) ifso ifso1
         | ifso1 :: ifso_rest, ifnot1 :: ifnot_rest

@@ -1,4 +1,3 @@
-
 (* Copyright (C) 2017 Hongbo Zhang, Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,110 +22,121 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+type ('a, 'id) hash = ('a -> int[@u])
+type ('a, 'id) eq = ('a -> 'a -> bool[@u])
+type ('a, 'id) cmp = ('a -> 'a -> int[@u])
 
-type ('a, 'id) hash = ('a -> int [@bs])
-type ('a, 'id) eq = ('a -> 'a -> bool [@bs])
-type ('a, 'id) cmp = ('a -> 'a -> int [@bs])
-
-external getHashInternal : ('a,'id) hash -> ('a -> int [@bs]) = "%identity"
-external getEqInternal : ('a, 'id) eq -> ('a -> 'a -> bool [@bs]) = "%identity"
-external getCmpInternal : ('a,'id) cmp -> ('a -> 'a -> int [@bs]) = "%identity"
-
+external getHashInternal : ('a, 'id) hash -> ('a -> int[@u]) = "%identity"
+external getEqInternal : ('a, 'id) eq -> ('a -> 'a -> bool[@u]) = "%identity"
+external getCmpInternal : ('a, 'id) cmp -> ('a -> 'a -> int[@u]) = "%identity"
 
 module type Comparable = sig
   type identity
   type t
-  val cmp: (t, identity) cmp
+
+  val cmp : (t, identity) cmp
 end
 
 type ('key, 'id) comparable =
   (module Comparable with type t = 'key and type identity = 'id)
 
-
 module MakeComparableU (M : sig
-   type t
-   val cmp: t -> t -> int [@bs]
-  end) =
+  type t
+
+  val cmp : (t -> t -> int[@u])
+end) =
 struct
   type identity
+
   include M
 end
 
 module MakeComparable (M : sig
-   type t
-   val cmp: t -> t -> int
-  end) =
+  type t
+
+  val cmp : t -> t -> int
+end) =
 struct
   type identity
   type t = M.t
+
   (* see https://github.com/rescript-lang/rescript-compiler/pull/2589/files/5ef875b7665ee08cfdc59af368fc52bac1fe9130#r173330825 *)
   let cmp =
-    let cmp = M.cmp in fun[@bs] a b -> cmp a b
+    let cmp = M.cmp in
+    fun [@u] a b -> cmp a b
 end
 
-let comparableU
-  (type key)
-  ~cmp
-  =
-  (module MakeComparableU(struct
-      type t = key
-      let cmp = cmp
-    end) 
-  : Comparable with type t = key)
+let comparableU (type key) ~cmp =
+  (module MakeComparableU (struct
+    type t = key
 
-let comparable
-  (type key)
-  ~cmp
-  =
-  let module N = MakeComparable(struct
-      type t = key
-      let cmp = cmp
-    end) in
+    let cmp = cmp
+  end) : Comparable
+    with type t = key)
+
+let comparable (type key) ~cmp =
+  let module N = MakeComparable (struct
+    type t = key
+
+    let cmp = cmp
+  end) in
   (module N : Comparable with type t = key)
 
 module type Hashable = sig
   type identity
   type t
-  val hash: (t,identity) hash
-  val eq:  (t,identity) eq
+
+  val hash : (t, identity) hash
+  val eq : (t, identity) eq
 end
 
-type ('key, 'id) hashable = (module Hashable with type t = 'key and type identity = 'id)
+type ('key, 'id) hashable =
+  (module Hashable with type t = 'key and type identity = 'id)
 
 module MakeHashableU (M : sig
-   type t
-   val hash : t -> int [@bs]
-   val eq : t -> t -> bool [@bs]
-  end) =
+  type t
+
+  val hash : (t -> int[@u])
+  val eq : (t -> t -> bool[@u])
+end) =
 struct
   type identity
+
   include M
 end
 
 module MakeHashable (M : sig
-   type t
-   val hash : t -> int
-   val eq : t -> t -> bool
-  end) =
+  type t
+
+  val hash : t -> int
+  val eq : t -> t -> bool
+end) =
 struct
   type identity
   type t = M.t
+
   let hash =
-    let hash = M.hash in fun[@bs] a -> hash a
+    let hash = M.hash in
+    fun [@u] a -> hash a
+
   let eq =
-    let eq = M.eq in fun[@bs] a b -> eq a b
+    let eq = M.eq in
+    fun [@u] a b -> eq a b
 end
 
 let hashableU (type key) ~hash ~eq =
-  (module MakeHashableU(struct
-       type t = key
-       let hash = hash
-       let eq = eq
-     end) : Hashable with type t = key)
+  (module MakeHashableU (struct
+    type t = key
+
+    let hash = hash
+    let eq = eq
+  end) : Hashable
+    with type t = key)
 
 let hashable (type key) ~hash ~eq =
-  let module N = MakeHashable(struct
+  let module N = MakeHashable (struct
     type t = key
+
     let hash = hash
     let eq = eq
   end) in

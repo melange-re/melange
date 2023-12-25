@@ -22,41 +22,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Bs_stdlib_mini
-
-
-
+open Melange_mini_stdlib
 
 type t = Obj.t
 
-
-
 val caml_obj_dup : Obj.t -> Obj.t
-
-
 val update_dummy : Obj.t -> Obj.t -> unit
-
-
-val caml_compare : Obj.t -> Obj.t  -> int
+val caml_compare : Obj.t -> Obj.t -> int
 
 type eq = Obj.t -> Obj.t -> bool
 
 val caml_equal : eq
-
-val caml_equal_null : Obj.t -> Obj.t Js.null -> bool
-val caml_equal_undefined : Obj.t -> Obj.t Js.undefined -> bool
-val caml_equal_nullable : Obj.t -> Obj.t Js.nullable -> bool
-
+val caml_equal_null : Obj.t -> Obj.t Js_internal.null -> bool
+val caml_equal_undefined : Obj.t -> Obj.t Js_internal.undefined -> bool
+val caml_equal_nullable : Obj.t -> Obj.t Js_internal.nullable -> bool
 val caml_notequal : eq
 val caml_greaterequal : eq
 val caml_greaterthan : eq
 val caml_lessthan : eq
 val caml_lessequal : eq
-
-
-
-
-val caml_min :
-  t -> t -> t
-val caml_max :
-  t -> t -> t
+val caml_min : t -> t -> t
+val caml_max : t -> t -> t

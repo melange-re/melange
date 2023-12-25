@@ -321,7 +321,7 @@ and unary stk =
         then (Int, 1) else (Int, 5)
       | t when t = tokchar -> (Chr, 2)
       | _ -> failwith "[cast] expected" in
-    for k=1 to i
+    for _k=1 to i
       do ignore (next ()) done;
     unary stk;
     read ty

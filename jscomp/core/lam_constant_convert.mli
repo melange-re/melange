@@ -22,4 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val convert_constant : Lambda.structured_constant -> Lam_constant.t
+open Import
+
+val convert_constant : Lambda.structured_constant -> Lam.Constant.t

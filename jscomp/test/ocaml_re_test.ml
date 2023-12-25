@@ -1,9 +1,9 @@
-[@@@bs.config {flags = [|"-w";"a";"-bs-no-bin-annot"|];no_export}]
+[@@@mel.config {flags = [|"-w";"a"|];no_export}]
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0
-let eq loc x y = 
-  incr test_id ; 
-  suites := 
+let eq loc x y =
+  incr test_id ;
+  suites :=
     (loc ^" id " ^ (string_of_int !test_id), (fun _ -> Mt.Eq(x,y))) :: !suites
 
 
@@ -59,7 +59,7 @@ let to_to_string pp x =
   Buffer.contents b
 
 end
-module Re_cset : sig 
+module Re_cset : sig
 #1 "re_cset.mli"
 (*
    RE - A regular expression library
@@ -286,7 +286,7 @@ let pick = function
   | (x, _)::_ -> x
 
 end
-module Re_automata : sig 
+module Re_automata : sig
 #1 "re_automata.mli"
 (*
    RE - A regular expression library
@@ -1164,7 +1164,7 @@ let status s =
     st
 
 end
-module Re : sig 
+module Re : sig
 #1 "re.mli"
 (*
    RE - A regular expression library
@@ -2908,7 +2908,7 @@ Bounded repetition
 *)
 
 end
-module Re_perl : sig 
+module Re_perl : sig
 #1 "re_perl.mli"
 (*
    RE - A regular expression library
@@ -3224,7 +3224,7 @@ let compile = Re.compile
 let compile_pat ?(opts = []) s = compile (re ~opts s)
 
 end
-module Re_pcre : sig 
+module Re_pcre : sig
 #1 "re_pcre.mli"
 type regexp = Re.re
 
@@ -3402,9 +3402,9 @@ let _ =
      String.make (1024*1024 - 1) 'a'
      ^ "b"
  in
-eq __LOC__ 
+eq __LOC__
   (Re.get (Re_pcre.exec ~rex:(Re_pcre.regexp "aa?b") s)  0) "aab"
- 
+
 
 end
 

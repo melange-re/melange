@@ -1,4 +1,4 @@
-[@@@bs.config {flags = [|"-w";"a"|]}]
+[@@@mel.config {flags = [|"-w";"a"|]}]
 module Loc
 = struct
 #1 "loc.ml"
@@ -120,7 +120,7 @@ let compare =
       if k <> 0 then k
       else String.compare (string_of_filename fn1) (string_of_filename fn2)
   in
-  let pos_cmp a b = Pervasives.compare (a.line, a.column) (b.line, b.column) in
+  let pos_cmp a b = Stdlib.compare (a.line, a.column) (b.line, b.column) in
   fun loc1 loc2 ->
     let k = source_cmp loc1.source loc2.source in
     if k = 0 then
@@ -183,7 +183,7 @@ let with_suffix filename suffix =
 module FilenameKey = struct
   type t = filename
   let to_string = string_of_filename
-  let compare = Pervasives.compare
+  let compare = Stdlib.compare
 end
 
 end
@@ -3165,7 +3165,7 @@ end = struct
     else ret
 
   let float_of_string str =
-    try Pervasives.float_of_string str
+    try Stdlib.float_of_string str
     with e when Sys.win32 ->
       try
         start str
@@ -8862,7 +8862,7 @@ let filter_duplicate_errors =
     let compare (a_loc, a_error) (b_loc, b_error) =
       let loc = Loc.compare a_loc b_loc in
       if loc = 0
-      then Pervasives.compare a_error b_error
+      then Stdlib.compare a_error b_error
       else loc
   end) in
   fun errs ->
@@ -13323,7 +13323,7 @@ module Flow_parser_js
  *
  *)
 
-external createRegex : string -> string -> 'a = "RegExp" [@@bs.new]
+external createRegex : string -> string -> 'a = "RegExp" [@@mel.new]
 
 module JsTranslator : sig
   val translation_errors: (Loc.t * Parse_error.t) list ref
@@ -13332,12 +13332,12 @@ end = struct
   type t
 
   let translation_errors = ref []
-  let string = [%bs.raw "function (x) {return x;}"]
-  let bool = [%bs.raw "function (x) {x ? 1 : 0;}"]
-  let obj = [%bs.raw "function(arr) {var ret = {}; arr.forEach(function(a) {ret[a[0]]=a[1];}); return ret}"]
-  let array = [%bs.raw "function (x) {return x;}"]
-  let number = [%bs.raw "function (x) {return x;}"]
-  let null = [%bs.raw "null"]
+  let string = [%mel.raw "function (x) {return x;}"]
+  let bool = [%mel.raw "function (x) {x ? 1 : 0;}"]
+  let obj = [%mel.raw "function(arr) {var ret = {}; arr.forEach(function(a) {ret[a[0]]=a[1];}); return ret}"]
+  let array = [%mel.raw "function (x) {return x;}"]
+  let number = [%mel.raw "function (x) {return x;}"]
+  let null = [%mel.raw "null"]
   let regexp loc pattern flags =
     let regexp = try
       createRegex pattern flags
@@ -13352,7 +13352,7 @@ end = struct
     regexp
 end
 
-external throw : 'a -> 'b = "throw" [@@bs.val]
+external throw : 'a -> 'b = "throw"
 
 (* let parse_options jsopts = Parser_env.(
   let opts = default_parse_options in
@@ -13385,9 +13385,9 @@ external throw : 'a -> 'b = "throw" [@@bs.val]
   opts
 ) *)
 
-external setRetErrors : 'a -> string -> 'b -> unit = "" [@@bs.set_index]
-external setEName : 'a -> string -> 'b -> unit = "" [@@bs.set_index]
-external newError : 'a -> 'b = "Error" [@@bs.new]
+external setRetErrors : 'a -> string -> 'b -> unit = "" [@@mel.set_index]
+external setEName : 'a -> string -> 'b -> unit = "" [@@mel.set_index]
+external newError : 'a -> 'b = "Error" [@@mel.new]
 
 let parse content options =
   (* let parse_options = Some (parse_options options) in *)
@@ -13404,7 +13404,7 @@ let parse content options =
     let e = newError ((string_of_int (List.length l)) ^ " errors") in
     setEName e "name" "Parse Error";
     ignore (throw e);
-    [%bs.raw "{}"]
+    [%mel.raw "{}"]
 
 end
 module RunParser

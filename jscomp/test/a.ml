@@ -1,11 +1,11 @@
 include (struct
 
-module M (S : sig val add : int -> int -> int end) = struct 
-  let u = S.add 1 2 
+module M (S : sig val add : int -> int -> int end) = struct
+  let u = S.add 1 2
 end
 module H = M(struct let add x y = x +  y end)
 
-include List 
+include List
 module N = List
 let v = N.length
 
@@ -27,5 +27,5 @@ end : sig end)
 
 
 
-(* [%%bs.cast.x: 'a -> 'b  ] *)
+(* [%%mel.cast.x: 'a -> 'b  ] *)
 (* external f : int -> (int -> int) = "%identity" *)

@@ -21,29 +21,22 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
-open Bs_stdlib_mini
 
- type nested = {
-    depth : int ; [@bs.as "BS_PRIVATE_NESTED_SOME_NONE"]
-  }
+open Melange_mini_stdlib
 
-val nullable_to_opt : 'a Js.null_undefined -> 'a option
+type nested = { depth : int [@mel.as "MEL_PRIVATE_NESTED_SOME_NONE"] }
 
-val undefined_to_opt : 'a Js.undefined -> 'a option
-
-val null_to_opt : 'a Js.null -> 'a option
-
+val nullable_to_opt : 'a Js_internal.nullable -> 'a option
+val undefined_to_opt : 'a Js_internal.undefined -> 'a option
+val null_to_opt : 'a Js_internal.null -> 'a option
 val valFromOption : Obj.t -> Obj.t
-
 val some : Obj.t -> Obj.t
-
 val isNested : Obj.t -> bool
-
 val option_get : Obj.t option -> Obj.t Caml_undefined_extern.t
 
 type poly
 
+val option_unwrap : poly option -> Obj.t
 (** When it is None, return none
     When it is (Some (`a 3)) return 3
 *)
-val option_unwrap : poly option -> Obj.t

@@ -22,27 +22,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
 type t =
-  < argv : string array;
-    arch : string ;
-    abort : unit -> unit [@bs.meth];
-    chdir : string -> unit [@bs.meth];
-    cwd : unit -> string [@bs.meth];
-    disconnect : unit -> unit [@bs.meth];
-    platform : string;
-    env : string Js_dict.t; (* ocamldep sucks which can not map [Js.Dic.t] to [Js_dict.t]*)
-  >   Js.t
+  < argv : string array
+  ; arch : string
+  ; abort : unit -> unit [@mel.meth]
+  ; chdir : string -> unit [@mel.meth]
+  ; cwd : unit -> string [@mel.meth]
+  ; disconnect : unit -> unit [@mel.meth]
+  ; platform : string
+  ; env : string Js.Dict.t >
+  Js.t
 (* FIXME : use record *)
 
-external process : t = "process" [@@bs.module] 
-external argv : string array = "argv" [@@bs.module "process"]
-external exit : int -> 'a = "exit" [@@bs.module "process"]
-external cwd : unit -> string = "cwd" [@@bs.module "process"]
+external process : t = "process" [@@mel.module]
+external argv : string array = "argv" [@@mel.module "process"]
+external exit : int -> 'a = "exit" [@@mel.module "process"]
+external cwd : unit -> string = "cwd" [@@mel.module "process"]
 
-(** The process.uptime() method returns the number of seconds 
+external uptime : t -> unit -> float = "uptime"
+[@@mel.send]
+(** The process.uptime() method returns the number of seconds
    the current Node.js process has been running.) *)
-external uptime : t -> unit -> float = "uptime" [@@bs.send]
 
 val putEnvVar : string -> string -> unit
 val deleteEnvVar : string -> unit

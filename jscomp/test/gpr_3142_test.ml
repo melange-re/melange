@@ -1,25 +1,17 @@
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0
-let eq loc x y = Mt.eq_suites ~test_id ~suites loc x y 
+let eq loc x y = Mt.eq_suites ~test_id ~suites loc x y
 
 
-type t = 
-  [ `a [@bs.as "x"] 
-  | `u [@bs.as "hi"]
-  | `b [@bs.as {j|你|j} ]
-  | `c [@bs.as {js|我|js}]
+type t =
+  [ `a [@mel.as "x"]
+  | `u [@mel.as "hi"]
+  | `b [@mel.as {j|你|j} ]
+  | `c [@mel.as {js|我|js}]
   ]
-  [@@bs.deriving jsConverter]
+  [@@deriving jsConverter]
 
-let v,u = tToJs, tFromJs  
-
-
-(* not applicable to thiis type, and unused warning*)
-#if 0 then
-type t0 =  
-  [ `a of int [@bs.as "hi"] ]
-  [@@bs.deriving jsConverter]
-#end  
+let v,u = tToJs, tFromJs
 
 
 ;; eq __LOC__ (v `a) "x"

@@ -1,8 +1,8 @@
 
 
 type moduleId = < name : string > Js.t
-  
-external moduleId : moduleId = "#moduleid" [@@bs.module]
+
+external moduleId : moduleId = "#moduleid" [@@mel.module]
 
 
 let f () =

@@ -1,11 +1,4 @@
-
-[@bs.config {
-  flags : [|"-bs-jsx","3", "-dsource",
-     // "-w","A", 
-     // "-warn-error", "a"
-    |]
-}];
+[@ocaml.warning "-39"];
 
 [@react.component]
-let rec make = (~foo, ()) =>
-  React.createElement(make, makeProps(~foo, ()));
+let rec make = (~foo, ()) => React.createElement(make, makeProps(~foo, ()));

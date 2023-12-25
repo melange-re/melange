@@ -1,6 +1,6 @@
-[@@@bs.config{no_export}]
-let (.%()) (s : string) i = 
-    s.[i] 
+[@@@mel.config{no_export}]
+let (.%()) (s : string) i =
+    s.[i]
 
 ;; Mt.from_pair_suites __FILE__    [
     __LOC__, (fun _ -> Eq("h".%(0)  ,'h'))

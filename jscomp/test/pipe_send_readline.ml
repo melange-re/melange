@@ -1,30 +1,30 @@
 
-(*  should give a warning on unused attribute..   [@@bs.xx] *)
+(*  should give a warning on unused attribute..   [@@mel.xx] *)
 
 
 type readline
-external on : 
-  ([ `line of (string -> unit [@bs]) 
-   | `close of (unit -> unit [@bs])] 
-     [@bs.string]) ->
-  'self = 
-  "on" [@@bs.send.pipe:readline as 'self]
+external on :
+  ([ `line of (string -> unit [@u])
+   | `close of (unit -> unit [@u])]
+     [@mel.string]) ->
+  'self =
+  "on" [@@mel.send.pipe:readline as 'self]
 let u rl =
   rl
-  |> on (`line (fun [@bs] x -> Js.log x ))
-  |> on (`close (fun [@bs] () -> Js.log "finished"))    
+  |> on (`line (fun [@u] x -> Js.log x ))
+  |> on (`close (fun [@u] () -> Js.log "finished"))
 
 
 
 
-external send : string -> 'self   = "send" [@@bs.send.pipe: < hi : int > Js.t as 'self]
+external send : string -> 'self   = "send" [@@mel.send.pipe: < hi : int > Js.t as 'self]
 
 
 let xx h : int  =
   h
   |> send   "x"
-  |> (fun x -> x ## hi)    
+  |> (fun x -> x ## hi)
 
 let yy h =
   h
-  |> send "x"    
+  |> send "x"

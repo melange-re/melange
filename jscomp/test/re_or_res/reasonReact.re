@@ -10,7 +10,7 @@ type reactElement = React.element;
 
 type reactRef;
 
-[@bs.val] external null: reactElement = "null";
+external null: reactElement = "null";
 
 external string: string => reactElement = "%identity";
 
@@ -18,27 +18,26 @@ external array: array(reactElement) => reactElement = "%identity";
 
 external refToJsObj: reactRef => Js.t({..}) = "%identity";
 
-[@bs.splice] [@bs.val] [@bs.module "react"]
+[@mel.variadic] [@mel.module "react"]
 external createElement:
   (reactClass, ~props: Js.t({..})=?, array(reactElement)) => reactElement =
   "createElement";
 
-[@bs.splice] [@bs.module "react"]
+[@mel.variadic] [@mel.module "react"]
 external cloneElement:
   (reactElement, ~props: Js.t({..})=?, array(reactElement)) => reactElement =
   "cloneElement";
 
-[@bs.val] [@bs.module "react"]
-external createElementVerbatim: 'a = "createElement";
+[@mel.module "react"] external createElementVerbatim: 'a = "createElement";
 
 let createDomElement = (s, ~props, children) => {
   let vararg =
-    [|Obj.magic(s), Obj.magic(props)|] |> Js.Array.concat(children);
+    [|Obj.magic(s), Obj.magic(props)|] |> Js.Array.concat(~other=children);
   /* Use varargs to avoid warnings on duplicate keys in children */
   Obj.magic(createElementVerbatim)##apply(Js.Nullable.null, vararg);
 };
 
-[@bs.val] external magicNull: 'a = "null";
+external magicNull: 'a = "null";
 
 type reactClassInternal = reactClass;
 
@@ -131,7 +130,7 @@ type jsComponentThis('state, 'props, 'retainedProps, 'action) = {
   "state": totalState('state, 'retainedProps, 'action),
   "props": {. "reasonProps": 'props},
   "setState":
-    [@bs.meth] (
+    [@mel.meth] (
       (
         (totalState('state, 'retainedProps, 'action), 'props) =>
         totalState('state, 'retainedProps, 'action),
@@ -161,7 +160,7 @@ let anyToUnit = _ => ();
 
 let anyToTrue = _ => true;
 
-let willReceivePropsDefault = ({state}) => state;
+let willReceivePropsDefault = ({state, _}) => state;
 
 let renderDefault = _self => string("RenderNotImplemented");
 
@@ -190,7 +189,8 @@ let convertPropsIfTheyreFromJs = (props, jsPropsToReason, debugName) => {
 let createClass =
     (type reasonState, type retainedProps, type action, debugName): reactClass =>
   ReasonReactOptimizedCreateClass.createClass(.
-    [@bs]
+    [@u]
+    [@ocaml.warning "-27"]
     {
       /***
        * TODO: Null out fields that aren't overridden beyond defaults in
@@ -211,7 +211,7 @@ let createClass =
       };
       pub getInitialState = (): totalState('state, 'retainedProps, 'action) => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         let convertedReasonProps =
@@ -226,7 +226,7 @@ let createClass =
       };
       pub componentDidMount = () => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         let convertedReasonProps =
@@ -247,7 +247,7 @@ let createClass =
       };
       pub componentDidUpdate = (prevProps, prevState) => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         let curState = thisJs##state;
@@ -291,7 +291,7 @@ let createClass =
       /* pub componentWillMount .. TODO (or not?) */
       pub componentWillUnmount = () => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         let convertedReasonProps =
@@ -311,7 +311,8 @@ let createClass =
         };
         switch (Js.Null.toOption(this##subscriptions)) {
         | None => ()
-        | Some(subs) => Js.Array.forEach(unsubscribe => unsubscribe(), subs)
+        | Some(subs) =>
+          Js.Array.forEach(~f=unsubscribe => unsubscribe(), subs)
         };
       };
       /***
@@ -322,7 +323,7 @@ let createClass =
        */
       pub componentWillUpdate = (nextProps, nextState: totalState(_)) => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         let newConvertedReasonProps =
@@ -371,7 +372,7 @@ let createClass =
        */
       pub componentWillReceiveProps = nextProps => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         let newConvertedReasonProps =
@@ -432,7 +433,7 @@ let createClass =
        */
       pub shouldComponentUpdate = (nextJsProps, nextState, _) => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         let curJsProps = thisJs##props;
@@ -485,11 +486,11 @@ let createClass =
       pub onUnmountMethod = subscription =>
         switch (Js.Null.toOption(this##subscriptions)) {
         | None => this##subscriptions #= Js.Null.return([|subscription|])
-        | Some(subs) => ignore(Js.Array.push(subscription, subs))
+        | Some(subs) => ignore(Js.Array.push(subs, ~value=subscription))
         };
       pub handleMethod = callback => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         callbackPayload => {
@@ -512,7 +513,7 @@ let createClass =
       };
       pub sendMethod = (action: 'action) => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         let convertedReasonProps =
@@ -569,7 +570,7 @@ let createClass =
        */
       pub render = () => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         let convertedReasonProps =
@@ -719,7 +720,7 @@ module WrapProps = {
       );
     let varargs =
       [|Obj.magic(reactClass), Obj.magic(props)|]
-      |> Js.Array.concat(Obj.magic(children));
+      |> Js.Array.concat(~other=Obj.magic(children));
     /* Use varargs under the hood */
     Obj.magic(createElementVerbatim)##apply(Js.Nullable.null, varargs);
   };
@@ -734,6 +735,6 @@ module WrapProps = {
 
 let wrapJsForReason = WrapProps.wrapJsForReason;
 
-[@bs.module "react"] external fragment: 'a = "Fragment";
+[@mel.module "react"] external fragment: 'a = "Fragment";
 
 module Router = ReasonReactRouter;

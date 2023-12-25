@@ -22,6 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+module Literals : sig
+  val setter_suffix : string
+  val infix_ops : string list
+end
+
 type module_bind_name =
   | Phint_name of string
   (* explicit hint name *)
@@ -32,7 +37,6 @@ type external_module_name = {
   module_bind_name : module_bind_name;
 }
 
-type pipe = bool
 type arg_type = External_arg_spec.attr
 type arg_label = External_arg_spec.label
 
@@ -45,26 +49,27 @@ type external_spec =
   | Js_module_as_var of external_module_name
   | Js_module_as_fn of {
       external_module_name : external_module_name;
-      splice : bool;
+      variadic : bool;
     }
   | Js_module_as_class of external_module_name
   | Js_call of {
       name : string;
       external_module_name : external_module_name option;
-      splice : bool;
+      variadic : bool;
       scopes : string list;
     }
   | Js_send of {
       name : string;
-      splice : bool;
-      pipe : pipe;
+      variadic : bool;
+      pipe : bool;
+      new_ : bool;
       js_send_scopes : string list;
     }
     (* we know it is a js send, but what will happen if you pass an ocaml objct *)
   | Js_new of {
       name : string;
       external_module_name : external_module_name option;
-      splice : bool;
+      variadic : bool;
       scopes : string list;
     }
   | Js_set of { js_set_name : string; js_set_scopes : string list }
@@ -83,7 +88,7 @@ type return_wrapper =
 type params = Params of External_arg_spec.params | Param_number of int
 
 type t = private
-  | Ffi_bs of params * return_wrapper * external_spec
+  | Ffi_mel of params * return_wrapper * external_spec
   | Ffi_obj_create of External_arg_spec.obj_params
   | Ffi_inline_const of Lam_constant.t
   | Ffi_normal
@@ -91,7 +96,7 @@ type t = private
 
 (* val name_of_ffi : external_spec -> string *)
 
-val check_ffi : ?loc:Location.t -> external_spec -> bool
+val check_ffi : loc:Location.t -> external_spec -> bool
 val to_string : t -> string
 
 val from_string : string -> t
@@ -102,9 +107,9 @@ val inline_bool_primitive : bool -> string list
 val inline_int_primitive : int32 -> string list
 val inline_int64_primitive : int64 -> string list
 val inline_float_primitive : string -> string list
-val ffi_bs : External_arg_spec.params -> return_wrapper -> external_spec -> t
+val ffi_mel : External_arg_spec.params -> return_wrapper -> external_spec -> t
 
-val ffi_bs_as_prims :
+val ffi_mel_as_prims :
   External_arg_spec.params -> return_wrapper -> external_spec -> string list
 
 val ffi_obj_create : External_arg_spec.obj_params -> t

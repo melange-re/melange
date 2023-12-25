@@ -1,5 +1,5 @@
 let f xs =
-  let unused =
+  let _unused =
     match xs with
     | Some (l) -> Js.log "side effect"; [l; l]
     | None  -> [1; 2]

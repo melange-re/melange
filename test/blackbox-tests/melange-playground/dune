@@ -1,0 +1,5 @@
+(cram
+ (package melange-playground)
+ (deps
+  %{bin:js_of_ocaml}
+  (package melange-playground)))

@@ -1,3 +1,3 @@
-let f re = 
-  let _ = re |. Js.Re.exec_ "banana" in 
+let f re =
+  let _ = re |> Js.Re.exec ~str:"banana" in
   3

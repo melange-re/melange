@@ -1,15 +1,15 @@
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0
-let eq loc x y = Mt.eq_suites ~test_id ~suites loc x y 
+let eq loc x y = Mt.eq_suites ~test_id ~suites loc x y
 
 
 
 
 type test = {
-  s : string [@bs.optional];
-  b : bool [@bs.optional];
-  i : int  [@bs.optional];
-} [@@bs.deriving abstract]
+  s : string option [@mel.optional];
+  b : bool option [@mel.optional];
+  i : int option  [@mel.optional];
+} [@@deriving jsProperties, getSet]
 
 
 let make ?s ?b ?i  = test ?s ?b ?i

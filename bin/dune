@@ -1,0 +1,21 @@
+(executable
+ (public_name melc)
+ (package melange)
+ (flags :standard -open Melange_compiler_libs)
+ (libraries
+  js_parser
+  melstd
+  melange_compiler_libs
+  melange_ffi
+  melangelib
+  cmdliner)
+ (modules melc melc_cli)
+ (preprocess
+  (action
+   (run cppo "%{env:CPPO_FLAGS=}" %{input-file}))))
+
+(executable
+ (public_name melppx)
+ (package melange)
+ (modules melppx)
+ (libraries melange.ppx ppxlib))

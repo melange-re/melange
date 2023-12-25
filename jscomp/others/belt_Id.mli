@@ -1,4 +1,3 @@
-
 (* Copyright (C) 2017 Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
 (** {!Belt.Id}
 
     Provide utiliites to create identified comparators or hashes for
@@ -32,8 +30,6 @@
     It create a unique identifer per module of functions so that different data structures with slightly different
     comparison functions won't mix.
 *)
-
-
 
 type ('a, 'id) hash
 (** [('a, 'id) hash]
@@ -59,7 +55,8 @@ type ('a, 'id) cmp
 module type Comparable = sig
   type identity
   type t
-  val cmp: (t, identity) cmp
+
+  val cmp : (t, identity) cmp
 end
 
 type ('key, 'id) comparable =
@@ -69,30 +66,32 @@ type ('key, 'id) comparable =
     Unlike normal functions, when created, it comes with a unique identity (guaranteed
     by the type system).
 
-    It can be created using function {!comparableU} or{!comparable}.
+    It can be created using function {!comparableU} or {!val-comparable}.
 
     The idea of a unique identity when created is that it makes sure two sets would type
     mismatch if they use different comparison function
 *)
 
-module MakeComparableU :
-  functor (M : sig
-    type t
-    val cmp : t -> t -> int [@bs]
-  end) ->
-  Comparable with type t = M.t
+module MakeComparableU : functor
+  (M : sig
+     type t
 
-module MakeComparable :
-  functor (M : sig
-    type t
-    val cmp : t -> t -> int
-  end) ->
-  Comparable with type t = M.t
+     val cmp : (t -> t -> int[@u])
+   end)
+  -> Comparable with type t = M.t
 
-val comparableU:
-  cmp:('a -> 'a -> int [@bs]) ->
-  (module Comparable with type t = 'a)
+module MakeComparable : functor
+  (M : sig
+     type t
 
+     val cmp : t -> t -> int
+   end)
+  -> Comparable with type t = M.t
+
+val comparableU :
+  cmp:(('a -> 'a -> int)[@u]) -> (module Comparable with type t = 'a)
+
+val comparable : cmp:('a -> 'a -> int) -> (module Comparable with type t = 'a)
 (**
     {[
       module C = (
@@ -102,14 +101,11 @@ val comparableU:
     ]}
     Note that the name of C can not be ignored
 *)
-val comparable:
-  cmp:('a -> 'a -> int) ->
-  (module Comparable with type t = 'a)
-
 
 module type Hashable = sig
   type identity
   type t
+
   val hash : (t, identity) hash
   val eq : (t, identity) eq
 end
@@ -121,44 +117,44 @@ type ('key, 'id) hashable =
     Unlike normal functions, when created, it comes with a unique identity (guaranteed
     by the type system).
 
-    It can be created using function {!hashableU} or {!hashable}.
+    It can be created using function {!hashableU} or {!val-hashable}.
 
     The idea of a unique identity when created is that it makes sure two hash sets would type
     mismatch if they use different comparison function
 *)
 
-module MakeHashableU :
-  functor (M : sig
-    type t
-     val hash : t -> int [@bs]
-     val eq : t -> t -> bool [@bs]
-  end) ->
-  Hashable with type t = M.t
+module MakeHashableU : functor
+  (M : sig
+     type t
 
-module MakeHashable :
-  functor (M : sig
-    type t
+     val hash : (t -> int[@u])
+     val eq : (t -> t -> bool[@u])
+   end)
+  -> Hashable with type t = M.t
+
+module MakeHashable : functor
+  (M : sig
+     type t
+
      val hash : t -> int
      val eq : t -> t -> bool
-  end) ->
-  Hashable with type t = M.t
+   end)
+  -> Hashable with type t = M.t
 
 val hashableU :
-  hash:('a -> int [@bs]) ->
-  eq:('a -> 'a -> bool [@bs]) ->
+  hash:(('a -> int)[@u]) ->
+  eq:(('a -> 'a -> bool)[@u]) ->
   (module Hashable with type t = 'a)
-
 
 val hashable :
   hash:('a -> int) ->
-  eq:('a -> 'a -> bool ) ->
+  eq:('a -> 'a -> bool) ->
   (module Hashable with type t = 'a)
 
-
-
-
 (**/**)
-external getHashInternal : ('a,'id) hash -> ('a -> int [@bs]) = "%identity"
-external getEqInternal : ('a, 'id) eq -> ('a -> 'a -> bool [@bs]) = "%identity"
-external getCmpInternal : ('a,'id) cmp -> ('a -> 'a -> int [@bs]) = "%identity"
+
+external getHashInternal : ('a, 'id) hash -> ('a -> int[@u]) = "%identity"
+external getEqInternal : ('a, 'id) eq -> ('a -> 'a -> bool[@u]) = "%identity"
+external getCmpInternal : ('a, 'id) cmp -> ('a -> 'a -> int[@u]) = "%identity"
+
 (**/**)

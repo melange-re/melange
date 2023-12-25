@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib = require("melange/./stdlib.js");
-var Stdlib__Int32 = require("melange/stdlib_modules/int32.js");
+var Stdlib = require("melange/stdlib.js");
+var Stdlib__Int32 = require("melange/int32.js");
 
 var suites = {
   contents: /* [] */0
@@ -30,13 +30,13 @@ function eq(loc, x, y) {
   };
 }
 
-eq("File \"limits_test.ml\", line 10, characters 5-12", Stdlib.max_int, 2147483647);
+eq("File \"jscomp/test/limits_test.ml\", line 9, characters 5-12", Stdlib.max_int, 2147483647);
 
-eq("File \"limits_test.ml\", line 11, characters 5-12", Stdlib.min_int, -2147483648);
+eq("File \"jscomp/test/limits_test.ml\", line 10, characters 5-12", Stdlib.min_int, -2147483648);
 
-eq("File \"limits_test.ml\", line 12, characters 5-12", Stdlib__Int32.max_int, 2147483647);
+eq("File \"jscomp/test/limits_test.ml\", line 11, characters 5-12", Stdlib__Int32.max_int, 2147483647);
 
-eq("File \"limits_test.ml\", line 13, characters 5-12", Stdlib__Int32.min_int, -2147483648);
+eq("File \"jscomp/test/limits_test.ml\", line 12, characters 5-12", Stdlib__Int32.min_int, -2147483648);
 
 Mt.from_pair_suites("Limits_test", suites.contents);
 

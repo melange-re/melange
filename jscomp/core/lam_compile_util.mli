@@ -26,4 +26,4 @@
 
 val jsop_of_comp : Lam_compat.integer_comparison -> Js_op.binop
 val jsop_of_float_comp : Lam_compat.float_comparison -> Js_op.binop
-val comment_of_tag_info : Lam_tag_info.t -> string option
+val comment_of_tag_info : Lam.Tag_info.t -> string option

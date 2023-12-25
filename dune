@@ -1,4 +1,4 @@
-(dirs :standard \ docs node_modules odoc_gen nix)
+(dirs :standard \ docs node_modules nix)
 
 (env
  (dev
@@ -9,23 +9,3 @@
    (CPPO_FLAGS -D=BS_RELEASE_BUILD))
   (ocamlopt_flags
    (:standard -O3 -unbox-closures))))
-
-(install
- (package melange)
- (dirs
-  (lib/es6 as mel_runtime/lib/es6)
-  (lib/js as mel_runtime/lib/js))
- (files
-  (package.json as mel_runtime/package.json)
-  (bsconfig.json as mel_runtime/bsconfig.json)
-  ;; while we wait for https://github.com/ocaml/dune/pull/6250
-  ;; dune build lib/artifacts.sexp
-  ;; cp ./_build/default/lib/artifacts.sexp lib/checked-in-artifacts.sexp
-  (include ./lib/checked-in-artifacts.sexp))
- (section lib))
-
-;;;;{BSB GENERATED: NO EDIT
-
-(include dune.mel)
-
-;;;;BSB GENERATED: NO EDIT}

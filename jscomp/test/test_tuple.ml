@@ -1,6 +1,6 @@
 let () =
   let r = ref 0 in
-  for k = 1 to 10 do
+  for _k = 1 to 10 do
     for i = 1 to 10 do
       let (x, y) =
         if i mod 2 = 0 then (1, i * 2)
@@ -9,4 +9,3 @@ let () =
       r := !r * x + y
     done;
   done;
-

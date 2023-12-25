@@ -216,9 +216,9 @@ function f(children) {
   }
   if (children$15.tl) {
     throw {
-          RE_EXN_ID: "Assert_failure",
+          MEL_EXN_ID: "Assert_failure",
           _1: [
-            "gpr_1150.ml",
+            "jscomp/test/gpr_1150.ml",
             56,
             34
           ],

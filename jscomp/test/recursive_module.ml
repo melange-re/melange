@@ -6,11 +6,11 @@ let eq loc x y = Mt.eq_suites ~test_id ~suites loc x y
 module  rec Int32 : sig
   type t
   type buffer
-  external buffer : t -> buffer = "buffer" [@@bs.get]
-  external get : t -> int -> int  = "" [@@bs.get_index]
-  external set : t -> int -> int -> unit = "" [@@bs.set_index]
-  external create : int array -> t = "Int32Array" [@@bs.new]
-  external of_buffer : buffer -> t = "Int32Array" [@@bs.new]
+  external buffer : t -> buffer = "buffer" [@@mel.get]
+  external get : t -> int -> int  = "" [@@mel.get_index]
+  external set : t -> int -> int -> unit = "" [@@mel.set_index]
+  external create : int array -> t = "Int32Array" [@@mel.new]
+  external of_buffer : buffer -> t = "Int32Array" [@@mel.new]
 end = Int32 (* Int32 is compiled away in 4.06 *)
 
 module Xx : sig

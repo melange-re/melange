@@ -10,20 +10,20 @@
 (*                                                                     *)
 (***********************************************************************)
 
+open Import
 open Format
 open Asttypes
 
-let rec struct_const ppf (cst : Lam_constant.t) =
+let rec struct_const ppf (cst : Lam.Constant.t) =
   match cst with
   | Const_js_true -> fprintf ppf "#true"
   | Const_js_false -> fprintf ppf "#false"
   | Const_js_null -> fprintf ppf "#null"
   | Const_module_alias -> fprintf ppf "#alias"
   | Const_js_undefined -> fprintf ppf "#undefined"
-  | Const_int { i } -> fprintf ppf "%ld" i
+  | Const_int { i; _ } -> fprintf ppf "%ld" i
   | Const_char c -> fprintf ppf "%C" c
-  | Const_string s -> fprintf ppf "%S" s
-  | Const_unicode s -> fprintf ppf "%S" s
+  | Const_string { s; _ } -> fprintf ppf "%S" s
   | Const_float f -> fprintf ppf "%s" f
   | Const_int64 n -> fprintf ppf "%LiL" n
   | Const_pointer name -> fprintf ppf "`%s" name
@@ -31,18 +31,18 @@ let rec struct_const ppf (cst : Lam_constant.t) =
   | Const_block (tag, _, []) -> fprintf ppf "[%i]" tag
   | Const_block (tag, _, sc1 :: scl) ->
       let sconsts ppf scl =
-        List.iter (fun sc -> fprintf ppf "@ %a" struct_const sc) scl
+        List.iter ~f:(fun sc -> fprintf ppf "@ %a" struct_const sc) scl
       in
       fprintf ppf "@[<1>[%i:@ @[%a%a@]]@]" tag struct_const sc1 sconsts scl
   | Const_float_array [] -> fprintf ppf "[| |]"
   | Const_float_array (f1 :: fl) ->
-      let floats ppf fl = List.iter (fun f -> fprintf ppf "@ %s" f) fl in
+      let floats ppf fl = List.iter ~f:(fun f -> fprintf ppf "@ %s" f) fl in
       fprintf ppf "@[<1>[|@[%s%a@]|]@]" f1 floats fl
 
 let record_rep ppf (r : Lam_primitive.record_representation) =
   match r with
   | Record_regular -> fprintf ppf "regular"
-  | Record_inlined { tag = i } -> fprintf ppf "inlined %d" i
+  | Record_inlined { tag = i; _ } -> fprintf ppf "inlined %d" i
   | Record_extension -> fprintf ppf "ext"
 
 (* let string_of_loc_kind (loc : Lambda.loc_kind) =
@@ -65,7 +65,7 @@ let primitive ppf (prim : Lam_primitive.t) =
   | Pbytes_of_string -> fprintf ppf "bytes_of_string"
   | Pjs_apply -> fprintf ppf "#apply"
   | Pjs_runtime_apply -> fprintf ppf "#runtime_apply"
-  | Pjs_unsafe_downgrade { name; setter } ->
+  | Pjs_unsafe_downgrade { name; setter; _ } ->
       if setter then fprintf ppf "##%s#=" name else fprintf ppf "##%s" name
   | Pjs_function_length -> fprintf ppf "#function_length"
   | Pvoid_run -> fprintf ppf "#run"
@@ -101,7 +101,7 @@ let primitive ppf (prim : Lam_primitive.t) =
   | Pduprecord rep -> fprintf ppf "duprecord %a" record_rep rep
   | Plazyforce -> fprintf ppf "force"
   | Pccall p -> fprintf ppf "%s" p.prim_name
-  | Pjs_call { prim_name } -> fprintf ppf "%s[js]" prim_name
+  | Pjs_call { prim_name; _ } -> fprintf ppf "%s[js]" prim_name
   | Pjs_object_create _ -> fprintf ppf "[js.obj]"
   | Praise -> fprintf ppf "raise"
   | Psequand -> fprintf ppf "&&"
@@ -160,6 +160,15 @@ let primitive ppf (prim : Lam_primitive.t) =
   | Pbytessetu -> fprintf ppf "bytes.unsafe_set"
   | Pbytesrefs -> fprintf ppf "bytes.get"
   | Pbytessets -> fprintf ppf "bytes.set"
+  | Pstring_load_16 b -> fprintf ppf "string.get16%s" (if b then "u" else "")
+  | Pstring_load_32 b -> fprintf ppf "string.get32%s" (if b then "u" else "")
+  | Pstring_load_64 b -> fprintf ppf "string.get64%s" (if b then "u" else "")
+  | Pbytes_load_16 b -> fprintf ppf "bytes.get16%s" (if b then "u" else "")
+  | Pbytes_load_32 b -> fprintf ppf "bytes.get32%s" (if b then "u" else "")
+  | Pbytes_load_64 b -> fprintf ppf "bytes.get64%s" (if b then "u" else "")
+  | Pbytes_set_16 b -> fprintf ppf "bytes.set16%s" (if b then "u" else "")
+  | Pbytes_set_32 b -> fprintf ppf "bytes.set32%s" (if b then "u" else "")
+  | Pbytes_set_64 b -> fprintf ppf "bytes.set64%s" (if b then "u" else "")
   | Parraylength -> fprintf ppf "array.length"
   | Pmakearray -> fprintf ppf "makearray"
   | Parrayrefu -> fprintf ppf "array.unsafe_get"
@@ -176,6 +185,10 @@ let primitive ppf (prim : Lam_primitive.t) =
         | Backend_type -> "backend_type"
       in
       fprintf ppf "sys.constant_%s" const_name
+  | Pbswap16 -> fprintf ppf "bswap16"
+  | Pbbswap Pnativeint -> fprintf ppf "bswap_nativeint"
+  | Pbbswap Pint32 -> fprintf ppf "bswap32"
+  | Pbbswap Pint64 -> fprintf ppf "bswap64"
   | Pisint -> fprintf ppf "isint"
   | Pis_poly_var_const -> fprintf ppf "#is_poly_var_const"
   | Pisout i -> fprintf ppf "isout %d" i
@@ -216,9 +229,7 @@ let rec aux (acc : (print_kind * Ident.t * Lam.t) list) (lam : Lam.t) =
   | Llet (str3, id3, arg3, body3) ->
       aux ((to_print_kind str3, id3, arg3) :: acc) body3
   | Lletrec (bind_args, body) ->
-      aux
-        (Ext_list.map_append bind_args acc (fun (id, l) -> (Recursive, id, l)))
-        body
+      aux (List.map ~f:(fun (id, l) -> (Recursive, id, l)) bind_args @ acc) body
   | e -> (acc, e)
 
 (* type left_var =
@@ -236,7 +247,7 @@ let flatten (lam : Lam.t) : (print_kind * Ident.t * Lam.t) list * Lam.t =
   | Llet (str, id, arg, body) -> aux [ (to_print_kind str, id, arg) ] body
   | Lmutlet (id, arg, body) -> aux [ (to_print_kind Strict, id, arg) ] body
   | Lletrec (bind_args, body) ->
-      aux (Ext_list.map bind_args (fun (id, l) -> (Recursive, id, l))) body
+      aux (List.map ~f:(fun (id, l) -> (Recursive, id, l)) bind_args) body
   | _ -> assert false
 
 (* let get_string ((id : Ident.t), (pos : int)) (env : Env.t) : string =
@@ -273,16 +284,18 @@ let lambda ppf v =
     | Lmutvar id -> fprintf ppf "*%a" Ident.print id
     | Lglobal_module id -> fprintf ppf "global %a" Ident.print id
     | Lconst cst -> struct_const ppf cst
-    | Lapply { ap_func; ap_args; ap_info = { ap_inlined } } ->
+    | Lapply { ap_func; ap_args; ap_info = { ap_inlined; _ } } ->
         let lams ppf args =
-          List.iter (fun l -> fprintf ppf "@ %a" lam l) args
+          List.iter ~f:(fun l -> fprintf ppf "@ %a" lam l) args
         in
         fprintf ppf "@[<2>(apply%s@ %a%a)@]"
           (match ap_inlined with Always_inline -> "%inlned" | _ -> "")
           lam ap_func lams ap_args
     | Lfunction { params; body; _ } ->
         let pr_params ppf params =
-          List.iter (fun param -> fprintf ppf "@ %a" Ident.print param) params
+          List.iter
+            ~f:(fun param -> fprintf ppf "@ %a" Ident.print param)
+            params
           (* | Tupled -> *)
           (*     fprintf ppf " ("; *)
           (*     let first = ref true in *)
@@ -299,7 +312,7 @@ let lambda ppf v =
         let bindings ppf id_arg_list =
           let spc = ref false in
           List.iter
-            (fun (k, id, l) ->
+            ~f:(fun (k, id, l) ->
               if !spc then fprintf ppf "@ " else spc := true;
               fprintf ppf "@[<2>%a =%s@ %a@]" Ident.print id (kind k) lam l)
             id_arg_list
@@ -315,21 +328,21 @@ let lambda ppf v =
         fprintf ppf "%s.%s/%d" (Ident.name id) s n
     | Lprim { primitive = prim; args = largs; _ } ->
         let lams ppf largs =
-          List.iter (fun l -> fprintf ppf "@ %a" lam l) largs
+          List.iter ~f:(fun l -> fprintf ppf "@ %a" lam l) largs
         in
         fprintf ppf "@[<2>(%a%a)@]" primitive prim lams largs
     | Lswitch (larg, sw) ->
         let switch ppf (sw : Lam.lambda_switch) =
           let spc = ref false in
           List.iter
-            (fun (n, l) ->
+            ~f:(fun (n, l) ->
               if !spc then fprintf ppf "@ " else spc := true;
               fprintf ppf "@[<hv 1>case int %i %S:@ %a@]" n
                 (match sw.sw_names with None -> "" | Some x -> x.consts.(n))
                 lam l)
             sw.sw_consts;
           List.iter
-            (fun (n, l) ->
+            ~f:(fun (n, l) ->
               if !spc then fprintf ppf "@ " else spc := true;
               fprintf ppf "@[<hv 1>case tag %i %S:@ %a@]" n
                 (match sw.sw_names with None -> "" | Some x -> x.blocks.(n))
@@ -348,7 +361,7 @@ let lambda ppf v =
         let switch ppf cases =
           let spc = ref false in
           List.iter
-            (fun (s, l) ->
+            ~f:(fun (s, l) ->
               if !spc then fprintf ppf "@ " else spc := true;
               fprintf ppf "@[<hv 1>case \"%s\":@ %a@]" (String.escaped s) lam l)
             cases;
@@ -361,7 +374,7 @@ let lambda ppf v =
         fprintf ppf "@[<1>(stringswitch %a@ @[<v 0>%a@])@]" lam arg switch cases
     | Lstaticraise (i, ls) ->
         let lams ppf largs =
-          List.iter (fun l -> fprintf ppf "@ %a" lam l) largs
+          List.iter ~f:(fun l -> fprintf ppf "@ %a" lam l) largs
         in
         fprintf ppf "@[<2>(exit@ %d%a)@]" i lams ls
     | Lstaticcatch (lbody, (i, vars), lhandler) ->
@@ -369,7 +382,7 @@ let lambda ppf v =
           (fun ppf vars ->
             match vars with
             | [] -> ()
-            | _ -> List.iter (fun x -> fprintf ppf " %a" Ident.print x) vars)
+            | _ -> List.iter ~f:(fun x -> fprintf ppf " %a" Ident.print x) vars)
           vars lam lhandler
     | Ltrywith (lbody, param, lhandler) ->
         fprintf ppf "@[<2>(try@ %a@;<1 -1>with %a@ %a)@]" lam lbody Ident.print
@@ -388,7 +401,7 @@ let lambda ppf v =
         fprintf ppf "@[<2>(assign@ %a@ %a)@]" Ident.print id lam expr
     | Lsend (k, met, obj, largs, _) ->
         let args ppf largs =
-          List.iter (fun l -> fprintf ppf "@ %a" lam l) largs
+          List.iter ~f:(fun l -> fprintf ppf "@ %a" lam l) largs
         in
         let kind =
           match k with
@@ -398,6 +411,8 @@ let lambda ppf v =
           | Public None -> ""
         in
         fprintf ppf "@[<2>(send%s@ %a@ %a%a)@]" kind lam obj lam met args largs
+    | Lifused (id, expr) ->
+        fprintf ppf "@[<2>(ifused@ %a@ %a)@]" Ident.print id lam expr
   and sequence ppf = function
     | Lsequence (l1, l2) -> fprintf ppf "%a@ %a" sequence l1 sequence l2
     | l -> lam ppf l
@@ -458,7 +473,7 @@ let lambda ppf v =
      lambda ppf lam;
      fprintf ppf "; lambda-failure" *)
 
-let seriaize (filename : string) (lam : Lam.t) : unit =
+let serialize (filename : string) (lam : Lam.t) : unit =
   let ou = open_out filename in
   let old = Format.get_margin () in
   let () = Format.set_margin 10000 in

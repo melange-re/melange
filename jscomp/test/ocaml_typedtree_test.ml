@@ -1,4 +1,4 @@
-[@@@bs.config {flags = [|"-w";"a"|]}]
+[@@@mel.config {flags = [|"-w";"a"|]}]
 module Config : sig
 (*#1 "config.mli"*)
 (***********************************************************************)
@@ -867,7 +867,7 @@ let find_in_path_rel path name =
   in try_dir path
 
 let find_in_path_uncap path name =
-  let uname = String.uncapitalize name in
+  let uname = String.uncapitalize_ascii name in
   let rec try_dir = function
     [] -> raise Not_found
   | dir::rem ->
@@ -1188,7 +1188,7 @@ module Color = struct
 
   (* map a tag to a style, if the tag is known.
      @raise Not_found otherwise *)
-  let style_of_tag s = match s with
+  let style_of_tag (Format.String_tag s) = match s with
     | "error" -> (!cur_styles).error
     | "warning" -> (!cur_styles).warning
     | "loc" -> (!cur_styles).loc
@@ -1217,13 +1217,13 @@ module Color = struct
   (* add color handling to formatter [ppf] *)
   let set_color_tag_handling ppf =
     let open Format in
-    let functions = pp_get_formatter_tag_functions ppf () in
+    let functions = pp_get_formatter_stag_functions ppf () in
     let functions' = {functions with
-      mark_open_tag=(mark_open_tag ~or_else:functions.mark_open_tag);
-      mark_close_tag=(mark_close_tag ~or_else:functions.mark_close_tag);
+      mark_open_stag=(mark_open_tag ~or_else:functions.mark_open_stag);
+      mark_close_stag=(mark_close_tag ~or_else:functions.mark_close_stag);
     } in
     pp_set_mark_tags ppf true; (* enable tags *)
-    pp_set_formatter_tag_functions ppf functions'
+    pp_set_formatter_stag_functions ppf functions'
 
   (* external isatty : out_channel -> bool = "caml_sys_isatty" *)
 
@@ -1631,7 +1631,7 @@ let parse_opt error active flags s =
     if i >= String.length s then () else
     match s.[i] with
     | 'A' .. 'Z' ->
-       List.iter set (letter (Char.lowercase s.[i]));
+       List.iter set (letter (Char.lowercase_ascii s.[i]));
        loop (i+1)
     | 'a' .. 'z' ->
        List.iter clear (letter s.[i]);
@@ -1648,7 +1648,7 @@ let parse_opt error active flags s =
         for n = n1 to min n2 last_warning_number do myset n done;
         loop i
     | 'A' .. 'Z' ->
-       List.iter myset (letter (Char.lowercase s.[i]));
+       List.iter myset (letter (Char.lowercase_ascii s.[i]));
        loop (i+1)
     | 'a' .. 'z' ->
        List.iter myset (letter s.[i]);
@@ -1928,10 +1928,10 @@ let help_warnings () =
     match letter c with
     | [] -> ()
     | [n] ->
-        Printf.printf "  %c warning %i\n" (Char.uppercase c) n
+        Printf.printf "  %c warning %i\n" (Char.uppercase_ascii c) n
     | l ->
         Printf.printf "  %c warnings %s.\n"
-          (Char.uppercase c)
+          (Char.uppercase_ascii c)
           (String.concat ", " (List.map string_of_int l))
   done;
   exit 0
@@ -5405,7 +5405,7 @@ type changes =
 
 type snapshot = changes ref * int
 module Weak = Array
-let trail = Weak.create 1 None
+let trail = Weak.make 1 None
 let last_snapshot = ref 0
 
 let log_change ch =
@@ -11621,47 +11621,39 @@ end = struct
 
 
 
-external describe : string -> (unit -> unit[@bs]) -> unit = "describe"
-[@@bs.val]
+external describe : string -> (unit -> unit[@u]) -> unit = "describe"
 
-external it : string -> (unit -> unit[@bs.uncurry]) -> unit = "it"
-[@@bs.val]
 
-external it_promise : string -> (unit -> _ Js.Promise.t [@bs.uncurry]) -> unit = "it"
-[@@bs.val]
+external it : string -> (unit -> unit[@mel.uncurry]) -> unit = "it"
+
+
+external it_promise : string -> (unit -> _ Js.Promise.t [@mel.uncurry]) -> unit = "it"
+
 
 external eq : 'a -> 'a -> unit = "deepEqual"
-[@@bs.val]
-[@@bs.module "assert"]
+[@@mel.module "assert"]
 
 external neq : 'a -> 'a -> unit = "notDeepEqual"
-[@@bs.val]
-[@@bs.module "assert"]
+[@@mel.module "assert"]
 
 external strict_eq : 'a -> 'a -> unit = "strictEqual"
-[@@bs.val]
-[@@bs.module "assert"]
+[@@mel.module "assert"]
 
 external strict_neq : 'a -> 'a -> unit = "notStrictEqual"
-[@@bs.val]
-[@@bs.module "assert"]
+[@@mel.module "assert"]
 
 external ok : bool -> unit = "ok"
-[@@bs.val]
-[@@bs.module "assert"]
+[@@mel.module "assert"]
 
 external fail : 'a -> 'a -> string Js.undefined -> string -> unit = "fail"
-[@@bs.val]
-[@@bs.module "assert"]
+[@@mel.module "assert"]
 
 
 external dump : 'a array -> unit = "console.log"
-[@@bs.val]
-[@@bs.splice]
+[@@mel.variadic]
 
 external throws : (unit -> unit) -> unit = "throws"
-[@@bs.val]
-[@@bs.module "assert"]
+[@@mel.module "assert"]
 (** There is a problem --
     it does not return [unit]
 *)
@@ -11685,7 +11677,7 @@ let from_suites name (suite :  (string * ('a -> unit)) list) =
   match Array.to_list Node.Process.process##argv with
   | cmd :: _ ->
     if is_mocha () then
-      describe name (fun [@bs] () ->
+      describe name (fun [@u] () ->
           List.iter (fun (name, code) -> it name code) suite)
 
   | _ -> ()
@@ -11744,7 +11736,7 @@ let from_pair_suites name (suites :  pair_suites) =
   match Array.to_list Node.Process.process##argv with
   | cmd :: _ ->
     if is_mocha () then
-      describe name (fun [@bs] () ->
+      describe name (fun [@u] () ->
           suites |>
           List.iter (fun (name, code) ->
               it name (fun _ ->
@@ -11759,7 +11751,7 @@ let from_promise_suites name (suites : (string * _ Js.Promise.t ) list) =
   match Array.to_list Node.Process.process##argv with
   | cmd :: _ ->
     if is_mocha () then
-      describe name (fun [@bs] () ->
+      describe name (fun [@u] () ->
           suites |>
           List.iter (fun (name, code) ->
               it_promise name (fun _ ->
@@ -11775,7 +11767,7 @@ let from_promise_suites name (suites : (string * _ Js.Promise.t ) list) =
 Note that [require] is a file local value,
 we need type [require]
 
-let is_top : unit -> bool = [%bs.raw{|
+let is_top : unit -> bool = [%mel.raw{|
 function (_){
 console.log('hi');
 if (typeof require === "undefined"){
@@ -24556,7 +24548,7 @@ let query loc str =
 
 let define_key_value key v  =
   if String.length key > 0
-      && Char.uppercase (key.[0]) = key.[0] then
+      && Char.uppercase_ascii (key.[0]) = key.[0] then
     begin
       replace_directive_built_in_value key
       begin
@@ -34912,9 +34904,9 @@ and print_simple_out_type ppf =
       | res ->
           begin match name  with
           | "fn" ->
-              fprintf ppf "@[<0>(%a@ [@bs])@]" print_out_type_1 res
+              fprintf ppf "@[<0>(%a@ [@u])@]" print_out_type_1 res
           | "meth" ->
-              fprintf ppf "@[<0>(%a@ [@bs.meth])@]" print_out_type_1 res
+              fprintf ppf "@[<0>(%a@ [@mel.meth])@]" print_out_type_1 res
           | _ -> assert false
           end
       end
@@ -34941,7 +34933,7 @@ and print_simple_out_type ppf =
             pp_close_box ppf ()
           end
       | res ->
-          fprintf ppf "@[<0>(%a@ [@bs.this])@]" print_out_type_1 res
+          fprintf ppf "@[<0>(%a@ [@mel.this])@]" print_out_type_1 res
 
       end
 
@@ -35536,7 +35528,7 @@ let ident ppf id = pp_print_string ppf (ident_name id)
 
 (* Print a path *)
 
-let ident_pervasive = Ident.create_persistent "Pervasives"
+let ident_pervasive = Ident.create_persistent "Stdlib"
 
 let rec tree_of_path = function
   | Pident id ->
@@ -35726,7 +35718,7 @@ module Path2 = struct
     | (Papply(fun1, arg1), Papply(fun2, arg2)) ->
         let c = compare fun1 fun2 in
         if c <> 0 then c else compare arg1 arg2
-    | _ -> Pervasives.compare p1 p2
+    | _ -> Stdlib.compare p1 p2
 end
 module PathMap = Map.Make(Path2)
 let printing_map = ref PathMap.empty
@@ -36956,20 +36948,21 @@ let report_unification_error ppf env ?(unif=true)
 
 
 let super_type_expansion ~tag t ppf t' =
+  let tag = String_tag tag in
   if same_path t t' then begin
-    Format.pp_open_tag ppf tag;
+    Format.pp_open_stag ppf tag;
     type_expr ppf t;
-    Format.pp_close_tag ppf ();
+    Format.pp_close_stag ppf ();
   end else begin
     let t' = if proxy t == proxy t' then unalias t' else t' in
     fprintf ppf "@[<2>";
-    Format.pp_open_tag ppf tag;
+    Format.pp_open_stag ppf tag;
     fprintf ppf "%a" type_expr t;
-    Format.pp_close_tag ppf ();
+    Format.pp_close_stag ppf ();
     fprintf ppf "@ @{<dim>(defined as@}@ ";
-    Format.pp_open_tag ppf tag;
+    Format.pp_open_stag ppf tag;
     fprintf ppf "%a" type_expr t';
-    Format.pp_close_tag ppf ();
+    Format.pp_close_stag ppf ();
     fprintf ppf "@{<dim>)@}";
     fprintf ppf "@]";
   end
@@ -39098,10 +39091,10 @@ let is_absent_pat p = match p.pat_desc with
 let const_compare x y =
   match x,y with
   | Const_float f1, Const_float f2 ->
-      Pervasives.compare (float_of_string f1) (float_of_string f2)
+      Stdlib.compare (float_of_string f1) (float_of_string f2)
   | Const_string (s1, _), Const_string (s2, _) ->
       String.compare s1 s2
-  | _, _ -> Pervasives.compare x y
+  | _, _ -> Stdlib.compare x y
 
 let records_args l1 l2 =
   (* Invariant: fields are already sorted by Typecore.type_label_a_list *)
@@ -42799,7 +42792,7 @@ let enter_variable ?(is_module=false) ?(is_as_variable=false) loc name ty =
 let sort_pattern_variables vs =
   List.sort
     (fun (x,_,_,_,_) (y,_,_,_,_) ->
-      Pervasives.compare (Ident.name x) (Ident.name y))
+      Stdlib.compare (Ident.name x) (Ident.name y))
     vs
 
 let enter_orpat_variables loc env  p1_vs p2_vs =
@@ -45126,247 +45119,7 @@ and type_label_access env loc srecord lid =
    (Handling of * modifiers contributed by Thorsten Ohl.) *)
 
 and type_format loc str env =
-#if 1 then assert false
-#else
-  let loc = {loc with Location.loc_ghost = true} in
-  try
-    CamlinternalFormatBasics.(CamlinternalFormat.(
-      let mk_exp_loc pexp_desc = {
-        pexp_desc = pexp_desc;
-        pexp_loc = loc;
-        pexp_attributes = [];
-      } and mk_lid_loc lid = {
-        txt = lid;
-        loc = loc;
-      } in
-      let mk_constr name args =
-        let lid = Longident.(Ldot(Lident "CamlinternalFormatBasics", name)) in
-        let arg = match args with
-          | []          -> None
-          | [ e ]       -> Some e
-          | _ :: _ :: _ -> Some (mk_exp_loc (Pexp_tuple args)) in
-        mk_exp_loc (Pexp_construct (mk_lid_loc lid, arg)) in
-      let mk_cst cst = mk_exp_loc (Pexp_constant cst) in
-      let mk_int n = mk_cst (Const_int n)
-      and mk_string str = mk_cst (Const_string (str, None))
-      and mk_char chr = mk_cst (Const_char chr) in
-      let rec mk_formatting_lit fmting = match fmting with
-        | Close_box ->
-          mk_constr "Close_box" []
-        | Close_tag ->
-          mk_constr "Close_tag" []
-        | Break (org, ns, ni) ->
-          mk_constr "Break" [ mk_string org; mk_int ns; mk_int ni ]
-        | FFlush ->
-          mk_constr "FFlush" []
-        | Force_newline ->
-          mk_constr "Force_newline" []
-        | Flush_newline ->
-          mk_constr "Flush_newline" []
-        | Magic_size (org, sz) ->
-          mk_constr "Magic_size" [ mk_string org; mk_int sz ]
-        | Escaped_at ->
-          mk_constr "Escaped_at" []
-        | Escaped_percent ->
-          mk_constr "Escaped_percent" []
-        | Scan_indic c ->
-          mk_constr "Scan_indic" [ mk_char c ]
-      and mk_formatting_gen : type a b c d e f .
-          (a, b, c, d, e, f) formatting_gen -> Parsetree.expression =
-        fun fmting -> match fmting with
-        | Open_tag (Format (fmt', str')) ->
-          mk_constr "Open_tag" [ mk_format fmt' str' ]
-        | Open_box (Format (fmt', str')) ->
-          mk_constr "Open_box" [ mk_format fmt' str' ]
-      and mk_format : type a b c d e f .
-          (a, b, c, d, e, f) CamlinternalFormatBasics.fmt -> string ->
-          Parsetree.expression = fun fmt str ->
-        mk_constr "Format" [ mk_fmt fmt; mk_string str ]
-      and mk_side side = match side with
-        | Left  -> mk_constr "Left"  []
-        | Right -> mk_constr "Right" []
-        | Zeros -> mk_constr "Zeros" []
-      and mk_iconv iconv = match iconv with
-        | Int_d  -> mk_constr "Int_d"  [] | Int_pd -> mk_constr "Int_pd" []
-        | Int_sd -> mk_constr "Int_sd" [] | Int_i  -> mk_constr "Int_i"  []
-        | Int_pi -> mk_constr "Int_pi" [] | Int_si -> mk_constr "Int_si" []
-        | Int_x  -> mk_constr "Int_x"  [] | Int_Cx -> mk_constr "Int_Cx" []
-        | Int_X  -> mk_constr "Int_X"  [] | Int_CX -> mk_constr "Int_CX" []
-        | Int_o  -> mk_constr "Int_o"  [] | Int_Co -> mk_constr "Int_Co" []
-        | Int_u  -> mk_constr "Int_u"  []
-      and mk_fconv fconv = match fconv with
-        | Float_f  -> mk_constr "Float_f"  []
-        | Float_pf -> mk_constr "Float_pf" []
-        | Float_sf -> mk_constr "Float_sf" []
-        | Float_e  -> mk_constr "Float_e"  []
-        | Float_pe -> mk_constr "Float_pe" []
-        | Float_se -> mk_constr "Float_se" []
-        | Float_E  -> mk_constr "Float_E"  []
-        | Float_pE -> mk_constr "Float_pE" []
-        | Float_sE -> mk_constr "Float_sE" []
-        | Float_g  -> mk_constr "Float_g"  []
-        | Float_pg -> mk_constr "Float_pg" []
-        | Float_sg -> mk_constr "Float_sg" []
-        | Float_G  -> mk_constr "Float_G"  []
-        | Float_pG -> mk_constr "Float_pG" []
-        | Float_sG -> mk_constr "Float_sG" []
-        | Float_F  -> mk_constr "Float_F"  []
-      and mk_counter cnt = match cnt with
-        | Line_counter  -> mk_constr "Line_counter"  []
-        | Char_counter  -> mk_constr "Char_counter"  []
-        | Token_counter -> mk_constr "Token_counter" []
-      and mk_int_opt n_opt = match n_opt with
-        | None ->
-          let lid_loc = mk_lid_loc (Longident.Lident "None") in
-          mk_exp_loc (Pexp_construct (lid_loc, None))
-        | Some n ->
-          let lid_loc = mk_lid_loc (Longident.Lident "Some") in
-          mk_exp_loc (Pexp_construct (lid_loc, Some (mk_int n)))
-      and mk_fmtty : type a b c d e f g h i j k l .
-          (a, b, c, d, e, f, g, h, i, j, k, l) fmtty_rel -> Parsetree.expression =
-      fun fmtty -> match fmtty with
-        | Char_ty rest      -> mk_constr "Char_ty"      [ mk_fmtty rest ]
-        | String_ty rest    -> mk_constr "String_ty"    [ mk_fmtty rest ]
-        | Int_ty rest       -> mk_constr "Int_ty"       [ mk_fmtty rest ]
-        | Int32_ty rest     -> mk_constr "Int32_ty"     [ mk_fmtty rest ]
-        | Nativeint_ty rest -> mk_constr "Nativeint_ty" [ mk_fmtty rest ]
-        | Int64_ty rest     -> mk_constr "Int64_ty"     [ mk_fmtty rest ]
-        | Float_ty rest     -> mk_constr "Float_ty"     [ mk_fmtty rest ]
-        | Bool_ty rest      -> mk_constr "Bool_ty"      [ mk_fmtty rest ]
-        | Alpha_ty rest     -> mk_constr "Alpha_ty"     [ mk_fmtty rest ]
-        | Theta_ty rest     -> mk_constr "Theta_ty"     [ mk_fmtty rest ]
-        | Any_ty rest       -> mk_constr "Any_ty"       [ mk_fmtty rest ]
-        | Reader_ty rest    -> mk_constr "Reader_ty"    [ mk_fmtty rest ]
-        | Ignored_reader_ty rest ->
-          mk_constr "Ignored_reader_ty" [ mk_fmtty rest ]
-        | Format_arg_ty (sub_fmtty, rest) ->
-          mk_constr "Format_arg_ty" [ mk_fmtty sub_fmtty; mk_fmtty rest ]
-        | Format_subst_ty (sub_fmtty1, sub_fmtty2, rest) ->
-          mk_constr "Format_subst_ty"
-            [ mk_fmtty sub_fmtty1; mk_fmtty sub_fmtty2; mk_fmtty rest ]
-        | End_of_fmtty -> mk_constr "End_of_fmtty" []
-      and mk_ignored : type a b c d e f .
-          (a, b, c, d, e, f) ignored -> Parsetree.expression =
-      fun ign -> match ign with
-        | Ignored_char ->
-          mk_constr "Ignored_char" []
-        | Ignored_caml_char ->
-          mk_constr "Ignored_caml_char" []
-        | Ignored_string pad_opt ->
-          mk_constr "Ignored_string" [ mk_int_opt pad_opt ]
-        | Ignored_caml_string pad_opt ->
-          mk_constr "Ignored_caml_string" [ mk_int_opt pad_opt ]
-        | Ignored_int (iconv, pad_opt) ->
-          mk_constr "Ignored_int" [ mk_iconv iconv; mk_int_opt pad_opt ]
-        | Ignored_int32 (iconv, pad_opt) ->
-          mk_constr "Ignored_int32" [ mk_iconv iconv; mk_int_opt pad_opt ]
-        | Ignored_nativeint (iconv, pad_opt) ->
-          mk_constr "Ignored_nativeint" [ mk_iconv iconv; mk_int_opt pad_opt ]
-        | Ignored_int64 (iconv, pad_opt) ->
-          mk_constr "Ignored_int64" [ mk_iconv iconv; mk_int_opt pad_opt ]
-        | Ignored_float (pad_opt, prec_opt) ->
-          mk_constr "Ignored_float" [ mk_int_opt pad_opt; mk_int_opt prec_opt ]
-        | Ignored_bool ->
-          mk_constr "Ignored_bool" []
-        | Ignored_format_arg (pad_opt, fmtty) ->
-          mk_constr "Ignored_format_arg" [ mk_int_opt pad_opt; mk_fmtty fmtty ]
-        | Ignored_format_subst (pad_opt, fmtty) ->
-          mk_constr "Ignored_format_subst" [
-            mk_int_opt pad_opt; mk_fmtty fmtty ]
-        | Ignored_reader ->
-          mk_constr "Ignored_reader" []
-        | Ignored_scan_char_set (width_opt, char_set) ->
-          mk_constr "Ignored_scan_char_set" [
-            mk_int_opt width_opt; mk_string char_set ]
-        | Ignored_scan_get_counter counter ->
-          mk_constr "Ignored_scan_get_counter" [
-            mk_counter counter
-          ]
-        | Ignored_scan_next_char ->
-          mk_constr "Ignored_scan_next_char" []
-      and mk_padding : type x y . (x, y) padding -> Parsetree.expression =
-      fun pad -> match pad with
-        | No_padding         -> mk_constr "No_padding" []
-        | Lit_padding (s, w) -> mk_constr "Lit_padding" [ mk_side s; mk_int w ]
-        | Arg_padding s      -> mk_constr "Arg_padding" [ mk_side s ]
-      and mk_precision : type x y . (x, y) precision -> Parsetree.expression =
-      fun prec -> match prec with
-        | No_precision    -> mk_constr "No_precision" []
-        | Lit_precision w -> mk_constr "Lit_precision" [ mk_int w ]
-        | Arg_precision   -> mk_constr "Arg_precision" []
-      and mk_fmt : type a b c d e f .
-          (a, b, c, d, e, f) fmt -> Parsetree.expression =
-      fun fmt -> match fmt with
-        | Char rest ->
-          mk_constr "Char" [ mk_fmt rest ]
-        | Caml_char rest ->
-          mk_constr "Caml_char" [ mk_fmt rest ]
-        | String (pad, rest) ->
-          mk_constr "String" [ mk_padding pad; mk_fmt rest ]
-        | Caml_string (pad, rest) ->
-          mk_constr "Caml_string" [ mk_padding pad; mk_fmt rest ]
-        | Int (iconv, pad, prec, rest) ->
-          mk_constr "Int" [
-            mk_iconv iconv; mk_padding pad; mk_precision prec; mk_fmt rest ]
-        | Int32 (iconv, pad, prec, rest) ->
-          mk_constr "Int32" [
-            mk_iconv iconv; mk_padding pad; mk_precision prec; mk_fmt rest ]
-        | Nativeint (iconv, pad, prec, rest) ->
-          mk_constr "Nativeint" [
-            mk_iconv iconv; mk_padding pad; mk_precision prec; mk_fmt rest ]
-        | Int64 (iconv, pad, prec, rest) ->
-          mk_constr "Int64" [
-            mk_iconv iconv; mk_padding pad; mk_precision prec; mk_fmt rest ]
-        | Float (fconv, pad, prec, rest) ->
-          mk_constr "Float" [
-            mk_fconv fconv; mk_padding pad; mk_precision prec; mk_fmt rest ]
-        | Bool rest ->
-          mk_constr "Bool" [ mk_fmt rest ]
-        | Flush rest ->
-          mk_constr "Flush" [ mk_fmt rest ]
-        | String_literal (s, rest) ->
-          mk_constr "String_literal" [ mk_string s; mk_fmt rest ]
-        | Char_literal (c, rest) ->
-          mk_constr "Char_literal" [ mk_char c; mk_fmt rest ]
-        | Format_arg (pad_opt, fmtty, rest) ->
-          mk_constr "Format_arg" [
-            mk_int_opt pad_opt; mk_fmtty fmtty; mk_fmt rest ]
-        | Format_subst (pad_opt, fmtty, rest) ->
-          mk_constr "Format_subst" [
-            mk_int_opt pad_opt; mk_fmtty fmtty; mk_fmt rest ]
-        | Alpha rest ->
-          mk_constr "Alpha" [ mk_fmt rest ]
-        | Theta rest ->
-          mk_constr "Theta" [ mk_fmt rest ]
-        | Formatting_lit (fmting, rest) ->
-          mk_constr "Formatting_lit" [ mk_formatting_lit fmting; mk_fmt rest ]
-        | Formatting_gen (fmting, rest) ->
-          mk_constr "Formatting_gen" [ mk_formatting_gen fmting; mk_fmt rest ]
-        | Reader rest ->
-          mk_constr "Reader" [ mk_fmt rest ]
-        | Scan_char_set (width_opt, char_set, rest) ->
-          mk_constr "Scan_char_set" [
-            mk_int_opt width_opt; mk_string char_set; mk_fmt rest ]
-        | Scan_get_counter (cnt, rest) ->
-          mk_constr "Scan_get_counter" [ mk_counter cnt; mk_fmt rest ]
-        | Scan_next_char rest ->
-          mk_constr "Scan_next_char" [ mk_fmt rest ]
-        | Ignored_param (ign, rest) ->
-          mk_constr "Ignored_param" [ mk_ignored ign; mk_fmt rest ]
-        | End_of_format ->
-          mk_constr "End_of_format" []
-        | Custom _ ->
-          (* Custom formatters have no syntax so they will never appear
-             in formats parsed from strings. *)
-          assert false
-      in
-      let legacy_behavior = not !Clflags.strict_formats in
-      let Fmt_EBB fmt = fmt_ebb_of_string ~legacy_behavior str in
-      mk_constr "Format" [ mk_fmt fmt; mk_string str ]
-    ))
-  with Failure msg ->
-    raise (Error (loc, env, Invalid_format msg))
-#end
+ assert false
 and type_label_exp create env loc ty_expected
           (lid, label, sarg) =
   (* Here also ty_expected may be at generic_level *)
@@ -51908,7 +51661,7 @@ let package_units initial_env objfiles cmifile modulename =
     List.map
       (fun f ->
          let pref = chop_extensions f in
-         let modname = String.capitalize(Filename.basename pref) in
+         let modname = String.capitalize_ascii(Filename.basename pref) in
          let sg = Env.read_signature modname (pref ^ ".cmi") in
          if Filename.check_suffix f ".cmi" &&
             not(Mtype.no_code_needed_sig Env.initial_safe_string sg)

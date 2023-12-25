@@ -22,4 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val pass_free_variables : Lam.t -> Set_ident.t
+open Import
+
+val pass_free_variables : Lam.t -> Ident.Set.t

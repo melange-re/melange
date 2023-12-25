@@ -22,8 +22,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (* Make sure the escaped string conforms to
-   JS lexing convention
-*)
+   JS lexing convention *)
 val escape_to_string : string -> string
-val pp_string : Ext_pp.t -> string -> unit
+val pp_string : Js_pp.t -> string -> unit

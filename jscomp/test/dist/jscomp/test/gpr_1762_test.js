@@ -39,7 +39,7 @@ function update(param) {
 
 v.contents = v.contents + 1 | 0;
 
-eq("File \"gpr_1762_test.ml\", line 22, characters 6-13", v.contents, 4);
+eq("File \"jscomp/test/gpr_1762_test.ml\", line 22, characters 6-13", v.contents, 4);
 
 Mt.from_pair_suites("Gpr_1762_test", suites.contents);
 

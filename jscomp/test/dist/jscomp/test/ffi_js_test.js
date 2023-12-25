@@ -49,7 +49,7 @@ var string_config = {
   low: "32"
 };
 
-eq("File \"ffi_js_test.ml\", line 32, characters 5-12", [
+eq("File \"jscomp/test/ffi_js_test.ml\", line 32, characters 5-12", [
       6,
       $$higher_order(1)(2, 3)
     ]);
@@ -87,23 +87,23 @@ var v_obj = {
     })
 };
 
-eq("File \"ffi_js_test.ml\", line 44, characters 5-12", [
+eq("File \"jscomp/test/ffi_js_test.ml\", line 44, characters 5-12", [
       Object.keys(int_config).length,
       2
     ]);
 
-eq("File \"ffi_js_test.ml\", line 45, characters 5-12", [
+eq("File \"jscomp/test/ffi_js_test.ml\", line 45, characters 5-12", [
       Object.keys(string_config).length,
       2
     ]);
 
-eq("File \"ffi_js_test.ml\", line 46, characters 5-12", [
-      Object.keys(v_obj).indexOf("hi_x"),
+eq("File \"jscomp/test/ffi_js_test.ml\", line 46, characters 5-12", [
+      Object.keys(v_obj).indexOf("hi_x", undefined),
       -1
     ]);
 
-eq("File \"ffi_js_test.ml\", line 47, characters 5-12", [
-      Object.keys(v_obj).indexOf("hi"),
+eq("File \"jscomp/test/ffi_js_test.ml\", line 47, characters 5-12", [
+      Object.keys(v_obj).indexOf("hi", undefined),
       0
     ]);
 
@@ -116,7 +116,7 @@ var side_effect_config = (u.contents = u.contents + 1 | 0, {
     low: 32
   });
 
-eq("File \"ffi_js_test.ml\", line 54, characters 5-12", [
+eq("File \"jscomp/test/ffi_js_test.ml\", line 54, characters 5-12", [
       u.contents,
       4
     ]);

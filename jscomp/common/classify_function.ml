@@ -22,23 +22,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module Parser_flow = Js_parser.Parser_flow
 module Parser_env = Js_parser.Parser_env
 module Flow_ast = Js_parser.Flow_ast
 
 let rec is_obj_literal (x : _ Flow_ast.Expression.t) : bool =
   match snd x with
-  | Identifier (_, { name = "undefined" }) | Literal _ -> true
-  | Unary { operator = Minus; argument } -> is_obj_literal argument
-  | Object { properties } -> Ext_list.for_all properties is_literal_kv
-  | Array { elements } ->
-      Ext_list.for_all elements (fun x ->
-          match x with Expression x -> is_obj_literal x | _ -> false)
+  | Identifier (_, { name = "undefined"; _ }) | Literal _ -> true
+  | Unary { operator = Minus; argument; _ } -> is_obj_literal argument
+  | Object { properties; _ } -> List.for_all ~f:is_literal_kv properties
+  | Array { elements; _ } ->
+      List.for_all
+        ~f:(fun x ->
+          match x with
+          | Flow_ast.Expression.Array.Expression x -> is_obj_literal x
+          | _ -> false)
+        elements
   | _ -> false
 
 and is_literal_kv (x : _ Flow_ast.Expression.Object.property) =
   match x with
-  | Property (_, Init { value }) -> is_obj_literal value
+  | Property (_, Init { value; _ }) -> is_obj_literal value
   | _ -> false
 
 let classify_exp (prog : _ Flow_ast.Expression.t) : Js_raw_info.exp =
@@ -47,34 +52,37 @@ let classify_exp (prog : _ Flow_ast.Expression.t) : Js_raw_info.exp =
       Function
         {
           id = _;
-          params = _, { params };
+          params = _, { params; _ };
           async = false;
           generator = false;
           predicate = None;
+          _;
         } ) ->
       Js_function { arity = List.length params; arrow = false }
   | ( _,
       ArrowFunction
         {
           id = None;
-          params = _, { params };
+          params = _, { params; _ };
           async = false;
           generator = false;
           predicate = None;
+          _;
         } ) ->
       Js_function { arity = List.length params; arrow = true }
-  | _, Literal { comments } ->
+  | _, Literal { comments; _ } ->
       let comment =
         match comments with
         | None -> None
-        | Some { leading = [ (_, { kind = Block; text = comment }) ] } ->
+        | Some { leading = [ (_, { kind = Block; text = comment; _ }) ]; _ } ->
             Some ("/*" ^ comment ^ "*/")
-        | Some { leading = [ (_, { kind = Line; text = comment }) ] } ->
+        | Some { leading = [ (_, { kind = Line; text = comment; _ }) ]; _ } ->
             Some ("//" ^ comment)
         | Some _ -> None
       in
       Js_literal { comment }
-  | _, Identifier (_, { name = "undefined" }) -> Js_literal { comment = None }
+  | _, Identifier (_, { name = "undefined"; _ }) ->
+      Js_literal { comment = None }
   | _, _ ->
       if is_obj_literal prog then Js_literal { comment = None }
       else Js_exp_unknown
@@ -91,7 +99,7 @@ let classify ?(check : (Location.t * int) option) (prog : string) :
   in
   match (check, errors) with
   | Some (loc, offset), _ :: _ ->
-      Bs_flow_ast_utils.check_flow_errors ~loc ~offset errors;
+      Flow_ast_utils.check_flow_errors ~loc ~offset errors;
       Js_exp_unknown
   | Some _, [] | None, [] -> classify_exp prog
   | None, _ :: _ -> Js_exp_unknown
@@ -99,7 +107,7 @@ let classify ?(check : (Location.t * int) option) (prog : string) :
 let classify_stmt (prog : string) : Js_raw_info.stmt =
   let result = Parser_flow.parse_program false None prog in
   match fst result with
-  | _loc, { statements = [] } -> Js_stmt_comment
+  | _loc, { statements = []; _ } -> Js_stmt_comment
   | _ -> Js_stmt_unknown
 (* we can also analayze throw
    x.x pure access

@@ -1,0 +1,158 @@
+(rule
+ (deps stdlib.cppo.ml)
+ (target stdlib.ml)
+ (action
+  (progn
+   (with-stdout-to
+    %{target}.awk
+    (run awk -f %{dep:expand_module_aliases.awk} %{deps}))
+   (run cppo -D=BS %{env:CPPO_FLAGS=} %{target}.awk -o %{target}.awk)
+   (with-stdout-to
+    %{target}
+    ;; Horrible hack: CPPO replaces [__LINE__] and [__FILE__], but Stdlib has
+    ;; [external __FILE__] and [__LINE__]
+    (run sed -e s/_\\_/__/g %{target}.awk)))))
+
+(rule
+ (deps stdlib.cppo.mli)
+ (target stdlib.mli)
+ (action
+  (progn
+   (with-stdout-to
+    %{target}.awki
+    (run awk -f %{dep:expand_module_aliases.awk} %{deps}))
+   (run cppo -D=BS %{env:CPPO_FLAGS=} %{target}.awki -o %{target}.awki)
+   (with-stdout-to
+    %{target}
+    (run sed -e s/_\\_/__/g %{target}.awki)))))
+
+(library
+ (public_name melange)
+ (name stdlib)
+ (modes melange)
+ (preprocess
+  (pps melange.ppx))
+ (libraries melange.js)
+ (stdlib
+  (modules_before_stdlib CamlinternalFormatBasics CamlinternalAtomic)
+  (internal_modules Camlinternal*))
+ (melange.compile_flags
+  -mel-no-check-div-by-zero
+  -mel-cross-module-opt
+  -nolabels
+  -w
+  -9))
+
+(rule
+ (deps either.cppo.ml)
+ (target either.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps array.cppo.ml)
+ (target array.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps bool.cppo.ml)
+ (target bool.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps camlinternalFormat.cppo.ml)
+ (target camlinternalFormat.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps camlinternalMod.cppo.ml)
+ (target camlinternalMod.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps camlinternalMod.cppo.mli)
+ (target camlinternalMod.mli)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps camlinternalOO.cppo.ml)
+ (target camlinternalOO.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps camlinternalOO.cppo.mli)
+ (target camlinternalOO.mli)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps float.cppo.ml)
+ (target float.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps float.cppo.mli)
+ (target float.mli)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps hashtbl.cppo.ml)
+ (target hashtbl.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps lexing.cppo.ml)
+ (target lexing.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps obj.cppo.ml)
+ (target obj.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps obj.cppo.mli)
+ (target obj.mli)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps parsing.cppo.ml)
+ (target parsing.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps printexc.cppo.ml)
+ (target printexc.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps random.cppo.ml)
+ (target random.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps random.cppo.mli)
+ (target random.mli)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps sys.cppo.ml)
+ (target sys.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
