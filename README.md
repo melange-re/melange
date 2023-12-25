@@ -21,8 +21,17 @@ Melange produces robust JavaScript code.
 Sponsored by:
 
 <div style="display: inline;">
-  <img src="./docs/images/ahrefs-logo.png" height="50px">
-  <img src="./docs/images/ocsf_logo.svg" height="50px">
+  <a href="https://ahrefs.com">
+    <img src="./docs/images/ahrefs-logo.png" height="50px">
+  </a>
+  <a href="https://ocaml-sf.org/">
+    <img src="./docs/images/ocsf_logo.svg" height="50px">
+  </a>
+  <div style="display: inline; margin-left: 6px;">
+    <a href="https://www.instapainting.com">
+      <img src="./docs/images/instapainting-logo.png" height="30px">
+    </a>
+  </div>
 </div>
 
 ## Installation
