@@ -25,9 +25,8 @@
 open Import
 module E = Js_exp_make
 
-(* If it is the return value, since it is a side-effect call,
-   we return unit, otherwise just return it
-*)
+(* If it is the return value, since it is a side-effect call, we return unit,
+   otherwise just return it *)
 let ensure_value_unit (st : Lam_compile_context.continuation) e : E.t =
   match st with
   | EffectCall (Maybe_tail_is_return _)

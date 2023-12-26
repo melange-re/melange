@@ -72,7 +72,7 @@ Unreleased
 - BREAKING(runtime): Remove `Js.null_undefined` in favor of `Js.nullable`
   ([#930](https://github.com/melange-re/melange/pull/930))
 - BREAKING(ppx): disallow attribute payload in `[@mel.new]` in favor of the
-  external primiative string
+  external primitive string
   ([#938](https://github.com/melange-re/melange/pull/938))
 - Don't process `[@mel.config]` twice
   ([#940](https://github.com/melange-re/melange/pull/940/))
