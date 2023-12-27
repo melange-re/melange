@@ -1,4 +1,4 @@
-(dirs :standard \ docs node_modules nix)
+(dirs :standard \ docs node_modules nix reason-react)
 
 (env
  (dev
