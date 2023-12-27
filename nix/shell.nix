@@ -22,7 +22,7 @@ mkShell {
   nativeBuildInputs = with ocamlPackages; [
     ocamlformat
     utop
-    # ocaml-lsp
+    ocaml-lsp
     merlin
     python3
     nodejs_latest

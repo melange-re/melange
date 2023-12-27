@@ -64,8 +64,6 @@ val local_extern_cont_to_obj :
   (expression -> expression) ->
   expression_desc
 
-type label_exprs = (Longident.t Asttypes.loc * expression) list
-
 val pval_prim_of_labels : string Asttypes.loc list -> string list
 (** [pval_prim_of_labels labels]
     return [pval_prims] for FFI, it is specialized for
@@ -76,4 +74,7 @@ val pval_prim_of_labels : string Asttypes.loc list -> string list
 val pval_prim_of_option_labels :
   (bool * string Asttypes.loc) list -> bool -> string list
 
-val record_as_js_object : Location.t -> label_exprs -> expression_desc
+val record_as_js_object :
+  loc:Location.t ->
+  (Longident.t Asttypes.loc * expression) list ->
+  expression_desc

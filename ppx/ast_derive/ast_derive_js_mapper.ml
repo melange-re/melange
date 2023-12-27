@@ -195,7 +195,7 @@ let derive_structure =
         let exp =
           coerceResultToNewType
             (Exp.mk ~loc
-               (Ast_external_mk.record_as_js_object loc
+               (Ast_external_mk.record_as_js_object ~loc
                   (List.map
                      ~f:(fun { pld_name = { loc; txt }; _ } ->
                        let label =

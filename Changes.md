@@ -129,6 +129,8 @@ Unreleased
       and can hook on either `j` or `js`
 - Preserve unicode in format strings
   ([#1001](https://github.com/melange-re/melange/pull/1001))
+- Support `@mel.as` in `%mel.obj`
+  ([#1004](https://github.com/melange-re/melange/pull/1004))
 
 2.2.0 2023-12-05
 ---------------
