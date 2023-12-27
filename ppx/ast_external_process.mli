@@ -41,10 +41,3 @@ val handle_attributes_as_string :
 
   return value is of [pval_type, pval_prims, new_attrs]
 *)
-
-val pval_prim_of_labels : string Asttypes.loc list -> string list
-(** [pval_prim_of_labels labels]
-    return [pval_prims] for FFI, it is specialized for
-    external object which is used in
-    {[ [%obj { x = 2; y = 1} ] ]}
-*)

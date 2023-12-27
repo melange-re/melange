@@ -1155,15 +1155,3 @@ let handle_attributes_as_string (pval_loc : Location.t) (typ : core_type)
     pval_attributes;
     no_inline_cross_module;
   }
-
-let pval_prim_of_labels (labels : string Asttypes.loc list) =
-  let arg_kinds =
-    List.fold_right
-      ~f:(fun p arg_kinds ->
-        let obj_arg_label =
-          External_arg_spec.obj_label (Melange_ffi.Lam_methname.translate p.txt)
-        in
-        { External_arg_spec.obj_arg_type = Nothing; obj_arg_label } :: arg_kinds)
-      labels ~init:[]
-  in
-  External_ffi_types.ffi_obj_as_prims arg_kinds
