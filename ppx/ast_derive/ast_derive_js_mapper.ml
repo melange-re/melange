@@ -407,7 +407,7 @@ let derive_signature =
     match tdcl.ptype_kind with
     | Ptype_record label_declarations ->
         let objType flag =
-          Ast_comb.to_js_type ~loc
+          Ast_core_type.to_js_type ~loc
             (Typ.object_
                (List.map
                   ~f:(fun { pld_name; pld_type; _ } -> Of.tag pld_name pld_type)

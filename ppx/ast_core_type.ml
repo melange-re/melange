@@ -39,53 +39,13 @@ let lift_option_type ({ ptyp_loc; _ } as ty) =
     ptyp_attributes = [];
   }
 
-(* let replace_result (ty : t) (result : t) : t =
-   let rec aux (ty : core_type) =
-     match ty with
-     | { ptyp_desc =
-           Ptyp_arrow (label,t1,t2)
-       } -> { ty with ptyp_desc = Ptyp_arrow(label,t1, aux t2)}
-     | {ptyp_desc = Ptyp_poly(fs,ty)}
-       ->  {ty with ptyp_desc = Ptyp_poly(fs, aux ty)}
-     | _ -> result in
-   aux ty *)
-
-let is_builtin_rank0_type txt =
-  match txt with
-  | "int" | "char" | "bytes" | "float" | "bool" | "unit" | "exn" | "int32"
-  | "int64" | "string" ->
-      true
-  | _ -> false
-
 let is_unit ty =
   match ty.ptyp_desc with
   | Ptyp_constr ({ txt = Lident "unit"; _ }, []) -> true
   | _ -> false
 
-(* let is_array (ty : t) =
-   match ty.ptyp_desc with
-   | Ptyp_constr({txt =Lident "array"}, [_]) -> true
-   | _ -> false *)
-
-let is_user_option ty =
-  match ty.ptyp_desc with
-  | Ptyp_constr
-      ({ txt = Lident "option" | Ldot (Lident "*predef*", "option"); _ }, [ _ ])
-    ->
-      true
-  | _ -> false
-
-(* let is_user_bool (ty : t) =
-   match ty.ptyp_desc with
-   | Ptyp_constr({txt = Lident "bool"},[]) -> true
-   | _ -> false *)
-
-(* let is_user_int (ty : t) =
-   match ty.ptyp_desc with
-   | Ptyp_constr({txt = Lident "int"},[]) -> true
-   | _ -> false *)
-
-let make_obj ~loc xs = Ast_comb.to_js_type ~loc (Typ.object_ ~loc xs Closed)
+let to_js_type ~loc x = Typ.constr ~loc { txt = Ast_literal.js_obj; loc } [ x ]
+let make_obj ~loc xs = to_js_type ~loc (Typ.object_ ~loc xs Closed)
 
 (**
 

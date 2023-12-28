@@ -126,7 +126,8 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map) (self_pat : pattern)
     Ast_core_type.make_obj ~loc internal_label_attr_types
   in
   let public_obj_type =
-    Ast_comb.to_js_type ~loc (Typ.object_ ~loc public_label_attr_types Closed)
+    Ast_core_type.to_js_type ~loc
+      (Typ.object_ ~loc public_label_attr_types Closed)
   in
   let labels, label_types, exprs, _ =
     List.fold_right
