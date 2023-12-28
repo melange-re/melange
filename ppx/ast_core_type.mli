@@ -33,17 +33,3 @@ val is_user_option : core_type -> bool
 val get_uncurry_arity : core_type -> int option
 (** returns 0 when it can not tell arity from the syntax. [None] means not a
     function *)
-
-type param_type = {
-  label : Asttypes.arg_label;
-  ty : core_type;
-  attr : attributes;
-  loc : Location.t;
-}
-
-val mk_fn_type : param_type list -> core_type -> core_type
-
-val list_of_arrow : core_type -> core_type * param_type list
-(** fails when Ptyp_poly *)
-
-val is_arity_one : core_type -> bool
