@@ -116,39 +116,3 @@ let get_uncurry_arity ty =
       | _ -> Some 0)
   | Ptyp_arrow (_, _, rest) -> Some (get_uncurry_arity_aux rest 1)
   | _ -> None
-
-let get_curry_arity ty = get_uncurry_arity_aux ty 0
-let is_arity_one ty = get_curry_arity ty = 1
-
-type param_type = {
-  label : Asttypes.arg_label;
-  ty : core_type;
-  attr : attributes;
-  loc : loc;
-}
-
-let mk_fn_type (new_arg_types_ty : param_type list) result =
-  List.fold_right
-    ~f:(fun { label; ty; attr; loc } acc ->
-      {
-        ptyp_desc = Ptyp_arrow (label, ty, acc);
-        ptyp_loc = loc;
-        ptyp_loc_stack = [ loc ];
-        ptyp_attributes = attr;
-      })
-    new_arg_types_ty ~init:result
-
-let list_of_arrow ty : core_type * param_type list =
-  let rec aux ty acc =
-    match ty.ptyp_desc with
-    | Ptyp_arrow (label, t1, t2) ->
-        aux t2
-          (({ label; ty = t1; attr = ty.ptyp_attributes; loc = ty.ptyp_loc }
-             : param_type)
-          :: acc)
-    | Ptyp_poly (_, ty) ->
-        (* should not happen? *)
-        Error.err ~loc:ty.ptyp_loc Unhandled_poly_type
-    | _ -> (ty, List.rev acc)
-  in
-  aux ty []
