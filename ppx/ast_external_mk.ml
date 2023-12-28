@@ -148,7 +148,7 @@ let from_labels ~loc arity labels : core_type =
     List.init ~len:arity ~f:(fun i -> Typ.var ~loc ("a" ^ string_of_int i))
   in
   let result_type =
-    Ast_comb.to_js_type ~loc
+    Ast_core_type.to_js_type ~loc
       (Typ.object_ ~loc
          (List.map2 ~f:(fun x y -> Of.tag x y) labels tyvars)
          Closed)

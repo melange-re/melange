@@ -640,7 +640,8 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
           let result =
             let open Ast_helper in
             if result_type.ptyp_desc = Ptyp_any then
-              Ast_comb.to_js_type ~loc (Typ.object_ ~loc result_types Closed)
+              Ast_core_type.to_js_type ~loc
+                (Typ.object_ ~loc result_types Closed)
             else result_type
             (* TODO: do we need do some error checking here *)
             (* result type can not be labeled *)

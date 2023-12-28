@@ -204,7 +204,7 @@ module Re = struct
         let open Ast_helper in
         Exp.constraint_ ~loc
           (Ast_extensions.handle_raw ~kind:Raw_re loc payload)
-          (Ast_comb.to_js_re_type ~loc)
+          (Typ.constr ~loc { txt = Ast_literal.js_re_id; loc } [])
       in
 
       let extender = Extension.V3.declare label Expression extractor handler in
