@@ -136,8 +136,6 @@ let local_extern_cont_to_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
           pexp_loc_stack = [ loc ];
         } )
 
-type label_exprs = (Longident.t Asttypes.loc * expression) list
-
 (* Note that OCaml type checker will not allow arbitrary
    name as type variables, for example:
    {[
@@ -195,13 +193,21 @@ let pval_prim_of_option_labels (labels : (bool * string Asttypes.loc) list)
   in
   Melange_ffi.External_ffi_types.ffi_obj_as_prims arg_kinds
 
-let record_as_js_object loc (label_exprs : label_exprs) : expression_desc =
+let record_as_js_object ~loc
+    (label_exprs : (Longident.t Asttypes.loc * expression) list) :
+    expression_desc =
   let labels, args, arity =
     List.fold_right
       ~f:(fun ({ txt; loc }, e) (labels, args, i) ->
         match txt with
-        | Lident x ->
-            ({ Asttypes.loc; txt = x } :: labels, (x, e) :: args, i + 1)
+        | Lident obj_label ->
+            let obj_label =
+              Ast_attributes.iter_process_mel_string_as e.pexp_attributes
+              |> Option.value ~default:obj_label
+            in
+            ( { Asttypes.loc; txt = obj_label } :: labels,
+              (obj_label, e) :: args,
+              i + 1 )
         | Ldot _ | Lapply _ ->
             Location.raise_errorf ~loc
               "`%%mel.obj' literals only support simple labels")
