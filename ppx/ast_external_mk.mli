@@ -43,17 +43,6 @@ val local_external_apply :
   ]}
 *)
 
-val local_external_obj :
-  Location.t ->
-  ?pval_attributes:attributes ->
-  pval_prim:string list ->
-  pval_type:core_type ->
-  ?local_module_name:string ->
-  ?local_fun_name:string ->
-  (string * expression) list ->
-  (* [ (label, exp )]*)
-  expression_desc
-
 val local_extern_cont_to_obj :
   Location.t ->
   ?pval_attributes:attributes ->
