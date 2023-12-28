@@ -30,7 +30,7 @@ val uncurry_fn_apply :
   Location.t ->
   Ast_traverse.map ->
   expression ->
-  Ast_util.args ->
+  (Asttypes.arg_label * expression) list ->
   expression_desc
 
 (* syntax : {[f## arg0 arg1 ]}*)
@@ -39,7 +39,7 @@ val method_apply :
   Ast_traverse.map ->
   expression ->
   string ->
-  Ast_util.args ->
+  (Asttypes.arg_label * expression) list ->
   expression_desc
 
 (* syntax {[f#@ arg0 arg1 ]}*)
@@ -48,5 +48,5 @@ val property_apply :
   Ast_traverse.map ->
   expression ->
   string ->
-  Ast_util.args ->
+  (Asttypes.arg_label * expression) list ->
   expression_desc
