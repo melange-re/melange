@@ -29,6 +29,7 @@ open Import
 val uncurry_fn_apply :
   Location.t ->
   Ast_traverse.map ->
+  zero_arity:bool ->
   expression ->
   (Asttypes.arg_label * expression) list ->
   expression_desc
@@ -46,6 +47,7 @@ val method_apply :
 val property_apply :
   Location.t ->
   Ast_traverse.map ->
+  zero_arity:bool ->
   expression ->
   string ->
   (Asttypes.arg_label * expression) list ->

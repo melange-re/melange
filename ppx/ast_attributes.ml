@@ -138,16 +138,12 @@ let process_pexp_fun_attributes_rev attrs =
       match txt with "mel.open" -> (true, acc) | _ -> (st, attr :: acc))
     ~init:(false, []) attrs
 
+(* TODO: recognize `@u0` *)
 let process_uncurried attrs =
   List.fold_left
     ~f:(fun (st, acc) ({ attr_name = { txt; _ }; _ } as attr) ->
       match (txt, st) with "u", _ -> (true, acc) | _, _ -> (st, attr :: acc))
     ~init:(false, []) attrs
-
-let is_uncurried attr =
-  match attr with
-  | { attr_name = { Location.txt = "u"; _ }; _ } -> true
-  | _ -> false
 
 let mel_get =
   {

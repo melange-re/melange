@@ -91,7 +91,7 @@ let to_uncurry_fn loc (self : Ast_traverse.map) ~zero_arity
   let arity =
     let arity =
       match (rev_extra_args, zero_arity) with
-      | [ (_, _) ], true -> 0
+      | [ _ ], true -> 0
       | [ _ ], false -> len (* Ast_pat.is_unit_cont ~yes:0 ~no:len p *)
       | _ -> len
     in

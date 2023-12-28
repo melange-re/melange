@@ -87,7 +87,8 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
    _;
   } -> (
       match fst (Ast_attributes.process_attributes_rev ptyp_attributes) with
-      | Uncurry _ -> Ast_typ_uncurry.to_uncurry_type loc self label args body
+      | Uncurry { zero_arity; _ } ->
+          Ast_typ_uncurry.to_uncurry_type loc self ~zero_arity label args body
       | Meth_callback _ ->
           Ast_typ_uncurry.to_method_callback_type loc self label args body
       | Method _ -> Ast_typ_uncurry.to_method_type loc self label args body

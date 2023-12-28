@@ -42,7 +42,6 @@ val warn_if_non_namespaced : loc:location -> label -> unit
 val process_attributes_rev : attribute list -> attr_kind * attribute list
 val process_pexp_fun_attributes_rev : attribute list -> bool * attribute list
 val process_uncurried : attribute list -> bool * attribute list
-val is_uncurried : attribute -> bool
 val mel_get : attribute
 val mel_get_index : attribute
 val mel_get_arity : attribute

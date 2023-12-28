@@ -115,8 +115,8 @@ let generate_arg_type loc (mapper : Ast_traverse.map) method_name label pat body
         to_method_type loc mapper label x method_rest
     | _ -> assert false
 
-let to_uncurry_type loc (mapper : Ast_traverse.map) (label : Asttypes.arg_label)
-    (first_arg : core_type) (typ : core_type) =
+let to_uncurry_type loc (mapper : Ast_traverse.map) ~(zero_arity : bool)
+    (label : Asttypes.arg_label) (first_arg : core_type) (typ : core_type) =
   (* no need to error for optional here,
      since we can not make it
      TODO: still error out for external?
@@ -127,7 +127,7 @@ let to_uncurry_type loc (mapper : Ast_traverse.map) (label : Asttypes.arg_label)
   let typ = mapper#core_type typ in
 
   let fn_type = Typ.arrow ~loc label first_arg typ in
-  let arity = Ast_core_type.get_uncurry_arity fn_type in
+  let arity = Ast_core_type.get_uncurry_arity ~zero_arity fn_type in
   match arity with
   | Some 0 ->
       Typ.constr { txt = Ldot (Ast_literal.js_fn, "arity0"); loc } [ typ ]
