@@ -90,8 +90,7 @@ let rec exclude_with_val =
                 | Some rest -> Some (a0 :: a1 :: rest)))
 
 let app_exp_mapper e
-    ((self, super) : Ast_traverse.map * (expression -> expression)) fn
-    (args : Ast_util.args) =
+    ((self, super) : Ast_traverse.map * (expression -> expression)) fn args =
   (* - (f##paint) 1 2
      - (f#@paint) 1 2 *)
   match view_as_app fn inner_ops with

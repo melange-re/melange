@@ -24,8 +24,6 @@
 
 open Import
 
-type args = (Asttypes.arg_label * expression) list
-
 val js_property : Location.t -> expression -> string -> expression_desc
 
 val ocaml_obj_as_js_object :

@@ -56,7 +56,7 @@ let opaque_full_apply ~loc e =
         [ (Nolabel, e) ],
       Typ.any ~loc () )
 
-let generic_apply loc (self : Ast_traverse.map) obj (args : Ast_util.args)
+let generic_apply loc (self : Ast_traverse.map) obj args
     (cb : loc -> expression -> expression) =
   let obj = self#expression obj in
   let args =
@@ -100,7 +100,7 @@ let generic_apply loc (self : Ast_traverse.map) obj (args : Ast_util.args)
             ])
          args)
 
-let method_apply loc (self : Ast_traverse.map) obj name (args : Ast_util.args) =
+let method_apply loc (self : Ast_traverse.map) obj name args =
   let obj = self#expression obj in
   let args =
     List.map

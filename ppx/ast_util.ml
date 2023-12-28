@@ -25,8 +25,6 @@
 open Import
 open Ast_helper
 
-type args = (Asttypes.arg_label * expression) list
-
 let js_property loc obj (name : string) =
   Pexp_send
     ( [%expr [%e Exp.ident { txt = Ast_literal.unsafe_downgrade; loc }] [%e obj]],

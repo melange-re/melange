@@ -28,5 +28,5 @@ val app_exp_mapper :
   expression ->
   Ast_traverse.map * (expression -> expression) ->
   expression ->
-  Ast_util.args ->
+  (Asttypes.arg_label * expression) list ->
   expression
