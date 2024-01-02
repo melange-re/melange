@@ -47,7 +47,6 @@ val method_apply :
 val property_apply :
   Location.t ->
   Ast_traverse.map ->
-  zero_arity:bool ->
   expression ->
   string ->
   (Asttypes.arg_label * expression) list ->

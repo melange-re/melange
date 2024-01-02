@@ -84,8 +84,9 @@ let to_method_type loc (mapper : Ast_traverse.map) (label : Asttypes.arg_label)
   let first_arg = mapper#core_type first_arg in
   let typ = mapper#core_type typ in
   let meth_type = Typ.arrow ~loc label first_arg typ in
-  let arity = Ast_core_type.get_uncurry_arity meth_type in
-  match arity with
+  (* Use the old `get_uncurry_arity` function to get the old behavior (`unit`
+     means 0-arity) *)
+  match Ast_core_type.get_uncurry_arity meth_type with
   | Some 0 ->
       Typ.constr { txt = Ldot (Ast_literal.js_meth, "arity0"); loc } [ typ ]
   | Some n ->
@@ -125,14 +126,21 @@ let to_uncurry_type loc (mapper : Ast_traverse.map) ~(zero_arity : bool)
   *)
   let first_arg = mapper#core_type first_arg in
   let typ = mapper#core_type typ in
-
   let fn_type = Typ.arrow ~loc label first_arg typ in
-  let arity = Ast_core_type.get_uncurry_arity ~zero_arity fn_type in
-  match arity with
-  | Some 0 ->
-      Typ.constr { txt = Ldot (Ast_literal.js_fn, "arity0"); loc } [ typ ]
-  | Some n ->
+  match
+    (* always `Some _` because we're passing it an arrow *)
+    ( Option.get
+        (Ast_core_type.get_uncurry_arity_from_attribute ~zero_arity fn_type),
+      Option.get (Ast_core_type.get_uncurry_arity fn_type) )
+  with
+  | 0, 0 -> Typ.constr { txt = Ldot (Ast_literal.js_fn, "arity0"); loc } [ typ ]
+  | n, 0 ->
+      Mel_ast_invariant.warn ~loc Uncurried_arity0;
       Typ.constr
         { txt = Ldot (Ast_literal.js_fn, "arity" ^ string_of_int n); loc }
         [ fn_type ]
-  | None -> assert false
+  | n, m ->
+      assert (n = m);
+      Typ.constr
+        { txt = Ldot (Ast_literal.js_fn, "arity" ^ string_of_int n); loc }
+        [ fn_type ]

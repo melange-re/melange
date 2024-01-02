@@ -121,8 +121,7 @@ let app_exp_mapper e
              Ast_uncurry_apply.method_apply loc self obj name args
            else
              (* TODO(anmonteiro): check this zero_arity *)
-             Ast_uncurry_apply.property_apply loc self ~zero_arity:false obj
-               name args);
+             Ast_uncurry_apply.property_apply loc self obj name args);
       }
   | Some { op; loc; _ } ->
       Location.raise_errorf ~loc "%s expect f%sproperty arg0 arg2 form" op op

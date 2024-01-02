@@ -30,6 +30,7 @@ module Warnings : sig
     | Fragile_external of string
     | Redundant_mel_string
     | Deprecated_non_namespaced_attribute
+    | Uncurried_arity0
 end
 
 val is_mel_attribute : string -> bool

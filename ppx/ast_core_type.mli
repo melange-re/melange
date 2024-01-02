@@ -29,6 +29,11 @@ val is_unit : core_type -> bool
 val to_js_type : loc:Location.t -> core_type -> core_type
 val make_obj : loc:Location.t -> object_field list -> core_type
 
-val get_uncurry_arity : ?zero_arity:bool -> core_type -> int option
+val get_uncurry_arity : core_type -> int option
+(** returns 0 when it can not tell arity from the syntax. [None] means not a
+    function *)
+
+val get_uncurry_arity_from_attribute :
+  zero_arity:bool -> core_type -> int option
 (** returns 0 when it can not tell arity from the syntax. [None] means not a
     function *)

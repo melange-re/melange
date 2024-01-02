@@ -150,6 +150,15 @@ let method_apply loc (self : Ast_traverse.map) obj name args =
 let uncurry_fn_apply loc self ~zero_arity fn args =
   generic_apply loc self ~zero_arity fn args (fun _ obj -> obj)
 
-let property_apply loc self ~zero_arity obj name args =
+let property_apply loc self obj name args =
+  let zero_arity =
+    match args with
+    | [
+     ( Nolabel,
+       { pexp_desc = Pexp_construct ({ txt = Lident "()"; _ }, None); _ } );
+    ] ->
+        true
+    | _ -> false
+  in
   generic_apply loc self ~zero_arity obj args (fun loc obj ->
       Exp.mk ~loc (Ast_util.js_property loc obj name))
