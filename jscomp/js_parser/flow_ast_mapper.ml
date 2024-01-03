@@ -82,14 +82,21 @@ class ['loc] mapper =
   object (this)
     method program (program : ('loc, 'loc) Ast.Program.t) =
       let open Ast.Program in
-      let (loc, { statements; comments; all_comments }) = program in
+      let (loc, { statements; interpreter; comments; all_comments }) = program in
       let statements' = this#toplevel_statement_list statements in
       let comments' = this#syntax_opt comments in
       let all_comments' = map_list this#comment all_comments in
       if statements == statements' && comments == comments' && all_comments == all_comments' then
         program
       else
-        (loc, { statements = statements'; comments = comments'; all_comments = all_comments' })
+        ( loc,
+          {
+            statements = statements';
+            interpreter;
+            comments = comments';
+            all_comments = all_comments';
+          }
+        )
 
     method statement (stmt : ('loc, 'loc) Ast.Statement.t) =
       let open Ast.Statement in
@@ -98,10 +105,18 @@ class ['loc] mapper =
       | (loc, Break break) -> id_loc this#break loc break stmt (fun break -> (loc, Break break))
       | (loc, ClassDeclaration cls) ->
         id_loc this#class_declaration loc cls stmt (fun cls -> (loc, ClassDeclaration cls))
+      | (loc, ComponentDeclaration component) ->
+        id_loc this#component_declaration loc component stmt (fun component ->
+            (loc, ComponentDeclaration component)
+        )
       | (loc, Continue cont) -> id_loc this#continue loc cont stmt (fun cont -> (loc, Continue cont))
       | (loc, Debugger dbg) -> id_loc this#debugger loc dbg stmt (fun dbg -> (loc, Debugger dbg))
       | (loc, DeclareClass stuff) ->
         id_loc this#declare_class loc stuff stmt (fun stuff -> (loc, DeclareClass stuff))
+      | (loc, DeclareComponent stuff) ->
+        id_loc this#declare_component loc stuff stmt (fun stuff -> (loc, DeclareComponent stuff))
+      | (loc, DeclareEnum enum) ->
+        id_loc this#declare_enum loc enum stmt (fun enum -> (loc, DeclareEnum enum))
       | (loc, DeclareExportDeclaration decl) ->
         id_loc this#declare_export_declaration loc decl stmt (fun decl ->
             (loc, DeclareExportDeclaration decl)
@@ -112,14 +127,16 @@ class ['loc] mapper =
         id_loc this#declare_interface loc stuff stmt (fun stuff -> (loc, DeclareInterface stuff))
       | (loc, DeclareModule m) ->
         id_loc this#declare_module loc m stmt (fun m -> (loc, DeclareModule m))
-      | (loc, DeclareTypeAlias stuff) ->
-        id_loc this#declare_type_alias loc stuff stmt (fun stuff -> (loc, DeclareTypeAlias stuff))
-      | (loc, DeclareVariable stuff) ->
-        id_loc this#declare_variable loc stuff stmt (fun stuff -> (loc, DeclareVariable stuff))
       | (loc, DeclareModuleExports annot) ->
         id_loc this#declare_module_exports loc annot stmt (fun annot ->
             (loc, DeclareModuleExports annot)
         )
+      | (loc, DeclareOpaqueType otype) ->
+        id_loc this#opaque_type loc otype stmt (fun otype -> (loc, DeclareOpaqueType otype))
+      | (loc, DeclareTypeAlias stuff) ->
+        id_loc this#declare_type_alias loc stuff stmt (fun stuff -> (loc, DeclareTypeAlias stuff))
+      | (loc, DeclareVariable stuff) ->
+        id_loc this#declare_variable loc stuff stmt (fun stuff -> (loc, DeclareVariable stuff))
       | (loc, DoWhile stuff) ->
         id_loc this#do_while loc stuff stmt (fun stuff -> (loc, DoWhile stuff))
       | (loc, Empty empty) -> id_loc this#empty loc empty stmt (fun empty -> (loc, Empty empty))
@@ -167,8 +184,6 @@ class ['loc] mapper =
       | (loc, With stuff) -> id_loc this#with_ loc stuff stmt (fun stuff -> (loc, With stuff))
       | (loc, TypeAlias stuff) ->
         id_loc this#type_alias loc stuff stmt (fun stuff -> (loc, TypeAlias stuff))
-      | (loc, DeclareOpaqueType otype) ->
-        id_loc this#opaque_type loc otype stmt (fun otype -> (loc, OpaqueType otype))
 
     method comment (c : 'loc Ast.Comment.t) = c
 
@@ -194,20 +209,31 @@ class ['loc] mapper =
       | (loc, Array x) -> id_loc this#array loc x expr (fun x -> (loc, Array x))
       | (loc, ArrowFunction x) ->
         id_loc this#arrow_function loc x expr (fun x -> (loc, ArrowFunction x))
+      | (loc, AsExpression x) ->
+        id_loc this#as_expression loc x expr (fun x -> (loc, AsExpression x))
       | (loc, Assignment x) -> id_loc this#assignment loc x expr (fun x -> (loc, Assignment x))
       | (loc, Binary x) -> id_loc this#binary loc x expr (fun x -> (loc, Binary x))
       | (loc, Call x) -> id_loc this#call loc x expr (fun x -> (loc, Call x))
       | (loc, Class x) -> id_loc this#class_expression loc x expr (fun x -> (loc, Class x))
-      | (loc, Comprehension x) ->
-        id_loc this#comprehension loc x expr (fun x -> (loc, Comprehension x))
       | (loc, Conditional x) -> id_loc this#conditional loc x expr (fun x -> (loc, Conditional x))
       | (loc, Function x) -> id_loc this#function_expression loc x expr (fun x -> (loc, Function x))
-      | (loc, Generator x) -> id_loc this#generator loc x expr (fun x -> (loc, Generator x))
       | (loc, Identifier x) -> id this#identifier x expr (fun x -> (loc, Identifier x))
       | (loc, Import x) -> id (this#import loc) x expr (fun x -> (loc, Import x))
       | (loc, JSXElement x) -> id_loc this#jsx_element loc x expr (fun x -> (loc, JSXElement x))
       | (loc, JSXFragment x) -> id_loc this#jsx_fragment loc x expr (fun x -> (loc, JSXFragment x))
-      | (loc, Literal x) -> id_loc this#literal loc x expr (fun x -> (loc, Literal x))
+      | (loc, StringLiteral x) ->
+        id_loc this#string_literal loc x expr (fun x -> (loc, StringLiteral x))
+      | (loc, BooleanLiteral x) ->
+        id_loc this#boolean_literal loc x expr (fun x -> (loc, BooleanLiteral x))
+      | (loc, NullLiteral x) -> id_loc this#null_literal loc x expr (fun x -> (loc, NullLiteral x))
+      | (loc, NumberLiteral x) ->
+        id_loc this#number_literal loc x expr (fun x -> (loc, NumberLiteral x))
+      | (loc, BigIntLiteral x) ->
+        id_loc this#bigint_literal loc x expr (fun x -> (loc, BigIntLiteral x))
+      | (loc, RegExpLiteral x) ->
+        id_loc this#regexp_literal loc x expr (fun x -> (loc, RegExpLiteral x))
+      | (loc, ModuleRefLiteral x) ->
+        id_loc this#module_ref_literal loc x expr (fun x -> (loc, ModuleRefLiteral x))
       | (loc, Logical x) -> id_loc this#logical loc x expr (fun x -> (loc, Logical x))
       | (loc, Member x) -> id_loc this#member loc x expr (fun x -> (loc, Member x))
       | (loc, MetaProperty x) ->
@@ -225,6 +251,7 @@ class ['loc] mapper =
         id_loc this#template_literal loc x expr (fun x -> (loc, TemplateLiteral x))
       | (loc, This x) -> id_loc this#this_expression loc x expr (fun x -> (loc, This x))
       | (loc, TypeCast x) -> id_loc this#type_cast loc x expr (fun x -> (loc, TypeCast x))
+      | (loc, TSTypeCast x) -> id_loc this#ts_type_cast loc x expr (fun x -> (loc, TSTypeCast x))
       | (loc, Unary x) -> id_loc this#unary_expression loc x expr (fun x -> (loc, Unary x))
       | (loc, Update x) -> id_loc this#update_expression loc x expr (fun x -> (loc, Update x))
       | (loc, Yield x) -> id_loc this#yield loc x expr (fun x -> (loc, Yield x))
@@ -247,6 +274,17 @@ class ['loc] mapper =
       | Hole _ -> element
 
     method arrow_function loc (expr : ('loc, 'loc) Ast.Function.t) = this#function_ loc expr
+
+    method as_expression _loc (expr : ('loc, 'loc) Ast.Expression.AsExpression.t) =
+      let open Ast.Expression.AsExpression in
+      let { expression; annot; comments } = expr in
+      let expression' = this#expression expression in
+      let annot' = this#type_annotation annot in
+      let comments' = this#syntax_opt comments in
+      if expression' == expression && annot' == annot && comments' == comments then
+        expr
+      else
+        { expression = expression'; annot = annot'; comments = comments' }
 
     method assignment _loc (expr : ('loc, 'loc) Ast.Expression.Assignment.t) =
       let open Ast.Expression.Assignment in
@@ -295,7 +333,7 @@ class ['loc] mapper =
       let { callee; targs; arguments; comments } = expr in
       let callee' = this#expression callee in
       let targs' = map_opt this#call_type_args targs in
-      let arguments' = this#call_arguments arguments in
+      let arguments' = this#arg_list arguments in
       let comments' = this#syntax_opt comments in
       if callee == callee' && targs == targs' && arguments == arguments' && comments == comments'
       then
@@ -303,7 +341,7 @@ class ['loc] mapper =
       else
         { callee = callee'; targs = targs'; arguments = arguments'; comments = comments' }
 
-    method call_arguments (arg_list : ('loc, 'loc) Ast.Expression.ArgList.t) =
+    method arg_list (arg_list : ('loc, 'loc) Ast.Expression.ArgList.t) =
       let open Ast.Expression.ArgList in
       let (loc, { arguments; comments }) = arg_list in
       let arguments' = map_list this#expression_or_spread arguments in
@@ -408,7 +446,7 @@ class ['loc] mapper =
         { expr = expr'; targs = targs'; comments = comments' }
 
     method class_identifier (ident : ('loc, 'loc) Ast.Identifier.t) =
-      this#pattern_identifier ~kind:Ast.Statement.VariableDeclaration.Let ident
+      this#pattern_identifier ~kind:Ast.Variable.Let ident
 
     method class_body (cls_body : ('loc, 'loc) Ast.Class.Body.t) =
       let open Ast.Class.Body in
@@ -473,17 +511,19 @@ class ['loc] mapper =
 
     method class_property _loc (prop : ('loc, 'loc) Ast.Class.Property.t') =
       let open Ast.Class.Property in
-      let { key; value; annot; static = _; variance; comments } = prop in
+      let { key; value; annot; static = _; variance; decorators; comments } = prop in
       let key' = this#object_key key in
       let value' = this#class_property_value value in
       let annot' = this#type_annotation_hint annot in
       let variance' = this#variance_opt variance in
+      let decorators' = map_list this#class_decorator decorators in
       let comments' = this#syntax_opt comments in
       if
         key == key'
         && value == value'
         && annot' == annot
         && variance' == variance
+        && decorators' == decorators
         && comments' == comments
       then
         prop
@@ -494,6 +534,7 @@ class ['loc] mapper =
           value = value';
           annot = annot';
           variance = variance';
+          decorators = decorators';
           comments = comments';
         }
 
@@ -511,17 +552,19 @@ class ['loc] mapper =
 
     method class_private_field _loc (prop : ('loc, 'loc) Ast.Class.PrivateField.t') =
       let open Ast.Class.PrivateField in
-      let { key; value; annot; static = _; variance; comments } = prop in
+      let { key; value; annot; static = _; variance; decorators; comments } = prop in
       let key' = this#private_name key in
       let value' = this#class_property_value value in
       let annot' = this#type_annotation_hint annot in
       let variance' = this#variance_opt variance in
+      let decorators' = map_list this#class_decorator decorators in
       let comments' = this#syntax_opt comments in
       if
         key == key'
         && value == value'
         && annot' == annot
         && variance' == variance
+        && decorators' == decorators
         && comments' == comments
       then
         prop
@@ -532,11 +575,92 @@ class ['loc] mapper =
           value = value';
           annot = annot';
           variance = variance';
+          decorators = decorators';
           comments = comments';
         }
 
-    (* TODO *)
-    method comprehension _loc (expr : ('loc, 'loc) Ast.Expression.Comprehension.t) = expr
+    method default_opt (default : ('loc, 'loc) Ast.Expression.t option) =
+      map_opt this#expression default
+
+    method component_declaration _loc (component : ('loc, 'loc) Ast.Statement.ComponentDeclaration.t)
+        =
+      let open Ast.Statement.ComponentDeclaration in
+      let { id = ident; tparams; params; body; renders; comments; sig_loc } = component in
+      let ident' = this#component_identifier ident in
+      let tparams' = map_opt this#type_params tparams in
+      let params' = this#component_params params in
+      let body' = this#component_body body in
+      let renders' = this#component_renders_annotation renders in
+      let comments' = this#syntax_opt comments in
+      if
+        ident == ident'
+        && tparams == tparams'
+        && params == params'
+        && body == body'
+        && renders == renders'
+        && comments == comments'
+      then
+        component
+      else
+        {
+          id = ident';
+          tparams = tparams';
+          params = params';
+          body = body';
+          renders = renders';
+          comments = comments';
+          sig_loc;
+        }
+
+    method component_identifier (ident : ('loc, 'loc) Ast.Identifier.t) =
+      this#pattern_identifier ~kind:Ast.Variable.Var ident
+
+    method component_params (params : ('loc, 'loc) Ast.Statement.ComponentDeclaration.Params.t) =
+      let open Ast.Statement.ComponentDeclaration in
+      let (loc, { Params.params = params_list; rest; comments }) = params in
+      let params_list' = map_list this#component_param params_list in
+      let rest' = map_opt this#component_rest_param rest in
+      let comments' = this#syntax_opt comments in
+      if params_list == params_list' && rest == rest' && comments == comments' then
+        params
+      else
+        (loc, { Params.params = params_list'; rest = rest'; comments = comments' })
+
+    method component_param (param : ('loc, 'loc) Ast.Statement.ComponentDeclaration.Param.t) =
+      let open Ast.Statement.ComponentDeclaration.Param in
+      let (loc, { name; local; default; shorthand }) = param in
+      let name' = this#component_param_name name in
+      let local' = this#component_param_pattern local in
+      let default' = this#default_opt default in
+      if name == name' && local == local' && default == default' then
+        param
+      else
+        (loc, { name = name'; local = local'; default = default'; shorthand })
+
+    method component_param_name
+        (param_name : ('loc, 'loc) Ast.Statement.ComponentDeclaration.Param.param_name) =
+      let open Ast.Statement.ComponentDeclaration.Param in
+      match param_name with
+      | Identifier ident -> Identifier (this#identifier ident)
+      | StringLiteral (str_loc, str) -> StringLiteral (str_loc, this#string_literal str_loc str)
+
+    method component_param_pattern (expr : ('loc, 'loc) Ast.Pattern.t) =
+      this#binding_pattern ~kind:Ast.Variable.Let expr
+
+    method component_rest_param (expr : ('loc, 'loc) Ast.Statement.ComponentDeclaration.RestParam.t)
+        =
+      let open Ast.Statement.ComponentDeclaration.RestParam in
+      let (loc, { argument; comments }) = expr in
+      let argument' = this#component_param_pattern argument in
+      let comments' = this#syntax_opt comments in
+      if argument == argument' && comments == comments' then
+        expr
+      else
+        (loc, { argument = argument'; comments = comments' })
+
+    method component_body (body : 'loc * ('loc, 'loc) Ast.Statement.Block.t) =
+      let (loc, block) = body in
+      id_loc this#block loc block body (fun block -> (loc, block))
 
     method conditional _loc (expr : ('loc, 'loc) Ast.Expression.Conditional.t) =
       let open Ast.Expression.Conditional in
@@ -605,6 +729,79 @@ class ['loc] mapper =
           comments = comments';
         }
 
+    method declare_component _loc (decl : ('loc, 'loc) Ast.Statement.DeclareComponent.t) =
+      let open Ast.Statement.DeclareComponent in
+      let { id = ident; tparams; params; renders; comments } = decl in
+      let ident' = this#component_identifier ident in
+      let tparams' = map_opt this#type_params tparams in
+      let params' = this#component_type_params params in
+      let renders' = this#component_renders_annotation renders in
+      let comments' = this#syntax_opt comments in
+      if
+        ident == ident'
+        && tparams == tparams'
+        && params == params'
+        && renders == renders'
+        && comments == comments'
+      then
+        decl
+      else
+        {
+          id = ident';
+          tparams = tparams';
+          params = params';
+          renders = renders';
+          comments = comments';
+        }
+
+    method component_type _loc (t : ('loc, 'loc) Ast.Type.Component.t) =
+      let open Ast.Type.Component in
+      let { tparams; params; renders; comments } = t in
+      let tparams' = map_opt this#type_params tparams in
+      let params' = this#component_type_params params in
+      let renders' = this#component_renders_annotation renders in
+      let comments' = this#syntax_opt comments in
+      if tparams == tparams' && params == params' && renders == renders' && comments == comments'
+      then
+        t
+      else
+        { tparams = tparams'; params = params'; renders = renders'; comments = comments' }
+
+    method component_type_params (params : ('loc, 'loc) Ast.Type.Component.Params.t) =
+      let open Ast.Type.Component in
+      let (loc, { Params.params = params_list; rest; comments }) = params in
+      let params_list' = map_list this#component_type_param params_list in
+      let rest' = map_opt this#component_type_rest_param rest in
+      let comments' = this#syntax_opt comments in
+      if params_list == params_list' && rest == rest' && comments == comments' then
+        params
+      else
+        (loc, { Params.params = params_list'; rest = rest'; comments = comments' })
+
+    method component_type_param (param : ('loc, 'loc) Ast.Type.Component.Param.t) =
+      let open Ast.Type.Component.Param in
+      let (loc, { name; annot; optional }) = param in
+      let name' = this#component_param_name name in
+      let annot' = this#type_annotation annot in
+      if name == name' && annot == annot' then
+        param
+      else
+        (loc, { name = name'; annot = annot'; optional })
+
+    method component_type_rest_param (expr : ('loc, 'loc) Ast.Type.Component.RestParam.t) =
+      let open Ast.Type.Component.RestParam in
+      let (loc, { argument; annot; optional; comments }) = expr in
+      let argument' = map_opt this#identifier argument in
+      let annot' = this#type_ annot in
+      let comments' = this#syntax_opt comments in
+      if argument == argument' && annot == annot' && comments == comments' then
+        expr
+      else
+        (loc, { argument = argument'; annot = annot'; comments = comments'; optional })
+
+    method declare_enum loc (enum : ('loc, 'loc) Ast.Statement.EnumDeclaration.t) =
+      this#enum_declaration loc enum
+
     method declare_export_declaration
         _loc (decl : ('loc, 'loc) Ast.Statement.DeclareExportDeclaration.t) =
       let open Ast.Statement.DeclareExportDeclaration in
@@ -651,6 +848,12 @@ class ['loc] mapper =
           decl
         else
           Class (loc, dc')
+      | Component (loc, dc) ->
+        let dc' = this#declare_component loc dc in
+        if dc' == dc then
+          decl
+        else
+          Component (loc, dc')
       | DefaultType t ->
         let t' = this#type_ t in
         if t' == t then
@@ -675,6 +878,12 @@ class ['loc] mapper =
           decl
         else
           Interface (loc, i')
+      | Enum (loc, enum) ->
+        let enum' = this#enum_declaration loc enum in
+        if enum' == enum then
+          decl
+        else
+          Enum (loc, enum')
 
     method declare_function _loc (decl : ('loc, 'loc) Ast.Statement.DeclareFunction.t) =
       let open Ast.Statement.DeclareFunction in
@@ -717,14 +926,14 @@ class ['loc] mapper =
 
     method declare_variable _loc (decl : ('loc, 'loc) Ast.Statement.DeclareVariable.t) =
       let open Ast.Statement.DeclareVariable in
-      let { id = ident; annot; comments } = decl in
-      let id' = this#pattern_identifier ~kind:Ast.Statement.VariableDeclaration.Var ident in
+      let { id = ident; annot; kind; comments } = decl in
+      let id' = this#pattern_identifier ~kind ident in
       let annot' = this#type_annotation annot in
       let comments' = this#syntax_opt comments in
       if id' == ident && annot' == annot && comments' == comments then
         decl
       else
-        { id = id'; annot = annot'; comments = comments' }
+        { id = id'; annot = annot'; kind; comments = comments' }
 
     method do_while _loc (stuff : ('loc, 'loc) Ast.Statement.DoWhile.t) =
       let open Ast.Statement.DoWhile in
@@ -749,7 +958,7 @@ class ['loc] mapper =
     method enum_declaration _loc (enum : ('loc, 'loc) Ast.Statement.EnumDeclaration.t) =
       let open Ast.Statement.EnumDeclaration in
       let { id = ident; body; comments } = enum in
-      let id' = this#pattern_identifier ~kind:Ast.Statement.VariableDeclaration.Const ident in
+      let id' = this#pattern_identifier ~kind:Ast.Variable.Const ident in
       let body' = this#enum_body body in
       let comments' = this#syntax_opt comments in
       if ident == id' && body == body' && comments == comments' then
@@ -768,6 +977,8 @@ class ['loc] mapper =
         id this#enum_string_body string_body body (fun body -> (loc, StringBody body))
       | (loc, SymbolBody symbol_body) ->
         id this#enum_symbol_body symbol_body body (fun body -> (loc, SymbolBody body))
+      | (loc, BigIntBody bigint_body) ->
+        id this#enum_bigint_body bigint_body body (fun body -> (loc, BigIntBody body))
 
     method enum_boolean_body (body : 'loc Ast.Statement.EnumDeclaration.BooleanBody.t) =
       let open Ast.Statement.EnumDeclaration.BooleanBody in
@@ -813,6 +1024,16 @@ class ['loc] mapper =
       else
         { body with members = members'; comments = comments' }
 
+    method enum_bigint_body (body : 'loc Ast.Statement.EnumDeclaration.BigIntBody.t) =
+      let open Ast.Statement.EnumDeclaration.BigIntBody in
+      let { members; explicit_type = _; has_unknown_members = _; comments } = body in
+      let members' = map_list this#enum_bigint_member members in
+      let comments' = this#syntax_opt comments in
+      if members == members' && comments == comments' then
+        body
+      else
+        { body with members = members'; comments = comments' }
+
     method enum_defaulted_member (member : 'loc Ast.Statement.EnumDeclaration.DefaultedMember.t) =
       let open Ast.Statement.EnumDeclaration.DefaultedMember in
       let (loc, { id = ident }) = member in
@@ -847,6 +1068,17 @@ class ['loc] mapper =
 
     method enum_string_member
         (member : ('loc Ast.StringLiteral.t, 'loc) Ast.Statement.EnumDeclaration.InitializedMember.t)
+        =
+      let open Ast.Statement.EnumDeclaration.InitializedMember in
+      let (loc, { id = ident; init }) = member in
+      let id' = this#enum_member_identifier ident in
+      if ident == id' then
+        member
+      else
+        (loc, { id = id'; init })
+
+    method enum_bigint_member
+        (member : ('loc Ast.BigIntLiteral.t, 'loc) Ast.Statement.EnumDeclaration.InitializedMember.t)
         =
       let open Ast.Statement.EnumDeclaration.InitializedMember in
       let (loc, { id = ident; init }) = member in
@@ -901,7 +1133,7 @@ class ['loc] mapper =
         }
 
     method export_named_declaration_specifier
-        (spec : 'loc Ast.Statement.ExportNamedDeclaration.ExportSpecifier.t) =
+        (spec : ('loc, 'loc) Ast.Statement.ExportNamedDeclaration.ExportSpecifier.t) =
       let open Ast.Statement.ExportNamedDeclaration.ExportSpecifier in
       let (loc, { local; exported }) = spec in
       let local' = this#identifier local in
@@ -912,7 +1144,7 @@ class ['loc] mapper =
         (loc, { local = local'; exported = exported' })
 
     method export_batch_specifier
-        (spec : 'loc Ast.Statement.ExportNamedDeclaration.ExportBatchSpecifier.t) =
+        (spec : ('loc, 'loc) Ast.Statement.ExportNamedDeclaration.ExportBatchSpecifier.t) =
       let (loc, id_opt) = spec in
       let id_opt' = map_opt this#identifier id_opt in
       if id_opt == id_opt' then
@@ -920,7 +1152,8 @@ class ['loc] mapper =
       else
         (loc, id_opt')
 
-    method export_named_specifier (spec : 'loc Ast.Statement.ExportNamedDeclaration.specifier) =
+    method export_named_specifier
+        (spec : ('loc, 'loc) Ast.Statement.ExportNamedDeclaration.specifier) =
       let open Ast.Statement.ExportNamedDeclaration in
       match spec with
       | ExportSpecifiers spec_list ->
@@ -1069,6 +1302,13 @@ class ['loc] mapper =
       else
         (loc, { annot = annot'; comments = comments' })
 
+    method function_type_return_annotation
+        (return : ('loc, 'loc) Ast.Type.Function.return_annotation) =
+      let open Ast.Type.Function in
+      match return with
+      | TypeAnnotation t -> id this#type_ t return (fun rt -> TypeAnnotation rt)
+      | TypeGuard g -> id this#type_guard g return (fun tg -> TypeGuard tg)
+
     method function_type _loc (ft : ('loc, 'loc) Ast.Type.Function.t) =
       let open Ast.Type.Function in
       let {
@@ -1083,7 +1323,7 @@ class ['loc] mapper =
       let this_' = map_opt this#function_this_param_type this_ in
       let ps' = map_list this#function_param_type ps in
       let rpo' = map_opt this#function_rest_param_type rpo in
-      let return' = this#type_ return in
+      let return' = this#function_type_return_annotation return in
       let func_comments' = this#syntax_opt func_comments in
       let params_comments' = this#syntax_opt params_comments in
       if
@@ -1190,27 +1430,54 @@ class ['loc] mapper =
       else
         (loc, { value = (value_loc, value'); static; comments = comments' })
 
+    method object_mapped_type_property (mt : ('loc, 'loc) Ast.Type.Object.MappedType.t) =
+      let open Ast.Type.Object.MappedType in
+      let (loc, { key_tparam; prop_type; source_type; variance; comments; optional }) = mt in
+      let key_tparam' = this#type_param key_tparam in
+      let prop_type' = this#type_ prop_type in
+      let source_type' = this#type_ source_type in
+      let variance' = this#variance_opt variance in
+      let comments' = this#syntax_opt comments in
+      if
+        key_tparam' == key_tparam
+        && prop_type' == prop_type
+        && source_type' == source_type
+        && variance' == variance
+        && comments' == comments
+      then
+        mt
+      else
+        ( loc,
+          {
+            key_tparam = key_tparam';
+            prop_type = prop_type';
+            source_type = source_type';
+            variance = variance';
+            comments = comments';
+            optional;
+          }
+        )
+
     method object_type _loc (ot : ('loc, 'loc) Ast.Type.Object.t) =
       let open Ast.Type.Object in
       let { properties; exact; inexact; comments } = ot in
-      let properties' =
-        map_list
-          (fun p ->
-            match p with
-            | Property p' -> id this#object_property_type p' p (fun p' -> Property p')
-            | SpreadProperty p' ->
-              id this#object_spread_property_type p' p (fun p' -> SpreadProperty p')
-            | Indexer p' -> id this#object_indexer_property_type p' p (fun p' -> Indexer p')
-            | InternalSlot p' ->
-              id this#object_internal_slot_property_type p' p (fun p' -> InternalSlot p')
-            | CallProperty p' -> id this#object_call_property_type p' p (fun p' -> CallProperty p'))
-          properties
-      in
+      let properties' = map_list this#object_type_property properties in
       let comments' = this#syntax_opt comments in
       if properties' == properties && comments == comments' then
         ot
       else
         { properties = properties'; exact; inexact; comments = comments' }
+
+    method object_type_property (p : ('loc, 'loc) Ast.Type.Object.property) =
+      let open Ast.Type.Object in
+      match p with
+      | Property p' -> id this#object_property_type p' p (fun p' -> Property p')
+      | SpreadProperty p' -> id this#object_spread_property_type p' p (fun p' -> SpreadProperty p')
+      | Indexer p' -> id this#object_indexer_property_type p' p (fun p' -> Indexer p')
+      | InternalSlot p' ->
+        id this#object_internal_slot_property_type p' p (fun p' -> InternalSlot p')
+      | CallProperty p' -> id this#object_call_property_type p' p (fun p' -> CallProperty p')
+      | MappedType p' -> id this#object_mapped_type_property p' p (fun p' -> MappedType p')
 
     method interface_type _loc (i : ('loc, 'loc) Ast.Type.Interface.t) =
       let open Ast.Type.Interface in
@@ -1273,7 +1540,7 @@ class ['loc] mapper =
 
     method type_param (tparam : ('loc, 'loc) Ast.Type.TypeParam.t) =
       let open Ast.Type.TypeParam in
-      let (loc, { name; bound; variance; default }) = tparam in
+      let (loc, { name; bound; bound_kind; variance; default }) = tparam in
       let bound' = this#type_annotation_hint bound in
       let variance' = this#variance_opt variance in
       let default' = map_opt this#type_ default in
@@ -1281,7 +1548,7 @@ class ['loc] mapper =
       if name' == name && bound' == bound && variance' == variance && default' == default then
         tparam
       else
-        (loc, { name = name'; bound = bound'; variance = variance'; default = default' })
+        (loc, { name = name'; bound = bound'; bound_kind; variance = variance'; default = default' })
 
     method generic_type _loc (gt : ('loc, 'loc) Ast.Type.Generic.t) =
       let open Ast.Type.Generic in
@@ -1294,7 +1561,7 @@ class ['loc] mapper =
       else
         { id = id'; targs = targs'; comments = comments' }
 
-    method indexed_access _loc (ia : ('loc, 'loc) Ast.Type.IndexedAccess.t) =
+    method indexed_access_type _loc (ia : ('loc, 'loc) Ast.Type.IndexedAccess.t) =
       let open Ast.Type.IndexedAccess in
       let { _object; index; comments } = ia in
       let _object' = this#type_ _object in
@@ -1305,16 +1572,16 @@ class ['loc] mapper =
       else
         { _object = _object'; index = index'; comments = comments' }
 
-    method optional_indexed_access loc (ia : ('loc, 'loc) Ast.Type.OptionalIndexedAccess.t) =
+    method optional_indexed_access_type loc (ia : ('loc, 'loc) Ast.Type.OptionalIndexedAccess.t) =
       let open Ast.Type.OptionalIndexedAccess in
       let { indexed_access; optional } = ia in
-      let indexed_access' = this#indexed_access loc indexed_access in
+      let indexed_access' = this#indexed_access_type loc indexed_access in
       if indexed_access' == indexed_access then
         ia
       else
         { indexed_access = indexed_access'; optional }
 
-    method string_literal_type _loc (lit : 'loc Ast.StringLiteral.t) =
+    method string_literal _loc (lit : 'loc Ast.StringLiteral.t) =
       let open Ast.StringLiteral in
       let { value; raw; comments } = lit in
       let comments' = this#syntax_opt comments in
@@ -1323,7 +1590,7 @@ class ['loc] mapper =
       else
         { value; raw; comments = comments' }
 
-    method number_literal_type _loc (lit : 'loc Ast.NumberLiteral.t) =
+    method number_literal _loc (lit : 'loc Ast.NumberLiteral.t) =
       let open Ast.NumberLiteral in
       let { value; raw; comments } = lit in
       let comments' = this#syntax_opt comments in
@@ -1332,7 +1599,7 @@ class ['loc] mapper =
       else
         { value; raw; comments = comments' }
 
-    method bigint_literal_type _loc (lit : 'loc Ast.BigIntLiteral.t) =
+    method bigint_literal _loc (lit : 'loc Ast.BigIntLiteral.t) =
       let open Ast.BigIntLiteral in
       let { value; raw; comments } = lit in
       let comments' = this#syntax_opt comments in
@@ -1341,7 +1608,7 @@ class ['loc] mapper =
       else
         { value; raw; comments = comments' }
 
-    method boolean_literal_type _loc (lit : 'loc Ast.BooleanLiteral.t) =
+    method boolean_literal _loc (lit : 'loc Ast.BooleanLiteral.t) =
       let open Ast.BooleanLiteral in
       let { value; comments } = lit in
       let comments' = this#syntax_opt comments in
@@ -1349,6 +1616,26 @@ class ['loc] mapper =
         lit
       else
         { value; comments = comments' }
+
+    method null_literal _loc comments = this#syntax_opt comments
+
+    method regexp_literal _loc (lit : 'loc Ast.RegExpLiteral.t) =
+      let open Ast.RegExpLiteral in
+      let { pattern; flags; raw; comments } = lit in
+      let comments' = this#syntax_opt comments in
+      if comments == comments' then
+        lit
+      else
+        { pattern; flags; raw; comments = comments' }
+
+    method module_ref_literal _loc (lit : ('loc, 'loc) Ast.ModuleRefLiteral.t) =
+      let open Ast.ModuleRefLiteral in
+      let { value; require_out; prefix_len; legacy_interop; raw; comments } = lit in
+      let comments' = this#syntax_opt comments in
+      if comments == comments' then
+        lit
+      else
+        { value; require_out; prefix_len; legacy_interop; raw; comments }
 
     method nullable_type (t : ('loc, 'loc) Ast.Type.Nullable.t) =
       let open Ast.Type.Nullable in
@@ -1360,15 +1647,51 @@ class ['loc] mapper =
       else
         { argument = argument'; comments = comments' }
 
-    method typeof_type (t : ('loc, 'loc) Ast.Type.Typeof.t) =
-      let open Ast.Type.Typeof in
-      let { argument; comments } = t in
-      let argument' = this#typeof_expression argument in
+    method conditional_type (t : ('loc, 'loc) Ast.Type.Conditional.t) =
+      let open Ast.Type.Conditional in
+      let { check_type; extends_type; true_type; false_type; comments } = t in
+      let check_type' = this#type_ check_type in
+      let extends_type' = this#type_ extends_type in
+      let true_type' = this#type_ true_type in
+      let false_type' = this#type_ false_type in
       let comments' = this#syntax_opt comments in
-      if argument == argument' && comments == comments' then
+      if
+        check_type == check_type'
+        && extends_type == extends_type'
+        && true_type == true_type'
+        && false_type == false_type'
+        && comments == comments'
+      then
         t
       else
-        { argument = argument'; comments = comments' }
+        {
+          check_type = check_type';
+          extends_type = extends_type';
+          true_type = true_type';
+          false_type = false_type';
+          comments = comments';
+        }
+
+    method infer_type (t : ('loc, 'loc) Ast.Type.Infer.t) =
+      let open Ast.Type.Infer in
+      let { tparam; comments } = t in
+      let tparam' = this#type_param tparam in
+      let comments' = this#syntax_opt comments in
+      if tparam == tparam' && comments == comments' then
+        t
+      else
+        { tparam = tparam'; comments = comments' }
+
+    method typeof_type (t : ('loc, 'loc) Ast.Type.Typeof.t) =
+      let open Ast.Type.Typeof in
+      let { argument; targs; comments } = t in
+      let argument' = this#typeof_expression argument in
+      let targs' = map_opt this#type_args targs in
+      let comments' = this#syntax_opt comments in
+      if argument == argument' && targs = targs' && comments == comments' then
+        t
+      else
+        { argument = argument'; targs = targs'; comments = comments' }
 
     method typeof_expression (git : ('loc, 'loc) Ast.Type.Typeof.Target.t) =
       let open Ast.Type.Typeof.Target in
@@ -1390,15 +1713,73 @@ class ['loc] mapper =
       else
         (loc, { qualification = qualification'; id = id' })
 
-    method tuple_type (t : ('loc, 'loc) Ast.Type.Tuple.t) =
-      let open Ast.Type.Tuple in
-      let { types; comments } = t in
-      let types' = map_list this#type_ types in
+    method keyof_type (t : ('loc, 'loc) Ast.Type.Keyof.t) =
+      let open Ast.Type.Keyof in
+      let { argument; comments } = t in
+      let argument' = this#type_ argument in
       let comments' = this#syntax_opt comments in
-      if types == types' && comments == comments' then
+      if argument == argument' && comments == comments' then
         t
       else
-        { types = types'; comments = comments' }
+        { argument = argument'; comments = comments' }
+
+    method render_type (t : ('loc, 'loc) Ast.Type.Renders.t) =
+      let open Ast.Type.Renders in
+      let { operator_loc; argument; variant; comments } = t in
+      let argument' = this#type_ argument in
+      let comments' = this#syntax_opt comments in
+      if argument == argument' && comments == comments' then
+        t
+      else
+        { operator_loc; argument = argument'; comments = comments'; variant }
+
+    method readonly_type (t : ('loc, 'loc) Ast.Type.ReadOnly.t) =
+      let open Ast.Type.ReadOnly in
+      let { argument; comments } = t in
+      let argument' = this#type_ argument in
+      let comments' = this#syntax_opt comments in
+      if argument == argument' && comments == comments' then
+        t
+      else
+        { argument = argument'; comments = comments' }
+
+    method tuple_type (t : ('loc, 'loc) Ast.Type.Tuple.t) =
+      let open Ast.Type.Tuple in
+      let { elements; comments } = t in
+      let elements' = map_list this#tuple_element elements in
+      let comments' = this#syntax_opt comments in
+      if elements == elements' && comments == comments' then
+        t
+      else
+        { elements = elements'; comments = comments' }
+
+    method tuple_element (el : ('loc, 'loc) Ast.Type.Tuple.element) =
+      let open Ast.Type.Tuple in
+      match el with
+      | (loc, UnlabeledElement t) -> id this#type_ t el (fun t -> (loc, UnlabeledElement t))
+      | (loc, LabeledElement e) ->
+        id this#tuple_labeled_element e el (fun e -> (loc, LabeledElement e))
+      | (loc, SpreadElement e) -> id this#tuple_spread_element e el (fun e -> (loc, SpreadElement e))
+
+    method tuple_labeled_element (t : ('loc, 'loc) Ast.Type.Tuple.LabeledElement.t) =
+      let open Ast.Type.Tuple.LabeledElement in
+      (* Tuple element labels are not bindings so don't map over `name`. *)
+      let { annot; name; variance; optional } = t in
+      let annot' = this#type_ annot in
+      let variance' = this#variance_opt variance in
+      if annot' == annot && variance' == variance then
+        t
+      else
+        { annot = annot'; name; variance = variance'; optional }
+
+    method tuple_spread_element (t : ('loc, 'loc) Ast.Type.Tuple.SpreadElement.t) =
+      let open Ast.Type.Tuple.SpreadElement in
+      let { annot; name } = t in
+      let annot' = this#type_ annot in
+      if annot' == annot then
+        t
+      else
+        { annot = annot'; name }
 
     method array_type (t : ('loc, 'loc) Ast.Type.Array.t) =
       let open Ast.Type.Array in
@@ -1452,29 +1833,41 @@ class ['loc] mapper =
         id this#syntax_opt comments t (fun comments -> (loc, BigInt comments))
       | (loc, String comments) ->
         id this#syntax_opt comments t (fun comments -> (loc, String comments))
-      | (loc, Boolean comments) ->
-        id this#syntax_opt comments t (fun comments -> (loc, Boolean comments))
+      | (loc, Boolean { raw; comments }) ->
+        id this#syntax_opt comments t (fun comments -> (loc, Boolean { raw; comments }))
       | (loc, Exists comments) ->
         id this#syntax_opt comments t (fun comments -> (loc, Exists comments))
+      | (loc, Unknown comments) ->
+        id this#syntax_opt comments t (fun comments -> (loc, Unknown comments))
+      | (loc, Never comments) ->
+        id this#syntax_opt comments t (fun comments -> (loc, Never comments))
+      | (loc, Undefined comments) ->
+        id this#syntax_opt comments t (fun comments -> (loc, Undefined comments))
       | (loc, Nullable t') -> id this#nullable_type t' t (fun t' -> (loc, Nullable t'))
       | (loc, Array t') -> id this#array_type t' t (fun t' -> (loc, Array t'))
+      | (loc, Conditional t') -> id this#conditional_type t' t (fun t' -> (loc, Conditional t'))
+      | (loc, Infer t') -> id this#infer_type t' t (fun t' -> (loc, Infer t'))
       | (loc, Typeof t') -> id this#typeof_type t' t (fun t' -> (loc, Typeof t'))
+      | (loc, Keyof t') -> id this#keyof_type t' t (fun t' -> (loc, Keyof t'))
+      | (loc, Renders t') -> id this#render_type t' t (fun t' -> (loc, Renders t'))
+      | (loc, ReadOnly t') -> id this#readonly_type t' t (fun t' -> (loc, ReadOnly t'))
       | (loc, Function ft) -> id_loc this#function_type loc ft t (fun ft -> (loc, Function ft))
+      | (loc, Component ct) -> id_loc this#component_type loc ct t (fun ct -> (loc, Component ct))
       | (loc, Object ot) -> id_loc this#object_type loc ot t (fun ot -> (loc, Object ot))
       | (loc, Interface i) -> id_loc this#interface_type loc i t (fun i -> (loc, Interface i))
       | (loc, Generic gt) -> id_loc this#generic_type loc gt t (fun gt -> (loc, Generic gt))
       | (loc, IndexedAccess ia) ->
-        id_loc this#indexed_access loc ia t (fun ia -> (loc, IndexedAccess ia))
+        id_loc this#indexed_access_type loc ia t (fun ia -> (loc, IndexedAccess ia))
       | (loc, OptionalIndexedAccess ia) ->
-        id_loc this#optional_indexed_access loc ia t (fun ia -> (loc, OptionalIndexedAccess ia))
+        id_loc this#optional_indexed_access_type loc ia t (fun ia -> (loc, OptionalIndexedAccess ia))
       | (loc, StringLiteral lit) ->
-        id_loc this#string_literal_type loc lit t (fun lit -> (loc, StringLiteral lit))
+        id_loc this#string_literal loc lit t (fun lit -> (loc, StringLiteral lit))
       | (loc, NumberLiteral lit) ->
-        id_loc this#number_literal_type loc lit t (fun lit -> (loc, NumberLiteral lit))
+        id_loc this#number_literal loc lit t (fun lit -> (loc, NumberLiteral lit))
       | (loc, BigIntLiteral lit) ->
-        id_loc this#bigint_literal_type loc lit t (fun lit -> (loc, BigIntLiteral lit))
+        id_loc this#bigint_literal loc lit t (fun lit -> (loc, BigIntLiteral lit))
       | (loc, BooleanLiteral lit) ->
-        id_loc this#boolean_literal_type loc lit t (fun lit -> (loc, BooleanLiteral lit))
+        id_loc this#boolean_literal loc lit t (fun lit -> (loc, BooleanLiteral lit))
       | (loc, Union t') -> id_loc this#union_type loc t' t (fun t' -> (loc, Union t'))
       | (loc, Intersection t') ->
         id_loc this#intersection_type loc t' t (fun t' -> (loc, Intersection t'))
@@ -1487,13 +1880,19 @@ class ['loc] mapper =
     method type_annotation_hint (return : ('M, 'T) Ast.Type.annotation_or_hint) =
       let open Ast.Type in
       match return with
-      | Available annot ->
-        let annot' = this#type_annotation annot in
-        if annot' == annot then
-          return
-        else
-          Available annot'
+      | Available annot -> id this#type_annotation annot return (fun a -> Available a)
       | Missing _loc -> return
+
+    method component_renders_annotation (renders : ('M, 'T) Ast.Type.component_renders_annotation) =
+      let open Ast.Type in
+      match renders with
+      | AvailableRenders (loc, render_type) ->
+        let render_type' = this#render_type render_type in
+        if render_type' == render_type then
+          renders
+        else
+          AvailableRenders (loc, render_type')
+      | MissingRenders _loc -> renders
 
     method function_declaration loc (stmt : ('loc, 'loc) Ast.Function.t) = this#function_ loc stmt
 
@@ -1526,7 +1925,7 @@ class ['loc] mapper =
       let ident' = map_opt this#function_identifier ident in
       let tparams' = map_opt this#type_params tparams in
       let params' = this#function_params params in
-      let return' = this#type_annotation_hint return in
+      let return' = this#function_return_annotation return in
       let body' = this#function_body_any body in
       let predicate' = map_opt this#predicate predicate in
       let comments' = this#syntax_opt comments in
@@ -1581,28 +1980,34 @@ class ['loc] mapper =
       let open Ast.Function.Param in
       let (loc, { argument; default }) = param in
       let argument' = this#function_param_pattern argument in
-      let default' = map_opt this#expression default in
+      let default' = this#default_opt default in
       if argument == argument' && default == default' then
         param
       else
         (loc, { argument = argument'; default = default' })
+
+    method function_return_annotation (return : ('loc, 'loc) Ast.Function.ReturnAnnot.t) =
+      let open Ast.Function.ReturnAnnot in
+      match return with
+      | Missing _loc -> return
+      | Available t -> id this#type_annotation t return (fun rt -> Available rt)
+      | TypeGuard g -> id this#type_guard_annotation g return (fun tg -> TypeGuard tg)
 
     method function_body_any (body : ('loc, 'loc) Ast.Function.body) =
       match body with
       | Ast.Function.BodyBlock block ->
         id this#function_body block body (fun block -> Ast.Function.BodyBlock block)
       | Ast.Function.BodyExpression expr ->
-        id this#expression expr body (fun expr -> Ast.Function.BodyExpression expr)
+        id this#body_expression expr body (fun expr -> Ast.Function.BodyExpression expr)
 
     method function_body (body : 'loc * ('loc, 'loc) Ast.Statement.Block.t) =
       let (loc, block) = body in
       id_loc this#block loc block body (fun block -> (loc, block))
 
-    method function_identifier (ident : ('loc, 'loc) Ast.Identifier.t) =
-      this#pattern_identifier ~kind:Ast.Statement.VariableDeclaration.Var ident
+    method body_expression (expr : ('loc, 'loc) Ast.Expression.t) = this#expression expr
 
-    (* TODO *)
-    method generator _loc (expr : ('loc, 'loc) Ast.Expression.Generator.t) = expr
+    method function_identifier (ident : ('loc, 'loc) Ast.Identifier.t) =
+      this#pattern_identifier ~kind:Ast.Variable.Var ident
 
     method identifier (id : ('loc, 'loc) Ast.Identifier.t) =
       let open Ast.Identifier in
@@ -1706,7 +2111,16 @@ class ['loc] mapper =
       let { import_kind; source; specifiers; default; comments } = decl in
       let source' = map_loc this#import_source source in
       let specifiers' = map_opt (this#import_specifier ~import_kind) specifiers in
-      let default' = map_opt (this#import_default_specifier ~import_kind) default in
+      let default' =
+        map_opt
+          (fun ({ identifier; remote_default_name_def_loc } as id) ->
+            let identifier' = this#import_default_specifier ~import_kind identifier in
+            if identifier' == identifier then
+              id
+            else
+              { identifier = identifier'; remote_default_name_def_loc })
+          default
+      in
       let comments' = this#syntax_opt comments in
       if
         source == source'
@@ -1756,7 +2170,7 @@ class ['loc] mapper =
         ~(import_kind : Ast.Statement.ImportDeclaration.import_kind)
         (specifier : ('loc, 'loc) Ast.Statement.ImportDeclaration.named_specifier) =
       let open Ast.Statement.ImportDeclaration in
-      let { kind; local; remote } = specifier in
+      let { kind; local; remote; remote_name_def_loc } = specifier in
       let (is_type_remote, is_type_local) =
         match (import_kind, kind) with
         | (ImportType, _)
@@ -1773,7 +2187,7 @@ class ['loc] mapper =
           if is_type_remote then
             this#binding_type_identifier remote
           else
-            this#pattern_identifier ~kind:Ast.Statement.VariableDeclaration.Let remote
+            this#pattern_identifier ~kind:Ast.Variable.Let remote
         | Some _ -> this#remote_identifier remote
       in
       let local' =
@@ -1784,14 +2198,14 @@ class ['loc] mapper =
             if is_type_local then
               this#binding_type_identifier
             else
-              this#pattern_identifier ~kind:Ast.Statement.VariableDeclaration.Let
+              this#pattern_identifier ~kind:Ast.Variable.Let
           in
           id local_visitor ident local (fun ident -> Some ident)
       in
       if local == local' && remote == remote' then
         specifier
       else
-        { kind; local = local'; remote = remote' }
+        { kind; local = local'; remote = remote'; remote_name_def_loc }
 
     method import_default_specifier ~import_kind (id : ('loc, 'loc) Ast.Identifier.t) =
       let open Ast.Statement.ImportDeclaration in
@@ -1800,7 +2214,7 @@ class ['loc] mapper =
         | ImportType
         | ImportTypeof ->
           this#binding_type_identifier
-        | _ -> this#pattern_identifier ~kind:Ast.Statement.VariableDeclaration.Let
+        | _ -> this#pattern_identifier ~kind:Ast.Variable.Let
       in
       local_visitor id
 
@@ -1811,7 +2225,7 @@ class ['loc] mapper =
         | ImportType
         | ImportTypeof ->
           this#binding_type_identifier
-        | _ -> this#pattern_identifier ~kind:Ast.Statement.VariableDeclaration.Let
+        | _ -> this#pattern_identifier ~kind:Ast.Variable.Let
       in
       local_visitor id
 
@@ -1849,13 +2263,14 @@ class ['loc] mapper =
 
     method jsx_opening_element (elem : ('loc, 'loc) Ast.JSX.Opening.t) =
       let open Ast.JSX.Opening in
-      let (loc, { name; self_closing; attributes }) = elem in
+      let (loc, { name; targs; self_closing; attributes }) = elem in
       let name' = this#jsx_element_name name in
+      let targs' = map_opt this#call_type_args targs in
       let attributes' = map_list this#jsx_opening_attribute attributes in
-      if name == name' && attributes == attributes' then
+      if name == name' && targs == targs' && attributes == attributes' then
         elem
       else
-        (loc, { name = name'; self_closing; attributes = attributes' })
+        (loc, { name = name'; targs = targs'; self_closing; attributes = attributes' })
 
     method jsx_closing_element (elem : ('loc, 'loc) Ast.JSX.Closing.t) =
       let open Ast.JSX.Closing in
@@ -1908,8 +2323,8 @@ class ['loc] mapper =
     method jsx_attribute_value (value : ('loc, 'loc) Ast.JSX.Attribute.value) =
       let open Ast.JSX.Attribute in
       match value with
-      | Literal (loc, lit) ->
-        id_loc this#jsx_attribute_value_literal loc lit value (fun lit -> Literal (loc, lit))
+      | StringLiteral (loc, lit) ->
+        id_loc this#jsx_attribute_value_literal loc lit value (fun lit -> StringLiteral (loc, lit))
       | ExpressionContainer (loc, expr) ->
         id_loc this#jsx_attribute_value_expression loc expr value (fun expr ->
             ExpressionContainer (loc, expr)
@@ -1919,7 +2334,8 @@ class ['loc] mapper =
         =
       this#jsx_expression loc jsx_expr
 
-    method jsx_attribute_value_literal loc (lit : 'loc Ast.Literal.t) = this#literal loc lit
+    method jsx_attribute_value_literal loc (lit : 'loc Ast.StringLiteral.t) =
+      this#string_literal loc lit
 
     method jsx_children ((loc, children) as orig : 'loc * ('loc, 'loc) Ast.JSX.child list) =
       let children' = map_list this#jsx_child children in
@@ -2036,15 +2452,6 @@ class ['loc] mapper =
       else
         { label = label'; body = body'; comments = comments' }
 
-    method literal _loc (expr : 'loc Ast.Literal.t) =
-      let open Ast.Literal in
-      let { value; raw; comments } = expr in
-      let comments' = this#syntax_opt comments in
-      if comments == comments' then
-        expr
-      else
-        { value; raw; comments = comments' }
-
     method logical _loc (expr : ('loc, 'loc) Ast.Expression.Logical.t) =
       let open Ast.Expression.Logical in
       let { operator = _; left; right; comments } = expr in
@@ -2109,7 +2516,7 @@ class ['loc] mapper =
       let { callee; targs; arguments; comments } = expr in
       let callee' = this#expression callee in
       let targs' = map_opt this#call_type_args targs in
-      let arguments' = map_opt this#call_arguments arguments in
+      let arguments' = map_opt this#arg_list arguments in
       let comments' = this#syntax_opt comments in
       if callee == callee' && targs == targs' && arguments == arguments' && comments == comments'
       then
@@ -2193,14 +2600,24 @@ class ['loc] mapper =
     method object_key (key : ('loc, 'loc) Ast.Expression.Object.Property.key) =
       let open Ast.Expression.Object.Property in
       match key with
-      | Literal literal -> id this#object_key_literal literal key (fun lit -> Literal lit)
+      | StringLiteral lit -> id this#object_key_string_literal lit key (fun lit -> StringLiteral lit)
+      | NumberLiteral lit -> id this#object_key_number_literal lit key (fun lit -> NumberLiteral lit)
+      | BigIntLiteral lit -> id this#object_key_bigint_literal lit key (fun lit -> BigIntLiteral lit)
       | Identifier ident -> id this#object_key_identifier ident key (fun ident -> Identifier ident)
       | PrivateName ident -> id this#private_name ident key (fun ident -> PrivateName ident)
       | Computed computed -> id this#object_key_computed computed key (fun expr -> Computed expr)
 
-    method object_key_literal (literal : 'loc * 'loc Ast.Literal.t) =
+    method object_key_string_literal (literal : 'loc * 'loc Ast.StringLiteral.t) =
       let (loc, lit) = literal in
-      id_loc this#literal loc lit literal (fun lit -> (loc, lit))
+      id_loc this#string_literal loc lit literal (fun lit -> (loc, lit))
+
+    method object_key_number_literal (literal : 'loc * 'loc Ast.NumberLiteral.t) =
+      let (loc, lit) = literal in
+      id_loc this#number_literal loc lit literal (fun lit -> (loc, lit))
+
+    method object_key_bigint_literal (literal : 'loc * 'loc Ast.BigIntLiteral.t) =
+      let (loc, lit) = literal in
+      id_loc this#bigint_literal loc lit literal (fun lit -> (loc, lit))
 
     method object_key_identifier (ident : ('loc, 'loc) Ast.Identifier.t) = this#identifier ident
 
@@ -2233,13 +2650,13 @@ class ['loc] mapper =
         }
 
     method function_param_pattern (expr : ('loc, 'loc) Ast.Pattern.t) =
-      this#binding_pattern ~kind:Ast.Statement.VariableDeclaration.Let expr
+      this#binding_pattern ~kind:Ast.Variable.Let expr
 
     method variable_declarator_pattern ~kind (expr : ('loc, 'loc) Ast.Pattern.t) =
       this#binding_pattern ~kind expr
 
     method catch_clause_pattern (expr : ('loc, 'loc) Ast.Pattern.t) =
-      this#binding_pattern ~kind:Ast.Statement.VariableDeclaration.Let expr
+      this#binding_pattern ~kind:Ast.Variable.Let expr
 
     method for_in_assignment_pattern (expr : ('loc, 'loc) Ast.Pattern.t) =
       this#assignment_pattern expr
@@ -2247,8 +2664,7 @@ class ['loc] mapper =
     method for_of_assignment_pattern (expr : ('loc, 'loc) Ast.Pattern.t) =
       this#assignment_pattern expr
 
-    method binding_pattern
-        ?(kind = Ast.Statement.VariableDeclaration.Var) (expr : ('loc, 'loc) Ast.Pattern.t) =
+    method binding_pattern ?(kind = Ast.Variable.Var) (expr : ('loc, 'loc) Ast.Pattern.t) =
       this#pattern ~kind expr
 
     method assignment_pattern (expr : ('loc, 'loc) Ast.Pattern.t) = this#pattern expr
@@ -2296,9 +2712,17 @@ class ['loc] mapper =
       ignore kind;
       this#identifier ident
 
-    method pattern_literal ?kind loc (expr : 'loc Ast.Literal.t) =
+    method pattern_string_literal ?kind loc (expr : 'loc Ast.StringLiteral.t) =
       ignore kind;
-      this#literal loc expr
+      this#string_literal loc expr
+
+    method pattern_number_literal ?kind loc (expr : 'loc Ast.NumberLiteral.t) =
+      ignore kind;
+      this#number_literal loc expr
+
+    method pattern_bigint_literal ?kind loc (expr : 'loc Ast.BigIntLiteral.t) =
+      ignore kind;
+      this#bigint_literal loc expr
 
     method pattern_object_p ?kind (p : ('loc, 'loc) Ast.Pattern.Object.property) =
       let open Ast.Pattern.Object in
@@ -2312,7 +2736,7 @@ class ['loc] mapper =
       let (loc, { key; pattern; default; shorthand }) = prop in
       let key' = this#pattern_object_property_key ?kind key in
       let pattern' = this#pattern_object_property_pattern ?kind pattern in
-      let default' = map_opt this#expression default in
+      let default' = this#default_opt default in
       let shorthand' =
         (* Try to figure out if shorthand should still be true--if
             key and value change differently, it should become false *)
@@ -2336,8 +2760,18 @@ class ['loc] mapper =
     method pattern_object_property_key ?kind (key : ('loc, 'loc) Ast.Pattern.Object.Property.key) =
       let open Ast.Pattern.Object.Property in
       match key with
-      | Literal lit ->
-        id (this#pattern_object_property_literal_key ?kind) lit key (fun lit' -> Literal lit')
+      | StringLiteral lit ->
+        id (this#pattern_object_property_string_literal_key ?kind) lit key (fun lit' ->
+            StringLiteral lit'
+        )
+      | NumberLiteral lit ->
+        id (this#pattern_object_property_number_literal_key ?kind) lit key (fun lit' ->
+            NumberLiteral lit'
+        )
+      | BigIntLiteral lit ->
+        id (this#pattern_object_property_bigint_literal_key ?kind) lit key (fun lit' ->
+            BigIntLiteral lit'
+        )
       | Identifier identifier ->
         id (this#pattern_object_property_identifier_key ?kind) identifier key (fun id' ->
             Identifier id'
@@ -2345,9 +2779,20 @@ class ['loc] mapper =
       | Computed expr ->
         id (this#pattern_object_property_computed_key ?kind) expr key (fun expr' -> Computed expr')
 
-    method pattern_object_property_literal_key ?kind (literal : 'loc * 'loc Ast.Literal.t) =
+    method pattern_object_property_string_literal_key
+        ?kind (literal : 'loc * 'loc Ast.StringLiteral.t) =
       let (loc, key) = literal in
-      id_loc (this#pattern_literal ?kind) loc key literal (fun key' -> (loc, key'))
+      id_loc (this#pattern_string_literal ?kind) loc key literal (fun key' -> (loc, key'))
+
+    method pattern_object_property_number_literal_key
+        ?kind (literal : 'loc * 'loc Ast.NumberLiteral.t) =
+      let (loc, key) = literal in
+      id_loc (this#pattern_number_literal ?kind) loc key literal (fun key' -> (loc, key'))
+
+    method pattern_object_property_bigint_literal_key
+        ?kind (literal : 'loc * 'loc Ast.BigIntLiteral.t) =
+      let (loc, key) = literal in
+      id_loc (this#pattern_bigint_literal ?kind) loc key literal (fun key' -> (loc, key'))
 
     method pattern_object_property_identifier_key ?kind (key : ('loc, 'loc) Ast.Identifier.t) =
       this#pattern_identifier ?kind key
@@ -2384,7 +2829,7 @@ class ['loc] mapper =
       let open Ast.Pattern.Array.Element in
       let (loc, { argument; default }) = elem in
       let argument' = this#pattern_array_element_pattern ?kind argument in
-      let default' = map_opt this#expression default in
+      let default' = this#default_opt default in
       if argument == argument' && default == default' then
         elem
       else
@@ -2423,6 +2868,26 @@ class ['loc] mapper =
         (loc, { kind = kind'; comments = comments' })
 
     method predicate_expression (expr : ('loc, 'loc) Ast.Expression.t) = this#expression expr
+
+    method type_guard_annotation
+        (type_guard_annotation : ('loc, 'loc) Ast.Type.type_guard_annotation) =
+      let (loc, type_guard) = type_guard_annotation in
+      let type_guard' = this#type_guard type_guard in
+      if type_guard' = type_guard then
+        type_guard_annotation
+      else
+        (loc, type_guard')
+
+    method type_guard (guard : ('loc, 'loc) Ast.Type.TypeGuard.t) =
+      let open Ast.Type.TypeGuard in
+      let (loc, { asserts; guard = (x, t); comments }) = guard in
+      let x' = this#identifier x in
+      let t' = map_opt this#type_ t in
+      let comments' = this#syntax_opt comments in
+      if x' == x && t' == t && comments' == comments then
+        guard
+      else
+        (loc, { asserts; guard = (x', t'); comments = comments' })
 
     method function_rest_param (expr : ('loc, 'loc) Ast.Function.RestParam.t) =
       let open Ast.Function.RestParam in
@@ -2590,6 +3055,26 @@ class ['loc] mapper =
         expr
       else
         { expression = expression'; annot = annot'; comments = comments' }
+
+    method ts_type_cast _loc (expr : ('loc, 'loc) Ast.Expression.TSTypeCast.t) =
+      let open Ast.Expression.TSTypeCast in
+      let { expression; kind; comments } = expr in
+      let expression' = this#expression expression in
+      let kind' =
+        match kind with
+        | AsConst -> kind
+        | Satisfies annot ->
+          let annot' = this#type_ annot in
+          if annot == annot' then
+            kind
+          else
+            Satisfies annot'
+      in
+      let comments' = this#syntax_opt comments in
+      if expression' == expression && comments' == comments then
+        expr
+      else
+        { expression = expression'; kind = kind'; comments = comments' }
 
     method unary_expression _loc (expr : ('loc, 'loc) Flow_ast.Expression.Unary.t) =
       let open Flow_ast.Expression.Unary in

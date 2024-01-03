@@ -9,7 +9,7 @@ module Ast = Flow_ast
 open Token
 open Parser_env
 open Flow_ast
-module SMap = Map.Make (String)
+module SMap = Flow_map.Make (String)
 open Parser_common
 open Comment_attachment
 
@@ -18,13 +18,16 @@ open Comment_attachment
 
 module type OBJECT = sig
   val key : ?class_body:bool -> env -> Loc.t * (Loc.t, Loc.t) Ast.Expression.Object.Property.key
+
   val _initializer : env -> Loc.t * (Loc.t, Loc.t) Ast.Expression.Object.t * pattern_errors
 
   val class_declaration :
     env -> (Loc.t, Loc.t) Ast.Class.Decorator.t list -> (Loc.t, Loc.t) Ast.Statement.t
 
   val class_expression : env -> (Loc.t, Loc.t) Ast.Expression.t
+
   val class_implements : env -> attach_leading:bool -> (Loc.t, Loc.t) Ast.Class.Implements.t
+
   val decorator_list : env -> (Loc.t, Loc.t) Ast.Class.Decorator.t list
 end
 
@@ -72,25 +75,21 @@ module Object
     | T_STRING (loc, value, raw, octal) ->
       if octal then strict_error env Parse_error.StrictOctalLiteral;
       Expect.token env (T_STRING (loc, value, raw, octal));
-      let value = Literal.String value in
       let trailing = Eat.trailing_comments env in
-      ( loc,
-        Literal
-          ( loc,
-            { Literal.value; raw; comments = Flow_ast_utils.mk_comments_opt ~leading ~trailing () }
-          )
-      )
+      let comments = Flow_ast_utils.mk_comments_opt ~leading ~trailing () in
+      (loc, StringLiteral (loc, { Ast.StringLiteral.value; raw; comments }))
     | T_NUMBER { kind; raw } ->
       let loc = Peek.loc env in
       let value = Expression.number env kind raw in
-      let value = Literal.Number value in
       let trailing = Eat.trailing_comments env in
-      ( loc,
-        Literal
-          ( loc,
-            { Literal.value; raw; comments = Flow_ast_utils.mk_comments_opt ~leading ~trailing () }
-          )
-      )
+      let comments = Flow_ast_utils.mk_comments_opt ~leading ~trailing () in
+      (loc, NumberLiteral (loc, { Ast.NumberLiteral.value; raw; comments }))
+    | T_BIGINT { kind; raw } ->
+      let loc = Peek.loc env in
+      let value = Expression.bigint env kind raw in
+      let trailing = Eat.trailing_comments env in
+      let comments = Flow_ast_utils.mk_comments_opt ~leading ~trailing () in
+      (loc, BigIntLiteral (loc, { Ast.BigIntLiteral.value; raw; comments }))
     | T_LBRACKET ->
       let (loc, key) =
         with_loc
@@ -179,7 +178,9 @@ module Object
                   | (true, _) -> error_at env (key_loc, Parse_error.GetterArity)
                   | (false, _) -> error_at env (key_loc, Parse_error.SetterArity)
                 end;
-                let return = type_annotation_hint_remove_trailing env (Type.annotation_opt env) in
+                let return =
+                  return_annotation_remove_trailing env (Type.function_return_annotation_opt env)
+                in
                 (tparams, params, return))
               env
           in
@@ -187,7 +188,7 @@ module Object
           let (body, contains_use_strict) =
             Declaration.function_body env ~async ~generator ~expression:false ~simple_params
           in
-          Declaration.strict_post_check env ~contains_use_strict None params;
+          Declaration.strict_function_post_check env ~contains_use_strict None params;
           {
             Function.id = None;
             params;
@@ -233,12 +234,18 @@ module Object
       (* #prod-IdentifierReference *)
       let parse_shorthand env key =
         match key with
-        | Literal (loc, lit) ->
+        | StringLiteral (loc, lit) ->
           error_at env (loc, Parse_error.LiteralShorthandProperty);
-          (loc, Ast.Expression.Literal lit)
+          (loc, Ast.Expression.StringLiteral lit)
+        | NumberLiteral (loc, lit) ->
+          error_at env (loc, Parse_error.LiteralShorthandProperty);
+          (loc, Ast.Expression.NumberLiteral lit)
+        | BigIntLiteral (loc, lit) ->
+          error_at env (loc, Parse_error.LiteralShorthandProperty);
+          (loc, Ast.Expression.BigIntLiteral lit)
         | Identifier ((loc, { Identifier.name; comments = _ }) as id) ->
           (* #sec-identifiers-static-semantics-early-errors *)
-          if is_reserved name && name <> "yield" && name <> "await" then
+          if is_reserved name then
             (* it is a syntax error if `name` is a reserved word other than await or yield *)
             error_at env (loc, Parse_error.UnexpectedReserved)
           else if is_strict_reserved name then
@@ -260,22 +267,15 @@ module Object
                 (fun env ->
                   let tparams = type_params_remove_trailing env (Type.type_params env) in
                   let params =
-                    let (yield, await) =
-                      match (async, generator) with
-                      | (true, true) ->
-                        (true, true) (* proposal-async-iteration/#prod-AsyncGeneratorMethod *)
-                      | (true, false) -> (false, allow_await env) (* #prod-AsyncMethod *)
-                      | (false, true) -> (true, false) (* #prod-GeneratorMethod *)
-                      | (false, false) -> (false, false)
-                      (* #prod-MethodDefinition *)
-                    in
-                    let params = Declaration.function_params ~await ~yield env in
+                    let params = Declaration.function_params ~await:async ~yield:generator env in
                     if Peek.token env = T_COLON then
                       params
                     else
                       function_params_remove_trailing env params
                   in
-                  let return = type_annotation_hint_remove_trailing env (Type.annotation_opt env) in
+                  let return =
+                    return_annotation_remove_trailing env (Type.function_return_annotation_opt env)
+                  in
                   (tparams, params, return))
                 env
             in
@@ -283,7 +283,7 @@ module Object
             let (body, contains_use_strict) =
               Declaration.function_body env ~async ~generator ~expression:false ~simple_params
             in
-            Declaration.strict_post_check env ~contains_use_strict None params;
+            Declaration.strict_function_post_check env ~contains_use_strict None params;
             {
               Function.id = None;
               params;
@@ -331,7 +331,9 @@ module Object
             }
           in
           (ast, errs)
-        | Property.Literal _
+        | Property.StringLiteral _
+        | Property.NumberLiteral _
+        | Property.BigIntLiteral _
         | Property.PrivateName _
         | Property.Computed _ ->
           parse_value env
@@ -621,6 +623,13 @@ module Object
     in
     (extends, implements)
 
+  let string_value_of_key key =
+    match key with
+    | Ast.Expression.Object.Property.Identifier (key_loc, { Identifier.name; comments = _ })
+    | Ast.Expression.Object.Property.StringLiteral (key_loc, { StringLiteral.value = name; _ }) ->
+      Some (key_loc, name)
+    | _ -> None
+
   (* In the ES6 draft, all elements are methods. No properties (though there
    * are getter and setters allowed *)
   let class_element =
@@ -628,6 +637,17 @@ module Object
       let (loc, (key, value)) =
         with_loc ~start_loc (fun env -> getter_or_setter env ~in_class_body:true true) env
       in
+      (match (static, string_value_of_key key) with
+      | (false, Some (key_loc, "constructor")) ->
+        error_at env (key_loc, Parse_error.ConstructorCannotBeAccessor)
+      | (true, Some (key_loc, "prototype")) ->
+        error_at
+          env
+          ( key_loc,
+            Parse_error.InvalidClassMemberName
+              { name = "prototype"; static; method_ = false; private_ = false }
+          )
+      | _ -> ());
       let open Ast.Class in
       Body.Method
         ( loc,
@@ -645,6 +665,17 @@ module Object
       let (loc, (key, value)) =
         with_loc ~start_loc (fun env -> getter_or_setter env ~in_class_body:true false) env
       in
+      (match (static, string_value_of_key key) with
+      | (false, Some (key_loc, "constructor")) ->
+        error_at env (key_loc, Parse_error.ConstructorCannotBeAccessor)
+      | (true, Some (key_loc, "prototype")) ->
+        error_at
+          env
+          ( key_loc,
+            Parse_error.InvalidClassMemberName
+              { name = "prototype"; static; method_ = false; private_ = false }
+          )
+      | _ -> ());
       let open Ast.Class in
       Body.Method
         ( loc,
@@ -717,7 +748,7 @@ module Object
         in
         (key, annot, value, [])
     in
-    let property env start_loc key static declare variance leading =
+    let property env start_loc decorators key static declare variance leading =
       let (loc, (key, annot, value, comments)) =
         with_loc
           ~start_loc
@@ -740,13 +771,13 @@ module Object
             (key, annot, value, Flow_ast_utils.mk_comments_opt ~leading ~trailing ()))
           env
       in
+      let open Ast.Class in
       match key with
-      | Ast.Expression.Object.Property.PrivateName private_name ->
-        let open Ast.Class in
+      | Ast.Expression.Object.Property.PrivateName key ->
         Body.PrivateField
-          (loc, { PrivateField.key = private_name; value; annot; static; variance; comments })
+          (loc, { PrivateField.key; value; annot; static; variance; decorators; comments })
       | _ ->
-        Ast.Class.(Body.Property (loc, { Property.key; value; annot; static; variance; comments }))
+        Body.Property (loc, { Property.key; value; annot; static; variance; decorators; comments })
     in
     let is_asi env =
       match Peek.token env with
@@ -762,7 +793,7 @@ module Object
       | T_SEMICOLON
       | T_RCURLY
         when (not async) && not generator ->
-        property env start_loc key static declare variance leading
+        property env start_loc decorators key static declare variance leading
       | T_PLING ->
         (* TODO: add support for optional class properties *)
         error_unexpected env;
@@ -770,21 +801,24 @@ module Object
         init env start_loc decorators key ~async ~generator ~static ~declare variance leading
       | _ when is_asi env ->
         (* an uninitialized, unannotated property *)
-        property env start_loc key static declare variance leading
+        property env start_loc decorators key static declare variance leading
       | _ ->
         error_unsupported_declare env declare;
         error_unsupported_variance env variance;
         let (kind, env) =
-          match (static, key) with
-          | ( false,
-              Ast.Expression.Object.Property.Identifier
-                (_, { Identifier.name = "constructor"; comments = _ })
-            )
-          | ( false,
-              Ast.Expression.Object.Property.Literal
-                (_, { Literal.value = Literal.String "constructor"; _ })
-            ) ->
+          match (static, string_value_of_key key) with
+          | (false, Some (key_loc, "constructor")) ->
+            if async then error_at env (key_loc, Parse_error.ConstructorCannotBeAsync);
+            if generator then error_at env (key_loc, Parse_error.ConstructorCannotBeGenerator);
             (Ast.Class.Method.Constructor, env |> with_allow_super Super_prop_or_call)
+          | (true, Some (key_loc, "prototype")) ->
+            error_at
+              env
+              ( key_loc,
+                Parse_error.InvalidClassMemberName
+                  { name = "prototype"; static; method_ = true; private_ = false }
+              );
+            (Ast.Class.Method.Method, env |> with_allow_super Super_prop)
           | _ -> (Ast.Class.Method.Method, env |> with_allow_super Super_prop)
         in
         let key = object_key_remove_trailing env key in
@@ -796,16 +830,7 @@ module Object
                   (fun env ->
                     let tparams = type_params_remove_trailing env (Type.type_params env) in
                     let params =
-                      let (yield, await) =
-                        match (async, generator) with
-                        | (true, true) ->
-                          (true, true) (* proposal-async-iteration/#prod-AsyncGeneratorMethod *)
-                        | (true, false) -> (false, allow_await env) (* #prod-AsyncMethod *)
-                        | (false, true) -> (true, false) (* #prod-GeneratorMethod *)
-                        | (false, false) -> (false, false)
-                        (* #prod-MethodDefinition *)
-                      in
-                      let params = Declaration.function_params ~await ~yield env in
+                      let params = Declaration.function_params ~await:async ~yield:generator env in
                       let params =
                         if Peek.token env = T_COLON then
                           params
@@ -823,7 +848,7 @@ module Object
                       )
                     in
                     let return =
-                      type_annotation_hint_remove_trailing env (Type.annotation_opt env)
+                      return_annotation_remove_trailing env (Type.function_return_annotation_opt env)
                     in
                     (tparams, params, return))
                   env
@@ -832,7 +857,7 @@ module Object
               let (body, contains_use_strict) =
                 Declaration.function_body env ~async ~generator ~expression:false ~simple_params
               in
-              Declaration.strict_post_check env ~contains_use_strict None params;
+              Declaration.strict_function_post_check env ~contains_use_strict None params;
               {
                 Function.id = None;
                 params;
@@ -885,10 +910,35 @@ module Object
           (ret, leading)
         | _ -> (None, [])
       in
+      (* Error on TS class visibility modifiers. *)
+      (match Peek.token env with
+      | (T_PUBLIC as t)
+      | (T_PRIVATE as t)
+      | (T_PROTECTED as t)
+        when Peek.ith_is_identifier ~i:1 env ->
+        let kind =
+          match t with
+          | T_PUBLIC -> `Public
+          | T_PRIVATE -> `Private
+          | T_PROTECTED -> `Protected
+          | _ -> failwith "Must be one of the above"
+        in
+        error env (Parse_error.TSClassVisibility kind);
+        Eat.token env
+      | _ -> ());
       let static =
-        Peek.ith_token ~i:1 env <> T_LPAREN
-        && Peek.ith_token ~i:1 env <> T_LESS_THAN
-        && Peek.token env = T_STATIC
+        Peek.token env = T_STATIC
+        &&
+        match Peek.ith_token ~i:1 env with
+        | T_ASSIGN (* static = 123 *)
+        | T_COLON (* static: T *)
+        | T_EOF (* incomplete property *)
+        | T_LESS_THAN (* static<T>() {} *)
+        | T_LPAREN (* static() {} *)
+        | T_RCURLY (* end of class *)
+        | T_SEMICOLON (* explicit semicolon *) ->
+          false
+        | _ -> true
       in
       let leading_static =
         if static then (
@@ -913,7 +963,10 @@ module Object
           []
       in
       let (generator, leading_generator) = Declaration.generator env in
-      let variance = Declaration.variance env async generator in
+      let parse_readonly =
+        Peek.ith_is_identifier ~i:1 env || Peek.ith_token ~i:1 env = T_LBRACKET
+      in
+      let variance = Declaration.variance env ~parse_readonly async generator in
       let (generator, leading_generator) =
         match (generator, variance) with
         | (false, Some _) -> Declaration.generator env
@@ -1002,9 +1055,10 @@ module Object
             begin
               match key with
               | Identifier (loc, { Identifier.name; comments = _ })
-              | Literal (loc, { Literal.value = Literal.String name; _ }) ->
+              | StringLiteral (loc, { StringLiteral.value = name; _ }) ->
                 check_property_name env loc name static
-              | Literal _
+              | NumberLiteral _
+              | BigIntLiteral _
               | Computed _ ->
                 ()
               | PrivateName _ ->
@@ -1046,6 +1100,11 @@ module Object
     let env = env |> with_strict true in
     let decorators = decorators @ decorator_list env in
     let leading = Peek.comments env in
+    (match Peek.token env with
+    | T_IDENTIFIER { raw = "abstract"; _ } ->
+      error env Parse_error.TSAbstractClass;
+      Eat.token env
+    | _ -> ());
     Expect.token env T_CLASS;
     let id =
       let tmp_env = env |> with_no_let true in

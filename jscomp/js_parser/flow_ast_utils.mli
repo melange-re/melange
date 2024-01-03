@@ -7,9 +7,9 @@
 
 type 'loc binding = 'loc * string
 
-type 'loc ident = 'loc * string 
+type 'loc ident = 'loc * string [@@deriving show]
 
-type 'loc source = 'loc * string 
+type 'loc source = 'loc * string [@@deriving show]
 
 val fold_bindings_of_pattern :
   ('a -> ('m, 't) Flow_ast.Identifier.t -> 'a) -> 'a -> ('m, 't) Flow_ast.Pattern.t -> 'a
@@ -20,11 +20,13 @@ val fold_bindings_of_variable_declarations :
   ('m, 't) Flow_ast.Statement.VariableDeclaration.Declarator.t list ->
   'a
 
+val pattern_has_binding : ('m, 't) Flow_ast.Pattern.t -> bool
+
 val partition_directives :
   (Loc.t, Loc.t) Flow_ast.Statement.t list ->
   (Loc.t, Loc.t) Flow_ast.Statement.t list * (Loc.t, Loc.t) Flow_ast.Statement.t list
 
-val hoist_function_declarations :
+val hoist_function_and_component_declarations :
   ('a, 'b) Flow_ast.Statement.t list -> ('a, 'b) Flow_ast.Statement.t list
 
 val is_call_to_invariant : ('a, 'b) Flow_ast.Expression.t -> bool
@@ -35,7 +37,11 @@ val is_call_to_object_dot_freeze : ('a, 'b) Flow_ast.Expression.t -> bool
 
 val is_call_to_object_static_method : ('a, 'b) Flow_ast.Expression.t -> bool
 
+val is_super_member_access : ('a, 'b) Flow_ast.Expression.Member.t -> bool
+
 val negate_number_literal : float * string -> float * string
+
+val negate_bigint_literal : int64 option * string -> int64 option * string
 
 val loc_of_expression : ('a, 'a) Flow_ast.Expression.t -> 'a
 
@@ -93,10 +99,8 @@ module ExpressionSort : sig
     | Binary
     | Call
     | Class
-    | Comprehension
     | Conditional
     | Function
-    | Generator
     | Identifier
     | Import
     | JSXElement
@@ -118,7 +122,7 @@ module ExpressionSort : sig
     | Unary
     | Update
     | Yield
-  
+  [@@deriving show]
 
   val to_string : t -> string
 end
@@ -126,3 +130,14 @@ end
 val string_of_assignment_operator : Flow_ast.Expression.Assignment.operator -> string
 
 val string_of_binary_operator : Flow_ast.Expression.Binary.operator -> string
+
+val loc_of_annotation_or_hint : ('loc, 'loc) Flow_ast.Type.annotation_or_hint -> 'loc
+
+val loc_of_return_annot : ('loc, 'loc) Flow_ast.Function.ReturnAnnot.t -> 'loc
+
+val push_toplevel_type :
+  't -> ('loc, 'loc * 't) Flow_ast.Expression.t -> ('loc, 'loc * 't) Flow_ast.Expression.t
+
+val hook_function : ('a, 'b) Flow_ast.Function.t -> 'b option
+
+val hook_call : ('loc, 'loc) Flow_ast.Expression.Call.t -> bool

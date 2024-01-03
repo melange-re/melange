@@ -30,7 +30,9 @@ module Pattern (Parse : Parser_common.PARSER) (Type : Type_parser.TYPE) = struct
             let open Ast.Expression in
             let key =
               match key with
-              | Property.Literal lit -> Pattern.Object.Property.Literal lit
+              | Property.StringLiteral s -> Pattern.Object.Property.StringLiteral s
+              | Property.NumberLiteral n -> Pattern.Object.Property.NumberLiteral n
+              | Property.BigIntLiteral b -> Pattern.Object.Property.BigIntLiteral b
               | Property.Identifier id -> Pattern.Object.Property.Identifier id
               | Property.PrivateName _ -> failwith "Internal Error: Found object private prop"
               | Property.Computed key -> Pattern.Object.Property.Computed key
@@ -206,13 +208,14 @@ module Pattern (Parse : Parser_common.PARSER) (Type : Type_parser.TYPE) = struct
           let key =
             let open Ast.Expression.Object.Property in
             match raw_key with
-            | (_, Literal lit) -> Pattern.Object.Property.Literal lit
+            | (_, StringLiteral lit) -> Pattern.Object.Property.StringLiteral lit
+            | (_, NumberLiteral lit) -> Pattern.Object.Property.NumberLiteral lit
+            | (_, BigIntLiteral lit) -> Pattern.Object.Property.BigIntLiteral lit
             | (_, Identifier id) -> Pattern.Object.Property.Identifier id
             | (_, PrivateName _) -> failwith "Internal Error: Found object private prop"
             | (_, Computed key) -> Pattern.Object.Property.Computed key
           in
-          Some
-            Pattern.Object.(Property (loc, Property.{ key; pattern; default; shorthand = false }))
+          Some Pattern.Object.(Property (loc, Property.{ key; pattern; default; shorthand = false }))
         | _ ->
           (match raw_key with
           | ( _,
@@ -220,7 +223,7 @@ module Pattern (Parse : Parser_common.PARSER) (Type : Type_parser.TYPE) = struct
                 ((id_loc, { Identifier.name = string_val; comments = _ }) as name)
             ) ->
             (* #sec-identifiers-static-semantics-early-errors *)
-            if is_reserved string_val && string_val <> "yield" && string_val <> "await" then
+            if is_reserved string_val then
               (* it is a syntax error if `name` is a reserved word other than await or yield *)
               error_at env (id_loc, Parse_error.UnexpectedReserved)
             else if is_strict_reserved string_val then

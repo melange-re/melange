@@ -8,8 +8,10 @@
 open Flow_ast
 
 type 'loc binding = 'loc * string
-type 'loc ident = 'loc * string
-type 'loc source = 'loc * string
+
+type 'loc ident = 'loc * string [@@deriving show]
+
+type 'loc source = 'loc * string [@@deriving show]
 
 let rec fold_bindings_of_pattern =
   Pattern.(
@@ -57,6 +59,29 @@ let fold_bindings_of_variable_declarations f acc declarations =
     acc
     declarations
 
+let rec pattern_has_binding =
+  let open Pattern in
+  let property =
+    let open Object in
+    function
+    | Property (_, { Property.pattern = p; _ })
+    | RestElement (_, { RestElement.argument = p; comments = _ }) ->
+      pattern_has_binding p
+  in
+  let element =
+    let open Array in
+    function
+    | Hole _ -> false
+    | Element (_, { Element.argument = p; default = _ })
+    | RestElement (_, { RestElement.argument = p; comments = _ }) ->
+      pattern_has_binding p
+  in
+  function
+  | (_, Identifier _) -> true
+  | (_, Object { Object.properties; _ }) -> List.exists property properties
+  | (_, Array { Array.elements; _ }) -> List.exists element elements
+  | (_, Expression _) -> false
+
 let partition_directives statements =
   let open Flow_ast.Statement in
   let rec helper directives = function
@@ -66,32 +91,40 @@ let partition_directives statements =
   in
   helper [] statements
 
-let hoist_function_declarations stmts =
+let hoist_function_and_component_declarations stmts =
   let open Flow_ast.Statement in
-  let (func_decs, other_stmts) =
+  let (func_and_component_decs, other_stmts) =
     List.partition
       (function
-        (* function f() {} *)
-        | (_, FunctionDeclaration { Flow_ast.Function.id = Some _; _ })
-        (* export function f() {} *)
+        (* function f() {} / component F() {} *)
+        | (_, (FunctionDeclaration { Flow_ast.Function.id = Some _; _ } | ComponentDeclaration _))
+        (* export function f() {} / export component F() {} *)
         | ( _,
             ExportNamedDeclaration
               {
                 ExportNamedDeclaration.declaration =
-                  Some (_, FunctionDeclaration { Flow_ast.Function.id = Some _; _ });
+                  Some
+                    ( _,
+                      ( FunctionDeclaration { Flow_ast.Function.id = Some _; _ }
+                      | ComponentDeclaration _ )
+                    );
                 _;
               }
           )
-        (* export default function f() {} *)
+        (* export default function f() {} / export default component F() {} *)
         | ( _,
             ExportDefaultDeclaration
               {
                 ExportDefaultDeclaration.declaration =
                   ExportDefaultDeclaration.Declaration
-                    (_, FunctionDeclaration { Flow_ast.Function.id = Some _; _ });
+                    ( _,
+                      ( FunctionDeclaration { Flow_ast.Function.id = Some _; _ }
+                      | ComponentDeclaration _ )
+                    );
                 _;
               }
           )
+        (* TODO(jmbrown): Hoist declared components *)
         (* declare function f(): void; *)
         | (_, DeclareFunction _)
         (* declare export function f(): void; *)
@@ -102,17 +135,21 @@ let hoist_function_declarations stmts =
         | _ -> false)
       stmts
   in
-  func_decs @ other_stmts
+  func_and_component_decs @ other_stmts
 
-let negate_number_literal (value, raw) =
+let negate_raw_lit raw =
   let raw_len = String.length raw in
-  let raw =
-    if raw_len > 0 && raw.[0] = '-' then
-      String.sub raw 1 (raw_len - 1)
-    else
-      "-" ^ raw
-  in
-  (~-.value, raw)
+  if raw_len > 0 && raw.[0] = '-' then
+    String.sub raw 1 (raw_len - 1)
+  else
+    "-" ^ raw
+
+let negate_number_literal (value, raw) = (~-.value, negate_raw_lit raw)
+
+let negate_bigint_literal (value, raw) =
+  match value with
+  | None -> (None, raw)
+  | Some value -> (Some (Int64.neg value), negate_raw_lit raw)
 
 let is_call_to_invariant callee =
   match callee with
@@ -174,13 +211,24 @@ let is_call_to_object_static_method callee =
     true
   | _ -> false
 
+let is_super_member_access = function
+  | { Flow_ast.Expression.Member._object = (_, Flow_ast.Expression.Super _); _ } -> true
+  | _ -> false
+
 let loc_of_statement = fst
+
 let loc_of_expression = fst
+
 let loc_of_pattern = fst
+
 let loc_of_ident = fst
+
 let name_of_ident (_, { Identifier.name; comments = _ }) = name
+
 let source_of_ident (loc, { Identifier.name; comments = _ }) = (loc, name)
+
 let ident_of_source ?comments (loc, name) = (loc, { Identifier.name; comments })
+
 let mk_comments ?(leading = []) ?(trailing = []) a = { Syntax.leading; trailing; internal = a }
 
 let mk_comments_opt ?(leading = []) ?(trailing = []) () =
@@ -278,10 +326,8 @@ module ExpressionSort = struct
     | Binary
     | Call
     | Class
-    | Comprehension
     | Conditional
     | Function
-    | Generator
     | Identifier
     | Import
     | JSXElement
@@ -303,6 +349,7 @@ module ExpressionSort = struct
     | Unary
     | Update
     | Yield
+  [@@deriving show]
 
   let to_string = function
     | Array -> "array"
@@ -311,10 +358,8 @@ module ExpressionSort = struct
     | Binary -> "binary expression"
     | Call -> "call expression"
     | Class -> "class"
-    | Comprehension -> "comprehension expression"
     | Conditional -> "conditional expression"
     | Function -> "function"
-    | Generator -> "generator"
     | Identifier -> "identifier"
     | Import -> "import expression"
     | JSXElement -> "JSX element"
@@ -337,3 +382,73 @@ module ExpressionSort = struct
     | Update -> "update expression"
     | Yield -> "yield expression"
 end
+
+let loc_of_annotation_or_hint =
+  let open Flow_ast.Type in
+  function
+  | Missing loc
+  | Available (_, (loc, _)) ->
+    loc
+
+let loc_of_return_annot =
+  let open Flow_ast.Function.ReturnAnnot in
+  function
+  | Missing loc
+  | Available (_, (loc, _))
+  | TypeGuard (loc, _) ->
+    loc
+
+(* Apply type [t] at the toplevel of expression [exp]. This is straightforward overall
+ * except for the case of Identifier and Member, where we push the type within the
+ * identifier and member property type position as well. This is to ensure that
+ * type-at-pos searcher will detect the updated type. *)
+let push_toplevel_type t exp =
+  let open Flow_ast.Expression in
+  let push_toplevel_identifier id =
+    let ((id_loc, _), id) = id in
+    ((id_loc, t), id)
+  in
+  let push_to_member mem =
+    match mem with
+    | { Member.property = Member.PropertyIdentifier id; _ } ->
+      { mem with Member.property = Member.PropertyIdentifier (push_toplevel_identifier id) }
+    | p -> p
+  in
+  let ((loc, _), e) = exp in
+  let e' =
+    match e with
+    | Identifier id -> Identifier (push_toplevel_identifier id)
+    | Member member -> Member (push_to_member member)
+    | OptionalMember ({ OptionalMember.member; _ } as omem) ->
+      OptionalMember { omem with OptionalMember.member = push_to_member member }
+    | _ -> e
+  in
+  ((loc, t), e')
+
+let hook_name s =
+  let is_A_to_Z c = c >= 'A' && c <= 'Z' in
+  String.starts_with ~prefix:"use" s && (String.length s = 3 || is_A_to_Z s.[3])
+
+let hook_function { Flow_ast.Function.id; _ } =
+  match id with
+  | Some (loc, { Flow_ast.Identifier.name; _ }) when hook_name name -> Some loc
+  | _ -> None
+
+let hook_call { Flow_ast.Expression.Call.callee; _ } =
+  (* A.B.C.useFoo() is a hook, A().useFoo() is not *)
+  let open Flow_ast.Expression in
+  let rec hook_callee top exp =
+    match exp with
+    | (_, Identifier (_, { Flow_ast.Identifier.name; _ })) -> hook_name name || not top
+    | ( _,
+        Member
+          {
+            Member._object;
+            property = Member.PropertyIdentifier (_, { Flow_ast.Identifier.name; _ });
+            _;
+          }
+      ) ->
+      (hook_name name || not top) && hook_callee false _object
+    | _ -> false
+  in
+  hook_callee true callee
