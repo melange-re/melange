@@ -29,3 +29,11 @@ val check_flow_errors :
   offset:int ->
   (Js_parser.Loc.t * Js_parser.Parse_error.t) list ->
   unit
+
+open Js_parser
+
+val parse_expression :
+  Parser_env.env ->
+  bool ->
+  (Js_parser.Loc.t, Js_parser.Loc.t) Flow_ast.Expression.t
+  * (Js_parser.Loc.t * Parse_error.t) list
