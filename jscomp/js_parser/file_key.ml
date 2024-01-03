@@ -4,7 +4,6 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *)
-open Primitive_deriving
 
 type t =
   | LibFile of string
@@ -13,31 +12,8 @@ type t =
   (* A resource that might get required, like .css, .jpg, etc. We don't parse
      these, just check that they exist *)
   | ResourceFile of string
-[@@deriving_inline equal]
-let _ = fun (_ : t) -> ()
-let equal =
-  (fun a__001_ ->
-     fun b__002_ ->
-       if Ppx_compare_lib.phys_equal a__001_ b__002_
-       then true
-       else
-         (match (a__001_, b__002_) with
-          | (LibFile _a__003_, LibFile _b__004_) ->
-              equal_string _a__003_ _b__004_
-          | (LibFile _, _) -> false
-          | (_, LibFile _) -> false
-          | (SourceFile _a__005_, SourceFile _b__006_) ->
-              equal_string _a__005_ _b__006_
-          | (SourceFile _, _) -> false
-          | (_, SourceFile _) -> false
-          | (JsonFile _a__007_, JsonFile _b__008_) ->
-              equal_string _a__007_ _b__008_
-          | (JsonFile _, _) -> false
-          | (_, JsonFile _) -> false
-          | (ResourceFile _a__009_, ResourceFile _b__010_) ->
-              equal_string _a__009_ _b__010_) : t -> t -> bool)
-let _ = equal
-[@@@end]
+[@@deriving show, eq]
+
 let to_string = function
   | LibFile x
   | SourceFile x
@@ -96,5 +72,7 @@ let exists f = function
     f filename
 
 let check_suffix filename suffix = exists (fun fn -> Filename.check_suffix fn suffix) filename
+
 let chop_suffix filename suffix = map (fun fn -> Filename.chop_suffix fn suffix) filename
+
 let with_suffix filename suffix = map (fun fn -> fn ^ suffix) filename

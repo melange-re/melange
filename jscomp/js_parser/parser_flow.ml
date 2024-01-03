@@ -16,7 +16,7 @@ open Parser_common
    a reversed list of errors and returns the list in forward order with dupes
    removed. This differs from a set because the original order is preserved. *)
 let filter_duplicate_errors =
-  let module PrintableErrorSet = Set.Make (struct
+  let module PrintableErrorSet = Flow_set.Make (struct
     type t = Loc.t * Parse_error.t
 
     let compare (a_loc, a_error) (b_loc, b_error) =
@@ -112,7 +112,8 @@ let check_for_duplicate_exports =
           | Statement.InterfaceDeclaration { Statement.Interface.id; _ }
           | Statement.ClassDeclaration { Class.id = Some id; _ }
           | Statement.FunctionDeclaration { Function.id = Some id; _ }
-          | Statement.EnumDeclaration { Statement.EnumDeclaration.id; _ } )
+          | Statement.EnumDeclaration { Statement.EnumDeclaration.id; _ }
+          | Statement.ComponentDeclaration { Statement.ComponentDeclaration.id; _ } )
         ) ->
         record_export
           env
@@ -129,11 +130,11 @@ let check_for_duplicate_exports =
           Statement.(
             ( Block _ | Break _
             | ClassDeclaration { Class.id = None; _ }
-            | Continue _ | Debugger _ | DeclareClass _ | DeclareExportDeclaration _
-            | DeclareFunction _ | DeclareInterface _ | DeclareModule _ | DeclareModuleExports _
-            | DeclareTypeAlias _ | DeclareOpaqueType _ | DeclareVariable _ | DoWhile _ | Empty _
-            | ExportDefaultDeclaration _ | ExportNamedDeclaration _ | Expression _ | For _ | ForIn _
-            | ForOf _
+            | Continue _ | Debugger _ | DeclareClass _ | DeclareComponent _ | DeclareEnum _
+            | DeclareExportDeclaration _ | DeclareFunction _ | DeclareInterface _ | DeclareModule _
+            | DeclareModuleExports _ | DeclareTypeAlias _ | DeclareOpaqueType _ | DeclareVariable _
+            | DoWhile _ | Empty _ | ExportDefaultDeclaration _ | ExportNamedDeclaration _
+            | Expression _ | For _ | ForIn _ | ForOf _
             | FunctionDeclaration { Function.id = None; _ }
             | If _ | ImportDeclaration _ | Labeled _ | Return _ | Switch _ | Throw _ | Try _
             | While _ | With _ ))
@@ -153,10 +154,11 @@ let check_for_duplicate_exports =
     | ( _,
         Statement.(
           ( Block _ | Break _ | ClassDeclaration _ | Continue _ | Debugger _ | DeclareClass _
-          | DeclareExportDeclaration _ | DeclareFunction _ | DeclareInterface _ | DeclareModule _
-          | DeclareModuleExports _ | DeclareTypeAlias _ | DeclareOpaqueType _ | DeclareVariable _
-          | DoWhile _ | Empty _ | EnumDeclaration _ | Expression _ | For _ | ForIn _ | ForOf _
-          | FunctionDeclaration _ | If _ | ImportDeclaration _ | InterfaceDeclaration _ | Labeled _
+          | DeclareComponent _ | DeclareEnum _ | DeclareExportDeclaration _ | DeclareFunction _
+          | DeclareInterface _ | DeclareModule _ | DeclareModuleExports _ | DeclareTypeAlias _
+          | DeclareOpaqueType _ | DeclareVariable _ | DoWhile _ | Empty _ | EnumDeclaration _
+          | Expression _ | For _ | ForIn _ | ForOf _ | FunctionDeclaration _
+          | ComponentDeclaration _ | If _ | ImportDeclaration _ | InterfaceDeclaration _ | Labeled _
           | Return _ | Switch _ | Throw _ | Try _ | TypeAlias _ | OpaqueType _
           | VariableDeclaration _ | While _ | With _ ))
       ) ->
@@ -170,42 +172,26 @@ module rec Parse : PARSER = struct
   module Pattern_cover = Pattern_cover.Cover (Parse)
   module Expression = Expression_parser.Expression (Parse) (Type) (Declaration) (Pattern_cover)
   module Object = Object_parser.Object (Parse) (Type) (Declaration) (Expression) (Pattern_cover)
-
   module Statement =
     Statement_parser.Statement (Parse) (Type) (Declaration) (Object) (Pattern_cover)
-
   module Pattern = Pattern_parser.Pattern (Parse) (Type)
-  module JSX = Jsx_parser.JSX (Parse)
+  module JSX = Jsx_parser.JSX (Parse) (Expression)
 
   let annot = Type.annotation
 
   let identifier ?restricted_error env =
-    (match Peek.token env with
-    (* "let" is disallowed as an identifier in a few situations. 11.6.2.1
-       lists them out. It is always disallowed in strict mode *)
-    | T_LET when in_strict_mode env -> error env Parse_error.StrictReservedWord
-    | T_LET when no_let env -> error_unexpected env
-    | T_LET -> ()
-    (* `allow_await` means that `await` is allowed to be a keyword,
-       which makes it illegal to use as an identifier.
-       https://tc39.github.io/ecma262/#sec-identifiers-static-semantics-early-errors *)
-    | T_AWAIT when allow_await env -> error env Parse_error.UnexpectedReserved
-    | T_AWAIT -> ()
-    (* `allow_yield` means that `yield` is allowed to be a keyword,
-       which makes it illegal to use as an identifier.
-       https://tc39.github.io/ecma262/#sec-identifiers-static-semantics-early-errors *)
-    | T_YIELD when allow_yield env -> error env Parse_error.UnexpectedReserved
-    | T_YIELD when in_strict_mode env -> error env Parse_error.StrictReservedWord
-    | T_YIELD -> ()
-    | t when token_is_strict_reserved t -> strict_error env Parse_error.StrictReservedWord
-    | t when token_is_reserved t -> error_unexpected env
-    | t ->
-      (match restricted_error with
-      | Some err when token_is_restricted t -> strict_error env err
-      | _ -> ()));
-    identifier_name env
+    let id = identifier_name env in
+    assert_identifier_name_is_identifier ?restricted_error env id;
+    id
 
   let rec program env =
+    let interpreter =
+      match Peek.token env with
+      | T_INTERPRETER (loc, value) ->
+        Eat.token env;
+        Some (loc, value)
+      | _ -> None
+    in
     let leading = Eat.program_comments env in
     let stmts = module_body_with_directives env (fun _ -> false) in
     let end_loc = Peek.loc env in
@@ -220,6 +206,7 @@ module rec Parse : PARSER = struct
     ( loc,
       {
         Ast.Program.statements = stmts;
+        interpreter;
         comments = Flow_ast_utils.mk_comments_opt ~leading ();
         all_comments;
       }
@@ -332,6 +319,7 @@ module rec Parse : PARSER = struct
     | T_TYPE -> type_alias env
     | T_OPAQUE -> opaque_type env
     | T_ENUM when (parse_options env).enums -> Declaration.enum_declaration env
+    | _ when Peek.is_component env -> Declaration.component env
     | _ -> statement env
 
   and statement env =
@@ -422,14 +410,24 @@ module rec Parse : PARSER = struct
     | _ -> expr_or_pattern
 
   and conditional = Expression.conditional
+
   and assignment = Expression.assignment
+
   and left_hand_side = Expression.left_hand_side
+
   and object_initializer = Object._initializer
+
   and object_key = Object.key
+
   and class_declaration = Object.class_declaration
+
   and class_expression = Object.class_expression
+
   and is_assignable_lhs = Expression.is_assignable_lhs
+
   and number = Expression.number
+
+  and bigint = Expression.bigint
 
   and identifier_with_type =
     let with_loc_helper no_optional restricted_error env =
@@ -494,8 +492,10 @@ module rec Parse : PARSER = struct
         ({ Ast.Statement.Block.body; comments }, contains_use_strict)
     )
 
-  and jsx_element_or_fragment = JSX.element_or_fragment
+  and jsx_element_or_fragment = JSX.element_or_fragment ~parent_opening_name:None
+
   and pattern = Pattern.pattern
+
   and pattern_from_expr = Pattern.from_expr
 end
 
@@ -508,16 +508,6 @@ let do_parse env parser fail =
   match error_list with
   | e :: es when fail -> raise (Parse_error.Error (e, es))
   | _ -> (ast, error_list)
-
-(* Makes the input parser expect EOF at the end. Use this to error on trailing
- * junk when parsing non-Program nodes. *)
-let with_eof parser env =
-  let ast = parser env in
-  Expect.token env T_EOF;
-  ast
-
-let parse_statement env fail = do_parse env (with_eof Parse.statement_list_item) fail
-let parse_expression env fail = do_parse env (with_eof Parse.expression) fail
 
 let parse_program fail ?(token_sink = None) ?(parse_options = None) filename content =
   let env = init_env ~token_sink ~parse_options filename content in
@@ -546,9 +536,7 @@ let package_json_file =
 (* even if fail=false, still raises an error on a totally invalid token, since
    there's no legitimate fallback. *)
 let json_file =
-  let null_fallback _env =
-    Ast.Expression.Literal { Ast.Literal.value = Ast.Literal.Null; raw = "null"; comments = None }
-  in
+  let null_fallback _env = Ast.Expression.NullLiteral None in
   let parser env =
     match Peek.token env with
     | T_LBRACKET

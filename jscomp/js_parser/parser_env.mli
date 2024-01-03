@@ -8,7 +8,7 @@
 (* This module provides a layer between the lexer and the parser which includes
  * some parser state and some lexer state *)
 
-module SSet : Set.S with type elt = string
+module SSet : Flow_set.S with type elt = string
 
 module Lex_mode : sig
   type t =
@@ -29,10 +29,13 @@ type token_sink_result = {
 }
 
 type parse_options = {
+  components: bool; (* enable parsing of Flow component syntax *)
   enums: bool;  (** enable parsing of Flow enums *)
   esproposal_decorators: bool;  (** enable parsing of decorators *)
   types: bool;  (** enable parsing of Flow types *)
   use_strict: bool;  (** treat the file as strict, without needing a "use strict" directive *)
+  module_ref_prefix: string option;
+  module_ref_prefix_LEGACY_INTEROP: string option;
 }
 
 val default_parse_options : parse_options
@@ -93,6 +96,8 @@ val no_let : env -> bool
 
 val no_anon_function_type : env -> bool
 
+val no_conditional_type : env -> bool
+
 val no_new : env -> bool
 
 val errors : env -> (Loc.t * Parse_error.t) list
@@ -102,8 +107,6 @@ val parse_options : env -> parse_options
 val source : env -> File_key.t option
 
 val should_parse_types : env -> bool
-
-val get_unexpected_error : ?expected:string -> Token.t -> Parse_error.t
 
 (* mutators: *)
 val error_at : env -> Loc.t * Parse_error.t -> unit
@@ -158,6 +161,8 @@ val with_no_in : bool -> env -> env
 
 val with_no_anon_function_type : bool -> env -> env
 
+val with_no_conditional_type : bool -> env -> env
+
 val with_no_new : bool -> env -> env
 
 val with_in_switch : bool -> env -> env
@@ -176,11 +181,19 @@ val add_label : env -> string -> env
 
 val enter_function : env -> async:bool -> generator:bool -> simple_params:bool -> env
 
+val is_contextually_reserved : string -> bool
+
 val is_reserved : string -> bool
+
+val token_is_contextually_reserved : Token.t -> bool
 
 val token_is_reserved : Token.t -> bool
 
-val is_future_reserved : string -> bool
+val token_is_reserved_type : Token.t -> bool
+
+val token_is_type_identifier : env -> Token.t -> bool
+
+val token_is_variance : Token.t -> bool
 
 val is_strict_reserved : string -> bool
 
@@ -189,8 +202,6 @@ val token_is_strict_reserved : Token.t -> bool
 val is_restricted : string -> bool
 
 val is_reserved_type : string -> bool
-
-val token_is_restricted : Token.t -> bool
 
 module Peek : sig
   val token : env -> Token.t
@@ -218,6 +229,10 @@ module Peek : sig
   val is_function : env -> bool
 
   val is_class : env -> bool
+
+  val is_component : env -> bool
+
+  val is_renders_ident : env -> bool
 
   val ith_token : i:int -> env -> Token.t
 
