@@ -92,13 +92,13 @@ let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
         (match kind with
         | Raw_re | Raw_exp ->
             let ((_loc, e) as prog), errors =
-              Js_parser.Parser_flow.parse_expression
+              Melange_ffi.Flow_ast_utils.parse_expression
                 (Js_parser.Parser_env.init_env None str)
                 false
             in
             (if kind = Raw_re then
                match e with
-               | Literal { value = RegExp _; _ } -> ()
+               | RegExpLiteral _ -> ()
                | _ ->
                    Location.raise_errorf ~loc
                      "`%%mel.re' expects a valid JavaScript regular expression \

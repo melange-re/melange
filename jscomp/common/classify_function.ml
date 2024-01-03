@@ -29,7 +29,10 @@ module Flow_ast = Js_parser.Flow_ast
 
 let rec is_obj_literal (x : _ Flow_ast.Expression.t) : bool =
   match snd x with
-  | Identifier (_, { name = "undefined"; _ }) | Literal _ -> true
+  | Identifier (_, { name = "undefined"; _ })
+  | StringLiteral _ | BooleanLiteral _ | NullLiteral _ | NumberLiteral _
+  | BigIntLiteral _ | RegExpLiteral _ | ModuleRefLiteral _ ->
+      true
   | Unary { operator = Minus; argument; _ } -> is_obj_literal argument
   | Object { properties; _ } -> List.for_all ~f:is_literal_kv properties
   | Array { elements; _ } ->
@@ -70,7 +73,14 @@ let classify_exp (prog : _ Flow_ast.Expression.t) : Js_raw_info.exp =
           _;
         } ) ->
       Js_function { arity = List.length params; arrow = true }
-  | _, Literal { comments; _ } ->
+  | ( _,
+      ( StringLiteral { comments; _ }
+      | BooleanLiteral { comments; _ }
+      | NullLiteral comments
+      | NumberLiteral { comments; _ }
+      | BigIntLiteral { comments; _ }
+      | RegExpLiteral { comments; _ }
+      | ModuleRefLiteral { comments; _ } ) ) ->
       let comment =
         match comments with
         | None -> None
@@ -95,7 +105,7 @@ let classify_exp (prog : _ Flow_ast.Expression.t) : Js_raw_info.exp =
 let classify ?(check : (Location.t * int) option) (prog : string) :
     Js_raw_info.exp =
   let prog, errors =
-    Parser_flow.parse_expression (Parser_env.init_env None prog) false
+    Flow_ast_utils.parse_expression (Parser_env.init_env None prog) false
   in
   match (check, errors) with
   | Some (loc, offset), _ :: _ ->

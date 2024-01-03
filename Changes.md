@@ -131,6 +131,9 @@ Unreleased
   ([#1001](https://github.com/melange-re/melange/pull/1001))
 - Support `@mel.as` in `%mel.obj`
   ([#1004](https://github.com/melange-re/melange/pull/1004))
+- Upgrade the Melange JS parser to [Flow
+  v0.225.1](https://github.com/facebook/flow/releases/tag/v0.225.1)
+  ([#1012](https://github.com/melange-re/melange/pull/1012))
 
 2.2.0 2023-12-05
 ---------------

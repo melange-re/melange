@@ -50,3 +50,18 @@ let check_flow_errors ~(loc : Location.t) ~offset
           loc_end = offset_pos loc_start _end offset;
         }
         (Mel_ffi_warning (Parse_error.PP.error first_error))
+
+(* Makes the input parser expect EOF at the end. Use this to error on trailing
+ * junk when parsing non-Program nodes. *)
+let with_eof parser env =
+  let ast = parser env in
+  Parser_env.Expect.token env T_EOF;
+  ast
+
+(*
+let parse_statement env fail =
+  Parser_flow.do_parse env (with_eof Parser_flow.Parse.statement_list_item) fail
+*)
+
+let parse_expression env fail =
+  Parser_flow.do_parse env (with_eof Parser_flow.Parse.expression) fail
