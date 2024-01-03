@@ -109,11 +109,11 @@ node scripts/build_reserved.js
   manual](https://melange.re/melange/Manual.html) which we host to consult
   (rarely).
 - `jscomp` is where the compiler implementation and some tests live:
-    - `common` defines the Melange `common` private library, housing code
-      shared by both the Melange binary and the `melange.ppx` library.
+    - `common` defines the `melange_ffi` private library, housing code shared
+      by both the Melange core library and `melange.ppx`.
     - `core` defines the `core` Melange library, containing the bulk of the
       compiler backend implementation.
-    - `ext` contains the sources for the `ext` private library. This is a
+    - `melstd` contains the sources for the `ext` private library. This is a
       standard library extension with additional functions and data structures
       used throughout the Melange code.
     - `js_parser` is a vendored copy of the [Flow
@@ -144,10 +144,7 @@ node scripts/build_reserved.js
               comment the only line in
               [`jscomp/dune`](https://github.com/melange-re/melange/blob/main/jscomp/dune)
               and run `dune build`.
-- `ocaml-tree` has a code generation tool that produces files such as
-  [`core/js_record_fold.ml`](https://github.com/melange-re/melange/blob/main/jscomp/core/js_record_fold.ml),
-  automating some repetitive traversal tasks of the Melange JavaScript
-  intermediate representation.
+- `playground` contains the Melange in-browser playground code
 - `ppx` has the code for `melange.ppx`, for example:
     - all the `%mel.*` extensions and `@deriving` derivers are declared in
       [`ppx/melange_ppx.ml`](https://github.com/melange-re/melange/blob/main/ppx/melange_ppx.ml).
@@ -158,7 +155,6 @@ node scripts/build_reserved.js
       during Melange compilation. This [piece of
       code](https://github.com/melange-re/melange/blob/1167ca745c7ddc2b950559e53d2ebe43585f3850/jscomp/core/lam_convert.ml#L526-L544)
       shows an example of that.
-
 - `rfcs` has the Melange RFC template and the RFCs to Melange that have been
   accepted to the project.
 - `test` is where the Melange unit tests and the blackbox
