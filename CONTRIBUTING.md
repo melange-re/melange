@@ -100,6 +100,62 @@ npm install puppeteer
 node scripts/build_reserved.js
 ```
 
+## Upgrading the Flow JS parser
+
+Melange vendors a copy of Facebook's Flow parser. It's used, among other
+things, to parse the JS code under `%mel.raw` extension points. From time to
+time we want to upgrade the Flow parser to get the newer features added to
+JavaScript.
+
+Follow these steps to upgrade the vendored Flow parser within Melange:
+
+1. Clone the [Flow repository](https://github.com/facebook/flow) and build the
+   parser with `dune b -p flow_parser`
+
+2. Copy the `.ml{,i}` sources to `jscomp/js_parser`:
+
+```shell
+$ cp \
+    ${FLOW_SRC}/src/parser/*.ml{,i} \
+    ${FLOW_SRC}/src/hack_forked/utils/third_party/flow_{set,map}.ml \
+    ${MELANGE_SRC}/jscomp/js_parser
+```
+
+3. Write a small program to get the expanded AST back to source code
+  - this way we don't need to depend on the sedlex PPX in Melange. We'll be
+    copying the expanded sources from the dune build folder
+
+For `.ml` files:
+
+```ocaml
+let () =
+  let ast = Pparse.read_ast Structure Sys.argv.(1) in
+  Format.printf "%a" Pprintast.structure ast
+```
+
+For `.mli` files:
+
+```ocaml
+let () =
+  let ast = Pparse.read_ast Signature Sys.argv.(1) in
+  Format.printf "%a" Pprintast.signature ast
+```
+
+4. Run this small program on the following modules: `Flow_lexer`,
+   `Parse_error`, `Enum_common` and `Token`:
+
+```shell
+# Example for `Flow_lexer`
+
+dune exec ./pp_ast.exe -- flow/_build/default/src/parser/flow_lexer.pp.ml > jscomp/js_parser/flow_lexer.ml
+dune exec ./pp_ast.exe -- flow/_build/default/src/parser/flow_lexer.pp.mli > jscomp/js_parser/flow_lexer.mli
+```
+
+5. Prune unnecessary modules (e.g. look at `${FLOW_SRC}/src/parser/dune` and
+   remove the modules that aren't part of the flow_parser library, etc). A good
+   rule of thumb is to prune most new files after staging them in Git. If they
+   aren't used in any other modules, most likely Melange won't either.
+
 ## A whirlwind tour to the compiler codebase
 
 ### Folder structure:
