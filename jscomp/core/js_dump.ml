@@ -656,11 +656,10 @@ and expression_desc cxt ~(level : int) x : cxt =
       match info with
       | Exp exp_info ->
           let raw_paren =
-            not
-              (match exp_info with
-              | Js_literal _ -> true
-              | Js_function _ | Js_exp_unknown ->
-                  false || raw_snippet_exp_simple_enough s)
+            match exp_info with
+            | Js_literal _ -> false
+            | Js_function _ | Js_exp_unknown ->
+                not (raw_snippet_exp_simple_enough s)
           in
           if raw_paren then string cxt L.lparen;
           string cxt s;
