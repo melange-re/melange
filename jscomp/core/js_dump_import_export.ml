@@ -26,7 +26,7 @@ open Import
 module P = Js_pp
 module L = Js_dump_lit
 
-let default_export = "default"
+let default_export = L.default
 let esModule = ("__esModule", "true")
 (* Exports printer *)
 
@@ -40,7 +40,7 @@ let rev_iter_inter lst f inter =
           inter ());
       f a
 
-(* Print exports in Google module format, CommonJS format *)
+(* Print exports in CommonJS format *)
 let exports cxt f (idents : Ident.t list) =
   let outer_cxt, reversed_list =
     List.fold_left
@@ -100,7 +100,7 @@ let es6_export cxt f (idents : Ident.t list) =
         (fun _ -> P.newline f));
   outer_cxt
 
-(** Node or Google module style imports *)
+(** Node style imports *)
 let requires require_lit cxt f (modules : (Ident.t * string * bool) list) =
   (* the context used to print the following program *)
   let outer_cxt, reversed_list =
@@ -120,7 +120,9 @@ let requires require_lit cxt f (modules : (Ident.t * string * bool) list) =
       P.space f;
       P.string f require_lit;
       P.paren_group f 0 (fun _ -> Js_dump_string.pp_string f file);
-      if default then P.string f ".default";
+      if default then (
+        P.string f L.dot;
+        P.string f L.default);
       P.string f L.semi;
       P.newline f);
   outer_cxt
