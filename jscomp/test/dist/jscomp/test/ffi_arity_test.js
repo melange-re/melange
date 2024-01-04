@@ -122,7 +122,8 @@ function bar(fn) {
   return Curry._1(fn, undefined);
 }
 
-(Curry._1((function(){console.log("forgiving arity")}), undefined));
+(Curry._1((function(){console.log("forgiving arity")}
+      ), undefined));
 
 exports.f = f;
 exports.v = v;

@@ -51,9 +51,11 @@ function test5(x) {
   return "" + x;
 }
 
-var js_in_raw = ("hello" + "你好");
+var js_in_raw = ("hello" + "你好"
+);
 
-var j_in_raw = ("hello" + "你好");
+var j_in_raw = ("hello" + "你好"
+);
 
 var b = "test";
 

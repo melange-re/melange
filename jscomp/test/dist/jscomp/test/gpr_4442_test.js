@@ -20,7 +20,8 @@ var u = (function fib(n){
     return 1
   }
   return fib(n-1) + fib(n-2)
-});
+}
+);
 
 eq("File \"jscomp/test/gpr_4442_test.ml\", line 14, characters 6-13", u(2), 2);
 

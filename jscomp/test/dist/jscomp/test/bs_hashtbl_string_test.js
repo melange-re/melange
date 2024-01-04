@@ -23,7 +23,8 @@ var hashString = (function(str){
                                               while(i !== 0) {
                                               hash = (hash * 33) ^ str.charCodeAt(--i);
                                               }
-                                              return hash});
+                                              return hash}
+);
 
 var $$String = Belt__Belt_Id.hashable(Stdlib__Hashtbl.hash, (function (x, y) {
         return x === y;

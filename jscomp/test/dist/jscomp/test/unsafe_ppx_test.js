@@ -22,7 +22,8 @@ var regression4 = Math.max;
 function g(a) {
   var regression = (function(x,y){
    return ""
-});
+}
+  );
   var regression2 = Math.max;
   regression(a, Stdlib.failwith);
   Curry._2(regression2, 3, 2);

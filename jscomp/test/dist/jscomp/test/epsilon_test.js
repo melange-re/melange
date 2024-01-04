@@ -4,7 +4,8 @@
 var Mt = require("./mt.js");
 var Stdlib = require("melange/stdlib.js");
 
-var v = (Number.EPSILON?Number.EPSILON:2.220446049250313e-16);
+var v = (Number.EPSILON?Number.EPSILON:2.220446049250313e-16
+);
 
 var suites_0 = [
   "epsilon",

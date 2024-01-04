@@ -879,7 +879,8 @@ var factory = (function factory(ReactComponent, isValidElement, ReactNoopUpdateQ
   }
 
   return createClass;
-});
+}
+);
 
 var reactNoopUpdateQueue = new React.Component().updater;
 
