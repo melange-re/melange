@@ -15430,15 +15430,20 @@ var translation_errors = {
   contents: /* [] */0
 };
 
-var string = (function (x) {return x;});
+var string = (function (x) {return x;}
+);
 
-var bool = (function (x) {x ? 1 : 0;});
+var bool = (function (x) {x ? 1 : 0;}
+);
 
-var obj = (function(arr) {var ret = {}; arr.forEach(function(a) {ret[a[0]]=a[1];}); return ret});
+var obj = (function(arr) {var ret = {}; arr.forEach(function(a) {ret[a[0]]=a[1];}); return ret}
+);
 
-var array = (function (x) {return x;});
+var array = (function (x) {return x;}
+);
 
-var number$1 = (function (x) {return x;});
+var number$1 = (function (x) {return x;}
+);
 
 var $$null = null;
 

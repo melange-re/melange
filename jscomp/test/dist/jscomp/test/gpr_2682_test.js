@@ -2,7 +2,8 @@
 'use strict';
 
 
-var sum = ((a,b) => a + b);
+var sum = ((a,b) => a + b
+);
 
 var v = sum(1, 2);
 
@@ -18,7 +19,8 @@ var forIn = ((o,foo)=> {
   for (var i in o){
     foo(o)
   }
-  });
+  }
+);
 
 function log(x) {
   console.log(x);
@@ -41,7 +43,8 @@ forIn({
         console.log(x);
       }));
 
-var f3 = (()=>true);
+var f3 = (()=>true
+);
 
 var bbbb = f3();
 

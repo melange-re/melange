@@ -20,7 +20,8 @@ function f(str) {
 
 f("xx");
 
-f((Buffer.from ('xx')));
+f((Buffer.from ('xx')
+    ));
 
 exports.f = f;
 /*  Not a pure module */

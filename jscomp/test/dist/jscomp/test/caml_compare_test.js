@@ -999,7 +999,8 @@ var suites = {
                                                                                                 (function (param) {
                                                                                                     return {
                                                                                                             TAG: /* Eq */0,
-                                                                                                            _0: Caml_obj.caml_equal({x:1}, ((function(){let o = Object.create(null);o.x = 1;return o;})())),
+                                                                                                            _0: Caml_obj.caml_equal({x:1}, ((function(){let o = Object.create(null);o.x = 1;return o;})()
+                                                                                                                )),
                                                                                                             _1: true
                                                                                                           };
                                                                                                   })

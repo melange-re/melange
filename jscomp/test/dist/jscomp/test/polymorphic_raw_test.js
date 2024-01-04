@@ -28,7 +28,8 @@ function eq(loc, x, y) {
   };
 }
 
-var f = ((a) => typeof a);
+var f = ((a) => typeof a
+);
 
 var a = f(3);
 
