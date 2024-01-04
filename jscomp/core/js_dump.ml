@@ -663,7 +663,9 @@ and expression_desc cxt ~(level : int) x : cxt =
           in
           if raw_paren then string cxt L.lparen;
           string cxt s;
-          if raw_paren then string cxt L.rparen;
+          if raw_paren then (
+            newline cxt;
+            string cxt L.rparen);
           cxt
       | Stmt stmt_info ->
           if stmt_info = Js_stmt_comment then string cxt s

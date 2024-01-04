@@ -48,6 +48,7 @@ Show expressions in `%mel.raw` get wrapped in parentheses with proper syntax
   
   ((// before
   f(1,2)
-  // after));
+  // after
+    ));
   
   /*  Not a pure module */

@@ -139,7 +139,15 @@ let unicode ?loc ?comment s : t = make_expression ?loc ?comment (Unicode s)
 
 let raw_js_code ?loc ?comment info s : t =
   make_expression ?loc ?comment
-    (Raw_js_code { code = String.trim s; code_info = info })
+    (Raw_js_code
+       {
+         code =
+           (* FIXME: save one allocation
+              trim can not be done before syntax checking
+              otherwise location is incorrect *)
+           String.trim s;
+         code_info = info;
+       })
 
 let array ?loc ?comment mt es : t =
   make_expression ?loc ?comment (Array (es, mt))
