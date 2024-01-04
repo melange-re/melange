@@ -134,6 +134,9 @@ Unreleased
 - Upgrade the Melange JS parser to [Flow
   v0.225.1](https://github.com/facebook/flow/releases/tag/v0.225.1)
   ([#1012](https://github.com/melange-re/melange/pull/1012))
+- fix: add a newline after `%mel.raw` expressions to avoid breaking JS output
+  when they contain single line comments
+  ([#1017](https://github.com/melange-re/melange/pull/1017))
 
 2.2.0 2023-12-05
 ---------------

@@ -44,12 +44,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   | Pwrap_exn ->
       E.runtime_call Js_runtime_modules.caml_js_exceptions
         "internalToOCamlException" args
-  | Praw_js_code { code; code_info } ->
-      E.raw_js_code code_info code
-      (* FIXME: save one allocation
-         trim can not be done before syntax checking
-         otherwise location is incorrect
-      *)
+  | Praw_js_code { code; code_info } -> E.raw_js_code code_info code
   | Pjs_runtime_apply -> (
       match args with [ f; args ] -> E.flat_call f args | _ -> assert false)
   | Pjs_apply -> (
