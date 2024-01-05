@@ -224,7 +224,7 @@ let pp_paren_params (cxt : cxt) (lexical : Ident.t list) : unit =
        id) *)
 
 let pp_var_assign cxt id =
-  string cxt L.var;
+  string cxt L.let_;
   space cxt;
   let acxt = ident cxt id in
   space cxt;
@@ -241,7 +241,7 @@ let pp_var_assign_this cxt id =
   cxt
 
 let pp_var_declare cxt id =
-  string cxt L.var;
+  string cxt L.let_;
   space cxt;
   let acxt = ident cxt id in
   semi cxt;
