@@ -32,21 +32,21 @@
   'use strict';
   
   
-  var person1 = {
+  let person1 = {
     TAG: /* Teacher */0,
     age: 12345
   };
   
-  var message;
+  let message;
   
   if (person1.TAG === /* Teacher */0) {
     message = "b";
   } else {
-    var tmp = 12345;
+    let tmp = 12345;
     message = typeof tmp === "number" || tmp.TAG === /* Vacations */0 ? "a" : "b";
   }
   
-  var Test1 = {
+  let Test1 = {
     person1: person1,
     message: message
   };
