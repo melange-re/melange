@@ -6,13 +6,13 @@ function u(x, y) {
   return x + y | 0;
 }
 
-var h = u(1, 2);
+let h = u(1, 2);
 
 function max2(x, y) {
   return x + y;
 }
 
-var hh = max2(1, 2);
+let hh = max2(1, 2);
 
 function f(x) {
   des(x, (function () {

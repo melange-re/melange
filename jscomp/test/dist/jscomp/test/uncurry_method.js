@@ -2,7 +2,7 @@
 'use strict';
 
 
-var obj = {
+let obj = {
   hi: (function (a, b) {
       return a + b | 0;
     }),
@@ -18,7 +18,7 @@ function f(x, a, b) {
   return x.hi(a, b);
 }
 
-var h = obj.hi;
+let h = obj.hi;
 
 console.log(f(obj, 3, 4));
 
@@ -30,22 +30,22 @@ function f1(u) {
   u.exit(2);
 }
 
-var obj3 = {
+let obj3 = {
   hi: (function (name, age) {
       console.log(name);
     }),
   hh: (function () {
-      var self = this ;
+      let self = this ;
       self.hi("x", 20);
     })
 };
 
-var obj2 = {
+let obj2 = {
   hi: (function (a, b) {
       return a + b | 0;
     }),
   say: (function (a, b) {
-      var self = this ;
+      let self = this ;
       return self.hi(a, b) - 1 | 0;
     }),
   xx: (function (a, b) {

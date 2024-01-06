@@ -2,9 +2,9 @@
 'use strict';
 
 
-var X = {};
+let X = {};
 
-var fails_in_melange = 0;
+let fails_in_melange = 0;
 
 exports.X = X;
 exports.fails_in_melange = fails_in_melange;
