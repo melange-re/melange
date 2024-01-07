@@ -8830,8 +8830,7 @@ function _new(env, _finish_fn) {
     if (match === 42) {
       let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
       token$4(env, /* T_NEW */42);
-      let finish_fn$p = (function(finish_fn,start_loc){
-      return function finish_fn$p(callee, args) {
+      let finish_fn$p = function (callee, args) {
         let match = args !== undefined ? [
             args[0],
             args[1]
@@ -8852,8 +8851,7 @@ function _new(env, _finish_fn) {
           callee$p_1
         ];
         return Curry._2(finish_fn, callee$p, undefined);
-      }
-      }(finish_fn,start_loc));
+      };
       _finish_fn = finish_fn$p;
       continue ;
     }

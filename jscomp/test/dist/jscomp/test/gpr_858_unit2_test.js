@@ -11,8 +11,7 @@ let delayed = {
 };
 
 for(let i = 1; i <= 2; ++i){
-  let f = (function(i){
-  return function f(n, j) {
+  let f = function (n, j) {
     if (j !== 0) {
       let prev = delayed.contents;
       delayed.contents = (function (param) {
@@ -32,8 +31,7 @@ for(let i = 1; i <= 2; ++i){
                 13
               ]
             });
-  }
-  }(i));
+  };
   f(0, i);
 }
 

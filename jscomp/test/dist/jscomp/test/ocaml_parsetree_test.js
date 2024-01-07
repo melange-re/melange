@@ -1344,18 +1344,14 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
       Stdlib.print_string("  ");
       bol = false;
     }
-    if (Stdlib__List.exists((function(pos){
-          return function (loc) {
-            return pos === loc.loc_start.pos_cnum;
-          }
-          }(pos)), locs)) {
+    if (Stdlib__List.exists((function (loc) {
+              return pos === loc.loc_start.pos_cnum;
+            }), locs)) {
       Caml_external_polyfill.resolve("caml_terminfo_standout")(true);
     }
-    if (Stdlib__List.exists((function(pos){
-          return function (loc) {
-            return pos === loc.loc_end.pos_cnum;
-          }
-          }(pos)), locs)) {
+    if (Stdlib__List.exists((function (loc) {
+              return pos === loc.loc_end.pos_cnum;
+            }), locs)) {
       Caml_external_polyfill.resolve("caml_terminfo_standout")(false);
     }
     let c = Caml_bytes.get(lb.lex_buffer, pos + pos0 | 0);
@@ -12493,12 +12489,10 @@ function token(lexbuf) {
                 };
       case 29 :
           let stars = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
-          let match$2 = with_comment_buffer((function(stars){
-              return function (lexbuf) {
-                store_string("*" + stars);
-                return __ocaml_lex_comment_rec(lexbuf, 132);
-              }
-              }(stars)), lexbuf);
+          let match$2 = with_comment_buffer((function (lexbuf) {
+                  store_string("*" + stars);
+                  return __ocaml_lex_comment_rec(lexbuf, 132);
+                }), lexbuf);
           return {
                   TAG: /* COMMENT */18,
                   _0: [
@@ -13043,11 +13037,9 @@ function token$1(lexbuf) {
         switch (doc) {
           case /* SHARP */84 :
               if (at_bol(lexbuf)) {
-                let cont = (function(lines,docs){
-                return function cont(lexbuf) {
+                let cont = function (lexbuf) {
                   return loop(lines, docs, lexbuf);
-                }
-                }(lines,docs));
+                };
                 let look_ahead = function (token) {
                   sharp_look_ahead.contents = token;
                   return /* SHARP */84;
