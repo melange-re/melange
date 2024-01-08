@@ -148,10 +148,20 @@ let collect_type_hints =
     iterator.structure iterator structure;
     Js.array (!acc |> Array.of_list)
 
-let compile =
-  let module To_ppxlib =
-    Ppxlib_ast.Convert (Melange_OCaml_version) (Ppxlib_ast.Selected_ast)
+module To_ppxlib =
+  Ppxlib_ast.Convert (Melange_OCaml_version) (Ppxlib_ast.Selected_ast)
+
+let melange_ppx ast =
+  let ppxlib_ast : Ppxlib_ast.Parsetree.structure =
+    (* Copy to ppxlib version *)
+    To_ppxlib.copy_structure ast
   in
+  let melange_converted_ast =
+    From_ppxlib.copy_structure (Ppxlib.Driver.map_structure ppxlib_ast)
+  in
+  Melange_ast.from_ppxlib melange_converted_ast
+
+let compile =
   let error_of_exn e =
     match Location.error_of_exn e with
     | Some (`Ok e) -> Some e
@@ -175,17 +185,10 @@ let compile =
     let types_signature = ref [] in
     warnings_collected := [];
     try
-      (* default *)
-      let ast = impl (Lexing.from_string str) in
       let ast =
-        let ppxlib_ast : Ppxlib_ast.Parsetree.structure =
-          (* Copy to ppxlib version *)
-          To_ppxlib.copy_structure ast
-        in
-        let melange_converted_ast =
-          From_ppxlib.copy_structure (Ppxlib.Driver.map_structure ppxlib_ast)
-        in
-        Melange_ast.from_ppxlib melange_converted_ast
+        (* default *)
+        impl (Lexing.from_string str)
+        |> melange_ppx |> Melange_ffi.Utf8_string.rewrite_structure
       in
       let typed_tree =
         let { Typedtree.structure; coercion; shape = _; signature } =
