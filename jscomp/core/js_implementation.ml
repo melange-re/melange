@@ -12,20 +12,7 @@
 
 open Import
 
-(* adapted by rescript from [driver/compile.ml] for convenience    *)
-
-module Ppx_entry = struct
-  let rewrite_signature (ast : Parsetree.signature) : Parsetree.signature =
-    Ast_config.iter_on_mel_config_sigi ast;
-    Mel_ast_invariant.emit_external_warnings_on_signature ast;
-    ast
-
-  let rewrite_implementation (ast : Parsetree.structure) : Parsetree.structure =
-    Ast_config.iter_on_mel_config_stru ast;
-    let ast = Melange_ffi.Utf8_string.rewrite_structure ast in
-    Mel_ast_invariant.emit_external_warnings_on_structure ast;
-    ast
-end
+(* adapted by rescript from [driver/compile.ml] for convenience *)
 
 (** TODO: improve efficiency
    given a path, calculate its module name
@@ -121,7 +108,7 @@ let interface ~parser ppf fname =
   parser fname
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name
        Mli
-  |> Ppx_entry.rewrite_signature
+  |> Builtin_ast_mapper.rewrite_signature
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.interface
   |> print_if_pipe ppf Clflags.dump_source Pprintast.signature
   |> after_parsing_sig ppf (output_prefix fname)
@@ -197,7 +184,7 @@ let implementation ~parser ppf fname =
   parser fname
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name
        Ml
-  |> Ppx_entry.rewrite_implementation
+  |> Builtin_ast_mapper.rewrite_structure
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
   |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
   |> after_parsing_impl ppf fname
