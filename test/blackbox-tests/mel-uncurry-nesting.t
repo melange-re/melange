@@ -38,21 +38,21 @@ Using `mel.uncurry` at 2nd level of callbacks raises some alerts
   This means such annotation is not annotated properly.
   For example, some annotations are only meaningful in externals
   
-  
   File "x.ml", line 2, characters 52-63:
   2 |   (((unit -> unit)[@mel.uncurry]) -> (unit -> unit[@mel.uncurry])) -> unit
                                                           ^^^^^^^^^^^
   Alert unused: Unused attribute [@mel.uncurry]
   This means such annotation is not annotated properly.
   For example, some annotations are only meaningful in externals
-  
 
 
-In the case of uncurry nesting, we have to resort to the `[@u]` attribute
+
+In the case of uncurry nesting, we have to resort to the `[@u]` / `[@u0]`
+attributes
 
   $ cat > x.ml <<EOF
-  > external foo : (((unit -> unit)[@u]) -> unit) -> unit = "foo"
-  > let () = foo (fun f -> f () [@u])
+  > external foo : (((unit -> unit)[@u0]) -> unit) -> unit = "foo"
+  > let () = foo (fun f -> f () [@u0])
   > EOF
   $ dune build @melange
 
