@@ -189,7 +189,7 @@ let compile =
       let ast =
         (* default *)
         impl (Lexing.from_string str)
-        |> melange_ppx |> Melange_ffi.Utf8_string.rewrite_structure
+        |> melange_ppx |> Builtin_ast_mapper.rewrite_structure
       in
       let typed_tree =
         let { Typedtree.structure; coercion; shape = _; signature } =
