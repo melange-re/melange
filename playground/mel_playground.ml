@@ -148,18 +148,19 @@ let collect_type_hints =
     iterator.structure iterator structure;
     Js.array (!acc |> Array.of_list)
 
-module To_ppxlib =
-  Ppxlib_ast.Convert (Melange_OCaml_version) (Ppxlib_ast.Selected_ast)
-
-let melange_ppx ast =
-  let ppxlib_ast : Ppxlib_ast.Parsetree.structure =
-    (* Copy to ppxlib version *)
-    To_ppxlib.copy_structure ast
+let melange_ppx =
+  let module To_ppxlib =
+    Ppxlib_ast.Convert (Melange_OCaml_version) (Ppxlib_ast.Selected_ast)
   in
-  let melange_converted_ast =
-    From_ppxlib.copy_structure (Ppxlib.Driver.map_structure ppxlib_ast)
-  in
-  Melange_ast.from_ppxlib melange_converted_ast
+  fun ast ->
+    let ppxlib_ast : Ppxlib_ast.Parsetree.structure =
+      (* Copy to ppxlib version *)
+      To_ppxlib.copy_structure ast
+    in
+    let melange_converted_ast =
+      From_ppxlib.copy_structure (Ppxlib.Driver.map_structure ppxlib_ast)
+    in
+    Melange_ast.from_ppxlib melange_converted_ast
 
 let compile =
   let error_of_exn e =
