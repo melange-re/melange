@@ -3,7 +3,6 @@
 
 var Caml_exceptions = require("melange.js/caml_exceptions.js");
 var Mt = require("./mt.js");
-var Stdlib__Format = require("melange/format.js");
 
 var suites = {
   contents: /* [] */0
@@ -16,14 +15,6 @@ var test_id = {
 function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
-
-var v = {
-  a: 3,
-  b: {
-    xx: 2,
-    yy: 3
-  }
-};
 
 var u_a = 2;
 
@@ -67,35 +58,17 @@ var N0 = {
   f: N0_f
 };
 
-console.log(" hei " + v + " ");
+var i = String(3);
+
+var a_2 = "" + i;
+
+var a_3 = "" + i + i;
+
+var a_4 = "" + i + i + i;
+
+var a_5 = " " + i;
 
 var a = [
-  1,
-  2,
-  2,
-  4,
-  3
-];
-
-var c = [
-  1,
-  2,
-  3,
-  4,
-  5
-];
-
-console.log(" " + Stdlib__Format.std_formatter + " " + a + " " + c + " ");
-
-var a_2 = "" + 3;
-
-var a_3 = "" + 3 + 3;
-
-var a_4 = "" + 3 + 3 + 3;
-
-var a_5 = " " + 3;
-
-var a$1 = [
   "",
   "a",
   a_2,
@@ -104,7 +77,7 @@ var a$1 = [
   a_5
 ];
 
-eq("File \"jscomp/test/record_debug_test.ml\", line 63, characters 3-10", a$1, [
+eq("File \"jscomp/test/record_debug_test.ml\", line 59, characters 3-10", a, [
       "",
       "a",
       "3",
@@ -114,6 +87,14 @@ eq("File \"jscomp/test/record_debug_test.ml\", line 63, characters 3-10", a$1, [
     ]);
 
 Mt.from_pair_suites("jscomp/test/record_debug_test.ml", suites.contents);
+
+var v = {
+  a: 3,
+  b: {
+    xx: 2,
+    yy: 3
+  }
+};
 
 var h = {
   hd: 1,
@@ -142,8 +123,6 @@ var v3 = {
   ]
 };
 
-var fmt = Stdlib__Format.std_formatter;
-
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
@@ -158,7 +137,4 @@ exports.v2 = v2;
 exports.v3 = v3;
 exports.N = N;
 exports.N0 = N0;
-exports.fmt = fmt;
-exports.a = a;
-exports.c = c;
-/*  Not a pure module */
+/* i Not a pure module */

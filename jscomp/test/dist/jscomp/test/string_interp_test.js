@@ -31,8 +31,10 @@ function ffff(a_1, a_2) {
 }
 
 function f(x, y) {
-  var sum = x + y | 0;
-  console.log(" " + x + " + " + y + " = " + sum + " ");
+  var x$1 = String(x);
+  var y$1 = String(y);
+  var sum = String(x + y | 0);
+  console.log(" " + x$1 + " + " + y$1 + " = " + sum + " ");
 }
 
 var world = "世界";
