@@ -168,15 +168,6 @@ let suites =
          ( __LOC__ >:: fun _ ->
            {|$x)|} ==* [ (0, 0, 0, 2, var, "x"); (0, 2, 0, 3, String, ")") ] );
          ( __LOC__ >:: fun _ ->
-           match Utf8_string.Interp.Private.transform_test {j| $( ()) |j} with
-           | exception
-               Utf8_string.Interp.Error
-                 ( { lnum = 0; offset = 1; byte_bol = 0 },
-                   { lnum = 0; offset = 6; byte_bol = 0 },
-                   Invalid_syntax_of_var " (" ) ->
-               OUnit.assert_bool __LOC__ true
-           | _ -> OUnit.assert_bool __LOC__ false );
-         ( __LOC__ >:: fun _ ->
            match Utf8_string.Interp.Private.transform_test {|$ ()|} with
            | exception
                Utf8_string.Interp.Error
@@ -192,26 +183,6 @@ let suites =
                  ( { lnum = 0; offset = 0; byte_bol = 0 },
                    { lnum = 0; offset = 0; byte_bol = 3 },
                    Invalid_syntax_of_var "" ) ->
-               OUnit.assert_bool __LOC__ true
-           | _ -> OUnit.assert_bool __LOC__ false );
-         ( __LOC__ >:: fun _ ->
-           match
-             Utf8_string.Interp.Private.transform_test {|$(hello world)|}
-           with
-           | exception
-               Utf8_string.Interp.Error
-                 ( { lnum = 0; offset = 0; byte_bol = 0 },
-                   { lnum = 0; offset = 14; byte_bol = 0 },
-                   Invalid_syntax_of_var "hello world" ) ->
-               OUnit.assert_bool __LOC__ true
-           | _ -> OUnit.assert_bool __LOC__ false );
-         ( __LOC__ >:: fun _ ->
-           match Utf8_string.Interp.Private.transform_test {|$( hi*) |} with
-           | exception
-               Utf8_string.Interp.Error
-                 ( { lnum = 0; offset = 0; byte_bol = 0 },
-                   { lnum = 0; offset = 7; byte_bol = 0 },
-                   Invalid_syntax_of_var " hi*" ) ->
                OUnit.assert_bool __LOC__ true
            | _ -> OUnit.assert_bool __LOC__ false );
          ( __LOC__ >:: fun _ ->

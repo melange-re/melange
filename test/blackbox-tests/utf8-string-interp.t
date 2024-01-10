@@ -91,3 +91,15 @@ Interpolation expression errors
                      ^^^
   Error: Syntax error
   [2]
+
+  $ cat > x.ml <<EOF
+  > let x =
+  >   {j|\$(()) |j}
+  > EOF
+  $ melc -ppx melppx x.ml
+  File "x.ml", line 2, characters 7-9:
+  2 |   {j|$(()) |j}
+             ^^
+  Error: This expression has type unit but an expression was expected of type
+           string
+  [2]
