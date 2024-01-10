@@ -55,8 +55,7 @@ let rec next s ~remaining offset =
     | exception _ -> -1
 (* it can happen when out of bound *)
 
-let rec check_no_escapes_or_unicode (s : string) (byte_offset : int)
-    (s_len : int) =
+let rec check_no_escapes_or_unicode s byte_offset s_len =
   if byte_offset = s_len then true
   else
     let current_char = s.[byte_offset] in
@@ -118,8 +117,7 @@ module Utf8_string = struct
      visual input while es5 string
      does not*)
 
-  let rec check_and_transform (loc : int) (buf : Buffer.t) (s : string)
-      (byte_offset : int) (s_len : int) =
+  let rec check_and_transform loc buf s byte_offset s_len =
     if byte_offset = s_len then ()
     else
       let current_char = s.[byte_offset] in
@@ -296,8 +294,8 @@ module Interp = struct
   (* FIXME: multiple line offset
      if there is no line offset. Note {|{j||} border will never trigger a new
      line *)
-  let update_position border ({ lnum; offset; byte_bol } : pos)
-      (pos : Lexing.position) =
+  let update_position border { lnum; offset; byte_bol } (pos : Lexing.position)
+      =
     if lnum = 0 then { pos with pos_cnum = pos.pos_cnum + border + offset }
       (* When no newline, the column number is [border + offset] *)
     else
@@ -309,8 +307,7 @@ module Interp = struct
         (* when newline, the column number is [offset] *)
       }
 
-  let update border (start : pos) (finish : pos) (loc : Location.t) : Location.t
-      =
+  let update border start finish (loc : Location.t) =
     let start_pos = loc.loc_start in
     {
       loc with
@@ -394,8 +391,7 @@ module Interp = struct
       :: cxt.segments;
     cxt.segment_start <- next_loc
 
-  let rec check_and_transform (loc : int) s byte_offset
-      ({ s_len; buf; _ } as cxt : cxt) =
+  let rec check_and_transform loc s byte_offset ({ s_len; buf; _ } as cxt) =
     if byte_offset = s_len then add_str_segment cxt loc
     else
       let current_char = s.[byte_offset] in
@@ -522,7 +518,7 @@ module Interp = struct
 
   (* Invariant: the [lhs] is always of type string *)
   let rec handle_segments =
-    let aux loc (segment : segment) ~to_string_ident : Parsetree.expression =
+    let aux loc segment =
       match segment with
       | { start; finish; kind; content } -> (
           match kind with
@@ -539,32 +535,25 @@ module Interp = struct
                     update_position (foffset + border) finish loc.loc_start;
                 }
               in
-              Exp.apply
-                (Exp.ident ~loc { loc; txt = to_string_ident })
-                [ (Nolabel, Exp.ident ~loc { loc; txt = Lident content }) ])
+              Exp.ident ~loc { loc; txt = Lident content })
     in
-    let concat_exp =
-      let to_string_ident = Longident.Ldot (Lident "Obj", "magic") in
-      fun a_loc x ~(lhs : Parsetree.expression) : Parsetree.expression ->
-        let loc = merge_loc a_loc lhs.pexp_loc in
-        Exp.apply
-          (Exp.ident { txt = concat_ident; loc })
-          [ (Nolabel, lhs); (Nolabel, aux loc x ~to_string_ident) ]
+    let concat_exp a_loc x ~(lhs : Parsetree.expression) =
+      let loc = merge_loc a_loc lhs.pexp_loc in
+      Exp.apply
+        (Exp.ident { txt = concat_ident; loc })
+        [ (Nolabel, lhs); (Nolabel, aux loc x) ]
     in
-    let to_string_ident =
-      Longident.Ldot (Ldot (Lident "Js", "String"), "make")
-    in
-    fun loc (rev_segments : segment list) ->
+    fun loc rev_segments ->
       match rev_segments with
       | [] -> Exp.constant (Pconst_string ("", loc, escaped_j_delimiter))
-      | [ segment ] -> aux loc segment ~to_string_ident (* string literal *)
+      | [ segment ] -> aux loc segment (* string literal *)
       | { content = ""; _ } :: rest -> handle_segments loc rest
       | a :: rest -> concat_exp loc a ~lhs:(handle_segments loc rest)
 
   let transform_interp loc s =
     let s_len = String.length s in
     let buf = Buffer.create (s_len * 2) in
-    let cxt : cxt =
+    let cxt =
       {
         segment_start = { lnum = 0; offset = 0; byte_bol = 0 };
         buf;
@@ -640,4 +629,4 @@ let rewrite_structure =
           | _ -> super.expr self e);
     }
   in
-  fun (stru : Parsetree.structure) -> mapper.structure mapper stru
+  fun stru -> mapper.structure mapper stru
