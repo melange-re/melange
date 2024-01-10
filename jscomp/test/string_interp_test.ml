@@ -1,4 +1,4 @@
-let hi2 xx yy (zz : int) = {j|
+let hi2 xx yy (zz : string) = {j|
 $xx $yy
 
 $zz
@@ -19,12 +19,12 @@ let a = {j|test|j}
 let a0 = {js|Hello \\|js}
 let a1 =  {j|Hello \\|j}
 let a2 =  {j|Hello \$|j}
-let a3 world =  {j|Hello \\$world|j} 
+let a3 world =  {j|Hello \\$world|j}
 let a4 = {j||j}
 let a5 x = {j|$x|j}
 let a6 x = {j|$(x)|j}
 
-let a7 x0 x3 x5 
+let a7 x0 x3 x5
   = {j|\\$x0,\$x1,\\\$x2,\\\\$x3, \\\\\$x4,\\\\\\$x5|j}
 
 let ffff a_1 a_2 = {j| hello $a_1, wlecome to $(a_2)  |j}
@@ -34,7 +34,9 @@ let ffff a_1 a_2 = {j| hello $a_1, wlecome to $(a_2)  |j}
 |j}  *)
 
 let f x y =
-    let sum = x + y in
+    let x, y, sum =
+      Js.String.make x, Js.String.make y, Js.String.make (x + y)
+    in
     Js.log {j| $x + $y = $sum |j}
 
 
@@ -56,5 +58,3 @@ let test5 x  = {j|$(x)|j}
 
 let js_in_raw = [%raw{js|"hello" + "你好"|js}]
 let j_in_raw = [%raw{j|"hello" + "你好"|j}]
-
-

@@ -20,3 +20,18 @@
                          ^^^^^^
   Error: `   ' is not a valid syntax of interpolated identifer
   [2]
+
+`{j| .. |j}` interpolation is strict about string arguments
+
+  $ cat > x.ml <<EOF
+  > let x =
+  >   let y = 3 in
+  >   {j| Hello, \$(y)|j}
+  > EOF
+  $ melc -ppx melppx x.ml
+  File "x.ml", line 3, characters 15-16:
+  3 |   {j| Hello, $(y)|j}
+                     ^
+  Error: This expression has type int but an expression was expected of type
+           string
+  [2]
