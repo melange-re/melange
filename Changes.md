@@ -137,6 +137,8 @@ Unreleased
 - fix: add a newline after `%mel.raw` expressions to avoid breaking JS output
   when they contain single line comments
   ([#1017](https://github.com/melange-re/melange/pull/1017))
+- BREAKING(core): only allow strings in `{j| ... |j}` interpolation
+  ([#1024](https://github.com/melange-re/melange/pull/1024))
 
 2.2.0 2023-12-05
 ---------------
