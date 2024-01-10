@@ -3,7 +3,7 @@ let ( =~ ) a b = OUnit.assert_equal ~cmp:String.equal a b
 
 module Utf8_string = Melange_ffi.Utf8_string
 
-(* Note [Var] kind can not be mpty  *)
+(* Note [Expr] kind can not be mpty  *)
 let empty_segment { Utf8_string.Interp.Private.content; _ } =
   String.length content = 0
 
@@ -38,8 +38,8 @@ let ( ==* ) a b =
   in
   OUnit.assert_equal segments b
 
-let varParen : Utf8_string.Interp.kind = Var (2, -1)
-let var : Utf8_string.Interp.kind = Var (1, 0)
+let varParen : Utf8_string.Interp.kind = Expr (2, -1)
+let var : Utf8_string.Interp.kind = Expr (1, 0)
 
 let suites =
   __FILE__

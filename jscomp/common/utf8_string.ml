@@ -220,8 +220,8 @@ module Interp = struct
     | Unmatched_paren
     | Invalid_syntax_of_var of string
 
-  type kind = String | Var of int * int
-  (* [Var (loffset, roffset)]
+  type kind = String | Expr of int * int
+  (* [Expr (loffset, roffset)]
      For parens it used to be (2,-1)
      for non-parens it used to be (1,0) *)
 
@@ -331,50 +331,72 @@ module Interp = struct
            },
            error ))
 
+  let empty_segment_cxt cxt =
+    (* Move the position back 2 characters "$(" if this is the empty
+       interpolation. *)
+    {
+      cxt with
+      segment_start =
+        {
+          cxt.segment_start with
+          offset = (match cxt.segment_start.offset with 0 -> 0 | n -> n - 3);
+          byte_bol =
+            (match cxt.segment_start.byte_bol with 0 -> 0 | n -> n - 3);
+        };
+      pos_bol = cxt.pos_bol + 3;
+      byte_bol = cxt.byte_bol + 3;
+    }
+
   let add_var_segment cxt loc loffset roffset =
     let content = Buffer.contents cxt.buf in
     Buffer.clear cxt.buf;
-    let next_loc =
-      {
-        lnum = cxt.pos_lnum;
-        offset = loc - cxt.pos_bol;
-        byte_bol = cxt.byte_bol;
-      }
-    in
     if valid_identifier content then (
+      let next_loc =
+        {
+          lnum = cxt.pos_lnum;
+          offset = loc - cxt.pos_bol;
+          byte_bol = cxt.byte_bol;
+        }
+      in
       cxt.segments <-
         {
           start = cxt.segment_start;
           finish = next_loc;
-          kind = Var (loffset, roffset);
+          kind = Expr (loffset, roffset);
           content;
         }
         :: cxt.segments;
       cxt.segment_start <- next_loc)
     else
       let cxt =
-        match String.trim content with
-        | "" ->
-            (* Move the position back 2 characters "$(" if this is the empty
-               interpolation. *)
-            {
-              cxt with
-              segment_start =
-                {
-                  cxt.segment_start with
-                  offset =
-                    (match cxt.segment_start.offset with 0 -> 0 | n -> n - 3);
-                  byte_bol =
-                    (match cxt.segment_start.byte_bol with
-                    | 0 -> 0
-                    | n -> n - 3);
-                };
-              pos_bol = cxt.pos_bol + 3;
-              byte_bol = cxt.byte_bol + 3;
-            }
-        | _ -> cxt
+        match String.trim content with "" -> empty_segment_cxt cxt | _ -> cxt
       in
       pos_error cxt ~loc (Invalid_syntax_of_var content)
+
+  let add_expr_segment cxt loc loffset roffset =
+    let content = Buffer.contents cxt.buf in
+    Buffer.clear cxt.buf;
+    match String.trim content with
+    | "" ->
+        let cxt = empty_segment_cxt cxt in
+        pos_error cxt ~loc (Invalid_syntax_of_var content)
+    | _ ->
+        let next_loc =
+          {
+            lnum = cxt.pos_lnum;
+            offset = loc - cxt.pos_bol;
+            byte_bol = cxt.byte_bol;
+          }
+        in
+        cxt.segments <-
+          {
+            start = cxt.segment_start;
+            finish = next_loc;
+            kind = Expr (loffset, roffset);
+            content;
+          }
+          :: cxt.segments;
+        cxt.segment_start <- next_loc
 
   let add_str_segment cxt loc =
     let content = Buffer.contents cxt.buf in
@@ -453,15 +475,25 @@ module Interp = struct
 
   and expect_var_paren loc s offset ({ buf; s_len; _ } as cxt) =
     let v = ref offset in
-    while !v < s_len && s.[!v] <> ')' do
+    let opening_parens = ref [] in
+    let stop = ref false in
+    while !v < s_len && not !stop do
       let cur_char = s.[!v] in
-      Buffer.add_char buf cur_char;
-      incr v
+
+      (if cur_char = ')' then
+         match !opening_parens with
+         | [] -> stop := true
+         | _ :: rest -> opening_parens := rest);
+
+      if not !stop then (
+        if cur_char = '(' then opening_parens := cur_char :: !opening_parens;
+        Buffer.add_char buf cur_char;
+        incr v)
     done;
     let added_length = !v - offset in
     let loc = added_length + 1 + loc in
     if !v < s_len && s.[!v] = ')' then (
-      add_var_segment cxt loc 2 (-1);
+      add_expr_segment cxt loc 2 (-1);
       check_and_transform loc s (added_length + 1 + offset) cxt)
     else pos_error cxt ~loc Unmatched_paren
 
@@ -525,7 +557,7 @@ module Interp = struct
           | String ->
               let loc = update border start finish loc in
               Exp.constant (Pconst_string (content, loc, escaped_j_delimiter))
-          | Var (soffset, foffset) ->
+          | Expr (soffset, foffset) -> (
               let loc =
                 {
                   loc with
@@ -535,7 +567,22 @@ module Interp = struct
                     update_position (foffset + border) finish loc.loc_start;
                 }
               in
-              Exp.ident ~loc { loc; txt = Lident content })
+              let lexbuf = Lexing.from_string content in
+              try { (Parse.expression lexbuf) with pexp_loc = loc }
+              with Syntaxerr.Error err ->
+                let err =
+                  match err with
+                  | Unclosed _ -> Syntaxerr.Other loc
+                  | Expecting (_, s) -> Expecting (loc, s)
+                  | Not_expecting (_, s) -> Not_expecting (loc, s)
+                  | Applicative_path _ -> Applicative_path loc
+                  | Variable_in_scope (_, s) -> Variable_in_scope (loc, s)
+                  | Other _ -> Other loc
+                  | Ill_formed_ast (_, s) -> Ill_formed_ast (loc, s)
+                  | Invalid_package_type (_, s) -> Invalid_package_type (loc, s)
+                  | Removed_string_set _ -> Removed_string_set loc
+                in
+                raise (Syntaxerr.Error err)))
     in
     let concat_exp a_loc x ~(lhs : Parsetree.expression) =
       let loc = merge_loc a_loc lhs.pexp_loc in
