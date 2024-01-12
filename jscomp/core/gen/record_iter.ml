@@ -189,7 +189,7 @@ let make type_declaration =
                Type.field { txt = name; loc }
                  (Typ.constr { txt = Lident "fn"; loc }
                     [ Typ.constr { txt = Lident name; loc } [] ])))
-           (StringSet.to_list customNames))
+           (StringSet.to_seq customNames |> List.of_seq))
     in
     let iter = Ast_helper.Type.mk ~kind:record { txt = "iter"; loc } in
     let fn =
@@ -206,7 +206,7 @@ let make type_declaration =
            ~f:(fun s ->
              let lid = { Asttypes.txt = Longident.Lident s; loc } in
              (lid, Ast_helper.Exp.ident lid))
-           (StringSet.to_list customNames))
+           (StringSet.to_seq customNames |> List.of_seq))
         None
     in
     [%stri let super : iter = [%e super]]
