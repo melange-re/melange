@@ -26,7 +26,7 @@
     } // (flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages."${system}".extend (self: super: {
-          ocamlPackages = super.ocaml-ng.ocamlPackages_4_14;
+          ocamlPackages = super.ocaml-ng.ocamlPackages_5_1;
         });
 
         packages =
