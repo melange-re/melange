@@ -48,6 +48,19 @@
    %{targets})))
 
 (rule
+ (targets ast_io.ml)
+ (deps ast_io.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
  (target include_dirs.ml)
  (deps include_dirs.dev.ml include_dirs.release.ml)
  (action

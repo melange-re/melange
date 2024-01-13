@@ -26,7 +26,7 @@ open Melstd
 open Melangelib
 open Melange_compiler_libs
 module Js = Jsoo_runtime.Js
-module Melange_OCaml_version = Ppxlib_ast__.Versions.OCaml_501
+module Melange_OCaml_version = Ast_io.Melange_ast_version
 
 module Melange_ast = struct
   external to_ppxlib :

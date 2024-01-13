@@ -84,9 +84,11 @@ module As_ppx = struct
     Cmd_ppx_apply.apply_rewriters ~tool_name:"melppx" kind ast
 
 
+module Melange_ast_version = Melangelib.Ast_io.Melange_ast_version
+
 module Convert =
   Ppxlib_ast.Convert
-    (Ppxlib_ast__.Versions.OCaml_501)
+    (Melange_ast_version)
     (Ppxlib_ast__.Versions.OCaml_current)
 
 let apply_lazy ~source ~target =
@@ -98,7 +100,7 @@ let apply_lazy ~source ~target =
   | Intf ast ->
       let ast: Ppxlib_ast__.Versions.OCaml_current.Ast.Parsetree.signature =
         let ast = apply ~kind:Ml_binary.Mli ast in
-        let ppxlib_ast: Ppxlib_ast__.Versions.OCaml_501.Ast.Parsetree.signature =
+        let ppxlib_ast: Melange_ast_version.Ast.Parsetree.signature =
           Obj.magic ast
         in
         Convert.copy_signature ppxlib_ast
@@ -112,7 +114,7 @@ let apply_lazy ~source ~target =
         let ast: Melange_compiler_libs.Parsetree.structure =
           apply ~kind:Ml_binary.Ml ast
         in
-        let ppxlib_ast: Ppxlib_ast__.Versions.OCaml_501.Ast.Parsetree.structure =
+        let ppxlib_ast: Melange_ast_version.Ast.Parsetree.structure =
           Obj.magic ast
         in
         Convert.copy_structure ppxlib_ast

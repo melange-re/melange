@@ -23,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, US. *)
 
 open Import
+module Melange_ast_version : Ppxlib_ast.OCaml_version
 module Compiler_version = Ppxlib_ast.Compiler_version
 
 module type OCaml_version = Ppxlib_ast.OCaml_version
