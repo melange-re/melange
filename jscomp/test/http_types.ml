@@ -23,7 +23,7 @@ class type _resp =
 type resp = _resp Js.t
 class type _server =
   object
-    method listen : int ->  string -> (unit -> unit [@u]) -> unit
+    method listen : int ->  string -> (unit -> unit [@u0]) -> unit
   end[@u]
 type server = _server Js.t
 class type _http =

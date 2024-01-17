@@ -28,7 +28,7 @@ open struct
   module Js = Js_internal
 end
 
-let getGlobalThis : (unit -> global[@u]) =
+let getGlobalThis : (unit -> global[@u0]) =
   [%raw
     {| function(){
   if (typeof globalThis !== 'undefined') return globalThis;

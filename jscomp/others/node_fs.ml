@@ -67,7 +67,7 @@ module Watch = struct
     f:
       ([ `change of
          (string (*eventType*) -> Node.string_buffer (* filename *) -> unit[@u])
-       | `error of (unit -> unit[@u]) ]
+       | `error of (unit -> unit[@u0]) ]
       [@mel.string]) ->
     t = "on"
   [@@mel.send]

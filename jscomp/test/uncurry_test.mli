@@ -1,5 +1,5 @@
 type ('a0, 'a1) t = ('a0 -> 'a1 [@u])
-val f0 : (unit -> int [@u])
+val f0 : (unit -> int [@u0])
 val f1 : ('a -> 'a [@u])
 val f2 : ('a -> 'b -> 'a * 'b [@u])
 val f3 : ('a -> 'b -> 'c -> 'a * 'b * 'c [@u])
@@ -265,4 +265,4 @@ val f22 :
    'p * 'q * 'r * 's * 't * 'u * 'v
   [@u])
 
-val xx : unit -> 'a [@u]
+val xx : unit -> 'a [@u0]

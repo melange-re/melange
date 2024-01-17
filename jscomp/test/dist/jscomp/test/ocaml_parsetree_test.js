@@ -2042,56 +2042,56 @@ function from_pair_suites(name, suites) {
   var match = Stdlib__Array.to_list(Process.argv);
   if (match) {
     if (is_mocha(undefined)) {
-      describe(name, (function () {
-              return Stdlib__List.iter((function (param) {
-                            var code = param[1];
-                            it(param[0], (function () {
-                                    var spec = Curry._1(code, undefined);
-                                    switch (spec.TAG | 0) {
-                                      case /* Eq */0 :
-                                          Assert.deepEqual(spec._0, spec._1);
-                                          return ;
-                                      case /* Neq */1 :
-                                          Assert.notDeepEqual(spec._0, spec._1);
-                                          return ;
-                                      case /* StrictEq */2 :
-                                          Assert.strictEqual(spec._0, spec._1);
-                                          return ;
-                                      case /* StrictNeq */3 :
-                                          Assert.notStrictEqual(spec._0, spec._1);
-                                          return ;
-                                      case /* Ok */4 :
-                                          Assert.ok(spec._0);
-                                          return ;
-                                      case /* Approx */5 :
-                                          var b = spec._1;
-                                          var a = spec._0;
-                                          if (!close_enough(undefined, a, b)) {
-                                            Assert.deepEqual(a, b);
-                                            return ;
-                                          } else {
-                                            return ;
-                                          }
-                                      case /* ApproxThreshold */6 :
-                                          var b$1 = spec._2;
-                                          var a$1 = spec._1;
-                                          if (!close_enough(spec._0, a$1, b$1)) {
-                                            Assert.deepEqual(a$1, b$1);
-                                            return ;
-                                          } else {
-                                            return ;
-                                          }
-                                      case /* ThrowAny */7 :
-                                          Assert.throws(spec._0);
-                                          return ;
-                                      case /* Fail */8 :
-                                          return assert_fail("failed");
-                                      case /* FailWith */9 :
-                                          return assert_fail(spec._0);
-                                      
+      describe(name, (function (param) {
+              Stdlib__List.iter((function (param) {
+                      var code = param[1];
+                      it(param[0], (function () {
+                              var spec = Curry._1(code, undefined);
+                              switch (spec.TAG | 0) {
+                                case /* Eq */0 :
+                                    Assert.deepEqual(spec._0, spec._1);
+                                    return ;
+                                case /* Neq */1 :
+                                    Assert.notDeepEqual(spec._0, spec._1);
+                                    return ;
+                                case /* StrictEq */2 :
+                                    Assert.strictEqual(spec._0, spec._1);
+                                    return ;
+                                case /* StrictNeq */3 :
+                                    Assert.notStrictEqual(spec._0, spec._1);
+                                    return ;
+                                case /* Ok */4 :
+                                    Assert.ok(spec._0);
+                                    return ;
+                                case /* Approx */5 :
+                                    var b = spec._1;
+                                    var a = spec._0;
+                                    if (!close_enough(undefined, a, b)) {
+                                      Assert.deepEqual(a, b);
+                                      return ;
+                                    } else {
+                                      return ;
                                     }
-                                  }));
-                          }), suites);
+                                case /* ApproxThreshold */6 :
+                                    var b$1 = spec._2;
+                                    var a$1 = spec._1;
+                                    if (!close_enough(spec._0, a$1, b$1)) {
+                                      Assert.deepEqual(a$1, b$1);
+                                      return ;
+                                    } else {
+                                      return ;
+                                    }
+                                case /* ThrowAny */7 :
+                                    Assert.throws(spec._0);
+                                    return ;
+                                case /* Fail */8 :
+                                    return assert_fail("failed");
+                                case /* FailWith */9 :
+                                    return assert_fail(spec._0);
+                                
+                              }
+                            }));
+                    }), suites);
             }));
       return ;
     } else {

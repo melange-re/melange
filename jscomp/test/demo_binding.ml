@@ -102,7 +102,7 @@ class type textArea =
   end[@u]
 
 
-external set_interval : (unit -> unit [@u]) -> float -> unit  =  "setInterval"
+external set_interval : (unit -> unit [@u0]) -> float -> unit  =  "setInterval"
      [@@mel.module "@runtime", "Runtime"]
 
 external toFixed : float -> int -> string = "toFixed" [@@mel.send]

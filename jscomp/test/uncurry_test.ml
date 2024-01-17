@@ -1,6 +1,6 @@
 type ('a0, 'a1) t = ('a0 -> 'a1 [@u])
 
-let f0 = fun [@u] () -> 0
+let f0 = fun [@u0] () -> 0
 let f1 = fun [@u] a0 -> a0
 let f2 = fun [@u] a0 a1 -> (a0,a1)
 let f3= fun [@u]a0 a1 a2 -> ( a0,a1,a2)
@@ -25,7 +25,7 @@ let f21= fun [@u]a0 a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 a17 a
 let f22= fun [@u]a0 a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 a17 a18 a19 a20 a21 -> ( a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21)
 (* let f23= fun [@u]a0 a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 a17 a18 a19 a20 a21 a22 -> ( a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21) *)
 (* TODO: better errror message than Unbound record field Js.Fn.I_23 *)
-;; f0 () [@u] |. Js.log
+;; f0 () [@u0] |. Js.log
 ;; f1 0 [@u] |. Js.log
 
 ;; f2 0 1 [@u] |. Js.log
@@ -50,4 +50,4 @@ let f22= fun [@u]a0 a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 a17 a
 ;; f21 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 [@u] |. Js.log
 ;; f22 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 [@u] |. Js.log
 
-let rec xx = fun [@u] () -> xx () [@u]
+let rec xx = fun [@u0] () -> xx () [@u0]

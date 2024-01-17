@@ -36,8 +36,8 @@ type 'a concrete = {
 
 exception Undefined
 
-external fnToVal : (unit -> 'a [@u]) -> 'a = "%identity"
-external valToFn :  'a -> (unit -> 'a [@u])  = "%identity"
+external fnToVal : (unit -> 'a [@u0]) -> 'a = "%identity"
+external valToFn :  'a -> (unit -> 'a [@u0])  = "%identity"
 external castToConcrete : 'a lazy_t -> 'a concrete   = "%identity"
 external of_concrete : 'a concrete -> 'a lazy_t   = "%identity"
 
@@ -46,15 +46,15 @@ let is_val (type a ) (l : a lazy_t) : bool =
 
 
 
-let forward_with_closure (type a ) (blk : a concrete) (closure : unit -> a [@u]) : a =
-  let result = closure () [@u] in
+let forward_with_closure (type a ) (blk : a concrete) (closure : unit -> a [@u0]) : a =
+  let result = closure () [@u0] in
   (* do set_field BEFORE set_tag *)
   blk.value <- result;
   blk.tag<- true;
   result
 
 
-let raise_undefined =  (fun [@u] () -> raise Undefined)
+let raise_undefined =  (fun [@u0] () -> raise Undefined)
 
 (* Assume [blk] is a block with tag lazy *)
 let force_lazy_block (type a ) (blk : a t) : a  =
@@ -64,7 +64,7 @@ let force_lazy_block (type a ) (blk : a t) : a  =
   try
     forward_with_closure blk closure
   with e ->
-    blk.value <- fnToVal (fun [@u] () -> raise e);
+    blk.value <- fnToVal (fun [@u0] () -> raise e);
     raise e
 
 
