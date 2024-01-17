@@ -1,7 +1,0 @@
-pin-depends: [
-  [ "merlin-lib.dev" "https://github.com/ocaml/merlin/releases/download/4.14-502_preview2/merlin-4.14-502.preview2.tbz" ]
-  [ "merlin.dev" "https://github.com/ocaml/merlin/releases/download/4.14-502_preview2/merlin-4.14-502.preview2.tbz" ]
-  [ "dot-merlin-reader.dev" "https://github.com/ocaml/merlin/releases/download/4.14-502_preview2/merlin-4.14-502.preview2.tbz" ]
-  [ "reason-react-ppx.dev" "git+https://github.com/reasonml/reason-react.git#anmonteiro/melange-4" ]
-  [ "reason-react.dev" "git+https://github.com/reasonml/reason-react.git#anmonteiro/melange-4" ]
-]
