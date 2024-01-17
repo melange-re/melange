@@ -8,7 +8,7 @@ homepage: "https://github.com/melange-re/melange"
 bug-reports: "https://github.com/melange-re/melange/issues"
 depends: [
   "dune" {>= "3.13"}
-  "ocaml" {>= "5.1"}
+  "ocaml" {>= "4.14" & < "5.0"}
   "cmdliner" {>= "1.1.0"}
   "dune-build-info"
   "cppo" {build}
@@ -35,10 +35,3 @@ build: [
   ]
 ]
 dev-repo: "git+https://github.com/melange-re/melange.git"
-pin-depends: [
-  [ "merlin-lib.dev" "https://github.com/ocaml/merlin/releases/download/4.14-502_preview2/merlin-4.14-502.preview2.tbz" ]
-  [ "merlin.dev" "https://github.com/ocaml/merlin/releases/download/4.14-502_preview2/merlin-4.14-502.preview2.tbz" ]
-  [ "dot-merlin-reader.dev" "https://github.com/ocaml/merlin/releases/download/4.14-502_preview2/merlin-4.14-502.preview2.tbz" ]
-  [ "reason-react-ppx.dev" "git+https://github.com/reasonml/reason-react.git#anmonteiro/melange-4" ]
-  [ "reason-react.dev" "git+https://github.com/reasonml/reason-react.git#anmonteiro/melange-4" ]
-]
