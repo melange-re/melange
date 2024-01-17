@@ -87,7 +87,8 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
    _;
   } -> (
       match fst (Ast_attributes.process_attributes_rev ptyp_attributes) with
-      | Uncurry _ -> Ast_typ_uncurry.to_uncurry_type loc self label args body
+      | Uncurry { zero_arity; _ } ->
+          Ast_typ_uncurry.to_uncurry_type loc self ~zero_arity label args body
       | Meth_callback _ ->
           Ast_typ_uncurry.to_method_callback_type loc self label args body
       | Method _ -> Ast_typ_uncurry.to_method_type loc self label args body
@@ -107,7 +108,8 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
                     let attrs, core_type =
                       match Ast_attributes.process_attributes_rev attrs with
                       | Nothing, attrs -> (attrs, ty) (* #1678 *)
-                      | Uncurry attr, attrs -> (attrs, attr +> ty)
+                      | Uncurry { attribute; _ }, attrs ->
+                          (attrs, attribute +> ty)
                       | Method _, _ ->
                           Location.raise_errorf ~loc
                             "`%@mel.get' / `%@mel.set' cannot be used with \
@@ -120,7 +122,8 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
                     let attrs, core_type =
                       match Ast_attributes.process_attributes_rev attrs with
                       | Nothing, attrs -> (attrs, ty)
-                      | Uncurry attr, attrs -> (attrs, attr +> ty)
+                      | Uncurry { attribute; _ }, attrs ->
+                          (attrs, attribute +> ty)
                       | Method _, _ ->
                           Location.raise_errorf ~loc
                             "`%@mel.get' / `%@mel.set' cannot be used with \
@@ -138,7 +141,8 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
                           meth_.pof_attributes
                       with
                       | Nothing, attrs -> (attrs, ty)
-                      | Uncurry attr, attrs -> (attrs, attr +> ty)
+                      | Uncurry { attribute; _ }, attrs ->
+                          (attrs, attribute +> ty)
                       | Method attr, attrs -> (attrs, attr +> ty)
                       | Meth_callback attr, attrs -> (attrs, attr +> ty)
                     in

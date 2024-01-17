@@ -107,24 +107,29 @@ let process_method_attributes_rev attrs =
 type attr_kind =
   | Nothing
   | Meth_callback of attribute
-  | Uncurry of attribute
+  | Uncurry of { attribute : attribute; zero_arity : bool }
   | Method of attribute
 
 let process_attributes_rev attrs : attr_kind * attribute list =
   List.fold_left
-    ~f:(fun (st, acc) ({ attr_name = { txt; loc }; _ } as attr) ->
+    ~f:(fun (st, acc) ({ attr_name = { txt; loc }; _ } as attribute) ->
       match (txt, st) with
       | "u", (Nothing | Uncurry _) ->
-          (Uncurry attr, acc) (* TODO: warn unused/duplicated attribute *)
+          (Uncurry { attribute; zero_arity = false }, acc)
+          (* TODO: warn unused/duplicated attribute *)
+      | "u0", (Nothing | Uncurry { zero_arity = true; _ }) ->
+          (Uncurry { attribute; zero_arity = true }, acc)
+      | "u0", Uncurry { zero_arity = false; _ } ->
+          Location.raise_errorf ~loc "Cannot use both `[@u0]' and `[@u]'"
       | ("mel.this" | "this"), (Nothing | Meth_callback _) ->
           warn_if_non_namespaced ~loc txt;
-          (Meth_callback attr, acc)
+          (Meth_callback attribute, acc)
       | ("mel.meth" | "meth"), (Nothing | Method _) ->
           warn_if_non_namespaced ~loc txt;
-          (Method attr, acc)
+          (Method attribute, acc)
       | ("u" | "mel.this" | "this"), _ ->
           Error.err ~loc Conflict_u_mel_this_mel_meth
-      | _, _ -> (st, attr :: acc))
+      | _, _ -> (st, attribute :: acc))
     ~init:(Nothing, []) attrs
 
 let process_pexp_fun_attributes_rev attrs =
@@ -133,16 +138,12 @@ let process_pexp_fun_attributes_rev attrs =
       match txt with "mel.open" -> (true, acc) | _ -> (st, attr :: acc))
     ~init:(false, []) attrs
 
+(* TODO: recognize `@u0` *)
 let process_uncurried attrs =
   List.fold_left
     ~f:(fun (st, acc) ({ attr_name = { txt; _ }; _ } as attr) ->
       match (txt, st) with "u", _ -> (true, acc) | _, _ -> (st, attr :: acc))
     ~init:(false, []) attrs
-
-let is_uncurried attr =
-  match attr with
-  | { attr_name = { Location.txt = "u"; _ }; _ } -> true
-  | _ -> false
 
 let mel_get =
   {

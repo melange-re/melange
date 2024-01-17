@@ -1,4 +1,4 @@
-external describe : string -> (unit -> unit[@u]) -> unit = "describe"
+external describe : string -> (unit -> unit[@u0]) -> unit = "describe"
 
 external it : string -> (unit -> unit[@mel.uncurry]) -> unit = "it"
 external it_promise : string -> (unit -> _ Js.Promise.t [@mel.uncurry]) -> unit = "it"
@@ -37,7 +37,7 @@ let from_suites name (suite :  (string * ('a -> unit)) list) =
   match Array.to_list Node.Process.process##argv with
   | _cmd :: _ ->
     if is_mocha () then
-      describe name (fun [@u] () ->
+      describe name (fun [@u0] () ->
           List.iter (fun (name, code) -> it name code) suite)
 
   | _ -> ()
@@ -96,7 +96,7 @@ let from_pair_suites name (suites :  pair_suites) =
   match Array.to_list Node.Process.process##argv with
   | _cmd :: _ ->
     if is_mocha () then
-      describe name (fun [@u] () ->
+      describe name (fun [@u0] () ->
           suites |>
           List.iter (fun (name, code) ->
               it name (fun _ ->
@@ -111,7 +111,7 @@ let from_promise_suites name (suites : (string * _ Js.Promise.t ) list) =
   match Array.to_list Node.Process.process##argv with
   | _cmd :: _ ->
     if is_mocha () then
-      describe name (fun [@u] () ->
+      describe name (fun [@u0] () ->
           suites |>
           List.iter (fun (name, code) ->
               it_promise name (fun _ ->

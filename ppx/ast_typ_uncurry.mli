@@ -49,9 +49,19 @@ type uncurry_type_gen =
   core_type)
   cxt
 
-val to_uncurry_type : uncurry_type_gen
+val to_uncurry_type :
+  Ast_helper.loc ->
+  Ast_traverse.map ->
+  zero_arity:bool ->
+  Asttypes.arg_label ->
+  (* label for error checking *)
+  core_type ->
+  (* First arg *)
+  core_type ->
+  (* Tail *)
+  core_type
 (** syntax :
-    {[ int -> int -> int [@bs]]}
+    {[ int -> int -> int [@u]]}
 *)
 
 val to_method_type : uncurry_type_gen

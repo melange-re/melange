@@ -30,12 +30,14 @@ module Warnings = struct
     | Fragile_external of string
     | Redundant_mel_string
     | Deprecated_non_namespaced_attribute
+    | Uncurried_arity0
 
   let kind = function
     | Unused_attribute _ -> "unused"
     | Fragile_external _ -> "fragile"
     | Redundant_mel_string -> "redundant"
     | Deprecated_non_namespaced_attribute -> "deprecated"
+    | Uncurried_arity0 -> "uncurried"
 
   let pp fmt t =
     match t with
@@ -43,8 +45,7 @@ module Warnings = struct
         Format.fprintf fmt
           "Unused attribute [%@%s]@\n\
            This means such annotation is not annotated properly.@\n\
-           For example, some annotations are only meaningful in externals\n"
-          s
+           For example, some annotations are only meaningful in externals" s
     | Fragile_external s ->
         Format.fprintf fmt
           "%s : the external name is inferred from val name is unsafe from \
@@ -52,12 +53,17 @@ module Warnings = struct
           s
     | Redundant_mel_string ->
         Format.fprintf fmt
-          "[@mel.string] is redundant here, you can safely remove it"
+          "`[@mel.string]' is redundant here, you can safely remove it"
     | Deprecated_non_namespaced_attribute ->
         Format.fprintf fmt
           "FFI attributes without a namespace are deprecated and will be \
            removed in the next release.@\n\
            Use `mel.*' instead."
+    | Uncurried_arity0 ->
+        Format.fprintf fmt
+          "This uncurried function takes a single unit argument, but will be \
+           applied with `undefined' in the compiled JS.@\n\
+           Use `[@u0]' if it is intended to have 0-arity."
 end
 
 let warn =

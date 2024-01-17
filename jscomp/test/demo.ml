@@ -94,7 +94,7 @@ let ui_layout
       with  e -> ()
     end;
     let fmt v = toFixed v 2 in
-    set_interval (fun [@u] () ->
+    set_interval (fun [@u0] () ->
 
       grid##dataSource #=
         ( array_map data (fun [@u] {ticker; price } ->

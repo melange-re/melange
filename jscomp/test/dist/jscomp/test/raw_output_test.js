@@ -10,9 +10,9 @@ function mk(fn) {
 (((_)=> console.log('should works')
     )(undefined));
 
-console.log((function () {
+console.log((function (param) {
           return 1;
-        })());
+        })(undefined));
 
 exports.mk = mk;
 /*  Not a pure module */

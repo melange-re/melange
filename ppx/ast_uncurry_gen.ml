@@ -66,8 +66,8 @@ let to_method_callback loc (self : Ast_traverse.map) label pat body :
                [ Typ.any ~loc () ]) );
       ] )
 
-let to_uncurry_fn loc (self : Ast_traverse.map) (label : Asttypes.arg_label) pat
-    body : expression_desc =
+let to_uncurry_fn loc (self : Ast_traverse.map) ~zero_arity
+    (label : Asttypes.arg_label) pat body : expression_desc =
   Error.optional_err ~loc label;
   let rec aux acc (body : expression) =
     match Ast_attributes.process_attributes_rev body.pexp_attributes with
@@ -89,11 +89,14 @@ let to_uncurry_fn loc (self : Ast_traverse.map) (label : Asttypes.arg_label) pat
   in
   let len = List.length rev_extra_args in
   let arity =
-    match rev_extra_args with
-    | [ (_, p) ] -> Ast_pat.is_unit_cont ~yes:0 ~no:len p
-    | _ -> len
+    let arity =
+      match (rev_extra_args, zero_arity) with
+      | [ _ ], true -> 0
+      | [ _ ], false -> len (* Ast_pat.is_unit_cont ~yes:0 ~no:len p *)
+      | _ -> len
+    in
+    Error.err_large_arity ~loc arity;
+    string_of_int arity
   in
-  Error.err_large_arity ~loc arity;
-  let arity_s = string_of_int arity in
   Pexp_record
-    ([ ({ txt = Ldot (Ast_literal.js_fn, "I" ^ arity_s); loc }, body) ], None)
+    ([ ({ txt = Ldot (Ast_literal.js_fn, "I" ^ arity); loc }, body) ], None)

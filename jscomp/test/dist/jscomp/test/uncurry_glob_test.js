@@ -9,11 +9,11 @@ function M(U) {
         };
 }
 
-function f() {
+function f(param) {
   return 3;
 }
 
-f();
+f(undefined);
 
 function $plus$great(a, h) {
   return h(a);

@@ -29,7 +29,6 @@ open Ast_helper
    have a final checking for property arities
      [#=],
 *)
-let jsInternal = Ast_literal.js_internal
 
 (* we use the trick
    [( opaque e : _) ] to avoid it being inspected,
@@ -56,7 +55,7 @@ let opaque_full_apply ~loc e =
         [ (Nolabel, e) ],
       Typ.any ~loc () )
 
-let generic_apply loc (self : Ast_traverse.map) obj args
+let generic_apply loc (self : Ast_traverse.map) ~zero_arity obj args
     (cb : loc -> expression -> expression) =
   let obj = self#expression obj in
   let args =
@@ -68,18 +67,21 @@ let generic_apply loc (self : Ast_traverse.map) obj args
   in
   let fn = cb loc obj in
   let args =
-    match args with
-    | [
-     ( Nolabel,
-       { pexp_desc = Pexp_construct ({ txt = Lident "()"; _ }, None); _ } );
-    ] ->
+    match (args, zero_arity) with
+    | ( [
+          ( Nolabel,
+            { pexp_desc = Pexp_construct ({ txt = Lident "()"; _ }, None); _ }
+          );
+        ],
+        true ) ->
         []
     | _ -> args
   in
   let arity = List.length args in
   if arity = 0 then
     Pexp_apply
-      (Exp.ident { txt = Ldot (jsInternal, "run"); loc }, [ (Nolabel, fn) ])
+      ( Exp.ident { txt = Ldot (Ast_literal.js_internal, "run"); loc },
+        [ (Nolabel, fn) ] )
   else
     let arity_s = string_of_int arity in
     opaque_full_apply ~loc
@@ -145,9 +147,18 @@ let method_apply loc (self : Ast_traverse.map) obj name args =
             ])
          args)
 
-let uncurry_fn_apply loc self fn args =
-  generic_apply loc self fn args (fun _ obj -> obj)
+let uncurry_fn_apply loc self ~zero_arity fn args =
+  generic_apply loc self ~zero_arity fn args (fun _ obj -> obj)
 
 let property_apply loc self obj name args =
-  generic_apply loc self obj args (fun loc obj ->
+  let zero_arity =
+    match args with
+    | [
+     ( Nolabel,
+       { pexp_desc = Pexp_construct ({ txt = Lident "()"; _ }, None); _ } );
+    ] ->
+        true
+    | _ -> false
+  in
+  generic_apply loc self ~zero_arity obj args (fun loc obj ->
       Exp.mk ~loc (Ast_util.js_property loc obj name))

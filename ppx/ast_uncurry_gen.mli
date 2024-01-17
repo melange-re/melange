@@ -27,6 +27,7 @@ open Import
 val to_uncurry_fn :
   Location.t ->
   Ast_traverse.map ->
+  zero_arity:bool ->
   Asttypes.arg_label ->
   pattern ->
   expression ->

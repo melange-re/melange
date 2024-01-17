@@ -13,28 +13,28 @@
         js_warning_error_msg: 'Line 1, 18:\n' +
           '  Alert: unused Unused attribute [@mel.uncurry]\n' +
           'This means such annotation is not annotated properly.\n' +
-          'For example, some annotations are only meaningful in externals\n',
+          'For example, some annotations are only meaningful in externals',
         row: 0,
         column: 18,
         endRow: 0,
         endColumn: 29,
         text: 'Unused attribute [@mel.uncurry]\n' +
           'This means such annotation is not annotated properly.\n' +
-          'For example, some annotations are only meaningful in externals\n',
+          'For example, some annotations are only meaningful in externals',
         type: 'alert'
       },
       {
         js_warning_error_msg: 'Line 1, 52:\n' +
           '  Alert: unused Unused attribute [@mel.uncurry]\n' +
           'This means such annotation is not annotated properly.\n' +
-          'For example, some annotations are only meaningful in externals\n',
+          'For example, some annotations are only meaningful in externals',
         row: 0,
         column: 52,
         endRow: 0,
         endColumn: 63,
         text: 'Unused attribute [@mel.uncurry]\n' +
           'This means such annotation is not annotated properly.\n' +
-          'For example, some annotations are only meaningful in externals\n',
+          'For example, some annotations are only meaningful in externals',
         type: 'alert'
       }
     ],

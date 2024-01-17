@@ -1,6 +1,3 @@
-
-
-
 let port = 3000
 let hostname = "127.0.0.1"
 let create_server  http =
@@ -9,11 +6,10 @@ let create_server  http =
       resp##setHeader "Content-Type" "text/plain";
       resp##_end "Hello world\n"
     end in
-  server##listen port hostname  begin fun [@u] () ->
+  server##listen port hostname  begin fun [@u0] () ->
     Js.log ("Server running at http://"^ hostname ^ ":" ^ string_of_int port ^ "/")
   end
 
 let () =
   create_server Http_types.http
-
 

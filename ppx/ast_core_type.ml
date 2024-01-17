@@ -47,24 +47,46 @@ let is_unit ty =
 let to_js_type ~loc x = Typ.constr ~loc { txt = Ast_literal.js_obj; loc } [ x ]
 let make_obj ~loc xs = to_js_type ~loc (Typ.object_ ~loc xs Closed)
 
-(**
-
-{[ 'a . 'a -> 'b ]}
-OCaml does not support such syntax yet
-{[ 'a -> ('a. 'a -> 'b) ]}
-
-*)
 let rec get_uncurry_arity_aux ty acc =
+  (* {[ 'a . 'a -> 'b ]}
+     OCaml does not support such syntax yet
+     {[ 'a -> ('a. 'a -> 'b) ]} *)
   match ty.ptyp_desc with
   | Ptyp_arrow (_, _, new_ty) -> get_uncurry_arity_aux new_ty (succ acc)
   | Ptyp_poly (_, ty) -> get_uncurry_arity_aux ty acc
   | _ -> acc
 
-(**
+let get_uncurry_arity_from_attribute ~zero_arity ty =
+  match (ty.ptyp_desc, zero_arity) with
+  | ( Ptyp_arrow
+        ( Nolabel,
+          { ptyp_desc = Ptyp_constr ({ txt = Lident "unit"; _ }, []); _ },
+          ({ ptyp_desc = Ptyp_arrow _; _ } as rest) ),
+      false ) ->
+      Some (get_uncurry_arity_aux rest 1)
+  | ( Ptyp_arrow
+        ( Nolabel,
+          { ptyp_desc = Ptyp_constr ({ txt = Lident "unit"; _ }, []); _ },
+          { ptyp_desc = Ptyp_arrow _; ptyp_loc; _ } ),
+      true ) ->
+      Location.raise_errorf ~loc:ptyp_loc
+        "`[@u0]' cannot be used with multiple arguments"
+  | ( Ptyp_arrow
+        ( Nolabel,
+          { ptyp_desc = Ptyp_constr ({ txt = Lident "unit"; _ }, []); _ },
+          _ ),
+      true ) ->
+      Some 0
+  | Ptyp_arrow (Nolabel, { ptyp_desc = Ptyp_constr _; ptyp_loc; _ }, _), true ->
+      Location.raise_errorf ~loc:ptyp_loc
+        "`[@u0]' can only be used with the `unit' type"
+  | Ptyp_arrow (_, _, rest), _ -> Some (get_uncurry_arity_aux rest 1)
+  | _ -> None
+
+(*
    {[ unit -> 'b ]} return arity 0
    {[ unit -> 'a1 -> a2']} arity 2
-   {[ 'a1 -> 'a2 -> ... 'aN -> 'b ]} return arity N
-*)
+   {[ 'a1 -> 'a2 -> ... 'aN -> 'b ]} return arity N *)
 let get_uncurry_arity ty =
   match ty.ptyp_desc with
   | Ptyp_arrow

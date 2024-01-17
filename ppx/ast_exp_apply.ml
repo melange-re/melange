@@ -68,26 +68,40 @@ let view_as_app fn (s : string list) : app_pattern option =
 
 let inner_ops = [ "##"; "#@" ]
 
-let rec exclude_with_val =
-  let rec exclude (xs : 'a list) (p : 'a -> bool) : 'a list =
-    match xs with
-    | [] -> []
-    | x :: xs -> if p x then exclude xs p else x :: exclude xs p
+let is_uncurried =
+  let is_uncurried attr =
+    match attr with
+    | { attr_name = { Location.txt = "u0"; _ }; _ } -> `Arity_0
+    | { attr_name = { Location.txt = "u"; _ }; _ } -> `Arity_n
+    | _ -> `No
   in
-  fun l p ->
-    match l with
-    | [] -> None
-    | a0 :: xs -> (
-        if p a0 then Some (exclude xs p)
-        else
-          match xs with
-          | [] -> None
-          | a1 :: rest -> (
-              if p a1 then Some (a0 :: exclude rest p)
-              else
-                match exclude_with_val rest p with
-                | None -> None
-                | Some rest -> Some (a0 :: a1 :: rest)))
+  let pred x = match is_uncurried x with `No -> false | _ -> true in
+  let rec exclude_with_val =
+    let rec exclude (xs : 'a list) =
+      match xs with
+      | [] -> []
+      | x :: xs -> if pred x then exclude xs else x :: exclude xs
+    in
+    fun l ->
+      match l with
+      | [] -> None
+      | a0 :: xs -> (
+          match is_uncurried a0 with
+          | `Arity_0 -> Some (exclude xs, true)
+          | `Arity_n -> Some (exclude xs, false)
+          | `No -> (
+              match xs with
+              | [] -> None
+              | a1 :: rest -> (
+                  match is_uncurried a1 with
+                  | `Arity_0 -> Some (a0 :: exclude rest, true)
+                  | `Arity_n -> Some (a0 :: exclude rest, false)
+                  | `No -> (
+                      match exclude_with_val rest with
+                      | None -> None
+                      | Some (rest, u) -> Some (a0 :: a1 :: rest, u)))))
+  in
+  fun l -> exclude_with_val l
 
 let app_exp_mapper e
     ((self, super) : Ast_traverse.map * (expression -> expression)) fn args =
@@ -105,7 +119,9 @@ let app_exp_mapper e
         pexp_desc =
           (if op = "##" then
              Ast_uncurry_apply.method_apply loc self obj name args
-           else Ast_uncurry_apply.property_apply loc self obj name args);
+           else
+             (* TODO(anmonteiro): check this zero_arity *)
+             Ast_uncurry_apply.property_apply loc self obj name args);
       }
   | Some { op; loc; _ } ->
       Location.raise_errorf ~loc "%s expect f%sproperty arg0 arg2 form" op op
@@ -208,12 +224,9 @@ let app_exp_mapper e
                     pexp_loc_stack = [];
                   }
               | _ -> (
-                  match
-                    ( exclude_with_val f_.pexp_attributes
-                        Ast_attributes.is_uncurried,
-                      f_.pexp_desc )
-                  with
-                  | Some other_attributes, Pexp_apply (fn1, args) ->
+                  match (is_uncurried f_.pexp_attributes, f_.pexp_desc) with
+                  | Some (other_attributes, zero_arity), Pexp_apply (fn1, args)
+                    ->
                       (* a |. f b c [@u]
                          Cannot process uncurried application early as the arity is wip *)
                       let fn1 = self#expression fn1 in
@@ -225,8 +238,8 @@ let app_exp_mapper e
                         fn1.pexp_attributes;
                       {
                         pexp_desc =
-                          Ast_uncurry_apply.uncurry_fn_apply e.pexp_loc self fn1
-                            ((Nolabel, a) :: args);
+                          Ast_uncurry_apply.uncurry_fn_apply e.pexp_loc self
+                            ~zero_arity fn1 ((Nolabel, a) :: args);
                         pexp_loc = e.pexp_loc;
                         pexp_loc_stack = e.pexp_loc_stack;
                         pexp_attributes = e.pexp_attributes @ other_attributes;
@@ -327,15 +340,14 @@ let app_exp_mapper e
       | Some { op; _ } -> Location.raise_errorf "invalid %s syntax" op
       | None ->
           let e =
-            match
-              exclude_with_val e.pexp_attributes Ast_attributes.is_uncurried
-            with
+            match is_uncurried e.pexp_attributes with
             | None -> super e
-            | Some pexp_attributes ->
+            | Some (pexp_attributes, zero_arity) ->
                 {
                   e with
                   pexp_desc =
-                    Ast_uncurry_apply.uncurry_fn_apply e.pexp_loc self fn args;
+                    Ast_uncurry_apply.uncurry_fn_apply e.pexp_loc self
+                      ~zero_arity fn args;
                   pexp_attributes;
                 }
           in

@@ -5,11 +5,11 @@ var Curry = require("melange.js/curry.js");
 var Stdlib__List = require("melange/list.js");
 
 function h0(x) {
-  return x();
+  return x(undefined);
 }
 
 function h00(x) {
-  return x();
+  return x(undefined);
 }
 
 function h1(x, y) {
@@ -39,7 +39,7 @@ function ocaml_run(b, c) {
   return (x + b | 0) + c | 0;
 }
 
-function a0() {
+function a0(param) {
   console.log("hi");
 }
 

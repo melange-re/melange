@@ -52,9 +52,8 @@ end
 ;;   forIn   [%obj{x = 3 ; y = 3}]  (fun[@u] x -> Js.log x)
 
 
-let f3  : unit -> bool [@u] = [%raw"()=>true"]
+let f3  : unit -> bool [@u0] = [%raw"()=>true"]
 
-let bbbb  = f3 () [@u]
+let bbbb  = f3 () [@u0]
 
 ;;assert (bbbb)
-

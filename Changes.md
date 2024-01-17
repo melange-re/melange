@@ -139,6 +139,12 @@ Unreleased
   ([#1017](https://github.com/melange-re/melange/pull/1017))
 - BREAKING(core): only allow strings in `{j| ... |j}` interpolation
   ([#1024](https://github.com/melange-re/melange/pull/1024))
+- BREAKING(ppx): use `[@u0]` for 0-arity uncurried application instead of `()`
+  ([#949](https://github.com/melange-re/melange/pull/949))
+    - Melange wouldn't previously allow to invoke a 1-argument uncurried
+      function with `()` (`unit`). After this change, 0-arity functions must be
+      applied with `[@u0]`. Melange will issue an alert if old 0-arity
+      functions are applied with `[@u]` to help upgrade codebases.
 
 2.2.0 2023-12-05
 ---------------
