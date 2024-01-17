@@ -23,6 +23,14 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Import
+
+module Melange_ast_version =
+#if OCAML_VERSION >= (5, 1, 0)
+  Ppxlib_ast__.Versions.OCaml_501
+#else
+  Ppxlib_ast__.Versions.OCaml_414
+#endif
+
 module Compiler_version = Ppxlib_ast.Compiler_version
 
 module type OCaml_version = Ppxlib_ast.OCaml_version
@@ -35,7 +43,7 @@ module Intf_or_impl = struct
   module Convert =
     Ppxlib_ast.Convert
       (Ppxlib_ast.Selected_ast)
-      (Ppxlib_ast__.Versions.OCaml_501)
+      (Melange_ast_version)
 
   let ppxlib_impl : Ppxlib_ast.Ast.structure -> t =
    fun stru ->

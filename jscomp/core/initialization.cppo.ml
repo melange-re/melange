@@ -105,6 +105,9 @@ module Perfile = struct
     Typemod.initial_env
       ~loc:(Location.in_file "command line")
       ~initially_opened_module
+#if OCAML_VERSION < (5,0,0)
+      ~safe_string:true
+#endif
       ~open_implicit_modules:(List.rev !Clflags.open_modules)
 end
 

@@ -125,5 +125,9 @@ let call_switcher_variant_constr (loc : Lambda.scoped_location)
     ( Alias,
       Pgenval,
       v,
+#if OCAML_VERSION >= (5, 1, 0)
       Lprim (Pfield (0, Pointer, Immutable, Fld_poly_var_tag), [ arg ], loc),
+#else
+      Lprim (Pfield (0, Fld_poly_var_tag), [ arg ], loc),
+#endif
       call_switcher_variant_constant loc fail (Lvar v) int_lambda_list names )
