@@ -34,9 +34,19 @@ let assert_bool_lit (e : expression) =
       Location.raise_errorf ~loc:e.pexp_loc
         "expected this expression to be a boolean literal (`true` or `false`)"
 
-let warn_if_non_namespaced ~loc txt =
-  if not (Mel_ast_invariant.is_mel_attribute txt) then
-    Mel_ast_invariant.warn ~loc Deprecated_non_namespaced_attribute
+let warn_if_bs_or_non_namespaced ~loc txt =
+  match txt with
+  | "bs" ->
+      Location.raise_errorf ~loc
+        "The `[@bs]' attribute has been removed in favor of `[@u]'."
+  | other ->
+      if
+        String.starts_with ~prefix:"bs." other
+        || not (Mel_ast_invariant.is_mel_attribute txt)
+      then
+        Location.raise_errorf ~loc
+          "`[@bs.*]' and non-namespaced attributes have been removed in favor \
+           of `[@mel.*]' attributes."
 
 let process_method_attributes_rev attrs =
   let exception Local of Location.t * string in
@@ -48,8 +58,8 @@ let process_method_attributes_rev attrs =
             ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr)
           ->
           match txt with
-          | "mel.get" | "get" ->
-              warn_if_non_namespaced ~loc txt;
+          | "mel.get" | "bs.get" | "get" ->
+              warn_if_bs_or_non_namespaced ~loc txt;
               let result =
                 match Ast_payload.ident_or_record_as_config payload with
                 | Error s -> raise (Local (loc, s))
@@ -77,8 +87,8 @@ let process_method_attributes_rev attrs =
                       ~init:(false, false) config
               in
               ({ st with get = Some result }, acc)
-          | "mel.set" | "set" ->
-              warn_if_non_namespaced ~loc txt;
+          | "mel.set" | "bs.set" | "set" ->
+              warn_if_bs_or_non_namespaced ~loc txt;
               let result =
                 match Ast_payload.ident_or_record_as_config payload with
                 | Error s -> raise (Local (loc, s))
@@ -116,11 +126,11 @@ let process_attributes_rev attrs : attr_kind * attribute list =
       match (txt, st) with
       | "u", (Nothing | Uncurry _) ->
           (Uncurry attr, acc) (* TODO: warn unused/duplicated attribute *)
-      | ("mel.this" | "this"), (Nothing | Meth_callback _) ->
-          warn_if_non_namespaced ~loc txt;
+      | ("mel.this" | "bs.this" | "this"), (Nothing | Meth_callback _) ->
+          warn_if_bs_or_non_namespaced ~loc txt;
           (Meth_callback attr, acc)
-      | ("mel.meth" | "meth"), (Nothing | Method _) ->
-          warn_if_non_namespaced ~loc txt;
+      | ("mel.meth" | "bs.meth" | "meth"), (Nothing | Method _) ->
+          warn_if_bs_or_non_namespaced ~loc txt;
           (Method attr, acc)
       | ("u" | "mel.this" | "this"), _ ->
           Error.err ~loc Conflict_u_mel_this_mel_meth
@@ -130,7 +140,9 @@ let process_attributes_rev attrs : attr_kind * attribute list =
 let process_pexp_fun_attributes_rev attrs =
   List.fold_left
     ~f:(fun (st, acc) ({ attr_name = { txt; _ }; _ } as attr) ->
-      match txt with "mel.open" -> (true, acc) | _ -> (st, attr :: acc))
+      match txt with
+      | "mel.open" | "bs.open" -> (true, acc)
+      | _ -> (st, attr :: acc))
     ~init:(false, []) attrs
 
 let process_uncurried attrs =
@@ -232,8 +244,8 @@ let iter_process_mel_string_or_int_as (attrs : attributes) =
   List.iter
     ~f:(fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
       match txt with
-      | "mel.as" | "as" ->
-          warn_if_non_namespaced ~loc txt;
+      | "mel.as" | "bs.as" | "as" ->
+          warn_if_bs_or_non_namespaced ~loc txt;
           if !st = None then (
             Mel_ast_invariant.mark_used_mel_attribute attr;
             match Ast_payload.is_single_int payload with
@@ -293,20 +305,20 @@ let iter_process_mel_string_int_unwrap_uncurry attrs =
   List.iter
     ~f:(fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
       match txt with
-      | "mel.string" | "string" ->
-          warn_if_non_namespaced ~loc txt;
+      | "mel.string" | "bs.string" | "string" ->
+          warn_if_bs_or_non_namespaced ~loc txt;
           assign `String attr
-      | "mel.int" | "int" ->
-          warn_if_non_namespaced ~loc txt;
+      | "mel.int" | "bs.int" | "int" ->
+          warn_if_bs_or_non_namespaced ~loc txt;
           assign `Int attr
-      | "mel.ignore" | "ignore" ->
-          warn_if_non_namespaced ~loc txt;
+      | "mel.ignore" | "bs.ignore" | "ignore" ->
+          warn_if_bs_or_non_namespaced ~loc txt;
           assign `Ignore attr
-      | "mel.unwrap" | "unwrap" ->
-          warn_if_non_namespaced ~loc txt;
+      | "mel.unwrap" | "bs.unwrap" | "unwrap" ->
+          warn_if_bs_or_non_namespaced ~loc txt;
           assign `Unwrap attr
-      | "mel.uncurry" | "uncurry" ->
-          warn_if_non_namespaced ~loc txt;
+      | "mel.uncurry" | "bs.uncurry" | "uncurry" ->
+          warn_if_bs_or_non_namespaced ~loc txt;
           assign (`Uncurry (Ast_payload.is_single_int payload)) attr
       | _ -> ())
     attrs;
@@ -317,8 +329,8 @@ let iter_process_mel_string_as attrs : string option =
   List.iter
     ~f:(fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
       match txt with
-      | "mel.as" | "as" ->
-          warn_if_non_namespaced ~loc txt;
+      | "mel.as" | "bs.as" | "as" ->
+          warn_if_bs_or_non_namespaced ~loc txt;
           if !st = None then (
             match Ast_payload.is_single_string payload with
             | None -> Error.err ~loc Expect_string_literal
@@ -380,8 +392,8 @@ let iter_process_mel_int_as attrs =
   List.iter
     ~f:(fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
       match txt with
-      | "mel.as" | "as" ->
-          warn_if_non_namespaced ~loc txt;
+      | "mel.as" | "bs.as" | "as" ->
+          warn_if_bs_or_non_namespaced ~loc txt;
           if !st = None then (
             match Ast_payload.is_single_int payload with
             | None -> Error.err ~loc Expect_int_literal
@@ -397,18 +409,31 @@ let has_mel_optional attrs : bool =
   List.exists
     ~f:(fun ({ attr_name = { txt; loc }; _ } as attr) ->
       match txt with
-      | "mel.optional" | "optional" ->
-          warn_if_non_namespaced ~loc txt;
+      | "mel.optional" | "bs.optional" | "optional" ->
+          warn_if_bs_or_non_namespaced ~loc txt;
           Mel_ast_invariant.mark_used_mel_attribute attr;
           true
       | _ -> false)
     attrs
 
-let is_inline { attr_name = { txt; _ }; _ } =
-  txt = "mel.inline" || txt = "inline"
+let is_inline : attribute -> bool =
+ fun { attr_name = { txt; loc }; _ } ->
+  match txt with
+  | "mel.inline" -> true
+  | "bs.inline" ->
+      warn_if_bs_or_non_namespaced ~loc txt;
+      false
+  | _ -> false
 
 let has_inline_payload attrs = List.find_opt ~f:is_inline attrs
-let is_mel_as { attr_name = { txt; _ }; _ } = txt = "mel.as" || txt = "as"
+
+let is_mel_as { attr_name = { txt; loc }; _ } =
+  match txt with
+  | "mel.as" -> true
+  | "bs.as" | "as" ->
+      warn_if_bs_or_non_namespaced ~loc txt;
+      false
+  | _ -> false
 
 let has_mel_as_payload attrs =
   List.fold_left
