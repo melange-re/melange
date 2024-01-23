@@ -340,6 +340,44 @@ module Obj = struct
     rule "mel.obj"
 end
 
+module Unicode_string = struct
+  let j_rule =
+    let rule label =
+      let extractor = Ast_pattern.(single_expr_payload __') in
+      let handler ~ctxt:_ { txt = expr; loc } =
+        match expr.pexp_desc with
+        | Pexp_constant (Pconst_string (s, loc, Some _)) ->
+            (* quoted extensions *)
+            Utf8_string.Interp.transform expr s ~loc ~delim:"j"
+        | _ ->
+            Location.raise_errorf ~loc
+              "{%%j| ... |} can only be applied to a string"
+      in
+      let extender = Extension.V3.declare label Expression extractor handler in
+      Context_free.Rule.extension extender
+    in
+    rule "mel.j"
+
+  let js_rule =
+    let rule label =
+      let extractor = Ast_pattern.(single_expr_payload __') in
+      let handler ~ctxt:_ { txt = expr; loc } =
+        match expr.pexp_desc with
+        | Pexp_constant (Pconst_string (s, loc, Some _)) ->
+            (* quoted extensions *)
+            Utf8_string.Interp.transform expr s ~loc ~delim:"j"
+        | _ ->
+            Location.raise_errorf ~loc
+              "{%%js| ... |} can only be applied to a string"
+      in
+      let extender = Extension.V3.declare label Expression extractor handler in
+      Context_free.Rule.extension extender
+    in
+    rule "mel.js"
+
+  let rules = [ j_rule; js_rule ]
+end
+
 module Mapper = struct
   let mapper =
     let succeed attr attrs =
@@ -1061,7 +1099,7 @@ let () =
     ~doc:"[unused|fragile|redundant|deprecated] Turn off alerting from the PPX";
   Driver.V2.register_transformation "melange"
     ~rules:
-      (Raw.rules
+      (Raw.rules @ Unicode_string.rules
       @ [
           External.rule;
           Private.rule;
