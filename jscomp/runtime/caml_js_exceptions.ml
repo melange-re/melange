@@ -9,7 +9,8 @@ exception Error of t
    [Error] is defined here
 *)
 let internalToOCamlException (e : Obj.t) =
-  if Caml_exceptions.caml_is_extension e then (Obj.magic e : exn)
+  if Caml_exceptions.caml_is_extension e then
+    (Obj.magic (Obj.magic e : Caml_exceptions.js_error).cause : exn)
   else Error (Any e)
 
 let caml_as_js_exn exn = match exn with Error t -> Some t | _ -> None

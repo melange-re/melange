@@ -25,6 +25,7 @@
 open Melange_mini_stdlib
 
 type t = { id : string [@mel.as "MEL_EXN_ID"] }
+type js_error = { cause : t }
 
 (**
    Could be exported for better inlining
@@ -73,7 +74,10 @@ let create (str : string) : string =
 *)
 let caml_is_extension (type a) (e : a) : bool =
   if Js_internal.testAny e then false
-  else Js_internal.typeof (Obj.magic e : t).id = "string"
+  else
+    let js_error = (Obj.magic e : js_error) in
+    if Js_internal.testAny js_error.cause then false
+    else Js_internal.typeof (Obj.magic js_error.cause : t).id = "string"
 
 (**FIXME: remove the trailing `/` *)
 let caml_exn_slot_name (x : t) : string = x.id
