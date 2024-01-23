@@ -35,15 +35,16 @@ Stdlib__Array.iter((function (x) {
 console.log(String(v.contents));
 
 if (v.contents !== 45) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/test_while_closure.ml",
-          63,
-          4
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/test_while_closure.ml",
+                63,
+                4
+              ]
+            }
+          });
 }
 
 var count = 10;

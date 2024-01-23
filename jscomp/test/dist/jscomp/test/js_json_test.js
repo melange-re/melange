@@ -97,28 +97,30 @@ add_test("File \"jscomp/test/js_json_test.ml\", line 24, characters 11-18", (fun
         ty2._0.forEach(function (x) {
               var ty3 = Js__Js_json.classify(x);
               if (typeof ty3 === "number") {
-                throw {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/js_json_test.ml",
-                        38,
-                        21
-                      ],
-                      Error: new Error()
-                    };
+                throw new Error("Assert_failure", {
+                          cause: {
+                            MEL_EXN_ID: "Assert_failure",
+                            _1: [
+                              "jscomp/test/js_json_test.ml",
+                              38,
+                              21
+                            ]
+                          }
+                        });
               }
               if (ty3.TAG === /* JSONNumber */1) {
                 return ;
               }
-              throw {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/js_json_test.ml",
-                      38,
-                      21
-                    ],
-                    Error: new Error()
-                  };
+              throw new Error("Assert_failure", {
+                        cause: {
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/js_json_test.ml",
+                            38,
+                            21
+                          ]
+                        }
+                      });
             });
         return {
                 TAG: /* Ok */4,
@@ -258,15 +260,16 @@ function option_get(param) {
   if (param !== undefined) {
     return Caml_option.valFromOption(param);
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/js_json_test.ml",
-          103,
-          36
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/js_json_test.ml",
+                103,
+                36
+              ]
+            }
+          });
 }
 
 var dict = {};

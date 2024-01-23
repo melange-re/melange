@@ -142,7 +142,7 @@ and expression_desc =
   (* A string is UTF-8 encoded, the string may contain
      escape sequences.
      The first argument is used to mark it is non-pure, please
-     don't optimize it, since it does have side effec,
+     don't optimize it, since it does have side effects,
      examples like "use asm;" and our compiler may generate "error;..."
      which is better to leave it alone
      The last argument is passed from as `j` from `{j||j}`

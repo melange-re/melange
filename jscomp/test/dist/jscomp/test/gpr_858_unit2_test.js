@@ -23,15 +23,16 @@ for(var i = 1; i <= 2; ++i){
     if (i === n) {
       return ;
     }
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/gpr_858_unit2_test.ml",
-            6,
-            13
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/gpr_858_unit2_test.ml",
+                  6,
+                  13
+                ]
+              }
+            });
   }
   }(i));
   f(0, i);

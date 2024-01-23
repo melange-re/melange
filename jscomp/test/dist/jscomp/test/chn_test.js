@@ -40,15 +40,16 @@ function convert(s) {
                     if (x$1 !== undefined) {
                       return x$1;
                     }
-                    throw {
-                          MEL_EXN_ID: "Assert_failure",
-                          _1: [
-                            "jscomp/test/chn_test.ml",
-                            20,
-                            22
-                          ],
-                          Error: new Error()
-                        };
+                    throw new Error("Assert_failure", {
+                              cause: {
+                                MEL_EXN_ID: "Assert_failure",
+                                _1: [
+                                  "jscomp/test/chn_test.ml",
+                                  20,
+                                  22
+                                ]
+                              }
+                            });
                   })));
 }
 

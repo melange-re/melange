@@ -4,15 +4,16 @@
 var JsxRuntime = require("react/jsx-runtime");
 
 function Reactjs_ppx_custom$Internal$header(Props) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/re_or_res/reactjs_ppx_custom.re",
-          4,
-          21
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/re_or_res/reactjs_ppx_custom.re",
+                4,
+                21
+              ]
+            }
+          });
 }
 
 var Internal = {

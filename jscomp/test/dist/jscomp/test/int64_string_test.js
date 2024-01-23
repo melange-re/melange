@@ -1308,28 +1308,30 @@ var random_data = {
 Belt__Belt_List.forEach(random_data, (function (u) {
         if (u) {
           if (u.tl) {
-            throw {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/int64_string_test.ml",
-                    161,
-                    9
-                  ],
-                  Error: new Error()
-                };
+            throw new Error("Assert_failure", {
+                      cause: {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/int64_string_test.ml",
+                          161,
+                          9
+                        ]
+                      }
+                    });
           }
           var match = u.hd;
           return eq("File \"jscomp/test/int64_string_test.ml\", line 160, characters 21-28", Caml_format.caml_int64_format("%d", match[0]), match[1]);
         }
-        throw {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/int64_string_test.ml",
-                161,
-                9
-              ],
-              Error: new Error()
-            };
+        throw new Error("Assert_failure", {
+                  cause: {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/int64_string_test.ml",
+                      161,
+                      9
+                    ]
+                  }
+                });
       }));
 
 eq("File \"jscomp/test/int64_string_test.ml\", line 164, characters 7-14", Caml_format.caml_int64_format("%d", [

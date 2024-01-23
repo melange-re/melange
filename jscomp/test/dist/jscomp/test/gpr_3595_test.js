@@ -18,15 +18,16 @@ function eq(loc, x, y) {
 var match = [1];
 
 if (match.length !== 1) {
-  throw {
-        MEL_EXN_ID: "Match_failure",
-        _1: [
-          "gpr_3595_test.ml",
-          9,
-          4
-        ],
-        Error: new Error()
-      };
+  throw new Error("Match_failure", {
+            cause: {
+              MEL_EXN_ID: "Match_failure",
+              _1: [
+                "gpr_3595_test.ml",
+                9,
+                4
+              ]
+            }
+          });
 }
 
 var a = match[0];

@@ -253,15 +253,16 @@ function unbalanced_left(param) {
       
     }
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/rbset.ml",
-          57,
-          9
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/rbset.ml",
+                57,
+                9
+              ]
+            }
+          });
 }
 
 function unbalanced_right(param) {
@@ -318,15 +319,16 @@ function unbalanced_right(param) {
       
     }
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/rbset.ml",
-          63,
-          9
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/rbset.ml",
+                63,
+                9
+              ]
+            }
+          });
 }
 
 function lbalance(x1, x2, x3) {
@@ -553,15 +555,16 @@ function remove_min(param) {
                 false
               ];
       }
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/rbset.ml",
-              115,
-              4
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/rbset.ml",
+                    115,
+                    4
+                  ]
+                }
+              });
     }
     var match$1 = remove_min(param._1);
     var y = match$1[1];
@@ -588,15 +591,16 @@ function remove_min(param) {
             match$2[1]
           ];
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/rbset.ml",
-          115,
-          4
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/rbset.ml",
+                115,
+                4
+              ]
+            }
+          });
 }
 
 function remove_aux(x, n) {

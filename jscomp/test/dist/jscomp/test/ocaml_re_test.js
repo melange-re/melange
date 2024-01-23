@@ -333,17 +333,19 @@ function bal(l, x, d, r) {
       if (lr) {
         return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
       }
-      throw {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Map.bal",
-            Error: new Error()
-          };
+      throw new Error("Invalid_argument", {
+                cause: {
+                  MEL_EXN_ID: "Invalid_argument",
+                  _1: "Map.bal"
+                }
+              });
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Map.bal"
+              }
+            });
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -365,17 +367,19 @@ function bal(l, x, d, r) {
     if (rl) {
       return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Map.bal"
+              }
+            });
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Map.bal",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Map.bal"
+            }
+          });
 }
 
 function add(x, data, m) {
@@ -433,10 +437,11 @@ function find(x, _param) {
       _param = c < 0 ? param.l : param.r;
       continue ;
     }
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   };
 }
 
@@ -539,17 +544,19 @@ function bal$1(l, v, r) {
       if (lr) {
         return create$1(create$1(ll, lv, lr.l), lr.v, create$1(lr.r, v, r));
       }
-      throw {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Set.bal",
-            Error: new Error()
-          };
+      throw new Error("Invalid_argument", {
+                cause: {
+                  MEL_EXN_ID: "Invalid_argument",
+                  _1: "Set.bal"
+                }
+              });
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Set.bal"
+              }
+            });
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -569,17 +576,19 @@ function bal$1(l, v, r) {
     if (rl) {
       return create$1(create$1(l, v, rl.l), rl.v, create$1(rl.r, rv, rr));
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Set.bal"
+              }
+            });
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Set.bal",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Set.bal"
+            }
+          });
 }
 
 function add$1(x, t) {
@@ -1091,15 +1100,16 @@ function split_at_match_rec(_l$p, _param) {
         
       }
     } else {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "re_automata.ml",
-              429,
-              21
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "re_automata.ml",
+                    429,
+                    21
+                  ]
+                }
+              });
     }
   };
 }
@@ -1539,7 +1549,9 @@ function find_state(re, desc) {
       Curry._3(Re_automata_State.Table.add, re.states, desc, st);
       return st;
     }
-    throw exn;
+    throw new Error(exn.MEL_EXN_ID, {
+              cause: exn
+            });
   }
 }
 
@@ -1620,7 +1632,9 @@ function $$final(info, st, cat) {
       };
       return res;
     }
-    throw exn;
+    throw new Error(exn.MEL_EXN_ID, {
+              cause: exn
+            });
   }
 }
 
@@ -1641,7 +1655,9 @@ function find_initial_state(re, cat) {
       };
       return st;
     }
-    throw exn;
+    throw new Error(exn.MEL_EXN_ID, {
+              cause: exn
+            });
   }
 }
 
@@ -1751,7 +1767,9 @@ function trans_set(cache, cm, s) {
       cache.contents = Curry._3(add, v, l, cache.contents);
       return l;
     }
-    throw exn;
+    throw new Error(exn.MEL_EXN_ID, {
+              cause: exn
+            });
   }
 }
 
@@ -1891,15 +1909,16 @@ function colorize(c, regexp) {
               _regexp = regexp._1;
               continue ;
           default:
-            throw {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "re.ml",
-                    502,
-                    35
-                  ],
-                  Error: new Error()
-                };
+            throw new Error("Assert_failure", {
+                      cause: {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "re.ml",
+                          502,
+                          35
+                        ]
+                      }
+                    });
         }
       }
     };
@@ -2487,15 +2506,16 @@ function translate(ids, kind, _ign_group, ign_case, _greedy, pos, cache, c, _par
                     match$5[1]
                   ];
         default:
-          throw {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "re.ml",
-                  714,
-                  4
-                ],
-                Error: new Error()
-              };
+          throw new Error("Assert_failure", {
+                    cause: {
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "re.ml",
+                        714,
+                        4
+                      ]
+                    }
+                  });
       }
     }
   };
@@ -2528,28 +2548,30 @@ function case_insens(s) {
 
 function as_set(param) {
   if (typeof param === "number") {
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "re.ml",
-            747,
-            13
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "re.ml",
+                  747,
+                  13
+                ]
+              }
+            });
   }
   if (param.TAG === /* Set */0) {
     return param._0;
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "re.ml",
-          747,
-          13
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "re.ml",
+                747,
+                13
+              ]
+            }
+          });
 }
 
 function handle_case(_ign_case, _r) {
@@ -2770,18 +2792,20 @@ var epsilon = {
 
 function repn(r, i, j) {
   if (i < 0) {
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Re.repn",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Re.repn"
+              }
+            });
   }
   if (j !== undefined && j < i) {
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Re.repn",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Re.repn"
+              }
+            });
   }
   return {
           TAG: /* Repeat */3,
@@ -2810,11 +2834,12 @@ function compl(l) {
   if (is_charset(r)) {
     return r;
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Re.compl",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Re.compl"
+            }
+          });
 }
 
 var any = {
@@ -3164,11 +3189,12 @@ function exec_internal(name, posOpt, lenOpt, groups, re, s) {
   var pos = posOpt !== undefined ? posOpt : 0;
   var len = lenOpt !== undefined ? lenOpt : -1;
   if (pos < 0 || len < -1 || (pos + len | 0) > s.length) {
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: name,
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: name
+              }
+            });
   }
   var partial = false;
   var slen = s.length;
@@ -3233,17 +3259,19 @@ function exec_internal(name, posOpt, lenOpt, groups, re, s) {
 
 function offset$1(t, i) {
   if (((i << 1) + 1 | 0) >= t.marks.length) {
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   }
   var m1 = Caml_array.get(t.marks, (i << 1));
   if (m1 === -1) {
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   }
   var p1 = Caml_array.get(t.gpos, m1) - 1 | 0;
   var p2 = Caml_array.get(t.gpos, Caml_array.get(t.marks, (i << 1) + 1 | 0)) - 1 | 0;
@@ -3293,11 +3321,12 @@ function posix_class_of_string(class_) {
         return xdigit;
     default:
       var s = "Invalid pcre class: " + class_;
-      throw {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: s,
-            Error: new Error()
-          };
+      throw new Error("Invalid_argument", {
+                cause: {
+                  MEL_EXN_ID: "Invalid_argument",
+                  _1: s
+                }
+              });
   }
 }
 
@@ -3326,18 +3355,20 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
       for(var j = 0; j < len; ++j){
         try {
           if (Caml_string.get(s$p, j) !== Caml_string.get(s, i.contents + j | 0)) {
-            throw {
-                  MEL_EXN_ID: Stdlib.Exit,
-                  Error: new Error()
-                };
+            throw new Error(Stdlib.Exit, {
+                      cause: {
+                        MEL_EXN_ID: Stdlib.Exit
+                      }
+                    });
           }
           
         }
         catch (exn){
-          throw {
-                MEL_EXN_ID: Stdlib.Exit,
-                Error: new Error()
-              };
+          throw new Error(Stdlib.Exit, {
+                    cause: {
+                      MEL_EXN_ID: Stdlib.Exit
+                    }
+                  });
         }
       }
       i.contents = i.contents + len | 0;
@@ -3348,7 +3379,9 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
       if (exn$1.MEL_EXN_ID === Stdlib.Exit) {
         return false;
       }
-      throw exn$1;
+      throw new Error(exn$1.MEL_EXN_ID, {
+                cause: exn$1
+              });
     }
   };
   var get = function (param) {
@@ -3496,10 +3529,11 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
         if (accept(/* ':' */58)) {
           var r = regexp$p(branch$p(/* [] */0));
           if (!accept(/* ')' */41)) {
-            throw {
-                  MEL_EXN_ID: Parse_error,
-                  Error: new Error()
-                };
+            throw new Error(Parse_error, {
+                      cause: {
+                        MEL_EXN_ID: Parse_error
+                      }
+                    });
           }
           return r;
         }
@@ -3514,17 +3548,19 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
             continue ;
           };
         }
-        throw {
-              MEL_EXN_ID: Parse_error,
-              Error: new Error()
-            };
+        throw new Error(Parse_error, {
+                  cause: {
+                    MEL_EXN_ID: Parse_error
+                  }
+                });
       }
       var r$1 = regexp$p(branch$p(/* [] */0));
       if (!accept(/* ')' */41)) {
-        throw {
-              MEL_EXN_ID: Parse_error,
-              Error: new Error()
-            };
+        throw new Error(Parse_error, {
+                  cause: {
+                    MEL_EXN_ID: Parse_error
+                  }
+                });
       }
       return {
               TAG: /* Group */6,
@@ -3556,10 +3592,11 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
     }
     if (accept(/* '\\' */92)) {
       if (i.contents === l) {
-        throw {
-              MEL_EXN_ID: Parse_error,
-              Error: new Error()
-            };
+        throw new Error(Parse_error, {
+                  cause: {
+                    MEL_EXN_ID: Parse_error
+                  }
+                });
       }
       var c = get(undefined);
       switch (c) {
@@ -3573,10 +3610,11 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
         case 55 :
         case 56 :
         case 57 :
-            throw {
-                  MEL_EXN_ID: Not_supported,
-                  Error: new Error()
-                };
+            throw new Error(Not_supported, {
+                      cause: {
+                        MEL_EXN_ID: Not_supported
+                      }
+                    });
         case 65 :
             return /* Beg_of_str */5;
         case 66 :
@@ -3698,10 +3736,11 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
         case 118 :
         case 120 :
         case 121 :
-            throw {
-                  MEL_EXN_ID: Parse_error,
-                  Error: new Error()
-                };
+            throw new Error(Parse_error, {
+                      cause: {
+                        MEL_EXN_ID: Parse_error
+                      }
+                    });
         case 122 :
             return /* End_of_str */6;
         default:
@@ -3712,10 +3751,11 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
       }
     } else {
       if (i.contents === l) {
-        throw {
-              MEL_EXN_ID: Parse_error,
-              Error: new Error()
-            };
+        throw new Error(Parse_error, {
+                  cause: {
+                    MEL_EXN_ID: Parse_error
+                  }
+                });
       }
       var c$1 = get(undefined);
       if (c$1 >= 64) {
@@ -3726,22 +3766,25 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
                     _0: single(c$1)
                   };
           }
-          throw {
-                MEL_EXN_ID: Parse_error,
-                Error: new Error()
-              };
+          throw new Error(Parse_error, {
+                    cause: {
+                      MEL_EXN_ID: Parse_error
+                    }
+                  });
         }
-        throw {
-              MEL_EXN_ID: Parse_error,
-              Error: new Error()
-            };
+        throw new Error(Parse_error, {
+                  cause: {
+                    MEL_EXN_ID: Parse_error
+                  }
+                });
       }
       if (c$1 >= 44) {
         if (c$1 >= 63) {
-          throw {
-                MEL_EXN_ID: Parse_error,
-                Error: new Error()
-              };
+          throw new Error(Parse_error, {
+                    cause: {
+                      MEL_EXN_ID: Parse_error
+                    }
+                  });
         }
         return {
                 TAG: /* Set */0,
@@ -3749,10 +3792,11 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
               };
       }
       if (c$1 >= 42) {
-        throw {
-              MEL_EXN_ID: Parse_error,
-              Error: new Error()
-            };
+        throw new Error(Parse_error, {
+                  cause: {
+                    MEL_EXN_ID: Parse_error
+                  }
+                });
       }
       return {
               TAG: /* Set */0,
@@ -3782,10 +3826,11 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
         }
         var i$p = Math.imul(10, i$1) + (d$1 - /* '0' */48 | 0) | 0;
         if (i$p < i$1) {
-          throw {
-                MEL_EXN_ID: Parse_error,
-                Error: new Error()
-              };
+          throw new Error(Parse_error, {
+                    cause: {
+                      MEL_EXN_ID: Parse_error
+                    }
+                  });
         }
         _i = i$p;
         continue ;
@@ -3794,18 +3839,20 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
   };
   var $$char = function (param) {
     if (i.contents === l) {
-      throw {
-            MEL_EXN_ID: Parse_error,
-            Error: new Error()
-          };
+      throw new Error(Parse_error, {
+                cause: {
+                  MEL_EXN_ID: Parse_error
+                }
+              });
     }
     var c = get(undefined);
     if (c === /* '[' */91) {
       if (accept(/* '=' */61)) {
-        throw {
-              MEL_EXN_ID: Not_supported,
-              Error: new Error()
-            };
+        throw new Error(Not_supported, {
+                  cause: {
+                    MEL_EXN_ID: Not_supported
+                  }
+                });
       }
       if (accept(/* ':' */58)) {
         var compl$1 = accept(/* '^' */94);
@@ -3855,18 +3902,22 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-            throw {
-                  MEL_EXN_ID: Parse_error,
-                  Error: new Error()
-                };
+            throw new Error(Parse_error, {
+                      cause: {
+                        MEL_EXN_ID: Parse_error
+                      }
+                    });
           }
-          throw exn;
+          throw new Error(exn.MEL_EXN_ID, {
+                    cause: exn
+                  });
         }
         if (!accept_s(":]")) {
-          throw {
-                MEL_EXN_ID: Parse_error,
-                Error: new Error()
-              };
+          throw new Error(Parse_error, {
+                    cause: {
+                      MEL_EXN_ID: Parse_error
+                    }
+                  });
         }
         var posix_class = posix_class_of_string(cls);
         var re = compl$1 ? compl({
@@ -3885,23 +3936,26 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
               };
       }
       if (i.contents === l) {
-        throw {
-              MEL_EXN_ID: Parse_error,
-              Error: new Error()
-            };
+        throw new Error(Parse_error, {
+                  cause: {
+                    MEL_EXN_ID: Parse_error
+                  }
+                });
       }
       var c$1 = get(undefined);
       if (!accept(/* '.' */46)) {
-        throw {
-              MEL_EXN_ID: Not_supported,
-              Error: new Error()
-            };
+        throw new Error(Not_supported, {
+                  cause: {
+                    MEL_EXN_ID: Not_supported
+                  }
+                });
       }
       if (!accept(/* ']' */93)) {
-        throw {
-              MEL_EXN_ID: Parse_error,
-              Error: new Error()
-            };
+        throw new Error(Parse_error, {
+                  cause: {
+                    MEL_EXN_ID: Parse_error
+                  }
+                });
       }
       return {
               NAME: "Char",
@@ -4068,18 +4122,20 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
         case 120 :
         case 121 :
         case 122 :
-            throw {
-                  MEL_EXN_ID: Parse_error,
-                  Error: new Error()
-                };
+            throw new Error(Parse_error, {
+                      cause: {
+                        MEL_EXN_ID: Parse_error
+                      }
+                    });
         
       }
     } else {
       if (c$2 >= 48) {
-        throw {
-              MEL_EXN_ID: Not_supported,
-              Error: new Error()
-            };
+        throw new Error(Not_supported, {
+                  cause: {
+                    MEL_EXN_ID: Not_supported
+                  }
+                });
       }
       return {
               NAME: "Char",
@@ -4105,16 +4161,18 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
     if (i$1 !== undefined) {
       var j = accept(/* ',' */44) ? integer(undefined) : i$1;
       if (!accept(/* '}' */125)) {
-        throw {
-              MEL_EXN_ID: Parse_error,
-              Error: new Error()
-            };
+        throw new Error(Parse_error, {
+                  cause: {
+                    MEL_EXN_ID: Parse_error
+                  }
+                });
       }
       if (j !== undefined && j < i$1) {
-        throw {
-              MEL_EXN_ID: Parse_error,
-              Error: new Error()
-            };
+        throw new Error(Parse_error, {
+                  cause: {
+                    MEL_EXN_ID: Parse_error
+                  }
+                });
       }
       return greedy_mod(repn(r, i$1, j));
     }
@@ -4123,10 +4181,11 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
   };
   var res = regexp$p(branch$p(/* [] */0));
   if (i.contents !== l) {
-    throw {
-          MEL_EXN_ID: Parse_error,
-          Error: new Error()
-        };
+    throw new Error(Parse_error, {
+              cause: {
+                MEL_EXN_ID: Parse_error
+              }
+            });
   }
   return res;
 }
@@ -4166,10 +4225,11 @@ function exec(rex, pos, s) {
   var len;
   var substr = exec_internal("Re.exec", pos, len, true, rex, s);
   if (typeof substr === "number") {
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   }
   return substr._0;
 }

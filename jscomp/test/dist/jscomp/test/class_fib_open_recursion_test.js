@@ -70,7 +70,9 @@ function memo_fib_init($$class) {
               Stdlib__Hashtbl.add(self$2[cache], x, v);
               return v;
             }
-            throw exn;
+            throw new Error(exn.MEL_EXN_ID, {
+                      cause: exn
+                    });
           }
         }));
   return function (env, self) {

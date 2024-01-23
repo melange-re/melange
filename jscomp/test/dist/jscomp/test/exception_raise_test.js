@@ -105,15 +105,16 @@ catch (raw_exn$3){
   if (exn$3.MEL_EXN_ID === A || exn$3.MEL_EXN_ID === Js__Js_exn.$$Error) {
     a0 = exn$3._1;
   } else {
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/exception_raise_test.ml",
-            102,
-            9
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/exception_raise_test.ml",
+                  102,
+                  9
+                ]
+              }
+            });
   }
 }
 
@@ -170,15 +171,16 @@ var suites = {
                       _1: 2
                     };
             }
-            throw {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/exception_raise_test.ml",
-                    119,
-                    15
-                  ],
-                  Error: new Error()
-                };
+            throw new Error("Assert_failure", {
+                      cause: {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/exception_raise_test.ml",
+                          119,
+                          15
+                        ]
+                      }
+                    });
           })
       ],
       tl: /* [] */0
@@ -204,10 +206,11 @@ catch (raw_e$2){
 }
 
 try {
-  throw {
-        MEL_EXN_ID: Stdlib.Not_found,
-        Error: new Error()
-      };
+  throw new Error(Stdlib.Not_found, {
+            cause: {
+              MEL_EXN_ID: Stdlib.Not_found
+            }
+          });
 }
 catch (raw_e$3){
   var e$1 = Caml_js_exceptions.internalToOCamlException(raw_e$3);

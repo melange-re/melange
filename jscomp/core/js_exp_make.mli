@@ -155,7 +155,7 @@ val inline_record_access : t -> string -> Int32.t -> t
 val variant_pos : constr:string -> int32 -> string
 val variant_access : t -> int32 -> t
 val cons_access : t -> int32 -> t
-val extension_access : t -> string option -> Int32.t -> t
+val extension_access : t -> ?name:string -> Int32.t -> t
 val record_assign : t -> int32 -> string -> t -> t
 val poly_var_tag_access : t -> t
 val poly_var_value_access : t -> t

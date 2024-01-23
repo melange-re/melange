@@ -37,23 +37,25 @@ function assert_bool(b) {
   if (b) {
     return ;
   }
-  throw {
-        MEL_EXN_ID: Stdlib.Invalid_argument,
-        _1: "Assertion Failure.",
-        Error: new Error()
-      };
+  throw new Error(Stdlib.Invalid_argument, {
+            cause: {
+              MEL_EXN_ID: Stdlib.Invalid_argument,
+              _1: "Assertion Failure."
+            }
+          });
 }
 
 function fail(param) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/js_promise_basic_test.ml",
-          17,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/js_promise_basic_test.ml",
+                17,
+                2
+              ]
+            }
+          });
 }
 
 function thenTest(param) {
@@ -79,15 +81,16 @@ function assertIsNotFound(x) {
   if (match !== undefined) {
     return h;
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/js_promise_basic_test.ml",
-          34,
-          9
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/js_promise_basic_test.ml",
+                34,
+                9
+              ]
+            }
+          });
 }
 
 function catchTest(param) {
@@ -150,15 +153,16 @@ function orElseRejectedRejectTest(param) {
               if (match !== undefined) {
                 return h;
               }
-              throw {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/js_promise_basic_test.ml",
-                      76,
-                      19
-                    ],
-                    Error: new Error()
-                  };
+              throw new Error("Assert_failure", {
+                        cause: {
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/js_promise_basic_test.ml",
+                            76,
+                            19
+                          ]
+                        }
+                      });
             });
 }
 

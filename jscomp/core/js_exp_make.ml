@@ -350,7 +350,7 @@ let poly_var_value_access (e : t) =
       match l with _ :: v :: _ -> v | _ -> assert false)
   | _ -> make_expression (Static_index (e, Js_dump_lit.polyvar_value, Some 1l))
 
-let extension_access (e : t) name (pos : int32) : t =
+let extension_access (e : t) ?name (pos : int32) : t =
   match e.expression_desc with
   | Array (l, _) (* Float i -- should not appear here *)
   | Caml_block (l, _, _, _)

@@ -24,15 +24,16 @@ function to_int(x) {
   if (x.MEL_EXN_ID === Int$1) {
     return x._2;
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/extensible_variant_test.ml",
-          16,
-          9
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/extensible_variant_test.ml",
+                16,
+                9
+              ]
+            }
+          });
 }
 
 var suites_0 = [

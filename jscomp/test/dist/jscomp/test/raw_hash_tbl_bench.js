@@ -10,15 +10,16 @@ function bench(param) {
   }
   for(var i$1 = 0; i$1 <= 1000000; ++i$1){
     if (!Stdlib__Hashtbl.mem(table, i$1)) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/raw_hash_tbl_bench.ml",
-              9,
-              4
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/raw_hash_tbl_bench.ml",
+                    9,
+                    4
+                  ]
+                }
+              });
     }
     
   }

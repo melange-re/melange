@@ -18,15 +18,16 @@ function f_undefined(xs, i) {
   if (k !== undefined) {
     return k;
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/return_check.ml",
-          30,
-          14
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/return_check.ml",
+                30,
+                14
+              ]
+            }
+          });
 }
 
 function f_escaped_not(xs, i) {
@@ -59,15 +60,16 @@ function f_null(xs, i) {
   if (k !== null) {
     return k;
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/return_check.ml",
-          58,
-          14
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/return_check.ml",
+                58,
+                14
+              ]
+            }
+          });
 }
 
 function f_null_undefined(xs, i) {
@@ -75,15 +77,16 @@ function f_null_undefined(xs, i) {
   if (!(k == null)) {
     return k;
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/return_check.ml",
-          67,
-          14
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/return_check.ml",
+                67,
+                14
+              ]
+            }
+          });
 }
 
 exports.test = test;

@@ -2133,10 +2133,11 @@ function eat(f) {
             todo: match.tl
           };
   }
-  throw {
-        MEL_EXN_ID: No_good,
-        Error: new Error()
-      };
+  throw new Error(No_good, {
+            cause: {
+              MEL_EXN_ID: No_good
+            }
+          });
 }
 
 function start(str) {
@@ -2186,10 +2187,11 @@ function parse_hex_symbol(f) {
   var match = f.todo;
   if (match) {
     if (match.hd !== 48) {
-      throw {
-            MEL_EXN_ID: No_good,
-            Error: new Error()
-          };
+      throw new Error(No_good, {
+                cause: {
+                  MEL_EXN_ID: No_good
+                }
+              });
     }
     var match$1 = match.tl;
     if (match$1) {
@@ -2198,22 +2200,25 @@ function parse_hex_symbol(f) {
         return eat(eat(f));
       }
       if (match$2 !== 120) {
-        throw {
-              MEL_EXN_ID: No_good,
-              Error: new Error()
-            };
+        throw new Error(No_good, {
+                  cause: {
+                    MEL_EXN_ID: No_good
+                  }
+                });
       }
       return eat(eat(f));
     }
-    throw {
-          MEL_EXN_ID: No_good,
-          Error: new Error()
-        };
+    throw new Error(No_good, {
+              cause: {
+                MEL_EXN_ID: No_good
+              }
+            });
   }
-  throw {
-        MEL_EXN_ID: No_good,
-        Error: new Error()
-      };
+  throw new Error(No_good, {
+            cause: {
+              MEL_EXN_ID: No_good
+            }
+          });
 }
 
 function parse_exponent(f) {
@@ -2225,12 +2230,15 @@ function parse_exponent(f) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Failure) {
-      throw {
-            MEL_EXN_ID: No_good,
-            Error: new Error()
-          };
+      throw new Error(No_good, {
+                cause: {
+                  MEL_EXN_ID: No_good
+                }
+              });
     }
-    throw exn;
+    throw new Error(exn.MEL_EXN_ID, {
+              cause: exn
+            });
   }
   return {
           negative: f.negative,
@@ -2276,10 +2284,11 @@ function parse_body(_f) {
         };
         continue ;
       }
-      throw {
-            MEL_EXN_ID: No_good,
-            Error: new Error()
-          };
+      throw new Error(No_good, {
+                cause: {
+                  MEL_EXN_ID: No_good
+                }
+              });
     }
     var ref_char_code;
     if (c >= /* '0' */48 && c <= /* '9' */57) {
@@ -2289,10 +2298,11 @@ function parse_body(_f) {
     } else if (c >= /* 'a' */97 && c <= /* 'f' */102) {
       ref_char_code = 87;
     } else {
-      throw {
-            MEL_EXN_ID: No_good,
-            Error: new Error()
-          };
+      throw new Error(No_good, {
+                cause: {
+                  MEL_EXN_ID: No_good
+                }
+              });
     }
     var value = c - ref_char_code | 0;
     var e = f.decimal_exponent;
@@ -2319,15 +2329,16 @@ function float_of_string(str) {
       try {
         var f = parse_body(parse_hex_symbol(parse_sign(start(str))));
         if (!Caml_obj.caml_equal(f.todo, /* [] */0)) {
-          throw {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "lexer_flow.mll",
-                  546,
-                  4
-                ],
-                Error: new Error()
-              };
+          throw new Error("Assert_failure", {
+                    cause: {
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "lexer_flow.mll",
+                        546,
+                        4
+                      ]
+                    }
+                  });
         }
         var ret = f.mantissa;
         var decimal_exponent = f.decimal_exponent;
@@ -2342,12 +2353,18 @@ function float_of_string(str) {
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
         if (exn.MEL_EXN_ID === No_good) {
-          throw e;
+          throw new Error(e.MEL_EXN_ID, {
+                    cause: e
+                  });
         }
-        throw exn;
+        throw new Error(exn.MEL_EXN_ID, {
+                  cause: exn
+                });
       }
     } else {
-      throw e;
+      throw new Error(e.MEL_EXN_ID, {
+                cause: e
+              });
     }
   }
 }
@@ -2412,15 +2429,16 @@ function unicode_fix_cols(lb) {
 
 function oct_to_int(x) {
   if (x > 55 || x < 48) {
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "lexer_flow.mll",
-            604,
-            11
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "lexer_flow.mll",
+                  604,
+                  11
+                ]
+              }
+            });
   }
   return x - /* '0' */48 | 0;
 }
@@ -2439,15 +2457,16 @@ function hexa_to_int(x) {
   } else if (!(x > 57 || x < 48)) {
     return x - /* '0' */48 | 0;
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "lexer_flow.mll",
-          610,
-          11
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "lexer_flow.mll",
+                610,
+                11
+              ]
+            }
+          });
 }
 
 function utf16to8(code) {
@@ -3103,7 +3122,9 @@ function token(env, lexbuf) {
                       /* T_IDENTIFIER */0
                     ];
             }
-            throw exn;
+            throw new Error(exn.MEL_EXN_ID, {
+                      cause: exn
+                    });
           }
       case 23 :
           return [
@@ -5155,7 +5176,9 @@ function type_token(env, lexbuf) {
                 }
               ];
             } else {
-              throw exn;
+              throw new Error(exn.MEL_EXN_ID, {
+                        cause: exn
+                      });
             }
           }
           return illegal_number(match$4[0], lexbuf, w$3, match$4[1]);
@@ -5181,7 +5204,9 @@ function type_token(env, lexbuf) {
                       }
                     ];
             }
-            throw exn$1;
+            throw new Error(exn$1.MEL_EXN_ID, {
+                      cause: exn$1
+                    });
           }
       case 15 :
           var neg$8 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
@@ -5224,7 +5249,9 @@ function type_token(env, lexbuf) {
                       /* T_IDENTIFIER */0
                     ];
             }
-            throw exn$2;
+            throw new Error(exn$2.MEL_EXN_ID, {
+                      cause: exn$2
+                    });
           }
       case 22 :
           return [
@@ -5500,17 +5527,19 @@ function bal(l, v, r) {
       if (lr) {
         return create(create(ll, lv, lr.l), lr.v, create(lr.r, v, r));
       }
-      throw {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Set.bal",
-            Error: new Error()
-          };
+      throw new Error("Invalid_argument", {
+                cause: {
+                  MEL_EXN_ID: "Invalid_argument",
+                  _1: "Set.bal"
+                }
+              });
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Set.bal"
+              }
+            });
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -5530,17 +5559,19 @@ function bal(l, v, r) {
     if (rl) {
       return create(create(l, v, rl.l), rl.v, create(rl.r, rv, rr));
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Set.bal"
+              }
+            });
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Set.bal",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Set.bal"
+            }
+          });
 }
 
 function add(x, t) {
@@ -5817,15 +5848,16 @@ function record_export(env, param) {
 function lookahead(iOpt, env) {
   var i = iOpt !== undefined ? iOpt : 0;
   if (i >= 2) {
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "parser_env.ml",
-            288,
-            2
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "parser_env.ml",
+                  288,
+                  2
+                ]
+              }
+            });
   }
   var t = env.lookahead.contents;
   lex_until(t, i);
@@ -5833,11 +5865,12 @@ function lookahead(iOpt, env) {
   if (match !== undefined) {
     return match[1];
   }
-  throw {
-        MEL_EXN_ID: "Failure",
-        _1: "Lookahead.peek failed",
-        Error: new Error()
-      };
+  throw new Error("Failure", {
+            cause: {
+              MEL_EXN_ID: "Failure",
+              _1: "Lookahead.peek failed"
+            }
+          });
 }
 
 function with_strict(in_strict_mode, env) {
@@ -5998,11 +6031,12 @@ function lex_env(iOpt, env) {
   if (match !== undefined) {
     return match[0];
   }
-  throw {
-        MEL_EXN_ID: "Failure",
-        _1: "Lookahead.peek failed",
-        Error: new Error()
-      };
+  throw new Error("Failure", {
+            cause: {
+              MEL_EXN_ID: "Failure",
+              _1: "Lookahead.peek failed"
+            }
+          });
 }
 
 function is_line_terminator(env) {
@@ -6202,11 +6236,12 @@ function pop_lex_mode(env) {
   if (match) {
     new_stack = match.tl;
   } else {
-    throw {
-          MEL_EXN_ID: "Failure",
-          _1: "Popping lex mode from empty stack",
-          Error: new Error()
-        };
+    throw new Error("Failure", {
+              cause: {
+                MEL_EXN_ID: "Failure",
+                _1: "Popping lex mode from empty stack"
+              }
+            });
   }
   env.lex_mode_stack.contents = new_stack;
   env.lookahead.contents = create$1(env.lex_env.contents, Stdlib__List.hd(env.lex_mode_stack.contents));
@@ -6220,18 +6255,20 @@ function double_pop_lex_mode(env) {
     if (match$1) {
       new_stack = match$1.tl;
     } else {
-      throw {
-            MEL_EXN_ID: "Failure",
-            _1: "Popping lex mode from empty stack",
-            Error: new Error()
-          };
+      throw new Error("Failure", {
+                cause: {
+                  MEL_EXN_ID: "Failure",
+                  _1: "Popping lex mode from empty stack"
+                }
+              });
     }
   } else {
-    throw {
-          MEL_EXN_ID: "Failure",
-          _1: "Popping lex mode from empty stack",
-          Error: new Error()
-        };
+    throw new Error("Failure", {
+              cause: {
+                MEL_EXN_ID: "Failure",
+                _1: "Popping lex mode from empty stack"
+              }
+            });
   }
   env.lex_mode_stack.contents = new_stack;
   env.lookahead.contents = create$1(env.lex_env.contents, Stdlib__List.hd(env.lex_mode_stack.contents));
@@ -6335,7 +6372,9 @@ function to_parse(env, parse) {
       env.lookahead.contents = create$1(env.lex_env.contents, Stdlib__List.hd(env.lex_mode_stack.contents));
       return /* FailedToParse */0;
     }
-    throw exn;
+    throw new Error(exn.MEL_EXN_ID, {
+              cause: exn
+            });
   }
 }
 
@@ -6395,17 +6434,19 @@ function bal$1(l, v, r) {
       if (lr) {
         return create$2(create$2(ll, lv, lr.l), lr.v, create$2(lr.r, v, r));
       }
-      throw {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Set.bal",
-            Error: new Error()
-          };
+      throw new Error("Invalid_argument", {
+                cause: {
+                  MEL_EXN_ID: "Invalid_argument",
+                  _1: "Set.bal"
+                }
+              });
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Set.bal"
+              }
+            });
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -6425,17 +6466,19 @@ function bal$1(l, v, r) {
     if (rl) {
       return create$2(create$2(l, v, rl.l), rl.v, create$2(rl.r, rv, rr));
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Set.bal"
+              }
+            });
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Set.bal",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Set.bal"
+            }
+          });
 }
 
 function add$1(x, t) {
@@ -6524,17 +6567,19 @@ function bal$2(l, x, d, r) {
       if (lr) {
         return create$3(create$3(ll, lv, ld, lr.l), lr.v, lr.d, create$3(lr.r, x, d, r));
       }
-      throw {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Map.bal",
-            Error: new Error()
-          };
+      throw new Error("Invalid_argument", {
+                cause: {
+                  MEL_EXN_ID: "Invalid_argument",
+                  _1: "Map.bal"
+                }
+              });
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Map.bal"
+              }
+            });
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -6556,17 +6601,19 @@ function bal$2(l, x, d, r) {
     if (rl) {
       return create$3(create$3(l, x, d, rl.l), rl.v, rl.d, create$3(rl.r, rv, rd, rr));
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Map.bal"
+              }
+            });
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Map.bal",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Map.bal"
+            }
+          });
 }
 
 function add$2(x, data, m) {
@@ -6624,10 +6671,11 @@ function find(x, _param) {
       _param = c < 0 ? param.l : param.r;
       continue ;
     }
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   };
 }
 
@@ -6677,17 +6725,19 @@ function bal$3(l, v, r) {
       if (lr) {
         return create$4(create$4(ll, lv, lr.l), lr.v, create$4(lr.r, v, r));
       }
-      throw {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Set.bal",
-            Error: new Error()
-          };
+      throw new Error("Invalid_argument", {
+                cause: {
+                  MEL_EXN_ID: "Invalid_argument",
+                  _1: "Set.bal"
+                }
+              });
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Set.bal"
+              }
+            });
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -6707,17 +6757,19 @@ function bal$3(l, v, r) {
     if (rl) {
       return create$4(create$4(l, v, rl.l), rl.v, create$4(rl.r, rv, rr));
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Set.bal"
+              }
+            });
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Set.bal",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Set.bal"
+            }
+          });
 }
 
 function add$3(x, t) {
@@ -7333,30 +7385,32 @@ function rev_nonempty_acc(acc) {
   if (acc) {
     end_loc = acc.hd[0];
   } else {
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "parser_flow.ml",
-            127,
-            13
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "parser_flow.ml",
+                  127,
+                  13
+                ]
+              }
+            });
   }
   var acc$1 = Stdlib__List.rev(acc);
   var start_loc;
   if (acc$1) {
     start_loc = acc$1.hd[0];
   } else {
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "parser_flow.ml",
-            131,
-            13
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "parser_flow.ml",
+                  131,
+                  13
+                ]
+              }
+            });
   }
   return [
           btwn(start_loc, end_loc),
@@ -7960,15 +8014,16 @@ function annotation(env) {
   if (loc !== undefined) {
     end_loc = loc;
   } else {
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "parser_flow.ml",
-            121,
-            16
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "parser_flow.ml",
+                  121,
+                  16
+                ]
+              }
+            });
   }
   return [
           btwn(start_loc, end_loc),
@@ -9027,7 +9082,9 @@ function number(env, number_type) {
               error$1(env, /* WindowsFloatOfString */59);
               value$1 = 789.0;
             } else {
-              throw exn;
+              throw new Error(exn.MEL_EXN_ID, {
+                        cause: exn
+                      });
             }
           }
           break;
@@ -9160,15 +9217,16 @@ function primary$1(env) {
           var match$4 = Curry._2(Parser_env_Peek.token, undefined, env);
           var match$5;
           if (typeof match$4 === "number") {
-            throw {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "parser_flow.ml",
-                    1699,
-                    15
-                  ],
-                  Error: new Error()
-                };
+            throw new Error("Assert_failure", {
+                      cause: {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "parser_flow.ml",
+                          1699,
+                          15
+                        ]
+                      }
+                    });
           }
           if (match$4.TAG === /* T_REGEXP */3) {
             var match$6 = match$4._0;
@@ -9180,15 +9238,16 @@ function primary$1(env) {
               match$6[2]
             ];
           } else {
-            throw {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "parser_flow.ml",
-                    1699,
-                    15
-                  ],
-                  Error: new Error()
-                };
+            throw new Error("Assert_failure", {
+                      cause: {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "parser_flow.ml",
+                          1699,
+                          15
+                        ]
+                      }
+                    });
           }
           var raw_flags = match$5[2];
           pop_lex_mode(env);
@@ -9507,10 +9566,11 @@ function assignment_but_not_arrow_function(env) {
 }
 
 function error_callback(param, param$1) {
-  throw {
-        MEL_EXN_ID: Parser_env_Try.Rollback,
-        Error: new Error()
-      };
+  throw new Error(Parser_env_Try.Rollback, {
+            cause: {
+              MEL_EXN_ID: Parser_env_Try.Rollback
+            }
+          });
 }
 
 function try_assignment_but_not_arrow_function(env) {
@@ -9520,27 +9580,30 @@ function try_assignment_but_not_arrow_function(env) {
   if (typeof match === "number") {
     if (match !== 10) {
       if (match === 77) {
-        throw {
-              MEL_EXN_ID: Parser_env_Try.Rollback,
-              Error: new Error()
-            };
+        throw new Error(Parser_env_Try.Rollback, {
+                  cause: {
+                    MEL_EXN_ID: Parser_env_Try.Rollback
+                  }
+                });
       }
       
     } else {
-      throw {
-            MEL_EXN_ID: Parser_env_Try.Rollback,
-            Error: new Error()
-          };
+      throw new Error(Parser_env_Try.Rollback, {
+                cause: {
+                  MEL_EXN_ID: Parser_env_Try.Rollback
+                }
+              });
     }
   }
   if (!Curry._2(Parser_env_Peek.is_identifier, undefined, env$1)) {
     return ret;
   }
   if (Curry._2(Parser_env_Peek.value, undefined, env$1) === "checks") {
-    throw {
-          MEL_EXN_ID: Parser_env_Try.Rollback,
-          Error: new Error()
-        };
+    throw new Error(Parser_env_Try.Rollback, {
+              cause: {
+                MEL_EXN_ID: Parser_env_Try.Rollback
+              }
+            });
   }
   var match$1 = ret[1];
   if (typeof match$1 === "number") {
@@ -9553,10 +9616,11 @@ function try_assignment_but_not_arrow_function(env) {
     return ret;
   }
   if (!Curry._1(Parser_env_Peek.is_line_terminator, env$1)) {
-    throw {
-          MEL_EXN_ID: Parser_env_Try.Rollback,
-          Error: new Error()
-        };
+    throw new Error(Parser_env_Try.Rollback, {
+              cause: {
+                MEL_EXN_ID: Parser_env_Try.Rollback
+              }
+            });
   }
   return ret;
 }
@@ -10095,15 +10159,16 @@ function template_parts(env, _quasis, _expressions) {
       var match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
       var match$2;
       if (typeof match$1 === "number") {
-        throw {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "parser_flow.ml",
-                1602,
-                19
-              ],
-              Error: new Error()
-            };
+        throw new Error("Assert_failure", {
+                  cause: {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "parser_flow.ml",
+                      1602,
+                      19
+                    ]
+                  }
+                });
       }
       if (match$1.TAG === /* T_TEMPLATE_PART */2) {
         var match$3 = match$1._0;
@@ -10122,15 +10187,16 @@ function template_parts(env, _quasis, _expressions) {
           tail
         ];
       } else {
-        throw {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "parser_flow.ml",
-                1602,
-                19
-              ],
-              Error: new Error()
-            };
+        throw new Error("Assert_failure", {
+                  cause: {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "parser_flow.ml",
+                      1602,
+                      19
+                    ]
+                  }
+                });
       }
       var loc = match$2[0];
       pop_lex_mode(env);
@@ -10306,23 +10372,26 @@ function error_callback$1(param) {
         if (param === 47) {
           return ;
         }
-        throw {
-              MEL_EXN_ID: Parser_env_Try.Rollback,
-              Error: new Error()
-            };
+        throw new Error(Parser_env_Try.Rollback, {
+                  cause: {
+                    MEL_EXN_ID: Parser_env_Try.Rollback
+                  }
+                });
       }
       if (param > 43 || param < 29) {
         return ;
       }
-      throw {
-            MEL_EXN_ID: Parser_env_Try.Rollback,
-            Error: new Error()
-          };
+      throw new Error(Parser_env_Try.Rollback, {
+                cause: {
+                  MEL_EXN_ID: Parser_env_Try.Rollback
+                }
+              });
     }
-    throw {
-          MEL_EXN_ID: Parser_env_Try.Rollback,
-          Error: new Error()
-        };
+    throw new Error(Parser_env_Try.Rollback, {
+              cause: {
+                MEL_EXN_ID: Parser_env_Try.Rollback
+              }
+            });
   };
 }
 
@@ -10543,15 +10612,16 @@ function _method(env, kind) {
   var params;
   switch (kind) {
     case /* Init */0 :
-        throw {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "parser_flow.ml",
-                1954,
-                16
-              ],
-              Error: new Error()
-            };
+        throw new Error("Assert_failure", {
+                  cause: {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "parser_flow.ml",
+                      1954,
+                      16
+                    ]
+                  }
+                });
     case /* Get */1 :
         params = /* [] */0;
         break;
@@ -10899,11 +10969,12 @@ function check_property(env, prop_map, prop) {
                   key = Stdlib.string_of_float(s._0);
                   break;
               case /* RegExp */3 :
-                  throw {
-                        MEL_EXN_ID: "Failure",
-                        _1: "RegExp cannot be property key",
-                        Error: new Error()
-                      };
+                  throw new Error("Failure", {
+                            cause: {
+                              MEL_EXN_ID: "Failure",
+                              _1: "RegExp cannot be property key"
+                            }
+                          });
               
             }
           }
@@ -10912,15 +10983,16 @@ function check_property(env, prop_map, prop) {
           key = match$1._0[1].name;
           break;
       case /* Computed */2 :
-          throw {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "parser_flow.ml",
-                  2103,
-                  30
-                ],
-                Error: new Error()
-              };
+          throw new Error("Assert_failure", {
+                    cause: {
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "parser_flow.ml",
+                        2103,
+                        30
+                      ]
+                    }
+                  });
       
     }
     var prev_kinds;
@@ -10932,7 +11004,9 @@ function check_property(env, prop_map, prop) {
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         prev_kinds = /* Empty */0;
       } else {
-        throw exn;
+        throw new Error(exn.MEL_EXN_ID, {
+                  cause: exn
+                });
       }
     }
     var match$2 = prop$1.kind;
@@ -11783,15 +11857,16 @@ function declare_export_declaration(allow_export_typeOpt, env) {
         }
         switch (exit$2) {
           case 3 :
-              throw {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "parser_flow.ml",
-                      3480,
-                      17
-                    ],
-                    Error: new Error()
-                  };
+              throw new Error("Assert_failure", {
+                        cause: {
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "parser_flow.ml",
+                            3480,
+                            17
+                          ]
+                        }
+                      });
           case 4 :
               if (typeof token$5 === "number") {
                 if (token$5 !== 25) {
@@ -12419,11 +12494,12 @@ function fold(acc) {
                   tl: acc
                 };
       case /* Expression */4 :
-          throw {
-                MEL_EXN_ID: "Failure",
-                _1: "Parser error: No such thing as an expression pattern!",
-                Error: new Error()
-              };
+          throw new Error("Failure", {
+                    cause: {
+                      MEL_EXN_ID: "Failure",
+                      _1: "Parser error: No such thing as an expression pattern!"
+                    }
+                  });
       
     }
   };
@@ -14006,15 +14082,16 @@ function statement(env) {
                               _0: init._0
                             });
                       } else {
-                        throw {
-                              MEL_EXN_ID: "Assert_failure",
-                              _1: [
-                                "parser_flow.ml",
-                                2573,
-                                22
-                              ],
-                              Error: new Error()
-                            };
+                        throw new Error("Assert_failure", {
+                                  cause: {
+                                    MEL_EXN_ID: "Assert_failure",
+                                    _1: [
+                                      "parser_flow.ml",
+                                      2573,
+                                      22
+                                    ]
+                                  }
+                                });
                       }
                       token$4(env, /* T_OF */60);
                       var right = Curry._1(Parse.assignment, env);
@@ -14045,15 +14122,16 @@ function statement(env) {
                             _0: init._0
                           });
                     } else {
-                      throw {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "parser_flow.ml",
-                              2556,
-                              22
-                            ],
-                            Error: new Error()
-                          };
+                      throw new Error("Assert_failure", {
+                                cause: {
+                                  MEL_EXN_ID: "Assert_failure",
+                                  _1: [
+                                    "parser_flow.ml",
+                                    2556,
+                                    22
+                                  ]
+                                }
+                              });
                     }
                     token$4(env, /* T_IN */15);
                     var right$1 = Curry._1(Parse.expression, env);
@@ -14309,11 +14387,12 @@ function module_item(env) {
                       var $$interface$1 = $$interface(env$1);
                       var match$2 = $$interface$1[1];
                       if (typeof match$2 === "number") {
-                        throw {
-                              MEL_EXN_ID: "Failure",
-                              _1: "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!",
-                              Error: new Error()
-                            };
+                        throw new Error("Failure", {
+                                  cause: {
+                                    MEL_EXN_ID: "Failure",
+                                    _1: "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!"
+                                  }
+                                });
                       }
                       if (match$2.TAG === /* InterfaceDeclaration */21) {
                         record_export(env$1, [
@@ -14321,11 +14400,12 @@ function module_item(env) {
                               extract_ident_name(match$2._0.id)
                             ]);
                       } else {
-                        throw {
-                              MEL_EXN_ID: "Failure",
-                              _1: "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!",
-                              Error: new Error()
-                            };
+                        throw new Error("Failure", {
+                                  cause: {
+                                    MEL_EXN_ID: "Failure",
+                                    _1: "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!"
+                                  }
+                                });
                       }
                       var end_loc = $$interface$1[0];
                       return [
@@ -14352,11 +14432,12 @@ function module_item(env) {
                         var type_alias$1 = type_alias(env$1);
                         var match$3 = type_alias$1[1];
                         if (typeof match$3 === "number") {
-                          throw {
-                                MEL_EXN_ID: "Failure",
-                                _1: "Internal Flow Error! Parsed `export type` into something other than a type alias!",
-                                Error: new Error()
-                              };
+                          throw new Error("Failure", {
+                                    cause: {
+                                      MEL_EXN_ID: "Failure",
+                                      _1: "Internal Flow Error! Parsed `export type` into something other than a type alias!"
+                                    }
+                                  });
                         }
                         if (match$3.TAG === /* TypeAlias */7) {
                           record_export(env$1, [
@@ -14364,11 +14445,12 @@ function module_item(env) {
                                 extract_ident_name(match$3._0.id)
                               ]);
                         } else {
-                          throw {
-                                MEL_EXN_ID: "Failure",
-                                _1: "Internal Flow Error! Parsed `export type` into something other than a type alias!",
-                                Error: new Error()
-                              };
+                          throw new Error("Failure", {
+                                    cause: {
+                                      MEL_EXN_ID: "Failure",
+                                      _1: "Internal Flow Error! Parsed `export type` into something other than a type alias!"
+                                    }
+                                  });
                         }
                         var end_loc$1 = type_alias$1[0];
                         return [
@@ -14565,11 +14647,12 @@ function module_item(env) {
               var loc$4 = stmt[0];
               var names;
               if (typeof match$8 === "number") {
-                throw {
-                      MEL_EXN_ID: "Failure",
-                      _1: "Internal Flow Error! Unexpected export statement declaration!",
-                      Error: new Error()
-                    };
+                throw new Error("Failure", {
+                          cause: {
+                            MEL_EXN_ID: "Failure",
+                            _1: "Internal Flow Error! Unexpected export statement declaration!"
+                          }
+                        });
               }
               switch (match$8.TAG | 0) {
                 case /* FunctionDeclaration */18 :
@@ -14619,11 +14702,12 @@ function module_item(env) {
                     }
                     break;
                 default:
-                  throw {
-                        MEL_EXN_ID: "Failure",
-                        _1: "Internal Flow Error! Unexpected export statement declaration!",
-                        Error: new Error()
-                      };
+                  throw new Error("Failure", {
+                            cause: {
+                              MEL_EXN_ID: "Failure",
+                              _1: "Internal Flow Error! Unexpected export statement declaration!"
+                            }
+                          });
               }
               Stdlib__List.iter((function (param) {
                       return record_export(env$1, param);
@@ -15047,11 +15131,12 @@ function directives(env, term_fn, item_fn) {
             }
           }
           var s = "Nooo: " + (token_to_string(token) + "\n");
-          throw {
-                MEL_EXN_ID: "Failure",
-                _1: s,
-                Error: new Error()
-              };
+          throw new Error("Failure", {
+                    cause: {
+                      MEL_EXN_ID: "Failure",
+                      _1: s
+                    }
+                  });
         }), Stdlib__List.rev(match[1]));
   return [
           env$1,
@@ -15414,11 +15499,12 @@ function program$1(failOpt, token_sinkOpt, parse_optionsOpt, content) {
   var ast = Curry._1(parser, env);
   var error_list = filter_duplicate_errors(env.errors.contents);
   if (fail && Caml_obj.caml_notequal(error_list, /* [] */0)) {
-    throw {
-          MEL_EXN_ID: $$Error,
-          _1: error_list,
-          Error: new Error()
-        };
+    throw new Error($$Error, {
+              cause: {
+                MEL_EXN_ID: $$Error,
+                _1: error_list
+              }
+            });
   }
   return [
           ast,
@@ -15794,11 +15880,12 @@ function parse(content, options) {
                   operator = "delete";
                   break;
               case /* Await */7 :
-                  throw {
-                        MEL_EXN_ID: "Failure",
-                        _1: "matched above",
-                        Error: new Error()
-                      };
+                  throw new Error("Failure", {
+                            cause: {
+                              MEL_EXN_ID: "Failure",
+                              _1: "matched above"
+                            }
+                          });
               
             }
             return node("UnaryExpression", loc, [
@@ -17761,11 +17848,12 @@ function parse(content, options) {
             key = identifier(lit._0);
             break;
         case /* Computed */2 :
-            throw {
-                  MEL_EXN_ID: "Failure",
-                  _1: "There should not be computed object type property keys",
-                  Error: new Error()
-                };
+            throw new Error("Failure", {
+                      cause: {
+                        MEL_EXN_ID: "Failure",
+                        _1: "There should not be computed object type property keys"
+                      }
+                    });
         
       }
       return node("ObjectTypeProperty", param[0], [
@@ -17846,7 +17934,9 @@ function parse(content, options) {
       throw(e);
       return {};
     }
-    throw exn;
+    throw new Error(exn.MEL_EXN_ID, {
+              cause: exn
+            });
   }
 }
 
@@ -17885,15 +17975,16 @@ if (f !== undefined) {
         2842
       ], v.range);
 } else {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "runParser.ml",
-          15,
-          12
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "runParser.ml",
+                15,
+                12
+              ]
+            }
+          });
 }
 
 Mt.from_pair_suites("Flow_parser_reg_test", suites.contents);

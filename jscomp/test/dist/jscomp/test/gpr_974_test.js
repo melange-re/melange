@@ -5,39 +5,42 @@ var Caml_obj = require("melange.js/caml_obj.js");
 var Caml_option = require("melange.js/caml_option.js");
 
 if (!Caml_obj.caml_equal(Caml_option.nullable_to_opt(""), "")) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/gpr_974_test.ml",
-          3,
-          4
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/gpr_974_test.ml",
+                3,
+                4
+              ]
+            }
+          });
 }
 
 if (!Caml_obj.caml_equal(Caml_option.undefined_to_opt(""), "")) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/gpr_974_test.ml",
-          4,
-          4
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/gpr_974_test.ml",
+                4,
+                4
+              ]
+            }
+          });
 }
 
 if (!Caml_obj.caml_equal(Caml_option.null_to_opt(""), "")) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/gpr_974_test.ml",
-          5,
-          4
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/gpr_974_test.ml",
+                5,
+                4
+              ]
+            }
+          });
 }
 
 /*  Not a pure module */

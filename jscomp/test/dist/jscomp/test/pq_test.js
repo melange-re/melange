@@ -63,10 +63,11 @@ function remove_top(param) {
             };
     }
   }
-  throw {
-        MEL_EXN_ID: Queue_is_empty,
-        Error: new Error()
-      };
+  throw new Error(Queue_is_empty, {
+            cause: {
+              MEL_EXN_ID: Queue_is_empty
+            }
+          });
 }
 
 function extract(queue) {
@@ -77,10 +78,11 @@ function extract(queue) {
             remove_top(queue)
           ];
   }
-  throw {
-        MEL_EXN_ID: Queue_is_empty,
-        Error: new Error()
-      };
+  throw new Error(Queue_is_empty, {
+            cause: {
+              MEL_EXN_ID: Queue_is_empty
+            }
+          });
 }
 
 var PrioQueue = {

@@ -122,15 +122,16 @@ if (!Caml_obj.caml_equal(dfs1({
           }
         }
       })) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/topsort_test.ml",
-          29,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/topsort_test.ml",
+                29,
+                2
+              ]
+            }
+          });
 }
 
 Stdlib.print_newline(undefined);
@@ -160,15 +161,16 @@ if (!Caml_obj.caml_equal(dfs1({
           }
         }
       })) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/topsort_test.ml",
-          32,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/topsort_test.ml",
+                32,
+                2
+              ]
+            }
+          });
 }
 
 function dfs2(nodes, graph, visited) {
@@ -221,15 +223,16 @@ if (!Caml_obj.caml_equal(dfs2({
           }
         }
       })) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/topsort_test.ml",
-          47,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/topsort_test.ml",
+                47,
+                2
+              ]
+            }
+          });
 }
 
 if (!Caml_obj.caml_equal(dfs2({
@@ -257,15 +260,16 @@ if (!Caml_obj.caml_equal(dfs2({
           }
         }
       })) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/topsort_test.ml",
-          48,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/topsort_test.ml",
+                48,
+                2
+              ]
+            }
+          });
 }
 
 function dfs3(nodes, graph) {
@@ -315,15 +319,16 @@ if (!Caml_obj.caml_equal(dfs3({
           }
         }
       })) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/topsort_test.ml",
-          65,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/topsort_test.ml",
+                65,
+                2
+              ]
+            }
+          });
 }
 
 if (!Caml_obj.caml_equal(dfs3({
@@ -351,15 +356,16 @@ if (!Caml_obj.caml_equal(dfs3({
           }
         }
       })) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/topsort_test.ml",
-          66,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/topsort_test.ml",
+                66,
+                2
+              ]
+            }
+          });
 }
 
 var grwork = {
@@ -440,15 +446,16 @@ if (!Caml_obj.caml_equal(unsafe_topsort(grwork), {
           }
         }
       })) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/topsort_test.ml",
-          110,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/topsort_test.ml",
+                110,
+                2
+              ]
+            }
+          });
 }
 
 var funarg = {
@@ -488,17 +495,19 @@ function bal(l, v, r) {
       if (lr) {
         return create(create(ll, lv, lr.l), lr.v, create(lr.r, v, r));
       }
-      throw {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Set.bal",
-            Error: new Error()
-          };
+      throw new Error("Invalid_argument", {
+                cause: {
+                  MEL_EXN_ID: "Invalid_argument",
+                  _1: "Set.bal"
+                }
+              });
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Set.bal"
+              }
+            });
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -518,17 +527,19 @@ function bal(l, v, r) {
     if (rl) {
       return create(create(l, v, rl.l), rl.v, create(rl.r, rv, rr));
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Set.bal"
+              }
+            });
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Set.bal",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Set.bal"
+            }
+          });
 }
 
 function add(x, t) {
@@ -617,10 +628,11 @@ function min_elt(_param) {
       _param = l;
       continue ;
     }
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   };
 }
 
@@ -649,10 +661,11 @@ function max_elt(_param) {
       _param = param.r;
       continue ;
     }
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   };
 }
 
@@ -679,11 +692,12 @@ function remove_min_elt(param) {
       return param.r;
     }
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Set.remove_min_elt",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Set.remove_min_elt"
+            }
+          });
 }
 
 function concat(t1, t2) {
@@ -1165,10 +1179,11 @@ function find(x, _param) {
       _param = c < 0 ? param.l : param.r;
       continue ;
     }
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   };
 }
 
@@ -1199,10 +1214,11 @@ function find_first(f, _param) {
       _param = param.r;
       continue ;
     }
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   };
 }
 
@@ -1264,10 +1280,11 @@ function find_last(f, _param) {
       _param = param.l;
       continue ;
     }
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   };
 }
 
@@ -1482,15 +1499,16 @@ function of_list(l) {
                   match$4[1]
                 ];
         }
-        throw {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/stdlib/set.ml",
-                571,
-                18
-              ],
-              Error: new Error()
-            };
+        throw new Error("Assert_failure", {
+                  cause: {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/stdlib/set.ml",
+                      571,
+                      18
+                    ]
+                  }
+                });
       };
       return sub(Stdlib__List.length(l$1), l$1)[0];
     } else {
@@ -1666,14 +1684,15 @@ function pathsort(graph) {
     var stack = param[1];
     var set = param[0];
     if (Curry._2(mem, node, set)) {
-      throw {
-            MEL_EXN_ID: Cycle,
-            _1: {
-              hd: node,
-              tl: stack
-            },
-            Error: new Error()
-          };
+      throw new Error(Cycle, {
+                cause: {
+                  MEL_EXN_ID: Cycle,
+                  _1: {
+                    hd: node,
+                    tl: stack
+                  }
+                }
+              });
     }
     return [
             Curry._2(add, node, set),
@@ -1724,15 +1743,16 @@ if (!Caml_obj.caml_equal(pathsort(grwork), {
           }
         }
       })) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/topsort_test.ml",
-          150,
-          4
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/topsort_test.ml",
+                150,
+                4
+              ]
+            }
+          });
 }
 
 try {
@@ -1743,15 +1763,16 @@ try {
         ],
         tl: grwork
       });
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/topsort_test.ml",
-          156,
-          8
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/topsort_test.ml",
+                156,
+                8
+              ]
+            }
+          });
 }
 catch (raw_exn){
   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -1781,15 +1802,16 @@ catch (raw_exn){
     exit = 1;
   }
   if (exit === 1) {
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/topsort_test.ml",
-            159,
-            11
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/topsort_test.ml",
+                  159,
+                  11
+                ]
+              }
+            });
   }
   
 }

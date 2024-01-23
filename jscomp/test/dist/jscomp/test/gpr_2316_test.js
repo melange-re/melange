@@ -33,18 +33,21 @@ function eq(loc, x, y) {
 var y;
 
 try {
-  throw {
-        MEL_EXN_ID: "Failure",
-        _1: "boo",
-        Error: new Error()
-      };
+  throw new Error("Failure", {
+            cause: {
+              MEL_EXN_ID: "Failure",
+              _1: "boo"
+            }
+          });
 }
 catch (raw_exn){
   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
   if (exn.MEL_EXN_ID === Stdlib.Failure) {
     y = exn._1;
   } else {
-    throw exn;
+    throw new Error(exn.MEL_EXN_ID, {
+              cause: exn
+            });
   }
 }
 
@@ -53,18 +56,21 @@ var x;
 var exit = 0;
 
 try {
-  throw {
-        MEL_EXN_ID: "Failure",
-        _1: "boo",
-        Error: new Error()
-      };
+  throw new Error("Failure", {
+            cause: {
+              MEL_EXN_ID: "Failure",
+              _1: "boo"
+            }
+          });
 }
 catch (raw_exn$1){
   var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
   if (exn$1.MEL_EXN_ID === Stdlib.Failure) {
     x = exn$1._1;
   } else {
-    throw exn$1;
+    throw new Error(exn$1.MEL_EXN_ID, {
+              cause: exn$1
+            });
   }
 }
 

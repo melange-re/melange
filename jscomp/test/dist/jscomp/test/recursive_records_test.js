@@ -67,15 +67,16 @@ function tl_exn(x) {
   if (x) {
     return x.next;
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/recursive_records_test.ml",
-          52,
-          11
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/recursive_records_test.ml",
+                52,
+                11
+              ]
+            }
+          });
 }
 
 eq("File \"jscomp/test/recursive_records_test.ml\", line 56, characters 6-13", (hd(rec_cell2) + hd(tl_exn(rec_cell2)) | 0) + hd(tl_exn(tl_exn(rec_cell2))) | 0, 9);

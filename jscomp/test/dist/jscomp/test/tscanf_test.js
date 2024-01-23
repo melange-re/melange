@@ -912,15 +912,16 @@ function verify_read(c) {
             }), id) === c) {
     return ;
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/tscanf_test.ml",
-          174,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/tscanf_test.ml",
+                174,
+                2
+              ]
+            }
+          });
 }
 
 function verify_scan_Chars(param) {
@@ -1739,11 +1740,12 @@ function scan_elems$1(ib, accu) {
                             });
                 }
                 if (c !== 93) {
-                  throw {
-                        MEL_EXN_ID: "Failure",
-                        _1: "scan_elems",
-                        Error: new Error()
-                      };
+                  throw new Error("Failure", {
+                            cause: {
+                              MEL_EXN_ID: "Failure",
+                              _1: "scan_elems"
+                            }
+                          });
                 }
                 return Stdlib__List.rev({
                             hd: i,
@@ -1830,11 +1832,12 @@ function scan_elems$2(ib, accu) {
                               });
                   }
                   console.log(Caml_bytes.bytes_to_string(Stdlib__Bytes.make(1, c)));
-                  throw {
-                        MEL_EXN_ID: "Failure",
-                        _1: "scan_elems",
-                        Error: new Error()
-                      };
+                  throw new Error("Failure", {
+                            cause: {
+                              MEL_EXN_ID: "Failure",
+                              _1: "scan_elems"
+                            }
+                          });
                 }));
   }
   catch (raw_exn){
@@ -1853,7 +1856,9 @@ function scan_elems$2(ib, accu) {
     if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
       return accu;
     }
-    throw exn;
+    throw new Error(exn.MEL_EXN_ID, {
+              cause: exn
+            });
   }
 }
 
@@ -2057,11 +2062,12 @@ function scan_rest(ib, accu) {
                               }));
                 }
                 if (c !== 93) {
-                  throw {
-                        MEL_EXN_ID: "Failure",
-                        _1: "scan_rest",
-                        Error: new Error()
-                      };
+                  throw new Error("Failure", {
+                            cause: {
+                              MEL_EXN_ID: "Failure",
+                              _1: "scan_rest"
+                            }
+                          });
                 }
                 return accu;
               }));
@@ -2084,11 +2090,12 @@ function scan_elems$4(ib, accu) {
                   _1: " %c "
                 }), (function (c) {
                 if (c !== 91) {
-                  throw {
-                        MEL_EXN_ID: "Failure",
-                        _1: "scan_elems",
-                        Error: new Error()
-                      };
+                  throw new Error("Failure", {
+                            cause: {
+                              MEL_EXN_ID: "Failure",
+                              _1: "scan_elems"
+                            }
+                          });
                 }
                 if (Caml_obj.caml_equal(accu, /* [] */0)) {
                   return Curry._1(Stdlib__Scanf.bscanf(ib, /* Format */{
@@ -2129,11 +2136,12 @@ function scan_elems$4(ib, accu) {
                                 }
                               }));
                 }
-                throw {
-                      MEL_EXN_ID: "Failure",
-                      _1: "scan_elems",
-                      Error: new Error()
-                    };
+                throw new Error("Failure", {
+                          cause: {
+                            MEL_EXN_ID: "Failure",
+                            _1: "scan_elems"
+                          }
+                        });
               }));
 }
 
@@ -2260,11 +2268,12 @@ function scan_rest$1(ib, accu) {
                                                         },
                                                         _1: "scan_int_list"
                                                       });
-                                                  throw {
-                                                        MEL_EXN_ID: "Failure",
-                                                        _1: s,
-                                                        Error: new Error()
-                                                      };
+                                                  throw new Error("Failure", {
+                                                            cause: {
+                                                              MEL_EXN_ID: "Failure",
+                                                              _1: s
+                                                            }
+                                                          });
                                               }
                                             }));
                               }));
@@ -2340,7 +2349,9 @@ function scan_elems$5(ib, scan_elem, accu) {
     if (exn.MEL_EXN_ID === Stdlib__Scanf.Scan_failure) {
       return accu;
     }
-    throw exn;
+    throw new Error(exn.MEL_EXN_ID, {
+              cause: exn
+            });
   }
 }
 
@@ -4340,10 +4351,11 @@ function next_char(ob, param) {
   var s = Stdlib__Buffer.contents(ob);
   var len = s.length;
   if (len === 0) {
-    throw {
-          MEL_EXN_ID: Stdlib.End_of_file,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.End_of_file, {
+              cause: {
+                MEL_EXN_ID: Stdlib.End_of_file
+              }
+            });
   }
   var c = Caml_string.get(s, 0);
   ob.position = 0;

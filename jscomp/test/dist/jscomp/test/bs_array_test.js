@@ -137,15 +137,16 @@ var v$1 = [
 ];
 
 if (!Belt__Belt_Array.set(v$1, 0, 0)) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_array_test.ml",
-          38,
-          33
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/bs_array_test.ml",
+                38,
+                33
+              ]
+            }
+          });
 }
 
 b("File \"jscomp/test/bs_array_test.ml\", line 38, characters 4-11", Belt__Belt_Array.getExn(v$1, 0) === 0);
@@ -156,15 +157,16 @@ var v$2 = [
 ];
 
 if (!Belt__Belt_Array.set(v$2, 1, 0)) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_array_test.ml",
-          39,
-          32
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/bs_array_test.ml",
+                39,
+                32
+              ]
+            }
+          });
 }
 
 b("File \"jscomp/test/bs_array_test.ml\", line 39, characters 4-11", Belt__Belt_Array.getExn(v$2, 1) === 0);
@@ -279,15 +281,16 @@ function addone(x) {
 
 function makeMatrixExn(sx, sy, init) {
   if (!(sx >= 0 && sy >= 0)) {
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/bs_array_test.ml",
-            80,
-            2
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/bs_array_test.ml",
+                  80,
+                  2
+                ]
+              }
+            });
   }
   var res = new Array(sx);
   for(var x = 0; x < sx; ++x){

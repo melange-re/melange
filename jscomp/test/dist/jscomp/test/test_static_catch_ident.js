@@ -11,7 +11,9 @@ function scanf_bad_input(ib, x) {
   if (x.MEL_EXN_ID === Scan_failure || x.MEL_EXN_ID === Stdlib.Failure) {
     s = x._1;
   } else {
-    throw x;
+    throw new Error(x.MEL_EXN_ID, {
+              cause: x
+            });
   }
   for(var _i = 0; _i <= 100; ++_i){
     console.log(s);

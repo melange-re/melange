@@ -67,15 +67,16 @@ var tmp;
 if (A0 === A0) {
   tmp = 3;
 } else {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/inline_record_test.ml",
-          46,
-          54
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/inline_record_test.ml",
+                46,
+                54
+              ]
+            }
+          });
 }
 
 eq("File \"jscomp/test/inline_record_test.ml\", line 46, characters 6-13", tmp, 3);
@@ -110,15 +111,16 @@ var tmp$1;
 if (v4.TAG === /* A0 */0) {
   tmp$1 = v4.x;
 } else {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/inline_record_test.ml",
-          64,
-          48
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/inline_record_test.ml",
+                64,
+                48
+              ]
+            }
+          });
 }
 
 eq("File \"jscomp/test/inline_record_test.ml\", line 64, characters 6-13", tmp$1, 11);
@@ -126,15 +128,16 @@ eq("File \"jscomp/test/inline_record_test.ml\", line 64, characters 6-13", tmp$1
 var tmp$2;
 
 if (v5.TAG === /* A0 */0) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/inline_record_test.ml",
-          66,
-          48
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/inline_record_test.ml",
+                66,
+                48
+              ]
+            }
+          });
 }
 
 tmp$2 = v5.z;
@@ -168,15 +171,16 @@ var tmp$3;
 if (v6.MEL_EXN_ID === A4) {
   tmp$3 = v6.x;
 } else {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/inline_record_test.ml",
-          82,
-          49
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/inline_record_test.ml",
+                82,
+                49
+              ]
+            }
+          });
 }
 
 eq("File \"jscomp/test/inline_record_test.ml\", line 82, characters 6-13", tmp$3, 11);

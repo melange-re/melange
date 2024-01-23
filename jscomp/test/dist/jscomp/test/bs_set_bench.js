@@ -13,15 +13,16 @@ function bench(param) {
   console.time("bs_set_bench.ml 11");
   for(var i$1 = 0; i$1 <= 1000000; ++i$1){
     if (!Belt__Belt_SetInt.has(data, i$1)) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/bs_set_bench.ml",
-              12,
-              4
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/bs_set_bench.ml",
+                    12,
+                    4
+                  ]
+                }
+              });
     }
     
   }
@@ -34,15 +35,16 @@ function bench(param) {
   if (Belt__Belt_SetInt.size(data) === 0) {
     return ;
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_set_bench.ml",
-          17,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/bs_set_bench.ml",
+                17,
+                2
+              ]
+            }
+          });
 }
 
 console.time("bs_set_bench.ml 21");
