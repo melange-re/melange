@@ -32,10 +32,18 @@ let rec find_with_default xs ~f ~default =
   | x :: l -> (
       match f x with Some v -> v | None -> find_with_default l ~f ~default)
 
+let namespace_error ~loc txt =
+  match txt with
+  | "bs.as" | "as" ->
+      Location.raise_errorf ~loc
+        "`[@bs.*]' and non-namespaced attributes have been removed in favor of \
+         `[@mel.*]' attributes. Use `[@mel.as]' instead."
+  | _ -> ()
+
 let find_name (attr : Parsetree.attribute) =
   match attr with
   | {
-   attr_name = { txt = "mel.as" | "as"; _ };
+   attr_name = { txt = ("mel.as" | "as" | "bs.as") as txt; loc };
    attr_payload =
      PStr
        [
@@ -48,6 +56,7 @@ let find_name (attr : Parsetree.attribute) =
        ];
    _;
   } ->
+      namespace_error ~loc txt;
       Some s
   | _ -> None
 
@@ -55,7 +64,7 @@ let find_name_with_loc (attr : Parsetree.attribute) : string Asttypes.loc option
     =
   match attr with
   | {
-   attr_name = { txt = "mel.as" | "as"; loc };
+   attr_name = { txt = ("mel.as" | "as" | "bs.as") as txt; loc };
    attr_payload =
      PStr
        [
@@ -68,6 +77,7 @@ let find_name_with_loc (attr : Parsetree.attribute) : string Asttypes.loc option
        ];
    _;
   } ->
+      namespace_error ~loc txt;
       Some { txt = s; loc }
   | _ -> None
 
