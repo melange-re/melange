@@ -295,7 +295,7 @@ let parse_external_attributes (prim_name_check : string)
       let action () =
         match txt with
         | "mel.module" | "bs.module" | "module" -> (
-            Ast_attributes.warn_if_bs_or_non_namespaced ~loc txt;
+            Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
             match Ast_payload.assert_strings loc payload with
             | [ bundle ] ->
                 {
@@ -326,7 +326,7 @@ let parse_external_attributes (prim_name_check : string)
                   "`[%@mel.module ..]' expects, at most, a tuple of two \
                    strings (module name, variable name)")
         | "mel.scope" | "bs.scope" | "scope" -> (
-            Ast_attributes.warn_if_bs_or_non_namespaced ~loc txt;
+            Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
             match Ast_payload.assert_strings loc payload with
             | [] ->
                 Location.raise_errorf ~loc
@@ -334,14 +334,17 @@ let parse_external_attributes (prim_name_check : string)
             (* We need err on empty scope, so we can tell the difference
                between unset/set *)
             | scopes -> { st with scopes })
+        | "mel.splice" | "bs.splice" | "splice" ->
+            Location.raise_errorf ~loc
+              "`%s' has been removed. Use `@mel.variadic' instead." txt
         | "mel.variadic" | "bs.variadic" | "variadic" ->
-            Ast_attributes.warn_if_bs_or_non_namespaced ~loc txt;
+            Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
             { st with variadic = true }
         | "mel.send" | "bs.send" | "send" ->
-            Ast_attributes.warn_if_bs_or_non_namespaced ~loc txt;
+            Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
             { st with val_send = name_from_payload_or_prim ~loc payload }
         | "mel.send.pipe" | "bs.send.pipe" | "send.pipe" ->
-            Ast_attributes.warn_if_bs_or_non_namespaced ~loc txt;
+            Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
             {
               st with
               val_send_pipe =
@@ -353,33 +356,33 @@ let parse_external_attributes (prim_name_check : string)
                        `[%@mel.send.pipe: t]'");
             }
         | "mel.set" | "bs.set" | "set" ->
-            Ast_attributes.warn_if_bs_or_non_namespaced ~loc txt;
+            Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
             { st with set_name = name_from_payload_or_prim ~loc payload }
         | "mel.get" | "bs.get" | "get" ->
-            Ast_attributes.warn_if_bs_or_non_namespaced ~loc txt;
+            Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
             { st with get_name = name_from_payload_or_prim ~loc payload }
         | "mel.new" | "bs.new" | "new" ->
-            Ast_attributes.warn_if_bs_or_non_namespaced ~loc txt;
+            Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
             { st with new_name = name_from_payload_or_prim ~loc payload }
         | "mel.set_index" | "bs.set_index" | "set_index" ->
-            Ast_attributes.warn_if_bs_or_non_namespaced ~loc txt;
+            Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
             if String.length prim_name_check <> 0 then
               Location.raise_errorf ~loc
                 "`%@mel.set_index' requires its `external' payload to be the \
                  empty string";
             { st with set_index = true }
         | "mel.get_index" | "bs.get_index" | "get_index" ->
-            Ast_attributes.warn_if_bs_or_non_namespaced ~loc txt;
+            Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
             if String.length prim_name_check <> 0 then
               Location.raise_errorf ~loc
                 "`%@mel.get_index' requires its `external' payload to be the \
                  empty string";
             { st with get_index = true }
         | "mel.obj" | "bs.obj" | "obj" ->
-            Ast_attributes.warn_if_bs_or_non_namespaced ~loc txt;
+            Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
             { st with mk_obj = true }
         | "mel.return" | "bs.return" | "return" -> (
-            Ast_attributes.warn_if_bs_or_non_namespaced ~loc txt;
+            Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
             match Ast_payload.ident_or_record_as_config payload with
             | Ok [ ({ txt; _ }, None) ] ->
                 { st with return_wrapper = return_wrapper loc txt }
@@ -397,7 +400,7 @@ let has_mel_uncurry (attrs : attribute list) =
       match txt with
       | "mel.uncurry" -> true
       | "bs.uncurry" | "uncurry" ->
-          Ast_attributes.warn_if_bs_or_non_namespaced ~loc txt;
+          Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
           false
       | _ -> false)
     attrs

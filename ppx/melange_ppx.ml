@@ -732,7 +732,7 @@ module Mapper = struct
                  { txt = ("mel.config" | "bs.config" | "config") as txt; loc };
                _;
              } as attr) ->
-            Ast_attributes.warn_if_bs_or_non_namespaced ~loc txt;
+            Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
             Mel_ast_invariant.mark_used_mel_attribute attr;
             str
         | Pstr_module
@@ -938,7 +938,7 @@ module Mapper = struct
                  { txt = ("mel.config" | "bs.config" | "config") as txt; loc };
                _;
              } as attr) ->
-            Ast_attributes.warn_if_bs_or_non_namespaced ~loc txt;
+            Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
             Mel_ast_invariant.mark_used_mel_attribute attr;
             sigi
         | Psig_module
