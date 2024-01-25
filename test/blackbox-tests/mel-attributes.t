@@ -34,38 +34,8 @@
   File "x.ml", line 2, characters 63-66:
   2 | external clipboardData : t -> < .. > Js.t = "clipboardData" [@@get]
                                                                      ^^^
-  Alert deprecated: FFI attributes without a namespace are deprecated and will be removed in the next release.
-  Use `mel.*' instead.
-  
-  File "x.ml", line 3, characters 54-57:
-  3 | external set_title : t -> string -> unit = "title" [@@set]
-                                                            ^^^
-  Alert deprecated: FFI attributes without a namespace are deprecated and will be removed in the next release.
-  Use `mel.*' instead.
-  
-  File "x.ml", line 5, characters 35-41:
-  5 |   x:([`a of int | `b of string ] [@string]) ->
-                                         ^^^^^^
-  Alert deprecated: FFI attributes without a namespace are deprecated and will be removed in the next release.
-  Use `mel.*' instead.
-  
-  File "x.ml", line 7, characters 48-52:
-  7 | external set_onload : t -> ((t -> int -> unit)[@this]) -> unit = "onload"
-                                                      ^^^^
-  Alert deprecated: FFI attributes without a namespace are deprecated and will be removed in the next release.
-  Use `mel.*' instead.
-  
-  File "x.ml", line 16, characters 43-46:
-  16 | external mk : ?hi:int -> unit -> _ = "" [@@obj]
-                                                  ^^^
-  Alert deprecated: FFI attributes without a namespace are deprecated and will be removed in the next release.
-  Use `mel.*' instead.
-  
-  File "x.ml", line 17, characters 6-12:
-  17 | let [@inline] _x = 42
-             ^^^^^^
-  Alert deprecated: FFI attributes without a namespace are deprecated and will be removed in the next release.
-  Use `mel.*' instead.
+  Error: `[@bs.*]' and non-namespaced attributes have been removed in favor of `[@mel.*]' attributes.
+  [1]
 
 Skip processing with PPX but still use `@mel.config`
 
@@ -82,7 +52,6 @@ Skip processing with PPX but still use `@mel.config`
   File "x.ml", line 1, characters 4-10:
   1 | [@@@config { flags = [| "-w"; "-32" |] }]
           ^^^^^^
-  Error (alert deprecated): FFI attributes without a namespace are deprecated and will be removed in the next release.
-  Use `mel.*' instead.
+  Error: `[@bs.*]' and non-namespaced attributes have been removed in favor of `[@mel.*]' attributes. Use `[@mel.config]' instead.
   [1]
 

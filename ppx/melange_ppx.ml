@@ -597,10 +597,9 @@ module Mapper = struct
               ( Ast_attributes.has_inline_payload pvb_attributes,
                 pvb_expr.pexp_desc )
             with
-            | ( Some ({ attr_name = { txt; loc }; _ } as attr),
-                Pexp_constant (Pconst_string (s, _, None)) ) ->
-                Ast_attributes.warn_if_non_namespaced ~loc txt;
+            | Some attr, Pexp_constant (Pconst_string (s, _, None)) ->
                 succeed attr pvb_attributes;
+                let loc = pvb_loc in
                 {
                   str with
                   pstr_desc =
@@ -608,15 +607,14 @@ module Mapper = struct
                       {
                         pval_name;
                         pval_type = [%type: string];
-                        pval_loc = pvb_loc;
+                        pval_loc = loc;
                         pval_attributes = [];
                         pval_prim =
                           Melange_ffi.External_ffi_types.inline_string_primitive
                             s None;
                       };
                 }
-            | ( Some ({ attr_name = { txt; loc }; _ } as attr),
-                Pexp_constant (Pconst_string (s, _, Some dec)) ) -> (
+            | Some attr, Pexp_constant (Pconst_string (s, loc, Some dec)) -> (
                 match
                   Melange_ffi.Utf8_string.Interp.transform ~loc ~delim:dec
                     (Melange_compiler_libs.Ast_helper.Exp.constant
@@ -625,7 +623,6 @@ module Mapper = struct
                 with
                 | { pexp_desc = Pexp_constant (Pconst_string (s, _, dec)); _ }
                   ->
-                    Ast_attributes.warn_if_non_namespaced ~loc txt;
                     succeed attr pvb_attributes;
                     {
                       str with
@@ -642,11 +639,10 @@ module Mapper = struct
                           };
                     }
                 | _ -> str)
-            | ( Some ({ attr_name = { txt; loc }; _ } as attr),
-                Pexp_constant (Pconst_integer (s, None)) ) ->
-                Ast_attributes.warn_if_non_namespaced ~loc txt;
+            | Some attr, Pexp_constant (Pconst_integer (s, None)) ->
                 let s = Int32.of_string s in
                 succeed attr pvb_attributes;
+                let loc = pvb_loc in
                 {
                   str with
                   pstr_desc =
@@ -654,17 +650,16 @@ module Mapper = struct
                       {
                         pval_name;
                         pval_type = [%type: int];
-                        pval_loc = pvb_loc;
+                        pval_loc = loc;
                         pval_attributes = [];
                         pval_prim =
                           Melange_ffi.External_ffi_types.inline_int_primitive s;
                       };
                 }
-            | ( Some ({ attr_name = { txt; loc }; _ } as attr),
-                Pexp_constant (Pconst_integer (s, Some 'L')) ) ->
-                Ast_attributes.warn_if_non_namespaced ~loc txt;
+            | Some attr, Pexp_constant (Pconst_integer (s, Some 'L')) ->
                 let s = Int64.of_string s in
                 succeed attr pvb_attributes;
+                let loc = pvb_loc in
                 {
                   str with
                   pstr_desc =
@@ -672,17 +667,16 @@ module Mapper = struct
                       {
                         pval_name;
                         pval_type = [%type: int64];
-                        pval_loc = pvb_loc;
+                        pval_loc = loc;
                         pval_attributes = [];
                         pval_prim =
                           Melange_ffi.External_ffi_types.inline_int64_primitive
                             s;
                       };
                 }
-            | ( Some ({ attr_name = { txt; loc }; _ } as attr),
-                Pexp_constant (Pconst_float (s, None)) ) ->
-                Ast_attributes.warn_if_non_namespaced ~loc txt;
+            | Some attr, Pexp_constant (Pconst_float (s, None)) ->
                 succeed attr pvb_attributes;
+                let loc = pvb_loc in
                 {
                   str with
                   pstr_desc =
@@ -690,18 +684,18 @@ module Mapper = struct
                       {
                         pval_name;
                         pval_type = [%type: float];
-                        pval_loc = pvb_loc;
+                        pval_loc = loc;
                         pval_attributes = [];
                         pval_prim =
                           Melange_ffi.External_ffi_types.inline_float_primitive
                             s;
                       };
                 }
-            | ( Some ({ attr_name = { txt; loc }; _ } as attr),
+            | ( Some attr,
                 Pexp_construct
                   ({ txt = Lident (("true" | "false") as bool); _ }, None) ) ->
-                Ast_attributes.warn_if_non_namespaced ~loc txt;
                 succeed attr pvb_attributes;
+                let loc = pvb_loc in
                 {
                   str with
                   pstr_desc =
@@ -709,7 +703,7 @@ module Mapper = struct
                       {
                         pval_name;
                         pval_type = [%type: bool];
-                        pval_loc = pvb_loc;
+                        pval_loc = loc;
                         pval_attributes = [];
                         pval_prim =
                           Melange_ffi.External_ffi_types.inline_bool_primitive
@@ -733,9 +727,12 @@ module Mapper = struct
                   (r, Ast_tuple_pattern_flatten.value_bindings_mapper self vbs);
             }
         | Pstr_attribute
-            ({ attr_name = { txt = ("mel.config" | "config") as txt; loc }; _ }
-             as attr) ->
-            Ast_attributes.warn_if_non_namespaced ~loc txt;
+            ({
+               attr_name =
+                 { txt = ("mel.config" | "bs.config" | "config") as txt; loc };
+               _;
+             } as attr) ->
+            Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
             Mel_ast_invariant.mark_used_mel_attribute attr;
             str
         | Pstr_module
@@ -936,9 +933,12 @@ module Mapper = struct
                           };
                     })
         | Psig_attribute
-            ({ attr_name = { txt = ("mel.config" | "config") as txt; loc }; _ }
-             as attr) ->
-            Ast_attributes.warn_if_non_namespaced ~loc txt;
+            ({
+               attr_name =
+                 { txt = ("mel.config" | "bs.config" | "config") as txt; loc };
+               _;
+             } as attr) ->
+            Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
             Mel_ast_invariant.mark_used_mel_attribute attr;
             sigi
         | Psig_module
