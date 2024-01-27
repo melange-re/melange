@@ -351,3 +351,29 @@ let transform =
     with Error (start, pos, error) ->
       let loc = update border start pos loc in
       Location.raise_errorf ~loc "%a" pp_error error
+
+module Private = struct
+  type nonrec segment = segment = {
+    start : pos;
+    finish : pos;
+    kind : kind;
+    content : string;
+  }
+
+  let transform_test s =
+    let s_len = String.length s in
+    let buf = Buffer.create (s_len * 2) in
+    let cxt =
+      {
+        segment_start = { lnum = 0; offset = 0; byte_bol = 0 };
+        buf;
+        s_len;
+        segments = [];
+        pos_lnum = 0;
+        byte_bol = 0;
+        pos_bol = 0;
+      }
+    in
+    check_and_transform 0 s 0 cxt;
+    List.rev cxt.segments
+end
