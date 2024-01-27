@@ -49,40 +49,12 @@ module Utf8_string : sig
 end
 
 module Interp : sig
-  type error =
-    | Invalid_code_point
-    | Unterminated_backslash
-    | Invalid_escape_code of char
-    | Invalid_hex_escape
-    | Invalid_unicode_escape
-    | Unterminated_variable
-    | Unmatched_paren
-    | Invalid_syntax_of_var of string
-
-  type kind = String | Var of int * int
-
-  (* Note the position is about code point *)
-  type pos = {
-    lnum : int;
-    offset : int;
-    byte_bol : int;
-        (* Note it actually needs to be in sync with OCaml's lexing semantics *)
-  }
-
-  type exn += Error of pos * pos * error
-
   val transform :
     loc:Location.t ->
     delim:string ->
     Parsetree.expression ->
     string ->
     Parsetree.expression
-
-  module Private : sig
-    type segment = { start : pos; finish : pos; kind : kind; content : string }
-
-    val transform_test : string -> segment list
-  end
 end
 
 val rewrite_structure : Parsetree.structure -> Parsetree.structure
