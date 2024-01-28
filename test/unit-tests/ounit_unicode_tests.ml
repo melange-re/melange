@@ -3,7 +3,7 @@ let ( =~ ) a b = OUnit.assert_equal ~cmp:String.equal a b
 
 module Utf8_string = Melange_ffi.Utf8_string
 
-(* Note [Var] kind can not be mpty  *)
+(* Note [Expr] kind can not be mpty  *)
 let empty_segment { Utf8_string.Interp.Private.content; _ } =
   String.length content = 0
 
@@ -38,8 +38,8 @@ let ( ==* ) a b =
   in
   OUnit.assert_equal segments b
 
-let varParen : Utf8_string.Interp.kind = Var (2, -1)
-let var : Utf8_string.Interp.kind = Var (1, 0)
+let varParen : Utf8_string.Interp.kind = Expr (2, -1)
+let var : Utf8_string.Interp.kind = Expr (1, 0)
 
 let suites =
   __FILE__
@@ -168,15 +168,6 @@ let suites =
          ( __LOC__ >:: fun _ ->
            {|$x)|} ==* [ (0, 0, 0, 2, var, "x"); (0, 2, 0, 3, String, ")") ] );
          ( __LOC__ >:: fun _ ->
-           match Utf8_string.Interp.Private.transform_test {j| $( ()) |j} with
-           | exception
-               Utf8_string.Interp.Error
-                 ( { lnum = 0; offset = 1; byte_bol = 0 },
-                   { lnum = 0; offset = 6; byte_bol = 0 },
-                   Invalid_syntax_of_var " (" ) ->
-               OUnit.assert_bool __LOC__ true
-           | _ -> OUnit.assert_bool __LOC__ false );
-         ( __LOC__ >:: fun _ ->
            match Utf8_string.Interp.Private.transform_test {|$ ()|} with
            | exception
                Utf8_string.Interp.Error
@@ -192,26 +183,6 @@ let suites =
                  ( { lnum = 0; offset = 0; byte_bol = 0 },
                    { lnum = 0; offset = 0; byte_bol = 3 },
                    Invalid_syntax_of_var "" ) ->
-               OUnit.assert_bool __LOC__ true
-           | _ -> OUnit.assert_bool __LOC__ false );
-         ( __LOC__ >:: fun _ ->
-           match
-             Utf8_string.Interp.Private.transform_test {|$(hello world)|}
-           with
-           | exception
-               Utf8_string.Interp.Error
-                 ( { lnum = 0; offset = 0; byte_bol = 0 },
-                   { lnum = 0; offset = 14; byte_bol = 0 },
-                   Invalid_syntax_of_var "hello world" ) ->
-               OUnit.assert_bool __LOC__ true
-           | _ -> OUnit.assert_bool __LOC__ false );
-         ( __LOC__ >:: fun _ ->
-           match Utf8_string.Interp.Private.transform_test {|$( hi*) |} with
-           | exception
-               Utf8_string.Interp.Error
-                 ( { lnum = 0; offset = 0; byte_bol = 0 },
-                   { lnum = 0; offset = 7; byte_bol = 0 },
-                   Invalid_syntax_of_var " hi*" ) ->
                OUnit.assert_bool __LOC__ true
            | _ -> OUnit.assert_bool __LOC__ false );
          ( __LOC__ >:: fun _ ->

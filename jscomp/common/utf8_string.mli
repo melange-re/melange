@@ -59,7 +59,7 @@ module Interp : sig
     | Unmatched_paren
     | Invalid_syntax_of_var of string
 
-  type kind = String | Var of int * int
+  type kind = String | Expr of int * int
 
   (* Note the position is about code point *)
   type pos = {
