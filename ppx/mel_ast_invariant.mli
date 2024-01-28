@@ -29,7 +29,6 @@ module Warnings : sig
     | Unused_attribute of string
     | Fragile_external of string
     | Redundant_mel_string
-    | Deprecated_non_namespaced_attribute
 end
 
 val is_mel_attribute : string -> bool

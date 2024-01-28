@@ -29,13 +29,11 @@ module Warnings = struct
     | Unused_attribute of string
     | Fragile_external of string
     | Redundant_mel_string
-    | Deprecated_non_namespaced_attribute
 
   let kind = function
     | Unused_attribute _ -> "unused"
     | Fragile_external _ -> "fragile"
     | Redundant_mel_string -> "redundant"
-    | Deprecated_non_namespaced_attribute -> "deprecated"
 
   let pp fmt t =
     match t with
@@ -53,11 +51,6 @@ module Warnings = struct
     | Redundant_mel_string ->
         Format.fprintf fmt
           "[@mel.string] is redundant here, you can safely remove it"
-    | Deprecated_non_namespaced_attribute ->
-        Format.fprintf fmt
-          "FFI attributes without a namespace are deprecated and will be \
-           removed in the next release.@\n\
-           Use `mel.*' instead."
 end
 
 let warn =
@@ -106,7 +99,7 @@ let emit_external_warnings : Ast_traverse.iter =
       List.iter
         ~f:(fun attr ->
           match attr with
-          | { attr_name = { txt = "mel.as" | "as"; _ }; _ } ->
+          | { attr_name = { txt = "mel.as"; _ }; _ } ->
               mark_used_mel_attribute attr
           | _ -> ())
         lbl.pld_attributes;
