@@ -52,8 +52,9 @@ let rec next s ~remaining offset =
     match classify s.[offset + 1] with
     | Cont _cc -> next s ~remaining:(remaining - 1) (offset + 1)
     | _ -> -1
-    | exception _ -> -1
-(* it can happen when out of bound *)
+    | exception _ ->
+        (* it can happen when out of bound *)
+        -1
 
 let rec check_no_escapes_or_unicode s byte_offset s_len =
   if byte_offset = s_len then true

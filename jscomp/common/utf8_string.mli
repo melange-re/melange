@@ -27,7 +27,6 @@ open Import
 type byte = Single of int | Cont of int | Leading of int * int | Invalid
 
 val classify : char -> byte
-val next : string -> remaining:int -> int -> int
 
 (* Check if the string is only == to itself (no unicode or escape tricks) *)
 val simple_comparison : string -> bool

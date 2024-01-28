@@ -24,30 +24,9 @@
 
 open Import
 
-(* Supported delimiters *)
-let unescaped_j_delimiter = "j"
-let unescaped_js_delimiter = "js"
-
-let is_unescaped s =
-  String.equal s unescaped_j_delimiter || String.equal s unescaped_js_delimiter
-
-let valid_hex x =
-  match x with '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' -> true | _ -> false
-
-let merge_loc (l : Location.t) (r : Location.t) =
-  if l.loc_ghost then r
-  else if r.loc_ghost then l
-  else
-    match (l, r) with
-    | { loc_start; _ }, { loc_end; _ } (* TODO: improve*) ->
-        { loc_start; loc_end; loc_ghost = false }
-
 type error =
   | Invalid_code_point
   | Unterminated_backslash
-  | Invalid_escape_code of char
-  | Invalid_hex_escape
-  | Invalid_unicode_escape
   | Unterminated_variable
   | Unmatched_paren
   | Invalid_syntax_of_var of string
@@ -66,19 +45,18 @@ type pos = {
 }
 
 type segment = { start : pos; finish : pos; kind : kind; content : string }
-type segments = segment list
 
 type cxt = {
   mutable segment_start : pos;
   buf : Buffer.t;
   s_len : int;
-  mutable segments : segments;
-  mutable pos_bol : int; (* record the abs position of current beginning line *)
-  mutable byte_bol : int;
-  mutable pos_lnum : int; (* record the line number *)
+  mutable segments : segment list;
+  pos_bol : int; (* record the abs position of current beginning line *)
+  byte_bol : int;
+  pos_lnum : int; (* record the line number *)
 }
 
-type exn += Error of pos * pos * error
+exception Error of pos * pos * error
 
 let pp_error fmt err =
   Format.pp_print_string fmt
@@ -86,9 +64,6 @@ let pp_error fmt err =
   match err with
   | Invalid_code_point -> "Invalid code point"
   | Unterminated_backslash -> "\\ ended unexpectedly"
-  | Invalid_escape_code c -> "Invalid escape code: " ^ String.make 1 c
-  | Invalid_hex_escape -> "Invalid \\x escape"
-  | Invalid_unicode_escape -> "Invalid \\u escape"
   | Unterminated_variable -> "$ unterminated"
   | Unmatched_paren -> "Unmatched paren"
   | Invalid_syntax_of_var s ->
@@ -143,11 +118,6 @@ let update border start finish (loc : Location.t) =
     loc_start = update_position border start start_pos;
     loc_end = update_position border finish start_pos;
   }
-
-let update_newline ~byte_bol loc cxt =
-  cxt.pos_lnum <- cxt.pos_lnum + 1;
-  cxt.pos_bol <- loc;
-  cxt.byte_bol <- byte_bol
 
 let pos_error cxt ~loc error =
   raise
@@ -215,10 +185,14 @@ let rec check_and_transform loc s byte_offset ({ s_len; buf; _ } as cxt) =
   else
     let current_char = s.[byte_offset] in
     match Melange_ffi.Utf8_string.classify current_char with
-    | Single 92 (* '\\' *) -> escape_code (loc + 1) s (byte_offset + 1) cxt
-    | Single 34 ->
-        Buffer.add_string buf "\\\"";
-        check_and_transform (loc + 1) s (byte_offset + 1) cxt
+    | Single 92 (* '\\' *) ->
+        let loc = loc + 1 in
+        let offset = byte_offset + 1 in
+        if offset >= s_len then pos_error cxt ~loc Unterminated_backslash
+        else Buffer.add_char buf '\\';
+        let cur_char = s.[offset] in
+        Buffer.add_char buf cur_char;
+        check_and_transform (loc + 1) s (offset + 1) cxt
     | Single 36 ->
         (* $ *)
         add_str_segment cxt loc;
@@ -242,7 +216,7 @@ and expect_simple_var loc s offset ({ buf; s_len; _ } as cxt) =
     pos_error cxt ~loc (Invalid_syntax_of_var String.empty)
   else (
     while !v < s_len && valid_identifier_char s.[!v] do
-      (* TODO*)
+      (* TODO *)
       let cur_char = s.[!v] in
       Buffer.add_char buf cur_char;
       incr v
@@ -266,31 +240,26 @@ and expect_var_paren loc s offset ({ buf; s_len; _ } as cxt) =
     check_and_transform loc s (added_length + 1 + offset) cxt)
   else pos_error cxt ~loc Unmatched_paren
 
-(* we share the same escape sequence with js *)
-and escape_code loc s offset ({ buf; s_len; _ } as cxt) =
-  if offset >= s_len then pos_error cxt ~loc Unterminated_backslash
-  else Buffer.add_char buf '\\';
-  let cur_char = s.[offset] in
-  match cur_char with
-  | '\\' | 'b' | 't' | 'n' | 'v' | 'f' | 'r' | '0' | '$' | 'u' | 'x' ->
-      Buffer.add_char buf cur_char;
-      check_and_transform (loc + 1) s (offset + 1) cxt
-  | _ -> pos_error cxt ~loc (Invalid_escape_code cur_char)
-
 (* TODO: Allow identifers x.A.y *)
-
-module Exp = Ast_helper.Exp
-
-let concat_ident : Longident.t = Ldot (Lident "Stdlib", "^")
-
-let escaped_js_delimiter =
-  (* syntax not allowed at the user level *)
-  Some unescaped_js_delimiter
 
 let border = String.length "{j|"
 
-(* Invariant: the [lhs] is always of type string *)
 let rec handle_segments =
+  let module Exp = Ast_helper.Exp in
+  let concat_ident : Longident.t = Ldot (Lident "Stdlib", "^") in
+  let escaped_js_delimiter =
+    (* syntax not allowed at the user level *)
+    let unescaped_js_delimiter = "js" in
+    Some unescaped_js_delimiter
+  in
+  let merge_loc (l : Location.t) (r : Location.t) =
+    if l.loc_ghost then r
+    else if r.loc_ghost then l
+    else
+      match (l, r) with
+      | { loc_start; _ }, { loc_end; _ } (* TODO: improve*) ->
+          { loc_start; loc_end; loc_ghost = false }
+  in
   let aux loc segment =
     match segment with
     | { start; finish; kind; content } -> (
@@ -323,31 +292,30 @@ let rec handle_segments =
     | { content = ""; _ } :: rest -> handle_segments loc rest
     | a :: rest -> concat_exp loc a ~lhs:(handle_segments loc rest)
 
-let transform_interp loc s =
-  let s_len = String.length s in
-  let buf = Buffer.create (s_len * 2) in
-  let cxt =
-    {
-      segment_start = { lnum = 0; offset = 0; byte_bol = 0 };
-      buf;
-      s_len;
-      segments = [];
-      pos_lnum = 0;
-      byte_bol = 0;
-      pos_bol = 0;
-    }
-  in
-  check_and_transform 0 s 0 cxt;
-  handle_segments loc cxt.segments
-
 let transform =
-  let transform (e : Parsetree.expression) s ~loc:_ ~delim =
+  let unescaped_j_delimiter = "j" in
+  let transform (e : Parsetree.expression) s ~delim =
     match String.equal delim unescaped_j_delimiter with
-    | true -> transform_interp e.pexp_loc s
+    | true ->
+        let s_len = String.length s in
+        let buf = Buffer.create (s_len * 2) in
+        let cxt =
+          {
+            segment_start = { lnum = 0; offset = 0; byte_bol = 0 };
+            buf;
+            s_len;
+            segments = [];
+            pos_lnum = 0;
+            byte_bol = 0;
+            pos_bol = 0;
+          }
+        in
+        check_and_transform 0 s 0 cxt;
+        handle_segments e.pexp_loc cxt.segments
     | false -> e
   in
   fun ~loc ~delim expr s ->
-    try transform expr s ~loc ~delim
+    try transform expr s ~delim
     with Error (start, pos, error) ->
       let loc = update border start pos loc in
       Location.raise_errorf ~loc "%a" pp_error error
