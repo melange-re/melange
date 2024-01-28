@@ -15,19 +15,21 @@ var Curry = require("melange.js/curry.js");
 var Stdlib = require("melange/stdlib.js");
 
 function failwith(s) {
-  throw {
-        MEL_EXN_ID: Stdlib.Failure,
-        _1: s,
-        Error: new Error()
-      };
+  throw new Error(Stdlib.Failure, {
+            cause: {
+              MEL_EXN_ID: Stdlib.Failure,
+              _1: s
+            }
+          });
 }
 
 function invalid_arg(s) {
-  throw {
-        MEL_EXN_ID: Stdlib.Invalid_argument,
-        _1: s,
-        Error: new Error()
-      };
+  throw new Error(Stdlib.Invalid_argument, {
+            cause: {
+              MEL_EXN_ID: Stdlib.Invalid_argument,
+              _1: s
+            }
+          });
 }
 
 var Exit = /* @__PURE__ */Caml_exceptions.create("Test_per.Exit");
@@ -103,11 +105,12 @@ function $caret(s1, s2) {
 
 function char_of_int(n) {
   if (n < 0 || n > 255) {
-    throw {
-          MEL_EXN_ID: Stdlib.Invalid_argument,
-          _1: "char_of_int",
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Invalid_argument, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Invalid_argument,
+                _1: "char_of_int"
+              }
+            });
   }
   return n;
 }
@@ -127,11 +130,12 @@ function bool_of_string(param) {
     case "true" :
         return true;
     default:
-      throw {
-            MEL_EXN_ID: Stdlib.Invalid_argument,
-            _1: "bool_of_string",
-            Error: new Error()
-          };
+      throw new Error(Stdlib.Invalid_argument, {
+                cause: {
+                  MEL_EXN_ID: Stdlib.Invalid_argument,
+                  _1: "bool_of_string"
+                }
+              });
   }
 }
 
@@ -248,22 +252,24 @@ function output_string(oc, s) {
 
 function output(oc, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
-    throw {
-          MEL_EXN_ID: Stdlib.Invalid_argument,
-          _1: "output",
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Invalid_argument, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Invalid_argument,
+                _1: "output"
+              }
+            });
   }
   Caml_io.caml_ml_output(oc, s, ofs, len);
 }
 
 function output_substring(oc, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
-    throw {
-          MEL_EXN_ID: Stdlib.Invalid_argument,
-          _1: "output_substring",
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Invalid_argument, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Invalid_argument,
+                _1: "output_substring"
+              }
+            });
   }
   Caml_io.caml_ml_output(oc, s, ofs, len);
 }
@@ -318,11 +324,12 @@ function open_in_bin(name) {
 
 function input(ic, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
-    throw {
-          MEL_EXN_ID: Stdlib.Invalid_argument,
-          _1: "input",
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Invalid_argument, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Invalid_argument,
+                _1: "input"
+              }
+            });
   }
   return Caml_external_polyfill.resolve("caml_ml_input")(ic, s, ofs, len);
 }
@@ -336,10 +343,11 @@ function unsafe_really_input(ic, s, _ofs, _len) {
     }
     var r = Caml_external_polyfill.resolve("caml_ml_input")(ic, s, ofs, len);
     if (r === 0) {
-      throw {
-            MEL_EXN_ID: Stdlib.End_of_file,
-            Error: new Error()
-          };
+      throw new Error(Stdlib.End_of_file, {
+                cause: {
+                  MEL_EXN_ID: Stdlib.End_of_file
+                }
+              });
     }
     _len = len - r | 0;
     _ofs = ofs + r | 0;
@@ -349,11 +357,12 @@ function unsafe_really_input(ic, s, _ofs, _len) {
 
 function really_input(ic, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
-    throw {
-          MEL_EXN_ID: Stdlib.Invalid_argument,
-          _1: "really_input",
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Invalid_argument, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Invalid_argument,
+                _1: "really_input"
+              }
+            });
   }
   unsafe_really_input(ic, s, ofs, len);
 }
@@ -390,10 +399,11 @@ function input_line(chan) {
       if (accu) {
         return build_result(Caml_bytes.caml_create_bytes(len), len, accu);
       }
-      throw {
-            MEL_EXN_ID: Stdlib.End_of_file,
-            Error: new Error()
-          };
+      throw new Error(Stdlib.End_of_file, {
+                cause: {
+                  MEL_EXN_ID: Stdlib.End_of_file
+                }
+              });
     }
     if (n > 0) {
       var res = Caml_bytes.caml_create_bytes(n - 1 | 0);

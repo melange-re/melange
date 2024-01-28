@@ -43,10 +43,11 @@ function min_elt(_param) {
       _param = l;
       continue ;
     }
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   };
 }
 
@@ -60,10 +61,11 @@ function max_elt(_param) {
       _param = param._2;
       continue ;
     }
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   };
 }
 
@@ -206,17 +208,19 @@ function check_height_and_diff(param) {
   var hl = check_height_and_diff(param._0);
   var hr = check_height_and_diff(param._2);
   if (h !== (max_int_2(hl, hr) + 1 | 0)) {
-    throw {
-          MEL_EXN_ID: Height_invariant_broken,
-          Error: new Error()
-        };
+    throw new Error(Height_invariant_broken, {
+              cause: {
+                MEL_EXN_ID: Height_invariant_broken
+              }
+            });
   }
   var diff = Stdlib.abs(hl - hr | 0);
   if (diff > 2) {
-    throw {
-          MEL_EXN_ID: Height_diff_borken,
-          Error: new Error()
-        };
+    throw new Error(Height_diff_borken, {
+              cause: {
+                MEL_EXN_ID: Height_diff_borken
+              }
+            });
   }
   return h;
 }
@@ -250,25 +254,27 @@ function internal_bal(l, v, r) {
       if (lr) {
         return create(create(ll, lv, lr._0), lr._1, create(lr._2, v, r));
       }
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/set_gen.ml",
-              235,
-              19
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/set_gen.ml",
+                    235,
+                    19
+                  ]
+                }
+              });
     }
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/set_gen.ml",
-            225,
-            15
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/set_gen.ml",
+                  225,
+                  15
+                ]
+              }
+            });
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -288,25 +294,27 @@ function internal_bal(l, v, r) {
     if (rl) {
       return create(create(l, v, rl._0), rl._1, create(rl._2, rv, rr));
     }
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/set_gen.ml",
-            251,
-            19
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/set_gen.ml",
+                  251,
+                  19
+                ]
+              }
+            });
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/set_gen.ml",
-          245,
-          15
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/set_gen.ml",
+                245,
+                15
+              ]
+            }
+          });
 }
 
 function remove_min_elt(param) {
@@ -318,11 +326,12 @@ function remove_min_elt(param) {
       return param._2;
     }
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Set.remove_min_elt",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Set.remove_min_elt"
+            }
+          });
 }
 
 function singleton(x) {
@@ -522,15 +531,16 @@ function of_sorted_list(l) {
               match$4[1]
             ];
     }
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/set_gen.ml",
-            361,
-            14
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/set_gen.ml",
+                  361,
+                  14
+                ]
+              }
+            });
   };
   return sub(Stdlib__List.length(l), l)[0];
 }

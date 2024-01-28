@@ -50,27 +50,29 @@ Stdlib__Arg.parse_argv(undefined, [
     ], arg_spec, anno_fun, usage_msg);
 
 if (compile.contents !== true) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/argv_test.ml",
-          20,
-          0
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/argv_test.ml",
+                20,
+                0
+              ]
+            }
+          });
 }
 
 if (test.contents !== false) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/argv_test.ml",
-          21,
-          0
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/argv_test.ml",
+                21,
+                0
+              ]
+            }
+          });
 }
 
 exports.anno_fun = anno_fun;

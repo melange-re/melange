@@ -21,7 +21,9 @@ catch (raw_exn){
     console.log(exn._1);
     y = 0;
   } else {
-    throw exn;
+    throw new Error(exn.MEL_EXN_ID, {
+              cause: exn
+            });
   }
 }
 

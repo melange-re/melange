@@ -43,10 +43,11 @@ function from_tokens(lst) {
       l.contents = match.tl;
       return match.hd;
     }
-    throw {
-          MEL_EXN_ID: Stdlib.End_of_file,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.End_of_file, {
+              cause: {
+                MEL_EXN_ID: Stdlib.End_of_file
+              }
+            });
   };
 }
 

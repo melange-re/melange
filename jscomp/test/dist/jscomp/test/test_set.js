@@ -37,17 +37,19 @@ function Make(Ord) {
         if (lr) {
           return create(create(ll, lv, lr._0), lr._1, create(lr._2, v, r));
         }
-        throw {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Set.bal",
-              Error: new Error()
-            };
+        throw new Error("Invalid_argument", {
+                  cause: {
+                    MEL_EXN_ID: "Invalid_argument",
+                    _1: "Set.bal"
+                  }
+                });
       }
-      throw {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Set.bal",
-            Error: new Error()
-          };
+      throw new Error("Invalid_argument", {
+                cause: {
+                  MEL_EXN_ID: "Invalid_argument",
+                  _1: "Set.bal"
+                }
+              });
     }
     if (hr <= (hl + 2 | 0)) {
       return /* Node */{
@@ -67,17 +69,19 @@ function Make(Ord) {
       if (rl) {
         return create(create(l, v, rl._0), rl._1, create(rl._2, rv, rr));
       }
-      throw {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Set.bal",
-            Error: new Error()
-          };
+      throw new Error("Invalid_argument", {
+                cause: {
+                  MEL_EXN_ID: "Invalid_argument",
+                  _1: "Set.bal"
+                }
+              });
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Set.bal"
+              }
+            });
   };
   var add = function (x, t) {
     if (!t) {
@@ -150,10 +154,11 @@ function Make(Ord) {
         _param = l;
         continue ;
       }
-      throw {
-            MEL_EXN_ID: Stdlib.Not_found,
-            Error: new Error()
-          };
+      throw new Error(Stdlib.Not_found, {
+                cause: {
+                  MEL_EXN_ID: Stdlib.Not_found
+                }
+              });
     };
   };
   var max_elt = function (_param) {
@@ -166,10 +171,11 @@ function Make(Ord) {
         _param = param._2;
         continue ;
       }
-      throw {
-            MEL_EXN_ID: Stdlib.Not_found,
-            Error: new Error()
-          };
+      throw new Error(Stdlib.Not_found, {
+                cause: {
+                  MEL_EXN_ID: Stdlib.Not_found
+                }
+              });
     };
   };
   var remove_min_elt = function (param) {
@@ -181,11 +187,12 @@ function Make(Ord) {
         return param._2;
       }
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.remove_min_elt",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Set.remove_min_elt"
+              }
+            });
   };
   var merge = function (t1, t2) {
     if (t1) {
@@ -567,10 +574,11 @@ function Make(Ord) {
         _param = c < 0 ? param._0 : param._2;
         continue ;
       }
-      throw {
-            MEL_EXN_ID: Stdlib.Not_found,
-            Error: new Error()
-          };
+      throw new Error(Stdlib.Not_found, {
+                cause: {
+                  MEL_EXN_ID: Stdlib.Not_found
+                }
+              });
     };
   };
   var of_sorted_list = function (l) {
@@ -660,15 +668,16 @@ function Make(Ord) {
                 match$4[1]
               ];
       }
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/test_set.ml",
-              372,
-              18
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/test_set.ml",
+                    372,
+                    18
+                  ]
+                }
+              });
     };
     return sub(Stdlib__List.length(l), l)[0];
   };

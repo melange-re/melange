@@ -21,27 +21,29 @@ var a = "good response";
 var b = "bad response";
 
 if (a !== "good response") {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/gpr_3877_test.ml",
-          14,
-          3
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/gpr_3877_test.ml",
+                14,
+                3
+              ]
+            }
+          });
 }
 
 if (b !== "bad response") {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/gpr_3877_test.ml",
-          15,
-          3
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/gpr_3877_test.ml",
+                15,
+                3
+              ]
+            }
+          });
 }
 
 exports.test = test;

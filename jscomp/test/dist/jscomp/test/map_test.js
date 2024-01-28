@@ -49,17 +49,19 @@ function bal(l, x, d, r) {
       if (lr) {
         return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
       }
-      throw {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Map.bal",
-            Error: new Error()
-          };
+      throw new Error("Invalid_argument", {
+                cause: {
+                  MEL_EXN_ID: "Invalid_argument",
+                  _1: "Map.bal"
+                }
+              });
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Map.bal"
+              }
+            });
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -81,17 +83,19 @@ function bal(l, x, d, r) {
     if (rl) {
       return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Map.bal"
+              }
+            });
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Map.bal",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Map.bal"
+            }
+          });
 }
 
 function add(x, data, m) {
@@ -267,17 +271,19 @@ function bal$1(l, x, d, r) {
       if (lr) {
         return create$1(create$1(ll, lv, ld, lr.l), lr.v, lr.d, create$1(lr.r, x, d, r));
       }
-      throw {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Map.bal",
-            Error: new Error()
-          };
+      throw new Error("Invalid_argument", {
+                cause: {
+                  MEL_EXN_ID: "Invalid_argument",
+                  _1: "Map.bal"
+                }
+              });
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Map.bal"
+              }
+            });
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -299,17 +305,19 @@ function bal$1(l, x, d, r) {
     if (rl) {
       return create$1(create$1(l, x, d, rl.l), rl.v, rl.d, create$1(rl.r, rv, rd, rr));
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Map.bal"
+              }
+            });
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Map.bal",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Map.bal"
+            }
+          });
 }
 
 function add$1(x, data, m) {
@@ -367,10 +375,11 @@ function find(x, _param) {
       _param = c < 0 ? param.l : param.r;
       continue ;
     }
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   };
 }
 

@@ -57,7 +57,9 @@ catch (raw_exn){
   if (exn.MEL_EXN_ID === Stdlib.Not_found) {
     tmp = "Z";
   } else {
-    throw exn;
+    throw new Error(exn.MEL_EXN_ID, {
+              cause: exn
+            });
   }
 }
 

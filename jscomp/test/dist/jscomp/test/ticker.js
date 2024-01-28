@@ -36,7 +36,9 @@ function split(delim, s) {
                   tl: l
                 };
         }
-        throw exn;
+        throw new Error(exn.MEL_EXN_ID, {
+                  cause: exn
+                });
       }
       var l_0 = Stdlib__String.sub(s, i$p + 1 | 0, (i - i$p | 0) - 1 | 0);
       var l$1 = {
@@ -165,17 +167,19 @@ function bal(l, x, d, r) {
       if (lr) {
         return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
       }
-      throw {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Map.bal",
-            Error: new Error()
-          };
+      throw new Error("Invalid_argument", {
+                cause: {
+                  MEL_EXN_ID: "Invalid_argument",
+                  _1: "Map.bal"
+                }
+              });
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Map.bal"
+              }
+            });
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -197,17 +201,19 @@ function bal(l, x, d, r) {
     if (rl) {
       return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Map.bal"
+              }
+            });
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Map.bal",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Map.bal"
+            }
+          });
 }
 
 function is_empty(param) {
@@ -273,10 +279,11 @@ function find(x, _param) {
       _param = c < 0 ? param.l : param.r;
       continue ;
     }
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   };
 }
 
@@ -313,10 +320,11 @@ function find_first(f, _param) {
       _param = param.r;
       continue ;
     }
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   };
 }
 
@@ -390,10 +398,11 @@ function find_last(f, _param) {
       _param = param.l;
       continue ;
     }
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   };
 }
 
@@ -478,10 +487,11 @@ function min_binding(_param) {
       _param = l;
       continue ;
     }
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   };
 }
 
@@ -516,10 +526,11 @@ function max_binding(_param) {
       _param = param.r;
       continue ;
     }
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   };
 }
 
@@ -549,11 +560,12 @@ function remove_min_binding(param) {
       return param.r;
     }
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Map.remove_min_elt",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Map.remove_min_elt"
+            }
+          });
 }
 
 function merge(t1, t2) {
@@ -864,15 +876,16 @@ function merge$1(f, s1, s2) {
     var match$1 = split$1(v2, s1);
     return concat_or_join(merge$1(f, match$1[0], s2.l), v2, Curry._3(f, v2, match$1[1], Caml_option.some(s2.d)), merge$1(f, match$1[2], s2.r));
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/stdlib/map.ml",
-          408,
-          10
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/stdlib/map.ml",
+                408,
+                10
+              ]
+            }
+          });
 }
 
 function union(f, s1, s2) {
@@ -1315,19 +1328,21 @@ function compute_update_sequences(all_tickers) {
                 var l$1 = Stdlib__List.sort_uniq((function (lhs, rhs) {
                         var x = lhs.rank;
                         if (typeof x === "number") {
-                          throw {
-                                MEL_EXN_ID: "Failure",
-                                _1: "All nodes should be ranked",
-                                Error: new Error()
-                              };
+                          throw new Error("Failure", {
+                                    cause: {
+                                      MEL_EXN_ID: "Failure",
+                                      _1: "All nodes should be ranked"
+                                    }
+                                  });
                         }
                         var y = rhs.rank;
                         if (typeof y === "number") {
-                          throw {
-                                MEL_EXN_ID: "Failure",
-                                _1: "All nodes should be ranked",
-                                Error: new Error()
-                              };
+                          throw new Error("Failure", {
+                                    cause: {
+                                      MEL_EXN_ID: "Failure",
+                                      _1: "All nodes should be ranked"
+                                    }
+                                  });
                         }
                         return Caml.caml_int_compare(x._0, y._0);
                       }), l);
@@ -1353,11 +1368,12 @@ function process_quote(ticker_map, new_ticker, new_value) {
             ticker.value = new_value;
             return ;
           }
-          throw {
-                MEL_EXN_ID: "Failure",
-                _1: "Only single Market ticker should be udpated upon a new quote",
-                Error: new Error()
-              };
+          throw new Error("Failure", {
+                    cause: {
+                      MEL_EXN_ID: "Failure",
+                      _1: "Only single Market ticker should be udpated upon a new quote"
+                    }
+                  });
         }), update_sequence);
 }
 
@@ -1387,11 +1403,12 @@ function process_input_line(ticker_map, all_tickers, line) {
             var match$1 = match.tl;
             if (match$1) {
               if (match$1.tl) {
-                throw {
-                      MEL_EXN_ID: "Failure",
-                      _1: "Invalid input line",
-                      Error: new Error()
-                    };
+                throw new Error("Failure", {
+                          cause: {
+                            MEL_EXN_ID: "Failure",
+                            _1: "Invalid input line"
+                          }
+                        });
               }
               var ticker_map$1 = ticker_map !== undefined ? Caml_option.valFromOption(ticker_map) : compute_update_sequences(all_tickers);
               var value = Caml_format.caml_float_of_string(match$1.hd);
@@ -1401,17 +1418,19 @@ function process_input_line(ticker_map, all_tickers, line) {
                       Caml_option.some(ticker_map$1)
                     ];
             }
-            throw {
-                  MEL_EXN_ID: "Failure",
-                  _1: "Invalid input line",
-                  Error: new Error()
-                };
+            throw new Error("Failure", {
+                      cause: {
+                        MEL_EXN_ID: "Failure",
+                        _1: "Invalid input line"
+                      }
+                    });
           }
-          throw {
-                MEL_EXN_ID: "Failure",
-                _1: "Invalid input line",
-                Error: new Error()
-              };
+          throw new Error("Failure", {
+                    cause: {
+                      MEL_EXN_ID: "Failure",
+                      _1: "Invalid input line"
+                    }
+                  });
       case "R" :
           var match$2 = tokens.tl;
           if (match$2) {
@@ -1425,11 +1444,12 @@ function process_input_line(ticker_map, all_tickers, line) {
                       var match$5 = match$4.tl;
                       if (match$5) {
                         if (match$5.tl) {
-                          throw {
-                                MEL_EXN_ID: "Failure",
-                                _1: "Invalid input line",
-                                Error: new Error()
-                              };
+                          throw new Error("Failure", {
+                                    cause: {
+                                      MEL_EXN_ID: "Failure",
+                                      _1: "Invalid input line"
+                                    }
+                                  });
                         }
                         return [
                                 {
@@ -1439,28 +1459,31 @@ function process_input_line(ticker_map, all_tickers, line) {
                                 ticker_map
                               ];
                       }
-                      throw {
-                            MEL_EXN_ID: "Failure",
-                            _1: "Invalid input line",
-                            Error: new Error()
-                          };
+                      throw new Error("Failure", {
+                                cause: {
+                                  MEL_EXN_ID: "Failure",
+                                  _1: "Invalid input line"
+                                }
+                              });
                     }
-                    throw {
-                          MEL_EXN_ID: "Failure",
-                          _1: "Invalid input line",
-                          Error: new Error()
-                        };
+                    throw new Error("Failure", {
+                              cause: {
+                                MEL_EXN_ID: "Failure",
+                                _1: "Invalid input line"
+                              }
+                            });
                 case "-" :
                     var match$6 = match$3.tl;
                     if (match$6) {
                       var match$7 = match$6.tl;
                       if (match$7) {
                         if (match$7.tl) {
-                          throw {
-                                MEL_EXN_ID: "Failure",
-                                _1: "Invalid input line",
-                                Error: new Error()
-                              };
+                          throw new Error("Failure", {
+                                    cause: {
+                                      MEL_EXN_ID: "Failure",
+                                      _1: "Invalid input line"
+                                    }
+                                  });
                         }
                         return [
                                 {
@@ -1470,24 +1493,27 @@ function process_input_line(ticker_map, all_tickers, line) {
                                 ticker_map
                               ];
                       }
-                      throw {
-                            MEL_EXN_ID: "Failure",
-                            _1: "Invalid input line",
-                            Error: new Error()
-                          };
+                      throw new Error("Failure", {
+                                cause: {
+                                  MEL_EXN_ID: "Failure",
+                                  _1: "Invalid input line"
+                                }
+                              });
                     }
-                    throw {
-                          MEL_EXN_ID: "Failure",
-                          _1: "Invalid input line",
-                          Error: new Error()
-                        };
+                    throw new Error("Failure", {
+                              cause: {
+                                MEL_EXN_ID: "Failure",
+                                _1: "Invalid input line"
+                              }
+                            });
                 case "S" :
                     if (match$3.tl) {
-                      throw {
-                            MEL_EXN_ID: "Failure",
-                            _1: "Invalid input line",
-                            Error: new Error()
-                          };
+                      throw new Error("Failure", {
+                                cause: {
+                                  MEL_EXN_ID: "Failure",
+                                  _1: "Invalid input line"
+                                }
+                              });
                     }
                     return [
                             {
@@ -1502,39 +1528,44 @@ function process_input_line(ticker_map, all_tickers, line) {
                             ticker_map
                           ];
                 default:
-                  throw {
-                        MEL_EXN_ID: "Failure",
-                        _1: "Invalid input line",
-                        Error: new Error()
-                      };
+                  throw new Error("Failure", {
+                            cause: {
+                              MEL_EXN_ID: "Failure",
+                              _1: "Invalid input line"
+                            }
+                          });
               }
             } else {
-              throw {
-                    MEL_EXN_ID: "Failure",
-                    _1: "Invalid input line",
-                    Error: new Error()
-                  };
+              throw new Error("Failure", {
+                        cause: {
+                          MEL_EXN_ID: "Failure",
+                          _1: "Invalid input line"
+                        }
+                      });
             }
           } else {
-            throw {
-                  MEL_EXN_ID: "Failure",
-                  _1: "Invalid input line",
-                  Error: new Error()
-                };
+            throw new Error("Failure", {
+                      cause: {
+                        MEL_EXN_ID: "Failure",
+                        _1: "Invalid input line"
+                      }
+                    });
           }
       default:
-        throw {
-              MEL_EXN_ID: "Failure",
-              _1: "Invalid input line",
-              Error: new Error()
-            };
+        throw new Error("Failure", {
+                  cause: {
+                    MEL_EXN_ID: "Failure",
+                    _1: "Invalid input line"
+                  }
+                });
     }
   } else {
-    throw {
-          MEL_EXN_ID: "Failure",
-          _1: "Invalid input line",
-          Error: new Error()
-        };
+    throw new Error("Failure", {
+              cause: {
+                MEL_EXN_ID: "Failure",
+                _1: "Invalid input line"
+              }
+            });
   }
 }
 

@@ -25,10 +25,11 @@ function sub(_tr, _k) {
       _tr = tr._2;
       continue ;
     }
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   };
 }
 
@@ -65,10 +66,11 @@ function update(tr, k, w) {
             _2: /* Lf */0
           };
   }
-  throw {
-        MEL_EXN_ID: Stdlib.Not_found,
-        Error: new Error()
-      };
+  throw new Error(Stdlib.Not_found, {
+            cause: {
+              MEL_EXN_ID: Stdlib.Not_found
+            }
+          });
 }
 
 function $$delete(tr, n) {
@@ -93,10 +95,11 @@ function $$delete(tr, n) {
             };
     }
   }
-  throw {
-        MEL_EXN_ID: Stdlib.Not_found,
-        Error: new Error()
-      };
+  throw new Error(Stdlib.Not_found, {
+            cause: {
+              MEL_EXN_ID: Stdlib.Not_found
+            }
+          });
 }
 
 function loext(tr, w) {
@@ -128,20 +131,22 @@ function lorem(tr) {
     if (!tr._2) {
       return /* Lf */0;
     }
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/flexible_array_test.ml",
-            66,
-            9
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/flexible_array_test.ml",
+                  66,
+                  9
+                ]
+              }
+            });
   }
-  throw {
-        MEL_EXN_ID: Stdlib.Not_found,
-        Error: new Error()
-      };
+  throw new Error(Stdlib.Not_found, {
+            cause: {
+              MEL_EXN_ID: Stdlib.Not_found
+            }
+          });
 }
 
 var empty = [
@@ -157,11 +162,12 @@ function get(param, i) {
   if (i >= 0 && i < param[1]) {
     return sub(param[0], i + 1 | 0);
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Array.get",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Array.get"
+            }
+          });
 }
 
 function set(param, i, v) {
@@ -172,11 +178,12 @@ function set(param, i, v) {
             k
           ];
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Array.set",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Array.set"
+            }
+          });
 }
 
 function push_front(param, v) {
@@ -194,11 +201,12 @@ function pop_front(param) {
             k - 1 | 0
           ];
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Array.pop_front",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Array.pop_front"
+            }
+          });
 }
 
 function push_back(param, v) {
@@ -217,11 +225,12 @@ function pop_back(param) {
             k - 1 | 0
           ];
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Array.pop_back",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Array.pop_back"
+            }
+          });
 }
 
 function pp(fmt, s) {
@@ -326,15 +335,16 @@ if (!Caml_obj.caml_equal(x, of_array([
             5,
             6
           ]))) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/flexible_array_test.ml",
-          166,
-          4
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/flexible_array_test.ml",
+                166,
+                4
+              ]
+            }
+          });
 }
 
 var v = Stdlib__Array.init(500, (function (i) {

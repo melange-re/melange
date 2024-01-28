@@ -3,15 +3,16 @@
 
 
 function f(param) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/noassert.ml",
-          5,
-          11
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/noassert.ml",
+                5,
+                11
+              ]
+            }
+          });
 }
 
 function h(param) {

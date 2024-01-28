@@ -11,19 +11,21 @@ function f0(x) {
         return x + 1 | 0;
       });
   } else {
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   }
   return tmp(3);
 }
 
 function f1(x) {
-  throw {
-        MEL_EXN_ID: Stdlib.Not_found,
-        Error: new Error()
-      };
+  throw new Error(Stdlib.Not_found, {
+            cause: {
+              MEL_EXN_ID: Stdlib.Not_found
+            }
+          });
   return Curry._1(undefined, x);
 }
 
@@ -51,10 +53,11 @@ function f3(x) {
           });
         break;
     default:
-      throw {
-            MEL_EXN_ID: Stdlib.Not_found,
-            Error: new Error()
-          };
+      throw new Error(Stdlib.Not_found, {
+                cause: {
+                  MEL_EXN_ID: Stdlib.Not_found
+                }
+              });
   }
   return tmp(3);
 }

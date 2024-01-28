@@ -129,6 +129,7 @@ let return_indent = String.length L.return / Js_pp.indent_length
 let throw_indent = String.length L.throw / Js_pp.indent_length
 let semi cxt = string cxt L.semi
 let comma cxt = string cxt L.comma
+let new_error args = E.new_ (E.js_global Js_dump_lit.error) args
 
 let exn_block_as_obj ~(stack : bool) (el : J.expression list) (ext : J.tag_info)
     : J.expression =
@@ -149,16 +150,28 @@ let exn_block_as_obj ~(stack : bool) (el : J.expression list) (ext : J.tag_info)
     }
   in
   if stack then
-    E.new_ (E.js_global "Error")
+    new_error
       [
         List.hd el;
         {
-          expression_desc = Object [ (Js_op.Lit "cause", cause) ];
+          J.expression_desc = Object [ (Lit Js_dump_lit.cause, cause) ];
           comment = None;
           loc = None;
         };
       ]
   else cause
+
+let exn_ref_as_obj e : J.expression =
+  let cause = { J.expression_desc = e; comment = None; loc = None } in
+  new_error
+    [
+      E.record_access cause Js_dump_lit.exception_id 0l;
+      {
+        J.expression_desc = Object [ (Lit Js_dump_lit.cause, cause) ];
+        comment = None;
+        loc = None;
+      };
+    ]
 
 let rec iter_lst cxt ls element inter =
   match ls with
@@ -823,9 +836,7 @@ and expression_desc cxt ~(level : int) x : cxt =
         let tails =
           List.mapi
             ~f:(fun i e ->
-              ( Js_op.Lit
-                  (Js_exp_make.variant_pos ~constr:p.name (Int32.of_int i)),
-                e ))
+              (Js_op.Lit (E.variant_pos ~constr:p.name (Int32.of_int i)), e))
             el
           @
           if !Js_config.debug && not_is_cons then
@@ -1237,7 +1248,8 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
               expression_desc =
                 (exn_block_as_obj ~stack:true el ext).expression_desc;
             }
-        | _ -> e
+        | exp ->
+            { e with expression_desc = (exn_ref_as_obj exp).expression_desc }
       in
       string cxt L.throw;
       space cxt;

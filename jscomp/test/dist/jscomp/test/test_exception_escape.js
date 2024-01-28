@@ -8,11 +8,12 @@ var A = /* @__PURE__ */Caml_exceptions.create("Test_exception_escape.N.A");
 var f;
 
 try {
-  throw {
-        MEL_EXN_ID: A,
-        _1: 3,
-        Error: new Error()
-      };
+  throw new Error(A, {
+            cause: {
+              MEL_EXN_ID: A,
+              _1: 3
+            }
+          });
 }
 catch (exn){
   f = 3;

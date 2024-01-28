@@ -39,15 +39,16 @@ function f(param) {
   if (x !== undefined) {
     return 1;
   }
-  throw {
-        MEL_EXN_ID: "Match_failure",
-        _1: [
-          "lazy_test.ml",
-          9,
-          8
-        ],
-        Error: new Error()
-      };
+  throw new Error("Match_failure", {
+            cause: {
+              MEL_EXN_ID: "Match_failure",
+              _1: [
+                "lazy_test.ml",
+                9,
+                8
+              ]
+            }
+          });
 }
 
 var s = {
@@ -82,7 +83,9 @@ catch (raw_exn){
   if (exn.MEL_EXN_ID === Stdlib.Match_failure) {
     h = 2;
   } else {
-    throw exn;
+    throw new Error(exn.MEL_EXN_ID, {
+              cause: exn
+            });
   }
 }
 
@@ -134,10 +137,11 @@ var f006 = {
 var f007 = {
   LAZY_DONE: false,
   VAL: (function () {
-      throw {
-            MEL_EXN_ID: Stdlib.Not_found,
-            Error: new Error()
-          };
+      throw new Error(Stdlib.Not_found, {
+                cause: {
+                  MEL_EXN_ID: Stdlib.Not_found
+                }
+              });
     })
 };
 
@@ -145,10 +149,11 @@ var f008 = {
   LAZY_DONE: false,
   VAL: (function () {
       console.log("hi");
-      throw {
-            MEL_EXN_ID: Stdlib.Not_found,
-            Error: new Error()
-          };
+      throw new Error(Stdlib.Not_found, {
+                cause: {
+                  MEL_EXN_ID: Stdlib.Not_found
+                }
+              });
     })
 };
 
@@ -331,10 +336,11 @@ Mt.from_pair_suites("Lazy_test", {
                                           _0: !Stdlib__Lazy.is_val({
                                                 LAZY_DONE: false,
                                                 VAL: (function () {
-                                                    throw {
-                                                          MEL_EXN_ID: Stdlib.Not_found,
-                                                          Error: new Error()
-                                                        };
+                                                    throw new Error(Stdlib.Not_found, {
+                                                              cause: {
+                                                                MEL_EXN_ID: Stdlib.Not_found
+                                                              }
+                                                            });
                                                   })
                                               })
                                         };

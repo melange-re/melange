@@ -205,20 +205,22 @@ function filter_map2(f, _xs, _ys) {
         _xs = us;
         continue ;
       }
-      throw {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Ext_list_test.filter_map2",
-            Error: new Error()
-          };
+      throw new Error("Invalid_argument", {
+                cause: {
+                  MEL_EXN_ID: "Invalid_argument",
+                  _1: "Ext_list_test.filter_map2"
+                }
+              });
     }
     if (!ys) {
       return /* [] */0;
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Ext_list_test.filter_map2",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Ext_list_test.filter_map2"
+              }
+            });
   };
 }
 
@@ -244,20 +246,22 @@ function filter_map2i(f, xs, ys) {
           _i = i + 1 | 0;
           continue ;
         }
-        throw {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Ext_list_test.filter_map2i",
-              Error: new Error()
-            };
+        throw new Error("Invalid_argument", {
+                  cause: {
+                    MEL_EXN_ID: "Invalid_argument",
+                    _1: "Ext_list_test.filter_map2i"
+                  }
+                });
       }
       if (!ys) {
         return /* [] */0;
       }
-      throw {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Ext_list_test.filter_map2i",
-            Error: new Error()
-          };
+      throw new Error("Invalid_argument", {
+                cause: {
+                  MEL_EXN_ID: "Invalid_argument",
+                  _1: "Ext_list_test.filter_map2i"
+                }
+              });
     };
   };
   return aux(0, xs, ys);
@@ -294,18 +298,20 @@ function flat_map2(f, lx, ly) {
         _acc = Stdlib__List.rev_append(Curry._2(f, lx$1.hd, ly$1.hd), acc);
         continue ;
       }
-      throw {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Ext_list_test.flat_map2",
-            Error: new Error()
-          };
+      throw new Error("Invalid_argument", {
+                cause: {
+                  MEL_EXN_ID: "Invalid_argument",
+                  _1: "Ext_list_test.flat_map2"
+                }
+              });
     }
     if (ly$1) {
-      throw {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Ext_list_test.flat_map2",
-            Error: new Error()
-          };
+      throw new Error("Invalid_argument", {
+                cause: {
+                  MEL_EXN_ID: "Invalid_argument",
+                  _1: "Ext_list_test.flat_map2"
+                }
+              });
     }
     return Stdlib__List.rev(acc);
   };
@@ -346,11 +352,12 @@ function map2_last(f, l1, l2) {
         }
         
       } else {
-        throw {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "List.map2_last",
-              Error: new Error()
-            };
+        throw new Error("Invalid_argument", {
+                  cause: {
+                    MEL_EXN_ID: "Invalid_argument",
+                    _1: "List.map2_last"
+                  }
+                });
       }
     }
     if (l2) {
@@ -360,20 +367,22 @@ function map2_last(f, l1, l2) {
               tl: map2_last(f, l1$1, l2.tl)
             };
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "List.map2_last",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "List.map2_last"
+              }
+            });
   }
   if (!l2) {
     return /* [] */0;
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "List.map2_last",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "List.map2_last"
+            }
+          });
 }
 
 function map_last(f, l1) {
@@ -405,28 +414,31 @@ function fold_right2_last(f, l1, l2, accu) {
         }
         
       } else {
-        throw {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "List.fold_right2",
-              Error: new Error()
-            };
+        throw new Error("Invalid_argument", {
+                  cause: {
+                    MEL_EXN_ID: "Invalid_argument",
+                    _1: "List.fold_right2"
+                  }
+                });
       }
     }
     if (l2) {
       return Curry._4(f, false, last1, l2.hd, fold_right2_last(f, l1$1, l2.tl, accu));
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "List.fold_right2",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "List.fold_right2"
+              }
+            });
   }
   if (l2) {
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "List.fold_right2",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "List.fold_right2"
+              }
+            });
   }
   return accu;
 }
@@ -439,11 +451,12 @@ function take(n, l) {
   var arr = Stdlib__Array.of_list(l);
   var arr_length = arr.length;
   if (arr_length < n) {
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Ext_list_test.take",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Ext_list_test.take"
+              }
+            });
   }
   return [
           Stdlib__Array.to_list(Stdlib__Array.sub(arr, 0, n)),
@@ -526,11 +539,12 @@ function exclude_tail(x) {
       };
       continue ;
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Ext_list_test.exclude_tail",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Ext_list_test.exclude_tail"
+              }
+            });
   };
 }
 
@@ -579,21 +593,23 @@ function drop(_n, _h) {
     var h = _h;
     var n = _n;
     if (n < 0) {
-      throw {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Ext_list_test.drop",
-            Error: new Error()
-          };
+      throw new Error("Invalid_argument", {
+                cause: {
+                  MEL_EXN_ID: "Invalid_argument",
+                  _1: "Ext_list_test.drop"
+                }
+              });
     }
     if (n === 0) {
       return h;
     }
     if (Caml_obj.caml_equal(h, /* [] */0)) {
-      throw {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Ext_list_test.drop",
-            Error: new Error()
-          };
+      throw new Error("Invalid_argument", {
+                cause: {
+                  MEL_EXN_ID: "Invalid_argument",
+                  _1: "Ext_list_test.drop"
+                }
+              });
     }
     _h = Stdlib__List.tl(h);
     _n = n - 1 | 0;
@@ -762,22 +778,24 @@ function reduce_from_right(fn, lst) {
                   return Curry._2(fn, y, x);
                 }), match.hd, match.tl);
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Ext_list_test.reduce",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Ext_list_test.reduce"
+            }
+          });
 }
 
 function reduce_from_left(fn, lst) {
   if (lst) {
     return Stdlib__List.fold_left(fn, lst.hd, lst.tl);
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Ext_list_test.reduce_from_left",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Ext_list_test.reduce_from_left"
+            }
+          });
 }
 
 function create_ref_empty(param) {
@@ -791,11 +809,12 @@ function ref_top(x) {
   if (match) {
     return match.hd;
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Ext_list_test.ref_top",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Ext_list_test.ref_top"
+            }
+          });
 }
 
 function ref_empty(x) {
@@ -820,11 +839,12 @@ function ref_pop(refs) {
     refs.contents = match.tl;
     return match.hd;
   }
-  throw {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Ext_list_test.ref_pop",
-        Error: new Error()
-      };
+  throw new Error("Invalid_argument", {
+            cause: {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Ext_list_test.ref_pop"
+            }
+          });
 }
 
 function rev_except_last(xs) {
@@ -848,11 +868,12 @@ function rev_except_last(xs) {
       };
       continue ;
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Ext_list_test.rev_except_last",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Ext_list_test.rev_except_last"
+              }
+            });
   };
 }
 
@@ -872,11 +893,12 @@ function last(_xs) {
       _xs = xs.tl;
       continue ;
     }
-    throw {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Ext_list_test.last",
-          Error: new Error()
-        };
+    throw new Error("Invalid_argument", {
+              cause: {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Ext_list_test.last"
+              }
+            });
   };
 }
 
@@ -894,15 +916,16 @@ function assoc_by_string(def, k, _lst) {
     if (def !== undefined) {
       return Caml_option.valFromOption(def);
     }
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/ext_list_test.ml",
-            399,
-            14
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ext_list_test.ml",
+                  399,
+                  14
+                ]
+              }
+            });
   };
 }
 
@@ -920,15 +943,16 @@ function assoc_by_int(def, k, _lst) {
     if (def !== undefined) {
       return Caml_option.valFromOption(def);
     }
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/ext_list_test.ml",
-            409,
-            14
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ext_list_test.ml",
+                  409,
+                  14
+                ]
+              }
+            });
   };
 }
 

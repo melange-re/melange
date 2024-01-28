@@ -16,7 +16,9 @@ function $$finally(v, action, f) {
   }
   catch (e$1){
     Curry._1(action, v);
-    throw e$1;
+    throw new Error(e$1.MEL_EXN_ID, {
+              cause: e$1
+            });
   }
   Curry._1(action, v);
   return e;
@@ -54,10 +56,11 @@ function is_pos_pow(n) {
         _c = c + 1 | 0;
         continue ;
       }
-      throw {
-            MEL_EXN_ID: E,
-            Error: new Error()
-          };
+      throw new Error(E, {
+                cause: {
+                  MEL_EXN_ID: E
+                }
+              });
     };
   }
   catch (raw_exn){
@@ -65,18 +68,21 @@ function is_pos_pow(n) {
     if (exn.MEL_EXN_ID === E) {
       return -1;
     }
-    throw exn;
+    throw new Error(exn.MEL_EXN_ID, {
+              cause: exn
+            });
   }
 }
 
 function failwithf(loc, fmt) {
   return Stdlib__Format.ksprintf((function (s) {
                 var s$1 = loc + s;
-                throw {
-                      MEL_EXN_ID: "Failure",
-                      _1: s$1,
-                      Error: new Error()
-                    };
+                throw new Error("Failure", {
+                          cause: {
+                            MEL_EXN_ID: "Failure",
+                            _1: s$1
+                          }
+                        });
               }), fmt);
 }
 
@@ -86,11 +92,12 @@ function invalid_argf(fmt) {
 
 function bad_argf(fmt) {
   return Stdlib__Format.ksprintf((function (x) {
-                throw {
-                      MEL_EXN_ID: Stdlib__Arg.Bad,
-                      _1: x,
-                      Error: new Error()
-                    };
+                throw new Error(Stdlib__Arg.Bad, {
+                          cause: {
+                            MEL_EXN_ID: Stdlib__Arg.Bad,
+                            _1: x
+                          }
+                        });
               }), fmt);
 }
 

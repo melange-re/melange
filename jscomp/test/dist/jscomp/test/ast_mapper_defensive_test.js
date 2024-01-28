@@ -34,15 +34,16 @@ function aToJs(param) {
 
 function aFromJs(param) {
   if (!(param <= 2 && 0 <= param)) {
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "_none_",
-            0,
-            -1
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "_none_",
+                  0,
+                  -1
+                ]
+              }
+            });
   }
   return param - 0 | 0;
 }
