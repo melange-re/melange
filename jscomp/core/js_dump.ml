@@ -129,7 +129,9 @@ let return_indent = String.length L.return / Js_pp.indent_length
 let throw_indent = String.length L.throw / Js_pp.indent_length
 let semi cxt = string cxt L.semi
 let comma cxt = string cxt L.comma
-let new_error args = E.new_ (E.js_global Js_dump_lit.error) args
+
+let new_error name cause =
+  E.new_ (E.js_global Js_dump_lit.error) [ name; cause ]
 
 let exn_block_as_obj ~(stack : bool) (el : J.expression list) (ext : J.tag_info)
     : J.expression =
@@ -150,28 +152,23 @@ let exn_block_as_obj ~(stack : bool) (el : J.expression list) (ext : J.tag_info)
     }
   in
   if stack then
-    new_error
-      [
-        List.hd el;
-        {
-          J.expression_desc = Object [ (Lit Js_dump_lit.cause, cause) ];
-          comment = None;
-          loc = None;
-        };
-      ]
+    new_error (List.hd el)
+      {
+        J.expression_desc = Object [ (Lit Js_dump_lit.cause, cause) ];
+        comment = None;
+        loc = None;
+      }
   else cause
 
 let exn_ref_as_obj e : J.expression =
   let cause = { J.expression_desc = e; comment = None; loc = None } in
   new_error
-    [
-      E.record_access cause Js_dump_lit.exception_id 0l;
-      {
-        J.expression_desc = Object [ (Lit Js_dump_lit.cause, cause) ];
-        comment = None;
-        loc = None;
-      };
-    ]
+    (E.record_access cause Js_dump_lit.exception_id 0l)
+    {
+      J.expression_desc = Object [ (Lit Js_dump_lit.cause, cause) ];
+      comment = None;
+      loc = None;
+    }
 
 let rec iter_lst cxt ls element inter =
   match ls with
