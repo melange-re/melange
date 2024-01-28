@@ -144,8 +144,8 @@ external codePointAt : index:int -> int option = "codePointAt"
 
 external concat : other:t -> t = "concat"
 [@@mel.send.pipe: t]
-(** [concat ~other original] returns a new string with [other] added after
-    [original].
+(** [concat ~other:str2 str1] returns a new string with [str2] added after
+    [str1].
 
 {[
   concat ~other:"bell" "cow" = "cowbell";;

@@ -40,37 +40,28 @@ let signature_config_table : action_table ref = ref String.Map.empty
 let add_signature k v =
   signature_config_table := String.Map.add !signature_config_table k v
 
-let warn_if_non_namespaced ~loc txt =
-  let print_deprecated_unnamespaced_alert ~loc =
-    Location.prerr_alert loc
-      {
-        Warnings.kind = "deprecated";
-        message =
-          "FFI attributes without a namespace are deprecated and will be \
-           removed in the next release.\n\
-           Use `mel.*' instead.";
-        def = Location.none;
-        use = loc;
-      }
-  in
-  if not (String.starts_with txt ~prefix:"mel.") then
-    print_deprecated_unnamespaced_alert ~loc
+let namespace_error ~loc =
+  Location.raise_errorf ~loc
+    "`[@bs.*]' and non-namespaced attributes have been removed in favor of \
+     `[@mel.*]' attributes. Use `[@mel.config]' instead."
 
 let rec iter_on_mel_config_stru (x : Parsetree.structure) =
   match x with
   | [] -> ()
   | {
-      Parsetree.pstr_desc =
-        Pstr_attribute
-          {
-            attr_name = { txt = ("mel.config" | "config") as txt; loc };
-            attr_payload = payload;
-            _;
-          };
+      pstr_desc =
+        Pstr_attribute { attr_name = { txt = "bs.config" | "config"; loc }; _ };
       _;
     }
     :: _ ->
-      warn_if_non_namespaced ~loc txt;
+      namespace_error ~loc
+  | {
+      pstr_desc =
+        Pstr_attribute
+          { attr_name = { txt = "mel.config"; loc }; attr_payload = payload; _ };
+      _;
+    }
+    :: _ ->
       List.iter
         ~f:(fun x ->
           Ast_payload.table_dispatch !structural_config_table x |> ignore)
@@ -107,16 +98,18 @@ let rec iter_on_mel_config_sigi (x : Parsetree.signature) =
   | [] -> ()
   | {
       psig_desc =
-        Psig_attribute
-          {
-            attr_name = { txt = ("mel.config" | "config") as txt; loc };
-            attr_payload = payload;
-            _;
-          };
+        Psig_attribute { attr_name = { txt = "bs.config" | "config"; loc }; _ };
       _;
     }
     :: _ ->
-      warn_if_non_namespaced ~loc txt;
+      namespace_error ~loc
+  | {
+      psig_desc =
+        Psig_attribute
+          { attr_name = { txt = "mel.config"; loc }; attr_payload = payload; _ };
+      _;
+    }
+    :: _ ->
       List.iter
         ~f:(fun x ->
           Ast_payload.table_dispatch !signature_config_table x |> ignore)
