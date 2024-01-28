@@ -44,35 +44,28 @@ let var : String_interp.kind = Var (1, 0)
 let suites =
   __FILE__
   >::: [
+         (__LOC__ >:: fun _ -> Utf8_string.Private.transform {|x|} =~ {|x|});
+         (__LOC__ >:: fun _ -> Utf8_string.Private.transform "a\nb" =~ {|a\nb|});
+         (__LOC__ >:: fun _ -> Utf8_string.Private.transform "\\n" =~ "\\n");
          ( __LOC__ >:: fun _ ->
-           Utf8_string.Utf8_string.Private.transform {|x|} =~ {|x|} );
-         ( __LOC__ >:: fun _ ->
-           Utf8_string.Utf8_string.Private.transform "a\nb" =~ {|a\nb|} );
-         ( __LOC__ >:: fun _ ->
-           Utf8_string.Utf8_string.Private.transform "\\n" =~ "\\n" );
-         ( __LOC__ >:: fun _ ->
-           Utf8_string.Utf8_string.Private.transform
-             "\\\\\\b\\t\\n\\v\\f\\r\\0\\$"
+           Utf8_string.Private.transform "\\\\\\b\\t\\n\\v\\f\\r\\0\\$"
            =~ "\\\\\\b\\t\\n\\v\\f\\r\\0\\$" );
          ( __LOC__ >:: fun _ ->
-           match Utf8_string.Utf8_string.Private.transform {|\|} with
-           | exception Utf8_string.Utf8_string.Error (offset, _) ->
+           match Utf8_string.Private.transform {|\|} with
+           | exception Utf8_string.Error (offset, _) ->
                OUnit.assert_equal offset 1
            | _ -> OUnit.assert_failure __LOC__ );
          ( __LOC__ >:: fun _ ->
-           match Utf8_string.Utf8_string.Private.transform {|你\|} with
-           | exception Utf8_string.Utf8_string.Error (offset, _) ->
+           match Utf8_string.Private.transform {|你\|} with
+           | exception Utf8_string.Error (offset, _) ->
                OUnit.assert_equal offset 2
            | _ -> OUnit.assert_failure __LOC__ );
          ( __LOC__ >:: fun _ ->
-           Utf8_string.Utf8_string.Private.transform {|\h\e\l\lo \"world\"!|}
+           Utf8_string.Private.transform {|\h\e\l\lo \"world\"!|}
            =~ {|\h\e\l\lo \"world\"!|} );
          ( __LOC__ >:: fun _ ->
-           match
-             Utf8_string.Utf8_string.Private.transform
-               {|你BuckleScript,好啊\uffff\|}
-           with
-           | exception Utf8_string.Utf8_string.Error (offset, _) ->
+           match Utf8_string.Private.transform {|你BuckleScript,好啊\uffff\|} with
+           | exception Utf8_string.Error (offset, _) ->
                OUnit.assert_equal offset 23
            | _ -> OUnit.assert_failure __LOC__ );
          ( __LOC__ >:: fun _ ->

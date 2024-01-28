@@ -78,151 +78,146 @@ let is_unescaped s =
 let valid_hex x =
   match x with '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' -> true | _ -> false
 
-module Utf8_string = struct
-  type error =
-    | Invalid_code_point
-    | Unterminated_backslash
-    | Invalid_hex_escape
-    | Invalid_unicode_escape
+type error =
+  | Invalid_code_point
+  | Unterminated_backslash
+  | Invalid_hex_escape
+  | Invalid_unicode_escape
 
-  let pp_error fmt err =
-    let msg =
-      match err with
-      | Invalid_code_point -> "Invalid code point"
-      | Unterminated_backslash -> "\\ ended unexpectedly"
-      | Invalid_hex_escape -> "Invalid \\x escape"
-      | Invalid_unicode_escape -> "Invalid \\u escape"
-    in
-    Format.pp_print_string fmt msg
+let pp_error fmt err =
+  let msg =
+    match err with
+    | Invalid_code_point -> "Invalid code point"
+    | Unterminated_backslash -> "\\ ended unexpectedly"
+    | Invalid_hex_escape -> "Invalid \\x escape"
+    | Invalid_unicode_escape -> "Invalid \\u escape"
+  in
+  Format.pp_print_string fmt msg
 
-  type exn += Error of int (* offset *) * error
+type exn += Error of int (* offset *) * error
 
-  let error ~loc error = raise (Error (loc, error))
+let error ~loc error = raise (Error (loc, error))
 
-  (* Note the [loc] really should be the utf8-offset, it has nothing to do with our
-      escaping mechanism *)
-  (* we can not just print new line in ES5
-     seems we don't need
-     escape "\b" "\f"
-     we need escape "\n" "\r" since
-     ocaml multiple-line allows [\n]
-     visual input while es5 string
-     does not*)
+(* Note the [loc] really should be the utf8-offset, it has nothing to do with our
+    escaping mechanism *)
+(* we can not just print new line in ES5
+   seems we don't need
+   escape "\b" "\f"
+   we need escape "\n" "\r" since
+   ocaml multiple-line allows [\n]
+   visual input while es5 string
+   does not*)
 
-  let rec check_and_transform loc buf s byte_offset s_len =
-    if byte_offset = s_len then ()
-    else
-      let current_char = s.[byte_offset] in
-      match classify current_char with
-      | Single 92 (* '\\' *) ->
-          escape_code (loc + 1) buf s (byte_offset + 1) s_len
-      | Single 34 ->
-          Buffer.add_string buf "\\\"";
-          check_and_transform (loc + 1) buf s (byte_offset + 1) s_len
-      | Single 10 ->
-          Buffer.add_string buf "\\n";
-          check_and_transform (loc + 1) buf s (byte_offset + 1) s_len
-      | Single 13 ->
-          Buffer.add_string buf "\\r";
-          check_and_transform (loc + 1) buf s (byte_offset + 1) s_len
-      | Single _ ->
-          Buffer.add_char buf current_char;
-          check_and_transform (loc + 1) buf s (byte_offset + 1) s_len
-      | Invalid | Cont _ -> error ~loc Invalid_code_point
-      | Leading (n, _) ->
-          let i' = next s ~remaining:n byte_offset in
-          if i' < 0 then error ~loc Invalid_code_point
-          else (
-            for k = byte_offset to i' do
-              Buffer.add_char buf s.[k]
-            done;
-            check_and_transform (loc + 1) buf s (i' + 1) s_len)
+let rec check_and_transform loc buf s byte_offset s_len =
+  if byte_offset = s_len then ()
+  else
+    let current_char = s.[byte_offset] in
+    match classify current_char with
+    | Single 92 (* '\\' *) ->
+        escape_code (loc + 1) buf s (byte_offset + 1) s_len
+    | Single 34 ->
+        Buffer.add_string buf "\\\"";
+        check_and_transform (loc + 1) buf s (byte_offset + 1) s_len
+    | Single 10 ->
+        Buffer.add_string buf "\\n";
+        check_and_transform (loc + 1) buf s (byte_offset + 1) s_len
+    | Single 13 ->
+        Buffer.add_string buf "\\r";
+        check_and_transform (loc + 1) buf s (byte_offset + 1) s_len
+    | Single _ ->
+        Buffer.add_char buf current_char;
+        check_and_transform (loc + 1) buf s (byte_offset + 1) s_len
+    | Invalid | Cont _ -> error ~loc Invalid_code_point
+    | Leading (n, _) ->
+        let i' = next s ~remaining:n byte_offset in
+        if i' < 0 then error ~loc Invalid_code_point
+        else (
+          for k = byte_offset to i' do
+            Buffer.add_char buf s.[k]
+          done;
+          check_and_transform (loc + 1) buf s (i' + 1) s_len)
 
-  (* we share the same escape sequence with js *)
-  and escape_code loc buf s offset s_len =
-    if offset >= s_len then error ~loc Unterminated_backslash
-    else Buffer.add_char buf '\\';
-    let cur_char = s.[offset] in
-    match cur_char with
-    | '\\' | 'b' | 't' | 'n' | 'v' | 'f' | 'r' | '0' | '$' ->
-        Buffer.add_char buf cur_char;
-        check_and_transform (loc + 1) buf s (offset + 1) s_len
-    | 'u' ->
-        Buffer.add_char buf cur_char;
-        unicode (loc + 1) buf s (offset + 1) s_len
-    | 'x' ->
-        Buffer.add_char buf cur_char;
-        two_hex (loc + 1) buf s (offset + 1) s_len
-    | _ ->
-        (* Regular characters, like `a` in `\a`,
-         * are valid escape sequences *)
-        Buffer.add_char buf cur_char;
-        check_and_transform (loc + 1) buf s (offset + 1) s_len
+(* we share the same escape sequence with js *)
+and escape_code loc buf s offset s_len =
+  if offset >= s_len then error ~loc Unterminated_backslash
+  else Buffer.add_char buf '\\';
+  let cur_char = s.[offset] in
+  match cur_char with
+  | '\\' | 'b' | 't' | 'n' | 'v' | 'f' | 'r' | '0' | '$' ->
+      Buffer.add_char buf cur_char;
+      check_and_transform (loc + 1) buf s (offset + 1) s_len
+  | 'u' ->
+      Buffer.add_char buf cur_char;
+      unicode (loc + 1) buf s (offset + 1) s_len
+  | 'x' ->
+      Buffer.add_char buf cur_char;
+      two_hex (loc + 1) buf s (offset + 1) s_len
+  | _ ->
+      (* Regular characters, like `a` in `\a`,
+       * are valid escape sequences *)
+      Buffer.add_char buf cur_char;
+      check_and_transform (loc + 1) buf s (offset + 1) s_len
 
-  and two_hex loc buf s offset s_len =
-    if offset + 1 >= s_len then error ~loc Invalid_hex_escape;
-    let a, b = (s.[offset], s.[offset + 1]) in
-    if valid_hex a && valid_hex b then (
-      Buffer.add_char buf a;
-      Buffer.add_char buf b;
-      check_and_transform (loc + 2) buf s (offset + 2) s_len)
-    else error ~loc Invalid_hex_escape
+and two_hex loc buf s offset s_len =
+  if offset + 1 >= s_len then error ~loc Invalid_hex_escape;
+  let a, b = (s.[offset], s.[offset + 1]) in
+  if valid_hex a && valid_hex b then (
+    Buffer.add_char buf a;
+    Buffer.add_char buf b;
+    check_and_transform (loc + 2) buf s (offset + 2) s_len)
+  else error ~loc Invalid_hex_escape
 
-  and unicode loc buf s offset s_len =
-    if offset + 3 >= s_len then error ~loc Invalid_unicode_escape;
-    let a0, a1, a2, a3 =
-      (s.[offset], s.[offset + 1], s.[offset + 2], s.[offset + 3])
-    in
-    if valid_hex a0 && valid_hex a1 && valid_hex a2 && valid_hex a3 then (
-      Buffer.add_char buf a0;
-      Buffer.add_char buf a1;
-      Buffer.add_char buf a2;
-      Buffer.add_char buf a3;
-      check_and_transform (loc + 4) buf s (offset + 4) s_len)
-    else error ~loc Invalid_unicode_escape
+and unicode loc buf s offset s_len =
+  if offset + 3 >= s_len then error ~loc Invalid_unicode_escape;
+  let a0, a1, a2, a3 =
+    (s.[offset], s.[offset + 1], s.[offset + 2], s.[offset + 3])
+  in
+  if valid_hex a0 && valid_hex a1 && valid_hex a2 && valid_hex a3 then (
+    Buffer.add_char buf a0;
+    Buffer.add_char buf a1;
+    Buffer.add_char buf a2;
+    Buffer.add_char buf a3;
+    check_and_transform (loc + 4) buf s (offset + 4) s_len)
+  else error ~loc Invalid_unicode_escape
 
-  (* http://www.2ality.com/2015/01/es6-strings.html
-     console.log('\uD83D\uDE80'); (* ES6*)
-     console.log('\u{1F680}');
-  *)
-  let transform s =
-    let s_len = String.length s in
-    let buf = Buffer.create (s_len * 2) in
-    check_and_transform 0 buf s 0 s_len;
-    Buffer.contents buf
+(* http://www.2ality.com/2015/01/es6-strings.html
+   console.log('\uD83D\uDE80'); (* ES6*)
+   console.log('\u{1F680}');
+*)
+let transform s =
+  let s_len = String.length s in
+  let buf = Buffer.create (s_len * 2) in
+  check_and_transform 0 buf s 0 s_len;
+  Buffer.contents buf
 
-  module Private = struct
-    let transform = transform
-  end
-
-  let transform ~loc s =
-    try transform s
-    with Error (offset, error) ->
-      Location.raise_errorf ~loc "Offset: %d, %a" offset pp_error error
+module Private = struct
+  let transform = transform
 end
 
-module Interp = struct
-  (* TODO: Allow identifers x.A.y *)
+let transform ~loc s =
+  try transform s
+  with Error (offset, error) ->
+    Location.raise_errorf ~loc "Offset: %d, %a" offset pp_error error
 
-  let escaped_j_delimiter =
-    (* syntax not allowed at the user level *)
-    Some escaped_j_delimiter
+(* TODO: Allow identifers x.A.y *)
 
-  let transform =
-    let transform (e : Parsetree.expression) s ~loc ~delim =
-      match String.equal delim unescaped_js_delimiter with
-      | true ->
-          {
-            e with
-            pexp_desc =
-              Pexp_constant
-                (Pconst_string
-                   (Utf8_string.transform ~loc s, loc, escaped_j_delimiter));
-          }
-      | false -> e
-    in
-    fun ~loc ~delim expr s -> transform expr s ~loc ~delim
-end
+let escaped_j_delimiter =
+  (* syntax not allowed at the user level *)
+  Some escaped_j_delimiter
+
+let transform =
+  let transform (e : Parsetree.expression) s ~loc ~delim =
+    match String.equal delim unescaped_js_delimiter with
+    | true ->
+        {
+          e with
+          pexp_desc =
+            Pexp_constant
+              (Pconst_string (transform ~loc s, loc, escaped_j_delimiter));
+        }
+    | false -> e
+  in
+  fun ~loc ~delim expr s -> transform expr s ~loc ~delim
 
 let rewrite_structure =
   let mapper =
@@ -233,7 +228,7 @@ let rewrite_structure =
         (fun self e ->
           match e.pexp_desc with
           | Pexp_constant (Pconst_string (s, loc, Some delim)) ->
-              Interp.transform e s ~loc ~delim
+              transform e s ~loc ~delim
           | _ -> super.expr self e);
     }
   in

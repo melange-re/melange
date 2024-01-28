@@ -618,7 +618,7 @@ module Mapper = struct
                 }
             | Some attr, Pexp_constant (Pconst_string (s, loc, Some dec)) -> (
                 match
-                  Melange_ffi.Utf8_string.Interp.transform ~loc ~delim:dec
+                  Melange_ffi.Utf8_string.transform ~loc ~delim:dec
                     (Melange_compiler_libs.Ast_helper.Exp.constant
                        (Pconst_string (s, loc, Some dec)))
                     s
@@ -826,7 +826,7 @@ module Mapper = struct
                       }
                   | Pexp_constant (Pconst_string (s, loc, Some dec)) -> (
                       match
-                        Melange_ffi.Utf8_string.Interp.transform ~loc ~delim:dec
+                        Melange_ffi.Utf8_string.transform ~loc ~delim:dec
                           (Melange_compiler_libs.Ast_helper.Exp.constant
                              (Pconst_string (s, loc, Some dec)))
                           s

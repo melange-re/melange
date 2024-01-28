@@ -34,27 +34,23 @@ val simple_comparison : string -> bool
 val is_unicode_string : string -> bool
 val is_unescaped : string -> bool
 
-module Utf8_string : sig
-  type error =
-    | Invalid_code_point
-    | Unterminated_backslash
-    | Invalid_hex_escape
-    | Invalid_unicode_escape
+type error =
+  | Invalid_code_point
+  | Unterminated_backslash
+  | Invalid_hex_escape
+  | Invalid_unicode_escape
 
-  type exn += Error of int (* offset *) * error
+type exn += Error of int (* offset *) * error
 
-  module Private : sig
-    val transform : string -> string
-  end
+module Private : sig
+  val transform : string -> string
 end
 
-module Interp : sig
-  val transform :
-    loc:Location.t ->
-    delim:string ->
-    Parsetree.expression ->
-    string ->
-    Parsetree.expression
-end
+val transform :
+  loc:Location.t ->
+  delim:string ->
+  Parsetree.expression ->
+  string ->
+  Parsetree.expression
 
 val rewrite_structure : Parsetree.structure -> Parsetree.structure
