@@ -307,7 +307,7 @@ module Internal = struct
     let doc =
       "*internal* (experimental) set the string to be evaluated in OCaml syntax"
     in
-    Arg.(value & opt (some string) None & info [ "bs-eval"; "-eval" ] ~doc)
+    Arg.(value & opt (some string) None & info [ "bs-eval"; "eval" ] ~doc)
 
   let bs_cmi_only =
     let doc = "*internal* Stop after generating cmi file" in
