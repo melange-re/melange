@@ -219,6 +219,8 @@ let transform =
     | false -> (
         match String.equal delim unescaped_j_delimiter with
         | true ->
+            Location.prerr_warning loc
+              (Mel_uninterpreted_delimiters unescaped_j_delimiter);
             {
               e with
               pexp_desc =

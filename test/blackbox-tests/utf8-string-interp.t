@@ -5,9 +5,9 @@ Test edge cases on unicode string interpolation
   > let x = {j| Hello, \$()|j}
   > EOF
   $ melc -ppx melppx x.ml
-  File "x.ml", line 1, characters 8-25:
+  File "x.ml", line 1, characters 11-22:
   1 | let x = {j| Hello, $()|j}
-              ^^^^^^^^^^^^^^^^^
+                 ^^^^^^^^^^^
   Warning 108 [melange-uninterpreted-delimiters]: Uninterpreted delimiters j
   
   File "x.ml", line 1, characters 19-22:
@@ -20,9 +20,9 @@ Test edge cases on unicode string interpolation
   > let x = {j| Hello, \$(   )|j}
   > EOF
   $ melc -ppx melppx x.ml
-  File "x.ml", line 1, characters 8-28:
+  File "x.ml", line 1, characters 11-25:
   1 | let x = {j| Hello, $(   )|j}
-              ^^^^^^^^^^^^^^^^^^^^
+                 ^^^^^^^^^^^^^^
   Warning 108 [melange-uninterpreted-delimiters]: Uninterpreted delimiters j
   
   File "x.ml", line 1, characters 19-25:
