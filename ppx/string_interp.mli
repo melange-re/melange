@@ -24,32 +24,30 @@
 
 open Import
 
-type byte = Single of int | Cont of int | Leading of int * int | Invalid
-
-val classify : char -> byte
-
-(* Check if the string is only == to itself (no unicode or escape tricks) *)
-val simple_comparison : string -> bool
-val is_unicode_string : string -> bool
-val is_unescaped : string -> bool
-
 type error =
   | Invalid_code_point
   | Unterminated_backslash
-  | Invalid_hex_escape
-  | Invalid_unicode_escape
+  | Unterminated_variable
+  | Unmatched_paren
+  | Invalid_syntax_of_var of string
 
-type exn += Error of int (* offset *) * error
+type kind = String | Var of int * int
 
-module Private : sig
-  val transform : string -> string
-end
+(* Note the position is about code point *)
+type pos = {
+  lnum : int;
+  offset : int;
+  byte_bol : int;
+      (* Note it actually needs to be in sync with OCaml's lexing semantics *)
+}
+
+exception Error of pos * pos * error
 
 val transform :
-  loc:Location.t ->
-  delim:string ->
-  Parsetree.expression ->
-  string ->
-  Parsetree.expression
+  loc:Location.t -> delim:string -> expression -> string -> expression
 
-val rewrite_structure : Parsetree.structure -> Parsetree.structure
+module Private : sig
+  type segment = { start : pos; finish : pos; kind : kind; content : string }
+
+  val transform_test : string -> segment list
+end
