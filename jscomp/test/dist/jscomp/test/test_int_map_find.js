@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml = require("melange.js/caml.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Curry = require("melange.js/curry.js");
 var Stdlib__List = require("melange/list.js");
 
@@ -46,14 +47,14 @@ function bal(l, x, d, r) {
       if (lr) {
         return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
       }
-      throw new Error("Invalid_argument", {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 cause: {
                   MEL_EXN_ID: "Invalid_argument",
                   _1: "Map.bal"
                 }
               });
     }
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Map.bal"
@@ -80,14 +81,14 @@ function bal(l, x, d, r) {
     if (rl) {
       return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
     }
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Map.bal"
               }
             });
   }
-  throw new Error("Invalid_argument", {
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             cause: {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Map.bal"

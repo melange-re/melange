@@ -10,6 +10,7 @@ var Belt__Belt_MapDict = require("melange.belt/belt_MapDict.js");
 var Belt__Belt_internalBucketsType = require("melange.belt/belt_internalBucketsType.js");
 var Caml = require("melange.js/caml.js");
 var Caml_hash_primitive = require("melange.js/caml_hash_primitive.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Stdlib__Hashtbl = require("melange/hashtbl.js");
 
 function hash_string(s) {
@@ -52,7 +53,7 @@ function bench(param) {
   }
   for(var i$1 = 0; i$1 <= 1000000; ++i$1){
     if (!Belt__Belt_HashMap.has(empty, i$1)) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -75,7 +76,7 @@ function bench2(m) {
   }
   for(var i$1 = 0; i$1 <= 1000000; ++i$1){
     if (!Belt__Belt_HashMap.has(empty, String(i$1))) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -94,7 +95,7 @@ function bench2(m) {
   if (empty.size === 0) {
     return ;
   }
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -115,7 +116,7 @@ function bench3(m) {
   }
   for(var i$1 = 0; i$1 <= 1000000; ++i$1){
     if (!Belt__Belt_MapDict.has(table, String(i$1), cmp)) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -134,7 +135,7 @@ function bench3(m) {
   if (Belt__Belt_MapDict.size(table) === 0) {
     return ;
   }
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -155,7 +156,7 @@ function bench4(param) {
   }
   for(var i$1 = 0; i$1 <= 1000000; ++i$1){
     if (!Belt__Belt_HashMapString.has(table, String(i$1))) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -174,7 +175,7 @@ function bench4(param) {
   if (Belt__Belt_HashMapString.isEmpty(table)) {
     return ;
   }
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -196,7 +197,7 @@ function bench5(param) {
   console.time("bs_hashtbl_string_test.ml 137");
   for(var i$1 = 0; i$1 <= 1000000; ++i$1){
     if (!Belt__Belt_HashMap.has(table, i$1)) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -218,7 +219,7 @@ function bench5(param) {
   if (Belt__Belt_HashMap.isEmpty(table)) {
     return ;
   }
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -237,7 +238,7 @@ function bench6(param) {
   }
   for(var i$1 = 0; i$1 <= 1000000; ++i$1){
     if (!Belt__Belt_HashMapInt.has(table, i$1)) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -256,7 +257,7 @@ function bench6(param) {
   if (table.size === 0) {
     return ;
   }
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -275,7 +276,7 @@ function bench7(param) {
   }
   for(var i$1 = 0; i$1 <= 1000000; ++i$1){
     if (!Belt__Belt_HashSetInt.has(table, i$1)) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -294,7 +295,7 @@ function bench7(param) {
   if (table.size === 0) {
     return ;
   }
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [

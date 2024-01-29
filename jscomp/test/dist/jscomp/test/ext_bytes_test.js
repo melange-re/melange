@@ -137,7 +137,7 @@ function starts_with(xs, prefix, p) {
   try {
     for(var i = 0; i < len2; ++i){
       if (!Curry._2(p, Caml_bytes.get(xs, i), Caml_bytes.get(prefix, i))) {
-        throw new Error(H, {
+        throw new Caml_js_exceptions.MelangeError(H, {
                   cause: {
                     MEL_EXN_ID: H
                   }
@@ -152,7 +152,7 @@ function starts_with(xs, prefix, p) {
     if (exn.MEL_EXN_ID === H) {
       return false;
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }

@@ -105,7 +105,7 @@ catch (raw_exn$3){
   if (exn$3.MEL_EXN_ID === A || exn$3.MEL_EXN_ID === Js__Js_exn.$$Error) {
     a0 = exn$3._1;
   } else {
-    throw new Error("Assert_failure", {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               cause: {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -171,7 +171,7 @@ var suites = {
                       _1: 2
                     };
             }
-            throw new Error("Assert_failure", {
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                       cause: {
                         MEL_EXN_ID: "Assert_failure",
                         _1: [
@@ -206,7 +206,7 @@ catch (raw_e$2){
 }
 
 try {
-  throw new Error(Stdlib.Not_found, {
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
             cause: {
               MEL_EXN_ID: Stdlib.Not_found
             }

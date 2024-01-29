@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml_format = require("melange.js/caml_format.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Caml_obj = require("melange.js/caml_obj.js");
 var Caml_option = require("melange.js/caml_option.js");
 var Curry = require("melange.js/curry.js");
@@ -486,7 +487,7 @@ function get_exn(e) {
   if (e !== undefined) {
     return Caml_option.valFromOption(e);
   }
-  throw new Error("Failure", {
+  throw new Caml_js_exceptions.MelangeError("Failure", {
             cause: {
               MEL_EXN_ID: "Failure",
               _1: "CCSexp.Traverse.get_exn"

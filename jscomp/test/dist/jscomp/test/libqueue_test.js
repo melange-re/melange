@@ -50,7 +50,7 @@ function does_raise(f, q) {
     if (exn.MEL_EXN_ID === Stdlib__Queue.Empty) {
       return true;
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }
@@ -63,7 +63,7 @@ var q = {
 };
 
 if (!(Caml_obj.caml_equal(to_list(q), /* [] */0) && q.length === 0)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -81,7 +81,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
           hd: 1,
           tl: /* [] */0
         }) && q.length === 1)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -102,7 +102,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
             tl: /* [] */0
           }
         }) && q.length === 2)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -126,7 +126,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
             }
           }
         }) && q.length === 3)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -153,7 +153,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
             }
           }
         }) && q.length === 4)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -166,7 +166,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
 }
 
 if (Stdlib__Queue.take(q) !== 1) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -188,7 +188,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
             }
           }
         }) && q.length === 3)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -201,7 +201,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
 }
 
 if (Stdlib__Queue.take(q) !== 2) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -220,7 +220,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
             tl: /* [] */0
           }
         }) && q.length === 2)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -233,7 +233,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
 }
 
 if (Stdlib__Queue.take(q) !== 3) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -249,7 +249,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
           hd: 4,
           tl: /* [] */0
         }) && q.length === 1)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -262,7 +262,7 @@ if (!(Caml_obj.caml_equal(to_list(q), {
 }
 
 if (Stdlib__Queue.take(q) !== 4) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -275,7 +275,7 @@ if (Stdlib__Queue.take(q) !== 4) {
 }
 
 if (!(Caml_obj.caml_equal(to_list(q), /* [] */0) && q.length === 0)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -288,7 +288,7 @@ if (!(Caml_obj.caml_equal(to_list(q), /* [] */0) && q.length === 0)) {
 }
 
 if (!does_raise(Stdlib__Queue.take, q)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -309,7 +309,7 @@ var q$1 = {
 Stdlib__Queue.add(1, q$1);
 
 if (Stdlib__Queue.take(q$1) !== 1) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -322,7 +322,7 @@ if (Stdlib__Queue.take(q$1) !== 1) {
 }
 
 if (!does_raise(Stdlib__Queue.take, q$1)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -337,7 +337,7 @@ if (!does_raise(Stdlib__Queue.take, q$1)) {
 Stdlib__Queue.add(2, q$1);
 
 if (Stdlib__Queue.take(q$1) !== 2) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -350,7 +350,7 @@ if (Stdlib__Queue.take(q$1) !== 2) {
 }
 
 if (!does_raise(Stdlib__Queue.take, q$1)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -363,7 +363,7 @@ if (!does_raise(Stdlib__Queue.take, q$1)) {
 }
 
 if (q$1.length !== 0) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -384,7 +384,7 @@ var q$2 = {
 Stdlib__Queue.add(1, q$2);
 
 if (Stdlib__Queue.peek(q$2) !== 1) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -399,7 +399,7 @@ if (Stdlib__Queue.peek(q$2) !== 1) {
 Stdlib__Queue.add(2, q$2);
 
 if (Stdlib__Queue.peek(q$2) !== 1) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -414,7 +414,7 @@ if (Stdlib__Queue.peek(q$2) !== 1) {
 Stdlib__Queue.add(3, q$2);
 
 if (Stdlib__Queue.peek(q$2) !== 1) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -427,7 +427,7 @@ if (Stdlib__Queue.peek(q$2) !== 1) {
 }
 
 if (Stdlib__Queue.peek(q$2) !== 1) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -440,7 +440,7 @@ if (Stdlib__Queue.peek(q$2) !== 1) {
 }
 
 if (Stdlib__Queue.take(q$2) !== 1) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -453,7 +453,7 @@ if (Stdlib__Queue.take(q$2) !== 1) {
 }
 
 if (Stdlib__Queue.peek(q$2) !== 2) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -466,7 +466,7 @@ if (Stdlib__Queue.peek(q$2) !== 2) {
 }
 
 if (Stdlib__Queue.take(q$2) !== 2) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -479,7 +479,7 @@ if (Stdlib__Queue.take(q$2) !== 2) {
 }
 
 if (Stdlib__Queue.peek(q$2) !== 3) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -492,7 +492,7 @@ if (Stdlib__Queue.peek(q$2) !== 3) {
 }
 
 if (Stdlib__Queue.take(q$2) !== 3) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -505,7 +505,7 @@ if (Stdlib__Queue.take(q$2) !== 3) {
 }
 
 if (!does_raise(Stdlib__Queue.peek, q$2)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -518,7 +518,7 @@ if (!does_raise(Stdlib__Queue.peek, q$2)) {
 }
 
 if (!does_raise(Stdlib__Queue.peek, q$2)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -543,7 +543,7 @@ for(var i = 1; i <= 10; ++i){
 Stdlib__Queue.clear(q$3);
 
 if (q$3.length !== 0) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -556,7 +556,7 @@ if (q$3.length !== 0) {
 }
 
 if (!does_raise(Stdlib__Queue.take, q$3)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -573,7 +573,7 @@ if (!Caml_obj.caml_equal(q$3, {
         first: /* Nil */0,
         last: /* Nil */0
       })) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -588,7 +588,7 @@ if (!Caml_obj.caml_equal(q$3, {
 Stdlib__Queue.add(42, q$3);
 
 if (Stdlib__Queue.take(q$3) !== 42) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -643,7 +643,7 @@ if (!Caml_obj.caml_equal(to_list(q1), {
           }
         }
       })) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -686,7 +686,7 @@ if (!Caml_obj.caml_equal(to_list(q2), {
           }
         }
       })) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -699,7 +699,7 @@ if (!Caml_obj.caml_equal(to_list(q2), {
 }
 
 if (q1.length !== 10) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -712,7 +712,7 @@ if (q1.length !== 10) {
 }
 
 if (q2.length !== 10) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -726,7 +726,7 @@ if (q2.length !== 10) {
 
 for(var i$2 = 1; i$2 <= 10; ++i$2){
   if (Stdlib__Queue.take(q1) !== i$2) {
-    throw new Error("Assert_failure", {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               cause: {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -742,7 +742,7 @@ for(var i$2 = 1; i$2 <= 10; ++i$2){
 
 for(var i$3 = 1; i$3 <= 10; ++i$3){
   if (Stdlib__Queue.take(q2) !== i$3) {
-    throw new Error("Assert_failure", {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               cause: {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -763,7 +763,7 @@ var q$4 = {
 };
 
 if (q$4.length !== 0) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -778,7 +778,7 @@ if (q$4.length !== 0) {
 for(var i$4 = 1; i$4 <= 10; ++i$4){
   Stdlib__Queue.add(i$4, q$4);
   if (q$4.length !== i$4) {
-    throw new Error("Assert_failure", {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               cause: {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -790,7 +790,7 @@ for(var i$4 = 1; i$4 <= 10; ++i$4){
             });
   }
   if (q$4.length === 0) {
-    throw new Error("Assert_failure", {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               cause: {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -806,7 +806,7 @@ for(var i$4 = 1; i$4 <= 10; ++i$4){
 
 for(var i$5 = 10; i$5 >= 1; --i$5){
   if (q$4.length !== i$5) {
-    throw new Error("Assert_failure", {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               cause: {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -818,7 +818,7 @@ for(var i$5 = 10; i$5 >= 1; --i$5){
             });
   }
   if (q$4.length === 0) {
-    throw new Error("Assert_failure", {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               cause: {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -833,7 +833,7 @@ for(var i$5 = 10; i$5 >= 1; --i$5){
 }
 
 if (q$4.length !== 0) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -846,7 +846,7 @@ if (q$4.length !== 0) {
 }
 
 if (q$4.length !== 0) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -874,7 +874,7 @@ var i$7 = {
 
 Stdlib__Queue.iter((function (j) {
         if (i$7.contents !== j) {
-          throw new Error("Assert_failure", {
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                     cause: {
                       MEL_EXN_ID: "Assert_failure",
                       _1: [
@@ -901,7 +901,7 @@ var q2$1 = {
 };
 
 if (q1$1.length !== 0) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -914,7 +914,7 @@ if (q1$1.length !== 0) {
 }
 
 if (!Caml_obj.caml_equal(to_list(q1$1), /* [] */0)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -927,7 +927,7 @@ if (!Caml_obj.caml_equal(to_list(q1$1), /* [] */0)) {
 }
 
 if (q2$1.length !== 0) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -940,7 +940,7 @@ if (q2$1.length !== 0) {
 }
 
 if (!Caml_obj.caml_equal(to_list(q2$1), /* [] */0)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -955,7 +955,7 @@ if (!Caml_obj.caml_equal(to_list(q2$1), /* [] */0)) {
 Stdlib__Queue.transfer(q1$1, q2$1);
 
 if (q1$1.length !== 0) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -968,7 +968,7 @@ if (q1$1.length !== 0) {
 }
 
 if (!Caml_obj.caml_equal(to_list(q1$1), /* [] */0)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -981,7 +981,7 @@ if (!Caml_obj.caml_equal(to_list(q1$1), /* [] */0)) {
 }
 
 if (q2$1.length !== 0) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -994,7 +994,7 @@ if (q2$1.length !== 0) {
 }
 
 if (!Caml_obj.caml_equal(to_list(q2$1), /* [] */0)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1023,7 +1023,7 @@ for(var i$8 = 1; i$8 <= 4; ++i$8){
 }
 
 if (q1$2.length !== 4) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1048,7 +1048,7 @@ if (!Caml_obj.caml_equal(to_list(q1$2), {
           }
         }
       })) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1061,7 +1061,7 @@ if (!Caml_obj.caml_equal(to_list(q1$2), {
 }
 
 if (q2$2.length !== 0) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1074,7 +1074,7 @@ if (q2$2.length !== 0) {
 }
 
 if (!Caml_obj.caml_equal(to_list(q2$2), /* [] */0)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1089,7 +1089,7 @@ if (!Caml_obj.caml_equal(to_list(q2$2), /* [] */0)) {
 Stdlib__Queue.transfer(q1$2, q2$2);
 
 if (q1$2.length !== 0) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1102,7 +1102,7 @@ if (q1$2.length !== 0) {
 }
 
 if (!Caml_obj.caml_equal(to_list(q1$2), /* [] */0)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1115,7 +1115,7 @@ if (!Caml_obj.caml_equal(to_list(q1$2), /* [] */0)) {
 }
 
 if (q2$2.length !== 4) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1140,7 +1140,7 @@ if (!Caml_obj.caml_equal(to_list(q2$2), {
           }
         }
       })) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1169,7 +1169,7 @@ for(var i$9 = 5; i$9 <= 8; ++i$9){
 }
 
 if (q1$3.length !== 0) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1182,7 +1182,7 @@ if (q1$3.length !== 0) {
 }
 
 if (!Caml_obj.caml_equal(to_list(q1$3), /* [] */0)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1195,7 +1195,7 @@ if (!Caml_obj.caml_equal(to_list(q1$3), /* [] */0)) {
 }
 
 if (q2$3.length !== 4) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1220,7 +1220,7 @@ if (!Caml_obj.caml_equal(to_list(q2$3), {
           }
         }
       })) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1235,7 +1235,7 @@ if (!Caml_obj.caml_equal(to_list(q2$3), {
 Stdlib__Queue.transfer(q1$3, q2$3);
 
 if (q1$3.length !== 0) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1248,7 +1248,7 @@ if (q1$3.length !== 0) {
 }
 
 if (!Caml_obj.caml_equal(to_list(q1$3), /* [] */0)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1261,7 +1261,7 @@ if (!Caml_obj.caml_equal(to_list(q1$3), /* [] */0)) {
 }
 
 if (q2$3.length !== 4) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1286,7 +1286,7 @@ if (!Caml_obj.caml_equal(to_list(q2$3), {
           }
         }
       })) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1319,7 +1319,7 @@ for(var i$11 = 5; i$11 <= 8; ++i$11){
 }
 
 if (q1$4.length !== 4) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1344,7 +1344,7 @@ if (!Caml_obj.caml_equal(to_list(q1$4), {
           }
         }
       })) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1357,7 +1357,7 @@ if (!Caml_obj.caml_equal(to_list(q1$4), {
 }
 
 if (q2$4.length !== 4) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1382,7 +1382,7 @@ if (!Caml_obj.caml_equal(to_list(q2$4), {
           }
         }
       })) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1397,7 +1397,7 @@ if (!Caml_obj.caml_equal(to_list(q2$4), {
 Stdlib__Queue.transfer(q1$4, q2$4);
 
 if (q1$4.length !== 0) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1410,7 +1410,7 @@ if (q1$4.length !== 0) {
 }
 
 if (!Caml_obj.caml_equal(to_list(q1$4), /* [] */0)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1423,7 +1423,7 @@ if (!Caml_obj.caml_equal(to_list(q1$4), /* [] */0)) {
 }
 
 if (q2$4.length !== 8) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1460,7 +1460,7 @@ if (!Caml_obj.caml_equal(to_list(q2$4), {
           }
         }
       })) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [

@@ -16,7 +16,7 @@ function test_js_error(param) {
       console.log(exn._1.stack);
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }
@@ -31,11 +31,11 @@ function test_js_error2(param) {
     var e = Caml_js_exceptions.internalToOCamlException(raw_e);
     if (e.MEL_EXN_ID === Js__Js_exn.$$Error) {
       console.log(e._1.stack);
-      throw new Error(e.MEL_EXN_ID, {
+      throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, {
                 cause: e
               });
     }
-    throw new Error(e.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, {
               cause: e
             });
   }
@@ -52,7 +52,7 @@ function example1(param) {
       console.log(exn._1.stack);
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }
@@ -68,7 +68,7 @@ function example2(param) {
     if (exn.MEL_EXN_ID === Js__Js_exn.$$Error) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }
@@ -78,4 +78,4 @@ exports.test_js_error = test_js_error;
 exports.test_js_error2 = test_js_error2;
 exports.example1 = example1;
 exports.example2 = example2;
-/* No side effect */
+/* Js__Js_exn Not a pure module */

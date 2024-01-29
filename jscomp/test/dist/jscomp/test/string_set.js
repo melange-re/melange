@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml = require("melange.js/caml.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Set_gen = require("./set_gen.js");
 var Stdlib = require("melange/stdlib.js");
 var Stdlib__Array = require("melange/array.js");
@@ -229,7 +230,7 @@ function find(x, _tree) {
       _tree = c < 0 ? tree._0 : tree._2;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
               cause: {
                 MEL_EXN_ID: Stdlib.Not_found
               }

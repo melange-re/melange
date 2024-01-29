@@ -3,6 +3,8 @@
 
 var Belt__Belt_Array = require("melange.belt/belt_Array.js");
 var Belt__Belt_MapInt = require("melange.belt/belt_MapInt.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
+var Js__Js_exn = require("melange.js/js_exn.js");
 var Immutable = require("immutable");
 
 var empty = new Immutable.OrderedMap();
@@ -20,7 +22,7 @@ function should(b) {
   if (b) {
     return ;
   }
-  throw new Error(new Error("impossible").MEL_EXN_ID, {
+  throw new Caml_js_exceptions.MelangeError(new Error("impossible").MEL_EXN_ID, {
             cause: new Error("impossible")
           });
 }

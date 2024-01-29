@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml = require("melange.js/caml.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Curry = require("melange.js/curry.js");
 
 function f(param, v) {
@@ -17,7 +18,7 @@ function f3(param) {
   return function (param) {
     var rhs = param.rank;
     if (typeof lhs === "number") {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -29,7 +30,7 @@ function f3(param) {
               });
     }
     if (typeof rhs === "number") {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -49,7 +50,7 @@ function f4(param) {
   return function (param) {
     var rhs = param.rank;
     if (typeof lhs === "number") {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -61,7 +62,7 @@ function f4(param) {
               });
     }
     if (typeof rhs === "number") {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [

@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml = require("melange.js/caml.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Caml_obj = require("melange.js/caml_obj.js");
 var Caml_option = require("melange.js/caml_option.js");
 var Curry = require("melange.js/curry.js");
@@ -131,14 +132,14 @@ function bal(l, v, r) {
       if (lr) {
         return create(create(ll, lv, lr.l), lr.v, create(lr.r, v, r));
       }
-      throw new Error("Invalid_argument", {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 cause: {
                   MEL_EXN_ID: "Invalid_argument",
                   _1: "Set.bal"
                 }
               });
     }
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Set.bal"
@@ -163,14 +164,14 @@ function bal(l, v, r) {
     if (rl) {
       return create(create(l, v, rl.l), rl.v, create(rl.r, rv, rr));
     }
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Set.bal"
               }
             });
   }
-  throw new Error("Invalid_argument", {
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             cause: {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Set.bal"
@@ -264,7 +265,7 @@ function min_elt(_param) {
       _param = l;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
               cause: {
                 MEL_EXN_ID: Stdlib.Not_found
               }
@@ -297,7 +298,7 @@ function max_elt(_param) {
       _param = param.r;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
               cause: {
                 MEL_EXN_ID: Stdlib.Not_found
               }
@@ -328,7 +329,7 @@ function remove_min_elt(param) {
       return param.r;
     }
   }
-  throw new Error("Invalid_argument", {
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             cause: {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Set.remove_min_elt"
@@ -815,7 +816,7 @@ function find(x, _param) {
       _param = c < 0 ? param.l : param.r;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
               cause: {
                 MEL_EXN_ID: Stdlib.Not_found
               }
@@ -850,7 +851,7 @@ function find_first(f, _param) {
       _param = param.r;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
               cause: {
                 MEL_EXN_ID: Stdlib.Not_found
               }
@@ -916,7 +917,7 @@ function find_last(f, _param) {
       _param = param.l;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
               cause: {
                 MEL_EXN_ID: Stdlib.Not_found
               }
@@ -1135,7 +1136,7 @@ function of_list(l) {
                   match$4[1]
                 ];
         }
-        throw new Error("Assert_failure", {
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                   cause: {
                     MEL_EXN_ID: "Assert_failure",
                     _1: [

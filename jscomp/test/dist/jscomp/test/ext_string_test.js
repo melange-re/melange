@@ -218,7 +218,7 @@ function unsafe_for_all_range(s, _start, finish, p) {
 function for_all_range(s, start, finish, p) {
   var len = s.length;
   if (start < 0 || finish >= len) {
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Ext_string_test.for_all_range"
@@ -274,7 +274,7 @@ function find(startOpt, sub, s) {
   try {
     while((i + n | 0) <= s_len) {
       if (unsafe_is_sub(sub, 0, s, i, n)) {
-        throw new Error(Local_exit, {
+        throw new Caml_js_exceptions.MelangeError(Local_exit, {
                   cause: {
                     MEL_EXN_ID: Local_exit
                   }
@@ -289,7 +289,7 @@ function find(startOpt, sub, s) {
     if (exn.MEL_EXN_ID === Local_exit) {
       return i;
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }
@@ -302,7 +302,7 @@ function contain_substring(s, sub) {
 function non_overlap_count(sub, s) {
   var sub_len = sub.length;
   if (sub.length === 0) {
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Ext_string_test.non_overlap_count"
@@ -330,7 +330,7 @@ function rfind(sub, s) {
   try {
     while(i >= 0) {
       if (unsafe_is_sub(sub, 0, s, i, n)) {
-        throw new Error(Local_exit, {
+        throw new Caml_js_exceptions.MelangeError(Local_exit, {
                   cause: {
                     MEL_EXN_ID: Local_exit
                   }
@@ -345,7 +345,7 @@ function rfind(sub, s) {
     if (exn.MEL_EXN_ID === Local_exit) {
       return i;
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }
@@ -357,7 +357,7 @@ function tail_from(s, x) {
     return Stdlib__String.sub(s, x, len - x | 0);
   }
   var s$1 = "Ext_string_test.tail_from " + (s + (" : " + String(x)));
-  throw new Error("Invalid_argument", {
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             cause: {
               MEL_EXN_ID: "Invalid_argument",
               _1: s$1
@@ -577,7 +577,7 @@ function unsafe_no_char_idx(x, ch, _i, last_idx) {
 function no_char(x, ch, i, len) {
   var str_len = x.length;
   if (i < 0 || i >= str_len || len >= str_len) {
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Ext_string_test.no_char"

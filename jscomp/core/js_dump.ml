@@ -131,7 +131,10 @@ let semi cxt = string cxt L.semi
 let comma cxt = string cxt L.comma
 
 let new_error name cause =
-  E.new_ (E.js_global Js_dump_lit.error) [ name; cause ]
+  E.new_
+    (E.runtime_var_dot Js_runtime_modules.caml_js_exceptions
+       Js_dump_lit.melange_error)
+    [ name; cause ]
 
 let exn_block_as_obj ~(stack : bool) (el : J.expression list) (ext : J.tag_info)
     : J.expression =

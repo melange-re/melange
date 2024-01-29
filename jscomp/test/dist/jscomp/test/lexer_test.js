@@ -4,6 +4,7 @@
 var Arith_lexer = require("./arith_lexer.js");
 var Arith_parser = require("./arith_parser.js");
 var Arith_syntax = require("./arith_syntax.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Caml_obj = require("melange.js/caml_obj.js");
 var Curry = require("melange.js/curry.js");
 var Mt = require("./mt.js");
@@ -43,7 +44,7 @@ function from_tokens(lst) {
       l.contents = match.tl;
       return match.hd;
     }
-    throw new Error(Stdlib.End_of_file, {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.End_of_file, {
               cause: {
                 MEL_EXN_ID: Stdlib.End_of_file
               }

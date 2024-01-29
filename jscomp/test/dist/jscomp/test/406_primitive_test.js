@@ -32,7 +32,7 @@ function f(param) {
   try {
     for(var i = 0; i <= 200; ++i){
       if (i === 10) {
-        throw new Error(A, {
+        throw new Caml_js_exceptions.MelangeError(A, {
                   cause: {
                     MEL_EXN_ID: A,
                     _1: 0
@@ -48,7 +48,7 @@ function f(param) {
     if (exn.MEL_EXN_ID === A) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }

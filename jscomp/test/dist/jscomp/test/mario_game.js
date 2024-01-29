@@ -3,6 +3,7 @@
 
 var Caml = require("melange.js/caml.js");
 var Caml_int32 = require("melange.js/caml_int32.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Caml_obj = require("melange.js/caml_obj.js");
 var Caml_option = require("melange.js/caml_option.js");
 var Curry = require("melange.js/curry.js");
@@ -1481,7 +1482,7 @@ function game_win(ctx) {
   ctx.fillStyle = "white";
   ctx.font = "20px 'Press Start 2P'";
   ctx.fillText("You win!", 180, 128);
-  throw new Error("Failure", {
+  throw new Caml_js_exceptions.MelangeError("Failure", {
             cause: {
               MEL_EXN_ID: "Failure",
               _1: "Game over."
@@ -1496,7 +1497,7 @@ function game_loss(ctx) {
   ctx.fillStyle = "white";
   ctx.font = "20px 'Press Start 2P'";
   ctx.fillText("GAME OVER. You lose!", 60, 128);
-  throw new Error("Failure", {
+  throw new Caml_js_exceptions.MelangeError("Failure", {
             cause: {
               MEL_EXN_ID: "Failure",
               _1: "Game over."
@@ -2393,7 +2394,7 @@ function choose_enemy_typ(typ) {
     case 2 :
         return /* Goomba */0;
     default:
-      throw new Error("Failure", {
+      throw new Caml_js_exceptions.MelangeError("Failure", {
                 cause: {
                   MEL_EXN_ID: "Failure",
                   _1: "Shouldn't reach here"
@@ -2417,7 +2418,7 @@ function choose_sblock_typ(typ) {
     case 4 :
         return /* Ground */5;
     default:
-      throw new Error("Failure", {
+      throw new Caml_js_exceptions.MelangeError("Failure", {
                 cause: {
                   MEL_EXN_ID: "Failure",
                   _1: "Shouldn't reach here"
@@ -2933,7 +2934,7 @@ function choose_block_pattern(blockw, blockh, cbx, cby, prob) {
                 tl: /* [] */0
               };
     default:
-      throw new Error("Failure", {
+      throw new Caml_js_exceptions.MelangeError("Failure", {
                 cause: {
                   MEL_EXN_ID: "Failure",
                   _1: "Shouldn't reach here"
@@ -3222,7 +3223,7 @@ function load(param) {
               },
               _1: "cant find canvas %s \n"
             }), canvas_id);
-    throw new Error("Failure", {
+    throw new Caml_js_exceptions.MelangeError("Failure", {
               cause: {
                 MEL_EXN_ID: "Failure",
                 _1: "fail"

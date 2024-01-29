@@ -2,6 +2,7 @@
 'use strict';
 
 var Belt__Belt_SetInt = require("melange.belt/belt_SetInt.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 function bench(param) {
   var data;
@@ -13,7 +14,7 @@ function bench(param) {
   console.time("bs_set_bench.ml 11");
   for(var i$1 = 0; i$1 <= 1000000; ++i$1){
     if (!Belt__Belt_SetInt.has(data, i$1)) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -35,7 +36,7 @@ function bench(param) {
   if (Belt__Belt_SetInt.size(data) === 0) {
     return ;
   }
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [

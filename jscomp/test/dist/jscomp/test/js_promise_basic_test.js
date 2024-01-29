@@ -3,6 +3,7 @@
 
 var Caml_array = require("melange.js/caml_array.js");
 var Caml_exceptions = require("melange.js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Curry = require("melange.js/curry.js");
 var Mt = require("./mt.js");
 var Stdlib = require("melange/stdlib.js");
@@ -37,7 +38,7 @@ function assert_bool(b) {
   if (b) {
     return ;
   }
-  throw new Error(Stdlib.Invalid_argument, {
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
             cause: {
               MEL_EXN_ID: Stdlib.Invalid_argument,
               _1: "Assertion Failure."
@@ -46,7 +47,7 @@ function assert_bool(b) {
 }
 
 function fail(param) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -81,7 +82,7 @@ function assertIsNotFound(x) {
   if (match !== undefined) {
     return h;
   }
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -153,7 +154,7 @@ function orElseRejectedRejectTest(param) {
               if (match !== undefined) {
                 return h;
               }
-              throw new Error("Assert_failure", {
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                         cause: {
                           MEL_EXN_ID: "Assert_failure",
                           _1: [

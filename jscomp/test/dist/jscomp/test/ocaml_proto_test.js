@@ -199,7 +199,7 @@ function file_option(file_options, name) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }
@@ -224,7 +224,7 @@ function rev_split_by_char(c, s) {
                 tl: l
               };
       }
-      throw new Error(exn.MEL_EXN_ID, {
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
                 cause: exn
               });
     }
@@ -243,7 +243,7 @@ function pop_last(param) {
       return /* [] */0;
     }
   }
-  throw new Error("Failure", {
+  throw new Caml_js_exceptions.MelangeError("Failure", {
             cause: {
               MEL_EXN_ID: "Failure",
               _1: "Invalid argument [] for pop_last"
@@ -748,7 +748,7 @@ Stdlib__Printexc.register_printer(function (exn) {
     });
 
 function invalid_default_value(field_name, info, param) {
-  throw new Error(Compilation_error, {
+  throw new Caml_js_exceptions.MelangeError(Compilation_error, {
             cause: {
               MEL_EXN_ID: Compilation_error,
               _1: {
@@ -763,7 +763,7 @@ function invalid_default_value(field_name, info, param) {
 }
 
 function unsupported_field_type(field_name, field_type, backend_name, param) {
-  throw new Error(Compilation_error, {
+  throw new Caml_js_exceptions.MelangeError(Compilation_error, {
             cause: {
               MEL_EXN_ID: Compilation_error,
               _1: {
@@ -779,7 +779,7 @@ function unsupported_field_type(field_name, field_type, backend_name, param) {
 }
 
 function invalid_enum_specification(enum_name, loc) {
-  throw new Error(Compilation_error, {
+  throw new Caml_js_exceptions.MelangeError(Compilation_error, {
             cause: {
               MEL_EXN_ID: Compilation_error,
               _1: {
@@ -833,7 +833,7 @@ var yytransl_block = [
 
 var yyact = [
   (function (param) {
-      throw new Error("Failure", {
+      throw new Caml_js_exceptions.MelangeError("Failure", {
                 cause: {
                   MEL_EXN_ID: "Failure",
                   _1: "parser"
@@ -960,7 +960,7 @@ var yyact = [
       Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      throw new Error(Compilation_error, {
+      throw new Caml_js_exceptions.MelangeError(Compilation_error, {
                 cause: {
                   MEL_EXN_ID: Compilation_error,
                   _1: {
@@ -1038,7 +1038,7 @@ var yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      throw new Error(Compilation_error, {
+      throw new Caml_js_exceptions.MelangeError(Compilation_error, {
                 cause: {
                   MEL_EXN_ID: Compilation_error,
                   _1: /* Syntax_error */0
@@ -1123,7 +1123,7 @@ var yyact = [
       var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      throw new Error(Compilation_error, {
+      throw new Caml_js_exceptions.MelangeError(Compilation_error, {
                 cause: {
                   MEL_EXN_ID: Compilation_error,
                   _1: {
@@ -1199,7 +1199,7 @@ var yyact = [
       Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      throw new Error(Compilation_error, {
+      throw new Caml_js_exceptions.MelangeError(Compilation_error, {
                 cause: {
                   MEL_EXN_ID: Compilation_error,
                   _1: {
@@ -1214,7 +1214,7 @@ var yyact = [
       Stdlib__Parsing.peek_val(__caml_parser_env, 3);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      throw new Error(Compilation_error, {
+      throw new Caml_js_exceptions.MelangeError(Compilation_error, {
                 cause: {
                   MEL_EXN_ID: Compilation_error,
                   _1: {
@@ -1288,7 +1288,7 @@ var yyact = [
     }),
   (function (__caml_parser_env) {
       var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      throw new Error(Compilation_error, {
+      throw new Caml_js_exceptions.MelangeError(Compilation_error, {
                 cause: {
                   MEL_EXN_ID: Compilation_error,
                   _1: {
@@ -1439,7 +1439,7 @@ var yyact = [
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       var enum_value = _1[1];
       var loc = _1[0];
-      throw new Error(Compilation_error, {
+      throw new Caml_js_exceptions.MelangeError(Compilation_error, {
                 cause: {
                   MEL_EXN_ID: Compilation_error,
                   _1: {
@@ -1480,7 +1480,7 @@ var yyact = [
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib__Parsing.YYexit, {
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
                 cause: {
                   MEL_EXN_ID: Stdlib__Parsing.YYexit,
                   _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
@@ -1488,7 +1488,7 @@ var yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib__Parsing.YYexit, {
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
                 cause: {
                   MEL_EXN_ID: Stdlib__Parsing.YYexit,
                   _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
@@ -1496,7 +1496,7 @@ var yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib__Parsing.YYexit, {
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
                 cause: {
                   MEL_EXN_ID: Stdlib__Parsing.YYexit,
                   _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
@@ -1504,7 +1504,7 @@ var yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib__Parsing.YYexit, {
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
                 cause: {
                   MEL_EXN_ID: Stdlib__Parsing.YYexit,
                   _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
@@ -1512,7 +1512,7 @@ var yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib__Parsing.YYexit, {
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
                 cause: {
                   MEL_EXN_ID: Stdlib__Parsing.YYexit,
                   _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
@@ -1520,7 +1520,7 @@ var yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib__Parsing.YYexit, {
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
                 cause: {
                   MEL_EXN_ID: Stdlib__Parsing.YYexit,
                   _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
@@ -1528,7 +1528,7 @@ var yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib__Parsing.YYexit, {
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
                 cause: {
                   MEL_EXN_ID: Stdlib__Parsing.YYexit,
                   _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
@@ -1536,7 +1536,7 @@ var yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib__Parsing.YYexit, {
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
                 cause: {
                   MEL_EXN_ID: Stdlib__Parsing.YYexit,
                   _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
@@ -1544,7 +1544,7 @@ var yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib__Parsing.YYexit, {
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
                 cause: {
                   MEL_EXN_ID: Stdlib__Parsing.YYexit,
                   _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
@@ -1552,7 +1552,7 @@ var yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib__Parsing.YYexit, {
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
                 cause: {
                   MEL_EXN_ID: Stdlib__Parsing.YYexit,
                   _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
@@ -1560,7 +1560,7 @@ var yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib__Parsing.YYexit, {
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
                 cause: {
                   MEL_EXN_ID: Stdlib__Parsing.YYexit,
                   _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
@@ -1568,7 +1568,7 @@ var yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib__Parsing.YYexit, {
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
                 cause: {
                   MEL_EXN_ID: Stdlib__Parsing.YYexit,
                   _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
@@ -1859,7 +1859,7 @@ function lexer(lexbuf) {
                     },
                     _1: "Unknown character found %s"
                   }), Stdlib__Lexing.lexeme(lexbuf));
-          throw new Error("Failure", {
+          throw new Caml_js_exceptions.MelangeError("Failure", {
                     cause: {
                       MEL_EXN_ID: "Failure",
                       _1: s$1
@@ -2161,7 +2161,7 @@ function runtime_function(param) {
               case /* Bt_int64 */4 :
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
-                  throw new Error("Failure", {
+                  throw new Caml_js_exceptions.MelangeError("Failure", {
                             cause: {
                               MEL_EXN_ID: "Failure",
                               _1: "Invalid encoding/OCaml type combination"
@@ -2181,7 +2181,7 @@ function runtime_function(param) {
               case /* Bt_int32 */3 :
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
-                  throw new Error("Failure", {
+                  throw new Caml_js_exceptions.MelangeError("Failure", {
                             cause: {
                               MEL_EXN_ID: "Failure",
                               _1: "Invalid encoding/OCaml type combination"
@@ -2197,7 +2197,7 @@ function runtime_function(param) {
             if (!match$2) {
               return "Pbrt.Decoder.string";
             }
-            throw new Error("Failure", {
+            throw new Caml_js_exceptions.MelangeError("Failure", {
                       cause: {
                         MEL_EXN_ID: "Failure",
                         _1: "Invalid encoding/OCaml type combination"
@@ -2217,7 +2217,7 @@ function runtime_function(param) {
         case /* Bt_float */1 :
         case /* Bt_bytes */5 :
         case /* Bt_bool */6 :
-            throw new Error("Failure", {
+            throw new Caml_js_exceptions.MelangeError("Failure", {
                       cause: {
                         MEL_EXN_ID: "Failure",
                         _1: "Invalid encoding/OCaml type combination"
@@ -2236,7 +2236,7 @@ function runtime_function(param) {
         case /* Bt_string */0 :
         case /* Bt_float */1 :
         case /* Bt_bytes */5 :
-            throw new Error("Failure", {
+            throw new Caml_js_exceptions.MelangeError("Failure", {
                       cause: {
                         MEL_EXN_ID: "Failure",
                         _1: "Invalid encoding/OCaml type combination"
@@ -2263,7 +2263,7 @@ function runtime_function(param) {
               case /* Bt_int64 */4 :
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
-                  throw new Error("Failure", {
+                  throw new Caml_js_exceptions.MelangeError("Failure", {
                             cause: {
                               MEL_EXN_ID: "Failure",
                               _1: "Invalid encoding/OCaml type combination"
@@ -2283,7 +2283,7 @@ function runtime_function(param) {
               case /* Bt_int32 */3 :
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
-                  throw new Error("Failure", {
+                  throw new Caml_js_exceptions.MelangeError("Failure", {
                             cause: {
                               MEL_EXN_ID: "Failure",
                               _1: "Invalid encoding/OCaml type combination"
@@ -2299,7 +2299,7 @@ function runtime_function(param) {
             if (!match$4) {
               return "Pbrt.Encoder.string";
             }
-            throw new Error("Failure", {
+            throw new Caml_js_exceptions.MelangeError("Failure", {
                       cause: {
                         MEL_EXN_ID: "Failure",
                         _1: "Invalid encoding/OCaml type combination"
@@ -2319,7 +2319,7 @@ function runtime_function(param) {
         case /* Bt_float */1 :
         case /* Bt_bytes */5 :
         case /* Bt_bool */6 :
-            throw new Error("Failure", {
+            throw new Caml_js_exceptions.MelangeError("Failure", {
                       cause: {
                         MEL_EXN_ID: "Failure",
                         _1: "Invalid encoding/OCaml type combination"
@@ -2338,7 +2338,7 @@ function runtime_function(param) {
         case /* Bt_string */0 :
         case /* Bt_float */1 :
         case /* Bt_bytes */5 :
-            throw new Error("Failure", {
+            throw new Caml_js_exceptions.MelangeError("Failure", {
                       cause: {
                         MEL_EXN_ID: "Failure",
                         _1: "Invalid encoding/OCaml type combination"
@@ -2350,7 +2350,7 @@ function runtime_function(param) {
       }
     }
   } else {
-    throw new Error("Failure", {
+    throw new Caml_js_exceptions.MelangeError("Failure", {
               cause: {
                 MEL_EXN_ID: "Failure",
                 _1: "Invalid encoding/OCaml type combination"
@@ -3943,14 +3943,14 @@ function bal(l, x, d, r) {
       if (lr) {
         return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
       }
-      throw new Error("Invalid_argument", {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 cause: {
                   MEL_EXN_ID: "Invalid_argument",
                   _1: "Map.bal"
                 }
               });
     }
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Map.bal"
@@ -3977,14 +3977,14 @@ function bal(l, x, d, r) {
     if (rl) {
       return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
     }
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Map.bal"
               }
             });
   }
-  throw new Error("Invalid_argument", {
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             cause: {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Map.bal"
@@ -4047,7 +4047,7 @@ function find(x, _param) {
       _param = c < 0 ? param.l : param.r;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
               cause: {
                 MEL_EXN_ID: Stdlib.Not_found
               }
@@ -4093,14 +4093,14 @@ function min_value(param) {
     if (y !== undefined) {
       return Caml_option.some(Caml_obj.caml_min(Caml_option.valFromOption(x), Caml_option.valFromOption(y)));
     }
-    throw new Error("Failure", {
+    throw new Caml_js_exceptions.MelangeError("Failure", {
               cause: {
                 MEL_EXN_ID: "Failure",
                 _1: "min_value error"
               }
             });
   }
-  throw new Error("Failure", {
+  throw new Caml_js_exceptions.MelangeError("Failure", {
             cause: {
               MEL_EXN_ID: "Failure",
               _1: "min_value error"
@@ -4115,14 +4115,14 @@ function eq_value(param) {
     if (y !== undefined) {
       return Caml_obj.caml_equal(Caml_option.valFromOption(x), Caml_option.valFromOption(y));
     }
-    throw new Error("Failure", {
+    throw new Caml_js_exceptions.MelangeError("Failure", {
               cause: {
                 MEL_EXN_ID: "Failure",
                 _1: "eq_value error"
               }
             });
   }
-  throw new Error("Failure", {
+  throw new Caml_js_exceptions.MelangeError("Failure", {
             cause: {
               MEL_EXN_ID: "Failure",
               _1: "eq_value error"
@@ -4438,7 +4438,7 @@ function find_field_option(field_options, option_name) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }
@@ -4517,7 +4517,7 @@ function unresolved_of_string(s) {
             from_root: Caml_string.get(s, 0) === /* '.' */46
           };
   }
-  throw new Error(Compilation_error, {
+  throw new Caml_js_exceptions.MelangeError(Compilation_error, {
             cause: {
               MEL_EXN_ID: Compilation_error,
               _1: {
@@ -4677,7 +4677,7 @@ function get_default(field_name, field_options, field_type) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }
@@ -4723,7 +4723,7 @@ function not_found(f) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return true;
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }
@@ -4740,7 +4740,7 @@ function list_assoc2(x, _param) {
       _param = param.tl;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
               cause: {
                 MEL_EXN_ID: Stdlib.Not_found
               }
@@ -4876,7 +4876,7 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
             };
     } else {
       var previous_field_name = "";
-      throw new Error(Compilation_error, {
+      throw new Caml_js_exceptions.MelangeError(Compilation_error, {
                 cause: {
                   MEL_EXN_ID: Compilation_error,
                   _1: {
@@ -5013,7 +5013,7 @@ function compile_message_p2(types, param, message) {
       if (typeof field_type === "number") {
         return field_type;
       }
-      throw new Error(Compilation_error, {
+      throw new Caml_js_exceptions.MelangeError(Compilation_error, {
                 cause: {
                   MEL_EXN_ID: Compilation_error,
                   _1: {
@@ -5088,7 +5088,7 @@ function compile_message_p2(types, param, message) {
               if (exn.MEL_EXN_ID === Stdlib.Not_found) {
                 return ;
               }
-              throw new Error(exn.MEL_EXN_ID, {
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
                         cause: exn
                       });
             }
@@ -5098,7 +5098,7 @@ function compile_message_p2(types, param, message) {
               _0: id
             };
     } else {
-      throw new Error(Compilation_error, {
+      throw new Caml_js_exceptions.MelangeError(Compilation_error, {
                 cause: {
                   MEL_EXN_ID: Compilation_error,
                   _1: {
@@ -6503,7 +6503,7 @@ function record_field_default_info(record_field) {
                       _1: "%s (%s)"
                     }), vc_constructor, dfvft(vc_field_type._0, undefined)) : vc_constructor;
         } else {
-          throw new Error("Assert_failure", {
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                     cause: {
                       MEL_EXN_ID: "Assert_failure",
                       _1: [
@@ -6771,7 +6771,7 @@ function gen_default_variant(and_, param, sc) {
                         _1: "%s default_%s () : %s = %s (%s)"
                       }), decl, v_name, v_name, vc_constructor, default_value));
   }
-  throw new Error("Failure", {
+  throw new Caml_js_exceptions.MelangeError("Failure", {
             cause: {
               MEL_EXN_ID: "Failure",
               _1: "programmatic TODO error"
@@ -6786,7 +6786,7 @@ function gen_default_const_variant(and_, param, sc) {
   if (cv_constructors) {
     first_constructor_name = cv_constructors.hd[0];
   } else {
-    throw new Error("Failure", {
+    throw new Caml_js_exceptions.MelangeError("Failure", {
               cause: {
                 MEL_EXN_ID: "Failure",
                 _1: "programmatic TODO error"
@@ -7148,7 +7148,7 @@ function module_of_file_name(file_name) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      throw new Error(Compilation_error, {
+      throw new Caml_js_exceptions.MelangeError(Compilation_error, {
                 cause: {
                   MEL_EXN_ID: Compilation_error,
                   _1: {
@@ -7158,7 +7158,7 @@ function module_of_file_name(file_name) {
                 }
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }
@@ -7181,7 +7181,7 @@ function type_name(message_scope, name) {
       return fix_ocaml_keyword_conflict(all_names$2.hd);
     }
   }
-  throw new Error("Failure", {
+  throw new Caml_js_exceptions.MelangeError("Failure", {
             cause: {
               MEL_EXN_ID: "Failure",
               _1: "Programmatic error"
@@ -7238,7 +7238,7 @@ function encoding_of_field(all_types, field) {
       packed = match._0;
     } else {
       var field_name$1 = field_name(field);
-      throw new Error(Compilation_error, {
+      throw new Caml_js_exceptions.MelangeError(Compilation_error, {
                 cause: {
                   MEL_EXN_ID: Compilation_error,
                   _1: {
@@ -7289,7 +7289,7 @@ function compile_field_type(field_name, all_types, file_options, field_options, 
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-        throw new Error(Compilation_error, {
+        throw new Caml_js_exceptions.MelangeError(Compilation_error, {
                   cause: {
                     MEL_EXN_ID: Compilation_error,
                     _1: {
@@ -7299,7 +7299,7 @@ function compile_field_type(field_name, all_types, file_options, field_options, 
                   }
                 });
       }
-      throw new Error(exn.MEL_EXN_ID, {
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
                 cause: exn
               });
     }
@@ -7393,7 +7393,7 @@ function is_mutable(field_name, field_options) {
   if (match.TAG === /* Constant_bool */1) {
     return match._0;
   }
-  throw new Error(Compilation_error, {
+  throw new Caml_js_exceptions.MelangeError(Compilation_error, {
             cause: {
               MEL_EXN_ID: Compilation_error,
               _1: {
@@ -7481,7 +7481,7 @@ function compile(proto_definition) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    throw new Error(add_loc(from_lexbuf(lexbuf), exn).MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(add_loc(from_lexbuf(lexbuf), exn).MEL_EXN_ID, {
               cause: add_loc(from_lexbuf(lexbuf), exn)
             });
   }
@@ -7603,7 +7603,7 @@ function compile(proto_definition) {
                                             if (match$2 === "repeated_field") {
                                               repeated_type = /* Rt_repeated_field */1;
                                             } else {
-                                              throw new Error("Failure", {
+                                              throw new Caml_js_exceptions.MelangeError("Failure", {
                                                         cause: {
                                                           MEL_EXN_ID: "Failure",
                                                           _1: "Invalid ocaml_container attribute value"
@@ -7694,7 +7694,7 @@ function compile(proto_definition) {
                                         var key_pk = encoding_info_of_field_type(all_pbtt_msgs$1, map_key_type);
                                         var key_type$1;
                                         if (typeof key_type === "number") {
-                                          throw new Error("Failure", {
+                                          throw new Caml_js_exceptions.MelangeError("Failure", {
                                                     cause: {
                                                       MEL_EXN_ID: "Failure",
                                                       _1: "Only Basic Types are supported for map keys"
@@ -7704,7 +7704,7 @@ function compile(proto_definition) {
                                         if (key_type.TAG === /* Ft_basic_type */0) {
                                           key_type$1 = key_type._0;
                                         } else {
-                                          throw new Error("Failure", {
+                                          throw new Caml_js_exceptions.MelangeError("Failure", {
                                                     cause: {
                                                       MEL_EXN_ID: "Failure",
                                                       _1: "Only Basic Types are supported for map keys"
@@ -7730,7 +7730,7 @@ function compile(proto_definition) {
                                           if (match$3 === "hashtbl") {
                                             associative_type = /* At_hashtable */1;
                                           } else {
-                                            throw new Error("Failure", {
+                                            throw new Caml_js_exceptions.MelangeError("Failure", {
                                                       cause: {
                                                         MEL_EXN_ID: "Failure",
                                                         _1: "Invalid ocaml_container attribute value for map"

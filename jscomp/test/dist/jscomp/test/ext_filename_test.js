@@ -96,7 +96,7 @@ function chop_extension(locOpt, name) {
                       _1: "Filename.chop_extension ( %s : %s )"
                     }), loc, name);
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }
@@ -111,7 +111,7 @@ function chop_extension_if_any(fname) {
     if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
       return fname;
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }
@@ -398,7 +398,7 @@ if (Stdlib__Sys.unix) {
   simple_convert_node_path_to_os_path = Ext_string_test.replace_slash_backward;
 } else {
   var s = "Unknown OS : " + Stdlib__Sys.os_type;
-  throw new Error("Failure", {
+  throw new Caml_js_exceptions.MelangeError("Failure", {
             cause: {
               MEL_EXN_ID: "Failure",
               _1: s

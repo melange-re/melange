@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml_array = require("melange.js/caml_array.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 function caml_array_sub(x, offset, len) {
   var result = new Array(len);
@@ -13,7 +14,7 @@ function caml_array_sub(x, offset, len) {
 
 function caml_array_set(xs, index, newval) {
   if (index < 0 || index >= xs.length) {
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "index out of bounds"
@@ -25,7 +26,7 @@ function caml_array_set(xs, index, newval) {
 
 function caml_array_get(xs, index) {
   if (index < 0 || index >= xs.length) {
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "index out of bounds"

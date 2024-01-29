@@ -57,7 +57,7 @@ catch (raw_exn){
   if (exn.MEL_EXN_ID === Stdlib.Not_found) {
     tmp = "Z";
   } else {
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }

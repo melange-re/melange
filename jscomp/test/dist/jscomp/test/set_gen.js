@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml_exceptions = require("melange.js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Caml_obj = require("melange.js/caml_obj.js");
 var Curry = require("melange.js/curry.js");
 var Stdlib = require("melange/stdlib.js");
@@ -43,7 +44,7 @@ function min_elt(_param) {
       _param = l;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
               cause: {
                 MEL_EXN_ID: Stdlib.Not_found
               }
@@ -61,7 +62,7 @@ function max_elt(_param) {
       _param = param._2;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
               cause: {
                 MEL_EXN_ID: Stdlib.Not_found
               }
@@ -208,7 +209,7 @@ function check_height_and_diff(param) {
   var hl = check_height_and_diff(param._0);
   var hr = check_height_and_diff(param._2);
   if (h !== (max_int_2(hl, hr) + 1 | 0)) {
-    throw new Error(Height_invariant_broken, {
+    throw new Caml_js_exceptions.MelangeError(Height_invariant_broken, {
               cause: {
                 MEL_EXN_ID: Height_invariant_broken
               }
@@ -216,7 +217,7 @@ function check_height_and_diff(param) {
   }
   var diff = Stdlib.abs(hl - hr | 0);
   if (diff > 2) {
-    throw new Error(Height_diff_borken, {
+    throw new Caml_js_exceptions.MelangeError(Height_diff_borken, {
               cause: {
                 MEL_EXN_ID: Height_diff_borken
               }
@@ -254,7 +255,7 @@ function internal_bal(l, v, r) {
       if (lr) {
         return create(create(ll, lv, lr._0), lr._1, create(lr._2, v, r));
       }
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -265,7 +266,7 @@ function internal_bal(l, v, r) {
                 }
               });
     }
-    throw new Error("Assert_failure", {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               cause: {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -294,7 +295,7 @@ function internal_bal(l, v, r) {
     if (rl) {
       return create(create(l, v, rl._0), rl._1, create(rl._2, rv, rr));
     }
-    throw new Error("Assert_failure", {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               cause: {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -305,7 +306,7 @@ function internal_bal(l, v, r) {
               }
             });
   }
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -326,7 +327,7 @@ function remove_min_elt(param) {
       return param._2;
     }
   }
-  throw new Error("Invalid_argument", {
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             cause: {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Set.remove_min_elt"
@@ -531,7 +532,7 @@ function of_sorted_list(l) {
               match$4[1]
             ];
     }
-    throw new Error("Assert_failure", {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               cause: {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [

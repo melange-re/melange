@@ -2133,7 +2133,7 @@ function eat(f) {
             todo: match.tl
           };
   }
-  throw new Error(No_good, {
+  throw new Caml_js_exceptions.MelangeError(No_good, {
             cause: {
               MEL_EXN_ID: No_good
             }
@@ -2187,7 +2187,7 @@ function parse_hex_symbol(f) {
   var match = f.todo;
   if (match) {
     if (match.hd !== 48) {
-      throw new Error(No_good, {
+      throw new Caml_js_exceptions.MelangeError(No_good, {
                 cause: {
                   MEL_EXN_ID: No_good
                 }
@@ -2200,7 +2200,7 @@ function parse_hex_symbol(f) {
         return eat(eat(f));
       }
       if (match$2 !== 120) {
-        throw new Error(No_good, {
+        throw new Caml_js_exceptions.MelangeError(No_good, {
                   cause: {
                     MEL_EXN_ID: No_good
                   }
@@ -2208,13 +2208,13 @@ function parse_hex_symbol(f) {
       }
       return eat(eat(f));
     }
-    throw new Error(No_good, {
+    throw new Caml_js_exceptions.MelangeError(No_good, {
               cause: {
                 MEL_EXN_ID: No_good
               }
             });
   }
-  throw new Error(No_good, {
+  throw new Caml_js_exceptions.MelangeError(No_good, {
             cause: {
               MEL_EXN_ID: No_good
             }
@@ -2230,13 +2230,13 @@ function parse_exponent(f) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Failure) {
-      throw new Error(No_good, {
+      throw new Caml_js_exceptions.MelangeError(No_good, {
                 cause: {
                   MEL_EXN_ID: No_good
                 }
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }
@@ -2284,7 +2284,7 @@ function parse_body(_f) {
         };
         continue ;
       }
-      throw new Error(No_good, {
+      throw new Caml_js_exceptions.MelangeError(No_good, {
                 cause: {
                   MEL_EXN_ID: No_good
                 }
@@ -2298,7 +2298,7 @@ function parse_body(_f) {
     } else if (c >= /* 'a' */97 && c <= /* 'f' */102) {
       ref_char_code = 87;
     } else {
-      throw new Error(No_good, {
+      throw new Caml_js_exceptions.MelangeError(No_good, {
                 cause: {
                   MEL_EXN_ID: No_good
                 }
@@ -2329,7 +2329,7 @@ function float_of_string(str) {
       try {
         var f = parse_body(parse_hex_symbol(parse_sign(start(str))));
         if (!Caml_obj.caml_equal(f.todo, /* [] */0)) {
-          throw new Error("Assert_failure", {
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                     cause: {
                       MEL_EXN_ID: "Assert_failure",
                       _1: [
@@ -2353,16 +2353,16 @@ function float_of_string(str) {
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
         if (exn.MEL_EXN_ID === No_good) {
-          throw new Error(e.MEL_EXN_ID, {
+          throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, {
                     cause: e
                   });
         }
-        throw new Error(exn.MEL_EXN_ID, {
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
                   cause: exn
                 });
       }
     } else {
-      throw new Error(e.MEL_EXN_ID, {
+      throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, {
                 cause: e
               });
     }
@@ -2429,7 +2429,7 @@ function unicode_fix_cols(lb) {
 
 function oct_to_int(x) {
   if (x > 55 || x < 48) {
-    throw new Error("Assert_failure", {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               cause: {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -2457,7 +2457,7 @@ function hexa_to_int(x) {
   } else if (!(x > 57 || x < 48)) {
     return x - /* '0' */48 | 0;
   }
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -3122,7 +3122,7 @@ function token(env, lexbuf) {
                       /* T_IDENTIFIER */0
                     ];
             }
-            throw new Error(exn.MEL_EXN_ID, {
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
                       cause: exn
                     });
           }
@@ -5176,7 +5176,7 @@ function type_token(env, lexbuf) {
                 }
               ];
             } else {
-              throw new Error(exn.MEL_EXN_ID, {
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
                         cause: exn
                       });
             }
@@ -5204,7 +5204,7 @@ function type_token(env, lexbuf) {
                       }
                     ];
             }
-            throw new Error(exn$1.MEL_EXN_ID, {
+            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, {
                       cause: exn$1
                     });
           }
@@ -5249,7 +5249,7 @@ function type_token(env, lexbuf) {
                       /* T_IDENTIFIER */0
                     ];
             }
-            throw new Error(exn$2.MEL_EXN_ID, {
+            throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, {
                       cause: exn$2
                     });
           }
@@ -5527,14 +5527,14 @@ function bal(l, v, r) {
       if (lr) {
         return create(create(ll, lv, lr.l), lr.v, create(lr.r, v, r));
       }
-      throw new Error("Invalid_argument", {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 cause: {
                   MEL_EXN_ID: "Invalid_argument",
                   _1: "Set.bal"
                 }
               });
     }
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Set.bal"
@@ -5559,14 +5559,14 @@ function bal(l, v, r) {
     if (rl) {
       return create(create(l, v, rl.l), rl.v, create(rl.r, rv, rr));
     }
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Set.bal"
               }
             });
   }
-  throw new Error("Invalid_argument", {
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             cause: {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Set.bal"
@@ -5848,7 +5848,7 @@ function record_export(env, param) {
 function lookahead(iOpt, env) {
   var i = iOpt !== undefined ? iOpt : 0;
   if (i >= 2) {
-    throw new Error("Assert_failure", {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               cause: {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -5865,7 +5865,7 @@ function lookahead(iOpt, env) {
   if (match !== undefined) {
     return match[1];
   }
-  throw new Error("Failure", {
+  throw new Caml_js_exceptions.MelangeError("Failure", {
             cause: {
               MEL_EXN_ID: "Failure",
               _1: "Lookahead.peek failed"
@@ -6031,7 +6031,7 @@ function lex_env(iOpt, env) {
   if (match !== undefined) {
     return match[0];
   }
-  throw new Error("Failure", {
+  throw new Caml_js_exceptions.MelangeError("Failure", {
             cause: {
               MEL_EXN_ID: "Failure",
               _1: "Lookahead.peek failed"
@@ -6236,7 +6236,7 @@ function pop_lex_mode(env) {
   if (match) {
     new_stack = match.tl;
   } else {
-    throw new Error("Failure", {
+    throw new Caml_js_exceptions.MelangeError("Failure", {
               cause: {
                 MEL_EXN_ID: "Failure",
                 _1: "Popping lex mode from empty stack"
@@ -6255,7 +6255,7 @@ function double_pop_lex_mode(env) {
     if (match$1) {
       new_stack = match$1.tl;
     } else {
-      throw new Error("Failure", {
+      throw new Caml_js_exceptions.MelangeError("Failure", {
                 cause: {
                   MEL_EXN_ID: "Failure",
                   _1: "Popping lex mode from empty stack"
@@ -6263,7 +6263,7 @@ function double_pop_lex_mode(env) {
               });
     }
   } else {
-    throw new Error("Failure", {
+    throw new Caml_js_exceptions.MelangeError("Failure", {
               cause: {
                 MEL_EXN_ID: "Failure",
                 _1: "Popping lex mode from empty stack"
@@ -6372,7 +6372,7 @@ function to_parse(env, parse) {
       env.lookahead.contents = create$1(env.lex_env.contents, Stdlib__List.hd(env.lex_mode_stack.contents));
       return /* FailedToParse */0;
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }
@@ -6434,14 +6434,14 @@ function bal$1(l, v, r) {
       if (lr) {
         return create$2(create$2(ll, lv, lr.l), lr.v, create$2(lr.r, v, r));
       }
-      throw new Error("Invalid_argument", {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 cause: {
                   MEL_EXN_ID: "Invalid_argument",
                   _1: "Set.bal"
                 }
               });
     }
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Set.bal"
@@ -6466,14 +6466,14 @@ function bal$1(l, v, r) {
     if (rl) {
       return create$2(create$2(l, v, rl.l), rl.v, create$2(rl.r, rv, rr));
     }
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Set.bal"
               }
             });
   }
-  throw new Error("Invalid_argument", {
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             cause: {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Set.bal"
@@ -6567,14 +6567,14 @@ function bal$2(l, x, d, r) {
       if (lr) {
         return create$3(create$3(ll, lv, ld, lr.l), lr.v, lr.d, create$3(lr.r, x, d, r));
       }
-      throw new Error("Invalid_argument", {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 cause: {
                   MEL_EXN_ID: "Invalid_argument",
                   _1: "Map.bal"
                 }
               });
     }
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Map.bal"
@@ -6601,14 +6601,14 @@ function bal$2(l, x, d, r) {
     if (rl) {
       return create$3(create$3(l, x, d, rl.l), rl.v, rl.d, create$3(rl.r, rv, rd, rr));
     }
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Map.bal"
               }
             });
   }
-  throw new Error("Invalid_argument", {
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             cause: {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Map.bal"
@@ -6671,7 +6671,7 @@ function find(x, _param) {
       _param = c < 0 ? param.l : param.r;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
               cause: {
                 MEL_EXN_ID: Stdlib.Not_found
               }
@@ -6725,14 +6725,14 @@ function bal$3(l, v, r) {
       if (lr) {
         return create$4(create$4(ll, lv, lr.l), lr.v, create$4(lr.r, v, r));
       }
-      throw new Error("Invalid_argument", {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 cause: {
                   MEL_EXN_ID: "Invalid_argument",
                   _1: "Set.bal"
                 }
               });
     }
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Set.bal"
@@ -6757,14 +6757,14 @@ function bal$3(l, v, r) {
     if (rl) {
       return create$4(create$4(l, v, rl.l), rl.v, create$4(rl.r, rv, rr));
     }
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Set.bal"
               }
             });
   }
-  throw new Error("Invalid_argument", {
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             cause: {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Set.bal"
@@ -7385,7 +7385,7 @@ function rev_nonempty_acc(acc) {
   if (acc) {
     end_loc = acc.hd[0];
   } else {
-    throw new Error("Assert_failure", {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               cause: {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -7401,7 +7401,7 @@ function rev_nonempty_acc(acc) {
   if (acc$1) {
     start_loc = acc$1.hd[0];
   } else {
-    throw new Error("Assert_failure", {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               cause: {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -8014,7 +8014,7 @@ function annotation(env) {
   if (loc !== undefined) {
     end_loc = loc;
   } else {
-    throw new Error("Assert_failure", {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               cause: {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -9082,7 +9082,7 @@ function number(env, number_type) {
               error$1(env, /* WindowsFloatOfString */59);
               value$1 = 789.0;
             } else {
-              throw new Error(exn.MEL_EXN_ID, {
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
                         cause: exn
                       });
             }
@@ -9217,7 +9217,7 @@ function primary$1(env) {
           var match$4 = Curry._2(Parser_env_Peek.token, undefined, env);
           var match$5;
           if (typeof match$4 === "number") {
-            throw new Error("Assert_failure", {
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                       cause: {
                         MEL_EXN_ID: "Assert_failure",
                         _1: [
@@ -9238,7 +9238,7 @@ function primary$1(env) {
               match$6[2]
             ];
           } else {
-            throw new Error("Assert_failure", {
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                       cause: {
                         MEL_EXN_ID: "Assert_failure",
                         _1: [
@@ -9566,7 +9566,7 @@ function assignment_but_not_arrow_function(env) {
 }
 
 function error_callback(param, param$1) {
-  throw new Error(Parser_env_Try.Rollback, {
+  throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
             cause: {
               MEL_EXN_ID: Parser_env_Try.Rollback
             }
@@ -9580,7 +9580,7 @@ function try_assignment_but_not_arrow_function(env) {
   if (typeof match === "number") {
     if (match !== 10) {
       if (match === 77) {
-        throw new Error(Parser_env_Try.Rollback, {
+        throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
                   cause: {
                     MEL_EXN_ID: Parser_env_Try.Rollback
                   }
@@ -9588,7 +9588,7 @@ function try_assignment_but_not_arrow_function(env) {
       }
       
     } else {
-      throw new Error(Parser_env_Try.Rollback, {
+      throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
                 cause: {
                   MEL_EXN_ID: Parser_env_Try.Rollback
                 }
@@ -9599,7 +9599,7 @@ function try_assignment_but_not_arrow_function(env) {
     return ret;
   }
   if (Curry._2(Parser_env_Peek.value, undefined, env$1) === "checks") {
-    throw new Error(Parser_env_Try.Rollback, {
+    throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
               cause: {
                 MEL_EXN_ID: Parser_env_Try.Rollback
               }
@@ -9616,7 +9616,7 @@ function try_assignment_but_not_arrow_function(env) {
     return ret;
   }
   if (!Curry._1(Parser_env_Peek.is_line_terminator, env$1)) {
-    throw new Error(Parser_env_Try.Rollback, {
+    throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
               cause: {
                 MEL_EXN_ID: Parser_env_Try.Rollback
               }
@@ -10159,7 +10159,7 @@ function template_parts(env, _quasis, _expressions) {
       var match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
       var match$2;
       if (typeof match$1 === "number") {
-        throw new Error("Assert_failure", {
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                   cause: {
                     MEL_EXN_ID: "Assert_failure",
                     _1: [
@@ -10187,7 +10187,7 @@ function template_parts(env, _quasis, _expressions) {
           tail
         ];
       } else {
-        throw new Error("Assert_failure", {
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                   cause: {
                     MEL_EXN_ID: "Assert_failure",
                     _1: [
@@ -10372,7 +10372,7 @@ function error_callback$1(param) {
         if (param === 47) {
           return ;
         }
-        throw new Error(Parser_env_Try.Rollback, {
+        throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
                   cause: {
                     MEL_EXN_ID: Parser_env_Try.Rollback
                   }
@@ -10381,13 +10381,13 @@ function error_callback$1(param) {
       if (param > 43 || param < 29) {
         return ;
       }
-      throw new Error(Parser_env_Try.Rollback, {
+      throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
                 cause: {
                   MEL_EXN_ID: Parser_env_Try.Rollback
                 }
               });
     }
-    throw new Error(Parser_env_Try.Rollback, {
+    throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
               cause: {
                 MEL_EXN_ID: Parser_env_Try.Rollback
               }
@@ -10612,7 +10612,7 @@ function _method(env, kind) {
   var params;
   switch (kind) {
     case /* Init */0 :
-        throw new Error("Assert_failure", {
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                   cause: {
                     MEL_EXN_ID: "Assert_failure",
                     _1: [
@@ -10969,7 +10969,7 @@ function check_property(env, prop_map, prop) {
                   key = Stdlib.string_of_float(s._0);
                   break;
               case /* RegExp */3 :
-                  throw new Error("Failure", {
+                  throw new Caml_js_exceptions.MelangeError("Failure", {
                             cause: {
                               MEL_EXN_ID: "Failure",
                               _1: "RegExp cannot be property key"
@@ -10983,7 +10983,7 @@ function check_property(env, prop_map, prop) {
           key = match$1._0[1].name;
           break;
       case /* Computed */2 :
-          throw new Error("Assert_failure", {
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                     cause: {
                       MEL_EXN_ID: "Assert_failure",
                       _1: [
@@ -11004,7 +11004,7 @@ function check_property(env, prop_map, prop) {
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         prev_kinds = /* Empty */0;
       } else {
-        throw new Error(exn.MEL_EXN_ID, {
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
                   cause: exn
                 });
       }
@@ -11857,7 +11857,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
         }
         switch (exit$2) {
           case 3 :
-              throw new Error("Assert_failure", {
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                         cause: {
                           MEL_EXN_ID: "Assert_failure",
                           _1: [
@@ -12494,7 +12494,7 @@ function fold(acc) {
                   tl: acc
                 };
       case /* Expression */4 :
-          throw new Error("Failure", {
+          throw new Caml_js_exceptions.MelangeError("Failure", {
                     cause: {
                       MEL_EXN_ID: "Failure",
                       _1: "Parser error: No such thing as an expression pattern!"
@@ -14082,7 +14082,7 @@ function statement(env) {
                               _0: init._0
                             });
                       } else {
-                        throw new Error("Assert_failure", {
+                        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                                   cause: {
                                     MEL_EXN_ID: "Assert_failure",
                                     _1: [
@@ -14122,7 +14122,7 @@ function statement(env) {
                             _0: init._0
                           });
                     } else {
-                      throw new Error("Assert_failure", {
+                      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                                 cause: {
                                   MEL_EXN_ID: "Assert_failure",
                                   _1: [
@@ -14387,7 +14387,7 @@ function module_item(env) {
                       var $$interface$1 = $$interface(env$1);
                       var match$2 = $$interface$1[1];
                       if (typeof match$2 === "number") {
-                        throw new Error("Failure", {
+                        throw new Caml_js_exceptions.MelangeError("Failure", {
                                   cause: {
                                     MEL_EXN_ID: "Failure",
                                     _1: "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!"
@@ -14400,7 +14400,7 @@ function module_item(env) {
                               extract_ident_name(match$2._0.id)
                             ]);
                       } else {
-                        throw new Error("Failure", {
+                        throw new Caml_js_exceptions.MelangeError("Failure", {
                                   cause: {
                                     MEL_EXN_ID: "Failure",
                                     _1: "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!"
@@ -14432,7 +14432,7 @@ function module_item(env) {
                         var type_alias$1 = type_alias(env$1);
                         var match$3 = type_alias$1[1];
                         if (typeof match$3 === "number") {
-                          throw new Error("Failure", {
+                          throw new Caml_js_exceptions.MelangeError("Failure", {
                                     cause: {
                                       MEL_EXN_ID: "Failure",
                                       _1: "Internal Flow Error! Parsed `export type` into something other than a type alias!"
@@ -14445,7 +14445,7 @@ function module_item(env) {
                                 extract_ident_name(match$3._0.id)
                               ]);
                         } else {
-                          throw new Error("Failure", {
+                          throw new Caml_js_exceptions.MelangeError("Failure", {
                                     cause: {
                                       MEL_EXN_ID: "Failure",
                                       _1: "Internal Flow Error! Parsed `export type` into something other than a type alias!"
@@ -14647,7 +14647,7 @@ function module_item(env) {
               var loc$4 = stmt[0];
               var names;
               if (typeof match$8 === "number") {
-                throw new Error("Failure", {
+                throw new Caml_js_exceptions.MelangeError("Failure", {
                           cause: {
                             MEL_EXN_ID: "Failure",
                             _1: "Internal Flow Error! Unexpected export statement declaration!"
@@ -14702,7 +14702,7 @@ function module_item(env) {
                     }
                     break;
                 default:
-                  throw new Error("Failure", {
+                  throw new Caml_js_exceptions.MelangeError("Failure", {
                             cause: {
                               MEL_EXN_ID: "Failure",
                               _1: "Internal Flow Error! Unexpected export statement declaration!"
@@ -15131,7 +15131,7 @@ function directives(env, term_fn, item_fn) {
             }
           }
           var s = "Nooo: " + (token_to_string(token) + "\n");
-          throw new Error("Failure", {
+          throw new Caml_js_exceptions.MelangeError("Failure", {
                     cause: {
                       MEL_EXN_ID: "Failure",
                       _1: s
@@ -15499,7 +15499,7 @@ function program$1(failOpt, token_sinkOpt, parse_optionsOpt, content) {
   var ast = Curry._1(parser, env);
   var error_list = filter_duplicate_errors(env.errors.contents);
   if (fail && Caml_obj.caml_notequal(error_list, /* [] */0)) {
-    throw new Error($$Error, {
+    throw new Caml_js_exceptions.MelangeError($$Error, {
               cause: {
                 MEL_EXN_ID: $$Error,
                 _1: error_list
@@ -15880,7 +15880,7 @@ function parse(content, options) {
                   operator = "delete";
                   break;
               case /* Await */7 :
-                  throw new Error("Failure", {
+                  throw new Caml_js_exceptions.MelangeError("Failure", {
                             cause: {
                               MEL_EXN_ID: "Failure",
                               _1: "matched above"
@@ -17848,7 +17848,7 @@ function parse(content, options) {
             key = identifier(lit._0);
             break;
         case /* Computed */2 :
-            throw new Error("Failure", {
+            throw new Caml_js_exceptions.MelangeError("Failure", {
                       cause: {
                         MEL_EXN_ID: "Failure",
                         _1: "There should not be computed object type property keys"
@@ -17934,7 +17934,7 @@ function parse(content, options) {
       throw(e);
       return {};
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }
@@ -17975,7 +17975,7 @@ if (f !== undefined) {
         2842
       ], v.range);
 } else {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [

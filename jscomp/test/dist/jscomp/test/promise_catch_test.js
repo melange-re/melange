@@ -42,7 +42,7 @@ function handler(e) {
     console.log("hi");
     return Promise.resolve(0);
   }
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -86,7 +86,7 @@ catch (raw_e){
 }
 
 if (exit === 1) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [

@@ -42,7 +42,7 @@ function bufferize(f) {
             }),
           (function (x) {
               if (buf.contents !== undefined) {
-                throw new Error("Assert_failure", {
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                           cause: {
                             MEL_EXN_ID: "Assert_failure",
                             _1: [
@@ -101,7 +101,7 @@ function addsym(s) {
 
 function symstr(n) {
   if (n >= syms.contents) {
-    throw new Error("Assert_failure", {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               cause: {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -198,7 +198,7 @@ function next(param) {
     if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
       c = undefined;
     } else {
-      throw new Error(exn.MEL_EXN_ID, {
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
                 cause: exn
               });
     }
@@ -250,7 +250,7 @@ function next(param) {
     var ch = getq(undefined);
     var qt = Curry._1(getch, undefined);
     if (qt !== /* '\'' */39) {
-      throw new Error("Failure", {
+      throw new Caml_js_exceptions.MelangeError("Failure", {
                 cause: {
                   MEL_EXN_ID: "Failure",
                   _1: "syntax error"
@@ -375,7 +375,7 @@ function get32(l) {
 
 function patch(rel, loc, n) {
   if (n >= 0) {
-    throw new Error("Assert_failure", {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               cause: {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -970,7 +970,7 @@ function unary(stk) {
                   2
                 ];
               } else {
-                throw new Error("Failure", {
+                throw new Caml_js_exceptions.MelangeError("Failure", {
                           cause: {
                             MEL_EXN_ID: "Failure",
                             _1: "[cast] expected"
@@ -1022,7 +1022,7 @@ function unary(stk) {
                         },
                         _1: "unknown operator %s"
                       }), o);
-              throw new Error("Failure", {
+              throw new Caml_js_exceptions.MelangeError("Failure", {
                         cause: {
                           MEL_EXN_ID: "Failure",
                           _1: s
@@ -1046,7 +1046,7 @@ function unary(stk) {
         if (Stdlib__List.mem_assoc(i$1, stk)) {
           var l = Stdlib__List.assoc(i$1, stk);
           if (l <= -256) {
-            throw new Error("Assert_failure", {
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                       cause: {
                         MEL_EXN_ID: "Assert_failure",
                         _1: [
@@ -1260,7 +1260,7 @@ function decl(g, _n, _stk) {
             if (g) {
               var glo = Caml_array.get(globs, s$1);
               if (glo.va >= 0) {
-                throw new Error("Failure", {
+                throw new Caml_js_exceptions.MelangeError("Failure", {
                           cause: {
                             MEL_EXN_ID: "Failure",
                             _1: "symbol defined twice"
@@ -1297,7 +1297,7 @@ function decl(g, _n, _stk) {
             _n = n$p;
             continue ;
           }
-          throw new Error("Failure", {
+          throw new Caml_js_exceptions.MelangeError("Failure", {
                     cause: {
                       MEL_EXN_ID: "Failure",
                       _1: "[var] expected in [decl]"
@@ -1335,7 +1335,7 @@ function decl(g, _n, _stk) {
     Curry._1(unnext, t);
     if (!g && n !== 0) {
       if ((n << 3) >= 256) {
-        throw new Error("Assert_failure", {
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                   cause: {
                     MEL_EXN_ID: "Assert_failure",
                     _1: [
@@ -1464,7 +1464,7 @@ function stmt(brk, stk) {
     var brkl = brk[0];
     var n = align.contents - brk[1] | 0;
     if (n < 0) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -1538,7 +1538,7 @@ function top(_param) {
       var f$1 = f._0;
       var g = Caml_array.get(globs, f$1);
       if (g.va >= 0) {
-        throw new Error("Failure", {
+        throw new Caml_js_exceptions.MelangeError("Failure", {
                   cause: {
                     MEL_EXN_ID: "Failure",
                     _1: "symbol defined twice"
@@ -1560,7 +1560,7 @@ function top(_param) {
                 if (i._0 === ")") {
                   return stk;
                 }
-                throw new Error("Failure", {
+                throw new Caml_js_exceptions.MelangeError("Failure", {
                           cause: {
                             MEL_EXN_ID: "Failure",
                             _1: "[var] or ) expected"
@@ -1568,7 +1568,7 @@ function top(_param) {
                         });
             case /* ILit */1 :
             case /* SLit */2 :
-                throw new Error("Failure", {
+                throw new Caml_js_exceptions.MelangeError("Failure", {
                           cause: {
                             MEL_EXN_ID: "Failure",
                             _1: "[var] or ) expected"
@@ -1658,7 +1658,7 @@ function top(_param) {
       _param = undefined;
       continue ;
     }
-    throw new Error("Failure", {
+    throw new Caml_js_exceptions.MelangeError("Failure", {
               cause: {
                 MEL_EXN_ID: "Failure",
                 _1: "[decl] or [fun] expected"
@@ -1886,7 +1886,7 @@ function elfgen(outf) {
   elfphdr(1, 0, tend + off | 0, 2097152);
   elfphdr(2, dyn + off | 0, tend - dyn | 0, 8);
   if (opos.contents !== 232) {
-    throw new Error("Assert_failure", {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               cause: {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [

@@ -14,7 +14,7 @@ function f(g, x) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return 3;
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }

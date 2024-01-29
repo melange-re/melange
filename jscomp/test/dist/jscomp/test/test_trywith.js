@@ -12,7 +12,7 @@ function ff(g, x) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID !== Stdlib.Not_found) {
-      throw new Error(exn.MEL_EXN_ID, {
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
                 cause: exn
               });
     }
@@ -24,7 +24,7 @@ function ff(g, x) {
   catch (raw_exn$1){
     var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
     if (exn$1.MEL_EXN_ID !== Stdlib.Out_of_memory) {
-      throw new Error(exn$1.MEL_EXN_ID, {
+      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, {
                 cause: exn$1
               });
     }
@@ -36,7 +36,7 @@ function ff(g, x) {
   catch (raw_exn$2){
     var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
     if (exn$2.MEL_EXN_ID !== Stdlib.Sys_error) {
-      throw new Error(exn$2.MEL_EXN_ID, {
+      throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, {
                 cause: exn$2
               });
     }
@@ -48,7 +48,7 @@ function ff(g, x) {
   catch (raw_exn$3){
     var exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
     if (exn$3.MEL_EXN_ID !== Stdlib.Invalid_argument) {
-      throw new Error(exn$3.MEL_EXN_ID, {
+      throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, {
                 cause: exn$3
               });
     }
@@ -60,7 +60,7 @@ function ff(g, x) {
   catch (raw_exn$4){
     var exn$4 = Caml_js_exceptions.internalToOCamlException(raw_exn$4);
     if (exn$4.MEL_EXN_ID !== Stdlib.End_of_file) {
-      throw new Error(exn$4.MEL_EXN_ID, {
+      throw new Caml_js_exceptions.MelangeError(exn$4.MEL_EXN_ID, {
                 cause: exn$4
               });
     }
@@ -72,7 +72,7 @@ function ff(g, x) {
   catch (raw_exn$5){
     var exn$5 = Caml_js_exceptions.internalToOCamlException(raw_exn$5);
     if (exn$5.MEL_EXN_ID !== Stdlib.Match_failure) {
-      throw new Error(exn$5.MEL_EXN_ID, {
+      throw new Caml_js_exceptions.MelangeError(exn$5.MEL_EXN_ID, {
                 cause: exn$5
               });
     }
@@ -84,7 +84,7 @@ function ff(g, x) {
   catch (raw_exn$6){
     var exn$6 = Caml_js_exceptions.internalToOCamlException(raw_exn$6);
     if (exn$6.MEL_EXN_ID !== Stdlib.Stack_overflow) {
-      throw new Error(exn$6.MEL_EXN_ID, {
+      throw new Caml_js_exceptions.MelangeError(exn$6.MEL_EXN_ID, {
                 cause: exn$6
               });
     }
@@ -96,7 +96,7 @@ function ff(g, x) {
   catch (raw_exn$7){
     var exn$7 = Caml_js_exceptions.internalToOCamlException(raw_exn$7);
     if (exn$7.MEL_EXN_ID !== Stdlib.Sys_blocked_io) {
-      throw new Error(exn$7.MEL_EXN_ID, {
+      throw new Caml_js_exceptions.MelangeError(exn$7.MEL_EXN_ID, {
                 cause: exn$7
               });
     }
@@ -108,7 +108,7 @@ function ff(g, x) {
   catch (raw_exn$8){
     var exn$8 = Caml_js_exceptions.internalToOCamlException(raw_exn$8);
     if (exn$8.MEL_EXN_ID !== Stdlib.Assert_failure) {
-      throw new Error(exn$8.MEL_EXN_ID, {
+      throw new Caml_js_exceptions.MelangeError(exn$8.MEL_EXN_ID, {
                 cause: exn$8
               });
     }
@@ -122,14 +122,14 @@ function ff(g, x) {
     if (exn$9.MEL_EXN_ID === Stdlib.Undefined_recursive_module) {
       return ;
     }
-    throw new Error(exn$9.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn$9.MEL_EXN_ID, {
               cause: exn$9
             });
   }
 }
 
 function u(param) {
-  throw new Error(Stdlib.Not_found, {
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
             cause: {
               MEL_EXN_ID: Stdlib.Not_found
             }
@@ -143,7 +143,7 @@ function f(x) {
   if (x.TAG === /* D */0) {
     return 1;
   }
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [

@@ -123,7 +123,7 @@ function get_lines(fname) {
                 },
                 _1: "in file %s, %s"
               }), fname, exn._1);
-      throw new Error("Failure", {
+      throw new Caml_js_exceptions.MelangeError("Failure", {
                 cause: {
                   MEL_EXN_ID: "Failure",
                   _1: s
@@ -147,14 +147,14 @@ function get_lines(fname) {
                 },
                 _1: "in file %s, unexpected end of file"
               }), fname);
-      throw new Error("Failure", {
+      throw new Caml_js_exceptions.MelangeError("Failure", {
                 cause: {
                   MEL_EXN_ID: "Failure",
                   _1: s$1
                 }
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }
@@ -194,7 +194,7 @@ function add_digest_ib(ob, ib) {
     if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }

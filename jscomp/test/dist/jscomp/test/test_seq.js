@@ -24,7 +24,7 @@ function assoc3(x, _l) {
       _l = l.tl;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
               cause: {
                 MEL_EXN_ID: Stdlib.Not_found
               }
@@ -33,7 +33,7 @@ function assoc3(x, _l) {
 }
 
 function help_action(param) {
-  throw new Error(Stop, {
+  throw new Caml_js_exceptions.MelangeError(Stop, {
             cause: {
               MEL_EXN_ID: Stop,
               _1: {
@@ -74,7 +74,7 @@ function add_help(speclist) {
         tl: /* [] */0
       };
     } else {
-      throw new Error(exn.MEL_EXN_ID, {
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
                 cause: exn
               });
     }
@@ -99,7 +99,7 @@ function add_help(speclist) {
         tl: /* [] */0
       };
     } else {
-      throw new Error(exn$1.MEL_EXN_ID, {
+      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, {
                 cause: exn$1
               });
     }

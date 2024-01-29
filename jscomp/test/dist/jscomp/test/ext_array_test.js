@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml_array = require("melange.js/caml_array.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Caml_option = require("melange.js/caml_option.js");
 var Curry = require("melange.js/curry.js");
 var Stdlib__Array = require("melange/array.js");
@@ -106,7 +107,7 @@ function filter_map(f, a) {
 
 function range(from, to_) {
   if (from > to_) {
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Ext_array_test.range"
@@ -121,7 +122,7 @@ function range(from, to_) {
 function map2i(f, a, b) {
   var len = a.length;
   if (len !== b.length) {
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Ext_array_test.map2i"

@@ -2,13 +2,14 @@
 'use strict';
 
 var Caml_exceptions = require("melange.js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 console.log(3);
 
 var A = /* @__PURE__ */Caml_exceptions.create("Internal_unused_test.P1.A");
 
 function f(param) {
-  throw new Error(A, {
+  throw new Caml_js_exceptions.MelangeError(A, {
             cause: {
               MEL_EXN_ID: A
             }

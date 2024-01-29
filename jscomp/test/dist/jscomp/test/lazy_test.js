@@ -39,7 +39,7 @@ function f(param) {
   if (x !== undefined) {
     return 1;
   }
-  throw new Error("Match_failure", {
+  throw new Caml_js_exceptions.MelangeError("Match_failure", {
             cause: {
               MEL_EXN_ID: "Match_failure",
               _1: [
@@ -83,7 +83,7 @@ catch (raw_exn){
   if (exn.MEL_EXN_ID === Stdlib.Match_failure) {
     h = 2;
   } else {
-    throw new Error(exn.MEL_EXN_ID, {
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
               cause: exn
             });
   }
@@ -137,7 +137,7 @@ var f006 = {
 var f007 = {
   LAZY_DONE: false,
   VAL: (function () {
-      throw new Error(Stdlib.Not_found, {
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
                 cause: {
                   MEL_EXN_ID: Stdlib.Not_found
                 }
@@ -149,7 +149,7 @@ var f008 = {
   LAZY_DONE: false,
   VAL: (function () {
       console.log("hi");
-      throw new Error(Stdlib.Not_found, {
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
                 cause: {
                   MEL_EXN_ID: Stdlib.Not_found
                 }
@@ -336,7 +336,7 @@ Mt.from_pair_suites("Lazy_test", {
                                           _0: !Stdlib__Lazy.is_val({
                                                 LAZY_DONE: false,
                                                 VAL: (function () {
-                                                    throw new Error(Stdlib.Not_found, {
+                                                    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
                                                               cause: {
                                                                 MEL_EXN_ID: Stdlib.Not_found
                                                               }

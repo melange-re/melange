@@ -79,7 +79,7 @@ function rev_split_by_char(c, s) {
                 tl: l
               };
       }
-      throw new Error(exn.MEL_EXN_ID, {
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
                 cause: exn
               });
     }
@@ -110,7 +110,7 @@ function xsplit(delim, s) {
                   tl: l
                 };
         }
-        throw new Error(exn.MEL_EXN_ID, {
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
                   cause: exn
                 });
       }

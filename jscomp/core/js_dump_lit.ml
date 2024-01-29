@@ -81,7 +81,7 @@ let minus_minus = "--"
 
 let case = "case"
 let cause = "cause"
-let error = "Error"
+let melange_error = "MelangeError"
 let exception_id = "MEL_EXN_ID"
 let polyvar_hash = "NAME"
 let polyvar_value = "VAL"

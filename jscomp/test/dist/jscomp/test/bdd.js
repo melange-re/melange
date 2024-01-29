@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml_array = require("melange.js/caml_array.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 function $$eval(_bdd, vars) {
   while(true) {
@@ -66,7 +67,7 @@ function resize(newSize) {
       }
       var n = bucket.hd;
       if (typeof n === "number") {
-        throw new Error("Assert_failure", {
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                   cause: {
                     MEL_EXN_ID: "Assert_failure",
                     _1: [
@@ -131,7 +132,7 @@ function mkNode(low, v, high) {
     if (b) {
       var n = b.hd;
       if (typeof n === "number") {
-        throw new Error("Assert_failure", {
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                   cause: {
                     MEL_EXN_ID: "Assert_failure",
                     _1: [
@@ -376,7 +377,7 @@ function main(param) {
   if (succeeded) {
     return ;
   }
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [

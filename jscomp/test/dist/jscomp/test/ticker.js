@@ -36,7 +36,7 @@ function split(delim, s) {
                   tl: l
                 };
         }
-        throw new Error(exn.MEL_EXN_ID, {
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
                   cause: exn
                 });
       }
@@ -167,14 +167,14 @@ function bal(l, x, d, r) {
       if (lr) {
         return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
       }
-      throw new Error("Invalid_argument", {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 cause: {
                   MEL_EXN_ID: "Invalid_argument",
                   _1: "Map.bal"
                 }
               });
     }
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Map.bal"
@@ -201,14 +201,14 @@ function bal(l, x, d, r) {
     if (rl) {
       return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
     }
-    throw new Error("Invalid_argument", {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               cause: {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Map.bal"
               }
             });
   }
-  throw new Error("Invalid_argument", {
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             cause: {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Map.bal"
@@ -279,7 +279,7 @@ function find(x, _param) {
       _param = c < 0 ? param.l : param.r;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
               cause: {
                 MEL_EXN_ID: Stdlib.Not_found
               }
@@ -320,7 +320,7 @@ function find_first(f, _param) {
       _param = param.r;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
               cause: {
                 MEL_EXN_ID: Stdlib.Not_found
               }
@@ -398,7 +398,7 @@ function find_last(f, _param) {
       _param = param.l;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
               cause: {
                 MEL_EXN_ID: Stdlib.Not_found
               }
@@ -487,7 +487,7 @@ function min_binding(_param) {
       _param = l;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
               cause: {
                 MEL_EXN_ID: Stdlib.Not_found
               }
@@ -526,7 +526,7 @@ function max_binding(_param) {
       _param = param.r;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
               cause: {
                 MEL_EXN_ID: Stdlib.Not_found
               }
@@ -560,7 +560,7 @@ function remove_min_binding(param) {
       return param.r;
     }
   }
-  throw new Error("Invalid_argument", {
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             cause: {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Map.remove_min_elt"
@@ -876,7 +876,7 @@ function merge$1(f, s1, s2) {
     var match$1 = split$1(v2, s1);
     return concat_or_join(merge$1(f, match$1[0], s2.l), v2, Curry._3(f, v2, match$1[1], Caml_option.some(s2.d)), merge$1(f, match$1[2], s2.r));
   }
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1328,7 +1328,7 @@ function compute_update_sequences(all_tickers) {
                 var l$1 = Stdlib__List.sort_uniq((function (lhs, rhs) {
                         var x = lhs.rank;
                         if (typeof x === "number") {
-                          throw new Error("Failure", {
+                          throw new Caml_js_exceptions.MelangeError("Failure", {
                                     cause: {
                                       MEL_EXN_ID: "Failure",
                                       _1: "All nodes should be ranked"
@@ -1337,7 +1337,7 @@ function compute_update_sequences(all_tickers) {
                         }
                         var y = rhs.rank;
                         if (typeof y === "number") {
-                          throw new Error("Failure", {
+                          throw new Caml_js_exceptions.MelangeError("Failure", {
                                     cause: {
                                       MEL_EXN_ID: "Failure",
                                       _1: "All nodes should be ranked"
@@ -1368,7 +1368,7 @@ function process_quote(ticker_map, new_ticker, new_value) {
             ticker.value = new_value;
             return ;
           }
-          throw new Error("Failure", {
+          throw new Caml_js_exceptions.MelangeError("Failure", {
                     cause: {
                       MEL_EXN_ID: "Failure",
                       _1: "Only single Market ticker should be udpated upon a new quote"
@@ -1403,7 +1403,7 @@ function process_input_line(ticker_map, all_tickers, line) {
             var match$1 = match.tl;
             if (match$1) {
               if (match$1.tl) {
-                throw new Error("Failure", {
+                throw new Caml_js_exceptions.MelangeError("Failure", {
                           cause: {
                             MEL_EXN_ID: "Failure",
                             _1: "Invalid input line"
@@ -1418,14 +1418,14 @@ function process_input_line(ticker_map, all_tickers, line) {
                       Caml_option.some(ticker_map$1)
                     ];
             }
-            throw new Error("Failure", {
+            throw new Caml_js_exceptions.MelangeError("Failure", {
                       cause: {
                         MEL_EXN_ID: "Failure",
                         _1: "Invalid input line"
                       }
                     });
           }
-          throw new Error("Failure", {
+          throw new Caml_js_exceptions.MelangeError("Failure", {
                     cause: {
                       MEL_EXN_ID: "Failure",
                       _1: "Invalid input line"
@@ -1444,7 +1444,7 @@ function process_input_line(ticker_map, all_tickers, line) {
                       var match$5 = match$4.tl;
                       if (match$5) {
                         if (match$5.tl) {
-                          throw new Error("Failure", {
+                          throw new Caml_js_exceptions.MelangeError("Failure", {
                                     cause: {
                                       MEL_EXN_ID: "Failure",
                                       _1: "Invalid input line"
@@ -1459,14 +1459,14 @@ function process_input_line(ticker_map, all_tickers, line) {
                                 ticker_map
                               ];
                       }
-                      throw new Error("Failure", {
+                      throw new Caml_js_exceptions.MelangeError("Failure", {
                                 cause: {
                                   MEL_EXN_ID: "Failure",
                                   _1: "Invalid input line"
                                 }
                               });
                     }
-                    throw new Error("Failure", {
+                    throw new Caml_js_exceptions.MelangeError("Failure", {
                               cause: {
                                 MEL_EXN_ID: "Failure",
                                 _1: "Invalid input line"
@@ -1478,7 +1478,7 @@ function process_input_line(ticker_map, all_tickers, line) {
                       var match$7 = match$6.tl;
                       if (match$7) {
                         if (match$7.tl) {
-                          throw new Error("Failure", {
+                          throw new Caml_js_exceptions.MelangeError("Failure", {
                                     cause: {
                                       MEL_EXN_ID: "Failure",
                                       _1: "Invalid input line"
@@ -1493,14 +1493,14 @@ function process_input_line(ticker_map, all_tickers, line) {
                                 ticker_map
                               ];
                       }
-                      throw new Error("Failure", {
+                      throw new Caml_js_exceptions.MelangeError("Failure", {
                                 cause: {
                                   MEL_EXN_ID: "Failure",
                                   _1: "Invalid input line"
                                 }
                               });
                     }
-                    throw new Error("Failure", {
+                    throw new Caml_js_exceptions.MelangeError("Failure", {
                               cause: {
                                 MEL_EXN_ID: "Failure",
                                 _1: "Invalid input line"
@@ -1508,7 +1508,7 @@ function process_input_line(ticker_map, all_tickers, line) {
                             });
                 case "S" :
                     if (match$3.tl) {
-                      throw new Error("Failure", {
+                      throw new Caml_js_exceptions.MelangeError("Failure", {
                                 cause: {
                                   MEL_EXN_ID: "Failure",
                                   _1: "Invalid input line"
@@ -1528,7 +1528,7 @@ function process_input_line(ticker_map, all_tickers, line) {
                             ticker_map
                           ];
                 default:
-                  throw new Error("Failure", {
+                  throw new Caml_js_exceptions.MelangeError("Failure", {
                             cause: {
                               MEL_EXN_ID: "Failure",
                               _1: "Invalid input line"
@@ -1536,7 +1536,7 @@ function process_input_line(ticker_map, all_tickers, line) {
                           });
               }
             } else {
-              throw new Error("Failure", {
+              throw new Caml_js_exceptions.MelangeError("Failure", {
                         cause: {
                           MEL_EXN_ID: "Failure",
                           _1: "Invalid input line"
@@ -1544,7 +1544,7 @@ function process_input_line(ticker_map, all_tickers, line) {
                       });
             }
           } else {
-            throw new Error("Failure", {
+            throw new Caml_js_exceptions.MelangeError("Failure", {
                       cause: {
                         MEL_EXN_ID: "Failure",
                         _1: "Invalid input line"
@@ -1552,7 +1552,7 @@ function process_input_line(ticker_map, all_tickers, line) {
                     });
           }
       default:
-        throw new Error("Failure", {
+        throw new Caml_js_exceptions.MelangeError("Failure", {
                   cause: {
                     MEL_EXN_ID: "Failure",
                     _1: "Invalid input line"
@@ -1560,7 +1560,7 @@ function process_input_line(ticker_map, all_tickers, line) {
                 });
     }
   } else {
-    throw new Error("Failure", {
+    throw new Caml_js_exceptions.MelangeError("Failure", {
               cause: {
                 MEL_EXN_ID: "Failure",
                 _1: "Invalid input line"

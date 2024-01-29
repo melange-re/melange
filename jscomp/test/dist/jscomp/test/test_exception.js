@@ -2,13 +2,14 @@
 'use strict';
 
 var Caml_exceptions = require("melange.js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Stdlib = require("melange/stdlib.js");
 var Test_common = require("./test_common.js");
 
 var Local = /* @__PURE__ */Caml_exceptions.create("Test_exception.Local");
 
 function f(param) {
-  throw new Error(Local, {
+  throw new Caml_js_exceptions.MelangeError(Local, {
             cause: {
               MEL_EXN_ID: Local,
               _1: 3
@@ -17,7 +18,7 @@ function f(param) {
 }
 
 function g(param) {
-  throw new Error(Stdlib.Not_found, {
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
             cause: {
               MEL_EXN_ID: Stdlib.Not_found
             }
@@ -25,7 +26,7 @@ function g(param) {
 }
 
 function h(param) {
-  throw new Error(Test_common.U, {
+  throw new Caml_js_exceptions.MelangeError(Test_common.U, {
             cause: {
               MEL_EXN_ID: Test_common.U,
               _1: 3
@@ -34,7 +35,7 @@ function h(param) {
 }
 
 function x(param) {
-  throw new Error(Test_common.H, {
+  throw new Caml_js_exceptions.MelangeError(Test_common.H, {
             cause: {
               MEL_EXN_ID: Test_common.H
             }
@@ -42,7 +43,7 @@ function x(param) {
 }
 
 function xx(param) {
-  throw new Error(Stdlib.Invalid_argument, {
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
             cause: {
               MEL_EXN_ID: Stdlib.Invalid_argument,
               _1: "x"

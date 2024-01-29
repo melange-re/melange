@@ -335,7 +335,7 @@ function uchar_map_of_spec(spec) {
     if ((uchar.contents - 1 | 0) === match[1]) {
       return ;
     }
-    throw new Error("Assert_failure", {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               cause: {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -378,7 +378,7 @@ function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
     var utf_len$1 = Curry._1(utf_len, u);
     var buf = Caml_bytes.caml_create_bytes(utf_len$1);
     if (Curry._3(set_utf, buf, 0, u) !== utf_len$1) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -390,7 +390,7 @@ function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
               });
     }
     if (!Caml_bytes.caml_bytes_equal(buf, Caml_array.get(utf, u))) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -402,7 +402,7 @@ function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
               });
     }
     if (!Caml_bytes.caml_bytes_equal(buf, Caml_array.get(utf, u))) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -415,7 +415,7 @@ function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
     }
     var dec = Curry._2(get_utf, buf, 0);
     if ((dec >>> 27) !== 1) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -427,7 +427,7 @@ function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
               });
     }
     if (((dec >>> 24) & 7) !== utf_len$1) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -439,7 +439,7 @@ function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
               });
     }
     if ((dec & 16777215) !== u) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -451,7 +451,7 @@ function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
               });
     }
     if (!Curry._1(utf_is_valid, buf)) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -484,7 +484,7 @@ function raises(f) {
     if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
       tmp = true;
     } else {
-      throw new Error(exn.MEL_EXN_ID, {
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
                 cause: exn
               });
     }
@@ -492,7 +492,7 @@ function raises(f) {
   if (tmp) {
     return ;
   }
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -531,7 +531,7 @@ raises(function (param) {
 var b = Stdlib__Bytes.make(1, /* '\171' */171);
 
 if (!(Stdlib__Bytes.set_utf_8_uchar(b, 0, Stdlib__Uchar.max) === 0 && Caml_bytes.get(b, 0) === /* '\171' */171)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -544,7 +544,7 @@ if (!(Stdlib__Bytes.set_utf_8_uchar(b, 0, Stdlib__Uchar.max) === 0 && Caml_bytes
 }
 
 if (!(Stdlib__Bytes.set_utf_16be_uchar(b, 0, Stdlib__Uchar.max) === 0 && Caml_bytes.get(b, 0) === /* '\171' */171)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -557,7 +557,7 @@ if (!(Stdlib__Bytes.set_utf_16be_uchar(b, 0, Stdlib__Uchar.max) === 0 && Caml_by
 }
 
 if (!(Stdlib__Bytes.set_utf_16le_uchar(b, 0, Stdlib__Uchar.max) === 0 && Caml_bytes.get(b, 0) === /* '\171' */171)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -579,7 +579,7 @@ Caml_bytes.set(b$1, 0, 195);
 Caml_bytes.set(b$1, 1, 0);
 
 if (Stdlib__Bytes.is_valid_utf_8(b$1)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -601,7 +601,7 @@ for(var i = 0 ,i_finish = b$2.length; i < i_finish; ++i){
   var dec = Stdlib__Bytes.get_utf_8_uchar(b$2, i);
   if (ok(i)) {
     if ((dec >>> 27) === 1 !== true) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -613,7 +613,7 @@ for(var i = 0 ,i_finish = b$2.length; i < i_finish; ++i){
               });
     }
     if (((dec >>> 24) & 7) !== 1) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -625,7 +625,7 @@ for(var i = 0 ,i_finish = b$2.length; i < i_finish; ++i){
               });
     }
     if ((dec & 16777215) !== Stdlib__Uchar.of_int(65)) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -639,7 +639,7 @@ for(var i = 0 ,i_finish = b$2.length; i < i_finish; ++i){
     
   } else {
     if ((dec >>> 27) === 1 !== false) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -651,7 +651,7 @@ for(var i = 0 ,i_finish = b$2.length; i < i_finish; ++i){
               });
     }
     if (((dec >>> 24) & 7) !== 1) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -663,7 +663,7 @@ for(var i = 0 ,i_finish = b$2.length; i < i_finish; ++i){
               });
     }
     if ((dec & 16777215) !== Stdlib__Uchar.rep) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -688,7 +688,7 @@ for(var i$1 = 0 ,i_finish$1 = b$3.length; i$1 < i_finish$1; ++i$1){
   var dec$1 = Stdlib__Bytes.get_utf_8_uchar(b$3, i$1);
   if (ok$1(i$1)) {
     if ((dec$1 >>> 27) === 1 !== true) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -700,7 +700,7 @@ for(var i$1 = 0 ,i_finish$1 = b$3.length; i$1 < i_finish$1; ++i$1){
               });
     }
     if (((dec$1 >>> 24) & 7) !== 1) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -712,7 +712,7 @@ for(var i$1 = 0 ,i_finish$1 = b$3.length; i$1 < i_finish$1; ++i$1){
               });
     }
     if ((dec$1 & 16777215) !== Stdlib__Uchar.of_int(65)) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -726,7 +726,7 @@ for(var i$1 = 0 ,i_finish$1 = b$3.length; i$1 < i_finish$1; ++i$1){
     
   } else {
     if ((dec$1 >>> 27) === 1 !== false) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -738,7 +738,7 @@ for(var i$1 = 0 ,i_finish$1 = b$3.length; i$1 < i_finish$1; ++i$1){
               });
     }
     if (((dec$1 >>> 24) & 7) !== 1) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -750,7 +750,7 @@ for(var i$1 = 0 ,i_finish$1 = b$3.length; i$1 < i_finish$1; ++i$1){
               });
     }
     if ((dec$1 & 16777215) !== Stdlib__Uchar.rep) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -779,7 +779,7 @@ for(var i$2 = 0 ,i_finish$2 = b$4.length; i$2 < i_finish$2; ++i$2){
   var dec$2 = Stdlib__Bytes.get_utf_8_uchar(b$4, i$2);
   if (ok$2(i$2)) {
     if ((dec$2 >>> 27) === 1 !== true) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -791,7 +791,7 @@ for(var i$2 = 0 ,i_finish$2 = b$4.length; i$2 < i_finish$2; ++i$2){
               });
     }
     if (((dec$2 >>> 24) & 7) !== 1) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -803,7 +803,7 @@ for(var i$2 = 0 ,i_finish$2 = b$4.length; i$2 < i_finish$2; ++i$2){
               });
     }
     if ((dec$2 & 16777215) !== Caml_bytes.get(b$4, i$2)) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -817,7 +817,7 @@ for(var i$2 = 0 ,i_finish$2 = b$4.length; i$2 < i_finish$2; ++i$2){
     
   } else {
     if ((dec$2 >>> 27) === 1 !== false) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -829,7 +829,7 @@ for(var i$2 = 0 ,i_finish$2 = b$4.length; i$2 < i_finish$2; ++i$2){
               });
     }
     if (((dec$2 >>> 24) & 7) !== 1) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -841,7 +841,7 @@ for(var i$2 = 0 ,i_finish$2 = b$4.length; i$2 < i_finish$2; ++i$2){
               });
     }
     if ((dec$2 & 16777215) !== Stdlib__Uchar.rep) {
-      throw new Error("Assert_failure", {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 cause: {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -861,7 +861,7 @@ var b$5 = Stdlib__Bytes.of_string("\xe1\x80\xe2\xf0\x91\x92\xf1\xbfA");
 var d0 = Stdlib__Bytes.get_utf_8_uchar(b$5, 0);
 
 if ((d0 >>> 27) === 1 !== false) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -874,7 +874,7 @@ if ((d0 >>> 27) === 1 !== false) {
 }
 
 if (((d0 >>> 24) & 7) !== 2) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -887,7 +887,7 @@ if (((d0 >>> 24) & 7) !== 2) {
 }
 
 if ((d0 & 16777215) !== Stdlib__Uchar.rep) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -902,7 +902,7 @@ if ((d0 & 16777215) !== Stdlib__Uchar.rep) {
 var d2 = Stdlib__Bytes.get_utf_8_uchar(b$5, 2);
 
 if ((d2 >>> 27) === 1 !== false) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -915,7 +915,7 @@ if ((d2 >>> 27) === 1 !== false) {
 }
 
 if (((d2 >>> 24) & 7) !== 1) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -928,7 +928,7 @@ if (((d2 >>> 24) & 7) !== 1) {
 }
 
 if ((d2 & 16777215) !== Stdlib__Uchar.rep) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -943,7 +943,7 @@ if ((d2 & 16777215) !== Stdlib__Uchar.rep) {
 var d3 = Stdlib__Bytes.get_utf_8_uchar(b$5, 3);
 
 if ((d3 >>> 27) === 1 !== false) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -956,7 +956,7 @@ if ((d3 >>> 27) === 1 !== false) {
 }
 
 if (((d3 >>> 24) & 7) !== 3) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -969,7 +969,7 @@ if (((d3 >>> 24) & 7) !== 3) {
 }
 
 if ((d3 & 16777215) !== Stdlib__Uchar.rep) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -984,7 +984,7 @@ if ((d3 & 16777215) !== Stdlib__Uchar.rep) {
 var d6 = Stdlib__Bytes.get_utf_8_uchar(b$5, 6);
 
 if ((d6 >>> 27) === 1 !== false) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -997,7 +997,7 @@ if ((d6 >>> 27) === 1 !== false) {
 }
 
 if (((d6 >>> 24) & 7) !== 2) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1010,7 +1010,7 @@ if (((d6 >>> 24) & 7) !== 2) {
 }
 
 if ((d6 & 16777215) !== Stdlib__Uchar.rep) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1025,7 +1025,7 @@ if ((d6 & 16777215) !== Stdlib__Uchar.rep) {
 var d8 = Stdlib__Bytes.get_utf_8_uchar(b$5, 8);
 
 if (((d8 >>> 24) & 7) !== 1) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -1038,7 +1038,7 @@ if (((d8 >>> 24) & 7) !== 1) {
 }
 
 if ((d8 & 16777215) !== Stdlib__Uchar.of_int(65)) {
-  throw new Error("Assert_failure", {
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
