@@ -1,10 +1,15 @@
-
+Test edge cases on unicode string interpolation
 
   $ . ./setup.sh
   $ cat > x.ml <<EOF
   > let x = {j| Hello, \$()|j}
   > EOF
   $ melc -ppx melppx x.ml
+  File "x.ml", line 1, characters 11-22:
+  1 | let x = {j| Hello, $()|j}
+                 ^^^^^^^^^^^
+  Warning 108 [melange-uninterpreted-delimiters]: Uninterpreted delimiters j
+  
   File "x.ml", line 1, characters 19-22:
   1 | let x = {j| Hello, $()|j}
                          ^^^
@@ -15,6 +20,11 @@
   > let x = {j| Hello, \$(   )|j}
   > EOF
   $ melc -ppx melppx x.ml
+  File "x.ml", line 1, characters 11-25:
+  1 | let x = {j| Hello, $(   )|j}
+                 ^^^^^^^^^^^^^^
+  Warning 108 [melange-uninterpreted-delimiters]: Uninterpreted delimiters j
+  
   File "x.ml", line 1, characters 19-25:
   1 | let x = {j| Hello, $(   )|j}
                          ^^^^^^
