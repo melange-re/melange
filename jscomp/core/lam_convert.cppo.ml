@@ -32,19 +32,9 @@ let lam_extension_id =
       Fld_record { name = Js_dump_lit.exception_id; mutable_flag = Immutable }
     in
     Pfield (0, caml_id_field_info)
-  and _lam_caml_cause : Lam_primitive.t =
-    let caml_cause_field_info : Lambda.field_dbg_info =
-      Fld_record { name = Js_dump_lit.cause; mutable_flag = Immutable }
-    in
-    Pfield (0, caml_cause_field_info)
   in
   fun loc (head : Lam.t) ->
-    prim
-      ~primitive:lam_caml_id
-      ~args:[
-          (* (prim ~primitive:_lam_caml_cause ~args:[ head ] loc) *)
-           head
-        ] loc
+    prim ~primitive:lam_caml_id ~args:[ head ] loc
 
 let lazy_block_info : Lam.Tag_info.t =
   let lazy_done = "LAZY_DONE" and lazy_val = "VAL" in
