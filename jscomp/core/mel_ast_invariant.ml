@@ -32,7 +32,7 @@ let check_constant loc kind (const : Parsetree.constant) =
           if Melange_ffi.Utf8_string.is_unescaped s then
             Location.prerr_warning loc (Mel_uninterpreted_delimiters s)
       | `pat ->
-          if s = "j" then
+          if Melange_ffi.Utf8_string.is_unescaped s then
             Location.raise_errorf ~loc
               "Unicode strings cannot currently be used in pattern matching")
   | Pconst_integer (s, None) -> (
