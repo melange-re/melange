@@ -25,7 +25,7 @@ test:
 
 .PHONY: opam-create-switch
 opam-create-switch: ## Create opam switch
-	opam switch create . ocaml-base-compiler.5.1.1~rc1 -y --no-install
+	opam switch create . 5.1.1 -y --no-install
 
 .PHONY: opam-install-test
 opam-install-test: ## Install test dependencies
