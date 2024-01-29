@@ -1,6 +1,12 @@
 Unreleased
 ---------------
 
+- CLI: passing `--eval` to `melc` now works as expected
+  ([#1040](https://github.com/melange-re/melange/pull/1040))
+
+3.0.0 2024-01-28
+---------------
+
 - BREAKING: remove `Belt` as a dependency of `Stdlib`
   ([#796](https://github.com/melange-re/melange/pull/796),
   [#797](https://github.com/melange-re/melange/pull/797))
