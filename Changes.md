@@ -1,4 +1,4 @@
-Unreleased
+3.0.0 2024-01-28
 ---------------
 
 - BREAKING: remove `Belt` as a dependency of `Stdlib`
