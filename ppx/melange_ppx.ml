@@ -401,6 +401,8 @@ module Mapper = struct
         match e.pexp_desc with
         | Pexp_apply (fn, args) ->
             Ast_exp_apply.app_exp_mapper e (self, super#expression) fn args
+        | Pexp_constant (Pconst_string (s, loc, Some delim)) ->
+            String_interp.transform e s ~loc ~delim
         | Pexp_function cases -> (
             (* {[ function [@mel.open]
                   | Not_found -> 0
@@ -616,7 +618,7 @@ module Mapper = struct
                 }
             | Some attr, Pexp_constant (Pconst_string (s, loc, Some dec)) -> (
                 match
-                  Melange_ffi.Utf8_string.Interp.transform ~loc ~delim:dec
+                  Melange_ffi.Utf8_string.transform ~loc ~delim:dec
                     (Melange_compiler_libs.Ast_helper.Exp.constant
                        (Pconst_string (s, loc, Some dec)))
                     s
@@ -824,7 +826,7 @@ module Mapper = struct
                       }
                   | Pexp_constant (Pconst_string (s, loc, Some dec)) -> (
                       match
-                        Melange_ffi.Utf8_string.Interp.transform ~loc ~delim:dec
+                        Melange_ffi.Utf8_string.transform ~loc ~delim:dec
                           (Melange_compiler_libs.Ast_helper.Exp.constant
                              (Pconst_string (s, loc, Some dec)))
                           s
