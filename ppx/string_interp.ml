@@ -279,7 +279,7 @@ let rec handle_segments =
             in
             Exp.ident ~loc { loc; txt = Lident content })
   in
-  let concat_exp a_loc x ~(lhs : Parsetree.expression) =
+  let concat_exp a_loc x ~(lhs : expression) =
     let loc = merge_loc a_loc lhs.pexp_loc in
     Exp.apply
       (Exp.ident { txt = concat_ident; loc })
@@ -294,7 +294,7 @@ let rec handle_segments =
 
 let transform =
   let unescaped_j_delimiter = "j" in
-  let transform (e : Parsetree.expression) s ~delim =
+  let transform (e : expression) s ~delim =
     match String.equal delim unescaped_j_delimiter with
     | true ->
         let s_len = String.length s in

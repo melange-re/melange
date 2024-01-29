@@ -216,7 +216,16 @@ let transform =
             Pexp_constant
               (Pconst_string (transform ~loc s, loc, escaped_j_delimiter));
         }
-    | false -> e
+    | false -> (
+        match String.equal delim unescaped_j_delimiter with
+        | true ->
+            {
+              e with
+              pexp_desc =
+                Pexp_constant
+                  (Pconst_string (transform ~loc s, loc, escaped_j_delimiter));
+            }
+        | false -> e)
   in
   fun ~loc ~delim expr s -> transform expr s ~loc ~delim
 
