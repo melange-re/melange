@@ -144,19 +144,4 @@ Raise `null` / `undefined`
   exports.A = A;
   /* a0 Not a pure module */
   $ node _build/default/js-out/x.js
-  $TESTCASE_ROOT/_build/default/js-out/node_modules/melange.js/caml_js_exceptions.js:11
-    if (Js__Caml_exceptions.caml_is_extension(e.cause)) {
-                                                ^
-  
-  TypeError: Cannot read properties of undefined (reading 'cause')
-      at Object.internalToOCamlException ($TESTCASE_ROOT/_build/default/js-out/node_modules/melange.js/caml_js_exceptions.js:11:47)
-      at Object.<anonymous> ($TESTCASE_ROOT/_build/default/js-out/x.js:17:32)
-      at Module._compile (node:internal/modules/cjs/loader:1378:14)
-      at Module._extensions..js (node:internal/modules/cjs/loader:1437:10)
-      at Module.load (node:internal/modules/cjs/loader:1212:32)
-      at Module._load (node:internal/modules/cjs/loader:1028:12)
-      at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:142:12)
-      at node:internal/main/run_main_module:28:49
-  
-  Node.js v21.6.1
-  [1]
+  undefined null
