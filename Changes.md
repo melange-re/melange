@@ -1,3 +1,9 @@
+Unreleased
+---------------
+
+- CLI: passing `--eval` to `melc` now works as expected
+  ([#1040](https://github.com/melange-re/melange/pull/1040))
+
 3.0.0 2024-01-28
 ---------------
 
