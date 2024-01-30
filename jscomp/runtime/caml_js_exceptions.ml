@@ -30,18 +30,17 @@ function MelangeError(message, cause) {
     writable : true,
     value : cause
   });
+  Object.defineProperty(_this, 'name', {
+    configurable : true,
+    enumerable : false,
+    writable : true,
+    value : 'MelangeError'
+  })
 
   return _this;
 }
 |}]
 
-[%%mel.raw
-{|
+[%%mel.raw {|
 MelangeError.prototype = Error.prototype;
-Object.defineProperty(MelangeError.prototype, 'name', {
-  configurable : true,
-  enumerable : false,
-  writable : true,
-  value : 'MelangeError'
-})
 |}]
