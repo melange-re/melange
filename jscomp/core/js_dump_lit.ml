@@ -80,7 +80,6 @@ let minus_minus = "--"
 (** debug symbols *)
 
 let case = "case"
-let cause = "cause"
 let melange_error = "MelangeError"
 let exception_id = "MEL_EXN_ID"
 let polyvar_hash = "NAME"

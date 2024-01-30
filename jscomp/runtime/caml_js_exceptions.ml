@@ -21,17 +21,15 @@ let caml_as_js_exn exn = match exn with Error t -> Some t | _ -> None
 let[@mel.as MelangeError] melangeError =
   [%mel.raw
     {|
-function MelangeError(message, options) {
-  var _this = Error.call(this, message, options);
+function MelangeError(message, cause) {
+  var _this = Error.call(this, message, { cause: cause });
 
-  if (options != null && options.hasOwnProperty('cause')) {
-    Object.defineProperty(_this, 'cause', {
-      configurable : true,
-      enumerable : false,
-      writable : true,
-      value : options.cause
-    });
-  }
+  Object.defineProperty(_this, 'cause', {
+    configurable : true,
+    enumerable : false,
+    writable : true,
+    value : cause
+  });
 
   return _this;
 }
