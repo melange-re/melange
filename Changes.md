@@ -3,6 +3,11 @@ Unreleased
 
 - CLI: passing `--eval` to `melc` now works as expected
   ([#1040](https://github.com/melange-re/melange/pull/1040))
+- runtime: add some bindings to `Js.Bigint`
+  ([#1044](https://github.com/melange-re/melange/pull/1044))
+- core: emit `throw new Error(..)` rather than throwing a JS object with the
+  Melange exception payload
+  ([#1036](https://github.com/melange-re/melange/pull/1036))
 
 3.0.0 2024-01-28
 ---------------
