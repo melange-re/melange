@@ -1,3 +1,4 @@
+Test `Js.Bigint` code generation
 
   $ . ./setup.sh
   $ cat > dune-project <<EOF
