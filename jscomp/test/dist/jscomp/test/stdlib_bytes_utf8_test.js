@@ -335,15 +335,16 @@ function uchar_map_of_spec(spec) {
     if ((uchar.contents - 1 | 0) === match[1]) {
       return ;
     }
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/stdlib_bytes_utf8_test.ml",
-            69,
-            4
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/stdlib_bytes_utf8_test.ml",
+                  69,
+                  4
+                ]
+              }
+            });
   };
   Stdlib__List.iter(add_range, spec);
   return map;
@@ -377,82 +378,89 @@ function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
     var utf_len$1 = Curry._1(utf_len, u);
     var buf = Caml_bytes.caml_create_bytes(utf_len$1);
     if (Curry._3(set_utf, buf, 0, u) !== utf_len$1) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              97,
-              4
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    97,
+                    4
+                  ]
+                }
+              });
     }
     if (!Caml_bytes.caml_bytes_equal(buf, Caml_array.get(utf, u))) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              98,
-              4
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    98,
+                    4
+                  ]
+                }
+              });
     }
     if (!Caml_bytes.caml_bytes_equal(buf, Caml_array.get(utf, u))) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              99,
-              4
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    99,
+                    4
+                  ]
+                }
+              });
     }
     var dec = Curry._2(get_utf, buf, 0);
     if ((dec >>> 27) !== 1) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              101,
-              4
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    101,
+                    4
+                  ]
+                }
+              });
     }
     if (((dec >>> 24) & 7) !== utf_len$1) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              102,
-              4
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    102,
+                    4
+                  ]
+                }
+              });
     }
     if ((dec & 16777215) !== u) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              103,
-              4
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    103,
+                    4
+                  ]
+                }
+              });
     }
     if (!Curry._1(utf_is_valid, buf)) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              104,
-              4
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    104,
+                    4
+                  ]
+                }
+              });
     }
     
   };
@@ -476,21 +484,24 @@ function raises(f) {
     if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
       tmp = true;
     } else {
-      throw exn;
+      throw new Error(exn.MEL_EXN_ID, {
+                cause: exn
+              });
     }
   }
   if (tmp) {
     return ;
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/stdlib_bytes_utf8_test.ml",
-          124,
-          4
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/stdlib_bytes_utf8_test.ml",
+                124,
+                4
+              ]
+            }
+          });
 }
 
 raises(function (param) {
@@ -520,39 +531,42 @@ raises(function (param) {
 var b = Stdlib__Bytes.make(1, /* '\171' */171);
 
 if (!(Stdlib__Bytes.set_utf_8_uchar(b, 0, Stdlib__Uchar.max) === 0 && Caml_bytes.get(b, 0) === /* '\171' */171)) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/stdlib_bytes_utf8_test.ml",
-          141,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/stdlib_bytes_utf8_test.ml",
+                141,
+                2
+              ]
+            }
+          });
 }
 
 if (!(Stdlib__Bytes.set_utf_16be_uchar(b, 0, Stdlib__Uchar.max) === 0 && Caml_bytes.get(b, 0) === /* '\171' */171)) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/stdlib_bytes_utf8_test.ml",
-          142,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/stdlib_bytes_utf8_test.ml",
+                142,
+                2
+              ]
+            }
+          });
 }
 
 if (!(Stdlib__Bytes.set_utf_16le_uchar(b, 0, Stdlib__Uchar.max) === 0 && Caml_bytes.get(b, 0) === /* '\171' */171)) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/stdlib_bytes_utf8_test.ml",
-          143,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/stdlib_bytes_utf8_test.ml",
+                143,
+                2
+              ]
+            }
+          });
 }
 
 var b$1 = [
@@ -565,15 +579,16 @@ Caml_bytes.set(b$1, 0, 195);
 Caml_bytes.set(b$1, 1, 0);
 
 if (Stdlib__Bytes.is_valid_utf_8(b$1)) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/stdlib_bytes_utf8_test.ml",
-          151,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/stdlib_bytes_utf8_test.ml",
+                151,
+                2
+              ]
+            }
+          });
 }
 
 var b$2 = Stdlib__Bytes.of_string("\xc0\xaf\xe0\x80\xbf\xf0\x81\x82A");
@@ -586,72 +601,78 @@ for(var i = 0 ,i_finish = b$2.length; i < i_finish; ++i){
   var dec = Stdlib__Bytes.get_utf_8_uchar(b$2, i);
   if (ok(i)) {
     if ((dec >>> 27) === 1 !== true) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              166,
-              6
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    166,
+                    6
+                  ]
+                }
+              });
     }
     if (((dec >>> 24) & 7) !== 1) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              167,
-              6
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    167,
+                    6
+                  ]
+                }
+              });
     }
     if ((dec & 16777215) !== Stdlib__Uchar.of_int(65)) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              168,
-              6
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    168,
+                    6
+                  ]
+                }
+              });
     }
     
   } else {
     if ((dec >>> 27) === 1 !== false) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              162,
-              6
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    162,
+                    6
+                  ]
+                }
+              });
     }
     if (((dec >>> 24) & 7) !== 1) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              163,
-              6
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    163,
+                    6
+                  ]
+                }
+              });
     }
     if ((dec & 16777215) !== Stdlib__Uchar.rep) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              164,
-              6
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    164,
+                    6
+                  ]
+                }
+              });
     }
     
   }
@@ -667,72 +688,78 @@ for(var i$1 = 0 ,i_finish$1 = b$3.length; i$1 < i_finish$1; ++i$1){
   var dec$1 = Stdlib__Bytes.get_utf_8_uchar(b$3, i$1);
   if (ok$1(i$1)) {
     if ((dec$1 >>> 27) === 1 !== true) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              179,
-              6
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    179,
+                    6
+                  ]
+                }
+              });
     }
     if (((dec$1 >>> 24) & 7) !== 1) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              180,
-              6
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    180,
+                    6
+                  ]
+                }
+              });
     }
     if ((dec$1 & 16777215) !== Stdlib__Uchar.of_int(65)) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              181,
-              6
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    181,
+                    6
+                  ]
+                }
+              });
     }
     
   } else {
     if ((dec$1 >>> 27) === 1 !== false) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              175,
-              6
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    175,
+                    6
+                  ]
+                }
+              });
     }
     if (((dec$1 >>> 24) & 7) !== 1) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              176,
-              6
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    176,
+                    6
+                  ]
+                }
+              });
     }
     if ((dec$1 & 16777215) !== Stdlib__Uchar.rep) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              177,
-              6
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    177,
+                    6
+                  ]
+                }
+              });
     }
     
   }
@@ -752,72 +779,78 @@ for(var i$2 = 0 ,i_finish$2 = b$4.length; i$2 < i_finish$2; ++i$2){
   var dec$2 = Stdlib__Bytes.get_utf_8_uchar(b$4, i$2);
   if (ok$2(i$2)) {
     if ((dec$2 >>> 27) === 1 !== true) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              192,
-              6
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    192,
+                    6
+                  ]
+                }
+              });
     }
     if (((dec$2 >>> 24) & 7) !== 1) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              193,
-              6
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    193,
+                    6
+                  ]
+                }
+              });
     }
     if ((dec$2 & 16777215) !== Caml_bytes.get(b$4, i$2)) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              194,
-              6
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    194,
+                    6
+                  ]
+                }
+              });
     }
     
   } else {
     if ((dec$2 >>> 27) === 1 !== false) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              188,
-              6
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    188,
+                    6
+                  ]
+                }
+              });
     }
     if (((dec$2 >>> 24) & 7) !== 1) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              189,
-              6
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    189,
+                    6
+                  ]
+                }
+              });
     }
     if ((dec$2 & 16777215) !== Stdlib__Uchar.rep) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/stdlib_bytes_utf8_test.ml",
-              190,
-              6
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/stdlib_bytes_utf8_test.ml",
+                    190,
+                    6
+                  ]
+                }
+              });
     }
     
   }
@@ -828,179 +861,193 @@ var b$5 = Stdlib__Bytes.of_string("\xe1\x80\xe2\xf0\x91\x92\xf1\xbfA");
 var d0 = Stdlib__Bytes.get_utf_8_uchar(b$5, 0);
 
 if ((d0 >>> 27) === 1 !== false) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/stdlib_bytes_utf8_test.ml",
-          199,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/stdlib_bytes_utf8_test.ml",
+                199,
+                2
+              ]
+            }
+          });
 }
 
 if (((d0 >>> 24) & 7) !== 2) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/stdlib_bytes_utf8_test.ml",
-          200,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/stdlib_bytes_utf8_test.ml",
+                200,
+                2
+              ]
+            }
+          });
 }
 
 if ((d0 & 16777215) !== Stdlib__Uchar.rep) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/stdlib_bytes_utf8_test.ml",
-          201,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/stdlib_bytes_utf8_test.ml",
+                201,
+                2
+              ]
+            }
+          });
 }
 
 var d2 = Stdlib__Bytes.get_utf_8_uchar(b$5, 2);
 
 if ((d2 >>> 27) === 1 !== false) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/stdlib_bytes_utf8_test.ml",
-          203,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/stdlib_bytes_utf8_test.ml",
+                203,
+                2
+              ]
+            }
+          });
 }
 
 if (((d2 >>> 24) & 7) !== 1) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/stdlib_bytes_utf8_test.ml",
-          204,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/stdlib_bytes_utf8_test.ml",
+                204,
+                2
+              ]
+            }
+          });
 }
 
 if ((d2 & 16777215) !== Stdlib__Uchar.rep) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/stdlib_bytes_utf8_test.ml",
-          205,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/stdlib_bytes_utf8_test.ml",
+                205,
+                2
+              ]
+            }
+          });
 }
 
 var d3 = Stdlib__Bytes.get_utf_8_uchar(b$5, 3);
 
 if ((d3 >>> 27) === 1 !== false) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/stdlib_bytes_utf8_test.ml",
-          207,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/stdlib_bytes_utf8_test.ml",
+                207,
+                2
+              ]
+            }
+          });
 }
 
 if (((d3 >>> 24) & 7) !== 3) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/stdlib_bytes_utf8_test.ml",
-          208,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/stdlib_bytes_utf8_test.ml",
+                208,
+                2
+              ]
+            }
+          });
 }
 
 if ((d3 & 16777215) !== Stdlib__Uchar.rep) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/stdlib_bytes_utf8_test.ml",
-          209,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/stdlib_bytes_utf8_test.ml",
+                209,
+                2
+              ]
+            }
+          });
 }
 
 var d6 = Stdlib__Bytes.get_utf_8_uchar(b$5, 6);
 
 if ((d6 >>> 27) === 1 !== false) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/stdlib_bytes_utf8_test.ml",
-          211,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/stdlib_bytes_utf8_test.ml",
+                211,
+                2
+              ]
+            }
+          });
 }
 
 if (((d6 >>> 24) & 7) !== 2) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/stdlib_bytes_utf8_test.ml",
-          212,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/stdlib_bytes_utf8_test.ml",
+                212,
+                2
+              ]
+            }
+          });
 }
 
 if ((d6 & 16777215) !== Stdlib__Uchar.rep) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/stdlib_bytes_utf8_test.ml",
-          213,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/stdlib_bytes_utf8_test.ml",
+                213,
+                2
+              ]
+            }
+          });
 }
 
 var d8 = Stdlib__Bytes.get_utf_8_uchar(b$5, 8);
 
 if (((d8 >>> 24) & 7) !== 1) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/stdlib_bytes_utf8_test.ml",
-          215,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/stdlib_bytes_utf8_test.ml",
+                215,
+                2
+              ]
+            }
+          });
 }
 
 if ((d8 & 16777215) !== Stdlib__Uchar.of_int(65)) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/stdlib_bytes_utf8_test.ml",
-          216,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/stdlib_bytes_utf8_test.ml",
+                216,
+                2
+              ]
+            }
+          });
 }
 
 Stdlib__Printf.printf(/* Format */{

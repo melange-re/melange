@@ -30,15 +30,16 @@ Stdlib__Array.iter((function (x) {
       }), u);
 
 if (v.contents !== 45) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/test_closure.ml",
-          53,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/test_closure.ml",
+                53,
+                2
+              ]
+            }
+          });
 }
 
 exports.v = v;

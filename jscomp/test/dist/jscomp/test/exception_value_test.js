@@ -8,32 +8,35 @@ var Js__Js_exn = require("melange.js/js_exn.js");
 var Stdlib = require("melange/stdlib.js");
 
 function f(param) {
-  throw {
-        MEL_EXN_ID: Stdlib.Not_found,
-        Error: new Error()
-      };
+  throw new Error(Stdlib.Not_found, {
+            cause: {
+              MEL_EXN_ID: Stdlib.Not_found
+            }
+          });
 }
 
 function assert_f(x) {
   if (x <= 3) {
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/exception_value_test.ml",
-            9,
-            12
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/exception_value_test.ml",
+                  9,
+                  12
+                ]
+              }
+            });
   }
   return 3;
 }
 
 function hh(param) {
-  throw {
-        MEL_EXN_ID: Stdlib.Not_found,
-        Error: new Error()
-      };
+  throw new Error(Stdlib.Not_found, {
+            cause: {
+              MEL_EXN_ID: Stdlib.Not_found
+            }
+          });
 }
 
 var A = /* @__PURE__ */Caml_exceptions.create("Exception_value_test.A");
@@ -56,7 +59,9 @@ function test_not_found(f, param) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return 2;
     }
-    throw exn;
+    throw new Error(exn.MEL_EXN_ID, {
+              cause: exn
+            });
   }
 }
 
@@ -68,9 +73,13 @@ function test_js_error2(param) {
     var e = Caml_js_exceptions.internalToOCamlException(raw_e);
     if (e.MEL_EXN_ID === Js__Js_exn.$$Error) {
       console.log(e._1.stack);
-      throw e;
+      throw new Error(e.MEL_EXN_ID, {
+                cause: e
+              });
     }
-    throw e;
+    throw new Error(e.MEL_EXN_ID, {
+              cause: e
+            });
   }
 }
 

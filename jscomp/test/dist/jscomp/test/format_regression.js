@@ -4,51 +4,55 @@
 var Curry = require("melange.js/curry.js");
 
 function peek_queue(param) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/format_regression.ml",
-          10,
-          19
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/format_regression.ml",
+                10,
+                19
+              ]
+            }
+          });
 }
 
 function int_of_size(param) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/format_regression.ml",
-          11,
-          20
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/format_regression.ml",
+                11,
+                20
+              ]
+            }
+          });
 }
 
 function take_queue(param) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/format_regression.ml",
-          12,
-          19
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/format_regression.ml",
+                12,
+                19
+              ]
+            }
+          });
 }
 
 function format_pp_token(param, param$1) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/format_regression.ml",
-          13,
-          26
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/format_regression.ml",
+                13,
+                26
+              ]
+            }
+          });
 }
 
 function advance_loop(state) {

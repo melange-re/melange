@@ -42,15 +42,16 @@ function handler(e) {
     console.log("hi");
     return Promise.resolve(0);
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/promise_catch_test.ml",
-          21,
-          9
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/promise_catch_test.ml",
+                21,
+                9
+              ]
+            }
+          });
 }
 
 function myHandler(match) {
@@ -85,15 +86,16 @@ catch (raw_e){
 }
 
 if (exit === 1) {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/promise_catch_test.ml",
-          38,
-          9
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/promise_catch_test.ml",
+                38,
+                9
+              ]
+            }
+          });
 }
 
 Mt.from_pair_suites("Promise_catch_test", suites.contents);

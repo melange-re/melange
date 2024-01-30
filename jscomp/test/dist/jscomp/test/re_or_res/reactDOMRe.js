@@ -70,11 +70,12 @@ function hydrateToElementWithClassName(reactElement, className) {
 function hydrateToElementWithId(reactElement, id) {
   var element = document.getElementById(id);
   if (element == null) {
-    throw {
-          MEL_EXN_ID: Stdlib.Invalid_argument,
-          _1: "ReactDOMRe.hydrateToElementWithId : no element of id " + (id + " found in the HTML."),
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Invalid_argument, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Invalid_argument,
+                _1: "ReactDOMRe.hydrateToElementWithId : no element of id " + (id + " found in the HTML.")
+              }
+            });
   }
   ReactDom.hydrate(reactElement, element);
 }

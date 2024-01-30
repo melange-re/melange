@@ -2,15 +2,16 @@
 'use strict';
 
 
-throw {
-      MEL_EXN_ID: "Match_failure",
-      _1: [
-        "gpr_2474.ml",
-        6,
-        4
-      ],
-      Error: new Error()
-    };
+throw new Error("Match_failure", {
+          cause: {
+            MEL_EXN_ID: "Match_failure",
+            _1: [
+              "gpr_2474.ml",
+              6,
+              4
+            ]
+          }
+        });
 
 exports.coordinates = coordinates;
 /*  Not a pure module */

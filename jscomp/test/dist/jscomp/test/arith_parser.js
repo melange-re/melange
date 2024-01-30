@@ -45,11 +45,12 @@ var yynames_block = "NUMERAL\0IDENT\0";
 
 var yyact = [
   (function (param) {
-      throw {
-            MEL_EXN_ID: "Failure",
-            _1: "parser",
-            Error: new Error()
-          };
+      throw new Error("Failure", {
+                cause: {
+                  MEL_EXN_ID: "Failure",
+                  _1: "parser"
+                }
+              });
     }),
   (function (__caml_parser_env) {
       return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
@@ -115,11 +116,12 @@ var yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
-      throw {
-            MEL_EXN_ID: Stdlib__Parsing.YYexit,
-            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
-            Error: new Error()
-          };
+      throw new Error(Stdlib__Parsing.YYexit, {
+                cause: {
+                  MEL_EXN_ID: Stdlib__Parsing.YYexit,
+                  _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
+                }
+              });
     })
 ];
 

@@ -24,22 +24,24 @@ function assoc3(x, _l) {
       _l = l.tl;
       continue ;
     }
-    throw {
-          MEL_EXN_ID: Stdlib.Not_found,
-          Error: new Error()
-        };
+    throw new Error(Stdlib.Not_found, {
+              cause: {
+                MEL_EXN_ID: Stdlib.Not_found
+              }
+            });
   };
 }
 
 function help_action(param) {
-  throw {
-        MEL_EXN_ID: Stop,
-        _1: {
-          TAG: /* Unknown */0,
-          _0: "-help"
-        },
-        Error: new Error()
-      };
+  throw new Error(Stop, {
+            cause: {
+              MEL_EXN_ID: Stop,
+              _1: {
+                TAG: /* Unknown */0,
+                _0: "-help"
+              }
+            }
+          });
 }
 
 function v(speclist) {
@@ -72,7 +74,9 @@ function add_help(speclist) {
         tl: /* [] */0
       };
     } else {
-      throw exn;
+      throw new Error(exn.MEL_EXN_ID, {
+                cause: exn
+              });
     }
   }
   var add2;
@@ -95,7 +99,9 @@ function add_help(speclist) {
         tl: /* [] */0
       };
     } else {
-      throw exn$1;
+      throw new Error(exn$1.MEL_EXN_ID, {
+                cause: exn$1
+              });
     }
   }
   return Stdlib.$at(speclist, Stdlib.$at(add1, add2));

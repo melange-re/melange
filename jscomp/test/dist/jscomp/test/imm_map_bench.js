@@ -20,7 +20,9 @@ function should(b) {
   if (b) {
     return ;
   }
-  throw new Error("impossible");
+  throw new Error(new Error("impossible").MEL_EXN_ID, {
+            cause: new Error("impossible")
+          });
 }
 
 var shuffledDataAdd = Belt__Belt_Array.makeByAndShuffle(1000001, (function (i) {

@@ -23,11 +23,12 @@ Test `@mel.as` in inline records / record extensions
   
   function user3(param) {
     try {
-      throw {
-            MEL_EXN_ID: UserException,
-            renamed: "Corentin",
-            Error: new Error()
-          };
+      throw new Error(UserException, {
+                cause: {
+                  MEL_EXN_ID: UserException,
+                  renamed: "Corentin"
+                }
+              });
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -35,7 +36,9 @@ Test `@mel.as` in inline records / record extensions
         console.log("name:", exn.renamed);
         return ;
       }
-      throw exn;
+      throw new Error(exn.MEL_EXN_ID, {
+                cause: exn
+              });
     }
   }
   

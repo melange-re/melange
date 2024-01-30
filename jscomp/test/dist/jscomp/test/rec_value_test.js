@@ -80,15 +80,16 @@ var h = {
 
 var v = {
   contents: (function (param) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/rec_value_test.ml",
-              36,
-              24
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/rec_value_test.ml",
+                    36,
+                    24
+                  ]
+                }
+              });
     })
 };
 
@@ -245,54 +246,58 @@ var rec_variant_a = {
 
 function phd(l) {
   if (typeof l === "string") {
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/rec_value_test.ml",
-            107,
-            9
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/rec_value_test.ml",
+                  107,
+                  9
+                ]
+              }
+            });
   }
   if (l.NAME === "Cons") {
     return l.VAL[0];
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/rec_value_test.ml",
-          107,
-          9
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/rec_value_test.ml",
+                107,
+                9
+              ]
+            }
+          });
 }
 
 function ptl(l) {
   if (typeof l === "string") {
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/rec_value_test.ml",
-            112,
-            9
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/rec_value_test.ml",
+                  112,
+                  9
+                ]
+              }
+            });
   }
   if (l.NAME === "Cons") {
     return l.VAL[1];
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/rec_value_test.ml",
-          112,
-          9
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/rec_value_test.ml",
+                112,
+                9
+              ]
+            }
+          });
 }
 
 var y00 = {};
@@ -354,26 +359,28 @@ var suites_1 = {
               if (match) {
                 tmp = match.hd;
               } else {
-                throw {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/rec_value_test.ml",
-                        142,
-                        2
-                      ],
-                      Error: new Error()
-                    };
+                throw new Error("Assert_failure", {
+                          cause: {
+                            MEL_EXN_ID: "Assert_failure",
+                            _1: [
+                              "jscomp/test/rec_value_test.ml",
+                              142,
+                              2
+                            ]
+                          }
+                        });
               }
             } else {
-              throw {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/rec_value_test.ml",
-                      142,
-                      2
-                    ],
-                    Error: new Error()
-                  };
+              throw new Error("Assert_failure", {
+                        cause: {
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/rec_value_test.ml",
+                            142,
+                            2
+                          ]
+                        }
+                      });
             }
             return {
                     TAG: /* Eq */0,
@@ -509,15 +516,16 @@ var suites_1 = {
                                       _1: rec_variant_a
                                     };
                             }
-                            throw {
-                                  MEL_EXN_ID: "Assert_failure",
-                                  _1: [
-                                    "jscomp/test/rec_value_test.ml",
-                                    166,
-                                    11
-                                  ],
-                                  Error: new Error()
-                                };
+                            throw new Error("Assert_failure", {
+                                      cause: {
+                                        MEL_EXN_ID: "Assert_failure",
+                                        _1: [
+                                          "jscomp/test/rec_value_test.ml",
+                                          166,
+                                          11
+                                        ]
+                                      }
+                                    });
                           })
                       ],
                       tl: {
@@ -531,15 +539,16 @@ var suites_1 = {
                                         _1: rec_variant_b
                                       };
                               }
-                              throw {
-                                    MEL_EXN_ID: "Assert_failure",
-                                    _1: [
-                                      "jscomp/test/rec_value_test.ml",
-                                      171,
-                                      11
-                                    ],
-                                    Error: new Error()
-                                  };
+                              throw new Error("Assert_failure", {
+                                        cause: {
+                                          MEL_EXN_ID: "Assert_failure",
+                                          _1: [
+                                            "jscomp/test/rec_value_test.ml",
+                                            171,
+                                            11
+                                          ]
+                                        }
+                                      });
                             })
                         ],
                         tl: /* [] */0

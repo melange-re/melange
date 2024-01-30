@@ -98,7 +98,9 @@ function rollback_path(subst, p) {
         
       }
     } else {
-      throw exn;
+      throw new Error(exn.MEL_EXN_ID, {
+                cause: exn
+              });
     }
   }
 }
@@ -135,7 +137,9 @@ function fooExn(f) {
       var match = exn._1;
       return match[0] + match[1] | 0;
     }
-    throw exn;
+    throw new Error(exn.MEL_EXN_ID, {
+              cause: exn
+            });
   }
 }
 

@@ -11,15 +11,16 @@ function f(param) {
     case "bbbb" :
         return 1;
     default:
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/test_string.ml",
-              4,
-              18
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/test_string.ml",
+                    4,
+                    18
+                  ]
+                }
+              });
   }
 }
 

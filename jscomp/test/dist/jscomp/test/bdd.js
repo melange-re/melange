@@ -66,15 +66,16 @@ function resize(newSize) {
       }
       var n = bucket.hd;
       if (typeof n === "number") {
-        throw {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/bdd.ml",
-                54,
-                27
-              ],
-              Error: new Error()
-            };
+        throw new Error("Assert_failure", {
+                  cause: {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/bdd.ml",
+                      54,
+                      27
+                    ]
+                  }
+                });
       }
       var ind = hashVal(getId(n._0), getId(n._3), n._1) & newSz_1;
       Caml_array.set(newArr, ind, {
@@ -130,15 +131,16 @@ function mkNode(low, v, high) {
     if (b) {
       var n = b.hd;
       if (typeof n === "number") {
-        throw {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/bdd.ml",
-                99,
-                31
-              ],
-              Error: new Error()
-            };
+        throw new Error("Assert_failure", {
+                  cause: {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/bdd.ml",
+                      99,
+                      31
+                    ]
+                  }
+                });
       }
       if (v === n._1 && idl === getId(n._0) && idh === getId(n._3)) {
         return n;
@@ -374,15 +376,16 @@ function main(param) {
   if (succeeded) {
     return ;
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bdd.ml",
-          233,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/bdd.ml",
+                233,
+                2
+              ]
+            }
+          });
 }
 
 main(undefined);

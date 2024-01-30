@@ -19,50 +19,54 @@ function bool_equal(x, y) {
 
 function assertions(param) {
   if (true !== true) {
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/test_bool_equal.ml",
-            25,
-            2
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/test_bool_equal.ml",
+                  25,
+                  2
+                ]
+              }
+            });
   }
   if (false !== false) {
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/test_bool_equal.ml",
-            26,
-            2
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/test_bool_equal.ml",
+                  26,
+                  2
+                ]
+              }
+            });
   }
   if (true === false) {
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/test_bool_equal.ml",
-            27,
-            2
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/test_bool_equal.ml",
+                  27,
+                  2
+                ]
+              }
+            });
   }
   if (false !== true) {
     return ;
   }
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/test_bool_equal.ml",
-          28,
-          2
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/test_bool_equal.ml",
+                28,
+                2
+              ]
+            }
+          });
 }
 
 function f0(x) {

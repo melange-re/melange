@@ -16,7 +16,9 @@ catch (raw_exn){
     console.log(exn._1);
     hh = /* 'a' */97;
   } else {
-    throw exn;
+    throw new Error(exn.MEL_EXN_ID, {
+              cause: exn
+            });
   }
 }
 

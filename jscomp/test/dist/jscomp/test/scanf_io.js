@@ -123,11 +123,12 @@ function get_lines(fname) {
                 },
                 _1: "in file %s, %s"
               }), fname, exn._1);
-      throw {
-            MEL_EXN_ID: "Failure",
-            _1: s,
-            Error: new Error()
-          };
+      throw new Error("Failure", {
+                cause: {
+                  MEL_EXN_ID: "Failure",
+                  _1: s
+                }
+              });
     }
     if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
       var s$1 = Curry._1(Stdlib__Printf.sprintf(/* Format */{
@@ -146,13 +147,16 @@ function get_lines(fname) {
                 },
                 _1: "in file %s, unexpected end of file"
               }), fname);
-      throw {
-            MEL_EXN_ID: "Failure",
-            _1: s$1,
-            Error: new Error()
-          };
+      throw new Error("Failure", {
+                cause: {
+                  MEL_EXN_ID: "Failure",
+                  _1: s$1
+                }
+              });
     }
-    throw exn;
+    throw new Error(exn.MEL_EXN_ID, {
+              cause: exn
+            });
   }
 }
 
@@ -190,7 +194,9 @@ function add_digest_ib(ob, ib) {
     if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
       return ;
     }
-    throw exn;
+    throw new Error(exn.MEL_EXN_ID, {
+              cause: exn
+            });
   }
 }
 

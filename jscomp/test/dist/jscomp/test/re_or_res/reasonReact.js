@@ -49,11 +49,12 @@ function convertPropsIfTheyreFromJs(props, jsPropsToReason, debugName) {
             _0: jsPropsToReason(props)
           };
   }
-  throw {
-        MEL_EXN_ID: Stdlib.Invalid_argument,
-        _1: "A JS component called the Reason component " + (debugName + " which didn't implement the JS->Reason React props conversion."),
-        Error: new Error()
-      };
+  throw new Error(Stdlib.Invalid_argument, {
+            cause: {
+              MEL_EXN_ID: Stdlib.Invalid_argument,
+              _1: "A JS component called the Reason component " + (debugName + " which didn't implement the JS->Reason React props conversion.")
+            }
+          });
 }
 
 function createClass(debugName) {

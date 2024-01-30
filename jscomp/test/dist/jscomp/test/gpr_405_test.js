@@ -22,7 +22,9 @@ function Make(funarg) {
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return false;
       }
-      throw exn;
+      throw new Error(exn.MEL_EXN_ID, {
+                cause: exn
+              });
     }
   };
   var min_cutset = function (gr, first_node) {
@@ -38,26 +40,28 @@ function Make(funarg) {
     };
     var step2 = function (top, rest_of_stack) {
       if (find_default(already_processed, top)) {
-        throw {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/gpr_405_test.ml",
-                43,
-                6
-              ],
-              Error: new Error()
-            };
+        throw new Error("Assert_failure", {
+                  cause: {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/gpr_405_test.ml",
+                      43,
+                      6
+                    ]
+                  }
+                });
       }
       if (find_default(on_the_stack, top)) {
-        throw {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/gpr_405_test.ml",
-                44,
-                6
-              ],
-              Error: new Error()
-            };
+        throw new Error("Assert_failure", {
+                  cause: {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/gpr_405_test.ml",
+                      44,
+                      6
+                    ]
+                  }
+                });
       }
       Curry._3(H.add, on_the_stack, top, true);
       Curry._3(H.add, n_labels, top, counter.contents);
@@ -95,11 +99,12 @@ function Make(funarg) {
           Curry._3(H.add, l_labels, top$1, 0);
         }
         if (Curry._2(H.find, l_labels, top$1) > Curry._2(H.find, n_labels, top$1)) {
-          throw {
-                MEL_EXN_ID: Stdlib.Invalid_argument,
-                _1: "Graph.Mincut: graph not reducible",
-                Error: new Error()
-              };
+          throw new Error(Stdlib.Invalid_argument, {
+                    cause: {
+                      MEL_EXN_ID: Stdlib.Invalid_argument,
+                      _1: "Graph.Mincut: graph not reducible"
+                    }
+                  });
         }
         if (!rest_of_stack$1) {
           return cut_set.contents;

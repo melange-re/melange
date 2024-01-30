@@ -49,15 +49,16 @@ function compare(context, state, _a, _b) {
                 exit$2 = 4;
                 break;
             case /* Frac */4 :
-                throw {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/gpr_1698_test.ml",
-                        45,
-                        10
-                      ],
-                      Error: new Error()
-                    };
+                throw new Error("Assert_failure", {
+                          cause: {
+                            MEL_EXN_ID: "Assert_failure",
+                            _1: [
+                              "jscomp/test/gpr_1698_test.ml",
+                              45,
+                              10
+                            ]
+                          }
+                        });
             case /* Pow */3 :
             case /* Gcd */5 :
                 exit = 1;
@@ -75,15 +76,16 @@ function compare(context, state, _a, _b) {
       case /* Frac */4 :
           switch (b.TAG | 0) {
             case /* Val */0 :
-                throw {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/gpr_1698_test.ml",
-                        45,
-                        10
-                      ],
-                      Error: new Error()
-                    };
+                throw new Error("Assert_failure", {
+                          cause: {
+                            MEL_EXN_ID: "Assert_failure",
+                            _1: [
+                              "jscomp/test/gpr_1698_test.ml",
+                              45,
+                              10
+                            ]
+                          }
+                        });
             case /* Neg */1 :
                 exit$3 = 5;
                 break;

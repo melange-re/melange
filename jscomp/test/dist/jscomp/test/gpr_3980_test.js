@@ -7,42 +7,45 @@ var match = 1;
 
 if (match !== undefined) {
   if (match !== 1) {
-    throw {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/gpr_3980_test.ml",
-            16,
-            10
-          ],
-          Error: new Error()
-        };
+    throw new Error("Assert_failure", {
+              cause: {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/gpr_3980_test.ml",
+                  16,
+                  10
+                ]
+              }
+            });
   }
   var match$1 = 1;
   if (match$1 !== 1) {
     if (match$1 !== 2) {
-      throw {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/gpr_3980_test.ml",
-              14,
-              12
-            ],
-            Error: new Error()
-          };
+      throw new Error("Assert_failure", {
+                cause: {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/gpr_3980_test.ml",
+                    14,
+                    12
+                  ]
+                }
+              });
     }
     Js__Js_math.floor_int(1);
   }
   
 } else {
-  throw {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/gpr_3980_test.ml",
-          16,
-          10
-        ],
-        Error: new Error()
-      };
+  throw new Error("Assert_failure", {
+            cause: {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/gpr_3980_test.ml",
+                16,
+                10
+              ]
+            }
+          });
 }
 
 /*  Not a pure module */
