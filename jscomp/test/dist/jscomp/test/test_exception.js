@@ -10,44 +10,34 @@ var Local = /* @__PURE__ */Caml_exceptions.create("Test_exception.Local");
 
 function f(param) {
   throw new Caml_js_exceptions.MelangeError(Local, {
-            cause: {
-              MEL_EXN_ID: Local,
-              _1: 3
-            }
+            MEL_EXN_ID: Local,
+            _1: 3
           });
 }
 
 function g(param) {
   throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Not_found
-            }
+            MEL_EXN_ID: Stdlib.Not_found
           });
 }
 
 function h(param) {
   throw new Caml_js_exceptions.MelangeError(Test_common.U, {
-            cause: {
-              MEL_EXN_ID: Test_common.U,
-              _1: 3
-            }
+            MEL_EXN_ID: Test_common.U,
+            _1: 3
           });
 }
 
 function x(param) {
   throw new Caml_js_exceptions.MelangeError(Test_common.H, {
-            cause: {
-              MEL_EXN_ID: Test_common.H
-            }
+            MEL_EXN_ID: Test_common.H
           });
 }
 
 function xx(param) {
   throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Invalid_argument,
-              _1: "x"
-            }
+            MEL_EXN_ID: Stdlib.Invalid_argument,
+            _1: "x"
           });
 }
 

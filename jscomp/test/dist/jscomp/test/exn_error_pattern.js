@@ -74,9 +74,7 @@ eq("File \"jscomp/test/exn_error_pattern.ml\", line 33, characters 5-12", f({
 var tmp;
 
 try {
-  throw new Caml_js_exceptions.MelangeError(new Error("x").MEL_EXN_ID, {
-            cause: new Error("x")
-          });
+  throw new Caml_js_exceptions.MelangeError(new Error("x").MEL_EXN_ID, new Error("x"));
 }
 catch (raw_e){
   tmp = Caml_js_exceptions.internalToOCamlException(raw_e);

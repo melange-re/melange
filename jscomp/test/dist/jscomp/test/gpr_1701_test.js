@@ -11,9 +11,7 @@ var Foo = /* @__PURE__ */Caml_exceptions.create("Gpr_1701_test.Foo");
 function test(n) {
   if (n === 0) {
     throw new Caml_js_exceptions.MelangeError(Foo, {
-              cause: {
-                MEL_EXN_ID: Foo
-              }
+              MEL_EXN_ID: Foo
             });
   }
   try {
@@ -24,9 +22,7 @@ function test(n) {
     if (exn.MEL_EXN_ID === Foo) {
       return ;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -45,9 +41,7 @@ function read_lines(inc) {
       if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
         l = undefined;
       } else {
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
     }
     if (l === undefined) {
@@ -74,9 +68,7 @@ function read_lines2(inc) {
       if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
         return Stdlib__List.rev(acc);
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
     _acc = {
       hd: l,
@@ -100,9 +92,7 @@ function read_lines3(inc) {
       if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
         return Stdlib__List.rev(acc);
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   };
   return loop(/* [] */0);

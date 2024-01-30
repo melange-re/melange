@@ -22,9 +22,7 @@ function should(b) {
   if (b) {
     return ;
   }
-  throw new Caml_js_exceptions.MelangeError(new Error("impossible").MEL_EXN_ID, {
-            cause: new Error("impossible")
-          });
+  throw new Caml_js_exceptions.MelangeError(new Error("impossible").MEL_EXN_ID, new Error("impossible"));
 }
 
 var shuffledDataAdd = Belt__Belt_Array.makeByAndShuffle(1000001, (function (i) {

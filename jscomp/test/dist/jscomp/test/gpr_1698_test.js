@@ -51,14 +51,12 @@ function compare(context, state, _a, _b) {
                 break;
             case /* Frac */4 :
                 throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/gpr_1698_test.ml",
-                              45,
-                              10
-                            ]
-                          }
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/gpr_1698_test.ml",
+                            45,
+                            10
+                          ]
                         });
             case /* Pow */3 :
             case /* Gcd */5 :
@@ -78,14 +76,12 @@ function compare(context, state, _a, _b) {
           switch (b.TAG | 0) {
             case /* Val */0 :
                 throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/gpr_1698_test.ml",
-                              45,
-                              10
-                            ]
-                          }
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/gpr_1698_test.ml",
+                            45,
+                            10
+                          ]
                         });
             case /* Neg */1 :
                 exit$3 = 5;

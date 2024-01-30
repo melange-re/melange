@@ -65,9 +65,7 @@ function remove_top(param) {
     }
   }
   throw new Caml_js_exceptions.MelangeError(Queue_is_empty, {
-            cause: {
-              MEL_EXN_ID: Queue_is_empty
-            }
+            MEL_EXN_ID: Queue_is_empty
           });
 }
 
@@ -80,9 +78,7 @@ function extract(queue) {
           ];
   }
   throw new Caml_js_exceptions.MelangeError(Queue_is_empty, {
-            cause: {
-              MEL_EXN_ID: Queue_is_empty
-            }
+            MEL_EXN_ID: Queue_is_empty
           });
 }
 

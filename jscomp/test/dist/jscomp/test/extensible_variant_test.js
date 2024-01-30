@@ -26,14 +26,12 @@ function to_int(x) {
     return x._2;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/extensible_variant_test.ml",
-                16,
-                9
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/extensible_variant_test.ml",
+              16,
+              9
+            ]
           });
 }
 

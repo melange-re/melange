@@ -9,28 +9,24 @@ var match = 1;
 if (match !== undefined) {
   if (match !== 1) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/gpr_3980_test.ml",
-                  16,
-                  10
-                ]
-              }
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/gpr_3980_test.ml",
+                16,
+                10
+              ]
             });
   }
   var match$1 = 1;
   if (match$1 !== 1) {
     if (match$1 !== 2) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/gpr_3980_test.ml",
-                    14,
-                    12
-                  ]
-                }
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/gpr_3980_test.ml",
+                  14,
+                  12
+                ]
               });
     }
     Js__Js_math.floor_int(1);
@@ -38,14 +34,12 @@ if (match !== undefined) {
   
 } else {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/gpr_3980_test.ml",
-                16,
-                10
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/gpr_3980_test.ml",
+              16,
+              10
+            ]
           });
 }
 

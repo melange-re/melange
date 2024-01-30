@@ -21,52 +21,44 @@ function bool_equal(x, y) {
 function assertions(param) {
   if (true !== true) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/test_bool_equal.ml",
-                  25,
-                  2
-                ]
-              }
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/test_bool_equal.ml",
+                25,
+                2
+              ]
             });
   }
   if (false !== false) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/test_bool_equal.ml",
-                  26,
-                  2
-                ]
-              }
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/test_bool_equal.ml",
+                26,
+                2
+              ]
             });
   }
   if (true === false) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/test_bool_equal.ml",
-                  27,
-                  2
-                ]
-              }
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/test_bool_equal.ml",
+                27,
+                2
+              ]
             });
   }
   if (false !== true) {
     return ;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/test_bool_equal.ml",
-                28,
-                2
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/test_bool_equal.ml",
+              28,
+              2
+            ]
           });
 }
 

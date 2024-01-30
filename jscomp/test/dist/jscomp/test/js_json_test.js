@@ -99,28 +99,24 @@ add_test("File \"jscomp/test/js_json_test.ml\", line 24, characters 11-18", (fun
               var ty3 = Js__Js_json.classify(x);
               if (typeof ty3 === "number") {
                 throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/js_json_test.ml",
-                              38,
-                              21
-                            ]
-                          }
-                        });
-              }
-              if (ty3.TAG === /* JSONNumber */1) {
-                return ;
-              }
-              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                        cause: {
                           MEL_EXN_ID: "Assert_failure",
                           _1: [
                             "jscomp/test/js_json_test.ml",
                             38,
                             21
                           ]
-                        }
+                        });
+              }
+              if (ty3.TAG === /* JSONNumber */1) {
+                return ;
+              }
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/js_json_test.ml",
+                          38,
+                          21
+                        ]
                       });
             });
         return {
@@ -262,14 +258,12 @@ function option_get(param) {
     return Caml_option.valFromOption(param);
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/js_json_test.ml",
-                103,
-                36
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/js_json_test.ml",
+              103,
+              36
+            ]
           });
 }
 

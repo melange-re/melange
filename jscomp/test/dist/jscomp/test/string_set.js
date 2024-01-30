@@ -231,9 +231,7 @@ function find(x, _tree) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }

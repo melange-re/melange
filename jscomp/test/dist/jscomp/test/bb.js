@@ -23,14 +23,12 @@ function ff(x) {
         return "c";
     default:
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/bb.ml",
-                    17,
-                    9
-                  ]
-                }
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/bb.ml",
+                  17,
+                  9
+                ]
               });
   }
 }
@@ -49,14 +47,12 @@ function test(x) {
         break;
     default:
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/bb.ml",
-                    26,
-                    13
-                  ]
-                }
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/bb.ml",
+                  26,
+                  13
+                ]
               });
   }
   if (match === "b") {

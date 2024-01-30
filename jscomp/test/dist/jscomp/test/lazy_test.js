@@ -40,14 +40,12 @@ function f(param) {
     return 1;
   }
   throw new Caml_js_exceptions.MelangeError("Match_failure", {
-            cause: {
-              MEL_EXN_ID: "Match_failure",
-              _1: [
-                "lazy_test.ml",
-                9,
-                8
-              ]
-            }
+            MEL_EXN_ID: "Match_failure",
+            _1: [
+              "lazy_test.ml",
+              9,
+              8
+            ]
           });
 }
 
@@ -83,9 +81,7 @@ catch (raw_exn){
   if (exn.MEL_EXN_ID === Stdlib.Match_failure) {
     h = 2;
   } else {
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -138,9 +134,7 @@ var f007 = {
   LAZY_DONE: false,
   VAL: (function () {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.Not_found
-                }
+                MEL_EXN_ID: Stdlib.Not_found
               });
     })
 };
@@ -150,9 +144,7 @@ var f008 = {
   VAL: (function () {
       console.log("hi");
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.Not_found
-                }
+                MEL_EXN_ID: Stdlib.Not_found
               });
     })
 };
@@ -337,9 +329,7 @@ Mt.from_pair_suites("Lazy_test", {
                                                 LAZY_DONE: false,
                                                 VAL: (function () {
                                                     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                                                              cause: {
-                                                                MEL_EXN_ID: Stdlib.Not_found
-                                                              }
+                                                              MEL_EXN_ID: Stdlib.Not_found
                                                             });
                                                   })
                                               })

@@ -39,23 +39,19 @@ function assert_bool(b) {
     return ;
   }
   throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Invalid_argument,
-              _1: "Assertion Failure."
-            }
+            MEL_EXN_ID: Stdlib.Invalid_argument,
+            _1: "Assertion Failure."
           });
 }
 
 function fail(param) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/js_promise_basic_test.ml",
-                17,
-                2
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/js_promise_basic_test.ml",
+              17,
+              2
+            ]
           });
 }
 
@@ -83,14 +79,12 @@ function assertIsNotFound(x) {
     return h;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/js_promise_basic_test.ml",
-                34,
-                9
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/js_promise_basic_test.ml",
+              34,
+              9
+            ]
           });
 }
 
@@ -155,14 +149,12 @@ function orElseRejectedRejectTest(param) {
                 return h;
               }
               throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                        cause: {
-                          MEL_EXN_ID: "Assert_failure",
-                          _1: [
-                            "jscomp/test/js_promise_basic_test.ml",
-                            76,
-                            19
-                          ]
-                        }
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/js_promise_basic_test.ml",
+                          76,
+                          19
+                        ]
                       });
             });
 }

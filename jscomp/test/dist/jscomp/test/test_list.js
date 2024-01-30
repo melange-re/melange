@@ -29,10 +29,8 @@ function hd(param) {
     return param.hd;
   }
   throw new Caml_js_exceptions.MelangeError("Failure", {
-            cause: {
-              MEL_EXN_ID: "Failure",
-              _1: "hd"
-            }
+            MEL_EXN_ID: "Failure",
+            _1: "hd"
           });
 }
 
@@ -41,20 +39,16 @@ function tl(param) {
     return param.tl;
   }
   throw new Caml_js_exceptions.MelangeError("Failure", {
-            cause: {
-              MEL_EXN_ID: "Failure",
-              _1: "tl"
-            }
+            MEL_EXN_ID: "Failure",
+            _1: "tl"
           });
 }
 
 function nth(l, n) {
   if (n < 0) {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "List.nth"
-              }
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "List.nth"
             });
   }
   var _l = l;
@@ -71,10 +65,8 @@ function nth(l, n) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError("Failure", {
-              cause: {
-                MEL_EXN_ID: "Failure",
-                _1: "nth"
-              }
+              MEL_EXN_ID: "Failure",
+              _1: "nth"
             });
   };
 }
@@ -210,20 +202,16 @@ function map2(f, l1, l2) {
             };
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "List.map2"
-              }
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "List.map2"
             });
   }
   if (!l2) {
     return /* [] */0;
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "List.map2"
-            }
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "List.map2"
           });
 }
 
@@ -246,18 +234,14 @@ function rev_map2(f, l1, l2) {
         continue ;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "List.rev_map2"
-                }
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "List.rev_map2"
               });
     }
     if (l2$1) {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "List.rev_map2"
-                }
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "List.rev_map2"
               });
     }
     return accu;
@@ -276,20 +260,16 @@ function iter2(f, _l1, _l2) {
         continue ;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "List.iter2"
-                }
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "List.iter2"
               });
     }
     if (!l2) {
       return ;
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "List.iter2"
-              }
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "List.iter2"
             });
   };
 }
@@ -307,18 +287,14 @@ function fold_left2(f, _accu, _l1, _l2) {
         continue ;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "List.fold_left2"
-                }
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "List.fold_left2"
               });
     }
     if (l2) {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "List.fold_left2"
-                }
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "List.fold_left2"
               });
     }
     return accu;
@@ -331,18 +307,14 @@ function fold_right2(f, l1, l2, accu) {
       return Curry._3(f, l1.hd, l2.hd, fold_right2(f, l1.tl, l2.tl, accu));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "List.fold_right2"
-              }
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "List.fold_right2"
             });
   }
   if (l2) {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "List.fold_right2"
-              }
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "List.fold_right2"
             });
   }
   return accu;
@@ -390,20 +362,16 @@ function for_all2(p, _l1, _l2) {
         continue ;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "List.for_all2"
-                }
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "List.for_all2"
               });
     }
     if (!l2) {
       return true;
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "List.for_all2"
-              }
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "List.for_all2"
             });
   };
 }
@@ -422,20 +390,16 @@ function exists2(p, _l1, _l2) {
         continue ;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "List.exists2"
-                }
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "List.exists2"
               });
     }
     if (!l2) {
       return false;
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "List.exists2"
-              }
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "List.exists2"
             });
   };
 }
@@ -480,9 +444,7 @@ function assoc(x, _param) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -499,9 +461,7 @@ function assq(x, _param) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -578,9 +538,7 @@ function find(p, _param) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -677,20 +635,16 @@ function combine(l1, l2) {
             };
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "List.combine"
-              }
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "List.combine"
             });
   }
   if (!l2) {
     return /* [] */0;
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "List.combine"
-            }
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "List.combine"
           });
 }
 
@@ -729,14 +683,12 @@ function chop(_k, _l) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/test_list.ml",
-                  224,
-                  11
-                ]
-              }
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/test_list.ml",
+                224,
+                11
+              ]
             });
   };
 }

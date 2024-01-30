@@ -106,14 +106,12 @@ catch (raw_exn$3){
     a0 = exn$3._1;
   } else {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/exception_raise_test.ml",
-                  102,
-                  9
-                ]
-              }
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/exception_raise_test.ml",
+                102,
+                9
+              ]
             });
   }
 }
@@ -172,14 +170,12 @@ var suites = {
                     };
             }
             throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                      cause: {
-                        MEL_EXN_ID: "Assert_failure",
-                        _1: [
-                          "jscomp/test/exception_raise_test.ml",
-                          119,
-                          15
-                        ]
-                      }
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "jscomp/test/exception_raise_test.ml",
+                        119,
+                        15
+                      ]
                     });
           })
       ],
@@ -207,9 +203,7 @@ catch (raw_e$2){
 
 try {
   throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Not_found
-            }
+            MEL_EXN_ID: Stdlib.Not_found
           });
 }
 catch (raw_e$3){

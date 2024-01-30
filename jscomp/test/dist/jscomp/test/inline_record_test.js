@@ -69,14 +69,12 @@ if (A0 === A0) {
   tmp = 3;
 } else {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/inline_record_test.ml",
-                46,
-                54
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/inline_record_test.ml",
+              46,
+              54
+            ]
           });
 }
 
@@ -113,14 +111,12 @@ if (v4.TAG === /* A0 */0) {
   tmp$1 = v4.x;
 } else {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/inline_record_test.ml",
-                64,
-                48
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/inline_record_test.ml",
+              64,
+              48
+            ]
           });
 }
 
@@ -130,14 +126,12 @@ var tmp$2;
 
 if (v5.TAG === /* A0 */0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/inline_record_test.ml",
-                66,
-                48
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/inline_record_test.ml",
+              66,
+              48
+            ]
           });
 }
 
@@ -173,14 +167,12 @@ if (v6.MEL_EXN_ID === A4) {
   tmp$3 = v6.x;
 } else {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/inline_record_test.ml",
-                82,
-                49
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/inline_record_test.ml",
+              82,
+              49
+            ]
           });
 }
 

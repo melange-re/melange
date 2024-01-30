@@ -123,14 +123,12 @@ if (!Caml_obj.caml_equal(dfs1({
         }
       })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/topsort_test.ml",
-                29,
-                2
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/topsort_test.ml",
+              29,
+              2
+            ]
           });
 }
 
@@ -162,14 +160,12 @@ if (!Caml_obj.caml_equal(dfs1({
         }
       })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/topsort_test.ml",
-                32,
-                2
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/topsort_test.ml",
+              32,
+              2
+            ]
           });
 }
 
@@ -224,14 +220,12 @@ if (!Caml_obj.caml_equal(dfs2({
         }
       })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/topsort_test.ml",
-                47,
-                2
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/topsort_test.ml",
+              47,
+              2
+            ]
           });
 }
 
@@ -261,14 +255,12 @@ if (!Caml_obj.caml_equal(dfs2({
         }
       })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/topsort_test.ml",
-                48,
-                2
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/topsort_test.ml",
+              48,
+              2
+            ]
           });
 }
 
@@ -320,14 +312,12 @@ if (!Caml_obj.caml_equal(dfs3({
         }
       })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/topsort_test.ml",
-                65,
-                2
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/topsort_test.ml",
+              65,
+              2
+            ]
           });
 }
 
@@ -357,14 +347,12 @@ if (!Caml_obj.caml_equal(dfs3({
         }
       })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/topsort_test.ml",
-                66,
-                2
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/topsort_test.ml",
+              66,
+              2
+            ]
           });
 }
 
@@ -447,14 +435,12 @@ if (!Caml_obj.caml_equal(unsafe_topsort(grwork), {
         }
       })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/topsort_test.ml",
-                110,
-                2
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/topsort_test.ml",
+              110,
+              2
+            ]
           });
 }
 
@@ -496,17 +482,13 @@ function bal(l, v, r) {
         return create(create(ll, lv, lr.l), lr.v, create(lr.r, v, r));
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "Set.bal"
-                }
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Set.bal"
               });
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Set.bal"
-              }
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Set.bal"
             });
   }
   if (hr <= (hl + 2 | 0)) {
@@ -528,17 +510,13 @@ function bal(l, v, r) {
       return create(create(l, v, rl.l), rl.v, create(rl.r, rv, rr));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Set.bal"
-              }
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Set.bal"
             });
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Set.bal"
-            }
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Set.bal"
           });
 }
 
@@ -629,9 +607,7 @@ function min_elt(_param) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -662,9 +638,7 @@ function max_elt(_param) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -693,10 +667,8 @@ function remove_min_elt(param) {
     }
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Set.remove_min_elt"
-            }
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Set.remove_min_elt"
           });
 }
 
@@ -1180,9 +1152,7 @@ function find(x, _param) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -1215,9 +1185,7 @@ function find_first(f, _param) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -1281,9 +1249,7 @@ function find_last(f, _param) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -1500,14 +1466,12 @@ function of_list(l) {
                 ];
         }
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/stdlib/set.ml",
-                      571,
-                      18
-                    ]
-                  }
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/stdlib/set.ml",
+                    571,
+                    18
+                  ]
                 });
       };
       return sub(Stdlib__List.length(l$1), l$1)[0];
@@ -1685,12 +1649,10 @@ function pathsort(graph) {
     var set = param[0];
     if (Curry._2(mem, node, set)) {
       throw new Caml_js_exceptions.MelangeError(Cycle, {
-                cause: {
-                  MEL_EXN_ID: Cycle,
-                  _1: {
-                    hd: node,
-                    tl: stack
-                  }
+                MEL_EXN_ID: Cycle,
+                _1: {
+                  hd: node,
+                  tl: stack
                 }
               });
     }
@@ -1744,14 +1706,12 @@ if (!Caml_obj.caml_equal(pathsort(grwork), {
         }
       })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/topsort_test.ml",
-                150,
-                4
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/topsort_test.ml",
+              150,
+              4
+            ]
           });
 }
 
@@ -1764,14 +1724,12 @@ try {
         tl: grwork
       });
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/topsort_test.ml",
-                156,
-                8
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/topsort_test.ml",
+              156,
+              8
+            ]
           });
 }
 catch (raw_exn){
@@ -1803,14 +1761,12 @@ catch (raw_exn){
   }
   if (exit === 1) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/topsort_test.ml",
-                  159,
-                  11
-                ]
-              }
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/topsort_test.ml",
+                159,
+                11
+              ]
             });
   }
   

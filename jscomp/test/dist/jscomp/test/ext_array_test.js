@@ -108,10 +108,8 @@ function filter_map(f, a) {
 function range(from, to_) {
   if (from > to_) {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Ext_array_test.range"
-              }
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Ext_array_test.range"
             });
   }
   return Stdlib__Array.init((to_ - from | 0) + 1 | 0, (function (i) {
@@ -123,10 +121,8 @@ function map2i(f, a, b) {
   var len = a.length;
   if (len !== b.length) {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Ext_array_test.map2i"
-              }
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Ext_array_test.map2i"
             });
   }
   return Stdlib__Array.mapi((function (i, a) {

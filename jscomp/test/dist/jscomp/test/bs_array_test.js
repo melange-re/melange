@@ -139,14 +139,12 @@ var v$1 = [
 
 if (!Belt__Belt_Array.set(v$1, 0, 0)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/bs_array_test.ml",
-                38,
-                33
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/bs_array_test.ml",
+              38,
+              33
+            ]
           });
 }
 
@@ -159,14 +157,12 @@ var v$2 = [
 
 if (!Belt__Belt_Array.set(v$2, 1, 0)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/bs_array_test.ml",
-                39,
-                32
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/bs_array_test.ml",
+              39,
+              32
+            ]
           });
 }
 
@@ -283,14 +279,12 @@ function addone(x) {
 function makeMatrixExn(sx, sy, init) {
   if (!(sx >= 0 && sy >= 0)) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/bs_array_test.ml",
-                  80,
-                  2
-                ]
-              }
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/bs_array_test.ml",
+                80,
+                2
+              ]
             });
   }
   var res = new Array(sx);

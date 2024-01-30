@@ -43,14 +43,12 @@ function handler(e) {
     return Promise.resolve(0);
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/promise_catch_test.ml",
-                21,
-                9
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/promise_catch_test.ml",
+              21,
+              9
+            ]
           });
 }
 
@@ -87,14 +85,12 @@ catch (raw_e){
 
 if (exit === 1) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/promise_catch_test.ml",
-                38,
-                9
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/promise_catch_test.ml",
+              38,
+              9
+            ]
           });
 }
 

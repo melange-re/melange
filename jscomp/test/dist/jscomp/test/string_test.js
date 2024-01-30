@@ -79,9 +79,7 @@ function rev_split_by_char(c, s) {
                 tl: l
               };
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   };
   return loop(0, /* [] */0);
@@ -110,9 +108,7 @@ function xsplit(delim, s) {
                   tl: l
                 };
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
       var l_0 = Stdlib__String.sub(s, i$p + 1 | 0, (i - i$p | 0) - 1 | 0);
       var l$1 = {

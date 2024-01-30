@@ -26,10 +26,8 @@ function init(l, f) {
   }
   if (l < 0) {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Array.init"
-              }
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Array.init"
             });
   }
   var res = Caml_array.make(l, f$1(0));

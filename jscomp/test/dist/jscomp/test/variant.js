@@ -98,9 +98,7 @@ function rollback_path(subst, p) {
         
       }
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   }
 }
@@ -137,9 +135,7 @@ function fooExn(f) {
       var match = exn._1;
       return match[0] + match[1] | 0;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 

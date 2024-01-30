@@ -488,10 +488,8 @@ function get_exn(e) {
     return Caml_option.valFromOption(e);
   }
   throw new Caml_js_exceptions.MelangeError("Failure", {
-            cause: {
-              MEL_EXN_ID: "Failure",
-              _1: "CCSexp.Traverse.get_exn"
-            }
+            MEL_EXN_ID: "Failure",
+            _1: "CCSexp.Traverse.get_exn"
           });
 }
 

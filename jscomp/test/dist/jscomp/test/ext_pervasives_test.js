@@ -16,9 +16,7 @@ function $$finally(v, action, f) {
   }
   catch (e$1){
     Curry._1(action, v);
-    throw new Caml_js_exceptions.MelangeError(e$1.MEL_EXN_ID, {
-              cause: e$1
-            });
+    throw new Caml_js_exceptions.MelangeError(e$1.MEL_EXN_ID, e$1);
   }
   Curry._1(action, v);
   return e;
@@ -57,9 +55,7 @@ function is_pos_pow(n) {
         continue ;
       }
       throw new Caml_js_exceptions.MelangeError(E, {
-                cause: {
-                  MEL_EXN_ID: E
-                }
+                MEL_EXN_ID: E
               });
     };
   }
@@ -68,9 +64,7 @@ function is_pos_pow(n) {
     if (exn.MEL_EXN_ID === E) {
       return -1;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -78,10 +72,8 @@ function failwithf(loc, fmt) {
   return Stdlib__Format.ksprintf((function (s) {
                 var s$1 = loc + s;
                 throw new Caml_js_exceptions.MelangeError("Failure", {
-                          cause: {
-                            MEL_EXN_ID: "Failure",
-                            _1: s$1
-                          }
+                          MEL_EXN_ID: "Failure",
+                          _1: s$1
                         });
               }), fmt);
 }
@@ -93,10 +85,8 @@ function invalid_argf(fmt) {
 function bad_argf(fmt) {
   return Stdlib__Format.ksprintf((function (x) {
                 throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
-                          cause: {
-                            MEL_EXN_ID: Stdlib__Arg.Bad,
-                            _1: x
-                          }
+                          MEL_EXN_ID: Stdlib__Arg.Bad,
+                          _1: x
                         });
               }), fmt);
 }

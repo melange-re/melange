@@ -36,9 +36,7 @@ function split(delim, s) {
                   tl: l
                 };
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
       var l_0 = Stdlib__String.sub(s, i$p + 1 | 0, (i - i$p | 0) - 1 | 0);
       var l$1 = {
@@ -168,17 +166,13 @@ function bal(l, x, d, r) {
         return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "Map.bal"
-                }
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Map.bal"
               });
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Map.bal"
-              }
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Map.bal"
             });
   }
   if (hr <= (hl + 2 | 0)) {
@@ -202,17 +196,13 @@ function bal(l, x, d, r) {
       return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Map.bal"
-              }
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Map.bal"
             });
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Map.bal"
-            }
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Map.bal"
           });
 }
 
@@ -280,9 +270,7 @@ function find(x, _param) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -321,9 +309,7 @@ function find_first(f, _param) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -399,9 +385,7 @@ function find_last(f, _param) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -488,9 +472,7 @@ function min_binding(_param) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -527,9 +509,7 @@ function max_binding(_param) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -561,10 +541,8 @@ function remove_min_binding(param) {
     }
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Map.remove_min_elt"
-            }
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Map.remove_min_elt"
           });
 }
 
@@ -877,14 +855,12 @@ function merge$1(f, s1, s2) {
     return concat_or_join(merge$1(f, match$1[0], s2.l), v2, Curry._3(f, v2, match$1[1], Caml_option.some(s2.d)), merge$1(f, match$1[2], s2.r));
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/stdlib/map.ml",
-                408,
-                10
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/stdlib/map.ml",
+              408,
+              10
+            ]
           });
 }
 
@@ -1329,19 +1305,15 @@ function compute_update_sequences(all_tickers) {
                         var x = lhs.rank;
                         if (typeof x === "number") {
                           throw new Caml_js_exceptions.MelangeError("Failure", {
-                                    cause: {
-                                      MEL_EXN_ID: "Failure",
-                                      _1: "All nodes should be ranked"
-                                    }
+                                    MEL_EXN_ID: "Failure",
+                                    _1: "All nodes should be ranked"
                                   });
                         }
                         var y = rhs.rank;
                         if (typeof y === "number") {
                           throw new Caml_js_exceptions.MelangeError("Failure", {
-                                    cause: {
-                                      MEL_EXN_ID: "Failure",
-                                      _1: "All nodes should be ranked"
-                                    }
+                                    MEL_EXN_ID: "Failure",
+                                    _1: "All nodes should be ranked"
                                   });
                         }
                         return Caml.caml_int_compare(x._0, y._0);
@@ -1369,10 +1341,8 @@ function process_quote(ticker_map, new_ticker, new_value) {
             return ;
           }
           throw new Caml_js_exceptions.MelangeError("Failure", {
-                    cause: {
-                      MEL_EXN_ID: "Failure",
-                      _1: "Only single Market ticker should be udpated upon a new quote"
-                    }
+                    MEL_EXN_ID: "Failure",
+                    _1: "Only single Market ticker should be udpated upon a new quote"
                   });
         }), update_sequence);
 }
@@ -1404,10 +1374,8 @@ function process_input_line(ticker_map, all_tickers, line) {
             if (match$1) {
               if (match$1.tl) {
                 throw new Caml_js_exceptions.MelangeError("Failure", {
-                          cause: {
-                            MEL_EXN_ID: "Failure",
-                            _1: "Invalid input line"
-                          }
+                          MEL_EXN_ID: "Failure",
+                          _1: "Invalid input line"
                         });
               }
               var ticker_map$1 = ticker_map !== undefined ? Caml_option.valFromOption(ticker_map) : compute_update_sequences(all_tickers);
@@ -1419,17 +1387,13 @@ function process_input_line(ticker_map, all_tickers, line) {
                     ];
             }
             throw new Caml_js_exceptions.MelangeError("Failure", {
-                      cause: {
-                        MEL_EXN_ID: "Failure",
-                        _1: "Invalid input line"
-                      }
+                      MEL_EXN_ID: "Failure",
+                      _1: "Invalid input line"
                     });
           }
           throw new Caml_js_exceptions.MelangeError("Failure", {
-                    cause: {
-                      MEL_EXN_ID: "Failure",
-                      _1: "Invalid input line"
-                    }
+                    MEL_EXN_ID: "Failure",
+                    _1: "Invalid input line"
                   });
       case "R" :
           var match$2 = tokens.tl;
@@ -1445,10 +1409,8 @@ function process_input_line(ticker_map, all_tickers, line) {
                       if (match$5) {
                         if (match$5.tl) {
                           throw new Caml_js_exceptions.MelangeError("Failure", {
-                                    cause: {
-                                      MEL_EXN_ID: "Failure",
-                                      _1: "Invalid input line"
-                                    }
+                                    MEL_EXN_ID: "Failure",
+                                    _1: "Invalid input line"
                                   });
                         }
                         return [
@@ -1460,17 +1422,13 @@ function process_input_line(ticker_map, all_tickers, line) {
                               ];
                       }
                       throw new Caml_js_exceptions.MelangeError("Failure", {
-                                cause: {
-                                  MEL_EXN_ID: "Failure",
-                                  _1: "Invalid input line"
-                                }
+                                MEL_EXN_ID: "Failure",
+                                _1: "Invalid input line"
                               });
                     }
                     throw new Caml_js_exceptions.MelangeError("Failure", {
-                              cause: {
-                                MEL_EXN_ID: "Failure",
-                                _1: "Invalid input line"
-                              }
+                              MEL_EXN_ID: "Failure",
+                              _1: "Invalid input line"
                             });
                 case "-" :
                     var match$6 = match$3.tl;
@@ -1479,10 +1437,8 @@ function process_input_line(ticker_map, all_tickers, line) {
                       if (match$7) {
                         if (match$7.tl) {
                           throw new Caml_js_exceptions.MelangeError("Failure", {
-                                    cause: {
-                                      MEL_EXN_ID: "Failure",
-                                      _1: "Invalid input line"
-                                    }
+                                    MEL_EXN_ID: "Failure",
+                                    _1: "Invalid input line"
                                   });
                         }
                         return [
@@ -1494,25 +1450,19 @@ function process_input_line(ticker_map, all_tickers, line) {
                               ];
                       }
                       throw new Caml_js_exceptions.MelangeError("Failure", {
-                                cause: {
-                                  MEL_EXN_ID: "Failure",
-                                  _1: "Invalid input line"
-                                }
+                                MEL_EXN_ID: "Failure",
+                                _1: "Invalid input line"
                               });
                     }
                     throw new Caml_js_exceptions.MelangeError("Failure", {
-                              cause: {
-                                MEL_EXN_ID: "Failure",
-                                _1: "Invalid input line"
-                              }
+                              MEL_EXN_ID: "Failure",
+                              _1: "Invalid input line"
                             });
                 case "S" :
                     if (match$3.tl) {
                       throw new Caml_js_exceptions.MelangeError("Failure", {
-                                cause: {
-                                  MEL_EXN_ID: "Failure",
-                                  _1: "Invalid input line"
-                                }
+                                MEL_EXN_ID: "Failure",
+                                _1: "Invalid input line"
                               });
                     }
                     return [
@@ -1529,42 +1479,32 @@ function process_input_line(ticker_map, all_tickers, line) {
                           ];
                 default:
                   throw new Caml_js_exceptions.MelangeError("Failure", {
-                            cause: {
-                              MEL_EXN_ID: "Failure",
-                              _1: "Invalid input line"
-                            }
+                            MEL_EXN_ID: "Failure",
+                            _1: "Invalid input line"
                           });
               }
             } else {
               throw new Caml_js_exceptions.MelangeError("Failure", {
-                        cause: {
-                          MEL_EXN_ID: "Failure",
-                          _1: "Invalid input line"
-                        }
+                        MEL_EXN_ID: "Failure",
+                        _1: "Invalid input line"
                       });
             }
           } else {
             throw new Caml_js_exceptions.MelangeError("Failure", {
-                      cause: {
-                        MEL_EXN_ID: "Failure",
-                        _1: "Invalid input line"
-                      }
+                      MEL_EXN_ID: "Failure",
+                      _1: "Invalid input line"
                     });
           }
       default:
         throw new Caml_js_exceptions.MelangeError("Failure", {
-                  cause: {
-                    MEL_EXN_ID: "Failure",
-                    _1: "Invalid input line"
-                  }
+                  MEL_EXN_ID: "Failure",
+                  _1: "Invalid input line"
                 });
     }
   } else {
     throw new Caml_js_exceptions.MelangeError("Failure", {
-              cause: {
-                MEL_EXN_ID: "Failure",
-                _1: "Invalid input line"
-              }
+              MEL_EXN_ID: "Failure",
+              _1: "Invalid input line"
             });
   }
 }

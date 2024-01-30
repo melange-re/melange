@@ -51,14 +51,12 @@ var bbbb = f3();
 
 if (!bbbb) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/gpr_2682_test.ml",
-                59,
-                2
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/gpr_2682_test.ml",
+              59,
+              2
+            ]
           });
 }
 

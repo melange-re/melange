@@ -21,9 +21,7 @@ catch (raw_exn){
     console.log(exn._1);
     y = 0;
   } else {
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 

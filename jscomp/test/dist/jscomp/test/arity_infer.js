@@ -13,9 +13,7 @@ function f0(x) {
       });
   } else {
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+              MEL_EXN_ID: Stdlib.Not_found
             });
   }
   return tmp(3);
@@ -23,9 +21,7 @@ function f0(x) {
 
 function f1(x) {
   throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Not_found
-            }
+            MEL_EXN_ID: Stdlib.Not_found
           });
   return Curry._1(undefined, x);
 }
@@ -55,9 +51,7 @@ function f3(x) {
         break;
     default:
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.Not_found
-                }
+                MEL_EXN_ID: Stdlib.Not_found
               });
   }
   return tmp(3);

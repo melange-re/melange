@@ -219,10 +219,8 @@ function for_all_range(s, start, finish, p) {
   var len = s.length;
   if (start < 0 || finish >= len) {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Ext_string_test.for_all_range"
-              }
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Ext_string_test.for_all_range"
             });
   }
   return unsafe_for_all_range(s, start, finish, p);
@@ -275,9 +273,7 @@ function find(startOpt, sub, s) {
     while((i + n | 0) <= s_len) {
       if (unsafe_is_sub(sub, 0, s, i, n)) {
         throw new Caml_js_exceptions.MelangeError(Local_exit, {
-                  cause: {
-                    MEL_EXN_ID: Local_exit
-                  }
+                  MEL_EXN_ID: Local_exit
                 });
       }
       i = i + 1 | 0;
@@ -289,9 +285,7 @@ function find(startOpt, sub, s) {
     if (exn.MEL_EXN_ID === Local_exit) {
       return i;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -303,10 +297,8 @@ function non_overlap_count(sub, s) {
   var sub_len = sub.length;
   if (sub.length === 0) {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Ext_string_test.non_overlap_count"
-              }
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Ext_string_test.non_overlap_count"
             });
   }
   var _acc = 0;
@@ -331,9 +323,7 @@ function rfind(sub, s) {
     while(i >= 0) {
       if (unsafe_is_sub(sub, 0, s, i, n)) {
         throw new Caml_js_exceptions.MelangeError(Local_exit, {
-                  cause: {
-                    MEL_EXN_ID: Local_exit
-                  }
+                  MEL_EXN_ID: Local_exit
                 });
       }
       i = i - 1 | 0;
@@ -345,9 +335,7 @@ function rfind(sub, s) {
     if (exn.MEL_EXN_ID === Local_exit) {
       return i;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -358,10 +346,8 @@ function tail_from(s, x) {
   }
   var s$1 = "Ext_string_test.tail_from " + (s + (" : " + String(x)));
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: s$1
-            }
+            MEL_EXN_ID: "Invalid_argument",
+            _1: s$1
           });
 }
 
@@ -578,10 +564,8 @@ function no_char(x, ch, i, len) {
   var str_len = x.length;
   if (i < 0 || i >= str_len || len >= str_len) {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Ext_string_test.no_char"
-              }
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Ext_string_test.no_char"
             });
   }
   return unsafe_no_char(x, ch, i, len);

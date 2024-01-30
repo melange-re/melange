@@ -37,14 +37,12 @@ console.log(String(v.contents));
 
 if (v.contents !== 45) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/test_while_closure.ml",
-                63,
-                4
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/test_while_closure.ml",
+              63,
+              4
+            ]
           });
 }
 

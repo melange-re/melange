@@ -43,14 +43,12 @@ function bufferize(f) {
           (function (x) {
               if (buf.contents !== undefined) {
                 throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/qcc.ml",
-                              17,
-                              4
-                            ]
-                          }
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/qcc.ml",
+                            17,
+                            4
+                          ]
                         });
               }
               buf.contents = Caml_option.some(x);
@@ -102,14 +100,12 @@ function addsym(s) {
 function symstr(n) {
   if (n >= syms.contents) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/qcc.ml",
-                  40,
-                  4
-                ]
-              }
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/qcc.ml",
+                40,
+                4
+              ]
             });
   }
   return Caml_array.get(symtab, n);
@@ -198,9 +194,7 @@ function next(param) {
     if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
       c = undefined;
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   }
   if (c === undefined) {
@@ -251,10 +245,8 @@ function next(param) {
     var qt = Curry._1(getch, undefined);
     if (qt !== /* '\'' */39) {
       throw new Caml_js_exceptions.MelangeError("Failure", {
-                cause: {
-                  MEL_EXN_ID: "Failure",
-                  _1: "syntax error"
-                }
+                MEL_EXN_ID: "Failure",
+                _1: "syntax error"
               });
     }
     return {
@@ -376,14 +368,12 @@ function get32(l) {
 function patch(rel, loc, n) {
   if (n >= 0) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/qcc.ml",
-                  157,
-                  2
-                ]
-              }
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/qcc.ml",
+                157,
+                2
+              ]
             });
   }
   if (loc === 0) {
@@ -971,10 +961,8 @@ function unary(stk) {
                 ];
               } else {
                 throw new Caml_js_exceptions.MelangeError("Failure", {
-                          cause: {
-                            MEL_EXN_ID: "Failure",
-                            _1: "[cast] expected"
-                          }
+                          MEL_EXN_ID: "Failure",
+                          _1: "[cast] expected"
                         });
               }
               for(var _k = 1 ,_k_finish = match[1]; _k <= _k_finish; ++_k){
@@ -1023,10 +1011,8 @@ function unary(stk) {
                         _1: "unknown operator %s"
                       }), o);
               throw new Caml_js_exceptions.MelangeError("Failure", {
-                        cause: {
-                          MEL_EXN_ID: "Failure",
-                          _1: s
-                        }
+                        MEL_EXN_ID: "Failure",
+                        _1: s
                       });
             }
             out(Stdlib__List.assoc(o, unops));
@@ -1047,14 +1033,12 @@ function unary(stk) {
           var l = Stdlib__List.assoc(i$1, stk);
           if (l <= -256) {
             throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                      cause: {
-                        MEL_EXN_ID: "Assert_failure",
-                        _1: [
-                          "jscomp/test/qcc.ml",
-                          295,
-                          6
-                        ]
-                      }
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "jscomp/test/qcc.ml",
+                        295,
+                        6
+                      ]
                     });
           }
           out(4754245);
@@ -1261,10 +1245,8 @@ function decl(g, _n, _stk) {
               var glo = Caml_array.get(globs, s$1);
               if (glo.va >= 0) {
                 throw new Caml_js_exceptions.MelangeError("Failure", {
-                          cause: {
-                            MEL_EXN_ID: "Failure",
-                            _1: "symbol defined twice"
-                          }
+                          MEL_EXN_ID: "Failure",
+                          _1: "symbol defined twice"
                         });
               }
               var va = (gpos.contents + 232 | 0) + 4194304 | 0;
@@ -1298,10 +1280,8 @@ function decl(g, _n, _stk) {
             continue ;
           }
           throw new Caml_js_exceptions.MelangeError("Failure", {
-                    cause: {
-                      MEL_EXN_ID: "Failure",
-                      _1: "[var] expected in [decl]"
-                    }
+                    MEL_EXN_ID: "Failure",
+                    _1: "[var] expected in [decl]"
                   });
         };
       }
@@ -1336,14 +1316,12 @@ function decl(g, _n, _stk) {
     if (!g && n !== 0) {
       if ((n << 3) >= 256) {
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/qcc.ml",
-                      436,
-                      6
-                    ]
-                  }
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/qcc.ml",
+                    436,
+                    6
+                  ]
                 });
       }
       out(4752364);
@@ -1465,14 +1443,12 @@ function stmt(brk, stk) {
     var n = align.contents - brk[1] | 0;
     if (n < 0) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/qcc.ml",
-                    515,
-                    4
-                  ]
-                }
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/qcc.ml",
+                  515,
+                  4
+                ]
               });
     }
     if (n !== 0) {
@@ -1539,10 +1515,8 @@ function top(_param) {
       var g = Caml_array.get(globs, f$1);
       if (g.va >= 0) {
         throw new Caml_js_exceptions.MelangeError("Failure", {
-                  cause: {
-                    MEL_EXN_ID: "Failure",
-                    _1: "symbol defined twice"
-                  }
+                  MEL_EXN_ID: "Failure",
+                  _1: "symbol defined twice"
                 });
       }
       Caml_array.set(globs, f$1, {
@@ -1561,18 +1535,14 @@ function top(_param) {
                   return stk;
                 }
                 throw new Caml_js_exceptions.MelangeError("Failure", {
-                          cause: {
-                            MEL_EXN_ID: "Failure",
-                            _1: "[var] or ) expected"
-                          }
+                          MEL_EXN_ID: "Failure",
+                          _1: "[var] or ) expected"
                         });
             case /* ILit */1 :
             case /* SLit */2 :
                 throw new Caml_js_exceptions.MelangeError("Failure", {
-                          cause: {
-                            MEL_EXN_ID: "Failure",
-                            _1: "[var] or ) expected"
-                          }
+                          MEL_EXN_ID: "Failure",
+                          _1: "[var] or ) expected"
                         });
             case /* Sym */3 :
                 var r = Stdlib__List.hd(regs);
@@ -1659,10 +1629,8 @@ function top(_param) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError("Failure", {
-              cause: {
-                MEL_EXN_ID: "Failure",
-                _1: "[decl] or [fun] expected"
-              }
+              MEL_EXN_ID: "Failure",
+              _1: "[decl] or [fun] expected"
             });
   };
 }
@@ -1887,14 +1855,12 @@ function elfgen(outf) {
   elfphdr(2, dyn + off | 0, tend - dyn | 0, 8);
   if (opos.contents !== 232) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/qcc.ml",
-                  698,
-                  2
-                ]
-              }
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/qcc.ml",
+                698,
+                2
+              ]
             });
   }
   patch(false, 24, va(entry));

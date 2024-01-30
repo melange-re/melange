@@ -69,14 +69,12 @@ function tl_exn(x) {
     return x.next;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/recursive_records_test.ml",
-                52,
-                11
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/recursive_records_test.ml",
+              52,
+              11
+            ]
           });
 }
 

@@ -23,14 +23,12 @@ var T0 = {
 };
 
 throw new Caml_js_exceptions.MelangeError("Match_failure", {
-          cause: {
-            MEL_EXN_ID: "Match_failure",
-            _1: [
-              "gpr_4632.ml",
-              12,
-              6
-            ]
-          }
+          MEL_EXN_ID: "Match_failure",
+          _1: [
+            "gpr_4632.ml",
+            12,
+            6
+          ]
         });
 
 exports.T0 = T0;

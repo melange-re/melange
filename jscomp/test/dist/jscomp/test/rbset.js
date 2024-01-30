@@ -255,14 +255,12 @@ function unbalanced_left(param) {
     }
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/rbset.ml",
-                57,
-                9
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/rbset.ml",
+              57,
+              9
+            ]
           });
 }
 
@@ -321,14 +319,12 @@ function unbalanced_right(param) {
     }
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/rbset.ml",
-                63,
-                9
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/rbset.ml",
+              63,
+              9
+            ]
           });
 }
 
@@ -557,14 +553,12 @@ function remove_min(param) {
               ];
       }
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/rbset.ml",
-                    115,
-                    4
-                  ]
-                }
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/rbset.ml",
+                  115,
+                  4
+                ]
               });
     }
     var match$1 = remove_min(param._1);
@@ -593,14 +587,12 @@ function remove_min(param) {
           ];
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/rbset.ml",
-                115,
-                4
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/rbset.ml",
+              115,
+              4
+            ]
           });
 }
 

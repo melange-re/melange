@@ -27,9 +27,7 @@ function sub(_tr, _k) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -68,9 +66,7 @@ function update(tr, k, w) {
           };
   }
   throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Not_found
-            }
+            MEL_EXN_ID: Stdlib.Not_found
           });
 }
 
@@ -97,9 +93,7 @@ function $$delete(tr, n) {
     }
   }
   throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Not_found
-            }
+            MEL_EXN_ID: Stdlib.Not_found
           });
 }
 
@@ -133,20 +127,16 @@ function lorem(tr) {
       return /* Lf */0;
     }
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/flexible_array_test.ml",
-                  66,
-                  9
-                ]
-              }
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/flexible_array_test.ml",
+                66,
+                9
+              ]
             });
   }
   throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Not_found
-            }
+            MEL_EXN_ID: Stdlib.Not_found
           });
 }
 
@@ -164,10 +154,8 @@ function get(param, i) {
     return sub(param[0], i + 1 | 0);
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Array.get"
-            }
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Array.get"
           });
 }
 
@@ -180,10 +168,8 @@ function set(param, i, v) {
           ];
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Array.set"
-            }
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Array.set"
           });
 }
 
@@ -203,10 +189,8 @@ function pop_front(param) {
           ];
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Array.pop_front"
-            }
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Array.pop_front"
           });
 }
 
@@ -227,10 +211,8 @@ function pop_back(param) {
           ];
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Array.pop_back"
-            }
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Array.pop_back"
           });
 }
 
@@ -337,14 +319,12 @@ if (!Caml_obj.caml_equal(x, of_array([
             6
           ]))) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/flexible_array_test.ml",
-                166,
-                4
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/flexible_array_test.ml",
+              166,
+              4
+            ]
           });
 }
 

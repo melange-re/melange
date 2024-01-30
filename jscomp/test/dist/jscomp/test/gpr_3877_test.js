@@ -23,27 +23,23 @@ var b = "bad response";
 
 if (a !== "good response") {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/gpr_3877_test.ml",
-                14,
-                3
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/gpr_3877_test.ml",
+              14,
+              3
+            ]
           });
 }
 
 if (b !== "bad response") {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/gpr_3877_test.ml",
-                15,
-                3
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/gpr_3877_test.ml",
+              15,
+              3
+            ]
           });
 }
 

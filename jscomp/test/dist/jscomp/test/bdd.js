@@ -68,14 +68,12 @@ function resize(newSize) {
       var n = bucket.hd;
       if (typeof n === "number") {
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/bdd.ml",
-                      54,
-                      27
-                    ]
-                  }
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/bdd.ml",
+                    54,
+                    27
+                  ]
                 });
       }
       var ind = hashVal(getId(n._0), getId(n._3), n._1) & newSz_1;
@@ -133,14 +131,12 @@ function mkNode(low, v, high) {
       var n = b.hd;
       if (typeof n === "number") {
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/bdd.ml",
-                      99,
-                      31
-                    ]
-                  }
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/bdd.ml",
+                    99,
+                    31
+                  ]
                 });
       }
       if (v === n._1 && idl === getId(n._0) && idh === getId(n._3)) {
@@ -378,14 +374,12 @@ function main(param) {
     return ;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/bdd.ml",
-                233,
-                2
-              ]
-            }
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/bdd.ml",
+              233,
+              2
+            ]
           });
 }
 

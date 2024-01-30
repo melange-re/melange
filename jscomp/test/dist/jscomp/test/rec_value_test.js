@@ -82,14 +82,12 @@ var h = {
 var v = {
   contents: (function (param) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/rec_value_test.ml",
-                    36,
-                    24
-                  ]
-                }
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/rec_value_test.ml",
+                  36,
+                  24
+                ]
               });
     })
 };
@@ -248,56 +246,48 @@ var rec_variant_a = {
 function phd(l) {
   if (typeof l === "string") {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/rec_value_test.ml",
-                  107,
-                  9
-                ]
-              }
-            });
-  }
-  if (l.NAME === "Cons") {
-    return l.VAL[0];
-  }
-  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/rec_value_test.ml",
                 107,
                 9
               ]
-            }
+            });
+  }
+  if (l.NAME === "Cons") {
+    return l.VAL[0];
+  }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/rec_value_test.ml",
+              107,
+              9
+            ]
           });
 }
 
 function ptl(l) {
   if (typeof l === "string") {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/rec_value_test.ml",
-                  112,
-                  9
-                ]
-              }
-            });
-  }
-  if (l.NAME === "Cons") {
-    return l.VAL[1];
-  }
-  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            cause: {
               MEL_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/rec_value_test.ml",
                 112,
                 9
               ]
-            }
+            });
+  }
+  if (l.NAME === "Cons") {
+    return l.VAL[1];
+  }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/rec_value_test.ml",
+              112,
+              9
+            ]
           });
 }
 
@@ -361,26 +351,22 @@ var suites_1 = {
                 tmp = match.hd;
               } else {
                 throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/rec_value_test.ml",
-                              142,
-                              2
-                            ]
-                          }
-                        });
-              }
-            } else {
-              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                        cause: {
                           MEL_EXN_ID: "Assert_failure",
                           _1: [
                             "jscomp/test/rec_value_test.ml",
                             142,
                             2
                           ]
-                        }
+                        });
+              }
+            } else {
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/rec_value_test.ml",
+                          142,
+                          2
+                        ]
                       });
             }
             return {
@@ -518,14 +504,12 @@ var suites_1 = {
                                     };
                             }
                             throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                                      cause: {
-                                        MEL_EXN_ID: "Assert_failure",
-                                        _1: [
-                                          "jscomp/test/rec_value_test.ml",
-                                          166,
-                                          11
-                                        ]
-                                      }
+                                      MEL_EXN_ID: "Assert_failure",
+                                      _1: [
+                                        "jscomp/test/rec_value_test.ml",
+                                        166,
+                                        11
+                                      ]
                                     });
                           })
                       ],
@@ -541,14 +525,12 @@ var suites_1 = {
                                       };
                               }
                               throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                                        cause: {
-                                          MEL_EXN_ID: "Assert_failure",
-                                          _1: [
-                                            "jscomp/test/rec_value_test.ml",
-                                            171,
-                                            11
-                                          ]
-                                        }
+                                        MEL_EXN_ID: "Assert_failure",
+                                        _1: [
+                                          "jscomp/test/rec_value_test.ml",
+                                          171,
+                                          11
+                                        ]
                                       });
                             })
                         ],

@@ -19,26 +19,22 @@ function f3(param) {
     var rhs = param.rank;
     if (typeof lhs === "number") {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/fun_pattern_match.ml",
-                    41,
-                    9
-                  ]
-                }
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/fun_pattern_match.ml",
+                  41,
+                  9
+                ]
               });
     }
     if (typeof rhs === "number") {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/fun_pattern_match.ml",
-                    41,
-                    9
-                  ]
-                }
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/fun_pattern_match.ml",
+                  41,
+                  9
+                ]
               });
     }
     return Caml.caml_int_compare(lhs._0, rhs._0);
@@ -51,26 +47,22 @@ function f4(param) {
     var rhs = param.rank;
     if (typeof lhs === "number") {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/fun_pattern_match.ml",
-                    49,
-                    9
-                  ]
-                }
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/fun_pattern_match.ml",
+                  49,
+                  9
+                ]
               });
     }
     if (typeof rhs === "number") {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/fun_pattern_match.ml",
-                    49,
-                    9
-                  ]
-                }
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/fun_pattern_match.ml",
+                  49,
+                  9
+                ]
               });
     }
     return Caml.caml_int_compare(lhs._0, rhs._0);
