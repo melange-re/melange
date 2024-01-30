@@ -20,3 +20,16 @@ external toLocaleString :
 [@@mel.send.pipe: t]
 
 external toString : t -> string = "toLocaleString" [@@mel.send]
+external neg : t -> t = "%negfloat"
+external add : t -> t -> t = "%addfloat"
+
+external sub : t -> t -> t = "%subfloat"
+(** Subtraction. *)
+
+external mul : t -> t -> t = "%mulfloat"
+(** Multiplication. *)
+
+external div : t -> t -> t = "%divfloat"
+(** Division. *)
+
+external rem : t -> t -> t = "caml_fmod_float" "fmod"
