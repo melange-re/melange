@@ -12,7 +12,6 @@ Test `Js.Bigint` code generation
   > EOF
   $ cat > x.ml <<EOF
   > let t = Js.Bigint.make "5"
-  > let () = Js.log (Js.Bigint.asInt32 t)
   > let () = Js.log (Js.Bigint.asIntN ~precision:64 t)
   > let () =
   >   Js.log3
@@ -25,7 +24,6 @@ Test `Js.Bigint` code generation
   > EOF
   $ dune build @melange
   $ node _build/default/out/x.js
-  5n
   5n
   5 5 €5.00
 
