@@ -24,7 +24,7 @@
 
 open Import
 
-let check_constant loc kind (const : Parsetree.constant) =
+let check_constant ~loc kind (const : Parsetree.constant) =
   match const with
   | Pconst_string (_, _, Some s) -> (
       match kind with
@@ -111,7 +111,7 @@ let emit_external_warnings : Ast_iterator.iterator =
         | None -> ());
 
         match a.pexp_desc with
-        | Pexp_constant const -> check_constant a.pexp_loc `expr const
+        | Pexp_constant const -> check_constant ~loc:a.pexp_loc `expr const
         | Pexp_apply ({ pexp_desc = Pexp_ident { txt = Lident op; loc }; _ }, _)
           ->
             if
@@ -134,7 +134,8 @@ let emit_external_warnings : Ast_iterator.iterator =
     pat =
       (fun self (pat : Parsetree.pattern) ->
         match pat.ppat_desc with
-        | Ppat_constant constant -> check_constant pat.ppat_loc `pat constant
+        | Ppat_constant constant ->
+            check_constant ~loc:pat.ppat_loc `pat constant
         | Ppat_record ([], _) ->
             Location.raise_errorf ~loc:pat.ppat_loc
               "Empty record pattern is not supported"
