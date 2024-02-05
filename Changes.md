@@ -8,6 +8,8 @@ Unreleased
 - core: emit `throw new Error(..)` rather than throwing a JS object with the
   Melange exception payload
   ([#1036](https://github.com/melange-re/melange/pull/1036))
+- stdlib: fix runtime primitive for `Float.{min,max}` and related functions
+  ([#1050](https://github.com/melange-re/melange/pull/1050))
 
 3.0.0 2024-01-28
 ---------------
