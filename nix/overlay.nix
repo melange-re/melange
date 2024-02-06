@@ -3,7 +3,7 @@
 final: prev:
 
 {
-  ocamlPackages = prev.ocamlPackages.overrideScope' (oself: osuper:
+  ocamlPackages = prev.ocamlPackages.overrideScope (oself: osuper:
 
     with oself;
 
