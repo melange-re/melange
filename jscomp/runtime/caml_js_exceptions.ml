@@ -24,12 +24,14 @@ let[@mel.as MelangeError] melangeError =
 function MelangeError(message, cause) {
   var _this = Error.call(this, message, { cause: cause });
 
-  Object.defineProperty(_this, 'cause', {
-    configurable : true,
-    enumerable : false,
-    writable : true,
-    value : cause
-  });
+  if (_this.cause == null) {
+    Object.defineProperty(_this, 'cause', {
+      configurable : true,
+      enumerable : false,
+      writable : true,
+      value : cause
+    });
+  }
   Object.defineProperty(_this, 'name', {
     configurable : true,
     enumerable : false,
