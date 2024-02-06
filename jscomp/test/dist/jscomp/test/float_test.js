@@ -10,6 +10,7 @@ var Mt = require("./mt.js");
 var Mt_global = require("./mt_global.js");
 var Stdlib = require("melange/stdlib.js");
 var Stdlib__Array = require("melange/array.js");
+var Stdlib__Float = require("melange/float.js");
 var Stdlib__Printf = require("melange/printf.js");
 
 var test_id = {
@@ -334,6 +335,10 @@ Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 
 Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 113, characters 5-12", NaN >= 4.2, false);
 
 Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 114, characters 5-12", Caml_obj.caml_greaterequal(NaN, 4.2), false);
+
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 115, characters 5-12", true || 1 >= 0 && -1 < 0 ? -1 : 1, -1);
+
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 116, characters 5-12", false || -1 >= 0 && 1 < 0 ? 1 : -1, -1);
 
 var match$4 = Caml_float.caml_modf_float(32.3);
 
