@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml_array = require("melange.js/caml_array.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 function $$eval(_bdd, vars) {
   while(true) {
@@ -66,15 +67,13 @@ function resize(newSize) {
       }
       var n = bucket.hd;
       if (typeof n === "number") {
-        throw new Error("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/bdd.ml",
-                      54,
-                      27
-                    ]
-                  }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/bdd.ml",
+                    54,
+                    27
+                  ]
                 });
       }
       var ind = hashVal(getId(n._0), getId(n._3), n._1) & newSz_1;
@@ -131,15 +130,13 @@ function mkNode(low, v, high) {
     if (b) {
       var n = b.hd;
       if (typeof n === "number") {
-        throw new Error("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/bdd.ml",
-                      99,
-                      31
-                    ]
-                  }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/bdd.ml",
+                    99,
+                    31
+                  ]
                 });
       }
       if (v === n._1 && idl === getId(n._0) && idh === getId(n._3)) {
@@ -376,15 +373,13 @@ function main(param) {
   if (succeeded) {
     return ;
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/bdd.ml",
-                233,
-                2
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/bdd.ml",
+              233,
+              2
+            ]
           });
 }
 

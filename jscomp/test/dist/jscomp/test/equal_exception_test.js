@@ -13,41 +13,35 @@ var v = "gso";
 
 function is_equal(param) {
   if (Caml_bytes.get(Stdlib__Bytes.make(3, /* 'a' */97), 0) !== /* 'a' */97) {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/equal_exception_test.ml",
-                  9,
-                  4
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/equal_exception_test.ml",
+                9,
+                4
+              ]
             });
   }
   if (Stdlib__Bytes.make(3, /* 'a' */97)[0] !== /* 'a' */97) {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/equal_exception_test.ml",
-                  10,
-                  4
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/equal_exception_test.ml",
+                10,
+                4
+              ]
             });
   }
   var u = Stdlib__Bytes.make(3, /* 'a' */97);
   u[0] = /* 'b' */98;
   if (u[0] !== /* 'b' */98) {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/equal_exception_test.ml",
-                  13,
-                  4
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/equal_exception_test.ml",
+                13,
+                4
+              ]
             });
   }
   
@@ -55,10 +49,8 @@ function is_equal(param) {
 
 function is_exception(param) {
   try {
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   }
   catch (raw_exn){
@@ -66,9 +58,7 @@ function is_exception(param) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -79,9 +69,7 @@ function is_normal_exception(_x) {
     _1: 3
   };
   try {
-    throw new Error(v.MEL_EXN_ID, {
-              cause: v
-            });
+    throw new Caml_js_exceptions.MelangeError(v.MEL_EXN_ID, v);
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -89,23 +77,17 @@ function is_normal_exception(_x) {
       if (exn._1 === 3) {
         return ;
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
 function is_arbitrary_exception(param) {
   var A = /* @__PURE__ */Caml_exceptions.create("A");
   try {
-    throw new Error(A, {
-              cause: {
-                MEL_EXN_ID: A
-              }
+    throw new Caml_js_exceptions.MelangeError(A, {
+              MEL_EXN_ID: A
             });
   }
   catch (exn){
@@ -156,28 +138,24 @@ var Not_found = /* @__PURE__ */Caml_exceptions.create("Equal_exception_test.Not_
 if (Caml_obj.caml_equal(e, {
         MEL_EXN_ID: Not_found
       }) !== false) {
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/equal_exception_test.ml",
-                50,
-                3
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/equal_exception_test.ml",
+              50,
+              3
+            ]
           });
 }
 
 if (Not_found === Stdlib.Not_found !== false) {
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/equal_exception_test.ml",
-                51,
-                3
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/equal_exception_test.ml",
+              51,
+              3
+            ]
           });
 }
 

@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml_bytes = require("melange.js/caml_bytes.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Caml_string = require("melange.js/caml_string.js");
 
 function f(param) {
@@ -11,15 +12,13 @@ function f(param) {
     case "bbbb" :
         return 1;
     default:
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/test_string.ml",
-                    4,
-                    18
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/test_string.ml",
+                  4,
+                  18
+                ]
               });
   }
 }

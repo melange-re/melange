@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml_exceptions = require("melange.js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Mt = require("./mt.js");
 var Stdlib__List = require("melange/list.js");
 
@@ -67,15 +68,13 @@ var tmp;
 if (A0 === A0) {
   tmp = 3;
 } else {
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/inline_record_test.ml",
-                46,
-                54
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/inline_record_test.ml",
+              46,
+              54
+            ]
           });
 }
 
@@ -111,15 +110,13 @@ var tmp$1;
 if (v4.TAG === /* A0 */0) {
   tmp$1 = v4.x;
 } else {
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/inline_record_test.ml",
-                64,
-                48
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/inline_record_test.ml",
+              64,
+              48
+            ]
           });
 }
 
@@ -128,15 +125,13 @@ eq("File \"jscomp/test/inline_record_test.ml\", line 64, characters 6-13", tmp$1
 var tmp$2;
 
 if (v5.TAG === /* A0 */0) {
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/inline_record_test.ml",
-                66,
-                48
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/inline_record_test.ml",
+              66,
+              48
+            ]
           });
 }
 
@@ -171,15 +166,13 @@ var tmp$3;
 if (v6.MEL_EXN_ID === A4) {
   tmp$3 = v6.x;
 } else {
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/inline_record_test.ml",
-                82,
-                49
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/inline_record_test.ml",
+              82,
+              49
+            ]
           });
 }
 

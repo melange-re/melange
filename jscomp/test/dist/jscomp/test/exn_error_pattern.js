@@ -3,6 +3,7 @@
 
 var Caml_exceptions = require("melange.js/caml_exceptions.js");
 var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
+var Js__Js_exn = require("melange.js/js_exn.js");
 var Mt = require("./mt.js");
 var Stdlib = require("melange/stdlib.js");
 
@@ -73,9 +74,7 @@ eq("File \"jscomp/test/exn_error_pattern.ml\", line 33, characters 5-12", f({
 var tmp;
 
 try {
-  throw new Error(new Error("x").MEL_EXN_ID, {
-            cause: new Error("x")
-          });
+  throw new Caml_js_exceptions.MelangeError(new Error("x").MEL_EXN_ID, new Error("x"));
 }
 catch (raw_e){
   tmp = Caml_js_exceptions.internalToOCamlException(raw_e);

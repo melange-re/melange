@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml_exceptions = require("melange.js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 function insert(queue, prio, elt) {
   if (!queue) {
@@ -63,10 +64,8 @@ function remove_top(param) {
             };
     }
   }
-  throw new Error(Queue_is_empty, {
-            cause: {
-              MEL_EXN_ID: Queue_is_empty
-            }
+  throw new Caml_js_exceptions.MelangeError(Queue_is_empty, {
+            MEL_EXN_ID: Queue_is_empty
           });
 }
 
@@ -78,10 +77,8 @@ function extract(queue) {
             remove_top(queue)
           ];
   }
-  throw new Error(Queue_is_empty, {
-            cause: {
-              MEL_EXN_ID: Queue_is_empty
-            }
+  throw new Caml_js_exceptions.MelangeError(Queue_is_empty, {
+            MEL_EXN_ID: Queue_is_empty
           });
 }
 

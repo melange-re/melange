@@ -131,7 +131,10 @@ let semi cxt = string cxt L.semi
 let comma cxt = string cxt L.comma
 
 let new_error name cause =
-  E.new_ (E.js_global Js_dump_lit.error) [ name; cause ]
+  E.new_
+    (E.runtime_var_dot Js_runtime_modules.caml_js_exceptions
+       Js_dump_lit.melange_error)
+    [ name; cause ]
 
 let exn_block_as_obj ~(stack : bool) (el : J.expression list) (ext : J.tag_info)
     : J.expression =
@@ -151,24 +154,10 @@ let exn_block_as_obj ~(stack : bool) (el : J.expression list) (ext : J.tag_info)
       loc = None;
     }
   in
-  if stack then
-    new_error (List.hd el)
-      {
-        J.expression_desc = Object [ (Lit Js_dump_lit.cause, cause) ];
-        comment = None;
-        loc = None;
-      }
-  else cause
+  if stack then new_error (List.hd el) cause else cause
 
-let exn_ref_as_obj e : J.expression =
-  let cause = { J.expression_desc = e; comment = None; loc = None } in
-  new_error
-    (E.record_access cause Js_dump_lit.exception_id 0l)
-    {
-      J.expression_desc = Object [ (Lit Js_dump_lit.cause, cause) ];
-      comment = None;
-      loc = None;
-    }
+let exn_ref_as_obj cause : J.expression =
+  new_error (E.record_access cause Js_dump_lit.exception_id 0l) cause
 
 let rec iter_lst cxt ls element inter =
   match ls with
@@ -1245,8 +1234,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
               expression_desc =
                 (exn_block_as_obj ~stack:true el ext).expression_desc;
             }
-        | exp ->
-            { e with expression_desc = (exn_ref_as_obj exp).expression_desc }
+        | _ -> { e with expression_desc = (exn_ref_as_obj e).expression_desc }
       in
       string cxt L.throw;
       space cxt;

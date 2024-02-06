@@ -3,6 +3,7 @@
 
 var Caml_array = require("melange.js/caml_array.js");
 var Caml_exceptions = require("melange.js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Curry = require("melange.js/curry.js");
 var Mt = require("./mt.js");
 var Stdlib = require("melange/stdlib.js");
@@ -37,24 +38,20 @@ function assert_bool(b) {
   if (b) {
     return ;
   }
-  throw new Error(Stdlib.Invalid_argument, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Invalid_argument,
-              _1: "Assertion Failure."
-            }
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
+            MEL_EXN_ID: Stdlib.Invalid_argument,
+            _1: "Assertion Failure."
           });
 }
 
 function fail(param) {
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/js_promise_basic_test.ml",
-                17,
-                2
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/js_promise_basic_test.ml",
+              17,
+              2
+            ]
           });
 }
 
@@ -81,15 +78,13 @@ function assertIsNotFound(x) {
   if (match !== undefined) {
     return h;
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/js_promise_basic_test.ml",
-                34,
-                9
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/js_promise_basic_test.ml",
+              34,
+              9
+            ]
           });
 }
 
@@ -153,15 +148,13 @@ function orElseRejectedRejectTest(param) {
               if (match !== undefined) {
                 return h;
               }
-              throw new Error("Assert_failure", {
-                        cause: {
-                          MEL_EXN_ID: "Assert_failure",
-                          _1: [
-                            "jscomp/test/js_promise_basic_test.ml",
-                            76,
-                            19
-                          ]
-                        }
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/js_promise_basic_test.ml",
+                          76,
+                          19
+                        ]
                       });
             });
 }

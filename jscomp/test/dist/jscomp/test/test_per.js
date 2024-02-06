@@ -7,6 +7,7 @@ var Caml_external_polyfill = require("melange.js/caml_external_polyfill.js");
 var Caml_format = require("melange.js/caml_format.js");
 var Caml_int64 = require("melange.js/caml_int64.js");
 var Caml_io = require("melange.js/caml_io.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Caml_obj = require("melange.js/caml_obj.js");
 var Caml_string = require("melange.js/caml_string.js");
 var Caml_sys = require("melange.js/caml_sys.js");
@@ -15,20 +16,16 @@ var Curry = require("melange.js/curry.js");
 var Stdlib = require("melange/stdlib.js");
 
 function failwith(s) {
-  throw new Error(Stdlib.Failure, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Failure,
-              _1: s
-            }
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Failure, {
+            MEL_EXN_ID: Stdlib.Failure,
+            _1: s
           });
 }
 
 function invalid_arg(s) {
-  throw new Error(Stdlib.Invalid_argument, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Invalid_argument,
-              _1: s
-            }
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
+            MEL_EXN_ID: Stdlib.Invalid_argument,
+            _1: s
           });
 }
 
@@ -105,11 +102,9 @@ function $caret(s1, s2) {
 
 function char_of_int(n) {
   if (n < 0 || n > 255) {
-    throw new Error(Stdlib.Invalid_argument, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Invalid_argument,
-                _1: "char_of_int"
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
+              MEL_EXN_ID: Stdlib.Invalid_argument,
+              _1: "char_of_int"
             });
   }
   return n;
@@ -130,11 +125,9 @@ function bool_of_string(param) {
     case "true" :
         return true;
     default:
-      throw new Error(Stdlib.Invalid_argument, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.Invalid_argument,
-                  _1: "bool_of_string"
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
+                MEL_EXN_ID: Stdlib.Invalid_argument,
+                _1: "bool_of_string"
               });
   }
 }
@@ -252,11 +245,9 @@ function output_string(oc, s) {
 
 function output(oc, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
-    throw new Error(Stdlib.Invalid_argument, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Invalid_argument,
-                _1: "output"
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
+              MEL_EXN_ID: Stdlib.Invalid_argument,
+              _1: "output"
             });
   }
   Caml_io.caml_ml_output(oc, s, ofs, len);
@@ -264,11 +255,9 @@ function output(oc, s, ofs, len) {
 
 function output_substring(oc, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
-    throw new Error(Stdlib.Invalid_argument, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Invalid_argument,
-                _1: "output_substring"
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
+              MEL_EXN_ID: Stdlib.Invalid_argument,
+              _1: "output_substring"
             });
   }
   Caml_io.caml_ml_output(oc, s, ofs, len);
@@ -324,11 +313,9 @@ function open_in_bin(name) {
 
 function input(ic, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
-    throw new Error(Stdlib.Invalid_argument, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Invalid_argument,
-                _1: "input"
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
+              MEL_EXN_ID: Stdlib.Invalid_argument,
+              _1: "input"
             });
   }
   return Caml_external_polyfill.resolve("caml_ml_input")(ic, s, ofs, len);
@@ -343,10 +330,8 @@ function unsafe_really_input(ic, s, _ofs, _len) {
     }
     var r = Caml_external_polyfill.resolve("caml_ml_input")(ic, s, ofs, len);
     if (r === 0) {
-      throw new Error(Stdlib.End_of_file, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.End_of_file
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib.End_of_file, {
+                MEL_EXN_ID: Stdlib.End_of_file
               });
     }
     _len = len - r | 0;
@@ -357,11 +342,9 @@ function unsafe_really_input(ic, s, _ofs, _len) {
 
 function really_input(ic, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
-    throw new Error(Stdlib.Invalid_argument, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Invalid_argument,
-                _1: "really_input"
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
+              MEL_EXN_ID: Stdlib.Invalid_argument,
+              _1: "really_input"
             });
   }
   unsafe_really_input(ic, s, ofs, len);
@@ -399,10 +382,8 @@ function input_line(chan) {
       if (accu) {
         return build_result(Caml_bytes.caml_create_bytes(len), len, accu);
       }
-      throw new Error(Stdlib.End_of_file, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.End_of_file
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib.End_of_file, {
+                MEL_EXN_ID: Stdlib.End_of_file
               });
     }
     if (n > 0) {

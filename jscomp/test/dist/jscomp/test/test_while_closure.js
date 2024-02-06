@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml_array = require("melange.js/caml_array.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Curry = require("melange.js/curry.js");
 var Stdlib__Array = require("melange/array.js");
 
@@ -35,15 +36,13 @@ Stdlib__Array.iter((function (x) {
 console.log(String(v.contents));
 
 if (v.contents !== 45) {
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/test_while_closure.ml",
-                63,
-                4
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/test_while_closure.ml",
+              63,
+              4
+            ]
           });
 }
 

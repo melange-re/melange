@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml = require("melange.js/caml.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Mt = require("./mt.js");
 var Stdlib = require("melange/stdlib.js");
 var Stdlib__List = require("melange/list.js");
@@ -41,18 +42,14 @@ function bal(l, x, d, r) {
       if (lr) {
         return create(create(ll, lv, ld, lr._0), lr._1, lr._2, create(lr._3, x, d, r));
       }
-      throw new Error("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "Map.bal"
-                }
-              });
-    }
-    throw new Error("Invalid_argument", {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Map.bal"
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Map.bal"
             });
   }
   if (hr <= (hl + 2 | 0)) {
@@ -75,18 +72,14 @@ function bal(l, x, d, r) {
     if (rl) {
       return create(create(l, x, d, rl._0), rl._1, rl._2, create(rl._3, rv, rd, rr));
     }
-    throw new Error("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Map.bal"
-              }
-            });
-  }
-  throw new Error("Invalid_argument", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Map.bal"
-            }
+            });
+  }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Map.bal"
           });
 }
 
@@ -131,10 +124,8 @@ function find(x, _param) {
       _param = c < 0 ? param._0 : param._3;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }

@@ -4,6 +4,7 @@
 var Belt__Belt_Array = require("melange.belt/belt_Array.js");
 var Belt__Belt_List = require("melange.belt/belt_List.js");
 var Caml_array = require("melange.js/caml_array.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Caml_option = require("melange.js/caml_option.js");
 var Js__Js_dict = require("melange.js/js_dict.js");
 var Js__Js_json = require("melange.js/js_json.js");
@@ -97,29 +98,25 @@ add_test("File \"jscomp/test/js_json_test.ml\", line 24, characters 11-18", (fun
         ty2._0.forEach(function (x) {
               var ty3 = Js__Js_json.classify(x);
               if (typeof ty3 === "number") {
-                throw new Error("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/js_json_test.ml",
-                              38,
-                              21
-                            ]
-                          }
-                        });
-              }
-              if (ty3.TAG === /* JSONNumber */1) {
-                return ;
-              }
-              throw new Error("Assert_failure", {
-                        cause: {
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                           MEL_EXN_ID: "Assert_failure",
                           _1: [
                             "jscomp/test/js_json_test.ml",
                             38,
                             21
                           ]
-                        }
+                        });
+              }
+              if (ty3.TAG === /* JSONNumber */1) {
+                return ;
+              }
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/js_json_test.ml",
+                          38,
+                          21
+                        ]
                       });
             });
         return {
@@ -260,15 +257,13 @@ function option_get(param) {
   if (param !== undefined) {
     return Caml_option.valFromOption(param);
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/js_json_test.ml",
-                103,
-                36
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/js_json_test.ml",
+              103,
+              36
+            ]
           });
 }
 

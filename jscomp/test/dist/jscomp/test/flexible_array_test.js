@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml_array = require("melange.js/caml_array.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Caml_obj = require("melange.js/caml_obj.js");
 var Curry = require("melange.js/curry.js");
 var Stdlib = require("melange/stdlib.js");
@@ -25,10 +26,8 @@ function sub(_tr, _k) {
       _tr = tr._2;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -66,10 +65,8 @@ function update(tr, k, w) {
             _2: /* Lf */0
           };
   }
-  throw new Error(Stdlib.Not_found, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Not_found
-            }
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+            MEL_EXN_ID: Stdlib.Not_found
           });
 }
 
@@ -95,10 +92,8 @@ function $$delete(tr, n) {
             };
     }
   }
-  throw new Error(Stdlib.Not_found, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Not_found
-            }
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+            MEL_EXN_ID: Stdlib.Not_found
           });
 }
 
@@ -131,21 +126,17 @@ function lorem(tr) {
     if (!tr._2) {
       return /* Lf */0;
     }
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/flexible_array_test.ml",
-                  66,
-                  9
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/flexible_array_test.ml",
+                66,
+                9
+              ]
             });
   }
-  throw new Error(Stdlib.Not_found, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Not_found
-            }
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+            MEL_EXN_ID: Stdlib.Not_found
           });
 }
 
@@ -162,11 +153,9 @@ function get(param, i) {
   if (i >= 0 && i < param[1]) {
     return sub(param[0], i + 1 | 0);
   }
-  throw new Error("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Array.get"
-            }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Array.get"
           });
 }
 
@@ -178,11 +167,9 @@ function set(param, i, v) {
             k
           ];
   }
-  throw new Error("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Array.set"
-            }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Array.set"
           });
 }
 
@@ -201,11 +188,9 @@ function pop_front(param) {
             k - 1 | 0
           ];
   }
-  throw new Error("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Array.pop_front"
-            }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Array.pop_front"
           });
 }
 
@@ -225,11 +210,9 @@ function pop_back(param) {
             k - 1 | 0
           ];
   }
-  throw new Error("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Array.pop_back"
-            }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Array.pop_back"
           });
 }
 
@@ -335,15 +318,13 @@ if (!Caml_obj.caml_equal(x, of_array([
             5,
             6
           ]))) {
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/flexible_array_test.ml",
-                166,
-                4
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/flexible_array_test.ml",
+              166,
+              4
+            ]
           });
 }
 

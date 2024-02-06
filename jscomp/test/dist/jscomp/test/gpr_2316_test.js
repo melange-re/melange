@@ -33,11 +33,9 @@ function eq(loc, x, y) {
 var y;
 
 try {
-  throw new Error("Failure", {
-            cause: {
-              MEL_EXN_ID: "Failure",
-              _1: "boo"
-            }
+  throw new Caml_js_exceptions.MelangeError("Failure", {
+            MEL_EXN_ID: "Failure",
+            _1: "boo"
           });
 }
 catch (raw_exn){
@@ -45,9 +43,7 @@ catch (raw_exn){
   if (exn.MEL_EXN_ID === Stdlib.Failure) {
     y = exn._1;
   } else {
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -56,11 +52,9 @@ var x;
 var exit = 0;
 
 try {
-  throw new Error("Failure", {
-            cause: {
-              MEL_EXN_ID: "Failure",
-              _1: "boo"
-            }
+  throw new Caml_js_exceptions.MelangeError("Failure", {
+            MEL_EXN_ID: "Failure",
+            _1: "boo"
           });
 }
 catch (raw_exn$1){
@@ -68,9 +62,7 @@ catch (raw_exn$1){
   if (exn$1.MEL_EXN_ID === Stdlib.Failure) {
     x = exn$1._1;
   } else {
-    throw new Error(exn$1.MEL_EXN_ID, {
-              cause: exn$1
-            });
+    throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
   }
 }
 

@@ -48,9 +48,7 @@ function a1(f) {
     if (exn.MEL_EXN_ID === E) {
       return 1;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 

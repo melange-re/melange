@@ -45,17 +45,13 @@ function _must_escape(s) {
           if (c !== 92) {
             exit = 1;
           } else {
-            throw new Error(Stdlib.Exit, {
-                      cause: {
-                        MEL_EXN_ID: Stdlib.Exit
-                      }
+            throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                      MEL_EXN_ID: Stdlib.Exit
                     });
           }
         } else {
-          throw new Error(Stdlib.Exit, {
-                    cause: {
-                      MEL_EXN_ID: Stdlib.Exit
-                    }
+          throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                    MEL_EXN_ID: Stdlib.Exit
                   });
         }
       } else if (c >= 11) {
@@ -73,10 +69,8 @@ function _must_escape(s) {
             case 34 :
             case 40 :
             case 41 :
-                throw new Error(Stdlib.Exit, {
-                          cause: {
-                            MEL_EXN_ID: Stdlib.Exit
-                          }
+                throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                          MEL_EXN_ID: Stdlib.Exit
                         });
             
           }
@@ -85,19 +79,15 @@ function _must_escape(s) {
         }
       } else {
         if (c >= 9) {
-          throw new Error(Stdlib.Exit, {
-                    cause: {
-                      MEL_EXN_ID: Stdlib.Exit
-                    }
+          throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                    MEL_EXN_ID: Stdlib.Exit
                   });
         }
         exit = 1;
       }
       if (exit === 1 && c > 127) {
-        throw new Error(Stdlib.Exit, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Exit
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                  MEL_EXN_ID: Stdlib.Exit
                 });
       }
       
@@ -109,9 +99,7 @@ function _must_escape(s) {
     if (exn.MEL_EXN_ID === Stdlib.Exit) {
       return true;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -377,9 +365,7 @@ function to_file_seq(filename, seq) {
   catch (e){
     Caml_io.caml_ml_flush(oc);
     Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
-    throw new Error(e.MEL_EXN_ID, {
-              cause: e
-            });
+    throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
   }
 }
 
@@ -437,15 +423,13 @@ function _refill(t, k_succ, k_fail) {
 
 function _get(t) {
   if (t.i >= t.len) {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/sexpm.ml",
-                  152,
-                  4
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/sexpm.ml",
+                152,
+                4
+              ]
             });
   }
   var c = Caml_bytes.get(t.buf, t.i);
@@ -552,15 +536,13 @@ function expr_starting_with(c, k, t) {
     if (c >= 32) {
       switch (c) {
         case 32 :
-            throw new Error("Assert_failure", {
-                      cause: {
-                        MEL_EXN_ID: "Assert_failure",
-                        _1: [
-                          "jscomp/test/sexpm.ml",
-                          183,
-                          27
-                        ]
-                      }
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "jscomp/test/sexpm.ml",
+                        183,
+                        27
+                      ]
                     });
         case 34 :
             return quoted(k, t);
@@ -587,15 +569,13 @@ function expr_starting_with(c, k, t) {
     }
     
   } else if (c >= 9) {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/sexpm.ml",
-                  183,
-                  27
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/sexpm.ml",
+                183,
+                27
+              ]
             });
   }
   Stdlib__Buffer.add_char(t.atom, c);
@@ -1052,15 +1032,13 @@ function MakeDecode(funarg) {
   };
   var _get = function (t) {
     if (t.i >= t.len) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/sexpm.ml",
-                    152,
-                    4
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/sexpm.ml",
+                  152,
+                  4
+                ]
               });
     }
     var c = Caml_bytes.get(t.buf, t.i);
@@ -1163,15 +1141,13 @@ function MakeDecode(funarg) {
       if (c >= 32) {
         switch (c) {
           case 32 :
-              throw new Error("Assert_failure", {
-                        cause: {
-                          MEL_EXN_ID: "Assert_failure",
-                          _1: [
-                            "jscomp/test/sexpm.ml",
-                            183,
-                            27
-                          ]
-                        }
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/sexpm.ml",
+                          183,
+                          27
+                        ]
                       });
           case 34 :
               return quoted(k, t);
@@ -1198,15 +1174,13 @@ function MakeDecode(funarg) {
       }
       
     } else if (c >= 9) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/sexpm.ml",
-                    183,
-                    27
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/sexpm.ml",
+                  183,
+                  27
+                ]
               });
     }
     Stdlib__Buffer.add_char(t.atom, c);

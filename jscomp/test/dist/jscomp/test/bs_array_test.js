@@ -4,6 +4,7 @@
 var Belt__Belt_Array = require("melange.belt/belt_Array.js");
 var Belt__Belt_List = require("melange.belt/belt_List.js");
 var Caml = require("melange.js/caml.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Caml_obj = require("melange.js/caml_obj.js");
 var Curry = require("melange.js/curry.js");
 var Mt = require("./mt.js");
@@ -137,15 +138,13 @@ var v$1 = [
 ];
 
 if (!Belt__Belt_Array.set(v$1, 0, 0)) {
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/bs_array_test.ml",
-                38,
-                33
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/bs_array_test.ml",
+              38,
+              33
+            ]
           });
 }
 
@@ -157,15 +156,13 @@ var v$2 = [
 ];
 
 if (!Belt__Belt_Array.set(v$2, 1, 0)) {
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/bs_array_test.ml",
-                39,
-                32
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/bs_array_test.ml",
+              39,
+              32
+            ]
           });
 }
 
@@ -281,15 +278,13 @@ function addone(x) {
 
 function makeMatrixExn(sx, sy, init) {
   if (!(sx >= 0 && sy >= 0)) {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/bs_array_test.ml",
-                  80,
-                  2
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/bs_array_test.ml",
+                80,
+                2
+              ]
             });
   }
   var res = new Array(sx);

@@ -4,6 +4,7 @@
 var Belt__Belt_List = require("melange.belt/belt_List.js");
 var Caml_format = require("melange.js/caml_format.js");
 var Caml_int64 = require("melange.js/caml_int64.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Mt = require("./mt.js");
 var Stdlib__Int64 = require("melange/int64.js");
 
@@ -1308,29 +1309,25 @@ var random_data = {
 Belt__Belt_List.forEach(random_data, (function (u) {
         if (u) {
           if (u.tl) {
-            throw new Error("Assert_failure", {
-                      cause: {
-                        MEL_EXN_ID: "Assert_failure",
-                        _1: [
-                          "jscomp/test/int64_string_test.ml",
-                          161,
-                          9
-                        ]
-                      }
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "jscomp/test/int64_string_test.ml",
+                        161,
+                        9
+                      ]
                     });
           }
           var match = u.hd;
           return eq("File \"jscomp/test/int64_string_test.ml\", line 160, characters 21-28", Caml_format.caml_int64_format("%d", match[0]), match[1]);
         }
-        throw new Error("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/int64_string_test.ml",
-                      161,
-                      9
-                    ]
-                  }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/int64_string_test.ml",
+                    161,
+                    9
+                  ]
                 });
       }));
 

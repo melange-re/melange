@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml_exceptions = require("melange.js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Stdlib = require("melange/stdlib.js");
 
 var Scan_failure = /* @__PURE__ */Caml_exceptions.create("Test_static_catch_ident.Scan_failure");
@@ -11,9 +12,7 @@ function scanf_bad_input(ib, x) {
   if (x.MEL_EXN_ID === Scan_failure || x.MEL_EXN_ID === Stdlib.Failure) {
     s = x._1;
   } else {
-    throw new Error(x.MEL_EXN_ID, {
-              cause: x
-            });
+    throw new Caml_js_exceptions.MelangeError(x.MEL_EXN_ID, x);
   }
   for(var _i = 0; _i <= 100; ++_i){
     console.log(s);

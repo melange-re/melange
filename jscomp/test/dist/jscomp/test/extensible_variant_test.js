@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml_exceptions = require("melange.js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Mt = require("./mt.js");
 
 var Str = /* @__PURE__ */Caml_exceptions.create("Extensible_variant_test.Str");
@@ -24,15 +25,13 @@ function to_int(x) {
   if (x.MEL_EXN_ID === Int$1) {
     return x._2;
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/extensible_variant_test.ml",
-                16,
-                9
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/extensible_variant_test.ml",
+              16,
+              9
+            ]
           });
 }
 

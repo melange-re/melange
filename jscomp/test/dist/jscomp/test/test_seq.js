@@ -24,22 +24,18 @@ function assoc3(x, _l) {
       _l = l.tl;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
 
 function help_action(param) {
-  throw new Error(Stop, {
-            cause: {
-              MEL_EXN_ID: Stop,
-              _1: {
-                TAG: /* Unknown */0,
-                _0: "-help"
-              }
+  throw new Caml_js_exceptions.MelangeError(Stop, {
+            MEL_EXN_ID: Stop,
+            _1: {
+              TAG: /* Unknown */0,
+              _0: "-help"
             }
           });
 }
@@ -74,9 +70,7 @@ function add_help(speclist) {
         tl: /* [] */0
       };
     } else {
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   }
   var add2;
@@ -99,9 +93,7 @@ function add_help(speclist) {
         tl: /* [] */0
       };
     } else {
-      throw new Error(exn$1.MEL_EXN_ID, {
-                cause: exn$1
-              });
+      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
     }
   }
   return Stdlib.$at(speclist, Stdlib.$at(add1, add2));

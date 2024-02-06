@@ -42,15 +42,13 @@
     if (exn.MEL_EXN_ID === A || exn.MEL_EXN_ID === Js__Js_exn.$$Error) {
       a0 = exn._1;
     } else {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "x.ml",
-                    7,
-                    11
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "x.ml",
+                  7,
+                  11
+                ]
               });
     }
   }
@@ -102,15 +100,13 @@ Raise `null` / `undefined`
     if (exn.MEL_EXN_ID === A || exn.MEL_EXN_ID === Js__Js_exn.$$Error) {
       a0 = exn._1;
     } else {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "x.ml",
-                    7,
-                    11
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "x.ml",
+                  7,
+                  11
+                ]
               });
     }
   }
@@ -126,15 +122,13 @@ Raise `null` / `undefined`
     if (exn$1.MEL_EXN_ID === A || exn$1.MEL_EXN_ID === Js__Js_exn.$$Error) {
       a1 = exn$1._1;
     } else {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "x.ml",
-                    12,
-                    11
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "x.ml",
+                  12,
+                  11
+                ]
               });
     }
   }

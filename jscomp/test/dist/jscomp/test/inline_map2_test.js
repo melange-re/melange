@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml = require("melange.js/caml.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Caml_option = require("melange.js/caml_option.js");
 var Curry = require("melange.js/curry.js");
 var Mt = require("./mt.js");
@@ -51,18 +52,14 @@ function Make(Ord) {
         if (lr) {
           return create(create(ll, lv, ld, lr._0), lr._1, lr._2, create(lr._3, x, d, r));
         }
-        throw new Error("Invalid_argument", {
-                  cause: {
-                    MEL_EXN_ID: "Invalid_argument",
-                    _1: "Map.bal"
-                  }
-                });
-      }
-      throw new Error("Invalid_argument", {
-                cause: {
+        throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                   MEL_EXN_ID: "Invalid_argument",
                   _1: "Map.bal"
-                }
+                });
+      }
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+                MEL_EXN_ID: "Invalid_argument",
+                _1: "Map.bal"
               });
     }
     if (hr <= (hl + 2 | 0)) {
@@ -85,18 +82,14 @@ function Make(Ord) {
       if (rl) {
         return create(create(l, x, d, rl._0), rl._1, rl._2, create(rl._3, rv, rd, rr));
       }
-      throw new Error("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "Map.bal"
-                }
-              });
-    }
-    throw new Error("Invalid_argument", {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Map.bal"
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Map.bal"
             });
   };
   var is_empty = function (param) {
@@ -146,10 +139,8 @@ function Make(Ord) {
         _param = c < 0 ? param._0 : param._3;
         continue ;
       }
-      throw new Error(Stdlib.Not_found, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.Not_found
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                MEL_EXN_ID: Stdlib.Not_found
               });
     };
   };
@@ -181,10 +172,8 @@ function Make(Ord) {
         _param = l;
         continue ;
       }
-      throw new Error(Stdlib.Not_found, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.Not_found
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                MEL_EXN_ID: Stdlib.Not_found
               });
     };
   };
@@ -201,10 +190,8 @@ function Make(Ord) {
         _param = param._3;
         continue ;
       }
-      throw new Error(Stdlib.Not_found, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.Not_found
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                MEL_EXN_ID: Stdlib.Not_found
               });
     };
   };
@@ -217,11 +204,9 @@ function Make(Ord) {
         return param._3;
       }
     }
-    throw new Error("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Map.remove_min_elt"
-              }
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Map.remove_min_elt"
             });
   };
   var remove = function (x, param) {
@@ -434,15 +419,13 @@ function Make(Ord) {
       var match$1 = split(v2, s1);
       return concat_or_join(merge(f, match$1[0], s2._0), v2, Curry._3(f, v2, match$1[1], Caml_option.some(s2._2)), merge(f, match$1[2], s2._3));
     }
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/inline_map2_test.ml",
-                  270,
-                  10
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/inline_map2_test.ml",
+                270,
+                10
+              ]
             });
   };
   var filter = function (p, param) {
@@ -673,18 +656,14 @@ function bal(l, x, d, r) {
       if (lr) {
         return create(create(ll, lv, ld, lr._0), lr._1, lr._2, create(lr._3, x, d, r));
       }
-      throw new Error("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "Map.bal"
-                }
-              });
-    }
-    throw new Error("Invalid_argument", {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Map.bal"
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Map.bal"
             });
   }
   if (hr <= (hl + 2 | 0)) {
@@ -707,18 +686,14 @@ function bal(l, x, d, r) {
     if (rl) {
       return create(create(l, x, d, rl._0), rl._1, rl._2, create(rl._3, rv, rd, rr));
     }
-    throw new Error("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Map.bal"
-              }
-            });
-  }
-  throw new Error("Invalid_argument", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Map.bal"
-            }
+            });
+  }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Map.bal"
           });
 }
 
@@ -771,10 +746,8 @@ function find(x, _param) {
       _param = c < 0 ? param._0 : param._3;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -808,10 +781,8 @@ function min_binding(_param) {
       _param = l;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -829,10 +800,8 @@ function max_binding(_param) {
       _param = param._3;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -846,11 +815,9 @@ function remove_min_binding(param) {
       return param._3;
     }
   }
-  throw new Error("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Map.remove_min_elt"
-            }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Map.remove_min_elt"
           });
 }
 
@@ -1077,15 +1044,13 @@ function merge(f, s1, s2) {
     var match$1 = split(v2, s1);
     return concat_or_join(merge(f, match$1[0], s2._0), v2, Curry._3(f, v2, match$1[1], Caml_option.some(s2._2)), merge(f, match$1[2], s2._3));
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/inline_map2_test.ml",
-                270,
-                10
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/inline_map2_test.ml",
+              270,
+              10
+            ]
           });
 }
 
@@ -1352,18 +1317,14 @@ function bal$1(l, x, d, r) {
       if (lr) {
         return create$1(create$1(ll, lv, ld, lr._0), lr._1, lr._2, create$1(lr._3, x, d, r));
       }
-      throw new Error("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "Map.bal"
-                }
-              });
-    }
-    throw new Error("Invalid_argument", {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Map.bal"
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Map.bal"
             });
   }
   if (hr <= (hl + 2 | 0)) {
@@ -1386,18 +1347,14 @@ function bal$1(l, x, d, r) {
     if (rl) {
       return create$1(create$1(l, x, d, rl._0), rl._1, rl._2, create$1(rl._3, rv, rd, rr));
     }
-    throw new Error("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Map.bal"
-              }
-            });
-  }
-  throw new Error("Invalid_argument", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Map.bal"
-            }
+            });
+  }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Map.bal"
           });
 }
 
@@ -1450,10 +1407,8 @@ function find$1(x, _param) {
       _param = c < 0 ? param._0 : param._3;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -1487,10 +1442,8 @@ function min_binding$1(_param) {
       _param = l;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -1508,10 +1461,8 @@ function max_binding$1(_param) {
       _param = param._3;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -1525,11 +1476,9 @@ function remove_min_binding$1(param) {
       return param._3;
     }
   }
-  throw new Error("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Map.remove_min_elt"
-            }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Map.remove_min_elt"
           });
 }
 
@@ -1756,15 +1705,13 @@ function merge$1(f, s1, s2) {
     var match$1 = split$1(v2, s1);
     return concat_or_join$1(merge$1(f, match$1[0], s2._0), v2, Curry._3(f, v2, match$1[1], Caml_option.some(s2._2)), merge$1(f, match$1[2], s2._3));
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/inline_map2_test.ml",
-                270,
-                10
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/inline_map2_test.ml",
+              270,
+              10
+            ]
           });
 }
 

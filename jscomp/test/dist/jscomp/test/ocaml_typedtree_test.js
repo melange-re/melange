@@ -47,9 +47,7 @@ try {
 catch (raw_exn){
   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
   if (exn.MEL_EXN_ID !== Stdlib.Not_found) {
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
   
 }
@@ -167,10 +165,8 @@ var Fatal_error = /* @__PURE__ */Caml_exceptions.create("Ocaml_typedtree_test.Mi
 function fatal_error(msg) {
   Stdlib.prerr_string(">> Fatal error: ");
   console.error(msg);
-  throw new Error(Fatal_error, {
-            cause: {
-              MEL_EXN_ID: Fatal_error
-            }
+  throw new Caml_js_exceptions.MelangeError(Fatal_error, {
+            MEL_EXN_ID: Fatal_error
           });
 }
 
@@ -181,9 +177,7 @@ function try_finally(work, cleanup) {
   }
   catch (e){
     Curry._1(cleanup, undefined);
-    throw new Error(e.MEL_EXN_ID, {
-              cause: e
-            });
+    throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
   }
   Curry._1(cleanup, undefined);
   return result;
@@ -252,15 +246,13 @@ function split_last(param) {
             match[1]
           ];
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                817,
-                10
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              817,
+              10
+            ]
           });
 }
 
@@ -296,10 +288,8 @@ function find_in_path_uncap(path, name) {
       _param = param.tl;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -313,9 +303,7 @@ function remove_file(filename) {
     if (exn.MEL_EXN_ID === Stdlib.Sys_error) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -336,9 +324,7 @@ function chop_extension_if_any(fname) {
     if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
       return fname;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -500,22 +486,18 @@ function style_of_tag(param) {
       case "warning" :
           return cur_styles.contents.warning;
       default:
-        throw new Error(Stdlib.Not_found, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Not_found
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                  MEL_EXN_ID: Stdlib.Not_found
                 });
     }
   } else {
-    throw new Error("Match_failure", {
-              cause: {
-                MEL_EXN_ID: "Match_failure",
-                _1: [
-                  "ocaml_typedtree_test.ml",
-                  1191,
-                  19
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Match_failure", {
+              MEL_EXN_ID: "Match_failure",
+              _1: [
+                "ocaml_typedtree_test.ml",
+                1191,
+                19
+              ]
             });
   }
 }
@@ -542,9 +524,7 @@ function set_color_tag_handling(ppf) {
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return Curry._1(partial_arg, param);
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   };
   var functions$p_mark_close_stag = function (param) {
@@ -564,9 +544,7 @@ function set_color_tag_handling(ppf) {
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return Curry._1(partial_arg$1, param);
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   };
   var functions$p_print_open_stag = functions.print_open_stag;
@@ -919,15 +897,13 @@ function letter(param) {
                 tl: /* [] */0
               };
     default:
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    1587,
-                    9
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  1587,
+                  9
+                ]
               });
   }
 }
@@ -990,11 +966,9 @@ function parse_opt(error, active, flags, s) {
     var match$1 = get_num(0, i$1 + 2 | 0);
     var n2 = match$1[1];
     if (n2 < n1) {
-      throw new Error(Stdlib__Arg.Bad, {
-                cause: {
-                  MEL_EXN_ID: Stdlib__Arg.Bad,
-                  _1: "Ill-formed list of warnings"
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
+                MEL_EXN_ID: Stdlib__Arg.Bad,
+                _1: "Ill-formed list of warnings"
               });
     }
     return [
@@ -1013,11 +987,9 @@ function parse_opt(error, active, flags, s) {
       if (c >= 65) {
         if (c >= 97) {
           if (c >= 123) {
-            throw new Error(Stdlib__Arg.Bad, {
-                      cause: {
-                        MEL_EXN_ID: Stdlib__Arg.Bad,
-                        _1: "Ill-formed list of warnings"
-                      }
+            throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
+                      MEL_EXN_ID: Stdlib__Arg.Bad,
+                      _1: "Ill-formed list of warnings"
                     });
           }
           Stdlib__List.iter(clear, letter(Caml_string.get(s, i)));
@@ -1025,11 +997,9 @@ function parse_opt(error, active, flags, s) {
           continue ;
         }
         if (c >= 91) {
-          throw new Error(Stdlib__Arg.Bad, {
-                    cause: {
-                      MEL_EXN_ID: Stdlib__Arg.Bad,
-                      _1: "Ill-formed list of warnings"
-                    }
+          throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
+                    MEL_EXN_ID: Stdlib__Arg.Bad,
+                    _1: "Ill-formed list of warnings"
                   });
         }
         Stdlib__List.iter(set, letter(Stdlib__Char.lowercase_ascii(Caml_string.get(s, i))));
@@ -1040,11 +1010,9 @@ function parse_opt(error, active, flags, s) {
         if (c >= 64) {
           return loop_letter_num(set_all, i + 1 | 0);
         }
-        throw new Error(Stdlib__Arg.Bad, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib__Arg.Bad,
-                    _1: "Ill-formed list of warnings"
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
+                  MEL_EXN_ID: Stdlib__Arg.Bad,
+                  _1: "Ill-formed list of warnings"
                 });
       }
       if (c >= 43) {
@@ -1052,66 +1020,54 @@ function parse_opt(error, active, flags, s) {
           case 43 :
               return loop_letter_num(set, i + 1 | 0);
           case 44 :
-              throw new Error(Stdlib__Arg.Bad, {
-                        cause: {
-                          MEL_EXN_ID: Stdlib__Arg.Bad,
-                          _1: "Ill-formed list of warnings"
-                        }
+              throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
+                        MEL_EXN_ID: Stdlib__Arg.Bad,
+                        _1: "Ill-formed list of warnings"
                       });
           case 45 :
               return loop_letter_num(clear, i + 1 | 0);
           
         }
       } else {
-        throw new Error(Stdlib__Arg.Bad, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib__Arg.Bad,
-                    _1: "Ill-formed list of warnings"
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
+                  MEL_EXN_ID: Stdlib__Arg.Bad,
+                  _1: "Ill-formed list of warnings"
                 });
       }
     };
   };
   var loop_letter_num = function (myset, i) {
     if (i >= s.length) {
-      throw new Error(Stdlib__Arg.Bad, {
-                cause: {
-                  MEL_EXN_ID: Stdlib__Arg.Bad,
-                  _1: "Ill-formed list of warnings"
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
+                MEL_EXN_ID: Stdlib__Arg.Bad,
+                _1: "Ill-formed list of warnings"
               });
     }
     var match = Caml_string.get(s, i);
     if (match >= 65) {
       if (match >= 97) {
         if (match >= 123) {
-          throw new Error(Stdlib__Arg.Bad, {
-                    cause: {
-                      MEL_EXN_ID: Stdlib__Arg.Bad,
-                      _1: "Ill-formed list of warnings"
-                    }
+          throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
+                    MEL_EXN_ID: Stdlib__Arg.Bad,
+                    _1: "Ill-formed list of warnings"
                   });
         }
         Stdlib__List.iter(myset, letter(Caml_string.get(s, i)));
         return loop(i + 1 | 0);
       }
       if (match >= 91) {
-        throw new Error(Stdlib__Arg.Bad, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib__Arg.Bad,
-                    _1: "Ill-formed list of warnings"
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
+                  MEL_EXN_ID: Stdlib__Arg.Bad,
+                  _1: "Ill-formed list of warnings"
                 });
       }
       Stdlib__List.iter(myset, letter(Stdlib__Char.lowercase_ascii(Caml_string.get(s, i))));
       return loop(i + 1 | 0);
     }
     if (match > 57 || match < 48) {
-      throw new Error(Stdlib__Arg.Bad, {
-                cause: {
-                  MEL_EXN_ID: Stdlib__Arg.Bad,
-                  _1: "Ill-formed list of warnings"
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
+                MEL_EXN_ID: Stdlib__Arg.Bad,
+                _1: "Ill-formed list of warnings"
               });
     }
     var match$1 = get_range(i);
@@ -1206,15 +1162,13 @@ function message(param) {
               return "the method " + (lab + " is overridden.");
             }
           }
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        1694,
-                        26
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      1694,
+                      26
+                    ]
                   });
       case /* Partial_match */3 :
           var s$1 = param._0;
@@ -1244,15 +1198,13 @@ function message(param) {
               return "the instance variable " + (lab$1 + " is overridden.\nThe behaviour changed in ocaml 3.10 (previous behaviour was hiding.)");
             }
           }
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        1714,
-                        37
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      1714,
+                      37
+                    ]
                   });
       case /* Implicit_public_methods */6 :
           return "the following private methods were made public implicitly:\n " + (Stdlib__String.concat(" ", param._0) + ".");
@@ -1376,15 +1328,13 @@ function message(param) {
           if (param._2) {
             return "this record of type " + (ty + (" contains fields that are \nnot visible in the current scope: " + (Stdlib__String.concat(" ", slist) + ".\nThey will not be selected if the type becomes unknown.")));
           }
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        1776,
-                        39
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      1776,
+                      39
+                    ]
                   });
           break;
       case /* Ambiguous_name */24 :
@@ -1395,15 +1345,13 @@ function message(param) {
           if (param._2) {
             return "these field labels belong to several types: " + (Stdlib__String.concat(" ", param._1) + "\nThe first one was selected. Please disambiguate if this is wrong.");
           }
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        1785,
-                        36
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      1785,
+                      36
+                    ]
                   });
           break;
       case /* Disambiguated_name */25 :
@@ -1650,10 +1598,8 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
   Stdlib__Format.pp_print_flush(ppf, undefined);
   var pos0 = -lb.lex_abs_pos | 0;
   if (pos0 < 0) {
-    throw new Error(Stdlib.Exit, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Exit
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+              MEL_EXN_ID: Stdlib.Exit
             });
   }
   var lines = num_loc_lines.contents;
@@ -1664,10 +1610,8 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
     
   }
   if (lines >= (num_lines - 2 | 0)) {
-    throw new Error(Stdlib.Exit, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Exit
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+              MEL_EXN_ID: Stdlib.Exit
             });
   }
   Caml_io.caml_ml_flush(Stdlib.stdout);
@@ -1705,10 +1649,8 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
 function highlight_dumb(ppf, lb, loc) {
   var pos0 = -lb.lex_abs_pos | 0;
   if (pos0 < 0) {
-    throw new Error(Stdlib.Exit, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Exit
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+              MEL_EXN_ID: Stdlib.Exit
             });
   }
   var end_pos = (lb.lex_buffer_len - pos0 | 0) - 1 | 0;
@@ -1844,9 +1786,7 @@ function highlight_locations(ppf, locs) {
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             norepeat = false;
           } else {
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
         }
         if (norepeat) {
@@ -1862,9 +1802,7 @@ function highlight_locations(ppf, locs) {
           if (exn$1.MEL_EXN_ID === Stdlib.Exit) {
             return false;
           }
-          throw new Error(exn$1.MEL_EXN_ID, {
-                    cause: exn$1
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
         }
       } else {
         status.contents = Caml_external_polyfill.resolve("caml_terminfo_setup")(Stdlib.stdout);
@@ -1884,9 +1822,7 @@ function highlight_locations(ppf, locs) {
         if (exn$2.MEL_EXN_ID === Stdlib.Exit) {
           return false;
         }
-        throw new Error(exn$2.MEL_EXN_ID, {
-                  cause: exn$2
-                });
+        throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
       }
     }
   };
@@ -2482,26 +2418,22 @@ function balance(l, d, r) {
       if (lr) {
         return mknode(mknode(ll, ld, lr._0), lr._1, mknode(lr._2, d, r));
       }
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    2781,
-                    11
-                  ]
-                }
-              });
-    }
-    throw new Error("Assert_failure", {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/ocaml_typedtree_test.ml",
                   2781,
                   11
                 ]
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                2781,
+                11
+              ]
             });
   }
   if (hr <= (hl + 1 | 0)) {
@@ -2520,26 +2452,22 @@ function balance(l, d, r) {
     if (rl) {
       return mknode(mknode(l, d, rl._0), rl._1, mknode(rl._2, r._1, r._2));
     }
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  2790,
-                  11
-                ]
-              }
-            });
-  }
-  throw new Error("Assert_failure", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
                 2790,
                 11
               ]
-            }
+            });
+  }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              2790,
+              11
+            ]
           });
 }
 
@@ -2599,10 +2527,8 @@ function find_same(id, _param) {
               _param$1 = param$1.previous;
               continue ;
             }
-            throw new Error(Stdlib.Not_found, {
-                      cause: {
-                        MEL_EXN_ID: Stdlib.Not_found
-                      }
+            throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                      MEL_EXN_ID: Stdlib.Not_found
                     });
           };
         }
@@ -2610,10 +2536,8 @@ function find_same(id, _param) {
       _param = c < 0 ? param._0 : param._2;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -2630,10 +2554,8 @@ function find_name(name, _param) {
       _param = c < 0 ? param._0 : param._2;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -2795,15 +2717,13 @@ function head(_param) {
           _param = param._0;
           continue ;
       case /* Papply */2 :
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        2970,
-                        22
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      2970,
+                      22
+                    ]
                   });
       
     }
@@ -3021,18 +2941,14 @@ function bal(l, x, d, r) {
       if (lr) {
         return create$1(create$1(ll, lv, ld, lr.l), lr.v, lr.d, create$1(lr.r, x, d, r));
       }
-      throw new Error("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "Map.bal"
-                }
-              });
-    }
-    throw new Error("Invalid_argument", {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Map.bal"
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Map.bal"
             });
   }
   if (hr <= (hl + 2 | 0)) {
@@ -3055,18 +2971,14 @@ function bal(l, x, d, r) {
     if (rl) {
       return create$1(create$1(l, x, d, rl.l), rl.v, rl.d, create$1(rl.r, rv, rd, rr));
     }
-    throw new Error("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Map.bal"
-              }
-            });
-  }
-  throw new Error("Invalid_argument", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Map.bal"
-            }
+            });
+  }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Map.bal"
           });
 }
 
@@ -3133,10 +3045,8 @@ function find(x, _param) {
       _param = c < 0 ? param.l : param.r;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -3174,10 +3084,8 @@ function find_first(f, _param) {
       _param = param.r;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -3252,10 +3160,8 @@ function find_last(f, _param) {
       _param = param.l;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -3341,10 +3247,8 @@ function min_binding(_param) {
       _param = l;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -3380,10 +3284,8 @@ function max_binding(_param) {
       _param = param.r;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -3414,11 +3316,9 @@ function remove_min_binding(param) {
       return param.r;
     }
   }
-  throw new Error("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Map.remove_min_elt"
-            }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Map.remove_min_elt"
           });
 }
 
@@ -3730,15 +3630,13 @@ function merge$1(f, s1, s2) {
     var match$1 = split(v2, s1);
     return concat_or_join(merge$1(f, match$1[0], s2.l), v2, Curry._3(f, v2, match$1[1], Caml_option.some(s2.d)), merge$1(f, match$1[2], s2.r));
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/stdlib/map.ml",
-                408,
-                10
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/stdlib/map.ml",
+              408,
+              10
+            ]
           });
 }
 
@@ -4219,18 +4117,14 @@ function bal$1(l, v, r) {
       if (lr) {
         return create$2(create$2(ll, lv, lr.l), lr.v, create$2(lr.r, v, r));
       }
-      throw new Error("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "Set.bal"
-                }
-              });
-    }
-    throw new Error("Invalid_argument", {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Set.bal"
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Set.bal"
             });
   }
   if (hr <= (hl + 2 | 0)) {
@@ -4251,18 +4145,14 @@ function bal$1(l, v, r) {
     if (rl) {
       return create$2(create$2(l, v, rl.l), rl.v, create$2(rl.r, rv, rr));
     }
-    throw new Error("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Set.bal"
-              }
-            });
-  }
-  throw new Error("Invalid_argument", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Set.bal"
-            }
+            });
+  }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Set.bal"
           });
 }
 
@@ -4352,10 +4242,8 @@ function min_elt(_param) {
       _param = l;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -4369,11 +4257,9 @@ function remove_min_elt(param) {
       return param.r;
     }
   }
-  throw new Error("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Set.remove_min_elt"
-            }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Set.remove_min_elt"
           });
 }
 
@@ -4683,18 +4569,14 @@ function bal$2(l, v, r) {
       if (lr) {
         return create$3(create$3(ll, lv, lr.l), lr.v, create$3(lr.r, v, r));
       }
-      throw new Error("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "Set.bal"
-                }
-              });
-    }
-    throw new Error("Invalid_argument", {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Set.bal"
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Set.bal"
             });
   }
   if (hr <= (hl + 2 | 0)) {
@@ -4715,18 +4597,14 @@ function bal$2(l, v, r) {
     if (rl) {
       return create$3(create$3(l, v, rl.l), rl.v, create$3(rl.r, rv, rr));
     }
-    throw new Error("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Set.bal"
-              }
-            });
-  }
-  throw new Error("Invalid_argument", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Set.bal"
-            }
+            });
+  }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Set.bal"
           });
 }
 
@@ -4816,10 +4694,8 @@ function min_elt$1(_param) {
       _param = l;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -4833,11 +4709,9 @@ function remove_min_elt$1(param) {
       return param.r;
     }
   }
-  throw new Error("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Set.remove_min_elt"
-            }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Set.remove_min_elt"
           });
 }
 
@@ -5110,18 +4984,14 @@ function bal$3(l, x, d, r) {
       if (lr) {
         return create$4(create$4(ll, lv, ld, lr.l), lr.v, lr.d, create$4(lr.r, x, d, r));
       }
-      throw new Error("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "Map.bal"
-                }
-              });
-    }
-    throw new Error("Invalid_argument", {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Map.bal"
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Map.bal"
             });
   }
   if (hr <= (hl + 2 | 0)) {
@@ -5144,18 +5014,14 @@ function bal$3(l, x, d, r) {
     if (rl) {
       return create$4(create$4(l, x, d, rl.l), rl.v, rl.d, create$4(rl.r, rv, rd, rr));
     }
-    throw new Error("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Map.bal"
-              }
-            });
-  }
-  throw new Error("Invalid_argument", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Map.bal"
-            }
+            });
+  }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Map.bal"
           });
 }
 
@@ -5214,10 +5080,8 @@ function find$1(x, _param) {
       _param = c < 0 ? param.l : param.r;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -5243,15 +5107,13 @@ var TypeHash = Stdlib__Hashtbl.Make({
     });
 
 function print_raw(param) {
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                4836,
-                16
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              4836,
+              16
+            ]
           });
 }
 
@@ -5472,15 +5334,13 @@ function row_fixed(row) {
     case /* Tunivar */9 :
         return true;
     default:
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    4946,
-                    9
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  4946,
+                  9
+                ]
               });
   }
 }
@@ -5541,15 +5401,13 @@ function proxy(ty) {
             case /* Tunivar */9 :
                 return ty$1;
             default:
-              throw new Error("Assert_failure", {
-                        cause: {
-                          MEL_EXN_ID: "Assert_failure",
-                          _1: [
-                            "jscomp/test/ocaml_typedtree_test.ml",
-                            4976,
-                            15
-                          ]
-                        }
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/ocaml_typedtree_test.ml",
+                          4976,
+                          15
+                        ]
                       });
           }
         };
@@ -5660,15 +5518,13 @@ function iter_row(f, _row) {
         case /* Tunivar */9 :
             break;
         default:
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        5023,
-                        9
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      5023,
+                      9
+                    ]
                   });
       }
     }
@@ -5938,15 +5794,13 @@ function copy_kind(_param) {
       if (!param) {
         return /* Fpresent */0;
       }
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    5172,
-                    16
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  5172,
+                  16
+                ]
               });
     }
     var k = param._0.contents;
@@ -6050,26 +5904,22 @@ function copy_type_desc(_keep_namesOpt, f, _ty) {
           _keep_namesOpt = undefined;
           continue ;
       case /* Tsubst */7 :
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        5199,
-                        27
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      5199,
+                      27
+                    ]
                   });
       case /* Tvariant */8 :
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        5194,
-                        27
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      5194,
+                      27
+                    ]
                   });
       case /* Tunivar */9 :
           return ty;
@@ -6098,15 +5948,13 @@ function copy_type_desc(_keep_namesOpt, f, _ty) {
                           
                       }
                     }
-                    throw new Error("Assert_failure", {
-                              cause: {
-                                MEL_EXN_ID: "Assert_failure",
-                                _1: [
-                                  "jscomp/test/ocaml_typedtree_test.ml",
-                                  5184,
-                                  26
-                                ]
-                              }
+                    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                              MEL_EXN_ID: "Assert_failure",
+                              _1: [
+                                "jscomp/test/ocaml_typedtree_test.ml",
+                                5184,
+                                26
+                              ]
                             });
                   };
                 }), ty._1);
@@ -6152,15 +6000,13 @@ var new_kinds = {
 function dup_kind(r) {
   var match = r.contents;
   if (match !== undefined) {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  5217,
-                  40
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                5217,
+                40
+              ]
             });
   }
   if (Stdlib__List.memq(r, new_kinds.contents)) {
@@ -6312,15 +6158,13 @@ function memorize_abbrev(mem, priv, path, v, v$p) {
 
 function forget_abbrev_rec(mem, path) {
   if (typeof mem === "number") {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  5329,
-                  6
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                5329,
+                6
+              ]
             });
   }
   if (mem.TAG === /* Mcons */0) {
@@ -6339,10 +6183,8 @@ function forget_abbrev_rec(mem, path) {
   }
   var mem$p = mem._0;
   mem$p.contents = forget_abbrev_rec(mem$p.contents, path);
-  throw new Error(Stdlib.Exit, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Exit
-            }
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+            MEL_EXN_ID: Stdlib.Exit
           });
 }
 
@@ -6356,9 +6198,7 @@ function forget_abbrev(mem, path) {
     if (exn.MEL_EXN_ID === Stdlib.Exit) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -6409,10 +6249,8 @@ function extract_label_aux(_hd, l, _param) {
       };
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -6586,15 +6424,13 @@ function rev_log(_accu, _param) {
     var accu = _accu;
     if (typeof param === "number") {
       if (param) {
-        throw new Error("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/ocaml_typedtree_test.ml",
-                      5465,
-                      15
-                    ]
-                  }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/ocaml_typedtree_test.ml",
+                    5465,
+                    15
+                  ]
                 });
       }
       return accu;
@@ -6617,11 +6453,9 @@ function backtrack(param) {
   var change = changes.contents;
   if (typeof change === "number") {
     if (change) {
-      throw new Error("Failure", {
-                cause: {
-                  MEL_EXN_ID: "Failure",
-                  _1: "Btype.backtrack"
-                }
+      throw new Caml_js_exceptions.MelangeError("Failure", {
+                MEL_EXN_ID: "Failure",
+                _1: "Btype.backtrack"
               });
     }
     last_snapshot.contents = old;
@@ -6658,24 +6492,20 @@ function read_cmi(filename) {
       var pre_len = cmi_magic_number.length - 3 | 0;
       if (Stdlib__String.sub(buffer, 0, pre_len) === Stdlib__String.sub(cmi_magic_number, 0, pre_len)) {
         var msg = buffer < cmi_magic_number ? "an older" : "a newer";
-        throw new Error($$Error$1, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$1,
-                    _1: {
-                      TAG: /* Wrong_version_interface */1,
-                      _0: filename,
-                      _1: msg
-                    }
+        throw new Caml_js_exceptions.MelangeError($$Error$1, {
+                  MEL_EXN_ID: $$Error$1,
+                  _1: {
+                    TAG: /* Wrong_version_interface */1,
+                    _0: filename,
+                    _1: msg
                   }
                 });
       }
-      throw new Error($$Error$1, {
-                cause: {
-                  MEL_EXN_ID: $$Error$1,
-                  _1: {
-                    TAG: /* Not_an_interface */0,
-                    _0: filename
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$1, {
+                MEL_EXN_ID: $$Error$1,
+                _1: {
+                  TAG: /* Not_an_interface */0,
+                  _0: filename
                 }
               });
     }
@@ -6687,40 +6517,32 @@ function read_cmi(filename) {
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
       Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
-      throw new Error($$Error$1, {
-                cause: {
-                  MEL_EXN_ID: $$Error$1,
-                  _1: {
-                    TAG: /* Corrupted_interface */2,
-                    _0: filename
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$1, {
+                MEL_EXN_ID: $$Error$1,
+                _1: {
+                  TAG: /* Corrupted_interface */2,
+                  _0: filename
                 }
               });
     }
     if (exn.MEL_EXN_ID === Stdlib.Failure) {
       Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
-      throw new Error($$Error$1, {
-                cause: {
-                  MEL_EXN_ID: $$Error$1,
-                  _1: {
-                    TAG: /* Corrupted_interface */2,
-                    _0: filename
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$1, {
+                MEL_EXN_ID: $$Error$1,
+                _1: {
+                  TAG: /* Corrupted_interface */2,
+                  _0: filename
                 }
               });
     }
     if (exn.MEL_EXN_ID === $$Error$1) {
       Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
-      throw new Error($$Error$1, {
-                cause: {
-                  MEL_EXN_ID: $$Error$1,
-                  _1: exn._1
-                }
+      throw new Caml_js_exceptions.MelangeError($$Error$1, {
+                MEL_EXN_ID: $$Error$1,
+                _1: exn._1
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -6871,9 +6693,7 @@ function extract(l, tbl) {
                             tl: assc
                           };
                   }
-                  throw new Error(exn.MEL_EXN_ID, {
-                            cause: exn
-                          });
+                  throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                 }
               }), /* [] */0, l$1);
 }
@@ -7891,9 +7711,7 @@ function get_pre_docs(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -7906,9 +7724,7 @@ function mark_pre_docs(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -7932,9 +7748,7 @@ function get_post_docs(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -7947,9 +7761,7 @@ function mark_post_docs(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -7963,9 +7775,7 @@ function get_info(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -7987,9 +7797,7 @@ function get_text(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return /* [] */0;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -8011,9 +7819,7 @@ function get_pre_extra_text(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return /* [] */0;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -8035,9 +7841,7 @@ function get_post_extra_text(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return /* [] */0;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -10348,26 +10152,22 @@ function bal$4(l, x, d, r) {
       if (lr) {
         return create$5(create$5(ll, lv, ld, lr._0), lr._1, lr._2, create$5(lr._3, x, d, r));
       }
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    8866,
-                    11
-                  ]
-                }
-              });
-    }
-    throw new Error("Assert_failure", {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/ocaml_typedtree_test.ml",
                   8866,
                   11
                 ]
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                8866,
+                11
+              ]
             });
   }
   if (hr <= (hl + 1 | 0)) {
@@ -10382,26 +10182,22 @@ function bal$4(l, x, d, r) {
     if (rl) {
       return create$5(create$5(l, x, d, rl._0), rl._1, rl._2, create$5(rl._3, r._1, r._2, r._3));
     }
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  8873,
-                  11
-                ]
-              }
-            });
-  }
-  throw new Error("Assert_failure", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
                 8873,
                 11
               ]
-            }
+            });
+  }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              8873,
+              11
+            ]
           });
 }
 
@@ -10446,10 +10242,8 @@ function find$2(x, _param) {
       _param = c < 0 ? param._0 : param._3;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -10584,9 +10378,7 @@ function module_path(s, p) {
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             return p;
           }
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
     case /* Pdot */1 :
         return {
@@ -10621,9 +10413,7 @@ function modtype_path(s, p) {
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             return p;
           }
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
     case /* Pdot */1 :
         return {
@@ -10649,9 +10439,7 @@ function type_path(s, p) {
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             return p;
           }
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
     case /* Pdot */1 :
         return {
@@ -10859,15 +10647,13 @@ function typexp(s, ty) {
                           exit$3 = 5;
                           break;
                       default:
-                        throw new Error("Assert_failure", {
-                                  cause: {
-                                    MEL_EXN_ID: "Assert_failure",
-                                    _1: [
-                                      "jscomp/test/ocaml_typedtree_test.ml",
-                                      9179,
-                                      23
-                                    ]
-                                  }
+                        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                  MEL_EXN_ID: "Assert_failure",
+                                  _1: [
+                                    "jscomp/test/ocaml_typedtree_test.ml",
+                                    9179,
+                                    23
+                                  ]
                                 });
                     }
                   }
@@ -11227,9 +11013,7 @@ function modtype(s, mty) {
                 if (exn.MEL_EXN_ID === Stdlib.Not_found) {
                   return mty;
                 }
-                throw new Error(exn.MEL_EXN_ID, {
-                          cause: exn
-                        });
+                throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
               }
           case /* Pdot */1 :
               return {
@@ -11350,15 +11134,13 @@ function modtype_declaration(s, decl) {
 
 var add_delayed_check_forward = {
   contents: (function (param) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    9717,
-                    46
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  9717,
+                  46
+                ]
               });
     })
 };
@@ -11394,9 +11176,7 @@ function force(f, x) {
     case /* Done */0 :
         return x$1._0;
     case /* Raise */1 :
-        throw new Error(x$1._0.MEL_EXN_ID, {
-                  cause: x$1._0
-                });
+        throw new Caml_js_exceptions.MelangeError(x$1._0.MEL_EXN_ID, x$1._0);
     case /* Thunk */2 :
         try {
           var y = Curry._1(f, x$1._0);
@@ -11412,9 +11192,7 @@ function force(f, x) {
             TAG: /* Raise */1,
             _0: e
           };
-          throw new Error(e.MEL_EXN_ID, {
-                    cause: e
-                  });
+          throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
         }
     
   }
@@ -11446,9 +11224,7 @@ function already_defined(s, tbl) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return false;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -11578,75 +11354,65 @@ function is_implicit_coercion(env) {
 
 var components_of_module$p = {
   contents: (function (env, sub, path, mty) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    9965,
-                    32
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  9965,
+                  32
+                ]
               });
     })
 };
 
 var components_of_module_maker$p = {
   contents: (function (param) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    9968,
-                    37
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  9968,
+                  37
+                ]
               });
     })
 };
 
 var components_of_functor_appl$p = {
   contents: (function (f, p1, p2) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    9971,
-                    23
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  9971,
+                  23
+                ]
               });
     })
 };
 
 var check_modtype_inclusion = {
   contents: (function (env, mty1, path1, mty2) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    9975,
-                    35
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  9975,
+                  35
+                ]
               });
     })
 };
 
 var strengthen = {
   contents: (function (env, mty, path) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    9979,
-                    28
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  9979,
+                  28
+                ]
               });
     })
 };
@@ -11696,18 +11462,14 @@ function bal$5(l, v, r) {
       if (lr) {
         return create$6(create$6(ll, lv, lr.l), lr.v, create$6(lr.r, v, r));
       }
-      throw new Error("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "Set.bal"
-                }
-              });
-    }
-    throw new Error("Invalid_argument", {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Set.bal"
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Set.bal"
             });
   }
   if (hr <= (hl + 2 | 0)) {
@@ -11728,18 +11490,14 @@ function bal$5(l, v, r) {
     if (rl) {
       return create$6(create$6(l, v, rl.l), rl.v, create$6(rl.r, rv, rr));
     }
-    throw new Error("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Set.bal"
-              }
-            });
-  }
-  throw new Error("Invalid_argument", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Set.bal"
-            }
+            });
+  }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Set.bal"
           });
 }
 
@@ -11834,13 +11592,11 @@ function check_consistency(ps) {
               if (!Caml_obj.caml_notequal(crco, match[0])) {
                 return ;
               }
-              throw new Error(Inconsistency, {
-                        cause: {
-                          MEL_EXN_ID: Inconsistency,
-                          _1: name,
-                          _2: source,
-                          _3: match[1]
-                        }
+              throw new Caml_js_exceptions.MelangeError(Inconsistency, {
+                        MEL_EXN_ID: Inconsistency,
+                        _1: name,
+                        _2: source,
+                        _3: match[1]
                       });
             }
             catch (raw_exn){
@@ -11851,9 +11607,7 @@ function check_consistency(ps) {
                             source
                           ]);
               }
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
           }), ps.ps_crcs);
     ps.ps_crcs_checked = true;
@@ -11862,21 +11616,17 @@ function check_consistency(ps) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Inconsistency) {
-      throw new Error($$Error$2, {
-                cause: {
-                  MEL_EXN_ID: $$Error$2,
-                  _1: {
-                    TAG: /* Inconsistent_import */1,
-                    _0: exn._1,
-                    _1: exn._3,
-                    _2: exn._2
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                MEL_EXN_ID: $$Error$2,
+                _1: {
+                  TAG: /* Inconsistent_import */1,
+                  _0: exn._1,
+                  _1: exn._3,
+                  _2: exn._2
                 }
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -11914,15 +11664,13 @@ function read_pers_struct(modname, filename) {
     ps_flags: flags
   };
   if (ps.ps_name !== modname) {
-    throw new Error($$Error$2, {
-              cause: {
-                MEL_EXN_ID: $$Error$2,
-                _1: {
-                  TAG: /* Illegal_renaming */0,
-                  _0: modname,
-                  _1: ps.ps_name,
-                  _2: filename
-                }
+    throw new Caml_js_exceptions.MelangeError($$Error$2, {
+              MEL_EXN_ID: $$Error$2,
+              _1: {
+                TAG: /* Illegal_renaming */0,
+                _0: modname,
+                _1: ps.ps_name,
+                _2: filename
               }
             });
   }
@@ -11931,14 +11679,12 @@ function read_pers_struct(modname, filename) {
           if (recursive_types.contents) {
             return ;
           }
-          throw new Error($$Error$2, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$2,
-                      _1: {
-                        TAG: /* Need_recursive_types */2,
-                        _0: ps.ps_name,
-                        _1: current_unit.contents
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                    MEL_EXN_ID: $$Error$2,
+                    _1: {
+                      TAG: /* Need_recursive_types */2,
+                      _0: ps.ps_name,
+                      _1: current_unit.contents
                     }
                   });
         }), ps.ps_flags);
@@ -11949,10 +11695,8 @@ function read_pers_struct(modname, filename) {
 function find_pers_struct(checkOpt, name) {
   var check = checkOpt !== undefined ? checkOpt : true;
   if (name === "*predef*") {
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   }
   var r;
@@ -11964,9 +11708,7 @@ function find_pers_struct(checkOpt, name) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       r = undefined;
     } else {
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   }
   var ps;
@@ -11975,10 +11717,8 @@ function find_pers_struct(checkOpt, name) {
     if (sg !== undefined) {
       ps = sg;
     } else {
-      throw new Error(Stdlib.Not_found, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.Not_found
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                MEL_EXN_ID: Stdlib.Not_found
               });
     }
   } else {
@@ -11991,15 +11731,11 @@ function find_pers_struct(checkOpt, name) {
       var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
       if (exn$1.MEL_EXN_ID === Stdlib.Not_found) {
         Stdlib__Hashtbl.add(persistent_structures, name, undefined);
-        throw new Error(Stdlib.Not_found, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Not_found
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                  MEL_EXN_ID: Stdlib.Not_found
                 });
       }
-      throw new Error(exn$1.MEL_EXN_ID, {
-                cause: exn$1
-              });
+      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
     }
     ps = read_pers_struct(name, filename);
   }
@@ -12022,25 +11758,19 @@ function find_module_descr(path, env) {
             if (id.stamp === 0 && id.name !== current_unit.contents) {
               return find_pers_struct(undefined, id.name).ps_comps;
             }
-            throw new Error(Stdlib.Not_found, {
-                      cause: {
-                        MEL_EXN_ID: Stdlib.Not_found
-                      }
+            throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                      MEL_EXN_ID: Stdlib.Not_found
                     });
           }
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
     case /* Pdot */1 :
         var c = force(components_of_module_maker$p.contents, find_module_descr(path._0, env));
         if (c.TAG === /* Structure_comps */0) {
           return find$2(path._1, c._0.comp_components)[0];
         }
-        throw new Error(Stdlib.Not_found, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Not_found
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                  MEL_EXN_ID: Stdlib.Not_found
                 });
     case /* Papply */2 :
         var p1 = path._0;
@@ -12048,10 +11778,8 @@ function find_module_descr(path, env) {
         if (f.TAG !== /* Structure_comps */0) {
           return Curry._3(components_of_functor_appl$p.contents, f._0, p1, path._1);
         }
-        throw new Error(Stdlib.Not_found, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Not_found
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                  MEL_EXN_ID: Stdlib.Not_found
                 });
     
   }
@@ -12066,16 +11794,12 @@ function find$3(proj1, proj2, path, env) {
         if (c.TAG === /* Structure_comps */0) {
           return find$2(path._1, Curry._1(proj2, c._0))[0];
         }
-        throw new Error(Stdlib.Not_found, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Not_found
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                  MEL_EXN_ID: Stdlib.Not_found
                 });
     case /* Papply */2 :
-        throw new Error(Stdlib.Not_found, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Not_found
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                  MEL_EXN_ID: Stdlib.Not_found
                 });
     
   }
@@ -12134,15 +11858,11 @@ function find_module(alias, path, env) {
                       md_loc: none
                     };
             }
-            throw new Error(Stdlib.Not_found, {
-                      cause: {
-                        MEL_EXN_ID: Stdlib.Not_found
-                      }
+            throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                      MEL_EXN_ID: Stdlib.Not_found
                     });
           }
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
     case /* Pdot */1 :
         var c = force(components_of_module_maker$p.contents, find_module_descr(path._0, env));
@@ -12155,20 +11875,16 @@ function find_module(alias, path, env) {
                   md_loc: none
                 };
         }
-        throw new Error(Stdlib.Not_found, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Not_found
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                  MEL_EXN_ID: Stdlib.Not_found
                 });
     case /* Papply */2 :
         var p2 = path._1;
         var desc1 = find_module_descr(path._0, env);
         var f = force(components_of_module_maker$p.contents, desc1);
         if (f.TAG === /* Structure_comps */0) {
-          throw new Error(Stdlib.Not_found, {
-                    cause: {
-                      MEL_EXN_ID: Stdlib.Not_found
-                    }
+          throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                    MEL_EXN_ID: Stdlib.Not_found
                   });
         }
         var f$1 = f._0;
@@ -12192,9 +11908,7 @@ function find_module(alias, path, env) {
               Stdlib__Hashtbl.add(f$1.fcomp_subst_cache, p2, mty);
               md_type$1 = mty;
             } else {
-              throw new Error(exn$1.MEL_EXN_ID, {
-                        cause: exn$1
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
             }
           }
         }
@@ -12284,13 +11998,9 @@ function normalize_path(lax, env, path) {
       if (tmp) {
         return path$1;
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     } else {
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   }
 }
@@ -12303,32 +12013,26 @@ function normalize_path$1(oloc, env, path) {
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       if (oloc !== undefined) {
-        throw new Error($$Error$2, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$2,
-                    _1: {
-                      TAG: /* Missing_module */3,
-                      _0: oloc,
-                      _1: path,
-                      _2: normalize_path(true, env, path)
-                    }
+        throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                  MEL_EXN_ID: $$Error$2,
+                  _1: {
+                    TAG: /* Missing_module */3,
+                    _0: oloc,
+                    _1: path,
+                    _2: normalize_path(true, env, path)
                   }
                 });
       }
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    10272,
-                    28
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  10272,
+                  28
+                ]
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -12346,10 +12050,8 @@ function find_type_expansion(path, env) {
   }
   var path$p = normalize_path$1(undefined, env, path);
   if (same(path, path$p)) {
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   }
   return [
@@ -12382,10 +12084,8 @@ function find_type_expansion_opt(path, env) {
   }
   var path$p = normalize_path$1(undefined, env, path);
   if (same(path, path$p)) {
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   }
   return [
@@ -12409,10 +12109,8 @@ function find_modtype_expansion(path, env) {
   if (mty !== undefined) {
     return mty;
   }
-  throw new Error(Stdlib.Not_found, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Not_found
-            }
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+            MEL_EXN_ID: Stdlib.Not_found
           });
 }
 
@@ -12430,9 +12128,7 @@ function is_functor_arg(_path, env) {
             if (exn.MEL_EXN_ID === Stdlib.Not_found) {
               return false;
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
       case /* Pdot */1 :
           _path = path._0;
@@ -12457,10 +12153,8 @@ function lookup_module_descr(lid, env) {
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             if (s === current_unit.contents) {
-              throw new Error(Stdlib.Not_found, {
-                        cause: {
-                          MEL_EXN_ID: Stdlib.Not_found
-                        }
+              throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                        MEL_EXN_ID: Stdlib.Not_found
                       });
             }
             var ps = find_pers_struct(undefined, s);
@@ -12476,9 +12170,7 @@ function lookup_module_descr(lid, env) {
                     ps.ps_comps
                   ];
           }
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
     case /* Ldot */1 :
         var s$1 = lid._1;
@@ -12496,10 +12188,8 @@ function lookup_module_descr(lid, env) {
                   match$1[0]
                 ];
         }
-        throw new Error(Stdlib.Not_found, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Not_found
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                  MEL_EXN_ID: Stdlib.Not_found
                 });
     case /* Lapply */2 :
         var match$2 = lookup_module_descr(lid._0, env);
@@ -12508,10 +12198,8 @@ function lookup_module_descr(lid, env) {
         var match$3 = find_module(false, p2, env);
         var f = force(components_of_module_maker$p.contents, match$2[1]);
         if (f.TAG === /* Structure_comps */0) {
-          throw new Error(Stdlib.Not_found, {
-                    cause: {
-                      MEL_EXN_ID: Stdlib.Not_found
-                    }
+          throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                    MEL_EXN_ID: Stdlib.Not_found
                   });
         }
         var f$1 = f._0;
@@ -12540,10 +12228,8 @@ function lookup_module(load, lid, env) {
             switch (id.TAG | 0) {
               case /* Pident */0 :
                   if (id._0.name === "#recmod#") {
-                    throw new Error(Recmodule, {
-                              cause: {
-                                MEL_EXN_ID: Recmodule
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Recmodule, {
+                              MEL_EXN_ID: Recmodule
                             });
                   }
                   break;
@@ -12559,10 +12245,8 @@ function lookup_module(load, lid, env) {
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             if (s === current_unit.contents) {
-              throw new Error(Stdlib.Not_found, {
-                        cause: {
-                          MEL_EXN_ID: Stdlib.Not_found
-                        }
+              throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                        MEL_EXN_ID: Stdlib.Not_found
                       });
             }
             if (transparent_modules.contents && !load) {
@@ -12577,9 +12261,7 @@ function lookup_module(load, lid, env) {
                         _0: s
                       });
                 } else {
-                  throw new Error(exn$1.MEL_EXN_ID, {
-                            cause: exn$1
-                          });
+                  throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
                 }
               }
             } else {
@@ -12594,9 +12276,7 @@ function lookup_module(load, lid, env) {
                     }
                   };
           }
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
     case /* Ldot */1 :
         var s$1 = lid._1;
@@ -12611,10 +12291,8 @@ function lookup_module(load, lid, env) {
                   _2: match$1[1]
                 };
         }
-        throw new Error(Stdlib.Not_found, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Not_found
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                  MEL_EXN_ID: Stdlib.Not_found
                 });
     case /* Lapply */2 :
         var match$2 = lookup_module_descr(lid._0, env);
@@ -12628,10 +12306,8 @@ function lookup_module(load, lid, env) {
         };
         var f = force(components_of_module_maker$p.contents, match$2[1]);
         if (f.TAG === /* Structure_comps */0) {
-          throw new Error(Stdlib.Not_found, {
-                    cause: {
-                      MEL_EXN_ID: Stdlib.Not_found
-                    }
+          throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                    MEL_EXN_ID: Stdlib.Not_found
                   });
         }
         may(Curry._3(check_modtype_inclusion.contents, env, match$3.md_type, p2), f._0.fcomp_arg);
@@ -12660,16 +12336,12 @@ function lookup(proj1, proj2, lid, env) {
                   match$1[0]
                 ];
         }
-        throw new Error(Stdlib.Not_found, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Not_found
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                  MEL_EXN_ID: Stdlib.Not_found
                 });
     case /* Lapply */2 :
-        throw new Error(Stdlib.Not_found, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Not_found
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                  MEL_EXN_ID: Stdlib.Not_found
                 });
     
   }
@@ -12709,9 +12381,7 @@ function lookup_all_simple(proj1, proj2, shadow, lid, env) {
             if (exn.MEL_EXN_ID === Stdlib.Not_found) {
               comps = /* [] */0;
             } else {
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
           }
           return Stdlib__List.map((function (param) {
@@ -12723,16 +12393,12 @@ function lookup_all_simple(proj1, proj2, shadow, lid, env) {
                               ];
                       }), comps);
         }
-        throw new Error(Stdlib.Not_found, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Not_found
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                  MEL_EXN_ID: Stdlib.Not_found
                 });
     case /* Lapply */2 :
-        throw new Error(Stdlib.Not_found, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Not_found
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                  MEL_EXN_ID: Stdlib.Not_found
                 });
     
   }
@@ -12833,9 +12499,7 @@ function mark_value_used(env, name, vd) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -12854,9 +12518,7 @@ function mark_type_used(env, name, vd) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -12876,9 +12538,7 @@ function mark_constructor_used(usage, env, name, vd, constr) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -12899,9 +12559,7 @@ function mark_extension_used(usage, env, ext, name) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -12921,20 +12579,16 @@ function set_type_used_callback(name, td, callback) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    10534,
-                    22
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  10534,
+                  22
+                ]
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
   Stdlib__Hashtbl.replace(type_declarations, key, (function (param) {
           Curry._1(callback, old);
@@ -12967,9 +12621,7 @@ function mark_type_path(env, path) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -12977,29 +12629,25 @@ function ty_path(t) {
   var match = repr(t);
   var match$1 = match.desc;
   if (typeof match$1 === "number") {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  10564,
-                  9
-                ]
-              }
-            });
-  }
-  if (match$1.TAG === /* Tconstr */3) {
-    return match$1._0;
-  }
-  throw new Error("Assert_failure", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
                 10564,
                 9
               ]
-            }
+            });
+  }
+  if (match$1.TAG === /* Tconstr */3) {
+    return match$1._0;
+  }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              10564,
+              9
+            ]
           });
 }
 
@@ -13012,10 +12660,8 @@ function lookup_constructor(lid, env) {
     Curry._1(match$1[1], undefined);
     return desc;
   }
-  throw new Error(Stdlib.Not_found, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Not_found
-            }
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+            MEL_EXN_ID: Stdlib.Not_found
           });
 }
 
@@ -13051,13 +12697,9 @@ function lookup_all_constructors$1(lid, env) {
       if (is_lident(lid)) {
         return /* [] */0;
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -13085,9 +12727,7 @@ function mark_constructor(usage, env, name, desc) {
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             return ;
           }
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
     
   }
@@ -13099,20 +12739,16 @@ function mark_constructor(usage, env, name, desc) {
   catch (raw_exn$1){
     var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
     if (exn$1.MEL_EXN_ID === Stdlib.Not_found) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    10601,
-                    64
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  10601,
+                  64
+                ]
               });
     }
-    throw new Error(exn$1.MEL_EXN_ID, {
-              cause: exn$1
-            });
+    throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
   }
   var ty_name$1 = last(ty_path$2);
   mark_constructor_used(usage, env, ty_name$1, ty_decl, name);
@@ -13139,13 +12775,9 @@ function lookup_all_labels$1(lid, env) {
       if (is_lident(lid)) {
         return /* [] */0;
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -13236,9 +12868,7 @@ function iter_types(f) {
             if (exn.MEL_EXN_ID === Stdlib.Not_found) {
               safe = false;
             } else {
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
           }
         } else {
@@ -13363,9 +12993,7 @@ function find_all_comps(proj, s, param) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return /* [] */0;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -13484,20 +13112,16 @@ function add_gadt_instances(env, lv, tl) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    10759,
-                    59
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  10759,
+                  59
+                ]
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
   set_typeset(r, Stdlib__List.fold_right(add$3, tl, r.contents));
 }
@@ -13510,20 +13134,16 @@ function add_gadt_instance_chain(env, lv, t) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    10768,
-                    59
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  10768,
+                  59
+                ]
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
   var add_instance = function (t) {
     var t$1 = repr(t);
@@ -13552,9 +13172,7 @@ function scrape_alias(env, path, mty) {
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             return mty;
           }
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
     case /* Mty_signature */1 :
     case /* Mty_functor */2 :
@@ -13569,9 +13187,7 @@ function scrape_alias(env, path, mty) {
           if (exn$1.MEL_EXN_ID === Stdlib.Not_found) {
             return mty;
           }
-          throw new Error(exn$1.MEL_EXN_ID, {
-                    cause: exn$1
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
         }
     
   }
@@ -14077,9 +13693,7 @@ function prefix_idents_and_subst$1(root, sub, sg) {
       Stdlib__Hashtbl.add(prefixed_sg, root, sgs$1);
       sgs = sgs$1;
     } else {
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   }
   try {
@@ -14098,9 +13712,7 @@ function prefix_idents_and_subst$1(root, sub, sg) {
       };
       return r;
     }
-    throw new Error(exn$1.MEL_EXN_ID, {
-              cause: exn$1
-            });
+    throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
   }
 }
 
@@ -14114,9 +13726,7 @@ function add_to_tbl(id, decl, tbl) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       decls = /* [] */0;
     } else {
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   }
   return add$5(id, {
@@ -14141,14 +13751,12 @@ function components_of_module(env, sub, path, mty) {
 
 function check_value_name(name, loc) {
   if (bs_only.contents && name === "|.") {
-    throw new Error($$Error$2, {
-              cause: {
-                MEL_EXN_ID: $$Error$2,
-                _1: {
-                  TAG: /* Illegal_value_name */4,
-                  _0: loc,
-                  _1: name
-                }
+    throw new Caml_js_exceptions.MelangeError($$Error$2, {
+              MEL_EXN_ID: $$Error$2,
+              _1: {
+                TAG: /* Illegal_value_name */4,
+                _0: loc,
+                _1: name
               }
             });
   }
@@ -14157,14 +13765,12 @@ function check_value_name(name, loc) {
   }
   for(var i = 1 ,i_finish = name.length; i < i_finish; ++i){
     if (Caml_string.get(name, i) === /* '#' */35) {
-      throw new Error($$Error$2, {
-                cause: {
-                  MEL_EXN_ID: $$Error$2,
-                  _1: {
-                    TAG: /* Illegal_value_name */4,
-                    _0: loc,
-                    _1: name
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                MEL_EXN_ID: $$Error$2,
+                _1: {
+                  TAG: /* Illegal_value_name */4,
+                  _0: loc,
+                  _1: name
                 }
               });
     }
@@ -14737,9 +14343,7 @@ function components_of_functor_appl(f, p1, p2) {
       Stdlib__Hashtbl.add(f.fcomp_cache, p2, comps);
       return comps;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -14867,26 +14471,22 @@ function add_local_constraint(id, info, elv, env) {
               flags: env$1.flags
             };
     }
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  11231,
-                  9
-                ]
-              }
-            });
-  }
-  throw new Error("Assert_failure", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
                 11231,
                 9
               ]
-            }
+            });
+  }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              11231,
+              9
+            ]
           });
 }
 
@@ -15157,9 +14757,7 @@ function save_signature(sg, modname, filename) {
     Caml_io.caml_ml_flush(oc);
     Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
     remove_file(filename);
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -16128,14 +15726,12 @@ register_error_of_exn(function (param) {
     });
 
 function ill_formed_ast(loc, s) {
-  throw new Error($$Error$3, {
-            cause: {
-              MEL_EXN_ID: $$Error$3,
-              _1: {
-                TAG: /* Ill_formed_ast */6,
-                _0: loc,
-                _1: s
-              }
+  throw new Caml_js_exceptions.MelangeError($$Error$3, {
+            MEL_EXN_ID: $$Error$3,
+            _1: {
+              TAG: /* Ill_formed_ast */6,
+              _0: loc,
+              _1: s
             }
           });
 }
@@ -16457,15 +16053,13 @@ function mkexp_constraint(e, param) {
                 _2: t2
               });
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                12327,
-                18
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              12327,
+              18
+            ]
           });
 }
 
@@ -16484,42 +16078,36 @@ function array_function(str, name) {
 }
 
 function unclosed(opening_name, opening_num, closing_name, closing_num) {
-  throw new Error($$Error$3, {
-            cause: {
-              MEL_EXN_ID: $$Error$3,
-              _1: {
-                TAG: /* Unclosed */0,
-                _0: rhs_loc(opening_num),
-                _1: opening_name,
-                _2: rhs_loc(closing_num),
-                _3: closing_name
-              }
+  throw new Caml_js_exceptions.MelangeError($$Error$3, {
+            MEL_EXN_ID: $$Error$3,
+            _1: {
+              TAG: /* Unclosed */0,
+              _0: rhs_loc(opening_num),
+              _1: opening_name,
+              _2: rhs_loc(closing_num),
+              _3: closing_name
             }
           });
 }
 
 function expecting(pos, nonterm) {
-  throw new Error($$Error$3, {
-            cause: {
-              MEL_EXN_ID: $$Error$3,
-              _1: {
-                TAG: /* Expecting */1,
-                _0: rhs_loc(pos),
-                _1: nonterm
-              }
+  throw new Caml_js_exceptions.MelangeError($$Error$3, {
+            MEL_EXN_ID: $$Error$3,
+            _1: {
+              TAG: /* Expecting */1,
+              _0: rhs_loc(pos),
+              _1: nonterm
             }
           });
 }
 
 function not_expecting(pos, nonterm) {
-  throw new Error($$Error$3, {
-            cause: {
-              MEL_EXN_ID: $$Error$3,
-              _1: {
-                TAG: /* Not_expecting */2,
-                _0: rhs_loc(pos),
-                _1: nonterm
-              }
+  throw new Caml_js_exceptions.MelangeError($$Error$3, {
+            MEL_EXN_ID: $$Error$3,
+            _1: {
+              TAG: /* Not_expecting */2,
+              _0: rhs_loc(pos),
+              _1: nonterm
             }
           });
 }
@@ -16583,14 +16171,12 @@ function check_variable(vl, loc, v) {
   if (!Stdlib__List.mem(v, vl)) {
     return ;
   }
-  throw new Error($$Error$3, {
-            cause: {
-              MEL_EXN_ID: $$Error$3,
-              _1: {
-                TAG: /* Variable_in_scope */4,
-                _0: loc,
-                _1: v
-              }
+  throw new Caml_js_exceptions.MelangeError($$Error$3, {
+            MEL_EXN_ID: $$Error$3,
+            _1: {
+              TAG: /* Variable_in_scope */4,
+              _0: loc,
+              _1: v
             }
           });
 }
@@ -17000,11 +16586,9 @@ var yytransl_block = [
 
 var yyact = [
   (function (param) {
-      throw new Error("Failure", {
-                cause: {
-                  MEL_EXN_ID: "Failure",
-                  _1: "parser"
-                }
+      throw new Caml_js_exceptions.MelangeError("Failure", {
+                MEL_EXN_ID: "Failure",
+                _1: "parser"
               });
     }),
   (function (__caml_parser_env) {
@@ -17026,10 +16610,8 @@ var yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib.End_of_file, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.End_of_file
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib.End_of_file, {
+                MEL_EXN_ID: Stdlib.End_of_file
               });
     }),
   (function (__caml_parser_env) {
@@ -17417,14 +16999,12 @@ var yyact = [
       }
       if (exit === 1) {
         if (Caml_obj.caml_notequal(lbs.lbs_attributes, /* [] */0)) {
-          throw new Error($$Error$3, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$3,
-                      _1: {
-                        TAG: /* Not_expecting */2,
-                        _0: lbs.lbs_loc,
-                        _1: "attributes"
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$3, {
+                    MEL_EXN_ID: $$Error$3,
+                    _1: {
+                      TAG: /* Not_expecting */2,
+                      _0: lbs.lbs_loc,
+                      _1: "attributes"
                     }
                   });
         }
@@ -18032,40 +17612,34 @@ var yyact = [
       var _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       var bindings = Stdlib__List.map((function (lb) {
               if (Caml_obj.caml_notequal(lb.lb_attributes, /* [] */0)) {
-                throw new Error($$Error$3, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$3,
-                            _1: {
-                              TAG: /* Not_expecting */2,
-                              _0: lb.lb_loc,
-                              _1: "item attribute"
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$3, {
+                          MEL_EXN_ID: $$Error$3,
+                          _1: {
+                            TAG: /* Not_expecting */2,
+                            _0: lb.lb_loc,
+                            _1: "item attribute"
                           }
                         });
               }
               return mk$17(lb.lb_loc, undefined, undefined, undefined, lb.lb_pattern, lb.lb_expression);
             }), _1.lbs_bindings);
       if (_1.lbs_extension !== undefined) {
-        throw new Error($$Error$3, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$3,
-                    _1: {
-                      TAG: /* Not_expecting */2,
-                      _0: _1.lbs_loc,
-                      _1: "extension"
-                    }
+        throw new Caml_js_exceptions.MelangeError($$Error$3, {
+                  MEL_EXN_ID: $$Error$3,
+                  _1: {
+                    TAG: /* Not_expecting */2,
+                    _0: _1.lbs_loc,
+                    _1: "extension"
                   }
                 });
       }
       if (Caml_obj.caml_notequal(_1.lbs_attributes, /* [] */0)) {
-        throw new Error($$Error$3, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$3,
-                    _1: {
-                      TAG: /* Not_expecting */2,
-                      _0: _1.lbs_loc,
-                      _1: "attributes"
-                    }
+        throw new Caml_js_exceptions.MelangeError($$Error$3, {
+                  MEL_EXN_ID: $$Error$3,
+                  _1: {
+                    TAG: /* Not_expecting */2,
+                    _0: _1.lbs_loc,
+                    _1: "attributes"
                   }
                 });
       }
@@ -18248,10 +17822,8 @@ var yyact = [
       var _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       var _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       if (_1 === /* Override */0) {
-        throw new Error(Escape_error, {
-                  cause: {
-                    MEL_EXN_ID: Escape_error
-                  }
+        throw new Caml_js_exceptions.MelangeError(Escape_error, {
+                  MEL_EXN_ID: Escape_error
                 });
       }
       return [
@@ -18325,10 +17897,8 @@ var yyact = [
       var _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       var _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       if (_1 === /* Override */0) {
-        throw new Error(Escape_error, {
-                  cause: {
-                    MEL_EXN_ID: Escape_error
-                  }
+        throw new Caml_js_exceptions.MelangeError(Escape_error, {
+                  MEL_EXN_ID: Escape_error
                 });
       }
       return [
@@ -18349,10 +17919,8 @@ var yyact = [
       var _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       var _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       if (_1 === /* Override */0) {
-        throw new Error(Escape_error, {
-                  cause: {
-                    MEL_EXN_ID: Escape_error
-                  }
+        throw new Caml_js_exceptions.MelangeError(Escape_error, {
+                  MEL_EXN_ID: Escape_error
                 });
       }
       return [
@@ -18892,14 +18460,12 @@ var yyact = [
       var _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       var bindings = Stdlib__List.map((function (lb) {
               if (Caml_obj.caml_notequal(lb.lb_attributes, /* [] */0)) {
-                throw new Error($$Error$3, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$3,
-                            _1: {
-                              TAG: /* Not_expecting */2,
-                              _0: lb.lb_loc,
-                              _1: "item attribute"
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$3, {
+                          MEL_EXN_ID: $$Error$3,
+                          _1: {
+                            TAG: /* Not_expecting */2,
+                            _0: lb.lb_loc,
+                            _1: "item attribute"
                           }
                         });
               }
@@ -19013,10 +18579,8 @@ var yyact = [
   (function (__caml_parser_env) {
       Stdlib__Parsing.peek_val(__caml_parser_env, 3);
       Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      throw new Error(Escape_error, {
-                cause: {
-                  MEL_EXN_ID: Escape_error
-                }
+      throw new Caml_js_exceptions.MelangeError(Escape_error, {
+                MEL_EXN_ID: Escape_error
               });
     }),
   (function (__caml_parser_env) {
@@ -20580,17 +20144,13 @@ var yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      throw new Error(Escape_error, {
-                cause: {
-                  MEL_EXN_ID: Escape_error
-                }
+      throw new Caml_js_exceptions.MelangeError(Escape_error, {
+                MEL_EXN_ID: Escape_error
               });
     }),
   (function (__caml_parser_env) {
-      throw new Error(Escape_error, {
-                cause: {
-                  MEL_EXN_ID: Escape_error
-                }
+      throw new Caml_js_exceptions.MelangeError(Escape_error, {
+                MEL_EXN_ID: Escape_error
               });
     }),
   (function (__caml_parser_env) {
@@ -21727,18 +21287,14 @@ var yyact = [
       var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       if (_2) {
         if (_2.tl) {
-          throw new Error(Stdlib__Parsing.Parse_error, {
-                    cause: {
-                      MEL_EXN_ID: Stdlib__Parsing.Parse_error
-                    }
+          throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error, {
+                    MEL_EXN_ID: Stdlib__Parsing.Parse_error
                   });
         }
         return _2.hd;
       }
-      throw new Error(Stdlib__Parsing.Parse_error, {
-                cause: {
-                  MEL_EXN_ID: Stdlib__Parsing.Parse_error
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error, {
+                MEL_EXN_ID: Stdlib__Parsing.Parse_error
               });
     }),
   (function (__caml_parser_env) {
@@ -21748,18 +21304,14 @@ var yyact = [
       var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       if (_2) {
         if (_2.tl) {
-          throw new Error(Stdlib__Parsing.Parse_error, {
-                    cause: {
-                      MEL_EXN_ID: Stdlib__Parsing.Parse_error
-                    }
+          throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error, {
+                    MEL_EXN_ID: Stdlib__Parsing.Parse_error
                   });
         }
         return _2.hd;
       }
-      throw new Error(Stdlib__Parsing.Parse_error, {
-                cause: {
-                  MEL_EXN_ID: Stdlib__Parsing.Parse_error
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error, {
+                MEL_EXN_ID: Stdlib__Parsing.Parse_error
               });
     }),
   (function (__caml_parser_env) {
@@ -22542,13 +22094,11 @@ var yyact = [
                 _1: _3
               };
       }
-      throw new Error($$Error$3, {
-                cause: {
-                  MEL_EXN_ID: $$Error$3,
-                  _1: {
-                    TAG: /* Applicative_path */3,
-                    _0: symbol_rloc(undefined)
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$3, {
+                MEL_EXN_ID: $$Error$3,
+                _1: {
+                  TAG: /* Applicative_path */3,
+                  _0: symbol_rloc(undefined)
                 }
               });
     }),
@@ -23061,59 +22611,45 @@ var yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib__Parsing.YYexit, {
-                cause: {
-                  MEL_EXN_ID: Stdlib__Parsing.YYexit,
-                  _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
+                MEL_EXN_ID: Stdlib__Parsing.YYexit,
+                _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
               });
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib__Parsing.YYexit, {
-                cause: {
-                  MEL_EXN_ID: Stdlib__Parsing.YYexit,
-                  _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
+                MEL_EXN_ID: Stdlib__Parsing.YYexit,
+                _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
               });
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib__Parsing.YYexit, {
-                cause: {
-                  MEL_EXN_ID: Stdlib__Parsing.YYexit,
-                  _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
+                MEL_EXN_ID: Stdlib__Parsing.YYexit,
+                _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
               });
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib__Parsing.YYexit, {
-                cause: {
-                  MEL_EXN_ID: Stdlib__Parsing.YYexit,
-                  _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
+                MEL_EXN_ID: Stdlib__Parsing.YYexit,
+                _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
               });
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib__Parsing.YYexit, {
-                cause: {
-                  MEL_EXN_ID: Stdlib__Parsing.YYexit,
-                  _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
+                MEL_EXN_ID: Stdlib__Parsing.YYexit,
+                _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
               });
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib__Parsing.YYexit, {
-                cause: {
-                  MEL_EXN_ID: Stdlib__Parsing.YYexit,
-                  _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
+                MEL_EXN_ID: Stdlib__Parsing.YYexit,
+                _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
               });
     }),
   (function (__caml_parser_env) {
-      throw new Error(Stdlib__Parsing.YYexit, {
-                cause: {
-                  MEL_EXN_ID: Stdlib__Parsing.YYexit,
-                  _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
+                MEL_EXN_ID: Stdlib__Parsing.YYexit,
+                _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
               });
     })
 ];
@@ -23180,16 +22716,14 @@ function assert_same_type(lexbuf, x, y) {
   var lhs = type_of_directive(x);
   var rhs = type_of_directive(y);
   if (lhs !== rhs) {
-    throw new Error($$Error$4, {
-              cause: {
-                MEL_EXN_ID: $$Error$4,
-                _1: {
-                  TAG: /* Conditional_expr_expected_type */7,
-                  _0: lhs,
-                  _1: rhs
-                },
-                _2: curr(lexbuf)
-              }
+    throw new Caml_js_exceptions.MelangeError($$Error$4, {
+              MEL_EXN_ID: $$Error$4,
+              _1: {
+                TAG: /* Conditional_expr_expected_type */7,
+                _0: lhs,
+                _1: rhs
+              },
+              _2: curr(lexbuf)
             });
   }
   return y;
@@ -23217,9 +22751,7 @@ catch (raw_exn$1){
   if (exn$2.MEL_EXN_ID === Stdlib.Not_found) {
     tmp = "";
   } else {
-    throw new Error(exn$2.MEL_EXN_ID, {
-              cause: exn$2
-            });
+    throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
   }
 }
 
@@ -23335,9 +22867,7 @@ function query(loc, str) {
                   _0: false
                 };
         }
-        throw new Error(exn$1.MEL_EXN_ID, {
-                  cause: exn$1
-                });
+        throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
       }
       if (exit === 2) {
         try {
@@ -23371,9 +22901,7 @@ function query(loc, str) {
       }
       
     } else {
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   }
   if (typeof v === "number") {
@@ -23400,12 +22928,10 @@ function value_of_token(loc, t) {
                   _0: true
                 };
       default:
-        throw new Error($$Error$4, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$4,
-                    _1: /* Unexpected_token_in_conditional */4,
-                    _2: loc
-                  }
+        throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                  MEL_EXN_ID: $$Error$4,
+                  _1: /* Unexpected_token_in_conditional */4,
+                  _2: loc
                 });
     }
   } else {
@@ -23428,12 +22954,10 @@ function value_of_token(loc, t) {
       case /* UIDENT */17 :
           return query(loc, t._0);
       default:
-        throw new Error($$Error$4, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$4,
-                    _1: /* Unexpected_token_in_conditional */4,
-                    _2: loc
-                  }
+        throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                  MEL_EXN_ID: $$Error$4,
+                  _1: /* Unexpected_token_in_conditional */4,
+                  _2: loc
                 });
     }
   }
@@ -23455,12 +22979,10 @@ function directive_parse(token_with_comments, lexbuf) {
       if (typeof t === "number") {
         switch (t) {
           case /* EOF */25 :
-              throw new Error($$Error$4, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$4,
-                          _1: /* Unterminated_if */2,
-                          _2: curr(lexbuf)
-                        }
+              throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                        MEL_EXN_ID: $$Error$4,
+                        _1: /* Unterminated_if */2,
+                        _2: curr(lexbuf)
                       });
           case /* EOL */100 :
               _param = undefined;
@@ -23482,15 +23004,13 @@ function directive_parse(token_with_comments, lexbuf) {
   };
   var push = function (e) {
     if (look_ahead.contents !== undefined) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    24607,
-                    4
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  24607,
+                  4
+                ]
               });
     }
     look_ahead.contents = e;
@@ -23532,15 +23052,13 @@ function directive_parse(token_with_comments, lexbuf) {
                   var str = rhs._0;
                   var last_index = str.length - 1 | 0;
                   if (last_index < 0) {
-                    throw new Error($$Error$4, {
-                              cause: {
-                                MEL_EXN_ID: $$Error$4,
-                                _1: {
-                                  TAG: /* Illegal_semver */6,
-                                  _0: str
-                                },
-                                _2: curr_loc
-                              }
+                    throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                              MEL_EXN_ID: $$Error$4,
+                              _1: {
+                                TAG: /* Illegal_semver */6,
+                                _0: str
+                              },
+                              _2: curr_loc
                             });
                   }
                   var v = str.charCodeAt(0);
@@ -23560,15 +23078,13 @@ function directive_parse(token_with_comments, lexbuf) {
                       switch (v) {
                         case 60 :
                             if (last_index === 0) {
-                              throw new Error($$Error$4, {
-                                        cause: {
-                                          MEL_EXN_ID: $$Error$4,
-                                          _1: {
-                                            TAG: /* Illegal_semver */6,
-                                            _0: str
-                                          },
-                                          _2: curr_loc
-                                        }
+                              throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                                        MEL_EXN_ID: $$Error$4,
+                                        _1: {
+                                          TAG: /* Illegal_semver */6,
+                                          _0: str
+                                        },
+                                        _2: curr_loc
                                       });
                             }
                             match = str[1] === "=" ? [
@@ -23584,15 +23100,13 @@ function directive_parse(token_with_comments, lexbuf) {
                             break;
                         case 62 :
                             if (last_index === 0) {
-                              throw new Error($$Error$4, {
-                                        cause: {
-                                          MEL_EXN_ID: $$Error$4,
-                                          _1: {
-                                            TAG: /* Illegal_semver */6,
-                                            _0: str
-                                          },
-                                          _2: curr_loc
-                                        }
+                              throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                                        MEL_EXN_ID: $$Error$4,
+                                        _1: {
+                                          TAG: /* Illegal_semver */6,
+                                          _0: str
+                                        },
+                                        _2: curr_loc
                                       });
                             }
                             match = str[1] === "=" ? [
@@ -23652,23 +23166,7 @@ function directive_parse(token_with_comments, lexbuf) {
                 exit$2 = 3;
               }
               if (exit$2 === 3) {
-                throw new Error($$Error$4, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$4,
-                            _1: {
-                              TAG: /* Conditional_expr_expected_type */7,
-                              _0: /* Dir_type_string */3,
-                              _1: type_of_directive(lhs)
-                            },
-                            _2: curr(lexbuf)
-                          }
-                        });
-              }
-              
-            }
-            if (exit$1 === 2) {
-              throw new Error($$Error$4, {
-                        cause: {
+                throw new Caml_js_exceptions.MelangeError($$Error$4, {
                           MEL_EXN_ID: $$Error$4,
                           _1: {
                             TAG: /* Conditional_expr_expected_type */7,
@@ -23676,7 +23174,19 @@ function directive_parse(token_with_comments, lexbuf) {
                             _1: type_of_directive(lhs)
                           },
                           _2: curr(lexbuf)
-                        }
+                        });
+              }
+              
+            }
+            if (exit$1 === 2) {
+              throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                        MEL_EXN_ID: $$Error$4,
+                        _1: {
+                          TAG: /* Conditional_expr_expected_type */7,
+                          _0: /* Dir_type_string */3,
+                          _1: type_of_directive(lhs)
+                        },
+                        _2: curr(lexbuf)
                       });
             }
             break;
@@ -23721,15 +23231,13 @@ function directive_parse(token_with_comments, lexbuf) {
         exit$4 = 2;
       }
       if (exit$4 === 2) {
-        throw new Error("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/ocaml_typedtree_test.ml",
-                      24626,
-                      17
-                    ]
-                  }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/ocaml_typedtree_test.ml",
+                    24626,
+                    17
+                  ]
                 });
       }
       var curr_loc$1 = curr(lexbuf);
@@ -23787,38 +23295,32 @@ function directive_parse(token_with_comments, lexbuf) {
             if (match === 81) {
               return v;
             }
-            throw new Error($$Error$4, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$4,
-                        _1: /* Unterminated_paren_in_conditional */1,
-                        _2: curr(lexbuf)
-                      }
+            throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                      MEL_EXN_ID: $$Error$4,
+                      _1: /* Unterminated_paren_in_conditional */1,
+                      _2: curr(lexbuf)
                     });
         case /* TRUE */91 :
             return true;
         default:
-          throw new Error($$Error$4, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$4,
-                      _1: /* Unexpected_token_in_conditional */4,
-                      _2: curr_loc
-                    }
+          throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                    MEL_EXN_ID: $$Error$4,
+                    _1: /* Unexpected_token_in_conditional */4,
+                    _2: curr_loc
                   });
       }
     } else {
       switch (curr_token.TAG | 0) {
         case /* FLOAT */1 :
             return token_op(calc, (function (e) {
-                          throw new Error($$Error$4, {
-                                    cause: {
-                                      MEL_EXN_ID: $$Error$4,
-                                      _1: {
-                                        TAG: /* Conditional_expr_expected_type */7,
-                                        _0: /* Dir_type_bool */0,
-                                        _1: /* Dir_type_float */1
-                                      },
-                                      _2: curr_loc
-                                    }
+                          throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                                    MEL_EXN_ID: $$Error$4,
+                                    _1: {
+                                      TAG: /* Conditional_expr_expected_type */7,
+                                      _0: /* Dir_type_bool */0,
+                                      _1: /* Dir_type_float */1
+                                    },
+                                    _2: curr_loc
                                   });
                         }), {
                         TAG: /* Dir_float */1,
@@ -23826,16 +23328,14 @@ function directive_parse(token_with_comments, lexbuf) {
                       });
         case /* INT */7 :
             return token_op(calc, (function (e) {
-                          throw new Error($$Error$4, {
-                                    cause: {
-                                      MEL_EXN_ID: $$Error$4,
-                                      _1: {
-                                        TAG: /* Conditional_expr_expected_type */7,
-                                        _0: /* Dir_type_bool */0,
-                                        _1: /* Dir_type_int */2
-                                      },
-                                      _2: curr_loc
-                                    }
+                          throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                                    MEL_EXN_ID: $$Error$4,
+                                    _1: {
+                                      TAG: /* Conditional_expr_expected_type */7,
+                                      _0: /* Dir_type_bool */0,
+                                      _1: /* Dir_type_int */2
+                                    },
+                                    _2: curr_loc
                                   });
                         }), {
                         TAG: /* Dir_int */2,
@@ -23848,23 +23348,19 @@ function directive_parse(token_with_comments, lexbuf) {
               case "undefined" :
                   break;
               default:
-                throw new Error($$Error$4, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$4,
-                            _1: /* Unexpected_token_in_conditional */4,
-                            _2: curr_loc
-                          }
+                throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                          MEL_EXN_ID: $$Error$4,
+                          _1: /* Unexpected_token_in_conditional */4,
+                          _2: curr_loc
                         });
             }
             var t = token(undefined);
             var loc = curr(lexbuf);
             if (typeof t === "number") {
-              throw new Error($$Error$4, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$4,
-                          _1: /* Unexpected_token_in_conditional */4,
-                          _2: loc
-                        }
+              throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                        MEL_EXN_ID: $$Error$4,
+                        _1: /* Unexpected_token_in_conditional */4,
+                        _2: loc
                       });
             }
             if (t.TAG === /* UIDENT */17) {
@@ -23879,26 +23375,22 @@ function directive_parse(token_with_comments, lexbuf) {
                 return true;
               }
             }
-            throw new Error($$Error$4, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$4,
-                        _1: /* Unexpected_token_in_conditional */4,
-                        _2: loc
-                      }
+            throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                      MEL_EXN_ID: $$Error$4,
+                      _1: /* Unexpected_token_in_conditional */4,
+                      _2: loc
                     });
             break;
         case /* STRING */16 :
             return token_op(calc, (function (e) {
-                          throw new Error($$Error$4, {
-                                    cause: {
-                                      MEL_EXN_ID: $$Error$4,
-                                      _1: {
-                                        TAG: /* Conditional_expr_expected_type */7,
-                                        _0: /* Dir_type_bool */0,
-                                        _1: /* Dir_type_string */3
-                                      },
-                                      _2: curr_loc
-                                    }
+                          throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                                    MEL_EXN_ID: $$Error$4,
+                                    _1: {
+                                      TAG: /* Conditional_expr_expected_type */7,
+                                      _0: /* Dir_type_bool */0,
+                                      _1: /* Dir_type_string */3
+                                    },
+                                    _2: curr_loc
                                   });
                         }), {
                         TAG: /* Dir_string */3,
@@ -23912,25 +23404,21 @@ function directive_parse(token_with_comments, lexbuf) {
                             return value_v._0;
                           }
                           var ty = type_of_directive(value_v);
-                          throw new Error($$Error$4, {
-                                    cause: {
-                                      MEL_EXN_ID: $$Error$4,
-                                      _1: {
-                                        TAG: /* Conditional_expr_expected_type */7,
-                                        _0: /* Dir_type_bool */0,
-                                        _1: ty
-                                      },
-                                      _2: curr_loc
-                                    }
+                          throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                                    MEL_EXN_ID: $$Error$4,
+                                    _1: {
+                                      TAG: /* Conditional_expr_expected_type */7,
+                                      _0: /* Dir_type_bool */0,
+                                      _1: ty
+                                    },
+                                    _2: curr_loc
                                   });
                         }), value_v);
         default:
-          throw new Error($$Error$4, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$4,
-                      _1: /* Unexpected_token_in_conditional */4,
-                      _2: curr_loc
-                    }
+          throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                    MEL_EXN_ID: $$Error$4,
+                    _1: /* Unexpected_token_in_conditional */4,
+                    _2: curr_loc
                   });
       }
     }
@@ -23940,12 +23428,10 @@ function directive_parse(token_with_comments, lexbuf) {
   if (match === 88) {
     return v;
   }
-  throw new Error($$Error$4, {
-            cause: {
-              MEL_EXN_ID: $$Error$4,
-              _1: /* Expect_hash_then_in_conditional */5,
-              _2: curr(lexbuf)
-            }
+  throw new Caml_js_exceptions.MelangeError($$Error$4, {
+            MEL_EXN_ID: $$Error$4,
+            _1: /* Expect_hash_then_in_conditional */5,
+            _2: curr(lexbuf)
           });
 }
 
@@ -24436,15 +23922,13 @@ function char_for_decimal_code(lexbuf, i) {
   if (Caml_obj.caml_notequal(comment_start_loc.contents, /* [] */0)) {
     return /* 'x' */120;
   }
-  throw new Error($$Error$4, {
-            cause: {
-              MEL_EXN_ID: $$Error$4,
-              _1: {
-                TAG: /* Illegal_escape */1,
-                _0: Stdlib__Lexing.lexeme(lexbuf)
-              },
-              _2: curr(lexbuf)
-            }
+  throw new Caml_js_exceptions.MelangeError($$Error$4, {
+            MEL_EXN_ID: $$Error$4,
+            _1: {
+              TAG: /* Illegal_escape */1,
+              _0: Stdlib__Lexing.lexeme(lexbuf)
+            },
+            _2: curr(lexbuf)
           });
 }
 
@@ -24473,15 +23957,13 @@ function cvt_int64_literal(s) {
 }
 
 function cvt_nativeint_literal(s) {
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                24914,
-                30
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              24914,
+              30
+            ]
           });
 }
 
@@ -24516,15 +23998,13 @@ function get_label_name(lexbuf) {
   var s = Stdlib__Lexing.lexeme(lexbuf);
   var name = Stdlib__String.sub(s, 1, s.length - 2 | 0);
   if (Stdlib__Hashtbl.mem(keyword_table, name)) {
-    throw new Error($$Error$4, {
-              cause: {
-                MEL_EXN_ID: $$Error$4,
-                _1: {
-                  TAG: /* Keyword_as_label */4,
-                  _0: name
-                },
-                _2: curr(lexbuf)
-              }
+    throw new Caml_js_exceptions.MelangeError($$Error$4, {
+              MEL_EXN_ID: $$Error$4,
+              _1: {
+                TAG: /* Keyword_as_label */4,
+                _0: name
+              },
+              _2: curr(lexbuf)
             });
   }
   return name;
@@ -24803,15 +24283,13 @@ function token(lexbuf) {
     switch (__ocaml_lex_state$1) {
       case 0 :
           if (!escaped_newlines.contents) {
-            throw new Error($$Error$4, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$4,
-                        _1: {
-                          TAG: /* Illegal_character */0,
-                          _0: Stdlib__Lexing.lexeme_char(lexbuf, 0)
-                        },
-                        _2: curr(lexbuf)
-                      }
+            throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                      MEL_EXN_ID: $$Error$4,
+                      _1: {
+                        TAG: /* Illegal_character */0,
+                        _0: Stdlib__Lexing.lexeme_char(lexbuf, 0)
+                      },
+                      _2: curr(lexbuf)
                     });
           }
           update_loc(lexbuf, undefined, 1, false, 0);
@@ -24868,9 +24346,7 @@ function token(lexbuf) {
                       _0: s
                     };
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
       case 11 :
           prerr_warning(curr(lexbuf), {
@@ -24905,20 +24381,16 @@ function token(lexbuf) {
           catch (raw_exn$1){
             var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
             if (exn$1.MEL_EXN_ID === Stdlib.Failure) {
-              throw new Error($$Error$4, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$4,
-                          _1: {
-                            TAG: /* Literal_overflow */5,
-                            _0: "int"
-                          },
-                          _2: curr(lexbuf)
-                        }
+              throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                        MEL_EXN_ID: $$Error$4,
+                        _1: {
+                          TAG: /* Literal_overflow */5,
+                          _0: "int"
+                        },
+                        _2: curr(lexbuf)
                       });
             }
-            throw new Error(exn$1.MEL_EXN_ID, {
-                      cause: exn$1
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
           }
       case 15 :
           return {
@@ -24935,20 +24407,16 @@ function token(lexbuf) {
           catch (raw_exn$2){
             var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
             if (exn$2.MEL_EXN_ID === Stdlib.Failure) {
-              throw new Error($$Error$4, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$4,
-                          _1: {
-                            TAG: /* Literal_overflow */5,
-                            _0: "int32"
-                          },
-                          _2: curr(lexbuf)
-                        }
+              throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                        MEL_EXN_ID: $$Error$4,
+                        _1: {
+                          TAG: /* Literal_overflow */5,
+                          _0: "int32"
+                        },
+                        _2: curr(lexbuf)
                       });
             }
-            throw new Error(exn$2.MEL_EXN_ID, {
-                      cause: exn$2
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
           }
       case 17 :
           try {
@@ -24960,20 +24428,16 @@ function token(lexbuf) {
           catch (raw_exn$3){
             var exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
             if (exn$3.MEL_EXN_ID === Stdlib.Failure) {
-              throw new Error($$Error$4, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$4,
-                          _1: {
-                            TAG: /* Literal_overflow */5,
-                            _0: "int64"
-                          },
-                          _2: curr(lexbuf)
-                        }
+              throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                        MEL_EXN_ID: $$Error$4,
+                        _1: {
+                          TAG: /* Literal_overflow */5,
+                          _0: "int64"
+                        },
+                        _2: curr(lexbuf)
                       });
             }
-            throw new Error(exn$3.MEL_EXN_ID, {
-                      cause: exn$3
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
           }
       case 18 :
           try {
@@ -24985,20 +24449,16 @@ function token(lexbuf) {
           catch (raw_exn$4){
             var exn$4 = Caml_js_exceptions.internalToOCamlException(raw_exn$4);
             if (exn$4.MEL_EXN_ID === Stdlib.Failure) {
-              throw new Error($$Error$4, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$4,
-                          _1: {
-                            TAG: /* Literal_overflow */5,
-                            _0: "nativeint"
-                          },
-                          _2: curr(lexbuf)
-                        }
+              throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                        MEL_EXN_ID: $$Error$4,
+                        _1: {
+                          TAG: /* Literal_overflow */5,
+                          _0: "nativeint"
+                        },
+                        _2: curr(lexbuf)
                       });
             }
-            throw new Error(exn$4.MEL_EXN_ID, {
-                      cause: exn$4
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$4.MEL_EXN_ID, exn$4);
           }
       case 19 :
           reset_string_buffer(undefined);
@@ -25061,15 +24521,13 @@ function token(lexbuf) {
       case 26 :
           var l = Stdlib__Lexing.lexeme(lexbuf);
           var esc = Stdlib__String.sub(l, 1, l.length - 1 | 0);
-          throw new Error($$Error$4, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$4,
-                      _1: {
-                        TAG: /* Illegal_escape */1,
-                        _0: esc
-                      },
-                      _2: curr(lexbuf)
-                    }
+          throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                    MEL_EXN_ID: $$Error$4,
+                    _1: {
+                      TAG: /* Illegal_escape */1,
+                      _0: esc
+                    },
+                    _2: curr(lexbuf)
                   });
       case 27 :
           var match = with_comment_buffer(comment, lexbuf);
@@ -25279,31 +24737,25 @@ function token(lexbuf) {
             return /* EOF */25;
           }
           if (if_then_else.contents === /* Dir_if_true */0) {
-            throw new Error($$Error$4, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$4,
-                        _1: /* Unterminated_if */2,
-                        _2: curr(lexbuf)
-                      }
+            throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                      MEL_EXN_ID: $$Error$4,
+                      _1: /* Unterminated_if */2,
+                      _2: curr(lexbuf)
                     });
           }
-          throw new Error($$Error$4, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$4,
-                      _1: /* Unterminated_else */3,
-                      _2: curr(lexbuf)
-                    }
+          throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                    MEL_EXN_ID: $$Error$4,
+                    _1: /* Unterminated_else */3,
+                    _2: curr(lexbuf)
                   });
       case 91 :
-          throw new Error($$Error$4, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$4,
-                      _1: {
-                        TAG: /* Illegal_character */0,
-                        _0: Stdlib__Lexing.lexeme_char(lexbuf, 0)
-                      },
-                      _2: curr(lexbuf)
-                    }
+          throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                    MEL_EXN_ID: $$Error$4,
+                    _1: {
+                      TAG: /* Illegal_character */0,
+                      _0: Stdlib__Lexing.lexeme_char(lexbuf, 0)
+                    },
+                    _2: curr(lexbuf)
                   });
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
@@ -25325,12 +24777,10 @@ function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
           continue ;
       case 1 :
           is_in_string.contents = false;
-          throw new Error($$Error$4, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$4,
-                      _1: /* Unterminated_string */0,
-                      _2: string_start_loc.contents
-                    }
+          throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                    MEL_EXN_ID: $$Error$4,
+                    _1: /* Unterminated_string */0,
+                    _2: string_start_loc.contents
                   });
       case 2 :
           var edelim = Stdlib__Lexing.lexeme(lexbuf);
@@ -25393,12 +24843,10 @@ function string(lexbuf) {
           return string(lexbuf);
       case 7 :
           is_in_string.contents = false;
-          throw new Error($$Error$4, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$4,
-                      _1: /* Unterminated_string */0,
-                      _2: string_start_loc.contents
-                    }
+          throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                    MEL_EXN_ID: $$Error$4,
+                    _1: /* Unterminated_string */0,
+                    _2: string_start_loc.contents
                   });
       case 8 :
           store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
@@ -25440,15 +24888,13 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
             comment_start_loc.contents = /* [] */0;
             return curr(lexbuf);
           }
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        26844,
-                        16
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      26844,
+                      16
+                    ]
                   });
       case 2 :
           string_start_loc.contents = curr(lexbuf);
@@ -25463,44 +24909,34 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
               var match$1 = exn._1;
               if (typeof match$1 === "number") {
                 if (match$1) {
-                  throw new Error(exn.MEL_EXN_ID, {
-                            cause: exn
-                          });
+                  throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                 }
                 var match$2 = comment_start_loc.contents;
                 if (match$2) {
                   var start = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
                   comment_start_loc.contents = /* [] */0;
-                  throw new Error($$Error$4, {
-                            cause: {
-                              MEL_EXN_ID: $$Error$4,
-                              _1: {
-                                TAG: /* Unterminated_string_in_comment */3,
-                                _0: start,
-                                _1: exn._2
-                              },
-                              _2: match$2.hd
-                            }
+                  throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                            MEL_EXN_ID: $$Error$4,
+                            _1: {
+                              TAG: /* Unterminated_string_in_comment */3,
+                              _0: start,
+                              _1: exn._2
+                            },
+                            _2: match$2.hd
                           });
                 }
-                throw new Error("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/ocaml_typedtree_test.ml",
-                              26861,
-                              18
-                            ]
-                          }
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/ocaml_typedtree_test.ml",
+                            26861,
+                            18
+                          ]
                         });
               }
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
           is_in_string.contents = false;
           store_string_char(/* '"' */34);
@@ -25521,44 +24957,34 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
               var match$3 = exn$1._1;
               if (typeof match$3 === "number") {
                 if (match$3) {
-                  throw new Error(exn$1.MEL_EXN_ID, {
-                            cause: exn$1
-                          });
+                  throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
                 }
                 var match$4 = comment_start_loc.contents;
                 if (match$4) {
                   var start$1 = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
                   comment_start_loc.contents = /* [] */0;
-                  throw new Error($$Error$4, {
-                            cause: {
-                              MEL_EXN_ID: $$Error$4,
-                              _1: {
-                                TAG: /* Unterminated_string_in_comment */3,
-                                _0: start$1,
-                                _1: exn$1._2
-                              },
-                              _2: match$4.hd
-                            }
+                  throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                            MEL_EXN_ID: $$Error$4,
+                            _1: {
+                              TAG: /* Unterminated_string_in_comment */3,
+                              _0: start$1,
+                              _1: exn$1._2
+                            },
+                            _2: match$4.hd
                           });
                 }
-                throw new Error("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/ocaml_typedtree_test.ml",
-                              26884,
-                              18
-                            ]
-                          }
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/ocaml_typedtree_test.ml",
+                            26884,
+                            18
+                          ]
                         });
               }
-              throw new Error(exn$1.MEL_EXN_ID, {
-                        cause: exn$1
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
             }
-            throw new Error(exn$1.MEL_EXN_ID, {
-                      cause: exn$1
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
           }
           is_in_string.contents = false;
           store_string_char(/* '|' */124);
@@ -25576,26 +25002,22 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           if (match$5) {
             var start$2 = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
             comment_start_loc.contents = /* [] */0;
-            throw new Error($$Error$4, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$4,
-                        _1: {
-                          TAG: /* Unterminated_comment */2,
-                          _0: start$2
-                        },
-                        _2: match$5.hd
-                      }
+            throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                      MEL_EXN_ID: $$Error$4,
+                      _1: {
+                        TAG: /* Unterminated_comment */2,
+                        _0: start$2
+                      },
+                      _2: match$5.hd
                     });
           }
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        26934,
-                        16
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      26934,
+                      16
+                    ]
                   });
       case 11 :
           update_loc(lexbuf, undefined, 1, false, 0);
@@ -25689,23 +25111,19 @@ function token$1(lexbuf) {
                   switch (match) {
                     case /* ELSE */23 :
                         if (if_then_else$1) {
-                          throw new Error($$Error$4, {
-                                    cause: {
-                                      MEL_EXN_ID: $$Error$4,
-                                      _1: /* Unexpected_directive */6,
-                                      _2: curr(lexbuf)
-                                    }
+                          throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                                    MEL_EXN_ID: $$Error$4,
+                                    _1: /* Unexpected_directive */6,
+                                    _2: curr(lexbuf)
                                   });
                         }
                         break;
                     case /* END */24 :
                         if (if_then_else$1 >= 2) {
-                          throw new Error($$Error$4, {
-                                    cause: {
-                                      MEL_EXN_ID: $$Error$4,
-                                      _1: /* Unexpected_directive */6,
-                                      _2: curr(lexbuf)
-                                    }
+                          throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                                    MEL_EXN_ID: $$Error$4,
+                                    _1: /* Unexpected_directive */6,
+                                    _2: curr(lexbuf)
                                   });
                         }
                         if_then_else.contents = /* Dir_out */2;
@@ -25720,12 +25138,10 @@ function token$1(lexbuf) {
                             while(true) {
                               var token = token_with_comments(lexbuf);
                               if (Caml_obj.caml_equal(token, /* EOF */25)) {
-                                throw new Error($$Error$4, {
-                                          cause: {
-                                            MEL_EXN_ID: $$Error$4,
-                                            _1: /* Unterminated_if */2,
-                                            _2: curr(lexbuf)
-                                          }
+                                throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                                          MEL_EXN_ID: $$Error$4,
+                                          _1: /* Unterminated_if */2,
+                                          _2: curr(lexbuf)
                                         });
                               }
                               if (Caml_obj.caml_equal(token, /* SHARP */84) && at_bol(lexbuf)) {
@@ -25741,12 +25157,10 @@ function token$1(lexbuf) {
                                     }
                                   }
                                   if (token$1 === 37) {
-                                    throw new Error($$Error$4, {
-                                              cause: {
-                                                MEL_EXN_ID: $$Error$4,
-                                                _1: /* Unexpected_directive */6,
-                                                _2: curr(lexbuf)
-                                              }
+                                    throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                                              MEL_EXN_ID: $$Error$4,
+                                              _1: /* Unexpected_directive */6,
+                                              _2: curr(lexbuf)
                                             });
                                   }
                                   
@@ -25763,12 +25177,10 @@ function token$1(lexbuf) {
                             };
                           }
                         }
-                        throw new Error($$Error$4, {
-                                  cause: {
-                                    MEL_EXN_ID: $$Error$4,
-                                    _1: /* Unexpected_directive */6,
-                                    _2: curr(lexbuf)
-                                  }
+                        throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                                  MEL_EXN_ID: $$Error$4,
+                                  _1: /* Unexpected_directive */6,
+                                  _2: curr(lexbuf)
                                 });
                     default:
                       return Curry._1(look_ahead, match);
@@ -25781,12 +25193,10 @@ function token$1(lexbuf) {
                     return Curry._1(look_ahead, match);
                   }
                   if (if_then_else$1) {
-                    throw new Error($$Error$4, {
-                              cause: {
-                                MEL_EXN_ID: $$Error$4,
-                                _1: /* Unexpected_directive */6,
-                                _2: curr(lexbuf)
-                              }
+                    throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                              MEL_EXN_ID: $$Error$4,
+                              _1: /* Unexpected_directive */6,
+                              _2: curr(lexbuf)
                             });
                   }
                   
@@ -25799,12 +25209,10 @@ function token$1(lexbuf) {
                   var else_seen = _else_seen;
                   var token$2 = token_with_comments(lexbuf);
                   if (Caml_obj.caml_equal(token$2, /* EOF */25)) {
-                    throw new Error($$Error$4, {
-                              cause: {
-                                MEL_EXN_ID: $$Error$4,
-                                _1: /* Unterminated_else */3,
-                                _2: curr(lexbuf)
-                              }
+                    throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                              MEL_EXN_ID: $$Error$4,
+                              _1: /* Unterminated_else */3,
+                              _2: curr(lexbuf)
                             });
                   }
                   if (Caml_obj.caml_equal(token$2, /* SHARP */84) && at_bol(lexbuf)) {
@@ -25816,35 +25224,29 @@ function token$1(lexbuf) {
                           return Curry._1(cont, lexbuf);
                         }
                         if (else_seen) {
-                          throw new Error($$Error$4, {
-                                    cause: {
-                                      MEL_EXN_ID: $$Error$4,
-                                      _1: /* Unexpected_directive */6,
-                                      _2: curr(lexbuf)
-                                    }
+                          throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                                    MEL_EXN_ID: $$Error$4,
+                                    _1: /* Unexpected_directive */6,
+                                    _2: curr(lexbuf)
                                   });
                         }
                         _else_seen = true;
                         continue ;
                       }
                       if (token$3 === 37) {
-                        throw new Error($$Error$4, {
-                                  cause: {
-                                    MEL_EXN_ID: $$Error$4,
-                                    _1: /* Unexpected_directive */6,
-                                    _2: curr(lexbuf)
-                                  }
+                        throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                                  MEL_EXN_ID: $$Error$4,
+                                  _1: /* Unexpected_directive */6,
+                                  _2: curr(lexbuf)
                                 });
                       }
                       
                     }
                     if (else_seen && is_elif(token$3)) {
-                      throw new Error($$Error$4, {
-                                cause: {
-                                  MEL_EXN_ID: $$Error$4,
-                                  _1: /* Unexpected_directive */6,
-                                  _2: curr(lexbuf)
-                                }
+                      throw new Caml_js_exceptions.MelangeError($$Error$4, {
+                                MEL_EXN_ID: $$Error$4,
+                                _1: /* Unexpected_directive */6,
+                                _2: curr(lexbuf)
                               });
                     }
                     continue ;
@@ -25981,9 +25383,7 @@ function skip_phrase(lexbuf) {
           if (tmp === /* Unterminated_string */0) {
             continue ;
           }
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         } else {
           switch (tmp.TAG | 0) {
             case /* Illegal_character */0 :
@@ -25991,15 +25391,11 @@ function skip_phrase(lexbuf) {
             case /* Unterminated_string_in_comment */3 :
                 continue ;
             default:
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
         }
       } else {
-        throw new Error(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
     }
   };
@@ -26027,40 +25423,26 @@ function wrap$1(parsing_fun, lexbuf) {
     if (err.MEL_EXN_ID === $$Error$4) {
       var tmp = err._1;
       if (typeof tmp === "number") {
-        throw new Error(err.MEL_EXN_ID, {
-                  cause: err
-                });
+        throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
       }
       if (tmp.TAG === /* Illegal_character */0) {
         if (input_name.contents === "//toplevel//") {
           skip_phrase(lexbuf);
-          throw new Error(err.MEL_EXN_ID, {
-                    cause: err
-                  });
+          throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
         }
-        throw new Error(err.MEL_EXN_ID, {
-                  cause: err
-                });
+        throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
       }
-      throw new Error(err.MEL_EXN_ID, {
-                cause: err
-              });
+      throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
     } else {
       if (err.MEL_EXN_ID === $$Error$3) {
         if (input_name.contents === "//toplevel//") {
           maybe_skip_phrase(lexbuf);
-          throw new Error(err.MEL_EXN_ID, {
-                    cause: err
-                  });
+          throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
         }
-        throw new Error(err.MEL_EXN_ID, {
-                  cause: err
-                });
+        throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
       }
       if (err.MEL_EXN_ID !== Stdlib__Parsing.Parse_error && err.MEL_EXN_ID !== Escape_error) {
-        throw new Error(err.MEL_EXN_ID, {
-                  cause: err
-                });
+        throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
       }
       
     }
@@ -26068,13 +25450,11 @@ function wrap$1(parsing_fun, lexbuf) {
     if (input_name.contents === "//toplevel//") {
       maybe_skip_phrase(lexbuf);
     }
-    throw new Error($$Error$3, {
-              cause: {
-                MEL_EXN_ID: $$Error$3,
-                _1: {
-                  TAG: /* Other */5,
-                  _0: loc
-                }
+    throw new Caml_js_exceptions.MelangeError($$Error$3, {
+              MEL_EXN_ID: $$Error$3,
+              _1: {
+                TAG: /* Other */5,
+                _0: loc
               }
             });
   }
@@ -26259,9 +25639,7 @@ function alpha_pat(env, p) {
             if (exn.MEL_EXN_ID === Stdlib.Not_found) {
               tmp = /* Tpat_any */0;
             } else {
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
           }
           return {
@@ -26294,9 +25672,7 @@ function alpha_pat(env, p) {
             if (exn$1.MEL_EXN_ID === Stdlib.Not_found) {
               return new_p;
             }
-            throw new Error(exn$1.MEL_EXN_ID, {
-                      cause: exn$1
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
           }
       default:
         
@@ -27901,9 +27277,7 @@ catch (raw_exn$2){
   if (exn$3.MEL_EXN_ID === Stdlib.Not_found) {
     need_to_clear_env = true;
   } else {
-    throw new Error(exn$3.MEL_EXN_ID, {
-              cause: exn$3
-            });
+    throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
   }
 }
 
@@ -28436,15 +27810,13 @@ function is_object_type(path) {
         name = path._1;
         break;
     case /* Papply */2 :
-        throw new Error("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/ocaml_typedtree_test.ml",
-                      30161,
-                      23
-                    ]
-                  }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/ocaml_typedtree_test.ml",
+                    30161,
+                    23
+                  ]
                 });
     
   }
@@ -28579,9 +27951,7 @@ function set_mode_pattern(generate, injective, f) {
     umode.contents = old_unification_mode;
     generate_equations.contents = old_gen;
     assume_injective.contents = old_inj;
-    throw new Error(e.MEL_EXN_ID, {
-              cause: e
-            });
+    throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
   }
 }
 
@@ -28609,9 +27979,7 @@ function in_pervasives(p) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return false;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -28627,29 +27995,25 @@ function is_datatype(decl) {
 function object_fields(ty) {
   var match = repr(ty).desc;
   if (typeof match === "number") {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  30296,
-                  27
-                ]
-              }
-            });
-  }
-  if (match.TAG === /* Tobject */4) {
-    return match._0;
-  }
-  throw new Error("Assert_failure", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
                 30296,
                 27
               ]
-            }
+            });
+  }
+  if (match.TAG === /* Tobject */4) {
+    return match._0;
+  }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              30296,
+              27
+            ]
           });
 }
 
@@ -28839,15 +28203,13 @@ function concrete_object(ty) {
 function close_object(ty) {
   var match = repr(ty).desc;
   if (typeof match === "number") {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  30363,
-                  25
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                30363,
+                25
+              ]
             });
   }
   if (match.TAG === /* Tobject */4) {
@@ -28857,15 +28219,13 @@ function close_object(ty) {
       var ty$2 = repr(ty$1);
       var match$1 = ty$2.desc;
       if (typeof match$1 === "number") {
-        throw new Error("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/ocaml_typedtree_test.ml",
-                      30359,
-                      30
-                    ]
-                  }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/ocaml_typedtree_test.ml",
+                    30359,
+                    30
+                  ]
                 });
       }
       switch (match$1.TAG | 0) {
@@ -28875,43 +28235,37 @@ function close_object(ty) {
             _ty = match$1._3;
             continue ;
         default:
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        30359,
-                        30
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      30359,
+                      30
+                    ]
                   });
       }
     };
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                30363,
-                25
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              30363,
+              25
+            ]
           });
 }
 
 function row_variable(ty) {
   var match = repr(ty).desc;
   if (typeof match === "number") {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  30377,
-                  23
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                30377,
+                23
+              ]
             });
   }
   if (match.TAG === /* Tobject */4) {
@@ -28921,15 +28275,13 @@ function row_variable(ty) {
       var ty$2 = repr(ty$1);
       var match$1 = ty$2.desc;
       if (typeof match$1 === "number") {
-        throw new Error("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/ocaml_typedtree_test.ml",
-                      30373,
-                      30
-                    ]
-                  }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/ocaml_typedtree_test.ml",
+                    30373,
+                    30
+                  ]
                 });
       }
       switch (match$1.TAG | 0) {
@@ -28939,43 +28291,37 @@ function row_variable(ty) {
             _ty = match$1._3;
             continue ;
         default:
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        30373,
-                        30
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      30373,
+                      30
+                    ]
                   });
       }
     };
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                30377,
-                23
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              30377,
+              23
+            ]
           });
 }
 
 function set_object_name(id, rv, params, ty) {
   var match = repr(ty).desc;
   if (typeof match === "number") {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  30387,
-                  6
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                30387,
+                6
+              ]
             });
   }
   if (match.TAG === /* Tobject */4) {
@@ -28990,30 +28336,26 @@ function set_object_name(id, rv, params, ty) {
                 }
               ]);
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                30387,
-                6
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              30387,
+              6
+            ]
           });
 }
 
 function hide_private_methods(ty) {
   var match = repr(ty).desc;
   if (typeof match === "number") {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  30409,
-                  6
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                30409,
+                6
+              ]
             });
   }
   if (match.TAG === /* Tobject */4) {
@@ -29028,15 +28370,13 @@ function hide_private_methods(ty) {
                   }
                 }), match$1[0]);
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                30409,
-                6
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              30409,
+              6
+            ]
           });
 }
 
@@ -29211,10 +28551,8 @@ function closed_schema_rec(_ty) {
     switch (row.TAG | 0) {
       case /* Tvar */0 :
           if (level !== 100000000) {
-            throw new Error(Non_closed0, {
-                      cause: {
-                        MEL_EXN_ID: Non_closed0
-                      }
+            throw new Caml_js_exceptions.MelangeError(Non_closed0, {
+                      MEL_EXN_ID: Non_closed0
                     });
           }
           return iter_type_expr(closed_schema_rec, ty$1);
@@ -29250,9 +28588,7 @@ function closed_schema(ty) {
       unmark_type(ty);
       return false;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -29314,9 +28650,7 @@ function free_vars_rec(_real, _ty) {
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.MEL_EXN_ID !== Stdlib.Not_found) {
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
             
           }
@@ -29375,12 +28709,10 @@ function closed_type(ty) {
     return ;
   }
   var match$1 = match.hd;
-  throw new Error(Non_closed, {
-            cause: {
-              MEL_EXN_ID: Non_closed,
-              _1: match$1[0],
-              _2: match$1[1]
-            }
+  throw new Caml_js_exceptions.MelangeError(Non_closed, {
+            MEL_EXN_ID: Non_closed,
+            _1: match$1[0],
+            _2: match$1[1]
           });
 }
 
@@ -29396,9 +28728,7 @@ function closed_parameterized_type(params, ty) {
     if (exn.MEL_EXN_ID === Non_closed) {
       ok = false;
     } else {
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   }
   Stdlib__List.iter(unmark_type, params);
@@ -29438,9 +28768,7 @@ function closed_type_decl(decl) {
       it_type_declaration(unmark_iterators, decl);
       return exn._1;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -29462,9 +28790,7 @@ function closed_extension_constructor(ext) {
       unmark_extension_constructor(ext);
       return exn._1;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -29495,22 +28821,18 @@ function closed_class(params, sign) {
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
               if (exn.MEL_EXN_ID === Non_closed) {
-                throw new Error(CCFailure, {
-                          cause: {
-                            MEL_EXN_ID: CCFailure,
-                            _1: {
-                              TAG: /* CC_Method */0,
-                              _0: exn._1,
-                              _1: exn._2,
-                              _2: param[0],
-                              _3: ty
-                            }
+                throw new Caml_js_exceptions.MelangeError(CCFailure, {
+                          MEL_EXN_ID: CCFailure,
+                          _1: {
+                            TAG: /* CC_Method */0,
+                            _0: exn._1,
+                            _1: exn._2,
+                            _2: param[0],
+                            _3: ty
                           }
                         });
               }
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
           }), fields);
     iter_type_expr(mark_type, repr(sign.csig_self));
@@ -29526,9 +28848,7 @@ function closed_class(params, sign) {
       unmark_class_signature(sign);
       return exn._1;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -29636,10 +28956,8 @@ function generalize_spine(_ty) {
 
 var forward_try_expand_once = {
   contents: (function (env, ty) {
-      throw new Error(Cannot_expand, {
-                cause: {
-                  MEL_EXN_ID: Cannot_expand
-                }
+      throw new Caml_js_exceptions.MelangeError(Cannot_expand, {
+                MEL_EXN_ID: Cannot_expand
               });
     })
 };
@@ -29658,9 +28976,7 @@ function get_level(env, p) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return binding_time(p);
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -29676,9 +28992,7 @@ function normalize_package_path(env, _p) {
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         t = undefined;
       } else {
-        throw new Error(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
     }
     if (t === undefined) {
@@ -29701,19 +29015,17 @@ function update_level(env, level, _ty) {
     }
     var lv = gadt_instance_level(env, ty$1);
     if (lv !== undefined && level < lv) {
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: {
-                    hd: [
-                      ty$1,
-                      newty2(level, {
-                            TAG: /* Tvar */0,
-                            _0: undefined
-                          })
-                    ],
-                    tl: /* [] */0
-                  }
+      throw new Caml_js_exceptions.MelangeError(Unify, {
+                MEL_EXN_ID: Unify,
+                _1: {
+                  hd: [
+                    ty$1,
+                    newty2(level, {
+                          TAG: /* Tvar */0,
+                          _0: undefined
+                        })
+                  ],
+                  tl: /* [] */0
                 }
               });
     }
@@ -29731,19 +29043,17 @@ function update_level(env, level, _ty) {
                 var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
                 if (exn.MEL_EXN_ID === Cannot_expand) {
                   if (level < get_level(env, p)) {
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: {
-                                  hd: [
-                                    ty$1,
-                                    newty2(level, {
-                                          TAG: /* Tvar */0,
-                                          _0: undefined
-                                        })
-                                  ],
-                                  tl: /* [] */0
-                                }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: {
+                                hd: [
+                                  ty$1,
+                                  newty2(level, {
+                                        TAG: /* Tvar */0,
+                                        _0: undefined
+                                      })
+                                ],
+                                tl: /* [] */0
                               }
                             });
                   }
@@ -29751,9 +29061,7 @@ function update_level(env, level, _ty) {
                                 return update_level(env, level, param);
                               }), ty$1);
                 }
-                throw new Error(exn.MEL_EXN_ID, {
-                          cause: exn
-                        });
+                throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
               }
             }
             break;
@@ -29769,19 +29077,17 @@ function update_level(env, level, _ty) {
         case /* Tfield */5 :
             var ty1 = row._2;
             if (row._0 === dummy_method && repr(ty1).level > level) {
-              throw new Error(Unify, {
-                        cause: {
-                          MEL_EXN_ID: Unify,
-                          _1: {
-                            hd: [
-                              ty1,
-                              newty2(level, {
-                                    TAG: /* Tvar */0,
-                                    _0: undefined
-                                  })
-                            ],
-                            tl: /* [] */0
-                          }
+              throw new Caml_js_exceptions.MelangeError(Unify, {
+                        MEL_EXN_ID: Unify,
+                        _1: {
+                          hd: [
+                            ty1,
+                            newty2(level, {
+                                  TAG: /* Tvar */0,
+                                  _0: undefined
+                                })
+                          ],
+                          tl: /* [] */0
                         }
                       });
             }
@@ -29812,19 +29118,17 @@ function update_level(env, level, _ty) {
             if (level < get_level(env, p$1)) {
               var p$p = normalize_package_path(env, p$1);
               if (same(p$1, p$p)) {
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: {
-                              hd: [
-                                ty$1,
-                                newty2(level, {
-                                      TAG: /* Tvar */0,
-                                      _0: undefined
-                                    })
-                              ],
-                              tl: /* [] */0
-                            }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: {
+                            hd: [
+                              ty$1,
+                              newty2(level, {
+                                    TAG: /* Tvar */0,
+                                    _0: undefined
+                                  })
+                            ],
+                            tl: /* [] */0
                           }
                         });
               }
@@ -29895,9 +29199,7 @@ function generalize_expansive(env, var_level, _ty) {
                       return Types_Variance.may_inv;
                     }), tyl);
             } else {
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
           }
           match._2.contents = /* Mnil */0;
@@ -29934,30 +29236,22 @@ function generalize_expansive$1(env, ty) {
       var tr = exn._1;
       if (tr) {
         if (tr.tl) {
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
-        throw new Error(Unify, {
-                  cause: {
-                    MEL_EXN_ID: Unify,
-                    _1: {
-                      hd: [
-                        ty,
-                        tr.hd[1]
-                      ],
-                      tl: tr
-                    }
+        throw new Caml_js_exceptions.MelangeError(Unify, {
+                  MEL_EXN_ID: Unify,
+                  _1: {
+                    hd: [
+                      ty,
+                      tr.hd[1]
+                    ],
+                    tl: tr
                   }
                 });
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -30066,9 +29360,7 @@ function inv_type(hash, pty, ty) {
                     return inv_type(hash, partial_arg, param);
                   }), ty$1);
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -30102,9 +29394,7 @@ function compute_univars(ty) {
                       return add_univar(univ, param);
                     }), inv.inv_parents);
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   };
   Curry._2(TypeHash.iter, (function (ty, inv) {
@@ -30122,9 +29412,7 @@ function compute_univars(ty) {
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return /* Empty */0;
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   };
 }
@@ -30185,15 +29473,13 @@ function copy(env, partial, keep_names, ty) {
           partial[1] ? ty$1.level : current_level.contents
         ) : 100000000;
     } else {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    30996,
-                    16
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  30996,
+                  16
+                ]
               });
     }
     if (forget !== 100000000) {
@@ -30333,15 +29619,13 @@ function copy(env, partial, keep_names, ty) {
                       exit$3 = 4;
                       break;
                   default:
-                    throw new Error("Assert_failure", {
-                              cause: {
-                                MEL_EXN_ID: "Assert_failure",
-                                _1: [
-                                  "jscomp/test/ocaml_typedtree_test.ml",
-                                  31059,
-                                  24
-                                ]
-                              }
+                    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                              MEL_EXN_ID: "Assert_failure",
+                              _1: [
+                                "jscomp/test/ocaml_typedtree_test.ml",
+                                31059,
+                                24
+                              ]
                             });
                 }
               }
@@ -30490,9 +29774,7 @@ function get_new_abstract_name(s) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       index = 0;
     } else {
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   }
   reified_var_counter.contents = Curry._3(Meths.add, s, index, reified_var_counter.contents);
@@ -30563,15 +29845,13 @@ function instance_constructor(in_pattern, cstr) {
           });
       var tv = copy(undefined, undefined, undefined, existential);
       if (!is_Tvar(tv)) {
-        throw new Error("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/ocaml_typedtree_test.ml",
-                      31182,
-                      8
-                    ]
-                  }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/ocaml_typedtree_test.ml",
+                    31182,
+                    8
+                  ]
                 });
       }
       link_type(tv, to_unify);
@@ -30714,11 +29994,9 @@ function diff_list(l1, l2) {
             tl: diff_list(l1.tl, l2)
           };
   }
-  throw new Error("Invalid_argument", {
-            cause: {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Ctype.diff_list"
-            }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Ctype.diff_list"
           });
 }
 
@@ -30759,10 +30037,8 @@ function copy_sep(fixed, free, bound, visited, ty) {
     var match = Stdlib__List.assq(ty$1, visited);
     var dl = is_Tunivar(ty$1) ? /* [] */0 : diff_list(bound, match[1]);
     if (Caml_obj.caml_notequal(dl, /* [] */0) && conflicts(univars, dl)) {
-      throw new Error(Stdlib.Not_found, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.Not_found
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                MEL_EXN_ID: Stdlib.Not_found
               });
     }
     return match[0];
@@ -30851,9 +30127,7 @@ function copy_sep(fixed, free, bound, visited, ty) {
       t$1.desc = tmp;
       return t$1;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -30863,15 +30137,13 @@ function instance_poly(keep_namesOpt, fixed, univars, sch) {
   var copy_var = function (ty) {
     var name = ty.desc;
     if (typeof name === "number") {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    31319,
-                    11
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  31319,
+                  11
+                ]
               });
     }
     if (name.TAG === /* Tunivar */9) {
@@ -30884,15 +30156,13 @@ function instance_poly(keep_namesOpt, fixed, univars, sch) {
         return newvar(undefined, undefined);
       }
     }
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  31319,
-                  11
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                31319,
+                11
+              ]
             });
   };
   var vars = Stdlib__List.map(copy_var, univars$1);
@@ -30943,22 +30213,18 @@ function instance_label(fixed, lbl) {
 
 var unify$p = {
   contents: (function (env, ty1, ty2) {
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: /* [] */0
-                }
+      throw new Caml_js_exceptions.MelangeError(Unify, {
+                MEL_EXN_ID: Unify,
+                _1: /* [] */0
               });
     })
 };
 
 function subst(env, level, priv, abbrev, ty, params, args, body) {
   if (Stdlib__List.length(params) !== Stdlib__List.length(args)) {
-    throw new Error(Unify, {
-              cause: {
-                MEL_EXN_ID: Unify,
-                _1: /* [] */0
-              }
+    throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: /* [] */0
             });
   }
   var old_level = current_level.contents;
@@ -30968,15 +30234,13 @@ function subst(env, level, priv, abbrev, ty, params, args, body) {
     if (ty !== undefined) {
       var match = ty.desc;
       if (typeof match === "number") {
-        throw new Error("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/ocaml_typedtree_test.ml",
-                      31359,
-                      8
-                    ]
-                  }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/ocaml_typedtree_test.ml",
+                    31359,
+                    8
+                  ]
                 });
       }
       if (match.TAG === /* Tconstr */3) {
@@ -30984,15 +30248,13 @@ function subst(env, level, priv, abbrev, ty, params, args, body) {
         var abbrev$1 = proper_abbrevs(path, match._1, abbrev);
         memorize_abbrev(abbrev$1, priv, path, ty, body0);
       } else {
-        throw new Error("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/ocaml_typedtree_test.ml",
-                      31359,
-                      8
-                    ]
-                  }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/ocaml_typedtree_test.ml",
+                    31359,
+                    8
+                  ]
                 });
       }
     }
@@ -31011,13 +30273,9 @@ function subst(env, level, priv, abbrev, ty, params, args, body) {
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Unify) {
       current_level.contents = old_level;
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -31038,15 +30296,13 @@ function expand_abbrev_gen(kind, find_type_expansion, env, ty) {
   check_abbrev_env(env);
   var match = ty.desc;
   if (typeof match === "number") {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  31468,
-                  6
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                31468,
+                6
+              ]
             });
   }
   if (match.TAG === /* Tconstr */3) {
@@ -31064,9 +30320,7 @@ function expand_abbrev_gen(kind, find_type_expansion, env, ty) {
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
           if (exn.MEL_EXN_ID !== Unify) {
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
           
         }
@@ -31080,15 +30334,11 @@ function expand_abbrev_gen(kind, find_type_expansion, env, ty) {
     catch (raw_exn$1){
       var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
       if (exn$1.MEL_EXN_ID === Stdlib.Not_found) {
-        throw new Error(Cannot_expand, {
-                  cause: {
-                    MEL_EXN_ID: Cannot_expand
-                  }
+        throw new Caml_js_exceptions.MelangeError(Cannot_expand, {
+                  MEL_EXN_ID: Cannot_expand
                 });
       }
-      throw new Error(exn$1.MEL_EXN_ID, {
-                cause: exn$1
-              });
+      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
     }
     var ty$p = subst(env, level, kind, abbrev, ty, match$1[0], args, match$1[1]);
     var ty$2 = repr(ty$p);
@@ -31117,19 +30367,17 @@ function expand_abbrev_gen(kind, find_type_expansion, env, ty) {
       var lv = Caml_obj.caml_max(match$1[2], gadt_instance_level(env, ty));
       if (lv !== undefined) {
         if (level < lv) {
-          throw new Error(Unify, {
-                    cause: {
-                      MEL_EXN_ID: Unify,
-                      _1: {
-                        hd: [
-                          ty,
-                          newty2(level, {
-                                TAG: /* Tvar */0,
-                                _0: undefined
-                              })
-                        ],
-                        tl: /* [] */0
-                      }
+          throw new Caml_js_exceptions.MelangeError(Unify, {
+                    MEL_EXN_ID: Unify,
+                    _1: {
+                      hd: [
+                        ty,
+                        newty2(level, {
+                              TAG: /* Tvar */0,
+                              _0: undefined
+                            })
+                      ],
+                      tl: /* [] */0
                     }
                   });
         }
@@ -31145,15 +30393,13 @@ function expand_abbrev_gen(kind, find_type_expansion, env, ty) {
     }
     return ty$p;
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                31468,
-                6
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              31468,
+              6
+            ]
           });
 }
 
@@ -31170,20 +30416,16 @@ function expand_head_once(env, ty) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Cannot_expand) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    31476,
-                    56
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  31476,
+                  56
+                ]
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -31203,9 +30445,7 @@ function safe_abbrev(env, ty) {
       backtrack(snap);
       return false;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -31213,19 +30453,15 @@ function try_expand_once(env, ty) {
   var ty$1 = repr(ty);
   var match = ty$1.desc;
   if (typeof match === "number") {
-    throw new Error(Cannot_expand, {
-              cause: {
-                MEL_EXN_ID: Cannot_expand
-              }
+    throw new Caml_js_exceptions.MelangeError(Cannot_expand, {
+              MEL_EXN_ID: Cannot_expand
             });
   }
   if (match.TAG === /* Tconstr */3) {
     return repr(expand_abbrev(env)(ty$1));
   }
-  throw new Error(Cannot_expand, {
-            cause: {
-              MEL_EXN_ID: Cannot_expand
-            }
+  throw new Caml_js_exceptions.MelangeError(Cannot_expand, {
+            MEL_EXN_ID: Cannot_expand
           });
 }
 
@@ -31238,15 +30474,11 @@ function try_expand_safe(env, ty) {
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Unify) {
       backtrack(snap);
-      throw new Error(Cannot_expand, {
-                cause: {
-                  MEL_EXN_ID: Cannot_expand
-                }
+      throw new Caml_js_exceptions.MelangeError(Cannot_expand, {
+                MEL_EXN_ID: Cannot_expand
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -31260,9 +30492,7 @@ function try_expand_head(try_once, env, ty) {
     if (exn.MEL_EXN_ID === Cannot_expand) {
       return ty$p;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -31284,9 +30514,7 @@ function expand_head_unif(env, ty) {
     if (exn.MEL_EXN_ID === Cannot_expand) {
       return repr(ty);
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -31299,9 +30527,7 @@ function expand_head(env, ty) {
     if (exn.MEL_EXN_ID === Cannot_expand) {
       return repr(ty);
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -31311,10 +30537,8 @@ function extract_concrete_typedecl(env, ty) {
   var ty$1 = repr(ty);
   var match = ty$1.desc;
   if (typeof match === "number") {
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   }
   if (match.TAG === /* Tconstr */3) {
@@ -31334,15 +30558,11 @@ function extract_concrete_typedecl(env, ty) {
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Cannot_expand) {
-        throw new Error(Stdlib.Not_found, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Not_found
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                  MEL_EXN_ID: Stdlib.Not_found
                 });
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
     var match$1 = extract_concrete_typedecl(env, ty$2);
     return [
@@ -31351,10 +30571,8 @@ function extract_concrete_typedecl(env, ty) {
             match$1[2]
           ];
   }
-  throw new Error(Stdlib.Not_found, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Not_found
-            }
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+            MEL_EXN_ID: Stdlib.Not_found
           });
 }
 
@@ -31366,19 +30584,15 @@ function try_expand_once_opt(env, ty) {
   var ty$1 = repr(ty);
   var match = ty$1.desc;
   if (typeof match === "number") {
-    throw new Error(Cannot_expand, {
-              cause: {
-                MEL_EXN_ID: Cannot_expand
-              }
+    throw new Caml_js_exceptions.MelangeError(Cannot_expand, {
+              MEL_EXN_ID: Cannot_expand
             });
   }
   if (match.TAG === /* Tconstr */3) {
     return repr(expand_abbrev_opt(env, ty$1));
   }
-  throw new Error(Cannot_expand, {
-            cause: {
-              MEL_EXN_ID: Cannot_expand
-            }
+  throw new Caml_js_exceptions.MelangeError(Cannot_expand, {
+            MEL_EXN_ID: Cannot_expand
           });
 }
 
@@ -31392,9 +30606,7 @@ function try_expand_head_opt(env, ty) {
     if (exn.MEL_EXN_ID === Cannot_expand) {
       return ty$p;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -31413,24 +30625,20 @@ function expand_head_opt(env, ty) {
       backtrack(snap);
       return repr(ty);
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
 function enforce_constraints(env, ty) {
   var match = ty.desc;
   if (typeof match === "number") {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  31586,
-                  6
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                31586,
+                6
+              ]
             });
   }
   if (match.TAG === /* Tconstr */3) {
@@ -31450,20 +30658,16 @@ function enforce_constraints(env, ty) {
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return ;
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   } else {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  31586,
-                  6
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                31586,
+                6
+              ]
             });
   }
 }
@@ -31505,9 +30709,7 @@ function generic_abbrev(env, path) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return false;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -31536,9 +30738,7 @@ function generic_private_abbrev(env, path) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return false;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -31562,9 +30762,7 @@ function is_contractive(env, ty) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return false;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -31572,10 +30770,8 @@ var Occur = /* @__PURE__ */Caml_exceptions.create("Ocaml_typedtree_test.Ctype.Oc
 
 function occur_rec(env, visited, ty0, ty) {
   if (ty === ty0) {
-    throw new Error(Occur, {
-              cause: {
-                MEL_EXN_ID: Occur
-              }
+    throw new Caml_js_exceptions.MelangeError(Occur, {
+              MEL_EXN_ID: Occur
             });
   }
   var occur_ok = recursive_types.contents && is_contractive(env, ty);
@@ -31585,10 +30781,8 @@ function occur_rec(env, visited, ty0, ty) {
       case /* Tconstr */3 :
           try {
             if (occur_ok || Stdlib__List.memq(ty, visited)) {
-              throw new Error(Occur, {
-                        cause: {
-                          MEL_EXN_ID: Occur
-                        }
+              throw new Caml_js_exceptions.MelangeError(Occur, {
+                        MEL_EXN_ID: Occur
                       });
             }
             var partial_arg = {
@@ -31605,10 +30799,8 @@ function occur_rec(env, visited, ty0, ty) {
               try {
                 var ty$p = try_expand_head$1(try_expand_once, env, ty);
                 if (ty$p === ty0 || Stdlib__List.memq(ty$p, visited)) {
-                  throw new Error(Occur, {
-                            cause: {
-                              MEL_EXN_ID: Occur
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Occur, {
+                            MEL_EXN_ID: Occur
                           });
                 }
                 var match$1 = ty$p.desc;
@@ -31644,20 +30836,14 @@ function occur_rec(env, visited, ty0, ty) {
                   if (occur_ok) {
                     return ;
                   }
-                  throw new Error(Occur, {
-                            cause: {
-                              MEL_EXN_ID: Occur
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Occur, {
+                            MEL_EXN_ID: Occur
                           });
                 }
-                throw new Error(exn$1.MEL_EXN_ID, {
-                          cause: exn$1
-                        });
+                throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
               }
             } else {
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
           }
           break;
@@ -31699,17 +30885,15 @@ function occur(env, ty0, ty) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     merge$2(type_changed, old);
-    throw new Error((
+    throw new Caml_js_exceptions.MelangeError((
               exn.MEL_EXN_ID === Occur ? ({
                     MEL_EXN_ID: Unify,
                     _1: /* [] */0
                   }) : exn
-            ).MEL_EXN_ID, {
-              cause: exn.MEL_EXN_ID === Occur ? ({
-                    MEL_EXN_ID: Unify,
-                    _1: /* [] */0
-                  }) : exn
-            });
+            ).MEL_EXN_ID, exn.MEL_EXN_ID === Occur ? ({
+                  MEL_EXN_ID: Unify,
+                  _1: /* [] */0
+                }) : exn);
   }
 }
 
@@ -31723,9 +30907,7 @@ function occur_in(env, ty0, t) {
     if (exn.MEL_EXN_ID === Unify) {
       return true;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -31746,9 +30928,7 @@ function unify_univar(t1, t2, _param) {
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             return ;
           }
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
       };
       var match$1 = find_univ(t1, match[0]);
@@ -31760,56 +30940,44 @@ function unify_univar(t1, t2, _param) {
             if (t2 === repr(t$p2)) {
               return ;
             }
-            throw new Error(Unify, {
-                      cause: {
-                        MEL_EXN_ID: Unify,
-                        _1: /* [] */0
-                      }
-                    });
-          }
-          throw new Error(Unify, {
-                    cause: {
+            throw new Caml_js_exceptions.MelangeError(Unify, {
                       MEL_EXN_ID: Unify,
                       _1: /* [] */0
-                    }
+                    });
+          }
+          throw new Caml_js_exceptions.MelangeError(Unify, {
+                    MEL_EXN_ID: Unify,
+                    _1: /* [] */0
                   });
         }
         if (match$2 !== undefined) {
           var match$3 = match$2.contents;
           if (match$3 !== undefined) {
-            throw new Error(Unify, {
-                      cause: {
-                        MEL_EXN_ID: Unify,
-                        _1: /* [] */0
-                      }
+            throw new Caml_js_exceptions.MelangeError(Unify, {
+                      MEL_EXN_ID: Unify,
+                      _1: /* [] */0
                     });
           }
           set_univar(match$1, t2);
           return set_univar(match$2, t1);
         }
-        throw new Error(Unify, {
-                  cause: {
-                    MEL_EXN_ID: Unify,
-                    _1: /* [] */0
-                  }
+        throw new Caml_js_exceptions.MelangeError(Unify, {
+                  MEL_EXN_ID: Unify,
+                  _1: /* [] */0
                 });
       }
       if (match$2 !== undefined) {
-        throw new Error(Unify, {
-                  cause: {
-                    MEL_EXN_ID: Unify,
-                    _1: /* [] */0
-                  }
+        throw new Caml_js_exceptions.MelangeError(Unify, {
+                  MEL_EXN_ID: Unify,
+                  _1: /* [] */0
                 });
       }
       _param = param.tl;
       continue ;
     }
-    throw new Error(Unify, {
-              cause: {
-                MEL_EXN_ID: Unify,
-                _1: /* [] */0
-              }
+    throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: /* [] */0
             });
   };
 }
@@ -31849,9 +31017,7 @@ function occur_univar(env, ty) {
               visited.contents = Curry._3(add$4, ty$1, bound, visited.contents);
               tmp$1 = true;
             } else {
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
           }
         }
@@ -31894,27 +31060,23 @@ function occur_univar(env, ty) {
                           }
                           }(bound)), tl);
               }
-              throw new Error(exn$1.MEL_EXN_ID, {
-                        cause: exn$1
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
             }
         case /* Tunivar */9 :
             if (Curry._2(mem$3, ty$1, bound)) {
               return ;
             }
-            throw new Error(Unify, {
-                      cause: {
-                        MEL_EXN_ID: Unify,
-                        _1: {
-                          hd: [
-                            ty$1,
-                            newty2(100000000, {
-                                  TAG: /* Tvar */0,
-                                  _0: undefined
-                                })
-                          ],
-                          tl: /* [] */0
-                        }
+            throw new Caml_js_exceptions.MelangeError(Unify, {
+                      MEL_EXN_ID: Unify,
+                      _1: {
+                        hd: [
+                          ty$1,
+                          newty2(100000000, {
+                                TAG: /* Tvar */0,
+                                _0: undefined
+                              })
+                        ],
+                        tl: /* [] */0
                       }
                     });
         case /* Tpoly */10 :
@@ -31937,9 +31099,7 @@ function occur_univar(env, ty) {
   }
   catch (exn){
     unmark_type(ty);
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -32004,18 +31164,14 @@ function univars_escape(env, univar_pairs, vl, ty) {
               if (exn.MEL_EXN_ID === Stdlib.Not_found) {
                 return Stdlib__List.iter(occur, tl);
               }
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
         case /* Tunivar */9 :
             if (!Curry._2(mem$3, t$1, family)) {
               return ;
             }
-            throw new Error(Occur, {
-                      cause: {
-                        MEL_EXN_ID: Occur
-                      }
+            throw new Caml_js_exceptions.MelangeError(Occur, {
+                      MEL_EXN_ID: Occur
                     });
         case /* Tpoly */10 :
             if (Stdlib__List.exists((function (t) {
@@ -32039,9 +31195,7 @@ function univars_escape(env, univar_pairs, vl, ty) {
     if (exn.MEL_EXN_ID === Occur) {
       return true;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -32065,11 +31219,9 @@ function enter_poly(env, univar_pairs, t1, tl1, t2, tl2, f) {
               _0: t1,
               _1: tl1$1
             }))) {
-    throw new Error(Unify, {
-              cause: {
-                MEL_EXN_ID: Unify,
-                _1: /* [] */0
-              }
+    throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: /* [] */0
             });
   }
   var cl1 = Stdlib__List.map((function (t) {
@@ -32108,9 +31260,7 @@ function enter_poly(env, univar_pairs, t1, tl1, t2, tl2, f) {
   }
   catch (exn){
     univar_pairs.contents = old_univars;
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -32181,10 +31331,8 @@ function deep_occur(t0, ty) {
       return ;
     }
     if (ty$1 === t0) {
-      throw new Error(Occur, {
-                cause: {
-                  MEL_EXN_ID: Occur
-                }
+      throw new Caml_js_exceptions.MelangeError(Occur, {
+                MEL_EXN_ID: Occur
               });
     }
     ty$1.level = pivot_level - ty$1.level | 0;
@@ -32201,9 +31349,7 @@ function deep_occur(t0, ty) {
       unmark_type(ty);
       return true;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -32216,15 +31362,13 @@ function get_newtype_level(param) {
   if (x !== undefined) {
     return x;
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                31961,
-                12
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              31961,
+              12
+            ]
           });
 }
 
@@ -32285,15 +31429,13 @@ function reify(env, t) {
               var m = r.row_more;
               var o$2 = m.desc;
               if (typeof o$2 === "number") {
-                throw new Error("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/ocaml_typedtree_test.ml",
-                              31999,
-                              19
-                            ]
-                          }
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/ocaml_typedtree_test.ml",
+                            31999,
+                            19
+                          ]
                         });
               }
               if (o$2.TAG === /* Tvar */0) {
@@ -32316,15 +31458,13 @@ function reify(env, t) {
                           _0: row
                         }));
               } else {
-                throw new Error("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/ocaml_typedtree_test.ml",
-                              31999,
-                              19
-                            ]
-                          }
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/ocaml_typedtree_test.ml",
+                            31999,
+                            19
+                          ]
                         });
               }
             }
@@ -32351,9 +31491,7 @@ function is_newtype(env, p) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return false;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -32389,9 +31527,7 @@ function expands_to_datatype(env, ty) {
     if (exn.MEL_EXN_ID === Cannot_expand) {
       return false;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -32489,56 +31625,46 @@ function mcomp(type_pairs, env, _t1, _t2) {
             if (match$3.TAG === /* Tconstr */3) {
               exit$3 = 3;
             } else {
-              throw new Error(Unify, {
-                        cause: {
-                          MEL_EXN_ID: Unify,
-                          _1: /* [] */0
-                        }
+              throw new Caml_js_exceptions.MelangeError(Unify, {
+                        MEL_EXN_ID: Unify,
+                        _1: /* [] */0
                       });
             }
           } else {
             switch (match$2.TAG | 0) {
               case /* Tvar */0 :
                   if (typeof match$3 === "number") {
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: /* [] */0
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: /* [] */0
                             });
                   }
                   switch (match$3.TAG | 0) {
                     case /* Tvar */0 :
-                        throw new Error("Assert_failure", {
-                                  cause: {
-                                    MEL_EXN_ID: "Assert_failure",
-                                    _1: [
-                                      "jscomp/test/ocaml_typedtree_test.ml",
-                                      32063,
-                                      30
-                                    ]
-                                  }
+                        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                  MEL_EXN_ID: "Assert_failure",
+                                  _1: [
+                                    "jscomp/test/ocaml_typedtree_test.ml",
+                                    32063,
+                                    30
+                                  ]
                                 });
                     case /* Tconstr */3 :
                         exit$3 = 3;
                         break;
                     default:
-                      throw new Error(Unify, {
-                                cause: {
-                                  MEL_EXN_ID: Unify,
-                                  _1: /* [] */0
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                MEL_EXN_ID: Unify,
+                                _1: /* [] */0
                               });
                   }
                   break;
               case /* Tarrow */1 :
                   var l1 = match$2._0;
                   if (typeof match$3 === "number") {
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: /* [] */0
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: /* [] */0
                             });
                   }
                   switch (match$3.TAG | 0) {
@@ -32550,31 +31676,25 @@ function mcomp(type_pairs, env, _t1, _t2) {
                           _t1 = match$2._2;
                           continue ;
                         }
-                        throw new Error(Unify, {
-                                  cause: {
-                                    MEL_EXN_ID: Unify,
-                                    _1: /* [] */0
-                                  }
+                        throw new Caml_js_exceptions.MelangeError(Unify, {
+                                  MEL_EXN_ID: Unify,
+                                  _1: /* [] */0
                                 });
                     case /* Tconstr */3 :
                         exit$3 = 3;
                         break;
                     default:
-                      throw new Error(Unify, {
-                                cause: {
-                                  MEL_EXN_ID: Unify,
-                                  _1: /* [] */0
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                MEL_EXN_ID: Unify,
+                                _1: /* [] */0
                               });
                   }
                   break;
               case /* Ttuple */2 :
                   if (typeof match$3 === "number") {
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: /* [] */0
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: /* [] */0
                             });
                   }
                   switch (match$3.TAG | 0) {
@@ -32584,11 +31704,9 @@ function mcomp(type_pairs, env, _t1, _t2) {
                         exit$3 = 3;
                         break;
                     default:
-                      throw new Error(Unify, {
-                                cause: {
-                                  MEL_EXN_ID: Unify,
-                                  _1: /* [] */0
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                MEL_EXN_ID: Unify,
+                                _1: /* [] */0
                               });
                   }
                   break;
@@ -32617,9 +31735,7 @@ function mcomp(type_pairs, env, _t1, _t2) {
                                       return false;
                                     }), tl1);
                             } else {
-                              throw new Error(exn$1.MEL_EXN_ID, {
-                                        cause: exn$1
-                                      });
+                              throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
                             }
                           }
                           return Stdlib__List.iter2((function (i, param) {
@@ -32630,11 +31746,9 @@ function mcomp(type_pairs, env, _t1, _t2) {
                                       }), inj, Stdlib__List.combine(tl1, tl2));
                         }
                         if (non_aliasable(p1, decl) && non_aliasable(p2, decl$p)) {
-                          throw new Error(Unify, {
-                                    cause: {
-                                      MEL_EXN_ID: Unify,
-                                      _1: /* [] */0
-                                    }
+                          throw new Caml_js_exceptions.MelangeError(Unify, {
+                                    MEL_EXN_ID: Unify,
+                                    _1: /* [] */0
                                   });
                         }
                         var match$4 = decl.type_kind;
@@ -32664,11 +31778,9 @@ function mcomp(type_pairs, env, _t1, _t2) {
                             }
                             exit$4 = 1;
                           } else {
-                            throw new Error(Unify, {
-                                      cause: {
-                                        MEL_EXN_ID: Unify,
-                                        _1: /* [] */0
-                                      }
+                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                      MEL_EXN_ID: Unify,
+                                      _1: /* [] */0
                                     });
                           }
                         } else if (match$4.TAG === /* Type_record */0) {
@@ -32676,11 +31788,9 @@ function mcomp(type_pairs, env, _t1, _t2) {
                             if (match$5 === /* Type_abstract */0) {
                               exit$4 = 1;
                             } else {
-                              throw new Error(Unify, {
-                                        cause: {
-                                          MEL_EXN_ID: Unify,
-                                          _1: /* [] */0
-                                        }
+                              throw new Caml_js_exceptions.MelangeError(Unify, {
+                                        MEL_EXN_ID: Unify,
+                                        _1: /* [] */0
                                       });
                             }
                           } else {
@@ -32689,38 +31799,30 @@ function mcomp(type_pairs, env, _t1, _t2) {
                                 mcomp_list(type_pairs, env, tl1, tl2);
                                 return mcomp_record_description(type_pairs, env)(match$4._0, match$5._0);
                               }
-                              throw new Error(Unify, {
-                                        cause: {
-                                          MEL_EXN_ID: Unify,
-                                          _1: /* [] */0
-                                        }
-                                      });
-                            }
-                            throw new Error(Unify, {
-                                      cause: {
+                              throw new Caml_js_exceptions.MelangeError(Unify, {
                                         MEL_EXN_ID: Unify,
                                         _1: /* [] */0
-                                      }
+                                      });
+                            }
+                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                      MEL_EXN_ID: Unify,
+                                      _1: /* [] */0
                                     });
                           }
                         } else if (typeof match$5 === "number") {
                           if (match$5 === /* Type_abstract */0) {
                             exit$4 = 1;
                           } else {
-                            throw new Error(Unify, {
-                                      cause: {
-                                        MEL_EXN_ID: Unify,
-                                        _1: /* [] */0
-                                      }
+                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                      MEL_EXN_ID: Unify,
+                                      _1: /* [] */0
                                     });
                           }
                         } else {
                           if (match$5.TAG === /* Type_record */0) {
-                            throw new Error(Unify, {
-                                      cause: {
-                                        MEL_EXN_ID: Unify,
-                                        _1: /* [] */0
-                                      }
+                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                      MEL_EXN_ID: Unify,
+                                      _1: /* [] */0
                                     });
                           }
                           mcomp_list(type_pairs, env, tl1, tl2);
@@ -32742,56 +31844,44 @@ function mcomp(type_pairs, env, _t1, _t2) {
                                   _x = x.tl;
                                   continue ;
                                 }
-                                throw new Error(Unify, {
-                                          cause: {
-                                            MEL_EXN_ID: Unify,
-                                            _1: /* [] */0
-                                          }
-                                        });
-                              }
-                              throw new Error(Unify, {
-                                        cause: {
+                                throw new Caml_js_exceptions.MelangeError(Unify, {
                                           MEL_EXN_ID: Unify,
                                           _1: /* [] */0
-                                        }
+                                        });
+                              }
+                              throw new Caml_js_exceptions.MelangeError(Unify, {
+                                        MEL_EXN_ID: Unify,
+                                        _1: /* [] */0
                                       });
                             }
                             if (!y) {
                               return ;
                             }
-                            throw new Error(Unify, {
-                                      cause: {
-                                        MEL_EXN_ID: Unify,
-                                        _1: /* [] */0
-                                      }
+                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                      MEL_EXN_ID: Unify,
+                                      _1: /* [] */0
                                     });
                           };
                         }
                         if (exit$4 === 1) {
                           if (typeof match$5 === "number") {
                             if (match$5) {
-                              throw new Error(Unify, {
-                                        cause: {
-                                          MEL_EXN_ID: Unify,
-                                          _1: /* [] */0
-                                        }
+                              throw new Caml_js_exceptions.MelangeError(Unify, {
+                                        MEL_EXN_ID: Unify,
+                                        _1: /* [] */0
                                       });
                             }
                             if (!non_aliasable(p2, decl$p)) {
                               return ;
                             }
-                            throw new Error(Unify, {
-                                      cause: {
-                                        MEL_EXN_ID: Unify,
-                                        _1: /* [] */0
-                                      }
-                                    });
-                          }
-                          throw new Error(Unify, {
-                                    cause: {
+                            throw new Caml_js_exceptions.MelangeError(Unify, {
                                       MEL_EXN_ID: Unify,
                                       _1: /* [] */0
-                                    }
+                                    });
+                          }
+                          throw new Caml_js_exceptions.MelangeError(Unify, {
+                                    MEL_EXN_ID: Unify,
+                                    _1: /* [] */0
                                   });
                         }
                         
@@ -32801,9 +31891,7 @@ function mcomp(type_pairs, env, _t1, _t2) {
                         if (exn$2.MEL_EXN_ID === Stdlib.Not_found) {
                           return ;
                         }
-                        throw new Error(exn$2.MEL_EXN_ID, {
-                                  cause: exn$2
-                                });
+                        throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
                       }
                     }
                     p = p1;
@@ -32812,11 +31900,9 @@ function mcomp(type_pairs, env, _t1, _t2) {
                   break;
               case /* Tobject */4 :
                   if (typeof match$3 === "number") {
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: /* [] */0
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: /* [] */0
                             });
                   }
                   switch (match$3.TAG | 0) {
@@ -32826,21 +31912,17 @@ function mcomp(type_pairs, env, _t1, _t2) {
                     case /* Tobject */4 :
                         return mcomp_fields(type_pairs, env, match$2._0, match$3._0);
                     default:
-                      throw new Error(Unify, {
-                                cause: {
-                                  MEL_EXN_ID: Unify,
-                                  _1: /* [] */0
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                MEL_EXN_ID: Unify,
+                                _1: /* [] */0
                               });
                   }
                   break;
               case /* Tfield */5 :
                   if (typeof match$3 === "number") {
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: /* [] */0
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: /* [] */0
                             });
                   }
                   switch (match$3.TAG | 0) {
@@ -32850,11 +31932,9 @@ function mcomp(type_pairs, env, _t1, _t2) {
                     case /* Tfield */5 :
                         return mcomp_fields(type_pairs, env, t1$p$1, t2$p$1);
                     default:
-                      throw new Error(Unify, {
-                                cause: {
-                                  MEL_EXN_ID: Unify,
-                                  _1: /* [] */0
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                MEL_EXN_ID: Unify,
+                                _1: /* [] */0
                               });
                   }
                   break;
@@ -32864,11 +31944,9 @@ function mcomp(type_pairs, env, _t1, _t2) {
                   break;
               case /* Tvariant */8 :
                   if (typeof match$3 === "number") {
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: /* [] */0
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: /* [] */0
                             });
                   }
                   switch (match$3.TAG | 0) {
@@ -32890,11 +31968,9 @@ function mcomp(type_pairs, env, _t1, _t2) {
                           }
                         };
                         if (row1$1.row_closed && Stdlib__List.exists(cannot_erase, match$6[1]) || row2$1.row_closed && Stdlib__List.exists(cannot_erase, match$6[0])) {
-                          throw new Error(Unify, {
-                                    cause: {
-                                      MEL_EXN_ID: Unify,
-                                      _1: /* [] */0
-                                    }
+                          throw new Caml_js_exceptions.MelangeError(Unify, {
+                                    MEL_EXN_ID: Unify,
+                                    _1: /* [] */0
                                   });
                         }
                         return Stdlib__List.iter((function (param) {
@@ -32908,11 +31984,9 @@ function mcomp(type_pairs, env, _t1, _t2) {
                                         var t1 = match._0;
                                         if (t1 !== undefined) {
                                           if (typeof match$1 === "number") {
-                                            throw new Error(Unify, {
-                                                      cause: {
-                                                        MEL_EXN_ID: Unify,
-                                                        _1: /* [] */0
-                                                      }
+                                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                      MEL_EXN_ID: Unify,
+                                                      _1: /* [] */0
                                                     });
                                           }
                                           if (match$1.TAG === /* Rpresent */0) {
@@ -32920,19 +31994,15 @@ function mcomp(type_pairs, env, _t1, _t2) {
                                             if (t2 !== undefined) {
                                               return mcomp(type_pairs, env, t1, t2);
                                             }
-                                            throw new Error(Unify, {
-                                                      cause: {
-                                                        MEL_EXN_ID: Unify,
-                                                        _1: /* [] */0
-                                                      }
+                                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                      MEL_EXN_ID: Unify,
+                                                      _1: /* [] */0
                                                     });
                                           }
                                           if (match$1._0) {
-                                            throw new Error(Unify, {
-                                                      cause: {
-                                                        MEL_EXN_ID: Unify,
-                                                        _1: /* [] */0
-                                                      }
+                                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                      MEL_EXN_ID: Unify,
+                                                      _1: /* [] */0
                                                     });
                                           }
                                           return Stdlib__List.iter((function (param) {
@@ -32940,32 +32010,26 @@ function mcomp(type_pairs, env, _t1, _t2) {
                                                       }), match$1._1);
                                         } else {
                                           if (typeof match$1 === "number") {
-                                            throw new Error(Unify, {
-                                                      cause: {
-                                                        MEL_EXN_ID: Unify,
-                                                        _1: /* [] */0
-                                                      }
+                                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                      MEL_EXN_ID: Unify,
+                                                      _1: /* [] */0
                                                     });
                                           }
                                           if (match$1.TAG === /* Rpresent */0) {
                                             if (match$1._0 === undefined) {
                                               return ;
                                             }
-                                            throw new Error(Unify, {
-                                                      cause: {
-                                                        MEL_EXN_ID: Unify,
-                                                        _1: /* [] */0
-                                                      }
+                                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                      MEL_EXN_ID: Unify,
+                                                      _1: /* [] */0
                                                     });
                                           }
                                           if (!match$1._1) {
                                             return ;
                                           }
-                                          throw new Error(Unify, {
-                                                    cause: {
-                                                      MEL_EXN_ID: Unify,
-                                                      _1: /* [] */0
-                                                    }
+                                          throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                    MEL_EXN_ID: Unify,
+                                                    _1: /* [] */0
                                                   });
                                         }
                                       } else {
@@ -33000,11 +32064,9 @@ function mcomp(type_pairs, env, _t1, _t2) {
                                         if (match$1._0 !== undefined) {
                                           exit = 1;
                                         } else {
-                                          throw new Error(Unify, {
-                                                    cause: {
-                                                      MEL_EXN_ID: Unify,
-                                                      _1: /* [] */0
-                                                    }
+                                          throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                    MEL_EXN_ID: Unify,
+                                                    _1: /* [] */0
                                                   });
                                         }
                                       }
@@ -33028,11 +32090,9 @@ function mcomp(type_pairs, env, _t1, _t2) {
                                           if (match$1._0 === undefined) {
                                             return ;
                                           }
-                                          throw new Error(Unify, {
-                                                    cause: {
-                                                      MEL_EXN_ID: Unify,
-                                                      _1: /* [] */0
-                                                    }
+                                          throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                    MEL_EXN_ID: Unify,
+                                                    _1: /* [] */0
                                                   });
                                         }
                                         
@@ -33040,21 +32100,17 @@ function mcomp(type_pairs, env, _t1, _t2) {
                                       
                                     }), match$6[2]);
                     default:
-                      throw new Error(Unify, {
-                                cause: {
-                                  MEL_EXN_ID: Unify,
-                                  _1: /* [] */0
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                MEL_EXN_ID: Unify,
+                                _1: /* [] */0
                               });
                   }
                   break;
               case /* Tunivar */9 :
                   if (typeof match$3 === "number") {
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: /* [] */0
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: /* [] */0
                             });
                   }
                   switch (match$3.TAG | 0) {
@@ -33064,11 +32120,9 @@ function mcomp(type_pairs, env, _t1, _t2) {
                     case /* Tunivar */9 :
                         return unify_univar(t1$p$1, t2$p$1, univar_pairs.contents);
                     default:
-                      throw new Error(Unify, {
-                                cause: {
-                                  MEL_EXN_ID: Unify,
-                                  _1: /* [] */0
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                MEL_EXN_ID: Unify,
+                                _1: /* [] */0
                               });
                   }
                   break;
@@ -33080,11 +32134,9 @@ function mcomp(type_pairs, env, _t1, _t2) {
                     exit$6 = 4;
                   } else {
                     if (typeof match$3 === "number") {
-                      throw new Error(Unify, {
-                                cause: {
-                                  MEL_EXN_ID: Unify,
-                                  _1: /* [] */0
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                MEL_EXN_ID: Unify,
+                                _1: /* [] */0
                               });
                     }
                     switch (match$3.TAG | 0) {
@@ -33101,21 +32153,17 @@ function mcomp(type_pairs, env, _t1, _t2) {
                           }
                           break;
                       default:
-                        throw new Error(Unify, {
-                                  cause: {
-                                    MEL_EXN_ID: Unify,
-                                    _1: /* [] */0
-                                  }
+                        throw new Caml_js_exceptions.MelangeError(Unify, {
+                                  MEL_EXN_ID: Unify,
+                                  _1: /* [] */0
                                 });
                     }
                   }
                   if (exit$6 === 4) {
                     if (typeof match$3 === "number") {
-                      throw new Error(Unify, {
-                                cause: {
-                                  MEL_EXN_ID: Unify,
-                                  _1: /* [] */0
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                MEL_EXN_ID: Unify,
+                                _1: /* [] */0
                               });
                     }
                     switch (match$3.TAG | 0) {
@@ -33127,22 +32175,18 @@ function mcomp(type_pairs, env, _t1, _t2) {
                                         return mcomp(type_pairs, env, param, param$1);
                                       }));
                       default:
-                        throw new Error(Unify, {
-                                  cause: {
-                                    MEL_EXN_ID: Unify,
-                                    _1: /* [] */0
-                                  }
+                        throw new Caml_js_exceptions.MelangeError(Unify, {
+                                  MEL_EXN_ID: Unify,
+                                  _1: /* [] */0
                                 });
                     }
                   }
                   break;
               case /* Tpackage */11 :
                   if (typeof match$3 === "number") {
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: /* [] */0
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: /* [] */0
                             });
                   }
                   switch (match$3.TAG | 0) {
@@ -33152,11 +32196,9 @@ function mcomp(type_pairs, env, _t1, _t2) {
                     case /* Tpackage */11 :
                         return ;
                     default:
-                      throw new Error(Unify, {
-                                cause: {
-                                  MEL_EXN_ID: Unify,
-                                  _1: /* [] */0
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                MEL_EXN_ID: Unify,
+                                _1: /* [] */0
                               });
                   }
                   break;
@@ -33165,22 +32207,18 @@ function mcomp(type_pairs, env, _t1, _t2) {
           }
           if (exit$3 === 3) {
             if (typeof match$3 === "number") {
-              throw new Error(Unify, {
-                        cause: {
-                          MEL_EXN_ID: Unify,
-                          _1: /* [] */0
-                        }
+              throw new Caml_js_exceptions.MelangeError(Unify, {
+                        MEL_EXN_ID: Unify,
+                        _1: /* [] */0
                       });
             }
             if (match$3.TAG === /* Tconstr */3) {
               p = match$3._0;
               exit$2 = 2;
             } else {
-              throw new Error(Unify, {
-                        cause: {
-                          MEL_EXN_ID: Unify,
-                          _1: /* [] */0
-                        }
+              throw new Caml_js_exceptions.MelangeError(Unify, {
+                        MEL_EXN_ID: Unify,
+                        _1: /* [] */0
                       });
             }
           }
@@ -33190,11 +32228,9 @@ function mcomp(type_pairs, env, _t1, _t2) {
               if (!(non_aliasable(p, decl$1) || is_datatype(decl$1))) {
                 return ;
               }
-              throw new Error(Unify, {
-                        cause: {
-                          MEL_EXN_ID: Unify,
-                          _1: /* [] */0
-                        }
+              throw new Caml_js_exceptions.MelangeError(Unify, {
+                        MEL_EXN_ID: Unify,
+                        _1: /* [] */0
                       });
             }
             catch (raw_exn$3){
@@ -33202,16 +32238,12 @@ function mcomp(type_pairs, env, _t1, _t2) {
               if (exn$3.MEL_EXN_ID === Stdlib.Not_found) {
                 return ;
               }
-              throw new Error(exn$3.MEL_EXN_ID, {
-                        cause: exn$3
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
             }
           }
           
         } else {
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
       }
     }
@@ -33221,11 +32253,9 @@ function mcomp(type_pairs, env, _t1, _t2) {
 
 function mcomp_list(type_pairs, env, tl1, tl2) {
   if (Stdlib__List.length(tl1) !== Stdlib__List.length(tl2)) {
-    throw new Error(Unify, {
-              cause: {
-                MEL_EXN_ID: Unify,
-                _1: /* [] */0
-              }
+    throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: /* [] */0
             });
   }
   Stdlib__List.iter2((function (param, param$1) {
@@ -33235,15 +32265,13 @@ function mcomp_list(type_pairs, env, tl1, tl2) {
 
 function mcomp_fields(type_pairs, env, ty1, ty2) {
   if (!(concrete_object(ty1) && concrete_object(ty2))) {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  32108,
-                  59
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                32108,
+                59
+              ]
             });
   }
   var match = flatten_fields(ty2);
@@ -33251,11 +32279,9 @@ function mcomp_fields(type_pairs, env, ty1, ty2) {
   var match$2 = associate_fields(match$1[0], match[0]);
   mcomp(type_pairs, env, match$1[1], match[1]);
   if (Caml_obj.caml_notequal(match$2[1], /* [] */0) && Caml_obj.caml_equal(object_row(ty1).desc, /* Tnil */0) || Caml_obj.caml_notequal(match$2[2], /* [] */0) && Caml_obj.caml_equal(object_row(ty2).desc, /* Tnil */0)) {
-    throw new Error(Unify, {
-              cause: {
-                MEL_EXN_ID: Unify,
-                _1: /* [] */0
-              }
+    throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: /* [] */0
             });
   }
   Stdlib__List.iter((function (param) {
@@ -33269,37 +32295,29 @@ function mcomp_kind(k1, k2) {
   var k2$1 = field_kind_repr(k2);
   if (typeof k1$1 === "number") {
     if (k1$1) {
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: /* [] */0
-                }
+      throw new Caml_js_exceptions.MelangeError(Unify, {
+                MEL_EXN_ID: Unify,
+                _1: /* [] */0
               });
     }
     if (typeof k2$1 === "number") {
       if (!k2$1) {
         return ;
       }
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: /* [] */0
-                }
-              });
-    }
-    throw new Error(Unify, {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError(Unify, {
                 MEL_EXN_ID: Unify,
                 _1: /* [] */0
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: /* [] */0
             });
   }
   if (typeof k2$1 === "number") {
-    throw new Error(Unify, {
-              cause: {
-                MEL_EXN_ID: Unify,
-                _1: /* [] */0
-              }
+    throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: /* [] */0
             });
   }
   
@@ -33310,21 +32328,17 @@ function mcomp_type_option(type_pairs, env, t, t$p) {
     if (t$p !== undefined) {
       return mcomp(type_pairs, env, t, t$p);
     }
-    throw new Error(Unify, {
-              cause: {
-                MEL_EXN_ID: Unify,
-                _1: /* [] */0
-              }
+    throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: /* [] */0
             });
   }
   if (t$p === undefined) {
     return ;
   }
-  throw new Error(Unify, {
-            cause: {
-              MEL_EXN_ID: Unify,
-              _1: /* [] */0
-            }
+  throw new Caml_js_exceptions.MelangeError(Unify, {
+            MEL_EXN_ID: Unify,
+            _1: /* [] */0
           });
 }
 
@@ -33343,28 +32357,22 @@ function mcomp_record_description(type_pairs, env) {
             _x = x.tl;
             continue ;
           }
-          throw new Error(Unify, {
-                    cause: {
-                      MEL_EXN_ID: Unify,
-                      _1: /* [] */0
-                    }
-                  });
-        }
-        throw new Error(Unify, {
-                  cause: {
+          throw new Caml_js_exceptions.MelangeError(Unify, {
                     MEL_EXN_ID: Unify,
                     _1: /* [] */0
-                  }
+                  });
+        }
+        throw new Caml_js_exceptions.MelangeError(Unify, {
+                  MEL_EXN_ID: Unify,
+                  _1: /* [] */0
                 });
       }
       if (!y) {
         return ;
       }
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: /* [] */0
-                }
+      throw new Caml_js_exceptions.MelangeError(Unify, {
+                MEL_EXN_ID: Unify,
+                _1: /* [] */0
               });
     };
   };
@@ -33401,34 +32409,28 @@ function find_newtype_level(env, path) {
     if (x !== undefined) {
       return x;
     }
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  32239,
-                  12
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                32239,
+                12
+              ]
             });
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    32240,
-                    20
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  32240,
+                  20
+                ]
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -33474,30 +32476,26 @@ function eq_package_path(env, p1, p2) {
 
 var nondep_type$p = {
   contents: (function (param, param$1, param$2) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    32262,
-                    37
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  32262,
+                  37
+                ]
               });
     })
 };
 
 var package_subtype = {
   contents: (function (param, param$1, param$2, param$3, param$4, param$5, param$6) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    32263,
-                    48
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  32263,
+                  48
+                ]
               });
     })
 };
@@ -33574,19 +32572,15 @@ function complete_type_list(allow_absentOpt, env, nl1, lv2, mty2, nl2, tl2) {
                     })(n), env$p);
           var decl = match[1];
           if (decl.type_arity !== 0) {
-            throw new Error(Stdlib.Exit, {
-                      cause: {
-                        MEL_EXN_ID: Stdlib.Exit
-                      }
+            throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                      MEL_EXN_ID: Stdlib.Exit
                     });
           }
           var match$1 = decl.type_kind;
           if (typeof match$1 === "number") {
             if (match$1) {
-              throw new Error(Stdlib.Exit, {
-                        cause: {
-                          MEL_EXN_ID: Stdlib.Exit
-                        }
+              throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                        MEL_EXN_ID: Stdlib.Exit
                       });
             }
             if (decl.type_private) {
@@ -33603,22 +32597,16 @@ function complete_type_list(allow_absentOpt, env, nl1, lv2, mty2, nl2, tl2) {
               if (allow_absent) {
                 return complete(nl, ntl2);
               }
-              throw new Error(Stdlib.Exit, {
-                        cause: {
-                          MEL_EXN_ID: Stdlib.Exit
-                        }
+              throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                        MEL_EXN_ID: Stdlib.Exit
                       });
             }
-            throw new Error(Stdlib.Exit, {
-                      cause: {
-                        MEL_EXN_ID: Stdlib.Exit
-                      }
+            throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                      MEL_EXN_ID: Stdlib.Exit
                     });
           }
-          throw new Error(Stdlib.Exit, {
-                    cause: {
-                      MEL_EXN_ID: Stdlib.Exit
-                    }
+          throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                    MEL_EXN_ID: Stdlib.Exit
                   });
         }
         catch (raw_exn){
@@ -33635,15 +32623,11 @@ function complete_type_list(allow_absentOpt, env, nl1, lv2, mty2, nl2, tl2) {
           }
           if (exit$1 === 2) {
             if (exn.MEL_EXN_ID === Stdlib.Exit) {
-              throw new Error(Stdlib.Not_found, {
-                        cause: {
-                          MEL_EXN_ID: Stdlib.Not_found
-                        }
+              throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                        MEL_EXN_ID: Stdlib.Not_found
                       });
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
           
         }
@@ -33671,10 +32655,8 @@ function unify_package(env, unify_list, lv1, p1, n1, tl1, lv2, p2, n2, tl2) {
   if (eq_package_path(env, p1, p2) || Curry._7(package_subtype.contents, env, p1, n1, tl1, p2, n2, tl2) && Curry._7(package_subtype.contents, env, p2, n2, tl2, p1, n1, tl1)) {
     return ;
   }
-  throw new Error(Stdlib.Not_found, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Not_found
-            }
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+            MEL_EXN_ID: Stdlib.Not_found
           });
 }
 
@@ -33695,9 +32677,7 @@ function unify_eq(env, t1, t2) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return false;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -33768,9 +32748,7 @@ function unify(env, t1, t2) {
                           if (exn.MEL_EXN_ID === Cannot_expand) {
                             unify2(env, t1$1, t2$1);
                           } else {
-                            throw new Error(exn.MEL_EXN_ID, {
-                                      cause: exn
-                                    });
+                            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                           }
                         }
                       } else {
@@ -33821,22 +32799,18 @@ function unify(env, t1, t2) {
     var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
     if (exn$1.MEL_EXN_ID === Unify) {
       reset_trace_gadt_instances(reset_tracing);
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: {
-                    hd: [
-                      t1$1,
-                      t2$1
-                    ],
-                    tl: exn$1._1
-                  }
+      throw new Caml_js_exceptions.MelangeError(Unify, {
+                MEL_EXN_ID: Unify,
+                _1: {
+                  hd: [
+                    t1$1,
+                    t2$1
+                  ],
+                  tl: exn$1._1
                 }
               });
     }
-    throw new Error(exn$1.MEL_EXN_ID, {
-              cause: exn$1
-            });
+    throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
   }
 }
 
@@ -33939,15 +32913,13 @@ function unify_kind(k1, k2) {
     }
     
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                32636,
-                37
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              32636,
+              37
+            ]
           });
 }
 
@@ -34040,11 +33012,9 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                 exit$2 = 3;
                 break;
             default:
-              throw new Error(Unify, {
-                        cause: {
-                          MEL_EXN_ID: Unify,
-                          _1: /* [] */0
-                        }
+              throw new Caml_js_exceptions.MelangeError(Unify, {
+                        MEL_EXN_ID: Unify,
+                        _1: /* [] */0
                       });
           }
         }
@@ -34054,11 +33024,9 @@ function unify3(env, t1, t1$p, t2, t2$p) {
           case /* Tarrow */1 :
               var l1 = d1._0;
               if (typeof d2 === "number") {
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
               }
               switch (d2.TAG | 0) {
@@ -34079,11 +33047,9 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                         set_commu(match$1._0, match$2);
                       }
                     } else {
-                      throw new Error(Unify, {
-                                cause: {
-                                  MEL_EXN_ID: Unify,
-                                  _1: /* [] */0
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                MEL_EXN_ID: Unify,
+                                _1: /* [] */0
                               });
                     }
                     break;
@@ -34091,21 +33057,17 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                     exit$4 = 5;
                     break;
                 default:
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
               }
               break;
           case /* Ttuple */2 :
               if (typeof d2 === "number") {
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
               }
               switch (d2.TAG | 0) {
@@ -34116,11 +33078,9 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                     exit$4 = 5;
                     break;
                 default:
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
               }
               break;
@@ -34170,9 +33130,7 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                                   return false;
                                 }), tl1);
                         } else {
-                          throw new Error(exn.MEL_EXN_ID, {
-                                    cause: exn
-                                  });
+                          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                         }
                       }
                       Stdlib__List.iter2((function (i, param) {
@@ -34193,9 +33151,7 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                                                   reify(env, t1);
                                                   return reify(env, t2);
                                                 }
-                                                throw new Error(exn.MEL_EXN_ID, {
-                                                          cause: exn
-                                                        });
+                                                throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                                               }
                                             }));
                               }
@@ -34261,11 +33217,9 @@ function unify3(env, t1, t1$p, t2, t2$p) {
               break;
           case /* Tobject */4 :
               if (typeof d2 === "number") {
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
               }
               switch (d2.TAG | 0) {
@@ -34312,11 +33266,9 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                     }
                     break;
                 default:
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
               }
               break;
@@ -34329,22 +33281,18 @@ function unify3(env, t1, t1$p, t2, t2$p) {
               } else if (d2.TAG === /* Tconstr */3) {
                 exit$4 = 5;
               } else {
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
               }
               break;
           case /* Tvariant */8 :
               var row1 = d1._0;
               if (typeof d2 === "number") {
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
               }
               switch (d2.TAG | 0) {
@@ -34371,19 +33319,15 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                           }
                           
                         } else {
-                          throw new Error(exn$1.MEL_EXN_ID, {
-                                    cause: exn$1
-                                  });
+                          throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
                         }
                       }
                     }
                     break;
                 default:
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
               }
               break;
@@ -34395,11 +33339,9 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                 exit$8 = 6;
               } else {
                 if (typeof d2 === "number") {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 switch (d2.TAG | 0) {
@@ -34414,21 +33356,17 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                       }
                       break;
                   default:
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: /* [] */0
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: /* [] */0
                             });
                 }
               }
               if (exit$8 === 6) {
                 if (typeof d2 === "number") {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 switch (d2.TAG | 0) {
@@ -34441,11 +33379,9 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                             }));
                       break;
                   default:
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: /* [] */0
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: /* [] */0
                             });
                 }
               }
@@ -34453,11 +33389,9 @@ function unify3(env, t1, t1$p, t2, t2$p) {
           case /* Tpackage */11 :
               var tl1$2 = d1._2;
               if (typeof d2 === "number") {
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
               }
               switch (d2.TAG | 0) {
@@ -34475,29 +33409,23 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                       var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
                       if (exn$2.MEL_EXN_ID === Stdlib.Not_found) {
                         if (umode.contents === /* Expression */0) {
-                          throw new Error(Unify, {
-                                    cause: {
-                                      MEL_EXN_ID: Unify,
-                                      _1: /* [] */0
-                                    }
+                          throw new Caml_js_exceptions.MelangeError(Unify, {
+                                    MEL_EXN_ID: Unify,
+                                    _1: /* [] */0
                                   });
                         }
                         Stdlib__List.iter((function (param) {
                                 return reify(env, param);
                               }), Stdlib.$at(tl1$2, tl2$1));
                       } else {
-                        throw new Error(exn$2.MEL_EXN_ID, {
-                                  cause: exn$2
-                                });
+                        throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
                       }
                     }
                     break;
                 default:
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
               }
               break;
@@ -34529,21 +33457,17 @@ function unify3(env, t1, t1$p, t2, t2$p) {
       }
       if (exit$3 === 4) {
         if (typeof d1 === "number") {
-          throw new Error(Unify, {
-                    cause: {
-                      MEL_EXN_ID: Unify,
-                      _1: /* [] */0
-                    }
+          throw new Caml_js_exceptions.MelangeError(Unify, {
+                    MEL_EXN_ID: Unify,
+                    _1: /* [] */0
                   });
         }
         if (d1.TAG === /* Tconstr */3) {
           exit$2 = 2;
         } else {
-          throw new Error(Unify, {
-                    cause: {
-                      MEL_EXN_ID: Unify,
-                      _1: /* [] */0
-                    }
+          throw new Caml_js_exceptions.MelangeError(Unify, {
+                    MEL_EXN_ID: Unify,
+                    _1: /* [] */0
                   });
         }
       }
@@ -34557,22 +33481,18 @@ function unify3(env, t1, t1$p, t2, t2$p) {
               }
               
             } else {
-              throw new Error(Unify, {
-                        cause: {
-                          MEL_EXN_ID: Unify,
-                          _1: /* [] */0
-                        }
+              throw new Caml_js_exceptions.MelangeError(Unify, {
+                        MEL_EXN_ID: Unify,
+                        _1: /* [] */0
                       });
             }
             break;
         case 3 :
             var r = field_kind_repr(kind);
             if (typeof r === "number") {
-              throw new Error(Unify, {
-                        cause: {
-                          MEL_EXN_ID: Unify,
-                          _1: /* [] */0
-                        }
+              throw new Caml_js_exceptions.MelangeError(Unify, {
+                        MEL_EXN_ID: Unify,
+                        _1: /* [] */0
                       });
             }
             if (f !== dummy_method) {
@@ -34583,11 +33503,9 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                 unify(env, newty2(rem.level, /* Tnil */0), rem);
               }
             } else {
-              throw new Error(Unify, {
-                        cause: {
-                          MEL_EXN_ID: Unify,
-                          _1: /* [] */0
-                        }
+              throw new Caml_js_exceptions.MelangeError(Unify, {
+                        MEL_EXN_ID: Unify,
+                        _1: /* [] */0
                       });
             }
             break;
@@ -34615,16 +33533,12 @@ function unify3(env, t1, t1$p, t2, t2$p) {
       var exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
       if (exn$3.MEL_EXN_ID === Unify) {
         t1$p.desc = d1;
-        throw new Error(Unify, {
-                  cause: {
-                    MEL_EXN_ID: Unify,
-                    _1: exn$3._1
-                  }
+        throw new Caml_js_exceptions.MelangeError(Unify, {
+                  MEL_EXN_ID: Unify,
+                  _1: exn$3._1
                 });
       }
-      throw new Error(exn$3.MEL_EXN_ID, {
-                cause: exn$3
-              });
+      throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
     }
   }
   
@@ -34678,22 +33592,18 @@ function unify_fields(env, ty1, ty2) {
                         _2: t2,
                         _3: desc_3$1
                       };
-                      throw new Error(Unify, {
-                                cause: {
-                                  MEL_EXN_ID: Unify,
-                                  _1: {
-                                    hd: [
-                                      newty2(current_level.contents, desc),
-                                      newty2(current_level.contents, desc$1)
-                                    ],
-                                    tl: exn._1
-                                  }
+                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                MEL_EXN_ID: Unify,
+                                _1: {
+                                  hd: [
+                                    newty2(current_level.contents, desc),
+                                    newty2(current_level.contents, desc$1)
+                                  ],
+                                  tl: exn._1
                                 }
                               });
                     }
-                    throw new Error(exn.MEL_EXN_ID, {
-                              cause: exn
-                            });
+                    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                   }
                 }), match$2[0]);
   }
@@ -34702,19 +33612,15 @@ function unify_fields(env, ty1, ty2) {
     rest1.desc = d1;
     log_type(rest2);
     rest2.desc = d2;
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
 function unify_list(env, tl1, tl2) {
   if (Stdlib__List.length(tl1) !== Stdlib__List.length(tl2)) {
-    throw new Error(Unify, {
-              cause: {
-                MEL_EXN_ID: Unify,
-                _1: /* [] */0
-              }
+    throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: /* [] */0
             });
   }
   Stdlib__List.iter2((function (param, param$1) {
@@ -34743,12 +33649,10 @@ function unify_row(env, row1, row2) {
     Stdlib__List.iter((function (param) {
             var l = param[0];
             try {
-              throw new Error(Tags, {
-                        cause: {
-                          MEL_EXN_ID: Tags,
-                          _1: l,
-                          _2: Stdlib__Hashtbl.find(ht, hash_variant(l))
-                        }
+              throw new Caml_js_exceptions.MelangeError(Tags, {
+                        MEL_EXN_ID: Tags,
+                        _1: l,
+                        _2: Stdlib__Hashtbl.find(ht, hash_variant(l))
                       });
             }
             catch (raw_exn){
@@ -34756,9 +33660,7 @@ function unify_row(env, row1, row2) {
               if (exn.MEL_EXN_ID === Stdlib.Not_found) {
                 return ;
               }
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
           }), r2);
   }
@@ -34794,16 +33696,14 @@ function unify_row(env, row1, row2) {
               return Caml_obj.caml_equal(row_field_repr_aux(/* [] */0, param[2]), /* Rabsent */0);
             }
           }), pairs)) {
-    throw new Error(Unify, {
-              cause: {
-                MEL_EXN_ID: Unify,
-                _1: {
-                  hd: [
-                    mkvariant(/* [] */0, true),
-                    mkvariant(/* [] */0, true)
-                  ],
-                  tl: /* [] */0
-                }
+    throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: {
+                hd: [
+                  mkvariant(/* [] */0, true),
+                  mkvariant(/* [] */0, true)
+                ],
+                tl: /* [] */0
               }
             });
   }
@@ -34825,19 +33725,17 @@ function unify_row(env, row1, row2) {
     if (Caml_obj.caml_notequal(rest$1, /* [] */0) && (row.row_closed || row_fixed(row)) || closed && row_fixed(row) && !row.row_closed) {
       var t1 = mkvariant(/* [] */0, true);
       var t2 = mkvariant(rest$1, false);
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: {
-                    hd: row === row1$1 ? [
-                        t1,
-                        t2
-                      ] : [
-                        t2,
-                        t1
-                      ],
-                    tl: /* [] */0
-                  }
+      throw new Caml_js_exceptions.MelangeError(Unify, {
+                MEL_EXN_ID: Unify,
+                _1: {
+                  hd: row === row1$1 ? [
+                      t1,
+                      t2
+                    ] : [
+                      t2,
+                      t1
+                    ],
+                  tl: /* [] */0
                 }
               });
     }
@@ -34898,39 +33796,31 @@ function unify_row(env, row1, row2) {
                           return ;
                         }
                         if (f2$2.TAG === /* Rpresent */0) {
-                          throw new Error(Unify, {
-                                    cause: {
-                                      MEL_EXN_ID: Unify,
-                                      _1: /* [] */0
-                                    }
+                          throw new Caml_js_exceptions.MelangeError(Unify, {
+                                    MEL_EXN_ID: Unify,
+                                    _1: /* [] */0
                                   });
                         }
                         if (f2$2._2) {
-                          throw new Error(Unify, {
-                                    cause: {
-                                      MEL_EXN_ID: Unify,
-                                      _1: /* [] */0
-                                    }
+                          throw new Caml_js_exceptions.MelangeError(Unify, {
+                                    MEL_EXN_ID: Unify,
+                                    _1: /* [] */0
                                   });
                         }
                         if (!fixed2) {
                           return set_row_field(f2$2._3, f1$2);
                         }
-                        throw new Error(Unify, {
-                                  cause: {
-                                    MEL_EXN_ID: Unify,
-                                    _1: /* [] */0
-                                  }
+                        throw new Caml_js_exceptions.MelangeError(Unify, {
+                                  MEL_EXN_ID: Unify,
+                                  _1: /* [] */0
                                 });
                       } else if (f1$2.TAG === /* Rpresent */0) {
                         var t1 = f1$2._0;
                         if (t1 !== undefined) {
                           if (typeof f2$2 === "number") {
-                            throw new Error(Unify, {
-                                      cause: {
-                                        MEL_EXN_ID: Unify,
-                                        _1: /* [] */0
-                                      }
+                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                      MEL_EXN_ID: Unify,
+                                      _1: /* [] */0
                                     });
                           }
                           if (f2$2.TAG === /* Rpresent */0) {
@@ -34938,27 +33828,21 @@ function unify_row(env, row1, row2) {
                             if (t2 !== undefined) {
                               return unify(env, t1, t2);
                             }
-                            throw new Error(Unify, {
-                                      cause: {
-                                        MEL_EXN_ID: Unify,
-                                        _1: /* [] */0
-                                      }
+                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                      MEL_EXN_ID: Unify,
+                                      _1: /* [] */0
                                     });
                           }
                           if (f2$2._0) {
-                            throw new Error(Unify, {
-                                      cause: {
-                                        MEL_EXN_ID: Unify,
-                                        _1: /* [] */0
-                                      }
+                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                      MEL_EXN_ID: Unify,
+                                      _1: /* [] */0
                                     });
                           }
                           if (fixed2) {
-                            throw new Error(Unify, {
-                                      cause: {
-                                        MEL_EXN_ID: Unify,
-                                        _1: /* [] */0
-                                      }
+                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                      MEL_EXN_ID: Unify,
+                                      _1: /* [] */0
                                     });
                           }
                           var e2 = f2$2._3;
@@ -34973,54 +33857,42 @@ function unify_row(env, row1, row2) {
                           }
                           catch (exn){
                             e2.contents = undefined;
-                            throw new Error(exn.MEL_EXN_ID, {
-                                      cause: exn
-                                    });
+                            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                           }
                         } else {
                           if (typeof f2$2 === "number") {
-                            throw new Error(Unify, {
-                                      cause: {
-                                        MEL_EXN_ID: Unify,
-                                        _1: /* [] */0
-                                      }
+                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                      MEL_EXN_ID: Unify,
+                                      _1: /* [] */0
                                     });
                           }
                           if (f2$2.TAG === /* Rpresent */0) {
                             if (f2$2._0 === undefined) {
                               return ;
                             }
-                            throw new Error(Unify, {
-                                      cause: {
-                                        MEL_EXN_ID: Unify,
-                                        _1: /* [] */0
-                                      }
+                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                      MEL_EXN_ID: Unify,
+                                      _1: /* [] */0
                                     });
                           }
                           if (f2$2._0) {
                             if (f2$2._1) {
-                              throw new Error(Unify, {
-                                        cause: {
-                                          MEL_EXN_ID: Unify,
-                                          _1: /* [] */0
-                                        }
+                              throw new Caml_js_exceptions.MelangeError(Unify, {
+                                        MEL_EXN_ID: Unify,
+                                        _1: /* [] */0
                                       });
                             }
                             if (!fixed2) {
                               return set_row_field(f2$2._3, f1$2);
                             }
-                            throw new Error(Unify, {
-                                      cause: {
-                                        MEL_EXN_ID: Unify,
-                                        _1: /* [] */0
-                                      }
-                                    });
-                          }
-                          throw new Error(Unify, {
-                                    cause: {
+                            throw new Caml_js_exceptions.MelangeError(Unify, {
                                       MEL_EXN_ID: Unify,
                                       _1: /* [] */0
-                                    }
+                                    });
+                          }
+                          throw new Caml_js_exceptions.MelangeError(Unify, {
+                                    MEL_EXN_ID: Unify,
+                                    _1: /* [] */0
                                   });
                         }
                       } else {
@@ -35030,59 +33902,47 @@ function unify_row(env, row1, row2) {
                         var e1 = f1$2._3;
                         if (typeof f2$2 === "number") {
                           if (m1) {
-                            throw new Error(Unify, {
-                                      cause: {
-                                        MEL_EXN_ID: Unify,
-                                        _1: /* [] */0
-                                      }
+                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                      MEL_EXN_ID: Unify,
+                                      _1: /* [] */0
                                     });
                           }
                           if (!fixed1) {
                             return set_row_field(f1$2._3, f2$2);
                           }
-                          throw new Error(Unify, {
-                                    cause: {
-                                      MEL_EXN_ID: Unify,
-                                      _1: /* [] */0
-                                    }
+                          throw new Caml_js_exceptions.MelangeError(Unify, {
+                                    MEL_EXN_ID: Unify,
+                                    _1: /* [] */0
                                   });
                         }
                         if (f2$2.TAG === /* Rpresent */0) {
                           if (c1) {
                             if (f1$2._1) {
-                              throw new Error(Unify, {
-                                        cause: {
-                                          MEL_EXN_ID: Unify,
-                                          _1: /* [] */0
-                                        }
+                              throw new Caml_js_exceptions.MelangeError(Unify, {
+                                        MEL_EXN_ID: Unify,
+                                        _1: /* [] */0
                                       });
                             }
                             if (f2$2._0 !== undefined) {
-                              throw new Error(Unify, {
-                                        cause: {
-                                          MEL_EXN_ID: Unify,
-                                          _1: /* [] */0
-                                        }
+                              throw new Caml_js_exceptions.MelangeError(Unify, {
+                                        MEL_EXN_ID: Unify,
+                                        _1: /* [] */0
                                       });
                             }
                             if (!fixed1) {
                               return set_row_field(f1$2._3, f2$2);
                             }
-                            throw new Error(Unify, {
-                                      cause: {
-                                        MEL_EXN_ID: Unify,
-                                        _1: /* [] */0
-                                      }
+                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                      MEL_EXN_ID: Unify,
+                                      _1: /* [] */0
                                     });
                           }
                           var t2$1 = f2$2._0;
                           if (t2$1 !== undefined) {
                             if (fixed1) {
-                              throw new Error(Unify, {
-                                        cause: {
-                                          MEL_EXN_ID: Unify,
-                                          _1: /* [] */0
-                                        }
+                              throw new Caml_js_exceptions.MelangeError(Unify, {
+                                        MEL_EXN_ID: Unify,
+                                        _1: /* [] */0
                                       });
                             }
                             var e1$1 = f1$2._3;
@@ -35097,16 +33957,12 @@ function unify_row(env, row1, row2) {
                             }
                             catch (exn$1){
                               e1$1.contents = undefined;
-                              throw new Error(exn$1.MEL_EXN_ID, {
-                                        cause: exn$1
-                                      });
+                              throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
                             }
                           } else {
-                            throw new Error(Unify, {
-                                      cause: {
-                                        MEL_EXN_ID: Unify,
-                                        _1: /* [] */0
-                                      }
+                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                      MEL_EXN_ID: Unify,
+                                      _1: /* [] */0
                                     });
                           }
                         } else {
@@ -35124,11 +33980,9 @@ function unify_row(env, row1, row2) {
                             if (match) {
                               var t1$1 = match.hd;
                               if (c1 || c2) {
-                                throw new Error(Unify, {
-                                          cause: {
-                                            MEL_EXN_ID: Unify,
-                                            _1: /* [] */0
-                                          }
+                                throw new Caml_js_exceptions.MelangeError(Unify, {
+                                          MEL_EXN_ID: Unify,
+                                          _1: /* [] */0
                                         });
                               }
                               Stdlib__List.iter((function(t1$1){
@@ -35206,34 +34060,30 @@ function unify_row(env, row1, row2) {
                   catch (raw_exn){
                     var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn);
                     if (exn$2.MEL_EXN_ID === Unify) {
-                      throw new Error(Unify, {
-                                cause: {
-                                  MEL_EXN_ID: Unify,
-                                  _1: {
-                                    hd: [
-                                      mkvariant({
-                                            hd: [
-                                              l,
-                                              f1
-                                            ],
-                                            tl: /* [] */0
-                                          }, true),
-                                      mkvariant({
-                                            hd: [
-                                              l,
-                                              f2
-                                            ],
-                                            tl: /* [] */0
-                                          }, true)
-                                    ],
-                                    tl: exn$2._1
-                                  }
+                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                MEL_EXN_ID: Unify,
+                                _1: {
+                                  hd: [
+                                    mkvariant({
+                                          hd: [
+                                            l,
+                                            f1
+                                          ],
+                                          tl: /* [] */0
+                                        }, true),
+                                    mkvariant({
+                                          hd: [
+                                            l,
+                                            f2
+                                          ],
+                                          tl: /* [] */0
+                                        }, true)
+                                  ],
+                                  tl: exn$2._1
                                 }
                               });
                     }
-                    throw new Error(exn$2.MEL_EXN_ID, {
-                              cause: exn$2
-                            });
+                    throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
                   }
                 }), pairs);
   }
@@ -35242,9 +34092,7 @@ function unify_row(env, row1, row2) {
     rm1.desc = md1;
     log_type(rm2);
     rm2.desc = md2;
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -35324,21 +34172,17 @@ function unify2(env, t1, t2) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Unify) {
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: Stdlib__List.map((function (param) {
-                          return [
-                                  param[1],
-                                  param[0]
-                                ];
-                        }), exn._1)
-                }
+      throw new Caml_js_exceptions.MelangeError(Unify, {
+                MEL_EXN_ID: Unify,
+                _1: Stdlib__List.map((function (param) {
+                        return [
+                                param[1],
+                                param[0]
+                              ];
+                      }), exn._1)
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -35349,30 +34193,24 @@ function unify$1(env, ty1, ty2) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Unify) {
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: expand_trace(env.contents, exn._1)
-                }
+      throw new Caml_js_exceptions.MelangeError(Unify, {
+                MEL_EXN_ID: Unify,
+                _1: expand_trace(env.contents, exn._1)
               });
     }
     if (exn.MEL_EXN_ID === Recursive_abbrev) {
-      throw new Error(Unification_recursive_abbrev, {
-                cause: {
-                  MEL_EXN_ID: Unification_recursive_abbrev,
-                  _1: expand_trace(env.contents, {
-                        hd: [
-                          ty1,
-                          ty2
-                        ],
-                        tl: /* [] */0
-                      })
-                }
+      throw new Caml_js_exceptions.MelangeError(Unification_recursive_abbrev, {
+                MEL_EXN_ID: Unification_recursive_abbrev,
+                _1: expand_trace(env.contents, {
+                      hd: [
+                        ty1,
+                        ty2
+                      ],
+                      tl: /* [] */0
+                    })
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -35411,16 +34249,12 @@ function unify_var(env, t1, t2) {
             ],
             tl: exn._1
           });
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: expanded_trace
-                }
+      throw new Caml_js_exceptions.MelangeError(Unify, {
+                MEL_EXN_ID: Unify,
+                _1: expanded_trace
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -35448,11 +34282,9 @@ function filter_arrow(env, t, l) {
   var t$1 = expand_head_trace(env, t);
   var match = t$1.desc;
   if (typeof match === "number") {
-    throw new Error(Unify, {
-              cause: {
-                MEL_EXN_ID: Unify,
-                _1: /* [] */0
-              }
+    throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: /* [] */0
             });
   }
   switch (match.TAG | 0) {
@@ -35486,18 +34318,14 @@ function filter_arrow(env, t, l) {
                   match._2
                 ];
         }
-        throw new Error(Unify, {
-                  cause: {
-                    MEL_EXN_ID: Unify,
-                    _1: /* [] */0
-                  }
-                });
-    default:
-      throw new Error(Unify, {
-                cause: {
+        throw new Caml_js_exceptions.MelangeError(Unify, {
                   MEL_EXN_ID: Unify,
                   _1: /* [] */0
-                }
+                });
+    default:
+      throw new Caml_js_exceptions.MelangeError(Unify, {
+                MEL_EXN_ID: Unify,
+                _1: /* [] */0
               });
   }
 }
@@ -35508,11 +34336,9 @@ function filter_method_field(env, name, priv, _ty) {
     var ty$1 = expand_head_trace(env, ty);
     var match = ty$1.desc;
     if (typeof match === "number") {
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: /* [] */0
-                }
+      throw new Caml_js_exceptions.MelangeError(Unify, {
+                MEL_EXN_ID: Unify,
+                _1: /* [] */0
               });
     }
     switch (match.TAG | 0) {
@@ -35550,11 +34376,9 @@ function filter_method_field(env, name, priv, _ty) {
           _ty = match._3;
           continue ;
       default:
-        throw new Error(Unify, {
-                  cause: {
-                    MEL_EXN_ID: Unify,
-                    _1: /* [] */0
-                  }
+        throw new Caml_js_exceptions.MelangeError(Unify, {
+                  MEL_EXN_ID: Unify,
+                  _1: /* [] */0
                 });
     }
   };
@@ -35564,11 +34388,9 @@ function filter_method(env, name, priv, ty) {
   var ty$1 = expand_head_trace(env, ty);
   var match = ty$1.desc;
   if (typeof match === "number") {
-    throw new Error(Unify, {
-              cause: {
-                MEL_EXN_ID: Unify,
-                _1: /* [] */0
-              }
+    throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: /* [] */0
             });
   }
   switch (match.TAG | 0) {
@@ -35581,11 +34403,9 @@ function filter_method(env, name, priv, ty) {
     case /* Tobject */4 :
         return filter_method_field(env, name, priv, match._0);
     default:
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: /* [] */0
-                }
+      throw new Caml_js_exceptions.MelangeError(Unify, {
+                MEL_EXN_ID: Unify,
+                _1: /* [] */0
               });
   }
 }
@@ -35606,9 +34426,7 @@ function filter_self_method(env, lab, priv, meths, ty) {
       meths.contents = Curry._3(add$1, lab, pair, meths.contents);
       return pair;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -35619,10 +34437,8 @@ function moregen_occur(env, level, ty) {
       return ;
     }
     if (is_Tvar(ty$1) && ty$1.level >= 99999999) {
-      throw new Error(Occur, {
-                cause: {
-                  MEL_EXN_ID: Occur
-                }
+      throw new Caml_js_exceptions.MelangeError(Occur, {
+                MEL_EXN_ID: Occur
               });
     }
     ty$1.level = pivot_level - ty$1.level | 0;
@@ -35648,16 +34464,12 @@ function moregen_occur(env, level, ty) {
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Occur) {
       unmark_type(ty);
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: /* [] */0
-                }
+      throw new Caml_js_exceptions.MelangeError(Unify, {
+                MEL_EXN_ID: Unify,
+                _1: /* [] */0
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
   occur_univar(env, ty);
   update_level(env, level, ty);
@@ -35737,11 +34549,9 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
             if (typeof match$3 === "number") {
               return ;
             }
-            throw new Error(Unify, {
-                      cause: {
-                        MEL_EXN_ID: Unify,
-                        _1: /* [] */0
-                      }
+            throw new Caml_js_exceptions.MelangeError(Unify, {
+                      MEL_EXN_ID: Unify,
+                      _1: /* [] */0
                     });
           }
           switch (match$2.TAG | 0) {
@@ -35750,19 +34560,15 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                   moregen_occur(env, t1$p$1.level, t2$1);
                   return link_type(t1$p$1, t2$1);
                 }
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
             case /* Tarrow */1 :
                 if (typeof match$3 === "number") {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 if (match$3.TAG === /* Tarrow */1) {
@@ -35772,114 +34578,88 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                     moregen(inst_nongen, type_pairs, env, match$2._1, match$3._1);
                     return moregen(inst_nongen, type_pairs, env, match$2._2, match$3._2);
                   }
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
-                          });
-                }
-                throw new Error(Unify, {
-                          cause: {
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
                             MEL_EXN_ID: Unify,
                             _1: /* [] */0
-                          }
+                          });
+                }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
             case /* Ttuple */2 :
                 if (typeof match$3 === "number") {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 if (match$3.TAG === /* Ttuple */2) {
                   return moregen_list(inst_nongen, type_pairs, env, match$2._0, match$3._0);
                 }
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
             case /* Tconstr */3 :
                 if (typeof match$3 === "number") {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 if (match$3.TAG === /* Tconstr */3) {
                   if (same(match$2._0, match$3._0)) {
                     return moregen_list(inst_nongen, type_pairs, env, match$2._1, match$3._1);
                   }
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
-                          });
-                }
-                throw new Error(Unify, {
-                          cause: {
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
                             MEL_EXN_ID: Unify,
                             _1: /* [] */0
-                          }
+                          });
+                }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
             case /* Tobject */4 :
                 if (typeof match$3 === "number") {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 if (match$3.TAG === /* Tobject */4) {
                   return moregen_fields(inst_nongen, type_pairs, env, match$2._0, match$3._0);
                 }
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
             case /* Tfield */5 :
                 if (typeof match$3 === "number") {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 if (match$3.TAG === /* Tfield */5) {
                   return moregen_fields(inst_nongen, type_pairs, env, t1$p$1, t2$p$1);
                 }
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
             case /* Tlink */6 :
             case /* Tsubst */7 :
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
             case /* Tvariant */8 :
                 if (typeof match$3 === "number") {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 if (match$3.TAG === /* Tvariant */8) {
@@ -35905,11 +34685,9 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                     ];
                   var r2$1 = match$5[1];
                   if (Caml_obj.caml_notequal(match$5[0], /* [] */0) || row1$1.row_closed && (!row2$1.row_closed || Caml_obj.caml_notequal(r2$1, /* [] */0))) {
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: /* [] */0
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: /* [] */0
                             });
                   }
                   var match$6 = rm1.desc;
@@ -35920,21 +34698,17 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                     exit$2 = 2;
                   } else {
                     if (typeof match$7 === "number") {
-                      throw new Error(Unify, {
-                                cause: {
-                                  MEL_EXN_ID: Unify,
-                                  _1: /* [] */0
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                MEL_EXN_ID: Unify,
+                                _1: /* [] */0
                               });
                     }
                     if (match$7.TAG === /* Tunivar */9) {
                       unify_univar(rm1, rm2, univar_pairs.contents);
                     } else {
-                      throw new Error(Unify, {
-                                cause: {
-                                  MEL_EXN_ID: Unify,
-                                  _1: /* [] */0
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                MEL_EXN_ID: Unify,
+                                _1: /* [] */0
                               });
                     }
                   }
@@ -35943,11 +34717,9 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                       exit$1 = 1;
                     } else {
                       if (match$7.TAG === /* Tunivar */9) {
-                        throw new Error(Unify, {
-                                  cause: {
-                                    MEL_EXN_ID: Unify,
-                                    _1: /* [] */0
-                                  }
+                        throw new Caml_js_exceptions.MelangeError(Unify, {
+                                  MEL_EXN_ID: Unify,
+                                  _1: /* [] */0
                                 });
                       }
                       exit$1 = 1;
@@ -35970,38 +34742,30 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                       link_type(rm1, ext);
                     } else {
                       if (typeof match$6 === "number") {
-                        throw new Error(Unify, {
-                                  cause: {
-                                    MEL_EXN_ID: Unify,
-                                    _1: /* [] */0
-                                  }
+                        throw new Caml_js_exceptions.MelangeError(Unify, {
+                                  MEL_EXN_ID: Unify,
+                                  _1: /* [] */0
                                 });
                       }
                       if (match$6.TAG === /* Tconstr */3) {
                         if (typeof match$7 === "number") {
-                          throw new Error(Unify, {
-                                    cause: {
-                                      MEL_EXN_ID: Unify,
-                                      _1: /* [] */0
-                                    }
+                          throw new Caml_js_exceptions.MelangeError(Unify, {
+                                    MEL_EXN_ID: Unify,
+                                    _1: /* [] */0
                                   });
                         }
                         if (match$7.TAG === /* Tconstr */3) {
                           moregen(inst_nongen, type_pairs, env, rm1, rm2);
                         } else {
-                          throw new Error(Unify, {
-                                    cause: {
-                                      MEL_EXN_ID: Unify,
-                                      _1: /* [] */0
-                                    }
+                          throw new Caml_js_exceptions.MelangeError(Unify, {
+                                    MEL_EXN_ID: Unify,
+                                    _1: /* [] */0
                                   });
                         }
                       } else {
-                        throw new Error(Unify, {
-                                  cause: {
-                                    MEL_EXN_ID: Unify,
-                                    _1: /* [] */0
-                                  }
+                        throw new Caml_js_exceptions.MelangeError(Unify, {
+                                  MEL_EXN_ID: Unify,
+                                  _1: /* [] */0
                                 });
                       }
                     }
@@ -36016,22 +34780,18 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                                   if (typeof f2 === "number") {
                                     return ;
                                   }
-                                  throw new Error(Unify, {
-                                            cause: {
-                                              MEL_EXN_ID: Unify,
-                                              _1: /* [] */0
-                                            }
+                                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                                            MEL_EXN_ID: Unify,
+                                            _1: /* [] */0
                                           });
                                 }
                                 if (f1.TAG === /* Rpresent */0) {
                                   var t1 = f1._0;
                                   if (t1 !== undefined) {
                                     if (typeof f2 === "number") {
-                                      throw new Error(Unify, {
-                                                cause: {
-                                                  MEL_EXN_ID: Unify,
-                                                  _1: /* [] */0
-                                                }
+                                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                MEL_EXN_ID: Unify,
+                                                _1: /* [] */0
                                               });
                                     }
                                     if (f2.TAG === /* Rpresent */0) {
@@ -36039,44 +34799,34 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                                       if (t2 !== undefined) {
                                         return moregen(inst_nongen, type_pairs, env, t1, t2);
                                       }
-                                      throw new Error(Unify, {
-                                                cause: {
-                                                  MEL_EXN_ID: Unify,
-                                                  _1: /* [] */0
-                                                }
-                                              });
-                                    }
-                                    throw new Error(Unify, {
-                                              cause: {
+                                      throw new Caml_js_exceptions.MelangeError(Unify, {
                                                 MEL_EXN_ID: Unify,
                                                 _1: /* [] */0
-                                              }
+                                              });
+                                    }
+                                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                                              MEL_EXN_ID: Unify,
+                                              _1: /* [] */0
                                             });
                                   } else {
                                     if (typeof f2 === "number") {
-                                      throw new Error(Unify, {
-                                                cause: {
-                                                  MEL_EXN_ID: Unify,
-                                                  _1: /* [] */0
-                                                }
+                                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                MEL_EXN_ID: Unify,
+                                                _1: /* [] */0
                                               });
                                     }
                                     if (f2.TAG === /* Rpresent */0) {
                                       if (f2._0 === undefined) {
                                         return ;
                                       }
-                                      throw new Error(Unify, {
-                                                cause: {
-                                                  MEL_EXN_ID: Unify,
-                                                  _1: /* [] */0
-                                                }
-                                              });
-                                    }
-                                    throw new Error(Unify, {
-                                              cause: {
+                                      throw new Caml_js_exceptions.MelangeError(Unify, {
                                                 MEL_EXN_ID: Unify,
                                                 _1: /* [] */0
-                                              }
+                                              });
+                                    }
+                                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                                              MEL_EXN_ID: Unify,
+                                              _1: /* [] */0
                                             });
                                   }
                                 } else {
@@ -36084,21 +34834,17 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                                   if (c1) {
                                     if (!f1._1 && typeof f2 !== "number" && f2.TAG === /* Rpresent */0) {
                                       if (f2._0 !== undefined) {
-                                        throw new Error(Unify, {
-                                                  cause: {
-                                                    MEL_EXN_ID: Unify,
-                                                    _1: /* [] */0
-                                                  }
+                                        throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                  MEL_EXN_ID: Unify,
+                                                  _1: /* [] */0
                                                 });
                                       }
                                       if (may_inst) {
                                         return set_row_field(f1._3, f2);
                                       }
-                                      throw new Error(Unify, {
-                                                cause: {
-                                                  MEL_EXN_ID: Unify,
-                                                  _1: /* [] */0
-                                                }
+                                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                MEL_EXN_ID: Unify,
+                                                _1: /* [] */0
                                               });
                                     }
                                     
@@ -36111,18 +34857,14 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                                                       moregen(inst_nongen, type_pairs, env, t1, t2$1);
                                                     }), f1._1);
                                       }
-                                      throw new Error(Unify, {
-                                                cause: {
-                                                  MEL_EXN_ID: Unify,
-                                                  _1: /* [] */0
-                                                }
-                                              });
-                                    }
-                                    throw new Error(Unify, {
-                                              cause: {
+                                      throw new Caml_js_exceptions.MelangeError(Unify, {
                                                 MEL_EXN_ID: Unify,
                                                 _1: /* [] */0
-                                              }
+                                              });
+                                    }
+                                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                                              MEL_EXN_ID: Unify,
+                                              _1: /* [] */0
                                             });
                                   }
                                   var e1 = f1._3;
@@ -36131,19 +34873,15 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                                     if (may_inst) {
                                       return set_row_field(e1, f2);
                                     }
-                                    throw new Error(Unify, {
-                                              cause: {
-                                                MEL_EXN_ID: Unify,
-                                                _1: /* [] */0
-                                              }
+                                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                                              MEL_EXN_ID: Unify,
+                                              _1: /* [] */0
                                             });
                                   }
                                   if (f2.TAG === /* Rpresent */0) {
-                                    throw new Error(Unify, {
-                                              cause: {
-                                                MEL_EXN_ID: Unify,
-                                                _1: /* [] */0
-                                              }
+                                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                                              MEL_EXN_ID: Unify,
+                                              _1: /* [] */0
                                             });
                                   }
                                   var e2 = f2._3;
@@ -36153,11 +34891,9 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                                   var tl2 = f2._1;
                                   var c2 = f2._0;
                                   if (c1 && !c2) {
-                                    throw new Error(Unify, {
-                                              cause: {
-                                                MEL_EXN_ID: Unify,
-                                                _1: /* [] */0
-                                              }
+                                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                                              MEL_EXN_ID: Unify,
+                                              _1: /* [] */0
                                             });
                                   }
                                   set_row_field(e1, {
@@ -36181,38 +34917,30 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                                   if (!Caml_obj.caml_notequal(tl1, /* [] */0)) {
                                     return ;
                                   }
-                                  throw new Error(Unify, {
-                                            cause: {
-                                              MEL_EXN_ID: Unify,
-                                              _1: /* [] */0
-                                            }
+                                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                                            MEL_EXN_ID: Unify,
+                                            _1: /* [] */0
                                           });
                                 }
                               }), match$4[2]);
                 }
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
             case /* Tunivar */9 :
                 if (typeof match$3 === "number") {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 if (match$3.TAG === /* Tunivar */9) {
                   return unify_univar(t1$p$1, t2$p$1, univar_pairs.contents);
                 }
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
             case /* Tpoly */10 :
                 var tl1 = match$2._1;
@@ -36222,11 +34950,9 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                   exit$3 = 2;
                 } else {
                   if (typeof match$3 === "number") {
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: /* [] */0
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: /* [] */0
                             });
                   }
                   if (match$3.TAG === /* Tpoly */10) {
@@ -36235,21 +34961,17 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                     }
                     exit$3 = 2;
                   } else {
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: /* [] */0
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: /* [] */0
                             });
                   }
                 }
                 if (exit$3 === 2) {
                   if (typeof match$3 === "number") {
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: /* [] */0
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: /* [] */0
                             });
                   }
                   if (match$3.TAG === /* Tpoly */10) {
@@ -36257,21 +34979,17 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                                   return moregen(inst_nongen, type_pairs, env, param, param$1);
                                 }));
                   }
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 break;
             case /* Tpackage */11 :
                 if (typeof match$3 === "number") {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 if (match$3.TAG === /* Tpackage */11) {
@@ -36283,31 +35001,23 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                   catch (raw_exn$1){
                     var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
                     if (exn$1.MEL_EXN_ID === Stdlib.Not_found) {
-                      throw new Error(Unify, {
-                                cause: {
-                                  MEL_EXN_ID: Unify,
-                                  _1: /* [] */0
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                MEL_EXN_ID: Unify,
+                                _1: /* [] */0
                               });
                     }
-                    throw new Error(exn$1.MEL_EXN_ID, {
-                              cause: exn$1
-                            });
+                    throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
                   }
                 } else {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
             
           }
         } else {
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
       }
     }
@@ -36316,32 +35026,26 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
   catch (raw_exn$2){
     var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
     if (exn$2.MEL_EXN_ID === Unify) {
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: {
-                    hd: [
-                      t1$1,
-                      t2$1
-                    ],
-                    tl: exn$2._1
-                  }
+      throw new Caml_js_exceptions.MelangeError(Unify, {
+                MEL_EXN_ID: Unify,
+                _1: {
+                  hd: [
+                    t1$1,
+                    t2$1
+                  ],
+                  tl: exn$2._1
                 }
               });
     }
-    throw new Error(exn$2.MEL_EXN_ID, {
-              cause: exn$2
-            });
+    throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
   }
 }
 
 function moregen_list(inst_nongen, type_pairs, env, tl1, tl2) {
   if (Stdlib__List.length(tl1) !== Stdlib__List.length(tl2)) {
-    throw new Error(Unify, {
-              cause: {
-                MEL_EXN_ID: Unify,
-                _1: /* [] */0
-              }
+    throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: /* [] */0
             });
   }
   Stdlib__List.iter2((function (param, param$1) {
@@ -36355,11 +35059,9 @@ function moregen_fields(inst_nongen, type_pairs, env, ty1, ty2) {
   var rest2 = match$1[1];
   var match$2 = associate_fields(match[0], match$1[0]);
   if (Caml_obj.caml_notequal(match$2[1], /* [] */0)) {
-    throw new Error(Unify, {
-              cause: {
-                MEL_EXN_ID: Unify,
-                _1: /* [] */0
-              }
+    throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: /* [] */0
             });
   }
   moregen(inst_nongen, type_pairs, env, match[1], build_fields(repr(ty2).level)(match$2[2], rest2));
@@ -36376,34 +35078,30 @@ function moregen_fields(inst_nongen, type_pairs, env, ty1, ty2) {
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.MEL_EXN_ID === Unify) {
-              throw new Error(Unify, {
-                        cause: {
-                          MEL_EXN_ID: Unify,
-                          _1: {
-                            hd: [
-                              newty2(current_level.contents, {
-                                    TAG: /* Tfield */5,
-                                    _0: n,
-                                    _1: k1,
-                                    _2: t1,
-                                    _3: rest2
-                                  }),
-                              newty2(current_level.contents, {
-                                    TAG: /* Tfield */5,
-                                    _0: n,
-                                    _1: k2,
-                                    _2: t2,
-                                    _3: rest2
-                                  })
-                            ],
-                            tl: exn._1
-                          }
+              throw new Caml_js_exceptions.MelangeError(Unify, {
+                        MEL_EXN_ID: Unify,
+                        _1: {
+                          hd: [
+                            newty2(current_level.contents, {
+                                  TAG: /* Tfield */5,
+                                  _0: n,
+                                  _1: k1,
+                                  _2: t1,
+                                  _3: rest2
+                                }),
+                            newty2(current_level.contents, {
+                                  TAG: /* Tfield */5,
+                                  _0: n,
+                                  _1: k2,
+                                  _2: t2,
+                                  _3: rest2
+                                })
+                          ],
+                          tl: exn._1
                         }
                       });
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
         }), match$2[0]);
 }
@@ -36416,29 +35114,23 @@ function moregen_kind(k1, k2) {
   }
   if (typeof k1$1 === "number") {
     if (k1$1) {
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: /* [] */0
-                }
+      throw new Caml_js_exceptions.MelangeError(Unify, {
+                MEL_EXN_ID: Unify,
+                _1: /* [] */0
               });
     }
     if (typeof k2$1 === "number") {
       if (!k2$1) {
         return ;
       }
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: /* [] */0
-                }
-              });
-    }
-    throw new Error(Unify, {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError(Unify, {
                 MEL_EXN_ID: Unify,
                 _1: /* [] */0
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: /* [] */0
             });
   }
   var r = k1$1._0;
@@ -36446,11 +35138,9 @@ function moregen_kind(k1, k2) {
     return set_kind(r, k2$1);
   }
   if (k2$1) {
-    throw new Error(Unify, {
-              cause: {
-                MEL_EXN_ID: Unify,
-                _1: /* [] */0
-              }
+    throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: /* [] */0
             });
   }
   set_kind(r, k2$1);
@@ -36478,9 +35168,7 @@ function moregeneral(env, inst_nongen, pat_sch, subj_sch) {
     if (exn.MEL_EXN_ID === Unify) {
       res = false;
     } else {
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   }
   current_level.contents = old_level;
@@ -36590,9 +35278,7 @@ function matches(env, ty, ty$p) {
     if (exn.MEL_EXN_ID === Unify) {
       ok = false;
     } else {
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   }
   backtrack(snap);
@@ -36653,11 +35339,9 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                 if (Stdlib__List.assq(t1$1, subst.contents) === t2$1) {
                   return ;
                 }
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
               }
               catch (raw_exn){
@@ -36666,11 +35350,9 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                   if (Stdlib__List.exists((function (param) {
                             return param[1] === t2$1;
                           }), subst.contents)) {
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: /* [] */0
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: /* [] */0
                             });
                   }
                   subst.contents = {
@@ -36682,9 +35364,7 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                   };
                   return ;
                 }
-                throw new Error(exn.MEL_EXN_ID, {
-                          cause: exn
-                        });
+                throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
               }
             }
             break;
@@ -36729,21 +35409,17 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
             if (typeof match$3 === "number") {
               return ;
             }
-            throw new Error(Unify, {
-                      cause: {
-                        MEL_EXN_ID: Unify,
-                        _1: /* [] */0
-                      }
+            throw new Caml_js_exceptions.MelangeError(Unify, {
+                      MEL_EXN_ID: Unify,
+                      _1: /* [] */0
                     });
           }
           switch (match$2.TAG | 0) {
             case /* Tvar */0 :
                 if (typeof match$3 === "number") {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 if (match$3.TAG === /* Tvar */0) {
@@ -36753,11 +35429,9 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                       if (Stdlib__List.assq(t1$p$1, subst.contents) === t2$p$1) {
                         return ;
                       }
-                      throw new Error(Unify, {
-                                cause: {
-                                  MEL_EXN_ID: Unify,
-                                  _1: /* [] */0
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                MEL_EXN_ID: Unify,
+                                _1: /* [] */0
                               });
                     }
                     catch (raw_exn$2){
@@ -36766,11 +35440,9 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                         if (Stdlib__List.exists((function (param) {
                                   return param[1] === t2$p$1;
                                 }), subst.contents)) {
-                          throw new Error(Unify, {
-                                    cause: {
-                                      MEL_EXN_ID: Unify,
-                                      _1: /* [] */0
-                                    }
+                          throw new Caml_js_exceptions.MelangeError(Unify, {
+                                    MEL_EXN_ID: Unify,
+                                    _1: /* [] */0
                                   });
                         }
                         subst.contents = {
@@ -36782,33 +35454,25 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                         };
                         return ;
                       }
-                      throw new Error(exn$2.MEL_EXN_ID, {
-                                cause: exn$2
-                              });
+                      throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
                     }
                   } else {
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: /* [] */0
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: /* [] */0
                             });
                   }
                 } else {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
             case /* Tarrow */1 :
                 if (typeof match$3 === "number") {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 if (match$3.TAG === /* Tarrow */1) {
@@ -36818,114 +35482,88 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                     eqtype(rename, type_pairs, subst, env, match$2._1, match$3._1);
                     return eqtype(rename, type_pairs, subst, env, match$2._2, match$3._2);
                   }
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
-                          });
-                }
-                throw new Error(Unify, {
-                          cause: {
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
                             MEL_EXN_ID: Unify,
                             _1: /* [] */0
-                          }
+                          });
+                }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
             case /* Ttuple */2 :
                 if (typeof match$3 === "number") {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 if (match$3.TAG === /* Ttuple */2) {
                   return eqtype_list(rename, type_pairs, subst, env, match$2._0, match$3._0);
                 }
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
             case /* Tconstr */3 :
                 if (typeof match$3 === "number") {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 if (match$3.TAG === /* Tconstr */3) {
                   if (same(match$2._0, match$3._0)) {
                     return eqtype_list(rename, type_pairs, subst, env, match$2._1, match$3._1);
                   }
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
-                          });
-                }
-                throw new Error(Unify, {
-                          cause: {
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
                             MEL_EXN_ID: Unify,
                             _1: /* [] */0
-                          }
+                          });
+                }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
             case /* Tobject */4 :
                 if (typeof match$3 === "number") {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 if (match$3.TAG === /* Tobject */4) {
                   return eqtype_fields(rename, type_pairs, subst, env, match$2._0, match$3._0);
                 }
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
             case /* Tfield */5 :
                 if (typeof match$3 === "number") {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 if (match$3.TAG === /* Tfield */5) {
                   return eqtype_fields(rename, type_pairs, subst, env, t1$p$1, t2$p$1);
                 }
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
             case /* Tlink */6 :
             case /* Tsubst */7 :
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
             case /* Tvariant */8 :
                 if (typeof match$3 === "number") {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 if (match$3.TAG === /* Tvariant */8) {
@@ -36945,11 +35583,9 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                     var r2 = match$5[1];
                     var r1 = match$5[0];
                     if (row1$1.row_closed !== row2$2.row_closed || !row1$1.row_closed && (Caml_obj.caml_notequal(r1, /* [] */0) || Caml_obj.caml_notequal(r2, /* [] */0)) || Caml_obj.caml_notequal(filter_row_fields(false, Stdlib.$at(r1, r2)), /* [] */0)) {
-                      throw new Error(Unify, {
-                                cause: {
-                                  MEL_EXN_ID: Unify,
-                                  _1: /* [] */0
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                MEL_EXN_ID: Unify,
+                                _1: /* [] */0
                               });
                     }
                     if (!static_row(row1$1)) {
@@ -36962,22 +35598,18 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                                     if (typeof match$1 === "number") {
                                       return ;
                                     }
-                                    throw new Error(Unify, {
-                                              cause: {
-                                                MEL_EXN_ID: Unify,
-                                                _1: /* [] */0
-                                              }
+                                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                                              MEL_EXN_ID: Unify,
+                                              _1: /* [] */0
                                             });
                                   }
                                   if (match.TAG === /* Rpresent */0) {
                                     var t1 = match._0;
                                     if (t1 !== undefined) {
                                       if (typeof match$1 === "number") {
-                                        throw new Error(Unify, {
-                                                  cause: {
-                                                    MEL_EXN_ID: Unify,
-                                                    _1: /* [] */0
-                                                  }
+                                        throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                  MEL_EXN_ID: Unify,
+                                                  _1: /* [] */0
                                                 });
                                       }
                                       if (match$1.TAG === /* Rpresent */0) {
@@ -36985,87 +35617,67 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                                         if (t2 !== undefined) {
                                           return eqtype(rename, type_pairs, subst, env, t1, t2);
                                         }
-                                        throw new Error(Unify, {
-                                                  cause: {
-                                                    MEL_EXN_ID: Unify,
-                                                    _1: /* [] */0
-                                                  }
-                                                });
-                                      }
-                                      throw new Error(Unify, {
-                                                cause: {
+                                        throw new Caml_js_exceptions.MelangeError(Unify, {
                                                   MEL_EXN_ID: Unify,
                                                   _1: /* [] */0
-                                                }
+                                                });
+                                      }
+                                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                MEL_EXN_ID: Unify,
+                                                _1: /* [] */0
                                               });
                                     } else {
                                       if (typeof match$1 === "number") {
-                                        throw new Error(Unify, {
-                                                  cause: {
-                                                    MEL_EXN_ID: Unify,
-                                                    _1: /* [] */0
-                                                  }
+                                        throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                  MEL_EXN_ID: Unify,
+                                                  _1: /* [] */0
                                                 });
                                       }
                                       if (match$1.TAG === /* Rpresent */0) {
                                         if (match$1._0 === undefined) {
                                           return ;
                                         }
-                                        throw new Error(Unify, {
-                                                  cause: {
-                                                    MEL_EXN_ID: Unify,
-                                                    _1: /* [] */0
-                                                  }
-                                                });
-                                      }
-                                      throw new Error(Unify, {
-                                                cause: {
+                                        throw new Caml_js_exceptions.MelangeError(Unify, {
                                                   MEL_EXN_ID: Unify,
                                                   _1: /* [] */0
-                                                }
+                                                });
+                                      }
+                                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                MEL_EXN_ID: Unify,
+                                                _1: /* [] */0
                                               });
                                     }
                                   } else if (match._0) {
                                     if (match._1) {
-                                      throw new Error(Unify, {
-                                                cause: {
-                                                  MEL_EXN_ID: Unify,
-                                                  _1: /* [] */0
-                                                }
+                                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                MEL_EXN_ID: Unify,
+                                                _1: /* [] */0
                                               });
                                     }
                                     if (typeof match$1 === "number") {
-                                      throw new Error(Unify, {
-                                                cause: {
-                                                  MEL_EXN_ID: Unify,
-                                                  _1: /* [] */0
-                                                }
+                                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                MEL_EXN_ID: Unify,
+                                                _1: /* [] */0
                                               });
                                     }
                                     if (match$1.TAG === /* Rpresent */0) {
-                                      throw new Error(Unify, {
-                                                cause: {
-                                                  MEL_EXN_ID: Unify,
-                                                  _1: /* [] */0
-                                                }
+                                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                MEL_EXN_ID: Unify,
+                                                _1: /* [] */0
                                               });
                                     }
                                     if (match$1._0) {
                                       if (match$1._1) {
-                                        throw new Error(Unify, {
-                                                  cause: {
-                                                    MEL_EXN_ID: Unify,
-                                                    _1: /* [] */0
-                                                  }
+                                        throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                  MEL_EXN_ID: Unify,
+                                                  _1: /* [] */0
                                                 });
                                       }
                                       return ;
                                     }
-                                    throw new Error(Unify, {
-                                              cause: {
-                                                MEL_EXN_ID: Unify,
-                                                _1: /* [] */0
-                                              }
+                                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                                              MEL_EXN_ID: Unify,
+                                              _1: /* [] */0
                                             });
                                   } else {
                                     var match$2 = match._1;
@@ -37073,27 +35685,21 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                                       var tl1 = match$2.tl;
                                       var t1$1 = match$2.hd;
                                       if (typeof match$1 === "number") {
-                                        throw new Error(Unify, {
-                                                  cause: {
-                                                    MEL_EXN_ID: Unify,
-                                                    _1: /* [] */0
-                                                  }
+                                        throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                  MEL_EXN_ID: Unify,
+                                                  _1: /* [] */0
                                                 });
                                       }
                                       if (match$1.TAG === /* Rpresent */0) {
-                                        throw new Error(Unify, {
-                                                  cause: {
-                                                    MEL_EXN_ID: Unify,
-                                                    _1: /* [] */0
-                                                  }
+                                        throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                  MEL_EXN_ID: Unify,
+                                                  _1: /* [] */0
                                                 });
                                       }
                                       if (match$1._0) {
-                                        throw new Error(Unify, {
-                                                  cause: {
-                                                    MEL_EXN_ID: Unify,
-                                                    _1: /* [] */0
-                                                  }
+                                        throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                  MEL_EXN_ID: Unify,
+                                                  _1: /* [] */0
                                                 });
                                       }
                                       var match$3 = match$1._1;
@@ -37114,47 +35720,37 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                                                       }), tl1);
                                         }
                                       }
-                                      throw new Error(Unify, {
-                                                cause: {
-                                                  MEL_EXN_ID: Unify,
-                                                  _1: /* [] */0
-                                                }
+                                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                MEL_EXN_ID: Unify,
+                                                _1: /* [] */0
                                               });
                                     } else {
-                                      throw new Error(Unify, {
-                                                cause: {
-                                                  MEL_EXN_ID: Unify,
-                                                  _1: /* [] */0
-                                                }
+                                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                                MEL_EXN_ID: Unify,
+                                                _1: /* [] */0
                                               });
                                     }
                                   }
                                 }), match$5[2]);
                   };
                 }
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
             case /* Tunivar */9 :
                 if (typeof match$3 === "number") {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 if (match$3.TAG === /* Tunivar */9) {
                   return unify_univar(t1$p$1, t2$p$1, univar_pairs.contents);
                 }
-                throw new Error(Unify, {
-                          cause: {
-                            MEL_EXN_ID: Unify,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Unify, {
+                          MEL_EXN_ID: Unify,
+                          _1: /* [] */0
                         });
             case /* Tpoly */10 :
                 var tl1 = match$2._1;
@@ -37164,11 +35760,9 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                   exit$1 = 2;
                 } else {
                   if (typeof match$3 === "number") {
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: /* [] */0
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: /* [] */0
                             });
                   }
                   if (match$3.TAG === /* Tpoly */10) {
@@ -37177,21 +35771,17 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                     }
                     exit$1 = 2;
                   } else {
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: /* [] */0
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: /* [] */0
                             });
                   }
                 }
                 if (exit$1 === 2) {
                   if (typeof match$3 === "number") {
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: /* [] */0
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: /* [] */0
                             });
                   }
                   if (match$3.TAG === /* Tpoly */10) {
@@ -37199,21 +35789,17 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                                   return eqtype(rename, type_pairs, subst, env, param, param$1);
                                 }));
                   }
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 break;
             case /* Tpackage */11 :
                 if (typeof match$3 === "number") {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
                 if (match$3.TAG === /* Tpackage */11) {
@@ -37225,31 +35811,23 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                   catch (raw_exn$3){
                     var exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
                     if (exn$3.MEL_EXN_ID === Stdlib.Not_found) {
-                      throw new Error(Unify, {
-                                cause: {
-                                  MEL_EXN_ID: Unify,
-                                  _1: /* [] */0
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Unify, {
+                                MEL_EXN_ID: Unify,
+                                _1: /* [] */0
                               });
                     }
-                    throw new Error(exn$3.MEL_EXN_ID, {
-                              cause: exn$3
-                            });
+                    throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
                   }
                 } else {
-                  throw new Error(Unify, {
-                            cause: {
-                              MEL_EXN_ID: Unify,
-                              _1: /* [] */0
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Unify, {
+                            MEL_EXN_ID: Unify,
+                            _1: /* [] */0
                           });
                 }
             
           }
         } else {
-          throw new Error(exn$1.MEL_EXN_ID, {
-                    cause: exn$1
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
         }
       }
     }
@@ -37258,32 +35836,26 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
   catch (raw_exn$4){
     var exn$4 = Caml_js_exceptions.internalToOCamlException(raw_exn$4);
     if (exn$4.MEL_EXN_ID === Unify) {
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: {
-                    hd: [
-                      t1$1,
-                      t2$1
-                    ],
-                    tl: exn$4._1
-                  }
+      throw new Caml_js_exceptions.MelangeError(Unify, {
+                MEL_EXN_ID: Unify,
+                _1: {
+                  hd: [
+                    t1$1,
+                    t2$1
+                  ],
+                  tl: exn$4._1
                 }
               });
     }
-    throw new Error(exn$4.MEL_EXN_ID, {
-              cause: exn$4
-            });
+    throw new Caml_js_exceptions.MelangeError(exn$4.MEL_EXN_ID, exn$4);
   }
 }
 
 function eqtype_list(rename, type_pairs, subst, env, tl1, tl2) {
   if (Stdlib__List.length(tl1) !== Stdlib__List.length(tl2)) {
-    throw new Error(Unify, {
-              cause: {
-                MEL_EXN_ID: Unify,
-                _1: /* [] */0
-              }
+    throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: /* [] */0
             });
   }
   Stdlib__List.iter2((function (param, param$1) {
@@ -37317,11 +35889,9 @@ function eqtype_fields(rename, type_pairs, subst, env, ty1, _ty2) {
     var match$4 = associate_fields(match[0], match$1[0]);
     eqtype(rename, type_pairs, subst, env, rest1, rest2);
     if (Caml_obj.caml_notequal(match$4[1], /* [] */0) || Caml_obj.caml_notequal(match$4[2], /* [] */0)) {
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: /* [] */0
-                }
+      throw new Caml_js_exceptions.MelangeError(Unify, {
+                MEL_EXN_ID: Unify,
+                _1: /* [] */0
               });
     }
     return Stdlib__List.iter((function(rest2){
@@ -37338,34 +35908,30 @@ function eqtype_fields(rename, type_pairs, subst, env, ty1, _ty2) {
                 catch (raw_exn){
                   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
                   if (exn.MEL_EXN_ID === Unify) {
-                    throw new Error(Unify, {
-                              cause: {
-                                MEL_EXN_ID: Unify,
-                                _1: {
-                                  hd: [
-                                    newty2(current_level.contents, {
-                                          TAG: /* Tfield */5,
-                                          _0: n,
-                                          _1: k1,
-                                          _2: t1,
-                                          _3: rest2
-                                        }),
-                                    newty2(current_level.contents, {
-                                          TAG: /* Tfield */5,
-                                          _0: n,
-                                          _1: k2,
-                                          _2: t2,
-                                          _3: rest2
-                                        })
-                                  ],
-                                  tl: exn._1
-                                }
+                    throw new Caml_js_exceptions.MelangeError(Unify, {
+                              MEL_EXN_ID: Unify,
+                              _1: {
+                                hd: [
+                                  newty2(current_level.contents, {
+                                        TAG: /* Tfield */5,
+                                        _0: n,
+                                        _1: k1,
+                                        _2: t1,
+                                        _3: rest2
+                                      }),
+                                  newty2(current_level.contents, {
+                                        TAG: /* Tfield */5,
+                                        _0: n,
+                                        _1: k2,
+                                        _2: t2,
+                                        _3: rest2
+                                      })
+                                ],
+                                tl: exn._1
                               }
                             });
                   }
-                  throw new Error(exn.MEL_EXN_ID, {
-                            cause: exn
-                          });
+                  throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                 }
               }
               }(rest2)), match$4[0]);
@@ -37377,37 +35943,29 @@ function eqtype_kind(k1, k2) {
   var k2$1 = field_kind_repr(k2);
   if (typeof k1$1 === "number") {
     if (k1$1) {
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: /* [] */0
-                }
+      throw new Caml_js_exceptions.MelangeError(Unify, {
+                MEL_EXN_ID: Unify,
+                _1: /* [] */0
               });
     }
     if (typeof k2$1 === "number") {
       if (!k2$1) {
         return ;
       }
-      throw new Error(Unify, {
-                cause: {
-                  MEL_EXN_ID: Unify,
-                  _1: /* [] */0
-                }
-              });
-    }
-    throw new Error(Unify, {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError(Unify, {
                 MEL_EXN_ID: Unify,
                 _1: /* [] */0
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: /* [] */0
             });
   }
   if (typeof k2$1 === "number") {
-    throw new Error(Unify, {
-              cause: {
-                MEL_EXN_ID: Unify,
-                _1: /* [] */0
-              }
+    throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: /* [] */0
             });
   }
   
@@ -37426,9 +35984,7 @@ function equal$5(env, rename, tyl1, tyl2) {
     if (exn.MEL_EXN_ID === Unify) {
       return false;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -37465,24 +36021,20 @@ function moregen_clty(trace, type_pairs, env, cty1, cty2) {
                         catch (raw_exn){
                           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
                           if (exn.MEL_EXN_ID === Unify) {
-                            throw new Error(Failure, {
-                                      cause: {
-                                        MEL_EXN_ID: Failure,
-                                        _1: {
-                                          hd: {
-                                            TAG: /* CM_Meth_type_mismatch */5,
-                                            _0: param[0],
-                                            _1: env,
-                                            _2: expand_trace(env, exn._1)
-                                          },
-                                          tl: /* [] */0
-                                        }
+                            throw new Caml_js_exceptions.MelangeError(Failure, {
+                                      MEL_EXN_ID: Failure,
+                                      _1: {
+                                        hd: {
+                                          TAG: /* CM_Meth_type_mismatch */5,
+                                          _0: param[0],
+                                          _1: env,
+                                          _2: expand_trace(env, exn._1)
+                                        },
+                                        tl: /* [] */0
                                       }
                                     });
                           }
-                          throw new Error(exn.MEL_EXN_ID, {
-                                    cause: exn
-                                  });
+                          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                         }
                       }), match$2[0]);
                 return Curry._2(Meths.iter, (function (lab, param) {
@@ -37493,32 +36045,26 @@ function moregen_clty(trace, type_pairs, env, cty1, cty2) {
                               catch (raw_exn){
                                 var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
                                 if (exn.MEL_EXN_ID === Unify) {
-                                  throw new Error(Failure, {
-                                            cause: {
-                                              MEL_EXN_ID: Failure,
-                                              _1: {
-                                                hd: {
-                                                  TAG: /* CM_Val_type_mismatch */4,
-                                                  _0: lab,
-                                                  _1: env,
-                                                  _2: expand_trace(env, exn._1)
-                                                },
-                                                tl: /* [] */0
-                                              }
+                                  throw new Caml_js_exceptions.MelangeError(Failure, {
+                                            MEL_EXN_ID: Failure,
+                                            _1: {
+                                              hd: {
+                                                TAG: /* CM_Val_type_mismatch */4,
+                                                _0: lab,
+                                                _1: env,
+                                                _2: expand_trace(env, exn._1)
+                                              },
+                                              tl: /* [] */0
                                             }
                                           });
                                 }
-                                throw new Error(exn.MEL_EXN_ID, {
-                                          cause: exn
-                                        });
+                                throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                               }
                             }), sign2.csig_vars);
             case /* Cty_arrow */2 :
-                throw new Error(Failure, {
-                          cause: {
-                            MEL_EXN_ID: Failure,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Failure, {
+                          MEL_EXN_ID: Failure,
+                          _1: /* [] */0
                         });
             
           }
@@ -37529,11 +36075,9 @@ function moregen_clty(trace, type_pairs, env, cty1, cty2) {
                 exit = 1;
                 break;
             case /* Cty_signature */1 :
-                throw new Error(Failure, {
-                          cause: {
-                            MEL_EXN_ID: Failure,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Failure, {
+                          MEL_EXN_ID: Failure,
+                          _1: /* [] */0
                         });
             case /* Cty_arrow */2 :
                 if (cty1._0 === cty2._0) {
@@ -37543,31 +36087,25 @@ function moregen_clty(trace, type_pairs, env, cty1, cty2) {
                   catch (raw_exn){
                     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
                     if (exn.MEL_EXN_ID === Unify) {
-                      throw new Error(Failure, {
-                                cause: {
-                                  MEL_EXN_ID: Failure,
-                                  _1: {
-                                    hd: {
-                                      TAG: /* CM_Parameter_mismatch */3,
-                                      _0: env,
-                                      _1: expand_trace(env, exn._1)
-                                    },
-                                    tl: /* [] */0
-                                  }
+                      throw new Caml_js_exceptions.MelangeError(Failure, {
+                                MEL_EXN_ID: Failure,
+                                _1: {
+                                  hd: {
+                                    TAG: /* CM_Parameter_mismatch */3,
+                                    _0: env,
+                                    _1: expand_trace(env, exn._1)
+                                  },
+                                  tl: /* [] */0
                                 }
                               });
                     }
-                    throw new Error(exn.MEL_EXN_ID, {
-                              cause: exn
-                            });
+                    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                   }
                   return moregen_clty(false, type_pairs, env, cty1._2, cty2._2);
                 }
-                throw new Error(Failure, {
-                          cause: {
-                            MEL_EXN_ID: Failure,
-                            _1: /* [] */0
-                          }
+                throw new Caml_js_exceptions.MelangeError(Failure, {
+                          MEL_EXN_ID: Failure,
+                          _1: /* [] */0
                         });
             
           }
@@ -37584,28 +36122,22 @@ function moregen_clty(trace, type_pairs, env, cty1, cty2) {
     if (exn$1.MEL_EXN_ID === Failure) {
       var error = exn$1._1;
       if (trace || Caml_obj.caml_equal(error, /* [] */0)) {
-        throw new Error(Failure, {
-                  cause: {
-                    MEL_EXN_ID: Failure,
-                    _1: {
-                      hd: {
-                        TAG: /* CM_Class_type_mismatch */2,
-                        _0: env,
-                        _1: cty1,
-                        _2: cty2
-                      },
-                      tl: error
-                    }
+        throw new Caml_js_exceptions.MelangeError(Failure, {
+                  MEL_EXN_ID: Failure,
+                  _1: {
+                    hd: {
+                      TAG: /* CM_Class_type_mismatch */2,
+                      _0: env,
+                      _1: cty1,
+                      _2: cty2
+                    },
+                    tl: error
                   }
                 });
       }
-      throw new Error(exn$1.MEL_EXN_ID, {
-                cause: exn$1
-              });
+      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
     }
-    throw new Error(exn$1.MEL_EXN_ID, {
-              cause: exn$1
-            });
+    throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
   }
 }
 
@@ -37679,9 +36211,7 @@ function match_class_types(traceOpt, env, pat_sch, subj_sch) {
                       tl: err
                     };
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
         }), match$4[0], error$1);
   var error$3 = Curry._3(Meths.fold, (function (lab, param, err) {
@@ -37718,9 +36248,7 @@ function match_class_types(traceOpt, env, pat_sch, subj_sch) {
                       tl: err
                     };
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
         }), sign2.csig_vars, error$2);
   var error$4 = Curry._3(Meths.fold, (function (lab, param, err) {
@@ -37771,9 +36299,7 @@ function match_class_types(traceOpt, env, pat_sch, subj_sch) {
       if (exn.MEL_EXN_ID === Failure) {
         res = exn._1;
       } else {
-        throw new Error(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
     }
   }
@@ -37820,24 +36346,20 @@ function equal_clty(trace, type_pairs, subst, env, cty1, cty2) {
                         catch (raw_exn){
                           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
                           if (exn.MEL_EXN_ID === Unify) {
-                            throw new Error(Failure, {
-                                      cause: {
-                                        MEL_EXN_ID: Failure,
-                                        _1: {
-                                          hd: {
-                                            TAG: /* CM_Meth_type_mismatch */5,
-                                            _0: param[0],
-                                            _1: env,
-                                            _2: expand_trace(env, exn._1)
-                                          },
-                                          tl: /* [] */0
-                                        }
+                            throw new Caml_js_exceptions.MelangeError(Failure, {
+                                      MEL_EXN_ID: Failure,
+                                      _1: {
+                                        hd: {
+                                          TAG: /* CM_Meth_type_mismatch */5,
+                                          _0: param[0],
+                                          _1: env,
+                                          _2: expand_trace(env, exn._1)
+                                        },
+                                        tl: /* [] */0
                                       }
                                     });
                           }
-                          throw new Error(exn.MEL_EXN_ID, {
-                                    cause: exn
-                                  });
+                          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                         }
                       }), match$2[0]);
                 return Curry._2(Meths.iter, (function (lab, param) {
@@ -37848,24 +36370,20 @@ function equal_clty(trace, type_pairs, subst, env, cty1, cty2) {
                               catch (raw_exn){
                                 var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
                                 if (exn.MEL_EXN_ID === Unify) {
-                                  throw new Error(Failure, {
-                                            cause: {
-                                              MEL_EXN_ID: Failure,
-                                              _1: {
-                                                hd: {
-                                                  TAG: /* CM_Val_type_mismatch */4,
-                                                  _0: lab,
-                                                  _1: env,
-                                                  _2: expand_trace(env, exn._1)
-                                                },
-                                                tl: /* [] */0
-                                              }
+                                  throw new Caml_js_exceptions.MelangeError(Failure, {
+                                            MEL_EXN_ID: Failure,
+                                            _1: {
+                                              hd: {
+                                                TAG: /* CM_Val_type_mismatch */4,
+                                                _0: lab,
+                                                _1: env,
+                                                _2: expand_trace(env, exn._1)
+                                              },
+                                              tl: /* [] */0
                                             }
                                           });
                                 }
-                                throw new Error(exn.MEL_EXN_ID, {
-                                          cause: exn
-                                        });
+                                throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                               }
                             }), sign2.csig_vars);
             case /* Cty_arrow */2 :
@@ -37890,23 +36408,19 @@ function equal_clty(trace, type_pairs, subst, env, cty1, cty2) {
                   catch (raw_exn){
                     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
                     if (exn.MEL_EXN_ID === Unify) {
-                      throw new Error(Failure, {
-                                cause: {
-                                  MEL_EXN_ID: Failure,
-                                  _1: {
-                                    hd: {
-                                      TAG: /* CM_Parameter_mismatch */3,
-                                      _0: env,
-                                      _1: expand_trace(env, exn._1)
-                                    },
-                                    tl: /* [] */0
-                                  }
+                      throw new Caml_js_exceptions.MelangeError(Failure, {
+                                MEL_EXN_ID: Failure,
+                                _1: {
+                                  hd: {
+                                    TAG: /* CM_Parameter_mismatch */3,
+                                    _0: env,
+                                    _1: expand_trace(env, exn._1)
+                                  },
+                                  tl: /* [] */0
                                 }
                               });
                     }
-                    throw new Error(exn.MEL_EXN_ID, {
-                              cause: exn
-                            });
+                    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                   }
                   return equal_clty(false, type_pairs, subst, env, cty1._2, cty2._2);
                 }
@@ -37921,19 +36435,17 @@ function equal_clty(trace, type_pairs, subst, env, cty1, cty2) {
       case 1 :
           return equal_clty(true, type_pairs, subst, env, cty1, cty2._2);
       case 2 :
-          throw new Error(Failure, {
-                    cause: {
-                      MEL_EXN_ID: Failure,
-                      _1: trace ? /* [] */0 : ({
-                            hd: {
-                              TAG: /* CM_Class_type_mismatch */2,
-                              _0: env,
-                              _1: cty1,
-                              _2: cty2
-                            },
-                            tl: /* [] */0
-                          })
-                    }
+          throw new Caml_js_exceptions.MelangeError(Failure, {
+                    MEL_EXN_ID: Failure,
+                    _1: trace ? /* [] */0 : ({
+                          hd: {
+                            TAG: /* CM_Class_type_mismatch */2,
+                            _0: env,
+                            _1: cty1,
+                            _2: cty2
+                          },
+                          tl: /* [] */0
+                        })
                   });
       
     }
@@ -37942,28 +36454,22 @@ function equal_clty(trace, type_pairs, subst, env, cty1, cty2) {
     var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
     if (exn$1.MEL_EXN_ID === Failure) {
       if (trace) {
-        throw new Error(Failure, {
-                  cause: {
-                    MEL_EXN_ID: Failure,
-                    _1: {
-                      hd: {
-                        TAG: /* CM_Class_type_mismatch */2,
-                        _0: env,
-                        _1: cty1,
-                        _2: cty2
-                      },
-                      tl: exn$1._1
-                    }
+        throw new Caml_js_exceptions.MelangeError(Failure, {
+                  MEL_EXN_ID: Failure,
+                  _1: {
+                    hd: {
+                      TAG: /* CM_Class_type_mismatch */2,
+                      _0: env,
+                      _1: cty1,
+                      _2: cty2
+                    },
+                    tl: exn$1._1
                   }
                 });
       }
-      throw new Error(exn$1.MEL_EXN_ID, {
-                cause: exn$1
-              });
+      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
     }
-    throw new Error(exn$1.MEL_EXN_ID, {
-              cause: exn$1
-            });
+    throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
   }
 }
 
@@ -38052,15 +36558,13 @@ function match_class_declarations(env, patt_params, patt_type, subj_params, subj
             }
             
           }
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        33612,
-                        34
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      33612,
+                      34
+                    ]
                   });
         }), match$2[0], error$1);
   var error$3 = Curry._3(Meths.fold, (function (lab, param, err) {
@@ -38097,9 +36601,7 @@ function match_class_declarations(env, patt_params, patt_type, subj_params, subj
                       tl: err
                     };
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
         }), sign2.csig_vars, error$2);
   var error$4 = Curry._3(Meths.fold, (function (lab, param, err) {
@@ -38136,17 +36638,15 @@ function match_class_declarations(env, patt_params, patt_type, subj_params, subj
     var lp = Stdlib__List.length(patt_params);
     var ls = Stdlib__List.length(subj_params);
     if (lp !== ls) {
-      throw new Error(Failure, {
-                cause: {
-                  MEL_EXN_ID: Failure,
-                  _1: {
-                    hd: {
-                      TAG: /* CM_Parameter_arity_mismatch */0,
-                      _0: lp,
-                      _1: ls
-                    },
-                    tl: /* [] */0
-                  }
+      throw new Caml_js_exceptions.MelangeError(Failure, {
+                MEL_EXN_ID: Failure,
+                _1: {
+                  hd: {
+                    TAG: /* CM_Parameter_arity_mismatch */0,
+                    _0: lp,
+                    _1: ls
+                  },
+                  tl: /* [] */0
                 }
               });
     }
@@ -38157,23 +36657,19 @@ function match_class_declarations(env, patt_params, patt_type, subj_params, subj
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
               if (exn.MEL_EXN_ID === Unify) {
-                throw new Error(Failure, {
-                          cause: {
-                            MEL_EXN_ID: Failure,
-                            _1: {
-                              hd: {
-                                TAG: /* CM_Type_parameter_mismatch */1,
-                                _0: env,
-                                _1: expand_trace(env, exn._1)
-                              },
-                              tl: /* [] */0
-                            }
+                throw new Caml_js_exceptions.MelangeError(Failure, {
+                          MEL_EXN_ID: Failure,
+                          _1: {
+                            hd: {
+                              TAG: /* CM_Type_parameter_mismatch */1,
+                              _0: env,
+                              _1: expand_trace(env, exn._1)
+                            },
+                            tl: /* [] */0
                           }
                         });
               }
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
           }), patt_params, subj_params);
     equal_clty(false, type_pairs, subst, env, {
@@ -38200,9 +36696,7 @@ function match_class_declarations(env, patt_params, patt_type, subj_params, subj
     if (exn.MEL_EXN_ID === Failure) {
       return exn._1;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -38294,10 +36788,8 @@ function find_cltype_for_path(env, p) {
   if (ty !== undefined) {
     var match$1 = repr(ty).desc;
     if (typeof match$1 === "number") {
-      throw new Error(Stdlib.Not_found, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.Not_found
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                MEL_EXN_ID: Stdlib.Not_found
               });
     }
     if (match$1.TAG === /* Tobject */4) {
@@ -38309,33 +36801,25 @@ function find_cltype_for_path(env, p) {
                   ty
                 ];
         }
-        throw new Error(Stdlib.Not_found, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Not_found
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                  MEL_EXN_ID: Stdlib.Not_found
                 });
       }
-      throw new Error(Stdlib.Not_found, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.Not_found
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                MEL_EXN_ID: Stdlib.Not_found
               });
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   } else {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  33719,
-                  12
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                33719,
+                12
+              ]
             });
   }
 }
@@ -38381,9 +36865,7 @@ function build_subtype(env, visited, loops, posi, level, t) {
                     /* Unchanged */0
                   ];
           }
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
     case /* Tarrow */1 :
         if (memq_warn(t$1, visited)) {
@@ -38455,10 +36937,8 @@ function build_subtype(env, visited, loops, posi, level, t) {
           try {
             var match$2 = t$p$1.desc;
             if (typeof match$2 === "number") {
-              throw new Error(Stdlib.Not_found, {
-                        cause: {
-                          MEL_EXN_ID: Stdlib.Not_found
-                        }
+              throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                        MEL_EXN_ID: Stdlib.Not_found
                       });
             }
             if (match$2.TAG === /* Tobject */4) {
@@ -38469,10 +36949,8 @@ function build_subtype(env, visited, loops, posi, level, t) {
                 var match$4 = ty$1.desc;
                 var match$5;
                 if (typeof match$4 === "number") {
-                  throw new Error(Stdlib.Not_found, {
-                            cause: {
-                              MEL_EXN_ID: Stdlib.Not_found
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                            MEL_EXN_ID: Stdlib.Not_found
                           });
                 }
                 if (match$4.TAG === /* Tobject */4) {
@@ -38484,34 +36962,26 @@ function build_subtype(env, visited, loops, posi, level, t) {
                         match$6[1]
                       ];
                     } else {
-                      throw new Error(Stdlib.Not_found, {
-                                cause: {
-                                  MEL_EXN_ID: Stdlib.Not_found
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                                MEL_EXN_ID: Stdlib.Not_found
                               });
                     }
                   } else {
-                    throw new Error(Stdlib.Not_found, {
-                              cause: {
-                                MEL_EXN_ID: Stdlib.Not_found
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                              MEL_EXN_ID: Stdlib.Not_found
                             });
                   }
                 } else {
-                  throw new Error(Stdlib.Not_found, {
-                            cause: {
-                              MEL_EXN_ID: Stdlib.Not_found
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                            MEL_EXN_ID: Stdlib.Not_found
                           });
                 }
                 var tl1 = match$5[1];
                 if (Stdlib__List.exists((function (param) {
                           return deep_occur(ty$1, param);
                         }), tl1)) {
-                  throw new Error(Stdlib.Not_found, {
-                            cause: {
-                              MEL_EXN_ID: Stdlib.Not_found
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                            MEL_EXN_ID: Stdlib.Not_found
                           });
                 }
                 ty$1.desc = {
@@ -38533,15 +37003,13 @@ function build_subtype(env, visited, loops, posi, level, t) {
                     }, loops$1, posi, pred_enlarge(level$p), match$5[0]);
                 var ty1$p = match$7[0];
                 if (!is_Tvar(t$p$p)) {
-                  throw new Error("Assert_failure", {
-                            cause: {
-                              MEL_EXN_ID: "Assert_failure",
-                              _1: [
-                                "jscomp/test/ocaml_typedtree_test.ml",
-                                33782,
-                                10
-                              ]
-                            }
+                  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                            MEL_EXN_ID: "Assert_failure",
+                            _1: [
+                              "jscomp/test/ocaml_typedtree_test.ml",
+                              33782,
+                              10
+                            ]
                           });
                 }
                 var nm = match$7[1] > /* Equiv */1 || deep_occur(ty$1, ty1$p) ? undefined : [
@@ -38561,36 +37029,28 @@ function build_subtype(env, visited, loops, posi, level, t) {
                 catch (raw_exn$1){
                   var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
                   if (exn$1.MEL_EXN_ID === Unify) {
-                    throw new Error("Assert_failure", {
-                              cause: {
-                                MEL_EXN_ID: "Assert_failure",
-                                _1: [
-                                  "jscomp/test/ocaml_typedtree_test.ml",
-                                  33786,
-                                  50
-                                ]
-                              }
+                    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                              MEL_EXN_ID: "Assert_failure",
+                              _1: [
+                                "jscomp/test/ocaml_typedtree_test.ml",
+                                33786,
+                                50
+                              ]
                             });
                   }
-                  throw new Error(exn$1.MEL_EXN_ID, {
-                            cause: exn$1
-                          });
+                  throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
                 }
                 return [
                         t$p$p,
                         /* Changed */2
                       ];
               }
-              throw new Error(Stdlib.Not_found, {
-                        cause: {
-                          MEL_EXN_ID: Stdlib.Not_found
-                        }
+              throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                        MEL_EXN_ID: Stdlib.Not_found
                       });
             }
-            throw new Error(Stdlib.Not_found, {
-                      cause: {
-                        MEL_EXN_ID: Stdlib.Not_found
-                      }
+            throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                      MEL_EXN_ID: Stdlib.Not_found
                     });
           }
           catch (raw_exn$2){
@@ -38610,9 +37070,7 @@ function build_subtype(env, visited, loops, posi, level, t) {
                       ];
               }
             }
-            throw new Error(exn$2.MEL_EXN_ID, {
-                      cause: exn$2
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
           }
         } else {
           if (memq_warn(t$1, visited)) {
@@ -38674,9 +37132,7 @@ function build_subtype(env, visited, loops, posi, level, t) {
                       /* Unchanged */0
                     ];
             }
-            throw new Error(exn$3.MEL_EXN_ID, {
-                      cause: exn$3
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
           }
         }
     case /* Tobject */4 :
@@ -38735,15 +37191,13 @@ function build_subtype(env, visited, loops, posi, level, t) {
         }
     case /* Tlink */6 :
     case /* Tsubst */7 :
-        throw new Error("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/ocaml_typedtree_test.ml",
-                      33877,
-                      6
-                    ]
-                  }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/ocaml_typedtree_test.ml",
+                    33877,
+                    6
+                  ]
                 });
     case /* Tvariant */8 :
         var row = row_repr_aux(/* [] */0, tlist._0);
@@ -38764,15 +37218,13 @@ function build_subtype(env, visited, loops, posi, level, t) {
                 var l = orig[0];
                 var match = row_field_repr_aux(/* [] */0, orig[1]);
                 if (typeof match === "number") {
-                  throw new Error("Assert_failure", {
-                            cause: {
-                              MEL_EXN_ID: "Assert_failure",
-                              _1: [
-                                "jscomp/test/ocaml_typedtree_test.ml",
-                                33844,
-                                17
-                              ]
-                            }
+                  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                            MEL_EXN_ID: "Assert_failure",
+                            _1: [
+                              "jscomp/test/ocaml_typedtree_test.ml",
+                              33844,
+                              17
+                            ]
                           });
                 }
                 if (match.TAG === /* Rpresent */0) {
@@ -38826,15 +37278,13 @@ function build_subtype(env, visited, loops, posi, level, t) {
                           match$1[1]
                         ];
                 }
-                throw new Error("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/ocaml_typedtree_test.ml",
-                              33844,
-                              17
-                            ]
-                          }
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/ocaml_typedtree_test.ml",
+                            33844,
+                            17
+                          ]
                         });
               }), fields);
         var c$6 = collect(fields$1);
@@ -38898,12 +37348,10 @@ function enlarge_type(env, ty) {
 var subtypes = Curry._1(TypePairs.create, 17);
 
 function subtype_error(env, trace) {
-  throw new Error(Subtype, {
-            cause: {
-              MEL_EXN_ID: Subtype,
-              _1: expand_trace(env, Stdlib__List.rev(trace)),
-              _2: /* [] */0
-            }
+  throw new Caml_js_exceptions.MelangeError(Subtype, {
+            MEL_EXN_ID: Subtype,
+            _1: expand_trace(env, Stdlib__List.rev(trace)),
+            _2: /* [] */0
           });
 }
 
@@ -39176,10 +37624,8 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                   break;
                               case /* Tunivar */9 :
                                   if (typeof match$7 === "number") {
-                                    throw new Error(Stdlib.Exit, {
-                                              cause: {
-                                                MEL_EXN_ID: Stdlib.Exit
-                                              }
+                                    throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                              MEL_EXN_ID: Stdlib.Exit
                                             });
                                   }
                                   if (match$7.TAG === /* Tunivar */9) {
@@ -39201,20 +37647,16 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                                     if (typeof match$1 === "number") {
                                                       return cstrs;
                                                     }
-                                                    throw new Error(Stdlib.Exit, {
-                                                              cause: {
-                                                                MEL_EXN_ID: Stdlib.Exit
-                                                              }
+                                                    throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                              MEL_EXN_ID: Stdlib.Exit
                                                             });
                                                   }
                                                   if (match.TAG === /* Rpresent */0) {
                                                     var t1$1 = match._0;
                                                     if (t1$1 !== undefined) {
                                                       if (typeof match$1 === "number") {
-                                                        throw new Error(Stdlib.Exit, {
-                                                                  cause: {
-                                                                    MEL_EXN_ID: Stdlib.Exit
-                                                                  }
+                                                        throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                                  MEL_EXN_ID: Stdlib.Exit
                                                                 });
                                                       }
                                                       if (match$1.TAG === /* Rpresent */0) {
@@ -39223,134 +37665,100 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                                           t1 = t1$1;
                                                           t2 = t2$1;
                                                         } else {
-                                                          throw new Error(Stdlib.Exit, {
-                                                                    cause: {
-                                                                      MEL_EXN_ID: Stdlib.Exit
-                                                                    }
+                                                          throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                                    MEL_EXN_ID: Stdlib.Exit
                                                                   });
                                                         }
                                                       } else {
-                                                        throw new Error(Stdlib.Exit, {
-                                                                  cause: {
-                                                                    MEL_EXN_ID: Stdlib.Exit
-                                                                  }
+                                                        throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                                  MEL_EXN_ID: Stdlib.Exit
                                                                 });
                                                       }
                                                     } else {
                                                       if (typeof match$1 === "number") {
-                                                        throw new Error(Stdlib.Exit, {
-                                                                  cause: {
-                                                                    MEL_EXN_ID: Stdlib.Exit
-                                                                  }
+                                                        throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                                  MEL_EXN_ID: Stdlib.Exit
                                                                 });
                                                       }
                                                       if (match$1.TAG === /* Rpresent */0) {
                                                         if (match$1._0 !== undefined) {
-                                                          throw new Error(Stdlib.Exit, {
-                                                                    cause: {
-                                                                      MEL_EXN_ID: Stdlib.Exit
-                                                                    }
+                                                          throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                                    MEL_EXN_ID: Stdlib.Exit
                                                                   });
                                                         }
                                                         return cstrs;
                                                       }
-                                                      throw new Error(Stdlib.Exit, {
-                                                                cause: {
-                                                                  MEL_EXN_ID: Stdlib.Exit
-                                                                }
+                                                      throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                                MEL_EXN_ID: Stdlib.Exit
                                                               });
                                                     }
                                                   } else if (match._0) {
                                                     if (match._1) {
-                                                      throw new Error(Stdlib.Exit, {
-                                                                cause: {
-                                                                  MEL_EXN_ID: Stdlib.Exit
-                                                                }
+                                                      throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                                MEL_EXN_ID: Stdlib.Exit
                                                               });
                                                     }
                                                     if (typeof match$1 === "number") {
-                                                      throw new Error(Stdlib.Exit, {
-                                                                cause: {
-                                                                  MEL_EXN_ID: Stdlib.Exit
-                                                                }
+                                                      throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                                MEL_EXN_ID: Stdlib.Exit
                                                               });
                                                     }
                                                     if (match$1.TAG === /* Rpresent */0) {
-                                                      throw new Error(Stdlib.Exit, {
-                                                                cause: {
-                                                                  MEL_EXN_ID: Stdlib.Exit
-                                                                }
+                                                      throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                                MEL_EXN_ID: Stdlib.Exit
                                                               });
                                                     }
                                                     if (match$1._0) {
                                                       if (match$1._1) {
-                                                        throw new Error(Stdlib.Exit, {
-                                                                  cause: {
-                                                                    MEL_EXN_ID: Stdlib.Exit
-                                                                  }
+                                                        throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                                  MEL_EXN_ID: Stdlib.Exit
                                                                 });
                                                       }
                                                       return cstrs;
                                                     }
-                                                    throw new Error(Stdlib.Exit, {
-                                                              cause: {
-                                                                MEL_EXN_ID: Stdlib.Exit
-                                                              }
+                                                    throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                              MEL_EXN_ID: Stdlib.Exit
                                                             });
                                                   } else {
                                                     var match$2 = match._1;
                                                     if (match$2) {
                                                       if (match$2.tl) {
-                                                        throw new Error(Stdlib.Exit, {
-                                                                  cause: {
-                                                                    MEL_EXN_ID: Stdlib.Exit
-                                                                  }
+                                                        throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                                  MEL_EXN_ID: Stdlib.Exit
                                                                 });
                                                       }
                                                       if (typeof match$1 === "number") {
-                                                        throw new Error(Stdlib.Exit, {
-                                                                  cause: {
-                                                                    MEL_EXN_ID: Stdlib.Exit
-                                                                  }
+                                                        throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                                  MEL_EXN_ID: Stdlib.Exit
                                                                 });
                                                       }
                                                       if (match$1.TAG === /* Rpresent */0) {
-                                                        throw new Error(Stdlib.Exit, {
-                                                                  cause: {
-                                                                    MEL_EXN_ID: Stdlib.Exit
-                                                                  }
+                                                        throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                                  MEL_EXN_ID: Stdlib.Exit
                                                                 });
                                                       }
                                                       if (match$1._0) {
-                                                        throw new Error(Stdlib.Exit, {
-                                                                  cause: {
-                                                                    MEL_EXN_ID: Stdlib.Exit
-                                                                  }
+                                                        throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                                  MEL_EXN_ID: Stdlib.Exit
                                                                 });
                                                       }
                                                       var match$3 = match$1._1;
                                                       if (match$3) {
                                                         if (match$3.tl) {
-                                                          throw new Error(Stdlib.Exit, {
-                                                                    cause: {
-                                                                      MEL_EXN_ID: Stdlib.Exit
-                                                                    }
+                                                          throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                                    MEL_EXN_ID: Stdlib.Exit
                                                                   });
                                                         }
                                                         t1 = match$2.hd;
                                                         t2 = match$3.hd;
                                                       } else {
-                                                        throw new Error(Stdlib.Exit, {
-                                                                  cause: {
-                                                                    MEL_EXN_ID: Stdlib.Exit
-                                                                  }
+                                                        throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                                  MEL_EXN_ID: Stdlib.Exit
                                                                 });
                                                       }
                                                     } else {
-                                                      throw new Error(Stdlib.Exit, {
-                                                                cause: {
-                                                                  MEL_EXN_ID: Stdlib.Exit
-                                                                }
+                                                      throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                                MEL_EXN_ID: Stdlib.Exit
                                                               });
                                                     }
                                                   }
@@ -39364,22 +37772,16 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                                 }
                                                 }(trace)), cstrs$4, pairs);
                                     }
-                                    throw new Error(Stdlib.Exit, {
-                                              cause: {
-                                                MEL_EXN_ID: Stdlib.Exit
-                                              }
+                                    throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                              MEL_EXN_ID: Stdlib.Exit
                                             });
                                   }
-                                  throw new Error(Stdlib.Exit, {
-                                            cause: {
-                                              MEL_EXN_ID: Stdlib.Exit
-                                            }
+                                  throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                            MEL_EXN_ID: Stdlib.Exit
                                           });
                               default:
-                                throw new Error(Stdlib.Exit, {
-                                          cause: {
-                                            MEL_EXN_ID: Stdlib.Exit
-                                          }
+                                throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                          MEL_EXN_ID: Stdlib.Exit
                                         });
                             }
                           }
@@ -39394,10 +37796,8 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                     exit$6 = 2;
                                     break;
                                 default:
-                                  throw new Error(Stdlib.Exit, {
-                                            cause: {
-                                              MEL_EXN_ID: Stdlib.Exit
-                                            }
+                                  throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                            MEL_EXN_ID: Stdlib.Exit
                                           });
                               }
                             }
@@ -39414,10 +37814,8 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                               var t1 = match._0;
                                               if (t1 !== undefined) {
                                                 if (typeof match$1 === "number") {
-                                                  throw new Error(Stdlib.Exit, {
-                                                            cause: {
-                                                              MEL_EXN_ID: Stdlib.Exit
-                                                            }
+                                                  throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                            MEL_EXN_ID: Stdlib.Exit
                                                           });
                                                 }
                                                 if (match$1.TAG === /* Rpresent */0) {
@@ -39431,16 +37829,12 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                                                 tl: trace
                                                               }, t1, t2, cstrs);
                                                   }
-                                                  throw new Error(Stdlib.Exit, {
-                                                            cause: {
-                                                              MEL_EXN_ID: Stdlib.Exit
-                                                            }
+                                                  throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                            MEL_EXN_ID: Stdlib.Exit
                                                           });
                                                 }
-                                                throw new Error(Stdlib.Exit, {
-                                                          cause: {
-                                                            MEL_EXN_ID: Stdlib.Exit
-                                                          }
+                                                throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                          MEL_EXN_ID: Stdlib.Exit
                                                         });
                                               }
                                               
@@ -39449,10 +37843,8 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                               if (match$2) {
                                                 var t1$1 = match$2.hd;
                                                 if (typeof match$1 === "number") {
-                                                  throw new Error(Stdlib.Exit, {
-                                                            cause: {
-                                                              MEL_EXN_ID: Stdlib.Exit
-                                                            }
+                                                  throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                            MEL_EXN_ID: Stdlib.Exit
                                                           });
                                                 }
                                                 if (match$1.TAG === /* Rpresent */0) {
@@ -39466,54 +37858,40 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                                                 tl: trace
                                                               }, t1$1, t2$1, cstrs);
                                                   }
-                                                  throw new Error(Stdlib.Exit, {
-                                                            cause: {
-                                                              MEL_EXN_ID: Stdlib.Exit
-                                                            }
+                                                  throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                            MEL_EXN_ID: Stdlib.Exit
                                                           });
                                                 }
-                                                throw new Error(Stdlib.Exit, {
-                                                          cause: {
-                                                            MEL_EXN_ID: Stdlib.Exit
-                                                          }
+                                                throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                          MEL_EXN_ID: Stdlib.Exit
                                                         });
                                               } else {
-                                                throw new Error(Stdlib.Exit, {
-                                                          cause: {
-                                                            MEL_EXN_ID: Stdlib.Exit
-                                                          }
+                                                throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                          MEL_EXN_ID: Stdlib.Exit
                                                         });
                                               }
                                             }
                                             if (typeof match$1 === "number") {
-                                              throw new Error(Stdlib.Exit, {
-                                                        cause: {
-                                                          MEL_EXN_ID: Stdlib.Exit
-                                                        }
+                                              throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                        MEL_EXN_ID: Stdlib.Exit
                                                       });
                                             }
                                             if (match$1.TAG === /* Rpresent */0) {
                                               if (match$1._0 !== undefined) {
-                                                throw new Error(Stdlib.Exit, {
-                                                          cause: {
-                                                            MEL_EXN_ID: Stdlib.Exit
-                                                          }
+                                                throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                          MEL_EXN_ID: Stdlib.Exit
                                                         });
                                               }
                                               return cstrs;
                                             }
-                                            throw new Error(Stdlib.Exit, {
-                                                      cause: {
-                                                        MEL_EXN_ID: Stdlib.Exit
-                                                      }
+                                            throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                                      MEL_EXN_ID: Stdlib.Exit
                                                     });
                                           }
                                           }(trace)), cstrs, pairs);
                               }
-                              throw new Error(Stdlib.Exit, {
-                                        cause: {
-                                          MEL_EXN_ID: Stdlib.Exit
-                                        }
+                              throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                        MEL_EXN_ID: Stdlib.Exit
                                       });
                             }
                             
@@ -39533,9 +37911,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                     tl: cstrs
                                   };
                           }
-                          throw new Error(exn$1.MEL_EXN_ID, {
-                                    cause: exn$1
-                                  });
+                          throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
                         }
                     default:
                       exit = 1;
@@ -39605,9 +37981,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                         tl: cstrs
                                       };
                               }
-                              throw new Error(exn$2.MEL_EXN_ID, {
-                                        cause: exn$2
-                                      });
+                              throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
                             }
                           } else {
                             var match$8 = instance_poly(undefined, false, tl1$1, u1$1);
@@ -39670,26 +38044,20 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                               backtrack(snap);
                               return Stdlib.$at(cstrs$p, cstrs);
                             }
-                            throw new Error(Unify, {
-                                      cause: {
-                                        MEL_EXN_ID: Unify,
-                                        _1: /* [] */0
-                                      }
+                            throw new Caml_js_exceptions.MelangeError(Unify, {
+                                      MEL_EXN_ID: Unify,
+                                      _1: /* [] */0
                                     });
                           }
                           catch (raw_exn$3){
                             var exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
                             if (exn$3.MEL_EXN_ID === Unify) {
                               backtrack(snap);
-                              throw new Error(Stdlib.Not_found, {
-                                        cause: {
-                                          MEL_EXN_ID: Stdlib.Not_found
-                                        }
+                              throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                                        MEL_EXN_ID: Stdlib.Not_found
                                       });
                             }
-                            throw new Error(exn$3.MEL_EXN_ID, {
-                                      cause: exn$3
-                                    });
+                            throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
                           }
                         }
                         catch (raw_exn$4){
@@ -39705,9 +38073,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                     tl: cstrs
                                   };
                           }
-                          throw new Error(exn$4.MEL_EXN_ID, {
-                                    cause: exn$4
-                                  });
+                          throw new Caml_js_exceptions.MelangeError(exn$4.MEL_EXN_ID, exn$4);
                         }
                     default:
                       exit = 1;
@@ -39825,9 +38191,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                           tl: cstrs
                         };
                 }
-                throw new Error(exn$5.MEL_EXN_ID, {
-                          cause: exn$5
-                        });
+                throw new Caml_js_exceptions.MelangeError(exn$5.MEL_EXN_ID, exn$5);
               }
             }
             if (exit$8 === 4) {
@@ -39856,9 +38220,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
           
         }
       } else {
-        throw new Error(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
     }
   };
@@ -39885,17 +38247,13 @@ function subtype(env, ty1, ty2) {
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
               if (exn.MEL_EXN_ID === Unify) {
-                throw new Error(Subtype, {
-                          cause: {
-                            MEL_EXN_ID: Subtype,
-                            _1: expand_trace(env, Stdlib__List.rev(param[0])),
-                            _2: Stdlib__List.tl(Stdlib__List.tl(exn._1))
-                          }
+                throw new Caml_js_exceptions.MelangeError(Subtype, {
+                          MEL_EXN_ID: Subtype,
+                          _1: expand_trace(env, Stdlib__List.rev(param[0])),
+                          _2: Stdlib__List.tl(Stdlib__List.tl(exn._1))
                         });
               }
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
           }), Stdlib__List.rev(cstrs));
   };
@@ -39926,15 +38284,13 @@ function unalias_object(ty) {
     case /* Tunivar */9 :
         return ty$1;
     default:
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    34141,
-                    6
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  34141,
+                  6
+                ]
               });
   }
 }
@@ -40017,9 +38373,7 @@ function cyclic_abbrev(env, id, ty) {
       if (exn.MEL_EXN_ID === Unify) {
         return true;
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   };
   return check_cycle(/* [] */0, ty);
@@ -40238,22 +38592,16 @@ function nondep_type_rec(env, id, _ty) {
                     catch (raw_exn$1){
                       var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
                       if (exn$1.MEL_EXN_ID === Cannot_expand) {
-                        throw new Error(Stdlib.Not_found, {
-                                  cause: {
-                                    MEL_EXN_ID: Stdlib.Not_found
-                                  }
+                        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                                  MEL_EXN_ID: Stdlib.Not_found
                                 });
                       }
                       if (exn$1.MEL_EXN_ID === Unify) {
-                        throw new Error(Stdlib.Not_found, {
-                                  cause: {
-                                    MEL_EXN_ID: Stdlib.Not_found
-                                  }
+                        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                                  MEL_EXN_ID: Stdlib.Not_found
                                 });
                       }
-                      throw new Error(exn$1.MEL_EXN_ID, {
-                                cause: exn$1
-                              });
+                      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
                     }
                   } else {
                     tmp = {
@@ -40326,9 +38674,7 @@ function nondep_type_rec(env, id, _ty) {
                             _0: row$2
                           });
                     } else {
-                      throw new Error(exn$2.MEL_EXN_ID, {
-                                cause: exn$2
-                              });
+                      throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
                     }
                   }
                   break;
@@ -40337,10 +38683,8 @@ function nondep_type_rec(env, id, _ty) {
                   if (isfree(id, p$2)) {
                     var p$p = normalize_package_path(env, p$2);
                     if (isfree(id, p$p)) {
-                      throw new Error(Stdlib.Not_found, {
-                                cause: {
-                                  MEL_EXN_ID: Stdlib.Not_found
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                                MEL_EXN_ID: Stdlib.Not_found
                               });
                     }
                     tmp = {
@@ -40367,9 +38711,7 @@ function nondep_type_rec(env, id, _ty) {
           ty$p.desc = tmp;
           return ty$p;
         }
-        throw new Error(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
     }
     
@@ -40388,15 +38730,11 @@ function nondep_type(env, id, ty) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       Curry._1(TypeHash.clear, nondep_hash);
       Curry._1(TypeHash.clear, nondep_variants);
-      throw new Error(Stdlib.Not_found, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.Not_found
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                MEL_EXN_ID: Stdlib.Not_found
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -40472,14 +38810,10 @@ function nondep_type_decl(env, mid, id, is_covariant, decl) {
         if (is_covariant) {
           tk = /* Type_abstract */0;
         } else {
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
       } else {
-        throw new Error(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
     }
     var tm;
@@ -40493,14 +38827,10 @@ function nondep_type_decl(env, mid, id, is_covariant, decl) {
         if (is_covariant) {
           tm = undefined;
         } else {
-          throw new Error(exn$1.MEL_EXN_ID, {
-                    cause: exn$1
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
         }
       } else {
-        throw new Error(exn$1.MEL_EXN_ID, {
-                  cause: exn$1
-                });
+        throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
       }
     }
     Curry._1(TypeHash.clear, nondep_hash);
@@ -40523,15 +38853,11 @@ function nondep_type_decl(env, mid, id, is_covariant, decl) {
     if (exn$2.MEL_EXN_ID === Stdlib.Not_found) {
       Curry._1(TypeHash.clear, nondep_hash);
       Curry._1(TypeHash.clear, nondep_variants);
-      throw new Error(Stdlib.Not_found, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.Not_found
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                MEL_EXN_ID: Stdlib.Not_found
               });
     }
-    throw new Error(exn$2.MEL_EXN_ID, {
-              cause: exn$2
-            });
+    throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
   }
 }
 
@@ -40550,10 +38876,8 @@ function nondep_extension_constructor(env, mid, ext) {
       var ty$p = nondep_type_rec(env, mid, ty);
       var match$1 = repr(ty$p).desc;
       if (typeof match$1 === "number") {
-        throw new Error(Stdlib.Not_found, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Not_found
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                  MEL_EXN_ID: Stdlib.Not_found
                 });
       }
       if (match$1.TAG === /* Tconstr */3) {
@@ -40562,10 +38886,8 @@ function nondep_extension_constructor(env, mid, ext) {
           match$1._1
         ];
       } else {
-        throw new Error(Stdlib.Not_found, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Not_found
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                  MEL_EXN_ID: Stdlib.Not_found
                 });
       }
     } else {
@@ -40600,15 +38922,11 @@ function nondep_extension_constructor(env, mid, ext) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       Curry._1(TypeHash.clear, nondep_hash);
       Curry._1(TypeHash.clear, nondep_variants);
-      throw new Error(Stdlib.Not_found, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.Not_found
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                MEL_EXN_ID: Stdlib.Not_found
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -40671,15 +38989,13 @@ function nondep_class_type(env, id, _param) {
 
 function nondep_class_declaration(env, id, decl) {
   if (isfree(id, decl.cty_path)) {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  34461,
-                  2
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                34461,
+                2
+              ]
             });
   }
   var ty = decl.cty_new;
@@ -40701,15 +39017,13 @@ function nondep_class_declaration(env, id, decl) {
 
 function nondep_cltype_declaration(env, id, decl) {
   if (isfree(id, decl.clty_path)) {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  34480,
-                  2
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                34480,
+                2
+              ]
             });
   }
   var decl_clty_params = Stdlib__List.map((function (param) {
@@ -41225,10 +39539,8 @@ function print_simple_out_type(ppf, ty) {
                                     var single = tys.hd;
                                     if (typeof single !== "number" && single.TAG === /* Otyp_tuple */9) {
                                       if (tys.tl) {
-                                        throw new Error(Stdlib.Not_found, {
-                                                  cause: {
-                                                    MEL_EXN_ID: Stdlib.Not_found
-                                                  }
+                                        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                                                  MEL_EXN_ID: Stdlib.Not_found
                                                 });
                                       }
                                       if (variant === "Arity_1") {
@@ -41250,10 +39562,8 @@ function print_simple_out_type(ppf, ty) {
                                       }
                                     }
                                     if (tys.tl) {
-                                      throw new Error(Stdlib.Not_found, {
-                                                cause: {
-                                                  MEL_EXN_ID: Stdlib.Not_found
-                                                }
+                                      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                                                MEL_EXN_ID: Stdlib.Not_found
                                               });
                                     }
                                     return {
@@ -41263,10 +39573,8 @@ function print_simple_out_type(ppf, ty) {
                                             _2: result
                                           };
                                   }
-                                  throw new Error(Stdlib.Not_found, {
-                                            cause: {
-                                              MEL_EXN_ID: Stdlib.Not_found
-                                            }
+                                  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                                            MEL_EXN_ID: Stdlib.Not_found
                                           });
                                 };
                                 var exit$3 = 0;
@@ -41389,10 +39697,8 @@ function print_simple_out_type(ppf, ty) {
                                 var single = tys.hd;
                                 if (typeof single !== "number" && single.TAG === /* Otyp_tuple */9) {
                                   if (tys.tl) {
-                                    throw new Error(Stdlib.Not_found, {
-                                              cause: {
-                                                MEL_EXN_ID: Stdlib.Not_found
-                                              }
+                                    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                                              MEL_EXN_ID: Stdlib.Not_found
                                             });
                                   }
                                   if (variant$1 === "Arity_1") {
@@ -41414,10 +39720,8 @@ function print_simple_out_type(ppf, ty) {
                                   }
                                 }
                                 if (tys.tl) {
-                                  throw new Error(Stdlib.Not_found, {
-                                            cause: {
-                                              MEL_EXN_ID: Stdlib.Not_found
-                                            }
+                                  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                                            MEL_EXN_ID: Stdlib.Not_found
                                           });
                                 }
                                 return {
@@ -41427,10 +39731,8 @@ function print_simple_out_type(ppf, ty) {
                                         _2: result
                                       };
                               }
-                              throw new Error(Stdlib.Not_found, {
-                                        cause: {
-                                          MEL_EXN_ID: Stdlib.Not_found
-                                        }
+                              throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                                        MEL_EXN_ID: Stdlib.Not_found
                                       });
                             };
                             var exit$4 = 0;
@@ -41556,15 +39858,13 @@ function print_simple_out_type(ppf, ty) {
                                                     _1: "@[<0>(%a@ [@mel.meth])@]"
                                                   }), print_out_type_1, res$1);
                                 default:
-                                  throw new Error("Assert_failure", {
-                                            cause: {
-                                              MEL_EXN_ID: "Assert_failure",
-                                              _1: [
-                                                "jscomp/test/ocaml_typedtree_test.ml",
-                                                34910,
-                                                17
-                                              ]
-                                            }
+                                  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                            MEL_EXN_ID: "Assert_failure",
+                                            _1: [
+                                              "jscomp/test/ocaml_typedtree_test.ml",
+                                              34910,
+                                              17
+                                            ]
                                           });
                               }
                             }
@@ -42639,44 +40939,36 @@ var out_class_type = {
 
 var out_module_type = {
   contents: (function (param) {
-      throw new Error("Failure", {
-                cause: {
-                  MEL_EXN_ID: "Failure",
-                  _1: "Oprint.out_module_type"
-                }
+      throw new Caml_js_exceptions.MelangeError("Failure", {
+                MEL_EXN_ID: "Failure",
+                _1: "Oprint.out_module_type"
               });
     })
 };
 
 var out_sig_item = {
   contents: (function (param) {
-      throw new Error("Failure", {
-                cause: {
-                  MEL_EXN_ID: "Failure",
-                  _1: "Oprint.out_sig_item"
-                }
+      throw new Caml_js_exceptions.MelangeError("Failure", {
+                MEL_EXN_ID: "Failure",
+                _1: "Oprint.out_sig_item"
               });
     })
 };
 
 var out_signature = {
   contents: (function (param) {
-      throw new Error("Failure", {
-                cause: {
-                  MEL_EXN_ID: "Failure",
-                  _1: "Oprint.out_signature"
-                }
+      throw new Caml_js_exceptions.MelangeError("Failure", {
+                MEL_EXN_ID: "Failure",
+                _1: "Oprint.out_signature"
               });
     })
 };
 
 var out_type_extension = {
   contents: (function (param) {
-      throw new Error("Failure", {
-                cause: {
-                  MEL_EXN_ID: "Failure",
-                  _1: "Oprint.out_type_extension"
-                }
+      throw new Caml_js_exceptions.MelangeError("Failure", {
+                MEL_EXN_ID: "Failure",
+                _1: "Oprint.out_type_extension"
               });
     })
 };
@@ -44609,9 +42901,7 @@ function ident_name(id) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return id.name;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -44626,9 +42916,7 @@ function add_unique(id) {
       unique_names.contents = add(id, unique_toplevel_name(id), unique_names.contents);
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -46387,18 +44675,14 @@ function bal$6(l, x, d, r) {
       if (lr) {
         return create$7(create$7(ll, lv, ld, lr.l), lr.v, lr.d, create$7(lr.r, x, d, r));
       }
-      throw new Error("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "Map.bal"
-                }
-              });
-    }
-    throw new Error("Invalid_argument", {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Map.bal"
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Map.bal"
             });
   }
   if (hr <= (hl + 2 | 0)) {
@@ -46421,18 +44705,14 @@ function bal$6(l, x, d, r) {
     if (rl) {
       return create$7(create$7(l, x, d, rl.l), rl.v, rl.d, create$7(rl.r, rv, rd, rr));
     }
-    throw new Error("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Map.bal"
-              }
-            });
-  }
-  throw new Error("Invalid_argument", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Map.bal"
-            }
+            });
+  }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Map.bal"
           });
 }
 
@@ -46491,10 +44771,8 @@ function find$4(x, _param) {
       _param = c < 0 ? param.l : param.r;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -46515,10 +44793,8 @@ function index(l, x) {
       return 1 + index(l.tl, x) | 0;
     }
   }
-  throw new Error(Stdlib.Not_found, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Not_found
-            }
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+            MEL_EXN_ID: Stdlib.Not_found
           });
 }
 
@@ -46592,9 +44868,7 @@ function normalize_type_path(cacheOpt, env, p) {
               /* Id */0
             ];
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -46686,9 +44960,7 @@ function set_printing_env(env) {
                 }, printing_map.contents);
             return ;
           }
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
       });
   var cont = function (param) {
@@ -46776,10 +45048,8 @@ function best_type_path(p) {
               }), l);
         continue ;
       }
-      throw new Error(Stdlib.Not_found, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.Not_found
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                MEL_EXN_ID: Stdlib.Not_found
               });
     };
   };
@@ -46796,9 +45066,7 @@ function best_type_path(p) {
               if (exn.MEL_EXN_ID === Stdlib.Not_found) {
                 tmp$1 = true;
               } else {
-                throw new Error(exn.MEL_EXN_ID, {
-                          cause: exn
-                        });
+                throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
               }
             }
             tmp = tmp$1;
@@ -46819,9 +45087,7 @@ function best_type_path(p) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       p$p$p = p$p;
     } else {
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   }
   return [
@@ -46945,9 +45211,7 @@ function name_of_type(t) {
       }
       return name;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -47496,15 +45760,13 @@ function tree_of_typobject(sch, fi, nm) {
           }), match.tl);
     var match$1 = best_type_path(nm[0]);
     if (!Caml_obj.caml_equal(match$1[1], /* Id */0)) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    36171,
-                    6
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  36171,
+                  6
+                ]
               });
     }
     return {
@@ -49183,15 +47445,13 @@ function mismatch(unif, param) {
       return ;
     }
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                36822,
-                9
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              36822,
+              9
+            ]
           });
 }
 
@@ -50269,32 +48529,26 @@ function report_unification_error(ppf, env, unifOpt, tr, txt1, txt2) {
               }
               catch (exn){
                 print_labels.contents = true;
-                throw new Error(exn.MEL_EXN_ID, {
-                          cause: exn
-                        });
+                throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
               }
             } else {
-              throw new Error("Assert_failure", {
-                        cause: {
-                          MEL_EXN_ID: "Assert_failure",
-                          _1: [
-                            "jscomp/test/ocaml_typedtree_test.ml",
-                            36921,
-                            20
-                          ]
-                        }
-                      });
-            }
-          } else {
-            throw new Error("Assert_failure", {
-                      cause: {
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                         MEL_EXN_ID: "Assert_failure",
                         _1: [
                           "jscomp/test/ocaml_typedtree_test.ml",
                           36921,
                           20
                         ]
-                      }
+                      });
+            }
+          } else {
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "jscomp/test/ocaml_typedtree_test.ml",
+                        36921,
+                        20
+                      ]
                     });
           }
         }));
@@ -50328,9 +48582,7 @@ function trace$1(fst, keep_last, txt, ppf, tr) {
   }
   catch (exn){
     print_labels.contents = true;
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -51124,9 +49376,7 @@ function type_manifest(env, ty1, params1, ty2, params2, priv2) {
       if (exn.MEL_EXN_ID === Cannot_expand) {
         return false;
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   };
   return check_super(ty1);
@@ -51800,9 +50050,7 @@ function scrape(env, mty) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return mty;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -52096,10 +50344,8 @@ function nondep_supertype(env, mid, mty) {
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.MEL_EXN_ID === Stdlib.Not_found) {
               if (va) {
-                throw new Error(Stdlib.Not_found, {
-                          cause: {
-                            MEL_EXN_ID: Stdlib.Not_found
-                          }
+                throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                          MEL_EXN_ID: Stdlib.Not_found
                         });
               }
               return {
@@ -52115,9 +50361,7 @@ function nondep_supertype(env, mid, mty) {
                       tl: rem$p
                     };
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
       case /* Sig_class */5 :
           return {
@@ -52189,9 +50433,7 @@ function enrich_typedecl(env, p, decl) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return decl;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -52315,24 +50557,18 @@ function contains_type(env, _param) {
             if (mty !== undefined) {
               return contains_type(env, mty);
             }
-            throw new Error(Stdlib.Exit, {
-                      cause: {
-                        MEL_EXN_ID: Stdlib.Exit
-                      }
+            throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                      MEL_EXN_ID: Stdlib.Exit
                     });
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-              throw new Error(Stdlib.Exit, {
-                        cause: {
-                          MEL_EXN_ID: Stdlib.Exit
-                        }
+              throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                        MEL_EXN_ID: Stdlib.Exit
                       });
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
       case /* Mty_signature */1 :
           return contains_type_sig(env)(param._0);
@@ -52363,24 +50599,18 @@ function contains_type_sig(env) {
                           if (match.type_private) {
                             return ;
                           }
-                          throw new Error(Stdlib.Exit, {
-                                    cause: {
-                                      MEL_EXN_ID: Stdlib.Exit
-                                    }
+                          throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                    MEL_EXN_ID: Stdlib.Exit
                                   });
                         }
-                        throw new Error(Stdlib.Exit, {
-                                  cause: {
-                                    MEL_EXN_ID: Stdlib.Exit
-                                  }
+                        throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                  MEL_EXN_ID: Stdlib.Exit
                                 });
                     case /* Sig_module */3 :
                         return contains_type(env, param._1.md_type);
                     case /* Sig_modtype */4 :
-                        throw new Error(Stdlib.Exit, {
-                                  cause: {
-                                    MEL_EXN_ID: Stdlib.Exit
-                                  }
+                        throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                  MEL_EXN_ID: Stdlib.Exit
                                 });
                     default:
                       return ;
@@ -52399,9 +50629,7 @@ function contains_type$1(env, mty) {
     if (exn.MEL_EXN_ID === Stdlib.Exit) {
       return true;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -52450,18 +50678,14 @@ function bal$7(l, v, r) {
       if (lr) {
         return create$8(create$8(ll, lv, lr.l), lr.v, create$8(lr.r, v, r));
       }
-      throw new Error("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "Set.bal"
-                }
-              });
-    }
-    throw new Error("Invalid_argument", {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Set.bal"
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Set.bal"
             });
   }
   if (hr <= (hl + 2 | 0)) {
@@ -52482,18 +50706,14 @@ function bal$7(l, v, r) {
     if (rl) {
       return create$8(create$8(l, v, rl.l), rl.v, create$8(rl.r, rv, rr));
     }
-    throw new Error("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Set.bal"
-              }
-            });
-  }
-  throw new Error("Invalid_argument", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Set.bal"
-            }
+            });
+  }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Set.bal"
           });
 }
 
@@ -52680,18 +50900,14 @@ function bal$8(l, x, d, r) {
       if (lr) {
         return create$9(create$9(ll, lv, ld, lr.l), lr.v, lr.d, create$9(lr.r, x, d, r));
       }
-      throw new Error("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "Map.bal"
-                }
-              });
-    }
-    throw new Error("Invalid_argument", {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Map.bal"
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Map.bal"
             });
   }
   if (hr <= (hl + 2 | 0)) {
@@ -52714,18 +50930,14 @@ function bal$8(l, x, d, r) {
     if (rl) {
       return create$9(create$9(l, x, d, rl.l), rl.v, rl.d, create$9(rl.r, rv, rd, rr));
     }
-    throw new Error("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Map.bal"
-              }
-            });
-  }
-  throw new Error("Invalid_argument", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Map.bal"
-            }
+            });
+  }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Map.bal"
           });
 }
 
@@ -52784,10 +50996,8 @@ function find$5(x, _param) {
       _param = c < 0 ? param.l : param.r;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -52831,18 +51041,14 @@ function bal$9(l, v, r) {
       if (lr) {
         return create$10(create$10(ll, lv, lr.l), lr.v, create$10(lr.r, v, r));
       }
-      throw new Error("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "Set.bal"
-                }
-              });
-    }
-    throw new Error("Invalid_argument", {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Set.bal"
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Set.bal"
             });
   }
   if (hr <= (hl + 2 | 0)) {
@@ -52863,18 +51069,14 @@ function bal$9(l, v, r) {
     if (rl) {
       return create$10(create$10(l, v, rl.l), rl.v, create$10(rl.r, rv, rr));
     }
-    throw new Error("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Set.bal"
-              }
-            });
-  }
-  throw new Error("Invalid_argument", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Set.bal"
-            }
+            });
+  }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Set.bal"
           });
 }
 
@@ -53090,9 +51292,7 @@ function rollback_path(subst, _p) {
           
         }
       } else {
-        throw new Error(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
     }
   };
@@ -53112,9 +51312,7 @@ function collect_ids(subst, bindings, p) {
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             ids = /* Empty */0;
           } else {
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
         }
         return Curry._2(add$11, id$1, ids);
@@ -53297,10 +51495,8 @@ function value_descriptions(env, cxt, subst, id, vd1, vd2) {
         if (Caml_obj.caml_equal(p1, match$1._0)) {
           return /* Tcoerce_none */0;
         }
-        throw new Error(Dont_match, {
-                  cause: {
-                    MEL_EXN_ID: Dont_match
-                  }
+        throw new Caml_js_exceptions.MelangeError(Dont_match, {
+                  MEL_EXN_ID: Dont_match
                 });
       }
       if (typeof match$1 === "number") {
@@ -53309,44 +51505,36 @@ function value_descriptions(env, cxt, subst, id, vd1, vd2) {
       if (match$1.TAG !== /* Val_prim */0) {
         return /* Tcoerce_none */0;
       }
-      throw new Error(Dont_match, {
-                cause: {
-                  MEL_EXN_ID: Dont_match
-                }
+      throw new Caml_js_exceptions.MelangeError(Dont_match, {
+                MEL_EXN_ID: Dont_match
               });
     } else {
-      throw new Error(Dont_match, {
-                cause: {
-                  MEL_EXN_ID: Dont_match
-                }
+      throw new Caml_js_exceptions.MelangeError(Dont_match, {
+                MEL_EXN_ID: Dont_match
               });
     }
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Dont_match) {
-      throw new Error($$Error$5, {
-                cause: {
-                  MEL_EXN_ID: $$Error$5,
-                  _1: {
-                    hd: [
-                      cxt,
-                      env,
-                      {
-                        TAG: /* Value_descriptions */1,
-                        _0: id,
-                        _1: vd1,
-                        _2: vd2$1
-                      }
-                    ],
-                    tl: /* [] */0
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$5, {
+                MEL_EXN_ID: $$Error$5,
+                _1: {
+                  hd: [
+                    cxt,
+                    env,
+                    {
+                      TAG: /* Value_descriptions */1,
+                      _0: id,
+                      _1: vd1,
+                      _2: vd2$1
+                    }
+                  ],
+                  tl: /* [] */0
                 }
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -53358,23 +51546,21 @@ function type_declarations$2(env, old_envOpt, cxt, subst, id, decl1, decl2) {
   if (!Caml_obj.caml_notequal(err, /* [] */0)) {
     return ;
   }
-  throw new Error($$Error$5, {
-            cause: {
-              MEL_EXN_ID: $$Error$5,
-              _1: {
-                hd: [
-                  cxt,
-                  old_env,
-                  {
-                    TAG: /* Type_declarations */2,
-                    _0: id,
-                    _1: decl1,
-                    _2: decl2$1,
-                    _3: err
-                  }
-                ],
-                tl: /* [] */0
-              }
+  throw new Caml_js_exceptions.MelangeError($$Error$5, {
+            MEL_EXN_ID: $$Error$5,
+            _1: {
+              hd: [
+                cxt,
+                old_env,
+                {
+                  TAG: /* Type_declarations */2,
+                  _0: id,
+                  _1: decl1,
+                  _2: decl2$1,
+                  _3: err
+                }
+              ],
+              tl: /* [] */0
             }
           });
 }
@@ -53384,22 +51570,20 @@ function extension_constructors$1(env, cxt, subst, id, ext1, ext2) {
   if (extension_constructors(env, id, ext1, ext2$1)) {
     return ;
   }
-  throw new Error($$Error$5, {
-            cause: {
-              MEL_EXN_ID: $$Error$5,
-              _1: {
-                hd: [
-                  cxt,
-                  env,
-                  {
-                    TAG: /* Extension_constructors */3,
-                    _0: id,
-                    _1: ext1,
-                    _2: ext2$1
-                  }
-                ],
-                tl: /* [] */0
-              }
+  throw new Caml_js_exceptions.MelangeError($$Error$5, {
+            MEL_EXN_ID: $$Error$5,
+            _1: {
+              hd: [
+                cxt,
+                env,
+                {
+                  TAG: /* Extension_constructors */3,
+                  _0: id,
+                  _1: ext1,
+                  _2: ext2$1
+                }
+              ],
+              tl: /* [] */0
             }
           });
 }
@@ -53410,23 +51594,21 @@ function class_type_declarations$1(old_env, env, cxt, subst, id, decl1, decl2) {
   if (!reason) {
     return ;
   }
-  throw new Error($$Error$5, {
-            cause: {
-              MEL_EXN_ID: $$Error$5,
-              _1: {
-                hd: [
-                  cxt,
-                  old_env,
-                  {
-                    TAG: /* Class_type_declarations */7,
-                    _0: id,
-                    _1: decl1,
-                    _2: decl2$1,
-                    _3: reason
-                  }
-                ],
-                tl: /* [] */0
-              }
+  throw new Caml_js_exceptions.MelangeError($$Error$5, {
+            MEL_EXN_ID: $$Error$5,
+            _1: {
+              hd: [
+                cxt,
+                old_env,
+                {
+                  TAG: /* Class_type_declarations */7,
+                  _0: id,
+                  _1: decl1,
+                  _2: decl2$1,
+                  _3: reason
+                }
+              ],
+              tl: /* [] */0
             }
           });
 }
@@ -53437,23 +51619,21 @@ function class_declarations$1(old_env, env, cxt, subst, id, decl1, decl2) {
   if (!reason) {
     return ;
   }
-  throw new Error($$Error$5, {
-            cause: {
-              MEL_EXN_ID: $$Error$5,
-              _1: {
-                hd: [
-                  cxt,
-                  old_env,
-                  {
-                    TAG: /* Class_declarations */8,
-                    _0: id,
-                    _1: decl1,
-                    _2: decl2$1,
-                    _3: reason
-                  }
-                ],
-                tl: /* [] */0
-              }
+  throw new Caml_js_exceptions.MelangeError($$Error$5, {
+            MEL_EXN_ID: $$Error$5,
+            _1: {
+              hd: [
+                cxt,
+                old_env,
+                {
+                  TAG: /* Class_declarations */8,
+                  _0: id,
+                  _1: decl1,
+                  _2: decl2$1,
+                  _3: reason
+                }
+              ],
+              tl: /* [] */0
             }
           });
 }
@@ -53470,9 +51650,7 @@ function may_expand_module_path(env, path) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return false;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -53483,26 +51661,22 @@ function expand_module_path(env, cxt, path) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      throw new Error($$Error$5, {
-                cause: {
-                  MEL_EXN_ID: $$Error$5,
-                  _1: {
-                    hd: [
-                      cxt,
-                      env,
-                      {
-                        TAG: /* Unbound_modtype_path */9,
-                        _0: path
-                      }
-                    ],
-                    tl: /* [] */0
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$5, {
+                MEL_EXN_ID: $$Error$5,
+                _1: {
+                  hd: [
+                    cxt,
+                    env,
+                    {
+                      TAG: /* Unbound_modtype_path */9,
+                      _0: path
+                    }
+                  ],
+                  tl: /* [] */0
                 }
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -53513,26 +51687,22 @@ function expand_module_alias(env, cxt, path) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      throw new Error($$Error$5, {
-                cause: {
-                  MEL_EXN_ID: $$Error$5,
-                  _1: {
-                    hd: [
-                      cxt,
-                      env,
-                      {
-                        TAG: /* Unbound_module_path */10,
-                        _0: path
-                      }
-                    ],
-                    tl: /* [] */0
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$5, {
+                MEL_EXN_ID: $$Error$5,
+                _1: {
+                  hd: [
+                    cxt,
+                    env,
+                    {
+                      TAG: /* Unbound_module_path */10,
+                      _0: path
+                    }
+                  ],
+                  tl: /* [] */0
                 }
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -53657,56 +51827,46 @@ function modtypes(env, cxt, subst, mty1, mty2) {
   catch (raw_err){
     var err = Caml_js_exceptions.internalToOCamlException(raw_err);
     if (err.MEL_EXN_ID === Dont_match$1) {
-      throw new Error($$Error$5, {
-                cause: {
-                  MEL_EXN_ID: $$Error$5,
-                  _1: {
-                    hd: [
-                      cxt,
-                      env,
-                      {
-                        TAG: /* Module_types */4,
-                        _0: mty1,
-                        _1: modtype(subst, mty2)
-                      }
-                    ],
-                    tl: /* [] */0
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$5, {
+                MEL_EXN_ID: $$Error$5,
+                _1: {
+                  hd: [
+                    cxt,
+                    env,
+                    {
+                      TAG: /* Module_types */4,
+                      _0: mty1,
+                      _1: modtype(subst, mty2)
+                    }
+                  ],
+                  tl: /* [] */0
                 }
               });
     }
     if (err.MEL_EXN_ID === $$Error$5) {
       if (mty1.TAG === /* Mty_alias */3) {
-        throw new Error(err.MEL_EXN_ID, {
-                  cause: err
-                });
+        throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
       }
       if (mty2.TAG === /* Mty_alias */3) {
-        throw new Error(err.MEL_EXN_ID, {
-                  cause: err
-                });
+        throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
       }
-      throw new Error($$Error$5, {
-                cause: {
-                  MEL_EXN_ID: $$Error$5,
-                  _1: {
-                    hd: [
-                      cxt,
-                      env,
-                      {
-                        TAG: /* Module_types */4,
-                        _0: mty1,
-                        _1: modtype(subst, mty2)
-                      }
-                    ],
-                    tl: err._1
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$5, {
+                MEL_EXN_ID: $$Error$5,
+                _1: {
+                  hd: [
+                    cxt,
+                    env,
+                    {
+                      TAG: /* Module_types */4,
+                      _0: mty1,
+                      _1: modtype(subst, mty2)
+                    }
+                  ],
+                  tl: err._1
                 }
               });
     }
-    throw new Error(err.MEL_EXN_ID, {
-              cause: err
-            });
+    throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
   }
 }
 
@@ -53729,10 +51889,8 @@ function try_modtypes(env, cxt, subst, _mty1, mty2) {
                 return signatures(env, cxt, subst, mty1._0, mty2._0);
             case /* Mty_functor */2 :
             case /* Mty_alias */3 :
-                throw new Error(Dont_match$1, {
-                          cause: {
-                            MEL_EXN_ID: Dont_match$1
-                          }
+                throw new Caml_js_exceptions.MelangeError(Dont_match$1, {
+                          MEL_EXN_ID: Dont_match$1
                         });
             
           }
@@ -53775,17 +51933,13 @@ function try_modtypes(env, cxt, subst, _mty1, mty2) {
                             };
                     }
                   }
-                  throw new Error(Dont_match$1, {
-                            cause: {
-                              MEL_EXN_ID: Dont_match$1
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Dont_match$1, {
+                            MEL_EXN_ID: Dont_match$1
                           });
               case /* Mty_signature */1 :
               case /* Mty_alias */3 :
-                  throw new Error(Dont_match$1, {
-                            cause: {
-                              MEL_EXN_ID: Dont_match$1
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Dont_match$1, {
+                            MEL_EXN_ID: Dont_match$1
                           });
               
             }
@@ -53795,10 +51949,8 @@ function try_modtypes(env, cxt, subst, _mty1, mty2) {
                   break;
               case /* Mty_functor */2 :
                   if (mty2._1 !== undefined) {
-                    throw new Error(Dont_match$1, {
-                              cause: {
-                                MEL_EXN_ID: Dont_match$1
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Dont_match$1, {
+                              MEL_EXN_ID: Dont_match$1
                             });
                   }
                   var cc = modtypes(env, {
@@ -53819,10 +51971,8 @@ function try_modtypes(env, cxt, subst, _mty1, mty2) {
                   }
               case /* Mty_signature */1 :
               case /* Mty_alias */3 :
-                  throw new Error(Dont_match$1, {
-                            cause: {
-                              MEL_EXN_ID: Dont_match$1
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Dont_match$1, {
+                            MEL_EXN_ID: Dont_match$1
                           });
               
             }
@@ -53833,20 +51983,18 @@ function try_modtypes(env, cxt, subst, _mty1, mty2) {
           if (mty2.TAG === /* Mty_alias */3) {
             var p2 = mty2._0;
             if (is_functor_arg(p2, env)) {
-              throw new Error($$Error$5, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$5,
-                          _1: {
-                            hd: [
-                              cxt,
-                              env,
-                              {
-                                TAG: /* Invalid_module_alias */11,
-                                _0: p2
-                              }
-                            ],
-                            tl: /* [] */0
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$5, {
+                        MEL_EXN_ID: $$Error$5,
+                        _1: {
+                          hd: [
+                            cxt,
+                            env,
+                            {
+                              TAG: /* Invalid_module_alias */11,
+                              _0: p2
+                            }
+                          ],
+                          tl: /* [] */0
                         }
                       });
             }
@@ -53858,10 +52006,8 @@ function try_modtypes(env, cxt, subst, _mty1, mty2) {
             if (same(p1$2, p2$1)) {
               return /* Tcoerce_none */0;
             }
-            throw new Error(Dont_match$1, {
-                      cause: {
-                        MEL_EXN_ID: Dont_match$1
-                      }
+            throw new Caml_js_exceptions.MelangeError(Dont_match$1, {
+                      MEL_EXN_ID: Dont_match$1
                     });
           }
           var p1$3;
@@ -53873,30 +52019,24 @@ function try_modtypes(env, cxt, subst, _mty1, mty2) {
             if (exn.MEL_EXN_ID === $$Error$2) {
               var match = exn._1;
               if (match.TAG === /* Missing_module */3) {
-                throw new Error($$Error$5, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$5,
-                            _1: {
-                              hd: [
-                                cxt,
-                                env,
-                                {
-                                  TAG: /* Unbound_module_path */10,
-                                  _0: match._2
-                                }
-                              ],
-                              tl: /* [] */0
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$5, {
+                          MEL_EXN_ID: $$Error$5,
+                          _1: {
+                            hd: [
+                              cxt,
+                              env,
+                              {
+                                TAG: /* Unbound_module_path */10,
+                                _0: match._2
+                              }
+                            ],
+                            tl: /* [] */0
                           }
                         });
               }
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
           var mty1$1 = strengthen$1(env, expand_module_alias(env, cxt, p1$3), p1$3);
           return {
@@ -53915,36 +52055,30 @@ function try_modtypes(env, cxt, subst, _mty1, mty2) {
           }
           
         } else {
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        38374,
-                        6
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      38374,
+                      6
+                    ]
                   });
         }
       }
       if (mty2$1.TAG === /* Mty_ident */0) {
         return try_modtypes(env, cxt, identity, mty1, expand_module_path(env, cxt, mty2$1._0));
       }
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    38374,
-                    6
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  38374,
+                  6
+                ]
               });
     }
-    throw new Error(Dont_match$1, {
-              cause: {
-                MEL_EXN_ID: Dont_match$1
-              }
+    throw new Caml_js_exceptions.MelangeError(Dont_match$1, {
+              MEL_EXN_ID: Dont_match$1
             });
   };
 }
@@ -54100,17 +52234,13 @@ function signatures(env, cxt, subst, sig1, sig2) {
             _unpaired = unpaired$1;
             continue ;
           }
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
       } else {
         if (unpaired) {
-          throw new Error($$Error$5, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$5,
-                      _1: unpaired
-                    }
+          throw new Caml_js_exceptions.MelangeError($$Error$5, {
+                    MEL_EXN_ID: $$Error$5,
+                    _1: unpaired
                   });
         }
         var cc = signature_components(env, new_env, cxt, subst, Stdlib__List.rev(paired));
@@ -54259,15 +52389,13 @@ function signature_components(old_env, env, cxt, subst, paired) {
         break;
     
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                38499,
-                6
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              38499,
+              6
+            ]
           });
 }
 
@@ -54305,28 +52433,24 @@ function modtype_infos(env, cxt, subst, id, info1, info2) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === $$Error$5) {
-      throw new Error($$Error$5, {
-                cause: {
-                  MEL_EXN_ID: $$Error$5,
-                  _1: {
-                    hd: [
-                      cxt,
-                      env,
-                      {
-                        TAG: /* Modtype_infos */5,
-                        _0: id,
-                        _1: info1,
-                        _2: info2$1
-                      }
-                    ],
-                    tl: exn._1
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$5, {
+                MEL_EXN_ID: $$Error$5,
+                _1: {
+                  hd: [
+                    cxt,
+                    env,
+                    {
+                      TAG: /* Modtype_infos */5,
+                      _0: id,
+                      _1: info1,
+                      _2: info2$1
+                    }
+                  ],
+                  tl: exn._1
                 }
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -54336,17 +52460,15 @@ function check_modtype_equiv(env, cxt, mty1, mty2) {
   if (typeof match === "number" && typeof match$1 === "number") {
     return ;
   }
-  throw new Error($$Error$5, {
-            cause: {
-              MEL_EXN_ID: $$Error$5,
-              _1: {
-                hd: [
-                  cxt,
-                  env,
-                  /* Modtype_permutation */0
-                ],
-                tl: /* [] */0
-              }
+  throw new Caml_js_exceptions.MelangeError($$Error$5, {
+            MEL_EXN_ID: $$Error$5,
+            _1: {
+              hd: [
+                cxt,
+                env,
+                /* Modtype_permutation */0
+              ],
+              tl: /* [] */0
             }
           });
 }
@@ -54359,15 +52481,11 @@ function check_modtype_inclusion$1(env, mty1, path1, mty2) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === $$Error$5) {
-      throw new Error(Stdlib.Not_found, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.Not_found
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                MEL_EXN_ID: Stdlib.Not_found
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -54380,27 +52498,23 @@ function compunit(env, impl_name, impl_sig, intf_name, intf_sig) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === $$Error$5) {
-      throw new Error($$Error$5, {
-                cause: {
-                  MEL_EXN_ID: $$Error$5,
-                  _1: {
-                    hd: [
-                      /* [] */0,
-                      empty,
-                      {
-                        TAG: /* Interface_mismatch */6,
-                        _0: impl_name,
-                        _1: intf_name
-                      }
-                    ],
-                    tl: exn._1
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$5, {
+                MEL_EXN_ID: $$Error$5,
+                _1: {
+                  hd: [
+                    /* [] */0,
+                    empty,
+                    {
+                      TAG: /* Interface_mismatch */6,
+                      _0: impl_name,
+                      _1: intf_name
+                    }
+                  ],
+                  tl: exn._1
                 }
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -55498,38 +53612,32 @@ function path_of_context(param) {
           };
           continue ;
         }
-        throw new Error("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/ocaml_typedtree_test.ml",
-                      38670,
-                      15
-                    ]
-                  }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/ocaml_typedtree_test.ml",
+                    38670,
+                    15
+                  ]
                 });
       };
     }
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  38672,
-                  9
-                ]
-              }
-            });
-  }
-  throw new Error("Assert_failure", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
                 38672,
                 9
               ]
-            }
+            });
+  }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              38672,
+              9
+            ]
           });
 }
 
@@ -56188,15 +54296,13 @@ function compat(_p, _q) {
           _q = match$1._1;
           continue ;
       case 3 :
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        39141,
-                        6
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      39141,
+                      6
+                    ]
                   });
       
     }
@@ -56216,29 +54322,25 @@ function compats(_ps, _qs) {
         _ps = ps.tl;
         continue ;
       }
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    39146,
-                    12
-                  ]
-                }
-              });
-    }
-    if (!qs) {
-      return true;
-    }
-    throw new Error("Assert_failure", {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/ocaml_typedtree_test.ml",
                   39146,
                   12
                 ]
-              }
+              });
+    }
+    if (!qs) {
+      return true;
+    }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                39146,
+                12
+              ]
             });
   };
 }
@@ -57372,9 +55474,7 @@ function simple_match_args(p1, _p2) {
                           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
                             return omega;
                           }
-                          throw new Error(exn.MEL_EXN_ID, {
-                                    cause: exn
-                                  });
+                          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                         }
                       }
                       }(arg$1)), omegas);
@@ -57558,9 +55658,7 @@ function discr_pat(q, pss) {
                                 tl: r
                               };
                       }
-                      throw new Error(exn.MEL_EXN_ID, {
-                                cause: exn
-                              });
+                      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                     }
                   }), match$1._0, record_arg(acc));
             _pss = pss$1.tl;
@@ -57661,15 +55759,13 @@ function do_set_args(erase_mutable, q, r) {
               r.tl
             ];
           } else {
-            throw new Error("Assert_failure", {
-                      cause: {
-                        MEL_EXN_ID: "Assert_failure",
-                        _1: [
-                          "jscomp/test/ocaml_typedtree_test.ml",
-                          39485,
-                          13
-                        ]
-                      }
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "jscomp/test/ocaml_typedtree_test.ml",
+                        39485,
+                        13
+                      ]
                     });
           }
         } else {
@@ -58152,58 +56248,50 @@ function row_of_pat(pat) {
   var match = expand_head(pat.pat_env, pat.pat_type);
   var row = match.desc;
   if (typeof row === "number") {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  39637,
-                  9
-                ]
-              }
-            });
-  }
-  if (row.TAG === /* Tvariant */8) {
-    return row_repr_aux(/* [] */0, row._0);
-  }
-  throw new Error("Assert_failure", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
                 39637,
                 9
               ]
-            }
+            });
+  }
+  if (row.TAG === /* Tvariant */8) {
+    return row_repr_aux(/* [] */0, row._0);
+  }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              39637,
+              9
+            ]
           });
 }
 
 function generalized_constructor(x) {
   var match = x[0].pat_desc;
   if (typeof match === "number") {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  39648,
-                  9
-                ]
-              }
-            });
-  }
-  if (match.TAG === /* Tpat_construct */4) {
-    return match._1.cstr_generalized;
-  }
-  throw new Error("Assert_failure", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
                 39648,
                 9
               ]
-            }
+            });
+  }
+  if (match.TAG === /* Tpat_construct */4) {
+    return match._1.cstr_generalized;
+  }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              39648,
+              9
+            ]
           });
 }
 
@@ -58259,29 +56347,25 @@ function full_match(ignore_generalized, closing, env) {
         var fields = Stdlib__List.map((function (param) {
                 var match = param[0].pat_desc;
                 if (typeof match === "number") {
-                  throw new Error("Assert_failure", {
-                            cause: {
-                              MEL_EXN_ID: "Assert_failure",
-                              _1: [
-                                "jscomp/test/ocaml_typedtree_test.ml",
-                                39675,
-                                17
-                              ]
-                            }
-                          });
-                }
-                if (match.TAG === /* Tpat_variant */5) {
-                  return match._0;
-                }
-                throw new Error("Assert_failure", {
-                          cause: {
+                  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                             MEL_EXN_ID: "Assert_failure",
                             _1: [
                               "jscomp/test/ocaml_typedtree_test.ml",
                               39675,
                               17
                             ]
-                          }
+                          });
+                }
+                if (match.TAG === /* Tpat_variant */5) {
+                  return match._0;
+                }
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/ocaml_typedtree_test.ml",
+                            39675,
+                            17
+                          ]
                         });
               }), env);
         var row = row_of_pat(p);
@@ -58369,15 +56453,13 @@ function complete_tags(nconsts, nconstrs, tags) {
             case /* Cstr_block */1 :
                 return Caml_array.set(seen_constr, param._0, true);
             case /* Cstr_extension */2 :
-                throw new Error("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/ocaml_typedtree_test.ml",
-                              39738,
-                              14
-                            ]
-                          }
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/ocaml_typedtree_test.ml",
+                            39738,
+                            14
+                          ]
                         });
             
           }
@@ -58453,10 +56535,8 @@ function pat_of_constrs(ex_pat, param) {
       return pat_of_constr(ex_pat, cstr);
     }
   }
-  throw new Error(Empty, {
-            cause: {
-              MEL_EXN_ID: Empty
-            }
+  throw new Caml_js_exceptions.MelangeError(Empty, {
+            MEL_EXN_ID: Empty
           });
 }
 
@@ -58560,15 +56640,13 @@ function build_other(ext, env) {
                               }
                               
                             }
-                            throw new Error("Assert_failure", {
-                                      cause: {
-                                        MEL_EXN_ID: "Assert_failure",
-                                        _1: [
-                                          "jscomp/test/ocaml_typedtree_test.ml",
-                                          39892,
-                                          55
-                                        ]
-                                      }
+                            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                      MEL_EXN_ID: "Assert_failure",
+                                      _1: [
+                                        "jscomp/test/ocaml_typedtree_test.ml",
+                                        39892,
+                                        55
+                                      ]
                                     });
                           }), (function (i) {
                             return {
@@ -58591,15 +56669,13 @@ function build_other(ext, env) {
                         }
                         
                       }
-                      throw new Error("Assert_failure", {
-                                cause: {
-                                  MEL_EXN_ID: "Assert_failure",
-                                  _1: [
-                                    "jscomp/test/ocaml_typedtree_test.ml",
-                                    39867,
-                                    15
-                                  ]
-                                }
+                      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                MEL_EXN_ID: "Assert_failure",
+                                _1: [
+                                  "jscomp/test/ocaml_typedtree_test.ml",
+                                  39867,
+                                  15
+                                ]
                               });
                     }), env);
               var _param = {
@@ -58645,10 +56721,8 @@ function build_other(ext, env) {
                   while(true) {
                     var i = _i;
                     if (i > imax) {
-                      throw new Error(Stdlib.Not_found, {
-                                cause: {
-                                  MEL_EXN_ID: Stdlib.Not_found
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                                MEL_EXN_ID: Stdlib.Not_found
                               });
                     }
                     var ci = Stdlib__Char.chr(i);
@@ -58671,9 +56745,7 @@ function build_other(ext, env) {
                     _param = param.tl;
                     continue ;
                   }
-                  throw new Error(exn.MEL_EXN_ID, {
-                            cause: exn
-                          });
+                  throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                 }
               };
           case /* Const_string */2 :
@@ -58685,15 +56757,13 @@ function build_other(ext, env) {
                               }
                               
                             }
-                            throw new Error("Assert_failure", {
-                                      cause: {
-                                        MEL_EXN_ID: "Assert_failure",
-                                        _1: [
-                                          "jscomp/test/ocaml_typedtree_test.ml",
-                                          39913,
-                                          21
-                                        ]
-                                      }
+                            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                      MEL_EXN_ID: "Assert_failure",
+                                      _1: [
+                                        "jscomp/test/ocaml_typedtree_test.ml",
+                                        39913,
+                                        21
+                                      ]
                                     });
                           }), (function (i) {
                             return {
@@ -58716,15 +56786,13 @@ function build_other(ext, env) {
                               }
                               
                             }
-                            throw new Error("Assert_failure", {
-                                      cause: {
-                                        MEL_EXN_ID: "Assert_failure",
-                                        _1: [
-                                          "jscomp/test/ocaml_typedtree_test.ml",
-                                          39919,
-                                          21
-                                        ]
-                                      }
+                            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                      MEL_EXN_ID: "Assert_failure",
+                                      _1: [
+                                        "jscomp/test/ocaml_typedtree_test.ml",
+                                        39919,
+                                        21
+                                      ]
                                     });
                           }), (function (f) {
                             return {
@@ -58746,15 +56814,13 @@ function build_other(ext, env) {
                               }
                               
                             }
-                            throw new Error("Assert_failure", {
-                                      cause: {
-                                        MEL_EXN_ID: "Assert_failure",
-                                        _1: [
-                                          "jscomp/test/ocaml_typedtree_test.ml",
-                                          39897,
-                                          57
-                                        ]
-                                      }
+                            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                      MEL_EXN_ID: "Assert_failure",
+                                      _1: [
+                                        "jscomp/test/ocaml_typedtree_test.ml",
+                                        39897,
+                                        57
+                                      ]
                                     });
                           }), (function (i) {
                             return {
@@ -58774,15 +56840,13 @@ function build_other(ext, env) {
                               }
                               
                             }
-                            throw new Error("Assert_failure", {
-                                      cause: {
-                                        MEL_EXN_ID: "Assert_failure",
-                                        _1: [
-                                          "jscomp/test/ocaml_typedtree_test.ml",
-                                          39902,
-                                          57
-                                        ]
-                                      }
+                            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                      MEL_EXN_ID: "Assert_failure",
+                                      _1: [
+                                        "jscomp/test/ocaml_typedtree_test.ml",
+                                        39902,
+                                        57
+                                      ]
                                     });
                           }), (function (i) {
                             return {
@@ -58794,15 +56858,13 @@ function build_other(ext, env) {
                                   };
                           }), Caml_int64.zero, Stdlib__Int64.succ, p, env);
           case /* Const_nativeint */6 :
-              throw new Error("Assert_failure", {
-                        cause: {
-                          MEL_EXN_ID: "Assert_failure",
-                          _1: [
-                            "jscomp/test/ocaml_typedtree_test.ml",
-                            39909,
-                            33
-                          ]
-                        }
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/ocaml_typedtree_test.ml",
+                          39909,
+                          33
+                        ]
                       });
           
         }
@@ -58880,29 +56942,25 @@ function build_other(ext, env) {
         var tags = Stdlib__List.map((function (param) {
                 var match = param[0].pat_desc;
                 if (typeof match === "number") {
-                  throw new Error("Assert_failure", {
-                            cause: {
-                              MEL_EXN_ID: "Assert_failure",
-                              _1: [
-                                "jscomp/test/ocaml_typedtree_test.ml",
-                                39836,
-                                23
-                              ]
-                            }
-                          });
-                }
-                if (match.TAG === /* Tpat_variant */5) {
-                  return match._0;
-                }
-                throw new Error("Assert_failure", {
-                          cause: {
+                  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                             MEL_EXN_ID: "Assert_failure",
                             _1: [
                               "jscomp/test/ocaml_typedtree_test.ml",
                               39836,
                               23
                             ]
-                          }
+                          });
+                }
+                if (match.TAG === /* Tpat_variant */5) {
+                  return match._0;
+                }
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/ocaml_typedtree_test.ml",
+                            39836,
+                            23
+                          ]
                         });
               }), env);
         var row = row_of_pat(p);
@@ -58951,29 +57009,25 @@ function build_other(ext, env) {
         var all_lengths = Stdlib__List.map((function (param) {
                 var args = param[0].pat_desc;
                 if (typeof args === "number") {
-                  throw new Error("Assert_failure", {
-                            cause: {
-                              MEL_EXN_ID: "Assert_failure",
-                              _1: [
-                                "jscomp/test/ocaml_typedtree_test.ml",
-                                39928,
-                                15
-                              ]
-                            }
-                          });
-                }
-                if (args.TAG === /* Tpat_array */7) {
-                  return Stdlib__List.length(args._0);
-                }
-                throw new Error("Assert_failure", {
-                          cause: {
+                  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                             MEL_EXN_ID: "Assert_failure",
                             _1: [
                               "jscomp/test/ocaml_typedtree_test.ml",
                               39928,
                               15
                             ]
-                          }
+                          });
+                }
+                if (args.TAG === /* Tpat_array */7) {
+                  return Stdlib__List.length(args._0);
+                }
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/ocaml_typedtree_test.ml",
+                            39928,
+                            15
+                          ]
                         });
               }), env);
         var _l = 0;
@@ -59014,15 +57068,13 @@ function build_other_gadt(ext, env) {
     }
     
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                39952,
-                11
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              39952,
+              11
+            ]
           });
 }
 
@@ -59178,15 +57230,13 @@ function orify_many(param) {
       return x;
     }
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                40024,
-                12
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              40024,
+              12
+            ]
           });
 }
 
@@ -59275,9 +57325,7 @@ function exhaust(ext, pss, n) {
       if (exn.MEL_EXN_ID === Empty) {
         return fatal_error("Parmatch.exhaust");
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   } else {
     var r$2 = exhaust(ext, filter_extra(pss), n - 1 | 0);
@@ -59377,9 +57425,7 @@ function exhaust_gadt(ext, pss, n) {
       if (exn.MEL_EXN_ID === Empty) {
         return fatal_error("Parmatch.exhaust");
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   } else {
     var r$1 = exhaust_gadt(ext, filter_extra(pss), n - 1 | 0);
@@ -59412,28 +57458,24 @@ function exhaust_gadt$1(ext, pss, n) {
   var singletons = Stdlib__List.map((function (param) {
           if (param) {
             if (param.tl) {
-              throw new Error("Assert_failure", {
-                        cause: {
-                          MEL_EXN_ID: "Assert_failure",
-                          _1: [
-                            "jscomp/test/ocaml_typedtree_test.ml",
-                            40200,
-                            19
-                          ]
-                        }
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/ocaml_typedtree_test.ml",
+                          40200,
+                          19
+                        ]
                       });
             }
             return param.hd;
           }
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        40200,
-                        19
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      40200,
+                      19
+                    ]
                   });
         }), lst);
   return /* Rsome */{
@@ -59535,15 +57577,13 @@ function is_var_column(rs) {
                     return false;
                   }
                 }
-                throw new Error("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/ocaml_typedtree_test.ml",
-                              40309,
-                              14
-                            ]
-                          }
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/ocaml_typedtree_test.ml",
+                            40309,
+                            14
+                          ]
                         });
               }), rs);
 }
@@ -59553,15 +57593,13 @@ function or_args(_p) {
     var p = _p;
     var match = p.pat_desc;
     if (typeof match === "number") {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    40316,
-                    23
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  40316,
+                  23
+                ]
               });
     }
     switch (match.TAG | 0) {
@@ -59574,15 +57612,13 @@ function or_args(_p) {
                   match._1
                 ];
       default:
-        throw new Error("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/ocaml_typedtree_test.ml",
-                      40316,
-                      23
-                    ]
-                  }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/ocaml_typedtree_test.ml",
+                    40316,
+                    23
+                  ]
                 });
     }
   };
@@ -59597,15 +57633,13 @@ function remove$1(r) {
             active: match.tl
           };
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                40321,
-                12
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              40321,
+              12
+            ]
           });
 }
 
@@ -59621,15 +57655,13 @@ function push_no_or(r) {
             active: match.tl
           };
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                40328,
-                8
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              40328,
+              8
+            ]
           });
 }
 
@@ -59645,15 +57677,13 @@ function push_or(r) {
             active: match.tl
           };
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                40332,
-                8
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              40332,
+              8
+            ]
           });
 }
 
@@ -59732,15 +57762,13 @@ function filter_one$1(q, rs) {
         _rs = rem;
         continue ;
       }
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    40349,
-                    14
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  40349,
+                  14
+                ]
               });
     };
   };
@@ -59795,15 +57823,13 @@ function extract_columns(pss, qs) {
                                 }), param, param$1);
                   }), i, rs.tl);
     }
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  40392,
-                  8
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                40392,
+                8
+              ]
             });
   } else {
     return Stdlib__List.map((function (param) {
@@ -59879,15 +57905,13 @@ function every_satisfiables(_pss, _qs) {
                       var match = qs.active;
                       if (match) {
                         if (match.tl) {
-                          throw new Error("Assert_failure", {
-                                    cause: {
-                                      MEL_EXN_ID: "Assert_failure",
-                                      _1: [
-                                        "jscomp/test/ocaml_typedtree_test.ml",
-                                        40429,
-                                        23
-                                      ]
-                                    }
+                          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                    MEL_EXN_ID: "Assert_failure",
+                                    _1: [
+                                      "jscomp/test/ocaml_typedtree_test.ml",
+                                      40429,
+                                      23
+                                    ]
                                   });
                         }
                         var match$1 = or_args(match.hd);
@@ -59914,15 +57938,13 @@ function every_satisfiables(_pss, _qs) {
                           return r_loc;
                         }
                       }
-                      throw new Error("Assert_failure", {
-                                cause: {
-                                  MEL_EXN_ID: "Assert_failure",
-                                  _1: [
-                                    "jscomp/test/ocaml_typedtree_test.ml",
-                                    40429,
-                                    23
-                                  ]
-                                }
+                      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                MEL_EXN_ID: "Assert_failure",
+                                _1: [
+                                  "jscomp/test/ocaml_typedtree_test.ml",
+                                  40429,
+                                  23
+                                ]
                               });
                     }), extract_columns(pss, qs), extract_elements(qs), /* Used */0);
       } else if (satisfiable(Stdlib__List.map(make_vector, pss), qs.no_ors)) {
@@ -60285,10 +58307,8 @@ function initial_all(no_guard, param) {
   if (!no_guard) {
     return /* [] */0;
   }
-  throw new Error(NoGuard, {
-            cause: {
-              MEL_EXN_ID: NoGuard
-            }
+  throw new Caml_js_exceptions.MelangeError(NoGuard, {
+            MEL_EXN_ID: NoGuard
           });
 }
 
@@ -60441,9 +58461,7 @@ function check_partial_all(v, casel) {
     if (exn.MEL_EXN_ID === NoGuard) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -60551,15 +58569,13 @@ function conv(typed) {
                                     _0: lst
                                   }) : lst.hd;
                           } else {
-                            throw new Error("Assert_failure", {
-                                      cause: {
-                                        MEL_EXN_ID: "Assert_failure",
-                                        _1: [
-                                          "jscomp/test/ocaml_typedtree_test.ml",
-                                          40764,
-                                          28
-                                        ]
-                                      }
+                            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                      MEL_EXN_ID: "Assert_failure",
+                                      _1: [
+                                        "jscomp/test/ocaml_typedtree_test.ml",
+                                        40764,
+                                        28
+                                      ]
                                     });
                           }
                           return mk$1(undefined, undefined, {
@@ -61131,15 +59147,13 @@ function warning_leave_scope(param) {
     warning_scope.contents = match.tl;
     return ;
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                41342,
-                10
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              41342,
+              10
+            ]
           });
 }
 
@@ -61165,9 +59179,7 @@ function warning_attribute(attrs) {
                     _1: "Ill-formed list of warnings"
                   });
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   };
   Stdlib__List.iter((function (param) {
@@ -61213,18 +59225,14 @@ function narrow_unbound_lid_error(env, loc, lid, make_error) {
                     }));
       }
       if (exn.MEL_EXN_ID === Recmodule) {
-        throw new Error($$Error$6, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$6,
-                    _1: loc,
-                    _2: env,
-                    _3: /* Illegal_reference_to_recursive_module */1
-                  }
+        throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                  MEL_EXN_ID: $$Error$6,
+                  _1: loc,
+                  _2: env,
+                  _3: /* Illegal_reference_to_recursive_module */1
                 });
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   };
   switch (lid.TAG | 0) {
@@ -61236,15 +59244,13 @@ function narrow_unbound_lid_error(env, loc, lid, make_error) {
         var md = find_module(false, lookup_module(true, mlid, env), env);
         var match = scrape_alias(env, undefined, md.md_type);
         if (match.TAG === /* Mty_functor */2) {
-          throw new Error($$Error$6, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$6,
-                      _1: loc,
-                      _2: env,
-                      _3: {
-                        TAG: /* Access_functor_as_structure */25,
-                        _0: mlid
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                    MEL_EXN_ID: $$Error$6,
+                    _1: loc,
+                    _2: env,
+                    _3: {
+                      TAG: /* Access_functor_as_structure */25,
+                      _0: mlid
                     }
                   });
         }
@@ -61252,26 +59258,22 @@ function narrow_unbound_lid_error(env, loc, lid, make_error) {
     case /* Lapply */2 :
         check_module(lid._0);
         check_module(lid._1);
-        throw new Error($$Error$6, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$6,
-                    _1: loc,
-                    _2: env,
-                    _3: {
-                      TAG: /* Ill_typed_functor_application */24,
-                      _0: lid
-                    }
+        throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                  MEL_EXN_ID: $$Error$6,
+                  _1: loc,
+                  _2: env,
+                  _3: {
+                    TAG: /* Ill_typed_functor_application */24,
+                    _0: lid
                   }
                 });
     
   }
-  throw new Error($$Error$6, {
-            cause: {
-              MEL_EXN_ID: $$Error$6,
-              _1: loc,
-              _2: env,
-              _3: Curry._1(make_error, lid)
-            }
+  throw new Caml_js_exceptions.MelangeError($$Error$6, {
+            MEL_EXN_ID: $$Error$6,
+            _1: loc,
+            _2: env,
+            _3: Curry._1(make_error, lid)
           });
 }
 
@@ -61307,18 +59309,14 @@ function find_component(lookup, make_error, env, loc, lid) {
       return narrow_unbound_lid_error(env, loc, lid, make_error);
     }
     if (exn.MEL_EXN_ID === Recmodule) {
-      throw new Error($$Error$6, {
-                cause: {
-                  MEL_EXN_ID: $$Error$6,
-                  _1: loc,
-                  _2: env,
-                  _3: /* Illegal_reference_to_recursive_module */1
-                }
+      throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                MEL_EXN_ID: $$Error$6,
+                _1: loc,
+                _2: env,
+                _3: /* Illegal_reference_to_recursive_module */1
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -61450,30 +59448,26 @@ function unbound_label_error(env, lid) {
 
 var transl_modtype_longident = {
   contents: (function (param) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    41489,
-                    45
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  41489,
+                  45
+                ]
               });
     })
 };
 
 var transl_modtype = {
   contents: (function (param) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    41490,
-                    35
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  41490,
+                  35
+                ]
               });
     })
 };
@@ -61483,15 +59477,13 @@ function create_package_mty(fake, loc, env, param) {
           var s2 = param$1[0];
           var s1 = param[0];
           if (Caml_obj.caml_equal(s1.txt, s2.txt)) {
-            throw new Error($$Error$6, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$6,
-                        _1: loc,
-                        _2: env,
-                        _3: {
-                          TAG: /* Multiple_constraints_on_type */15,
-                          _0: s1.txt
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                      MEL_EXN_ID: $$Error$6,
+                      _1: loc,
+                      _2: env,
+                      _3: {
+                        TAG: /* Multiple_constraints_on_type */15,
+                        _0: s1.txt
                       }
                     });
           }
@@ -61606,23 +59598,19 @@ function transl_type_param(env, styp) {
     var ty$1;
     try {
       if (name$1 !== "" && Caml_string.get(name$1, 0) === /* '_' */95) {
-        throw new Error($$Error$6, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$6,
-                    _1: loc,
-                    _2: empty,
-                    _3: {
-                      TAG: /* Invalid_variable_name */13,
-                      _0: "'" + name$1
-                    }
+        throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                  MEL_EXN_ID: $$Error$6,
+                  _1: loc,
+                  _2: empty,
+                  _3: {
+                    TAG: /* Invalid_variable_name */13,
+                    _0: "'" + name$1
                   }
                 });
       }
       find$2(name$1, type_variables.contents);
-      throw new Error(Already_bound, {
-                cause: {
-                  MEL_EXN_ID: Already_bound
-                }
+      throw new Caml_js_exceptions.MelangeError(Already_bound, {
+                MEL_EXN_ID: Already_bound
               });
     }
     catch (raw_exn){
@@ -61632,9 +59620,7 @@ function transl_type_param(env, styp) {
         type_variables.contents = add$5(name$1, v, type_variables.contents);
         ty$1 = v;
       } else {
-        throw new Error(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
     }
     return {
@@ -61648,15 +59634,13 @@ function transl_type_param(env, styp) {
             ctyp_attributes: styp.ptyp_attributes
           };
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                41575,
-                9
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              41575,
+              9
+            ]
           });
 }
 
@@ -61705,15 +59689,13 @@ function transl_type(env, policy, styp) {
       ty = new_pre_univar(undefined, undefined);
     } else {
       if (policy === /* Fixed */0) {
-        throw new Error($$Error$6, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$6,
-                    _1: styp.ptyp_loc,
-                    _2: env,
-                    _3: {
-                      TAG: /* Unbound_type_variable */0,
-                      _0: "_"
-                    }
+        throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                  MEL_EXN_ID: $$Error$6,
+                  _1: styp.ptyp_loc,
+                  _2: env,
+                  _3: {
+                    TAG: /* Unbound_type_variable */0,
+                    _0: "_"
                   }
                 });
       }
@@ -61725,15 +59707,13 @@ function transl_type(env, policy, styp) {
     case /* Ptyp_var */0 :
         var name$1 = name._0;
         if (name$1 !== "" && Caml_string.get(name$1, 0) === /* '_' */95) {
-          throw new Error($$Error$6, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$6,
-                      _1: styp.ptyp_loc,
-                      _2: env,
-                      _3: {
-                        TAG: /* Invalid_variable_name */13,
-                        _0: "'" + name$1
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                    MEL_EXN_ID: $$Error$6,
+                    _1: styp.ptyp_loc,
+                    _2: env,
+                    _3: {
+                      TAG: /* Invalid_variable_name */13,
+                      _0: "'" + name$1
                     }
                   });
         }
@@ -61757,15 +59737,11 @@ function transl_type(env, policy, styp) {
                     ], used_variables.contents);
                 ty$1 = v;
               } else {
-                throw new Error(exn$1.MEL_EXN_ID, {
-                          cause: exn$1
-                        });
+                throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
               }
             }
           } else {
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
         }
         return ctyp({
@@ -61824,17 +59800,15 @@ function transl_type(env, policy, styp) {
           stl$2 = stl$1;
         }
         if (Stdlib__List.length(stl$2) !== decl.type_arity) {
-          throw new Error($$Error$6, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$6,
-                      _1: styp.ptyp_loc,
-                      _2: env,
-                      _3: {
-                        TAG: /* Type_arity_mismatch */3,
-                        _0: lid.txt,
-                        _1: decl.type_arity,
-                        _2: Stdlib__List.length(stl$2)
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                    MEL_EXN_ID: $$Error$6,
+                    _1: styp.ptyp_loc,
+                    _2: env,
+                    _3: {
+                      TAG: /* Type_arity_mismatch */3,
+                      _0: lid.txt,
+                      _1: decl.type_arity,
+                      _2: Stdlib__List.length(stl$2)
                     }
                   });
         }
@@ -61851,21 +59825,17 @@ function transl_type(env, policy, styp) {
                 catch (raw_exn){
                   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
                   if (exn.MEL_EXN_ID === Unify) {
-                    throw new Error($$Error$6, {
-                              cause: {
-                                MEL_EXN_ID: $$Error$6,
-                                _1: param[0].ptyp_loc,
-                                _2: env,
-                                _3: {
-                                  TAG: /* Type_mismatch */6,
-                                  _0: swap_list(exn._1)
-                                }
+                    throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                              MEL_EXN_ID: $$Error$6,
+                              _1: param[0].ptyp_loc,
+                              _2: env,
+                              _3: {
+                                TAG: /* Type_mismatch */6,
+                                _0: swap_list(exn._1)
                               }
                             });
                   }
-                  throw new Error(exn.MEL_EXN_ID, {
-                            cause: exn
-                          });
+                  throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                 }
               }), Stdlib__List.combine(stl$2, args), params);
         var constr = newconstr(path, Stdlib__List.map((function (ctyp) {
@@ -61877,21 +59847,17 @@ function transl_type(env, policy, styp) {
         catch (raw_exn$2){
           var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
           if (exn$2.MEL_EXN_ID === Unify) {
-            throw new Error($$Error$6, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$6,
-                        _1: styp.ptyp_loc,
-                        _2: env,
-                        _3: {
-                          TAG: /* Type_mismatch */6,
-                          _0: exn$2._1
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                      MEL_EXN_ID: $$Error$6,
+                      _1: styp.ptyp_loc,
+                      _2: env,
+                      _3: {
+                        TAG: /* Type_mismatch */6,
+                        _0: exn$2._1
                       }
                     });
           }
-          throw new Error(exn$2.MEL_EXN_ID, {
-                    cause: exn$2
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
         }
         return ctyp({
                     TAG: /* Ttyp_constr */3,
@@ -61928,10 +59894,8 @@ function transl_type(env, policy, styp) {
               if (ty !== undefined) {
                 var row = repr(ty).desc;
                 if (typeof row === "number") {
-                  throw new Error(Stdlib.Not_found, {
-                            cause: {
-                              MEL_EXN_ID: Stdlib.Not_found
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                            MEL_EXN_ID: Stdlib.Not_found
                           });
                 }
                 switch (row.TAG | 0) {
@@ -61942,23 +59906,17 @@ function transl_type(env, policy, styp) {
                       if (static_row(row._0)) {
                         return ;
                       }
-                      throw new Error(Stdlib.Not_found, {
-                                cause: {
-                                  MEL_EXN_ID: Stdlib.Not_found
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                                MEL_EXN_ID: Stdlib.Not_found
                               });
                   default:
-                    throw new Error(Stdlib.Not_found, {
-                              cause: {
-                                MEL_EXN_ID: Stdlib.Not_found
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                              MEL_EXN_ID: Stdlib.Not_found
                             });
                 }
               } else {
-                throw new Error(Stdlib.Not_found, {
-                          cause: {
-                            MEL_EXN_ID: Stdlib.Not_found
-                          }
+                throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                          MEL_EXN_ID: Stdlib.Not_found
                         });
               }
             };
@@ -62010,41 +59968,33 @@ function transl_type(env, policy, styp) {
               var exn$4 = Caml_js_exceptions.internalToOCamlException(raw_exn$4);
               if (exn$4.MEL_EXN_ID === Stdlib.Not_found) {
                 find_class$1(env, styp.ptyp_loc, lid$1.txt);
-                throw new Error("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/ocaml_typedtree_test.ml",
-                              41701,
-                              57
-                            ]
-                          }
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/ocaml_typedtree_test.ml",
+                            41701,
+                            57
+                          ]
                         });
               }
-              throw new Error(exn$4.MEL_EXN_ID, {
-                        cause: exn$4
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn$4.MEL_EXN_ID, exn$4);
             }
           } else {
-            throw new Error(exn$3.MEL_EXN_ID, {
-                      cause: exn$3
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
           }
         }
         var decl$2 = match$1[1];
         var path$1 = match$1[0];
         if (Stdlib__List.length(stl$3) !== decl$2.type_arity) {
-          throw new Error($$Error$6, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$6,
-                      _1: styp.ptyp_loc,
-                      _2: env,
-                      _3: {
-                        TAG: /* Type_arity_mismatch */3,
-                        _0: lid$1.txt,
-                        _1: decl$2.type_arity,
-                        _2: Stdlib__List.length(stl$3)
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                    MEL_EXN_ID: $$Error$6,
+                    _1: styp.ptyp_loc,
+                    _2: env,
+                    _3: {
+                      TAG: /* Type_arity_mismatch */3,
+                      _0: lid$1.txt,
+                      _1: decl$2.type_arity,
+                      _2: Stdlib__List.length(stl$3)
                     }
                   });
         }
@@ -62059,21 +60009,17 @@ function transl_type(env, policy, styp) {
                 catch (raw_exn){
                   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
                   if (exn.MEL_EXN_ID === Unify) {
-                    throw new Error($$Error$6, {
-                              cause: {
-                                MEL_EXN_ID: $$Error$6,
-                                _1: param[0].ptyp_loc,
-                                _2: env,
-                                _3: {
-                                  TAG: /* Type_mismatch */6,
-                                  _0: swap_list(exn._1)
-                                }
+                    throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                              MEL_EXN_ID: $$Error$6,
+                              _1: param[0].ptyp_loc,
+                              _2: env,
+                              _3: {
+                                TAG: /* Type_mismatch */6,
+                                _0: swap_list(exn._1)
                               }
                             });
                   }
-                  throw new Error(exn.MEL_EXN_ID, {
-                            cause: exn
-                          });
+                  throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                 }
               }), Stdlib__List.combine(stl$3, args$1), params$1);
         var ty_args = Stdlib__List.map((function (ctyp) {
@@ -62086,34 +60032,28 @@ function transl_type(env, policy, styp) {
         catch (raw_exn$5){
           var exn$5 = Caml_js_exceptions.internalToOCamlException(raw_exn$5);
           if (exn$5.MEL_EXN_ID === Unify) {
-            throw new Error($$Error$6, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$6,
-                        _1: styp.ptyp_loc,
-                        _2: env,
-                        _3: {
-                          TAG: /* Type_mismatch */6,
-                          _0: exn$5._1
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                      MEL_EXN_ID: $$Error$6,
+                      _1: styp.ptyp_loc,
+                      _2: env,
+                      _3: {
+                        TAG: /* Type_mismatch */6,
+                        _0: exn$5._1
                       }
                     });
           }
-          throw new Error(exn$5.MEL_EXN_ID, {
-                    cause: exn$5
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn$5.MEL_EXN_ID, exn$5);
         }
         var row = ty$6.desc;
         var ty$7;
         if (typeof row === "number") {
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        41749,
-                        10
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      41749,
+                      10
+                    ]
                   });
         }
         switch (row.TAG | 0) {
@@ -62200,15 +60140,13 @@ function transl_type(env, policy, styp) {
                   });
               break;
           default:
-            throw new Error("Assert_failure", {
-                      cause: {
-                        MEL_EXN_ID: "Assert_failure",
-                        _1: [
-                          "jscomp/test/ocaml_typedtree_test.ml",
-                          41749,
-                          10
-                        ]
-                      }
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "jscomp/test/ocaml_typedtree_test.ml",
+                        41749,
+                        10
+                      ]
                     });
         }
         return ctyp({
@@ -62231,9 +60169,7 @@ function transl_type(env, policy, styp) {
             if (exn$6.MEL_EXN_ID === Stdlib.Not_found) {
               t$1 = instance(undefined, env, find$2(alias, used_variables.contents)[0]);
             } else {
-              throw new Error(exn$6.MEL_EXN_ID, {
-                        cause: exn$6
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn$6.MEL_EXN_ID, exn$6);
             }
           }
           var ty$8 = transl_type(env, policy, st);
@@ -62244,21 +60180,17 @@ function transl_type(env, policy, styp) {
             var exn$7 = Caml_js_exceptions.internalToOCamlException(raw_exn$7);
             if (exn$7.MEL_EXN_ID === Unify) {
               var trace = swap_list(exn$7._1);
-              throw new Error($$Error$6, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$6,
-                          _1: styp.ptyp_loc,
-                          _2: env,
-                          _3: {
-                            TAG: /* Alias_type_mismatch */7,
-                            _0: trace
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                        MEL_EXN_ID: $$Error$6,
+                        _1: styp.ptyp_loc,
+                        _2: env,
+                        _3: {
+                          TAG: /* Alias_type_mismatch */7,
+                          _0: trace
                         }
                       });
             }
-            throw new Error(exn$7.MEL_EXN_ID, {
-                      cause: exn$7
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$7.MEL_EXN_ID, exn$7);
           }
           cty = ty$8;
         }
@@ -62281,21 +60213,17 @@ function transl_type(env, policy, styp) {
               var exn$9 = Caml_js_exceptions.internalToOCamlException(raw_exn$9);
               if (exn$9.MEL_EXN_ID === Unify) {
                 var trace$1 = swap_list(exn$9._1);
-                throw new Error($$Error$6, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$6,
-                            _1: styp.ptyp_loc,
-                            _2: env,
-                            _3: {
-                              TAG: /* Alias_type_mismatch */7,
-                              _0: trace$1
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                          MEL_EXN_ID: $$Error$6,
+                          _1: styp.ptyp_loc,
+                          _2: env,
+                          _3: {
+                            TAG: /* Alias_type_mismatch */7,
+                            _0: trace$1
                           }
                         });
               }
-              throw new Error(exn$9.MEL_EXN_ID, {
-                        cause: exn$9
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn$9.MEL_EXN_ID, exn$9);
             }
             if (principal.contents) {
               end_def(undefined);
@@ -62340,9 +60268,7 @@ function transl_type(env, policy, styp) {
               ctyp_attributes: ty$9.ctyp_attributes
             };
           } else {
-            throw new Error(exn$8.MEL_EXN_ID, {
-                      cause: exn$8
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$8.MEL_EXN_ID, exn$8);
           }
         }
         return ctyp({
@@ -62383,16 +60309,14 @@ function transl_type(env, policy, styp) {
             var match = Stdlib__Hashtbl.find(hfields, h);
             var l$p = match[0];
             if (l !== l$p) {
-              throw new Error($$Error$6, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$6,
-                          _1: styp.ptyp_loc,
-                          _2: env,
-                          _3: {
-                            TAG: /* Variant_tags */12,
-                            _0: l,
-                            _1: l$p
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                        MEL_EXN_ID: $$Error$6,
+                        _1: styp.ptyp_loc,
+                        _2: env,
+                        _3: {
+                          TAG: /* Variant_tags */12,
+                          _0: l,
+                          _1: l$p
                         }
                       });
             }
@@ -62413,22 +60337,18 @@ function transl_type(env, policy, styp) {
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
               if (exn.MEL_EXN_ID === Unify) {
-                throw new Error($$Error$6, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$6,
-                            _1: loc,
-                            _2: env,
-                            _3: {
-                              TAG: /* Constructor_mismatch */10,
-                              _0: ty,
-                              _1: ty$p
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                          MEL_EXN_ID: $$Error$6,
+                          _1: loc,
+                          _2: env,
+                          _3: {
+                            TAG: /* Constructor_mismatch */10,
+                            _0: ty,
+                            _1: ty$p
                           }
                         });
               }
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
           }
           catch (raw_exn$1){
@@ -62439,9 +60359,7 @@ function transl_type(env, policy, styp) {
                           f
                         ]);
             }
-            throw new Error(exn$1.MEL_EXN_ID, {
-                      cause: exn$1
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
           }
         };
         var add_field = function (param) {
@@ -62473,15 +60391,13 @@ function transl_type(env, policy, styp) {
             }
             if (exit === 1) {
               if (Stdlib__List.length(stl) > 1 || c && Caml_obj.caml_notequal(stl, /* [] */0)) {
-                throw new Error($$Error$6, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$6,
-                            _1: styp.ptyp_loc,
-                            _2: env,
-                            _3: {
-                              TAG: /* Present_has_conjunction */8,
-                              _0: l
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                          MEL_EXN_ID: $$Error$6,
+                          _1: styp.ptyp_loc,
+                          _2: env,
+                          _3: {
+                            TAG: /* Present_has_conjunction */8,
+                            _0: l
                           }
                         });
               }
@@ -62514,10 +60430,8 @@ function transl_type(env, policy, styp) {
             ];
           try {
             Stdlib__Hashtbl.iter((function (param, param$1) {
-                    throw new Error(Stdlib.Exit, {
-                              cause: {
-                                MEL_EXN_ID: Stdlib.Exit
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                              MEL_EXN_ID: Stdlib.Exit
                             });
                   }), hfields);
             name$2.contents = nm;
@@ -62527,9 +60441,7 @@ function transl_type(env, policy, styp) {
             if (exn.MEL_EXN_ID === Stdlib.Exit) {
               name$2.contents = undefined;
             } else {
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
           }
           var match$2 = expand_head(env, cty.ctyp_type);
@@ -62542,15 +60454,13 @@ function transl_type(env, policy, styp) {
             switch (row.TAG | 0) {
               case /* Tvar */0 :
                   if (nm !== undefined) {
-                    throw new Error($$Error$6, {
-                              cause: {
-                                MEL_EXN_ID: $$Error$6,
-                                _1: sty.ptyp_loc,
-                                _2: env,
-                                _3: {
-                                  TAG: /* Unbound_type_constructor_2 */2,
-                                  _0: nm[0]
-                                }
+                    throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                              MEL_EXN_ID: $$Error$6,
+                              _1: sty.ptyp_loc,
+                              _2: env,
+                              _3: {
+                                TAG: /* Unbound_type_constructor_2 */2,
+                                _0: nm[0]
                               }
                             });
                   }
@@ -62569,15 +60479,13 @@ function transl_type(env, policy, styp) {
             }
           }
           if (exit$1 === 1) {
-            throw new Error($$Error$6, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$6,
-                        _1: sty.ptyp_loc,
-                        _2: env,
-                        _3: {
-                          TAG: /* Not_a_variant */11,
-                          _0: ty
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                      MEL_EXN_ID: $$Error$6,
+                      _1: sty.ptyp_loc,
+                      _2: env,
+                      _3: {
+                        TAG: /* Not_a_variant */11,
+                        _0: ty
                       }
                     });
           }
@@ -62587,15 +60495,13 @@ function transl_type(env, policy, styp) {
                   var f$1;
                   if (present !== undefined && !Stdlib__List.mem(l, present)) {
                     if (typeof f === "number") {
-                      throw new Error("Assert_failure", {
-                                cause: {
-                                  MEL_EXN_ID: "Assert_failure",
-                                  _1: [
-                                    "jscomp/test/ocaml_typedtree_test.ml",
-                                    41862,
-                                    24
-                                  ]
-                                }
+                      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                MEL_EXN_ID: "Assert_failure",
+                                _1: [
+                                  "jscomp/test/ocaml_typedtree_test.ml",
+                                  41862,
+                                  24
+                                ]
                               });
                     }
                     if (f.TAG === /* Rpresent */0) {
@@ -62621,15 +60527,13 @@ function transl_type(env, policy, styp) {
                             }
                           });
                     } else {
-                      throw new Error("Assert_failure", {
-                                cause: {
-                                  MEL_EXN_ID: "Assert_failure",
-                                  _1: [
-                                    "jscomp/test/ocaml_typedtree_test.ml",
-                                    41862,
-                                    24
-                                  ]
-                                }
+                      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                MEL_EXN_ID: "Assert_failure",
+                                _1: [
+                                  "jscomp/test/ocaml_typedtree_test.ml",
+                                  41862,
+                                  24
+                                ]
                               });
                     }
                   } else {
@@ -62654,15 +60558,13 @@ function transl_type(env, policy, styp) {
                   if (Stdlib__List.mem_assoc(l, fields$2)) {
                     return ;
                   }
-                  throw new Error($$Error$6, {
-                            cause: {
-                              MEL_EXN_ID: $$Error$6,
-                              _1: styp.ptyp_loc,
-                              _2: env,
-                              _3: {
-                                TAG: /* Present_has_no_type */9,
-                                _0: l
-                              }
+                  throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                            MEL_EXN_ID: $$Error$6,
+                            _1: styp.ptyp_loc,
+                            _2: env,
+                            _3: {
+                              TAG: /* Present_has_no_type */9,
+                              _0: l
                             }
                           });
                 }), present);
@@ -62741,16 +60643,14 @@ function transl_type(env, policy, styp) {
                           tl: tyl
                         };
                 }
-                throw new Error($$Error$6, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$6,
-                            _1: styp.ptyp_loc,
-                            _2: env,
-                            _3: {
-                              TAG: /* Cannot_quantify */14,
-                              _0: param[0],
-                              _1: v
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                          MEL_EXN_ID: $$Error$6,
+                          _1: styp.ptyp_loc,
+                          _2: env,
+                          _3: {
+                            TAG: /* Cannot_quantify */14,
+                            _0: param[0],
+                            _1: v
                           }
                         });
               }), /* [] */0, new_univars);
@@ -62806,11 +60706,9 @@ function transl_type(env, policy, styp) {
                     }
                   }, ty$12);
     case /* Ptyp_extension */10 :
-        throw new Error(Error_forward, {
-                  cause: {
-                    MEL_EXN_ID: Error_forward,
-                    _1: error_of_extension(name._0)
-                  }
+        throw new Caml_js_exceptions.MelangeError(Error_forward, {
+                  MEL_EXN_ID: Error_forward,
+                  _1: error_of_extension(name._0)
                 });
     
   }
@@ -62835,15 +60733,13 @@ function transl_fields(loc, env, policy, seen, o, param) {
   var match = param.hd;
   var s = match[0];
   if (Stdlib__List.mem(s, seen)) {
-    throw new Error($$Error$6, {
-              cause: {
-                MEL_EXN_ID: $$Error$6,
-                _1: loc,
-                _2: env,
-                _3: {
-                  TAG: /* Repeated_method_label */16,
-                  _0: s
-                }
+    throw new Caml_js_exceptions.MelangeError($$Error$6, {
+              MEL_EXN_ID: $$Error$6,
+              _1: loc,
+              _2: env,
+              _3: {
+                TAG: /* Repeated_method_label */16,
+                _0: s
               }
             });
   }
@@ -62942,15 +60838,13 @@ function globalize_used_variables(env, fixed) {
             var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn$1.MEL_EXN_ID === Stdlib.Not_found) {
               if (fixed && is_Tvar(repr(ty))) {
-                throw new Error($$Error$6, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$6,
-                            _1: loc,
-                            _2: env,
-                            _3: {
-                              TAG: /* Unbound_type_variable */0,
-                              _0: "'" + name
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                          MEL_EXN_ID: $$Error$6,
+                          _1: loc,
+                          _2: env,
+                          _3: {
+                            TAG: /* Unbound_type_variable */0,
+                            _0: "'" + name
                           }
                         });
               }
@@ -62966,9 +60860,7 @@ function globalize_used_variables(env, fixed) {
               type_variables.contents = add$5(name, v2, type_variables.contents);
               return ;
             }
-            throw new Error(exn$1.MEL_EXN_ID, {
-                      cause: exn$1
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
           }
         }), used_variables.contents);
   used_variables.contents = /* Empty */0;
@@ -62980,21 +60872,17 @@ function globalize_used_variables(env, fixed) {
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
               if (exn.MEL_EXN_ID === Unify) {
-                throw new Error($$Error$6, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$6,
-                            _1: param[0],
-                            _2: env,
-                            _3: {
-                              TAG: /* Type_mismatch */6,
-                              _0: exn._1
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                          MEL_EXN_ID: $$Error$6,
+                          _1: param[0],
+                          _2: env,
+                          _3: {
+                            TAG: /* Type_mismatch */6,
+                            _0: exn._1
                           }
                         });
               }
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
           }), r.contents);
   };
@@ -63912,60 +61800,52 @@ var Error_forward$1 = /* @__PURE__ */Caml_exceptions.create("Ocaml_typedtree_tes
 
 var type_module = {
   contents: (function (env, md) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    42440,
-                    22
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  42440,
+                  22
+                ]
               });
     })
 };
 
 var type_open = {
   contents: (function (param) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    42446,
-                    16
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  42446,
+                  16
+                ]
               });
     })
 };
 
 var type_package = {
   contents: (function (param) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    42451,
-                    16
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  42451,
+                  16
+                ]
               });
     })
 };
 
 var type_object = {
   contents: (function (env, s) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    42455,
-                    20
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  42455,
+                  20
+                ]
               });
     })
 };
@@ -64322,15 +62202,13 @@ function extract_option_type(env, ty) {
     }
     
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                42638,
-                9
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              42638,
+              9
+            ]
           });
 }
 
@@ -64338,10 +62216,8 @@ function extract_concrete_record(env, ty) {
   var match = extract_concrete_typedecl(env, ty);
   var match$1 = match[2].type_kind;
   if (typeof match$1 === "number") {
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   }
   if (match$1.TAG === /* Type_record */0) {
@@ -64351,10 +62227,8 @@ function extract_concrete_record(env, ty) {
             match$1._0
           ];
   }
-  throw new Error(Stdlib.Not_found, {
-            cause: {
-              MEL_EXN_ID: Stdlib.Not_found
-            }
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+            MEL_EXN_ID: Stdlib.Not_found
           });
 }
 
@@ -64371,10 +62245,8 @@ function extract_concrete_variant(env, ty) {
               /* [] */0
             ];
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   } else {
     if (cstrs.TAG !== /* Type_record */0) {
@@ -64384,10 +62256,8 @@ function extract_concrete_variant(env, ty) {
               cstrs._0
             ];
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   }
 }
@@ -64402,20 +62272,16 @@ function extract_label_names(sexp, env, ty) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    42656,
-                    4
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  42656,
+                  4
+                ]
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -64438,35 +62304,29 @@ function unify_pat_types(loc, env, ty, ty$p) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Unify) {
-      throw new Error($$Error$7, {
-                cause: {
-                  MEL_EXN_ID: $$Error$7,
-                  _1: loc,
-                  _2: env,
-                  _3: {
-                    TAG: /* Pattern_type_clash */3,
-                    _0: exn._1
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                MEL_EXN_ID: $$Error$7,
+                _1: loc,
+                _2: env,
+                _3: {
+                  TAG: /* Pattern_type_clash */3,
+                  _0: exn._1
                 }
               });
     }
     if (exn.MEL_EXN_ID === Tags) {
-      throw new Error($$Error$6, {
-                cause: {
-                  MEL_EXN_ID: $$Error$6,
-                  _1: loc,
-                  _2: env,
-                  _3: {
-                    TAG: /* Variant_tags */12,
-                    _0: exn._1,
-                    _1: exn._2
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                MEL_EXN_ID: $$Error$6,
+                _1: loc,
+                _2: env,
+                _3: {
+                  TAG: /* Variant_tags */12,
+                  _0: exn._1,
+                  _1: exn._2
                 }
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -64477,35 +62337,29 @@ function unify_exp_types(loc, env, ty, expected_ty) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Unify) {
-      throw new Error($$Error$7, {
-                cause: {
-                  MEL_EXN_ID: $$Error$7,
-                  _1: loc,
-                  _2: env,
-                  _3: {
-                    TAG: /* Expr_type_clash */7,
-                    _0: exn._1
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                MEL_EXN_ID: $$Error$7,
+                _1: loc,
+                _2: env,
+                _3: {
+                  TAG: /* Expr_type_clash */7,
+                  _0: exn._1
                 }
               });
     }
     if (exn.MEL_EXN_ID === Tags) {
-      throw new Error($$Error$6, {
-                cause: {
-                  MEL_EXN_ID: $$Error$6,
-                  _1: loc,
-                  _2: env,
-                  _3: {
-                    TAG: /* Variant_tags */12,
-                    _0: exn._1,
-                    _1: exn._2
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                MEL_EXN_ID: $$Error$6,
+                _1: loc,
+                _2: env,
+                _3: {
+                  TAG: /* Variant_tags */12,
+                  _0: exn._1,
+                  _1: exn._2
                 }
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -64518,15 +62372,13 @@ function get_newtype_level$1(param) {
   if (y !== undefined) {
     return y;
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                42694,
-                12
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              42694,
+              12
+            ]
           });
 }
 
@@ -64536,15 +62388,13 @@ function unify_pat_types_gadt(loc, env, ty, ty$p) {
   if (x !== undefined) {
     newtype_level$2 = x;
   } else {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  42699,
-                  14
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                42699,
+                14
+              ]
             });
   }
   try {
@@ -64561,64 +62411,52 @@ function unify_pat_types_gadt(loc, env, ty, ty$p) {
       var e = Caml_js_exceptions.internalToOCamlException(raw_e);
       Curry._1(TypePairs.clear, unify_eq_set);
       if (e.MEL_EXN_ID === Unify) {
-        throw new Error(Unify, {
-                  cause: {
-                    MEL_EXN_ID: Unify,
-                    _1: e._1
-                  }
+        throw new Caml_js_exceptions.MelangeError(Unify, {
+                  MEL_EXN_ID: Unify,
+                  _1: e._1
                 });
       }
       newtype_level.contents = undefined;
-      throw new Error(e.MEL_EXN_ID, {
-                cause: e
-              });
+      throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
     }
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Unify) {
-      throw new Error($$Error$7, {
-                cause: {
-                  MEL_EXN_ID: $$Error$7,
-                  _1: loc,
-                  _2: env.contents,
-                  _3: {
-                    TAG: /* Pattern_type_clash */3,
-                    _0: exn._1
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                MEL_EXN_ID: $$Error$7,
+                _1: loc,
+                _2: env.contents,
+                _3: {
+                  TAG: /* Pattern_type_clash */3,
+                  _0: exn._1
                 }
               });
     }
     if (exn.MEL_EXN_ID === Tags) {
-      throw new Error($$Error$6, {
-                cause: {
-                  MEL_EXN_ID: $$Error$6,
-                  _1: loc,
-                  _2: env.contents,
-                  _3: {
-                    TAG: /* Variant_tags */12,
-                    _0: exn._1,
-                    _1: exn._2
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                MEL_EXN_ID: $$Error$6,
+                _1: loc,
+                _2: env.contents,
+                _3: {
+                  TAG: /* Variant_tags */12,
+                  _0: exn._1,
+                  _1: exn._2
                 }
               });
     }
     if (exn.MEL_EXN_ID === Unification_recursive_abbrev) {
-      throw new Error($$Error$7, {
-                cause: {
-                  MEL_EXN_ID: $$Error$7,
-                  _1: loc,
-                  _2: env.contents,
-                  _3: {
-                    TAG: /* Recursive_local_constraint */33,
-                    _0: exn._1
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                MEL_EXN_ID: $$Error$7,
+                _1: loc,
+                _2: env.contents,
+                _3: {
+                  TAG: /* Recursive_local_constraint */33,
+                  _0: exn._1
                 }
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -64639,15 +62477,13 @@ function finalize_variant(pat) {
   var row = match$1.desc;
   var row$1;
   if (typeof row === "number") {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  42725,
-                  15
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                42725,
+                15
+              ]
             });
   }
   if (row.TAG === /* Tvariant */8) {
@@ -64655,15 +62491,13 @@ function finalize_variant(pat) {
     match._2.contents = row$2;
     row$1 = row_repr_aux(/* [] */0, row$2);
   } else {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  42725,
-                  15
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                42725,
+                15
+              ]
             });
   }
   var match$2 = row_field(match._0, row$1);
@@ -64699,15 +62533,13 @@ function finalize_variant(pat) {
                     tl: match$3.tl
                   });
       }
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    42733,
-                    40
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  42733,
+                  40
+                ]
               });
     }
     
@@ -64743,10 +62575,8 @@ function has_variants(p) {
             if (tmp.TAG !== /* Tpat_variant */5) {
               return ;
             }
-            throw new Error(Stdlib.Exit, {
-                      cause: {
-                        MEL_EXN_ID: Stdlib.Exit
-                      }
+            throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                      MEL_EXN_ID: Stdlib.Exit
                     });
           }), p);
     return false;
@@ -64756,9 +62586,7 @@ function has_variants(p) {
     if (exn.MEL_EXN_ID === Stdlib.Exit) {
       return true;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -64796,15 +62624,13 @@ function enter_variable(is_moduleOpt, is_as_variableOpt, loc, name, ty) {
   if (Stdlib__List.exists((function (param) {
             return param[0].name === name.txt;
           }), pattern_variables.contents)) {
-    throw new Error($$Error$7, {
-              cause: {
-                MEL_EXN_ID: $$Error$7,
-                _1: loc,
-                _2: empty,
-                _3: {
-                  TAG: /* Multiply_bound_variable */5,
-                  _0: name.txt
-                }
+    throw new Caml_js_exceptions.MelangeError($$Error$7, {
+              MEL_EXN_ID: $$Error$7,
+              _1: loc,
+              _2: empty,
+              _3: {
+                TAG: /* Multiply_bound_variable */5,
+                _0: name.txt
               }
             });
   }
@@ -64821,13 +62647,11 @@ function enter_variable(is_moduleOpt, is_as_variableOpt, loc, name, ty) {
   };
   if (is_module) {
     if (!allow_modules.contents) {
-      throw new Error($$Error$7, {
-                cause: {
-                  MEL_EXN_ID: $$Error$7,
-                  _1: loc,
-                  _2: empty,
-                  _3: /* Modules_not_allowed */2
-                }
+      throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                MEL_EXN_ID: $$Error$7,
+                _1: loc,
+                _2: empty,
+                _3: /* Modules_not_allowed */2
               });
     }
     module_variables.contents = {
@@ -64883,22 +62707,18 @@ function enter_orpat_variables(loc, env, p1_vs, p2_vs) {
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
               if (exn.MEL_EXN_ID === Unify) {
-                throw new Error($$Error$7, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$7,
-                            _1: loc,
-                            _2: env,
-                            _3: {
-                              TAG: /* Or_pattern_type_clash */4,
-                              _0: x1,
-                              _1: exn._1
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                          MEL_EXN_ID: $$Error$7,
+                          _1: loc,
+                          _2: env,
+                          _3: {
+                            TAG: /* Or_pattern_type_clash */4,
+                            _0: x1,
+                            _1: exn._1
                           }
                         });
               }
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
             return {
                     hd: [
@@ -64909,42 +62729,36 @@ function enter_orpat_variables(loc, env, p1_vs, p2_vs) {
                   };
           }
           var min_var = x1.name < x2.name ? x1 : x2;
-          throw new Error($$Error$7, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$7,
-                      _1: loc,
-                      _2: env,
-                      _3: {
-                        TAG: /* Orpat_vars */6,
-                        _0: min_var
-                      }
-                    }
-                  });
-        }
-        throw new Error($$Error$7, {
-                  cause: {
+          throw new Caml_js_exceptions.MelangeError($$Error$7, {
                     MEL_EXN_ID: $$Error$7,
                     _1: loc,
                     _2: env,
                     _3: {
                       TAG: /* Orpat_vars */6,
-                      _0: x1
+                      _0: min_var
                     }
+                  });
+        }
+        throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                  MEL_EXN_ID: $$Error$7,
+                  _1: loc,
+                  _2: env,
+                  _3: {
+                    TAG: /* Orpat_vars */6,
+                    _0: x1
                   }
                 });
       }
       if (!p2_vs) {
         return /* [] */0;
       }
-      throw new Error($$Error$7, {
-                cause: {
-                  MEL_EXN_ID: $$Error$7,
-                  _1: loc,
-                  _2: env,
-                  _3: {
-                    TAG: /* Orpat_vars */6,
-                    _0: p2_vs.hd[0]
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                MEL_EXN_ID: $$Error$7,
+                _1: loc,
+                _2: env,
+                _3: {
+                  TAG: /* Orpat_vars */6,
+                  _0: p2_vs.hd[0]
                 }
               });
     };
@@ -65139,15 +62953,13 @@ function build_or_pat(env, loc, lid) {
     }
   }
   if (exit === 1) {
-    throw new Error($$Error$7, {
-              cause: {
-                MEL_EXN_ID: $$Error$7,
-                _1: loc,
-                _2: env,
-                _3: {
-                  TAG: /* Not_a_variant_type */30,
-                  _0: lid
-                }
+    throw new Caml_js_exceptions.MelangeError($$Error$7, {
+              MEL_EXN_ID: $$Error$7,
+              _1: loc,
+              _2: env,
+              _3: {
+                TAG: /* Not_a_variant_type */30,
+                _0: lid
               }
             });
   }
@@ -65313,15 +63125,13 @@ function build_or_pat(env, loc, lid) {
             ty$1
           ];
   }
-  throw new Error($$Error$7, {
-            cause: {
-              MEL_EXN_ID: $$Error$7,
-              _1: loc,
-              _2: env,
-              _3: {
-                TAG: /* Not_a_variant_type */30,
-                _0: lid
-              }
+  throw new Caml_js_exceptions.MelangeError($$Error$7, {
+            MEL_EXN_ID: $$Error$7,
+            _1: loc,
+            _2: env,
+            _3: {
+              TAG: /* Not_a_variant_type */30,
+              _0: lid
             }
           });
 }
@@ -65338,9 +63148,7 @@ function expand_path(env, _p) {
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         decl = undefined;
       } else {
-        throw new Error(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
     }
     if (decl !== undefined) {
@@ -65381,34 +63189,26 @@ function wrap_disambiguate(kind, ty, f, x) {
     if (exn.MEL_EXN_ID === $$Error$7) {
       var match = exn._3;
       if (typeof match === "number") {
-        throw new Error(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
       if (match.TAG === /* Wrong_name */13) {
-        throw new Error($$Error$7, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$7,
-                    _1: exn._1,
-                    _2: exn._2,
-                    _3: {
-                      TAG: /* Wrong_name */13,
-                      _0: kind,
-                      _1: ty,
-                      _2: match._2,
-                      _3: match._3,
-                      _4: match._4
-                    }
+        throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                  MEL_EXN_ID: $$Error$7,
+                  _1: exn._1,
+                  _2: exn._2,
+                  _3: {
+                    TAG: /* Wrong_name */13,
+                    _0: kind,
+                    _1: ty,
+                    _2: match._2,
+                    _3: match._3,
+                    _4: match._4
                   }
                 });
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     } else {
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   }
 }
@@ -65418,29 +63218,25 @@ var type_kind = "record";
 function get_type_path$1(env, d) {
   var match = d.lbl_res.desc;
   if (typeof match === "number") {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  42965,
-                  11
-                ]
-              }
-            });
-  }
-  if (match.TAG === /* Tconstr */3) {
-    return match._0;
-  }
-  throw new Error("Assert_failure", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
                 42965,
                 11
               ]
-            }
+            });
+  }
+  if (match.TAG === /* Tconstr */3) {
+    return match._0;
+  }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              42965,
+              11
+            ]
           });
 }
 
@@ -65459,32 +63255,26 @@ function lookup_from_type(env, tpath, lid) {
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-            throw new Error($$Error$7, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$7,
-                        _1: lid.loc,
-                        _2: env,
-                        _3: {
-                          TAG: /* Wrong_name */13,
-                          _0: "",
-                          _1: newvar(undefined, undefined),
-                          _2: type_kind,
-                          _3: tpath,
-                          _4: lid.txt
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                      MEL_EXN_ID: $$Error$7,
+                      _1: lid.loc,
+                      _2: env,
+                      _3: {
+                        TAG: /* Wrong_name */13,
+                        _0: "",
+                        _1: newvar(undefined, undefined),
+                        _2: type_kind,
+                        _3: tpath,
+                        _4: lid.txt
                       }
                     });
           }
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
     case /* Ldot */1 :
     case /* Lapply */2 :
-        throw new Error(Stdlib.Not_found, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Not_found
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                  MEL_EXN_ID: Stdlib.Not_found
                 });
     
   }
@@ -65626,31 +63416,25 @@ function disambiguate(warnOpt, check_lkOpt, scope, lid, env, opath, lbls) {
                               tp
                             ];
                     }), lbls);
-              throw new Error($$Error$7, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$7,
-                          _1: lid.loc,
-                          _2: env,
-                          _3: {
-                            TAG: /* Name_type_mismatch */14,
-                            _0: type_kind,
-                            _1: lid.txt,
-                            _2: tp,
-                            _3: tpl
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                        MEL_EXN_ID: $$Error$7,
+                        _1: lid.loc,
+                        _2: env,
+                        _3: {
+                          TAG: /* Name_type_mismatch */14,
+                          _0: type_kind,
+                          _1: lid.txt,
+                          _2: tp,
+                          _3: tpl
                         }
                       });
             }
           } else {
-            throw new Error(exn$1.MEL_EXN_ID, {
-                      cause: exn$1
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
           }
         }
       } else {
-        throw new Error(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
     }
   } else if (lbls) {
@@ -65900,15 +63684,13 @@ function type_label_a_list(labels, loc, closed, env, type_lbl_a, opath, lid_a_li
                                   ];
                         case /* Ldot */1 :
                         case /* Lapply */2 :
-                            throw new Error("Assert_failure", {
-                                      cause: {
-                                        MEL_EXN_ID: "Assert_failure",
-                                        _1: [
-                                          "jscomp/test/ocaml_typedtree_test.ml",
-                                          43182,
-                                          17
-                                        ]
-                                      }
+                            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                      MEL_EXN_ID: "Assert_failure",
+                                      _1: [
+                                        "jscomp/test/ocaml_typedtree_test.ml",
+                                        43182,
+                                        17
+                                      ]
                                     });
                         
                       }
@@ -65970,15 +63752,13 @@ function check_recordpat_labels(loc, lbl_pat_list, closed) {
   var check_defined = function (param) {
     var label = param[1];
     if (Caml_array.get(defined, label.lbl_pos)) {
-      throw new Error($$Error$7, {
-                cause: {
-                  MEL_EXN_ID: $$Error$7,
-                  _1: loc,
-                  _2: empty,
-                  _3: {
-                    TAG: /* Label_multiply_defined */10,
-                    _0: label.lbl_name
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                MEL_EXN_ID: $$Error$7,
+                _1: loc,
+                _2: empty,
+                _3: {
+                  TAG: /* Label_multiply_defined */10,
+                  _0: label.lbl_name
                 }
               });
     }
@@ -66016,29 +63796,25 @@ var type_kind$1 = "variant";
 function get_type_path$2(env, d) {
   var match = d.cstr_res.desc;
   if (typeof match === "number") {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  42965,
-                  11
-                ]
-              }
-            });
-  }
-  if (match.TAG === /* Tconstr */3) {
-    return match._0;
-  }
-  throw new Error("Assert_failure", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
                 42965,
                 11
               ]
-            }
+            });
+  }
+  if (match.TAG === /* Tconstr */3) {
+    return match._0;
+  }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              42965,
+              11
+            ]
           });
 }
 
@@ -66057,32 +63833,26 @@ function lookup_from_type$1(env, tpath, lid) {
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-            throw new Error($$Error$7, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$7,
-                        _1: lid.loc,
-                        _2: env,
-                        _3: {
-                          TAG: /* Wrong_name */13,
-                          _0: "",
-                          _1: newvar(undefined, undefined),
-                          _2: type_kind$1,
-                          _3: tpath,
-                          _4: lid.txt
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                      MEL_EXN_ID: $$Error$7,
+                      _1: lid.loc,
+                      _2: env,
+                      _3: {
+                        TAG: /* Wrong_name */13,
+                        _0: "",
+                        _1: newvar(undefined, undefined),
+                        _2: type_kind$1,
+                        _3: tpath,
+                        _4: lid.txt
                       }
                     });
           }
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
     case /* Ldot */1 :
     case /* Lapply */2 :
-        throw new Error(Stdlib.Not_found, {
-                  cause: {
-                    MEL_EXN_ID: Stdlib.Not_found
-                  }
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                  MEL_EXN_ID: Stdlib.Not_found
                 });
     
   }
@@ -66224,31 +63994,25 @@ function disambiguate$1(warnOpt, check_lkOpt, scope, lid, env, opath, lbls) {
                               tp
                             ];
                     }), lbls);
-              throw new Error($$Error$7, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$7,
-                          _1: lid.loc,
-                          _2: env,
-                          _3: {
-                            TAG: /* Name_type_mismatch */14,
-                            _0: type_kind$1,
-                            _1: lid.txt,
-                            _2: tp,
-                            _3: tpl
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                        MEL_EXN_ID: $$Error$7,
+                        _1: lid.loc,
+                        _2: env,
+                        _3: {
+                          TAG: /* Name_type_mismatch */14,
+                          _0: type_kind$1,
+                          _1: lid.txt,
+                          _2: tp,
+                          _3: tpl
                         }
                       });
             }
           } else {
-            throw new Error(exn$1.MEL_EXN_ID, {
-                      cause: exn$1
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
           }
         }
       } else {
-        throw new Error(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
     }
   } else if (lbls) {
@@ -66287,15 +64051,13 @@ function unify_head_only(loc, env, ty, constr) {
   var ty_res = match[1];
   var match$1 = repr(ty_res).desc;
   if (typeof match$1 === "number") {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  43255,
-                  9
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                43255,
+                9
+              ]
             });
   }
   if (match$1.TAG === /* Tconstr */3) {
@@ -66310,15 +64072,13 @@ function unify_head_only(loc, env, ty, constr) {
     enforce_constraints(env, ty_res);
     return unify_pat_types(loc, env, ty_res, ty);
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                43255,
-                9
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              43255,
+              9
+            ]
           });
 }
 
@@ -66432,22 +64192,18 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
             };
             return type_pat$1(undefined, undefined)(p$1, expected_ty);
           }
-          throw new Error($$Error$7, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$7,
-                      _1: loc,
-                      _2: env.contents,
-                      _3: /* Invalid_interval */5
-                    }
-                  });
-        }
-        throw new Error($$Error$7, {
-                  cause: {
+          throw new Caml_js_exceptions.MelangeError($$Error$7, {
                     MEL_EXN_ID: $$Error$7,
                     _1: loc,
                     _2: env.contents,
                     _3: /* Invalid_interval */5
-                  }
+                  });
+        }
+        throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                  MEL_EXN_ID: $$Error$7,
+                  _1: loc,
+                  _2: env.contents,
+                  _3: /* Invalid_interval */5
                 });
     case /* Ppat_tuple */4 :
         var spl = name._0;
@@ -66499,9 +64255,7 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             opath = undefined;
           } else {
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
         }
         var match$1 = lid.txt;
@@ -66542,16 +64296,14 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
           if (!constr.cstr_generalized) {
             return ;
           }
-          throw new Error($$Error$7, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$7,
-                      _1: lid.loc,
-                      _2: env.contents,
-                      _3: {
-                        TAG: /* Unqualified_gadt_pattern */34,
-                        _0: tpath,
-                        _1: constr.cstr_name
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                    MEL_EXN_ID: $$Error$7,
+                    _1: lid.loc,
+                    _2: env.contents,
+                    _3: {
+                      TAG: /* Unqualified_gadt_pattern */34,
+                      _0: tpath,
+                      _1: constr.cstr_name
                     }
                   });
         };
@@ -66563,13 +64315,11 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
         mark_constructor(/* Pattern */1, env.contents, last$1(lid.txt), constr);
         check_deprecated(loc, constr.cstr_attributes, constr.cstr_name);
         if (no_existentials && Caml_obj.caml_notequal(constr.cstr_existentials, /* [] */0)) {
-          throw new Error($$Error$7, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$7,
-                      _1: loc,
-                      _2: env.contents,
-                      _3: /* Unexpected_existential */4
-                    }
+          throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                    MEL_EXN_ID: $$Error$7,
+                    _1: loc,
+                    _2: env.contents,
+                    _3: /* Unexpected_existential */4
                   });
         }
         if (constr.cstr_generalized) {
@@ -66600,17 +64350,15 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
           sargs = /* [] */0;
         }
         if (Stdlib__List.length(sargs) !== constr.cstr_arity) {
-          throw new Error($$Error$7, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$7,
-                      _1: loc,
-                      _2: env.contents,
-                      _3: {
-                        TAG: /* Constructor_arity_mismatch */1,
-                        _0: lid.txt,
-                        _1: constr.cstr_arity,
-                        _2: Stdlib__List.length(sargs)
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                    MEL_EXN_ID: $$Error$7,
+                    _1: loc,
+                    _2: env.contents,
+                    _3: {
+                      TAG: /* Constructor_arity_mismatch */1,
+                      _0: lid.txt,
+                      _1: constr.cstr_arity,
+                      _2: Stdlib__List.length(sargs)
                     }
                   });
         }
@@ -66724,9 +64472,7 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
               newvar(undefined, undefined)
             ];
           } else {
-            throw new Error(exn$1.MEL_EXN_ID, {
-                      cause: exn$1
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
           }
         }
         var record_ty = match$3[1];
@@ -66747,22 +64493,18 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.MEL_EXN_ID === Unify) {
-              throw new Error($$Error$7, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$7,
-                          _1: label_lid.loc,
-                          _2: env.contents,
-                          _3: {
-                            TAG: /* Label_mismatch */2,
-                            _0: label_lid.txt,
-                            _1: exn._1
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                        MEL_EXN_ID: $$Error$7,
+                        _1: label_lid.loc,
+                        _2: env.contents,
+                        _3: {
+                          TAG: /* Label_mismatch */2,
+                          _0: label_lid.txt,
+                          _1: exn._1
                         }
                       });
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
           var arg = type_pat$1(undefined, undefined)(param[2], ty_arg);
           if (Caml_obj.caml_notequal(vars, /* [] */0)) {
@@ -66780,15 +64522,13 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
               }
             };
             if (Stdlib__List.exists(instantiated, vars)) {
-              throw new Error($$Error$7, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$7,
-                          _1: label_lid.loc,
-                          _2: env.contents,
-                          _3: {
-                            TAG: /* Polymorphic_label */0,
-                            _0: label_lid.txt
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                        MEL_EXN_ID: $$Error$7,
+                        _1: label_lid.loc,
+                        _2: env.contents,
+                        _3: {
+                          TAG: /* Polymorphic_label */0,
+                          _0: label_lid.txt
                         }
                       });
             }
@@ -66887,15 +64627,13 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
             };
             var match$6 = ty$1.desc;
             if (typeof match$6 === "number") {
-              throw new Error("Assert_failure", {
-                        cause: {
-                          MEL_EXN_ID: "Assert_failure",
-                          _1: [
-                            "jscomp/test/ocaml_typedtree_test.ml",
-                            43318,
-                            13
-                          ]
-                        }
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/ocaml_typedtree_test.ml",
+                          43318,
+                          13
+                        ]
                       });
             }
             if (match$6.TAG === /* Tpoly */10) {
@@ -66930,15 +64668,13 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
                           pat_attributes: /* [] */0
                         });
             }
-            throw new Error("Assert_failure", {
-                      cause: {
-                        MEL_EXN_ID: "Assert_failure",
-                        _1: [
-                          "jscomp/test/ocaml_typedtree_test.ml",
-                          43318,
-                          13
-                        ]
-                      }
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "jscomp/test/ocaml_typedtree_test.ml",
+                        43318,
+                        13
+                      ]
                     });
           }
         }
@@ -67077,20 +64813,16 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
                     pat_attributes: /* [] */0
                   });
     case /* Ppat_exception */14 :
-        throw new Error($$Error$7, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$7,
-                    _1: loc,
-                    _2: env.contents,
-                    _3: /* Exception_pattern_below_toplevel */8
-                  }
+        throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                  MEL_EXN_ID: $$Error$7,
+                  _1: loc,
+                  _2: env.contents,
+                  _3: /* Exception_pattern_below_toplevel */8
                 });
     case /* Ppat_extension */15 :
-        throw new Error(Error_forward$1, {
-                  cause: {
-                    MEL_EXN_ID: Error_forward$1,
-                    _1: error_of_extension(name._0)
-                  }
+        throw new Caml_js_exceptions.MelangeError(Error_forward$1, {
+                  MEL_EXN_ID: Error_forward$1,
+                  _1: error_of_extension(name._0)
                 });
     
   }
@@ -67110,9 +64842,7 @@ function type_pat$1(allow_existentialsOpt, constrs, labels, levOpt, env, sp, exp
   }
   catch (e){
     newtype_level$1.contents = undefined;
-    throw new Error(e.MEL_EXN_ID, {
-              cause: e
-            });
+    throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
   }
 }
 
@@ -67641,10 +65371,8 @@ function approx_type(env, _sty) {
           try {
             var match = lookup_type$1(args._0.txt, env);
             if (Stdlib__List.length(ctl) !== match[1].type_arity) {
-              throw new Error(Stdlib.Not_found, {
-                        cause: {
-                          MEL_EXN_ID: Stdlib.Not_found
-                        }
+              throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                        MEL_EXN_ID: Stdlib.Not_found
                       });
             }
             var tyl = Stdlib__List.map((function (param) {
@@ -67657,9 +65385,7 @@ function approx_type(env, _sty) {
             if (exn.MEL_EXN_ID === Stdlib.Not_found) {
               return newvar(undefined, undefined);
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
       case /* Ptyp_poly */8 :
           _sty = args._1;
@@ -67748,21 +65474,17 @@ function type_approx(env, _sexp) {
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.MEL_EXN_ID === Unify) {
-              throw new Error($$Error$7, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$7,
-                          _1: sexp.pexp_loc,
-                          _2: env,
-                          _3: {
-                            TAG: /* Expr_type_clash */7,
-                            _0: exn._1
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                        MEL_EXN_ID: $$Error$7,
+                        _1: sexp.pexp_loc,
+                        _2: env,
+                        _3: {
+                          TAG: /* Expr_type_clash */7,
+                          _0: exn._1
                         }
                       });
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
           return ty1;
       case /* Pexp_coerce */20 :
@@ -67782,21 +65504,17 @@ function type_approx(env, _sexp) {
           catch (raw_exn$1){
             var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
             if (exn$1.MEL_EXN_ID === Unify) {
-              throw new Error($$Error$7, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$7,
-                          _1: sexp.pexp_loc,
-                          _2: env,
-                          _3: {
-                            TAG: /* Expr_type_clash */7,
-                            _0: exn$1._1
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                        MEL_EXN_ID: $$Error$7,
+                        _1: sexp.pexp_loc,
+                        _2: env,
+                        _3: {
+                          TAG: /* Expr_type_clash */7,
+                          _0: exn$1._1
                         }
                       });
             }
-            throw new Error(exn$1.MEL_EXN_ID, {
-                      cause: exn$1
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
           }
           return ty2;
       default:
@@ -67884,26 +65602,24 @@ function check_univars(env, expans, kind, exp, ty_expected, vars) {
         _1: vars$p
       });
   var ty_expected$1 = repr(ty_expected);
-  throw new Error($$Error$7, {
-            cause: {
-              MEL_EXN_ID: $$Error$7,
-              _1: exp.exp_loc,
-              _2: env,
-              _3: {
-                TAG: /* Less_general */31,
-                _0: kind,
-                _1: {
+  throw new Caml_js_exceptions.MelangeError($$Error$7, {
+            MEL_EXN_ID: $$Error$7,
+            _1: exp.exp_loc,
+            _2: env,
+            _3: {
+              TAG: /* Less_general */31,
+              _0: kind,
+              _1: {
+                hd: [
+                  ty,
+                  ty
+                ],
+                tl: {
                   hd: [
-                    ty,
-                    ty
+                    ty_expected$1,
+                    ty_expected$1
                   ],
-                  tl: {
-                    hd: [
-                      ty_expected$1,
-                      ty_expected$1
-                    ],
-                    tl: /* [] */0
-                  }
+                  tl: /* [] */0
                 }
               }
             }
@@ -67941,10 +65657,8 @@ function generalizable(level, ty) {
       return ;
     }
     if (ty$1.level <= level) {
-      throw new Error(Stdlib.Exit, {
-                cause: {
-                  MEL_EXN_ID: Stdlib.Exit
-                }
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                MEL_EXN_ID: Stdlib.Exit
               });
     }
     mark_type_node(ty$1);
@@ -67961,9 +65675,7 @@ function generalizable(level, ty) {
       unmark_type(ty);
       return false;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -68008,10 +65720,8 @@ function contains_variant_either(ty) {
               if (match.TAG === /* Rpresent */0) {
                 return ;
               }
-              throw new Error(Stdlib.Exit, {
-                        cause: {
-                          MEL_EXN_ID: Stdlib.Exit
-                        }
+              throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                        MEL_EXN_ID: Stdlib.Exit
                       });
             }), row$1.row_fields);
     }
@@ -68028,9 +65738,7 @@ function contains_variant_either(ty) {
       unmark_type(ty);
       return true;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -68072,10 +65780,8 @@ function contains_polymorphic_variant(p) {
     switch (match.TAG | 0) {
       case /* Ppat_variant */6 :
       case /* Ppat_type */11 :
-          throw new Error(Stdlib.Exit, {
-                    cause: {
-                      MEL_EXN_ID: Stdlib.Exit
-                    }
+          throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                    MEL_EXN_ID: Stdlib.Exit
                   });
       default:
         return iter_ppat(loop, p);
@@ -68090,9 +65796,7 @@ function contains_polymorphic_variant(p) {
     if (exn.MEL_EXN_ID === Stdlib.Exit) {
       return true;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -68111,19 +65815,15 @@ function contains_gadt(env, p) {
               if (!param[0].cstr_generalized) {
                 return ;
               }
-              throw new Error(Stdlib.Exit, {
-                        cause: {
-                          MEL_EXN_ID: Stdlib.Exit
-                        }
+              throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                        MEL_EXN_ID: Stdlib.Exit
                       });
             }), cstrs);
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID !== Stdlib.Not_found) {
-        throw new Error(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
       
     }
@@ -68138,9 +65838,7 @@ function contains_gadt(env, p) {
     if (exn.MEL_EXN_ID === Stdlib.Exit) {
       return true;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -68246,9 +65944,7 @@ function duplicate_ident_types(loc, caselist, env) {
                   if (exn.MEL_EXN_ID === Stdlib.Not_found) {
                     return env;
                   }
-                  throw new Error(exn.MEL_EXN_ID, {
-                            cause: exn
-                          });
+                  throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                 }
               }), env, idents);
 }
@@ -68308,15 +66004,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         var tmp;
         if (typeof match$1 === "number") {
           if (match$1 === /* Val_unbound */1) {
-            throw new Error($$Error$7, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$7,
-                        _1: loc,
-                        _2: env,
-                        _3: {
-                          TAG: /* Masked_instance_variable */29,
-                          _0: lid$1.txt
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                      MEL_EXN_ID: $$Error$7,
+                      _1: loc,
+                      _2: env,
+                      _3: {
+                        TAG: /* Masked_instance_variable */29,
+                        _0: lid$1.txt
                       }
                     });
           }
@@ -68344,15 +66038,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                       break;
                   case /* Ldot */1 :
                   case /* Lapply */2 :
-                      throw new Error("Assert_failure", {
-                                cause: {
-                                  MEL_EXN_ID: "Assert_failure",
-                                  _1: [
-                                    "jscomp/test/ocaml_typedtree_test.ml",
-                                    44136,
-                                    38
-                                  ]
-                                }
+                      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                MEL_EXN_ID: "Assert_failure",
+                                _1: [
+                                  "jscomp/test/ocaml_typedtree_test.ml",
+                                  44136,
+                                  38
+                                ]
                               });
                   
                 }
@@ -68534,15 +66226,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         var l = lid._0;
         if ($$default !== undefined) {
           if (!is_optional(l)) {
-            throw new Error("Assert_failure", {
-                      cause: {
-                        MEL_EXN_ID: "Assert_failure",
-                        _1: [
-                          "jscomp/test/ocaml_typedtree_test.ml",
-                          44215,
-                          6
-                        ]
-                      }
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "jscomp/test/ocaml_typedtree_test.ml",
+                        44215,
+                        6
+                      ]
                     });
           }
           var default_loc = $$default.pexp_loc;
@@ -68660,20 +66350,16 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                   catch (raw_exn){
                     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
                     if (exn.MEL_EXN_ID === Unify) {
-                      throw new Error("Assert_failure", {
-                                cause: {
-                                  MEL_EXN_ID: "Assert_failure",
-                                  _1: [
-                                    "jscomp/test/ocaml_typedtree_test.ml",
-                                    44266,
-                                    65
-                                  ]
-                                }
+                      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                MEL_EXN_ID: "Assert_failure",
+                                _1: [
+                                  "jscomp/test/ocaml_typedtree_test.ml",
+                                  44266,
+                                  65
+                                ]
                               });
                     }
-                    throw new Error(exn.MEL_EXN_ID, {
-                              cause: exn
-                            });
+                    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                   }
                   _ty_fun = match._2;
                   _seen = {
@@ -68747,13 +66433,11 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         var exn_caselist = match$10[1];
         var val_caselist = match$10[0];
         if (Caml_obj.caml_equal(val_caselist, /* [] */0) && Caml_obj.caml_notequal(exn_caselist, /* [] */0)) {
-          throw new Error($$Error$7, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$7,
-                      _1: loc,
-                      _2: env,
-                      _3: /* No_value_clauses */7
-                    }
+          throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                    MEL_EXN_ID: $$Error$7,
+                    _1: loc,
+                    _2: env,
+                    _3: /* No_value_clauses */7
                   });
         }
         var match$11 = type_cases(undefined, env, arg.exp_type, ty_expected, true, loc, val_caselist);
@@ -68841,9 +66525,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             opath = undefined;
           } else {
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
         }
         var constrs = find_all_constructors(env, lid$2.loc, lid$2.txt);
@@ -68863,17 +66545,15 @@ function type_expect_(in_function, env, sexp, ty_expected) {
           sargs$1 = /* [] */0;
         }
         if (Stdlib__List.length(sargs$1) !== constr.cstr_arity) {
-          throw new Error($$Error$7, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$7,
-                      _1: loc,
-                      _2: env,
-                      _3: {
-                        TAG: /* Constructor_arity_mismatch */1,
-                        _0: lid$2.txt,
-                        _1: constr.cstr_arity,
-                        _2: Stdlib__List.length(sargs$1)
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                    MEL_EXN_ID: $$Error$7,
+                    _1: loc,
+                    _2: env,
+                    _3: {
+                      TAG: /* Constructor_arity_mismatch */1,
+                      _0: lid$2.txt,
+                      _1: constr.cstr_arity,
+                      _2: Stdlib__List.length(sargs$1)
                     }
                   });
         }
@@ -68924,15 +66604,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
             match$16.hd
           ];
         } else {
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        45498,
-                        11
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      45498,
+                      11
+                    ]
                   });
         }
         var ty_res$1 = match$17[1];
@@ -68956,15 +66634,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                 return type_argument(env, e, param[0], param[1]);
               }), sargs$1, Stdlib__List.combine(ty_args, match$17[0]));
         if (constr.cstr_private === /* Private */0) {
-          throw new Error($$Error$7, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$7,
-                      _1: loc,
-                      _2: env,
-                      _3: {
-                        TAG: /* Private_type */19,
-                        _0: ty_res$1
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                    MEL_EXN_ID: $$Error$7,
+                    _1: loc,
+                    _2: env,
+                    _3: {
+                      TAG: /* Private_type */19,
+                      _0: ty_res$1
                     }
                   });
         }
@@ -68991,19 +66667,15 @@ function type_expect_(in_function, env, sexp, ty_expected) {
           if (sarg$1 !== undefined) {
             var row = match$18.desc;
             if (typeof row === "number") {
-              throw new Error(Stdlib.Not_found, {
-                        cause: {
-                          MEL_EXN_ID: Stdlib.Not_found
-                        }
+              throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                        MEL_EXN_ID: Stdlib.Not_found
                       });
             }
             if (row.TAG === /* Tvariant */8) {
               var row0 = match$19.desc;
               if (typeof row0 === "number") {
-                throw new Error(Stdlib.Not_found, {
-                          cause: {
-                            MEL_EXN_ID: Stdlib.Not_found
-                          }
+                throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                          MEL_EXN_ID: Stdlib.Not_found
                         });
               }
               if (row0.TAG === /* Tvariant */8) {
@@ -69011,20 +66683,16 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                 var match$20 = row_field_repr_aux(/* [] */0, Stdlib__List.assoc(l$1, row$1.row_fields));
                 var match$21 = row_field_repr_aux(/* [] */0, Stdlib__List.assoc(l$1, row0._0.row_fields));
                 if (typeof match$20 === "number") {
-                  throw new Error(Stdlib.Not_found, {
-                            cause: {
-                              MEL_EXN_ID: Stdlib.Not_found
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                            MEL_EXN_ID: Stdlib.Not_found
                           });
                 }
                 if (match$20.TAG === /* Rpresent */0) {
                   var ty$1 = match$20._0;
                   if (ty$1 !== undefined) {
                     if (typeof match$21 === "number") {
-                      throw new Error(Stdlib.Not_found, {
-                                cause: {
-                                  MEL_EXN_ID: Stdlib.Not_found
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                                MEL_EXN_ID: Stdlib.Not_found
                               });
                     }
                     if (match$21.TAG === /* Rpresent */0) {
@@ -69044,50 +66712,36 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                                     exp_attributes: sexp.pexp_attributes
                                   });
                       }
-                      throw new Error(Stdlib.Not_found, {
-                                cause: {
-                                  MEL_EXN_ID: Stdlib.Not_found
-                                }
+                      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                                MEL_EXN_ID: Stdlib.Not_found
                               });
                     }
-                    throw new Error(Stdlib.Not_found, {
-                              cause: {
-                                MEL_EXN_ID: Stdlib.Not_found
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                              MEL_EXN_ID: Stdlib.Not_found
                             });
                   } else {
-                    throw new Error(Stdlib.Not_found, {
-                              cause: {
-                                MEL_EXN_ID: Stdlib.Not_found
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                              MEL_EXN_ID: Stdlib.Not_found
                             });
                   }
                 } else {
-                  throw new Error(Stdlib.Not_found, {
-                            cause: {
-                              MEL_EXN_ID: Stdlib.Not_found
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                            MEL_EXN_ID: Stdlib.Not_found
                           });
                 }
               } else {
-                throw new Error(Stdlib.Not_found, {
-                          cause: {
-                            MEL_EXN_ID: Stdlib.Not_found
-                          }
+                throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                          MEL_EXN_ID: Stdlib.Not_found
                         });
               }
             } else {
-              throw new Error(Stdlib.Not_found, {
-                        cause: {
-                          MEL_EXN_ID: Stdlib.Not_found
-                        }
+              throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                        MEL_EXN_ID: Stdlib.Not_found
                       });
             }
           } else {
-            throw new Error(Stdlib.Not_found, {
-                      cause: {
-                        MEL_EXN_ID: Stdlib.Not_found
-                      }
+            throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                      MEL_EXN_ID: Stdlib.Not_found
                     });
           }
         }
@@ -69133,9 +66787,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                         exp_attributes: sexp.pexp_attributes
                       });
           }
-          throw new Error(exn$1.MEL_EXN_ID, {
-                    cause: exn$1
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
         }
     case /* Pexp_record */11 :
         var opt_sexp = lid._1;
@@ -69171,9 +66823,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
             if (exn.MEL_EXN_ID === Stdlib.Not_found) {
               return ;
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
         };
         var op = get_path(ty_expected);
@@ -69227,15 +66877,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
             if (match) {
               var lbl1 = param.hd[1];
               if (lbl1.lbl_pos === match.hd[1].lbl_pos) {
-                throw new Error($$Error$7, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$7,
-                            _1: loc,
-                            _2: env,
-                            _3: {
-                              TAG: /* Label_multiply_defined */10,
-                              _0: lbl1.lbl_name
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                          MEL_EXN_ID: $$Error$7,
+                          _1: loc,
+                          _2: env,
+                          _3: {
+                            TAG: /* Label_multiply_defined */10,
+                            _0: lbl1.lbl_name
                           }
                         });
               }
@@ -69273,15 +66921,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
               exp_attributes: opt_exp.exp_attributes
             };
           } else {
-            throw new Error("Assert_failure", {
-                      cause: {
-                        MEL_EXN_ID: "Assert_failure",
-                        _1: [
-                          "jscomp/test/ocaml_typedtree_test.ml",
-                          44455,
-                          15
-                        ]
-                      }
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "jscomp/test/ocaml_typedtree_test.ml",
+                        44455,
+                        15
+                      ]
                     });
           }
         } else {
@@ -69291,15 +66937,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         if (lbl_exp_list) {
           num_fields = lbl_exp_list.hd[1].lbl_all.length;
         } else {
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        44458,
-                        38
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      44458,
+                      38
+                    ]
                   });
         }
         if (opt_sexp === undefined && Stdlib__List.length(lid_sexp_list) !== num_fields) {
@@ -69327,15 +66971,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
             };
           };
           var missing = missing_labels(0, label_names);
-          throw new Error($$Error$7, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$7,
-                      _1: loc,
-                      _2: env,
-                      _3: {
-                        TAG: /* Label_missing */11,
-                        _0: missing
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                    MEL_EXN_ID: $$Error$7,
+                    _1: loc,
+                    _2: env,
+                    _3: {
+                      TAG: /* Label_missing */11,
+                      _0: missing
                     }
                   });
         }
@@ -69387,15 +67029,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         var label$1 = match$26[1];
         unify_exp(env, record$4, ty_record$1);
         if (label$1.lbl_mut === /* Immutable */0) {
-          throw new Error($$Error$7, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$7,
-                      _1: loc,
-                      _2: env,
-                      _3: {
-                        TAG: /* Label_not_mutable */12,
-                        _0: lid$4.txt
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                    MEL_EXN_ID: $$Error$7,
+                    _1: loc,
+                    _2: env,
+                    _3: {
+                      TAG: /* Label_not_mutable */12,
+                      _0: lid$4.txt
                     }
                   });
         }
@@ -69524,13 +67164,11 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                 val_attributes: /* [] */0
               }, env);
         } else {
-          throw new Error($$Error$7, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$7,
-                      _1: param.ppat_loc,
-                      _2: env,
-                      _3: /* Invalid_for_loop_index */6
-                    }
+          throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                    MEL_EXN_ID: $$Error$7,
+                    _1: param.ppat_loc,
+                    _2: env,
+                    _3: /* Invalid_for_loop_index */6
                   });
         }
         var body$3 = type_statement(match$28[1], lid._4);
@@ -69598,22 +67236,18 @@ function type_expect_(in_function, env, sexp, ty_expected) {
           catch (raw_exn$2){
             var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
             if (exn$2.MEL_EXN_ID === Subtype) {
-              throw new Error($$Error$7, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$7,
-                          _1: loc,
-                          _2: env,
-                          _3: {
-                            TAG: /* Not_subtype */23,
-                            _0: exn$2._1,
-                            _1: exn$2._2
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                        MEL_EXN_ID: $$Error$7,
+                        _1: loc,
+                        _2: env,
+                        _3: {
+                          TAG: /* Not_subtype */23,
+                          _0: exn$2._1,
+                          _1: exn$2._2
                         }
                       });
             }
-            throw new Error(exn$2.MEL_EXN_ID, {
-                      cause: exn$2
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
           }
           end_def(undefined);
           generalize_structure$1(current_level.contents, ty$5);
@@ -69677,9 +67311,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                     backtrack(snap);
                     tmp$4 = false;
                   } else {
-                    throw new Error(exn$3.MEL_EXN_ID, {
-                              cause: exn$3
-                            });
+                    throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
                   }
                 }
                 tmp$3 = tmp$4;
@@ -69700,22 +67332,18 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                 catch (raw_exn$4){
                   var exn$4 = Caml_js_exceptions.internalToOCamlException(raw_exn$4);
                   if (exn$4.MEL_EXN_ID === Subtype) {
-                    throw new Error($$Error$7, {
-                              cause: {
-                                MEL_EXN_ID: $$Error$7,
-                                _1: loc,
-                                _2: env,
-                                _3: {
-                                  TAG: /* Not_subtype */23,
-                                  _0: exn$4._1,
-                                  _1: exn$4._2
-                                }
+                    throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                              MEL_EXN_ID: $$Error$7,
+                              _1: loc,
+                              _2: env,
+                              _3: {
+                                TAG: /* Not_subtype */23,
+                                _0: exn$4._1,
+                                _1: exn$4._2
                               }
                             });
                   }
-                  throw new Error(exn$4.MEL_EXN_ID, {
-                            cause: exn$4
-                          });
+                  throw new Caml_js_exceptions.MelangeError(exn$4.MEL_EXN_ID, exn$4);
                 }
               }
               
@@ -69728,24 +67356,20 @@ function type_expect_(in_function, env, sexp, ty_expected) {
               catch (raw_exn$5){
                 var exn$5 = Caml_js_exceptions.internalToOCamlException(raw_exn$5);
                 if (exn$5.MEL_EXN_ID === Unify) {
-                  throw new Error($$Error$7, {
-                            cause: {
-                              MEL_EXN_ID: $$Error$7,
-                              _1: sarg$2.pexp_loc,
-                              _2: env,
-                              _3: {
-                                TAG: /* Coercion_failure */25,
-                                _0: ty$p$2,
-                                _1: full_expand(env, ty$p$2),
-                                _2: exn$5._1,
-                                _3: match$38[1]
-                              }
+                  throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                            MEL_EXN_ID: $$Error$7,
+                            _1: sarg$2.pexp_loc,
+                            _2: env,
+                            _3: {
+                              TAG: /* Coercion_failure */25,
+                              _0: ty$p$2,
+                              _1: full_expand(env, ty$p$2),
+                              _2: exn$5._1,
+                              _3: match$38[1]
                             }
                           });
                 }
-                throw new Error(exn$5.MEL_EXN_ID, {
-                          cause: exn$5
-                        });
+                throw new Caml_js_exceptions.MelangeError(exn$5.MEL_EXN_ID, exn$5);
               }
             }
           }
@@ -69821,21 +67445,17 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                     catch (raw_exn$6){
                       var exn$6 = Caml_js_exceptions.internalToOCamlException(raw_exn$6);
                       if (exn$6.MEL_EXN_ID === Stdlib.Not_found) {
-                        throw new Error($$Error$7, {
-                                  cause: {
-                                    MEL_EXN_ID: $$Error$7,
-                                    _1: e.pexp_loc,
-                                    _2: env,
-                                    _3: {
-                                      TAG: /* Undefined_inherited_method */17,
-                                      _0: met
-                                    }
+                        throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                                  MEL_EXN_ID: $$Error$7,
+                                  _1: e.pexp_loc,
+                                  _2: env,
+                                  _3: {
+                                    TAG: /* Undefined_inherited_method */17,
+                                    _0: met
                                   }
                                 });
                       }
-                      throw new Error(exn$6.MEL_EXN_ID, {
-                                cause: exn$6
-                              });
+                      throw new Caml_js_exceptions.MelangeError(exn$6.MEL_EXN_ID, exn$6);
                     }
                     var match$43 = lookup_value$1({
                           TAG: /* Lident */0,
@@ -69848,15 +67468,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                     var desc$3 = match$43[1];
                     var match$45 = desc$3.val_kind;
                     if (typeof match$45 === "number") {
-                      throw new Error("Assert_failure", {
-                                cause: {
-                                  MEL_EXN_ID: "Assert_failure",
-                                  _1: [
-                                    "jscomp/test/ocaml_typedtree_test.ml",
-                                    44747,
-                                    18
-                                  ]
-                                }
+                      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                MEL_EXN_ID: "Assert_failure",
+                                _1: [
+                                  "jscomp/test/ocaml_typedtree_test.ml",
+                                  44747,
+                                  18
+                                ]
                               });
                     }
                     if (match$45.TAG === /* Val_self */2) {
@@ -69928,15 +67546,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                         typ$1
                       ];
                     } else {
-                      throw new Error("Assert_failure", {
-                                cause: {
-                                  MEL_EXN_ID: "Assert_failure",
-                                  _1: [
-                                    "jscomp/test/ocaml_typedtree_test.ml",
-                                    44747,
-                                    18
-                                  ]
-                                }
+                      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                MEL_EXN_ID: "Assert_failure",
+                                _1: [
+                                  "jscomp/test/ocaml_typedtree_test.ml",
+                                  44747,
+                                  18
+                                ]
                               });
                     }
                     break;
@@ -69966,15 +67582,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
           var match$48 = ty$6.desc;
           var typ$3;
           if (typeof match$48 === "number") {
-            throw new Error("Assert_failure", {
-                      cause: {
-                        MEL_EXN_ID: "Assert_failure",
-                        _1: [
-                          "jscomp/test/ocaml_typedtree_test.ml",
-                          44773,
-                          14
-                        ]
-                      }
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "jscomp/test/ocaml_typedtree_test.ml",
+                        44773,
+                        14
+                      ]
                     });
           }
           switch (match$48.TAG | 0) {
@@ -70003,15 +67617,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                 }
                 break;
             default:
-              throw new Error("Assert_failure", {
-                        cause: {
-                          MEL_EXN_ID: "Assert_failure",
-                          _1: [
-                            "jscomp/test/ocaml_typedtree_test.ml",
-                            44773,
-                            14
-                          ]
-                        }
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/ocaml_typedtree_test.ml",
+                          44773,
+                          14
+                        ]
                       });
           }
           return rue({
@@ -70031,22 +67643,18 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         catch (raw_exn$7){
           var exn$7 = Caml_js_exceptions.internalToOCamlException(raw_exn$7);
           if (exn$7.MEL_EXN_ID === Unify) {
-            throw new Error($$Error$7, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$7,
-                        _1: e.pexp_loc,
-                        _2: env,
-                        _3: {
-                          TAG: /* Undefined_method */16,
-                          _0: obj.exp_type,
-                          _1: met
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                      MEL_EXN_ID: $$Error$7,
+                      _1: e.pexp_loc,
+                      _2: env,
+                      _3: {
+                        TAG: /* Undefined_method */16,
+                        _0: obj.exp_type,
+                        _1: met
                       }
                     });
           }
-          throw new Error(exn$7.MEL_EXN_ID, {
-                    cause: exn$7
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn$7.MEL_EXN_ID, exn$7);
         }
         break;
     case /* Pexp_new */22 :
@@ -70069,15 +67677,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                       exp_attributes: sexp.pexp_attributes
                     });
         }
-        throw new Error($$Error$7, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$7,
-                    _1: loc,
-                    _2: env,
-                    _3: {
-                      TAG: /* Virtual_class */18,
-                      _0: cl.txt
-                    }
+        throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                  MEL_EXN_ID: $$Error$7,
+                  _1: loc,
+                  _2: env,
+                  _3: {
+                    TAG: /* Virtual_class */18,
+                    _0: cl.txt
                   }
                 });
     case /* Pexp_setinstvar */23 :
@@ -70115,32 +67721,28 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                             exp_attributes: sexp.pexp_attributes
                           });
               }
-              throw new Error($$Error$7, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$7,
-                          _1: loc,
-                          _2: env,
-                          _3: {
-                            TAG: /* Instance_variable_not_mutable */22,
-                            _0: true,
-                            _1: lab.txt
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                        MEL_EXN_ID: $$Error$7,
+                        _1: loc,
+                        _2: env,
+                        _3: {
+                          TAG: /* Instance_variable_not_mutable */22,
+                          _0: true,
+                          _1: lab.txt
                         }
                       });
             }
             exit$4 = 1;
           }
           if (exit$4 === 1) {
-            throw new Error($$Error$7, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$7,
-                        _1: loc,
-                        _2: env,
-                        _3: {
-                          TAG: /* Instance_variable_not_mutable */22,
-                          _0: false,
-                          _1: lab.txt
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                      MEL_EXN_ID: $$Error$7,
+                      _1: loc,
+                      _2: env,
+                      _3: {
+                        TAG: /* Instance_variable_not_mutable */22,
+                        _0: false,
+                        _1: lab.txt
                       }
                     });
           }
@@ -70149,21 +67751,17 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         catch (raw_exn$8){
           var exn$8 = Caml_js_exceptions.internalToOCamlException(raw_exn$8);
           if (exn$8.MEL_EXN_ID === Stdlib.Not_found) {
-            throw new Error($$Error$7, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$7,
-                        _1: loc,
-                        _2: env,
-                        _3: {
-                          TAG: /* Unbound_instance_variable */21,
-                          _0: lab.txt
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                      MEL_EXN_ID: $$Error$7,
+                      _1: loc,
+                      _2: env,
+                      _3: {
+                        TAG: /* Unbound_instance_variable */21,
+                        _0: lab.txt
                       }
                     });
           }
-          throw new Error(exn$8.MEL_EXN_ID, {
-                    cause: exn$8
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn$8.MEL_EXN_ID, exn$8);
         }
         break;
     case /* Pexp_override */24 :
@@ -70173,15 +67771,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                 if (Stdlib__List.exists((function (l) {
                           return l.txt === lab.txt;
                         }), l)) {
-                  throw new Error($$Error$7, {
-                            cause: {
-                              MEL_EXN_ID: $$Error$7,
-                              _1: loc,
-                              _2: env,
-                              _3: {
-                                TAG: /* Value_multiply_overridden */24,
-                                _0: lab.txt
-                              }
+                  throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                            MEL_EXN_ID: $$Error$7,
+                            _1: loc,
+                            _2: env,
+                            _3: {
+                              TAG: /* Value_multiply_overridden */24,
+                              _0: lab.txt
                             }
                           });
                 }
@@ -70206,31 +67802,25 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         catch (raw_exn$9){
           var exn$9 = Caml_js_exceptions.internalToOCamlException(raw_exn$9);
           if (exn$9.MEL_EXN_ID === Stdlib.Not_found) {
-            throw new Error($$Error$7, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$7,
-                        _1: loc,
-                        _2: env,
-                        _3: /* Outside_class */0
-                      }
+            throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                      MEL_EXN_ID: $$Error$7,
+                      _1: loc,
+                      _2: env,
+                      _3: /* Outside_class */0
                     });
           }
-          throw new Error(exn$9.MEL_EXN_ID, {
-                    cause: exn$9
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn$9.MEL_EXN_ID, exn$9);
         }
         var match$54 = match$53[0][1];
         var match$55 = match$54.val_kind;
         if (typeof match$55 === "number") {
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        44857,
-                        10
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      44857,
+                      10
+                    ]
                   });
         }
         if (match$55.TAG === /* Val_self */2) {
@@ -70251,21 +67841,17 @@ function type_expect_(in_function, env, sexp, ty_expected) {
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
               if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-                throw new Error($$Error$7, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$7,
-                            _1: loc,
-                            _2: env,
-                            _3: {
-                              TAG: /* Unbound_instance_variable */21,
-                              _0: lab.txt
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                          MEL_EXN_ID: $$Error$7,
+                          _1: loc,
+                          _2: env,
+                          _3: {
+                            TAG: /* Unbound_instance_variable */21,
+                            _0: lab.txt
                           }
                         });
               }
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
           };
           var modifs = Stdlib__List.map(type_override, lst);
@@ -70282,15 +67868,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                       exp_attributes: sexp.pexp_attributes
                     });
         }
-        throw new Error("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/ocaml_typedtree_test.ml",
-                      44857,
-                      10
-                    ]
-                  }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/ocaml_typedtree_test.ml",
+                    44857,
+                    10
+                  ]
                 });
     case /* Pexp_letmodule */25 :
         var name$2 = lid._0;
@@ -70311,22 +67895,18 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         catch (raw_exn$10){
           var exn$10 = Caml_js_exceptions.internalToOCamlException(raw_exn$10);
           if (exn$10.MEL_EXN_ID === Unify) {
-            throw new Error($$Error$7, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$7,
-                        _1: loc,
-                        _2: env,
-                        _3: {
-                          TAG: /* Scoping_let_module */28,
-                          _0: name$2.txt,
-                          _1: body$4.exp_type
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                      MEL_EXN_ID: $$Error$7,
+                      _1: loc,
+                      _2: env,
+                      _3: {
+                        TAG: /* Scoping_let_module */28,
+                        _0: name$2.txt,
+                        _1: body$4.exp_type
                       }
                     });
           }
-          throw new Error(exn$10.MEL_EXN_ID, {
-                    cause: exn$10
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn$10.MEL_EXN_ID, exn$10);
         }
         return re({
                     exp_desc: {
@@ -70408,15 +67988,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         var match$59 = expand_head(env, ty$11).desc;
         var exp$2;
         if (typeof match$59 === "number") {
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        44963,
-                        15
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      44963,
+                      15
+                    ]
                   });
         }
         switch (match$59.TAG | 0) {
@@ -70480,15 +68058,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
               }
               break;
           default:
-            throw new Error("Assert_failure", {
-                      cause: {
-                        MEL_EXN_ID: "Assert_failure",
-                        _1: [
-                          "jscomp/test/ocaml_typedtree_test.ml",
-                          44963,
-                          15
-                        ]
-                      }
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "jscomp/test/ocaml_typedtree_test.ml",
+                        44963,
+                        15
+                      ]
                     });
         }
         return re({
@@ -70601,27 +68177,23 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         var match$64 = match$63.desc;
         var match$65;
         if (typeof match$64 === "number") {
-          throw new Error($$Error$7, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$7,
-                      _1: loc,
-                      _2: env,
-                      _3: {
-                        TAG: /* Not_a_packed_module */32,
-                        _0: ty_expected
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                    MEL_EXN_ID: $$Error$7,
+                    _1: loc,
+                    _2: env,
+                    _3: {
+                      TAG: /* Not_a_packed_module */32,
+                      _0: ty_expected
                     }
                   });
         }
         switch (match$64.TAG | 0) {
           case /* Tvar */0 :
-              throw new Error($$Error$7, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$7,
-                          _1: loc,
-                          _2: env,
-                          _3: /* Cannot_infer_signature */3
-                        }
+              throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                        MEL_EXN_ID: $$Error$7,
+                        _1: loc,
+                        _2: env,
+                        _3: /* Cannot_infer_signature */3
                       });
           case /* Tpackage */11 :
               if (principal.contents && expand_head(env, ty_expected).level < 100000000) {
@@ -70637,15 +68209,13 @@ function type_expect_(in_function, env, sexp, ty_expected) {
               ];
               break;
           default:
-            throw new Error($$Error$7, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$7,
-                        _1: loc,
-                        _2: env,
-                        _3: {
-                          TAG: /* Not_a_packed_module */32,
-                          _0: ty_expected
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                      MEL_EXN_ID: $$Error$7,
+                      _1: loc,
+                      _2: env,
+                      _3: {
+                        TAG: /* Not_a_packed_module */32,
+                        _0: ty_expected
                       }
                     });
         }
@@ -70696,11 +68266,9 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                 exp_attributes: exp$7.exp_attributes
               };
     case /* Pexp_extension */33 :
-        throw new Error(Error_forward$1, {
-                  cause: {
-                    MEL_EXN_ID: Error_forward$1,
-                    _1: error_of_extension(lid._0)
-                  }
+        throw new Caml_js_exceptions.MelangeError(Error_forward$1, {
+                  MEL_EXN_ID: Error_forward$1,
+                  _1: error_of_extension(lid._0)
                 });
     
   }
@@ -70731,40 +68299,34 @@ function type_function(in_function, loc, attrs, env, ty_expected, l, caselist) {
         exit = 1;
       } else {
         if (match$2.TAG === /* Tarrow */1) {
-          throw new Error($$Error$7, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$7,
-                      _1: loc,
-                      _2: env,
-                      _3: {
-                        TAG: /* Abstract_wrong_label */27,
-                        _0: l,
-                        _1: ty
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                    MEL_EXN_ID: $$Error$7,
+                    _1: loc,
+                    _2: env,
+                    _3: {
+                      TAG: /* Abstract_wrong_label */27,
+                      _0: l,
+                      _1: ty
                     }
                   });
         }
         exit = 1;
       }
       if (exit === 1) {
-        throw new Error($$Error$7, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$7,
-                    _1: loc_fun,
-                    _2: env,
-                    _3: {
-                      TAG: /* Too_many_arguments */26,
-                      _0: in_function !== undefined,
-                      _1: ty_fun
-                    }
+        throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                  MEL_EXN_ID: $$Error$7,
+                  _1: loc_fun,
+                  _2: env,
+                  _3: {
+                    TAG: /* Too_many_arguments */26,
+                    _0: in_function !== undefined,
+                    _1: ty_fun
                   }
                 });
       }
       
     } else {
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   }
   var ty_res = match$1[1];
@@ -70778,20 +68340,16 @@ function type_function(in_function, loc, attrs, env, ty_expected, l, caselist) {
     catch (raw_exn$1){
       var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
       if (exn$1.MEL_EXN_ID === Unify) {
-        throw new Error("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/ocaml_typedtree_test.ml",
-                      45069,
-                      24
-                    ]
-                  }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/ocaml_typedtree_test.ml",
+                    45069,
+                    24
+                  ]
                 });
       }
-      throw new Error(exn$1.MEL_EXN_ID, {
-                cause: exn$1
-              });
+      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
     }
     ty_arg$1 = type_option$1(tv);
   } else {
@@ -70863,9 +68421,7 @@ function type_label_access(env, loc, srecord, lid) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       opath = undefined;
     } else {
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   }
   var labels = find_all_labels(env, lid.loc, lid.txt);
@@ -70880,15 +68436,13 @@ function type_label_access(env, loc, srecord, lid) {
 }
 
 function type_format(loc, str, env) {
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                45122,
-                1
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              45122,
+              1
+            ]
           });
 }
 
@@ -70917,22 +68471,18 @@ function type_label_exp(create, env, loc, ty_expected, param) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Unify) {
-      throw new Error($$Error$7, {
-                cause: {
-                  MEL_EXN_ID: $$Error$7,
-                  _1: lid.loc,
-                  _2: env,
-                  _3: {
-                    TAG: /* Label_mismatch */2,
-                    _0: lid.txt,
-                    _1: exn._1
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                MEL_EXN_ID: $$Error$7,
+                _1: lid.loc,
+                _2: env,
+                _3: {
+                  TAG: /* Label_mismatch */2,
+                  _0: lid.txt,
+                  _1: exn._1
                 }
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
   var ty_arg$1 = instance_def(ty_arg);
   if (separate) {
@@ -70941,28 +68491,24 @@ function type_label_exp(create, env, loc, ty_expected, param) {
   }
   if (label.lbl_private === /* Private */0) {
     if (create) {
-      throw new Error($$Error$7, {
-                cause: {
-                  MEL_EXN_ID: $$Error$7,
-                  _1: loc,
-                  _2: env,
-                  _3: {
-                    TAG: /* Private_type */19,
-                    _0: ty_expected
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                MEL_EXN_ID: $$Error$7,
+                _1: loc,
+                _2: env,
+                _3: {
+                  TAG: /* Private_type */19,
+                  _0: ty_expected
                 }
               });
     }
-    throw new Error($$Error$7, {
-              cause: {
-                MEL_EXN_ID: $$Error$7,
-                _1: lid.loc,
-                _2: env,
-                _3: {
-                  TAG: /* Private_label */20,
-                  _0: lid.txt,
-                  _1: ty_expected
-                }
+    throw new Caml_js_exceptions.MelangeError($$Error$7, {
+              MEL_EXN_ID: $$Error$7,
+              _1: lid.loc,
+              _2: env,
+              _3: {
+                TAG: /* Private_label */20,
+                _0: lid.txt,
+                _1: ty_expected
               }
             });
   }
@@ -70976,9 +68522,7 @@ function type_label_exp(create, env, loc, ty_expected, param) {
   }
   catch (exn$1){
     if (is_nonexpansive(arg)) {
-      throw new Error(exn$1.MEL_EXN_ID, {
-                cause: exn$1
-              });
+      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
     }
     try {
       may(backtrack, snap);
@@ -70995,22 +68539,14 @@ function type_label_exp(create, env, loc, ty_expected, param) {
       if (e.MEL_EXN_ID === $$Error$7) {
         var tmp = e._3;
         if (typeof tmp === "number") {
-          throw new Error(exn$1.MEL_EXN_ID, {
-                    cause: exn$1
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
         }
         if (tmp.TAG === /* Less_general */31) {
-          throw new Error(e.MEL_EXN_ID, {
-                    cause: e
-                  });
+          throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
         }
-        throw new Error(exn$1.MEL_EXN_ID, {
-                  cause: exn$1
-                });
+        throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
       } else {
-        throw new Error(exn$1.MEL_EXN_ID, {
-                  cause: exn$1
-                });
+        throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
       }
     }
   }
@@ -71392,16 +68928,14 @@ function type_application(env, funct, sargs) {
             if (ignore_labels && !is_optional(l)) {
               if (sargs) {
                 var match$5 = sargs.hd;
-                throw new Error($$Error$7, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$7,
-                            _1: match$5[1].pexp_loc,
-                            _2: env,
-                            _3: {
-                              TAG: /* Apply_wrong_label */9,
-                              _0: match$5[0],
-                              _1: ty_old
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                          MEL_EXN_ID: $$Error$7,
+                          _1: match$5[1].pexp_loc,
+                          _2: env,
+                          _3: {
+                            TAG: /* Apply_wrong_label */9,
+                            _0: match$5[0],
+                            _1: ty_old
                           }
                         });
               }
@@ -71410,16 +68944,14 @@ function type_application(env, funct, sargs) {
                 var sarg0 = match$6[1];
                 var l$p = match$6[0];
                 if (l !== l$p && l$p !== "") {
-                  throw new Error($$Error$7, {
-                            cause: {
-                              MEL_EXN_ID: $$Error$7,
-                              _1: sarg0.pexp_loc,
-                              _2: env,
-                              _3: {
-                                TAG: /* Apply_wrong_label */9,
-                                _0: l$p,
-                                _1: match
-                              }
+                  throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                            MEL_EXN_ID: $$Error$7,
+                            _1: sarg0.pexp_loc,
+                            _2: env,
+                            _3: {
+                              TAG: /* Apply_wrong_label */9,
+                              _0: l$p,
+                              _1: match
                             }
                           });
                 }
@@ -71433,15 +68965,13 @@ function type_application(env, funct, sargs) {
                   }(ty,ty0,sarg0))
                 ];
               } else {
-                throw new Error("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/ocaml_typedtree_test.ml",
-                              45373,
-                              16
-                            ]
-                          }
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/ocaml_typedtree_test.ml",
+                            45373,
+                            16
+                          ]
                         });
               }
             } else {
@@ -71483,9 +69013,7 @@ function type_application(env, funct, sargs) {
                       match$9[3]
                     ];
                   } else {
-                    throw new Error(exn.MEL_EXN_ID, {
-                              cause: exn
-                            });
+                    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                   }
                 }
                 var sarg0$3 = match$7[1];
@@ -71539,9 +69067,7 @@ function type_application(env, funct, sargs) {
                             }), undefined)
                   ];
                 } else {
-                  throw new Error(exn$1.MEL_EXN_ID, {
-                            cause: exn$1
-                          });
+                  throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
                 }
               }
             }
@@ -71580,16 +69106,14 @@ function type_application(env, funct, sargs) {
         if (sargs) {
           if (ignore_labels) {
             var match$10 = sargs.hd;
-            throw new Error($$Error$7, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$7,
-                        _1: match$10[1].pexp_loc,
-                        _2: env,
-                        _3: {
-                          TAG: /* Apply_wrong_label */9,
-                          _0: match$10[0],
-                          _1: ty_old
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                      MEL_EXN_ID: $$Error$7,
+                      _1: match$10[1].pexp_loc,
+                      _2: env,
+                      _3: {
+                        TAG: /* Apply_wrong_label */9,
+                        _0: match$10[0],
+                        _1: ty_old
                       }
                     });
           }
@@ -71697,40 +69221,34 @@ function type_application(env, funct, sargs) {
               } else {
                 if (match$13.TAG === /* Tarrow */1) {
                   if (classic.contents || !has_label(l1, ty_fun$4)) {
-                    throw new Error($$Error$7, {
-                              cause: {
-                                MEL_EXN_ID: $$Error$7,
-                                _1: sarg1.pexp_loc,
-                                _2: env,
-                                _3: {
-                                  TAG: /* Apply_wrong_label */9,
-                                  _0: l1,
-                                  _1: ty_res
-                                }
+                    throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                              MEL_EXN_ID: $$Error$7,
+                              _1: sarg1.pexp_loc,
+                              _2: env,
+                              _3: {
+                                TAG: /* Apply_wrong_label */9,
+                                _0: l1,
+                                _1: ty_res
                               }
                             });
                   }
-                  throw new Error($$Error$7, {
-                            cause: {
-                              MEL_EXN_ID: $$Error$7,
-                              _1: funct.exp_loc,
-                              _2: env,
-                              _3: /* Incoherent_label_order */1
-                            }
+                  throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                            MEL_EXN_ID: $$Error$7,
+                            _1: funct.exp_loc,
+                            _2: env,
+                            _3: /* Incoherent_label_order */1
                           });
                 }
                 exit$3 = 2;
               }
               if (exit$3 === 2) {
-                throw new Error($$Error$7, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$7,
-                            _1: funct.exp_loc,
-                            _2: env,
-                            _3: {
-                              TAG: /* Apply_non_function */8,
-                              _0: expand_head(env, funct.exp_type)
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                          MEL_EXN_ID: $$Error$7,
+                          _1: funct.exp_loc,
+                          _2: env,
+                          _3: {
+                            TAG: /* Apply_non_function */8,
+                            _0: expand_head(env, funct.exp_type)
                           }
                         });
               }
@@ -72061,20 +69579,16 @@ function type_cases(in_function, env, ty_arg, ty_res, partial_flag, loc, caselis
             if (exn.MEL_EXN_ID === Empty || exn.MEL_EXN_ID === Stdlib.Not_found || exn.MEL_EXN_ID === NoGuard) {
               exit = 1;
             } else {
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
             if (exit === 1) {
-              throw new Error("Assert_failure", {
-                        cause: {
-                          MEL_EXN_ID: "Assert_failure",
-                          _1: [
-                            "jscomp/test/ocaml_typedtree_test.ml",
-                            40982,
-                            48
-                          ]
-                        }
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/ocaml_typedtree_test.ml",
+                          40982,
+                          48
+                        ]
                       });
             }
             
@@ -72303,9 +69817,7 @@ function type_let(checkOpt, check_strictOpt, env, rec_flag, spat_sexp_list, scop
                     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
                       return Stdlib__Hashtbl.add(value_declarations, key, callback);
                     }
-                    throw new Error(exn.MEL_EXN_ID, {
-                              cause: exn
-                            });
+                    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                   }
                 }), pat_bound_idents(pat));
           return [
@@ -73619,15 +71131,13 @@ register_error_of_exn(function (param) {
                                                                         return type_path_expansion(tp0, param, param$1);
                                                                       }), tp0$p);
                                                         }
-                                                        throw new Error("Assert_failure", {
-                                                                  cause: {
-                                                                    MEL_EXN_ID: "Assert_failure",
-                                                                    _1: [
-                                                                      "jscomp/test/ocaml_typedtree_test.ml",
-                                                                      37069,
-                                                                      12
-                                                                    ]
-                                                                  }
+                                                        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                                                  MEL_EXN_ID: "Assert_failure",
+                                                                  _1: [
+                                                                    "jscomp/test/ocaml_typedtree_test.ml",
+                                                                    37069,
+                                                                    12
+                                                                  ]
                                                                 });
                                                       }));
                                       case /* Invalid_format */15 :
@@ -74483,28 +71993,24 @@ function set_fixed_row(env, loc, p, decl) {
   if (t !== undefined) {
     tm = expand_head(env, t);
   } else {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  46327,
-                  14
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                46327,
+                14
+              ]
             });
   }
   var row = tm.desc;
   var rv;
   if (typeof row === "number") {
-    throw new Error($$Error$8, {
-              cause: {
-                MEL_EXN_ID: $$Error$8,
-                _1: loc,
-                _2: {
-                  TAG: /* Bad_fixed_type */18,
-                  _0: "is not an object or variant"
-                }
+    throw new Caml_js_exceptions.MelangeError($$Error$8, {
+              MEL_EXN_ID: $$Error$8,
+              _1: loc,
+              _2: {
+                TAG: /* Bad_fixed_type */18,
+                _0: "is not an object or variant"
               }
             });
   }
@@ -74528,26 +72034,22 @@ function set_fixed_row(env, loc, p, decl) {
         rv = static_row(row$1) ? newty2(100000000, /* Tnil */0) : row$1.row_more;
         break;
     default:
-      throw new Error($$Error$8, {
-                cause: {
-                  MEL_EXN_ID: $$Error$8,
-                  _1: loc,
-                  _2: {
-                    TAG: /* Bad_fixed_type */18,
-                    _0: "is not an object or variant"
-                  }
-                }
-              });
-  }
-  if (!is_Tvar(rv)) {
-    throw new Error($$Error$8, {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError($$Error$8, {
                 MEL_EXN_ID: $$Error$8,
                 _1: loc,
                 _2: {
                   TAG: /* Bad_fixed_type */18,
-                  _0: "has no row variable"
+                  _0: "is not an object or variant"
                 }
+              });
+  }
+  if (!is_Tvar(rv)) {
+    throw new Caml_js_exceptions.MelangeError($$Error$8, {
+              MEL_EXN_ID: $$Error$8,
+              _1: loc,
+              _2: {
+                TAG: /* Bad_fixed_type */18,
+                _0: "has no row variable"
               }
             });
   }
@@ -74600,18 +72102,14 @@ function bal$10(l, v, r) {
       if (lr) {
         return create$11(create$11(ll, lv, lr.l), lr.v, create$11(lr.r, v, r));
       }
-      throw new Error("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "Set.bal"
-                }
-              });
-    }
-    throw new Error("Invalid_argument", {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Set.bal"
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Set.bal"
             });
   }
   if (hr <= (hl + 2 | 0)) {
@@ -74632,18 +72130,14 @@ function bal$10(l, v, r) {
     if (rl) {
       return create$11(create$11(l, v, rl.l), rl.v, create$11(rl.r, rv, rr));
     }
-    throw new Error("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Set.bal"
-              }
-            });
-  }
-  throw new Error("Invalid_argument", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Set.bal"
-            }
+            });
+  }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Set.bal"
           });
 }
 
@@ -74706,17 +72200,13 @@ function make_params(env, params) {
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Already_bound) {
-        throw new Error($$Error$8, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$8,
-                    _1: sty.ptyp_loc,
-                    _2: /* Repeated_parameter */0
-                  }
+        throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                  MEL_EXN_ID: $$Error$8,
+                  _1: sty.ptyp_loc,
+                  _2: /* Repeated_parameter */0
                 });
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   };
   return Stdlib__List.map(make_param, params);
@@ -74740,15 +72230,13 @@ function make_constructor(env, type_path, type_params, sargs, sret_type) {
       exit = 1;
     }
     if (exit === 1) {
-      throw new Error($$Error$8, {
-                cause: {
-                  MEL_EXN_ID: $$Error$8,
-                  _1: sret_type.ptyp_loc,
-                  _2: {
-                    TAG: /* Constraint_failed */5,
-                    _0: ret_type,
-                    _1: newconstr(type_path, type_params)
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                MEL_EXN_ID: $$Error$8,
+                _1: sret_type.ptyp_loc,
+                _2: {
+                  TAG: /* Constraint_failed */5,
+                  _0: ret_type,
+                  _1: newconstr(type_path, type_params)
                 }
               });
     }
@@ -74828,43 +72316,35 @@ function check_constraints_rec(env, loc, visited, _ty) {
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.MEL_EXN_ID === Unify) {
-              throw new Error("Assert_failure", {
-                        cause: {
-                          MEL_EXN_ID: "Assert_failure",
-                          _1: [
-                            "jscomp/test/ocaml_typedtree_test.ml",
-                            46574,
-                            28
-                          ]
-                        }
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/ocaml_typedtree_test.ml",
+                          46574,
+                          28
+                        ]
                       });
             }
             if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-              throw new Error($$Error$8, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$8,
-                          _1: loc,
-                          _2: {
-                            TAG: /* Unavailable_type_constructor */17,
-                            _0: path
-                          }
-                        }
-                      });
-            }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
-          }
-          if (!matches(env, ty$1, ty$p)) {
-            throw new Error($$Error$8, {
-                      cause: {
+              throw new Caml_js_exceptions.MelangeError($$Error$8, {
                         MEL_EXN_ID: $$Error$8,
                         _1: loc,
                         _2: {
-                          TAG: /* Constraint_failed */5,
-                          _0: ty$1,
-                          _1: ty$p
+                          TAG: /* Unavailable_type_constructor */17,
+                          _0: path
                         }
+                      });
+            }
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          }
+          if (!matches(env, ty$1, ty$p)) {
+            throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                      MEL_EXN_ID: $$Error$8,
+                      _1: loc,
+                      _2: {
+                        TAG: /* Constraint_failed */5,
+                        _0: ty$1,
+                        _1: ty$p
                       }
                     });
           }
@@ -74922,18 +72402,14 @@ function bal$11(l, x, d, r) {
       if (lr) {
         return create$12(create$12(ll, lv, ld, lr.l), lr.v, lr.d, create$12(lr.r, x, d, r));
       }
-      throw new Error("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "Map.bal"
-                }
-              });
-    }
-    throw new Error("Invalid_argument", {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Map.bal"
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Map.bal"
             });
   }
   if (hr <= (hl + 2 | 0)) {
@@ -74956,18 +72432,14 @@ function bal$11(l, x, d, r) {
     if (rl) {
       return create$12(create$12(l, x, d, rl.l), rl.v, rl.d, create$12(rl.r, rv, rd, rr));
     }
-    throw new Error("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Map.bal"
-              }
-            });
-  }
-  throw new Error("Invalid_argument", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Map.bal"
-            }
+            });
+  }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Map.bal"
           });
 }
 
@@ -75026,10 +72498,8 @@ function find$6(x, _param) {
       _param = c < 0 ? param.l : param.r;
       continue ;
     }
-    throw new Error(Stdlib.Not_found, {
-              cause: {
-                MEL_EXN_ID: Stdlib.Not_found
-              }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   };
 }
@@ -75045,15 +72515,13 @@ function check_coherence(env, loc, id, decl) {
   }
   var match$1 = repr(ty).desc;
   if (typeof match$1 === "number") {
-    throw new Error($$Error$8, {
-              cause: {
-                MEL_EXN_ID: $$Error$8,
-                _1: loc,
-                _2: {
-                  TAG: /* Definition_mismatch */4,
-                  _0: ty,
-                  _1: /* [] */0
-                }
+    throw new Caml_js_exceptions.MelangeError($$Error$8, {
+              MEL_EXN_ID: $$Error$8,
+              _1: loc,
+              _2: {
+                TAG: /* Definition_mismatch */4,
+                _0: ty,
+                _1: /* [] */0
               }
             });
   }
@@ -75074,46 +72542,38 @@ function check_coherence(env, loc, id, decl) {
       if (!Caml_obj.caml_notequal(err, /* [] */0)) {
         return ;
       }
-      throw new Error($$Error$8, {
-                cause: {
-                  MEL_EXN_ID: $$Error$8,
-                  _1: loc,
-                  _2: {
-                    TAG: /* Definition_mismatch */4,
-                    _0: ty,
-                    _1: err
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                MEL_EXN_ID: $$Error$8,
+                _1: loc,
+                _2: {
+                  TAG: /* Definition_mismatch */4,
+                  _0: ty,
+                  _1: err
                 }
               });
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-        throw new Error($$Error$8, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$8,
-                    _1: loc,
-                    _2: {
-                      TAG: /* Unavailable_type_constructor */17,
-                      _0: path
-                    }
+        throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                  MEL_EXN_ID: $$Error$8,
+                  _1: loc,
+                  _2: {
+                    TAG: /* Unavailable_type_constructor */17,
+                    _0: path
                   }
                 });
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   } else {
-    throw new Error($$Error$8, {
-              cause: {
-                MEL_EXN_ID: $$Error$8,
-                _1: loc,
-                _2: {
-                  TAG: /* Definition_mismatch */4,
-                  _0: ty,
-                  _1: /* [] */0
-                }
+    throw new Caml_js_exceptions.MelangeError($$Error$8, {
+              MEL_EXN_ID: $$Error$8,
+              _1: loc,
+              _2: {
+                TAG: /* Definition_mismatch */4,
+                _0: ty,
+                _1: /* [] */0
               }
             });
   }
@@ -75130,26 +72590,22 @@ function check_well_founded(env, loc, path, to_check, ty) {
       var tmp;
       tmp = typeof match === "number" || match.TAG !== /* Tconstr */3 ? false : same(match._0, path);
       if (tmp) {
-        throw new Error($$Error$8, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$8,
-                    _1: loc,
-                    _2: {
-                      TAG: /* Recursive_abbrev */2,
-                      _0: name(undefined, path)
-                    }
-                  }
-                });
-      }
-      throw new Error($$Error$8, {
-                cause: {
+        throw new Caml_js_exceptions.MelangeError($$Error$8, {
                   MEL_EXN_ID: $$Error$8,
                   _1: loc,
                   _2: {
-                    TAG: /* Cycle_in_def */3,
-                    _0: name(undefined, path),
-                    _1: ty0
+                    TAG: /* Recursive_abbrev */2,
+                    _0: name(undefined, path)
                   }
+                });
+      }
+      throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                MEL_EXN_ID: $$Error$8,
+                _1: loc,
+                _2: {
+                  TAG: /* Cycle_in_def */3,
+                  _0: name(undefined, path),
+                  _1: ty0
                 }
               });
     }
@@ -75172,9 +72628,7 @@ function check_well_founded(env, loc, path, to_check, ty) {
           exp_nodes
         ];
       } else {
-        throw new Error(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
     }
     var exp_nodes$1 = match$1[1];
@@ -75186,10 +72640,8 @@ function check_well_founded(env, loc, path, to_check, ty) {
       visited.contents = Curry._3(add$4, ty$1, exp_nodes$1, visited.contents);
       var match$2 = ty$1.desc;
       if (typeof match$2 === "number") {
-        throw new Error(Cannot_expand, {
-                  cause: {
-                    MEL_EXN_ID: Cannot_expand
-                  }
+        throw new Caml_js_exceptions.MelangeError(Cannot_expand, {
+                  MEL_EXN_ID: Cannot_expand
                 });
       }
       if (match$2.TAG === /* Tconstr */3) {
@@ -75198,16 +72650,12 @@ function check_well_founded(env, loc, path, to_check, ty) {
           var ty0$1 = Curry._1(is_empty$2, exp_nodes$1) ? ty$1 : ty0;
           return check(ty0$1, Curry._2(add$3, ty$1, exp_nodes$1), ty$p);
         }
-        throw new Error(Cannot_expand, {
-                  cause: {
-                    MEL_EXN_ID: Cannot_expand
-                  }
+        throw new Caml_js_exceptions.MelangeError(Cannot_expand, {
+                  MEL_EXN_ID: Cannot_expand
                 });
       }
-      throw new Error(Cannot_expand, {
-                cause: {
-                  MEL_EXN_ID: Cannot_expand
-                }
+      throw new Caml_js_exceptions.MelangeError(Cannot_expand, {
+                MEL_EXN_ID: Cannot_expand
               });
     }
     catch (raw_exn$1){
@@ -75239,9 +72687,7 @@ function check_well_founded(env, loc, path, to_check, ty) {
       if (exn$1.MEL_EXN_ID === Unify) {
         return backtrack(snap);
       }
-      throw new Error(exn$1.MEL_EXN_ID, {
-                cause: exn$1
-              });
+      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
     }
   };
   wrap_trace_gadt_instances(env, (function (param) {
@@ -75305,16 +72751,14 @@ function check_recursion(env, loc, path, decl, to_check) {
             var path$p = match._0;
             if (same(path, path$p)) {
               if (!equal$5(env, false, args, args$p)) {
-                throw new Error($$Error$8, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$8,
-                            _1: loc,
-                            _2: {
-                              TAG: /* Parameters_differ */8,
-                              _0: cpath,
-                              _1: ty$1,
-                              _2: newconstr(path, args)
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                          MEL_EXN_ID: $$Error$8,
+                          _1: loc,
+                          _2: {
+                            TAG: /* Parameters_differ */8,
+                            _0: cpath,
+                            _1: ty$1,
+                            _2: newconstr(path, args)
                           }
                         });
               }
@@ -75332,21 +72776,17 @@ function check_recursion(env, loc, path, decl, to_check) {
                 catch (raw_exn){
                   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
                   if (exn.MEL_EXN_ID === Unify) {
-                    throw new Error($$Error$8, {
-                              cause: {
-                                MEL_EXN_ID: $$Error$8,
-                                _1: loc,
-                                _2: {
-                                  TAG: /* Constraint_failed */5,
-                                  _0: ty$1,
-                                  _1: newconstr(path$p, params0)
-                                }
+                    throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                              MEL_EXN_ID: $$Error$8,
+                              _1: loc,
+                              _2: {
+                                TAG: /* Constraint_failed */5,
+                                _0: ty$1,
+                                _1: newconstr(path$p, params0)
                               }
                             });
                   }
-                  throw new Error(exn.MEL_EXN_ID, {
-                            cause: exn
-                          });
+                  throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                 }
                 check_regular(path$p, args, {
                       hd: path$p,
@@ -75356,9 +72796,7 @@ function check_recursion(env, loc, path, decl, to_check) {
               catch (raw_exn$1){
                 var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
                 if (exn$1.MEL_EXN_ID !== Stdlib.Not_found) {
-                  throw new Error(exn$1.MEL_EXN_ID, {
-                            cause: exn$1
-                          });
+                  throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
                 }
                 
               }
@@ -75392,9 +72830,7 @@ function get_variance(ty, visited) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return Types_Variance.$$null;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -75458,9 +72894,7 @@ function compute_variance(env, visited, vari, ty) {
                               return compute_variance_rec(Types_Variance.may_inv, param);
                             }), tl$1);
               }
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
         case /* Tfield */5 :
             compute_variance_rec(vari$1, tl._2);
@@ -75573,24 +73007,22 @@ function compute_variance_type(env, check, param, decl, tyl) {
             if (!(is_Tvar(ty) && (co && !c || cn && !n || !ij && i))) {
               return ;
             }
-            throw new Error($$Error$8, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$8,
-                        _1: loc,
-                        _2: {
-                          TAG: /* Bad_variance */16,
-                          _0: pos.contents,
-                          _1: [
-                            co,
-                            cn,
-                            ij
-                          ],
-                          _2: [
-                            c,
-                            n,
-                            i
-                          ]
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                      MEL_EXN_ID: $$Error$8,
+                      _1: loc,
+                      _2: {
+                        TAG: /* Bad_variance */16,
+                        _0: pos.contents,
+                        _1: [
+                          co,
+                          cn,
+                          ij
+                        ],
+                        _2: [
+                          c,
+                          n,
+                          i
+                        ]
                       }
                     });
           }), params, required);
@@ -75656,24 +73088,22 @@ function compute_variance_type(env, check, param, decl, tyl) {
         var code = match$1[3] ? (
             c2 || n2 ? -1 : -3
           ) : -2;
-        throw new Error($$Error$8, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$8,
-                    _1: loc,
-                    _2: {
-                      TAG: /* Bad_variance */16,
-                      _0: code,
-                      _1: [
-                        c1,
-                        n1,
-                        false
-                      ],
-                      _2: [
-                        c2,
-                        n2,
-                        false
-                      ]
-                    }
+        throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                  MEL_EXN_ID: $$Error$8,
+                  _1: loc,
+                  _2: {
+                    TAG: /* Bad_variance */16,
+                    _0: code,
+                    _1: [
+                      c1,
+                      n1,
+                      false
+                    ],
+                    _2: [
+                      c2,
+                      n2,
+                      false
+                    ]
                   }
                 });
       };
@@ -75753,15 +73183,13 @@ function compute_variance_gadt(env, check, rloc, decl, param) {
   var match = repr(ret_type_opt);
   var match$1 = match.desc;
   if (typeof match$1 === "number") {
-    throw new Error("Assert_failure", {
-              cause: {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/ocaml_typedtree_test.ml",
-                  47023,
-                  13
-                ]
-              }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/ocaml_typedtree_test.ml",
+                47023,
+                13
+              ]
             });
   }
   if (match$1.TAG === /* Tconstr */3) {
@@ -75775,12 +73203,10 @@ function compute_variance_gadt(env, check, rloc, decl, param) {
               var fv2$1 = fv2.tl;
               var fv1 = param[0];
               if ((param$1[0] || param$1[1]) && constrained(env, Stdlib.$at(fv1, fv2$1), ty)) {
-                throw new Error($$Error$8, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$8,
-                            _1: loc,
-                            _2: /* Varying_anonymous */4
-                          }
+                throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                          MEL_EXN_ID: $$Error$8,
+                          _1: loc,
+                          _2: /* Varying_anonymous */4
                         });
               }
               return [
@@ -75791,15 +73217,13 @@ function compute_variance_gadt(env, check, rloc, decl, param) {
                       fv2$1
                     ];
             }
-            throw new Error("Assert_failure", {
-                      cause: {
-                        MEL_EXN_ID: "Assert_failure",
-                        _1: [
-                          "jscomp/test/ocaml_typedtree_test.ml",
-                          47012,
-                          37
-                        ]
-                      }
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "jscomp/test/ocaml_typedtree_test.ml",
+                        47012,
+                        37
+                      ]
                     });
           }), [
           /* [] */0,
@@ -75817,15 +73241,13 @@ function compute_variance_gadt(env, check, rloc, decl, param) {
                 type_attributes: decl.type_attributes
               }, add_false(tl));
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                47023,
-                13
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              47023,
+              13
+            ]
           });
 }
 
@@ -75910,15 +73332,13 @@ function compute_variance_decl(env, check, decl, rloc) {
                   }
                 }), varl);
   }
-  throw new Error("Assert_failure", {
-            cause: {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/ocaml_typedtree_test.ml",
-                47062,
-                15
-              ]
-            }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/ocaml_typedtree_test.ml",
+              47062,
+              15
+            ]
           });
 }
 
@@ -76110,9 +73530,7 @@ function check_duplicates(sdecl_list) {
                             if (exn.MEL_EXN_ID === Stdlib.Not_found) {
                               return Stdlib__Hashtbl.add(constrs, pcd.pcd_name.txt, sdecl.ptype_name.txt);
                             }
-                            throw new Error(exn.MEL_EXN_ID, {
-                                      cause: exn
-                                    });
+                            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                           }
                         }), cl._0);
           } else {
@@ -76133,9 +73551,7 @@ function check_duplicates(sdecl_list) {
                             if (exn.MEL_EXN_ID === Stdlib.Not_found) {
                               return Stdlib__Hashtbl.add(labels, cname.txt, sdecl.ptype_name.txt);
                             }
-                            throw new Error(exn.MEL_EXN_ID, {
-                                      cause: exn
-                                    });
+                            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                           }
                         }), cl._0);
           }
@@ -76307,14 +73723,12 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
       Stdlib__List.iter((function (param) {
               var name = param.pcd_name.txt;
               if (Curry._2(mem$6, name, all_constrs.contents)) {
-                throw new Error($$Error$8, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$8,
-                            _1: name_sdecl.ptype_loc,
-                            _2: {
-                              TAG: /* Duplicate_constructor */0,
-                              _0: name
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                          MEL_EXN_ID: $$Error$8,
+                          _1: name_sdecl.ptype_loc,
+                          _2: {
+                            TAG: /* Duplicate_constructor */0,
+                            _0: name
                           }
                         });
               }
@@ -76323,12 +73737,10 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
       if (Stdlib__List.length(Stdlib__List.filter((function (cd) {
                     return Caml_obj.caml_notequal(cd.pcd_args, /* [] */0);
                   }), scstrs$1)) > 246) {
-        throw new Error($$Error$8, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$8,
-                    _1: name_sdecl.ptype_loc,
-                    _2: /* Too_many_constructors */1
-                  }
+        throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                  MEL_EXN_ID: $$Error$8,
+                  _1: name_sdecl.ptype_loc,
+                  _2: /* Too_many_constructors */1
                 });
       }
       var make_cstr = function (scstr) {
@@ -76388,14 +73800,12 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
       Stdlib__List.iter((function (param) {
               var name = param.pld_name.txt;
               if (Curry._2(mem$6, name, all_labels.contents)) {
-                throw new Error($$Error$8, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$8,
-                            _1: name_sdecl.ptype_loc,
-                            _2: {
-                              TAG: /* Duplicate_label */1,
-                              _0: name
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                          MEL_EXN_ID: $$Error$8,
+                          _1: name_sdecl.ptype_loc,
+                          _2: {
+                            TAG: /* Duplicate_label */1,
+                            _0: name
                           }
                         });
               }
@@ -76493,21 +73903,17 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
               if (exn.MEL_EXN_ID === Unify) {
-                throw new Error($$Error$8, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$8,
-                            _1: param[2],
-                            _2: {
-                              TAG: /* Inconsistent_constraint */6,
-                              _0: temp_env,
-                              _1: exn._1
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                          MEL_EXN_ID: $$Error$8,
+                          _1: param[2],
+                          _2: {
+                            TAG: /* Inconsistent_constraint */6,
+                            _0: temp_env,
+                            _1: exn._1
                           }
                         });
               }
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
           }), cstrs);
     end_def(undefined);
@@ -76522,32 +73928,26 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        46515,
-                        26
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      46515,
+                      26
+                    ]
                   });
         }
-        throw new Error(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
       set_fixed_row(temp_env, name_sdecl.ptype_loc, match$3[0], decl);
     }
     if (man !== undefined && cyclic_abbrev(temp_env, id, man)) {
-      throw new Error($$Error$8, {
-                cause: {
-                  MEL_EXN_ID: $$Error$8,
-                  _1: name_sdecl.ptype_loc,
-                  _2: {
-                    TAG: /* Recursive_abbrev */2,
-                    _0: name_sdecl.ptype_name.txt
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                MEL_EXN_ID: $$Error$8,
+                _1: name_sdecl.ptype_loc,
+                _2: {
+                  TAG: /* Recursive_abbrev */2,
+                  _0: name_sdecl.ptype_name.txt
                 }
               });
     }
@@ -76597,21 +73997,17 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
               if (exn.MEL_EXN_ID === Unify) {
-                throw new Error($$Error$8, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$8,
-                            _1: loc,
-                            _2: {
-                              TAG: /* Type_clash */7,
-                              _0: newenv,
-                              _1: exn._1
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                          MEL_EXN_ID: $$Error$8,
+                          _1: loc,
+                          _2: {
+                            TAG: /* Type_clash */7,
+                            _0: newenv,
+                            _1: exn._1
                           }
                         });
               }
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
           }), id_list, sdecl_list$1);
   }
@@ -76674,15 +74070,13 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
           if (ty === undefined) {
             return ;
           }
-          throw new Error($$Error$8, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$8,
-                      _1: sdecl.ptype_loc,
-                      _2: {
-                        TAG: /* Unbound_type_var */9,
-                        _0: ty,
-                        _1: decl
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                    MEL_EXN_ID: $$Error$8,
+                    _1: sdecl.ptype_loc,
+                    _2: {
+                      TAG: /* Unbound_type_var */9,
+                      _0: ty,
+                      _1: decl
                     }
                   });
         }), sdecl_list$1, tdecls);
@@ -76697,29 +74091,25 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
           } else if (l.TAG === /* Type_record */0) {
             var find_pl = function (param) {
               if (typeof param === "number") {
-                throw new Error("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/ocaml_typedtree_test.ml",
-                              46623,
-                              59
-                            ]
-                          }
-                        });
-              }
-              if (param.TAG === /* Ptype_record */1) {
-                return param._0;
-              }
-              throw new Error("Assert_failure", {
-                        cause: {
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                           MEL_EXN_ID: "Assert_failure",
                           _1: [
                             "jscomp/test/ocaml_typedtree_test.ml",
                             46623,
                             59
                           ]
-                        }
+                        });
+              }
+              if (param.TAG === /* Ptype_record */1) {
+                return param._0;
+              }
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/ocaml_typedtree_test.ml",
+                          46623,
+                          59
+                        ]
                       });
             };
             var pl = find_pl(param.ptype_kind);
@@ -76734,15 +74124,13 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
                   _param = param.tl;
                   continue ;
                 }
-                throw new Error("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/ocaml_typedtree_test.ml",
-                              46627,
-                              16
-                            ]
-                          }
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/ocaml_typedtree_test.ml",
+                            46627,
+                            16
+                          ]
                         });
               };
             };
@@ -76752,29 +74140,25 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
           } else {
             var find_pl$1 = function (param) {
               if (typeof param === "number") {
-                throw new Error("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/ocaml_typedtree_test.ml",
-                              46596,
-                              58
-                            ]
-                          }
-                        });
-              }
-              if (param.TAG === /* Ptype_variant */0) {
-                return param._0;
-              }
-              throw new Error("Assert_failure", {
-                        cause: {
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                           MEL_EXN_ID: "Assert_failure",
                           _1: [
                             "jscomp/test/ocaml_typedtree_test.ml",
                             46596,
                             58
                           ]
-                        }
+                        });
+              }
+              if (param.TAG === /* Ptype_variant */0) {
+                return param._0;
+              }
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/ocaml_typedtree_test.ml",
+                          46596,
+                          58
+                        ]
                       });
             };
             var pl$1 = find_pl$1(param.ptype_kind);
@@ -76791,20 +74175,16 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
                     catch (raw_exn){
                       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
                       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-                        throw new Error("Assert_failure", {
-                                  cause: {
-                                    MEL_EXN_ID: "Assert_failure",
-                                    _1: [
-                                      "jscomp/test/ocaml_typedtree_test.ml",
-                                      46609,
-                                      30
-                                    ]
-                                  }
+                        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                  MEL_EXN_ID: "Assert_failure",
+                                  _1: [
+                                    "jscomp/test/ocaml_typedtree_test.ml",
+                                    46609,
+                                    30
+                                  ]
                                 });
                       }
-                      throw new Error(exn.MEL_EXN_ID, {
-                                cause: exn
-                              });
+                      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                     }
                     var sret_type = match.pcd_res;
                     Stdlib__List.iter2((function (sty, ty) {
@@ -76825,15 +74205,13 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
           if (sty !== undefined) {
             sty$1 = sty;
           } else {
-            throw new Error("Assert_failure", {
-                      cause: {
-                        MEL_EXN_ID: "Assert_failure",
-                        _1: [
-                          "jscomp/test/ocaml_typedtree_test.ml",
-                          46642,
-                          63
-                        ]
-                      }
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "jscomp/test/ocaml_typedtree_test.ml",
+                        46642,
+                        63
+                      ]
                     });
           }
           return check_constraints_rec(newenv, sty$1.ptyp_loc, visited, ty);
@@ -76922,22 +74300,18 @@ function transl_extension_constructor(env, check_open, type_path, type_params, t
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Unify) {
-        throw new Error($$Error$8, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$8,
-                    _1: lid$1.loc,
-                    _2: {
-                      TAG: /* Rebind_wrong_type */13,
-                      _0: lid$1.txt,
-                      _1: env,
-                      _2: exn._1
-                    }
+        throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                  MEL_EXN_ID: $$Error$8,
+                  _1: lid$1.loc,
+                  _2: {
+                    TAG: /* Rebind_wrong_type */13,
+                    _0: lid$1.txt,
+                    _1: env,
+                    _2: exn._1
                   }
                 });
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
     if (!cdescr.cstr_generalized) {
       var vars = free_variables$1(undefined, newty2(100000000, {
@@ -76966,15 +74340,13 @@ function transl_extension_constructor(env, check_open, type_path, type_params, t
     var match$4 = cdescr.cstr_res.desc;
     var match$5;
     if (typeof match$4 === "number") {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    47376,
-                    17
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  47376,
+                  17
+                ]
               });
     }
     if (match$4.TAG === /* Tconstr */3) {
@@ -76985,15 +74357,13 @@ function transl_extension_constructor(env, check_open, type_path, type_params, t
         decl.type_params
       ];
     } else {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    47376,
-                    17
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  47376,
+                  17
+                ]
               });
     }
     var cstr_type_params = match$5[1];
@@ -77023,29 +74393,25 @@ function transl_extension_constructor(env, check_open, type_path, type_params, t
       tl: type_params
     };
     if (!equal$5(env, true, cstr_types, ext_types)) {
-      throw new Error($$Error$8, {
-                cause: {
-                  MEL_EXN_ID: $$Error$8,
-                  _1: lid$1.loc,
-                  _2: {
-                    TAG: /* Rebind_mismatch */14,
-                    _0: lid$1.txt,
-                    _1: cstr_type_path,
-                    _2: type_path
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                MEL_EXN_ID: $$Error$8,
+                _1: lid$1.loc,
+                _2: {
+                  TAG: /* Rebind_mismatch */14,
+                  _0: lid$1.txt,
+                  _1: cstr_type_path,
+                  _2: type_path
                 }
               });
     }
     var match$6 = cdescr.cstr_private;
     if (!match$6 && priv) {
-      throw new Error($$Error$8, {
-                cause: {
-                  MEL_EXN_ID: $$Error$8,
-                  _1: lid$1.loc,
-                  _2: {
-                    TAG: /* Rebind_private */15,
-                    _0: lid$1.txt
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                MEL_EXN_ID: $$Error$8,
+                _1: lid$1.loc,
+                _2: {
+                  TAG: /* Rebind_private */15,
+                  _0: lid$1.txt
                 }
               });
     }
@@ -77054,15 +74420,13 @@ function transl_extension_constructor(env, check_open, type_path, type_params, t
     switch (match$7.TAG | 0) {
       case /* Cstr_constant */0 :
       case /* Cstr_block */1 :
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        47401,
-                        17
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      47401,
+                      17
+                    ]
                   });
       case /* Cstr_extension */2 :
           path = match$7._0;
@@ -77119,37 +74483,31 @@ function transl_type_extension(check_open, env, loc, styext) {
                   return false;
                 }
               }), styext.ptyext_constructors);
-        throw new Error($$Error$8, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$8,
-                    _1: match$2.pext_loc,
-                    _2: {
-                      TAG: /* Not_open_type */10,
-                      _0: type_path
-                    }
+        throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                  MEL_EXN_ID: $$Error$8,
+                  _1: match$2.pext_loc,
+                  _2: {
+                    TAG: /* Not_open_type */10,
+                    _0: type_path
                   }
                 });
       }
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
         if (exn.MEL_EXN_ID !== Stdlib.Not_found) {
-          throw new Error(exn.MEL_EXN_ID, {
-                    cause: exn
-                  });
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         }
         
       }
     }
     
   } else {
-    throw new Error($$Error$8, {
-              cause: {
-                MEL_EXN_ID: $$Error$8,
-                _1: loc,
-                _2: {
-                  TAG: /* Not_extensible_type */11,
-                  _0: type_path
-                }
+    throw new Caml_js_exceptions.MelangeError($$Error$8, {
+              MEL_EXN_ID: $$Error$8,
+              _1: loc,
+              _2: {
+                TAG: /* Not_extensible_type */11,
+                _0: type_path
               }
             });
   }
@@ -77183,15 +74541,13 @@ function transl_type_extension(check_open, env, loc, styext) {
           })
     );
   if (Caml_obj.caml_notequal(err, /* [] */0)) {
-    throw new Error($$Error$8, {
-              cause: {
-                MEL_EXN_ID: $$Error$8,
-                _1: loc,
-                _2: {
-                  TAG: /* Extension_mismatch */12,
-                  _0: type_path,
-                  _1: err
-                }
+    throw new Caml_js_exceptions.MelangeError($$Error$8, {
+              MEL_EXN_ID: $$Error$8,
+              _1: loc,
+              _2: {
+                TAG: /* Extension_mismatch */12,
+                _0: type_path,
+                _1: err
               }
             });
   }
@@ -77218,15 +74574,13 @@ function transl_type_extension(check_open, env, loc, styext) {
           if (ty === undefined) {
             return ;
           }
-          throw new Error($$Error$8, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$8,
-                      _1: ext.ext_loc,
-                      _2: {
-                        TAG: /* Unbound_type_var_ext */19,
-                        _0: ty,
-                        _1: ext.ext_type
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                    MEL_EXN_ID: $$Error$8,
+                    _1: ext.ext_loc,
+                    _2: {
+                      TAG: /* Unbound_type_var_ext */19,
+                      _0: ty,
+                      _1: ext.ext_type
                     }
                   });
         }), constructors);
@@ -77265,15 +74619,13 @@ function transl_exception(env, sext) {
   may(generalize, ext.ext_type.ext_ret_type);
   var ty = closed_extension_constructor(ext.ext_type);
   if (ty !== undefined) {
-    throw new Error($$Error$8, {
-              cause: {
-                MEL_EXN_ID: $$Error$8,
-                _1: ext.ext_loc,
-                _2: {
-                  TAG: /* Unbound_type_var_ext */19,
-                  _0: ty,
-                  _1: ext.ext_type
-                }
+    throw new Caml_js_exceptions.MelangeError($$Error$8, {
+              MEL_EXN_ID: $$Error$8,
+              _1: ext.ext_loc,
+              _2: {
+                TAG: /* Unbound_type_var_ext */19,
+                _0: ty,
+                _1: ext.ext_type
               }
             });
   }
@@ -77340,21 +74692,17 @@ function transl_value_decl(env, loc, valdecl) {
     var prim = parse_declaration(arity$1, decl);
     var prim_native_name = prim.prim_native_name;
     if (arity$1 === 0 && !(prim_native_name.length > 3 && prim_native_name[0] === "B" && prim_native_name[1] === "S" && prim_native_name[2] === ":") && (prim.prim_name.length === 0 || Caml_string.get(prim.prim_name, 0) !== /* '%' */37 && Caml_string.get(prim.prim_name, 0) !== /* '#' */35)) {
-      throw new Error($$Error$8, {
-                cause: {
-                  MEL_EXN_ID: $$Error$8,
-                  _1: valdecl.pval_type.ptyp_loc,
-                  _2: /* Null_arity_external */2
-                }
+      throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                MEL_EXN_ID: $$Error$8,
+                _1: valdecl.pval_type.ptyp_loc,
+                _2: /* Null_arity_external */2
               });
     }
     if (native_code.contents && prim.prim_arity > 5 && prim_native_name === "") {
-      throw new Error($$Error$8, {
-                cause: {
-                  MEL_EXN_ID: $$Error$8,
-                  _1: valdecl.pval_type.ptyp_loc,
-                  _2: /* Missing_native_external */3
-                }
+      throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                MEL_EXN_ID: $$Error$8,
+                _1: valdecl.pval_type.ptyp_loc,
+                _2: /* Missing_native_external */3
               });
     }
     v = {
@@ -77432,21 +74780,17 @@ function transl_with_constraint(env, id, row_path, orig_decl, sdecl) {
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.MEL_EXN_ID === Unify) {
-              throw new Error($$Error$8, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$8,
-                          _1: loc,
-                          _2: {
-                            TAG: /* Inconsistent_constraint */6,
-                            _0: env,
-                            _1: exn._1
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$8, {
+                        MEL_EXN_ID: $$Error$8,
+                        _1: loc,
+                        _2: {
+                          TAG: /* Inconsistent_constraint */6,
+                          _0: env,
+                          _1: exn._1
                         }
                       });
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
         }), sdecl.ptype_cstrs);
   var no_row = !is_fixed_type(sdecl);
@@ -77494,15 +74838,13 @@ function transl_with_constraint(env, id, row_path, orig_decl, sdecl) {
   }
   var ty = closed_type_decl(decl);
   if (ty !== undefined) {
-    throw new Error($$Error$8, {
-              cause: {
-                MEL_EXN_ID: $$Error$8,
-                _1: sdecl.ptype_loc,
-                _2: {
-                  TAG: /* Unbound_type_var */9,
-                  _0: ty,
-                  _1: decl
-                }
+    throw new Caml_js_exceptions.MelangeError($$Error$8, {
+              MEL_EXN_ID: $$Error$8,
+              _1: sdecl.ptype_loc,
+              _2: {
+                TAG: /* Unbound_type_var */9,
+                _0: ty,
+                _1: decl
               }
             });
   }
@@ -77686,9 +75028,7 @@ function explain_unbound(ppf, tv, tl, typ, kwd, lab) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -79307,16 +76647,14 @@ function enter_val(cl_num, vars, inh, lab, mut, virt, ty, val_env, met_env, par_
     var match$1 = Curry._2(Meths.find, lab, vars.contents);
     var virt$p = match$1[2];
     if (match$1[1] !== mut) {
-      throw new Error($$Error$9, {
-                cause: {
-                  MEL_EXN_ID: $$Error$9,
-                  _1: loc,
-                  _2: val_env,
-                  _3: {
-                    TAG: /* Mutability_mismatch */22,
-                    _0: lab,
-                    _1: mut
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                MEL_EXN_ID: $$Error$9,
+                _1: loc,
+                _2: val_env,
+                _3: {
+                  TAG: /* Mutability_mismatch */22,
+                  _0: lab,
+                  _1: mut
                 }
               });
     }
@@ -79329,17 +76667,15 @@ function enter_val(cl_num, vars, inh, lab, mut, virt, ty, val_env, met_env, par_
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Unify) {
-      throw new Error($$Error$9, {
-                cause: {
-                  MEL_EXN_ID: $$Error$9,
-                  _1: loc,
-                  _2: val_env,
-                  _3: {
-                    TAG: /* Field_type_mismatch */1,
-                    _0: "instance variable",
-                    _1: lab,
-                    _2: exn._1
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                MEL_EXN_ID: $$Error$9,
+                _1: loc,
+                _2: val_env,
+                _3: {
+                  TAG: /* Field_type_mismatch */1,
+                  _0: "instance variable",
+                  _1: lab,
+                  _2: exn._1
                 }
               });
     }
@@ -79349,9 +76685,7 @@ function enter_val(cl_num, vars, inh, lab, mut, virt, ty, val_env, met_env, par_
         virt
       ];
     } else {
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   }
   var id = match[0];
@@ -79409,17 +76743,15 @@ function inheritance(self_type, env, ovf, concr_meths, warn_vals, loc, parent) {
                       exit = 1;
                     } else {
                       if (match$3.TAG === /* Tfield */5) {
-                        throw new Error($$Error$9, {
-                                  cause: {
-                                    MEL_EXN_ID: $$Error$9,
-                                    _1: loc,
-                                    _2: env,
-                                    _3: {
-                                      TAG: /* Field_type_mismatch */1,
-                                      _0: "method",
-                                      _1: match$3._0,
-                                      _2: match$2.tl
-                                    }
+                        throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                                  MEL_EXN_ID: $$Error$9,
+                                  _1: loc,
+                                  _2: env,
+                                  _3: {
+                                    TAG: /* Field_type_mismatch */1,
+                                    _0: "method",
+                                    _1: match$3._0,
+                                    _2: match$2.tl
                                   }
                                 });
                       }
@@ -79438,22 +76770,18 @@ function inheritance(self_type, env, ovf, concr_meths, warn_vals, loc, parent) {
               exit = 1;
             }
             if (exit === 1) {
-              throw new Error("Assert_failure", {
-                        cause: {
-                          MEL_EXN_ID: "Assert_failure",
-                          _1: [
-                            "jscomp/test/ocaml_typedtree_test.ml",
-                            48280,
-                            12
-                          ]
-                        }
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/ocaml_typedtree_test.ml",
+                          48280,
+                          12
+                        ]
                       });
             }
             
           } else {
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
         }
         var over_meths = Curry._2(inter$1, cl_sig$1.csig_concr, concr_meths);
@@ -79492,16 +76820,14 @@ function inheritance(self_type, env, ovf, concr_meths, warn_vals, loc, parent) {
             }
             
           } else if (Curry._1(is_empty$1, over_meths) && Curry._1(is_empty$1, over_vals)) {
-            throw new Error($$Error$9, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$9,
-                        _1: loc,
-                        _2: env,
-                        _3: {
-                          TAG: /* No_overriding */23,
-                          _0: "",
-                          _1: ""
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                      MEL_EXN_ID: $$Error$9,
+                      _1: loc,
+                      _2: env,
+                      _3: {
+                        TAG: /* No_overriding */23,
+                        _0: "",
+                        _1: ""
                       }
                     });
           }
@@ -79516,15 +76842,13 @@ function inheritance(self_type, env, ovf, concr_meths, warn_vals, loc, parent) {
               ];
     case /* Cty_constr */0 :
     case /* Cty_arrow */2 :
-        throw new Error($$Error$9, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$9,
-                    _1: loc,
-                    _2: env,
-                    _3: {
-                      TAG: /* Structure_expected */2,
-                      _0: parent
-                    }
+        throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                  MEL_EXN_ID: $$Error$9,
+                  _1: loc,
+                  _2: env,
+                  _3: {
+                    TAG: /* Structure_expected */2,
+                    _0: parent
                   }
                 });
     
@@ -79542,23 +76866,19 @@ function virtual_method(val_env, meths, self_type, lab, priv, sty, loc) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Unify) {
-      throw new Error($$Error$9, {
-                cause: {
-                  MEL_EXN_ID: $$Error$9,
-                  _1: loc,
-                  _2: val_env,
-                  _3: {
-                    TAG: /* Field_type_mismatch */1,
-                    _0: "method",
-                    _1: lab,
-                    _2: exn._1
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                MEL_EXN_ID: $$Error$9,
+                _1: loc,
+                _2: val_env,
+                _3: {
+                  TAG: /* Field_type_mismatch */1,
+                  _0: "method",
+                  _1: lab,
+                  _2: exn._1
                 }
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
   return cty;
 }
@@ -79577,23 +76897,19 @@ function declare_method(val_env, meths, self_type, lab, priv, sty, loc) {
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Unify) {
-        throw new Error($$Error$9, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$9,
-                    _1: loc,
-                    _2: val_env,
-                    _3: {
-                      TAG: /* Field_type_mismatch */1,
-                      _0: "method",
-                      _1: lab,
-                      _2: exn._1
-                    }
+        throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                  MEL_EXN_ID: $$Error$9,
+                  _1: loc,
+                  _2: val_env,
+                  _3: {
+                    TAG: /* Field_type_mismatch */1,
+                    _0: "method",
+                    _1: lab,
+                    _2: exn._1
                   }
                 });
       }
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   };
   var sty$1 = force_poly(sty);
@@ -79637,21 +76953,17 @@ function type_constraint(val_env, sty, sty$p, loc) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Unify) {
-      throw new Error($$Error$9, {
-                cause: {
-                  MEL_EXN_ID: $$Error$9,
-                  _1: loc,
-                  _2: val_env,
-                  _3: {
-                    TAG: /* Unconsistent_constraint */0,
-                    _0: exn._1
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                MEL_EXN_ID: $$Error$9,
+                _1: loc,
+                _2: val_env,
+                _3: {
+                  TAG: /* Unconsistent_constraint */0,
+                  _0: exn._1
                 }
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
   return [
           cty,
@@ -79682,9 +76994,7 @@ function add_val(env, loc, lab, param, val_sig) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       virt$1 = virt;
     } else {
-      throw new Error(exn.MEL_EXN_ID, {
-                cause: exn
-              });
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   }
   return Curry._3(Meths.add, lab, [
@@ -79719,21 +77029,17 @@ function class_signature$1(env, param) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Unify) {
-      throw new Error($$Error$9, {
-                cause: {
-                  MEL_EXN_ID: $$Error$9,
-                  _1: sty.ptyp_loc,
-                  _2: env,
-                  _3: {
-                    TAG: /* Pattern_type_clash */5,
-                    _0: self_type
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                MEL_EXN_ID: $$Error$9,
+                _1: sty.ptyp_loc,
+                _2: env,
+                _3: {
+                  TAG: /* Pattern_type_clash */5,
+                  _0: self_type
                 }
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
   warning_enter_scope(undefined);
   var match = Stdlib__List.fold_left((function (param, param$1) {
@@ -79878,11 +77184,9 @@ function class_signature$1(env, param) {
                         inher
                       ];
             case /* Pctf_extension */5 :
-                throw new Error(Error_forward$2, {
-                          cause: {
-                            MEL_EXN_ID: Error_forward$2,
-                            _1: error_of_extension(sparent._0)
-                          }
+                throw new Caml_js_exceptions.MelangeError(Error_forward$2, {
+                          MEL_EXN_ID: Error_forward$2,
+                          _1: error_of_extension(sparent._0)
                         });
             
           }
@@ -79928,32 +77232,28 @@ function class_type$3(env, scty) {
         var decl = match[1];
         var path = match[0];
         if (same(decl.clty_path, unbound_class)) {
-          throw new Error($$Error$9, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$9,
-                      _1: scty.pcty_loc,
-                      _2: env,
-                      _3: {
-                        TAG: /* Unbound_class_type_2 */7,
-                        _0: lid.txt
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                    MEL_EXN_ID: $$Error$9,
+                    _1: scty.pcty_loc,
+                    _2: env,
+                    _3: {
+                      TAG: /* Unbound_class_type_2 */7,
+                      _0: lid.txt
                     }
                   });
         }
         var match$1 = instance_class(decl.clty_params, decl.clty_type);
         var params = match$1[0];
         if (Stdlib__List.length(params) !== Stdlib__List.length(styl)) {
-          throw new Error($$Error$9, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$9,
-                      _1: scty.pcty_loc,
-                      _2: env,
-                      _3: {
-                        TAG: /* Parameter_arity_mismatch */11,
-                        _0: lid.txt,
-                        _1: Stdlib__List.length(params),
-                        _2: Stdlib__List.length(styl)
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                    MEL_EXN_ID: $$Error$9,
+                    _1: scty.pcty_loc,
+                    _2: env,
+                    _3: {
+                      TAG: /* Parameter_arity_mismatch */11,
+                      _0: lid.txt,
+                      _1: Stdlib__List.length(params),
+                      _2: Stdlib__List.length(styl)
                     }
                   });
         }
@@ -79966,21 +77266,17 @@ function class_type$3(env, scty) {
                 catch (raw_exn){
                   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
                   if (exn.MEL_EXN_ID === Unify) {
-                    throw new Error($$Error$9, {
-                              cause: {
-                                MEL_EXN_ID: $$Error$9,
-                                _1: sty.ptyp_loc,
-                                _2: env,
-                                _3: {
-                                  TAG: /* Parameter_mismatch */12,
-                                  _0: exn._1
-                                }
+                    throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                              MEL_EXN_ID: $$Error$9,
+                              _1: sty.ptyp_loc,
+                              _2: env,
+                              _3: {
+                                TAG: /* Parameter_mismatch */12,
+                                _0: exn._1
                               }
                             });
                   }
-                  throw new Error(exn.MEL_EXN_ID, {
-                            cause: exn
-                          });
+                  throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                 }
                 return cty$p;
               }), styl, params);
@@ -80026,11 +77322,9 @@ function class_type$3(env, scty) {
                     _2: clty
                   }, typ$2);
     case /* Pcty_extension */3 :
-        throw new Error(Error_forward$2, {
-                  cause: {
-                    MEL_EXN_ID: Error_forward$2,
-                    _1: error_of_extension(pcsig._0)
-                  }
+        throw new Caml_js_exceptions.MelangeError(Error_forward$2, {
+                  MEL_EXN_ID: Error_forward$2,
+                  _1: error_of_extension(pcsig._0)
                 });
     
   }
@@ -80087,21 +77381,17 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Unify) {
-      throw new Error($$Error$9, {
-                cause: {
-                  MEL_EXN_ID: $$Error$9,
-                  _1: spat.ppat_loc,
-                  _2: val_env$1,
-                  _3: {
-                    TAG: /* Pattern_type_clash */5,
-                    _0: public_self
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                MEL_EXN_ID: $$Error$9,
+                _1: spat.ppat_loc,
+                _2: val_env$1,
+                _3: {
+                  TAG: /* Pattern_type_clash */5,
+                  _0: public_self
                 }
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
   var get_methods = function (ty) {
     return flatten_fields(object_fields(expand_head(val_env$1, ty)))[0];
@@ -80113,15 +77403,13 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
               return unify$2(val_env$1, param[2], filter_method(val_env$1, param[0], k, self_type));
             }
             catch (exn){
-              throw new Error("Assert_failure", {
-                        cause: {
-                          MEL_EXN_ID: "Assert_failure",
-                          _1: [
-                            "jscomp/test/ocaml_typedtree_test.ml",
-                            48779,
-                            18
-                          ]
-                        }
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/ocaml_typedtree_test.ml",
+                          48779,
+                          18
+                        ]
                       });
             }
           }), get_methods(public_self));
@@ -80305,16 +77593,14 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                 }
                 var ovf$1 = styp._0;
                 if (Curry._2(mem$2, lab.txt, local_vals)) {
-                  throw new Error($$Error$9, {
-                            cause: {
-                              MEL_EXN_ID: $$Error$9,
-                              _1: loc,
-                              _2: val_env,
-                              _3: {
-                                TAG: /* Duplicate */24,
-                                _0: "instance variable",
-                                _1: lab.txt
-                              }
+                  throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                            MEL_EXN_ID: $$Error$9,
+                            _1: loc,
+                            _2: val_env,
+                            _3: {
+                              TAG: /* Duplicate */24,
+                              _0: "instance variable",
+                              _1: lab.txt
                             }
                           });
                 }
@@ -80330,16 +77616,14 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                   }
                   
                 } else if (ovf$1 === /* Override */0) {
-                  throw new Error($$Error$9, {
-                            cause: {
-                              MEL_EXN_ID: $$Error$9,
-                              _1: loc,
-                              _2: val_env,
-                              _3: {
-                                TAG: /* No_overriding */23,
-                                _0: "instance variable",
-                                _1: lab.txt
-                              }
+                  throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                            MEL_EXN_ID: $$Error$9,
+                            _1: loc,
+                            _2: val_env,
+                            _3: {
+                              TAG: /* No_overriding */23,
+                              _0: "instance variable",
+                              _1: lab.txt
                             }
                           });
                 }
@@ -80356,29 +77640,21 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                     var match$7 = exn._1;
                     if (match$7) {
                       if (match$7.tl) {
-                        throw new Error(exn.MEL_EXN_ID, {
-                                  cause: exn
-                                });
+                        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                       }
-                      throw new Error($$Error$9, {
-                                cause: {
-                                  MEL_EXN_ID: $$Error$9,
-                                  _1: loc,
-                                  _2: val_env,
-                                  _3: {
-                                    TAG: /* Make_nongen_seltype */17,
-                                    _0: match$7.hd[0]
-                                  }
+                      throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                                MEL_EXN_ID: $$Error$9,
+                                _1: loc,
+                                _2: val_env,
+                                _3: {
+                                  TAG: /* Make_nongen_seltype */17,
+                                  _0: match$7.hd[0]
                                 }
                               });
                     }
-                    throw new Error(exn.MEL_EXN_ID, {
-                              cause: exn
-                            });
+                    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                   }
-                  throw new Error(exn.MEL_EXN_ID, {
-                            cause: exn
-                          });
+                  throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                 }
                 if (principal.contents) {
                   end_def(undefined);
@@ -80458,16 +77734,14 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                 var expr$2;
                 expr$2 = match$10.TAG === /* Pexp_poly */28 ? expr$1 : Curry._4(Ast_helper_Exp.poly, expr$1.pexp_loc, undefined, expr$1, undefined);
                 if (Curry._2(mem$2, lab$1.txt, local_meths)) {
-                  throw new Error($$Error$9, {
-                            cause: {
-                              MEL_EXN_ID: $$Error$9,
-                              _1: loc,
-                              _2: val_env,
-                              _3: {
-                                TAG: /* Duplicate */24,
-                                _0: "method",
-                                _1: lab$1.txt
-                              }
+                  throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                            MEL_EXN_ID: $$Error$9,
+                            _1: loc,
+                            _2: val_env,
+                            _3: {
+                              TAG: /* Duplicate */24,
+                              _0: "method",
+                              _1: lab$1.txt
                             }
                           });
                 }
@@ -80483,16 +77757,14 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                   }
                   
                 } else if (ovf$2 === /* Override */0) {
-                  throw new Error($$Error$9, {
-                            cause: {
-                              MEL_EXN_ID: $$Error$9,
-                              _1: loc,
-                              _2: val_env,
-                              _3: {
-                                TAG: /* No_overriding */23,
-                                _0: "method",
-                                _1: lab$1.txt
-                              }
+                  throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                            MEL_EXN_ID: $$Error$9,
+                            _1: loc,
+                            _2: val_env,
+                            _3: {
+                              TAG: /* No_overriding */23,
+                              _0: "method",
+                              _1: lab$1.txt
                             }
                           });
                 }
@@ -80511,15 +77783,13 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                     }
                     var match$13 = repr(ty$1).desc;
                     if (typeof match$13 === "number") {
-                      throw new Error("Assert_failure", {
-                                cause: {
-                                  MEL_EXN_ID: "Assert_failure",
-                                  _1: [
-                                    "jscomp/test/ocaml_typedtree_test.ml",
-                                    48681,
-                                    17
-                                  ]
-                                }
+                      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                MEL_EXN_ID: "Assert_failure",
+                                _1: [
+                                  "jscomp/test/ocaml_typedtree_test.ml",
+                                  48681,
+                                  17
+                                ]
                               });
                     }
                     switch (match$13.TAG | 0) {
@@ -80538,50 +77808,42 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                           unify$2(val_env, ty2, match$14[1]);
                           break;
                       default:
-                        throw new Error("Assert_failure", {
-                                  cause: {
-                                    MEL_EXN_ID: "Assert_failure",
-                                    _1: [
-                                      "jscomp/test/ocaml_typedtree_test.ml",
-                                      48681,
-                                      17
-                                    ]
-                                  }
+                        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                  MEL_EXN_ID: "Assert_failure",
+                                  _1: [
+                                    "jscomp/test/ocaml_typedtree_test.ml",
+                                    48681,
+                                    17
+                                  ]
                                 });
                     }
                   } else {
-                    throw new Error("Assert_failure", {
-                              cause: {
-                                MEL_EXN_ID: "Assert_failure",
-                                _1: [
-                                  "jscomp/test/ocaml_typedtree_test.ml",
-                                  48683,
-                                  13
-                                ]
-                              }
+                    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                              MEL_EXN_ID: "Assert_failure",
+                              _1: [
+                                "jscomp/test/ocaml_typedtree_test.ml",
+                                48683,
+                                13
+                              ]
                             });
                   }
                 }
                 catch (raw_exn$1){
                   var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
                   if (exn$1.MEL_EXN_ID === Unify) {
-                    throw new Error($$Error$9, {
-                              cause: {
-                                MEL_EXN_ID: $$Error$9,
-                                _1: loc,
-                                _2: val_env,
-                                _3: {
-                                  TAG: /* Field_type_mismatch */1,
-                                  _0: "method",
-                                  _1: lab$1.txt,
-                                  _2: exn$1._1
-                                }
+                    throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                              MEL_EXN_ID: $$Error$9,
+                              _1: loc,
+                              _2: val_env,
+                              _3: {
+                                TAG: /* Field_type_mismatch */1,
+                                _0: "method",
+                                _1: lab$1.txt,
+                                _2: exn$1._1
                               }
                             });
                   }
-                  throw new Error(exn$1.MEL_EXN_ID, {
-                            cause: exn$1
-                          });
+                  throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
                 }
                 var meth_expr = make_method(self_loc, cl_num, expr$2);
                 var vars_local = vars.contents;
@@ -80721,11 +77983,9 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                         local_vals
                       ];
             case /* Pcf_extension */6 :
-                throw new Error(Error_forward$2, {
-                          cause: {
-                            MEL_EXN_ID: Error_forward$2,
-                            _1: error_of_extension(expr._0)
-                          }
+                throw new Caml_js_exceptions.MelangeError(Error_forward$2, {
+                          MEL_EXN_ID: Error_forward$2,
+                          _1: error_of_extension(expr._0)
                         });
             
           }
@@ -80780,18 +78040,16 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
             }
           }), sign_csig_vars, /* [] */0);
     if (Caml_obj.caml_notequal(mets, /* [] */0) || Caml_obj.caml_notequal(vals, /* [] */0)) {
-      throw new Error($$Error$9, {
-                cause: {
-                  MEL_EXN_ID: $$Error$9,
-                  _1: loc,
-                  _2: val_env$1,
-                  _3: {
-                    TAG: /* Virtual_class */10,
-                    _0: true,
-                    _1: $$final,
-                    _2: mets,
-                    _3: vals
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                MEL_EXN_ID: $$Error$9,
+                _1: loc,
+                _2: val_env$1,
+                _3: {
+                  TAG: /* Virtual_class */10,
+                  _0: true,
+                  _1: $$final,
+                  _2: mets,
+                  _3: vals
                 }
               });
     }
@@ -80831,21 +78089,17 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
     catch (raw_exn$1){
       var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
       if (exn$1.MEL_EXN_ID === Unify) {
-        throw new Error($$Error$9, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$9,
-                    _1: loc,
-                    _2: val_env$1,
-                    _3: {
-                      TAG: /* Final_self_clash */21,
-                      _0: exn$1._1
-                    }
+        throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                  MEL_EXN_ID: $$Error$9,
+                  _1: loc,
+                  _2: val_env$1,
+                  _3: {
+                    TAG: /* Final_self_clash */21,
+                    _0: exn$1._1
                   }
                 });
       }
-      throw new Error(exn$1.MEL_EXN_ID, {
-                cause: exn$1
-              });
+      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
     }
   }
   if (principal.contents) {
@@ -80909,15 +78163,13 @@ function class_expr(cl_num, val_env, met_env, _scl) {
           var decl = match[1];
           var path = match[0];
           if (same(decl.cty_path, unbound_class)) {
-            throw new Error($$Error$9, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$9,
-                        _1: scl.pcl_loc,
-                        _2: val_env,
-                        _3: {
-                          TAG: /* Unbound_class_2 */6,
-                          _0: lid.txt
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                      MEL_EXN_ID: $$Error$9,
+                      _1: scl.pcl_loc,
+                      _2: val_env,
+                      _3: {
+                        TAG: /* Unbound_class_2 */6,
+                        _0: lid.txt
                       }
                     });
           }
@@ -80929,17 +78181,15 @@ function class_expr(cl_num, val_env, met_env, _scl) {
           var params = match$1[0];
           var clty$p = abbreviate_class_type(path, params, clty);
           if (Stdlib__List.length(params) !== Stdlib__List.length(tyl)) {
-            throw new Error($$Error$9, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$9,
-                        _1: scl.pcl_loc,
-                        _2: val_env,
-                        _3: {
-                          TAG: /* Parameter_arity_mismatch */11,
-                          _0: lid.txt,
-                          _1: Stdlib__List.length(params),
-                          _2: Stdlib__List.length(tyl)
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                      MEL_EXN_ID: $$Error$9,
+                      _1: scl.pcl_loc,
+                      _2: val_env,
+                      _3: {
+                        TAG: /* Parameter_arity_mismatch */11,
+                        _0: lid.txt,
+                        _1: Stdlib__List.length(params),
+                        _2: Stdlib__List.length(tyl)
                       }
                     });
           }
@@ -80951,21 +78201,17 @@ function class_expr(cl_num, val_env, met_env, _scl) {
                   catch (raw_exn){
                     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
                     if (exn.MEL_EXN_ID === Unify) {
-                      throw new Error($$Error$9, {
-                                cause: {
-                                  MEL_EXN_ID: $$Error$9,
-                                  _1: cty$p.ctyp_loc,
-                                  _2: val_env,
-                                  _3: {
-                                    TAG: /* Parameter_mismatch */12,
-                                    _0: exn._1
-                                  }
+                      throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                                MEL_EXN_ID: $$Error$9,
+                                _1: cty$p.ctyp_loc,
+                                _2: val_env,
+                                _3: {
+                                  TAG: /* Parameter_mismatch */12,
+                                  _0: exn._1
                                 }
                               });
                     }
-                    throw new Error(exn.MEL_EXN_ID, {
-                              cause: exn
-                            });
+                    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                   }
                 }), tyl, params);
           var cl = rc({
@@ -81247,15 +78493,13 @@ function class_expr(cl_num, val_env, met_env, _scl) {
                             if (ignore_labels && !is_optional(l)) {
                               if (sargs) {
                                 var match$1 = sargs.hd;
-                                throw new Error($$Error$9, {
-                                          cause: {
-                                            MEL_EXN_ID: $$Error$9,
-                                            _1: match$1[1].pexp_loc,
-                                            _2: val_env,
-                                            _3: {
-                                              TAG: /* Apply_wrong_label */4,
-                                              _0: match$1[0]
-                                            }
+                                throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                                          MEL_EXN_ID: $$Error$9,
+                                          _1: match$1[1].pexp_loc,
+                                          _2: val_env,
+                                          _3: {
+                                            TAG: /* Apply_wrong_label */4,
+                                            _0: match$1[0]
                                           }
                                         });
                               }
@@ -81264,15 +78508,13 @@ function class_expr(cl_num, val_env, met_env, _scl) {
                                 var sarg0 = match$2[1];
                                 var l$p = match$2[0];
                                 if (l !== l$p && l$p !== "") {
-                                  throw new Error($$Error$9, {
-                                            cause: {
-                                              MEL_EXN_ID: $$Error$9,
-                                              _1: sarg0.pexp_loc,
-                                              _2: val_env,
-                                              _3: {
-                                                TAG: /* Apply_wrong_label */4,
-                                                _0: l$p
-                                              }
+                                  throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                                            MEL_EXN_ID: $$Error$9,
+                                            _1: sarg0.pexp_loc,
+                                            _2: val_env,
+                                            _3: {
+                                              TAG: /* Apply_wrong_label */4,
+                                              _0: l$p
                                             }
                                           });
                                 }
@@ -81282,15 +78524,13 @@ function class_expr(cl_num, val_env, met_env, _scl) {
                                   type_argument(val_env, sarg0, ty, ty0)
                                 ];
                               } else {
-                                throw new Error("Assert_failure", {
-                                          cause: {
-                                            MEL_EXN_ID: "Assert_failure",
-                                            _1: [
-                                              "jscomp/test/ocaml_typedtree_test.ml",
-                                              49036,
-                                              20
-                                            ]
-                                          }
+                                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                          MEL_EXN_ID: "Assert_failure",
+                                          _1: [
+                                            "jscomp/test/ocaml_typedtree_test.ml",
+                                            49036,
+                                            20
+                                          ]
                                         });
                               }
                             } else {
@@ -81316,9 +78556,7 @@ function class_expr(cl_num, val_env, met_env, _scl) {
                                       match$5[3]
                                     ];
                                   } else {
-                                    throw new Error(exn.MEL_EXN_ID, {
-                                              cause: exn
-                                            });
+                                    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                                   }
                                 }
                                 var sarg0$1 = match$3[1];
@@ -81353,9 +78591,7 @@ function class_expr(cl_num, val_env, met_env, _scl) {
                                     is_optional(l) && (Stdlib__List.mem_assoc("", sargs) || Stdlib__List.mem_assoc("", more_sargs)) ? option_none(ty0, none) : undefined
                                   ];
                                 } else {
-                                  throw new Error(exn$1.MEL_EXN_ID, {
-                                            cause: exn$1
-                                          });
+                                  throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
                                 }
                               }
                             }
@@ -81404,27 +78640,23 @@ function class_expr(cl_num, val_env, met_env, _scl) {
               }
               if (Caml_obj.caml_notequal(omitted, /* [] */0)) {
                 var match$7 = match$6.hd;
-                throw new Error($$Error$9, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$9,
-                            _1: match$7[1].pexp_loc,
-                            _2: val_env,
-                            _3: {
-                              TAG: /* Apply_wrong_label */4,
-                              _0: match$7[0]
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                          MEL_EXN_ID: $$Error$9,
+                          _1: match$7[1].pexp_loc,
+                          _2: val_env,
+                          _3: {
+                            TAG: /* Apply_wrong_label */4,
+                            _0: match$7[0]
                           }
                         });
               }
-              throw new Error($$Error$9, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$9,
-                          _1: cl$2.cl_loc,
-                          _2: val_env,
-                          _3: {
-                            TAG: /* Cannot_apply */3,
-                            _0: cl$2.cl_type
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                        MEL_EXN_ID: $$Error$9,
+                        _1: cl$2.cl_loc,
+                        _2: val_env,
+                        _3: {
+                          TAG: /* Cannot_apply */3,
+                          _0: cl$2.cl_type
                         }
                       });
             };
@@ -81456,29 +78688,21 @@ function class_expr(cl_num, val_env, met_env, _scl) {
               var match$8 = exn._1;
               if (match$8) {
                 if (match$8.tl) {
-                  throw new Error(exn.MEL_EXN_ID, {
-                            cause: exn
-                          });
+                  throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                 }
-                throw new Error($$Error$9, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$9,
-                            _1: scl.pcl_loc,
-                            _2: val_env,
-                            _3: {
-                              TAG: /* Make_nongen_seltype */17,
-                              _0: match$8.hd[0]
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                          MEL_EXN_ID: $$Error$9,
+                          _1: scl.pcl_loc,
+                          _2: val_env,
+                          _3: {
+                            TAG: /* Make_nongen_seltype */17,
+                            _0: match$8.hd[0]
                           }
                         });
               }
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
           var val_env$1 = match$7[1];
           var defs = match$7[0];
@@ -81573,15 +78797,13 @@ function class_expr(cl_num, val_env, met_env, _scl) {
           limited_generalize$1(row_variable(repr(signature_of_class_type(clty$1.cltyp_type).csig_self)), clty$1.cltyp_type);
           var error = class_types(val_env, cl$4.cl_type, clty$1.cltyp_type);
           if (error) {
-            throw new Error($$Error$9, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$9,
-                        _1: cl$4.cl_loc,
-                        _2: val_env,
-                        _3: {
-                          TAG: /* Class_match_failure */14,
-                          _0: error
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                      MEL_EXN_ID: $$Error$9,
+                      _1: cl$4.cl_loc,
+                      _2: val_env,
+                      _3: {
+                        TAG: /* Class_match_failure */14,
+                        _0: error
                       }
                     });
           }
@@ -81601,11 +78823,9 @@ function class_expr(cl_num, val_env, met_env, _scl) {
                       cl_attributes: scl.pcl_attributes
                     });
       case /* Pcl_extension */6 :
-          throw new Error(Error_forward$2, {
-                    cause: {
-                      MEL_EXN_ID: Error_forward$2,
-                      _1: error_of_extension(cl_str._0)
-                    }
+          throw new Caml_js_exceptions.MelangeError(Error_forward$2, {
+                    MEL_EXN_ID: Error_forward$2,
+                    _1: error_of_extension(cl_str._0)
                   });
       
     }
@@ -81825,18 +79045,14 @@ function type_classes(define_class, approx, kind, env, cls) {
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
               if (exn.MEL_EXN_ID === Already_bound) {
-                throw new Error($$Error$9, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$9,
-                            _1: sty.ptyp_loc,
-                            _2: env,
-                            _3: /* Repeated_parameter */0
-                          }
+                throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                          MEL_EXN_ID: $$Error$9,
+                          _1: sty.ptyp_loc,
+                          _2: env,
+                          _3: /* Repeated_parameter */0
                         });
               }
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
           };
           var ci_params = Stdlib__List.map(make_param, cl.pci_params);
@@ -81864,9 +79080,7 @@ function type_classes(define_class, approx, kind, env, cls) {
           }
           catch (exn){
             self_coercion.contents = /* [] */0;
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
           var typ = match[1];
           end_def(undefined);
@@ -81903,26 +79117,22 @@ function type_classes(define_class, approx, kind, env, cls) {
           catch (raw_exn){
             var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn$1.MEL_EXN_ID === Unify) {
-              throw new Error($$Error$9, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$9,
-                          _1: cl.pci_loc,
-                          _2: env,
-                          _3: {
-                            TAG: /* Bad_parameters */13,
-                            _0: obj_id,
-                            _1: constr,
-                            _2: newconstr({
-                                  TAG: /* Pident */0,
-                                  _0: obj_id
-                                }, obj_params$p)
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                        MEL_EXN_ID: $$Error$9,
+                        _1: cl.pci_loc,
+                        _2: env,
+                        _3: {
+                          TAG: /* Bad_parameters */13,
+                          _0: obj_id,
+                          _1: constr,
+                          _2: newconstr({
+                                TAG: /* Pident */0,
+                                _0: obj_id
+                              }, obj_params$p)
                         }
                       });
             }
-            throw new Error(exn$1.MEL_EXN_ID, {
-                      cause: exn$1
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
           }
           try {
             unify$2(env, ty, constr);
@@ -81930,23 +79140,19 @@ function type_classes(define_class, approx, kind, env, cls) {
           catch (raw_exn$1){
             var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
             if (exn$2.MEL_EXN_ID === Unify) {
-              throw new Error($$Error$9, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$9,
-                          _1: cl.pci_loc,
-                          _2: env,
-                          _3: {
-                            TAG: /* Abbrev_type_clash */8,
-                            _0: constr,
-                            _1: ty,
-                            _2: expand_head(env, constr)
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                        MEL_EXN_ID: $$Error$9,
+                        _1: cl.pci_loc,
+                        _2: env,
+                        _3: {
+                          TAG: /* Abbrev_type_clash */8,
+                          _0: constr,
+                          _1: ty,
+                          _2: expand_head(env, constr)
                         }
                       });
             }
-            throw new Error(exn$2.MEL_EXN_ID, {
-                      cause: exn$2
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
           }
           var match$3 = instance_class(params, typ);
           var cl_params$p = match$3[0];
@@ -81961,29 +79167,25 @@ function type_classes(define_class, approx, kind, env, cls) {
           catch (raw_exn$2){
             var exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
             if (exn$3.MEL_EXN_ID === Unify) {
-              throw new Error($$Error$9, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$9,
-                          _1: cl.pci_loc,
-                          _2: env,
-                          _3: {
-                            TAG: /* Bad_parameters */13,
-                            _0: cl_id,
-                            _1: newconstr({
-                                  TAG: /* Pident */0,
-                                  _0: cl_id
-                                }, cl_params),
-                            _2: newconstr({
-                                  TAG: /* Pident */0,
-                                  _0: cl_id
-                                }, cl_params$p)
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                        MEL_EXN_ID: $$Error$9,
+                        _1: cl.pci_loc,
+                        _2: env,
+                        _3: {
+                          TAG: /* Bad_parameters */13,
+                          _0: cl_id,
+                          _1: newconstr({
+                                TAG: /* Pident */0,
+                                _0: cl_id
+                              }, cl_params),
+                          _2: newconstr({
+                                TAG: /* Pident */0,
+                                _0: cl_id
+                              }, cl_params$p)
                         }
                       });
             }
-            throw new Error(exn$3.MEL_EXN_ID, {
-                      cause: exn$3
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
           }
           try {
             unify$2(env, ty$1, cl_ty);
@@ -81995,23 +79197,19 @@ function type_classes(define_class, approx, kind, env, cls) {
                     TAG: /* Pident */0,
                     _0: cl_id
                   }, params);
-              throw new Error($$Error$9, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$9,
-                          _1: cl.pci_loc,
-                          _2: env,
-                          _3: {
-                            TAG: /* Abbrev_type_clash */8,
-                            _0: constr$1,
-                            _1: ty$1,
-                            _2: cl_ty
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                        MEL_EXN_ID: $$Error$9,
+                        _1: cl.pci_loc,
+                        _2: env,
+                        _3: {
+                          TAG: /* Abbrev_type_clash */8,
+                          _0: constr$1,
+                          _1: ty$1,
+                          _2: cl_ty
                         }
                       });
             }
-            throw new Error(exn$4.MEL_EXN_ID, {
-                      cause: exn$4
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$4.MEL_EXN_ID, exn$4);
           }
           try {
             unify$2(env, constructor_type(constr, obj_type), instance(undefined, env, constr_type));
@@ -82019,22 +79217,18 @@ function type_classes(define_class, approx, kind, env, cls) {
           catch (raw_exn$4){
             var exn$5 = Caml_js_exceptions.internalToOCamlException(raw_exn$4);
             if (exn$5.MEL_EXN_ID === Unify) {
-              throw new Error($$Error$9, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$9,
-                          _1: cl.pci_loc,
-                          _2: env,
-                          _3: {
-                            TAG: /* Constructor_type_mismatch */9,
-                            _0: cl.pci_name.txt,
-                            _1: exn$5._1
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                        MEL_EXN_ID: $$Error$9,
+                        _1: cl.pci_loc,
+                        _2: env,
+                        _3: {
+                          TAG: /* Constructor_type_mismatch */9,
+                          _0: cl.pci_name.txt,
+                          _1: exn$5._1
                         }
                       });
             }
-            throw new Error(exn$5.MEL_EXN_ID, {
-                      cause: exn$5
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn$5.MEL_EXN_ID, exn$5);
           }
           var cty_variance = Stdlib__List.map((function (param) {
                   return Types_Variance.full;
@@ -82083,18 +79277,16 @@ function type_classes(define_class, approx, kind, env, cls) {
                     }
                   }), sign.csig_vars, /* [] */0);
             if (Caml_obj.caml_notequal(mets, /* [] */0) || Caml_obj.caml_notequal(vals, /* [] */0)) {
-              throw new Error($$Error$9, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$9,
-                          _1: cl.pci_loc,
-                          _2: env$1,
-                          _3: {
-                            TAG: /* Virtual_class */10,
-                            _0: define_class,
-                            _1: false,
-                            _2: mets,
-                            _3: vals
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                        MEL_EXN_ID: $$Error$9,
+                        _1: cl.pci_loc,
+                        _2: env$1,
+                        _3: {
+                          TAG: /* Virtual_class */10,
+                          _0: define_class,
+                          _1: false,
+                          _2: mets,
+                          _3: vals
                         }
                       });
             }
@@ -82220,23 +79412,19 @@ function type_classes(define_class, approx, kind, env, cls) {
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.MEL_EXN_ID === Unify) {
-              throw new Error($$Error$9, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$9,
-                          _1: cl.pci_loc,
-                          _2: env$1,
-                          _3: {
-                            TAG: /* Non_collapsable_conjunction */20,
-                            _0: id,
-                            _1: clty,
-                            _2: exn._1
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                        MEL_EXN_ID: $$Error$9,
+                        _1: cl.pci_loc,
+                        _2: env$1,
+                        _3: {
+                          TAG: /* Non_collapsable_conjunction */20,
+                          _0: id,
+                          _1: clty,
+                          _2: exn._1
                         }
                       });
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
           Stdlib__List.iter(generalize, clty.cty_params);
           generalize_class_type(generalize, clty.cty_type);
@@ -82246,16 +79434,14 @@ function type_classes(define_class, approx, kind, env, cls) {
           Stdlib__List.iter(generalize, cl_abbr.type_params);
           may(generalize, cl_abbr.type_manifest);
           if (!closed_class$1(clty)) {
-            throw new Error($$Error$9, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$9,
-                        _1: cl.pci_loc,
-                        _2: env$1,
-                        _3: {
-                          TAG: /* Non_generalizable_class */18,
-                          _0: id,
-                          _1: clty
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                      MEL_EXN_ID: $$Error$9,
+                      _1: cl.pci_loc,
+                      _2: env$1,
+                      _3: {
+                        TAG: /* Non_generalizable_class */18,
+                        _0: id,
+                        _1: clty
                       }
                     });
           }
@@ -82266,16 +79452,14 @@ function type_classes(define_class, approx, kind, env, cls) {
                 }) : (function (ppf) {
                   cltype_declaration$1(id, ppf, cltydef);
                 });
-            throw new Error($$Error$9, {
-                      cause: {
-                        MEL_EXN_ID: $$Error$9,
-                        _1: cl.pci_loc,
-                        _2: env$1,
-                        _3: {
-                          TAG: /* Unbound_type_var */16,
-                          _0: printer,
-                          _1: reason
-                        }
+            throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                      MEL_EXN_ID: $$Error$9,
+                      _1: cl.pci_loc,
+                      _2: env$1,
+                      _3: {
+                        TAG: /* Unbound_type_var */16,
+                        _0: printer,
+                        _1: reason
                       }
                     });
           }
@@ -82336,27 +79520,23 @@ function type_classes(define_class, approx, kind, env, cls) {
                   match$4[1]
                 ];
               } else {
-                throw new Error("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/ocaml_typedtree_test.ml",
-                              49581,
-                              15
-                            ]
-                          }
-                        });
-              }
-            } else {
-              throw new Error("Assert_failure", {
-                        cause: {
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                           MEL_EXN_ID: "Assert_failure",
                           _1: [
                             "jscomp/test/ocaml_typedtree_test.ml",
                             49581,
                             15
                           ]
-                        }
+                        });
+              }
+            } else {
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/ocaml_typedtree_test.ml",
+                          49581,
+                          15
+                        ]
                       });
             }
             var obj_ty = match$2[1];
@@ -82367,33 +79547,27 @@ function type_classes(define_class, approx, kind, env, cls) {
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
               if (exn.MEL_EXN_ID === Subtype) {
-                throw new Error($$Error$7, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$7,
-                            _1: loc,
-                            _2: env$2,
-                            _3: {
-                              TAG: /* Not_subtype */23,
-                              _0: exn._1,
-                              _1: exn._2
-                            }
-                          }
-                        });
-              }
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
-            }
-            if (!opened_object(cl_ty)) {
-              throw new Error($$Error$9, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$9,
+                throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                          MEL_EXN_ID: $$Error$7,
                           _1: loc,
                           _2: env$2,
                           _3: {
-                            TAG: /* Cannot_coerce_self */19,
-                            _0: obj_ty
+                            TAG: /* Not_subtype */23,
+                            _0: exn._1,
+                            _1: exn._2
                           }
+                        });
+              }
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            }
+            if (!opened_object(cl_ty)) {
+              throw new Caml_js_exceptions.MelangeError($$Error$9, {
+                        MEL_EXN_ID: $$Error$9,
+                        _1: loc,
+                        _2: env$2,
+                        _3: {
+                          TAG: /* Cannot_coerce_self */19,
+                          _0: obj_ty
                         }
                       });
             }
@@ -82488,15 +79662,13 @@ function unify_parents_struct(env, ty, st) {
                       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
                         return ;
                       }
-                      throw new Error("Assert_failure", {
-                                cause: {
-                                  MEL_EXN_ID: "Assert_failure",
-                                  _1: [
-                                    "jscomp/test/ocaml_typedtree_test.ml",
-                                    49658,
-                                    15
-                                  ]
-                                }
+                      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                MEL_EXN_ID: "Assert_failure",
+                                _1: [
+                                  "jscomp/test/ocaml_typedtree_test.ml",
+                                  49658,
+                                  15
+                                ]
                               });
                     }
                 case /* Tcl_structure */1 :
@@ -84003,15 +81175,13 @@ function path_concat(head, p) {
                 _2: p._2
               };
     case /* Papply */2 :
-        throw new Error("Assert_failure", {
-                  cause: {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/ocaml_typedtree_test.ml",
-                      50016,
-                      16
-                    ]
-                  }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/ocaml_typedtree_test.ml",
+                    50016,
+                    16
+                  ]
                 });
     
   }
@@ -84022,13 +81192,11 @@ function extract_sig(env, loc, mty) {
   if (sg.TAG === /* Mty_signature */1) {
     return sg._0;
   }
-  throw new Error($$Error$10, {
-            cause: {
-              MEL_EXN_ID: $$Error$10,
-              _1: loc,
-              _2: env,
-              _3: /* Signature_expected */0
-            }
+  throw new Caml_js_exceptions.MelangeError($$Error$10, {
+            MEL_EXN_ID: $$Error$10,
+            _1: loc,
+            _2: env,
+            _3: /* Signature_expected */0
           });
 }
 
@@ -84037,15 +81205,13 @@ function extract_sig_open(env, loc, mty) {
   if (sg.TAG === /* Mty_signature */1) {
     return sg._0;
   }
-  throw new Error($$Error$10, {
-            cause: {
-              MEL_EXN_ID: $$Error$10,
-              _1: loc,
-              _2: env,
-              _3: {
-                TAG: /* Structure_expected */3,
-                _0: mty
-              }
+  throw new Caml_js_exceptions.MelangeError($$Error$10, {
+            MEL_EXN_ID: $$Error$10,
+            _1: loc,
+            _2: env,
+            _3: {
+              TAG: /* Structure_expected */3,
+              _0: mty
             }
           });
 }
@@ -84083,15 +81249,13 @@ function type_open$1(toplevel, env, sod) {
 
 var type_module_type_of_fwd = {
   contents: (function (env, m) {
-      throw new Error("Assert_failure", {
-                cause: {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/ocaml_typedtree_test.ml",
-                    50061,
-                    22
-                  ]
-                }
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/ocaml_typedtree_test.ml",
+                  50061,
+                  22
+                ]
               });
     })
 };
@@ -84529,15 +81693,13 @@ function merge_constraint(initial_env, loc, sg, constr) {
                 }
               ];
       }
-      throw new Error($$Error$10, {
-                cause: {
-                  MEL_EXN_ID: $$Error$10,
-                  _1: loc,
-                  _2: env,
-                  _3: {
-                    TAG: /* With_no_component */4,
-                    _0: lid.txt
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$10, {
+                MEL_EXN_ID: $$Error$10,
+                _1: loc,
+                _2: env,
+                _3: {
+                  TAG: /* With_no_component */4,
+                  _0: lid.txt
                 }
               });
     };
@@ -84560,15 +81722,13 @@ function merge_constraint(initial_env, loc, sg, constr) {
             if (id !== undefined) {
               id$1 = id;
             } else {
-              throw new Error("Assert_failure", {
-                        cause: {
-                          MEL_EXN_ID: "Assert_failure",
-                          _1: [
-                            "jscomp/test/ocaml_typedtree_test.ml",
-                            50208,
-                            38
-                          ]
-                        }
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/ocaml_typedtree_test.ml",
+                          50208,
+                          38
+                        ]
                       });
             }
             var lid$1;
@@ -84577,10 +81737,8 @@ function merge_constraint(initial_env, loc, sg, constr) {
               if (match$1 !== undefined) {
                 var match$2 = match$1.ptyp_desc;
                 if (typeof match$2 === "number") {
-                  throw new Error(Stdlib.Exit, {
-                            cause: {
-                              MEL_EXN_ID: Stdlib.Exit
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                            MEL_EXN_ID: Stdlib.Exit
                           });
                 }
                 if (match$2.TAG === /* Ptyp_constr */3) {
@@ -84589,82 +81747,62 @@ function merge_constraint(initial_env, loc, sg, constr) {
                     Stdlib__List.iter2((function (x, param) {
                             var sx = x.ptyp_desc;
                             if (typeof sx === "number") {
-                              throw new Error(Stdlib.Exit, {
-                                        cause: {
-                                          MEL_EXN_ID: Stdlib.Exit
-                                        }
+                              throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                        MEL_EXN_ID: Stdlib.Exit
                                       });
                             }
                             if (sx.TAG === /* Ptyp_var */0) {
                               var sy = param[0].ptyp_desc;
                               if (typeof sy === "number") {
-                                throw new Error(Stdlib.Exit, {
-                                          cause: {
-                                            MEL_EXN_ID: Stdlib.Exit
-                                          }
+                                throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                          MEL_EXN_ID: Stdlib.Exit
                                         });
                               }
                               if (sy.TAG === /* Ptyp_var */0) {
                                 if (sx._0 === sy._0) {
                                   return ;
                                 }
-                                throw new Error(Stdlib.Exit, {
-                                          cause: {
-                                            MEL_EXN_ID: Stdlib.Exit
-                                          }
+                                throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                          MEL_EXN_ID: Stdlib.Exit
                                         });
                               }
-                              throw new Error(Stdlib.Exit, {
-                                        cause: {
-                                          MEL_EXN_ID: Stdlib.Exit
-                                        }
+                              throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                        MEL_EXN_ID: Stdlib.Exit
                                       });
                             } else {
-                              throw new Error(Stdlib.Exit, {
-                                        cause: {
-                                          MEL_EXN_ID: Stdlib.Exit
-                                        }
+                              throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                                        MEL_EXN_ID: Stdlib.Exit
                                       });
                             }
                           }), stl, sdecl.ptype_params);
                     lid$1 = match$2._0;
                   } else {
-                    throw new Error(Stdlib.Exit, {
-                              cause: {
-                                MEL_EXN_ID: Stdlib.Exit
-                              }
+                    throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                              MEL_EXN_ID: Stdlib.Exit
                             });
                   }
                 } else {
-                  throw new Error(Stdlib.Exit, {
-                            cause: {
-                              MEL_EXN_ID: Stdlib.Exit
-                            }
+                  throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                            MEL_EXN_ID: Stdlib.Exit
                           });
                 }
               } else {
-                throw new Error(Stdlib.Exit, {
-                          cause: {
-                            MEL_EXN_ID: Stdlib.Exit
-                          }
+                throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                          MEL_EXN_ID: Stdlib.Exit
                         });
               }
             }
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
               if (exn.MEL_EXN_ID === Stdlib.Exit) {
-                throw new Error($$Error$10, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$10,
-                            _1: sdecl.ptype_loc,
-                            _2: initial_env,
-                            _3: /* With_need_typeconstr */2
-                          }
+                throw new Caml_js_exceptions.MelangeError($$Error$10, {
+                          MEL_EXN_ID: $$Error$10,
+                          _1: sdecl.ptype_loc,
+                          _2: initial_env,
+                          _3: /* With_need_typeconstr */2
                         });
               }
-              throw new Error(exn.MEL_EXN_ID, {
-                        cause: exn
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
             var match$3;
             try {
@@ -84673,20 +81811,16 @@ function merge_constraint(initial_env, loc, sg, constr) {
             catch (raw_exn$1){
               var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
               if (exn$1.MEL_EXN_ID === Stdlib.Not_found) {
-                throw new Error("Assert_failure", {
-                          cause: {
-                            MEL_EXN_ID: "Assert_failure",
-                            _1: [
-                              "jscomp/test/ocaml_typedtree_test.ml",
-                              50225,
-                              68
-                            ]
-                          }
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                          MEL_EXN_ID: "Assert_failure",
+                          _1: [
+                            "jscomp/test/ocaml_typedtree_test.ml",
+                            50225,
+                            68
+                          ]
                         });
               }
-              throw new Error(exn$1.MEL_EXN_ID, {
-                        cause: exn$1
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
             }
             var sub = add_type(id$1, match$3[0], identity);
             sg$2 = signature$2(sub, sg$1);
@@ -84697,15 +81831,13 @@ function merge_constraint(initial_env, loc, sg, constr) {
             if (id$2 !== undefined) {
               id$3 = id$2;
             } else {
-              throw new Error("Assert_failure", {
-                        cause: {
-                          MEL_EXN_ID: "Assert_failure",
-                          _1: [
-                            "jscomp/test/ocaml_typedtree_test.ml",
-                            50231,
-                            38
-                          ]
-                        }
+              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                        MEL_EXN_ID: "Assert_failure",
+                        _1: [
+                          "jscomp/test/ocaml_typedtree_test.ml",
+                          50231,
+                          38
+                        ]
                       });
             }
             var path = lookup_module$1(undefined, initial_env, loc, constr._1.txt);
@@ -84725,22 +81857,18 @@ function merge_constraint(initial_env, loc, sg, constr) {
   catch (raw_exn$2){
     var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
     if (exn$2.MEL_EXN_ID === $$Error$5) {
-      throw new Error($$Error$10, {
-                cause: {
-                  MEL_EXN_ID: $$Error$10,
-                  _1: loc,
-                  _2: initial_env,
-                  _3: {
-                    TAG: /* With_mismatch */5,
-                    _0: lid.txt,
-                    _1: exn$2._1
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$10, {
+                MEL_EXN_ID: $$Error$10,
+                _1: loc,
+                _2: initial_env,
+                _3: {
+                  TAG: /* With_mismatch */5,
+                  _0: lid.txt,
+                  _1: exn$2._1
                 }
               });
     }
-    throw new Error(exn$2.MEL_EXN_ID, {
-              cause: exn$2
-            });
+    throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
   }
 }
 
@@ -84842,11 +81970,9 @@ function approx_modtype(env, _smty) {
       case /* Pmty_typeof */4 :
           return Curry._2(type_module_type_of_fwd.contents, env, lid._0)[1];
       case /* Pmty_extension */5 :
-          throw new Error(Error_forward$3, {
-                    cause: {
-                      MEL_EXN_ID: Error_forward$3,
-                      _1: error_of_extension(lid._0)
-                    }
+          throw new Caml_js_exceptions.MelangeError(Error_forward$3, {
+                    MEL_EXN_ID: Error_forward$3,
+                    _1: error_of_extension(lid._0)
                   });
       case /* Pmty_alias */6 :
           var path = lookup_module$1(undefined, env, smty.pmty_loc, lid._0.txt);
@@ -85058,18 +82184,14 @@ function bal$12(l, v, r) {
       if (lr) {
         return create$13(create$13(ll, lv, lr.l), lr.v, create$13(lr.r, v, r));
       }
-      throw new Error("Invalid_argument", {
-                cause: {
-                  MEL_EXN_ID: "Invalid_argument",
-                  _1: "Set.bal"
-                }
-              });
-    }
-    throw new Error("Invalid_argument", {
-              cause: {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Set.bal"
-              }
+              });
+    }
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+              MEL_EXN_ID: "Invalid_argument",
+              _1: "Set.bal"
             });
   }
   if (hr <= (hl + 2 | 0)) {
@@ -85090,18 +82212,14 @@ function bal$12(l, v, r) {
     if (rl) {
       return create$13(create$13(l, v, rl.l), rl.v, create$13(rl.r, rv, rr));
     }
-    throw new Error("Invalid_argument", {
-              cause: {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Set.bal"
-              }
-            });
-  }
-  throw new Error("Invalid_argument", {
-            cause: {
+    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Set.bal"
-            }
+            });
+  }
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Set.bal"
           });
 }
 
@@ -85154,16 +82272,14 @@ function mem$7(x, _param) {
 
 function check(cl, loc, set_ref, name) {
   if (Curry._2(mem$7, name, set_ref.contents)) {
-    throw new Error($$Error$10, {
-              cause: {
-                MEL_EXN_ID: $$Error$10,
-                _1: loc,
-                _2: empty,
-                _3: {
-                  TAG: /* Repeated_name */6,
-                  _0: cl,
-                  _1: name
-                }
+    throw new Caml_js_exceptions.MelangeError($$Error$10, {
+              MEL_EXN_ID: $$Error$10,
+              _1: loc,
+              _2: empty,
+              _3: {
+                TAG: /* Repeated_name */6,
+                _0: cl,
+                _1: name
               }
             });
   }
@@ -85414,11 +82530,9 @@ function transl_modtype$1(env, smty) {
                     _0: match$2[0]
                   }, match$2[1], env, loc, smty.pmty_attributes);
     case /* Pmty_extension */5 :
-        throw new Error(Error_forward$3, {
-                  cause: {
-                    MEL_EXN_ID: Error_forward$3,
-                    _1: error_of_extension(lid._0)
-                  }
+        throw new Caml_js_exceptions.MelangeError(Error_forward$3, {
+                  MEL_EXN_ID: Error_forward$3,
+                  _1: error_of_extension(lid._0)
                 });
     case /* Pmty_alias */6 :
         var lid$2 = lid._0;
@@ -85833,11 +82947,9 @@ function transl_signature(env, sg) {
                   match$21[2]
                 ];
       case /* Psig_extension */12 :
-          throw new Error(Error_forward$3, {
-                    cause: {
-                      MEL_EXN_ID: Error_forward$3,
-                      _1: error_of_extension(sdesc._0)
-                    }
+          throw new Caml_js_exceptions.MelangeError(Error_forward$3, {
+                    MEL_EXN_ID: Error_forward$3,
+                    _1: error_of_extension(sdesc._0)
                   });
       
     }
@@ -86061,19 +83173,15 @@ function path_of_module(_mexp) {
                     _1: path_of_module(match._1)
                   };
           }
-          throw new Error(Not_a_path, {
-                    cause: {
-                      MEL_EXN_ID: Not_a_path
-                    }
+          throw new Caml_js_exceptions.MelangeError(Not_a_path, {
+                    MEL_EXN_ID: Not_a_path
                   });
       case /* Tmod_constraint */4 :
           _mexp = match._0;
           continue ;
       default:
-        throw new Error(Not_a_path, {
-                  cause: {
-                    MEL_EXN_ID: Not_a_path
-                  }
+        throw new Caml_js_exceptions.MelangeError(Not_a_path, {
+                  MEL_EXN_ID: Not_a_path
                 });
     }
   };
@@ -86088,9 +83196,7 @@ function path_of_module$1(mexp) {
     if (exn.MEL_EXN_ID === Not_a_path) {
       return ;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -86222,21 +83328,17 @@ function check_recmodule_inclusion(env, bindings) {
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
         if (exn.MEL_EXN_ID === $$Error$5) {
-          throw new Error($$Error$10, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$10,
-                      _1: modl.mod_loc,
-                      _2: env$1,
-                      _3: {
-                        TAG: /* Not_included */1,
-                        _0: exn._1
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$10, {
+                    MEL_EXN_ID: $$Error$10,
+                    _1: modl.mod_loc,
+                    _2: env$1,
+                    _3: {
+                      TAG: /* Not_included */1,
+                      _0: exn._1
                     }
                   });
         }
-        throw new Error(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
       var modl$p_mod_desc = {
         TAG: /* Tmod_constraint */4,
@@ -86384,13 +83486,11 @@ function modtype_of_package(env, loc, p, nl, tl) {
                 _0: p
               };
       }
-      throw new Error($$Error$10, {
-                cause: {
-                  MEL_EXN_ID: $$Error$10,
-                  _1: loc,
-                  _2: env,
-                  _3: /* Signature_expected */0
-                }
+      throw new Caml_js_exceptions.MelangeError($$Error$10, {
+                MEL_EXN_ID: $$Error$10,
+                _1: loc,
+                _2: env,
+                _3: /* Signature_expected */0
               });
     }
     
@@ -86402,18 +83502,14 @@ function modtype_of_package(env, loc, p, nl, tl) {
         TAG: /* Unbound_modtype */22,
         _0: lid_of_path(undefined, p)
       };
-      throw new Error($$Error$6, {
-                cause: {
-                  MEL_EXN_ID: $$Error$6,
-                  _1: loc,
-                  _2: env,
-                  _3: error
-                }
+      throw new Caml_js_exceptions.MelangeError($$Error$6, {
+                MEL_EXN_ID: $$Error$6,
+                _1: loc,
+                _2: env,
+                _3: error
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -86435,9 +83531,7 @@ function package_subtype$1(env, p1, nl1, tl1, p2, nl2, tl2) {
     if (exn.MEL_EXN_ID === $$Error$5) {
       return false;
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -86451,21 +83545,17 @@ function wrap_constraint(env, arg, mty, explicit) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === $$Error$5) {
-      throw new Error($$Error$10, {
-                cause: {
-                  MEL_EXN_ID: $$Error$10,
-                  _1: arg.mod_loc,
-                  _2: env,
-                  _3: {
-                    TAG: /* Not_included */1,
-                    _0: exn._1
-                  }
+      throw new Caml_js_exceptions.MelangeError($$Error$10, {
+                MEL_EXN_ID: $$Error$10,
+                _1: arg.mod_loc,
+                _2: env,
+                _3: {
+                  TAG: /* Not_included */1,
+                  _0: exn._1
                 }
               });
     }
-    throw new Error(exn.MEL_EXN_ID, {
-              cause: exn
-            });
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
   return {
           mod_desc: {
@@ -86656,23 +83746,19 @@ function type_module$1(aliasOpt, sttn, funct_body, anchor, env, smod) {
                     TAG: /* Pmod_structure */1,
                     _0: /* [] */0
                   })) {
-              throw new Error($$Error$10, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$10,
-                          _1: sfunct.pmod_loc,
-                          _2: env,
-                          _3: /* Apply_generative */4
-                        }
+              throw new Caml_js_exceptions.MelangeError($$Error$10, {
+                        MEL_EXN_ID: $$Error$10,
+                        _1: sfunct.pmod_loc,
+                        _2: env,
+                        _3: /* Apply_generative */4
                       });
             }
             if (funct_body && contains_type$1(env, funct.mod_type)) {
-              throw new Error($$Error$10, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$10,
-                          _1: smod.pmod_loc,
-                          _2: env,
-                          _3: /* Not_allowed_in_functor_body */1
-                        }
+              throw new Caml_js_exceptions.MelangeError($$Error$10, {
+                        MEL_EXN_ID: $$Error$10,
+                        _1: smod.pmod_loc,
+                        _2: env,
+                        _3: /* Not_allowed_in_functor_body */1
                       });
             }
             
@@ -86684,21 +83770,17 @@ function type_module$1(aliasOpt, sttn, funct_body, anchor, env, smod) {
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.MEL_EXN_ID === $$Error$5) {
-              throw new Error($$Error$10, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$10,
-                          _1: sarg.pmod_loc,
-                          _2: env,
-                          _3: {
-                            TAG: /* Not_included */1,
-                            _0: exn._1
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$10, {
+                        MEL_EXN_ID: $$Error$10,
+                        _1: sarg.pmod_loc,
+                        _2: env,
+                        _3: {
+                          TAG: /* Not_included */1,
+                          _0: exn._1
                         }
                       });
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
           var mty_appl;
           if (path$1 !== undefined) {
@@ -86712,21 +83794,17 @@ function type_module$1(aliasOpt, sttn, funct_body, anchor, env, smod) {
             catch (raw_exn$1){
               var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
               if (exn$1.MEL_EXN_ID === Stdlib.Not_found) {
-                throw new Error($$Error$10, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$10,
-                            _1: smod.pmod_loc,
-                            _2: env,
-                            _3: {
-                              TAG: /* Cannot_eliminate_dependency */2,
-                              _0: mty_functor
-                            }
+                throw new Caml_js_exceptions.MelangeError($$Error$10, {
+                          MEL_EXN_ID: $$Error$10,
+                          _1: smod.pmod_loc,
+                          _2: env,
+                          _3: {
+                            TAG: /* Cannot_eliminate_dependency */2,
+                            _0: mty_functor
                           }
                         });
               }
-              throw new Error(exn$1.MEL_EXN_ID, {
-                        cause: exn$1
-                      });
+              throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
             }
           }
           var node_mod_desc$2 = {
@@ -86750,15 +83828,13 @@ function type_module$1(aliasOpt, sttn, funct_body, anchor, env, smod) {
               });
           return node$3;
         }
-        throw new Error($$Error$10, {
-                  cause: {
-                    MEL_EXN_ID: $$Error$10,
-                    _1: sfunct.pmod_loc,
-                    _2: env,
-                    _3: {
-                      TAG: /* Cannot_apply */0,
-                      _0: funct.mod_type
-                    }
+        throw new Caml_js_exceptions.MelangeError($$Error$10, {
+                  MEL_EXN_ID: $$Error$10,
+                  _1: sfunct.pmod_loc,
+                  _2: env,
+                  _3: {
+                    TAG: /* Cannot_apply */0,
+                    _0: funct.mod_type
                   }
                 });
     case /* Pmod_constraint */4 :
@@ -86802,28 +83878,24 @@ function type_module$1(aliasOpt, sttn, funct_body, anchor, env, smod) {
         } else {
           switch (match$4.TAG | 0) {
             case /* Tvar */0 :
-                throw new Error($$Error$7, {
-                          cause: {
-                            MEL_EXN_ID: $$Error$7,
-                            _1: smod.pmod_loc,
-                            _2: env,
-                            _3: /* Cannot_infer_signature */3
-                          }
+                throw new Caml_js_exceptions.MelangeError($$Error$7, {
+                          MEL_EXN_ID: $$Error$7,
+                          _1: smod.pmod_loc,
+                          _2: env,
+                          _3: /* Cannot_infer_signature */3
                         });
             case /* Tpackage */11 :
                 var tl = match$4._2;
                 if (Stdlib__List.exists((function (t) {
                           return Caml_obj.caml_notequal(free_variables$1(undefined, t), /* [] */0);
                         }), tl)) {
-                  throw new Error($$Error$10, {
-                            cause: {
-                              MEL_EXN_ID: $$Error$10,
-                              _1: smod.pmod_loc,
-                              _2: env,
-                              _3: {
-                                TAG: /* Incomplete_packed_module */13,
-                                _0: exp.exp_type
-                              }
+                  throw new Caml_js_exceptions.MelangeError($$Error$10, {
+                            MEL_EXN_ID: $$Error$10,
+                            _1: smod.pmod_loc,
+                            _2: env,
+                            _3: {
+                              TAG: /* Incomplete_packed_module */13,
+                              _0: exp.exp_type
                             }
                           });
                 }
@@ -86840,26 +83912,22 @@ function type_module$1(aliasOpt, sttn, funct_body, anchor, env, smod) {
           }
         }
         if (exit$1 === 1) {
-          throw new Error($$Error$10, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$10,
-                      _1: smod.pmod_loc,
-                      _2: env,
-                      _3: {
-                        TAG: /* Not_a_packed_module */12,
-                        _0: exp.exp_type
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$10, {
+                    MEL_EXN_ID: $$Error$10,
+                    _1: smod.pmod_loc,
+                    _2: env,
+                    _3: {
+                      TAG: /* Not_a_packed_module */12,
+                      _0: exp.exp_type
                     }
                   });
         }
         if (funct_body && contains_type$1(env, mty$4)) {
-          throw new Error($$Error$10, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$10,
-                      _1: smod.pmod_loc,
-                      _2: env,
-                      _3: /* Not_allowed_in_functor_body */1
-                    }
+          throw new Caml_js_exceptions.MelangeError($$Error$10, {
+                    MEL_EXN_ID: $$Error$10,
+                    _1: smod.pmod_loc,
+                    _2: env,
+                    _3: /* Not_allowed_in_functor_body */1
                   });
         }
         var node_mod_desc$4 = {
@@ -86882,11 +83950,9 @@ function type_module$1(aliasOpt, sttn, funct_body, anchor, env, smod) {
             });
         return node$5;
     case /* Pmod_extension */6 :
-        throw new Error(Error_forward$3, {
-                  cause: {
-                    MEL_EXN_ID: Error_forward$3,
-                    _1: error_of_extension(lid._0)
-                  }
+        throw new Caml_js_exceptions.MelangeError(Error_forward$3, {
+                  MEL_EXN_ID: Error_forward$3,
+                  _1: error_of_extension(lid._0)
                 });
     
   }
@@ -87093,13 +84159,11 @@ function type_structure(toplevelOpt, funct_body, anchor, env, sstr, scope) {
                             mb.pmb_loc
                           ];
                   }
-                  throw new Error($$Error$10, {
-                            cause: {
-                              MEL_EXN_ID: $$Error$10,
-                              _1: mb.pmb_expr.pmod_loc,
-                              _2: env,
-                              _3: /* Recursive_module_require_explicit_type */3
-                            }
+                  throw new Caml_js_exceptions.MelangeError($$Error$10, {
+                            MEL_EXN_ID: $$Error$10,
+                            _1: mb.pmb_expr.pmod_loc,
+                            _2: env,
+                            _3: /* Recursive_module_require_explicit_type */3
                           });
                 }), desc._0);
           Stdlib__List.iter((function (param) {
@@ -87385,11 +84449,9 @@ function type_structure(toplevelOpt, funct_body, anchor, env, sstr, scope) {
                   env
                 ];
       case /* Pstr_extension */14 :
-          throw new Error(Error_forward$3, {
-                    cause: {
-                      MEL_EXN_ID: Error_forward$3,
-                      _1: error_of_extension(desc._0)
-                    }
+          throw new Caml_js_exceptions.MelangeError(Error_forward$3, {
+                    MEL_EXN_ID: Error_forward$3,
+                    _1: error_of_extension(desc._0)
                   });
       
     }
@@ -87539,15 +84601,13 @@ function type_module_type_of(env, smod) {
   var mty = tmty.mod_type;
   var mty$1 = remove_aliases$1(env, mty);
   if (!closed_modtype(mty$1)) {
-    throw new Error($$Error$10, {
-              cause: {
-                MEL_EXN_ID: $$Error$10,
-                _1: smod.pmod_loc,
-                _2: env,
-                _3: {
-                  TAG: /* Non_generalizable_module */9,
-                  _0: mty$1
-                }
+    throw new Caml_js_exceptions.MelangeError($$Error$10, {
+              MEL_EXN_ID: $$Error$10,
+              _1: smod.pmod_loc,
+              _2: env,
+              _3: {
+                TAG: /* Non_generalizable_module */9,
+                _0: mty$1
               }
             });
   }
@@ -87601,15 +84661,13 @@ function type_package$1(env, m, p, nl, tl) {
                   _2: -1
                 };
       case /* Lapply */2 :
-          throw new Error("Assert_failure", {
-                    cause: {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/ocaml_typedtree_test.ml",
-                        51527,
-                        11
-                      ]
-                    }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/ocaml_typedtree_test.ml",
+                      51527,
+                      11
+                    ]
                   });
       
     }
@@ -87642,22 +84700,18 @@ function type_package$1(env, m, p, nl, tl) {
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.MEL_EXN_ID === Unify) {
-              throw new Error($$Error$10, {
-                        cause: {
-                          MEL_EXN_ID: $$Error$10,
-                          _1: m.pmod_loc,
-                          _2: env$1,
-                          _3: {
-                            TAG: /* Scoping_pack */14,
-                            _0: n,
-                            _1: ty
-                          }
+              throw new Caml_js_exceptions.MelangeError($$Error$10, {
+                        MEL_EXN_ID: $$Error$10,
+                        _1: m.pmod_loc,
+                        _2: env$1,
+                        _3: {
+                          TAG: /* Scoping_pack */14,
+                          _0: n,
+                          _1: ty
                         }
                       });
             }
-            throw new Error(exn.MEL_EXN_ID, {
-                      cause: exn
-                    });
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
         }), nl, tl$p);
   return [
@@ -87722,21 +84776,17 @@ function type_implementation_more(sourcefile, outputprefix, modulename, initial_
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-          throw new Error($$Error$10, {
-                    cause: {
-                      MEL_EXN_ID: $$Error$10,
-                      _1: in_file(sourcefile),
-                      _2: empty,
-                      _3: {
-                        TAG: /* Interface_not_compiled */11,
-                        _0: sourceintf
-                      }
+          throw new Caml_js_exceptions.MelangeError($$Error$10, {
+                    MEL_EXN_ID: $$Error$10,
+                    _1: in_file(sourcefile),
+                    _2: empty,
+                    _3: {
+                      TAG: /* Interface_not_compiled */11,
+                      _0: sourceintf
                     }
                   });
         }
-        throw new Error(exn.MEL_EXN_ID, {
-                  cause: exn
-                });
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
       var dclsig = read_signature(modulename, intf_file);
       var coercion = compunit(initial_env, sourcefile, sg, intf_file, dclsig);
@@ -87761,15 +84811,13 @@ function type_implementation_more(sourcefile, outputprefix, modulename, initial_
                                 if (closed_schema(exp.exp_type)) {
                                   return ;
                                 }
-                                throw new Error($$Error$10, {
-                                          cause: {
-                                            MEL_EXN_ID: $$Error$10,
-                                            _1: exp.exp_loc,
-                                            _2: finalenv,
-                                            _3: {
-                                              TAG: /* Non_generalizable */7,
-                                              _0: exp.exp_type
-                                            }
+                                throw new Caml_js_exceptions.MelangeError($$Error$10, {
+                                          MEL_EXN_ID: $$Error$10,
+                                          _1: exp.exp_loc,
+                                          _2: finalenv,
+                                          _3: {
+                                            TAG: /* Non_generalizable */7,
+                                            _0: exp.exp_type
                                           }
                                         });
                               }), match._1);
@@ -87778,15 +84826,13 @@ function type_implementation_more(sourcefile, outputprefix, modulename, initial_
                   if (closed_modtype(md.mod_type)) {
                     return ;
                   }
-                  throw new Error($$Error$10, {
-                            cause: {
-                              MEL_EXN_ID: $$Error$10,
-                              _1: md.mod_loc,
-                              _2: finalenv,
-                              _3: {
-                                TAG: /* Non_generalizable_module */9,
-                                _0: md.mod_type
-                              }
+                  throw new Caml_js_exceptions.MelangeError($$Error$10, {
+                            MEL_EXN_ID: $$Error$10,
+                            _1: md.mod_loc,
+                            _2: finalenv,
+                            _3: {
+                              TAG: /* Non_generalizable_module */9,
+                              _0: md.mod_type
                             }
                           });
               default:
@@ -87815,9 +84861,7 @@ function type_implementation_more(sourcefile, outputprefix, modulename, initial_
           TAG: /* Partial_implementation */3,
           _0: Stdlib__Array.of_list(saved_types.contents)
         }, sourcefile, initial_env, undefined);
-    throw new Error(e.MEL_EXN_ID, {
-              cause: e
-            });
+    throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
   }
 }
 
