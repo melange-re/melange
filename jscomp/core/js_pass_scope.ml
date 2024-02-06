@@ -140,7 +140,7 @@ let record_scope_pass =
             (* Note that we don't know which variables are exactly mutable yet ..
                due to the recursive thing *)
             Js_fun_env.set_unbounded env closured_idents';
-            (* tailcall , note that these varibles are used in another pass *)
+            (* tailcall, note that these variables are used in another pass *)
             {
               state with
               used_idents = Ident.Set.union state.used_idents closured_idents';
@@ -154,10 +154,10 @@ let record_scope_pass =
       (fun self state x ->
         match x with
         | { ident; value; _ } -> (
-            let obj = add_defined_ident state ident in
+            let state = add_defined_ident state ident in
             match value with
-            | None -> obj
-            | Some x -> self.expression self obj x));
+            | None -> state
+            | Some x -> self.expression self state x));
     statement =
       (fun self state x ->
         match x.statement_desc with
@@ -187,10 +187,6 @@ let record_scope_pass =
               *)
               defined_idents =
                 Ident.Set.union state.defined_idents defined_idents';
-              (* TODO: if we our generated code also follow lexical scope,
-                 this is not necessary ;
-                 [variables] are mutable or not is known at definition
-              *)
             }
         | _ -> super.statement self state x);
     exception_ident =
