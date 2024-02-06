@@ -32,9 +32,9 @@ Export otherwise invalid OCaml identifiers to JavaScript
   'use strict';
   
   
-  var GET = 2;
+  let GET = 2;
   
-  var $$class = 2;
+  let $$class = 2;
   
   exports.GET = GET;
   exports.$$class = $$class;
@@ -56,9 +56,9 @@ Export otherwise invalid OCaml identifiers to JavaScript
   'use strict';
   
   
-  var post = 1;
+  let post = 1;
   
-  var POST = 1;
+  let POST = 1;
   
   exports.post = post;
   exports.POST = POST;

@@ -12,7 +12,7 @@
   'use strict';
   
   
-  var X = {};
+  let X = {};
   
   console.log("OK");
   

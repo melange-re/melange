@@ -2,11 +2,11 @@
 'use strict';
 
 
-var List = {
+let List = {
   u: 3
 };
 
-var X = {
+let X = {
   List: List
 };
 

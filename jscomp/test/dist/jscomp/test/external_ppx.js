@@ -2,7 +2,7 @@
 'use strict';
 
 
-var u = {
+let u = {
   hi: 2,
   lo: 3,
   lo2: {hi:-3 },

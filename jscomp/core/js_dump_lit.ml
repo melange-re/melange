@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 let function_ = "function"
-let var = "var" (* should be able to switch to [let] easily*)
+let let_ = "let"
 let return = "return"
 let require = "require"
 let import = "import"

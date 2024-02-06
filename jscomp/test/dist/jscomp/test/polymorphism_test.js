@@ -6,7 +6,7 @@ function map(f, param) {
   if (!param) {
     return /* [] */0;
   }
-  var r = f(param.hd);
+  let r = f(param.hd);
   return {
           hd: r,
           tl: map(f, param.tl)

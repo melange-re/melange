@@ -2,7 +2,7 @@
 'use strict';
 
 
-var o = {
+let o = {
   hi: (function (x, y) {
       return x + y | 0;
     })

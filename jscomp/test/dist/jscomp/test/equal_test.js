@@ -6,13 +6,13 @@ function str_equal(x, y) {
   return x === y;
 }
 
-var str_b = true;
+let str_b = true;
 
 function int_equal(x, y) {
   return x === y;
 }
 
-var v = false;
+let v = false;
 
 exports.str_equal = str_equal;
 exports.str_b = str_b;

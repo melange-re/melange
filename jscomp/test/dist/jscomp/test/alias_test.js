@@ -2,21 +2,21 @@
 'use strict';
 
 
-var a10 = "hello world";
+let a10 = "hello world";
 
-var v = 1;
+let v = 1;
 
-var a21 = "hello worldnothello worldnot";
+let a21 = "hello worldnothello worldnot";
 
 function ff(param) {
   return "cool test hello worldnothello worldnothello";
 }
 
-var a23 = ff(undefined);
+let a23 = ff(undefined);
 
-var a15 = a10;
+let a15 = a10;
 
-var b15 = 111;
+let b15 = 111;
 
 exports.a15 = a15;
 exports.b15 = b15;

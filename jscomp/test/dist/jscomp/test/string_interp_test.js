@@ -31,15 +31,15 @@ function ffff(a_1, a_2) {
 }
 
 function f(x, y) {
-  var x$1 = String(x);
-  var y$1 = String(y);
-  var sum = String(x + y | 0);
+  let x$1 = String(x);
+  let y$1 = String(y);
+  let sum = String(x + y | 0);
   console.log(" " + x$1 + " + " + y$1 + " = " + sum + " ");
 }
 
-var world = "世界";
+let world = "世界";
 
-var hello_world = "你好，" + world;
+let hello_world = "你好，" + world;
 
 function test1(x0) {
   return "你好，" + x0;
@@ -53,25 +53,25 @@ function test5(x) {
   return "" + x;
 }
 
-var js_in_raw = ("hello" + "你好"
+let js_in_raw = ("hello" + "你好"
 );
 
-var j_in_raw = ("hello" + "你好"
+let j_in_raw = ("hello" + "你好"
 );
 
-var b = "test";
+let b = "test";
 
-var c = "test";
+let c = "test";
 
-var a = "test";
+let a = "test";
 
-var a0 = "Hello \\";
+let a0 = "Hello \\";
 
-var a1 = "Hello \\";
+let a1 = "Hello \\";
 
-var a2 = "Hello \$";
+let a2 = "Hello \$";
 
-var a4 = "";
+let a4 = "";
 
 exports.hi2 = hi2;
 exports.hi = hi;

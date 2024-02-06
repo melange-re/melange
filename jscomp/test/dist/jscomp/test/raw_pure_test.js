@@ -5,13 +5,13 @@
 // hello
 'use strict';
 
-var Stdlib__List = require("melange/list.js");
+let Stdlib__List = require("melange/list.js");
 
-var x0 = null;
+let x0 = null;
 
-var x2 = "荷兰";
+let x2 = "荷兰";
 
-var x3 = /ghoghos/;
+let x3 = /ghoghos/;
 
 /**
  * copyright
@@ -23,7 +23,7 @@ function f(x) {
   return x;
 }
 
-var hh = Stdlib__List.length;
+let hh = Stdlib__List.length;
 
 exports.x0 = x0;
 exports.x2 = x2;

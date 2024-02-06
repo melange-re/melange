@@ -2,7 +2,7 @@
 'use strict';
 
 
-var React = {
+let React = {
   $$null: undefined
 };
 
@@ -10,7 +10,7 @@ function Gpr_3519_jsx_test$Foo(Props) {
   
 }
 
-var Foo = {
+let Foo = {
   make: Gpr_3519_jsx_test$Foo
 };
 

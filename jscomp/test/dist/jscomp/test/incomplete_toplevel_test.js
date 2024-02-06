@@ -11,13 +11,13 @@ function f(param) {
         ];
 }
 
-var match = f(undefined);
+let match = f(undefined);
 
-var a = match[0];
+let a = match[0];
 
-var b = match[1];
+let b = match[1];
 
-var c = match[2];
+let c = match[2];
 
 exports.f = f;
 exports.a = a;

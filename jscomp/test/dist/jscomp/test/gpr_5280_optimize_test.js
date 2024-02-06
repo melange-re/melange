@@ -2,11 +2,11 @@
 'use strict';
 
 
-var a = /* Color */{
+let a = /* Color */{
   _0: "#ffff"
 };
 
-var c = "white";
+let c = "white";
 
 exports.a = a;
 exports.c = c;
