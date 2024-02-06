@@ -161,22 +161,21 @@ let record_scope_pass =
     statement =
       (fun self state x ->
         match x.statement_desc with
-        | ForRange (_, _, loop_id, _, _) ->
+        | ForRange (_, _, loop_id, _, stmts) ->
             (* TODO: simplify definition of For *)
             let {
               defined_idents = defined_idents';
               used_idents = used_idents';
               _;
             } =
-              super.statement self
+              (* Invariant: Finish id is never used *)
+              self.block self
                 {
                   used_idents = Ident.Set.empty;
                   (* TODO: if unused, can we generate better code? *)
                   defined_idents = Ident.Set.singleton loop_id;
-                  (* Think about nested for blocks *)
-                  (* Invariant: Finish id is never used *)
                 }
-                x
+                stmts
             in
             {
               used_idents = Ident.Set.union state.used_idents used_idents';
