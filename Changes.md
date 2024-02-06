@@ -10,6 +10,8 @@ Unreleased
   ([#1036](https://github.com/melange-re/melange/pull/1036))
 - stdlib: fix runtime primitive for `Float.{min,max}` and related functions
   ([#1050](https://github.com/melange-re/melange/pull/1050))
+- core: emit `let` instead of `var` in compiled JS
+  ([#1019](https://github.com/melange-re/melange/pull/1019))
 
 3.0.0 2024-01-28
 ---------------
