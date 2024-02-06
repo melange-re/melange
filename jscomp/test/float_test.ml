@@ -112,6 +112,8 @@ let () =
   eq __LOC__ (generic_greaterequal 4.2 Js.Float._NaN) false;
   eq __LOC__ (float_greaterequal Js.Float._NaN 4.2) false;
   eq __LOC__ (generic_greaterequal Js.Float._NaN 4.2) false;
+  eq __LOC__ (Float.min (-. 1.) 1.) (-1.);
+  eq __LOC__ (Float.min 1. (-. 1.)) (-1.);
 ;;
 
 
