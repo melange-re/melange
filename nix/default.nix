@@ -8,6 +8,7 @@
 , nix-filter
 , nodejs
 , melange-compiler-libs-vendor-dir
+, doCheck ? true
 }:
 
 with ocamlPackages;
@@ -44,7 +45,7 @@ buildDunePackage {
       --set MELANGELIB "$OCAMLFIND_DESTDIR/melange/melange:$OCAMLFIND_DESTDIR/melange/js/melange"
   '';
 
-  doCheck = true;
+  inherit doCheck;
   nativeCheckInputs = [ tree nodejs reason jq merlin ];
   checkInputs = [ ounit2 ];
 
@@ -54,6 +55,7 @@ buildDunePackage {
     cmdliner
     ppxlib
     menhirLib
+    pp
   ];
   meta.mainProgram = "melc";
 }
