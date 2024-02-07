@@ -145,6 +145,9 @@ module Map = Js_map
 module WeakMap = Js_weakmap
 (** Provides bindings for ES6 WeakMap *)
 
+module Iterator = Js_iterator
+(** Provides bindings for ES6 iterators *)
+
 (**/**)
 
 module Private = struct

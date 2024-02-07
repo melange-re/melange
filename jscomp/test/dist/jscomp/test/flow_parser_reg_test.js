@@ -15497,124 +15497,274 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let class_element = function (param) {
-      if (param.TAG === /* Method */0) {
-        let param$1 = param._0;
-        let method_ = param$1[1];
-        let key = method_.key;
-        let match;
-        switch (key.TAG | 0) {
-          case /* Literal */0 :
-              match = [
-                literal(key._0),
-                false
-              ];
-              break;
-          case /* Identifier */1 :
-              match = [
-                identifier(key._0),
-                false
-              ];
-              break;
-          case /* Computed */2 :
-              match = [
-                expression(key._0),
-                true
-              ];
-              break;
-          
-        }
-        let kind;
-        switch (method_.kind) {
-          case /* Constructor */0 :
-              kind = "constructor";
-              break;
-          case /* Method */1 :
-              kind = "method";
-              break;
-          case /* Get */2 :
-              kind = "get";
-              break;
-          case /* Set */3 :
-              kind = "set";
-              break;
-          
-        }
-        return node("MethodDefinition", param$1[0], [
-                    [
-                      "key",
-                      match[0]
-                    ],
-                    [
-                      "value",
-                      function_expression(method_.value)
-                    ],
-                    [
-                      "kind",
-                      string(kind)
-                    ],
-                    [
-                      "static",
-                      bool(method_.static)
-                    ],
-                    [
-                      "computed",
-                      bool(match[1])
-                    ],
-                    [
-                      "decorators",
-                      array_of_list(expression, method_.decorators)
-                    ]
-                  ]);
-      } else {
-        let param$2 = param._0;
-        let prop = param$2[1];
-        let lit = prop.key;
-        let match$1;
-        switch (lit.TAG | 0) {
-          case /* Literal */0 :
-              match$1 = [
-                literal(lit._0),
-                false
-              ];
-              break;
-          case /* Identifier */1 :
-              match$1 = [
-                identifier(lit._0),
-                false
-              ];
-              break;
-          case /* Computed */2 :
-              match$1 = [
-                expression(lit._0),
-                true
-              ];
-              break;
-          
-        }
-        return node("ClassProperty", param$2[0], [
-                    [
-                      "key",
-                      match$1[0]
-                    ],
-                    [
-                      "value",
-                      option(expression, prop.value)
-                    ],
-                    [
-                      "typeAnnotation",
-                      option(type_annotation, prop.typeAnnotation)
-                    ],
-                    [
-                      "computed",
-                      bool(match$1[1])
-                    ],
-                    [
-                      "static",
-                      bool(prop.static)
-                    ]
-                  ]);
+    let pattern = function (param) {
+      let obj = param[1];
+      let loc = param[0];
+      switch (obj.TAG | 0) {
+        case /* Object */0 :
+            let obj$1 = obj._0;
+            return node("ObjectPattern", loc, [
+                        [
+                          "properties",
+                          array_of_list(object_pattern_property, obj$1.properties)
+                        ],
+                        [
+                          "typeAnnotation",
+                          option(type_annotation, obj$1.typeAnnotation)
+                        ]
+                      ]);
+        case /* Array */1 :
+            let arr = obj._0;
+            return node("ArrayPattern", loc, [
+                        [
+                          "elements",
+                          array_of_list((function (param) {
+                                  return option(array_pattern_element, param);
+                                }), arr.elements)
+                        ],
+                        [
+                          "typeAnnotation",
+                          option(type_annotation, arr.typeAnnotation)
+                        ]
+                      ]);
+        case /* Assignment */2 :
+            let match = obj._0;
+            return node("AssignmentPattern", loc, [
+                        [
+                          "left",
+                          pattern(match.left)
+                        ],
+                        [
+                          "right",
+                          expression(match.right)
+                        ]
+                      ]);
+        case /* Identifier */3 :
+            return identifier(obj._0);
+        case /* Expression */4 :
+            return expression(obj._0);
+        
       }
+    };
+    let _type = function (param) {
+      let t = param[1];
+      let loc = param[0];
+      if (typeof t === "number") {
+        switch (t) {
+          case /* Any */0 :
+              return node("AnyTypeAnnotation", loc, []);
+          case /* Void */1 :
+              return node("VoidTypeAnnotation", loc, []);
+          case /* Null */2 :
+              return node("NullTypeAnnotation", loc, []);
+          case /* Number */3 :
+              return node("NumberTypeAnnotation", loc, []);
+          case /* String */4 :
+              return node("StringTypeAnnotation", loc, []);
+          case /* Boolean */5 :
+              return node("BooleanTypeAnnotation", loc, []);
+          case /* Exists */6 :
+              return node("ExistsTypeAnnotation", loc, []);
+          
+        }
+      } else {
+        switch (t.TAG | 0) {
+          case /* Nullable */0 :
+              let t$1 = t._0;
+              return node("NullableTypeAnnotation", loc, [[
+                            "typeAnnotation",
+                            _type(t$1)
+                          ]]);
+          case /* Function */1 :
+              return function_type([
+                          loc,
+                          t._0
+                        ]);
+          case /* Object */2 :
+              return object_type([
+                          loc,
+                          t._0
+                        ]);
+          case /* Array */3 :
+              let t$2 = t._0;
+              return node("ArrayTypeAnnotation", loc, [[
+                            "elementType",
+                            _type(t$2)
+                          ]]);
+          case /* Generic */4 :
+              let param$1 = [
+                loc,
+                t._0
+              ];
+              let g = param$1[1];
+              let id = g.id;
+              let id$1;
+              id$1 = id.TAG === /* Unqualified */0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
+              return node("GenericTypeAnnotation", param$1[0], [
+                          [
+                            "id",
+                            id$1
+                          ],
+                          [
+                            "typeParameters",
+                            option(type_parameter_instantiation, g.typeParameters)
+                          ]
+                        ]);
+          case /* Union */5 :
+              let param$2 = [
+                loc,
+                t._0
+              ];
+              return node("UnionTypeAnnotation", param$2[0], [[
+                            "types",
+                            array_of_list(_type, param$2[1])
+                          ]]);
+          case /* Intersection */6 :
+              let param$3 = [
+                loc,
+                t._0
+              ];
+              return node("IntersectionTypeAnnotation", param$3[0], [[
+                            "types",
+                            array_of_list(_type, param$3[1])
+                          ]]);
+          case /* Typeof */7 :
+              let param$4 = [
+                loc,
+                t._0
+              ];
+              return node("TypeofTypeAnnotation", param$4[0], [[
+                            "argument",
+                            _type(param$4[1])
+                          ]]);
+          case /* Tuple */8 :
+              let param$5 = [
+                loc,
+                t._0
+              ];
+              return node("TupleTypeAnnotation", param$5[0], [[
+                            "types",
+                            array_of_list(_type, param$5[1])
+                          ]]);
+          case /* StringLiteral */9 :
+              let param$6 = [
+                loc,
+                t._0
+              ];
+              let s = param$6[1];
+              return node("StringLiteralTypeAnnotation", param$6[0], [
+                          [
+                            "value",
+                            string(s.value)
+                          ],
+                          [
+                            "raw",
+                            string(s.raw)
+                          ]
+                        ]);
+          case /* NumberLiteral */10 :
+              let param$7 = [
+                loc,
+                t._0
+              ];
+              let s$1 = param$7[1];
+              return node("NumberLiteralTypeAnnotation", param$7[0], [
+                          [
+                            "value",
+                            number$1(s$1.value)
+                          ],
+                          [
+                            "raw",
+                            string(s$1.raw)
+                          ]
+                        ]);
+          case /* BooleanLiteral */11 :
+              let param$8 = [
+                loc,
+                t._0
+              ];
+              let s$2 = param$8[1];
+              return node("BooleanLiteralTypeAnnotation", param$8[0], [
+                          [
+                            "value",
+                            bool(s$2.value)
+                          ],
+                          [
+                            "raw",
+                            string(s$2.raw)
+                          ]
+                        ]);
+          
+        }
+      }
+    };
+    let type_parameter_instantiation = function (param) {
+      return node("TypeParameterInstantiation", param[0], [[
+                    "params",
+                    array_of_list(_type, param[1].params)
+                  ]]);
+    };
+    let generic_type_qualified_identifier = function (param) {
+      let q = param[1];
+      let id = q.qualification;
+      let qualification;
+      qualification = id.TAG === /* Unqualified */0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
+      return node("QualifiedTypeIdentifier", param[0], [
+                  [
+                    "qualification",
+                    qualification
+                  ],
+                  [
+                    "id",
+                    identifier(q.id)
+                  ]
+                ]);
+    };
+    let function_type = function (param) {
+      let fn = param[1];
+      return node("FunctionTypeAnnotation", param[0], [
+                  [
+                    "params",
+                    array_of_list(function_type_param, fn.params)
+                  ],
+                  [
+                    "returnType",
+                    _type(fn.returnType)
+                  ],
+                  [
+                    "rest",
+                    option(function_type_param, fn.rest)
+                  ],
+                  [
+                    "typeParameters",
+                    option(type_parameter_declaration, fn.typeParameters)
+                  ]
+                ]);
+    };
+    let type_parameter_declaration = function (param) {
+      return node("TypeParameterDeclaration", param[0], [[
+                    "params",
+                    array_of_list(type_param, param[1].params)
+                  ]]);
+    };
+    let $$case = function (param) {
+      let c = param[1];
+      return node("SwitchCase", param[0], [
+                  [
+                    "test",
+                    option(expression, c.test)
+                  ],
+                  [
+                    "consequent",
+                    array_of_list(statement, c.consequent)
+                  ]
+                ]);
+    };
+    let declare_variable = function (param) {
+      return node("DeclareVariable", param[0], [[
+                    "id",
+                    identifier(param[1].id)
+                  ]]);
     };
     let expression = function (param) {
       let arr = param[1];
@@ -16122,26 +16272,128 @@ function parse(content, options) {
         
       }
     };
-    let template_element = function (param) {
-      let element = param[1];
-      let value = obj([
-            [
-              "raw",
-              string(element.value.raw)
-            ],
-            [
-              "cooked",
-              string(element.value.cooked)
-            ]
-          ]);
-      return node("TemplateElement", param[0], [
+    let interface_declaration = function (param) {
+      let i = param[1];
+      return node("InterfaceDeclaration", param[0], [
                   [
-                    "value",
-                    value
+                    "id",
+                    identifier(i.id)
                   ],
                   [
-                    "tail",
-                    bool(element.tail)
+                    "typeParameters",
+                    option(type_parameter_declaration, i.typeParameters)
+                  ],
+                  [
+                    "body",
+                    object_type(i.body)
+                  ],
+                  [
+                    "extends",
+                    array_of_list(interface_extends, i.extends)
+                  ]
+                ]);
+    };
+    let declare_class = function (param) {
+      let d = param[1];
+      return node("DeclareClass", param[0], [
+                  [
+                    "id",
+                    identifier(d.id)
+                  ],
+                  [
+                    "typeParameters",
+                    option(type_parameter_declaration, d.typeParameters)
+                  ],
+                  [
+                    "body",
+                    object_type(d.body)
+                  ],
+                  [
+                    "extends",
+                    array_of_list(interface_extends, d.extends)
+                  ]
+                ]);
+    };
+    let literal = function (param) {
+      let lit = param[1];
+      let raw = lit.raw;
+      let value = lit.value;
+      let loc = param[0];
+      let value_;
+      if (typeof value === "number") {
+        value_ = $$null;
+      } else {
+        switch (value.TAG | 0) {
+          case /* String */0 :
+              value_ = string(value._0);
+              break;
+          case /* Boolean */1 :
+              value_ = bool(value._0);
+              break;
+          case /* Number */2 :
+              value_ = number$1(value._0);
+              break;
+          case /* RegExp */3 :
+              let match = value._0;
+              value_ = regexp$1(loc, match.pattern, match.flags);
+              break;
+          
+        }
+      }
+      let props;
+      let exit = 0;
+      if (typeof value === "number" || value.TAG !== /* RegExp */3) {
+        exit = 1;
+      } else {
+        let match$1 = value._0;
+        let regex = obj([
+              [
+                "pattern",
+                string(match$1.pattern)
+              ],
+              [
+                "flags",
+                string(match$1.flags)
+              ]
+            ]);
+        props = [
+          [
+            "value",
+            value_
+          ],
+          [
+            "raw",
+            string(raw)
+          ],
+          [
+            "regex",
+            regex
+          ]
+        ];
+      }
+      if (exit === 1) {
+        props = [
+          [
+            "value",
+            value_
+          ],
+          [
+            "raw",
+            string(raw)
+          ]
+        ];
+      }
+      return node("Literal", loc, props);
+    };
+    let let_assignment = function (assignment) {
+      return obj([
+                  [
+                    "id",
+                    pattern(assignment.id)
+                  ],
+                  [
+                    "init",
+                    option(expression, assignment.init)
                   ]
                 ]);
     };
@@ -16665,6 +16917,99 @@ function parse(content, options) {
         
       }
     };
+    let type_alias = function (param) {
+      let alias = param[1];
+      return node("TypeAlias", param[0], [
+                  [
+                    "id",
+                    identifier(alias.id)
+                  ],
+                  [
+                    "typeParameters",
+                    option(type_parameter_declaration, alias.typeParameters)
+                  ],
+                  [
+                    "right",
+                    _type(alias.right)
+                  ]
+                ]);
+    };
+    let declare_function = function (param) {
+      return node("DeclareFunction", param[0], [[
+                    "id",
+                    identifier(param[1].id)
+                  ]]);
+    };
+    let block = function (param) {
+      return node("BlockStatement", param[0], [[
+                    "body",
+                    array_of_list(statement, param[1].body)
+                  ]]);
+    };
+    let export_specifiers = function (param) {
+      if (param !== undefined) {
+        if (param.TAG === /* ExportSpecifiers */0) {
+          return array_of_list(export_specifier, param._0);
+        } else {
+          return array([node("ExportBatchSpecifier", param._0, [[
+                              "name",
+                              option(identifier, param._1)
+                            ]])]);
+        }
+      } else {
+        return array([]);
+      }
+    };
+    let variable_declaration = function (param) {
+      let $$var = param[1];
+      let match = $$var.kind;
+      let kind;
+      switch (match) {
+        case /* Var */0 :
+            kind = "var";
+            break;
+        case /* Let */1 :
+            kind = "let";
+            break;
+        case /* Const */2 :
+            kind = "const";
+            break;
+        
+      }
+      return node("VariableDeclaration", param[0], [
+                  [
+                    "declarations",
+                    array_of_list(variable_declarator, $$var.declarations)
+                  ],
+                  [
+                    "kind",
+                    string(kind)
+                  ]
+                ]);
+    };
+    let $$catch = function (param) {
+      let c = param[1];
+      return node("CatchClause", param[0], [
+                  [
+                    "param",
+                    pattern(c.param)
+                  ],
+                  [
+                    "guard",
+                    option(expression, c.guard)
+                  ],
+                  [
+                    "body",
+                    block(c.body)
+                  ]
+                ]);
+    };
+    let type_annotation = function (param) {
+      return node("TypeAnnotation", param[0], [[
+                    "typeAnnotation",
+                    _type(param[1])
+                  ]]);
+    };
     let object_type = function (param) {
       let o = param[1];
       return node("ObjectTypeAnnotation", param[0], [
@@ -16698,212 +17043,319 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let type_parameter_declaration = function (param) {
-      return node("TypeParameterDeclaration", param[0], [[
-                    "params",
-                    array_of_list(type_param, param[1].params)
-                  ]]);
-    };
-    let _type = function (param) {
-      let t = param[1];
-      let loc = param[0];
-      if (typeof t === "number") {
-        switch (t) {
-          case /* Any */0 :
-              return node("AnyTypeAnnotation", loc, []);
-          case /* Void */1 :
-              return node("VoidTypeAnnotation", loc, []);
-          case /* Null */2 :
-              return node("NullTypeAnnotation", loc, []);
-          case /* Number */3 :
-              return node("NumberTypeAnnotation", loc, []);
-          case /* String */4 :
-              return node("StringTypeAnnotation", loc, []);
-          case /* Boolean */5 :
-              return node("BooleanTypeAnnotation", loc, []);
-          case /* Exists */6 :
-              return node("ExistsTypeAnnotation", loc, []);
+    let class_element = function (param) {
+      if (param.TAG === /* Method */0) {
+        let param$1 = param._0;
+        let method_ = param$1[1];
+        let key = method_.key;
+        let match;
+        switch (key.TAG | 0) {
+          case /* Literal */0 :
+              match = [
+                literal(key._0),
+                false
+              ];
+              break;
+          case /* Identifier */1 :
+              match = [
+                identifier(key._0),
+                false
+              ];
+              break;
+          case /* Computed */2 :
+              match = [
+                expression(key._0),
+                true
+              ];
+              break;
           
         }
+        let kind;
+        switch (method_.kind) {
+          case /* Constructor */0 :
+              kind = "constructor";
+              break;
+          case /* Method */1 :
+              kind = "method";
+              break;
+          case /* Get */2 :
+              kind = "get";
+              break;
+          case /* Set */3 :
+              kind = "set";
+              break;
+          
+        }
+        return node("MethodDefinition", param$1[0], [
+                    [
+                      "key",
+                      match[0]
+                    ],
+                    [
+                      "value",
+                      function_expression(method_.value)
+                    ],
+                    [
+                      "kind",
+                      string(kind)
+                    ],
+                    [
+                      "static",
+                      bool(method_.static)
+                    ],
+                    [
+                      "computed",
+                      bool(match[1])
+                    ],
+                    [
+                      "decorators",
+                      array_of_list(expression, method_.decorators)
+                    ]
+                  ]);
       } else {
-        switch (t.TAG | 0) {
-          case /* Nullable */0 :
-              let t$1 = t._0;
-              return node("NullableTypeAnnotation", loc, [[
-                            "typeAnnotation",
-                            _type(t$1)
-                          ]]);
-          case /* Function */1 :
-              return function_type([
-                          loc,
-                          t._0
-                        ]);
-          case /* Object */2 :
-              return object_type([
-                          loc,
-                          t._0
-                        ]);
-          case /* Array */3 :
-              let t$2 = t._0;
-              return node("ArrayTypeAnnotation", loc, [[
-                            "elementType",
-                            _type(t$2)
-                          ]]);
-          case /* Generic */4 :
-              let param$1 = [
-                loc,
-                t._0
+        let param$2 = param._0;
+        let prop = param$2[1];
+        let lit = prop.key;
+        let match$1;
+        switch (lit.TAG | 0) {
+          case /* Literal */0 :
+              match$1 = [
+                literal(lit._0),
+                false
               ];
-              let g = param$1[1];
-              let id = g.id;
-              let id$1;
-              id$1 = id.TAG === /* Unqualified */0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
-              return node("GenericTypeAnnotation", param$1[0], [
-                          [
-                            "id",
-                            id$1
-                          ],
-                          [
-                            "typeParameters",
-                            option(type_parameter_instantiation, g.typeParameters)
-                          ]
-                        ]);
-          case /* Union */5 :
-              let param$2 = [
-                loc,
-                t._0
+              break;
+          case /* Identifier */1 :
+              match$1 = [
+                identifier(lit._0),
+                false
               ];
-              return node("UnionTypeAnnotation", param$2[0], [[
-                            "types",
-                            array_of_list(_type, param$2[1])
-                          ]]);
-          case /* Intersection */6 :
-              let param$3 = [
-                loc,
-                t._0
+              break;
+          case /* Computed */2 :
+              match$1 = [
+                expression(lit._0),
+                true
               ];
-              return node("IntersectionTypeAnnotation", param$3[0], [[
-                            "types",
-                            array_of_list(_type, param$3[1])
-                          ]]);
-          case /* Typeof */7 :
-              let param$4 = [
-                loc,
-                t._0
-              ];
-              return node("TypeofTypeAnnotation", param$4[0], [[
-                            "argument",
-                            _type(param$4[1])
-                          ]]);
-          case /* Tuple */8 :
-              let param$5 = [
-                loc,
-                t._0
-              ];
-              return node("TupleTypeAnnotation", param$5[0], [[
-                            "types",
-                            array_of_list(_type, param$5[1])
-                          ]]);
-          case /* StringLiteral */9 :
-              let param$6 = [
-                loc,
-                t._0
-              ];
-              let s = param$6[1];
-              return node("StringLiteralTypeAnnotation", param$6[0], [
-                          [
-                            "value",
-                            string(s.value)
-                          ],
-                          [
-                            "raw",
-                            string(s.raw)
-                          ]
-                        ]);
-          case /* NumberLiteral */10 :
-              let param$7 = [
-                loc,
-                t._0
-              ];
-              let s$1 = param$7[1];
-              return node("NumberLiteralTypeAnnotation", param$7[0], [
-                          [
-                            "value",
-                            number$1(s$1.value)
-                          ],
-                          [
-                            "raw",
-                            string(s$1.raw)
-                          ]
-                        ]);
-          case /* BooleanLiteral */11 :
-              let param$8 = [
-                loc,
-                t._0
-              ];
-              let s$2 = param$8[1];
-              return node("BooleanLiteralTypeAnnotation", param$8[0], [
-                          [
-                            "value",
-                            bool(s$2.value)
-                          ],
-                          [
-                            "raw",
-                            string(s$2.raw)
-                          ]
-                        ]);
+              break;
           
         }
+        return node("ClassProperty", param$2[0], [
+                    [
+                      "key",
+                      match$1[0]
+                    ],
+                    [
+                      "value",
+                      option(expression, prop.value)
+                    ],
+                    [
+                      "typeAnnotation",
+                      option(type_annotation, prop.typeAnnotation)
+                    ],
+                    [
+                      "computed",
+                      bool(match$1[1])
+                    ],
+                    [
+                      "static",
+                      bool(prop.static)
+                    ]
+                  ]);
       }
     };
-    let pattern = function (param) {
-      let obj = param[1];
+    let jsx_child = function (param) {
+      let element = param[1];
       let loc = param[0];
-      switch (obj.TAG | 0) {
-        case /* Object */0 :
-            let obj$1 = obj._0;
-            return node("ObjectPattern", loc, [
+      switch (element.TAG | 0) {
+        case /* Element */0 :
+            return jsx_element([
+                        loc,
+                        element._0
+                      ]);
+        case /* ExpressionContainer */1 :
+            return jsx_expression_container([
+                        loc,
+                        element._0
+                      ]);
+        case /* Text */2 :
+            let param$1 = [
+              loc,
+              element._0
+            ];
+            let text = param$1[1];
+            return node("JSXText", param$1[0], [
                         [
-                          "properties",
-                          array_of_list(object_pattern_property, obj$1.properties)
+                          "value",
+                          string(text.value)
                         ],
                         [
-                          "typeAnnotation",
-                          option(type_annotation, obj$1.typeAnnotation)
+                          "raw",
+                          string(text.raw)
                         ]
                       ]);
-        case /* Array */1 :
-            let arr = obj._0;
-            return node("ArrayPattern", loc, [
-                        [
-                          "elements",
-                          array_of_list((function (param) {
-                                  return option(array_pattern_element, param);
-                                }), arr.elements)
-                        ],
-                        [
-                          "typeAnnotation",
-                          option(type_annotation, arr.typeAnnotation)
-                        ]
-                      ]);
-        case /* Assignment */2 :
-            let match = obj._0;
-            return node("AssignmentPattern", loc, [
-                        [
-                          "left",
-                          pattern(match.left)
-                        ],
-                        [
-                          "right",
-                          expression(match.right)
-                        ]
-                      ]);
-        case /* Identifier */3 :
-            return identifier(obj._0);
-        case /* Expression */4 :
-            return expression(obj._0);
         
       }
+    };
+    let jsx_opening = function (param) {
+      let opening = param[1];
+      return node("JSXOpeningElement", param[0], [
+                  [
+                    "name",
+                    jsx_name(opening.name)
+                  ],
+                  [
+                    "attributes",
+                    array_of_list(jsx_opening_attribute, opening.attributes)
+                  ],
+                  [
+                    "selfClosing",
+                    bool(opening.selfClosing)
+                  ]
+                ]);
+    };
+    let jsx_closing = function (param) {
+      return node("JSXClosingElement", param[0], [[
+                    "name",
+                    jsx_name(param[1].name)
+                  ]]);
+    };
+    let jsx_element = function (param) {
+      let element = param[1];
+      return node("JSXElement", param[0], [
+                  [
+                    "openingElement",
+                    jsx_opening(element.openingElement)
+                  ],
+                  [
+                    "closingElement",
+                    option(jsx_closing, element.closingElement)
+                  ],
+                  [
+                    "children",
+                    array_of_list(jsx_child, element.children)
+                  ]
+                ]);
+    };
+    let jsx_expression_container = function (param) {
+      let expr = param[1].expression;
+      let expression$1;
+      expression$1 = expr.TAG === /* Expression */0 ? expression(expr._0) : node("JSXEmptyExpression", expr._0, []);
+      return node("JSXExpressionContainer", param[0], [[
+                    "expression",
+                    expression$1
+                  ]]);
+    };
+    let function_type_param = function (param) {
+      let param$1 = param[1];
+      return node("FunctionTypeParam", param[0], [
+                  [
+                    "name",
+                    identifier(param$1.name)
+                  ],
+                  [
+                    "typeAnnotation",
+                    _type(param$1.typeAnnotation)
+                  ],
+                  [
+                    "optional",
+                    bool(param$1.optional)
+                  ]
+                ]);
+    };
+    let class_implements = function (param) {
+      let $$implements = param[1];
+      return node("ClassImplements", param[0], [
+                  [
+                    "id",
+                    identifier($$implements.id)
+                  ],
+                  [
+                    "typeParameters",
+                    option(type_parameter_instantiation, $$implements.typeParameters)
+                  ]
+                ]);
+    };
+    let class_body = function (param) {
+      return node("ClassBody", param[0], [[
+                    "body",
+                    array_of_list(class_element, param[1].body)
+                  ]]);
+    };
+    let object_type_call_property = function (param) {
+      let callProperty = param[1];
+      return node("ObjectTypeCallProperty", param[0], [
+                  [
+                    "value",
+                    function_type(callProperty.value)
+                  ],
+                  [
+                    "static",
+                    bool(callProperty.static)
+                  ]
+                ]);
+    };
+    let object_type_property = function (param) {
+      let prop = param[1];
+      let lit = prop.key;
+      let key;
+      switch (lit.TAG | 0) {
+        case /* Literal */0 :
+            key = literal(lit._0);
+            break;
+        case /* Identifier */1 :
+            key = identifier(lit._0);
+            break;
+        case /* Computed */2 :
+            throw new Caml_js_exceptions.MelangeError("Failure", {
+                      MEL_EXN_ID: "Failure",
+                      _1: "There should not be computed object type property keys"
+                    });
+        
+      }
+      return node("ObjectTypeProperty", param[0], [
+                  [
+                    "key",
+                    key
+                  ],
+                  [
+                    "value",
+                    _type(prop.value)
+                  ],
+                  [
+                    "optional",
+                    bool(prop.optional)
+                  ],
+                  [
+                    "static",
+                    bool(prop.static)
+                  ]
+                ]);
+    };
+    let object_type_indexer = function (param) {
+      let indexer = param[1];
+      return node("ObjectTypeIndexer", param[0], [
+                  [
+                    "id",
+                    identifier(indexer.id)
+                  ],
+                  [
+                    "key",
+                    _type(indexer.key)
+                  ],
+                  [
+                    "value",
+                    _type(indexer.value)
+                  ],
+                  [
+                    "static",
+                    bool(indexer.static)
+                  ]
+                ]);
+    };
+    let jsx_identifier = function (param) {
+      return node("JSXIdentifier", param[0], [[
+                    "name",
+                    string(param[1].name)
+                  ]]);
     };
     let jsx_member_expression = function (param) {
       let member_expression = param[1];
@@ -16920,92 +17372,6 @@ function parse(content, options) {
                     jsx_identifier(member_expression.property)
                   ]
                 ]);
-    };
-    let jsx_identifier = function (param) {
-      return node("JSXIdentifier", param[0], [[
-                    "name",
-                    string(param[1].name)
-                  ]]);
-    };
-    let jsx_expression_container = function (param) {
-      let expr = param[1].expression;
-      let expression$1;
-      expression$1 = expr.TAG === /* Expression */0 ? expression(expr._0) : node("JSXEmptyExpression", expr._0, []);
-      return node("JSXExpressionContainer", param[0], [[
-                    "expression",
-                    expression$1
-                  ]]);
-    };
-    let literal = function (param) {
-      let lit = param[1];
-      let raw = lit.raw;
-      let value = lit.value;
-      let loc = param[0];
-      let value_;
-      if (typeof value === "number") {
-        value_ = $$null;
-      } else {
-        switch (value.TAG | 0) {
-          case /* String */0 :
-              value_ = string(value._0);
-              break;
-          case /* Boolean */1 :
-              value_ = bool(value._0);
-              break;
-          case /* Number */2 :
-              value_ = number$1(value._0);
-              break;
-          case /* RegExp */3 :
-              let match = value._0;
-              value_ = regexp$1(loc, match.pattern, match.flags);
-              break;
-          
-        }
-      }
-      let props;
-      let exit = 0;
-      if (typeof value === "number" || value.TAG !== /* RegExp */3) {
-        exit = 1;
-      } else {
-        let match$1 = value._0;
-        let regex = obj([
-              [
-                "pattern",
-                string(match$1.pattern)
-              ],
-              [
-                "flags",
-                string(match$1.flags)
-              ]
-            ]);
-        props = [
-          [
-            "value",
-            value_
-          ],
-          [
-            "raw",
-            string(raw)
-          ],
-          [
-            "regex",
-            regex
-          ]
-        ];
-      }
-      if (exit === 1) {
-        props = [
-          [
-            "value",
-            value_
-          ],
-          [
-            "raw",
-            string(raw)
-          ]
-        ];
-      }
-      return node("Literal", loc, props);
     };
     let jsx_opening_attribute = function (param) {
       if (param.TAG === /* Attribute */0) {
@@ -17043,79 +17409,46 @@ function parse(content, options) {
         
       }
     };
-    let jsx_attribute_value = function (param) {
-      if (param.TAG === /* Literal */0) {
-        return literal([
-                    param._0,
-                    param._1
-                  ]);
-      } else {
-        return jsx_expression_container([
-                    param._0,
-                    param._1
-                  ]);
-      }
-    };
-    let jsx_namespaced_name = function (param) {
-      let namespaced_name = param[1];
-      return node("JSXNamespacedName", param[0], [
-                  [
-                    "namespace",
-                    jsx_identifier(namespaced_name.namespace)
-                  ],
-                  [
-                    "name",
-                    jsx_identifier(namespaced_name.name)
-                  ]
-                ]);
-    };
-    let export_specifier = function (param) {
-      let specifier = param[1];
-      return node("ExportSpecifier", param[0], [
-                  [
-                    "id",
-                    identifier(specifier.id)
-                  ],
-                  [
-                    "name",
-                    option(identifier, specifier.name)
-                  ]
-                ]);
-    };
-    let type_annotation = function (param) {
-      return node("TypeAnnotation", param[0], [[
-                    "typeAnnotation",
-                    _type(param[1])
+    let comment = function (param) {
+      let c = param[1];
+      let match;
+      match = c.TAG === /* Block */0 ? [
+          "Block",
+          c._0
+        ] : [
+          "Line",
+          c._0
+        ];
+      return node(match[0], param[0], [[
+                    "value",
+                    string(match[1])
                   ]]);
     };
-    let block = function (param) {
-      return node("BlockStatement", param[0], [[
-                    "body",
-                    array_of_list(statement, param[1].body)
-                  ]]);
-    };
-    let template_literal = function (param) {
-      let value = param[1];
-      return node("TemplateLiteral", param[0], [
+    let type_param = function (param) {
+      let tp = param[1];
+      let variance = function (param) {
+        if (param) {
+          return string("minus");
+        } else {
+          return string("plus");
+        }
+      };
+      return node("TypeParameter", param[0], [
                   [
-                    "quasis",
-                    array_of_list(template_element, value.quasis)
+                    "name",
+                    string(tp.name)
                   ],
                   [
-                    "expressions",
-                    array_of_list(expression, value.expressions)
-                  ]
-                ]);
-    };
-    let let_assignment = function (assignment) {
-      return obj([
-                  [
-                    "id",
-                    pattern(assignment.id)
+                    "bound",
+                    option(type_annotation, tp.bound)
                   ],
                   [
-                    "init",
-                    option(expression, assignment.init)
+                    "variance",
+                    option(variance, tp.variance)
+                  ],
+                  [
+                    "default",
+                    option(_type, tp.default)
                   ]
                 ]);
     };
@@ -17166,6 +17499,157 @@ function parse(content, options) {
                   [
                     "typeParameters",
                     option(type_parameter_declaration, _function.typeParameters)
+                  ]
+                ]);
+    };
+    let array_pattern_element = function (param) {
+      if (param.TAG === /* Element */0) {
+        return pattern(param._0);
+      }
+      let match = param._0;
+      return node("SpreadElementPattern", match[0], [[
+                    "argument",
+                    pattern(match[1].argument)
+                  ]]);
+    };
+    let object_pattern_property = function (param) {
+      if (param.TAG === /* Property */0) {
+        let match = param._0;
+        let prop = match[1];
+        let lit = prop.key;
+        let match$1;
+        switch (lit.TAG | 0) {
+          case /* Literal */0 :
+              match$1 = [
+                literal(lit._0),
+                false
+              ];
+              break;
+          case /* Identifier */1 :
+              match$1 = [
+                identifier(lit._0),
+                false
+              ];
+              break;
+          case /* Computed */2 :
+              match$1 = [
+                expression(lit._0),
+                true
+              ];
+              break;
+          
+        }
+        return node("PropertyPattern", match[0], [
+                    [
+                      "key",
+                      match$1[0]
+                    ],
+                    [
+                      "pattern",
+                      pattern(prop.pattern)
+                    ],
+                    [
+                      "computed",
+                      bool(match$1[1])
+                    ],
+                    [
+                      "shorthand",
+                      bool(prop.shorthand)
+                    ]
+                  ]);
+      }
+      let match$2 = param._0;
+      return node("SpreadPropertyPattern", match$2[0], [[
+                    "argument",
+                    pattern(match$2[1].argument)
+                  ]]);
+    };
+    let template_element = function (param) {
+      let element = param[1];
+      let value = obj([
+            [
+              "raw",
+              string(element.value.raw)
+            ],
+            [
+              "cooked",
+              string(element.value.cooked)
+            ]
+          ]);
+      return node("TemplateElement", param[0], [
+                  [
+                    "value",
+                    value
+                  ],
+                  [
+                    "tail",
+                    bool(element.tail)
+                  ]
+                ]);
+    };
+    let jsx_attribute_value = function (param) {
+      if (param.TAG === /* Literal */0) {
+        return literal([
+                    param._0,
+                    param._1
+                  ]);
+      } else {
+        return jsx_expression_container([
+                    param._0,
+                    param._1
+                  ]);
+      }
+    };
+    let jsx_namespaced_name = function (param) {
+      let namespaced_name = param[1];
+      return node("JSXNamespacedName", param[0], [
+                  [
+                    "namespace",
+                    jsx_identifier(namespaced_name.namespace)
+                  ],
+                  [
+                    "name",
+                    jsx_identifier(namespaced_name.name)
+                  ]
+                ]);
+    };
+    let comprehension_block = function (param) {
+      let b = param[1];
+      return node("ComprehensionBlock", param[0], [
+                  [
+                    "left",
+                    pattern(b.left)
+                  ],
+                  [
+                    "right",
+                    expression(b.right)
+                  ],
+                  [
+                    "each",
+                    bool(b.each)
+                  ]
+                ]);
+    };
+    let expression_or_spread = function (param) {
+      if (param.TAG === /* Expression */0) {
+        return expression(param._0);
+      }
+      let match = param._0;
+      return node("SpreadElement", match[0], [[
+                    "argument",
+                    expression(match[1].argument)
+                  ]]);
+    };
+    let template_literal = function (param) {
+      let value = param[1];
+      return node("TemplateLiteral", param[0], [
+                  [
+                    "quasis",
+                    array_of_list(template_element, value.quasis)
+                  ],
+                  [
+                    "expressions",
+                    array_of_list(expression, value.expressions)
                   ]
                 ]);
     };
@@ -17243,275 +17727,6 @@ function parse(content, options) {
                     expression(match$3[1].argument)
                   ]]);
     };
-    let expression_or_spread = function (param) {
-      if (param.TAG === /* Expression */0) {
-        return expression(param._0);
-      }
-      let match = param._0;
-      return node("SpreadElement", match[0], [[
-                    "argument",
-                    expression(match[1].argument)
-                  ]]);
-    };
-    let jsx_element = function (param) {
-      let element = param[1];
-      return node("JSXElement", param[0], [
-                  [
-                    "openingElement",
-                    jsx_opening(element.openingElement)
-                  ],
-                  [
-                    "closingElement",
-                    option(jsx_closing, element.closingElement)
-                  ],
-                  [
-                    "children",
-                    array_of_list(jsx_child, element.children)
-                  ]
-                ]);
-    };
-    let comprehension_block = function (param) {
-      let b = param[1];
-      return node("ComprehensionBlock", param[0], [
-                  [
-                    "left",
-                    pattern(b.left)
-                  ],
-                  [
-                    "right",
-                    expression(b.right)
-                  ],
-                  [
-                    "each",
-                    bool(b.each)
-                  ]
-                ]);
-    };
-    let function_type = function (param) {
-      let fn = param[1];
-      return node("FunctionTypeAnnotation", param[0], [
-                  [
-                    "params",
-                    array_of_list(function_type_param, fn.params)
-                  ],
-                  [
-                    "returnType",
-                    _type(fn.returnType)
-                  ],
-                  [
-                    "rest",
-                    option(function_type_param, fn.rest)
-                  ],
-                  [
-                    "typeParameters",
-                    option(type_parameter_declaration, fn.typeParameters)
-                  ]
-                ]);
-    };
-    let object_pattern_property = function (param) {
-      if (param.TAG === /* Property */0) {
-        let match = param._0;
-        let prop = match[1];
-        let lit = prop.key;
-        let match$1;
-        switch (lit.TAG | 0) {
-          case /* Literal */0 :
-              match$1 = [
-                literal(lit._0),
-                false
-              ];
-              break;
-          case /* Identifier */1 :
-              match$1 = [
-                identifier(lit._0),
-                false
-              ];
-              break;
-          case /* Computed */2 :
-              match$1 = [
-                expression(lit._0),
-                true
-              ];
-              break;
-          
-        }
-        return node("PropertyPattern", match[0], [
-                    [
-                      "key",
-                      match$1[0]
-                    ],
-                    [
-                      "pattern",
-                      pattern(prop.pattern)
-                    ],
-                    [
-                      "computed",
-                      bool(match$1[1])
-                    ],
-                    [
-                      "shorthand",
-                      bool(prop.shorthand)
-                    ]
-                  ]);
-      }
-      let match$2 = param._0;
-      return node("SpreadPropertyPattern", match$2[0], [[
-                    "argument",
-                    pattern(match$2[1].argument)
-                  ]]);
-    };
-    let array_pattern_element = function (param) {
-      if (param.TAG === /* Element */0) {
-        return pattern(param._0);
-      }
-      let match = param._0;
-      return node("SpreadElementPattern", match[0], [[
-                    "argument",
-                    pattern(match[1].argument)
-                  ]]);
-    };
-    let declare_variable = function (param) {
-      return node("DeclareVariable", param[0], [[
-                    "id",
-                    identifier(param[1].id)
-                  ]]);
-    };
-    let $$case = function (param) {
-      let c = param[1];
-      return node("SwitchCase", param[0], [
-                  [
-                    "test",
-                    option(expression, c.test)
-                  ],
-                  [
-                    "consequent",
-                    array_of_list(statement, c.consequent)
-                  ]
-                ]);
-    };
-    let type_alias = function (param) {
-      let alias = param[1];
-      return node("TypeAlias", param[0], [
-                  [
-                    "id",
-                    identifier(alias.id)
-                  ],
-                  [
-                    "typeParameters",
-                    option(type_parameter_declaration, alias.typeParameters)
-                  ],
-                  [
-                    "right",
-                    _type(alias.right)
-                  ]
-                ]);
-    };
-    let export_specifiers = function (param) {
-      if (param !== undefined) {
-        if (param.TAG === /* ExportSpecifiers */0) {
-          return array_of_list(export_specifier, param._0);
-        } else {
-          return array([node("ExportBatchSpecifier", param._0, [[
-                              "name",
-                              option(identifier, param._1)
-                            ]])]);
-        }
-      } else {
-        return array([]);
-      }
-    };
-    let interface_declaration = function (param) {
-      let i = param[1];
-      return node("InterfaceDeclaration", param[0], [
-                  [
-                    "id",
-                    identifier(i.id)
-                  ],
-                  [
-                    "typeParameters",
-                    option(type_parameter_declaration, i.typeParameters)
-                  ],
-                  [
-                    "body",
-                    object_type(i.body)
-                  ],
-                  [
-                    "extends",
-                    array_of_list(interface_extends, i.extends)
-                  ]
-                ]);
-    };
-    let declare_function = function (param) {
-      return node("DeclareFunction", param[0], [[
-                    "id",
-                    identifier(param[1].id)
-                  ]]);
-    };
-    let $$catch = function (param) {
-      let c = param[1];
-      return node("CatchClause", param[0], [
-                  [
-                    "param",
-                    pattern(c.param)
-                  ],
-                  [
-                    "guard",
-                    option(expression, c.guard)
-                  ],
-                  [
-                    "body",
-                    block(c.body)
-                  ]
-                ]);
-    };
-    let variable_declaration = function (param) {
-      let $$var = param[1];
-      let match = $$var.kind;
-      let kind;
-      switch (match) {
-        case /* Var */0 :
-            kind = "var";
-            break;
-        case /* Let */1 :
-            kind = "let";
-            break;
-        case /* Const */2 :
-            kind = "const";
-            break;
-        
-      }
-      return node("VariableDeclaration", param[0], [
-                  [
-                    "declarations",
-                    array_of_list(variable_declarator, $$var.declarations)
-                  ],
-                  [
-                    "kind",
-                    string(kind)
-                  ]
-                ]);
-    };
-    let declare_class = function (param) {
-      let d = param[1];
-      return node("DeclareClass", param[0], [
-                  [
-                    "id",
-                    identifier(d.id)
-                  ],
-                  [
-                    "typeParameters",
-                    option(type_parameter_declaration, d.typeParameters)
-                  ],
-                  [
-                    "body",
-                    object_type(d.body)
-                  ],
-                  [
-                    "extends",
-                    array_of_list(interface_extends, d.extends)
-                  ]
-                ]);
-    };
     let variable_declarator = function (param) {
       let declarator = param[1];
       return node("VariableDeclarator", param[0], [
@@ -17525,231 +17740,16 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let type_parameter_instantiation = function (param) {
-      return node("TypeParameterInstantiation", param[0], [[
-                    "params",
-                    array_of_list(_type, param[1].params)
-                  ]]);
-    };
-    let generic_type_qualified_identifier = function (param) {
-      let q = param[1];
-      let id = q.qualification;
-      let qualification;
-      qualification = id.TAG === /* Unqualified */0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
-      return node("QualifiedTypeIdentifier", param[0], [
-                  [
-                    "qualification",
-                    qualification
-                  ],
+    let export_specifier = function (param) {
+      let specifier = param[1];
+      return node("ExportSpecifier", param[0], [
                   [
                     "id",
-                    identifier(q.id)
-                  ]
-                ]);
-    };
-    let class_body = function (param) {
-      return node("ClassBody", param[0], [[
-                    "body",
-                    array_of_list(class_element, param[1].body)
-                  ]]);
-    };
-    let class_implements = function (param) {
-      let $$implements = param[1];
-      return node("ClassImplements", param[0], [
-                  [
-                    "id",
-                    identifier($$implements.id)
+                    identifier(specifier.id)
                   ],
-                  [
-                    "typeParameters",
-                    option(type_parameter_instantiation, $$implements.typeParameters)
-                  ]
-                ]);
-    };
-    let comment = function (param) {
-      let c = param[1];
-      let match;
-      match = c.TAG === /* Block */0 ? [
-          "Block",
-          c._0
-        ] : [
-          "Line",
-          c._0
-        ];
-      return node(match[0], param[0], [[
-                    "value",
-                    string(match[1])
-                  ]]);
-    };
-    let jsx_child = function (param) {
-      let element = param[1];
-      let loc = param[0];
-      switch (element.TAG | 0) {
-        case /* Element */0 :
-            return jsx_element([
-                        loc,
-                        element._0
-                      ]);
-        case /* ExpressionContainer */1 :
-            return jsx_expression_container([
-                        loc,
-                        element._0
-                      ]);
-        case /* Text */2 :
-            let param$1 = [
-              loc,
-              element._0
-            ];
-            let text = param$1[1];
-            return node("JSXText", param$1[0], [
-                        [
-                          "value",
-                          string(text.value)
-                        ],
-                        [
-                          "raw",
-                          string(text.raw)
-                        ]
-                      ]);
-        
-      }
-    };
-    let jsx_closing = function (param) {
-      return node("JSXClosingElement", param[0], [[
-                    "name",
-                    jsx_name(param[1].name)
-                  ]]);
-    };
-    let jsx_opening = function (param) {
-      let opening = param[1];
-      return node("JSXOpeningElement", param[0], [
                   [
                     "name",
-                    jsx_name(opening.name)
-                  ],
-                  [
-                    "attributes",
-                    array_of_list(jsx_opening_attribute, opening.attributes)
-                  ],
-                  [
-                    "selfClosing",
-                    bool(opening.selfClosing)
-                  ]
-                ]);
-    };
-    let function_type_param = function (param) {
-      let param$1 = param[1];
-      return node("FunctionTypeParam", param[0], [
-                  [
-                    "name",
-                    identifier(param$1.name)
-                  ],
-                  [
-                    "typeAnnotation",
-                    _type(param$1.typeAnnotation)
-                  ],
-                  [
-                    "optional",
-                    bool(param$1.optional)
-                  ]
-                ]);
-    };
-    let type_param = function (param) {
-      let tp = param[1];
-      let variance = function (param) {
-        if (param) {
-          return string("minus");
-        } else {
-          return string("plus");
-        }
-      };
-      return node("TypeParameter", param[0], [
-                  [
-                    "name",
-                    string(tp.name)
-                  ],
-                  [
-                    "bound",
-                    option(type_annotation, tp.bound)
-                  ],
-                  [
-                    "variance",
-                    option(variance, tp.variance)
-                  ],
-                  [
-                    "default",
-                    option(_type, tp.default)
-                  ]
-                ]);
-    };
-    let object_type_property = function (param) {
-      let prop = param[1];
-      let lit = prop.key;
-      let key;
-      switch (lit.TAG | 0) {
-        case /* Literal */0 :
-            key = literal(lit._0);
-            break;
-        case /* Identifier */1 :
-            key = identifier(lit._0);
-            break;
-        case /* Computed */2 :
-            throw new Caml_js_exceptions.MelangeError("Failure", {
-                      MEL_EXN_ID: "Failure",
-                      _1: "There should not be computed object type property keys"
-                    });
-        
-      }
-      return node("ObjectTypeProperty", param[0], [
-                  [
-                    "key",
-                    key
-                  ],
-                  [
-                    "value",
-                    _type(prop.value)
-                  ],
-                  [
-                    "optional",
-                    bool(prop.optional)
-                  ],
-                  [
-                    "static",
-                    bool(prop.static)
-                  ]
-                ]);
-    };
-    let object_type_indexer = function (param) {
-      let indexer = param[1];
-      return node("ObjectTypeIndexer", param[0], [
-                  [
-                    "id",
-                    identifier(indexer.id)
-                  ],
-                  [
-                    "key",
-                    _type(indexer.key)
-                  ],
-                  [
-                    "value",
-                    _type(indexer.value)
-                  ],
-                  [
-                    "static",
-                    bool(indexer.static)
-                  ]
-                ]);
-    };
-    let object_type_call_property = function (param) {
-      let callProperty = param[1];
-      return node("ObjectTypeCallProperty", param[0], [
-                  [
-                    "value",
-                    function_type(callProperty.value)
-                  ],
-                  [
-                    "static",
-                    bool(callProperty.static)
+                    option(identifier, specifier.name)
                   ]
                 ]);
     };

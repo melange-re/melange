@@ -14,6 +14,7 @@ Unreleased
   ([#1019](https://github.com/melange-re/melange/pull/1019))
 - core: in compiled JS, stop generating closures in loops that capture mutable
   variables ([#1020](https://github.com/melange-re/melange/pull/1020))
+- runtime: add minimal bindings for JS iterators ([#1060](https://github.com/melange-re/melange/pull/1060))
 
 3.0.0 2024-01-28
 ---------------
