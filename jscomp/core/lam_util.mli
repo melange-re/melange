@@ -33,7 +33,7 @@ val field_flatten_get :
   Lambda.field_dbg_info ->
   Lam_stats.ident_tbl ->
   Lam.t
-(** [field_flattern_get cb v i tbl]
+(** [field_flatten_get cb v i tbl]
     try to remove the indirection of [v.(i)] by inlining when [v]
     is a known block,
     if not, it will call [cb ()].
