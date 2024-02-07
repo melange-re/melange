@@ -98,14 +98,13 @@ type state = { defined_idents : Ident.Set.t; used_idents : Ident.Set.t }
 let init_state =
   { defined_idents = Ident.Set.empty; used_idents = Ident.Set.empty }
 
-let add_defined_ident (st : state) id =
-  { st with defined_idents = Ident.Set.add st.defined_idents id }
-
-let add_used_ident (st : state) id =
-  { st with used_idents = Ident.Set.add st.used_idents id }
-
 let record_scope_pass =
   let super = Js_record_fold.super in
+  let add_defined_ident (st : state) id =
+    { st with defined_idents = Ident.Set.add st.defined_idents id }
+  and add_used_ident (st : state) id =
+    { st with used_idents = Ident.Set.add st.used_idents id }
+  in
   {
     super with
     expression =
@@ -170,11 +169,8 @@ let record_scope_pass =
             } =
               (* Invariant: Finish id is never used *)
               self.block self
-                {
-                  used_idents = Ident.Set.empty;
-                  (* TODO: if unused, can we generate better code? *)
-                  defined_idents = Ident.Set.singleton loop_id;
-                }
+                (* TODO: if unused, can we generate better code? *)
+                (add_defined_ident init_state loop_id)
                 stmts
             in
             {
