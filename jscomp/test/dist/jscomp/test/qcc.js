@@ -1216,8 +1216,7 @@ function decl(g, _n, _stk) {
     let t = Curry._1(next$1, undefined);
     if (Caml_obj.caml_equal(t, tokint)) {
       let top = stk ? stk.hd[1] : 0;
-      let vars = (function(top){
-      return function vars(_n, _stk) {
+      let vars = function (_n, _stk) {
         while(true) {
           let stk = _stk;
           let n = _n;
@@ -1284,8 +1283,7 @@ function decl(g, _n, _stk) {
                     _1: "[var] expected in [decl]"
                   });
         };
-      }
-      }(top));
+      };
       let match = vars(0, stk);
       Curry._1(next$1, undefined);
       if (dbg.contents) {

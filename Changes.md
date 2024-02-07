@@ -12,6 +12,8 @@ Unreleased
   ([#1050](https://github.com/melange-re/melange/pull/1050))
 - core: emit `let` instead of `var` in compiled JS
   ([#1019](https://github.com/melange-re/melange/pull/1019))
+- core: in compiled JS, stop generating closures in loops that capture mutable
+  variables ([#1020](https://github.com/melange-re/melange/pull/1020))
 
 3.0.0 2024-01-28
 ---------------

@@ -207,13 +207,6 @@ let exp_need_paren (e : J.expression) =
   | Typeof _ | Number _ | Js_not _ | Bool _ | New _ ->
       false
 
-let comma_idents (cxt : cxt) ls = iter_lst cxt ls ident comma
-
-let pp_paren_params (cxt : cxt) (lexical : Ident.t list) : unit =
-  string cxt L.lparen;
-  let (_ : cxt) = comma_idents cxt lexical in
-  string cxt L.rparen
-
 (* Print as underscore for unused vars, may not be
     needed in the future *)
 (* let ipp_ident cxt id (un_used : bool) =
@@ -438,70 +431,29 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
           space cxt;
           brace_vgroup cxt 1 (fun _ -> function_body ~return_unit cxt b)
       in
-      let lexical : Ident.Set.t = Js_fun_env.get_lexical_scope env in
-      let enclose lexical =
-        let handle lexical =
-          if Ident.Set.is_empty lexical then (
-            match fn_state with
-            | Is_return ->
-                return_sp cxt;
-                string cxt L.function_;
-                space cxt;
-                param_body ()
-            | No_name { single_arg } ->
-                (* see # 1692, add a paren for annoymous function for safety  *)
-                cond_paren_group cxt (not single_arg) 1 (fun _ ->
-                    string cxt L.function_;
-                    space cxt;
-                    param_body ())
-            | Name_non_top x ->
-                ignore (pp_var_assign inner_cxt x : cxt);
-                string cxt L.function_;
-                space cxt;
-                param_body ();
-                semi cxt
-            | Name_top x ->
-                string cxt L.function_;
-                space cxt;
-                ignore (ident inner_cxt x : cxt);
-                param_body ())
-          else
-            (* print our closure as
-               {[(function(x,y){ return function(..){...}} (x,y))]}
-               Maybe changed to `let` in the future
-            *)
-            let lexical = Ident.Set.elements lexical in
-            (match fn_state with
-            | Is_return -> return_sp cxt
-            | No_name _ -> ()
-            | Name_non_top name | Name_top name ->
-                ignore (pp_var_assign inner_cxt name : cxt));
-            string cxt L.lparen;
-            string cxt L.function_;
-            pp_paren_params inner_cxt lexical;
-            brace_vgroup cxt 0 (fun _ ->
-                return_sp cxt;
-                string cxt L.function_;
-                space cxt;
-                (match fn_state with
-                | Is_return | No_name _ -> ()
-                | Name_non_top x | Name_top x -> ignore (ident inner_cxt x));
-                param_body ());
-            pp_paren_params inner_cxt lexical;
-            string cxt L.rparen;
-            match fn_state with
-            | Is_return | No_name _ -> () (* expression *)
-            | _ -> semi cxt (* has binding, a statement *)
-        in
-        handle
-          (match fn_state with
-          | (Name_top name | Name_non_top name) when Ident.Set.mem lexical name
-            ->
-              (*TODO: when calculating lexical we should not include itself *)
-              Ident.Set.remove lexical name
-          | _ -> lexical)
-      in
-      enclose lexical;
+      (match fn_state with
+      | Is_return ->
+          return_sp cxt;
+          string cxt L.function_;
+          space cxt;
+          param_body ()
+      | No_name { single_arg } ->
+          (* see # 1692, add a paren for annoymous function for safety  *)
+          cond_paren_group cxt (not single_arg) 1 (fun _ ->
+              string cxt L.function_;
+              space cxt;
+              param_body ())
+      | Name_non_top x ->
+          ignore (pp_var_assign inner_cxt x : cxt);
+          string cxt L.function_;
+          space cxt;
+          param_body ();
+          semi cxt
+      | Name_top x ->
+          string cxt L.function_;
+          space cxt;
+          ignore (ident inner_cxt x : cxt);
+          param_body ());
       outer_cxt
 
 (* Assume the cond would not change the context,
@@ -1050,7 +1002,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
           string cxt L.else_;
           space cxt;
           brace_block cxt s2)
-  | While (label, e, s, _env) ->
+  | While (label, e, s) ->
       (*  FIXME: print scope as well *)
       (match label with
       | Some i ->
@@ -1076,7 +1028,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       let cxt = brace_block cxt s in
       semi cxt;
       cxt
-  | ForRange (for_ident_expression, finish, id, direction, s, env) ->
+  | ForRange (for_ident_expression, finish, id, direction, s) ->
       let action cxt =
         vgroup cxt 0 (fun _ ->
             let cxt =
@@ -1143,24 +1095,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
             in
             brace_block cxt s)
       in
-      let lexical = Js_closure.get_lexical_scope env in
-      if Ident.Set.is_empty lexical then action cxt
-      else
-        (* unlike function,
-           [print for loop] has side effect,
-           we should take it out
-        *)
-        let inner_cxt = merge_scope cxt lexical in
-        let lexical = Ident.Set.elements lexical in
-        vgroup cxt 0 (fun _ ->
-            string cxt L.lparen;
-            string cxt L.function_;
-            pp_paren_params inner_cxt lexical;
-            let cxt = brace_vgroup cxt 0 (fun _ -> action inner_cxt) in
-            pp_paren_params inner_cxt lexical;
-            string cxt L.rparen;
-            semi cxt;
-            cxt)
+      action cxt
   | Continue s ->
       continue cxt s;
       cxt (* newline cxt;  #2642 *)

@@ -2366,12 +2366,10 @@ function translate(ids, kind, _ign_group, ign_case, _greedy, pos, cache, c, _par
                     ];
             }
             return [
-                    alt(ids, Stdlib__List.map((function(ign_group,greedy){
-                            return function (r$p) {
-                              let match = translate(ids, kind, ign_group, ign_case, greedy, pos, cache, c, r$p);
-                              return enforce_kind(ids, kind, match[1], match[0]);
-                            }
-                            }(ign_group,greedy)), merged_sequences)),
+                    alt(ids, Stdlib__List.map((function (r$p) {
+                                let match = translate(ids, kind, ign_group, ign_case, greedy, pos, cache, c, r$p);
+                                return enforce_kind(ids, kind, match[1], match[0]);
+                              }), merged_sequences)),
                     kind
                   ];
         case /* Repeat */3 :
@@ -2382,37 +2380,31 @@ function translate(ids, kind, _ign_group, ign_case, _greedy, pos, cache, c, _par
             let cr = match$1[0];
             let rem;
             if (j !== undefined) {
-              let f = greedy === "Non_greedy" ? (function(cr,kind$p){
-                return function (rem) {
-                  return alt(ids, {
-                              hd: mk_expr(ids, /* Eps */0),
-                              tl: {
-                                hd: seq$1(ids, kind$p, rename(ids, cr), rem),
-                                tl: /* [] */0
-                              }
-                            });
-                }
-                }(cr,kind$p)) : (function(cr,kind$p){
-                return function (rem) {
-                  return alt(ids, {
-                              hd: seq$1(ids, kind$p, rename(ids, cr), rem),
-                              tl: {
+              let f = greedy === "Non_greedy" ? (function (rem) {
+                    return alt(ids, {
                                 hd: mk_expr(ids, /* Eps */0),
-                                tl: /* [] */0
-                              }
-                            });
-                }
-                }(cr,kind$p));
+                                tl: {
+                                  hd: seq$1(ids, kind$p, rename(ids, cr), rem),
+                                  tl: /* [] */0
+                                }
+                              });
+                  }) : (function (rem) {
+                    return alt(ids, {
+                                hd: seq$1(ids, kind$p, rename(ids, cr), rem),
+                                tl: {
+                                  hd: mk_expr(ids, /* Eps */0),
+                                  tl: /* [] */0
+                                }
+                              });
+                  });
               rem = iter(j - i | 0, f, mk_expr(ids, /* Eps */0));
             } else {
               rem = rep(ids, greedy, kind$p, cr);
             }
             return [
-                    iter(i, (function(cr,kind$p){
-                        return function (rem) {
-                          return seq$1(ids, kind$p, rename(ids, cr), rem);
-                        }
-                        }(cr,kind$p)), rem),
+                    iter(i, (function (rem) {
+                            return seq$1(ids, kind$p, rename(ids, cr), rem);
+                          }), rem),
                     kind
                   ];
         case /* Sem */4 :
@@ -2555,18 +2547,14 @@ function handle_case(_ign_case, _r) {
       case /* Sequence */1 :
           return {
                   TAG: /* Sequence */1,
-                  _0: Stdlib__List.map((function(ign_case){
-                      return function (param) {
-                        return handle_case(ign_case, param);
-                      }
-                      }(ign_case)), r._0)
+                  _0: Stdlib__List.map((function (param) {
+                          return handle_case(ign_case, param);
+                        }), r._0)
                 };
       case /* Alternative */2 :
-          let l$p = Stdlib__List.map((function(ign_case){
-              return function (param) {
-                return handle_case(ign_case, param);
-              }
-              }(ign_case)), r._0);
+          let l$p = Stdlib__List.map((function (param) {
+                  return handle_case(ign_case, param);
+                }), r._0);
           if (is_charset({
                   TAG: /* Alternative */2,
                   _0: l$p
@@ -2646,11 +2634,9 @@ function handle_case(_ign_case, _r) {
           _ign_case = true;
           continue ;
       case /* Intersection */11 :
-          let l$p$1 = Stdlib__List.map((function(ign_case){
-              return function (r) {
-                return handle_case(ign_case, r);
-              }
-              }(ign_case)), r._0);
+          let l$p$1 = Stdlib__List.map((function (r) {
+                  return handle_case(ign_case, r);
+                }), r._0);
           return {
                   TAG: /* Set */0,
                   _0: Stdlib__List.fold_left((function (s, r) {
@@ -2658,11 +2644,9 @@ function handle_case(_ign_case, _r) {
                         }), cany, l$p$1)
                 };
       case /* Complement */12 :
-          let l$p$2 = Stdlib__List.map((function(ign_case){
-              return function (r) {
-                return handle_case(ign_case, r);
-              }
-              }(ign_case)), r._0);
+          let l$p$2 = Stdlib__List.map((function (r) {
+                  return handle_case(ign_case, r);
+                }), r._0);
           return {
                   TAG: /* Set */0,
                   _0: diff(cany, Stdlib__List.fold_left((function (s, r) {
