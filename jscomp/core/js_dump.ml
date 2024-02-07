@@ -392,7 +392,7 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
           optimize len ~p:(arity = NA && len <= 8) cxt v)
   | _ ->
       let set_env =
-        (* identifiers will be printed cxtollowing*)
+        (* identifiers will be printed following*)
         match fn_state with
         | Is_return | No_name _ -> Js_fun_env.get_unbounded env
         | Name_top id | Name_non_top id ->

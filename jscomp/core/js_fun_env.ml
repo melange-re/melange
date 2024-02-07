@@ -77,11 +77,6 @@ let get_unused t i = t.used_mask.(i)
        (fun id  -> Printf.sprintf "%s/%d" id.name id.stamp)
         ) *)
 
-let get_mutable_params (params : Ident.t list) (x : t) =
-  match x.immutable_mask with
-  | All_immutable_and_no_tail_call -> []
-  | Immutable_mask xs -> List.filteri ~f:(fun i _p -> not xs.(i)) params
-
 let get_unbounded t = t.unbounded
 
 let set_unbounded env v =

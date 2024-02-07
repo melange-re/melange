@@ -208,10 +208,6 @@ let unit : t = make_expression Undefined
    TODO: optimize
 *)
 
-(* Attention: Shared *mutable state* is evil,
-   [Js_fun_env.empty] is a mutable state ..
-*)
-
 let ocaml_fun ?loc ?comment ?immutable_mask ~return_unit params block : t =
   let len = List.length params in
   make_expression ?loc ?comment

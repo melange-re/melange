@@ -265,7 +265,7 @@ js
 |> _j "inline_and_shake"
 |> Js_pass_flatten_and_mark_dead.program
 |> _j "flatten_and_mark_dead"
-|> (fun js -> ignore @@ Js_pass_scope.program  js ; js )
+|> Js_pass_scope.program
 |> Js_shake.shake_program
 |> _j "shake"
 |> ( fun (program:  J.program) ->
