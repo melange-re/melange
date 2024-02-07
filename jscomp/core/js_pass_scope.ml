@@ -145,18 +145,17 @@ let record_scope_pass =
               used_idents = Ident.Set.union state.used_idents closured_idents';
             }
         | _ -> (
-            let obj = super.expression self state x in
+            let state = super.expression self state x in
             match Js_block_runtime.check_additional_id x with
-            | None -> obj
-            | Some id -> add_used_ident obj id));
+            | None -> state
+            | Some id -> add_used_ident state id));
     variable_declaration =
       (fun self state x ->
-        match x with
-        | { ident; value; _ } -> (
-            let state = add_defined_ident state ident in
-            match value with
-            | None -> state
-            | Some x -> self.expression self state x));
+        let { J.ident; value; _ } = x in
+        let state = add_defined_ident state ident in
+        match value with
+        | None -> state
+        | Some x -> self.expression self state x);
     statement =
       (fun self state x ->
         match x.statement_desc with
