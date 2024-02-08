@@ -22,11 +22,11 @@ function add(prim0, prim1) {
 }
 
 function h(u) {
-  let m = u.hi;
+  const m = u.hi;
   return m(1, 2);
 }
 
-let nested = {
+const nested = {
   x: {
     y: 3
   }

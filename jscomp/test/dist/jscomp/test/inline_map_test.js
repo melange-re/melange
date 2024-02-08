@@ -16,8 +16,8 @@ function height(param) {
 }
 
 function create(l, x, d, r) {
-  let hl = height(l);
-  let hr = height(r);
+  const hl = height(l);
+  const hr = height(r);
   return /* Node */{
           _0: l,
           _1: x,
@@ -28,14 +28,14 @@ function create(l, x, d, r) {
 }
 
 function bal(l, x, d, r) {
-  let hl = l ? l._4 : 0;
-  let hr = r ? r._4 : 0;
+  const hl = l ? l._4 : 0;
+  const hr = r ? r._4 : 0;
   if (hl > (hr + 2 | 0)) {
     if (l) {
-      let lr = l._3;
-      let ld = l._2;
-      let lv = l._1;
-      let ll = l._0;
+      const lr = l._3;
+      const ld = l._2;
+      const lv = l._1;
+      const ll = l._0;
       if (height(ll) >= height(lr)) {
         return create(ll, lv, ld, create(lr, x, d, r));
       }
@@ -62,10 +62,10 @@ function bal(l, x, d, r) {
           };
   }
   if (r) {
-    let rr = r._3;
-    let rd = r._2;
-    let rv = r._1;
-    let rl = r._0;
+    const rr = r._3;
+    const rd = r._2;
+    const rv = r._1;
+    const rl = r._0;
     if (height(rr) >= height(rl)) {
       return create(create(l, x, d, rl), rv, rd, rr);
     }
@@ -93,11 +93,11 @@ function add(x, data, param) {
             _4: 1
           };
   }
-  let r = param._3;
-  let d = param._2;
-  let v = param._1;
-  let l = param._0;
-  let c = Caml.caml_int_compare(x, v);
+  const r = param._3;
+  const d = param._2;
+  const v = param._1;
+  const l = param._0;
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     return /* Node */{
             _0: l,
@@ -115,9 +115,9 @@ function add(x, data, param) {
 
 function find(x, _param) {
   while(true) {
-    let param = _param;
+    const param = _param;
     if (param) {
-      let c = Caml.caml_int_compare(x, param._1);
+      const c = Caml.caml_int_compare(x, param._1);
       if (c === 0) {
         return param._2;
       }
@@ -130,7 +130,7 @@ function find(x, _param) {
   };
 }
 
-let m = Stdlib__List.fold_left((function (acc, param) {
+const m = Stdlib__List.fold_left((function (acc, param) {
         return add(param[0], param[1], acc);
       }), /* Empty */0, {
       hd: [

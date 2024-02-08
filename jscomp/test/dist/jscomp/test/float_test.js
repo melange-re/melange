@@ -13,11 +13,11 @@ let Stdlib__Array = require("melange/array.js");
 let Stdlib__Float = require("melange/float.js");
 let Stdlib__Printf = require("melange/printf.js");
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
@@ -33,18 +33,18 @@ function approx(loc) {
   };
 }
 
-let epsilon_float = Caml_int64.float_of_bits([
+const epsilon_float = Caml_int64.float_of_bits([
       1018167296,
       0
     ]);
 
-let match = Caml_float.caml_frexp_float(12.0);
+const match = Caml_float.caml_frexp_float(12.0);
 
-let match$1 = Caml_float.caml_frexp_float(0);
+const match$1 = Caml_float.caml_frexp_float(0);
 
-let match$2 = Caml_float.caml_frexp_float(-12.0);
+const match$2 = Caml_float.caml_frexp_float(-12.0);
 
-let results = Stdlib__Array.append([
+const results = Stdlib__Array.append([
       [
         Math.log10(2),
         0.301029995663981198
@@ -126,8 +126,8 @@ let results = Stdlib__Array.append([
 
 function from_pairs(ps) {
   return Stdlib__Array.to_list(Stdlib__Array.mapi((function (i, param) {
-                    let b = param[1];
-                    let a = param[0];
+                    const b = param[1];
+                    const a = param[0];
                     return [
                             Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                       _0: {
@@ -154,45 +154,45 @@ function from_pairs(ps) {
                   }), ps));
 }
 
-let float_compare = Caml.caml_float_compare;
+const float_compare = Caml.caml_float_compare;
 
-let generic_compare = Caml_obj.caml_compare;
+const generic_compare = Caml_obj.caml_compare;
 
 function float_equal(x, y) {
   return x === y;
 }
 
-let generic_equal = Caml_obj.caml_equal;
+const generic_equal = Caml_obj.caml_equal;
 
 function float_notequal(x, y) {
   return x !== y;
 }
 
-let generic_notequal = Caml_obj.caml_notequal;
+const generic_notequal = Caml_obj.caml_notequal;
 
 function float_lessthan(x, y) {
   return x < y;
 }
 
-let generic_lessthan = Caml_obj.caml_lessthan;
+const generic_lessthan = Caml_obj.caml_lessthan;
 
 function float_greaterthan(x, y) {
   return x > y;
 }
 
-let generic_greaterthan = Caml_obj.caml_greaterthan;
+const generic_greaterthan = Caml_obj.caml_greaterthan;
 
 function float_lessequal(x, y) {
   return x <= y;
 }
 
-let generic_lessequal = Caml_obj.caml_lessequal;
+const generic_lessequal = Caml_obj.caml_lessequal;
 
 function float_greaterequal(x, y) {
   return x >= y;
 }
 
-let generic_greaterequal = Caml_obj.caml_greaterequal;
+const generic_greaterequal = Caml_obj.caml_greaterequal;
 
 Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 58, characters 5-12", Stdlib.classify_float(3), /* FP_normal */0);
 
@@ -201,7 +201,7 @@ Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 
       -3
     ]);
 
-let match$3 = Caml_float.caml_modf_float(Number.NaN);
+const match$3 = Caml_float.caml_modf_float(Number.NaN);
 
 Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 60, characters 5-12", [
       Number.isNaN(match$3[0]),
@@ -340,11 +340,11 @@ Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 
 
 Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 116, characters 5-12", false || -1 >= 0 && 1 < 0 ? 1 : -1, -1);
 
-let match$4 = Caml_float.caml_modf_float(32.3);
+const match$4 = Caml_float.caml_modf_float(32.3);
 
-let b = match$4[1];
+const b = match$4[1];
 
-let a = match$4[0];
+const a = match$4[0];
 
 Mt.from_pair_suites("Float_test", Stdlib.$at({
           hd: [

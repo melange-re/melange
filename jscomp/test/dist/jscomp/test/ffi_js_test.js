@@ -3,7 +3,7 @@
 
 let Mt = require("./mt.js");
 
-let keys = (function (x){return Object.keys(x)}
+const keys = (function (x){return Object.keys(x)}
 );
 
 function $$higher_order(x){
@@ -13,17 +13,17 @@ function $$higher_order(x){
   }
 ;
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
 function eq(loc, param) {
-  let y = param[1];
-  let x = param[0];
+  const y = param[1];
+  const x = param[0];
   test_id.contents = test_id.contents + 1 | 0;
   suites.contents = {
     hd: [
@@ -40,12 +40,12 @@ function eq(loc, param) {
   };
 }
 
-let int_config = {
+const int_config = {
   hi: 3,
   low: 32
 };
 
-let string_config = {
+const string_config = {
   hi: 3,
   low: "32"
 };
@@ -55,7 +55,7 @@ eq("File \"jscomp/test/ffi_js_test.ml\", line 32, characters 5-12", [
       $$higher_order(1)(2, 3)
     ]);
 
-let same_type_0 = {
+const same_type_0 = {
   hd: int_config,
   tl: {
     hd: {
@@ -66,7 +66,7 @@ let same_type_0 = {
   }
 };
 
-let same_type_1 = {
+const same_type_1 = {
   hd: string_config,
   tl: {
     hd: {
@@ -77,12 +77,12 @@ let same_type_1 = {
   }
 };
 
-let same_type = [
+const same_type = [
   same_type_0,
   same_type_1
 ];
 
-let v_obj = {
+const v_obj = {
   hi: (function () {
       console.log("hei");
     })
@@ -108,11 +108,11 @@ eq("File \"jscomp/test/ffi_js_test.ml\", line 47, characters 5-12", [
       0
     ]);
 
-let u = {
+const u = {
   contents: 3
 };
 
-let side_effect_config = (u.contents = u.contents + 1 | 0, {
+const side_effect_config = (u.contents = u.contents + 1 | 0, {
     hi: 3,
     low: 32
   });
@@ -156,15 +156,15 @@ function ffff(x) {
     "3",
     3
   ];
-  let match = x[3];
+  const match = x[3];
   console.log([
         match[0],
         match[1]
       ]);
   console.log(x.getGADT);
-  let match$1 = x.getGADT2;
+  const match$1 = x.getGADT2;
   console.log(match$1[0], match$1[1]);
-  let match$2 = x[0];
+  const match$2 = x[0];
   console.log(match$2[0], match$2[1]);
   x[0] = [
     1,

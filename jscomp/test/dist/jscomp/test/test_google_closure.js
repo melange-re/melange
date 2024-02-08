@@ -14,11 +14,11 @@ function f2(a) {
   };
 }
 
-let a = String(3);
+const a = String(3);
 
-let b = 101;
+const b = 101;
 
-let arr = Stdlib__Array.init(2, (function (param) {
+const arr = Stdlib__Array.init(2, (function (param) {
         return 0;
       }));
 
@@ -32,7 +32,7 @@ console.log([
       arr
     ]);
 
-let c = arr;
+const c = arr;
 
 exports.f = f;
 exports.f2 = f2;

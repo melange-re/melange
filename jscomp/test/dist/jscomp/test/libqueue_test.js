@@ -16,7 +16,7 @@ function to_list(q) {
                   }), /* [] */0, q));
 }
 
-let Q = {
+const Q = {
   Empty: Stdlib__Queue.Empty,
   create: Stdlib__Queue.create,
   add: Stdlib__Queue.add,
@@ -46,7 +46,7 @@ function does_raise(f, q) {
     return false;
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib__Queue.Empty) {
       return true;
     }
@@ -54,7 +54,7 @@ function does_raise(f, q) {
   }
 }
 
-let q = {
+const q = {
   length: 0,
   first: /* Nil */0,
   last: /* Nil */0
@@ -270,7 +270,7 @@ if (!does_raise(Stdlib__Queue.take, q)) {
           });
 }
 
-let q$1 = {
+const q$1 = {
   length: 0,
   first: /* Nil */0,
   last: /* Nil */0
@@ -335,7 +335,7 @@ if (q$1.length !== 0) {
           });
 }
 
-let q$2 = {
+const q$2 = {
   length: 0,
   first: /* Nil */0,
   last: /* Nil */0
@@ -468,7 +468,7 @@ if (!does_raise(Stdlib__Queue.peek, q$2)) {
           });
 }
 
-let q$3 = {
+const q$3 = {
   length: 0,
   first: /* Nil */0,
   last: /* Nil */0
@@ -530,7 +530,7 @@ if (Stdlib__Queue.take(q$3) !== 42) {
           });
 }
 
-let q1 = {
+const q1 = {
   length: 0,
   first: /* Nil */0,
   last: /* Nil */0
@@ -540,7 +540,7 @@ for(let i$1 = 1; i$1 <= 10; ++i$1){
   Stdlib__Queue.add(i$1, q1);
 }
 
-let q2 = Stdlib__Queue.copy(q1);
+const q2 = Stdlib__Queue.copy(q1);
 
 if (!Caml_obj.caml_equal(to_list(q1), {
         hd: 1,
@@ -674,7 +674,7 @@ for(let i$3 = 1; i$3 <= 10; ++i$3){
   
 }
 
-let q$4 = {
+const q$4 = {
   length: 0,
   first: /* Nil */0,
   last: /* Nil */0
@@ -762,7 +762,7 @@ if (q$4.length !== 0) {
           });
 }
 
-let q$5 = {
+const q$5 = {
   length: 0,
   first: /* Nil */0,
   last: /* Nil */0
@@ -772,7 +772,7 @@ for(let i$6 = 1; i$6 <= 10; ++i$6){
   Stdlib__Queue.add(i$6, q$5);
 }
 
-let i$7 = {
+const i$7 = {
   contents: 1
 };
 
@@ -790,13 +790,13 @@ Stdlib__Queue.iter((function (j) {
         i$7.contents = i$7.contents + 1 | 0;
       }), q$5);
 
-let q1$1 = {
+const q1$1 = {
   length: 0,
   first: /* Nil */0,
   last: /* Nil */0
 };
 
-let q2$1 = {
+const q2$1 = {
   length: 0,
   first: /* Nil */0,
   last: /* Nil */0
@@ -892,13 +892,13 @@ if (!Caml_obj.caml_equal(to_list(q2$1), /* [] */0)) {
           });
 }
 
-let q1$2 = {
+const q1$2 = {
   length: 0,
   first: /* Nil */0,
   last: /* Nil */0
 };
 
-let q2$2 = {
+const q2$2 = {
   length: 0,
   first: /* Nil */0,
   last: /* Nil */0
@@ -1022,13 +1022,13 @@ if (!Caml_obj.caml_equal(to_list(q2$2), {
           });
 }
 
-let q1$3 = {
+const q1$3 = {
   length: 0,
   first: /* Nil */0,
   last: /* Nil */0
 };
 
-let q2$3 = {
+const q2$3 = {
   length: 0,
   first: /* Nil */0,
   last: /* Nil */0
@@ -1152,13 +1152,13 @@ if (!Caml_obj.caml_equal(to_list(q2$3), {
           });
 }
 
-let q1$4 = {
+const q1$4 = {
   length: 0,
   first: /* Nil */0,
   last: /* Nil */0
 };
 
-let q2$4 = {
+const q2$4 = {
   length: 0,
   first: /* Nil */0,
   last: /* Nil */0

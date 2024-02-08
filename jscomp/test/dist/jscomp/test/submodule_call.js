@@ -4,15 +4,15 @@
 let Curry = require("melange.js/curry.js");
 let Submodule = require("./submodule.js");
 
-let a0 = Submodule.A0.a0(1, 2);
+const a0 = Submodule.A0.a0(1, 2);
 
-let a1 = Curry._2(Submodule.A0.A1.a1, 1, 2);
+const a1 = Curry._2(Submodule.A0.A1.a1, 1, 2);
 
-let a2 = Curry._2(Submodule.A0.A1.A2.a2, 1, 2);
+const a2 = Curry._2(Submodule.A0.A1.A2.a2, 1, 2);
 
-let a3 = Curry._2(Submodule.A0.A1.A2.A3.a3, 1, 2);
+const a3 = Curry._2(Submodule.A0.A1.A2.A3.a3, 1, 2);
 
-let a4 = Curry._2(Submodule.A0.A1.A2.A3.A4.a4, 1, 2);
+const a4 = Curry._2(Submodule.A0.A1.A2.A3.A4.a4, 1, 2);
 
 exports.a0 = a0;
 exports.a1 = a1;

@@ -3,11 +3,11 @@
 
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -29,79 +29,79 @@ function eq(loc, x, y) {
 }
 
 function f0(x) {
-  let old = x.open;
+  const old = x.open;
   x.open = old + 1 | 0;
   return x.open;
 }
 
 function f1(x) {
-  let old = x.in;
+  const old = x.in;
   x.in = old + 1 | 0;
   return x.in;
 }
 
 function f2(x) {
-  let old = x.MAX_LENGTH;
+  const old = x.MAX_LENGTH;
   x.MAX_LENGTH = old + 1 | 0;
   return x.MAX_LENGTH;
 }
 
 function f3(x) {
-  let old = x.Capital;
+  const old = x.Capital;
   x.Capital = old + 1 | 0;
   return x.Capital;
 }
 
 function f4(x) {
-  let old = x._open;
+  const old = x._open;
   x._open = old + 1 | 0;
   return x._open;
 }
 
 function f5(x) {
-  let old = x.open;
+  const old = x.open;
   x.open = old + 1 | 0;
   return x.open;
 }
 
 function f6(x) {
-  let old = x["'x"];
+  const old = x["'x"];
   x["'x"] = old + 1 | 0;
   return x["'x"];
 }
 
 function f7(x) {
-  let old = x._Capital;
+  const old = x._Capital;
   x._Capital = old + 1 | 0;
   return x._Capital;
 }
 
 function f8(x) {
-  let old = x._MAX;
+  const old = x._MAX;
   x._MAX = old + 1 | 0;
   return x._MAX;
 }
 
 function f9(x) {
-  let old = x.__;
+  const old = x.__;
   x.__ = old + 1 | 0;
   return x.__;
 }
 
 function f10(x) {
-  let old = x.__x;
+  const old = x.__x;
   x.__x = old + 1 | 0;
   return x.__x;
 }
 
 function f11(x) {
-  let old = x._;
+  const old = x._;
   x._ = old + 1 | 0;
   return x._;
 }
 
 function f12(x) {
-  let old = x.__;
+  const old = x.__;
   x.__ = old + 1 | 0;
   return x.__;
 }

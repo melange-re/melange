@@ -7,11 +7,11 @@ let Mt = require("./mt.js");
 let Stdlib__Array = require("melange/array.js");
 let String_set = require("./string_set.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -32,9 +32,9 @@ function eq(loc, x, y) {
   };
 }
 
-let a = {};
+const a = {};
 
-let b = {
+const b = {
   foo: "42"
 };
 
@@ -46,7 +46,7 @@ function map(f, x) {
 }
 
 function make(foo) {
-  let partial_arg = map((function (prim) {
+  const partial_arg = map((function (prim) {
           return String(prim);
         }), foo);
   return function (param) {
@@ -58,9 +58,9 @@ function make(foo) {
   };
 }
 
-let a_ = make(undefined)(undefined);
+const a_ = make(undefined)(undefined);
 
-let b_ = make(42)(undefined);
+const b_ = make(42)(undefined);
 
 eq("File \"jscomp/test/gpr_1409_test.ml\", line 30, characters 6-13", b_.foo, "42");
 
@@ -70,7 +70,7 @@ console.log(a, b, a_, b_);
 
 eq("File \"jscomp/test/gpr_1409_test.ml\", line 36, characters 6-13", Object.keys(a_).length, 0);
 
-let test2 = {
+const test2 = {
   hi: 2
 };
 
@@ -104,11 +104,11 @@ function test5(f, x) {
   let tmp = {
     hi: 2
   };
-  let tmp$1 = Curry._1(f, x);
+  const tmp$1 = Curry._1(f, x);
   if (tmp$1 !== undefined) {
     tmp.open = Caml_option.valFromOption(tmp$1);
   }
-  let tmp$2 = Curry._1(f, x);
+  const tmp$2 = Curry._1(f, x);
   if (tmp$2 !== undefined) {
     tmp.xx = Caml_option.valFromOption(tmp$2);
   }
@@ -117,17 +117,17 @@ function test5(f, x) {
 
 function test6(f, x) {
   console.log("no inline");
-  let x$1 = {
+  const x$1 = {
     contents: 3
   };
   let tmp = {
     hi: 2
   };
-  let tmp$1 = (x$1.contents = x$1.contents + 1 | 0, x$1.contents);
+  const tmp$1 = (x$1.contents = x$1.contents + 1 | 0, x$1.contents);
   if (tmp$1 !== undefined) {
     tmp.open = Caml_option.valFromOption(tmp$1);
   }
-  let tmp$2 = f(x$1);
+  const tmp$2 = f(x$1);
   if (tmp$2 !== undefined) {
     tmp.xx = Caml_option.valFromOption(tmp$2);
   }

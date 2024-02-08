@@ -7,11 +7,11 @@ let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 let Curry = require("melange.js/curry.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -19,7 +19,7 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-let Inline_record = /* @__PURE__ */Caml_exceptions.create("Record_extension_test.Inline_record");
+const Inline_record = /* @__PURE__ */Caml_exceptions.create("Record_extension_test.Inline_record");
 
 function f(x) {
   if (x.MEL_EXN_ID === Inline_record) {
@@ -28,7 +28,7 @@ function f(x) {
   
 }
 
-let v0 = {
+const v0 = {
   MEL_EXN_ID: Inline_record,
   x: 3,
   y: "4"
@@ -56,18 +56,18 @@ function f2_with(x) {
   }
 }
 
-let A = /* @__PURE__ */Caml_exceptions.create("Record_extension_test.A");
+const A = /* @__PURE__ */Caml_exceptions.create("Record_extension_test.A");
 
-let B = /* @__PURE__ */Caml_exceptions.create("Record_extension_test.B");
+const B = /* @__PURE__ */Caml_exceptions.create("Record_extension_test.B");
 
-let C = /* @__PURE__ */Caml_exceptions.create("Record_extension_test.C");
+const C = /* @__PURE__ */Caml_exceptions.create("Record_extension_test.C");
 
 function u(f) {
   try {
     return Curry._1(f, undefined);
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === A) {
       return exn.name + exn.x | 0;
     } else if (exn.MEL_EXN_ID === B) {

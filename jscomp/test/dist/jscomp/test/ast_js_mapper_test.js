@@ -19,7 +19,7 @@ function tFromJs(param) {
         };
 }
 
-let u = tToJs({
+const u = tToJs({
       xx: 3,
       yy: "x",
       zz: [
@@ -43,8 +43,8 @@ tFromJs({
 function searchForSureExists(xs, k) {
   let _i = 0;
   while(true) {
-    let i = _i;
-    let match = xs[i];
+    const i = _i;
+    const match = xs[i];
     if (match[0] === k) {
       return match[1];
     }
@@ -53,7 +53,7 @@ function searchForSureExists(xs, k) {
   };
 }
 
-let jsMapperConstantArray = [
+const jsMapperConstantArray = [
   0,
   3,
   4,
@@ -68,7 +68,7 @@ function aFromJs(param) {
   return Js__Js_mapper_runtime.fromIntAssert(4, jsMapperConstantArray, param);
 }
 
-let _map = {"b0":"b0","b1":"b1","b2":"b2","b3":"b3"};
+const _map = {"b0":"b0","b1":"b1","b2":"b2","b3":"b3"};
 
 function bToJs(param) {
   return param;

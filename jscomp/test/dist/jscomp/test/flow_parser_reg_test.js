@@ -27,7 +27,7 @@ let Stdlib__Sys = require("melange/sys.js");
 let Fs = require("fs");
 let Path = require("path");
 
-let none = {
+const none = {
   source: undefined,
   start: {
     line: 0,
@@ -58,13 +58,13 @@ function from_lb_p(source, start, _end) {
 }
 
 function from_lb(source, lb) {
-  let start = lb.lex_start_p;
-  let _end = lb.lex_curr_p;
+  const start = lb.lex_start_p;
+  const _end = lb.lex_curr_p;
   return from_lb_p(source, start, _end);
 }
 
 function from_curr_lb(source, lb) {
-  let curr = lb.lex_curr_p;
+  const curr = lb.lex_curr_p;
   return from_lb_p(source, curr, curr);
 }
 
@@ -117,7 +117,7 @@ function source_cmp(a, b) {
   if (b === undefined) {
     return -1;
   }
-  let k = order_of_filename(a) - order_of_filename(b) | 0;
+  const k = order_of_filename(a) - order_of_filename(b) | 0;
   if (k !== 0) {
     return k;
   } else {
@@ -136,11 +136,11 @@ function pos_cmp(a, b) {
 }
 
 function compare(loc1, loc2) {
-  let k = source_cmp(loc1.source, loc2.source);
+  const k = source_cmp(loc1.source, loc2.source);
   if (k !== 0) {
     return k;
   }
-  let k$1 = pos_cmp(loc1.start, loc2.start);
+  const k$1 = pos_cmp(loc1.start, loc2.start);
   if (k$1 === 0) {
     return pos_cmp(loc1._end, loc2._end);
   } else {
@@ -148,7 +148,7 @@ function compare(loc1, loc2) {
   }
 }
 
-let $$Error = /* @__PURE__ */Caml_exceptions.create("Flow_parser_reg_test.Parse_error.Error");
+const $$Error = /* @__PURE__ */Caml_exceptions.create("Flow_parser_reg_test.Parse_error.Error");
 
 function error(param) {
   if (typeof param === "number") {
@@ -340,7 +340,7 @@ function error(param) {
   }
 }
 
-let Literal = Caml_module.init_mod([
+const Literal = Caml_module.init_mod([
       "spider_monkey_ast.ml",
       44,
       6
@@ -355,7 +355,7 @@ let Literal = Caml_module.init_mod([
         ]]
     });
 
-let Type = Caml_module.init_mod([
+const Type = Caml_module.init_mod([
       "spider_monkey_ast.ml",
       191,
       6
@@ -467,7 +467,7 @@ let Type = Caml_module.init_mod([
       ]
     });
 
-let Statement = Caml_module.init_mod([
+const Statement = Caml_module.init_mod([
       "spider_monkey_ast.ml",
       493,
       6
@@ -689,7 +689,7 @@ let Statement = Caml_module.init_mod([
       ]
     });
 
-let Expression = Caml_module.init_mod([
+const Expression = Caml_module.init_mod([
       "spider_monkey_ast.ml",
       758,
       6
@@ -866,7 +866,7 @@ let Expression = Caml_module.init_mod([
       ]
     });
 
-let JSX = Caml_module.init_mod([
+const JSX = Caml_module.init_mod([
       "spider_monkey_ast.ml",
       861,
       6
@@ -939,7 +939,7 @@ let JSX = Caml_module.init_mod([
       ]
     });
 
-let Pattern = Caml_module.init_mod([
+const Pattern = Caml_module.init_mod([
       "spider_monkey_ast.ml",
       919,
       6
@@ -991,7 +991,7 @@ let Pattern = Caml_module.init_mod([
       ]
     });
 
-let Class = Caml_module.init_mod([
+const Class = Caml_module.init_mod([
       "spider_monkey_ast.ml",
       978,
       6
@@ -1940,7 +1940,7 @@ function token_to_string(param) {
 
 function yyback(n, lexbuf) {
   lexbuf.lex_curr_pos = lexbuf.lex_curr_pos - n | 0;
-  let currp = lexbuf.lex_curr_p;
+  const currp = lexbuf.lex_curr_p;
   lexbuf.lex_curr_p = {
     pos_fname: currp.pos_fname,
     pos_lnum: currp.pos_lnum,
@@ -1950,11 +1950,11 @@ function yyback(n, lexbuf) {
 }
 
 function back(lb) {
-  let n = lb.lex_curr_p.pos_cnum - lb.lex_start_p.pos_cnum | 0;
+  const n = lb.lex_curr_p.pos_cnum - lb.lex_start_p.pos_cnum | 0;
   yyback(n, lb);
 }
 
-let empty_lex_state = {
+const empty_lex_state = {
   lex_errors_acc: /* [] */0,
   lex_comments_acc: /* [] */0
 };
@@ -1970,8 +1970,8 @@ function new_lex_env(lex_source, lex_lb, enable_types_in_comments) {
 }
 
 function get_and_clear_state(env) {
-  let state = env.lex_state;
-  let env$1 = state !== empty_lex_state ? ({
+  const state = env.lex_state;
+  const env$1 = state !== empty_lex_state ? ({
         lex_source: env.lex_source,
         lex_lb: env.lex_lb,
         lex_in_comment_syntax: env.lex_in_comment_syntax,
@@ -2009,10 +2009,10 @@ function in_comment_syntax(is_in, env) {
 }
 
 function get_result_and_clear_state(param) {
-  let lex_token = param[1];
-  let match = get_and_clear_state(param[0]);
-  let state = match[1];
-  let env = match[0];
+  const lex_token = param[1];
+  const match = get_and_clear_state(param[0]);
+  const state = match[1];
+  const env = match[0];
   let match$1;
   let exit = 0;
   if (typeof lex_token === "number") {
@@ -2020,14 +2020,14 @@ function get_result_and_clear_state(param) {
   } else {
     switch (lex_token.TAG | 0) {
       case /* T_TEMPLATE_PART */2 :
-          let match$2 = lex_token._0;
+          const match$2 = lex_token._0;
           match$1 = [
             match$2[0],
             match$2[1].literal
           ];
           break;
       case /* T_REGEXP */3 :
-          let match$3 = lex_token._0;
+          const match$3 = lex_token._0;
           match$1 = [
             match$3[0],
             "/" + (match$3[1] + ("/" + match$3[2]))
@@ -2043,7 +2043,7 @@ function get_result_and_clear_state(param) {
   }
   switch (exit) {
     case 1 :
-        let match$4 = lex_token._0;
+        const match$4 = lex_token._0;
         match$1 = [
           match$4[0],
           match$4[2]
@@ -2070,16 +2070,16 @@ function get_result_and_clear_state(param) {
 }
 
 function lex_error(env, loc, err) {
-  let lex_errors_acc_0 = [
+  const lex_errors_acc_0 = [
     loc,
     err
   ];
-  let lex_errors_acc_1 = env.lex_state.lex_errors_acc;
-  let lex_errors_acc = {
+  const lex_errors_acc_1 = env.lex_state.lex_errors_acc;
+  const lex_errors_acc = {
     hd: lex_errors_acc_0,
     tl: lex_errors_acc_1
   };
-  let init = env.lex_state;
+  const init = env.lex_state;
   return {
           lex_source: env.lex_source,
           lex_lb: env.lex_lb,
@@ -2108,9 +2108,9 @@ function unexpected_error_w_suggest(env, loc, value, suggest) {
 }
 
 function illegal_number(env, lexbuf, word, token) {
-  let loc = from_lb(env.lex_source, lexbuf);
+  const loc = from_lb(env.lex_source, lexbuf);
   yyback(word.length, lexbuf);
-  let env$1 = lex_error(env, loc, {
+  const env$1 = lex_error(env, loc, {
         TAG: /* UnexpectedToken */1,
         _0: "ILLEGAL"
       });
@@ -2120,10 +2120,10 @@ function illegal_number(env, lexbuf, word, token) {
         ];
 }
 
-let No_good = /* @__PURE__ */Caml_exceptions.create("Flow_parser_reg_test.Lexer_flow.FloatOfString.No_good");
+const No_good = /* @__PURE__ */Caml_exceptions.create("Flow_parser_reg_test.Lexer_flow.FloatOfString.No_good");
 
 function eat(f) {
-  let match = f.todo;
+  const match = f.todo;
   if (match) {
     return {
             negative: f.negative,
@@ -2139,7 +2139,7 @@ function eat(f) {
 }
 
 function start(str) {
-  let todo = {
+  const todo = {
     contents: /* [] */0
   };
   Stdlib__String.iter((function (c) {
@@ -2158,7 +2158,7 @@ function start(str) {
 }
 
 function parse_sign(f) {
-  let match = f.todo;
+  const match = f.todo;
   if (!match) {
     return f;
   }
@@ -2168,7 +2168,7 @@ function parse_sign(f) {
     case 44 :
         return f;
     case 45 :
-        let init = eat(f);
+        const init = eat(f);
         return {
                 negative: true,
                 mantissa: init.mantissa,
@@ -2182,16 +2182,16 @@ function parse_sign(f) {
 }
 
 function parse_hex_symbol(f) {
-  let match = f.todo;
+  const match = f.todo;
   if (match) {
     if (match.hd !== 48) {
       throw new Caml_js_exceptions.MelangeError(No_good, {
                 MEL_EXN_ID: No_good
               });
     }
-    let match$1 = match.tl;
+    const match$1 = match.tl;
     if (match$1) {
-      let match$2 = match$1.hd;
+      const match$2 = match$1.hd;
       if (match$2 === 88) {
         return eat(eat(f));
       }
@@ -2212,13 +2212,13 @@ function parse_hex_symbol(f) {
 }
 
 function parse_exponent(f) {
-  let todo_str = Stdlib__String.concat("", Stdlib__List.map(Stdlib__Char.escaped, f.todo));
+  const todo_str = Stdlib__String.concat("", Stdlib__List.map(Stdlib__Char.escaped, f.todo));
   let exponent;
   try {
     exponent = Caml_format.caml_int_of_string(todo_str);
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Failure) {
       throw new Caml_js_exceptions.MelangeError(No_good, {
                 MEL_EXN_ID: No_good
@@ -2237,12 +2237,12 @@ function parse_exponent(f) {
 
 function parse_body(_f) {
   while(true) {
-    let f = _f;
-    let match = f.todo;
+    const f = _f;
+    const match = f.todo;
     if (!match) {
       return f;
     }
-    let c = match.hd;
+    const c = match.hd;
     if (c >= 81) {
       if (c !== 95) {
         if (c === 112) {
@@ -2260,7 +2260,7 @@ function parse_body(_f) {
       
     } else {
       if (f.decimal_exponent === undefined) {
-        let init = eat(f);
+        const init = eat(f);
         _f = {
           negative: init.negative,
           mantissa: init.mantissa,
@@ -2286,11 +2286,11 @@ function parse_body(_f) {
                 MEL_EXN_ID: No_good
               });
     }
-    let value = c - ref_char_code | 0;
-    let e = f.decimal_exponent;
-    let decimal_exponent = e !== undefined ? e - 4 | 0 : undefined;
-    let mantissa = (f.mantissa << 4) + value | 0;
-    let init$1 = eat(f);
+    const value = c - ref_char_code | 0;
+    const e = f.decimal_exponent;
+    const decimal_exponent = e !== undefined ? e - 4 | 0 : undefined;
+    const mantissa = (f.mantissa << 4) + value | 0;
+    const init$1 = eat(f);
     _f = {
       negative: init$1.negative,
       mantissa: mantissa,
@@ -2320,10 +2320,10 @@ function float_of_string(str) {
                     ]
                   });
         }
-        let ret = f.mantissa;
-        let decimal_exponent = f.decimal_exponent;
-        let exponent = decimal_exponent !== undefined ? f.exponent + decimal_exponent | 0 : f.exponent;
-        let ret$1 = exponent === 0 ? ret : Math.pow(ret, exponent);
+        const ret = f.mantissa;
+        const decimal_exponent = f.decimal_exponent;
+        const exponent = decimal_exponent !== undefined ? f.exponent + decimal_exponent | 0 : f.exponent;
+        const ret$1 = exponent === 0 ? ret : Math.pow(ret, exponent);
         if (f.negative) {
           return - ret$1;
         } else {
@@ -2331,7 +2331,7 @@ function float_of_string(str) {
         }
       }
       catch (raw_exn){
-        let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+        const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
         if (exn.MEL_EXN_ID === No_good) {
           throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
         }
@@ -2344,25 +2344,25 @@ function float_of_string(str) {
 }
 
 function save_comment(env, start, _end, buf, multiline) {
-  let loc = btwn(start, _end);
-  let s = Stdlib__Buffer.contents(buf);
-  let c = multiline ? ({
+  const loc = btwn(start, _end);
+  const s = Stdlib__Buffer.contents(buf);
+  const c = multiline ? ({
         TAG: /* Block */0,
         _0: s
       }) : ({
         TAG: /* Line */1,
         _0: s
       });
-  let lex_comments_acc_0 = [
+  const lex_comments_acc_0 = [
     loc,
     c
   ];
-  let lex_comments_acc_1 = env.lex_state.lex_comments_acc;
-  let lex_comments_acc = {
+  const lex_comments_acc_1 = env.lex_state.lex_comments_acc;
+  const lex_comments_acc = {
     hd: lex_comments_acc_0,
     tl: lex_comments_acc_1
   };
-  let init = env.lex_state;
+  const init = env.lex_state;
   return {
           lex_source: env.lex_source,
           lex_lb: env.lex_lb,
@@ -2376,23 +2376,23 @@ function save_comment(env, start, _end, buf, multiline) {
 }
 
 function unicode_fix_cols(lb) {
-  let count = function (_start, stop, _acc) {
+  const count = function (_start, stop, _acc) {
     while(true) {
-      let acc = _acc;
-      let start = _start;
+      const acc = _acc;
+      const start = _start;
       if (start === stop) {
         return acc;
       }
-      let c = Caml_bytes.get(lb.lex_buffer, start);
-      let acc$1 = (c & 192) === 128 ? acc + 1 | 0 : acc;
+      const c = Caml_bytes.get(lb.lex_buffer, start);
+      const acc$1 = (c & 192) === 128 ? acc + 1 | 0 : acc;
       _acc = acc$1;
       _start = start + 1 | 0;
       continue ;
     };
   };
-  let bytes = count(lb.lex_start_pos, lb.lex_curr_pos, 0);
-  let new_bol = lb.lex_curr_p.pos_bol + bytes | 0;
-  let init = lb.lex_curr_p;
+  const bytes = count(lb.lex_start_pos, lb.lex_curr_pos, 0);
+  const new_bol = lb.lex_curr_p.pos_bol + bytes | 0;
+  const init = lb.lex_curr_p;
   lb.lex_curr_p = {
     pos_fname: init.pos_fname,
     pos_lnum: init.pos_lnum,
@@ -2499,7 +2499,7 @@ function mk_num_singleton(number_type, num, neg) {
   } else {
     value = Caml_format.caml_int_of_string(num);
   }
-  let value$1 = neg === "" ? value : - value;
+  const value$1 = neg === "" ? value : - value;
   return {
           TAG: /* T_NUMBER_SINGLETON_TYPE */5,
           _0: number_type,
@@ -2507,9 +2507,9 @@ function mk_num_singleton(number_type, num, neg) {
         };
 }
 
-let keywords = Stdlib__Hashtbl.create(undefined, 53);
+const keywords = Stdlib__Hashtbl.create(undefined, 53);
 
-let type_keywords = Stdlib__Hashtbl.create(undefined, 53);
+const type_keywords = Stdlib__Hashtbl.create(undefined, 53);
 
 Stdlib__List.iter((function (param) {
         Stdlib__Hashtbl.add(keywords, param[0], param[1]);
@@ -2885,7 +2885,7 @@ Stdlib__List.iter((function (param) {
       }
     });
 
-let __ocaml_lex_tables = {
+const __ocaml_lex_tables = {
   lex_base: "\0\0\xb2\xff\xb3\xff\xb9\xffB\0C\0T\0W\0F\0I\0J\0K\0M\0e\0\xdd\xff\xde\xff\xdf\xff\xe0\xff\xe3\xff\xe4\xff\xe5\xff\xe6\xff\xe7\xff\xe8\xff\xc0\0L\0e\0\x17\x01n\x01\xf6\xff\xf7\xffl\0u\0v\0\0\0\x0e\0\x0f\0\x07\x003\x01\xfe\xff\xff\xff\x01\0\x12\0(\0\f\0\x15\0*\0\f\0=\0-\0\t\0\xb6\xff\xf9\xff\xe0\x01B\0u\0\x0f\x000\x004\0\x17\0\xe5\x01(\x008\0\x1a\0K\0:\0\x17\0\xfb\xffh\0a\0\xac\0q\0m\0y\0q\0i\0{\0{\0\xa8\0\xca\xff\xfa\xff\xc9\xff\xf8\xff\x0b\x02\xa5\x02\xfc\x02S\x03\xaa\x03\x01\x04X\x04\xaf\x04\x06\x05]\x05\xb4\x05\x0b\x06b\x06\xb9\x06\xc3\x01\x10\x07g\x07\xbe\x07\x15\bl\b\xc3\b\x1a\tq\t\xc8\t\xb8\0\xe2\xffE\x02\xc7\xff\xdc\xff\xc6\xff\xdb\xff\xb7\xff\xaa\0\xda\xff\xab\0\xd9\xff\xac\0\xd8\xff\xd2\xff\xad\0\xd7\xff\xb0\0\xd0\xff\xcf\xff\xcc\xff\xd4\xff\xcb\xff\xd3\xff\xc8\xff\xc5\xff:\n\xcf\xff\xd0\xff\xd2\xff\xd6\xff\xd7\xff\xb0\0\xdc\xff\xdd\xff\xe0\xff\xe1\xff\xe2\xff\xe3\xff\xe6\xff\xe7\xff\xe8\xff\xe9\xff\xea\xff\xeb\xff\x94\n\xfa\n\xd6\x01Q\x0b\xa8\x0b\x1a\f\xf9\xff\xcc\0\xf1\0A\0}\0~\0\xa3\0\xc4\x0b\xff\xffa\0\x9d\0\xc1\0\xa4\0\x90\0\xc6\0\xb2\0\xcb\t\xd2\0\x95\0\xfa\xff\x1f\f\xe9\0\x1c\x01\x9c\0\xf2\0\xf3\0\xf9\0$\f\xe7\0\xf7\0\xf5\0\xdf\x0b\x15\x01\xd7\0\xfc\xff(\x01!\x01m\x012\x01/\x01E\x01=\x015\x01G\x01G\x01\xfb\xff\xf3\x01\xf2\0.\x01I\x01P\x01K\f=\x01L\x01/\x01\xec\x0bk\x010\x01x\f\xff\fV\r\xad\r\0\x02\x04\x0e[\x0e\xb2\x0e\t\x0f`\x0f\xb7\x0f\x0e\x10e\x10\xbc\x10\x13\x11j\x11\xc1\x11\x18\x12o\x12\xc6\x12\x1d\x13t\x13\xcb\x13\"\x14\xcf\x01\xe5\xffy\x14\xd0\x14'\x15~\x15\xd4\xff\x1b\f\xfc\xff\xfd\xff\xfe\xff\xff\xff\xcf\x15\xee\xff\x01\0\xef\xff\x18\x16\xf4\xff\xf5\xff\xf6\xff\xf7\xff\xf8\xff\xf9\xff\xf1\x02H\x03>\x16\xfe\xff\xff\xffU\x16\xfd\xff\x9f\x03\xfc\xff{\x16\x92\x16\xb8\x16\xcf\x16\xf2\xff\xf5\x16\xf1\xff\xd7\x02\xfb\xff\xd2\x01\xfe\xff\xff\xff\xcf\x01\xfd\xff\xfc\xff;\x02\xfd\xff\xfe\xff\xff\xff\0\x17\xf9\xff\xe8\x01G\x01\x83\x01\x90\x01y\x01)\fC\x15\xfe\xff\xff\xff]\x01\x9b\x01\x9c\x01*\x02\x90\x01\xa0\x01\x82\x01\x87\x15\xad\x01o\x01\xfb\xff\xfc\xff\x0b\x16\xf8\xff\x04\0\xf9\xff\xfa\xff8\x17,\x03\xff\xff\xfd\xff\x05\0\xfe\xff\xc0\x17\x96\t\xfb\xff\xfc\xff\xeb\x01\xff\xff\xfd\xff\xfe\xff2\x18\xf1\xff\xf2\xff\x8a\x18\xf4\xff\xf5\xff\xf6\xff\xf7\xff\xf8\xff\xfa\xff<\x02\x7f\x01\xc9\x01\xe7\x01+\x02\x88\x167\x18\xfe\xff\xff\xff\x8f\x01 \x02!\x023\x02\x15\x02%\x02!\x02\xbd\x16L\x02\x0f\x02\xfb\xff\xfc\xff|\f\xfb\xff\xfc\xff\xfd\xff\xfe\xff\x06\0\xff\xff\xfc\x18\xf9\xff\xf8\x18\x07\0\xfd\xff\xfe\xff\xff\xffO\x19\xdf\n_\f\x84\x17\x9c\x19\xfc\xff\xfb\xff\xd3\x19\xfa\xff*\x1a\x81\x1a\xd8\x1a/\x1b\x86\x1b\x96\x02\xf8\x1b\xfa\xff\xfb\xff\xb5\x02%\x02b\x02\x82\x02\xf3\x02\x04\x19K\x1b\xff\xff(\x02e\x02\xa9\x02J\x03r\x02\x85\x02\x8c\x02\xc9\x16\xb7\x02y\x02\xfc\xff\xfd\xff\xc3\x16\xf9\xff\xfa\xff\b\0\xfc\xff\xbf\x02\xfe\xff\xff\xff\xfd\xff\xfb\xff",
   lex_backtrk: "\xff\xff\xff\xff\xff\xff\xff\xffD\0A\0>\0=\0<\0;\0E\0G\0B\0C\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x16\0K\0\x1e\0\x15\0\x15\0\xff\xff\xff\xffM\0?\0J\0M\0M\0M\0M\0\x02\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x03\0\xff\xff\x04\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff@\0\xff\xff\xff\xff\xff\xff\xff\xff\x14\0\x14\0\x15\0\x14\0\x0f\0\x14\0\x14\0\x0b\0\n\0\r\0\f\0\x0e\0\x0e\0\x0e\0\xff\xff\x0e\0\x0e\0\x13\0\x12\0\x11\0\x10\0\x15\0\x13\0\x12\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff)\0\xff\xff*\0\xff\xff.\0\xff\xff\xff\xff2\0\xff\xff1\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff$\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x13\0\x13\0\x1b\0\x12\0\x12\0.\0\xff\xff&\x000\x000\x000\x000\x000\0\x01\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x02\0\xff\xff\x03\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x12\0\x11\0\x11\0\x10\0\xff\xff\x10\0\x0f\0\x0f\0\x12\0\x11\0\f\0\x11\0\x11\0\b\0\x07\0\n\0\t\0\x0b\0\x0b\0\x0b\0\x0b\0\x0b\0\x0e\0\r\0\xff\xff\xff\xff\x13\0\x13\0\x13\0\x13\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x10\0\xff\xff\x0f\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\f\0\x05\0\x0f\0\xff\xff\xff\xff\xff\xff\xff\xff\x04\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x04\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x05\0\x06\0\x06\0\x06\0\x06\0\x02\0\x01\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x06\0\xff\xff\xff\xff\x04\0\x07\0\xff\xff\xff\xff\x01\0\xff\xff\x03\0\xff\xff\xff\xff\xff\xff\x04\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\f\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x06\0\x0e\0\x0e\0\x0e\0\x0e\0\x02\0\x01\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\x06\0\x02\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x05\0\x05\0\x05\0\x05\0\x05\0\x01\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x05\0\xff\xff\x06\0\xff\xff\xff\xff\xff\xff\xff\xff",
   lex_default: "\x01\0\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\0\0\0\0\0\0\0\0\0\0\xff\xff\0\0\xff\xff\0\0\xff\xff\0\0\0\0\xff\xff\0\0\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x86\0\0\0\0\0\0\0\0\0\0\0\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xf8\0\0\0\0\0\0\0\0\0\xfd\0\0\0\xff\xff\0\0\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\0\0\0\0\xff\xff\0\0\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\0\0\x18\x01\0\0\xff\xff\0\0\0\0\xff\xff\0\0\0\0 \x01\0\0\0\0\0\0$\x01\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0;\x01\0\0\xff\xff\0\0\0\0\xff\xffB\x01\0\0\0\0\xff\xff\0\0\xff\xffG\x01\0\0\0\0\xff\xff\0\0\0\0\0\0N\x01\0\0\0\0\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0m\x01\0\0\0\0\0\0\0\0\xff\xff\0\0t\x01\0\0\xff\xff\xff\xff\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x8a\x01\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\xa1\x01\0\0\0\0\xff\xff\0\0\xff\xff\0\0\0\0\0\0\0\0",
@@ -2903,14 +2903,14 @@ function token(env, lexbuf) {
   lexbuf.lex_mem = Caml_array.make(8, -1);
   let ___ocaml_lex_state = 0;
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           Stdlib__Lexing.new_line(lexbuf);
           return token(env, lexbuf);
       case 1 :
-          let env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
+          const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
                 TAG: /* UnexpectedToken */1,
                 _0: "ILLEGAL"
               });
@@ -2919,24 +2919,24 @@ function token(env, lexbuf) {
           unicode_fix_cols(lexbuf);
           return token(env, lexbuf);
       case 3 :
-          let start = from_lb(env.lex_source, lexbuf);
-          let buf = Stdlib__Buffer.create(127);
-          let match = comment(env, buf, lexbuf);
-          let env$2 = save_comment(match[0], start, match[1], buf, true);
+          const start = from_lb(env.lex_source, lexbuf);
+          const buf = Stdlib__Buffer.create(127);
+          const match = comment(env, buf, lexbuf);
+          const env$2 = save_comment(match[0], start, match[1], buf, true);
           return token(env$2, lexbuf);
       case 4 :
-          let sp = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 2 | 0, Caml_array.get(lexbuf.lex_mem, 0));
-          let escape_type = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
-          let pattern = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
+          const sp = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 2 | 0, Caml_array.get(lexbuf.lex_mem, 0));
+          const escape_type = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
+          const pattern = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
           if (env.lex_enable_comment_syntax) {
             let env$3;
             if (env.lex_in_comment_syntax) {
-              let loc = from_lb(env.lex_source, lexbuf);
+              const loc = from_lb(env.lex_source, lexbuf);
               env$3 = unexpected_error(env, loc, pattern);
             } else {
               env$3 = env;
             }
-            let env$4 = in_comment_syntax(true, env$3);
+            const env$4 = in_comment_syntax(true, env$3);
             if (escape_type === ":") {
               return [
                       env$4,
@@ -2946,16 +2946,16 @@ function token(env, lexbuf) {
               return token(env$4, lexbuf);
             }
           }
-          let start$1 = from_lb(env.lex_source, lexbuf);
-          let buf$1 = Stdlib__Buffer.create(127);
+          const start$1 = from_lb(env.lex_source, lexbuf);
+          const buf$1 = Stdlib__Buffer.create(127);
           Stdlib__Buffer.add_string(buf$1, sp);
           Stdlib__Buffer.add_string(buf$1, escape_type);
-          let match$1 = comment(env, buf$1, lexbuf);
-          let env$5 = save_comment(match$1[0], start$1, match$1[1], buf$1, true);
+          const match$1 = comment(env, buf$1, lexbuf);
+          const env$5 = save_comment(match$1[0], start$1, match$1[1], buf$1, true);
           return token(env$5, lexbuf);
       case 5 :
           if (env.lex_in_comment_syntax) {
-            let env$6 = in_comment_syntax(false, env);
+            const env$6 = in_comment_syntax(false, env);
             return token(env$6, lexbuf);
           }
           yyback(1, lexbuf);
@@ -2964,10 +2964,10 @@ function token(env, lexbuf) {
                   /* T_MULT */97
                 ];
       case 6 :
-          let start$2 = from_lb(env.lex_source, lexbuf);
-          let buf$2 = Stdlib__Buffer.create(127);
-          let match$2 = line_comment(env, buf$2, lexbuf);
-          let env$7 = save_comment(match$2[0], start$2, match$2[1], buf$2, false);
+          const start$2 = from_lb(env.lex_source, lexbuf);
+          const buf$2 = Stdlib__Buffer.create(127);
+          const match$2 = line_comment(env, buf$2, lexbuf);
+          const env$7 = save_comment(match$2[0], start$2, match$2[1], buf$2, false);
           return token(env$7, lexbuf);
       case 7 :
           if (lexbuf.lex_start_pos !== 0) {
@@ -2976,15 +2976,15 @@ function token(env, lexbuf) {
                     /* T_ERROR */104
                   ];
           }
-          let match$3 = line_comment(env, Stdlib__Buffer.create(127), lexbuf);
+          const match$3 = line_comment(env, Stdlib__Buffer.create(127), lexbuf);
           return token(match$3[0], lexbuf);
       case 8 :
-          let quote = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
-          let start$3 = from_lb(env.lex_source, lexbuf);
-          let buf$3 = Stdlib__Buffer.create(127);
-          let raw = Stdlib__Buffer.create(127);
+          const quote = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const start$3 = from_lb(env.lex_source, lexbuf);
+          const buf$3 = Stdlib__Buffer.create(127);
+          const raw = Stdlib__Buffer.create(127);
           Stdlib__Buffer.add_char(raw, quote);
-          let match$4 = string_quote(env, quote, buf$3, raw, false, lexbuf);
+          const match$4 = string_quote(env, quote, buf$3, raw, false, lexbuf);
           return [
                   match$4[0],
                   {
@@ -2998,12 +2998,12 @@ function token(env, lexbuf) {
                   }
                 ];
       case 9 :
-          let cooked = Stdlib__Buffer.create(127);
-          let raw$1 = Stdlib__Buffer.create(127);
-          let literal = Stdlib__Buffer.create(127);
+          const cooked = Stdlib__Buffer.create(127);
+          const raw$1 = Stdlib__Buffer.create(127);
+          const literal = Stdlib__Buffer.create(127);
           Stdlib__Buffer.add_string(literal, Stdlib__Lexing.lexeme(lexbuf));
-          let start$4 = from_lb(env.lex_source, lexbuf);
-          let match$5 = template_part(env, start$4, cooked, raw$1, literal, lexbuf);
+          const start$4 = from_lb(env.lex_source, lexbuf);
+          const match$5 = template_part(env, start$4, cooked, raw$1, literal, lexbuf);
           return [
                   match$5[0],
                   {
@@ -3020,7 +3020,7 @@ function token(env, lexbuf) {
                   }
                 ];
       case 10 :
-          let w = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
+          const w = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
           return illegal_number(env, lexbuf, w, {
                       TAG: /* T_NUMBER */0,
                       _0: /* BINARY */0
@@ -3034,7 +3034,7 @@ function token(env, lexbuf) {
                   }
                 ];
       case 12 :
-          let w$1 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
+          const w$1 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
           return illegal_number(env, lexbuf, w$1, {
                       TAG: /* T_NUMBER */0,
                       _0: /* OCTAL */2
@@ -3048,7 +3048,7 @@ function token(env, lexbuf) {
                   }
                 ];
       case 14 :
-          let w$2 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
+          const w$2 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
           return illegal_number(env, lexbuf, w$2, {
                       TAG: /* T_NUMBER */0,
                       _0: /* LEGACY_OCTAL */1
@@ -3076,7 +3076,7 @@ function token(env, lexbuf) {
                   }
                 ];
       case 22 :
-          let word = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
+          const word = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
           unicode_fix_cols(lexbuf);
           try {
             return [
@@ -3085,7 +3085,7 @@ function token(env, lexbuf) {
                   ];
           }
           catch (raw_exn){
-            let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+            const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.MEL_EXN_ID === Stdlib.Not_found) {
               return [
                       env,
@@ -3362,7 +3362,7 @@ function token(env, lexbuf) {
       case 76 :
           let env$8;
           if (env.lex_in_comment_syntax) {
-            let loc$1 = from_lb(env.lex_source, lexbuf);
+            const loc$1 = from_lb(env.lex_source, lexbuf);
             env$8 = lex_error(env, loc$1, /* UnexpectedEOS */4);
           } else {
             env$8 = env;
@@ -3372,7 +3372,7 @@ function token(env, lexbuf) {
                   /* T_EOF */105
                 ];
       case 77 :
-          let env$9 = lex_error(env, from_lb(env.lex_source, lexbuf), {
+          const env$9 = lex_error(env, from_lb(env.lex_source, lexbuf), {
                 TAG: /* UnexpectedToken */1,
                 _0: "ILLEGAL"
               });
@@ -3385,7 +3385,7 @@ function token(env, lexbuf) {
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue ;
     }
-    let w$3 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
+    const w$3 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
     return illegal_number(env, lexbuf, w$3, {
                 TAG: /* T_NUMBER */0,
                 _0: /* NORMAL */3
@@ -3396,8 +3396,8 @@ function token(env, lexbuf) {
 function regexp_class(env, buf, lexbuf) {
   let ___ocaml_lex_state = 326;
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           return env;
@@ -3405,11 +3405,11 @@ function regexp_class(env, buf, lexbuf) {
       case 2 :
           break;
       case 3 :
-          let c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           Stdlib__Buffer.add_char(buf, c);
           return env;
       case 4 :
-          let c$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const c$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           Stdlib__Buffer.add_char(buf, c$1);
           return regexp_class(env, buf, lexbuf);
       default:
@@ -3417,7 +3417,7 @@ function regexp_class(env, buf, lexbuf) {
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue ;
     }
-    let s = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_start_pos + 2 | 0);
+    const s = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_start_pos + 2 | 0);
     Stdlib__Buffer.add_string(buf, s);
     return regexp_class(env, buf, lexbuf);
   };
@@ -3426,29 +3426,29 @@ function regexp_class(env, buf, lexbuf) {
 function regexp_body(env, buf, lexbuf) {
   let ___ocaml_lex_state = 314;
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-          let loc = from_lb(env.lex_source, lexbuf);
-          let env$1 = lex_error(env, loc, /* UnterminatedRegExp */13);
+          const loc = from_lb(env.lex_source, lexbuf);
+          const env$1 = lex_error(env, loc, /* UnterminatedRegExp */13);
           return [
                   env$1,
                   ""
                 ];
       case 1 :
-          let loc$1 = from_lb(env.lex_source, lexbuf);
-          let env$2 = lex_error(env, loc$1, /* UnterminatedRegExp */13);
+          const loc$1 = from_lb(env.lex_source, lexbuf);
+          const env$2 = lex_error(env, loc$1, /* UnterminatedRegExp */13);
           return [
                   env$2,
                   ""
                 ];
       case 2 :
-          let s = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_start_pos + 2 | 0);
+          const s = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_start_pos + 2 | 0);
           Stdlib__Buffer.add_string(buf, s);
           return regexp_body(env, buf, lexbuf);
       case 3 :
-          let flags = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 1 | 0, lexbuf.lex_curr_pos);
+          const flags = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 1 | 0, lexbuf.lex_curr_pos);
           return [
                   env,
                   flags
@@ -3459,19 +3459,19 @@ function regexp_body(env, buf, lexbuf) {
                   ""
                 ];
       case 5 :
-          let c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           Stdlib__Buffer.add_char(buf, c);
-          let env$3 = regexp_class(env, buf, lexbuf);
+          const env$3 = regexp_class(env, buf, lexbuf);
           return regexp_body(env$3, buf, lexbuf);
       case 6 :
-          let loc$2 = from_lb(env.lex_source, lexbuf);
-          let env$4 = lex_error(env, loc$2, /* UnterminatedRegExp */13);
+          const loc$2 = from_lb(env.lex_source, lexbuf);
+          const env$4 = lex_error(env, loc$2, /* UnterminatedRegExp */13);
           return [
                   env$4,
                   ""
                 ];
       case 7 :
-          let c$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const c$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           Stdlib__Buffer.add_char(buf, c$1);
           return regexp_body(env, buf, lexbuf);
       default:
@@ -3484,9 +3484,9 @@ function regexp_body(env, buf, lexbuf) {
 
 function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let env = _env;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const env = _env;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           return [
@@ -3502,18 +3502,18 @@ function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
           ___ocaml_lex_state = 333;
           continue ;
       case 3 :
-          let start = from_lb(env.lex_source, lexbuf);
-          let buf = Stdlib__Buffer.create(127);
-          let match = line_comment(env, buf, lexbuf);
-          let env$1 = save_comment(match[0], start, match[1], buf, true);
+          const start = from_lb(env.lex_source, lexbuf);
+          const buf = Stdlib__Buffer.create(127);
+          const match = line_comment(env, buf, lexbuf);
+          const env$1 = save_comment(match[0], start, match[1], buf, true);
           ___ocaml_lex_state = 333;
           _env = env$1;
           continue ;
       case 4 :
-          let start$1 = from_lb(env.lex_source, lexbuf);
-          let buf$1 = Stdlib__Buffer.create(127);
-          let match$1 = comment(env, buf$1, lexbuf);
-          let env$2 = save_comment(match$1[0], start$1, match$1[1], buf$1, true);
+          const start$1 = from_lb(env.lex_source, lexbuf);
+          const buf$1 = Stdlib__Buffer.create(127);
+          const match$1 = comment(env, buf$1, lexbuf);
+          const env$2 = save_comment(match$1[0], start$1, match$1[1], buf$1, true);
           ___ocaml_lex_state = 333;
           _env = env$2;
           continue ;
@@ -3559,16 +3559,16 @@ function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
                   /* T_JSX_IDENTIFIER */106
                 ];
       case 13 :
-          let quote = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
-          let start$2 = from_lb(env.lex_source, lexbuf);
-          let buf$2 = Stdlib__Buffer.create(127);
-          let raw = Stdlib__Buffer.create(127);
+          const quote = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const start$2 = from_lb(env.lex_source, lexbuf);
+          const buf$2 = Stdlib__Buffer.create(127);
+          const raw = Stdlib__Buffer.create(127);
           Stdlib__Buffer.add_char(raw, quote);
-          let mode = quote === /* '\'' */39 ? /* JSX_SINGLE_QUOTED_TEXT */0 : /* JSX_DOUBLE_QUOTED_TEXT */1;
-          let match$2 = jsx_text(env, mode, buf$2, raw, lexbuf);
+          const mode = quote === /* '\'' */39 ? /* JSX_SINGLE_QUOTED_TEXT */0 : /* JSX_DOUBLE_QUOTED_TEXT */1;
+          const match$2 = jsx_text(env, mode, buf$2, raw, lexbuf);
           Stdlib__Buffer.add_char(raw, quote);
-          let value = Stdlib__Buffer.contents(buf$2);
-          let raw$1 = Stdlib__Buffer.contents(raw);
+          const value = Stdlib__Buffer.contents(buf$2);
+          const raw$1 = Stdlib__Buffer.contents(raw);
           return [
                   match$2[0],
                   {
@@ -3596,11 +3596,11 @@ function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
 function comment(env, buf, lexbuf) {
   let ___ocaml_lex_state = 279;
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-          let env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
+          const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
                 TAG: /* UnexpectedToken */1,
                 _0: "ILLEGAL"
               });
@@ -3613,8 +3613,8 @@ function comment(env, buf, lexbuf) {
           Stdlib__Buffer.add_char(buf, /* '\n' */10);
           return comment(env, buf, lexbuf);
       case 2 :
-          let loc = from_lb(env.lex_source, lexbuf);
-          let env$2 = env.lex_in_comment_syntax ? unexpected_error_w_suggest(env, loc, "*/", "*-/") : env;
+          const loc = from_lb(env.lex_source, lexbuf);
+          const env$2 = env.lex_in_comment_syntax ? unexpected_error_w_suggest(env, loc, "*/", "*-/") : env;
           return [
                   env$2,
                   loc
@@ -3630,7 +3630,7 @@ function comment(env, buf, lexbuf) {
             return comment(env, buf, lexbuf);
           }
       case 4 :
-          let c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           Stdlib__Buffer.add_char(buf, c);
           return comment(env, buf, lexbuf);
       default:
@@ -3644,8 +3644,8 @@ function comment(env, buf, lexbuf) {
 function line_comment(env, buf, lexbuf) {
   let ___ocaml_lex_state = 287;
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           return [
@@ -3653,13 +3653,13 @@ function line_comment(env, buf, lexbuf) {
                   from_lb(env.lex_source, lexbuf)
                 ];
       case 1 :
-          let match = from_lb(env.lex_source, lexbuf);
-          let match$1 = match._end;
+          const match = from_lb(env.lex_source, lexbuf);
+          const match$1 = match._end;
           Stdlib__Lexing.new_line(lexbuf);
-          let _end_line = match$1.line;
-          let _end_column = match$1.column - 1 | 0;
-          let _end_offset = match$1.offset - 1 | 0;
-          let _end = {
+          const _end_line = match$1.line;
+          const _end_column = match$1.column - 1 | 0;
+          const _end_offset = match$1.offset - 1 | 0;
+          const _end = {
             line: _end_line,
             column: _end_column,
             offset: _end_offset
@@ -3673,7 +3673,7 @@ function line_comment(env, buf, lexbuf) {
                   }
                 ];
       case 2 :
-          let c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           Stdlib__Buffer.add_char(buf, c);
           return line_comment(env, buf, lexbuf);
       default:
@@ -3686,9 +3686,9 @@ function line_comment(env, buf, lexbuf) {
 
 function __ocaml_lex_regexp_rec(_env, lexbuf, ___ocaml_lex_state) {
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let env = _env;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const env = _env;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           return [
@@ -3704,28 +3704,28 @@ function __ocaml_lex_regexp_rec(_env, lexbuf, ___ocaml_lex_state) {
           ___ocaml_lex_state = 291;
           continue ;
       case 3 :
-          let start = from_lb(env.lex_source, lexbuf);
-          let buf = Stdlib__Buffer.create(127);
-          let match = line_comment(env, buf, lexbuf);
-          let env$1 = save_comment(match[0], start, match[1], buf, true);
+          const start = from_lb(env.lex_source, lexbuf);
+          const buf = Stdlib__Buffer.create(127);
+          const match = line_comment(env, buf, lexbuf);
+          const env$1 = save_comment(match[0], start, match[1], buf, true);
           ___ocaml_lex_state = 291;
           _env = env$1;
           continue ;
       case 4 :
-          let start$1 = from_lb(env.lex_source, lexbuf);
-          let buf$1 = Stdlib__Buffer.create(127);
-          let match$1 = comment(env, buf$1, lexbuf);
-          let env$2 = save_comment(match$1[0], start$1, match$1[1], buf$1, true);
+          const start$1 = from_lb(env.lex_source, lexbuf);
+          const buf$1 = Stdlib__Buffer.create(127);
+          const match$1 = comment(env, buf$1, lexbuf);
+          const env$2 = save_comment(match$1[0], start$1, match$1[1], buf$1, true);
           ___ocaml_lex_state = 291;
           _env = env$2;
           continue ;
       case 5 :
-          let start$2 = from_lb(env.lex_source, lexbuf);
-          let buf$2 = Stdlib__Buffer.create(127);
-          let match$2 = regexp_body(env, buf$2, lexbuf);
-          let env$3 = match$2[0];
-          let end_ = from_lb(env$3.lex_source, lexbuf);
-          let loc = btwn(start$2, end_);
+          const start$2 = from_lb(env.lex_source, lexbuf);
+          const buf$2 = Stdlib__Buffer.create(127);
+          const match$2 = regexp_body(env, buf$2, lexbuf);
+          const env$3 = match$2[0];
+          const end_ = from_lb(env$3.lex_source, lexbuf);
+          const loc = btwn(start$2, end_);
           return [
                   env$3,
                   {
@@ -3738,7 +3738,7 @@ function __ocaml_lex_regexp_rec(_env, lexbuf, ___ocaml_lex_state) {
                   }
                 ];
       case 6 :
-          let env$4 = lex_error(env, from_lb(env.lex_source, lexbuf), {
+          const env$4 = lex_error(env, from_lb(env.lex_source, lexbuf), {
                 TAG: /* UnexpectedToken */1,
                 _0: "ILLEGAL"
               });
@@ -3757,11 +3757,11 @@ function __ocaml_lex_regexp_rec(_env, lexbuf, ___ocaml_lex_state) {
 function jsx_text(env, mode, buf, raw, lexbuf) {
   let ___ocaml_lex_state = 371;
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-          let c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           switch (mode) {
             case /* JSX_SINGLE_QUOTED_TEXT */0 :
                 if (c === 39) {
@@ -3798,7 +3798,7 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
           Stdlib__Buffer.add_char(buf, c);
           return jsx_text(env, mode, buf, raw, lexbuf);
       case 1 :
-          let env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
+          const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
                 TAG: /* UnexpectedToken */1,
                 _0: "ILLEGAL"
               });
@@ -3807,32 +3807,32 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
                   from_lb(env$1.lex_source, lexbuf)
                 ];
       case 2 :
-          let lt = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
+          const lt = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
           Stdlib__Buffer.add_string(raw, lt);
           Stdlib__Buffer.add_string(buf, lt);
           Stdlib__Lexing.new_line(lexbuf);
           return jsx_text(env, mode, buf, raw, lexbuf);
       case 3 :
-          let n = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 3 | 0, lexbuf.lex_curr_pos - 1 | 0);
-          let s = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
+          const n = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 3 | 0, lexbuf.lex_curr_pos - 1 | 0);
+          const s = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
           Stdlib__Buffer.add_string(raw, s);
-          let code = Caml_format.caml_int_of_string("0x" + n);
+          const code = Caml_format.caml_int_of_string("0x" + n);
           Stdlib__List.iter((function (param) {
                   return Stdlib__Buffer.add_char(buf, param);
                 }), utf16to8(code));
           return jsx_text(env, mode, buf, raw, lexbuf);
       case 4 :
-          let n$1 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 2 | 0, lexbuf.lex_curr_pos - 1 | 0);
-          let s$1 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
+          const n$1 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 2 | 0, lexbuf.lex_curr_pos - 1 | 0);
+          const s$1 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
           Stdlib__Buffer.add_string(raw, s$1);
-          let code$1 = Caml_format.caml_int_of_string(n$1);
+          const code$1 = Caml_format.caml_int_of_string(n$1);
           Stdlib__List.iter((function (param) {
                   return Stdlib__Buffer.add_char(buf, param);
                 }), utf16to8(code$1));
           return jsx_text(env, mode, buf, raw, lexbuf);
       case 5 :
-          let entity = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 1 | 0, lexbuf.lex_curr_pos - 1 | 0);
-          let s$2 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
+          const entity = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 1 | 0, lexbuf.lex_curr_pos - 1 | 0);
+          const s$2 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
           Stdlib__Buffer.add_string(raw, s$2);
           let code$2;
           switch (entity) {
@@ -4607,7 +4607,7 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
           }
           return jsx_text(env, mode, buf, raw, lexbuf);
       case 6 :
-          let c$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const c$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           Stdlib__Buffer.add_char(raw, c$1);
           Stdlib__Buffer.add_char(buf, c$1);
           return jsx_text(env, mode, buf, raw, lexbuf);
@@ -4622,11 +4622,11 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
 function template_part(env, start, cooked, raw, literal, lexbuf) {
   let ___ocaml_lex_state = 416;
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-          let env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
+          const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
                 TAG: /* UnexpectedToken */1,
                 _0: "ILLEGAL"
               });
@@ -4652,27 +4652,27 @@ function template_part(env, start, cooked, raw, literal, lexbuf) {
       case 3 :
           Stdlib__Buffer.add_char(raw, /* '\\' */92);
           Stdlib__Buffer.add_char(literal, /* '\\' */92);
-          let match = string_escape(env, cooked, lexbuf);
-          let str = Stdlib__Lexing.lexeme(lexbuf);
+          const match = string_escape(env, cooked, lexbuf);
+          const str = Stdlib__Lexing.lexeme(lexbuf);
           Stdlib__Buffer.add_string(raw, str);
           Stdlib__Buffer.add_string(literal, str);
           return template_part(match[0], start, cooked, raw, literal, lexbuf);
       case 4 :
-          let lf = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_start_pos + 2 | 0);
+          const lf = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_start_pos + 2 | 0);
           Stdlib__Buffer.add_string(raw, lf);
           Stdlib__Buffer.add_string(literal, lf);
           Stdlib__Buffer.add_string(cooked, "\n");
           Stdlib__Lexing.new_line(lexbuf);
           return template_part(env, start, cooked, raw, literal, lexbuf);
       case 5 :
-          let lf$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const lf$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           Stdlib__Buffer.add_char(raw, lf$1);
           Stdlib__Buffer.add_char(literal, lf$1);
           Stdlib__Buffer.add_char(cooked, /* '\n' */10);
           Stdlib__Lexing.new_line(lexbuf);
           return template_part(env, start, cooked, raw, literal, lexbuf);
       case 6 :
-          let c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           Stdlib__Buffer.add_char(raw, c);
           Stdlib__Buffer.add_char(literal, c);
           Stdlib__Buffer.add_char(cooked, c);
@@ -4687,9 +4687,9 @@ function template_part(env, start, cooked, raw, literal, lexbuf) {
 
 function __ocaml_lex_template_tail_rec(_env, lexbuf, ___ocaml_lex_state) {
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let env = _env;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const env = _env;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           Stdlib__Lexing.new_line(lexbuf);
@@ -4700,28 +4700,28 @@ function __ocaml_lex_template_tail_rec(_env, lexbuf, ___ocaml_lex_state) {
           ___ocaml_lex_state = 393;
           continue ;
       case 2 :
-          let start = from_lb(env.lex_source, lexbuf);
-          let buf = Stdlib__Buffer.create(127);
-          let match = line_comment(env, buf, lexbuf);
-          let env$1 = save_comment(match[0], start, match[1], buf, true);
+          const start = from_lb(env.lex_source, lexbuf);
+          const buf = Stdlib__Buffer.create(127);
+          const match = line_comment(env, buf, lexbuf);
+          const env$1 = save_comment(match[0], start, match[1], buf, true);
           ___ocaml_lex_state = 393;
           _env = env$1;
           continue ;
       case 3 :
-          let start$1 = from_lb(env.lex_source, lexbuf);
-          let buf$1 = Stdlib__Buffer.create(127);
-          let match$1 = comment(env, buf$1, lexbuf);
-          let env$2 = save_comment(match$1[0], start$1, match$1[1], buf$1, true);
+          const start$1 = from_lb(env.lex_source, lexbuf);
+          const buf$1 = Stdlib__Buffer.create(127);
+          const match$1 = comment(env, buf$1, lexbuf);
+          const env$2 = save_comment(match$1[0], start$1, match$1[1], buf$1, true);
           ___ocaml_lex_state = 393;
           _env = env$2;
           continue ;
       case 4 :
-          let start$2 = from_lb(env.lex_source, lexbuf);
-          let cooked = Stdlib__Buffer.create(127);
-          let raw = Stdlib__Buffer.create(127);
-          let literal = Stdlib__Buffer.create(127);
+          const start$2 = from_lb(env.lex_source, lexbuf);
+          const cooked = Stdlib__Buffer.create(127);
+          const raw = Stdlib__Buffer.create(127);
+          const literal = Stdlib__Buffer.create(127);
           Stdlib__Buffer.add_string(literal, "}");
-          let match$2 = template_part(env, start$2, cooked, raw, literal, lexbuf);
+          const match$2 = template_part(env, start$2, cooked, raw, literal, lexbuf);
           return [
                   match$2[0],
                   {
@@ -4738,7 +4738,7 @@ function __ocaml_lex_template_tail_rec(_env, lexbuf, ___ocaml_lex_state) {
                   }
                 ];
       case 5 :
-          let env$3 = lex_error(env, from_lb(env.lex_source, lexbuf), {
+          const env$3 = lex_error(env, from_lb(env.lex_source, lexbuf), {
                 TAG: /* UnexpectedToken */1,
                 _0: "ILLEGAL"
               });
@@ -4768,11 +4768,11 @@ function __ocaml_lex_template_tail_rec(_env, lexbuf, ___ocaml_lex_state) {
 function string_quote(env, q, buf, raw, octal, lexbuf) {
   let ___ocaml_lex_state = 247;
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-          let q$p = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const q$p = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           Stdlib__Buffer.add_char(raw, q$p);
           if (q === q$p) {
             return [
@@ -4785,16 +4785,16 @@ function string_quote(env, q, buf, raw, octal, lexbuf) {
             return string_quote(env, q, buf, raw, octal, lexbuf);
           }
       case 1 :
-          let e = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const e = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           Stdlib__Buffer.add_char(raw, e);
-          let match = string_escape(env, buf, lexbuf);
-          let octal$1 = match[1] || octal;
+          const match = string_escape(env, buf, lexbuf);
+          const octal$1 = match[1] || octal;
           Stdlib__Buffer.add_string(raw, Stdlib__Lexing.lexeme(lexbuf));
           return string_quote(match[0], q, buf, raw, octal$1, lexbuf);
       case 2 :
-          let x = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
+          const x = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
           Stdlib__Buffer.add_string(raw, x);
-          let env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
+          const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
                 TAG: /* UnexpectedToken */1,
                 _0: "ILLEGAL"
               });
@@ -4805,7 +4805,7 @@ function string_quote(env, q, buf, raw, octal, lexbuf) {
                   octal
                 ];
       case 3 :
-          let x$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const x$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           Stdlib__Buffer.add_char(raw, x$1);
           Stdlib__Buffer.add_char(buf, x$1);
           return string_quote(env, q, buf, raw, octal, lexbuf);
@@ -4820,8 +4820,8 @@ function string_quote(env, q, buf, raw, octal, lexbuf) {
 function string_escape(env, buf, lexbuf) {
   let ___ocaml_lex_state = 252;
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           return [
@@ -4835,9 +4835,9 @@ function string_escape(env, buf, lexbuf) {
                   false
                 ];
       case 2 :
-          let a = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 1 | 0);
-          let b = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 2 | 0);
-          let code = (hexa_to_int(a) << 4) + hexa_to_int(b) | 0;
+          const a = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 1 | 0);
+          const b = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 2 | 0);
+          const code = (hexa_to_int(a) << 4) + hexa_to_int(b) | 0;
           Stdlib__List.iter((function (param) {
                   return Stdlib__Buffer.add_char(buf, param);
                 }), utf16to8(code));
@@ -4846,16 +4846,16 @@ function string_escape(env, buf, lexbuf) {
                   false
                 ];
       case 3 :
-          let a$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
-          let b$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 1 | 0);
-          let c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 2 | 0);
-          let code$1 = ((oct_to_int(a$1) << 6) + (oct_to_int(b$1) << 3) | 0) + oct_to_int(c) | 0;
+          const a$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const b$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 1 | 0);
+          const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 2 | 0);
+          const code$1 = ((oct_to_int(a$1) << 6) + (oct_to_int(b$1) << 3) | 0) + oct_to_int(c) | 0;
           if (code$1 < 256) {
             Stdlib__List.iter((function (param) {
                     return Stdlib__Buffer.add_char(buf, param);
                   }), utf16to8(code$1));
           } else {
-            let code$2 = (oct_to_int(a$1) << 3) + oct_to_int(b$1) | 0;
+            const code$2 = (oct_to_int(a$1) << 3) + oct_to_int(b$1) | 0;
             Stdlib__List.iter((function (param) {
                     return Stdlib__Buffer.add_char(buf, param);
                   }), utf16to8(code$2));
@@ -4866,9 +4866,9 @@ function string_escape(env, buf, lexbuf) {
                   true
                 ];
       case 4 :
-          let a$2 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
-          let b$2 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 1 | 0);
-          let code$3 = (oct_to_int(a$2) << 3) + oct_to_int(b$2) | 0;
+          const a$2 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const b$2 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 1 | 0);
+          const code$3 = (oct_to_int(a$2) << 3) + oct_to_int(b$2) | 0;
           Stdlib__List.iter((function (param) {
                   return Stdlib__Buffer.add_char(buf, param);
                 }), utf16to8(code$3));
@@ -4919,8 +4919,8 @@ function string_escape(env, buf, lexbuf) {
                   false
                 ];
       case 12 :
-          let a$3 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
-          let code$4 = oct_to_int(a$3);
+          const a$3 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const code$4 = oct_to_int(a$3);
           Stdlib__List.iter((function (param) {
                   return Stdlib__Buffer.add_char(buf, param);
                 }), utf16to8(code$4));
@@ -4929,11 +4929,11 @@ function string_escape(env, buf, lexbuf) {
                   true
                 ];
       case 13 :
-          let a$4 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 1 | 0);
-          let b$3 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 2 | 0);
-          let c$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 3 | 0);
-          let d = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 4 | 0);
-          let code$5 = (((hexa_to_int(a$4) << 12) + (hexa_to_int(b$3) << 8) | 0) + (hexa_to_int(c$1) << 4) | 0) + hexa_to_int(d) | 0;
+          const a$4 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 1 | 0);
+          const b$3 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 2 | 0);
+          const c$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 3 | 0);
+          const d = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 4 | 0);
+          const code$5 = (((hexa_to_int(a$4) << 12) + (hexa_to_int(b$3) << 8) | 0) + (hexa_to_int(c$1) << 4) | 0) + hexa_to_int(d) | 0;
           Stdlib__List.iter((function (param) {
                   return Stdlib__Buffer.add_char(buf, param);
                 }), utf16to8(code$5));
@@ -4942,9 +4942,9 @@ function string_escape(env, buf, lexbuf) {
                   false
                 ];
       case 14 :
-          let hex_code = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 2 | 0, lexbuf.lex_curr_pos - 1 | 0);
-          let code$6 = Caml_format.caml_int_of_string("0x" + hex_code);
-          let env$1 = code$6 > 1114111 ? lex_error(env, from_lb(env.lex_source, lexbuf), {
+          const hex_code = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 2 | 0, lexbuf.lex_curr_pos - 1 | 0);
+          const code$6 = Caml_format.caml_int_of_string("0x" + hex_code);
+          const env$1 = code$6 > 1114111 ? lex_error(env, from_lb(env.lex_source, lexbuf), {
                   TAG: /* UnexpectedToken */1,
                   _0: "ILLEGAL"
                 }) : env;
@@ -4956,8 +4956,8 @@ function string_escape(env, buf, lexbuf) {
                   false
                 ];
       case 15 :
-          let c$2 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
-          let env$2 = lex_error(env, from_lb(env.lex_source, lexbuf), {
+          const c$2 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const env$2 = lex_error(env, from_lb(env.lex_source, lexbuf), {
                 TAG: /* UnexpectedToken */1,
                 _0: "ILLEGAL"
               });
@@ -4973,7 +4973,7 @@ function string_escape(env, buf, lexbuf) {
                   false
                 ];
       case 17 :
-          let c$3 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const c$3 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           Stdlib__Buffer.add_char(buf, c$3);
           return [
                   env,
@@ -5005,8 +5005,8 @@ function type_token(env, lexbuf) {
   Caml_array.set(lexbuf.lex_mem, 4, lexbuf.lex_curr_pos);
   let ___ocaml_lex_state = 133;
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           Stdlib__Lexing.new_line(lexbuf);
@@ -5015,24 +5015,24 @@ function type_token(env, lexbuf) {
           unicode_fix_cols(lexbuf);
           return type_token(env, lexbuf);
       case 2 :
-          let start = from_lb(env.lex_source, lexbuf);
-          let buf = Stdlib__Buffer.create(127);
-          let match = comment(env, buf, lexbuf);
-          let env$1 = save_comment(match[0], start, match[1], buf, true);
+          const start = from_lb(env.lex_source, lexbuf);
+          const buf = Stdlib__Buffer.create(127);
+          const match = comment(env, buf, lexbuf);
+          const env$1 = save_comment(match[0], start, match[1], buf, true);
           return type_token(env$1, lexbuf);
       case 3 :
-          let sp = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 2 | 0, Caml_array.get(lexbuf.lex_mem, 0));
-          let escape_type = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
-          let pattern = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
+          const sp = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 2 | 0, Caml_array.get(lexbuf.lex_mem, 0));
+          const escape_type = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
+          const pattern = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
           if (env.lex_enable_comment_syntax) {
             let env$2;
             if (env.lex_in_comment_syntax) {
-              let loc = from_lb(env.lex_source, lexbuf);
+              const loc = from_lb(env.lex_source, lexbuf);
               env$2 = unexpected_error(env, loc, pattern);
             } else {
               env$2 = env;
             }
-            let env$3 = in_comment_syntax(true, env$2);
+            const env$3 = in_comment_syntax(true, env$2);
             if (escape_type === ":") {
               return [
                       env$3,
@@ -5042,16 +5042,16 @@ function type_token(env, lexbuf) {
               return type_token(env$3, lexbuf);
             }
           }
-          let start$1 = from_lb(env.lex_source, lexbuf);
-          let buf$1 = Stdlib__Buffer.create(127);
+          const start$1 = from_lb(env.lex_source, lexbuf);
+          const buf$1 = Stdlib__Buffer.create(127);
           Stdlib__Buffer.add_string(buf$1, sp);
           Stdlib__Buffer.add_string(buf$1, escape_type);
-          let match$1 = comment(env, buf$1, lexbuf);
-          let env$4 = save_comment(match$1[0], start$1, match$1[1], buf$1, true);
+          const match$1 = comment(env, buf$1, lexbuf);
+          const env$4 = save_comment(match$1[0], start$1, match$1[1], buf$1, true);
           return type_token(env$4, lexbuf);
       case 4 :
           if (env.lex_in_comment_syntax) {
-            let env$5 = in_comment_syntax(false, env);
+            const env$5 = in_comment_syntax(false, env);
             return type_token(env$5, lexbuf);
           }
           yyback(1, lexbuf);
@@ -5060,18 +5060,18 @@ function type_token(env, lexbuf) {
                   /* T_MULT */97
                 ];
       case 5 :
-          let start$2 = from_lb(env.lex_source, lexbuf);
-          let buf$2 = Stdlib__Buffer.create(127);
-          let match$2 = line_comment(env, buf$2, lexbuf);
-          let env$6 = save_comment(match$2[0], start$2, match$2[1], buf$2, true);
+          const start$2 = from_lb(env.lex_source, lexbuf);
+          const buf$2 = Stdlib__Buffer.create(127);
+          const match$2 = line_comment(env, buf$2, lexbuf);
+          const env$6 = save_comment(match$2[0], start$2, match$2[1], buf$2, true);
           return type_token(env$6, lexbuf);
       case 6 :
-          let quote = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
-          let start$3 = from_lb(env.lex_source, lexbuf);
-          let buf$3 = Stdlib__Buffer.create(127);
-          let raw = Stdlib__Buffer.create(127);
+          const quote = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const start$3 = from_lb(env.lex_source, lexbuf);
+          const buf$3 = Stdlib__Buffer.create(127);
+          const raw = Stdlib__Buffer.create(127);
           Stdlib__Buffer.add_char(raw, quote);
-          let match$3 = string_quote(env, quote, buf$3, raw, false, lexbuf);
+          const match$3 = string_quote(env, quote, buf$3, raw, false, lexbuf);
           return [
                   match$3[0],
                   {
@@ -5085,45 +5085,45 @@ function type_token(env, lexbuf) {
                   }
                 ];
       case 7 :
-          let neg = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
-          let num = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
-          let w = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
+          const neg = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
+          const num = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
+          const w = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
           return illegal_number(env, lexbuf, w, mk_num_singleton(/* BINARY */0, num, neg));
       case 8 :
-          let neg$1 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
-          let num$1 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
+          const neg$1 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
+          const num$1 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
           return [
                   env,
                   mk_num_singleton(/* BINARY */0, num$1, neg$1)
                 ];
       case 9 :
-          let neg$2 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
-          let num$2 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
-          let w$1 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
+          const neg$2 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
+          const num$2 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
+          const w$1 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
           return illegal_number(env, lexbuf, w$1, mk_num_singleton(/* OCTAL */2, num$2, neg$2));
       case 10 :
-          let neg$3 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
-          let num$3 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
+          const neg$3 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
+          const num$3 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
           return [
                   env,
                   mk_num_singleton(/* OCTAL */2, num$3, neg$3)
                 ];
       case 11 :
-          let neg$4 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
-          let num$4 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
-          let w$2 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
+          const neg$4 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
+          const num$4 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
+          const w$2 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
           return illegal_number(env, lexbuf, w$2, mk_num_singleton(/* LEGACY_OCTAL */1, num$4, neg$4));
       case 12 :
-          let neg$5 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
-          let num$5 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
+          const neg$5 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
+          const num$5 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
           return [
                   env,
                   mk_num_singleton(/* LEGACY_OCTAL */1, num$5, neg$5)
                 ];
       case 13 :
-          let neg$6 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
-          let num$6 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
-          let w$3 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
+          const neg$6 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
+          const num$6 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
+          const w$3 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
           let match$4;
           try {
             match$4 = [
@@ -5133,8 +5133,8 @@ function type_token(env, lexbuf) {
           }
           catch (exn){
             if (Stdlib__Sys.win32) {
-              let loc$1 = from_lb(env.lex_source, lexbuf);
-              let env$7 = lex_error(env, loc$1, /* WindowsFloatOfString */59);
+              const loc$1 = from_lb(env.lex_source, lexbuf);
+              const env$7 = lex_error(env, loc$1, /* WindowsFloatOfString */59);
               match$4 = [
                 env$7,
                 {
@@ -5149,8 +5149,8 @@ function type_token(env, lexbuf) {
           }
           return illegal_number(match$4[0], lexbuf, w$3, match$4[1]);
       case 14 :
-          let neg$7 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
-          let num$7 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
+          const neg$7 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
+          const num$7 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
           try {
             return [
                     env,
@@ -5159,8 +5159,8 @@ function type_token(env, lexbuf) {
           }
           catch (exn$1){
             if (Stdlib__Sys.win32) {
-              let loc$2 = from_lb(env.lex_source, lexbuf);
-              let env$8 = lex_error(env, loc$2, /* WindowsFloatOfString */59);
+              const loc$2 = from_lb(env.lex_source, lexbuf);
+              const env$8 = lex_error(env, loc$2, /* WindowsFloatOfString */59);
               return [
                       env$8,
                       {
@@ -5173,31 +5173,31 @@ function type_token(env, lexbuf) {
             throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
           }
       case 15 :
-          let neg$8 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
-          let num$8 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
-          let w$4 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
+          const neg$8 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
+          const num$8 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
+          const w$4 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
           return illegal_number(env, lexbuf, w$4, mk_num_singleton(/* NORMAL */3, num$8, neg$8));
       case 16 :
-          let neg$9 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
-          let num$9 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
+          const neg$9 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
+          const num$9 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
           return [
                   env,
                   mk_num_singleton(/* NORMAL */3, num$9, neg$9)
                 ];
       case 17 :
-          let neg$10 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
-          let num$10 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
-          let w$5 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
+          const neg$10 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
+          const num$10 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
+          const w$5 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
           return illegal_number(env, lexbuf, w$5, mk_num_singleton(/* NORMAL */3, num$10, neg$10));
       case 18 :
-          let neg$11 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), Caml_array.get(lexbuf.lex_mem, 0));
-          let num$11 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 3), Caml_array.get(lexbuf.lex_mem, 2));
+          const neg$11 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), Caml_array.get(lexbuf.lex_mem, 0));
+          const num$11 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 3), Caml_array.get(lexbuf.lex_mem, 2));
           return [
                   env,
                   mk_num_singleton(/* NORMAL */3, num$11, neg$11)
                 ];
       case 19 :
-          let word = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
+          const word = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
           unicode_fix_cols(lexbuf);
           try {
             return [
@@ -5206,7 +5206,7 @@ function type_token(env, lexbuf) {
                   ];
           }
           catch (raw_exn){
-            let exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn);
+            const exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn$2.MEL_EXN_ID === Stdlib.Not_found) {
               return [
                       env,
@@ -5333,7 +5333,7 @@ function type_token(env, lexbuf) {
       case 47 :
           let env$9;
           if (env.lex_in_comment_syntax) {
-            let loc$3 = from_lb(env.lex_source, lexbuf);
+            const loc$3 = from_lb(env.lex_source, lexbuf);
             env$9 = lex_error(env, loc$3, /* UnexpectedEOS */4);
           } else {
             env$9 = env;
@@ -5358,17 +5358,17 @@ function type_token(env, lexbuf) {
 function jsx_child(env, start, buf, raw, lexbuf) {
   let ___ocaml_lex_state = 364;
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-          let lt = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
+          const lt = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
           Stdlib__Buffer.add_string(raw, lt);
           Stdlib__Buffer.add_string(buf, lt);
           Stdlib__Lexing.new_line(lexbuf);
-          let match = jsx_text(env, /* JSX_CHILD_TEXT */2, buf, raw, lexbuf);
-          let value = Stdlib__Buffer.contents(buf);
-          let raw$1 = Stdlib__Buffer.contents(raw);
+          const match = jsx_text(env, /* JSX_CHILD_TEXT */2, buf, raw, lexbuf);
+          const value = Stdlib__Buffer.contents(buf);
+          const raw$1 = Stdlib__Buffer.contents(raw);
           return [
                   match[0],
                   {
@@ -5396,12 +5396,12 @@ function jsx_child(env, start, buf, raw, lexbuf) {
                   /* T_LCURLY */1
                 ];
       case 4 :
-          let c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           Stdlib__Buffer.add_char(raw, c);
           Stdlib__Buffer.add_char(buf, c);
-          let match$1 = jsx_text(env, /* JSX_CHILD_TEXT */2, buf, raw, lexbuf);
-          let value$1 = Stdlib__Buffer.contents(buf);
-          let raw$2 = Stdlib__Buffer.contents(raw);
+          const match$1 = jsx_text(env, /* JSX_CHILD_TEXT */2, buf, raw, lexbuf);
+          const value$1 = Stdlib__Buffer.contents(buf);
+          const raw$2 = Stdlib__Buffer.contents(raw);
           return [
                   match$1[0],
                   {
@@ -5426,10 +5426,10 @@ function regexp(env) {
 }
 
 function jsx_child$1(env) {
-  let start = from_curr_lb(env.lex_source, env.lex_lb);
-  let buf = Stdlib__Buffer.create(127);
-  let raw = Stdlib__Buffer.create(127);
-  let match = jsx_child(env, start, buf, raw, env.lex_lb);
+  const start = from_curr_lb(env.lex_source, env.lex_lb);
+  const buf = Stdlib__Buffer.create(127);
+  const raw = Stdlib__Buffer.create(127);
+  const match = jsx_child(env, start, buf, raw, env.lex_lb);
   return get_result_and_clear_state([
               match[0],
               match[1]
@@ -5452,7 +5452,7 @@ function token$1(env) {
   return get_result_and_clear_state(token(env, env.lex_lb));
 }
 
-let funarg = {
+const funarg = {
   compare: Stdlib__String.compare
 };
 
@@ -5465,8 +5465,8 @@ function height(param) {
 }
 
 function create(l, v, r) {
-  let hl = l ? l.h : 0;
-  let hr = r ? r.h : 0;
+  const hl = l ? l.h : 0;
+  const hr = r ? r.h : 0;
   return /* Node */{
           l: l,
           v: v,
@@ -5476,13 +5476,13 @@ function create(l, v, r) {
 }
 
 function bal(l, v, r) {
-  let hl = l ? l.h : 0;
-  let hr = r ? r.h : 0;
+  const hl = l ? l.h : 0;
+  const hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
     if (l) {
-      let lr = l.r;
-      let lv = l.v;
-      let ll = l.l;
+      const lr = l.r;
+      const lv = l.v;
+      const ll = l.l;
       if (height(ll) >= height(lr)) {
         return create(ll, lv, create(lr, v, r));
       }
@@ -5508,9 +5508,9 @@ function bal(l, v, r) {
           };
   }
   if (r) {
-    let rr = r.r;
-    let rv = r.v;
-    let rl = r.l;
+    const rr = r.r;
+    const rv = r.v;
+    const rl = r.l;
     if (height(rr) >= height(rl)) {
       return create(create(l, v, rl), rv, rr);
     }
@@ -5537,22 +5537,22 @@ function add(x, t) {
             h: 1
           };
   }
-  let r = t.r;
-  let v = t.v;
-  let l = t.l;
-  let c = Curry._2(funarg.compare, x, v);
+  const r = t.r;
+  const v = t.v;
+  const l = t.l;
+  const c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     return t;
   }
   if (c < 0) {
-    let ll = add(x, l);
+    const ll = add(x, l);
     if (l === ll) {
       return t;
     } else {
       return bal(ll, v, r);
     }
   }
-  let rr = add(x, r);
+  const rr = add(x, r);
   if (r === rr) {
     return t;
   } else {
@@ -5562,11 +5562,11 @@ function add(x, t) {
 
 function mem(x, _param) {
   while(true) {
-    let param = _param;
+    const param = _param;
     if (!param) {
       return false;
     }
-    let c = Curry._2(funarg.compare, x, param.v);
+    const c = Curry._2(funarg.compare, x, param.v);
     if (c === 0) {
       return true;
     }
@@ -5576,8 +5576,8 @@ function mem(x, _param) {
 }
 
 function create$1(lex_env, mode) {
-  let lexbuf = lex_env.lex_lb;
-  let lexbuf$1 = {
+  const lexbuf = lex_env.lex_lb;
+  const lexbuf$1 = {
     refill_buff: lexbuf.refill_buff,
     lex_buffer: lexbuf.lex_buffer,
     lex_buffer_len: lexbuf.lex_buffer_len,
@@ -5591,7 +5591,7 @@ function create$1(lex_env, mode) {
     lex_start_p: lexbuf.lex_start_p,
     lex_curr_p: lexbuf.lex_curr_p
   };
-  let lex_env$1 = with_lexbuf(lexbuf$1, lex_env);
+  const lex_env$1 = with_lexbuf(lexbuf$1, lex_env);
   return {
           la_results: [],
           la_num_lexed: 0,
@@ -5603,7 +5603,7 @@ function create$1(lex_env, mode) {
 function next_power_of_two(n) {
   let _i = 1;
   while(true) {
-    let i = _i;
+    const i = _i;
     if (i >= n) {
       return i;
     }
@@ -5616,20 +5616,20 @@ function grow(t, n) {
   if (t.la_results.length >= n) {
     return ;
   }
-  let new_size = next_power_of_two(n);
-  let filler = function (i) {
+  const new_size = next_power_of_two(n);
+  const filler = function (i) {
     if (i < t.la_results.length) {
       return Caml_array.get(t.la_results, i);
     }
     
   };
-  let new_arr = Stdlib__Array.init(new_size, filler);
+  const new_arr = Stdlib__Array.init(new_size, filler);
   t.la_results = new_arr;
 }
 
 function lex(t) {
-  let lex_env = t.la_lex_env;
-  let match = t.la_lex_mode;
+  const lex_env = t.la_lex_env;
+  const match = t.la_lex_mode;
   let match$1;
   switch (match) {
     case /* TYPE */1 :
@@ -5653,9 +5653,9 @@ function lex(t) {
         break;
     
   }
-  let lex_env$1 = match$1[0];
-  let lexbuf = lex_env$1.lex_lb;
-  let lexbuf$1 = {
+  const lex_env$1 = match$1[0];
+  const lexbuf = lex_env$1.lex_lb;
+  const lexbuf$1 = {
     refill_buff: lexbuf.refill_buff,
     lex_buffer: lexbuf.lex_buffer,
     lex_buffer_len: lexbuf.lex_buffer_len,
@@ -5669,7 +5669,7 @@ function lex(t) {
     lex_start_p: lexbuf.lex_start_p,
     lex_curr_p: lexbuf.lex_curr_p
   };
-  let cloned_env = with_lexbuf(lexbuf$1, lex_env$1);
+  const cloned_env = with_lexbuf(lexbuf$1, lex_env$1);
   t.la_lex_env = lex_env$1;
   Caml_array.set(t.la_results, t.la_num_lexed, [
         cloned_env,
@@ -5685,7 +5685,7 @@ function lex_until(t, i) {
   };
 }
 
-let default_parse_options = {
+const default_parse_options = {
   esproposal_class_instance_fields: false,
   esproposal_class_static_fields: false,
   esproposal_decorators: false,
@@ -5695,11 +5695,11 @@ let default_parse_options = {
 };
 
 function init_env(token_sinkOpt, parse_optionsOpt, source, content) {
-  let token_sink = token_sinkOpt !== undefined ? Caml_option.valFromOption(token_sinkOpt) : undefined;
-  let parse_options = parse_optionsOpt !== undefined ? Caml_option.valFromOption(parse_optionsOpt) : undefined;
-  let lb = Stdlib__Lexing.from_string(undefined, content);
+  const token_sink = token_sinkOpt !== undefined ? Caml_option.valFromOption(token_sinkOpt) : undefined;
+  const parse_options = parse_optionsOpt !== undefined ? Caml_option.valFromOption(parse_optionsOpt) : undefined;
+  const lb = Stdlib__Lexing.from_string(undefined, content);
   if (source !== undefined && typeof source !== "number") {
-    let init = lb.lex_curr_p;
+    const init = lb.lex_curr_p;
     lb.lex_curr_p = {
       pos_fname: source._0,
       pos_lnum: init.pos_lnum,
@@ -5707,9 +5707,9 @@ function init_env(token_sinkOpt, parse_optionsOpt, source, content) {
       pos_cnum: init.pos_cnum
     };
   }
-  let parse_options$1 = parse_options !== undefined ? parse_options : default_parse_options;
-  let enable_types_in_comments = parse_options$1.types;
-  let lex_env = new_lex_env(source, lb, enable_types_in_comments);
+  const parse_options$1 = parse_options !== undefined ? parse_options : default_parse_options;
+  const enable_types_in_comments = parse_options$1.types;
+  const lex_env = new_lex_env(source, lb, enable_types_in_comments);
   return {
           errors: {
             contents: /* [] */0
@@ -5756,7 +5756,7 @@ function init_env(token_sinkOpt, parse_optionsOpt, source, content) {
 }
 
 function error_at(env, param) {
-  let e = param[1];
+  const e = param[1];
   env.errors.contents = {
     hd: [
       param[0],
@@ -5764,7 +5764,7 @@ function error_at(env, param) {
     ],
     tl: env.errors.contents
   };
-  let callback = env.error_callback;
+  const callback = env.error_callback;
   if (callback !== undefined) {
     return Curry._2(callback, env, e);
   }
@@ -5783,8 +5783,8 @@ function comment_list(env) {
 }
 
 function record_export(env, param) {
-  let export_name = param[1];
-  let $$exports = env.exports.contents;
+  const export_name = param[1];
+  const $$exports = env.exports.contents;
   if (Curry._2(mem, export_name, $$exports)) {
     return error_at(env, [
                 param[0],
@@ -5800,7 +5800,7 @@ function record_export(env, param) {
 }
 
 function lookahead(iOpt, env) {
-  let i = iOpt !== undefined ? iOpt : 0;
+  const i = iOpt !== undefined ? iOpt : 0;
   if (i >= 2) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
@@ -5813,7 +5813,7 @@ function lookahead(iOpt, env) {
   }
   let t = env.lookahead.contents;
   lex_until(t, i);
-  let match = Caml_array.get(t.la_results, i);
+  const match = Caml_array.get(t.la_results, i);
   if (match !== undefined) {
     return match[1];
   }
@@ -5824,61 +5824,61 @@ function lookahead(iOpt, env) {
 }
 
 function with_strict(in_strict_mode, env) {
-  let newrecord = Caml_obj.caml_obj_dup(env);
+  const newrecord = Caml_obj.caml_obj_dup(env);
   newrecord.in_strict_mode = in_strict_mode;
   return newrecord;
 }
 
 function with_in_function(in_function, env) {
-  let newrecord = Caml_obj.caml_obj_dup(env);
+  const newrecord = Caml_obj.caml_obj_dup(env);
   newrecord.in_function = in_function;
   return newrecord;
 }
 
 function with_allow_yield(allow_yield, env) {
-  let newrecord = Caml_obj.caml_obj_dup(env);
+  const newrecord = Caml_obj.caml_obj_dup(env);
   newrecord.allow_yield = allow_yield;
   return newrecord;
 }
 
 function with_no_let(no_let, env) {
-  let newrecord = Caml_obj.caml_obj_dup(env);
+  const newrecord = Caml_obj.caml_obj_dup(env);
   newrecord.no_let = no_let;
   return newrecord;
 }
 
 function with_in_loop(in_loop, env) {
-  let newrecord = Caml_obj.caml_obj_dup(env);
+  const newrecord = Caml_obj.caml_obj_dup(env);
   newrecord.in_loop = in_loop;
   return newrecord;
 }
 
 function with_no_in(no_in, env) {
-  let newrecord = Caml_obj.caml_obj_dup(env);
+  const newrecord = Caml_obj.caml_obj_dup(env);
   newrecord.no_in = no_in;
   return newrecord;
 }
 
 function with_in_switch(in_switch, env) {
-  let newrecord = Caml_obj.caml_obj_dup(env);
+  const newrecord = Caml_obj.caml_obj_dup(env);
   newrecord.in_switch = in_switch;
   return newrecord;
 }
 
 function with_in_export(in_export, env) {
-  let newrecord = Caml_obj.caml_obj_dup(env);
+  const newrecord = Caml_obj.caml_obj_dup(env);
   newrecord.in_export = in_export;
   return newrecord;
 }
 
 function with_no_call(no_call, env) {
-  let newrecord = Caml_obj.caml_obj_dup(env);
+  const newrecord = Caml_obj.caml_obj_dup(env);
   newrecord.no_call = no_call;
   return newrecord;
 }
 
 function with_error_callback(error_callback, env) {
-  let newrecord = Caml_obj.caml_obj_dup(env);
+  const newrecord = Caml_obj.caml_obj_dup(env);
   newrecord.error_callback = error_callback;
   return newrecord;
 }
@@ -5892,19 +5892,19 @@ function error_list(env) {
 }
 
 function without_error_callback(env) {
-  let newrecord = Caml_obj.caml_obj_dup(env);
+  const newrecord = Caml_obj.caml_obj_dup(env);
   newrecord.error_callback = undefined;
   return newrecord;
 }
 
 function add_label(env, label) {
-  let newrecord = Caml_obj.caml_obj_dup(env);
+  const newrecord = Caml_obj.caml_obj_dup(env);
   newrecord.labels = Curry._2(add, label, env.labels);
   return newrecord;
 }
 
 function enter_function(env, async, generator) {
-  let newrecord = Caml_obj.caml_obj_dup(env);
+  const newrecord = Caml_obj.caml_obj_dup(env);
   newrecord.allow_await = async;
   newrecord.allow_yield = generator;
   newrecord.in_function = true;
@@ -5949,35 +5949,35 @@ function is_restricted(param) {
 }
 
 function token$2(iOpt, env) {
-  let i = iOpt !== undefined ? iOpt : 0;
+  const i = iOpt !== undefined ? iOpt : 0;
   return lookahead(i, env).lex_token;
 }
 
 function value(iOpt, env) {
-  let i = iOpt !== undefined ? iOpt : 0;
+  const i = iOpt !== undefined ? iOpt : 0;
   return lookahead(i, env).lex_value;
 }
 
 function loc(iOpt, env) {
-  let i = iOpt !== undefined ? iOpt : 0;
+  const i = iOpt !== undefined ? iOpt : 0;
   return lookahead(i, env).lex_loc;
 }
 
 function errors(iOpt, env) {
-  let i = iOpt !== undefined ? iOpt : 0;
+  const i = iOpt !== undefined ? iOpt : 0;
   return lookahead(i, env).lex_errors;
 }
 
 function comments(iOpt, env) {
-  let i = iOpt !== undefined ? iOpt : 0;
+  const i = iOpt !== undefined ? iOpt : 0;
   return lookahead(i, env).lex_comments;
 }
 
 function lex_env(iOpt, env) {
-  let i = iOpt !== undefined ? iOpt : 0;
+  const i = iOpt !== undefined ? iOpt : 0;
   let t = env.lookahead.contents;
   lex_until(t, i);
-  let match = Caml_array.get(t.la_results, i);
+  const match = Caml_array.get(t.la_results, i);
   if (match !== undefined) {
     return match[0];
   }
@@ -5988,7 +5988,7 @@ function lex_env(iOpt, env) {
 }
 
 function is_line_terminator(env) {
-  let loc$p = env.last_loc.contents;
+  const loc$p = env.last_loc.contents;
   if (loc$p !== undefined) {
     return loc(undefined, env).start.line > loc$p.start.line;
   } else {
@@ -5997,7 +5997,7 @@ function is_line_terminator(env) {
 }
 
 function is_implicit_semicolon(env) {
-  let match = token$2(undefined, env);
+  const match = token$2(undefined, env);
   if (typeof match === "number") {
     if (match > 104 || match < 3) {
       if (match > 105 || match < 2) {
@@ -6016,7 +6016,7 @@ function is_implicit_semicolon(env) {
 }
 
 function semicolon_loc(iOpt, env) {
-  let i = iOpt !== undefined ? iOpt : 0;
+  const i = iOpt !== undefined ? iOpt : 0;
   if (Caml_obj.caml_equal(token$2(i, env), /* T_SEMICOLON */7)) {
     return loc(i, env);
   }
@@ -6024,9 +6024,9 @@ function semicolon_loc(iOpt, env) {
 }
 
 function is_identifier(iOpt, env) {
-  let i = iOpt !== undefined ? iOpt : 0;
-  let name = value(i, env);
-  let match = token$2(i, env);
+  const i = iOpt !== undefined ? iOpt : 0;
+  const name = value(i, env);
+  const match = token$2(i, env);
   if (is_strict_reserved(name) || is_restricted(name) || is_future_reserved(name)) {
     return true;
   } else if (typeof match === "number") {
@@ -6041,7 +6041,7 @@ function is_identifier(iOpt, env) {
 }
 
 function is_function(iOpt, env) {
-  let i = iOpt !== undefined ? iOpt : 0;
+  const i = iOpt !== undefined ? iOpt : 0;
   if (Caml_obj.caml_equal(token$2(i, env), /* T_FUNCTION */13)) {
     return true;
   } else if (Caml_obj.caml_equal(token$2(i, env), /* T_ASYNC */61)) {
@@ -6052,8 +6052,8 @@ function is_function(iOpt, env) {
 }
 
 function is_class(iOpt, env) {
-  let i = iOpt !== undefined ? iOpt : 0;
-  let match = token$2(i, env);
+  const i = iOpt !== undefined ? iOpt : 0;
+  const match = token$2(i, env);
   if (typeof match === "number") {
     if (match !== 12) {
       return match === 38;
@@ -6066,7 +6066,7 @@ function is_class(iOpt, env) {
 }
 
 function error$1(env, e) {
-  let loc$1 = loc(undefined, env);
+  const loc$1 = loc(undefined, env);
   error_at(env, [
         loc$1,
         e
@@ -6095,7 +6095,7 @@ function get_unexpected_error(param) {
         
     }
   }
-  let word = param[1];
+  const word = param[1];
   if (is_future_reserved(word)) {
     return /* UnexpectedReserved */3;
   } else if (is_strict_reserved(word)) {
@@ -6145,11 +6145,11 @@ function strict_error_at(env, param) {
 }
 
 function token$3(env) {
-  let token_sink = env.token_sink.contents;
+  const token_sink = env.token_sink.contents;
   if (token_sink !== undefined) {
-    let token_loc = loc(undefined, env);
-    let token$4 = token$2(undefined, env);
-    let token_value = value(undefined, env);
+    const token_loc = loc(undefined, env);
+    const token$4 = token$2(undefined, env);
+    const token_value = value(undefined, env);
     Curry._1(token_sink, {
           token_loc: token_loc,
           token: token$4,
@@ -6179,7 +6179,7 @@ function push_lex_mode(env, mode) {
 }
 
 function pop_lex_mode(env) {
-  let match = env.lex_mode_stack.contents;
+  const match = env.lex_mode_stack.contents;
   let new_stack;
   if (match) {
     new_stack = match.tl;
@@ -6194,10 +6194,10 @@ function pop_lex_mode(env) {
 }
 
 function double_pop_lex_mode(env) {
-  let match = env.lex_mode_stack.contents;
+  const match = env.lex_mode_stack.contents;
   let new_stack;
   if (match) {
-    let match$1 = match.tl;
+    const match$1 = match.tl;
     if (match$1) {
       new_stack = match$1.tl;
     } else {
@@ -6250,13 +6250,13 @@ function contextual(env, str) {
   token$3(env);
 }
 
-let Rollback = /* @__PURE__ */Caml_exceptions.create("Flow_parser_reg_test.Parser_env.Try.Rollback");
+const Rollback = /* @__PURE__ */Caml_exceptions.create("Flow_parser_reg_test.Parser_env.Try.Rollback");
 
 function save_state(env) {
-  let orig_token_sink = env.token_sink.contents;
+  const orig_token_sink = env.token_sink.contents;
   let token_buffer;
   if (orig_token_sink !== undefined) {
-    let buffer = {
+    const buffer = {
       length: 0,
       first: /* Nil */0,
       last: /* Nil */0
@@ -6285,7 +6285,7 @@ function reset_token_sink(flush, env, token_buffer_info) {
   if (token_buffer_info === undefined) {
     return ;
   }
-  let orig_token_sink = token_buffer_info[0];
+  const orig_token_sink = token_buffer_info[0];
   env.token_sink.contents = orig_token_sink;
   if (flush) {
     return Stdlib__Queue.iter(orig_token_sink, token_buffer_info[1]);
@@ -6294,7 +6294,7 @@ function reset_token_sink(flush, env, token_buffer_info) {
 }
 
 function to_parse(env, parse) {
-  let saved_state = save_state(env);
+  const saved_state = save_state(env);
   try {
     let result = Curry._1(parse, env);
     reset_token_sink(true, env, saved_state.token_buffer);
@@ -6303,7 +6303,7 @@ function to_parse(env, parse) {
           };
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Rollback) {
       reset_token_sink(false, env, saved_state.token_buffer);
       env.errors.contents = saved_state.saved_errors;
@@ -6318,7 +6318,7 @@ function to_parse(env, parse) {
   }
 }
 
-let Parser_env_Peek = {
+const Parser_env_Peek = {
   token: token$2,
   value: value,
   loc: loc,
@@ -6332,12 +6332,12 @@ let Parser_env_Peek = {
   is_class: is_class
 };
 
-let Parser_env_Try = {
+const Parser_env_Try = {
   Rollback: Rollback,
   to_parse: to_parse
 };
 
-let funarg$1 = {
+const funarg$1 = {
   compare: Stdlib__String.compare
 };
 
@@ -6350,8 +6350,8 @@ function height$1(param) {
 }
 
 function create$2(l, v, r) {
-  let hl = l ? l.h : 0;
-  let hr = r ? r.h : 0;
+  const hl = l ? l.h : 0;
+  const hr = r ? r.h : 0;
   return /* Node */{
           l: l,
           v: v,
@@ -6361,13 +6361,13 @@ function create$2(l, v, r) {
 }
 
 function bal$1(l, v, r) {
-  let hl = l ? l.h : 0;
-  let hr = r ? r.h : 0;
+  const hl = l ? l.h : 0;
+  const hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
     if (l) {
-      let lr = l.r;
-      let lv = l.v;
-      let ll = l.l;
+      const lr = l.r;
+      const lv = l.v;
+      const ll = l.l;
       if (height$1(ll) >= height$1(lr)) {
         return create$2(ll, lv, create$2(lr, v, r));
       }
@@ -6393,9 +6393,9 @@ function bal$1(l, v, r) {
           };
   }
   if (r) {
-    let rr = r.r;
-    let rv = r.v;
-    let rl = r.l;
+    const rr = r.r;
+    const rv = r.v;
+    const rl = r.l;
     if (height$1(rr) >= height$1(rl)) {
       return create$2(create$2(l, v, rl), rv, rr);
     }
@@ -6422,22 +6422,22 @@ function add$1(x, t) {
             h: 1
           };
   }
-  let r = t.r;
-  let v = t.v;
-  let l = t.l;
-  let c = Curry._2(funarg$1.compare, x, v);
+  const r = t.r;
+  const v = t.v;
+  const l = t.l;
+  const c = Curry._2(funarg$1.compare, x, v);
   if (c === 0) {
     return t;
   }
   if (c < 0) {
-    let ll = add$1(x, l);
+    const ll = add$1(x, l);
     if (l === ll) {
       return t;
     } else {
       return bal$1(ll, v, r);
     }
   }
-  let rr = add$1(x, r);
+  const rr = add$1(x, r);
   if (r === rr) {
     return t;
   } else {
@@ -6447,11 +6447,11 @@ function add$1(x, t) {
 
 function mem$1(x, _param) {
   while(true) {
-    let param = _param;
+    const param = _param;
     if (!param) {
       return false;
     }
-    let c = Curry._2(funarg$1.compare, x, param.v);
+    const c = Curry._2(funarg$1.compare, x, param.v);
     if (c === 0) {
       return true;
     }
@@ -6460,7 +6460,7 @@ function mem$1(x, _param) {
   };
 }
 
-let funarg$2 = {
+const funarg$2 = {
   compare: Stdlib__String.compare
 };
 
@@ -6473,8 +6473,8 @@ function height$2(param) {
 }
 
 function create$3(l, x, d, r) {
-  let hl = height$2(l);
-  let hr = height$2(r);
+  const hl = height$2(l);
+  const hr = height$2(r);
   return /* Node */{
           l: l,
           v: x,
@@ -6485,14 +6485,14 @@ function create$3(l, x, d, r) {
 }
 
 function bal$2(l, x, d, r) {
-  let hl = l ? l.h : 0;
-  let hr = r ? r.h : 0;
+  const hl = l ? l.h : 0;
+  const hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
     if (l) {
-      let lr = l.r;
-      let ld = l.d;
-      let lv = l.v;
-      let ll = l.l;
+      const lr = l.r;
+      const ld = l.d;
+      const lv = l.v;
+      const ll = l.l;
       if (height$2(ll) >= height$2(lr)) {
         return create$3(ll, lv, ld, create$3(lr, x, d, r));
       }
@@ -6519,10 +6519,10 @@ function bal$2(l, x, d, r) {
           };
   }
   if (r) {
-    let rr = r.r;
-    let rd = r.d;
-    let rv = r.v;
-    let rl = r.l;
+    const rr = r.r;
+    const rd = r.d;
+    const rv = r.v;
+    const rl = r.l;
     if (height$2(rr) >= height$2(rl)) {
       return create$3(create$3(l, x, d, rl), rv, rd, rr);
     }
@@ -6550,11 +6550,11 @@ function add$2(x, data, m) {
             h: 1
           };
   }
-  let r = m.r;
-  let d = m.d;
-  let v = m.v;
-  let l = m.l;
-  let c = Curry._2(funarg$2.compare, x, v);
+  const r = m.r;
+  const d = m.d;
+  const v = m.v;
+  const l = m.l;
+  const c = Curry._2(funarg$2.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -6569,14 +6569,14 @@ function add$2(x, data, m) {
     }
   }
   if (c < 0) {
-    let ll = add$2(x, data, l);
+    const ll = add$2(x, data, l);
     if (l === ll) {
       return m;
     } else {
       return bal$2(ll, v, d, r);
     }
   }
-  let rr = add$2(x, data, r);
+  const rr = add$2(x, data, r);
   if (r === rr) {
     return m;
   } else {
@@ -6586,9 +6586,9 @@ function add$2(x, data, m) {
 
 function find(x, _param) {
   while(true) {
-    let param = _param;
+    const param = _param;
     if (param) {
-      let c = Curry._2(funarg$2.compare, x, param.v);
+      const c = Curry._2(funarg$2.compare, x, param.v);
       if (c === 0) {
         return param.d;
       }
@@ -6602,7 +6602,7 @@ function find(x, _param) {
 }
 
 function compare$1(param, param$1) {
-  let loc = compare(param[0], param$1[0]);
+  const loc = compare(param[0], param$1[0]);
   if (loc === 0) {
     return Caml_obj.caml_compare(param[1], param$1[1]);
   } else {
@@ -6610,7 +6610,7 @@ function compare$1(param, param$1) {
   }
 }
 
-let funarg$3 = {
+const funarg$3 = {
   compare: compare$1
 };
 
@@ -6623,8 +6623,8 @@ function height$3(param) {
 }
 
 function create$4(l, v, r) {
-  let hl = l ? l.h : 0;
-  let hr = r ? r.h : 0;
+  const hl = l ? l.h : 0;
+  const hr = r ? r.h : 0;
   return /* Node */{
           l: l,
           v: v,
@@ -6634,13 +6634,13 @@ function create$4(l, v, r) {
 }
 
 function bal$3(l, v, r) {
-  let hl = l ? l.h : 0;
-  let hr = r ? r.h : 0;
+  const hl = l ? l.h : 0;
+  const hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
     if (l) {
-      let lr = l.r;
-      let lv = l.v;
-      let ll = l.l;
+      const lr = l.r;
+      const lv = l.v;
+      const ll = l.l;
       if (height$3(ll) >= height$3(lr)) {
         return create$4(ll, lv, create$4(lr, v, r));
       }
@@ -6666,9 +6666,9 @@ function bal$3(l, v, r) {
           };
   }
   if (r) {
-    let rr = r.r;
-    let rv = r.v;
-    let rl = r.l;
+    const rr = r.r;
+    const rv = r.v;
+    const rl = r.l;
     if (height$3(rr) >= height$3(rl)) {
       return create$4(create$4(l, v, rl), rv, rr);
     }
@@ -6695,22 +6695,22 @@ function add$3(x, t) {
             h: 1
           };
   }
-  let r = t.r;
-  let v = t.v;
-  let l = t.l;
-  let c = Curry._2(funarg$3.compare, x, v);
+  const r = t.r;
+  const v = t.v;
+  const l = t.l;
+  const c = Curry._2(funarg$3.compare, x, v);
   if (c === 0) {
     return t;
   }
   if (c < 0) {
-    let ll = add$3(x, l);
+    const ll = add$3(x, l);
     if (l === ll) {
       return t;
     } else {
       return bal$3(ll, v, r);
     }
   }
-  let rr = add$3(x, r);
+  const rr = add$3(x, r);
   if (r === rr) {
     return t;
   } else {
@@ -6720,11 +6720,11 @@ function add$3(x, t) {
 
 function mem$2(x, _param) {
   while(true) {
-    let param = _param;
+    const param = _param;
     if (!param) {
       return false;
     }
-    let c = Curry._2(funarg$3.compare, x, param.v);
+    const c = Curry._2(funarg$3.compare, x, param.v);
     if (c === 0) {
       return true;
     }
@@ -6734,10 +6734,10 @@ function mem$2(x, _param) {
 }
 
 function filter_duplicate_errors(errs) {
-  let errs$1 = Stdlib__List.rev(errs);
-  let match = Stdlib__List.fold_left((function (param, err) {
-          let deduped = param[1];
-          let set = param[0];
+  const errs$1 = Stdlib__List.rev(errs);
+  const match = Stdlib__List.fold_left((function (param, err) {
+          const deduped = param[1];
+          const set = param[0];
           if (Curry._2(mem$2, err, set)) {
             return [
                     set,
@@ -6760,10 +6760,10 @@ function filter_duplicate_errors(errs) {
 }
 
 function with_loc(fn, env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  let result = Curry._1(fn, env);
-  let loc = env.last_loc.contents;
-  let end_loc = loc !== undefined ? loc : (error$1(env, {
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const result = Curry._1(fn, env);
+  const loc = env.last_loc.contents;
+  const end_loc = loc !== undefined ? loc : (error$1(env, {
             TAG: /* Assertion */0,
             _0: "did not consume any tokens"
           }), Curry._2(Parser_env_Peek.loc, undefined, env));
@@ -6773,7 +6773,7 @@ function with_loc(fn, env) {
         ];
 }
 
-let Parse = Caml_module.init_mod([
+const Parse = Caml_module.init_mod([
       "parser_flow.ml",
       95,
       6
@@ -6877,13 +6877,13 @@ let Parse = Caml_module.init_mod([
 
 function union(env) {
   maybe(env, /* T_BIT_OR */80);
-  let left = intersection(env);
+  const left = intersection(env);
   return Curry._2(union_with, env, left);
 }
 
 function param_list_or_type(env) {
   token$4(env, /* T_LPAREN */3);
-  let token$5 = Curry._2(Parser_env_Peek.token, undefined, env);
+  const token$5 = Curry._2(Parser_env_Peek.token, undefined, env);
   let ret;
   let exit = 0;
   if (typeof token$5 === "number") {
@@ -6934,28 +6934,28 @@ function param_list_or_type(env) {
     exit = 1;
   }
   if (exit === 1) {
-    let match = primitive(token$5);
+    const match = primitive(token$5);
     if (match !== undefined) {
-      let match$1 = Curry._2(Parser_env_Peek.token, 1, env);
+      const match$1 = Curry._2(Parser_env_Peek.token, 1, env);
       if (typeof match$1 === "number" && (match$1 === 77 || match$1 === 76)) {
-        let match$2 = Curry._1(Parse.identifier_or_reserved_keyword, env);
-        let name = match$2[0];
+        const match$2 = Curry._1(Parse.identifier_or_reserved_keyword, env);
+        const name = match$2[0];
         if (!env.parse_options.types) {
           error$1(env, /* UnexpectedTypeAnnotation */6);
         }
-        let optional = maybe(env, /* T_PLING */76);
+        const optional = maybe(env, /* T_PLING */76);
         token$4(env, /* T_COLON */77);
-        let typeAnnotation = union(env);
+        const typeAnnotation = union(env);
         if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RPAREN */4)) {
           token$4(env, /* T_COMMA */8);
         }
-        let param_0 = btwn(name[0], typeAnnotation[0]);
-        let param_1 = {
+        const param_0 = btwn(name[0], typeAnnotation[0]);
+        const param_1 = {
           name: name,
           typeAnnotation: typeAnnotation,
           optional: optional
         };
-        let param = [
+        const param = [
           param_0,
           param_1
         ];
@@ -7009,10 +7009,10 @@ function primitive(param) {
 }
 
 function function_param_or_generic_type(env) {
-  let id = Curry._2(Parse.identifier, undefined, env);
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const id = Curry._2(Parse.identifier, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (typeof match === "number" && (match === 77 || match === 76)) {
-    let param = function_param_with_id(env, id);
+    const param = function_param_with_id(env, id);
     maybe(env, /* T_COMMA */8);
     return {
             TAG: /* ParamList */0,
@@ -7032,9 +7032,9 @@ function function_param_with_id(env, name) {
   if (!env.parse_options.types) {
     error$1(env, /* UnexpectedTypeAnnotation */6);
   }
-  let optional = maybe(env, /* T_PLING */76);
+  const optional = maybe(env, /* T_PLING */76);
   token$4(env, /* T_COLON */77);
-  let typeAnnotation = union(env);
+  const typeAnnotation = union(env);
   return [
           btwn(name[0], typeAnnotation[0]),
           {
@@ -7050,13 +7050,13 @@ function generic(env) {
 }
 
 function primary(env) {
-  let loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  let token$5 = Curry._2(Parser_env_Peek.token, undefined, env);
+  const loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const token$5 = Curry._2(Parser_env_Peek.token, undefined, env);
   let exit = 0;
   if (typeof token$5 === "number") {
     switch (token$5) {
       case /* T_IDENTIFIER */0 :
-          let match = generic(env);
+          const match = generic(env);
           return [
                   match[0],
                   {
@@ -7065,7 +7065,7 @@ function primary(env) {
                   }
                 ];
       case /* T_LCURLY */1 :
-          let match$1 = Curry._2(_object, undefined, env);
+          const match$1 = Curry._2(_object, undefined, env);
           return [
                   match$1[0],
                   {
@@ -7074,15 +7074,15 @@ function primary(env) {
                   }
                 ];
       case /* T_LPAREN */3 :
-          let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-          let _type = param_list_or_type(env);
+          const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+          const _type = param_list_or_type(env);
           if (_type.TAG !== /* ParamList */0) {
             return _type._0;
           }
-          let match$2 = _type._0;
+          const match$2 = _type._0;
           token$4(env, /* T_ARROW */10);
-          let returnType = union(env);
-          let end_loc = returnType[0];
+          const returnType = union(env);
+          const end_loc = returnType[0];
           return [
                   btwn(start_loc, end_loc),
                   {
@@ -7096,10 +7096,10 @@ function primary(env) {
                   }
                 ];
       case /* T_LBRACKET */5 :
-          let start_loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env);
+          const start_loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env);
           token$4(env, /* T_LBRACKET */5);
-          let tl = types(env, /* [] */0);
-          let end_loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env);
+          const tl = types(env, /* [] */0);
+          const end_loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env);
           token$4(env, /* T_RBRACKET */6);
           return [
                   btwn(start_loc$1, end_loc$1),
@@ -7113,9 +7113,9 @@ function primary(env) {
           exit = 2;
           break;
       case /* T_TYPEOF */44 :
-          let start_loc$2 = Curry._2(Parser_env_Peek.loc, undefined, env);
+          const start_loc$2 = Curry._2(Parser_env_Peek.loc, undefined, env);
           token$4(env, /* T_TYPEOF */44);
-          let t = primary(env);
+          const t = primary(env);
           return [
                   btwn(start_loc$2, t[0]),
                   {
@@ -7124,12 +7124,12 @@ function primary(env) {
                   }
                 ];
       case /* T_LESS_THAN */89 :
-          let start_loc$3 = Curry._2(Parser_env_Peek.loc, undefined, env);
-          let typeParameters = Curry._2(type_parameter_declaration, false, env);
-          let match$3 = function_param_list(env);
+          const start_loc$3 = Curry._2(Parser_env_Peek.loc, undefined, env);
+          const typeParameters = Curry._2(type_parameter_declaration, false, env);
+          const match$3 = function_param_list(env);
           token$4(env, /* T_ARROW */10);
-          let returnType$1 = union(env);
-          let end_loc$2 = returnType$1[0];
+          const returnType$1 = union(env);
+          const end_loc$2 = returnType$1[0];
           return [
                   btwn(start_loc$3, end_loc$2),
                   {
@@ -7154,11 +7154,11 @@ function primary(env) {
   } else {
     switch (token$5.TAG | 0) {
       case /* T_STRING */1 :
-          let match$4 = token$5._0;
-          let octal = match$4[3];
-          let raw = match$4[2];
-          let value = match$4[1];
-          let loc$1 = match$4[0];
+          const match$4 = token$5._0;
+          const octal = match$4[3];
+          const raw = match$4[2];
+          const value = match$4[1];
+          const loc$1 = match$4[0];
           if (octal) {
             strict_error(env, /* StrictOctalLiteral */31);
           }
@@ -7182,9 +7182,9 @@ function primary(env) {
                   }
                 ];
       case /* T_NUMBER_SINGLETON_TYPE */5 :
-          let value$1 = token$5._1;
-          let number_type = token$5._0;
-          let raw$1 = Curry._2(Parser_env_Peek.value, undefined, env);
+          const value$1 = token$5._1;
+          const number_type = token$5._0;
+          const raw$1 = Curry._2(Parser_env_Peek.value, undefined, env);
           token$4(env, {
                 TAG: /* T_NUMBER_SINGLETON_TYPE */5,
                 _0: number_type,
@@ -7209,7 +7209,7 @@ function primary(env) {
   }
   switch (exit) {
     case 1 :
-        let t$1 = primitive(token$5);
+        const t$1 = primitive(token$5);
         if (t$1 !== undefined) {
           token$4(env, token$5);
           return [
@@ -7224,9 +7224,9 @@ function primary(env) {
                 ];
         }
     case 2 :
-        let raw$2 = Curry._2(Parser_env_Peek.value, undefined, env);
+        const raw$2 = Curry._2(Parser_env_Peek.value, undefined, env);
         token$4(env, token$5);
-        let value$2 = Caml_obj.caml_equal(token$5, /* T_TRUE */29);
+        const value$2 = Caml_obj.caml_equal(token$5, /* T_TRUE */29);
         return [
                 loc,
                 {
@@ -7243,26 +7243,26 @@ function primary(env) {
 
 function function_param_list(env) {
   token$4(env, /* T_LPAREN */3);
-  let ret = Curry._2(function_param_list_without_parens, env, /* [] */0);
+  const ret = Curry._2(function_param_list_without_parens, env, /* [] */0);
   token$4(env, /* T_RPAREN */4);
   return ret;
 }
 
 function intersection(env) {
   maybe(env, /* T_BIT_AND */82);
-  let left = prefix(env);
+  const left = prefix(env);
   return Curry._2(intersection_with, env, left);
 }
 
 function prefix(env) {
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (match !== 76) {
-    let t = primary(env);
+    const t = primary(env);
     return postfix_with(env, t);
   }
-  let loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_PLING */76);
-  let t$1 = prefix(env);
+  const t$1 = prefix(env);
   return [
           btwn(loc, t$1[0]),
           {
@@ -7274,18 +7274,18 @@ function prefix(env) {
 
 function postfix_with(env, _t) {
   while(true) {
-    let t = _t;
+    const t = _t;
     if (!(!Curry._1(Parser_env_Peek.is_line_terminator, env) && maybe(env, /* T_LBRACKET */5))) {
       return t;
     }
-    let end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+    const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
     token$4(env, /* T_RBRACKET */6);
-    let loc = btwn(t[0], end_loc);
-    let t_1 = {
+    const loc = btwn(t[0], end_loc);
+    const t_1 = {
       TAG: /* Array */3,
       _0: t
     };
-    let t$1 = [
+    const t$1 = [
       loc,
       t_1
     ];
@@ -7308,7 +7308,7 @@ function rev_nonempty_acc(acc) {
               ]
             });
   }
-  let acc$1 = Stdlib__List.rev(acc);
+  const acc$1 = Stdlib__List.rev(acc);
   let start_loc;
   if (acc$1) {
     start_loc = acc$1.hd[0];
@@ -7329,7 +7329,7 @@ function rev_nonempty_acc(acc) {
 }
 
 function generic_type_with_identifier(env, id) {
-  let match = Curry._2(raw_generic_with_identifier, env, id);
+  const match = Curry._2(raw_generic_with_identifier, env, id);
   return [
           match[0],
           {
@@ -7340,7 +7340,7 @@ function generic_type_with_identifier(env, id) {
 }
 
 function param(env) {
-  let match = Curry._1(Parse.identifier_or_reserved_keyword, env);
+  const match = Curry._1(Parse.identifier_or_reserved_keyword, env);
   return function_param_with_id(env, match[0]);
 }
 
@@ -7348,8 +7348,8 @@ function function_param_list_without_parens(env) {
   return function (param$1) {
     let _acc = param$1;
     while(true) {
-      let acc = _acc;
-      let t = Curry._2(Parser_env_Peek.token, undefined, env);
+      const acc = _acc;
+      const t = Curry._2(Parser_env_Peek.token, undefined, env);
       let exit = 0;
       exit = typeof t === "number" ? (
           t > 11 || t < 4 ? (
@@ -7360,8 +7360,8 @@ function function_param_list_without_parens(env) {
         ) : 1;
       switch (exit) {
         case 1 :
-            let acc_0 = param(env);
-            let acc$1 = {
+            const acc_0 = param(env);
+            const acc$1 = {
               hd: acc_0,
               tl: acc
             };
@@ -7371,7 +7371,7 @@ function function_param_list_without_parens(env) {
             _acc = acc$1;
             continue ;
         case 2 :
-            let rest = Caml_obj.caml_equal(t, /* T_ELLIPSIS */11) ? (token$4(env, /* T_ELLIPSIS */11), param(env)) : undefined;
+            const rest = Caml_obj.caml_equal(t, /* T_ELLIPSIS */11) ? (token$4(env, /* T_ELLIPSIS */11), param(env)) : undefined;
             return [
                     rest,
                     Stdlib__List.rev(acc)
@@ -7384,8 +7384,8 @@ function function_param_list_without_parens(env) {
 
 function types(env, _acc) {
   while(true) {
-    let acc = _acc;
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const acc = _acc;
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (typeof match === "number") {
       if (match === 6) {
         return Stdlib__List.rev(acc);
@@ -7395,8 +7395,8 @@ function types(env, _acc) {
       }
       
     }
-    let acc_0 = union(env);
-    let acc$1 = {
+    const acc_0 = union(env);
+    const acc$1 = {
       hd: acc_0,
       tl: acc
     };
@@ -7409,11 +7409,11 @@ function types(env, _acc) {
 }
 
 function methodish(env, start_loc) {
-  let typeParameters = Curry._2(type_parameter_declaration, false, env);
-  let match = function_param_list(env);
+  const typeParameters = Curry._2(type_parameter_declaration, false, env);
+  const match = function_param_list(env);
   token$4(env, /* T_COLON */77);
-  let returnType = union(env);
-  let loc = btwn(start_loc, returnType[0]);
+  const returnType = union(env);
+  const loc = btwn(start_loc, returnType[0]);
   return [
           loc,
           {
@@ -7426,13 +7426,13 @@ function methodish(env, start_loc) {
 }
 
 function method_property(env, start_loc, $$static, key) {
-  let value = methodish(env, start_loc);
-  let value_0 = value[0];
-  let value_1 = {
+  const value = methodish(env, start_loc);
+  const value_0 = value[0];
+  const value_1 = {
     TAG: /* Function */1,
     _0: value[1]
   };
-  let value$1 = [
+  const value$1 = [
     value_0,
     value_1
   ];
@@ -7449,7 +7449,7 @@ function method_property(env, start_loc, $$static, key) {
 }
 
 function call_property(env, start_loc, $$static) {
-  let value = methodish(env, Curry._2(Parser_env_Peek.loc, undefined, env));
+  const value = methodish(env, Curry._2(Parser_env_Peek.loc, undefined, env));
   return [
           btwn(start_loc, value[0]),
           {
@@ -7463,9 +7463,9 @@ function property(env, start_loc, $$static, key) {
   if (!env.parse_options.types) {
     error$1(env, /* UnexpectedTypeAnnotation */6);
   }
-  let optional = maybe(env, /* T_PLING */76);
+  const optional = maybe(env, /* T_PLING */76);
   token$4(env, /* T_COLON */77);
-  let value = union(env);
+  const value = union(env);
   return [
           btwn(start_loc, value[0]),
           {
@@ -7480,12 +7480,12 @@ function property(env, start_loc, $$static, key) {
 
 function indexer_property(env, start_loc, $$static) {
   token$4(env, /* T_LBRACKET */5);
-  let match = Curry._1(Parse.identifier_or_reserved_keyword, env);
+  const match = Curry._1(Parse.identifier_or_reserved_keyword, env);
   token$4(env, /* T_COLON */77);
-  let key = union(env);
+  const key = union(env);
   token$4(env, /* T_RBRACKET */6);
   token$4(env, /* T_COLON */77);
-  let value = union(env);
+  const value = union(env);
   return [
           btwn(start_loc, value[0]),
           {
@@ -7498,7 +7498,7 @@ function indexer_property(env, start_loc, $$static) {
 }
 
 function semicolon$1(env) {
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (typeof match === "number") {
     if (match >= 7) {
       if (match >= 9) {
@@ -7518,13 +7518,13 @@ function semicolon$1(env) {
 
 function properties(allow_static, env, _param) {
   while(true) {
-    let param = _param;
-    let callProperties = param[2];
-    let indexers = param[1];
-    let acc = param[0];
-    let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-    let $$static = allow_static && maybe(env, /* T_STATIC */40);
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const param = _param;
+    const callProperties = param[2];
+    const indexers = param[1];
+    const acc = param[0];
+    const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+    const $$static = allow_static && maybe(env, /* T_STATIC */40);
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     let exit = 0;
     if (typeof match === "number") {
       if (match !== 89) {
@@ -7545,7 +7545,7 @@ function properties(allow_static, env, _param) {
                   exit = 1;
                   break;
               case /* T_LBRACKET */5 :
-                  let indexer = indexer_property(env, start_loc, $$static);
+                  const indexer = indexer_property(env, start_loc, $$static);
                   semicolon$1(env);
                   _param = [
                     acc,
@@ -7570,7 +7570,7 @@ function properties(allow_static, env, _param) {
     }
     switch (exit) {
       case 1 :
-          let match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
+          const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
           let match$2;
           let exit$1 = 0;
           if ($$static && match$1 === 77) {
@@ -7578,7 +7578,7 @@ function properties(allow_static, env, _param) {
                   start_loc,
                   /* StrictReservedWord */39
                 ]);
-            let static_key_1 = {
+            const static_key_1 = {
               TAG: /* Identifier */1,
               _0: [
                 start_loc,
@@ -7589,7 +7589,7 @@ function properties(allow_static, env, _param) {
                 }
               ]
             };
-            let static_key = [
+            const static_key = [
               start_loc,
               static_key_1
             ];
@@ -7602,17 +7602,17 @@ function properties(allow_static, env, _param) {
           }
           if (exit$1 === 4) {
             push_lex_mode(env, /* NORMAL */0);
-            let key = Curry._1(Parse.object_key, env);
+            const key = Curry._1(Parse.object_key, env);
             pop_lex_mode(env);
             match$2 = [
               $$static,
               key
             ];
           }
-          let key$1 = match$2[1][1];
-          let $$static$1 = match$2[0];
-          let match$3 = Curry._2(Parser_env_Peek.token, undefined, env);
-          let property$1 = typeof match$3 === "number" && !(match$3 !== 3 && match$3 !== 89) ? method_property(env, start_loc, $$static$1, key$1) : property(env, start_loc, $$static$1, key$1);
+          const key$1 = match$2[1][1];
+          const $$static$1 = match$2[0];
+          const match$3 = Curry._2(Parser_env_Peek.token, undefined, env);
+          const property$1 = typeof match$3 === "number" && !(match$3 !== 3 && match$3 !== 89) ? method_property(env, start_loc, $$static$1, key$1) : property(env, start_loc, $$static$1, key$1);
           semicolon$1(env);
           _param = [
             {
@@ -7630,7 +7630,7 @@ function properties(allow_static, env, _param) {
                   Stdlib__List.rev(callProperties)
                 ];
       case 3 :
-          let call_prop = call_property(env, start_loc, $$static);
+          const call_prop = call_property(env, start_loc, $$static);
           semicolon$1(env);
           _param = [
             acc,
@@ -7647,15 +7647,15 @@ function properties(allow_static, env, _param) {
 }
 
 function _object(allow_staticOpt, env) {
-  let allow_static = allow_staticOpt !== undefined ? allow_staticOpt : false;
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const allow_static = allow_staticOpt !== undefined ? allow_staticOpt : false;
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_LCURLY */1);
-  let match = properties(allow_static, env, [
+  const match = properties(allow_static, env, [
         /* [] */0,
         /* [] */0,
         /* [] */0
       ]);
-  let end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_RCURLY */2);
   return [
           btwn(start_loc, end_loc),
@@ -7669,19 +7669,19 @@ function _object(allow_staticOpt, env) {
 
 function params(env, allow_default, _require_default, _acc) {
   while(true) {
-    let acc = _acc;
-    let require_default = _require_default;
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
-    let variance = typeof match === "number" ? (
+    const acc = _acc;
+    const require_default = _require_default;
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const variance = typeof match === "number" ? (
         match !== 94 ? (
             match !== 95 ? undefined : (token$3(env), /* Minus */1)
           ) : (token$3(env), /* Plus */0)
       ) : undefined;
-    let match$1 = Curry._2(Parse.identifier_with_type, env, /* StrictParamName */28);
-    let id = match$1[1];
-    let loc = match$1[0];
-    let match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
-    let match$3 = allow_default ? (
+    const match$1 = Curry._2(Parse.identifier_with_type, env, /* StrictParamName */28);
+    const id = match$1[1];
+    const loc = match$1[0];
+    const match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
+    const match$3 = allow_default ? (
         match$2 === 75 ? (token$3(env), [
               union(env),
               true
@@ -7696,21 +7696,21 @@ function params(env, allow_default, _require_default, _acc) {
         undefined,
         false
       ];
-    let param_1 = {
+    const param_1 = {
       name: id.name,
       bound: id.typeAnnotation,
       variance: variance,
       default: match$3[0]
     };
-    let param = [
+    const param = [
       loc,
       param_1
     ];
-    let acc$1 = {
+    const acc$1 = {
       hd: param,
       tl: acc
     };
-    let match$4 = Curry._2(Parser_env_Peek.token, undefined, env);
+    const match$4 = Curry._2(Parser_env_Peek.token, undefined, env);
     if (typeof match$4 === "number") {
       if (match$4 === 90) {
         return Stdlib__List.rev(acc$1);
@@ -7731,7 +7731,7 @@ function params(env, allow_default, _require_default, _acc) {
 }
 
 function type_parameter_declaration(allow_default, env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LESS_THAN */89)) {
     return ;
   }
@@ -7739,8 +7739,8 @@ function type_parameter_declaration(allow_default, env) {
     error$1(env, /* UnexpectedTypeAnnotation */6);
   }
   token$4(env, /* T_LESS_THAN */89);
-  let params$1 = params(env, allow_default, false, /* [] */0);
-  let loc = btwn(start_loc, Curry._2(Parser_env_Peek.loc, undefined, env));
+  const params$1 = params(env, allow_default, false, /* [] */0);
+  const loc = btwn(start_loc, Curry._2(Parser_env_Peek.loc, undefined, env));
   token$4(env, /* T_GREATER_THAN */90);
   return [
           loc,
@@ -7757,8 +7757,8 @@ function union_with(env, left) {
       tl: /* [] */0
     };
     while(true) {
-      let acc = _acc;
-      let match = Curry._2(Parser_env_Peek.token, undefined, env);
+      const acc = _acc;
+      const match = Curry._2(Parser_env_Peek.token, undefined, env);
       if (match === 80) {
         token$4(env, /* T_BIT_OR */80);
         _acc = {
@@ -7767,7 +7767,7 @@ function union_with(env, left) {
         };
         continue ;
       }
-      let match$1 = rev_nonempty_acc(acc);
+      const match$1 = rev_nonempty_acc(acc);
       return [
               match$1[0],
               {
@@ -7788,8 +7788,8 @@ function intersection_with(env, left) {
       tl: /* [] */0
     };
     while(true) {
-      let acc = _acc;
-      let match = Curry._2(Parser_env_Peek.token, undefined, env);
+      const acc = _acc;
+      const match = Curry._2(Parser_env_Peek.token, undefined, env);
       if (match === 82) {
         token$4(env, /* T_BIT_AND */82);
         _acc = {
@@ -7798,7 +7798,7 @@ function intersection_with(env, left) {
         };
         continue ;
       }
-      let match$1 = rev_nonempty_acc(acc);
+      const match$1 = rev_nonempty_acc(acc);
       return [
               match$1[0],
               {
@@ -7814,9 +7814,9 @@ function intersection_with(env, left) {
 
 function identifier(env, _param) {
   while(true) {
-    let param = _param;
-    let qualification = param[1];
-    let q_loc = param[0];
+    const param = _param;
+    const qualification = param[1];
+    const q_loc = param[0];
     if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_PERIOD */9)) {
       return [
               q_loc,
@@ -7824,9 +7824,9 @@ function identifier(env, _param) {
             ];
     }
     token$4(env, /* T_PERIOD */9);
-    let id = Curry._2(Parse.identifier, undefined, env);
-    let loc = btwn(q_loc, id[0]);
-    let qualification$1 = {
+    const id = Curry._2(Parse.identifier, undefined, env);
+    const loc = btwn(q_loc, id[0]);
+    const qualification$1 = {
       TAG: /* Qualified */1,
       _0: [
         loc,
@@ -7845,19 +7845,19 @@ function identifier(env, _param) {
 }
 
 function raw_generic_with_identifier(env, id) {
-  let id_0 = id[0];
-  let id_1 = {
+  const id_0 = id[0];
+  const id_1 = {
     TAG: /* Unqualified */0,
     _0: id
   };
-  let id$1 = [
+  const id$1 = [
     id_0,
     id_1
   ];
-  let match = identifier(env, id$1);
-  let id_loc = match[0];
-  let typeParameters = Curry._1(type_parameter_instantiation, env);
-  let loc = typeParameters !== undefined ? btwn(id_loc, typeParameters[0]) : id_loc;
+  const match = identifier(env, id$1);
+  const id_loc = match[0];
+  const typeParameters = Curry._1(type_parameter_instantiation, env);
+  const loc = typeParameters !== undefined ? btwn(id_loc, typeParameters[0]) : id_loc;
   return [
           loc,
           {
@@ -7869,8 +7869,8 @@ function raw_generic_with_identifier(env, id) {
 
 function params$1(env, _acc) {
   while(true) {
-    let acc = _acc;
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const acc = _acc;
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (typeof match === "number") {
       if (match === 90) {
         return Stdlib__List.rev(acc);
@@ -7880,8 +7880,8 @@ function params$1(env, _acc) {
       }
       
     }
-    let acc_0 = union(env);
-    let acc$1 = {
+    const acc_0 = union(env);
+    const acc$1 = {
       hd: acc_0,
       tl: acc
     };
@@ -7894,13 +7894,13 @@ function params$1(env, _acc) {
 }
 
 function type_parameter_instantiation(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LESS_THAN */89)) {
     return ;
   }
   token$4(env, /* T_LESS_THAN */89);
-  let params$2 = params$1(env, /* [] */0);
-  let loc = btwn(start_loc, Curry._2(Parser_env_Peek.loc, undefined, env));
+  const params$2 = params$1(env, /* [] */0);
+  const loc = btwn(start_loc, Curry._2(Parser_env_Peek.loc, undefined, env));
   token$4(env, /* T_GREATER_THAN */90);
   return [
           loc,
@@ -7910,16 +7910,16 @@ function type_parameter_instantiation(env) {
         ];
 }
 
-let _type = union;
+const _type = union;
 
 function annotation(env) {
   if (!env.parse_options.types) {
     error$1(env, /* UnexpectedTypeAnnotation */6);
   }
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_COLON */77);
-  let typeAnnotation = union(env);
-  let loc = env.last_loc.contents;
+  const typeAnnotation = union(env);
+  const loc = env.last_loc.contents;
   let end_loc;
   if (loc !== undefined) {
     end_loc = loc;
@@ -7940,7 +7940,7 @@ function annotation(env) {
 }
 
 function annotation_opt(env) {
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (match === 77) {
     return annotation(env);
   }
@@ -7948,34 +7948,34 @@ function annotation_opt(env) {
 }
 
 function wrap(f, env) {
-  let env$1 = with_strict(true, env);
+  const env$1 = with_strict(true, env);
   push_lex_mode(env$1, /* TYPE */1);
-  let ret = Curry._1(f, env$1);
+  const ret = Curry._1(f, env$1);
   pop_lex_mode(env$1);
   return ret;
 }
 
-let partial_arg = Curry._1(type_parameter_declaration, true);
+const partial_arg = Curry._1(type_parameter_declaration, true);
 
 function type_parameter_declaration_with_defaults(param) {
   return wrap(partial_arg, param);
 }
 
-let partial_arg$1 = Curry._1(type_parameter_declaration, false);
+const partial_arg$1 = Curry._1(type_parameter_declaration, false);
 
 function type_parameter_declaration$1(param) {
   return wrap(partial_arg$1, param);
 }
 
 function _object$1(allow_staticOpt, env) {
-  let allow_static = allow_staticOpt !== undefined ? allow_staticOpt : false;
+  const allow_static = allow_staticOpt !== undefined ? allow_staticOpt : false;
   return wrap(Curry._1(_object, allow_static), env);
 }
 
 function pattern(check_env, _param) {
   while(true) {
-    let param = _param;
-    let p = param[1];
+    const param = _param;
+    const p = param[1];
     switch (p.TAG | 0) {
       case /* Object */0 :
           let o = p._0;
@@ -7988,16 +7988,16 @@ function pattern(check_env, _param) {
           continue ;
       case /* Identifier */3 :
           let id = p._0;
-          let name = id[1].name;
-          let param_names = check_env[1];
-          let env = check_env[0];
+          const name = id[1].name;
+          const param_names = check_env[1];
+          const env = check_env[0];
           if (Curry._2(mem$1, name, param_names)) {
             error_at(env, [
                   id[0],
                   /* StrictParamDupe */29
                 ]);
           }
-          let match = identifier_no_dupe_check([
+          const match = identifier_no_dupe_check([
                 env,
                 param_names
               ], id);
@@ -8021,8 +8021,8 @@ function object_property(check_env) {
     if (param.TAG !== /* Property */0) {
       return pattern(check_env, param._0[1].argument);
     }
-    let property = param._0[1];
-    let id = property.key;
+    const property = param._0[1];
+    const id = property.key;
     let check_env$1;
     switch (id.TAG | 0) {
       case /* Identifier */1 :
@@ -8053,9 +8053,9 @@ function array_element(check_env) {
 }
 
 function identifier_no_dupe_check(param, param$1) {
-  let name = param$1[1].name;
-  let loc = param$1[0];
-  let env = param[0];
+  const name = param$1[1].name;
+  const loc = param$1[0];
+  const env = param[0];
   if (is_restricted(name)) {
     strict_error_at(env, [
           loc,
@@ -8078,10 +8078,10 @@ function strict_post_check(env, strict, simple, id, params) {
   if (!(strict || !simple)) {
     return ;
   }
-  let env$1 = strict ? with_strict(!env.in_strict_mode, env) : env;
+  const env$1 = strict ? with_strict(!env.in_strict_mode, env) : env;
   if (id !== undefined) {
-    let name = id[1].name;
-    let loc = id[0];
+    const name = id[1].name;
+    const loc = id[0];
     if (is_restricted(name)) {
       strict_error_at(env$1, [
             loc,
@@ -8103,7 +8103,7 @@ function strict_post_check(env, strict, simple, id, params) {
 }
 
 function param$1(env) {
-  let id = Curry._2(Parse.pattern, env, /* StrictParamName */28);
+  const id = Curry._2(Parse.pattern, env, /* StrictParamName */28);
   if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ASSIGN */75)) {
     return [
             id,
@@ -8111,7 +8111,7 @@ function param$1(env) {
           ];
   }
   token$4(env, /* T_ASSIGN */75);
-  let $$default = Curry._1(Parse.assignment, env);
+  const $$default = Curry._1(Parse.assignment, env);
   return [
           id,
           $$default
@@ -8120,11 +8120,11 @@ function param$1(env) {
 
 function param_list(env, _param) {
   while(true) {
-    let param$2 = _param;
-    let has_default = param$2[2];
-    let defaults = param$2[1];
-    let params = param$2[0];
-    let t = Curry._2(Parser_env_Peek.token, undefined, env);
+    const param$2 = _param;
+    const has_default = param$2[2];
+    const defaults = param$2[1];
+    const params = param$2[0];
+    const t = Curry._2(Parser_env_Peek.token, undefined, env);
     let exit = 0;
     exit = typeof t === "number" ? (
         t > 11 || t < 4 ? (
@@ -8135,9 +8135,9 @@ function param_list(env, _param) {
       ) : 1;
     switch (exit) {
       case 1 :
-          let match = param$1(env);
-          let $$default = match[1];
-          let has_default$1 = has_default || $$default !== undefined;
+          const match = param$1(env);
+          const $$default = match[1];
+          const has_default$1 = has_default || $$default !== undefined;
           if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RPAREN */4)) {
             token$4(env, /* T_COMMA */8);
           }
@@ -8154,7 +8154,7 @@ function param_list(env, _param) {
           ];
           continue ;
       case 2 :
-          let rest = Caml_obj.caml_equal(t, /* T_ELLIPSIS */11) ? (token$4(env, /* T_ELLIPSIS */11), Curry._2(Parse.identifier_with_type, env, /* StrictParamName */28)) : undefined;
+          const rest = Caml_obj.caml_equal(t, /* T_ELLIPSIS */11) ? (token$4(env, /* T_ELLIPSIS */11), Curry._2(Parse.identifier_with_type, env, /* StrictParamName */28)) : undefined;
           if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RPAREN */4)) {
             error$1(env, /* ParameterAfterRestParameter */47);
           }
@@ -8170,7 +8170,7 @@ function param_list(env, _param) {
 
 function function_params(env) {
   token$4(env, /* T_LPAREN */3);
-  let match = param_list(env, [
+  const match = param_list(env, [
         /* [] */0,
         /* [] */0,
         false
@@ -8184,9 +8184,9 @@ function function_params(env) {
 }
 
 function function_body(env, async, generator) {
-  let env$1 = enter_function(env, async, generator);
-  let match = Curry._1(Parse.function_block_body, env$1);
-  let loc = match[0];
+  const env$1 = enter_function(env, async, generator);
+  const match = Curry._1(Parse.function_block_body, env$1);
+  const loc = match[0];
   return [
           loc,
           {
@@ -8201,7 +8201,7 @@ function function_body(env, async, generator) {
 }
 
 function generator(env, is_async) {
-  let match = maybe(env, /* T_MULT */97);
+  const match = maybe(env, /* T_MULT */97);
   if (is_async && match) {
     error$1(env, /* AsyncGenerator */48);
     return true;
@@ -8227,12 +8227,12 @@ function is_simple_function_params(params, defaults, rest) {
 }
 
 function _function(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  let async = maybe(env, /* T_ASYNC */61);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const async = maybe(env, /* T_ASYNC */61);
   token$4(env, /* T_FUNCTION */13);
-  let generator$1 = generator(env, async);
-  let match = env.in_export;
-  let match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
+  const generator$1 = generator(env, async);
+  const match = env.in_export;
+  const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
   let match$2;
   let exit = 0;
   if (match && typeof match$1 === "number") {
@@ -8240,8 +8240,8 @@ function _function(env) {
       if (match$1 !== 89) {
         exit = 1;
       } else {
-        let typeParams = Curry._1(type_parameter_declaration$1, env);
-        let id = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LPAREN */3) ? undefined : Curry._2(Parse.identifier, /* StrictFunctionName */30, env);
+        const typeParams = Curry._1(type_parameter_declaration$1, env);
+        const id = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LPAREN */3) ? undefined : Curry._2(Parse.identifier, /* StrictFunctionName */30, env);
         match$2 = [
           typeParams,
           id
@@ -8257,22 +8257,22 @@ function _function(env) {
     exit = 1;
   }
   if (exit === 1) {
-    let id$1 = Curry._2(Parse.identifier, /* StrictFunctionName */30, env);
+    const id$1 = Curry._2(Parse.identifier, /* StrictFunctionName */30, env);
     match$2 = [
       Curry._1(type_parameter_declaration$1, env),
       id$1
     ];
   }
-  let id$2 = match$2[1];
-  let match$3 = function_params(env);
-  let rest = match$3[2];
-  let defaults = match$3[1];
-  let params = match$3[0];
-  let returnType = wrap(annotation_opt, env);
-  let predicate = Curry._1(Parse.predicate, env);
-  let match$4 = function_body(env, async, generator$1);
-  let body = match$4[1];
-  let simple = is_simple_function_params(params, defaults, rest);
+  const id$2 = match$2[1];
+  const match$3 = function_params(env);
+  const rest = match$3[2];
+  const defaults = match$3[1];
+  const params = match$3[0];
+  const returnType = wrap(annotation_opt, env);
+  const predicate = Curry._1(Parse.predicate, env);
+  const match$4 = function_body(env, async, generator$1);
+  const body = match$4[1];
+  const simple = is_simple_function_params(params, defaults, rest);
   strict_post_check(env, match$4[2], simple, id$2, params);
   let match$5;
   match$5 = body.TAG === /* BodyBlock */0 ? [
@@ -8304,7 +8304,7 @@ function _function(env) {
 }
 
 function variable_declaration(env) {
-  let id = Curry._2(Parse.pattern, env, /* StrictVarName */27);
+  const id = Curry._2(Parse.pattern, env, /* StrictVarName */27);
   let match;
   if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ASSIGN */75)) {
     token$4(env, /* T_ASSIGN */75);
@@ -8327,8 +8327,8 @@ function variable_declaration(env) {
         }
       ];
   }
-  let init = match[0];
-  let end_loc = init !== undefined ? init[0] : id[0];
+  const init = match[0];
+  const end_loc = init !== undefined ? init[0] : id[0];
   return [
           [
             btwn(id[0], end_loc),
@@ -8343,24 +8343,24 @@ function variable_declaration(env) {
 
 function helper(env, _decls, _errs) {
   while(true) {
-    let errs = _errs;
-    let decls = _decls;
-    let match = variable_declaration(env);
-    let decl = match[0];
-    let decls$1 = {
+    const errs = _errs;
+    const decls = _decls;
+    const match = variable_declaration(env);
+    const decl = match[0];
+    const decls$1 = {
       hd: decl,
       tl: decls
     };
-    let errs$1 = Stdlib.$at(match[1], errs);
+    const errs$1 = Stdlib.$at(match[1], errs);
     if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COMMA */8)) {
       token$4(env, /* T_COMMA */8);
       _errs = errs$1;
       _decls = decls$1;
       continue ;
     }
-    let end_loc = decl[0];
-    let declarations = Stdlib__List.rev(decls$1);
-    let start_loc = decl[0];
+    const end_loc = decl[0];
+    const declarations = Stdlib__List.rev(decls$1);
+    const start_loc = decl[0];
     return [
             btwn(start_loc, end_loc),
             declarations,
@@ -8370,9 +8370,9 @@ function helper(env, _decls, _errs) {
 }
 
 function declarations(token$5, kind, env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, token$5);
-  let match = helper(env, /* [] */0, /* [] */0);
+  const match = helper(env, /* [] */0, /* [] */0);
   return [
           [
             btwn(start_loc, match[0]),
@@ -8386,11 +8386,11 @@ function declarations(token$5, kind, env) {
 }
 
 function $$const(env) {
-  let env$1 = with_no_let(true, env);
-  let match = declarations(/* T_CONST */25, /* Const */2, env$1);
-  let match$1 = match[0];
-  let variable = match$1[1];
-  let errs = Stdlib__List.fold_left((function (errs, decl) {
+  const env$1 = with_no_let(true, env);
+  const match = declarations(/* T_CONST */25, /* Const */2, env$1);
+  const match$1 = match[0];
+  const variable = match$1[1];
+  const errs = Stdlib__List.fold_left((function (errs, decl) {
           if (decl[1].init !== undefined) {
             return errs;
           } else {
@@ -8413,13 +8413,13 @@ function $$const(env) {
 }
 
 function _let(env) {
-  let env$1 = with_no_let(true, env);
+  const env$1 = with_no_let(true, env);
   return declarations(/* T_LET */26, /* Let */1, env$1);
 }
 
 function variable(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let match$1;
   if (typeof match === "number") {
     switch (match) {
@@ -8445,7 +8445,7 @@ function variable(env) {
     error_unexpected(env);
     match$1 = declarations(/* T_VAR */22, /* Var */0, env);
   }
-  let match$2 = match$1[0];
+  const match$2 = match$1[0];
   return [
           [
             btwn(start_loc, match$2[0]),
@@ -8495,7 +8495,7 @@ function is_assignable_lhs(param) {
 }
 
 function assignment_op(env) {
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let op;
   if (typeof match === "number") {
     switch (match) {
@@ -8551,17 +8551,17 @@ function assignment_op(env) {
 }
 
 function conditional(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  let expr = Curry._1(logical, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const expr = Curry._1(logical, env);
   if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_PLING */76)) {
     return expr;
   }
   token$4(env, /* T_PLING */76);
-  let env$p = with_no_in(false, env);
-  let consequent = Curry._1(assignment, env$p);
+  const env$p = with_no_in(false, env);
+  const consequent = Curry._1(assignment, env$p);
   token$4(env, /* T_COLON */77);
-  let match = with_loc(assignment, env);
-  let loc = btwn(start_loc, match[0]);
+  const match = with_loc(assignment, env);
+  const loc = btwn(start_loc, match[0]);
   return [
           loc,
           {
@@ -8576,7 +8576,7 @@ function conditional(env) {
 }
 
 function peek_unary_op(env) {
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (typeof match !== "number") {
     return ;
   }
@@ -8624,12 +8624,12 @@ function peek_unary_op(env) {
 }
 
 function unary(env) {
-  let begin_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  let op = peek_unary_op(env);
+  const begin_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const op = peek_unary_op(env);
   if (op !== undefined) {
     token$3(env);
-    let argument = unary(env);
-    let loc = btwn(begin_loc, argument[0]);
+    const argument = unary(env);
+    const loc = btwn(begin_loc, argument[0]);
     if (op === 6) {
       let tmp = argument[1];
       if (typeof tmp !== "number" && tmp.TAG === /* Identifier */18) {
@@ -8652,19 +8652,19 @@ function unary(env) {
             }
           ];
   }
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
-  let op$1 = typeof match === "number" ? (
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const op$1 = typeof match === "number" ? (
       match !== 102 ? (
           match !== 103 ? undefined : /* Decrement */1
         ) : /* Increment */0
     ) : undefined;
   if (op$1 === undefined) {
-    let argument$1 = left_hand_side(env);
+    const argument$1 = left_hand_side(env);
     if (Curry._1(Parser_env_Peek.is_line_terminator, env)) {
       return argument$1;
     }
-    let match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
-    let op$2 = typeof match$1 === "number" ? (
+    const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
+    const op$2 = typeof match$1 === "number" ? (
         match$1 !== 102 ? (
             match$1 !== 103 ? undefined : /* Decrement */1
           ) : /* Increment */0
@@ -8678,14 +8678,14 @@ function unary(env) {
             /* InvalidLHSInAssignment */14
           ]);
     }
-    let match$2 = argument$1[1];
+    const match$2 = argument$1[1];
     if (typeof match$2 !== "number" && match$2.TAG === /* Identifier */18) {
       if (is_restricted(match$2._0[1].name)) {
         strict_error(env, /* StrictLHSPostfix */37);
       }
       
     }
-    let end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+    const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
     token$3(env);
     return [
             btwn(argument$1[0], end_loc),
@@ -8700,14 +8700,14 @@ function unary(env) {
           ];
   }
   token$3(env);
-  let argument$2 = unary(env);
+  const argument$2 = unary(env);
   if (!is_lhs(argument$2)) {
     error_at(env, [
           argument$2[0],
           /* InvalidLHSInAssignment */14
         ]);
   }
-  let match$3 = argument$2[1];
+  const match$3 = argument$2[1];
   if (typeof match$3 !== "number" && match$3.TAG === /* Identifier */18) {
     if (is_restricted(match$3._0[1].name)) {
       strict_error(env, /* StrictLHSPrefix */38);
@@ -8728,14 +8728,14 @@ function unary(env) {
 }
 
 function left_hand_side(env) {
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
-  let expr = match === 42 ? _new(env, (function (new_expr, _args) {
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const expr = match === 42 ? _new(env, (function (new_expr, _args) {
             return new_expr;
           })) : (
       Curry._2(Parser_env_Peek.is_function, undefined, env) ? _function$1(env) : primary$1(env)
     );
-  let expr$1 = member(env, expr);
-  let part = Curry._2(Parser_env_Peek.token, undefined, env);
+  const expr$1 = member(env, expr);
+  const part = Curry._2(Parser_env_Peek.token, undefined, env);
   if (typeof part === "number") {
     if (part === /* T_LPAREN */3) {
       return call(env, expr$1);
@@ -8751,8 +8751,8 @@ function left_hand_side(env) {
 
 function call(env, _left) {
   while(true) {
-    let left = _left;
-    let part = Curry._2(Parser_env_Peek.token, undefined, env);
+    const left = _left;
+    const part = Curry._2(Parser_env_Peek.token, undefined, env);
     if (typeof part !== "number") {
       if (part.TAG === /* T_TEMPLATE_PART */2) {
         return tagged_template(env, left, part._0);
@@ -8765,7 +8765,7 @@ function call(env, _left) {
           if (env.no_call) {
             return left;
           }
-          let match = Curry._1($$arguments, env);
+          const match = Curry._1($$arguments, env);
           _left = [
             btwn(left[0], match[0]),
             {
@@ -8779,9 +8779,9 @@ function call(env, _left) {
           continue ;
       case /* T_LBRACKET */5 :
           token$4(env, /* T_LBRACKET */5);
-          let expr = Curry._1(Parse.expression, env);
-          let last_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-          let loc = btwn(left[0], last_loc);
+          const expr = Curry._1(Parse.expression, env);
+          const last_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+          const loc = btwn(left[0], last_loc);
           token$4(env, /* T_RBRACKET */6);
           _left = [
             loc,
@@ -8800,8 +8800,8 @@ function call(env, _left) {
           continue ;
       case /* T_PERIOD */9 :
           token$4(env, /* T_PERIOD */9);
-          let match$1 = identifier_or_reserved_keyword(env);
-          let id = match$1[0];
+          const match$1 = identifier_or_reserved_keyword(env);
+          const id = match$1[0];
           _left = [
             btwn(left[0], id[0]),
             {
@@ -8825,28 +8825,28 @@ function call(env, _left) {
 
 function _new(env, _finish_fn) {
   while(true) {
-    let finish_fn = _finish_fn;
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const finish_fn = _finish_fn;
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (match === 42) {
-      let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+      const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
       token$4(env, /* T_NEW */42);
-      let finish_fn$p = function (callee, args) {
-        let match = args !== undefined ? [
+      const finish_fn$p = function (callee, args) {
+        const match = args !== undefined ? [
             args[0],
             args[1]
           ] : [
             callee[0],
             /* [] */0
           ];
-        let callee$p_0 = btwn(start_loc, match[0]);
-        let callee$p_1 = {
+        const callee$p_0 = btwn(start_loc, match[0]);
+        const callee$p_1 = {
           TAG: /* New */11,
           _0: {
             callee: callee,
             arguments: match[1]
           }
         };
-        let callee$p = [
+        const callee$p = [
           callee$p_0,
           callee$p_1
         ];
@@ -8856,19 +8856,19 @@ function _new(env, _finish_fn) {
       continue ;
     }
     Curry._2(Parser_env_Peek.token, undefined, env);
-    let expr = Curry._2(Parser_env_Peek.is_function, undefined, env) ? _function$1(env) : primary$1(env);
-    let callee = member(with_no_call(true, env), expr);
-    let part = Curry._2(Parser_env_Peek.token, undefined, env);
+    const expr = Curry._2(Parser_env_Peek.is_function, undefined, env) ? _function$1(env) : primary$1(env);
+    const callee = member(with_no_call(true, env), expr);
+    const part = Curry._2(Parser_env_Peek.token, undefined, env);
     let callee$1;
     callee$1 = typeof part === "number" || part.TAG !== /* T_TEMPLATE_PART */2 ? callee : tagged_template(env, callee, part._0);
-    let match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
-    let args = match$1 === 3 ? Curry._1($$arguments, env) : undefined;
+    const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
+    const args = match$1 === 3 ? Curry._1($$arguments, env) : undefined;
     return Curry._2(finish_fn, callee$1, args);
   };
 }
 
 function member(env, left) {
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (typeof match !== "number") {
     return left;
   }
@@ -8877,8 +8877,8 @@ function member(env, left) {
       return left;
     }
     token$4(env, /* T_PERIOD */9);
-    let match$1 = identifier_or_reserved_keyword(env);
-    let id = match$1[0];
+    const match$1 = identifier_or_reserved_keyword(env);
+    const id = match$1[0];
     return call(env, [
                 btwn(left[0], id[0]),
                 {
@@ -8895,8 +8895,8 @@ function member(env, left) {
               ]);
   }
   token$4(env, /* T_LBRACKET */5);
-  let expr = Curry._1(Parse.expression, with_no_call(false, env));
-  let last_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const expr = Curry._1(Parse.expression, with_no_call(false, env));
+  const last_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_RBRACKET */6);
   return call(env, [
               btwn(left[0], last_loc),
@@ -8915,10 +8915,10 @@ function member(env, left) {
 }
 
 function _function$1(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  let async = maybe(env, /* T_ASYNC */61);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const async = maybe(env, /* T_ASYNC */61);
   token$4(env, /* T_FUNCTION */13);
-  let generator$1 = generator(env, async);
+  const generator$1 = generator(env, async);
   let match;
   if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LPAREN */3)) {
     match = [
@@ -8926,23 +8926,23 @@ function _function$1(env) {
       undefined
     ];
   } else {
-    let match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
-    let id = match$1 === 89 ? undefined : Curry._2(Parse.identifier, /* StrictFunctionName */30, env);
+    const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
+    const id = match$1 === 89 ? undefined : Curry._2(Parse.identifier, /* StrictFunctionName */30, env);
     match = [
       id,
       Curry._1(type_parameter_declaration$1, env)
     ];
   }
-  let id$1 = match[0];
-  let match$2 = function_params(env);
-  let rest = match$2[2];
-  let defaults = match$2[1];
-  let params = match$2[0];
-  let returnType = wrap(annotation_opt, env);
-  let predicate = Curry._1(Parse.predicate, env);
-  let match$3 = function_body(env, async, generator$1);
-  let body = match$3[1];
-  let simple = is_simple_function_params(params, defaults, rest);
+  const id$1 = match[0];
+  const match$2 = function_params(env);
+  const rest = match$2[2];
+  const defaults = match$2[1];
+  const params = match$2[0];
+  const returnType = wrap(annotation_opt, env);
+  const predicate = Curry._1(Parse.predicate, env);
+  const match$3 = function_body(env, async, generator$1);
+  const body = match$3[1];
+  const simple = is_simple_function_params(params, defaults, rest);
   strict_post_check(env, match$3[2], simple, id$1, params);
   let expression;
   expression = body.TAG === /* BodyBlock */0 ? false : true;
@@ -8968,7 +8968,7 @@ function _function$1(env) {
 }
 
 function number(env, number_type) {
-  let value = Curry._2(Parser_env_Peek.value, undefined, env);
+  const value = Curry._2(Parser_env_Peek.value, undefined, env);
   let value$1;
   if (number_type) {
     switch (number_type) {
@@ -9005,13 +9005,13 @@ function number(env, number_type) {
 }
 
 function primary$1(env) {
-  let loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  let number_type = Curry._2(Parser_env_Peek.token, undefined, env);
+  const loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const number_type = Curry._2(Parser_env_Peek.token, undefined, env);
   let exit = 0;
   if (typeof number_type === "number") {
     switch (number_type) {
       case /* T_LCURLY */1 :
-          let match = Curry._1(Parse.object_initializer, env);
+          const match = Curry._1(Parse.object_initializer, env);
           return [
                   match[0],
                   {
@@ -9021,15 +9021,15 @@ function primary$1(env) {
                 ];
       case /* T_LPAREN */3 :
           token$4(env, /* T_LPAREN */3);
-          let expression = Curry._1(assignment, env);
-          let match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
+          const expression = Curry._1(assignment, env);
+          const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
           let ret;
           if (typeof match$1 === "number") {
             if (match$1 !== 8) {
               if (match$1 !== 77) {
                 ret = expression;
               } else {
-                let typeAnnotation = wrap(annotation, env);
+                const typeAnnotation = wrap(annotation, env);
                 ret = [
                   btwn(expression[0], typeAnnotation[0]),
                   {
@@ -9053,7 +9053,7 @@ function primary$1(env) {
           token$4(env, /* T_RPAREN */4);
           return ret;
       case /* T_LBRACKET */5 :
-          let match$2 = Curry._1(array_initializer, env);
+          const match$2 = Curry._1(array_initializer, env);
           return [
                   match$2[0],
                   {
@@ -9068,7 +9068,7 @@ function primary$1(env) {
                   /* This */0
                 ];
       case /* T_NULL */27 :
-          let raw = Curry._2(Parser_env_Peek.value, undefined, env);
+          const raw = Curry._2(Parser_env_Peek.value, undefined, env);
           token$4(env, /* T_NULL */27);
           return [
                   loc,
@@ -9087,14 +9087,14 @@ function primary$1(env) {
       case /* T_CLASS */38 :
           return Curry._1(Parse.class_expression, env);
       case /* T_SUPER */49 :
-          let loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env);
+          const loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env);
           token$4(env, /* T_SUPER */49);
-          let id_1 = {
+          const id_1 = {
             name: "super",
             typeAnnotation: undefined,
             optional: false
           };
-          let id = [
+          const id = [
             loc$1,
             id_1
           ];
@@ -9106,7 +9106,7 @@ function primary$1(env) {
                   }
                 ];
       case /* T_LESS_THAN */89 :
-          let match$3 = Curry._1(Parse.jsx_element, env);
+          const match$3 = Curry._1(Parse.jsx_element, env);
           return [
                   match$3[0],
                   {
@@ -9117,8 +9117,8 @@ function primary$1(env) {
       case /* T_DIV_ASSIGN */70 :
       case /* T_DIV */96 :
           push_lex_mode(env, /* REGEXP */5);
-          let loc$2 = Curry._2(Parser_env_Peek.loc, undefined, env);
-          let match$4 = Curry._2(Parser_env_Peek.token, undefined, env);
+          const loc$2 = Curry._2(Parser_env_Peek.loc, undefined, env);
+          const match$4 = Curry._2(Parser_env_Peek.token, undefined, env);
           let match$5;
           if (typeof match$4 === "number") {
             throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -9131,8 +9131,8 @@ function primary$1(env) {
                     });
           }
           if (match$4.TAG === /* T_REGEXP */3) {
-            let match$6 = match$4._0;
-            let raw$1 = Curry._2(Parser_env_Peek.value, undefined, env);
+            const match$6 = match$4._0;
+            const raw$1 = Curry._2(Parser_env_Peek.value, undefined, env);
             token$3(env);
             match$5 = [
               raw$1,
@@ -9149,9 +9149,9 @@ function primary$1(env) {
                       ]
                     });
           }
-          let raw_flags = match$5[2];
+          const raw_flags = match$5[2];
           pop_lex_mode(env);
-          let filtered_flags = Stdlib__Buffer.create(raw_flags.length);
+          const filtered_flags = Stdlib__Buffer.create(raw_flags.length);
           Stdlib__String.iter((function (c) {
                   if (c >= 110) {
                     if (c !== 121) {
@@ -9176,14 +9176,14 @@ function primary$1(env) {
                     
                   }
                 }), raw_flags);
-          let flags = Stdlib__Buffer.contents(filtered_flags);
+          const flags = Stdlib__Buffer.contents(filtered_flags);
           if (flags !== raw_flags) {
             error$1(env, {
                   TAG: /* InvalidRegExpFlags */3,
                   _0: raw_flags
                 });
           }
-          let value = {
+          const value = {
             TAG: /* RegExp */3,
             _0: {
               pattern: match$5[1],
@@ -9206,8 +9206,8 @@ function primary$1(env) {
   } else {
     switch (number_type.TAG | 0) {
       case /* T_NUMBER */0 :
-          let raw$2 = Curry._2(Parser_env_Peek.value, undefined, env);
-          let value$1 = {
+          const raw$2 = Curry._2(Parser_env_Peek.value, undefined, env);
+          const value$1 = {
             TAG: /* Number */2,
             _0: number(env, number_type._0)
           };
@@ -9222,11 +9222,11 @@ function primary$1(env) {
                   }
                 ];
       case /* T_STRING */1 :
-          let match$7 = number_type._0;
-          let octal = match$7[3];
-          let raw$3 = match$7[2];
-          let value$2 = match$7[1];
-          let loc$3 = match$7[0];
+          const match$7 = number_type._0;
+          const octal = match$7[3];
+          const raw$3 = match$7[2];
+          const value$2 = match$7[1];
+          const loc$3 = match$7[0];
           if (octal) {
             strict_error(env, /* StrictOctalLiteral */31);
           }
@@ -9239,7 +9239,7 @@ function primary$1(env) {
                   octal
                 ]
               });
-          let value$3 = {
+          const value$3 = {
             TAG: /* String */0,
             _0: value$2
           };
@@ -9254,7 +9254,7 @@ function primary$1(env) {
                   }
                 ];
       case /* T_TEMPLATE_PART */2 :
-          let match$8 = Curry._2(template_literal, env, number_type._0);
+          const match$8 = Curry._2(template_literal, env, number_type._0);
           return [
                   match$8[0],
                   {
@@ -9269,7 +9269,7 @@ function primary$1(env) {
   switch (exit) {
     case 1 :
         if (Curry._2(Parser_env_Peek.is_identifier, undefined, env)) {
-          let id$1 = Curry._2(Parse.identifier, undefined, env);
+          const id$1 = Curry._2(Parse.identifier, undefined, env);
           return [
                   id$1[0],
                   {
@@ -9293,9 +9293,9 @@ function primary$1(env) {
                 }
               ];
     case 2 :
-        let raw$4 = Curry._2(Parser_env_Peek.value, undefined, env);
+        const raw$4 = Curry._2(Parser_env_Peek.value, undefined, env);
         token$4(env, number_type);
-        let value$4 = {
+        const value$4 = {
           TAG: /* Boolean */1,
           _0: Caml_obj.caml_equal(number_type, /* T_TRUE */29)
         };
@@ -9314,7 +9314,7 @@ function primary$1(env) {
 }
 
 function tagged_template(env, tag, part) {
-  let quasi = Curry._2(template_literal, env, part);
+  const quasi = Curry._2(template_literal, env, part);
   return [
           btwn(tag[0], quasi[0]),
           {
@@ -9329,20 +9329,20 @@ function tagged_template(env, tag, part) {
 
 function sequence(env, _acc) {
   while(true) {
-    let acc = _acc;
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const acc = _acc;
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (match === 8) {
       token$4(env, /* T_COMMA */8);
-      let expr = Curry._1(assignment, env);
+      const expr = Curry._1(assignment, env);
       _acc = {
         hd: expr,
         tl: acc
       };
       continue ;
     }
-    let last_loc = acc ? acc.hd[0] : none;
-    let expressions = Stdlib__List.rev(acc);
-    let first_loc = expressions ? expressions.hd[0] : none;
+    const last_loc = acc ? acc.hd[0] : none;
+    const expressions = Stdlib__List.rev(acc);
+    const first_loc = expressions ? expressions.hd[0] : none;
     return [
             btwn(first_loc, last_loc),
             {
@@ -9356,9 +9356,9 @@ function sequence(env, _acc) {
 }
 
 function identifier_or_reserved_keyword(env) {
-  let lex_token = Curry._2(Parser_env_Peek.token, undefined, env);
-  let lex_value = Curry._2(Parser_env_Peek.value, undefined, env);
-  let lex_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const lex_token = Curry._2(Parser_env_Peek.token, undefined, env);
+  const lex_value = Curry._2(Parser_env_Peek.value, undefined, env);
+  const lex_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   let exit = 0;
   if (typeof lex_token === "number") {
     if (lex_token >= 58) {
@@ -9428,8 +9428,8 @@ function identifier_or_reserved_keyword(env) {
 }
 
 function assignment_but_not_arrow_function(env) {
-  let expr = conditional(env);
-  let operator = assignment_op(env);
+  const expr = conditional(env);
+  const operator = assignment_op(env);
   if (operator === undefined) {
     return expr;
   }
@@ -9439,7 +9439,7 @@ function assignment_but_not_arrow_function(env) {
           /* InvalidLHSInAssignment */14
         ]);
   }
-  let match = expr[1];
+  const match = expr[1];
   if (typeof match !== "number" && match.TAG === /* Identifier */18) {
     if (is_restricted(match._0[1].name)) {
       strict_error_at(env, [
@@ -9449,9 +9449,9 @@ function assignment_but_not_arrow_function(env) {
     }
     
   }
-  let left = Curry._2(Parse.pattern_from_expr, env, expr);
-  let right = Curry._1(assignment, env);
-  let loc = btwn(left[0], right[0]);
+  const left = Curry._2(Parse.pattern_from_expr, env, expr);
+  const right = Curry._1(assignment, env);
+  const loc = btwn(left[0], right[0]);
   return [
           loc,
           {
@@ -9472,9 +9472,9 @@ function error_callback(param, param$1) {
 }
 
 function try_assignment_but_not_arrow_function(env) {
-  let env$1 = with_error_callback(error_callback, env);
-  let ret = assignment_but_not_arrow_function(env$1);
-  let match = Curry._2(Parser_env_Peek.token, undefined, env$1);
+  const env$1 = with_error_callback(error_callback, env);
+  const ret = assignment_but_not_arrow_function(env$1);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env$1);
   if (typeof match === "number") {
     if (match !== 10) {
       if (match === 77) {
@@ -9497,7 +9497,7 @@ function try_assignment_but_not_arrow_function(env) {
               MEL_EXN_ID: Parser_env_Try.Rollback
             });
   }
-  let match$1 = ret[1];
+  const match$1 = ret[1];
   if (typeof match$1 === "number") {
     return ret;
   }
@@ -9516,8 +9516,8 @@ function try_assignment_but_not_arrow_function(env) {
 }
 
 function assignment(env) {
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
-  let match$1 = Curry._2(Parser_env_Peek.is_identifier, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const match$1 = Curry._2(Parser_env_Peek.is_identifier, undefined, env);
   let exit = 0;
   if (typeof match === "number") {
     if (match > 88 || match < 4) {
@@ -9529,20 +9529,20 @@ function assignment(env) {
       exit = 2;
     } else {
       if (env.allow_yield) {
-        let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+        const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
         token$4(env, /* T_YIELD */56);
         if (!env.allow_yield) {
           error$1(env, /* IllegalYield */24);
         }
-        let delegate = maybe(env, /* T_MULT */97);
-        let has_argument = !(Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_SEMICOLON */7) || Curry._1(Parser_env_Peek.is_implicit_semicolon, env));
-        let argument = delegate || has_argument ? Curry._1(assignment, env) : undefined;
+        const delegate = maybe(env, /* T_MULT */97);
+        const has_argument = !(Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_SEMICOLON */7) || Curry._1(Parser_env_Peek.is_implicit_semicolon, env));
+        const argument = delegate || has_argument ? Curry._1(assignment, env) : undefined;
         let end_loc;
         if (argument !== undefined) {
           end_loc = argument[0];
         } else {
-          let loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
-          let end_loc$1 = loc !== undefined ? loc : start_loc;
+          const loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
+          const end_loc$1 = loc !== undefined ? loc : start_loc;
           semicolon(env);
           end_loc = end_loc$1;
         }
@@ -9565,11 +9565,11 @@ function assignment(env) {
   if (exit === 2 && !match$1) {
     return assignment_but_not_arrow_function(env);
   }
-  let expr = Curry._2(Parser_env_Try.to_parse, env, try_assignment_but_not_arrow_function);
+  const expr = Curry._2(Parser_env_Try.to_parse, env, try_assignment_but_not_arrow_function);
   if (expr) {
     return expr._0;
   }
-  let expr$1 = Curry._2(Parser_env_Try.to_parse, env, try_arrow_function);
+  const expr$1 = Curry._2(Parser_env_Try.to_parse, env, try_arrow_function);
   if (expr$1) {
     return expr$1._0;
   } else {
@@ -9593,9 +9593,9 @@ function make_logical(left, right, operator, loc) {
 
 function logical_and(env, _left, _lloc) {
   while(true) {
-    let lloc = _lloc;
-    let left = _left;
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const lloc = _lloc;
+    const left = _left;
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (match !== 79) {
       return [
               lloc,
@@ -9603,8 +9603,8 @@ function logical_and(env, _left, _lloc) {
             ];
     }
     token$4(env, /* T_AND */79);
-    let match$1 = with_loc(binary, env);
-    let loc = btwn(lloc, match$1[0]);
+    const match$1 = with_loc(binary, env);
+    const loc = btwn(lloc, match$1[0]);
     _lloc = loc;
     _left = make_logical(left, match$1[1], /* And */1, loc);
     continue ;
@@ -9613,9 +9613,9 @@ function logical_and(env, _left, _lloc) {
 
 function logical_or(env, _left, _lloc) {
   while(true) {
-    let lloc = _lloc;
-    let left = _left;
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const lloc = _lloc;
+    const left = _left;
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (match !== 78) {
       return [
               lloc,
@@ -9623,9 +9623,9 @@ function logical_or(env, _left, _lloc) {
             ];
     }
     token$4(env, /* T_OR */78);
-    let match$1 = with_loc(binary, env);
-    let match$2 = logical_and(env, match$1[1], match$1[0]);
-    let loc = btwn(lloc, match$2[0]);
+    const match$1 = with_loc(binary, env);
+    const match$2 = logical_and(env, match$1[1], match$1[0]);
+    const loc = btwn(lloc, match$2[0]);
     _lloc = loc;
     _left = make_logical(left, match$2[1], /* Or */0, loc);
     continue ;
@@ -9633,13 +9633,13 @@ function logical_or(env, _left, _lloc) {
 }
 
 function logical(env) {
-  let match = with_loc(binary, env);
-  let match$1 = logical_and(env, match[1], match[0]);
+  const match = with_loc(binary, env);
+  const match$1 = logical_and(env, match[1], match[0]);
   return logical_or(env, match$1[1], match$1[0])[1];
 }
 
 function binary_op(env) {
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let ret;
   if (typeof match === "number") {
     if (match === 16 || match === 15) {
@@ -9884,18 +9884,18 @@ function make_binary(left, right, operator, loc) {
 
 function add_to_stack(_right, _param, _rloc, _stack) {
   while(true) {
-    let param = _param;
-    let stack = _stack;
-    let rloc = _rloc;
-    let right = _right;
-    let rpri = param[1];
-    let rop = param[0];
+    const param = _param;
+    const stack = _stack;
+    const rloc = _rloc;
+    const right = _right;
+    const rpri = param[1];
+    const rop = param[0];
     if (stack) {
-      let match = stack.hd;
-      let match$1 = match[1];
+      const match = stack.hd;
+      const match$1 = match[1];
       if (is_tighter(match$1[1], rpri)) {
-        let loc = btwn(match[2], rloc);
-        let right$1 = make_binary(match[0], right, match$1[0], loc);
+        const loc = btwn(match[2], rloc);
+        const right$1 = make_binary(match[0], right, match$1[0], loc);
         _stack = stack.tl;
         _rloc = loc;
         _param = [
@@ -9924,13 +9924,13 @@ function add_to_stack(_right, _param, _rloc, _stack) {
 function binary(env) {
   let _stack = /* [] */0;
   while(true) {
-    let stack = _stack;
-    let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-    let is_unary = peek_unary_op(env) !== undefined;
-    let right = unary(with_no_in(false, env));
-    let loc = env.last_loc.contents;
-    let end_loc = loc !== undefined ? loc : right[0];
-    let right_loc = btwn(start_loc, end_loc);
+    const stack = _stack;
+    const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+    const is_unary = peek_unary_op(env) !== undefined;
+    const right = unary(with_no_in(false, env));
+    const loc = env.last_loc.contents;
+    const end_loc = loc !== undefined ? loc : right[0];
+    const right_loc = btwn(start_loc, end_loc);
     if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LESS_THAN */89)) {
       let tmp = right[1];
       if (typeof tmp !== "number" && tmp.TAG === /* JSXElement */22) {
@@ -9938,27 +9938,27 @@ function binary(env) {
       }
       
     }
-    let match = binary_op(env);
+    const match = binary_op(env);
     if (match === undefined) {
       let _right = right;
       let _rloc = right_loc;
       let _param = stack;
       while(true) {
-        let param = _param;
-        let rloc = _rloc;
-        let right$1 = _right;
+        const param = _param;
+        const rloc = _rloc;
+        const right$1 = _right;
         if (!param) {
           return right$1;
         }
-        let match$1 = param.hd;
-        let loc$1 = btwn(match$1[2], rloc);
+        const match$1 = param.hd;
+        const loc$1 = btwn(match$1[2], rloc);
         _param = param.tl;
         _rloc = loc$1;
         _right = make_binary(match$1[0], right$1, match$1[1][0], loc$1);
         continue ;
       };
     }
-    let rop = match[0];
+    const rop = match[0];
     if (is_unary && rop === /* Exp */14) {
       error_at(env, [
             right_loc,
@@ -9974,17 +9974,17 @@ function binary(env) {
 }
 
 function argument(env) {
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (match !== 11) {
     return {
             TAG: /* Expression */0,
             _0: Curry._1(assignment, env)
           };
   }
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_ELLIPSIS */11);
-  let argument$1 = Curry._1(assignment, env);
-  let loc = btwn(start_loc, argument$1[0]);
+  const argument$1 = Curry._1(assignment, env);
+  const loc = btwn(start_loc, argument$1[0]);
   return {
           TAG: /* Spread */1,
           _0: [
@@ -9998,8 +9998,8 @@ function argument(env) {
 
 function arguments$p(env, _acc) {
   while(true) {
-    let acc = _acc;
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const acc = _acc;
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (typeof match === "number") {
       if (match === 4) {
         return Stdlib__List.rev(acc);
@@ -10009,8 +10009,8 @@ function arguments$p(env, _acc) {
       }
       
     }
-    let acc_0 = argument(env);
-    let acc$1 = {
+    const acc_0 = argument(env);
+    const acc$1 = {
       hd: acc_0,
       tl: acc
     };
@@ -10023,10 +10023,10 @@ function arguments$p(env, _acc) {
 }
 
 function $$arguments(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_LPAREN */3);
-  let args = arguments$p(env, /* [] */0);
-  let end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const args = arguments$p(env, /* [] */0);
+  const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_RPAREN */4);
   return [
           btwn(start_loc, end_loc),
@@ -10036,17 +10036,17 @@ function $$arguments(env) {
 
 function template_parts(env, _quasis, _expressions) {
   while(true) {
-    let expressions = _expressions;
-    let quasis = _quasis;
-    let expr = Curry._1(Parse.expression, env);
-    let expressions$1 = {
+    const expressions = _expressions;
+    const quasis = _quasis;
+    const expr = Curry._1(Parse.expression, env);
+    const expressions$1 = {
       hd: expr,
       tl: expressions
     };
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (match === 2) {
       push_lex_mode(env, /* TEMPLATE */4);
-      let match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
+      const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
       let match$2;
       if (typeof match$1 === "number") {
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -10059,9 +10059,9 @@ function template_parts(env, _quasis, _expressions) {
                 });
       }
       if (match$1.TAG === /* T_TEMPLATE_PART */2) {
-        let match$3 = match$1._0;
-        let tail = match$3[2];
-        let match$4 = match$3[1];
+        const match$3 = match$1._0;
+        const tail = match$3[2];
+        const match$4 = match$3[1];
         token$3(env);
         match$2 = [
           match$3[0],
@@ -10084,13 +10084,13 @@ function template_parts(env, _quasis, _expressions) {
                   ]
                 });
       }
-      let loc = match$2[0];
+      const loc = match$2[0];
       pop_lex_mode(env);
-      let quasis_0 = [
+      const quasis_0 = [
         loc,
         match$2[1]
       ];
-      let quasis$1 = {
+      const quasis$1 = {
         hd: quasis_0,
         tl: quasis
       };
@@ -10106,15 +10106,15 @@ function template_parts(env, _quasis, _expressions) {
       continue ;
     }
     error_unexpected(env);
-    let imaginary_quasi_0 = expr[0];
-    let imaginary_quasi_1 = {
+    const imaginary_quasi_0 = expr[0];
+    const imaginary_quasi_1 = {
       value: {
         raw: "",
         cooked: ""
       },
       tail: true
     };
-    let imaginary_quasi = [
+    const imaginary_quasi = [
       imaginary_quasi_0,
       imaginary_quasi_1
     ];
@@ -10130,25 +10130,25 @@ function template_parts(env, _quasis, _expressions) {
 }
 
 function template_literal(env, part) {
-  let is_tail = part[2];
-  let match = part[1];
-  let start_loc = part[0];
+  const is_tail = part[2];
+  const match = part[1];
+  const start_loc = part[0];
   token$4(env, {
         TAG: /* T_TEMPLATE_PART */2,
         _0: part
       });
-  let head_1 = {
+  const head_1 = {
     value: {
       raw: match.raw,
       cooked: match.cooked
     },
     tail: is_tail
   };
-  let head = [
+  const head = [
     start_loc,
     head_1
   ];
-  let match$1 = is_tail ? [
+  const match$1 = is_tail ? [
       start_loc,
       {
         hd: head,
@@ -10159,7 +10159,7 @@ function template_literal(env, part) {
           hd: head,
           tl: /* [] */0
         }, /* [] */0);
-  let loc = btwn(start_loc, match$1[0]);
+  const loc = btwn(start_loc, match$1[0]);
   return [
           loc,
           {
@@ -10171,8 +10171,8 @@ function template_literal(env, part) {
 
 function elements(env, _acc) {
   while(true) {
-    let acc = _acc;
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const acc = _acc;
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (typeof match === "number") {
       if (match === 105) {
         return Stdlib__List.rev(acc);
@@ -10199,11 +10199,11 @@ function elements(env, _acc) {
           case /* T_ARROW */10 :
               break;
           case /* T_ELLIPSIS */11 :
-              let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+              const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
               token$4(env, /* T_ELLIPSIS */11);
-              let argument = Curry._1(assignment, env);
-              let loc = btwn(start_loc, argument[0]);
-              let elem = {
+              const argument = Curry._1(assignment, env);
+              const loc = btwn(start_loc, argument[0]);
+              const elem = {
                 TAG: /* Spread */1,
                 _0: [
                   loc,
@@ -10222,7 +10222,7 @@ function elements(env, _acc) {
       }
       
     }
-    let elem$1 = {
+    const elem$1 = {
       TAG: /* Expression */0,
       _0: Curry._1(assignment, env)
     };
@@ -10238,10 +10238,10 @@ function elements(env, _acc) {
 }
 
 function array_initializer(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_LBRACKET */5);
-  let elements$1 = elements(env, /* [] */0);
-  let end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const elements$1 = elements(env, /* [] */0);
+  const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_RBRACKET */6);
   return [
           btwn(start_loc, end_loc),
@@ -10276,19 +10276,19 @@ function error_callback$1(param) {
 }
 
 function try_arrow_function(env) {
-  let env$1 = with_error_callback(error_callback$1, env);
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env$1);
-  let async = Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, 1, env$1), /* T_ARROW */10) && maybe(env$1, /* T_ASYNC */61);
-  let typeParameters = Curry._1(type_parameter_declaration$1, env$1);
+  const env$1 = with_error_callback(error_callback$1, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env$1);
+  const async = Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, 1, env$1), /* T_ARROW */10) && maybe(env$1, /* T_ASYNC */61);
+  const typeParameters = Curry._1(type_parameter_declaration$1, env$1);
   let match;
   if (Curry._2(Parser_env_Peek.is_identifier, undefined, env$1) && typeParameters === undefined) {
-    let id = Curry._2(Parse.identifier, /* StrictParamName */28, env$1);
-    let param_0 = id[0];
-    let param_1 = {
+    const id = Curry._2(Parse.identifier, /* StrictParamName */28, env$1);
+    const param_0 = id[0];
+    const param_1 = {
       TAG: /* Identifier */3,
       _0: id
     };
-    let param = [
+    const param = [
       param_0,
       param_1
     ];
@@ -10302,7 +10302,7 @@ function try_arrow_function(env) {
       undefined
     ];
   } else {
-    let match$1 = function_params(env$1);
+    const match$1 = function_params(env$1);
     match = [
       match$1[0],
       match$1[1],
@@ -10310,29 +10310,29 @@ function try_arrow_function(env) {
       wrap(annotation_opt, env$1)
     ];
   }
-  let rest = match[2];
-  let defaults = match[1];
-  let params = match[0];
-  let predicate = Curry._1(Parse.predicate, env$1);
-  let env$2 = Caml_obj.caml_equal(params, /* [] */0) || rest !== undefined ? without_error_callback(env$1) : env$1;
+  const rest = match[2];
+  const defaults = match[1];
+  const params = match[0];
+  const predicate = Curry._1(Parse.predicate, env$1);
+  const env$2 = Caml_obj.caml_equal(params, /* [] */0) || rest !== undefined ? without_error_callback(env$1) : env$1;
   if (Curry._1(Parser_env_Peek.is_line_terminator, env$2) && Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env$2), /* T_ARROW */10)) {
     error$1(env$2, /* NewlineBeforeArrow */44);
   }
   token$4(env$2, /* T_ARROW */10);
-  let env$3 = without_error_callback(env$2);
-  let match$2 = with_loc((function (param) {
+  const env$3 = without_error_callback(env$2);
+  const match$2 = with_loc((function (param) {
           let generator = false;
-          let env = with_in_function(true, param);
-          let match = Curry._2(Parser_env_Peek.token, undefined, env);
+          const env = with_in_function(true, param);
+          const match = Curry._2(Parser_env_Peek.token, undefined, env);
           if (match === 1) {
-            let match$1 = function_body(env, async, generator);
+            const match$1 = function_body(env, async, generator);
             return [
                     match$1[1],
                     match$1[2]
                   ];
           }
-          let env$1 = enter_function(env, async, generator);
-          let expr = Curry._1(Parse.assignment, env$1);
+          const env$1 = enter_function(env, async, generator);
+          const expr = Curry._1(Parse.assignment, env$1);
           return [
                   {
                     TAG: /* BodyExpression */1,
@@ -10341,13 +10341,13 @@ function try_arrow_function(env) {
                   env$1.in_strict_mode
                 ];
         }), env$3);
-  let match$3 = match$2[1];
-  let body = match$3[0];
-  let simple = is_simple_function_params(params, defaults, rest);
+  const match$3 = match$2[1];
+  const body = match$3[0];
+  const simple = is_simple_function_params(params, defaults, rest);
   strict_post_check(env$3, match$3[1], simple, undefined, params);
   let expression;
   expression = body.TAG === /* BodyBlock */0 ? false : true;
-  let loc = btwn(start_loc, match$2[0]);
+  const loc = btwn(start_loc, match$2[0]);
   return [
           loc,
           {
@@ -10371,8 +10371,8 @@ function try_arrow_function(env) {
 
 function decorator_list_helper(env, _decorators) {
   while(true) {
-    let decorators = _decorators;
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const decorators = _decorators;
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (match !== 12) {
       return decorators;
     }
@@ -10394,13 +10394,13 @@ function decorator_list(env) {
 }
 
 function key(env) {
-  let number_type = Curry._2(Parser_env_Peek.token, undefined, env);
+  const number_type = Curry._2(Parser_env_Peek.token, undefined, env);
   if (typeof number_type === "number") {
     if (number_type === /* T_LBRACKET */5) {
-      let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+      const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
       token$4(env, /* T_LBRACKET */5);
-      let expr = Curry._1(Parse.assignment, with_no_in(false, env));
-      let end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+      const expr = Curry._1(Parse.assignment, with_no_in(false, env));
+      const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
       token$4(env, /* T_RBRACKET */6);
       return [
               btwn(start_loc, end_loc),
@@ -10414,10 +10414,10 @@ function key(env) {
   } else {
     switch (number_type.TAG | 0) {
       case /* T_NUMBER */0 :
-          let raw = Curry._2(Parser_env_Peek.value, undefined, env);
-          let loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-          let value = number(env, number_type._0);
-          let value$1 = {
+          const raw = Curry._2(Parser_env_Peek.value, undefined, env);
+          const loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+          const value = number(env, number_type._0);
+          const value$1 = {
             TAG: /* Number */2,
             _0: value
           };
@@ -10435,11 +10435,11 @@ function key(env) {
                   }
                 ];
       case /* T_STRING */1 :
-          let match = number_type._0;
-          let octal = match[3];
-          let raw$1 = match[2];
-          let value$2 = match[1];
-          let loc$1 = match[0];
+          const match = number_type._0;
+          const octal = match[3];
+          const raw$1 = match[2];
+          const value$2 = match[1];
+          const loc$1 = match[0];
           if (octal) {
             strict_error(env, /* StrictOctalLiteral */31);
           }
@@ -10452,7 +10452,7 @@ function key(env) {
                   octal
                 ]
               });
-          let value$3 = {
+          const value$3 = {
             TAG: /* String */0,
             _0: value$2
           };
@@ -10473,8 +10473,8 @@ function key(env) {
         
     }
   }
-  let match$1 = identifier_or_reserved_keyword(env);
-  let id = match$1[0];
+  const match$1 = identifier_or_reserved_keyword(env);
+  const id = match$1[0];
   return [
           id[0],
           {
@@ -10485,9 +10485,9 @@ function key(env) {
 }
 
 function _method(env, kind) {
-  let generator$1 = generator(env, false);
-  let match = key(env);
-  let typeParameters = kind ? undefined : Curry._1(type_parameter_declaration$1, env);
+  const generator$1 = generator(env, false);
+  const match = key(env);
+  const typeParameters = kind ? undefined : Curry._1(type_parameter_declaration$1, env);
   token$4(env, /* T_LPAREN */3);
   let params;
   switch (kind) {
@@ -10504,7 +10504,7 @@ function _method(env, kind) {
         params = /* [] */0;
         break;
     case /* Set */2 :
-        let param = Curry._2(Parse.identifier_with_type, env, /* StrictParamName */28);
+        const param = Curry._2(Parse.identifier_with_type, env, /* StrictParamName */28);
         params = {
           hd: [
             param[0],
@@ -10519,10 +10519,10 @@ function _method(env, kind) {
     
   }
   token$4(env, /* T_RPAREN */4);
-  let returnType = wrap(annotation_opt, env);
-  let match$1 = function_body(env, false, generator$1);
-  let body = match$1[1];
-  let simple = is_simple_function_params(params, /* [] */0, undefined);
+  const returnType = wrap(annotation_opt, env);
+  const match$1 = function_body(env, false, generator$1);
+  const body = match$1[1];
+  const simple = is_simple_function_params(params, /* [] */0, undefined);
   strict_post_check(env, match$1[2], simple, undefined, params);
   let match$2;
   match$2 = body.TAG === /* BodyBlock */0 ? [
@@ -10532,8 +10532,8 @@ function _method(env, kind) {
       body._0[0],
       true
     ];
-  let value_0 = match$2[0];
-  let value_1 = {
+  const value_0 = match$2[0];
+  const value_1 = {
     id: undefined,
     params: params,
     defaults: /* [] */0,
@@ -10546,7 +10546,7 @@ function _method(env, kind) {
     returnType: returnType,
     typeParameters: typeParameters
   };
-  let value = [
+  const value = [
     value_0,
     value_1
   ];
@@ -10557,10 +10557,10 @@ function _method(env, kind) {
 }
 
 function property$1(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ELLIPSIS */11)) {
     token$4(env, /* T_ELLIPSIS */11);
-    let argument = Curry._1(Parse.assignment, env);
+    const argument = Curry._1(Parse.assignment, env);
     return {
             TAG: /* SpreadProperty */1,
             _0: [
@@ -10571,20 +10571,20 @@ function property$1(env) {
             ]
           };
   }
-  let async = Curry._2(Parser_env_Peek.is_identifier, 1, env) && maybe(env, /* T_ASYNC */61);
-  let match = generator(env, async);
-  let match$1 = key(env);
+  const async = Curry._2(Parser_env_Peek.is_identifier, 1, env) && maybe(env, /* T_ASYNC */61);
+  const match = generator(env, async);
+  const match$1 = key(env);
   let tmp;
   let exit = 0;
   if (async || match) {
     exit = 1;
   } else {
-    let key$1 = match$1[1];
+    const key$1 = match$1[1];
     switch (key$1.TAG | 0) {
       case /* Identifier */1 :
           switch (key$1._0[1].name) {
             case "get" :
-                let match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
+                const match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
                 tmp = typeof match$2 === "number" ? (
                     match$2 > 77 || match$2 < 3 ? (
                         match$2 !== 89 ? get(env, start_loc) : init(env, start_loc, key$1, false, false)
@@ -10594,7 +10594,7 @@ function property$1(env) {
                   ) : get(env, start_loc);
                 break;
             case "set" :
-                let match$3 = Curry._2(Parser_env_Peek.token, undefined, env);
+                const match$3 = Curry._2(Parser_env_Peek.token, undefined, env);
                 tmp = typeof match$3 === "number" ? (
                     match$3 > 77 || match$3 < 3 ? (
                         match$3 !== 89 ? set(env, start_loc) : init(env, start_loc, key$1, false, false)
@@ -10624,14 +10624,14 @@ function property$1(env) {
 }
 
 function get(env, start_loc) {
-  let match = _method(env, /* Get */1);
-  let match$1 = match[1];
-  let end_loc = match$1[0];
-  let value_1 = {
+  const match = _method(env, /* Get */1);
+  const match$1 = match[1];
+  const end_loc = match$1[0];
+  const value_1 = {
     TAG: /* Function */2,
     _0: match$1[1]
   };
-  let value = [
+  const value = [
     end_loc,
     value_1
   ];
@@ -10648,14 +10648,14 @@ function get(env, start_loc) {
 }
 
 function set(env, start_loc) {
-  let match = _method(env, /* Set */2);
-  let match$1 = match[1];
-  let end_loc = match$1[0];
-  let value_1 = {
+  const match = _method(env, /* Set */2);
+  const match$1 = match[1];
+  const end_loc = match$1[0];
+  const value_1 = {
     TAG: /* Function */2,
     _0: match$1[1]
   };
-  let value = [
+  const value = [
     end_loc,
     value_1
   ];
@@ -10672,7 +10672,7 @@ function set(env, start_loc) {
 }
 
 function init(env, start_loc, key, async, generator) {
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let match$1;
   let exit = 0;
   if (typeof match === "number") {
@@ -10718,7 +10718,7 @@ function init(env, start_loc, key, async, generator) {
         let tmp;
         switch (key.TAG | 0) {
           case /* Literal */0 :
-              let lit = key._0;
+              const lit = key._0;
               tmp = [
                 lit[0],
                 {
@@ -10728,7 +10728,7 @@ function init(env, start_loc, key, async, generator) {
               ];
               break;
           case /* Identifier */1 :
-              let id = key._0;
+              const id = key._0;
               tmp = [
                 id[0],
                 {
@@ -10749,15 +10749,15 @@ function init(env, start_loc, key, async, generator) {
         ];
         break;
     case 3 :
-        let typeParameters = Curry._1(type_parameter_declaration$1, env);
-        let match$2 = function_params(env);
-        let rest = match$2[2];
-        let defaults = match$2[1];
-        let params = match$2[0];
-        let returnType = wrap(annotation_opt, env);
-        let match$3 = function_body(env, async, generator);
-        let body = match$3[1];
-        let simple = is_simple_function_params(params, defaults, rest);
+        const typeParameters = Curry._1(type_parameter_declaration$1, env);
+        const match$2 = function_params(env);
+        const rest = match$2[2];
+        const defaults = match$2[1];
+        const params = match$2[0];
+        const returnType = wrap(annotation_opt, env);
+        const match$3 = function_body(env, async, generator);
+        const body = match$3[1];
+        const simple = is_simple_function_params(params, defaults, rest);
         strict_post_check(env, match$3[2], simple, undefined, params);
         let match$4;
         match$4 = body.TAG === /* BodyBlock */0 ? [
@@ -10767,8 +10767,8 @@ function init(env, start_loc, key, async, generator) {
             body._0[0],
             true
           ];
-        let value_0 = match$4[0];
-        let value_1 = {
+        const value_0 = match$4[0];
+        const value_1 = {
           TAG: /* Function */2,
           _0: {
             id: undefined,
@@ -10784,7 +10784,7 @@ function init(env, start_loc, key, async, generator) {
             typeParameters: typeParameters
           }
         };
-        let value = [
+        const value = [
           value_0,
           value_1
         ];
@@ -10796,7 +10796,7 @@ function init(env, start_loc, key, async, generator) {
         break;
     
   }
-  let value$1 = match$1[0];
+  const value$1 = match$1[0];
   return [
           btwn(start_loc, value$1[0]),
           {
@@ -10813,9 +10813,9 @@ function check_property(env, prop_map, prop) {
   if (prop.TAG !== /* Property */0) {
     return prop_map;
   }
-  let match = prop._0;
-  let prop$1 = match[1];
-  let prop_loc = match[0];
+  const match = prop._0;
+  const prop$1 = match[1];
+  const prop_loc = match[0];
   let exit = 0;
   switch (prop$1.key.TAG | 0) {
     case /* Literal */0 :
@@ -10827,11 +10827,11 @@ function check_property(env, prop_map, prop) {
     
   }
   if (exit === 1) {
-    let match$1 = prop$1.key;
+    const match$1 = prop$1.key;
     let key;
     switch (match$1.TAG | 0) {
       case /* Literal */0 :
-          let s = match$1._0[1].value;
+          const s = match$1._0[1].value;
           if (typeof s === "number") {
             key = "null";
           } else {
@@ -10840,7 +10840,7 @@ function check_property(env, prop_map, prop) {
                   key = s._0;
                   break;
               case /* Boolean */1 :
-                  let b = s._0;
+                  const b = s._0;
                   key = b ? "true" : "false";
                   break;
               case /* Number */2 :
@@ -10874,14 +10874,14 @@ function check_property(env, prop_map, prop) {
       prev_kinds = Curry._2(find, key, prop_map);
     }
     catch (raw_exn){
-      let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+      const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         prev_kinds = /* Empty */0;
       } else {
         throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
     }
-    let match$2 = prop$1.kind;
+    const match$2 = prop$1.kind;
     let kind_string;
     switch (match$2) {
       case /* Init */0 :
@@ -10931,7 +10931,7 @@ function check_property(env, prop_map, prop) {
       }
       
     }
-    let kinds = Curry._2(add$1, kind_string, prev_kinds);
+    const kinds = Curry._2(add$1, kind_string, prev_kinds);
     return Curry._3(add$2, key, kinds, prop_map);
   }
   
@@ -10939,9 +10939,9 @@ function check_property(env, prop_map, prop) {
 
 function properties$1(env, _param) {
   while(true) {
-    let param = _param;
-    let acc = param[1];
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const param = _param;
+    const acc = param[1];
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (typeof match === "number") {
       if (match === 2) {
         return Stdlib__List.rev(acc);
@@ -10951,8 +10951,8 @@ function properties$1(env, _param) {
       }
       
     }
-    let prop = property$1(env);
-    let prop_map = check_property(env, param[0], prop);
+    const prop = property$1(env);
+    const prop_map = check_property(env, param[0], prop);
     if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RCURLY */2)) {
       token$4(env, /* T_COMMA */8);
     }
@@ -10968,13 +10968,13 @@ function properties$1(env, _param) {
 }
 
 function _initializer(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_LCURLY */1);
-  let props = properties$1(env, [
+  const props = properties$1(env, [
         /* Empty */0,
         /* [] */0
       ]);
-  let end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_RCURLY */2);
   return [
           btwn(start_loc, end_loc),
@@ -10986,23 +10986,23 @@ function _initializer(env) {
 
 function class_implements(env, _acc) {
   while(true) {
-    let acc = _acc;
-    let id = Curry._2(Parse.identifier, undefined, env);
-    let typeParameters = wrap(type_parameter_instantiation, env);
-    let loc = typeParameters !== undefined ? btwn(id[0], typeParameters[0]) : id[0];
-    let implement_1 = {
+    const acc = _acc;
+    const id = Curry._2(Parse.identifier, undefined, env);
+    const typeParameters = wrap(type_parameter_instantiation, env);
+    const loc = typeParameters !== undefined ? btwn(id[0], typeParameters[0]) : id[0];
+    const implement_1 = {
       id: id,
       typeParameters: typeParameters
     };
-    let implement = [
+    const implement = [
       loc,
       implement_1
     ];
-    let acc$1 = {
+    const acc$1 = {
       hd: implement,
       tl: acc
     };
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (match !== 8) {
       return Stdlib__List.rev(acc$1);
     }
@@ -11013,7 +11013,7 @@ function class_implements(env, _acc) {
 }
 
 function init$1(env, start_loc, decorators, key, async, generator, $$static) {
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let exit = 0;
   if (typeof match === "number") {
     if (match > 77 || match < 75) {
@@ -11027,16 +11027,16 @@ function init$1(env, start_loc, decorators, key, async, generator, $$static) {
     
   }
   if (exit === 2 && !async && !generator) {
-    let typeAnnotation = wrap(annotation_opt, env);
-    let options = env.parse_options;
-    let value = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ASSIGN */75) && ($$static && options.esproposal_class_static_fields || !$$static && options.esproposal_class_instance_fields) ? (token$4(env, /* T_ASSIGN */75), Curry._1(Parse.expression, env)) : undefined;
-    let end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+    const typeAnnotation = wrap(annotation_opt, env);
+    const options = env.parse_options;
+    const value = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ASSIGN */75) && ($$static && options.esproposal_class_static_fields || !$$static && options.esproposal_class_instance_fields) ? (token$4(env, /* T_ASSIGN */75), Curry._1(Parse.expression, env)) : undefined;
+    const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
     if (maybe(env, /* T_SEMICOLON */7) || !(Curry._2(Parser_env_Peek.token, undefined, env) === /* T_LBRACKET */5 || Curry._2(Parser_env_Peek.token, undefined, env) === /* T_LPAREN */3)) {
       
     } else {
       error_unexpected(env);
     }
-    let loc = btwn(start_loc, end_loc);
+    const loc = btwn(start_loc, end_loc);
     return {
             TAG: /* Property */1,
             _0: [
@@ -11050,15 +11050,15 @@ function init$1(env, start_loc, decorators, key, async, generator, $$static) {
             ]
           };
   }
-  let typeParameters = Curry._1(type_parameter_declaration$1, env);
-  let match$1 = function_params(env);
-  let rest = match$1[2];
-  let defaults = match$1[1];
-  let params = match$1[0];
-  let returnType = wrap(annotation_opt, env);
-  let match$2 = function_body(env, async, generator);
-  let body = match$2[1];
-  let simple = is_simple_function_params(params, defaults, rest);
+  const typeParameters = Curry._1(type_parameter_declaration$1, env);
+  const match$1 = function_params(env);
+  const rest = match$1[2];
+  const defaults = match$1[1];
+  const params = match$1[0];
+  const returnType = wrap(annotation_opt, env);
+  const match$2 = function_body(env, async, generator);
+  const body = match$2[1];
+  const simple = is_simple_function_params(params, defaults, rest);
   strict_post_check(env, match$2[2], simple, undefined, params);
   let match$3;
   match$3 = body.TAG === /* BodyBlock */0 ? [
@@ -11068,8 +11068,8 @@ function init$1(env, start_loc, decorators, key, async, generator, $$static) {
       body._0[0],
       true
     ];
-  let end_loc$1 = match$3[0];
-  let value_1 = {
+  const end_loc$1 = match$3[0];
+  const value_1 = {
     id: undefined,
     params: params,
     defaults: defaults,
@@ -11082,14 +11082,14 @@ function init$1(env, start_loc, decorators, key, async, generator, $$static) {
     returnType: returnType,
     typeParameters: typeParameters
   };
-  let value$1 = [
+  const value$1 = [
     end_loc$1,
     value_1
   ];
   let kind;
   switch (key.TAG | 0) {
     case /* Literal */0 :
-        let match$4 = key._0[1].value;
+        const match$4 = key._0[1].value;
         kind = typeof match$4 === "number" || !(match$4.TAG === /* String */0 && match$4._0 === "constructor") ? /* Method */1 : /* Constructor */0;
         break;
     case /* Identifier */1 :
@@ -11116,19 +11116,19 @@ function init$1(env, start_loc, decorators, key, async, generator, $$static) {
 }
 
 function class_element(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  let decorators = decorator_list(env);
-  let $$static = maybe(env, /* T_STATIC */40);
-  let async = Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, 1, env), /* T_LPAREN */3) && Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, 1, env), /* T_COLON */77) && maybe(env, /* T_ASYNC */61);
-  let generator$1 = generator(env, async);
-  let match = key(env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const decorators = decorator_list(env);
+  const $$static = maybe(env, /* T_STATIC */40);
+  const async = Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, 1, env), /* T_LPAREN */3) && Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, 1, env), /* T_COLON */77) && maybe(env, /* T_ASYNC */61);
+  const generator$1 = generator(env, async);
+  const match = key(env);
   if (!async && !generator$1) {
-    let key$1 = match[1];
+    const key$1 = match[1];
     switch (key$1.TAG | 0) {
       case /* Identifier */1 :
           switch (key$1._0[1].name) {
             case "get" :
-                let match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
+                const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
                 let exit = 0;
                 exit = typeof match$1 === "number" ? (
                     match$1 >= 75 ? (
@@ -11143,8 +11143,8 @@ function class_element(env) {
                   ) : 2;
                 switch (exit) {
                   case 2 :
-                      let match$2 = _method(env, /* Get */1);
-                      let value = match$2[1];
+                      const match$2 = _method(env, /* Get */1);
+                      const value = match$2[1];
                       return {
                               TAG: /* Method */0,
                               _0: [
@@ -11164,7 +11164,7 @@ function class_element(env) {
                 }
                 break;
             case "set" :
-                let match$3 = Curry._2(Parser_env_Peek.token, undefined, env);
+                const match$3 = Curry._2(Parser_env_Peek.token, undefined, env);
                 let exit$1 = 0;
                 exit$1 = typeof match$3 === "number" ? (
                     match$3 >= 75 ? (
@@ -11179,8 +11179,8 @@ function class_element(env) {
                   ) : 2;
                 switch (exit$1) {
                   case 2 :
-                      let match$4 = _method(env, /* Set */2);
-                      let value$1 = match$4[1];
+                      const match$4 = _method(env, /* Set */2);
+                      const value$1 = match$4[1];
                       return {
                               TAG: /* Method */0,
                               _0: [
@@ -11214,8 +11214,8 @@ function class_element(env) {
 
 function elements$1(env, _acc) {
   while(true) {
-    let acc = _acc;
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const acc = _acc;
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (typeof match === "number") {
       if (match > 104 || match < 3) {
         if (!(match > 105 || match < 2)) {
@@ -11237,10 +11237,10 @@ function elements$1(env, _acc) {
 }
 
 function class_body(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_LCURLY */1);
-  let body = elements$1(env, /* [] */0);
-  let end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const body = elements$1(env, /* [] */0);
+  const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_RCURLY */2);
   return [
           btwn(start_loc, end_loc),
@@ -11254,8 +11254,8 @@ function _class(env) {
   let match;
   if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_EXTENDS */39)) {
     token$4(env, /* T_EXTENDS */39);
-    let superClass = left_hand_side(with_allow_yield(false, env));
-    let superTypeParameters = wrap(type_parameter_instantiation, env);
+    const superClass = left_hand_side(with_allow_yield(false, env));
+    const superTypeParameters = wrap(type_parameter_instantiation, env);
     match = [
       superClass,
       superTypeParameters
@@ -11266,8 +11266,8 @@ function _class(env) {
       undefined
     ];
   }
-  let $$implements = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_IMPLEMENTS */50) ? (!env.parse_options.types ? error$1(env, /* UnexpectedTypeInterface */10) : undefined, token$4(env, /* T_IMPLEMENTS */50), class_implements(env, /* [] */0)) : /* [] */0;
-  let body = Curry._1(class_body, env);
+  const $$implements = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_IMPLEMENTS */50) ? (!env.parse_options.types ? error$1(env, /* UnexpectedTypeInterface */10) : undefined, token$4(env, /* T_IMPLEMENTS */50), class_implements(env, /* [] */0)) : /* [] */0;
+  const body = Curry._1(class_body, env);
   return [
           body,
           match[0],
@@ -11277,18 +11277,18 @@ function _class(env) {
 }
 
 function class_declaration(env, decorators) {
-  let env$1 = with_strict(true, env);
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env$1);
-  let decorators$1 = Stdlib.$at(decorators, decorator_list(env$1));
+  const env$1 = with_strict(true, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env$1);
+  const decorators$1 = Stdlib.$at(decorators, decorator_list(env$1));
   token$4(env$1, /* T_CLASS */38);
-  let tmp_env = with_no_let(true, env$1);
-  let match = env$1.in_export;
-  let match$1 = Curry._2(Parser_env_Peek.is_identifier, undefined, tmp_env);
-  let id = match && !match$1 ? undefined : Curry._2(Parse.identifier, undefined, tmp_env);
-  let typeParameters = Curry._1(type_parameter_declaration_with_defaults, env$1);
-  let match$2 = _class(env$1);
-  let body = match$2[0];
-  let loc = btwn(start_loc, body[0]);
+  const tmp_env = with_no_let(true, env$1);
+  const match = env$1.in_export;
+  const match$1 = Curry._2(Parser_env_Peek.is_identifier, undefined, tmp_env);
+  const id = match && !match$1 ? undefined : Curry._2(Parse.identifier, undefined, tmp_env);
+  const typeParameters = Curry._1(type_parameter_declaration_with_defaults, env$1);
+  const match$2 = _class(env$1);
+  const body = match$2[0];
+  const loc = btwn(start_loc, body[0]);
   return [
           loc,
           {
@@ -11307,10 +11307,10 @@ function class_declaration(env, decorators) {
 }
 
 function class_expression(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  let decorators = decorator_list(env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const decorators = decorator_list(env);
   token$4(env, /* T_CLASS */38);
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let match$1;
   let exit = 0;
   if (typeof match === "number") {
@@ -11335,16 +11335,16 @@ function class_expression(env) {
     exit = 1;
   }
   if (exit === 1) {
-    let id = Curry._2(Parse.identifier, undefined, env);
-    let typeParameters = Curry._1(type_parameter_declaration_with_defaults, env);
+    const id = Curry._2(Parse.identifier, undefined, env);
+    const typeParameters = Curry._1(type_parameter_declaration_with_defaults, env);
     match$1 = [
       id,
       typeParameters
     ];
   }
-  let match$2 = _class(env);
-  let body = match$2[0];
-  let loc = btwn(start_loc, body[0]);
+  const match$2 = _class(env);
+  const body = match$2[0];
+  const loc = btwn(start_loc, body[0]);
   return [
           loc,
           {
@@ -11364,15 +11364,15 @@ function class_expression(env) {
 
 function declare_function(env, start_loc) {
   token$4(env, /* T_FUNCTION */13);
-  let id = Curry._2(Parse.identifier, undefined, env);
-  let start_sig_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  let typeParameters = Curry._1(type_parameter_declaration$1, env);
-  let match = wrap(function_param_list, env);
+  const id = Curry._2(Parse.identifier, undefined, env);
+  const start_sig_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const typeParameters = Curry._1(type_parameter_declaration$1, env);
+  const match = wrap(function_param_list, env);
   token$4(env, /* T_COLON */77);
-  let returnType = wrap(_type, env);
-  let end_loc = returnType[0];
-  let loc = btwn(start_sig_loc, end_loc);
-  let value_1 = {
+  const returnType = wrap(_type, env);
+  const end_loc = returnType[0];
+  const loc = btwn(start_sig_loc, end_loc);
+  const value_1 = {
     TAG: /* Function */1,
     _0: {
       params: match[1],
@@ -11381,30 +11381,30 @@ function declare_function(env, start_loc) {
       typeParameters: typeParameters
     }
   };
-  let value = [
+  const value = [
     loc,
     value_1
   ];
-  let typeAnnotation = [
+  const typeAnnotation = [
     loc,
     value
   ];
-  let init = id[1];
-  let id_0 = btwn(id[0], end_loc);
-  let id_1 = {
+  const init = id[1];
+  const id_0 = btwn(id[0], end_loc);
+  const id_1 = {
     name: init.name,
     typeAnnotation: typeAnnotation,
     optional: init.optional
   };
-  let id$1 = [
+  const id$1 = [
     id_0,
     id_1
   ];
-  let end_loc$1 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
-  let end_loc$2 = end_loc$1 !== undefined ? end_loc$1 : end_loc;
-  let predicate = Curry._1(Parse.predicate, env);
+  const end_loc$1 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
+  const end_loc$2 = end_loc$1 !== undefined ? end_loc$1 : end_loc;
+  const predicate = Curry._1(Parse.predicate, env);
   semicolon(env);
-  let loc$1 = btwn(start_loc, end_loc$2);
+  const loc$1 = btwn(start_loc, end_loc$2);
   return [
           loc$1,
           {
@@ -11418,7 +11418,7 @@ function type_alias(env) {
   if (!Curry._2(Parser_env_Peek.is_identifier, 1, env)) {
     return Curry._1(Parse.statement, env);
   }
-  let match = type_alias_helper(env);
+  const match = type_alias_helper(env);
   return [
           match[0],
           {
@@ -11432,7 +11432,7 @@ function $$interface(env) {
   if (!Curry._2(Parser_env_Peek.is_identifier, 1, env)) {
     return expression(env);
   }
-  let match = Curry._1(interface_helper, env);
+  const match = Curry._1(interface_helper, env);
   return [
           match[0],
           {
@@ -11443,7 +11443,7 @@ function $$interface(env) {
 }
 
 function declare_function_statement(env, start_loc) {
-  let match = declare_function(env, start_loc);
+  const match = declare_function(env, start_loc);
   return [
           match[0],
           {
@@ -11454,15 +11454,15 @@ function declare_function_statement(env, start_loc) {
 }
 
 function declare_export_declaration(allow_export_typeOpt, env) {
-  let allow_export_type = allow_export_typeOpt !== undefined ? allow_export_typeOpt : false;
+  const allow_export_type = allow_export_typeOpt !== undefined ? allow_export_typeOpt : false;
   if (!env.parse_options.types) {
     error$1(env, /* UnexpectedTypeDeclaration */7);
   }
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_DECLARE */58);
-  let env$1 = with_in_export(true, with_strict(true, env));
+  const env$1 = with_in_export(true, with_strict(true, env));
   token$4(env$1, /* T_EXPORT */47);
-  let match = Curry._2(Parser_env_Peek.token, undefined, env$1);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env$1);
   let exit = 0;
   if (typeof match === "number") {
     if (match >= 52) {
@@ -11470,19 +11470,19 @@ function declare_export_declaration(allow_export_typeOpt, env) {
         if (match !== 97) {
           exit = 1;
         } else {
-          let loc = Curry._2(Parser_env_Peek.loc, undefined, env$1);
+          const loc = Curry._2(Parser_env_Peek.loc, undefined, env$1);
           token$4(env$1, /* T_MULT */97);
-          let parse_export_star_as = env$1.parse_options.esproposal_export_star_as;
-          let local_name = Curry._2(Parser_env_Peek.value, undefined, env$1) === "as" ? (contextual(env$1, "as"), parse_export_star_as ? Curry._2(Parse.identifier, undefined, env$1) : (error$1(env$1, /* UnexpectedTypeDeclaration */7), undefined)) : undefined;
-          let specifiers = {
+          const parse_export_star_as = env$1.parse_options.esproposal_export_star_as;
+          const local_name = Curry._2(Parser_env_Peek.value, undefined, env$1) === "as" ? (contextual(env$1, "as"), parse_export_star_as ? Curry._2(Parse.identifier, undefined, env$1) : (error$1(env$1, /* UnexpectedTypeDeclaration */7), undefined)) : undefined;
+          const specifiers = {
             TAG: /* ExportBatchSpecifier */1,
             _0: loc,
             _1: local_name
           };
-          let source = export_source(env$1);
-          let loc$1 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$1);
-          let end_loc = loc$1 !== undefined ? loc$1 : source[0];
-          let source$1 = source;
+          const source = export_source(env$1);
+          const loc$1 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$1);
+          const end_loc = loc$1 !== undefined ? loc$1 : source[0];
+          const source$1 = source;
           semicolon(env$1);
           return [
                   btwn(start_loc, end_loc),
@@ -11499,9 +11499,9 @@ function declare_export_declaration(allow_export_typeOpt, env) {
         }
       } else {
         if (allow_export_type) {
-          let match$1 = type_alias_helper(env$1);
-          let alias_loc = match$1[0];
-          let loc$2 = btwn(start_loc, alias_loc);
+          const match$1 = type_alias_helper(env$1);
+          const alias_loc = match$1[0];
+          const loc$2 = btwn(start_loc, alias_loc);
           return [
                   loc$2,
                   {
@@ -11526,9 +11526,9 @@ function declare_export_declaration(allow_export_typeOpt, env) {
     } else if (match >= 39) {
       if (match >= 51) {
         if (allow_export_type) {
-          let match$2 = Curry._1(interface_helper, env$1);
-          let iface_loc = match$2[0];
-          let loc$3 = btwn(start_loc, iface_loc);
+          const match$2 = Curry._1(interface_helper, env$1);
+          const iface_loc = match$2[0];
+          const loc$3 = btwn(start_loc, iface_loc);
           return [
                   loc$3,
                   {
@@ -11556,7 +11556,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
       switch (match) {
         case /* T_DEFAULT */34 :
             token$4(env$1, /* T_DEFAULT */34);
-            let match$3 = Curry._2(Parser_env_Peek.token, undefined, env$1);
+            const match$3 = Curry._2(Parser_env_Peek.token, undefined, env$1);
             let match$4;
             let exit$1 = 0;
             if (typeof match$3 === "number") {
@@ -11564,7 +11564,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
                 if (match$3 !== 38) {
                   exit$1 = 3;
                 } else {
-                  let _class = Curry._2(declare_class, env$1, start_loc);
+                  const _class = Curry._2(declare_class, env$1, start_loc);
                   match$4 = [
                     _class[0],
                     {
@@ -11574,7 +11574,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
                   ];
                 }
               } else {
-                let fn = declare_function(env$1, start_loc);
+                const fn = declare_function(env$1, start_loc);
                 match$4 = [
                   fn[0],
                   {
@@ -11587,9 +11587,9 @@ function declare_export_declaration(allow_export_typeOpt, env) {
               exit$1 = 3;
             }
             if (exit$1 === 3) {
-              let _type$1 = wrap(_type, env$1);
-              let loc$4 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$1);
-              let end_loc$1 = loc$4 !== undefined ? loc$4 : _type$1[0];
+              const _type$1 = wrap(_type, env$1);
+              const loc$4 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$1);
+              const end_loc$1 = loc$4 !== undefined ? loc$4 : _type$1[0];
               semicolon(env$1);
               match$4 = [
                 end_loc$1,
@@ -11650,7 +11650,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
   }
   switch (exit) {
     case 1 :
-        let match$5 = Curry._2(Parser_env_Peek.token, undefined, env$1);
+        const match$5 = Curry._2(Parser_env_Peek.token, undefined, env$1);
         if (typeof match$5 === "number") {
           if (match$5 !== 51) {
             if (match$5 !== 59) {
@@ -11663,18 +11663,18 @@ function declare_export_declaration(allow_export_typeOpt, env) {
           }
         }
         token$4(env$1, /* T_LCURLY */1);
-        let match$6 = export_specifiers_and_errs(env$1, /* [] */0, /* [] */0);
-        let specifiers$1 = {
+        const match$6 = export_specifiers_and_errs(env$1, /* [] */0, /* [] */0);
+        const specifiers$1 = {
           TAG: /* ExportSpecifiers */0,
           _0: match$6[0]
         };
-        let end_loc$2 = Curry._2(Parser_env_Peek.loc, undefined, env$1);
+        const end_loc$2 = Curry._2(Parser_env_Peek.loc, undefined, env$1);
         token$4(env$1, /* T_RCURLY */2);
-        let source$2 = Curry._2(Parser_env_Peek.value, undefined, env$1) === "from" ? export_source(env$1) : (Stdlib__List.iter((function (param) {
+        const source$2 = Curry._2(Parser_env_Peek.value, undefined, env$1) === "from" ? export_source(env$1) : (Stdlib__List.iter((function (param) {
                     return error_at(env$1, param);
                   }), match$6[1]), undefined);
-        let loc$5 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$1);
-        let end_loc$3 = loc$5 !== undefined ? loc$5 : (
+        const loc$5 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$1);
+        const end_loc$3 = loc$5 !== undefined ? loc$5 : (
             source$2 !== undefined ? source$2[0] : end_loc$2
           );
         semicolon(env$1);
@@ -11691,7 +11691,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
                 }
               ];
     case 2 :
-        let token$5 = Curry._2(Parser_env_Peek.token, undefined, env$1);
+        const token$5 = Curry._2(Parser_env_Peek.token, undefined, env$1);
         let match$7;
         let exit$2 = 0;
         if (typeof token$5 === "number") {
@@ -11700,7 +11700,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
               if (token$5 !== 38) {
                 exit$2 = 3;
               } else {
-                let _class$1 = Curry._2(declare_class, env$1, start_loc);
+                const _class$1 = Curry._2(declare_class, env$1, start_loc);
                 match$7 = [
                   _class$1[0],
                   {
@@ -11715,7 +11715,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
           } else if (token$5 !== 13) {
             exit$2 = token$5 >= 22 ? 4 : 3;
           } else {
-            let fn$1 = declare_function(env$1, start_loc);
+            const fn$1 = declare_function(env$1, start_loc);
             match$7 = [
               fn$1[0],
               {
@@ -11749,7 +11749,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
                   error$1(env$1, /* DeclareExportConst */51);
                 }
               }
-              let $$var = declare_var(env$1, start_loc);
+              const $$var = declare_var(env$1, start_loc);
               match$7 = [
                 $$var[0],
                 {
@@ -11777,7 +11777,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
 }
 
 function declare_var_statement(env, start_loc) {
-  let match = declare_var(env, start_loc);
+  const match = declare_var(env, start_loc);
   return [
           match[0],
           {
@@ -11789,10 +11789,10 @@ function declare_var_statement(env, start_loc) {
 
 function declare_var(env, start_loc) {
   token$4(env, /* T_VAR */22);
-  let id = Curry._2(Parse.identifier_with_type, env, /* StrictVarName */27);
-  let loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
-  let end_loc = loc !== undefined ? loc : id[0];
-  let loc$1 = btwn(start_loc, end_loc);
+  const id = Curry._2(Parse.identifier_with_type, env, /* StrictVarName */27);
+  const loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
+  const end_loc = loc !== undefined ? loc : id[0];
+  const loc$1 = btwn(start_loc, end_loc);
   semicolon(env);
   return [
           loc$1,
@@ -11803,18 +11803,18 @@ function declare_var(env, start_loc) {
 }
 
 function type_alias_helper(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   if (!env.parse_options.types) {
     error$1(env, /* UnexpectedTypeAlias */5);
   }
   token$4(env, /* T_TYPE */59);
   push_lex_mode(env, /* TYPE */1);
-  let id = Curry._2(Parse.identifier, undefined, env);
-  let typeParameters = Curry._1(type_parameter_declaration_with_defaults, env);
+  const id = Curry._2(Parse.identifier, undefined, env);
+  const typeParameters = Curry._1(type_parameter_declaration_with_defaults, env);
   token$4(env, /* T_ASSIGN */75);
-  let right = wrap(_type, env);
-  let end_loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
-  let end_loc$1 = end_loc !== undefined ? end_loc : right[0];
+  const right = wrap(_type, env);
+  const end_loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
+  const end_loc$1 = end_loc !== undefined ? end_loc : right[0];
   semicolon(env);
   pop_lex_mode(env);
   return [
@@ -11833,9 +11833,9 @@ function extract_ident_name(param) {
 
 function export_specifiers_and_errs(env, _specifiers, _errs) {
   while(true) {
-    let errs = _errs;
-    let specifiers = _specifiers;
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const errs = _errs;
+    const specifiers = _specifiers;
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (typeof match === "number") {
       if (match === 2) {
         return [
@@ -11851,13 +11851,13 @@ function export_specifiers_and_errs(env, _specifiers, _errs) {
       }
       
     }
-    let match$1 = Curry._1(Parse.identifier_or_reserved_keyword, env);
-    let id = match$1[0];
+    const match$1 = Curry._1(Parse.identifier_or_reserved_keyword, env);
+    const id = match$1[0];
     let match$2;
     if (Curry._2(Parser_env_Peek.value, undefined, env) === "as") {
       contextual(env, "as");
-      let match$3 = Curry._1(Parse.identifier_or_reserved_keyword, env);
-      let name = match$3[0];
+      const match$3 = Curry._1(Parse.identifier_or_reserved_keyword, env);
+      const name = match$3[0];
       record_export(env, [
             name[0],
             extract_ident_name(name)
@@ -11868,7 +11868,7 @@ function export_specifiers_and_errs(env, _specifiers, _errs) {
         name[0]
       ];
     } else {
-      let loc = id[0];
+      const loc = id[0];
       record_export(env, [
             loc,
             extract_ident_name(id)
@@ -11879,20 +11879,20 @@ function export_specifiers_and_errs(env, _specifiers, _errs) {
         loc
       ];
     }
-    let err = match$2[1];
-    let loc$1 = btwn(id[0], match$2[2]);
-    let specifier_1 = {
+    const err = match$2[1];
+    const loc$1 = btwn(id[0], match$2[2]);
+    const specifier_1 = {
       id: id,
       name: match$2[0]
     };
-    let specifier = [
+    const specifier = [
       loc$1,
       specifier_1
     ];
     if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COMMA */8)) {
       token$4(env, /* T_COMMA */8);
     }
-    let errs$1 = err !== undefined ? ({
+    const errs$1 = err !== undefined ? ({
           hd: err,
           tl: errs
         }) : errs;
@@ -11907,13 +11907,13 @@ function export_specifiers_and_errs(env, _specifiers, _errs) {
 
 function export_source(env) {
   contextual(env, "from");
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (typeof match !== "number" && match.TAG === /* T_STRING */1) {
-    let match$1 = match._0;
-    let octal = match$1[3];
-    let raw = match$1[2];
-    let value = match$1[1];
-    let loc = match$1[0];
+    const match$1 = match._0;
+    const octal = match$1[3];
+    const raw = match$1[2];
+    const value = match$1[1];
+    const loc = match$1[0];
     if (octal) {
       strict_error(env, /* StrictOctalLiteral */31);
     }
@@ -11926,7 +11926,7 @@ function export_source(env) {
             octal
           ]
         });
-    let value$1 = {
+    const value$1 = {
       TAG: /* String */0,
       _0: value
     };
@@ -11938,17 +11938,17 @@ function export_source(env) {
             }
           ];
   }
-  let raw$1 = Curry._2(Parser_env_Peek.value, undefined, env);
-  let value$2 = {
+  const raw$1 = Curry._2(Parser_env_Peek.value, undefined, env);
+  const value$2 = {
     TAG: /* String */0,
     _0: raw$1
   };
-  let ret_0 = Curry._2(Parser_env_Peek.loc, undefined, env);
-  let ret_1 = {
+  const ret_0 = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const ret_1 = {
     value: value$2,
     raw: raw$1
   };
-  let ret = [
+  const ret = [
     ret_0,
     ret_1
   ];
@@ -11957,12 +11957,12 @@ function export_source(env) {
 }
 
 function declare(in_moduleOpt, env) {
-  let in_module = in_moduleOpt !== undefined ? in_moduleOpt : false;
+  const in_module = in_moduleOpt !== undefined ? in_moduleOpt : false;
   if (!env.parse_options.types) {
     error$1(env, /* UnexpectedTypeDeclaration */7);
   }
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  let match = Curry._2(Parser_env_Peek.token, 1, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, 1, env);
   if (typeof match === "number") {
     if (match >= 22) {
       if (match >= 38) {
@@ -11970,7 +11970,7 @@ function declare(in_moduleOpt, env) {
           switch (match) {
             case /* T_CLASS */38 :
                 token$4(env, /* T_DECLARE */58);
-                let match$1 = Curry._2(declare_class, env, start_loc);
+                const match$1 = Curry._2(declare_class, env, start_loc);
                 return [
                         match$1[0],
                         {
@@ -12030,11 +12030,11 @@ function declare(in_moduleOpt, env) {
         if (in_module || Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_PERIOD */9)) {
           token$4(env, /* T_PERIOD */9);
           contextual(env, "exports");
-          let type_annot = wrap(annotation, env);
-          let loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
-          let end_loc = loc !== undefined ? loc : type_annot[0];
+          const type_annot = wrap(annotation, env);
+          const loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
+          const end_loc = loc !== undefined ? loc : type_annot[0];
           semicolon(env);
-          let loc$1 = btwn(start_loc, end_loc);
+          const loc$1 = btwn(start_loc, end_loc);
           return [
                   loc$1,
                   {
@@ -12043,7 +12043,7 @@ function declare(in_moduleOpt, env) {
                   }
                 ];
         } else {
-          let match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
+          const match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
           let id;
           if (typeof match$2 === "number" || match$2.TAG !== /* T_STRING */1) {
             id = {
@@ -12051,11 +12051,11 @@ function declare(in_moduleOpt, env) {
               _0: Curry._2(Parse.identifier, undefined, env)
             };
           } else {
-            let match$3 = match$2._0;
-            let octal = match$3[3];
-            let raw = match$3[2];
-            let value = match$3[1];
-            let loc$2 = match$3[0];
+            const match$3 = match$2._0;
+            const octal = match$3[3];
+            const raw = match$3[2];
+            const value = match$3[1];
+            const loc$2 = match$3[0];
             if (octal) {
               strict_error(env, /* StrictOctalLiteral */31);
             }
@@ -12068,7 +12068,7 @@ function declare(in_moduleOpt, env) {
                     octal
                   ]
                 });
-            let value$1 = {
+            const value$1 = {
               TAG: /* String */0,
               _0: value
             };
@@ -12083,22 +12083,22 @@ function declare(in_moduleOpt, env) {
               ]
             };
           }
-          let body_start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+          const body_start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
           token$4(env, /* T_LCURLY */1);
-          let match$4 = module_items(env, undefined, /* [] */0);
-          let module_kind = match$4[0];
+          const match$4 = module_items(env, undefined, /* [] */0);
+          const module_kind = match$4[0];
           token$4(env, /* T_RCURLY */2);
-          let body_end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-          let body_loc = btwn(body_start_loc, body_end_loc);
-          let body_1 = {
+          const body_end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+          const body_loc = btwn(body_start_loc, body_end_loc);
+          const body_1 = {
             body: match$4[1]
           };
-          let body = [
+          const body = [
             body_loc,
             body_1
           ];
-          let loc$3 = btwn(start_loc, body_loc);
-          let kind = module_kind !== undefined ? module_kind : ({
+          const loc$3 = btwn(start_loc, body_loc);
+          const kind = module_kind !== undefined ? module_kind : ({
                 TAG: /* CommonJS */0,
                 _0: loc$3
               });
@@ -12130,9 +12130,9 @@ function declare(in_moduleOpt, env) {
 }
 
 function expression(env) {
-  let expression$1 = Curry._1(Parse.expression, env);
-  let loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
-  let end_loc = loc !== undefined ? loc : expression$1[0];
+  const expression$1 = Curry._1(Parse.expression, env);
+  const loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
+  const end_loc = loc !== undefined ? loc : expression$1[0];
   semicolon(env);
   return [
           btwn(expression$1[0], end_loc),
@@ -12147,9 +12147,9 @@ function expression(env) {
 
 function module_items(env, _module_kind, _acc) {
   while(true) {
-    let acc = _acc;
-    let module_kind = _module_kind;
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const acc = _acc;
+    const module_kind = _module_kind;
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (typeof match === "number") {
       if (match === 2) {
         return [
@@ -12165,9 +12165,9 @@ function module_items(env, _module_kind, _acc) {
       }
       
     }
-    let stmt = declare(true, env);
-    let stmt$1 = stmt[1];
-    let loc = stmt[0];
+    const stmt = declare(true, env);
+    const stmt$1 = stmt[1];
+    const loc = stmt[0];
     let module_kind$1;
     if (module_kind !== undefined) {
       if (module_kind.TAG === /* CommonJS */0) {
@@ -12180,7 +12180,7 @@ function module_items(env, _module_kind, _acc) {
                 module_kind$1 = module_kind;
                 break;
             case /* DeclareExportDeclaration */27 :
-                let declaration = stmt$1._0.declaration;
+                const declaration = stmt$1._0.declaration;
                 if (declaration !== undefined) {
                   switch (declaration.TAG | 0) {
                     case /* NamedType */4 :
@@ -12215,7 +12215,7 @@ function module_items(env, _module_kind, _acc) {
             };
             break;
         case /* DeclareExportDeclaration */27 :
-            let declaration$1 = stmt$1._0.declaration;
+            const declaration$1 = stmt$1._0.declaration;
             if (declaration$1 !== undefined) {
               switch (declaration$1.TAG | 0) {
                 case /* NamedType */4 :
@@ -12250,13 +12250,13 @@ function module_items(env, _module_kind, _acc) {
 
 function supers(env, _acc) {
   while(true) {
-    let acc = _acc;
-    let $$super = wrap(generic, env);
-    let acc$1 = {
+    const acc = _acc;
+    const $$super = wrap(generic, env);
+    const acc$1 = {
       hd: $$super,
       tl: acc
     };
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (match !== 8) {
       return Stdlib__List.rev(acc$1);
     }
@@ -12267,14 +12267,14 @@ function supers(env, _acc) {
 }
 
 function declare_class(env, start_loc) {
-  let env$1 = with_strict(true, env);
+  const env$1 = with_strict(true, env);
   token$4(env$1, /* T_CLASS */38);
-  let id = Curry._2(Parse.identifier, undefined, env$1);
-  let typeParameters = Curry._1(type_parameter_declaration_with_defaults, env$1);
-  let $$extends = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env$1), /* T_EXTENDS */39) ? (token$4(env$1, /* T_EXTENDS */39), supers(env$1, /* [] */0)) : /* [] */0;
-  let mixins = Curry._2(Parser_env_Peek.value, undefined, env$1) === "mixins" ? (contextual(env$1, "mixins"), supers(env$1, /* [] */0)) : /* [] */0;
-  let body = _object$1(true, env$1);
-  let loc = btwn(start_loc, body[0]);
+  const id = Curry._2(Parse.identifier, undefined, env$1);
+  const typeParameters = Curry._1(type_parameter_declaration_with_defaults, env$1);
+  const $$extends = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env$1), /* T_EXTENDS */39) ? (token$4(env$1, /* T_EXTENDS */39), supers(env$1, /* [] */0)) : /* [] */0;
+  const mixins = Curry._2(Parser_env_Peek.value, undefined, env$1) === "mixins" ? (contextual(env$1, "mixins"), supers(env$1, /* [] */0)) : /* [] */0;
+  const body = _object$1(true, env$1);
+  const loc = btwn(start_loc, body[0]);
   return [
           loc,
           {
@@ -12289,13 +12289,13 @@ function declare_class(env, start_loc) {
 
 function supers$1(env, _acc) {
   while(true) {
-    let acc = _acc;
-    let $$super = wrap(generic, env);
-    let acc$1 = {
+    const acc = _acc;
+    const $$super = wrap(generic, env);
+    const acc$1 = {
       hd: $$super,
       tl: acc
     };
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (match !== 8) {
       return Stdlib__List.rev(acc$1);
     }
@@ -12306,16 +12306,16 @@ function supers$1(env, _acc) {
 }
 
 function interface_helper(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   if (!env.parse_options.types) {
     error$1(env, /* UnexpectedTypeInterface */10);
   }
   token$4(env, /* T_INTERFACE */51);
-  let id = Curry._2(Parse.identifier, undefined, env);
-  let typeParameters = Curry._1(type_parameter_declaration_with_defaults, env);
-  let $$extends = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_EXTENDS */39) ? (token$4(env, /* T_EXTENDS */39), supers$1(env, /* [] */0)) : /* [] */0;
-  let body = _object$1(true, env);
-  let loc = btwn(start_loc, body[0]);
+  const id = Curry._2(Parse.identifier, undefined, env);
+  const typeParameters = Curry._1(type_parameter_declaration_with_defaults, env);
+  const $$extends = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_EXTENDS */39) ? (token$4(env, /* T_EXTENDS */39), supers$1(env, /* [] */0)) : /* [] */0;
+  const body = _object$1(true, env);
+  const loc = btwn(start_loc, body[0]);
   return [
           loc,
           {
@@ -12330,7 +12330,7 @@ function interface_helper(env) {
 
 function fold(acc) {
   return function (param) {
-    let match = param[1];
+    const match = param[1];
     switch (match.TAG | 0) {
       case /* Object */0 :
           return Stdlib__List.fold_left((function (acc, prop) {
@@ -12355,7 +12355,7 @@ function fold(acc) {
       case /* Assignment */2 :
           return fold(acc)(match._0.left);
       case /* Identifier */3 :
-          let match$1 = match._0;
+          const match$1 = match._0;
           return {
                   hd: [
                     match$1[0],
@@ -12379,8 +12379,8 @@ function assert_can_be_forin_or_forof(env, err) {
       return error$1(env, err);
     }
     if (param.TAG === /* InitDeclaration */0) {
-      let match = param._0;
-      let declarations = match[1].declarations;
+      const match = param._0;
+      const declarations = match[1].declarations;
       if (declarations && declarations.hd[1].init === undefined && !declarations.tl) {
         return ;
       }
@@ -12389,8 +12389,8 @@ function assert_can_be_forin_or_forof(env, err) {
                   err
                 ]);
     }
-    let match$1 = param._0;
-    let loc = match$1[0];
+    const match$1 = param._0;
+    const loc = match$1[0];
     if (!Curry._1(Parse.is_assignable_lhs, [
             loc,
             match$1[1]
@@ -12405,15 +12405,15 @@ function assert_can_be_forin_or_forof(env, err) {
 }
 
 function _if(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_IF */14);
   token$4(env, /* T_LPAREN */3);
-  let test = Curry._1(Parse.expression, env);
+  const test = Curry._1(Parse.expression, env);
   token$4(env, /* T_RPAREN */4);
   Curry._2(Parser_env_Peek.token, undefined, env);
-  let consequent = Curry._2(Parser_env_Peek.is_function, undefined, env) ? (strict_error(env, /* StrictFunctionStatement */45), _function(env)) : Curry._1(Parse.statement, env);
-  let alternate = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ELSE */41) ? (token$4(env, /* T_ELSE */41), Curry._1(Parse.statement, env)) : undefined;
-  let end_loc = alternate !== undefined ? alternate[0] : consequent[0];
+  const consequent = Curry._2(Parser_env_Peek.is_function, undefined, env) ? (strict_error(env, /* StrictFunctionStatement */45), _function(env)) : Curry._1(Parse.statement, env);
+  const alternate = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ELSE */41) ? (token$4(env, /* T_ELSE */41), Curry._1(Parse.statement, env)) : undefined;
+  const end_loc = alternate !== undefined ? alternate[0] : consequent[0];
   return [
           btwn(start_loc, end_loc),
           {
@@ -12429,10 +12429,10 @@ function _if(env) {
 
 function case_list(env, _param) {
   while(true) {
-    let param = _param;
-    let acc = param[1];
-    let seen_default = param[0];
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const param = _param;
+    const acc = param[1];
+    const seen_default = param[0];
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (typeof match === "number") {
       if (match === 2) {
         return Stdlib__List.rev(acc);
@@ -12442,13 +12442,13 @@ function case_list(env, _param) {
       }
       
     }
-    let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-    let match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
-    let test = match$1 === 34 ? (seen_default ? error$1(env, /* MultipleDefaultsInSwitch */19) : undefined, token$4(env, /* T_DEFAULT */34), undefined) : (token$4(env, /* T_CASE */31), Curry._1(Parse.expression, env));
-    let seen_default$1 = seen_default || test === undefined;
-    let end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+    const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+    const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
+    const test = match$1 === 34 ? (seen_default ? error$1(env, /* MultipleDefaultsInSwitch */19) : undefined, token$4(env, /* T_DEFAULT */34), undefined) : (token$4(env, /* T_CASE */31), Curry._1(Parse.expression, env));
+    const seen_default$1 = seen_default || test === undefined;
+    const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
     token$4(env, /* T_COLON */77);
-    let term_fn = function (param) {
+    const term_fn = function (param) {
       if (typeof param === "number") {
         if (param > 31 || param < 2) {
           return param === 34;
@@ -12459,17 +12459,17 @@ function case_list(env, _param) {
         return false;
       }
     };
-    let consequent = Curry._2(Parse.statement_list, term_fn, with_in_switch(true, env));
-    let match$2 = Stdlib__List.rev(consequent);
-    let end_loc$1 = match$2 ? match$2.hd[0] : end_loc;
-    let acc_0 = [
+    const consequent = Curry._2(Parse.statement_list, term_fn, with_in_switch(true, env));
+    const match$2 = Stdlib__List.rev(consequent);
+    const end_loc$1 = match$2 ? match$2.hd[0] : end_loc;
+    const acc_0 = [
       btwn(start_loc, end_loc$1),
       {
         test: test,
         consequent: consequent
       }
     ];
-    let acc$1 = {
+    const acc$1 = {
       hd: acc_0,
       tl: acc
     };
@@ -12482,11 +12482,11 @@ function case_list(env, _param) {
 }
 
 function var_or_const(env) {
-  let match = variable(env);
-  let match$1 = match[0];
-  let start_loc = match$1[0];
-  let end_loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
-  let end_loc$1 = end_loc !== undefined ? end_loc : start_loc;
+  const match = variable(env);
+  const match$1 = match[0];
+  const start_loc = match$1[0];
+  const end_loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
+  const end_loc$1 = end_loc !== undefined ? end_loc : start_loc;
   semicolon(env);
   Stdlib__List.iter((function (param) {
           return error_at(env, param);
@@ -12499,13 +12499,13 @@ function var_or_const(env) {
 
 function source(env) {
   contextual(env, "from");
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (typeof match !== "number" && match.TAG === /* T_STRING */1) {
-    let match$1 = match._0;
-    let octal = match$1[3];
-    let raw = match$1[2];
-    let value = match$1[1];
-    let loc = match$1[0];
+    const match$1 = match._0;
+    const octal = match$1[3];
+    const raw = match$1[2];
+    const value = match$1[1];
+    const loc = match$1[0];
     if (octal) {
       strict_error(env, /* StrictOctalLiteral */31);
     }
@@ -12518,7 +12518,7 @@ function source(env) {
             octal
           ]
         });
-    let value$1 = {
+    const value$1 = {
       TAG: /* String */0,
       _0: value
     };
@@ -12530,17 +12530,17 @@ function source(env) {
             }
           ];
   }
-  let raw$1 = Curry._2(Parser_env_Peek.value, undefined, env);
-  let value$2 = {
+  const raw$1 = Curry._2(Parser_env_Peek.value, undefined, env);
+  const value$2 = {
     TAG: /* String */0,
     _0: raw$1
   };
-  let ret_0 = Curry._2(Parser_env_Peek.loc, undefined, env);
-  let ret_1 = {
+  const ret_0 = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const ret_1 = {
     value: value$2,
     raw: raw$1
   };
-  let ret = [
+  const ret = [
     ret_0,
     ret_1
   ];
@@ -12550,8 +12550,8 @@ function source(env) {
 
 function specifier_list(env, _acc) {
   while(true) {
-    let acc = _acc;
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const acc = _acc;
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (typeof match === "number") {
       if (match === 2) {
         return Stdlib__List.rev(acc);
@@ -12561,13 +12561,13 @@ function specifier_list(env, _acc) {
       }
       
     }
-    let match$1 = Curry._1(Parse.identifier_or_reserved_keyword, env);
-    let err = match$1[1];
-    let remote = match$1[0];
+    const match$1 = Curry._1(Parse.identifier_or_reserved_keyword, env);
+    const err = match$1[1];
+    const remote = match$1[0];
     let specifier;
     if (Curry._2(Parser_env_Peek.value, undefined, env) === "as") {
       contextual(env, "as");
-      let local = Curry._2(Parse.identifier, undefined, env);
+      const local = Curry._2(Parse.identifier, undefined, env);
       specifier = {
         TAG: /* ImportNamedSpecifier */0,
         _0: {
@@ -12599,12 +12599,12 @@ function specifier_list(env, _acc) {
 }
 
 function named_or_namespace_specifier(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (match === 97) {
     token$4(env, /* T_MULT */97);
     contextual(env, "as");
-    let id = Curry._2(Parse.identifier, undefined, env);
+    const id = Curry._2(Parse.identifier, undefined, env);
     return {
             hd: {
               TAG: /* ImportNamespaceSpecifier */2,
@@ -12617,7 +12617,7 @@ function named_or_namespace_specifier(env) {
           };
   }
   token$4(env, /* T_LCURLY */1);
-  let specifiers = specifier_list(env, /* [] */0);
+  const specifiers = specifier_list(env, /* [] */0);
   token$4(env, /* T_RCURLY */2);
   return specifiers;
 }
@@ -12628,7 +12628,7 @@ function element(env) {
       return ;
     }
     if (param.TAG === /* Expression */0) {
-      let match = param._0;
+      const match = param._0;
       return {
               TAG: /* Element */0,
               _0: Curry._2(Parse.pattern_from_expr, env, [
@@ -12637,8 +12637,8 @@ function element(env) {
                   ])
             };
     }
-    let match$1 = param._0;
-    let argument = Curry._2(Parse.pattern_from_expr, env, match$1[1].argument);
+    const match$1 = param._0;
+    const argument = Curry._2(Parse.pattern_from_expr, env, match$1[1].argument);
     return {
             TAG: /* Spread */1,
             _0: [
@@ -12652,8 +12652,8 @@ function element(env) {
 }
 
 function from_expr(env, param) {
-  let expr = param[1];
-  let loc = param[0];
+  const expr = param[1];
+  const loc = param[0];
   if (typeof expr !== "number") {
     switch (expr.TAG | 0) {
       case /* Array */0 :
@@ -12661,7 +12661,7 @@ function from_expr(env, param) {
             loc,
             expr._0
           ];
-          let elements = Stdlib__List.map(element(env), param$1[1].elements);
+          const elements = Stdlib__List.map(element(env), param$1[1].elements);
           return [
                   param$1[0],
                   {
@@ -12677,11 +12677,11 @@ function from_expr(env, param) {
             loc,
             expr._0
           ];
-          let properties = Stdlib__List.map((function (param) {
+          const properties = Stdlib__List.map((function (param) {
                   if (param.TAG === /* Property */0) {
-                    let match = param._0;
-                    let match$1 = match[1];
-                    let key = match$1.key;
+                    const match = param._0;
+                    const match$1 = match[1];
+                    const key = match$1.key;
                     let key$1;
                     switch (key.TAG | 0) {
                       case /* Literal */0 :
@@ -12704,7 +12704,7 @@ function from_expr(env, param) {
                           break;
                       
                     }
-                    let pattern = Curry._2(Parse.pattern_from_expr, env, match$1.value);
+                    const pattern = Curry._2(Parse.pattern_from_expr, env, match$1.value);
                     return {
                             TAG: /* Property */0,
                             _0: [
@@ -12717,8 +12717,8 @@ function from_expr(env, param) {
                             ]
                           };
                   }
-                  let match$2 = param._0;
-                  let argument = Curry._2(Parse.pattern_from_expr, env, match$2[1].argument);
+                  const match$2 = param._0;
+                  const argument = Curry._2(Parse.pattern_from_expr, env, match$2[1].argument);
                   return {
                           TAG: /* SpreadProperty */1,
                           _0: [
@@ -12740,7 +12740,7 @@ function from_expr(env, param) {
                   }
                 ];
       case /* Assignment */7 :
-          let match = expr._0;
+          const match = expr._0;
           if (!match.operator) {
             return [
                     loc,
@@ -12779,11 +12779,11 @@ function from_expr(env, param) {
 }
 
 function _object$2(restricted_error) {
-  let property = function (env) {
-    let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const property = function (env) {
+    const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
     if (maybe(env, /* T_ELLIPSIS */11)) {
-      let argument = pattern$1(env, restricted_error);
-      let loc = btwn(start_loc, argument[0]);
+      const argument = pattern$1(env, restricted_error);
+      const loc = btwn(start_loc, argument[0]);
       return {
               TAG: /* SpreadProperty */1,
               _0: [
@@ -12794,8 +12794,8 @@ function _object$2(restricted_error) {
               ]
             };
     }
-    let match = Curry._1(Parse.object_key, env);
-    let lit = match[1];
+    const match = Curry._1(Parse.object_key, env);
+    const lit = match[1];
     let key;
     switch (lit.TAG | 0) {
       case /* Literal */0 :
@@ -12818,7 +12818,7 @@ function _object$2(restricted_error) {
           break;
       
     }
-    let match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
+    const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
     let prop;
     if (match$1 === 77) {
       token$4(env, /* T_COLON */77);
@@ -12829,13 +12829,13 @@ function _object$2(restricted_error) {
     } else {
       switch (key.TAG | 0) {
         case /* Identifier */1 :
-            let id = key._0;
-            let pattern_0 = id[0];
-            let pattern_1 = {
+            const id = key._0;
+            const pattern_0 = id[0];
+            const pattern_1 = {
               TAG: /* Identifier */3,
               _0: id
             };
-            let pattern$2 = [
+            const pattern$2 = [
               pattern_0,
               pattern_1
             ];
@@ -12855,13 +12855,13 @@ function _object$2(restricted_error) {
     if (prop === undefined) {
       return ;
     }
-    let pattern$3 = prop[0];
-    let match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
+    const pattern$3 = prop[0];
+    const match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
     let pattern$4;
     if (match$2 === 75) {
       token$4(env, /* T_ASSIGN */75);
-      let $$default = Curry._1(Parse.assignment, env);
-      let loc$1 = btwn(pattern$3[0], $$default[0]);
+      const $$default = Curry._1(Parse.assignment, env);
+      const loc$1 = btwn(pattern$3[0], $$default[0]);
       pattern$4 = [
         loc$1,
         {
@@ -12875,7 +12875,7 @@ function _object$2(restricted_error) {
     } else {
       pattern$4 = pattern$3;
     }
-    let loc$2 = btwn(start_loc, pattern$4[0]);
+    const loc$2 = btwn(start_loc, pattern$4[0]);
     return {
             TAG: /* Property */0,
             _0: [
@@ -12888,10 +12888,10 @@ function _object$2(restricted_error) {
             ]
           };
   };
-  let properties = function (env, _acc) {
+  const properties = function (env, _acc) {
     while(true) {
-      let acc = _acc;
-      let match = Curry._2(Parser_env_Peek.token, undefined, env);
+      const acc = _acc;
+      const match = Curry._2(Parser_env_Peek.token, undefined, env);
       if (typeof match === "number") {
         if (match === 2) {
           return Stdlib__List.rev(acc);
@@ -12901,7 +12901,7 @@ function _object$2(restricted_error) {
         }
         
       }
-      let prop = property(env);
+      const prop = property(env);
       if (prop !== undefined) {
         if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RCURLY */2)) {
           token$4(env, /* T_COMMA */8);
@@ -12916,14 +12916,14 @@ function _object$2(restricted_error) {
     };
   };
   return function (env) {
-    let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+    const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
     token$4(env, /* T_LCURLY */1);
-    let properties$1 = properties(env, /* [] */0);
-    let end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+    const properties$1 = properties(env, /* [] */0);
+    const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
     token$4(env, /* T_RCURLY */2);
     let match;
     if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COLON */77)) {
-      let typeAnnotation = wrap(annotation, env);
+      const typeAnnotation = wrap(annotation, env);
       match = [
         typeAnnotation[0],
         typeAnnotation
@@ -12948,10 +12948,10 @@ function _object$2(restricted_error) {
 }
 
 function _array(restricted_error) {
-  let elements = function (env, _acc) {
+  const elements = function (env, _acc) {
     while(true) {
-      let acc = _acc;
-      let match = Curry._2(Parser_env_Peek.token, undefined, env);
+      const acc = _acc;
+      const match = Curry._2(Parser_env_Peek.token, undefined, env);
       if (typeof match === "number") {
         if (match === 105) {
           return Stdlib__List.rev(acc);
@@ -12978,11 +12978,11 @@ function _array(restricted_error) {
             case /* T_ARROW */10 :
                 break;
             case /* T_ELLIPSIS */11 :
-                let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+                const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
                 token$4(env, /* T_ELLIPSIS */11);
-                let argument = pattern$1(env, restricted_error);
-                let loc = btwn(start_loc, argument[0]);
-                let element = {
+                const argument = pattern$1(env, restricted_error);
+                const loc = btwn(start_loc, argument[0]);
+                const element = {
                   TAG: /* Spread */1,
                   _0: [
                     loc,
@@ -13001,13 +13001,13 @@ function _array(restricted_error) {
         }
         
       }
-      let pattern$2 = pattern$1(env, restricted_error);
-      let match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
+      const pattern$2 = pattern$1(env, restricted_error);
+      const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
       let pattern$3;
       if (match$1 === 75) {
         token$4(env, /* T_ASSIGN */75);
-        let $$default = Curry._1(Parse.expression, env);
-        let loc$1 = btwn(pattern$2[0], $$default[0]);
+        const $$default = Curry._1(Parse.expression, env);
+        const loc$1 = btwn(pattern$2[0], $$default[0]);
         pattern$3 = [
           loc$1,
           {
@@ -13021,7 +13021,7 @@ function _array(restricted_error) {
       } else {
         pattern$3 = pattern$2;
       }
-      let element$1 = {
+      const element$1 = {
         TAG: /* Element */0,
         _0: pattern$3
       };
@@ -13036,14 +13036,14 @@ function _array(restricted_error) {
     };
   };
   return function (env) {
-    let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+    const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
     token$4(env, /* T_LBRACKET */5);
-    let elements$1 = elements(env, /* [] */0);
-    let end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+    const elements$1 = elements(env, /* [] */0);
+    const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
     token$4(env, /* T_RBRACKET */6);
     let match;
     if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COLON */77)) {
-      let typeAnnotation = wrap(annotation, env);
+      const typeAnnotation = wrap(annotation, env);
       match = [
         typeAnnotation[0],
         typeAnnotation
@@ -13068,7 +13068,7 @@ function _array(restricted_error) {
 }
 
 function pattern$1(env, restricted_error) {
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (typeof match === "number") {
     if (match === 1) {
       return _object$2(restricted_error)(env);
@@ -13078,7 +13078,7 @@ function pattern$1(env, restricted_error) {
     }
     
   }
-  let id = Curry._2(Parse.identifier_with_type, env, restricted_error);
+  const id = Curry._2(Parse.identifier_with_type, env, restricted_error);
   return [
           id[0],
           {
@@ -13090,11 +13090,11 @@ function pattern$1(env, restricted_error) {
 
 function spread_attribute(env) {
   push_lex_mode(env, /* NORMAL */0);
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_LCURLY */1);
   token$4(env, /* T_ELLIPSIS */11);
-  let argument = Curry._1(assignment, env);
-  let end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const argument = Curry._1(assignment, env);
+  const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_RCURLY */2);
   pop_lex_mode(env);
   return [
@@ -13107,11 +13107,11 @@ function spread_attribute(env) {
 
 function expression_container(env) {
   push_lex_mode(env, /* NORMAL */0);
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_LCURLY */1);
   let expression;
   if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RCURLY */2)) {
-    let empty_loc = btwn_exclusive(start_loc, Curry._2(Parser_env_Peek.loc, undefined, env));
+    const empty_loc = btwn_exclusive(start_loc, Curry._2(Parser_env_Peek.loc, undefined, env));
     expression = {
       TAG: /* EmptyExpression */1,
       _0: empty_loc
@@ -13122,7 +13122,7 @@ function expression_container(env) {
       _0: Curry._1(Parse.expression, env)
     };
   }
-  let end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_RCURLY */2);
   pop_lex_mode(env);
   return [
@@ -13134,8 +13134,8 @@ function expression_container(env) {
 }
 
 function identifier$1(env) {
-  let loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  let name = Curry._2(Parser_env_Peek.value, undefined, env);
+  const loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const name = Curry._2(Parser_env_Peek.value, undefined, env);
   token$4(env, /* T_JSX_IDENTIFIER */106);
   return [
           loc,
@@ -13147,23 +13147,23 @@ function identifier$1(env) {
 
 function member_expression(env, _member) {
   while(true) {
-    let member = _member;
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const member = _member;
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (match !== 9) {
       return member;
     }
-    let _object = {
+    const _object = {
       TAG: /* MemberExpression */1,
       _0: member
     };
     token$4(env, /* T_PERIOD */9);
-    let property = identifier$1(env);
-    let loc = btwn(member[0], property[0]);
-    let member_1 = {
+    const property = identifier$1(env);
+    const loc = btwn(member[0], property[0]);
+    const member_1 = {
       _object: _object,
       property: property
     };
-    let member$1 = [
+    const member$1 = [
       loc,
       member_1
     ];
@@ -13173,8 +13173,8 @@ function member_expression(env, _member) {
 }
 
 function name(env) {
-  let name$1 = identifier$1(env);
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const name$1 = identifier$1(env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (typeof match !== "number") {
     return {
             TAG: /* Identifier */0,
@@ -13189,8 +13189,8 @@ function name(env) {
             };
     }
     token$4(env, /* T_COLON */77);
-    let name$2 = identifier$1(env);
-    let loc = btwn(name$1[0], name$2[0]);
+    const name$2 = identifier$1(env);
+    const loc = btwn(name$1[0], name$2[0]);
     return {
             TAG: /* NamespacedName */1,
             _0: [
@@ -13202,18 +13202,18 @@ function name(env) {
             ]
           };
   }
-  let _object = {
+  const _object = {
     TAG: /* Identifier */0,
     _0: name$1
   };
   token$4(env, /* T_PERIOD */9);
-  let property = identifier$1(env);
-  let loc$1 = btwn(name$1[0], property[0]);
-  let member_1 = {
+  const property = identifier$1(env);
+  const loc$1 = btwn(name$1[0], property[0]);
+  const member_1 = {
     _object: _object,
     property: property
   };
-  let member = [
+  const member = [
     loc$1,
     member_1
   ];
@@ -13224,13 +13224,13 @@ function name(env) {
 }
 
 function attribute(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  let name = identifier$1(env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const name = identifier$1(env);
   let match;
   if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COLON */77)) {
     token$4(env, /* T_COLON */77);
-    let name$1 = identifier$1(env);
-    let loc = btwn(name[0], name$1[0]);
+    const name$1 = identifier$1(env);
+    const loc = btwn(name[0], name$1[0]);
     match = [
       loc,
       {
@@ -13256,14 +13256,14 @@ function attribute(env) {
   let match$1;
   if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ASSIGN */75)) {
     token$4(env, /* T_ASSIGN */75);
-    let token$5 = Curry._2(Parser_env_Peek.token, undefined, env);
+    const token$5 = Curry._2(Parser_env_Peek.token, undefined, env);
     let exit = 0;
     if (typeof token$5 === "number") {
       if (token$5 === /* T_LCURLY */1) {
-        let match$2 = expression_container(env);
-        let expression_container$1 = match$2[1];
-        let loc$1 = match$2[0];
-        let match$3 = expression_container$1.expression;
+        const match$2 = expression_container(env);
+        const expression_container$1 = match$2[1];
+        const loc$1 = match$2[0];
+        const match$3 = expression_container$1.expression;
         if (match$3.TAG !== /* Expression */0) {
           error$1(env, /* JSXAttributeValueEmptyExpression */40);
         }
@@ -13279,10 +13279,10 @@ function attribute(env) {
         exit = 1;
       }
     } else if (token$5.TAG === /* T_JSX_TEXT */4) {
-      let match$4 = token$5._0;
-      let loc$2 = match$4[0];
+      const match$4 = token$5._0;
+      const loc$2 = match$4[0];
       token$4(env, token$5);
-      let value = {
+      const value = {
         TAG: /* String */0,
         _0: match$4[1]
       };
@@ -13302,7 +13302,7 @@ function attribute(env) {
     }
     if (exit === 1) {
       error$1(env, /* InvalidJSXAttributeValue */41);
-      let loc$3 = Curry._2(Parser_env_Peek.loc, undefined, env);
+      const loc$3 = Curry._2(Parser_env_Peek.loc, undefined, env);
       match$1 = [
         loc$3,
         {
@@ -13336,8 +13336,8 @@ function attribute(env) {
 
 function attributes(env, _acc) {
   while(true) {
-    let acc = _acc;
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const acc = _acc;
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (typeof match === "number") {
       if (match >= 91) {
         if (match === 96) {
@@ -13353,7 +13353,7 @@ function attributes(env, _acc) {
         }
         
       } else {
-        let attribute$1 = {
+        const attribute$1 = {
           TAG: /* SpreadAttribute */1,
           _0: spread_attribute(env)
         };
@@ -13364,7 +13364,7 @@ function attributes(env, _acc) {
         continue ;
       }
     }
-    let attribute$2 = {
+    const attribute$2 = {
       TAG: /* Attribute */0,
       _0: attribute(env)
     };
@@ -13377,13 +13377,13 @@ function attributes(env, _acc) {
 }
 
 function opening_element_without_lt(env, start_loc) {
-  let name$1 = name(env);
-  let attributes$1 = attributes(env, /* [] */0);
-  let selfClosing = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_DIV */96);
+  const name$1 = name(env);
+  const attributes$1 = attributes(env, /* [] */0);
+  const selfClosing = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_DIV */96);
   if (selfClosing) {
     token$4(env, /* T_DIV */96);
   }
-  let end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_GREATER_THAN */90);
   pop_lex_mode(env);
   return [
@@ -13398,8 +13398,8 @@ function opening_element_without_lt(env, start_loc) {
 
 function closing_element_without_lt(env, start_loc) {
   token$4(env, /* T_DIV */96);
-  let name$1 = name(env);
-  let end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const name$1 = name(env);
+  const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_GREATER_THAN */90);
   double_pop_lex_mode(env);
   return [
@@ -13411,10 +13411,10 @@ function closing_element_without_lt(env, start_loc) {
 }
 
 function child(env) {
-  let token$5 = Curry._2(Parser_env_Peek.token, undefined, env);
+  const token$5 = Curry._2(Parser_env_Peek.token, undefined, env);
   if (typeof token$5 === "number") {
     if (token$5 === /* T_LCURLY */1) {
-      let expression_container$1 = expression_container(env);
+      const expression_container$1 = expression_container(env);
       return [
               expression_container$1[0],
               {
@@ -13425,7 +13425,7 @@ function child(env) {
     }
     
   } else if (token$5.TAG === /* T_JSX_TEXT */4) {
-    let match = token$5._0;
+    const match = token$5._0;
     token$4(env, token$5);
     return [
             match[0],
@@ -13438,7 +13438,7 @@ function child(env) {
             }
           ];
   }
-  let element$2 = element$1(env);
+  const element$2 = element$1(env);
   return [
           element$2[0],
           {
@@ -13449,7 +13449,7 @@ function child(env) {
 }
 
 function element$1(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   push_lex_mode(env, /* JSX_TAG */2);
   token$4(env, /* T_LESS_THAN */89);
   return Curry._2(element_without_lt, env, start_loc);
@@ -13457,9 +13457,9 @@ function element$1(env) {
 
 function element_or_closing(env) {
   push_lex_mode(env, /* JSX_TAG */2);
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_LESS_THAN */89);
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (typeof match === "number" && !(match !== 96 && match !== 105)) {
     return {
             TAG: /* Closing */0,
@@ -13475,8 +13475,8 @@ function element_or_closing(env) {
 
 function children_and_closing(env, _acc) {
   while(true) {
-    let acc = _acc;
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const acc = _acc;
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (typeof match === "number") {
       if (match !== 89) {
         if (match !== 105) {
@@ -13492,20 +13492,20 @@ function children_and_closing(env, _acc) {
                 undefined
               ];
       }
-      let closingElement = element_or_closing(env);
+      const closingElement = element_or_closing(env);
       if (closingElement.TAG === /* Closing */0) {
         return [
                 Stdlib__List.rev(acc),
                 closingElement._0
               ];
       }
-      let element = closingElement._0;
-      let element_0 = element[0];
-      let element_1 = {
+      const element = closingElement._0;
+      const element_0 = element[0];
+      const element_1 = {
         TAG: /* Element */0,
         _0: element[1]
       };
-      let element$1 = [
+      const element$1 = [
         element_0,
         element_1
       ];
@@ -13528,11 +13528,11 @@ function normalize(name) {
     case /* Identifier */0 :
         return name._0[1].name;
     case /* NamespacedName */1 :
-        let match = name._0[1];
+        const match = name._0[1];
         return match.namespace[1].name + (":" + match.name[1].name);
     case /* MemberExpression */2 :
-        let match$1 = name._0[1];
-        let _object = match$1._object;
+        const match$1 = name._0[1];
+        const _object = match$1._object;
         let _object$1;
         _object$1 = _object.TAG === /* Identifier */0 ? _object._0[1].name : normalize({
                 TAG: /* MemberExpression */2,
@@ -13544,15 +13544,15 @@ function normalize(name) {
 }
 
 function element_without_lt(env, start_loc) {
-  let openingElement = opening_element_without_lt(env, start_loc);
-  let match = openingElement[1].selfClosing ? [
+  const openingElement = opening_element_without_lt(env, start_loc);
+  const match = openingElement[1].selfClosing ? [
       /* [] */0,
       undefined
     ] : (push_lex_mode(env, /* JSX_CHILD */3), children_and_closing(env, /* [] */0));
-  let closingElement = match[1];
+  const closingElement = match[1];
   let end_loc;
   if (closingElement !== undefined) {
-    let opening_name = normalize(openingElement[1].name);
+    const opening_name = normalize(openingElement[1].name);
     if (normalize(closingElement[1].name) !== opening_name) {
       error$1(env, {
             TAG: /* ExpectedJSXClosingTag */6,
@@ -13575,7 +13575,7 @@ function element_without_lt(env, start_loc) {
 
 function statement(env) {
   while(true) {
-    let match = Curry._2(Parser_env_Peek.token, undefined, env);
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
     let exit = 0;
     if (typeof match === "number") {
       if (match !== 105) {
@@ -13584,7 +13584,7 @@ function statement(env) {
         } else {
           switch (match) {
             case /* T_LCURLY */1 :
-                let match$1 = Curry._1(Parse.block_body, env);
+                const match$1 = Curry._1(Parse.block_body, env);
                 return [
                         match$1[0],
                         {
@@ -13593,7 +13593,7 @@ function statement(env) {
                         }
                       ];
             case /* T_SEMICOLON */7 :
-                let loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+                const loc = Curry._2(Parser_env_Peek.loc, undefined, env);
                 token$4(env, /* T_SEMICOLON */7);
                 return [
                         loc,
@@ -13605,11 +13605,11 @@ function statement(env) {
                 if (!env.in_function) {
                   error$1(env, /* IllegalReturn */23);
                 }
-                let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+                const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
                 token$4(env, /* T_RETURN */17);
-                let argument = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_SEMICOLON */7) || Curry._1(Parser_env_Peek.is_implicit_semicolon, env) ? undefined : Curry._1(Parse.expression, env);
-                let loc$1 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
-                let end_loc = loc$1 !== undefined ? loc$1 : (
+                const argument = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_SEMICOLON */7) || Curry._1(Parser_env_Peek.is_implicit_semicolon, env) ? undefined : Curry._1(Parse.expression, env);
+                const loc$1 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
+                const end_loc = loc$1 !== undefined ? loc$1 : (
                     argument !== undefined ? argument[0] : start_loc
                   );
                 semicolon(env);
@@ -13623,17 +13623,17 @@ function statement(env) {
                         }
                       ];
             case /* T_SWITCH */18 :
-                let start_loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env);
+                const start_loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env);
                 token$4(env, /* T_SWITCH */18);
                 token$4(env, /* T_LPAREN */3);
-                let discriminant = Curry._1(Parse.expression, env);
+                const discriminant = Curry._1(Parse.expression, env);
                 token$4(env, /* T_RPAREN */4);
                 token$4(env, /* T_LCURLY */1);
-                let cases = case_list(env, [
+                const cases = case_list(env, [
                       false,
                       /* [] */0
                     ]);
-                let end_loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env);
+                const end_loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env);
                 token$4(env, /* T_RCURLY */2);
                 return [
                         btwn(start_loc$1, end_loc$1),
@@ -13647,7 +13647,7 @@ function statement(env) {
                         }
                       ];
             case /* T_THROW */20 :
-                let start_loc$2 = Curry._2(Parser_env_Peek.loc, undefined, env);
+                const start_loc$2 = Curry._2(Parser_env_Peek.loc, undefined, env);
                 token$4(env, /* T_THROW */20);
                 if (Curry._1(Parser_env_Peek.is_line_terminator, env)) {
                   error_at(env, [
@@ -13655,9 +13655,9 @@ function statement(env) {
                         /* NewlineAfterThrow */11
                       ]);
                 }
-                let argument$1 = Curry._1(Parse.expression, env);
-                let loc$2 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
-                let end_loc$2 = loc$2 !== undefined ? loc$2 : argument$1[0];
+                const argument$1 = Curry._1(Parse.expression, env);
+                const loc$2 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
+                const end_loc$2 = loc$2 !== undefined ? loc$2 : argument$1[0];
                 semicolon(env);
                 return [
                         btwn(start_loc$2, end_loc$2),
@@ -13669,28 +13669,28 @@ function statement(env) {
                         }
                       ];
             case /* T_TRY */21 :
-                let start_loc$3 = Curry._2(Parser_env_Peek.loc, undefined, env);
+                const start_loc$3 = Curry._2(Parser_env_Peek.loc, undefined, env);
                 token$4(env, /* T_TRY */21);
-                let block = Curry._1(Parse.block_body, env);
-                let match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
+                const block = Curry._1(Parse.block_body, env);
+                const match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
                 let handler;
                 if (match$2 === 32) {
-                  let start_loc$4 = Curry._2(Parser_env_Peek.loc, undefined, env);
+                  const start_loc$4 = Curry._2(Parser_env_Peek.loc, undefined, env);
                   token$4(env, /* T_CATCH */32);
                   token$4(env, /* T_LPAREN */3);
-                  let id = Curry._2(Parse.identifier, /* StrictCatchVariable */26, env);
-                  let param_0 = id[0];
-                  let param_1 = {
+                  const id = Curry._2(Parse.identifier, /* StrictCatchVariable */26, env);
+                  const param_0 = id[0];
+                  const param_1 = {
                     TAG: /* Identifier */3,
                     _0: id
                   };
-                  let param = [
+                  const param = [
                     param_0,
                     param_1
                   ];
                   token$4(env, /* T_RPAREN */4);
-                  let body = Curry._1(Parse.block_body, env);
-                  let loc$3 = btwn(start_loc$4, body[0]);
+                  const body = Curry._1(Parse.block_body, env);
+                  const loc$3 = btwn(start_loc$4, body[0]);
                   handler = [
                     loc$3,
                     {
@@ -13702,9 +13702,9 @@ function statement(env) {
                 } else {
                   handler = undefined;
                 }
-                let match$3 = Curry._2(Parser_env_Peek.token, undefined, env);
-                let finalizer = match$3 === 36 ? (token$4(env, /* T_FINALLY */36), Curry._1(Parse.block_body, env)) : undefined;
-                let end_loc$3 = finalizer !== undefined ? finalizer[0] : (
+                const match$3 = Curry._2(Parser_env_Peek.token, undefined, env);
+                const finalizer = match$3 === 36 ? (token$4(env, /* T_FINALLY */36), Curry._1(Parse.block_body, env)) : undefined;
+                const end_loc$3 = finalizer !== undefined ? finalizer[0] : (
                     handler !== undefined ? handler[0] : (error_at(env, [
                               block[0],
                               /* NoCatchOrFinally */20
@@ -13725,12 +13725,12 @@ function statement(env) {
             case /* T_VAR */22 :
                 return var_or_const(env);
             case /* T_WHILE */23 :
-                let start_loc$5 = Curry._2(Parser_env_Peek.loc, undefined, env);
+                const start_loc$5 = Curry._2(Parser_env_Peek.loc, undefined, env);
                 token$4(env, /* T_WHILE */23);
                 token$4(env, /* T_LPAREN */3);
-                let test = Curry._1(Parse.expression, env);
+                const test = Curry._1(Parse.expression, env);
                 token$4(env, /* T_RPAREN */4);
-                let body$1 = Curry._1(Parse.statement, with_in_loop(true, env));
+                const body$1 = Curry._1(Parse.statement, with_in_loop(true, env));
                 return [
                         btwn(start_loc$5, body$1[0]),
                         {
@@ -13742,13 +13742,13 @@ function statement(env) {
                         }
                       ];
             case /* T_WITH */24 :
-                let start_loc$6 = Curry._2(Parser_env_Peek.loc, undefined, env);
+                const start_loc$6 = Curry._2(Parser_env_Peek.loc, undefined, env);
                 token$4(env, /* T_WITH */24);
                 token$4(env, /* T_LPAREN */3);
-                let _object = Curry._1(Parse.expression, env);
+                const _object = Curry._1(Parse.expression, env);
                 token$4(env, /* T_RPAREN */4);
-                let body$2 = Curry._1(Parse.statement, env);
-                let loc$4 = btwn(start_loc$6, body$2[0]);
+                const body$2 = Curry._1(Parse.statement, env);
+                const loc$4 = btwn(start_loc$6, body$2[0]);
                 strict_error_at(env, [
                       loc$4,
                       /* StrictModeWith */25
@@ -13764,14 +13764,14 @@ function statement(env) {
                         }
                       ];
             case /* T_BREAK */30 :
-                let start_loc$7 = Curry._2(Parser_env_Peek.loc, undefined, env);
+                const start_loc$7 = Curry._2(Parser_env_Peek.loc, undefined, env);
                 token$4(env, /* T_BREAK */30);
                 let label;
                 if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_SEMICOLON */7) || Curry._1(Parser_env_Peek.is_implicit_semicolon, env)) {
                   label = undefined;
                 } else {
-                  let label$1 = Curry._2(Parse.identifier, undefined, env);
-                  let name = label$1[1].name;
+                  const label$1 = Curry._2(Parse.identifier, undefined, env);
+                  const name = label$1[1].name;
                   if (!Curry._2(mem$1, name, env.labels)) {
                     error$1(env, {
                           TAG: /* UnknownLabel */4,
@@ -13780,11 +13780,11 @@ function statement(env) {
                   }
                   label = label$1;
                 }
-                let loc$5 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
-                let end_loc$4 = loc$5 !== undefined ? loc$5 : (
+                const loc$5 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
+                const end_loc$4 = loc$5 !== undefined ? loc$5 : (
                     label !== undefined ? label[0] : start_loc$7
                   );
-                let loc$6 = btwn(start_loc$7, end_loc$4);
+                const loc$6 = btwn(start_loc$7, end_loc$4);
                 if (label === undefined && !(env.in_loop || env.in_switch)) {
                   error_at(env, [
                         loc$6,
@@ -13802,14 +13802,14 @@ function statement(env) {
                         }
                       ];
             case /* T_CONTINUE */33 :
-                let start_loc$8 = Curry._2(Parser_env_Peek.loc, undefined, env);
+                const start_loc$8 = Curry._2(Parser_env_Peek.loc, undefined, env);
                 token$4(env, /* T_CONTINUE */33);
                 let label$2;
                 if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_SEMICOLON */7) || Curry._1(Parser_env_Peek.is_implicit_semicolon, env)) {
                   label$2 = undefined;
                 } else {
-                  let label$3 = Curry._2(Parse.identifier, undefined, env);
-                  let name$1 = label$3[1].name;
+                  const label$3 = Curry._2(Parse.identifier, undefined, env);
+                  const name$1 = label$3[1].name;
                   if (!Curry._2(mem$1, name$1, env.labels)) {
                     error$1(env, {
                           TAG: /* UnknownLabel */4,
@@ -13818,11 +13818,11 @@ function statement(env) {
                   }
                   label$2 = label$3;
                 }
-                let loc$7 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
-                let end_loc$5 = loc$7 !== undefined ? loc$7 : (
+                const loc$7 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
+                const end_loc$5 = loc$7 !== undefined ? loc$7 : (
                     label$2 !== undefined ? label$2[0] : start_loc$8
                   );
-                let loc$8 = btwn(start_loc$8, end_loc$5);
+                const loc$8 = btwn(start_loc$8, end_loc$5);
                 if (!env.in_loop) {
                   error_at(env, [
                         loc$8,
@@ -13840,16 +13840,16 @@ function statement(env) {
                         }
                       ];
             case /* T_DO */35 :
-                let start_loc$9 = Curry._2(Parser_env_Peek.loc, undefined, env);
+                const start_loc$9 = Curry._2(Parser_env_Peek.loc, undefined, env);
                 token$4(env, /* T_DO */35);
-                let body$3 = Curry._1(Parse.statement, with_in_loop(true, env));
+                const body$3 = Curry._1(Parse.statement, with_in_loop(true, env));
                 token$4(env, /* T_WHILE */23);
                 token$4(env, /* T_LPAREN */3);
-                let test$1 = Curry._1(Parse.expression, env);
-                let end_loc$6 = Curry._2(Parser_env_Peek.loc, undefined, env);
+                const test$1 = Curry._1(Parse.expression, env);
+                const end_loc$6 = Curry._2(Parser_env_Peek.loc, undefined, env);
                 token$4(env, /* T_RPAREN */4);
-                let loc$9 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
-                let end_loc$7 = loc$9 !== undefined ? loc$9 : end_loc$6;
+                const loc$9 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
+                const end_loc$7 = loc$9 !== undefined ? loc$9 : end_loc$6;
                 if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_SEMICOLON */7)) {
                   semicolon(env);
                 }
@@ -13864,10 +13864,10 @@ function statement(env) {
                         }
                       ];
             case /* T_FOR */37 :
-                let start_loc$10 = Curry._2(Parser_env_Peek.loc, undefined, env);
+                const start_loc$10 = Curry._2(Parser_env_Peek.loc, undefined, env);
                 token$4(env, /* T_FOR */37);
                 token$4(env, /* T_LPAREN */3);
-                let match$4 = Curry._2(Parser_env_Peek.token, undefined, env);
+                const match$4 = Curry._2(Parser_env_Peek.token, undefined, env);
                 let match$5;
                 let exit$1 = 0;
                 if (typeof match$4 === "number") {
@@ -13877,7 +13877,7 @@ function statement(env) {
                     } else {
                       switch (match$4) {
                         case /* T_VAR */22 :
-                            let match$6 = declarations(/* T_VAR */22, /* Var */0, with_no_in(true, env));
+                            const match$6 = declarations(/* T_VAR */22, /* Var */0, with_no_in(true, env));
                             match$5 = [
                               {
                                 TAG: /* InitDeclaration */0,
@@ -13891,7 +13891,7 @@ function statement(env) {
                             exit$1 = 1;
                             break;
                         case /* T_CONST */25 :
-                            let match$7 = $$const(with_no_in(true, env));
+                            const match$7 = $$const(with_no_in(true, env));
                             match$5 = [
                               {
                                 TAG: /* InitDeclaration */0,
@@ -13901,7 +13901,7 @@ function statement(env) {
                             ];
                             break;
                         case /* T_LET */26 :
-                            let match$8 = _let(with_no_in(true, env));
+                            const match$8 = _let(with_no_in(true, env));
                             match$5 = [
                               {
                                 TAG: /* InitDeclaration */0,
@@ -13925,7 +13925,7 @@ function statement(env) {
                   exit$1 = 1;
                 }
                 if (exit$1 === 1) {
-                  let expr = Curry._1(Parse.expression, with_no_let(true, with_no_in(true, env)));
+                  const expr = Curry._1(Parse.expression, with_no_let(true, with_no_in(true, env)));
                   match$5 = [
                     {
                       TAG: /* InitExpression */1,
@@ -13934,8 +13934,8 @@ function statement(env) {
                     /* [] */0
                   ];
                 }
-                let init = match$5[0];
-                let match$9 = Curry._2(Parser_env_Peek.token, undefined, env);
+                const init = match$5[0];
+                const match$9 = Curry._2(Parser_env_Peek.token, undefined, env);
                 if (typeof match$9 === "number") {
                   if (match$9 !== 15) {
                     if (match$9 === 60) {
@@ -13960,9 +13960,9 @@ function statement(env) {
                                 });
                       }
                       token$4(env, /* T_OF */60);
-                      let right = Curry._1(Parse.assignment, env);
+                      const right = Curry._1(Parse.assignment, env);
                       token$4(env, /* T_RPAREN */4);
-                      let body$4 = Curry._1(Parse.statement, with_in_loop(true, env));
+                      const body$4 = Curry._1(Parse.statement, with_in_loop(true, env));
                       return [
                               btwn(start_loc$10, body$4[0]),
                               {
@@ -13998,9 +13998,9 @@ function statement(env) {
                               });
                     }
                     token$4(env, /* T_IN */15);
-                    let right$1 = Curry._1(Parse.expression, env);
+                    const right$1 = Curry._1(Parse.expression, env);
                     token$4(env, /* T_RPAREN */4);
-                    let body$5 = Curry._1(Parse.statement, with_in_loop(true, env));
+                    const body$5 = Curry._1(Parse.statement, with_in_loop(true, env));
                     return [
                             btwn(start_loc$10, body$5[0]),
                             {
@@ -14019,13 +14019,13 @@ function statement(env) {
                         return error_at(env, param);
                       }), match$5[1]);
                 token$4(env, /* T_SEMICOLON */7);
-                let match$10 = Curry._2(Parser_env_Peek.token, undefined, env);
-                let test$2 = match$10 === 7 ? undefined : Curry._1(Parse.expression, env);
+                const match$10 = Curry._2(Parser_env_Peek.token, undefined, env);
+                const test$2 = match$10 === 7 ? undefined : Curry._1(Parse.expression, env);
                 token$4(env, /* T_SEMICOLON */7);
-                let match$11 = Curry._2(Parser_env_Peek.token, undefined, env);
-                let update = match$11 === 4 ? undefined : Curry._1(Parse.expression, env);
+                const match$11 = Curry._2(Parser_env_Peek.token, undefined, env);
+                const update = match$11 === 4 ? undefined : Curry._1(Parse.expression, env);
                 token$4(env, /* T_RPAREN */4);
-                let body$6 = Curry._1(Parse.statement, with_in_loop(true, env));
+                const body$6 = Curry._1(Parse.statement, with_in_loop(true, env));
                 return [
                         btwn(start_loc$10, body$6[0]),
                         {
@@ -14084,10 +14084,10 @@ function statement(env) {
                 exit = 2;
                 break;
             case /* T_DEBUGGER */57 :
-                let start_loc$11 = Curry._2(Parser_env_Peek.loc, undefined, env);
+                const start_loc$11 = Curry._2(Parser_env_Peek.loc, undefined, env);
                 token$4(env, /* T_DEBUGGER */57);
-                let loc$10 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
-                let end_loc$8 = loc$10 !== undefined ? loc$10 : start_loc$11;
+                const loc$10 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
+                const end_loc$8 = loc$10 !== undefined ? loc$10 : start_loc$11;
                 semicolon(env);
                 return [
                         btwn(start_loc$11, end_loc$8),
@@ -14108,14 +14108,14 @@ function statement(env) {
     }
     if (exit === 2) {
       if (Curry._2(Parser_env_Peek.is_identifier, undefined, env)) {
-        let expr$1 = Curry._1(Parse.expression, env);
-        let match$12 = Curry._2(Parser_env_Peek.token, undefined, env);
-        let label$4 = expr$1[1];
+        const expr$1 = Curry._1(Parse.expression, env);
+        const match$12 = Curry._2(Parser_env_Peek.token, undefined, env);
+        const label$4 = expr$1[1];
         if (typeof label$4 !== "number" && label$4.TAG === /* Identifier */18 && match$12 === 77) {
-          let label$5 = label$4._0;
-          let loc$11 = expr$1[0];
-          let match$13 = label$5[1];
-          let name$2 = match$13.name;
+          const label$5 = label$4._0;
+          const loc$11 = expr$1[0];
+          const match$13 = label$5[1];
+          const name$2 = match$13.name;
           token$4(env, /* T_COLON */77);
           if (Curry._2(mem$1, name$2, env.labels)) {
             error_at(env, [
@@ -14127,8 +14127,8 @@ function statement(env) {
                   }
                 ]);
           }
-          let env$1 = add_label(env, name$2);
-          let labeled_stmt = Curry._1(Parse.statement, env$1);
+          const env$1 = add_label(env, name$2);
+          const labeled_stmt = Curry._1(Parse.statement, env$1);
           return [
                   btwn(loc$11, labeled_stmt[0]),
                   {
@@ -14140,8 +14140,8 @@ function statement(env) {
                   }
                 ];
         }
-        let loc$12 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
-        let end_loc$9 = loc$12 !== undefined ? loc$12 : expr$1[0];
+        const loc$12 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
+        const end_loc$9 = loc$12 !== undefined ? loc$12 : expr$1[0];
         semicolon(env);
         return [
                 btwn(expr$1[0], end_loc$9),
@@ -14225,17 +14225,17 @@ function statement(env) {
 }
 
 function module_item(env) {
-  let decorators = decorator_list(env);
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const decorators = decorator_list(env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (typeof match !== "number") {
     return statement_list_item(decorators, env);
   }
   switch (match) {
     case /* T_EXPORT */47 :
-        let env$1 = with_in_export(true, with_strict(true, env));
-        let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env$1);
+        const env$1 = with_in_export(true, with_strict(true, env));
+        const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env$1);
         token$4(env$1, /* T_EXPORT */47);
-        let match$1 = Curry._2(Parser_env_Peek.token, undefined, env$1);
+        const match$1 = Curry._2(Parser_env_Peek.token, undefined, env$1);
         let exit = 0;
         if (typeof match$1 === "number") {
           if (match$1 >= 51) {
@@ -14248,8 +14248,8 @@ function module_item(env) {
                       if (!env$1.parse_options.types) {
                         error$1(env$1, /* UnexpectedTypeExport */9);
                       }
-                      let $$interface$1 = $$interface(env$1);
-                      let match$2 = $$interface$1[1];
+                      const $$interface$1 = $$interface(env$1);
+                      const match$2 = $$interface$1[1];
                       if (typeof match$2 === "number") {
                         throw new Caml_js_exceptions.MelangeError("Failure", {
                                   MEL_EXN_ID: "Failure",
@@ -14267,7 +14267,7 @@ function module_item(env) {
                                   _1: "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!"
                                 });
                       }
-                      let end_loc = $$interface$1[0];
+                      const end_loc = $$interface$1[0];
                       return [
                               btwn(start_loc, end_loc),
                               {
@@ -14289,8 +14289,8 @@ function module_item(env) {
                         if (!env$1.parse_options.types) {
                           error$1(env$1, /* UnexpectedTypeExport */9);
                         }
-                        let type_alias$1 = type_alias(env$1);
-                        let match$3 = type_alias$1[1];
+                        const type_alias$1 = type_alias(env$1);
+                        const match$3 = type_alias$1[1];
                         if (typeof match$3 === "number") {
                           throw new Caml_js_exceptions.MelangeError("Failure", {
                                     MEL_EXN_ID: "Failure",
@@ -14308,7 +14308,7 @@ function module_item(env) {
                                     _1: "Internal Flow Error! Parsed `export type` into something other than a type alias!"
                                   });
                         }
-                        let end_loc$1 = type_alias$1[0];
+                        const end_loc$1 = type_alias$1[0];
                         return [
                                 btwn(start_loc, end_loc$1),
                                 {
@@ -14345,19 +14345,19 @@ function module_item(env) {
                 }
               }
             } else {
-              let loc = Curry._2(Parser_env_Peek.loc, undefined, env$1);
+              const loc = Curry._2(Parser_env_Peek.loc, undefined, env$1);
               token$4(env$1, /* T_MULT */97);
-              let parse_export_star_as = env$1.parse_options.esproposal_export_star_as;
-              let local_name = Curry._2(Parser_env_Peek.value, undefined, env$1) === "as" ? (contextual(env$1, "as"), parse_export_star_as ? Curry._2(Parse.identifier, undefined, env$1) : (error$1(env$1, /* UnexpectedTypeDeclaration */7), undefined)) : undefined;
-              let specifiers = {
+              const parse_export_star_as = env$1.parse_options.esproposal_export_star_as;
+              const local_name = Curry._2(Parser_env_Peek.value, undefined, env$1) === "as" ? (contextual(env$1, "as"), parse_export_star_as ? Curry._2(Parse.identifier, undefined, env$1) : (error$1(env$1, /* UnexpectedTypeDeclaration */7), undefined)) : undefined;
+              const specifiers = {
                 TAG: /* ExportBatchSpecifier */1,
                 _0: loc,
                 _1: local_name
               };
-              let source$1 = export_source(env$1);
-              let loc$1 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$1);
-              let end_loc$2 = loc$1 !== undefined ? loc$1 : source$1[0];
-              let source$2 = source$1;
+              const source$1 = export_source(env$1);
+              const loc$1 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$1);
+              const end_loc$2 = loc$1 !== undefined ? loc$1 : source$1[0];
+              const source$2 = source$1;
               semicolon(env$1);
               return [
                       btwn(start_loc, end_loc$2),
@@ -14381,10 +14381,10 @@ function module_item(env) {
                         btwn(start_loc, Curry._2(Parser_env_Peek.loc, undefined, env$1)),
                         "default"
                       ]);
-                  let match$4 = Curry._2(Parser_env_Peek.token, undefined, env$1);
+                  const match$4 = Curry._2(Parser_env_Peek.token, undefined, env$1);
                   let match$5;
                   if (match$4 === 13) {
-                    let fn = _function(env$1);
+                    const fn = _function(env$1);
                     match$5 = [
                       fn[0],
                       {
@@ -14393,7 +14393,7 @@ function module_item(env) {
                       }
                     ];
                   } else if (Curry._2(Parser_env_Peek.is_class, undefined, env$1)) {
-                    let _class = class_declaration(env$1, decorators);
+                    const _class = class_declaration(env$1, decorators);
                     match$5 = [
                       _class[0],
                       {
@@ -14402,9 +14402,9 @@ function module_item(env) {
                       }
                     ];
                   } else {
-                    let expr = Curry._1(Parse.assignment, env$1);
-                    let loc$2 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$1);
-                    let end_loc$3 = loc$2 !== undefined ? loc$2 : expr[0];
+                    const expr = Curry._1(Parse.assignment, env$1);
+                    const loc$2 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$1);
+                    const end_loc$3 = loc$2 !== undefined ? loc$2 : expr[0];
                     semicolon(env$1);
                     match$5 = [
                       end_loc$3,
@@ -14466,21 +14466,21 @@ function module_item(env) {
         }
         switch (exit) {
           case 1 :
-              let match$6 = Curry._2(Parser_env_Peek.token, undefined, env$1);
-              let exportKind = match$6 === 59 ? (token$3(env$1), /* ExportType */0) : /* ExportValue */1;
+              const match$6 = Curry._2(Parser_env_Peek.token, undefined, env$1);
+              const exportKind = match$6 === 59 ? (token$3(env$1), /* ExportType */0) : /* ExportValue */1;
               token$4(env$1, /* T_LCURLY */1);
-              let match$7 = export_specifiers_and_errs(env$1, /* [] */0, /* [] */0);
-              let specifiers$1 = {
+              const match$7 = export_specifiers_and_errs(env$1, /* [] */0, /* [] */0);
+              const specifiers$1 = {
                 TAG: /* ExportSpecifiers */0,
                 _0: match$7[0]
               };
-              let end_loc$4 = Curry._2(Parser_env_Peek.loc, undefined, env$1);
+              const end_loc$4 = Curry._2(Parser_env_Peek.loc, undefined, env$1);
               token$4(env$1, /* T_RCURLY */2);
-              let source$3 = Curry._2(Parser_env_Peek.value, undefined, env$1) === "from" ? export_source(env$1) : (Stdlib__List.iter((function (param) {
+              const source$3 = Curry._2(Parser_env_Peek.value, undefined, env$1) === "from" ? export_source(env$1) : (Stdlib__List.iter((function (param) {
                           return error_at(env$1, param);
                         }), match$7[1]), undefined);
-              let loc$3 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$1);
-              let end_loc$5 = loc$3 !== undefined ? loc$3 : (
+              const loc$3 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$1);
+              const end_loc$5 = loc$3 !== undefined ? loc$3 : (
                   source$3 !== undefined ? source$3[0] : end_loc$4
                 );
               semicolon(env$1);
@@ -14498,9 +14498,9 @@ function module_item(env) {
                       }
                     ];
           case 2 :
-              let stmt = Curry._2(Parse.statement_list_item, decorators, env$1);
-              let match$8 = stmt[1];
-              let loc$4 = stmt[0];
+              const stmt = Curry._2(Parse.statement_list_item, decorators, env$1);
+              const match$8 = stmt[1];
+              const loc$4 = stmt[0];
               let names;
               if (typeof match$8 === "number") {
                 throw new Caml_js_exceptions.MelangeError("Failure", {
@@ -14510,7 +14510,7 @@ function module_item(env) {
               }
               switch (match$8.TAG | 0) {
                 case /* FunctionDeclaration */18 :
-                    let id = match$8._0.id;
+                    const id = match$8._0.id;
                     if (id !== undefined) {
                       names = {
                         hd: [
@@ -14529,7 +14529,7 @@ function module_item(env) {
                     break;
                 case /* VariableDeclaration */19 :
                     names = Stdlib__List.fold_left((function (names, param) {
-                            let id = param[1].id;
+                            const id = param[1].id;
                             let param$1 = {
                               hd: id,
                               tl: /* [] */0
@@ -14538,7 +14538,7 @@ function module_item(env) {
                           }), /* [] */0, match$8._0.declarations);
                     break;
                 case /* ClassDeclaration */20 :
-                    let id$1 = match$8._0.id;
+                    const id$1 = match$8._0.id;
                     if (id$1 !== undefined) {
                       names = {
                         hd: [
@@ -14564,7 +14564,7 @@ function module_item(env) {
               Stdlib__List.iter((function (param) {
                       return record_export(env$1, param);
                     }), names);
-              let declaration = {
+              const declaration = {
                 TAG: /* Declaration */0,
                 _0: stmt
               };
@@ -14585,11 +14585,11 @@ function module_item(env) {
         }
     case /* T_IMPORT */48 :
         error_on_decorators(env)(decorators);
-        let env$2 = with_strict(true, env);
-        let start_loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env$2);
+        const env$2 = with_strict(true, env);
+        const start_loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env$2);
         token$4(env$2, /* T_IMPORT */48);
-        let match$9 = Curry._2(Parser_env_Peek.token, undefined, env$2);
-        let match$10 = typeof match$9 === "number" ? (
+        const match$9 = Curry._2(Parser_env_Peek.token, undefined, env$2);
+        const match$10 = typeof match$9 === "number" ? (
             match$9 !== 44 ? (
                 match$9 !== 59 ? [
                     /* ImportValue */2,
@@ -14606,10 +14606,10 @@ function module_item(env) {
             /* ImportValue */2,
             undefined
           ];
-        let type_ident = match$10[1];
-        let importKind = match$10[0];
-        let match$11 = Curry._2(Parser_env_Peek.token, undefined, env$2);
-        let match$12 = Curry._2(Parser_env_Peek.is_identifier, undefined, env$2);
+        const type_ident = match$10[1];
+        const importKind = match$10[0];
+        const match$11 = Curry._2(Parser_env_Peek.token, undefined, env$2);
+        const match$12 = Curry._2(Parser_env_Peek.is_identifier, undefined, env$2);
         let exit$1 = 0;
         let exit$2 = 0;
         if (typeof match$11 === "number") {
@@ -14620,11 +14620,11 @@ function module_item(env) {
           }
         } else if (match$11.TAG === /* T_STRING */1) {
           if (importKind === /* ImportValue */2) {
-            let match$13 = match$11._0;
-            let octal = match$13[3];
-            let raw = match$13[2];
-            let value = match$13[1];
-            let str_loc = match$13[0];
+            const match$13 = match$11._0;
+            const octal = match$13[3];
+            const raw = match$13[2];
+            const value = match$13[1];
+            const str_loc = match$13[0];
             if (octal) {
               strict_error(env$2, /* StrictOctalLiteral */31);
             }
@@ -14637,20 +14637,20 @@ function module_item(env) {
                     octal
                   ]
                 });
-            let value$1 = {
+            const value$1 = {
               TAG: /* String */0,
               _0: value
             };
-            let source_1 = {
+            const source_1 = {
               value: value$1,
               raw: raw
             };
-            let source$4 = [
+            const source$4 = [
               str_loc,
               source_1
             ];
-            let loc$5 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$2);
-            let end_loc$6 = loc$5 !== undefined ? loc$5 : str_loc;
+            const loc$5 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$2);
+            const end_loc$6 = loc$5 !== undefined ? loc$5 : str_loc;
             semicolon(env$2);
             return [
                     btwn(start_loc$1, end_loc$6),
@@ -14672,10 +14672,10 @@ function module_item(env) {
           if (match$12) {
             exit$1 = 1;
           } else {
-            let specifiers$2 = named_or_namespace_specifier(env$2);
-            let source$5 = source(env$2);
-            let loc$6 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$2);
-            let end_loc$7 = loc$6 !== undefined ? loc$6 : source$5[0];
+            const specifiers$2 = named_or_namespace_specifier(env$2);
+            const source$5 = source(env$2);
+            const loc$6 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$2);
+            const end_loc$7 = loc$6 !== undefined ? loc$6 : source$5[0];
             semicolon(env$2);
             return [
                     btwn(start_loc$1, end_loc$7),
@@ -14691,8 +14691,8 @@ function module_item(env) {
           }
         }
         if (exit$1 === 1) {
-          let match$14 = Curry._2(Parser_env_Peek.token, undefined, env$2);
-          let match$15 = Curry._2(Parser_env_Peek.value, undefined, env$2);
+          const match$14 = Curry._2(Parser_env_Peek.token, undefined, env$2);
+          const match$15 = Curry._2(Parser_env_Peek.value, undefined, env$2);
           let match$16;
           let exit$3 = 0;
           if (type_ident !== undefined && typeof match$14 === "number" && !(match$14 !== 8 && (match$14 || match$15 !== "from"))) {
@@ -14715,11 +14715,11 @@ function module_item(env) {
               }
             ];
           }
-          let match$17 = Curry._2(Parser_env_Peek.token, undefined, env$2);
-          let additional_specifiers = match$17 === 8 ? (token$4(env$2, /* T_COMMA */8), named_or_namespace_specifier(env$2)) : /* [] */0;
-          let source$6 = source(env$2);
-          let loc$7 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$2);
-          let end_loc$8 = loc$7 !== undefined ? loc$7 : source$6[0];
+          const match$17 = Curry._2(Parser_env_Peek.token, undefined, env$2);
+          const additional_specifiers = match$17 === 8 ? (token$4(env$2, /* T_COMMA */8), named_or_namespace_specifier(env$2)) : /* [] */0;
+          const source$6 = source(env$2);
+          const loc$7 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$2);
+          const end_loc$8 = loc$7 !== undefined ? loc$7 : source$6[0];
           semicolon(env$2);
           return [
                   btwn(start_loc$1, end_loc$8),
@@ -14759,32 +14759,32 @@ function module_item(env) {
 }
 
 function statement_list_item(decoratorsOpt, env) {
-  let decorators = decoratorsOpt !== undefined ? decoratorsOpt : /* [] */0;
+  const decorators = decoratorsOpt !== undefined ? decoratorsOpt : /* [] */0;
   if (!Curry._2(Parser_env_Peek.is_class, undefined, env)) {
     error_on_decorators(env)(decorators);
   }
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (typeof match === "number") {
     if (match === 25) {
       return var_or_const(env);
     }
     if (match === 26) {
-      let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+      const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
       token$4(env, /* T_LET */26);
       if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LPAREN */3)) {
         token$4(env, /* T_LPAREN */3);
-        let match$1 = helper(with_no_let(true, env), /* [] */0, /* [] */0);
-        let head = Stdlib__List.map((function (param) {
-                let match = param[1];
+        const match$1 = helper(with_no_let(true, env), /* [] */0, /* [] */0);
+        const head = Stdlib__List.map((function (param) {
+                const match = param[1];
                 return {
                         id: match.id,
                         init: match.init
                       };
               }), match$1[1]);
         token$4(env, /* T_RPAREN */4);
-        let body = Curry._1(Parse.statement, env);
-        let end_loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
-        let end_loc$1 = end_loc !== undefined ? end_loc : match$1[0];
+        const body = Curry._1(Parse.statement, env);
+        const end_loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
+        const end_loc$1 = end_loc !== undefined ? end_loc : match$1[0];
         semicolon(env);
         Stdlib__List.iter((function (param) {
                 return error_at(env, param);
@@ -14800,16 +14800,16 @@ function statement_list_item(decoratorsOpt, env) {
                 }
               ];
       }
-      let match$2 = helper(with_no_let(true, env), /* [] */0, /* [] */0);
-      let declaration = {
+      const match$2 = helper(with_no_let(true, env), /* [] */0, /* [] */0);
+      const declaration = {
         TAG: /* VariableDeclaration */19,
         _0: {
           declarations: match$2[1],
           kind: /* Let */1
         }
       };
-      let end_loc$2 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
-      let end_loc$3 = end_loc$2 !== undefined ? end_loc$2 : match$2[0];
+      const end_loc$2 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
+      const end_loc$3 = end_loc$2 !== undefined ? end_loc$2 : match$2[0];
       semicolon(env);
       Stdlib__List.iter((function (param) {
               return error_at(env, param);
@@ -14849,13 +14849,13 @@ function statement_list_item(decoratorsOpt, env) {
   }
 }
 
-let class_declaration$1 = class_declaration;
+const class_declaration$1 = class_declaration;
 
 function module_body(term_fn, env) {
   let _acc = /* [] */0;
   while(true) {
-    let acc = _acc;
-    let t = Curry._2(Parser_env_Peek.token, undefined, env);
+    const acc = _acc;
+    const t = Curry._2(Parser_env_Peek.token, undefined, env);
     if (t === 105) {
       return Stdlib__List.rev(acc);
     }
@@ -14872,11 +14872,11 @@ function module_body(term_fn, env) {
 
 function statement_list(_env, term_fn, item_fn, _param) {
   while(true) {
-    let param = _param;
-    let env = _env;
-    let stmts = param[1];
-    let string_tokens = param[0];
-    let t = Curry._2(Parser_env_Peek.token, undefined, env);
+    const param = _param;
+    const env = _env;
+    const stmts = param[1];
+    const string_tokens = param[0];
+    const t = Curry._2(Parser_env_Peek.token, undefined, env);
     if (t === 105) {
       return [
               env,
@@ -14891,18 +14891,18 @@ function statement_list(_env, term_fn, item_fn, _param) {
               stmts
             ];
     }
-    let string_token_0 = Curry._2(Parser_env_Peek.loc, undefined, env);
-    let string_token_1 = Curry._2(Parser_env_Peek.token, undefined, env);
-    let string_token = [
+    const string_token_0 = Curry._2(Parser_env_Peek.loc, undefined, env);
+    const string_token_1 = Curry._2(Parser_env_Peek.token, undefined, env);
+    const string_token = [
       string_token_0,
       string_token_1
     ];
-    let possible_directive = Curry._1(item_fn, env);
-    let stmts$1 = {
+    const possible_directive = Curry._1(item_fn, env);
+    const stmts$1 = {
       hd: possible_directive,
       tl: stmts
     };
-    let match = possible_directive[1];
+    const match = possible_directive[1];
     if (typeof match === "number") {
       return [
               env,
@@ -14917,8 +14917,8 @@ function statement_list(_env, term_fn, item_fn, _param) {
               stmts$1
             ];
     }
-    let match$1 = match._0.expression;
-    let match$2 = match$1[1];
+    const match$1 = match._0.expression;
+    const match$2 = match$1[1];
     if (typeof match$2 === "number") {
       return [
               env,
@@ -14933,7 +14933,7 @@ function statement_list(_env, term_fn, item_fn, _param) {
               stmts$1
             ];
     }
-    let str = match$2._0.value;
+    const str = match$2._0.value;
     if (typeof str === "number") {
       return [
               env,
@@ -14948,10 +14948,10 @@ function statement_list(_env, term_fn, item_fn, _param) {
               stmts$1
             ];
     }
-    let loc = match$1[0];
-    let len = loc._end.column - loc.start.column | 0;
-    let strict = env.in_strict_mode || str._0 === "use strict" && len === 12;
-    let string_tokens$1 = {
+    const loc = match$1[0];
+    const len = loc._end.column - loc.start.column | 0;
+    const strict = env.in_strict_mode || str._0 === "use strict" && len === 12;
+    const string_tokens$1 = {
       hd: string_token,
       tl: string_tokens
     };
@@ -14965,13 +14965,13 @@ function statement_list(_env, term_fn, item_fn, _param) {
 }
 
 function directives(env, term_fn, item_fn) {
-  let match = statement_list(env, term_fn, item_fn, [
+  const match = statement_list(env, term_fn, item_fn, [
         /* [] */0,
         /* [] */0
       ]);
-  let env$1 = match[0];
+  const env$1 = match[0];
   Stdlib__List.iter((function (param) {
-          let token = param[1];
+          const token = param[1];
           if (typeof token !== "number" && token.TAG === /* T_STRING */1) {
             if (token._0[3]) {
               return strict_error_at(env$1, [
@@ -14982,7 +14982,7 @@ function directives(env, term_fn, item_fn) {
               return ;
             }
           }
-          let s = "Nooo: " + (token_to_string(token) + "\n");
+          const s = "Nooo: " + (token_to_string(token) + "\n");
           throw new Caml_js_exceptions.MelangeError("Failure", {
                     MEL_EXN_ID: "Failure",
                     _1: s
@@ -14997,8 +14997,8 @@ function directives(env, term_fn, item_fn) {
 function statement_list$1(term_fn, env) {
   let _acc = /* [] */0;
   while(true) {
-    let acc = _acc;
-    let t = Curry._2(Parser_env_Peek.token, undefined, env);
+    const acc = _acc;
+    const t = Curry._2(Parser_env_Peek.token, undefined, env);
     if (t === 105) {
       return Stdlib__List.rev(acc);
     }
@@ -15014,12 +15014,12 @@ function statement_list$1(term_fn, env) {
 }
 
 function statement_list_with_directives(term_fn, env) {
-  let match = Curry._3(directives, env, term_fn, (function (eta) {
+  const match = Curry._3(directives, env, term_fn, (function (eta) {
           return statement_list_item(undefined, eta);
         }));
-  let env$1 = match[0];
-  let stmts = Curry._2(statement_list$1, term_fn, env$1);
-  let stmts$1 = Stdlib__List.fold_left((function (acc, stmt) {
+  const env$1 = match[0];
+  const stmts = Curry._2(statement_list$1, term_fn, env$1);
+  const stmts$1 = Stdlib__List.fold_left((function (acc, stmt) {
           return {
                   hd: stmt,
                   tl: acc
@@ -15032,8 +15032,8 @@ function statement_list_with_directives(term_fn, env) {
 }
 
 function module_body_with_directives(env, term_fn) {
-  let match = Curry._3(directives, env, term_fn, module_item);
-  let stmts = Curry._2(module_body, term_fn, match[0]);
+  const match = Curry._3(directives, env, term_fn, module_item);
+  const stmts = Curry._2(module_body, term_fn, match[0]);
   return Stdlib__List.fold_left((function (acc, stmt) {
                 return {
                         hd: stmt,
@@ -15043,9 +15043,9 @@ function module_body_with_directives(env, term_fn) {
 }
 
 function identifier$2(restricted_error, env) {
-  let loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  let name = Curry._2(Parser_env_Peek.value, undefined, env);
-  let t = Curry._2(Parser_env_Peek.token, undefined, env);
+  const loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const name = Curry._2(Parser_env_Peek.value, undefined, env);
+  const t = Curry._2(Parser_env_Peek.token, undefined, env);
   if (t === 26) {
     if (env.in_strict_mode) {
       strict_error(env, /* StrictReservedWord */39);
@@ -15081,13 +15081,13 @@ function identifier$2(restricted_error, env) {
 }
 
 function program(env) {
-  let stmts = module_body_with_directives(env, (function (param) {
+  const stmts = module_body_with_directives(env, (function (param) {
           return false;
         }));
-  let end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_EOF */105);
-  let loc = stmts ? btwn(Stdlib__List.hd(stmts)[0], Stdlib__List.hd(Stdlib__List.rev(stmts))[0]) : end_loc;
-  let comments = Stdlib__List.rev(env.comments.contents);
+  const loc = stmts ? btwn(Stdlib__List.hd(stmts)[0], Stdlib__List.hd(Stdlib__List.rev(stmts))[0]) : end_loc;
+  const comments = Stdlib__List.rev(env.comments.contents);
   return [
           loc,
           stmts,
@@ -15096,8 +15096,8 @@ function program(env) {
 }
 
 function expression$1(env) {
-  let expr = Curry._1(assignment, env);
-  let match = Curry._2(Parser_env_Peek.token, undefined, env);
+  const expr = Curry._1(assignment, env);
+  const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (match === 8) {
     return sequence(env, {
                 hd: expr,
@@ -15109,15 +15109,15 @@ function expression$1(env) {
 }
 
 function identifier_with_type(env, restricted_error) {
-  let match = identifier$2(restricted_error, env);
-  let id = match[1];
-  let loc = match[0];
+  const match = identifier$2(restricted_error, env);
+  const id = match[1];
+  const loc = match[0];
   let match$1;
   if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_PLING */76)) {
     if (!env.parse_options.types) {
       error$1(env, /* UnexpectedTypeAnnotation */6);
     }
-    let loc$1 = btwn(loc, Curry._2(Parser_env_Peek.loc, undefined, env));
+    const loc$1 = btwn(loc, Curry._2(Parser_env_Peek.loc, undefined, env));
     token$4(env, /* T_PLING */76);
     match$1 = [
       loc$1,
@@ -15133,17 +15133,17 @@ function identifier_with_type(env, restricted_error) {
       id
     ];
   }
-  let id$1 = match$1[1];
-  let loc$2 = match$1[0];
+  const id$1 = match$1[1];
+  const loc$2 = match$1[0];
   if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COLON */77)) {
     return [
             loc$2,
             id$1
           ];
   }
-  let typeAnnotation = wrap(annotation, env);
-  let loc$3 = btwn(loc$2, typeAnnotation[0]);
-  let typeAnnotation$1 = typeAnnotation;
+  const typeAnnotation = wrap(annotation, env);
+  const loc$3 = btwn(loc$2, typeAnnotation[0]);
+  const typeAnnotation$1 = typeAnnotation;
   return [
           loc$3,
           {
@@ -15155,13 +15155,13 @@ function identifier_with_type(env, restricted_error) {
 }
 
 function block_body(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_LCURLY */1);
-  let term_fn = function (t) {
+  const term_fn = function (t) {
     return Caml_obj.caml_equal(t, /* T_RCURLY */2);
   };
-  let body = Curry._2(statement_list$1, term_fn, env);
-  let end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const body = Curry._2(statement_list$1, term_fn, env);
+  const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_RCURLY */2);
   return [
           btwn(start_loc, end_loc),
@@ -15172,13 +15172,13 @@ function block_body(env) {
 }
 
 function function_block_body(env) {
-  let start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_LCURLY */1);
-  let term_fn = function (t) {
+  const term_fn = function (t) {
     return Caml_obj.caml_equal(t, /* T_RCURLY */2);
   };
-  let match = statement_list_with_directives(term_fn, env);
-  let end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const match = statement_list_with_directives(term_fn, env);
+  const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_RCURLY */2);
   return [
           btwn(start_loc, end_loc),
@@ -15190,7 +15190,7 @@ function function_block_body(env) {
 }
 
 function predicate(env) {
-  let checks_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const checks_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   if (!(Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_IDENTIFIER */0) && Curry._2(Parser_env_Peek.value, undefined, env) === "checks")) {
     return ;
   }
@@ -15201,10 +15201,10 @@ function predicate(env) {
             /* Inferred */0
           ];
   }
-  let exp = Curry._1(Parse.expression, env);
-  let rparen_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
+  const exp = Curry._1(Parse.expression, env);
+  const rparen_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_RPAREN */4);
-  let loc = btwn(checks_loc, rparen_loc);
+  const loc = btwn(checks_loc, rparen_loc);
   return [
           loc,
           /* Declared */{
@@ -15336,18 +15336,18 @@ Caml_module.update_mod({
     });
 
 function program$1(failOpt, token_sinkOpt, parse_optionsOpt, content) {
-  let fail = failOpt !== undefined ? failOpt : true;
-  let token_sink = token_sinkOpt !== undefined ? Caml_option.valFromOption(token_sinkOpt) : undefined;
-  let parse_options = parse_optionsOpt !== undefined ? Caml_option.valFromOption(parse_optionsOpt) : undefined;
+  const fail = failOpt !== undefined ? failOpt : true;
+  const token_sink = token_sinkOpt !== undefined ? Caml_option.valFromOption(token_sinkOpt) : undefined;
+  const parse_options = parse_optionsOpt !== undefined ? Caml_option.valFromOption(parse_optionsOpt) : undefined;
   let token_sinkOpt$1 = Caml_option.some(token_sink);
   let parse_optionsOpt$1 = Caml_option.some(parse_options);
   let filename;
-  let token_sink$1 = token_sinkOpt$1 !== undefined ? Caml_option.valFromOption(token_sinkOpt$1) : undefined;
-  let parse_options$1 = parse_optionsOpt$1 !== undefined ? Caml_option.valFromOption(parse_optionsOpt$1) : undefined;
-  let env = init_env(Caml_option.some(token_sink$1), Caml_option.some(parse_options$1), filename, content);
+  const token_sink$1 = token_sinkOpt$1 !== undefined ? Caml_option.valFromOption(token_sinkOpt$1) : undefined;
+  const parse_options$1 = parse_optionsOpt$1 !== undefined ? Caml_option.valFromOption(parse_optionsOpt$1) : undefined;
+  const env = init_env(Caml_option.some(token_sink$1), Caml_option.some(parse_options$1), filename, content);
   let parser = Parse.program;
-  let ast = Curry._1(parser, env);
-  let error_list = filter_duplicate_errors(env.errors.contents);
+  const ast = Curry._1(parser, env);
+  const error_list = filter_duplicate_errors(env.errors.contents);
   if (fail && Caml_obj.caml_notequal(error_list, /* [] */0)) {
     throw new Caml_js_exceptions.MelangeError($$Error, {
               MEL_EXN_ID: $$Error,
@@ -15360,26 +15360,26 @@ function program$1(failOpt, token_sinkOpt, parse_optionsOpt, content) {
         ];
 }
 
-let translation_errors = {
+const translation_errors = {
   contents: /* [] */0
 };
 
-let string = (function (x) {return x;}
+const string = (function (x) {return x;}
 );
 
-let bool = (function (x) {x ? 1 : 0;}
+const bool = (function (x) {x ? 1 : 0;}
 );
 
-let obj = (function(arr) {var ret = {}; arr.forEach(function(a) {ret[a[0]]=a[1];}); return ret}
+const obj = (function(arr) {var ret = {}; arr.forEach(function(a) {ret[a[0]]=a[1];}); return ret}
 );
 
-let array = (function (x) {return x;}
+const array = (function (x) {return x;}
 );
 
-let number$1 = (function (x) {return x;}
+const number$1 = (function (x) {return x;}
 );
 
-let $$null = null;
+const $$null = null;
 
 function regexp$1(loc, pattern, flags) {
   try {
@@ -15399,19 +15399,19 @@ function regexp$1(loc, pattern, flags) {
 
 function parse(content, options) {
   try {
-    let match = program$1(false, undefined, Caml_option.some(undefined), content);
+    const match = program$1(false, undefined, Caml_option.some(undefined), content);
     translation_errors.contents = /* [] */0;
-    let array_of_list = function (fn, list) {
+    const array_of_list = function (fn, list) {
       return array(Stdlib__Array.of_list(Stdlib__List.map(fn, list)));
     };
-    let option = function (f, param) {
+    const option = function (f, param) {
       if (param !== undefined) {
         return Curry._1(f, Caml_option.valFromOption(param));
       } else {
         return $$null;
       }
     };
-    let position = function (p) {
+    const position = function (p) {
       return obj([
                   [
                     "line",
@@ -15423,9 +15423,9 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let loc = function ($$location) {
-      let match = $$location.source;
-      let source = match !== undefined ? (
+    const loc = function ($$location) {
+      const match = $$location.source;
+      const source = match !== undefined ? (
           typeof match === "number" ? string("(global)") : string(match._0)
         ) : $$null;
       return obj([
@@ -15443,13 +15443,13 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let range = function ($$location) {
+    const range = function ($$location) {
       return array([
                   number$1($$location.start.offset),
                   number$1($$location._end.offset)
                 ]);
     };
-    let node = function (_type, $$location, props) {
+    const node = function (_type, $$location, props) {
       return obj(Stdlib__Array.append([
                       [
                         "type",
@@ -15465,8 +15465,8 @@ function parse(content, options) {
                       ]
                     ], props));
     };
-    let errors = function (l) {
-      let error$2 = function (param) {
+    const errors = function (l) {
+      const error$2 = function (param) {
         return obj([
                     [
                       "loc",
@@ -15480,8 +15480,8 @@ function parse(content, options) {
       };
       return array_of_list(error$2, l);
     };
-    let identifier = function (param) {
-      let id = param[1];
+    const identifier = function (param) {
+      const id = param[1];
       return node("Identifier", param[0], [
                   [
                     "name",
@@ -15497,11 +15497,11 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let class_element = function (param) {
+    const class_element = function (param) {
       if (param.TAG === /* Method */0) {
         let param$1 = param._0;
-        let method_ = param$1[1];
-        let key = method_.key;
+        const method_ = param$1[1];
+        const key = method_.key;
         let match;
         switch (key.TAG | 0) {
           case /* Literal */0 :
@@ -15568,8 +15568,8 @@ function parse(content, options) {
                   ]);
       } else {
         let param$2 = param._0;
-        let prop = param$2[1];
-        let lit = prop.key;
+        const prop = param$2[1];
+        const lit = prop.key;
         let match$1;
         switch (lit.TAG | 0) {
           case /* Literal */0 :
@@ -15616,9 +15616,9 @@ function parse(content, options) {
                   ]);
       }
     };
-    let expression = function (param) {
-      let arr = param[1];
-      let loc = param[0];
+    const expression = function (param) {
+      const arr = param[1];
+      const loc = param[0];
       if (typeof arr === "number") {
         return node("ThisExpression", loc, []);
       }
@@ -15641,8 +15641,8 @@ function parse(content, options) {
                         arr._0
                       ]);
         case /* ArrowFunction */3 :
-            let arrow = arr._0;
-            let b = arrow.body;
+            const arrow = arr._0;
+            const b = arrow.body;
             let body;
             body = b.TAG === /* BodyBlock */0 ? block(b._0) : expression(b._0);
             return node("ArrowFunctionExpression", loc, [
@@ -15695,15 +15695,15 @@ function parse(content, options) {
                           array_of_list(expression, arr._0.expressions)
                         ]]);
         case /* Unary */5 :
-            let unary = arr._0;
-            let match = unary.operator;
+            const unary = arr._0;
+            const match = unary.operator;
             if (match >= 7) {
               return node("AwaitExpression", loc, [[
                             "argument",
                             expression(unary.argument)
                           ]]);
             }
-            let match$1 = unary.operator;
+            const match$1 = unary.operator;
             let operator;
             switch (match$1) {
               case /* Minus */0 :
@@ -15749,8 +15749,8 @@ function parse(content, options) {
                         ]
                       ]);
         case /* Binary */6 :
-            let binary = arr._0;
-            let match$2 = binary.operator;
+            const binary = arr._0;
+            const match$2 = binary.operator;
             let operator$1;
             switch (match$2) {
               case /* Equal */0 :
@@ -15836,8 +15836,8 @@ function parse(content, options) {
                         ]
                       ]);
         case /* Assignment */7 :
-            let assignment = arr._0;
-            let match$3 = assignment.operator;
+            const assignment = arr._0;
+            const match$3 = assignment.operator;
             let operator$2;
             switch (match$3) {
               case /* Assign */0 :
@@ -15896,9 +15896,9 @@ function parse(content, options) {
                         ]
                       ]);
         case /* Update */8 :
-            let update = arr._0;
-            let match$4 = update.operator;
-            let operator$3 = match$4 ? "--" : "++";
+            const update = arr._0;
+            const match$4 = update.operator;
+            const operator$3 = match$4 ? "--" : "++";
             return node("UpdateExpression", loc, [
                         [
                           "operator",
@@ -15914,9 +15914,9 @@ function parse(content, options) {
                         ]
                       ]);
         case /* Logical */9 :
-            let logical = arr._0;
-            let match$5 = logical.operator;
-            let operator$4 = match$5 ? "&&" : "||";
+            const logical = arr._0;
+            const match$5 = logical.operator;
+            const operator$4 = match$5 ? "&&" : "||";
             return node("LogicalExpression", loc, [
                         [
                           "operator",
@@ -15932,7 +15932,7 @@ function parse(content, options) {
                         ]
                       ]);
         case /* Conditional */10 :
-            let conditional = arr._0;
+            const conditional = arr._0;
             return node("ConditionalExpression", loc, [
                         [
                           "test",
@@ -15948,7 +15948,7 @@ function parse(content, options) {
                         ]
                       ]);
         case /* New */11 :
-            let _new = arr._0;
+            const _new = arr._0;
             return node("NewExpression", loc, [
                         [
                           "callee",
@@ -15960,7 +15960,7 @@ function parse(content, options) {
                         ]
                       ]);
         case /* Call */12 :
-            let call = arr._0;
+            const call = arr._0;
             return node("CallExpression", loc, [
                         [
                           "callee",
@@ -15972,8 +15972,8 @@ function parse(content, options) {
                         ]
                       ]);
         case /* Member */13 :
-            let member = arr._0;
-            let id = member.property;
+            const member = arr._0;
+            const id = member.property;
             let property;
             property = id.TAG === /* PropertyIdentifier */0 ? identifier(id._0) : expression(id._0);
             return node("MemberExpression", loc, [
@@ -15991,7 +15991,7 @@ function parse(content, options) {
                         ]
                       ]);
         case /* Yield */14 :
-            let $$yield = arr._0;
+            const $$yield = arr._0;
             return node("YieldExpression", loc, [
                         [
                           "argument",
@@ -16003,7 +16003,7 @@ function parse(content, options) {
                         ]
                       ]);
         case /* Comprehension */15 :
-            let comp = arr._0;
+            const comp = arr._0;
             return node("ComprehensionExpression", loc, [
                         [
                           "blocks",
@@ -16015,7 +16015,7 @@ function parse(content, options) {
                         ]
                       ]);
         case /* Generator */16 :
-            let gen = arr._0;
+            const gen = arr._0;
             return node("GeneratorExpression", loc, [
                         [
                           "blocks",
@@ -16027,7 +16027,7 @@ function parse(content, options) {
                         ]
                       ]);
         case /* Let */17 :
-            let _let = arr._0;
+            const _let = arr._0;
             return node("LetExpression", loc, [
                         [
                           "head",
@@ -16055,7 +16055,7 @@ function parse(content, options) {
               loc,
               arr._0
             ];
-            let tagged = param$1[1];
+            const tagged = param$1[1];
             return node("TaggedTemplateExpression", param$1[0], [
                         [
                           "tag",
@@ -16076,7 +16076,7 @@ function parse(content, options) {
               loc,
               arr._0
             ];
-            let c = param$2[1];
+            const c = param$2[1];
             return node("ClassExpression", param$2[0], [
                         [
                           "id",
@@ -16108,7 +16108,7 @@ function parse(content, options) {
                         ]
                       ]);
         case /* TypeCast */24 :
-            let typecast = arr._0;
+            const typecast = arr._0;
             return node("TypeCastExpression", loc, [
                         [
                           "expression",
@@ -16122,9 +16122,9 @@ function parse(content, options) {
         
       }
     };
-    let template_element = function (param) {
-      let element = param[1];
-      let value = obj([
+    const template_element = function (param) {
+      const element = param[1];
+      const value = obj([
             [
               "raw",
               string(element.value.raw)
@@ -16145,9 +16145,9 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let statement = function (param) {
-      let b = param[1];
-      let loc = param[0];
+    const statement = function (param) {
+      const b = param[1];
+      const loc = param[0];
       if (typeof b === "number") {
         if (b === /* Empty */0) {
           return node("EmptyStatement", loc, []);
@@ -16167,7 +16167,7 @@ function parse(content, options) {
                           expression(b._0.expression)
                         ]]);
         case /* If */2 :
-            let _if = b._0;
+            const _if = b._0;
             return node("IfStatement", loc, [
                         [
                           "test",
@@ -16183,7 +16183,7 @@ function parse(content, options) {
                         ]
                       ]);
         case /* Labeled */3 :
-            let labeled = b._0;
+            const labeled = b._0;
             return node("LabeledStatement", loc, [
                         [
                           "label",
@@ -16205,7 +16205,7 @@ function parse(content, options) {
                           option(identifier, b._0.label)
                         ]]);
         case /* With */6 :
-            let _with = b._0;
+            const _with = b._0;
             return node("WithStatement", loc, [
                         [
                           "object",
@@ -16222,7 +16222,7 @@ function parse(content, options) {
                         b._0
                       ]);
         case /* Switch */8 :
-            let $$switch = b._0;
+            const $$switch = b._0;
             return node("SwitchStatement", loc, [
                         [
                           "discriminant",
@@ -16248,7 +16248,7 @@ function parse(content, options) {
                           expression(b._0.argument)
                         ]]);
         case /* Try */11 :
-            let _try = b._0;
+            const _try = b._0;
             return node("TryStatement", loc, [
                         [
                           "block",
@@ -16268,7 +16268,7 @@ function parse(content, options) {
                         ]
                       ]);
         case /* While */12 :
-            let _while = b._0;
+            const _while = b._0;
             return node("WhileStatement", loc, [
                         [
                           "test",
@@ -16280,7 +16280,7 @@ function parse(content, options) {
                         ]
                       ]);
         case /* DoWhile */13 :
-            let dowhile = b._0;
+            const dowhile = b._0;
             return node("DoWhileStatement", loc, [
                         [
                           "body",
@@ -16292,8 +16292,8 @@ function parse(content, options) {
                         ]
                       ]);
         case /* For */14 :
-            let _for = b._0;
-            let init = function (param) {
+            const _for = b._0;
+            const init = function (param) {
               if (param.TAG === /* InitDeclaration */0) {
                 return variable_declaration(param._0);
               } else {
@@ -16319,8 +16319,8 @@ function parse(content, options) {
                         ]
                       ]);
         case /* ForIn */15 :
-            let forin = b._0;
-            let left = forin.left;
+            const forin = b._0;
+            const left = forin.left;
             let left$1;
             left$1 = left.TAG === /* LeftDeclaration */0 ? variable_declaration(left._0) : expression(left._0);
             return node("ForInStatement", loc, [
@@ -16342,8 +16342,8 @@ function parse(content, options) {
                         ]
                       ]);
         case /* ForOf */16 :
-            let forof = b._0;
-            let left$2 = forof.left;
+            const forof = b._0;
+            const left$2 = forof.left;
             let left$3;
             left$3 = left$2.TAG === /* LeftDeclaration */0 ? variable_declaration(left$2._0) : expression(left$2._0);
             return node("ForOfStatement", loc, [
@@ -16361,7 +16361,7 @@ function parse(content, options) {
                         ]
                       ]);
         case /* Let */17 :
-            let _let = b._0;
+            const _let = b._0;
             return node("LetStatement", loc, [
                         [
                           "head",
@@ -16373,16 +16373,16 @@ function parse(content, options) {
                         ]
                       ]);
         case /* FunctionDeclaration */18 :
-            let fn = b._0;
-            let id = fn.id;
-            let match = id !== undefined ? [
+            const fn = b._0;
+            const id = fn.id;
+            const match = id !== undefined ? [
                 "FunctionDeclaration",
                 identifier(id)
               ] : [
                 "FunctionExpression",
                 $$null
               ];
-            let b$1 = fn.body;
+            const b$1 = fn.body;
             let body;
             body = b$1.TAG === /* BodyBlock */0 ? block(b$1._0) : expression(b$1._0);
             return node(match[0], loc, [
@@ -16439,9 +16439,9 @@ function parse(content, options) {
               loc,
               b._0
             ];
-            let c = param$1[1];
-            let id$1 = c.id;
-            let match$1 = id$1 !== undefined ? [
+            const c = param$1[1];
+            const id$1 = c.id;
+            const match$1 = id$1 !== undefined ? [
                 "ClassDeclaration",
                 identifier(id$1)
               ] : [
@@ -16499,11 +16499,11 @@ function parse(content, options) {
                         b._0
                       ]);
         case /* DeclareModule */25 :
-            let m = b._0;
-            let lit = m.id;
+            const m = b._0;
+            const lit = m.id;
             let id$2;
             id$2 = lit.TAG === /* Identifier */0 ? identifier(lit._0) : literal(lit._0);
-            let match$2 = m.kind;
+            const match$2 = m.kind;
             let tmp;
             tmp = match$2.TAG === /* CommonJS */0 ? string("CommonJS") : string("ES");
             return node("DeclareModule", loc, [
@@ -16526,8 +16526,8 @@ function parse(content, options) {
                           type_annotation(b._0)
                         ]]);
         case /* DeclareExportDeclaration */27 :
-            let $$export = b._0;
-            let match$3 = $$export.declaration;
+            const $$export = b._0;
+            const match$3 = $$export.declaration;
             let declaration;
             if (match$3 !== undefined) {
               switch (match$3.TAG | 0) {
@@ -16573,9 +16573,9 @@ function parse(content, options) {
                         ]
                       ]);
         case /* ExportDeclaration */28 :
-            let $$export$1 = b._0;
-            let match$4 = $$export$1.declaration;
-            let declaration$1 = match$4 !== undefined ? (
+            const $$export$1 = b._0;
+            const match$4 = $$export$1.declaration;
+            const declaration$1 = match$4 !== undefined ? (
                 match$4.TAG === /* Declaration */0 ? statement(match$4._0) : expression(match$4._0)
               ) : $$null;
             return node("ExportDeclaration", loc, [
@@ -16601,14 +16601,14 @@ function parse(content, options) {
                         ]
                       ]);
         case /* ImportDeclaration */29 :
-            let $$import = b._0;
-            let specifiers = Stdlib__List.map((function (param) {
+            const $$import = b._0;
+            const specifiers = Stdlib__List.map((function (param) {
                     switch (param.TAG | 0) {
                       case /* ImportNamedSpecifier */0 :
-                          let match = param._0;
+                          const match = param._0;
                           let local_id = match.local;
                           let remote_id = match.remote;
-                          let span_loc = local_id !== undefined ? btwn(remote_id[0], local_id[0]) : remote_id[0];
+                          const span_loc = local_id !== undefined ? btwn(remote_id[0], local_id[0]) : remote_id[0];
                           return node("ImportSpecifier", span_loc, [
                                       [
                                         "id",
@@ -16634,7 +16634,7 @@ function parse(content, options) {
                       
                     }
                   }), $$import.specifiers);
-            let match$5 = $$import.importKind;
+            const match$5 = $$import.importKind;
             let import_kind;
             switch (match$5) {
               case /* ImportType */0 :
@@ -16665,8 +16665,8 @@ function parse(content, options) {
         
       }
     };
-    let object_type = function (param) {
-      let o = param[1];
+    const object_type = function (param) {
+      const o = param[1];
       return node("ObjectTypeAnnotation", param[0], [
                   [
                     "properties",
@@ -16682,9 +16682,9 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let interface_extends = function (param) {
-      let g = param[1];
-      let id = g.id;
+    const interface_extends = function (param) {
+      const g = param[1];
+      const id = g.id;
       let id$1;
       id$1 = id.TAG === /* Unqualified */0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
       return node("InterfaceExtends", param[0], [
@@ -16698,15 +16698,15 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let type_parameter_declaration = function (param) {
+    const type_parameter_declaration = function (param) {
       return node("TypeParameterDeclaration", param[0], [[
                     "params",
                     array_of_list(type_param, param[1].params)
                   ]]);
     };
-    let _type = function (param) {
-      let t = param[1];
-      let loc = param[0];
+    const _type = function (param) {
+      const t = param[1];
+      const loc = param[0];
       if (typeof t === "number") {
         switch (t) {
           case /* Any */0 :
@@ -16754,8 +16754,8 @@ function parse(content, options) {
                 loc,
                 t._0
               ];
-              let g = param$1[1];
-              let id = g.id;
+              const g = param$1[1];
+              const id = g.id;
               let id$1;
               id$1 = id.TAG === /* Unqualified */0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
               return node("GenericTypeAnnotation", param$1[0], [
@@ -16809,7 +16809,7 @@ function parse(content, options) {
                 loc,
                 t._0
               ];
-              let s = param$6[1];
+              const s = param$6[1];
               return node("StringLiteralTypeAnnotation", param$6[0], [
                           [
                             "value",
@@ -16825,7 +16825,7 @@ function parse(content, options) {
                 loc,
                 t._0
               ];
-              let s$1 = param$7[1];
+              const s$1 = param$7[1];
               return node("NumberLiteralTypeAnnotation", param$7[0], [
                           [
                             "value",
@@ -16841,7 +16841,7 @@ function parse(content, options) {
                 loc,
                 t._0
               ];
-              let s$2 = param$8[1];
+              const s$2 = param$8[1];
               return node("BooleanLiteralTypeAnnotation", param$8[0], [
                           [
                             "value",
@@ -16856,12 +16856,12 @@ function parse(content, options) {
         }
       }
     };
-    let pattern = function (param) {
-      let obj = param[1];
-      let loc = param[0];
+    const pattern = function (param) {
+      const obj = param[1];
+      const loc = param[0];
       switch (obj.TAG | 0) {
         case /* Object */0 :
-            let obj$1 = obj._0;
+            const obj$1 = obj._0;
             return node("ObjectPattern", loc, [
                         [
                           "properties",
@@ -16873,7 +16873,7 @@ function parse(content, options) {
                         ]
                       ]);
         case /* Array */1 :
-            let arr = obj._0;
+            const arr = obj._0;
             return node("ArrayPattern", loc, [
                         [
                           "elements",
@@ -16887,7 +16887,7 @@ function parse(content, options) {
                         ]
                       ]);
         case /* Assignment */2 :
-            let match = obj._0;
+            const match = obj._0;
             return node("AssignmentPattern", loc, [
                         [
                           "left",
@@ -16905,9 +16905,9 @@ function parse(content, options) {
         
       }
     };
-    let jsx_member_expression = function (param) {
-      let member_expression = param[1];
-      let id = member_expression._object;
+    const jsx_member_expression = function (param) {
+      const member_expression = param[1];
+      const id = member_expression._object;
       let _object;
       _object = id.TAG === /* Identifier */0 ? jsx_identifier(id._0) : jsx_member_expression(id._0);
       return node("JSXMemberExpression", param[0], [
@@ -16921,14 +16921,14 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let jsx_identifier = function (param) {
+    const jsx_identifier = function (param) {
       return node("JSXIdentifier", param[0], [[
                     "name",
                     string(param[1].name)
                   ]]);
     };
-    let jsx_expression_container = function (param) {
-      let expr = param[1].expression;
+    const jsx_expression_container = function (param) {
+      const expr = param[1].expression;
       let expression$1;
       expression$1 = expr.TAG === /* Expression */0 ? expression(expr._0) : node("JSXEmptyExpression", expr._0, []);
       return node("JSXExpressionContainer", param[0], [[
@@ -16936,11 +16936,11 @@ function parse(content, options) {
                     expression$1
                   ]]);
     };
-    let literal = function (param) {
-      let lit = param[1];
-      let raw = lit.raw;
-      let value = lit.value;
-      let loc = param[0];
+    const literal = function (param) {
+      const lit = param[1];
+      const raw = lit.raw;
+      const value = lit.value;
+      const loc = param[0];
       let value_;
       if (typeof value === "number") {
         value_ = $$null;
@@ -16956,7 +16956,7 @@ function parse(content, options) {
               value_ = number$1(value._0);
               break;
           case /* RegExp */3 :
-              let match = value._0;
+              const match = value._0;
               value_ = regexp$1(loc, match.pattern, match.flags);
               break;
           
@@ -16967,8 +16967,8 @@ function parse(content, options) {
       if (typeof value === "number" || value.TAG !== /* RegExp */3) {
         exit = 1;
       } else {
-        let match$1 = value._0;
-        let regex = obj([
+        const match$1 = value._0;
+        const regex = obj([
               [
                 "pattern",
                 string(match$1.pattern)
@@ -17007,11 +17007,11 @@ function parse(content, options) {
       }
       return node("Literal", loc, props);
     };
-    let jsx_opening_attribute = function (param) {
+    const jsx_opening_attribute = function (param) {
       if (param.TAG === /* Attribute */0) {
         let param$1 = param._0;
-        let attribute = param$1[1];
-        let id = attribute.name;
+        const attribute = param$1[1];
+        const id = attribute.name;
         let name;
         name = id.TAG === /* Identifier */0 ? jsx_identifier(id._0) : jsx_namespaced_name(id._0);
         return node("JSXAttribute", param$1[0], [
@@ -17032,7 +17032,7 @@ function parse(content, options) {
                     ]]);
       }
     };
-    let jsx_name = function (param) {
+    const jsx_name = function (param) {
       switch (param.TAG | 0) {
         case /* Identifier */0 :
             return jsx_identifier(param._0);
@@ -17043,7 +17043,7 @@ function parse(content, options) {
         
       }
     };
-    let jsx_attribute_value = function (param) {
+    const jsx_attribute_value = function (param) {
       if (param.TAG === /* Literal */0) {
         return literal([
                     param._0,
@@ -17056,8 +17056,8 @@ function parse(content, options) {
                   ]);
       }
     };
-    let jsx_namespaced_name = function (param) {
-      let namespaced_name = param[1];
+    const jsx_namespaced_name = function (param) {
+      const namespaced_name = param[1];
       return node("JSXNamespacedName", param[0], [
                   [
                     "namespace",
@@ -17069,8 +17069,8 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let export_specifier = function (param) {
-      let specifier = param[1];
+    const export_specifier = function (param) {
+      const specifier = param[1];
       return node("ExportSpecifier", param[0], [
                   [
                     "id",
@@ -17082,20 +17082,20 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let type_annotation = function (param) {
+    const type_annotation = function (param) {
       return node("TypeAnnotation", param[0], [[
                     "typeAnnotation",
                     _type(param[1])
                   ]]);
     };
-    let block = function (param) {
+    const block = function (param) {
       return node("BlockStatement", param[0], [[
                     "body",
                     array_of_list(statement, param[1].body)
                   ]]);
     };
-    let template_literal = function (param) {
-      let value = param[1];
+    const template_literal = function (param) {
+      const value = param[1];
       return node("TemplateLiteral", param[0], [
                   [
                     "quasis",
@@ -17107,7 +17107,7 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let let_assignment = function (assignment) {
+    const let_assignment = function (assignment) {
       return obj([
                   [
                     "id",
@@ -17119,9 +17119,9 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let function_expression = function (param) {
-      let _function = param[1];
-      let b = _function.body;
+    const function_expression = function (param) {
+      const _function = param[1];
+      const b = _function.body;
       let body;
       body = b.TAG === /* BodyBlock */0 ? block(b._0) : expression(b._0);
       return node("FunctionExpression", param[0], [
@@ -17169,11 +17169,11 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let object_property = function (param) {
+    const object_property = function (param) {
       if (param.TAG === /* Property */0) {
-        let match = param._0;
-        let prop = match[1];
-        let lit = prop.key;
+        const match = param._0;
+        const prop = match[1];
+        const lit = prop.key;
         let match$1;
         switch (lit.TAG | 0) {
           case /* Literal */0 :
@@ -17196,7 +17196,7 @@ function parse(content, options) {
               break;
           
         }
-        let match$2 = prop.kind;
+        const match$2 = prop.kind;
         let kind;
         switch (match$2) {
           case /* Init */0 :
@@ -17237,24 +17237,24 @@ function parse(content, options) {
                     ]
                   ]);
       }
-      let match$3 = param._0;
+      const match$3 = param._0;
       return node("SpreadProperty", match$3[0], [[
                     "argument",
                     expression(match$3[1].argument)
                   ]]);
     };
-    let expression_or_spread = function (param) {
+    const expression_or_spread = function (param) {
       if (param.TAG === /* Expression */0) {
         return expression(param._0);
       }
-      let match = param._0;
+      const match = param._0;
       return node("SpreadElement", match[0], [[
                     "argument",
                     expression(match[1].argument)
                   ]]);
     };
-    let jsx_element = function (param) {
-      let element = param[1];
+    const jsx_element = function (param) {
+      const element = param[1];
       return node("JSXElement", param[0], [
                   [
                     "openingElement",
@@ -17270,8 +17270,8 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let comprehension_block = function (param) {
-      let b = param[1];
+    const comprehension_block = function (param) {
+      const b = param[1];
       return node("ComprehensionBlock", param[0], [
                   [
                     "left",
@@ -17287,8 +17287,8 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let function_type = function (param) {
-      let fn = param[1];
+    const function_type = function (param) {
+      const fn = param[1];
       return node("FunctionTypeAnnotation", param[0], [
                   [
                     "params",
@@ -17308,11 +17308,11 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let object_pattern_property = function (param) {
+    const object_pattern_property = function (param) {
       if (param.TAG === /* Property */0) {
-        let match = param._0;
-        let prop = match[1];
-        let lit = prop.key;
+        const match = param._0;
+        const prop = match[1];
+        const lit = prop.key;
         let match$1;
         switch (lit.TAG | 0) {
           case /* Literal */0 :
@@ -17354,30 +17354,30 @@ function parse(content, options) {
                     ]
                   ]);
       }
-      let match$2 = param._0;
+      const match$2 = param._0;
       return node("SpreadPropertyPattern", match$2[0], [[
                     "argument",
                     pattern(match$2[1].argument)
                   ]]);
     };
-    let array_pattern_element = function (param) {
+    const array_pattern_element = function (param) {
       if (param.TAG === /* Element */0) {
         return pattern(param._0);
       }
-      let match = param._0;
+      const match = param._0;
       return node("SpreadElementPattern", match[0], [[
                     "argument",
                     pattern(match[1].argument)
                   ]]);
     };
-    let declare_variable = function (param) {
+    const declare_variable = function (param) {
       return node("DeclareVariable", param[0], [[
                     "id",
                     identifier(param[1].id)
                   ]]);
     };
-    let $$case = function (param) {
-      let c = param[1];
+    const $$case = function (param) {
+      const c = param[1];
       return node("SwitchCase", param[0], [
                   [
                     "test",
@@ -17389,8 +17389,8 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let type_alias = function (param) {
-      let alias = param[1];
+    const type_alias = function (param) {
+      const alias = param[1];
       return node("TypeAlias", param[0], [
                   [
                     "id",
@@ -17406,7 +17406,7 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let export_specifiers = function (param) {
+    const export_specifiers = function (param) {
       if (param !== undefined) {
         if (param.TAG === /* ExportSpecifiers */0) {
           return array_of_list(export_specifier, param._0);
@@ -17420,8 +17420,8 @@ function parse(content, options) {
         return array([]);
       }
     };
-    let interface_declaration = function (param) {
-      let i = param[1];
+    const interface_declaration = function (param) {
+      const i = param[1];
       return node("InterfaceDeclaration", param[0], [
                   [
                     "id",
@@ -17441,14 +17441,14 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let declare_function = function (param) {
+    const declare_function = function (param) {
       return node("DeclareFunction", param[0], [[
                     "id",
                     identifier(param[1].id)
                   ]]);
     };
-    let $$catch = function (param) {
-      let c = param[1];
+    const $$catch = function (param) {
+      const c = param[1];
       return node("CatchClause", param[0], [
                   [
                     "param",
@@ -17464,9 +17464,9 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let variable_declaration = function (param) {
-      let $$var = param[1];
-      let match = $$var.kind;
+    const variable_declaration = function (param) {
+      const $$var = param[1];
+      const match = $$var.kind;
       let kind;
       switch (match) {
         case /* Var */0 :
@@ -17491,8 +17491,8 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let declare_class = function (param) {
-      let d = param[1];
+    const declare_class = function (param) {
+      const d = param[1];
       return node("DeclareClass", param[0], [
                   [
                     "id",
@@ -17512,8 +17512,8 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let variable_declarator = function (param) {
-      let declarator = param[1];
+    const variable_declarator = function (param) {
+      const declarator = param[1];
       return node("VariableDeclarator", param[0], [
                   [
                     "id",
@@ -17525,15 +17525,15 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let type_parameter_instantiation = function (param) {
+    const type_parameter_instantiation = function (param) {
       return node("TypeParameterInstantiation", param[0], [[
                     "params",
                     array_of_list(_type, param[1].params)
                   ]]);
     };
-    let generic_type_qualified_identifier = function (param) {
-      let q = param[1];
-      let id = q.qualification;
+    const generic_type_qualified_identifier = function (param) {
+      const q = param[1];
+      const id = q.qualification;
       let qualification;
       qualification = id.TAG === /* Unqualified */0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
       return node("QualifiedTypeIdentifier", param[0], [
@@ -17547,14 +17547,14 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let class_body = function (param) {
+    const class_body = function (param) {
       return node("ClassBody", param[0], [[
                     "body",
                     array_of_list(class_element, param[1].body)
                   ]]);
     };
-    let class_implements = function (param) {
-      let $$implements = param[1];
+    const class_implements = function (param) {
+      const $$implements = param[1];
       return node("ClassImplements", param[0], [
                   [
                     "id",
@@ -17566,8 +17566,8 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let comment = function (param) {
-      let c = param[1];
+    const comment = function (param) {
+      const c = param[1];
       let match;
       match = c.TAG === /* Block */0 ? [
           "Block",
@@ -17581,9 +17581,9 @@ function parse(content, options) {
                     string(match[1])
                   ]]);
     };
-    let jsx_child = function (param) {
-      let element = param[1];
-      let loc = param[0];
+    const jsx_child = function (param) {
+      const element = param[1];
+      const loc = param[0];
       switch (element.TAG | 0) {
         case /* Element */0 :
             return jsx_element([
@@ -17600,7 +17600,7 @@ function parse(content, options) {
               loc,
               element._0
             ];
-            let text = param$1[1];
+            const text = param$1[1];
             return node("JSXText", param$1[0], [
                         [
                           "value",
@@ -17614,14 +17614,14 @@ function parse(content, options) {
         
       }
     };
-    let jsx_closing = function (param) {
+    const jsx_closing = function (param) {
       return node("JSXClosingElement", param[0], [[
                     "name",
                     jsx_name(param[1].name)
                   ]]);
     };
-    let jsx_opening = function (param) {
-      let opening = param[1];
+    const jsx_opening = function (param) {
+      const opening = param[1];
       return node("JSXOpeningElement", param[0], [
                   [
                     "name",
@@ -17637,8 +17637,8 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let function_type_param = function (param) {
-      let param$1 = param[1];
+    const function_type_param = function (param) {
+      const param$1 = param[1];
       return node("FunctionTypeParam", param[0], [
                   [
                     "name",
@@ -17654,9 +17654,9 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let type_param = function (param) {
-      let tp = param[1];
-      let variance = function (param) {
+    const type_param = function (param) {
+      const tp = param[1];
+      const variance = function (param) {
         if (param) {
           return string("minus");
         } else {
@@ -17682,9 +17682,9 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let object_type_property = function (param) {
-      let prop = param[1];
-      let lit = prop.key;
+    const object_type_property = function (param) {
+      const prop = param[1];
+      const lit = prop.key;
       let key;
       switch (lit.TAG | 0) {
         case /* Literal */0 :
@@ -17719,8 +17719,8 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let object_type_indexer = function (param) {
-      let indexer = param[1];
+    const object_type_indexer = function (param) {
+      const indexer = param[1];
       return node("ObjectTypeIndexer", param[0], [
                   [
                     "id",
@@ -17740,8 +17740,8 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let object_type_call_property = function (param) {
-      let callProperty = param[1];
+    const object_type_call_property = function (param) {
+      const callProperty = param[1];
       return node("ObjectTypeCallProperty", param[0], [
                   [
                     "value",
@@ -17753,7 +17753,7 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let program$2 = function (param) {
+    const program$2 = function (param) {
       return node("Program", param[0], [
                   [
                     "body",
@@ -17765,15 +17765,15 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    let ret = program$2(match[0]);
-    let translation_errors$1 = translation_errors.contents;
+    const ret = program$2(match[0]);
+    const translation_errors$1 = translation_errors.contents;
     ret["errors"] = errors(Stdlib.$at(match[1], translation_errors$1));
     return ret;
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === $$Error) {
-      let e = new Error(String(Stdlib__List.length(exn._1)) + " errors");
+      const e = new Error(String(Stdlib__List.length(exn._1)) + " errors");
       e["name"] = "Parse Error";
       throw(e);
       return {};
@@ -17782,11 +17782,11 @@ function parse(content, options) {
   }
 }
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -17807,11 +17807,11 @@ function eq(loc, x, y) {
   };
 }
 
-let f = typeof __dirname === "undefined" ? undefined : __dirname;
+const f = typeof __dirname === "undefined" ? undefined : __dirname;
 
 if (f !== undefined) {
-  let f$1 = Path.join(f, "flow_parser_sample.js");
-  let v = parse(Fs.readFileSync(f$1, "utf8"), undefined);
+  const f$1 = Path.join(f, "flow_parser_sample.js");
+  const v = parse(Fs.readFileSync(f$1, "utf8"), undefined);
   eq("File \"runParser.ml\", line 14, characters 7-14", [
         0,
         2842

@@ -6,7 +6,7 @@ let Mt = require("./mt.js");
 let Stdlib__Array = require("melange/array.js");
 let Stdlib__List = require("melange/list.js");
 
-let list_suites_0 = [
+const list_suites_0 = [
   "length",
   (function (param) {
       return {
@@ -26,7 +26,7 @@ let list_suites_0 = [
     })
 ];
 
-let list_suites_1 = {
+const list_suites_1 = {
   hd: [
     "length2",
     (function (param) {
@@ -105,7 +105,7 @@ let list_suites_1 = {
   }
 };
 
-let list_suites = {
+const list_suites = {
   hd: list_suites_0,
   tl: list_suites_1
 };

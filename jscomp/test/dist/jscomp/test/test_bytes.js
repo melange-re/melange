@@ -3,9 +3,9 @@
 
 let Caml_bytes = require("melange.js/caml_bytes.js");
 
-let f = Caml_bytes.bytes_to_string;
+const f = Caml_bytes.bytes_to_string;
 
-let ff = Caml_bytes.bytes_to_string;
+const ff = Caml_bytes.bytes_to_string;
 
 exports.f = f;
 exports.ff = ff;

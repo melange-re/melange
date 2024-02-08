@@ -2,25 +2,25 @@
 'use strict';
 
 
-let A0_a1 = {
+const A0_a1 = {
   v: 3
 };
 
-let A1_a2 = {
+const A1_a2 = {
   v: 3
 };
 
-let A2_a3 = {
+const A2_a3 = {
   v: 3
 };
 
-let A3_a4 = {
+const A3_a4 = {
   v: 3
 };
 
 console.log(3);
 
-let A4_a5 = {
+const A4_a5 = {
   v: 3
 };
 

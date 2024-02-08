@@ -4,11 +4,11 @@
 let Debug_mode_value = require("./debug_mode_value.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -16,7 +16,7 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-let non_debug_u = /* A */{
+const non_debug_u = /* A */{
   _0: 1,
   _1: 2
 };

@@ -3,9 +3,9 @@
 
 let CamlinternalOO = require("melange/camlinternalOO.js");
 
-let $$class = CamlinternalOO.create_table(0);
+const $$class = CamlinternalOO.create_table(0);
 
-let ids = CamlinternalOO.new_methods_variables($$class, 0, [
+const ids = CamlinternalOO.new_methods_variables($$class, 0, [
       "x0",
       "x1",
       "x2",
@@ -14,20 +14,20 @@ let ids = CamlinternalOO.new_methods_variables($$class, 0, [
       "x5"
     ]);
 
-let x0 = ids[0];
+const x0 = ids[0];
 
-let x1 = ids[1];
+const x1 = ids[1];
 
-let x2 = ids[2];
+const x2 = ids[2];
 
-let x3 = ids[3];
+const x3 = ids[3];
 
-let x4 = ids[4];
+const x4 = ids[4];
 
-let x5 = ids[5];
+const x5 = ids[5];
 
 function obj_init(env) {
-  let self = CamlinternalOO.create_object_opt(undefined, $$class);
+  const self = CamlinternalOO.create_object_opt(undefined, $$class);
   self[x0] = 1;
   self[x1] = 2;
   self[x2] = 3;
@@ -39,7 +39,7 @@ function obj_init(env) {
 
 CamlinternalOO.init_class($$class);
 
-let u = obj_init(undefined);
+const u = obj_init(undefined);
 
 exports.u = u;
 /* class Not a pure module */

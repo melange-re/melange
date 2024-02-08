@@ -4,7 +4,7 @@
 let $$Node = require("melange.node/node.js");
 
 function f(str) {
-  let match = $$Node.test(str);
+  const match = $$Node.test(str);
   if (match[0]) {
     console.log([
           "buffer",

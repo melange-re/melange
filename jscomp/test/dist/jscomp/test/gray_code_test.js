@@ -12,8 +12,8 @@ function gray_decode(n) {
   let _p = n;
   let _n = (n >>> 1);
   while(true) {
-    let n$1 = _n;
-    let p = _p;
+    const n$1 = _n;
+    const p = _p;
     if (n$1 === 0) {
       return p;
     }
@@ -24,12 +24,12 @@ function gray_decode(n) {
 }
 
 function bool_string(len, n) {
-  let s = Stdlib__Bytes.make(len, /* '0' */48);
+  const s = Stdlib__Bytes.make(len, /* '0' */48);
   let _i = len - 1 | 0;
   let _n = n;
   while(true) {
-    let n$1 = _n;
-    let i = _i;
+    const n$1 = _n;
+    const i = _i;
     if ((n$1 & 1) === 1) {
       Caml_bytes.set(s, i, /* '1' */49);
     }
@@ -43,12 +43,12 @@ function bool_string(len, n) {
 }
 
 function next_power(v) {
-  let v$1 = v - 1 | 0;
-  let v$2 = (v$1 >>> 1) | v$1;
-  let v$3 = (v$2 >>> 2) | v$2;
-  let v$4 = (v$3 >>> 4) | v$3;
-  let v$5 = (v$4 >>> 8) | v$4;
-  let v$6 = (v$5 >>> 16) | v$5;
+  const v$1 = v - 1 | 0;
+  const v$2 = (v$1 >>> 1) | v$1;
+  const v$3 = (v$2 >>> 2) | v$2;
+  const v$4 = (v$3 >>> 4) | v$3;
+  const v$5 = (v$4 >>> 8) | v$4;
+  const v$6 = (v$5 >>> 16) | v$5;
   return v$6 + 1 | 0;
 }
 

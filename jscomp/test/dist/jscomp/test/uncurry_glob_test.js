@@ -3,7 +3,7 @@
 
 
 function M(U) {
-  let v = U.f(100, "x");
+  const v = U.f(100, "x");
   return {
           v: v
         };

@@ -2,7 +2,7 @@
 'use strict';
 
 
-let $$default = "xx";
+const $$default = "xx";
 
 exports.default = $$default;
 exports.__esModule = true;

@@ -13,7 +13,7 @@ function reverse_range(a, i, len) {
     return ;
   }
   for(let k = 0 ,k_finish = (len - 1 | 0) / 2 | 0; k <= k_finish; ++k){
-    let t = a[i + k | 0];
+    const t = a[i + k | 0];
     a[i + k | 0] = a[((i + len | 0) - 1 | 0) - k | 0];
     a[((i + len | 0) - 1 | 0) - k | 0] = t;
   }
@@ -24,11 +24,11 @@ function reverse_in_place(a) {
 }
 
 function reverse(a) {
-  let b_len = a.length;
+  const b_len = a.length;
   if (b_len === 0) {
     return [];
   }
-  let b = Stdlib__Array.copy(a);
+  const b = Stdlib__Array.copy(a);
   for(let i = 0; i < b_len; ++i){
     b[i] = a[(b_len - 1 | 0) - i | 0];
   }
@@ -39,13 +39,13 @@ function reverse_of_list(l) {
   if (!l) {
     return [];
   }
-  let len = Stdlib__List.length(l);
-  let a = Caml_array.make(len, l.hd);
+  const len = Stdlib__List.length(l);
+  const a = Caml_array.make(len, l.hd);
   let _i = 0;
   let _param = l.tl;
   while(true) {
-    let param = _param;
-    let i = _i;
+    const param = _param;
+    const i = _i;
     if (!param) {
       return a;
     }
@@ -57,16 +57,16 @@ function reverse_of_list(l) {
 }
 
 function filter(f, a) {
-  let arr_len = a.length;
+  const arr_len = a.length;
   let _acc = /* [] */0;
   let _i = 0;
   while(true) {
-    let i = _i;
-    let acc = _acc;
+    const i = _i;
+    const acc = _acc;
     if (i === arr_len) {
       return reverse_of_list(acc);
     }
-    let v = a[i];
+    const v = a[i];
     if (Curry._1(f, v)) {
       _i = i + 1 | 0;
       _acc = {
@@ -81,17 +81,17 @@ function filter(f, a) {
 }
 
 function filter_map(f, a) {
-  let arr_len = a.length;
+  const arr_len = a.length;
   let _acc = /* [] */0;
   let _i = 0;
   while(true) {
-    let i = _i;
-    let acc = _acc;
+    const i = _i;
+    const acc = _acc;
     if (i === arr_len) {
       return reverse_of_list(acc);
     }
-    let v = a[i];
-    let v$1 = Curry._1(f, v);
+    const v = a[i];
+    const v$1 = Curry._1(f, v);
     if (v$1 !== undefined) {
       _i = i + 1 | 0;
       _acc = {
@@ -118,7 +118,7 @@ function range(from, to_) {
 }
 
 function map2i(f, a, b) {
-  let len = a.length;
+  const len = a.length;
   if (len !== b.length) {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
@@ -132,13 +132,13 @@ function map2i(f, a, b) {
 
 function tolist_aux(a, f, _i, _res) {
   while(true) {
-    let res = _res;
-    let i = _i;
+    const res = _res;
+    const i = _i;
     if (i < 0) {
       return res;
     }
-    let v = a[i];
-    let v$1 = Curry._1(f, v);
+    const v = a[i];
+    const v$1 = Curry._1(f, v);
     _res = v$1 !== undefined ? ({
           hd: Caml_option.valFromOption(v$1),
           tl: res
@@ -160,15 +160,15 @@ function of_list_map(f, a) {
   if (!a) {
     return [];
   }
-  let tl = a.tl;
-  let hd = Curry._1(f, a.hd);
-  let len = Stdlib__List.length(tl) + 1 | 0;
-  let arr = Caml_array.make(len, hd);
+  const tl = a.tl;
+  const hd = Curry._1(f, a.hd);
+  const len = Stdlib__List.length(tl) + 1 | 0;
+  const arr = Caml_array.make(len, hd);
   let _i = 1;
   let _param = tl;
   while(true) {
-    let param = _param;
-    let i = _i;
+    const param = _param;
+    const i = _i;
     if (!param) {
       return arr;
     }
@@ -180,10 +180,10 @@ function of_list_map(f, a) {
 }
 
 function rfind_with_index(arr, cmp, v) {
-  let len = arr.length;
+  const len = arr.length;
   let _i = len - 1 | 0;
   while(true) {
-    let i = _i;
+    const i = _i;
     if (i < 0) {
       return i;
     }
@@ -196,7 +196,7 @@ function rfind_with_index(arr, cmp, v) {
 }
 
 function rfind_and_split(arr, cmp, v) {
-  let i = rfind_with_index(arr, cmp, v);
+  const i = rfind_with_index(arr, cmp, v);
   if (i < 0) {
     return "No_split";
   } else {
@@ -211,10 +211,10 @@ function rfind_and_split(arr, cmp, v) {
 }
 
 function find_with_index(arr, cmp, v) {
-  let len = arr.length;
+  const len = arr.length;
   let _i = 0;
   while(true) {
-    let i = _i;
+    const i = _i;
     if (i >= len) {
       return -1;
     }
@@ -227,7 +227,7 @@ function find_with_index(arr, cmp, v) {
 }
 
 function find_and_split(arr, cmp, v) {
-  let i = find_with_index(arr, cmp, v);
+  const i = find_with_index(arr, cmp, v);
   if (i < 0) {
     return "No_split";
   } else {
@@ -242,10 +242,10 @@ function find_and_split(arr, cmp, v) {
 }
 
 function exists(p, a) {
-  let n = a.length;
+  const n = a.length;
   let _i = 0;
   while(true) {
-    let i = _i;
+    const i = _i;
     if (i === n) {
       return false;
     }
@@ -263,7 +263,7 @@ function is_empty(arr) {
 
 function unsafe_loop(_index, len, p, xs, ys) {
   while(true) {
-    let index = _index;
+    const index = _index;
     if (index >= len) {
       return true;
     }
@@ -276,8 +276,8 @@ function unsafe_loop(_index, len, p, xs, ys) {
 }
 
 function for_all2_no_exn(p, xs, ys) {
-  let len_xs = xs.length;
-  let len_ys = ys.length;
+  const len_xs = xs.length;
+  const len_ys = ys.length;
   if (len_xs === len_ys) {
     return unsafe_loop(0, len_xs, p, xs, ys);
   } else {

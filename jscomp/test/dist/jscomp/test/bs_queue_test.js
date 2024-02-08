@@ -8,11 +8,11 @@ let Caml_obj = require("melange.js/caml_obj.js");
 let Curry = require("melange.js/curry.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -39,7 +39,7 @@ function $plus$plus(q, x) {
   return q;
 }
 
-let q = {
+const q = {
   length: 0,
   first: undefined,
   last: undefined
@@ -218,7 +218,7 @@ if (!does_raise(Belt__Belt_MutableQueue.popExn, q)) {
           });
 }
 
-let q$1 = {
+const q$1 = {
   length: 0,
   first: undefined,
   last: undefined
@@ -279,7 +279,7 @@ if (q$1.length !== 0) {
           });
 }
 
-let q$2 = {
+const q$2 = {
   length: 0,
   first: undefined,
   last: undefined
@@ -406,7 +406,7 @@ if (!does_raise(Belt__Belt_MutableQueue.peekExn, q$2)) {
           });
 }
 
-let q$3 = {
+const q$3 = {
   length: 0,
   first: undefined,
   last: undefined
@@ -468,7 +468,7 @@ if (Belt__Belt_MutableQueue.popExn(q$3) !== 42) {
           });
 }
 
-let q1 = {
+const q1 = {
   length: 0,
   first: undefined,
   last: undefined
@@ -478,7 +478,7 @@ for(let i$1 = 1; i$1 <= 10; ++i$1){
   Belt__Belt_MutableQueue.add(q1, i$1);
 }
 
-let q2 = Belt__Belt_MutableQueue.copy(q1);
+const q2 = Belt__Belt_MutableQueue.copy(q1);
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q1), [
         1,
@@ -574,7 +574,7 @@ for(let i$3 = 1; i$3 <= 10; ++i$3){
   
 }
 
-let q$4 = {
+const q$4 = {
   length: 0,
   first: undefined,
   last: undefined
@@ -662,7 +662,7 @@ if (q$4.length !== 0) {
           });
 }
 
-let q$5 = {
+const q$5 = {
   length: 0,
   first: undefined,
   last: undefined
@@ -672,7 +672,7 @@ for(let i$6 = 1; i$6 <= 10; ++i$6){
   Belt__Belt_MutableQueue.add(q$5, i$6);
 }
 
-let i$7 = {
+const i$7 = {
   contents: 1
 };
 
@@ -690,13 +690,13 @@ Belt__Belt_MutableQueue.forEach(q$5, (function (j) {
         i$7.contents = i$7.contents + 1 | 0;
       }));
 
-let q1$1 = {
+const q1$1 = {
   length: 0,
   first: undefined,
   last: undefined
 };
 
-let q2$1 = {
+const q2$1 = {
   length: 0,
   first: undefined,
   last: undefined
@@ -792,13 +792,13 @@ if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$1), [])) {
           });
 }
 
-let q1$2 = {
+const q1$2 = {
   length: 0,
   first: undefined,
   last: undefined
 };
 
-let q2$2 = {
+const q2$2 = {
   length: 0,
   first: undefined,
   last: undefined
@@ -908,13 +908,13 @@ if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$2), [
           });
 }
 
-let q1$3 = {
+const q1$3 = {
   length: 0,
   first: undefined,
   last: undefined
 };
 
-let q2$3 = {
+const q2$3 = {
   length: 0,
   first: undefined,
   last: undefined
@@ -1024,13 +1024,13 @@ if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$3), [
           });
 }
 
-let q1$4 = {
+const q1$4 = {
   length: 0,
   first: undefined,
   last: undefined
 };
 
-let q2$4 = {
+const q2$4 = {
   length: 0,
   first: undefined,
   last: undefined
@@ -1122,7 +1122,7 @@ if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q1$4), [])) {
           });
 }
 
-let v = [
+const v = [
   5,
   6,
   7,
@@ -1172,14 +1172,14 @@ if (Belt__Belt_MutableQueue.reduce(q2$4, 0, (function (x, y) {
 
 console.log("OK");
 
-let q$6 = Belt__Belt_MutableQueue.fromArray([
+const q$6 = Belt__Belt_MutableQueue.fromArray([
       1,
       2,
       3,
       4
     ]);
 
-let q1$5 = Belt__Belt_MutableQueue.map(q$6, (function (x) {
+const q1$5 = Belt__Belt_MutableQueue.map(q$6, (function (x) {
         return x - 1 | 0;
       }));
 
@@ -1190,11 +1190,11 @@ eq("File \"jscomp/test/bs_queue_test.ml\", line 154, characters 5-12", Belt__Bel
       3
     ]);
 
-let q$7 = Belt__Belt_MutableQueue.fromArray([]);
+const q$7 = Belt__Belt_MutableQueue.fromArray([]);
 
 b("File \"jscomp/test/bs_queue_test.ml\", line 155, characters 4-11", q$7.length === 0);
 
-let q$8 = Belt__Belt_MutableQueue.map(Belt__Belt_MutableQueue.fromArray([]), (function (x) {
+const q$8 = Belt__Belt_MutableQueue.map(Belt__Belt_MutableQueue.fromArray([]), (function (x) {
         return x + 1 | 0;
       }));
 

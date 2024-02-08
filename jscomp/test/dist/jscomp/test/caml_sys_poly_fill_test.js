@@ -8,11 +8,11 @@ let Node__Node_process = require("melange.node/node_process.js");
 let Stdlib = require("melange/stdlib.js");
 let Stdlib__Sys = require("melange/sys.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -35,13 +35,13 @@ function eq(loc, x, y) {
 
 Node__Node_process.putEnvVar("Caml_sys_poly_fill_test", "X");
 
-let v = Caml_sys.caml_sys_getenv("Caml_sys_poly_fill_test");
+const v = Caml_sys.caml_sys_getenv("Caml_sys_poly_fill_test");
 
 eq("File \"jscomp/test/caml_sys_poly_fill_test.ml\", line 11, characters 5-12", "X", (Node__Node_process.deleteEnvVar("Caml_sys_poly_fill_test"), v));
 
 Node__Node_process.putEnvVar("Caml_sys_poly_fill_test", "Y");
 
-let v$1 = Caml_sys.caml_sys_getenv("Caml_sys_poly_fill_test");
+const v$1 = Caml_sys.caml_sys_getenv("Caml_sys_poly_fill_test");
 
 eq("File \"jscomp/test/caml_sys_poly_fill_test.ml\", line 17, characters 5-12", "Y", (Node__Node_process.deleteEnvVar("Caml_sys_poly_fill_test"), v$1));
 
@@ -53,7 +53,7 @@ try {
   tmp = Caml_sys.caml_sys_getenv("Caml_sys_poly_fill_test");
 }
 catch (raw_exn){
-  let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+  const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
   if (exn.MEL_EXN_ID === Stdlib.Not_found) {
     tmp = "Z";
   } else {

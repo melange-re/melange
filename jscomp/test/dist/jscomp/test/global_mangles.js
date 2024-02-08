@@ -2,33 +2,33 @@
 'use strict';
 
 
-let $$__dirname = 1;
+const $$__dirname = 1;
 
-let $$__filename = 2;
+const $$__filename = 2;
 
-let $$clearImmediate = 3;
+const $$clearImmediate = 3;
 
-let $$clearInterval = 4;
+const $$clearInterval = 4;
 
-let $$clearTimeout = 5;
+const $$clearTimeout = 5;
 
-let $$console = 6;
+const $$console = 6;
 
-let $$exports = 7;
+const $$exports = 7;
 
-let $$global = 8;
+const $$global = 8;
 
-let _module = 9;
+const _module = 9;
 
-let $$process = 10;
+const $$process = 10;
 
-let $$require = 11;
+const $$require = 11;
 
-let $$setImmediate = 12;
+const $$setImmediate = 12;
 
-let $$setInterval = 13;
+const $$setInterval = 13;
 
-let $$setTimeout = 14;
+const $$setTimeout = 14;
 
 exports.$$__dirname = $$__dirname;
 exports.$$__filename = $$__filename;

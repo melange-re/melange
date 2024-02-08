@@ -7,7 +7,7 @@ function f(x) {
 }
 
 function M(S) {
-  let f = function (x) {
+  const f = function (x) {
     return x;
   };
   return {

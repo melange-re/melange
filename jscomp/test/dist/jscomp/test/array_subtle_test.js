@@ -4,17 +4,17 @@
 let Caml_array = require("melange.js/caml_array.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
 function eq(loc, param) {
-  let y = param[1];
-  let x = param[0];
+  const y = param[1];
+  const x = param[0];
   test_id.contents = test_id.contents + 1 | 0;
   suites.contents = {
     hd: [
@@ -31,7 +31,7 @@ function eq(loc, param) {
   };
 }
 
-let v = [
+const v = [
   1,
   2,
   3,
@@ -80,7 +80,7 @@ eq("File \"jscomp/test/array_subtle_test.ml\", line 29, characters 5-12", [
     ]);
 
 function f(v) {
-  let x = v.pop();
+  const x = v.pop();
   if (x !== undefined) {
     console.log("hi");
   } else {

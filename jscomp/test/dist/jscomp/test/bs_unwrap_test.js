@@ -13,14 +13,14 @@ console.log(1337);
 
 console.log("hello world");
 
-let arg_string = {
+const arg_string = {
   NAME: "String",
   VAL: "hi runtime"
 };
 
 console.log(arg_string.VAL);
 
-let arg_pair = {
+const arg_pair = {
   NAME: "Pair",
   VAL: [
     "hi",
@@ -40,7 +40,7 @@ console.log(3, "hi");
 
 console.log(4, undefined);
 
-let some_arg = {
+const some_arg = {
   NAME: "Bool",
   VAL: true
 };

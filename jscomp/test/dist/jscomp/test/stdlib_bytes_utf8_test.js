@@ -16,9 +16,9 @@ function fold_uchars(f, acc) {
   let _acc = acc;
   let _u = Stdlib__Uchar.min;
   while(true) {
-    let u = _u;
-    let acc$1 = _acc;
-    let acc$2 = Curry._2(f, acc$1, u);
+    const u = _u;
+    const acc$1 = _acc;
+    const acc$2 = Curry._2(f, acc$1, u);
     if (u === Stdlib__Uchar.max) {
       return acc$2;
     }
@@ -28,7 +28,7 @@ function fold_uchars(f, acc) {
   };
 }
 
-let utf_8_spec_0 = [
+const utf_8_spec_0 = [
   [
     0,
     127
@@ -39,7 +39,7 @@ let utf_8_spec_0 = [
     ]]
 ];
 
-let utf_8_spec_1 = {
+const utf_8_spec_1 = {
   hd: [
     [
       128,
@@ -225,12 +225,12 @@ let utf_8_spec_1 = {
   }
 };
 
-let utf_8_spec = {
+const utf_8_spec = {
   hd: utf_8_spec_0,
   tl: utf_8_spec_1
 };
 
-let utf_16be_spec_0 = [
+const utf_16be_spec_0 = [
   [
     0,
     55295
@@ -247,7 +247,7 @@ let utf_16be_spec_0 = [
   ]
 ];
 
-let utf_16be_spec_1 = {
+const utf_16be_spec_1 = {
   hd: [
     [
       57344,
@@ -293,22 +293,22 @@ let utf_16be_spec_1 = {
   }
 };
 
-let utf_16be_spec = {
+const utf_16be_spec = {
   hd: utf_16be_spec_0,
   tl: utf_16be_spec_1
 };
 
 function uchar_map_of_spec(spec) {
-  let map = Caml_array.make(Stdlib__Uchar.max + 1 | 0, Stdlib__Bytes.empty);
-  let add_range = function (param) {
-    let bytes = param[1];
-    let match = param[0];
-    let len = bytes.length;
-    let uchar = {
+  const map = Caml_array.make(Stdlib__Uchar.max + 1 | 0, Stdlib__Bytes.empty);
+  const add_range = function (param) {
+    const bytes = param[1];
+    const match = param[0];
+    const len = bytes.length;
+    const uchar = {
       contents: match[0]
     };
-    let buf = Caml_bytes.caml_create_bytes(len);
-    let add = function (len$p) {
+    const buf = Caml_bytes.caml_create_bytes(len);
+    const add = function (len$p) {
       if (len === len$p) {
         Caml_array.set(map, uchar.contents, Stdlib__Bytes.copy(buf));
         uchar.contents = uchar.contents + 1 | 0;
@@ -352,29 +352,29 @@ function uchar_map_get(u, map) {
   return Caml_array.get(map, u);
 }
 
-let utf_8 = uchar_map_of_spec(utf_8_spec);
+const utf_8 = uchar_map_of_spec(utf_8_spec);
 
-let utf_16be = uchar_map_of_spec(utf_16be_spec);
+const utf_16be = uchar_map_of_spec(utf_16be_spec);
 
 function swap(_u, b) {
-  let len = b.length;
+  const len = b.length;
   if (len === 0) {
     return ;
   }
   for(let i = 0 ,i_finish = (b.length >> 1); i < i_finish; ++i){
-    let j = (i << 1);
+    const j = (i << 1);
     Stdlib__Bytes.set_uint16_le(b, j, Stdlib__Bytes.get_uint16_be(b, j));
   }
 }
 
-let map = Stdlib__Array.map(Stdlib__Bytes.copy, utf_16be);
+const map = Stdlib__Array.map(Stdlib__Bytes.copy, utf_16be);
 
 Stdlib__Array.iteri(swap, map);
 
 function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
-  let f = function (param, u) {
-    let utf_len$1 = Curry._1(utf_len, u);
-    let buf = Caml_bytes.caml_create_bytes(utf_len$1);
+  const f = function (param, u) {
+    const utf_len$1 = Curry._1(utf_len, u);
+    const buf = Caml_bytes.caml_create_bytes(utf_len$1);
     if (Curry._3(set_utf, buf, 0, u) !== utf_len$1) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
@@ -405,7 +405,7 @@ function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
                 ]
               });
     }
-    let dec = Curry._2(get_utf, buf, 0);
+    const dec = Curry._2(get_utf, buf, 0);
     if ((dec >>> 27) !== 1) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
@@ -464,7 +464,7 @@ function raises(f) {
     tmp = false;
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
       tmp = true;
     } else {
@@ -508,7 +508,7 @@ raises(function (param) {
       return Stdlib__Bytes.set_utf_16be_uchar(Stdlib__Bytes.empty, 0, Stdlib__Uchar.min);
     });
 
-let b = Stdlib__Bytes.make(1, /* '\171' */171);
+const b = Stdlib__Bytes.make(1, /* '\171' */171);
 
 if (!(Stdlib__Bytes.set_utf_8_uchar(b, 0, Stdlib__Uchar.max) === 0 && Caml_bytes.get(b, 0) === /* '\171' */171)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -543,7 +543,7 @@ if (!(Stdlib__Bytes.set_utf_16le_uchar(b, 0, Stdlib__Uchar.max) === 0 && Caml_by
           });
 }
 
-let b$1 = [
+const b$1 = [
   0,
   0
 ];
@@ -563,14 +563,14 @@ if (Stdlib__Bytes.is_valid_utf_8(b$1)) {
           });
 }
 
-let b$2 = Stdlib__Bytes.of_string("\xc0\xaf\xe0\x80\xbf\xf0\x81\x82A");
+const b$2 = Stdlib__Bytes.of_string("\xc0\xaf\xe0\x80\xbf\xf0\x81\x82A");
 
 function ok(i) {
   return i === (b$2.length - 1 | 0);
 }
 
 for(let i = 0 ,i_finish = b$2.length; i < i_finish; ++i){
-  let dec = Stdlib__Bytes.get_utf_8_uchar(b$2, i);
+  const dec = Stdlib__Bytes.get_utf_8_uchar(b$2, i);
   if (ok(i)) {
     if ((dec >>> 27) === 1 !== true) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -638,14 +638,14 @@ for(let i = 0 ,i_finish = b$2.length; i < i_finish; ++i){
   }
 }
 
-let b$3 = Stdlib__Bytes.of_string("\xed\xa0\x80\xed\xbf\xbf\xed\xafA");
+const b$3 = Stdlib__Bytes.of_string("\xed\xa0\x80\xed\xbf\xbf\xed\xafA");
 
 function ok$1(i) {
   return i === (b$3.length - 1 | 0);
 }
 
 for(let i$1 = 0 ,i_finish$1 = b$3.length; i$1 < i_finish$1; ++i$1){
-  let dec$1 = Stdlib__Bytes.get_utf_8_uchar(b$3, i$1);
+  const dec$1 = Stdlib__Bytes.get_utf_8_uchar(b$3, i$1);
   if (ok$1(i$1)) {
     if ((dec$1 >>> 27) === 1 !== true) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -713,7 +713,7 @@ for(let i$1 = 0 ,i_finish$1 = b$3.length; i$1 < i_finish$1; ++i$1){
   }
 }
 
-let b$4 = Stdlib__Bytes.of_string("\xf4\x91\x92\x93\xffA\x80\xbfB");
+const b$4 = Stdlib__Bytes.of_string("\xf4\x91\x92\x93\xffA\x80\xbfB");
 
 function ok$2(i) {
   if (i === 5) {
@@ -724,7 +724,7 @@ function ok$2(i) {
 }
 
 for(let i$2 = 0 ,i_finish$2 = b$4.length; i$2 < i_finish$2; ++i$2){
-  let dec$2 = Stdlib__Bytes.get_utf_8_uchar(b$4, i$2);
+  const dec$2 = Stdlib__Bytes.get_utf_8_uchar(b$4, i$2);
   if (ok$2(i$2)) {
     if ((dec$2 >>> 27) === 1 !== true) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -792,9 +792,9 @@ for(let i$2 = 0 ,i_finish$2 = b$4.length; i$2 < i_finish$2; ++i$2){
   }
 }
 
-let b$5 = Stdlib__Bytes.of_string("\xe1\x80\xe2\xf0\x91\x92\xf1\xbfA");
+const b$5 = Stdlib__Bytes.of_string("\xe1\x80\xe2\xf0\x91\x92\xf1\xbfA");
 
-let d0 = Stdlib__Bytes.get_utf_8_uchar(b$5, 0);
+const d0 = Stdlib__Bytes.get_utf_8_uchar(b$5, 0);
 
 if ((d0 >>> 27) === 1 !== false) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -829,7 +829,7 @@ if ((d0 & 16777215) !== Stdlib__Uchar.rep) {
           });
 }
 
-let d2 = Stdlib__Bytes.get_utf_8_uchar(b$5, 2);
+const d2 = Stdlib__Bytes.get_utf_8_uchar(b$5, 2);
 
 if ((d2 >>> 27) === 1 !== false) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -864,7 +864,7 @@ if ((d2 & 16777215) !== Stdlib__Uchar.rep) {
           });
 }
 
-let d3 = Stdlib__Bytes.get_utf_8_uchar(b$5, 3);
+const d3 = Stdlib__Bytes.get_utf_8_uchar(b$5, 3);
 
 if ((d3 >>> 27) === 1 !== false) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -899,7 +899,7 @@ if ((d3 & 16777215) !== Stdlib__Uchar.rep) {
           });
 }
 
-let d6 = Stdlib__Bytes.get_utf_8_uchar(b$5, 6);
+const d6 = Stdlib__Bytes.get_utf_8_uchar(b$5, 6);
 
 if ((d6 >>> 27) === 1 !== false) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -934,7 +934,7 @@ if ((d6 & 16777215) !== Stdlib__Uchar.rep) {
           });
 }
 
-let d8 = Stdlib__Bytes.get_utf_8_uchar(b$5, 8);
+const d8 = Stdlib__Bytes.get_utf_8_uchar(b$5, 8);
 
 if (((d8 >>> 24) & 7) !== 1) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -967,7 +967,7 @@ Stdlib__Printf.printf(/* Format */{
       _1: "All UTF tests passed!\n"
     });
 
-let utf_16le = map;
+const utf_16le = map;
 
 exports.fold_uchars = fold_uchars;
 exports.utf_8_spec = utf_8_spec;

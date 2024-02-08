@@ -9,7 +9,7 @@ let Stdlib = require("melange/stdlib.js");
 let React = require("react");
 
 function createDomElement(s, props, children) {
-  let vararg = [
+  const vararg = [
       s,
       props
     ].concat(children);
@@ -41,7 +41,7 @@ function reducerDefault(_action, _state) {
 }
 
 function convertPropsIfTheyreFromJs(props, jsPropsToReason, debugName) {
-  let match = props.reasonProps;
+  const match = props.reasonProps;
   if (!(match == null)) {
     return match;
   }
@@ -71,20 +71,20 @@ function createClass(debugName) {
                         };
                 }),
               getInitialState: (function () {
-                  let thisJs = this;
-                  let convertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
+                  const thisJs = this;
+                  const convertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
                   return {
                           reasonState: Curry._1(convertedReasonProps._0.initialState, undefined)
                         };
                 }),
               componentDidMount: (function () {
                   let $$this = this ;
-                  let thisJs = this;
-                  let convertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
-                  let component = convertedReasonProps._0;
-                  let curTotalState = thisJs.state;
-                  let curReasonState = curTotalState.reasonState;
-                  let self = $$this.self(curReasonState, component.retainedProps);
+                  const thisJs = this;
+                  const convertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
+                  const component = convertedReasonProps._0;
+                  const curTotalState = thisJs.state;
+                  const curReasonState = curTotalState.reasonState;
+                  const self = $$this.self(curReasonState, component.retainedProps);
                   if (component.didMount !== anyToUnit) {
                     return Curry._1(component.didMount, self);
                   }
@@ -92,23 +92,23 @@ function createClass(debugName) {
                 }),
               componentDidUpdate: (function (prevProps, prevState) {
                   let $$this = this ;
-                  let thisJs = this;
-                  let curState = thisJs.state;
-                  let curReasonState = curState.reasonState;
-                  let newJsProps = thisJs.props;
-                  let newConvertedReasonProps = convertPropsIfTheyreFromJs(newJsProps, thisJs.jsPropsToReason, debugName);
-                  let newComponent = newConvertedReasonProps._0;
+                  const thisJs = this;
+                  const curState = thisJs.state;
+                  const curReasonState = curState.reasonState;
+                  const newJsProps = thisJs.props;
+                  const newConvertedReasonProps = convertPropsIfTheyreFromJs(newJsProps, thisJs.jsPropsToReason, debugName);
+                  const newComponent = newConvertedReasonProps._0;
                   if (newComponent.didUpdate === anyToUnit) {
                     return ;
                   }
-                  let oldConvertedReasonProps = prevProps === newJsProps ? newConvertedReasonProps : convertPropsIfTheyreFromJs(prevProps, thisJs.jsPropsToReason, debugName);
-                  let prevReasonState = prevState.reasonState;
-                  let newSelf = $$this.self(curReasonState, newComponent.retainedProps);
-                  let oldSelf_handle = newSelf.handle;
-                  let oldSelf_retainedProps = oldConvertedReasonProps._0.retainedProps;
-                  let oldSelf_send = newSelf.send;
-                  let oldSelf_onUnmount = newSelf.onUnmount;
-                  let oldSelf = {
+                  const oldConvertedReasonProps = prevProps === newJsProps ? newConvertedReasonProps : convertPropsIfTheyreFromJs(prevProps, thisJs.jsPropsToReason, debugName);
+                  const prevReasonState = prevState.reasonState;
+                  const newSelf = $$this.self(curReasonState, newComponent.retainedProps);
+                  const oldSelf_handle = newSelf.handle;
+                  const oldSelf_retainedProps = oldConvertedReasonProps._0.retainedProps;
+                  const oldSelf_send = newSelf.send;
+                  const oldSelf_onUnmount = newSelf.onUnmount;
+                  const oldSelf = {
                     handle: oldSelf_handle,
                     state: prevReasonState,
                     retainedProps: oldSelf_retainedProps,
@@ -122,15 +122,15 @@ function createClass(debugName) {
                 }),
               componentWillUnmount: (function () {
                   let $$this = this ;
-                  let thisJs = this;
-                  let convertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
-                  let component = convertedReasonProps._0;
-                  let curState = thisJs.state;
-                  let curReasonState = curState.reasonState;
+                  const thisJs = this;
+                  const convertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
+                  const component = convertedReasonProps._0;
+                  const curState = thisJs.state;
+                  const curReasonState = curState.reasonState;
                   if (component.willUnmount !== anyToUnit) {
                     Curry._1(component.willUnmount, $$this.self(curReasonState, component.retainedProps));
                   }
-                  let subs = $$this.subscriptions;
+                  const subs = $$this.subscriptions;
                   if (subs !== null) {
                     subs.forEach(function (unsubscribe) {
                           Curry._1(unsubscribe, undefined);
@@ -141,23 +141,23 @@ function createClass(debugName) {
                 }),
               componentWillUpdate: (function (nextProps, nextState) {
                   let $$this = this ;
-                  let thisJs = this;
-                  let newConvertedReasonProps = convertPropsIfTheyreFromJs(nextProps, thisJs.jsPropsToReason, debugName);
-                  let newComponent = newConvertedReasonProps._0;
+                  const thisJs = this;
+                  const newConvertedReasonProps = convertPropsIfTheyreFromJs(nextProps, thisJs.jsPropsToReason, debugName);
+                  const newComponent = newConvertedReasonProps._0;
                   if (newComponent.willUpdate === anyToUnit) {
                     return ;
                   }
-                  let oldJsProps = thisJs.props;
-                  let oldConvertedReasonProps = nextProps === oldJsProps ? newConvertedReasonProps : convertPropsIfTheyreFromJs(oldJsProps, thisJs.jsPropsToReason, debugName);
-                  let curState = thisJs.state;
-                  let curReasonState = curState.reasonState;
-                  let nextReasonState = nextState.reasonState;
-                  let newSelf = $$this.self(nextReasonState, newComponent.retainedProps);
-                  let oldSelf_handle = newSelf.handle;
-                  let oldSelf_retainedProps = oldConvertedReasonProps._0.retainedProps;
-                  let oldSelf_send = newSelf.send;
-                  let oldSelf_onUnmount = newSelf.onUnmount;
-                  let oldSelf = {
+                  const oldJsProps = thisJs.props;
+                  const oldConvertedReasonProps = nextProps === oldJsProps ? newConvertedReasonProps : convertPropsIfTheyreFromJs(oldJsProps, thisJs.jsPropsToReason, debugName);
+                  const curState = thisJs.state;
+                  const curReasonState = curState.reasonState;
+                  const nextReasonState = nextState.reasonState;
+                  const newSelf = $$this.self(nextReasonState, newComponent.retainedProps);
+                  const oldSelf_handle = newSelf.handle;
+                  const oldSelf_retainedProps = oldConvertedReasonProps._0.retainedProps;
+                  const oldSelf_send = newSelf.send;
+                  const oldSelf_onUnmount = newSelf.onUnmount;
+                  const oldSelf = {
                     handle: oldSelf_handle,
                     state: curReasonState,
                     retainedProps: oldSelf_retainedProps,
@@ -171,19 +171,19 @@ function createClass(debugName) {
                 }),
               componentWillReceiveProps: (function (nextProps) {
                   let $$this = this ;
-                  let thisJs = this;
-                  let newConvertedReasonProps = convertPropsIfTheyreFromJs(nextProps, thisJs.jsPropsToReason, debugName);
-                  let newComponent = newConvertedReasonProps._0;
+                  const thisJs = this;
+                  const newConvertedReasonProps = convertPropsIfTheyreFromJs(nextProps, thisJs.jsPropsToReason, debugName);
+                  const newComponent = newConvertedReasonProps._0;
                   if (newComponent.willReceiveProps === willReceivePropsDefault) {
                     return ;
                   }
-                  let oldJsProps = thisJs.props;
-                  let oldConvertedReasonProps = nextProps === oldJsProps ? newConvertedReasonProps : convertPropsIfTheyreFromJs(oldJsProps, thisJs.jsPropsToReason, debugName);
-                  let oldComponent = oldConvertedReasonProps._0;
+                  const oldJsProps = thisJs.props;
+                  const oldConvertedReasonProps = nextProps === oldJsProps ? newConvertedReasonProps : convertPropsIfTheyreFromJs(oldJsProps, thisJs.jsPropsToReason, debugName);
+                  const oldComponent = oldConvertedReasonProps._0;
                   thisJs.setState((function (curTotalState, param) {
-                          let curReasonState = curTotalState.reasonState;
-                          let oldSelf = $$this.self(curReasonState, oldComponent.retainedProps);
-                          let nextReasonState = Curry._1(newComponent.willReceiveProps, oldSelf);
+                          const curReasonState = curTotalState.reasonState;
+                          const oldSelf = $$this.self(curReasonState, oldComponent.retainedProps);
+                          const nextReasonState = Curry._1(newComponent.willReceiveProps, oldSelf);
                           if (nextReasonState !== curTotalState) {
                             return {
                                     reasonState: nextReasonState
@@ -195,23 +195,23 @@ function createClass(debugName) {
                 }),
               shouldComponentUpdate: (function (nextJsProps, nextState, param) {
                   let $$this = this ;
-                  let thisJs = this;
-                  let curJsProps = thisJs.props;
-                  let oldConvertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
-                  let newConvertedReasonProps = nextJsProps === curJsProps ? oldConvertedReasonProps : convertPropsIfTheyreFromJs(nextJsProps, thisJs.jsPropsToReason, debugName);
-                  let newComponent = newConvertedReasonProps._0;
-                  let nextReasonState = nextState.reasonState;
-                  let newSelf = $$this.self(nextReasonState, newComponent.retainedProps);
+                  const thisJs = this;
+                  const curJsProps = thisJs.props;
+                  const oldConvertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
+                  const newConvertedReasonProps = nextJsProps === curJsProps ? oldConvertedReasonProps : convertPropsIfTheyreFromJs(nextJsProps, thisJs.jsPropsToReason, debugName);
+                  const newComponent = newConvertedReasonProps._0;
+                  const nextReasonState = nextState.reasonState;
+                  const newSelf = $$this.self(nextReasonState, newComponent.retainedProps);
                   if (newComponent.shouldUpdate === anyToTrue) {
                     return true;
                   }
-                  let curState = thisJs.state;
-                  let curReasonState = curState.reasonState;
-                  let oldSelf_handle = newSelf.handle;
-                  let oldSelf_retainedProps = oldConvertedReasonProps._0.retainedProps;
-                  let oldSelf_send = newSelf.send;
-                  let oldSelf_onUnmount = newSelf.onUnmount;
-                  let oldSelf = {
+                  const curState = thisJs.state;
+                  const curReasonState = curState.reasonState;
+                  const oldSelf_handle = newSelf.handle;
+                  const oldSelf_retainedProps = oldConvertedReasonProps._0.retainedProps;
+                  const oldSelf_send = newSelf.send;
+                  const oldSelf_onUnmount = newSelf.onUnmount;
+                  const oldSelf = {
                     handle: oldSelf_handle,
                     state: curReasonState,
                     retainedProps: oldSelf_retainedProps,
@@ -225,7 +225,7 @@ function createClass(debugName) {
                 }),
               onUnmountMethod: (function (subscription) {
                   let $$this = this ;
-                  let subs = $$this.subscriptions;
+                  const subs = $$this.subscriptions;
                   if (subs !== null) {
                     subs.push(subscription);
                   } else {
@@ -234,31 +234,31 @@ function createClass(debugName) {
                 }),
               handleMethod: (function (callback) {
                   let $$this = this ;
-                  let thisJs = this;
+                  const thisJs = this;
                   return function (callbackPayload) {
-                    let curState = thisJs.state;
-                    let curReasonState = curState.reasonState;
-                    let convertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
+                    const curState = thisJs.state;
+                    const curReasonState = curState.reasonState;
+                    const convertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
                     Curry._2(callback, callbackPayload, $$this.self(curReasonState, convertedReasonProps._0.retainedProps));
                   };
                 }),
               sendMethod: (function (action) {
                   let $$this = this ;
-                  let thisJs = this;
-                  let convertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
-                  let component = convertedReasonProps._0;
+                  const thisJs = this;
+                  const convertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
+                  const component = convertedReasonProps._0;
                   if (component.reducer === reducerDefault) {
                     return ;
                   }
-                  let sideEffects = {
+                  const sideEffects = {
                     contents: (function (prim) {
                         
                       })
                   };
-                  let partialStateApplication = Curry._1(component.reducer, action);
+                  const partialStateApplication = Curry._1(component.reducer, action);
                   thisJs.setState((function (curTotalState, param) {
-                          let curReasonState = curTotalState.reasonState;
-                          let reasonStateUpdate = Curry._1(partialStateApplication, curReasonState);
+                          const curReasonState = curTotalState.reasonState;
+                          const reasonStateUpdate = Curry._1(partialStateApplication, curReasonState);
                           if (reasonStateUpdate === /* NoUpdate */0) {
                             return null;
                           }
@@ -296,11 +296,11 @@ function createClass(debugName) {
                 }),
               render: (function () {
                   let $$this = this ;
-                  let thisJs = this;
-                  let convertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
-                  let created = convertedReasonProps._0;
-                  let curState = thisJs.state;
-                  let curReasonState = curState.reasonState;
+                  const thisJs = this;
+                  const convertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
+                  const created = convertedReasonProps._0;
+                  const curState = thisJs.state;
+                  const curReasonState = curState.reasonState;
                   return Curry._1(created.render, $$this.self(curReasonState, created.retainedProps));
                 })
             });
@@ -327,21 +327,21 @@ function basicComponent(debugName) {
         };
 }
 
-let statelessComponent = basicComponent;
+const statelessComponent = basicComponent;
 
-let statelessComponentWithRetainedProps = basicComponent;
+const statelessComponentWithRetainedProps = basicComponent;
 
-let reducerComponent = basicComponent;
+const reducerComponent = basicComponent;
 
-let reducerComponentWithRetainedProps = basicComponent;
+const reducerComponentWithRetainedProps = basicComponent;
 
 function element(keyOpt, refOpt, component) {
-  let key = keyOpt !== undefined ? keyOpt : undefined;
-  let ref = refOpt !== undefined ? refOpt : undefined;
-  let element$1 = /* Element */{
+  const key = keyOpt !== undefined ? keyOpt : undefined;
+  const ref = refOpt !== undefined ? refOpt : undefined;
+  const element$1 = /* Element */{
     _0: component
   };
-  let jsElementWrapped = component.jsElementWrapped;
+  const jsElementWrapped = component.jsElementWrapped;
   if (jsElementWrapped !== undefined) {
     return Curry._2(Caml_option.valFromOption(jsElementWrapped), key, ref);
   } else {
@@ -354,20 +354,20 @@ function element(keyOpt, refOpt, component) {
 }
 
 function wrapReasonForJs(component, jsPropsToReason) {
-  let uncurriedJsPropsToReason = Curry.__1(jsPropsToReason);
+  const uncurriedJsPropsToReason = Curry.__1(jsPropsToReason);
   component.reactClassInternal.prototype.jsPropsToReason = uncurriedJsPropsToReason;
   return component.reactClassInternal;
 }
 
-let dummyInteropComponent = basicComponent("interop");
+const dummyInteropComponent = basicComponent("interop");
 
 function wrapJsForReason(reactClass, props, children) {
-  let jsElementWrapped = (function (param, param$1) {
-      let props$1 = Object.assign(Object.assign({}, props), {
+  const jsElementWrapped = (function (param, param$1) {
+      const props$1 = Object.assign(Object.assign({}, props), {
             ref: param$1,
             key: param
           });
-      let varargs = [
+      const varargs = [
           reactClass,
           props$1
         ].concat(children);

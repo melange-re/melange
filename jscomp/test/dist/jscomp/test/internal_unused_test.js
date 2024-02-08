@@ -6,7 +6,7 @@ let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 console.log(3);
 
-let A = /* @__PURE__ */Caml_exceptions.create("Internal_unused_test.P1.A");
+const A = /* @__PURE__ */Caml_exceptions.create("Internal_unused_test.P1.A");
 
 function f(param) {
   throw new Caml_js_exceptions.MelangeError(A, {
@@ -14,23 +14,23 @@ function f(param) {
           });
 }
 
-let c = 5;
+const c = 5;
 
 function h(a, b) {
   return a + b | 0;
 }
 
-let h1 = 2;
+const h1 = 2;
 
-let h2 = h1 + 1 | 0;
+const h2 = h1 + 1 | 0;
 
-let h4 = 2;
+const h4 = 2;
 
-let h5 = h4 + 1 | 0;
+const h5 = h4 + 1 | 0;
 
-let b = 5;
+const b = 5;
 
-let N = {
+const N = {
   b: b
 };
 

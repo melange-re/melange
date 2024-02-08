@@ -5,7 +5,7 @@ let Caml_module = require("melange.js/caml_module.js");
 let Curry = require("melange.js/curry.js");
 let Stdlib__Array = require("melange/array.js");
 
-let PA = Caml_module.init_mod([
+const PA = Caml_module.init_mod([
       "jscomp/test/gpr_3931_test.ml",
       3,
       6
@@ -17,7 +17,7 @@ let PA = Caml_module.init_mod([
         ]]
     });
 
-let P = Caml_module.init_mod([
+const P = Caml_module.init_mod([
       "jscomp/test/gpr_3931_test.ml",
       11,
       6

@@ -3,17 +3,17 @@
 
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
 function eq(loc, param) {
-  let y = param[1];
-  let x = param[0];
+  const y = param[1];
+  const x = param[0];
   test_id.contents = test_id.contents + 1 | 0;
   suites.contents = {
     hd: [
@@ -30,7 +30,7 @@ function eq(loc, param) {
   };
 }
 
-let v5 = {
+const v5 = {
   x: 3,
   y: 3,
   setY: (function (v) {
@@ -57,7 +57,7 @@ let v5 = {
     })
 };
 
-let v = {
+const v = {
   x: 3,
   y: 0,
   reset: (function () {
@@ -78,7 +78,7 @@ let v = {
     })
 };
 
-let u = {
+const u = {
   incr: (function () {
       console.log("hey");
     }),
@@ -90,17 +90,17 @@ let u = {
     })
 };
 
-let test_type_1 = {
+const test_type_1 = {
   hd: v,
   tl: /* [] */0
 };
 
-let test_type = {
+const test_type = {
   hd: u,
   tl: test_type_1
 };
 
-let z = {
+const z = {
   x: {
     contents: 3
   },
@@ -114,7 +114,7 @@ let z = {
     })
 };
 
-let eventObj = {
+const eventObj = {
   events: [],
   empty: (function () {
       let self = this ;
@@ -134,7 +134,7 @@ function test__(x) {
   eventObj.push(x);
 }
 
-let zz = {
+const zz = {
   x: 3,
   setX: (function (x) {
       let self = this ;
@@ -146,12 +146,12 @@ let zz = {
     })
 };
 
-let test_type2_1 = {
+const test_type2_1 = {
   hd: zz,
   tl: /* [] */0
 };
 
-let test_type2 = {
+const test_type2 = {
   hd: z,
   tl: test_type2_1
 };
@@ -161,15 +161,15 @@ eq("File \"jscomp/test/ppx_this_obj_field.ml\", line 94, characters 5-12", [
       v5.say()
     ]);
 
-let a = v.say();
+const a = v.say();
 
 v.incr();
 
-let b = v.say();
+const b = v.say();
 
 v.incr();
 
-let c = v.say();
+const c = v.say();
 
 v.incr();
 
@@ -186,11 +186,11 @@ eq("File \"jscomp/test/ppx_this_obj_field.ml\", line 101, characters 5-12", [
       ]
     ]);
 
-let aa = z.getX();
+const aa = z.getX();
 
 z.setX(32);
 
-let bb = z.getX();
+const bb = z.getX();
 
 eq("File \"jscomp/test/ppx_this_obj_field.ml\", line 105, characters 5-12", [
       [

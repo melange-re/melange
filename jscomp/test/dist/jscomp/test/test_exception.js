@@ -6,7 +6,7 @@ let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 let Stdlib = require("melange/stdlib.js");
 let Test_common = require("./test_common.js");
 
-let Local = /* @__PURE__ */Caml_exceptions.create("Test_exception.Local");
+const Local = /* @__PURE__ */Caml_exceptions.create("Test_exception.Local");
 
 function f(param) {
   throw new Caml_js_exceptions.MelangeError(Local, {
@@ -41,9 +41,9 @@ function xx(param) {
           });
 }
 
-let Nullary = /* @__PURE__ */Caml_exceptions.create("Test_exception.Nullary");
+const Nullary = /* @__PURE__ */Caml_exceptions.create("Test_exception.Nullary");
 
-let a = {
+const a = {
   MEL_EXN_ID: Nullary
 };
 

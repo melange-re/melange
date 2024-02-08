@@ -3,7 +3,7 @@
 
 let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
-let T0_myList = {
+const T0_myList = {
   hd: 1,
   tl: {
     hd: 2,
@@ -11,12 +11,12 @@ let T0_myList = {
   }
 };
 
-let T0_tail = {
+const T0_tail = {
   hd: 2,
   tl: /* [] */0
 };
 
-let T0 = {
+const T0 = {
   myList: T0_myList,
   head: 1,
   tail: T0_tail

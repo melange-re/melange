@@ -9,12 +9,12 @@ let Stdlib = require("melange/stdlib.js");
 let Stdlib__Printf = require("melange/printf.js");
 let Stdlib__Scanf = require("melange/scanf.js");
 
-let all_tests_ok = {
+const all_tests_ok = {
   contents: true
 };
 
 function finish(param) {
-  let match = all_tests_ok.contents;
+  const match = all_tests_ok.contents;
   if (match) {
     console.log("\nAll tests succeeded.");
   } else {
@@ -24,7 +24,7 @@ function finish(param) {
 
 Stdlib.at_exit(finish);
 
-let test_num = {
+const test_num = {
   contents: -1
 };
 
@@ -114,7 +114,7 @@ function test_raises_exc_p(pred, f, x) {
     return false;
   }
   catch (raw_x){
-    let x$1 = Caml_js_exceptions.internalToOCamlException(raw_x);
+    const x$1 = Caml_js_exceptions.internalToOCamlException(raw_x);
     if (Curry._1(pred, x$1)) {
       return true;
     } else {

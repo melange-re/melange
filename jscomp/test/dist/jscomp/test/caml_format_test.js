@@ -13,7 +13,7 @@ let Stdlib__Format = require("melange/format.js");
 let Stdlib__Int64 = require("melange/int64.js");
 let Stdlib__Printf = require("melange/printf.js");
 
-let of_string = [
+const of_string = [
   [
     0,
     "0"
@@ -92,8 +92,8 @@ function from_float_of_string(xs) {
 
 function from_of_string(xs) {
   return Stdlib__Array.to_list(Stdlib__Array.mapi((function (i, param) {
-                    let b = param[1];
-                    let a = param[0];
+                    const b = param[1];
+                    const a = param[0];
                     return [
                             Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                       _0: {
@@ -135,9 +135,9 @@ function u(v) {
                 }), v);
 }
 
-let to_str = Caml_format.caml_int_of_string;
+const to_str = Caml_format.caml_int_of_string;
 
-let v = Curry._1(Stdlib__Printf.sprintf(/* Format */{
+const v = Curry._1(Stdlib__Printf.sprintf(/* Format */{
           _0: {
             TAG: /* Int */4,
             _0: /* Int_d */0,
@@ -152,7 +152,7 @@ let v = Curry._1(Stdlib__Printf.sprintf(/* Format */{
           _1: "%3d"
         }), 3333);
 
-let pairs = [
+const pairs = [
   [
     /* FP_infinite */3,
     "infinity"
@@ -175,7 +175,7 @@ let pairs = [
   ]
 ];
 
-let pairs$1 = [
+const pairs$1 = [
   [
     3232,
     "32_32.0"
@@ -190,7 +190,7 @@ let pairs$1 = [
   ]
 ];
 
-let suites = Stdlib.$at(from_of_string(of_string), Stdlib.$at({
+const suites = Stdlib.$at(from_of_string(of_string), Stdlib.$at({
           hd: [
             "isnan_of_string",
             (function (param) {
@@ -203,8 +203,8 @@ let suites = Stdlib.$at(from_of_string(of_string), Stdlib.$at({
           ],
           tl: /* [] */0
         }, Stdlib.$at(Stdlib__Array.to_list(Stdlib__Array.mapi((function (i, param) {
-                        let b = param[1];
-                        let a = param[0];
+                        const b = param[1];
+                        const a = param[0];
                         return [
                                 Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                           _0: {
@@ -254,8 +254,8 @@ let suites = Stdlib.$at(from_of_string(of_string), Stdlib.$at({
                     tl: /* [] */0
                   }
                 }, Stdlib__Array.to_list(Stdlib__Array.mapi((function (i, param) {
-                            let b = param[1];
-                            let a = param[0];
+                            const b = param[1];
+                            const a = param[0];
                             return [
                                     Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                               _0: {
@@ -292,7 +292,7 @@ function ff(param) {
   return Caml_format.caml_format_int("%32d", param);
 }
 
-let formatter_suites_0 = [
+const formatter_suites_0 = [
   "fmt_concat",
   (function (param) {
       return {
@@ -361,7 +361,7 @@ let formatter_suites_0 = [
     })
 ];
 
-let formatter_suites_1 = {
+const formatter_suites_1 = {
   hd: [
     "fmt_gen",
     (function (param) {
@@ -1593,12 +1593,12 @@ let formatter_suites_1 = {
   }
 };
 
-let formatter_suites = {
+const formatter_suites = {
   hd: formatter_suites_0,
   tl: formatter_suites_1
 };
 
-let float_data = [
+const float_data = [
   [
     "%f",
     32,
@@ -1888,7 +1888,7 @@ function pr_lambda(ppf, e) {
   }
 }
 
-let string_of_lambda = Curry._1(Stdlib__Format.asprintf(/* Format */{
+const string_of_lambda = Curry._1(Stdlib__Format.asprintf(/* Format */{
           _0: {
             TAG: /* Alpha */15,
             _0: /* End_of_format */0
@@ -1896,7 +1896,7 @@ let string_of_lambda = Curry._1(Stdlib__Format.asprintf(/* Format */{
           _1: "%a"
         }), pr_lambda);
 
-let Lambda_suites = {
+const Lambda_suites = {
   ident: ident,
   kwd: kwd,
   pr_exp0: pr_exp0,
@@ -1906,7 +1906,7 @@ let Lambda_suites = {
   string_of_lambda: string_of_lambda
 };
 
-let lambda_suites = [
+const lambda_suites = [
   [
     {
       TAG: /* Var */1,
@@ -1972,8 +1972,8 @@ let lambda_suites = [
 
 function from_lambda_pairs(p) {
   return Stdlib__Array.to_list(Stdlib__Array.mapi((function (i, param) {
-                    let b = param[1];
-                    let a = param[0];
+                    const b = param[1];
+                    const a = param[0];
                     return [
                             Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                       _0: {
@@ -2000,10 +2000,10 @@ function from_lambda_pairs(p) {
                   }), lambda_suites));
 }
 
-let ksprintf_suites_0 = [
+const ksprintf_suites_0 = [
   "ksprintf",
   (function (param) {
-      let f = function (fmt) {
+      const f = function (fmt) {
         return Stdlib__Format.ksprintf((function (x) {
                       return x + x;
                     }), fmt);
@@ -2035,7 +2035,7 @@ let ksprintf_suites_0 = [
     })
 ];
 
-let ksprintf_suites_1 = {
+const ksprintf_suites_1 = {
   hd: [
     "sprintf",
     (function (param) {
@@ -2064,12 +2064,12 @@ let ksprintf_suites_1 = {
   tl: /* [] */0
 };
 
-let ksprintf_suites = {
+const ksprintf_suites = {
   hd: ksprintf_suites_0,
   tl: ksprintf_suites_1
 };
 
-let int64_suites_0 = [
+const int64_suites_0 = [
   "i32_simple",
   (function (param) {
       return {
@@ -2089,7 +2089,7 @@ let int64_suites_0 = [
     })
 ];
 
-let int64_suites_1 = {
+const int64_suites_1 = {
   hd: [
     "i32_simple1",
     (function (param) {
@@ -2683,7 +2683,7 @@ let int64_suites_1 = {
                                                       hd: [
                                                         "missing_newline2",
                                                         (function (param) {
-                                                            let buf = Stdlib__Buffer.create(30);
+                                                            const buf = Stdlib__Buffer.create(30);
                                                             return {
                                                                     TAG: /* Eq */0,
                                                                     _0: (Curry._1(Stdlib__Printf.bprintf(buf, /* Format */{
@@ -2736,12 +2736,12 @@ let int64_suites_1 = {
   }
 };
 
-let int64_suites = {
+const int64_suites = {
   hd: int64_suites_0,
   tl: int64_suites_1
 };
 
-let of_string_data = [
+const of_string_data = [
   [
     Caml_int64.zero,
     "0"
@@ -2799,9 +2799,9 @@ let of_string_data = [
 ];
 
 Mt.from_pair_suites("Caml_format_test", Stdlib.$at(suites, Stdlib.$at(formatter_suites, Stdlib.$at(from_lambda_pairs(lambda_suites), Stdlib.$at(ksprintf_suites, Stdlib.$at(Stdlib__Array.to_list(Stdlib__Array.mapi((function (i, param) {
-                                    let str_result = param[2];
-                                    let f = param[1];
-                                    let fmt = param[0];
+                                    const str_result = param[2];
+                                    const f = param[1];
+                                    const fmt = param[0];
                                     return [
                                             Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                                       _0: {
@@ -2826,8 +2826,8 @@ Mt.from_pair_suites("Caml_format_test", Stdlib.$at(suites, Stdlib.$at(formatter_
                                               })
                                           ];
                                   }), float_data)), Stdlib.$at(int64_suites, Stdlib__Array.to_list(Stdlib__Array.mapi((function (i, param) {
-                                        let b = param[1];
-                                        let a = param[0];
+                                        const b = param[1];
+                                        const a = param[0];
                                         return [
                                                 Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                                           _0: {
@@ -2857,19 +2857,19 @@ Mt.from_pair_suites("Caml_format_test", Stdlib.$at(suites, Stdlib.$at(formatter_
                                               ];
                                       }), of_string_data)))))))));
 
-let a = Stdlib__Format.asprintf;
+const a = Stdlib__Format.asprintf;
 
-let float_suites = {
+const float_suites = {
   hd: "float_nan",
   tl: /* [] */0
 };
 
-let hh = [
+const hh = [
   214748364,
   3435973836
 ];
 
-let hhh = [
+const hhh = [
   268435456,
   0
 ];

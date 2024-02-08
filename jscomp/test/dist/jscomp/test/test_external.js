@@ -3,11 +3,11 @@
 
 let Curry = require("melange.js/curry.js");
 
-let xx = document();
+const xx = document();
 
 alert("hehha");
 
-let b = Curry._1(ff("x"), 3);
+const b = Curry._1(ff("x"), 3);
 
 exports.xx = xx;
 exports.b = b;

@@ -5,7 +5,7 @@ let Caml_exceptions = require("melange.js/caml_exceptions.js");
 let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 let Stdlib = require("melange/stdlib.js");
 
-let Scan_failure = /* @__PURE__ */Caml_exceptions.create("Test_static_catch_ident.Scan_failure");
+const Scan_failure = /* @__PURE__ */Caml_exceptions.create("Test_static_catch_ident.Scan_failure");
 
 function scanf_bad_input(ib, x) {
   let s;

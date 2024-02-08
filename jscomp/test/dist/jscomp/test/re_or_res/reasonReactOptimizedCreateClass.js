@@ -7,7 +7,7 @@ function _assign(prim0, prim1) {
   return Object.assign(prim0, prim1);
 }
 
-let emptyObject = {};
+const emptyObject = {};
 
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -50,7 +50,7 @@ var ReactPropTypeLocationNames;
 // }
 ;
 
-let factory = (function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
+const factory = (function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
   /**
    * Policies that describe methods in `ReactClassInterface`.
    */
@@ -882,9 +882,9 @@ let factory = (function factory(ReactComponent, isValidElement, ReactNoopUpdateQ
 }
 );
 
-let reactNoopUpdateQueue = new React.Component().updater;
+const reactNoopUpdateQueue = new React.Component().updater;
 
-let createClass = factory(React.Component, React.isValidElement, reactNoopUpdateQueue);
+const createClass = factory(React.Component, React.isValidElement, reactNoopUpdateQueue);
 
 exports._assign = _assign;
 exports.emptyObject = emptyObject;

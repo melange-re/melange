@@ -8,7 +8,7 @@ function u(x, x$1) {
 }
 
 function f(g, x) {
-  let u = Curry._1(g, x);
+  const u = Curry._1(g, x);
   return u + u | 0;
 }
 

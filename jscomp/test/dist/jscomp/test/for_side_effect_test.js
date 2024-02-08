@@ -19,7 +19,7 @@ function test2(param) {
   return v;
 }
 
-let suites_0 = [
+const suites_0 = [
   "for_order",
   (function (param) {
       return {
@@ -30,7 +30,7 @@ let suites_0 = [
     })
 ];
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: /* [] */0
 };

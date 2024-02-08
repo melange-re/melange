@@ -2,11 +2,11 @@
 'use strict';
 
 
-let a = /* Color */{
+const a = /* Color */{
   _0: "#ffff"
 };
 
-let c = "white";
+const c = "white";
 
 exports.a = a;
 exports.c = c;

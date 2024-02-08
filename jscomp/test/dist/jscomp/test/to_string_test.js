@@ -4,7 +4,7 @@
 let Mt = require("./mt.js");
 let Stdlib = require("melange/stdlib.js");
 
-let ff = Stdlib.string_of_float;
+const ff = Stdlib.string_of_float;
 
 function f(v) {
   return String(v);

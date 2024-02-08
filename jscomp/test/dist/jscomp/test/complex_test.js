@@ -4,7 +4,7 @@
 let Mt = require("./mt.js");
 let Stdlib__Complex = require("melange/complex.js");
 
-let suites_0 = [
+const suites_0 = [
   "basic_add",
   (function (param) {
       return {
@@ -18,7 +18,7 @@ let suites_0 = [
     })
 ];
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: /* [] */0
 };

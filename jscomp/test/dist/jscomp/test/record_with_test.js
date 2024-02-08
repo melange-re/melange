@@ -4,7 +4,7 @@
 let Curry = require("melange.js/curry.js");
 let Mt = require("./mt.js");
 
-let v = {
+const v = {
   syntax: undefined,
   imports: 0,
   file_options: 0,
@@ -14,7 +14,7 @@ let v = {
   extends: 0
 };
 
-let u_v = {
+const u_v = {
   syntax: undefined,
   imports: 0,
   file_options: 0,
@@ -25,7 +25,7 @@ let u_v = {
 };
 
 function f(g, h) {
-  let init = Curry._1(g, h);
+  const init = Curry._1(g, h);
   return {
           syntax: init.syntax,
           imports: 0,
@@ -37,7 +37,7 @@ function f(g, h) {
         };
 }
 
-let suites_0 = [
+const suites_0 = [
   "eq_with",
   (function (param) {
       return {
@@ -48,14 +48,14 @@ let suites_0 = [
     })
 ];
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: /* [] */0
 };
 
 Mt.from_pair_suites("Record_with_test", suites);
 
-let uv = {
+const uv = {
   syntax: undefined,
   imports: 1,
   file_options: 0,

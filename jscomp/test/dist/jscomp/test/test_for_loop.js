@@ -18,14 +18,14 @@ function for_2(x) {
 }
 
 function for_3(x) {
-  let v = {
+  const v = {
     contents: 0
   };
-  let arr = Stdlib__Array.map((function (param, param$1) {
+  const arr = Stdlib__Array.map((function (param, param$1) {
           
         }), x);
   for(let i = 0 ,i_finish = x.length; i <= i_finish; ++i){
-    let j = (i << 1);
+    const j = (i << 1);
     Caml_array.set(arr, i, (function (param) {
             v.contents = v.contents + j | 0;
           }));
@@ -37,15 +37,15 @@ function for_3(x) {
 }
 
 function for_4(x) {
-  let v = {
+  const v = {
     contents: 0
   };
-  let arr = Stdlib__Array.map((function (param, param$1) {
+  const arr = Stdlib__Array.map((function (param, param$1) {
           
         }), x);
   for(let i = 0 ,i_finish = x.length; i <= i_finish; ++i){
-    let j = (i << 1);
-    let k = (j << 1);
+    const j = (i << 1);
+    const k = (j << 1);
     Caml_array.set(arr, i, (function (param) {
             v.contents = v.contents + k | 0;
           }));
@@ -57,14 +57,14 @@ function for_4(x) {
 }
 
 function for_5(x, u) {
-  let v = {
+  const v = {
     contents: 0
   };
-  let arr = Stdlib__Array.map((function (param, param$1) {
+  const arr = Stdlib__Array.map((function (param, param$1) {
           
         }), x);
   for(let i = 0 ,i_finish = x.length; i <= i_finish; ++i){
-    let k = Math.imul((u << 1), u);
+    const k = Math.imul((u << 1), u);
     Caml_array.set(arr, i, (function (param) {
             v.contents = v.contents + k | 0;
           }));
@@ -76,27 +76,27 @@ function for_5(x, u) {
 }
 
 function for_6(x, u) {
-  let v = {
+  const v = {
     contents: 0
   };
-  let arr = Stdlib__Array.map((function (param, param$1) {
+  const arr = Stdlib__Array.map((function (param, param$1) {
           
         }), x);
-  let v4 = {
+  const v4 = {
     contents: 0
   };
-  let v5 = {
+  const v5 = {
     contents: 0
   };
   v4.contents = v4.contents + 1 | 0;
   for(let _j = 0; _j <= 1; ++_j){
     v5.contents = v5.contents + 1 | 0;
-    let v2 = {
+    const v2 = {
       contents: 0
     };
     for(let i = 0 ,i_finish = x.length; i <= i_finish; ++i){
-      let k = Math.imul((u << 1), u);
-      let h = (v5.contents << 1);
+      const k = Math.imul((u << 1), u);
+      const h = (v5.contents << 1);
       v2.contents = v2.contents + 1 | 0;
       Caml_array.set(arr, i, (function (param) {
               v.contents = (((((v.contents + k | 0) + v2.contents | 0) + u | 0) + v4.contents | 0) + v5.contents | 0) + h | 0;

@@ -10,11 +10,11 @@ let Stdlib = require("melange/stdlib.js");
 let Stdlib__Hashtbl = require("melange/hashtbl.js");
 let Stdlib__List = require("melange/list.js");
 
-let equal = Caml_obj.caml_equal;
+const equal = Caml_obj.caml_equal;
 
-let compare = Caml_obj.caml_compare;
+const compare = Caml_obj.caml_compare;
 
-let hash = Stdlib__Hashtbl.hash;
+const hash = Stdlib__Hashtbl.hash;
 
 function of_int(x) {
   return {
@@ -166,12 +166,12 @@ function map_opt(f, l) {
   let _acc = /* [] */0;
   let _l = l;
   while(true) {
-    let l$1 = _l;
-    let acc = _acc;
+    const l$1 = _l;
+    const acc = _acc;
     if (!l$1) {
       return Stdlib__List.rev(acc);
     }
-    let y = Curry._1(f, l$1.hd);
+    const y = Curry._1(f, l$1.hd);
     if (y === undefined) {
       return ;
     }
@@ -188,11 +188,11 @@ function list_any(f, e) {
   if (e.NAME === "List") {
     let _l = e.VAL;
     while(true) {
-      let l = _l;
+      const l = _l;
       if (!l) {
         return ;
       }
-      let res = Curry._1(f, l.hd);
+      const res = Curry._1(f, l.hd);
       if (res !== undefined) {
         return res;
       }
@@ -208,13 +208,13 @@ function list_all(f, e) {
     let _acc = /* [] */0;
     let _l = e.VAL;
     while(true) {
-      let l = _l;
-      let acc = _acc;
+      const l = _l;
+      const acc = _acc;
       if (!l) {
         return Stdlib__List.rev(acc);
       }
-      let tl = l.tl;
-      let y = Curry._1(f, l.hd);
+      const tl = l.tl;
+      const y = Curry._1(f, l.hd);
       if (y !== undefined) {
         _l = tl;
         _acc = {
@@ -268,11 +268,11 @@ function to_pair(e) {
   if (e.NAME !== "List") {
     return ;
   }
-  let match = e.VAL;
+  const match = e.VAL;
   if (!match) {
     return ;
   }
-  let match$1 = match.tl;
+  const match$1 = match.tl;
   if (match$1 && !match$1.tl) {
     return [
             match.hd,
@@ -284,7 +284,7 @@ function to_pair(e) {
 
 function to_pair_with(f1, f2, e) {
   return $great$great$eq(to_pair(e), (function (param) {
-                let y = param[1];
+                const y = param[1];
                 return $great$great$eq(Curry._1(f1, param[0]), (function (x) {
                               return $great$great$eq(Curry._1(f2, y), (function (y) {
                                             return [
@@ -303,15 +303,15 @@ function to_triple(e) {
   if (e.NAME !== "List") {
     return ;
   }
-  let match = e.VAL;
+  const match = e.VAL;
   if (!match) {
     return ;
   }
-  let match$1 = match.tl;
+  const match$1 = match.tl;
   if (!match$1) {
     return ;
   }
-  let match$2 = match$1.tl;
+  const match$2 = match$1.tl;
   if (match$2 && !match$2.tl) {
     return [
             match.hd,
@@ -324,8 +324,8 @@ function to_triple(e) {
 
 function to_triple_with(f1, f2, f3, e) {
   return $great$great$eq(to_triple(e), (function (param) {
-                let z = param[2];
-                let y = param[1];
+                const z = param[2];
+                const y = param[1];
                 return $great$great$eq(Curry._1(f1, param[0]), (function (x) {
                               return $great$great$eq(Curry._1(f2, y), (function (y) {
                                             return $great$great$eq(Curry._1(f3, z), (function (z) {
@@ -358,25 +358,25 @@ function get_field(name, e) {
   if (e.NAME === "List") {
     let _l = e.VAL;
     while(true) {
-      let l = _l;
+      const l = _l;
       if (!l) {
         return ;
       }
-      let match = l.hd;
+      const match = l.hd;
       if (typeof match === "string") {
         _l = l.tl;
         continue ;
       }
       if (match.NAME === "List") {
-        let match$1 = match.VAL;
+        const match$1 = match.VAL;
         if (match$1) {
-          let match$2 = match$1.hd;
+          const match$2 = match$1.hd;
           if (typeof match$2 === "string") {
             _l = l.tl;
             continue ;
           }
           if (match$2.NAME === "Atom") {
-            let match$3 = match$1.tl;
+            const match$3 = match$1.tl;
             if (match$3) {
               if (match$3.tl) {
                 _l = l.tl;
@@ -410,19 +410,19 @@ function field(name, f, e) {
 
 function _get_field_list(name, _l) {
   while(true) {
-    let l = _l;
+    const l = _l;
     if (!l) {
       return ;
     }
-    let match = l.hd;
+    const match = l.hd;
     if (typeof match === "string") {
       _l = l.tl;
       continue ;
     }
     if (match.NAME === "List") {
-      let match$1 = match.VAL;
+      const match$1 = match.VAL;
       if (match$1) {
-        let match$2 = match$1.hd;
+        const match$2 = match$1.hd;
         if (typeof match$2 === "string") {
           _l = l.tl;
           continue ;
@@ -454,11 +454,11 @@ function field_list(name, f, e) {
 
 function _get_variant(s, args, _l) {
   while(true) {
-    let l = _l;
+    const l = _l;
     if (!l) {
       return ;
     }
-    let match = l.hd;
+    const match = l.hd;
     if (Caml_obj.caml_equal(s, match[0])) {
       return Curry._1(match[1], args);
     }
@@ -471,11 +471,11 @@ function get_variant(l, e) {
   if (e.NAME !== "List") {
     return _get_variant(e.VAL, /* [] */0, l);
   }
-  let match = e.VAL;
+  const match = e.VAL;
   if (!match) {
     return ;
   }
-  let match$1 = match.hd;
+  const match$1 = match.hd;
   if (typeof match$1 === "string" || match$1.NAME !== "Atom") {
     return ;
   } else {
@@ -493,12 +493,12 @@ function get_exn(e) {
           });
 }
 
-let of_unit = {
+const of_unit = {
   NAME: "List",
   VAL: /* [] */0
 };
 
-let Traverse = {
+const Traverse = {
   map_opt: map_opt,
   list_any: list_any,
   list_all: list_all,

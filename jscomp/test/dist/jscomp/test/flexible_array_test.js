@@ -11,8 +11,8 @@ let Stdlib__Format = require("melange/format.js");
 
 function sub(_tr, _k) {
   while(true) {
-    let k = _k;
-    let tr = _tr;
+    const k = _k;
+    const tr = _tr;
     if (tr) {
       if (k === 1) {
         return tr._0;
@@ -34,8 +34,8 @@ function sub(_tr, _k) {
 
 function update(tr, k, w) {
   if (tr) {
-    let r = tr._2;
-    let l = tr._1;
+    const r = tr._2;
+    const l = tr._1;
     if (k === 1) {
       return /* Br */{
               _0: w,
@@ -43,7 +43,7 @@ function update(tr, k, w) {
               _2: r
             };
     }
-    let v = tr._0;
+    const v = tr._0;
     if (k % 2 === 0) {
       return /* Br */{
               _0: v,
@@ -75,9 +75,9 @@ function $$delete(tr, n) {
     if (n === 1) {
       return /* Lf */0;
     }
-    let r = tr._2;
-    let l = tr._1;
-    let v = tr._0;
+    const r = tr._2;
+    const l = tr._1;
+    const v = tr._0;
     if (n % 2 === 0) {
       return /* Br */{
               _0: v,
@@ -115,7 +115,7 @@ function loext(tr, w) {
 
 function lorem(tr) {
   if (tr) {
-    let l = tr._1;
+    const l = tr._1;
     if (l) {
       return /* Br */{
               _0: l._0,
@@ -140,7 +140,7 @@ function lorem(tr) {
           });
 }
 
-let empty = [
+const empty = [
   /* Lf */0,
   0
 ];
@@ -160,7 +160,7 @@ function get(param, i) {
 }
 
 function set(param, i, v) {
-  let k = param[1];
+  const k = param[1];
   if (i >= 0 && i < k) {
     return [
             update(param[0], i + 1 | 0, v),
@@ -181,7 +181,7 @@ function push_front(param, v) {
 }
 
 function pop_front(param) {
-  let k = param[1];
+  const k = param[1];
   if (k > 0) {
     return [
             lorem(param[0]),
@@ -195,7 +195,7 @@ function pop_front(param) {
 }
 
 function push_back(param, v) {
-  let k = param[1];
+  const k = param[1];
   return [
           update(param[0], k + 1 | 0, v),
           k + 1 | 0
@@ -203,7 +203,7 @@ function push_back(param, v) {
 }
 
 function pop_back(param) {
-  let k = param[1];
+  const k = param[1];
   if (k > 0) {
     return [
             $$delete(param[0], k),
@@ -235,7 +235,7 @@ function pp(fmt, s) {
 function filter_from(i, p, s) {
   let u = empty;
   for(let i$1 = i ,i_finish = length(s); i$1 < i_finish; ++i$1){
-    let ele = get(s, i$1);
+    const ele = get(s, i$1);
     if (Curry._1(p, ele)) {
       u = push_back(u, ele);
     }
@@ -256,15 +256,15 @@ function append(a, b) {
 }
 
 function sort(s) {
-  let size = length(s);
+  const size = length(s);
   if (size <= 1) {
     return s;
   }
-  let head = get(s, 0);
-  let larger = sort(filter_from(1, (function (x) {
+  const head = get(s, 0);
+  const larger = sort(filter_from(1, (function (x) {
               return Caml_obj.caml_greaterthan(x, head);
             }), s));
-  let smaller = sort(filter_from(1, (function (x) {
+  const smaller = sort(filter_from(1, (function (x) {
               return Caml_obj.caml_lessequal(x, head);
             }), s));
   return append(smaller, push_front(larger, head));
@@ -278,9 +278,9 @@ function of_array(arr) {
   return v;
 }
 
-let equal = Caml_obj.caml_equal;
+const equal = Caml_obj.caml_equal;
 
-let Int_array = {
+const Int_array = {
   empty: empty,
   get: get,
   set: set,
@@ -299,7 +299,7 @@ function $eq$tilde(x, y) {
   return Caml_obj.caml_equal(x, of_array(y));
 }
 
-let u = of_array([
+const u = of_array([
       1,
       2,
       2,
@@ -308,7 +308,7 @@ let u = of_array([
       6
     ]);
 
-let x = sort(u);
+const x = sort(u);
 
 if (!Caml_obj.caml_equal(x, of_array([
             1,
@@ -328,15 +328,15 @@ if (!Caml_obj.caml_equal(x, of_array([
           });
 }
 
-let v = Stdlib__Array.init(500, (function (i) {
+const v = Stdlib__Array.init(500, (function (i) {
         return 500 - i | 0;
       }));
 
-let y = Stdlib__Array.init(500, (function (i) {
+const y = Stdlib__Array.init(500, (function (i) {
         return i + 1 | 0;
       }));
 
-let x$1 = sort(of_array(v));
+const x$1 = sort(of_array(v));
 
 Caml_obj.caml_equal(x$1, of_array(y));
 

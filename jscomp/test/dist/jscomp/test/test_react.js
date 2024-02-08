@@ -36,7 +36,7 @@ function f(param) {
 
 let v;
 
-let u = 33;
+const u = 33;
 
 exports.v = v;
 exports.u = u;

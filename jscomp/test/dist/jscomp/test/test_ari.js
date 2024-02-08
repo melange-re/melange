@@ -24,18 +24,18 @@ function f2(param) {
   return 3 + param | 0;
 }
 
-let g = 7;
+const g = 7;
 
 function ff(param) {
   return U.test_primit(3, param);
 }
 
-let fff = VV.test_primit2(3);
+const fff = VV.test_primit2(3);
 
 function length_aux(_len, _param) {
   while(true) {
-    let param = _param;
-    let len = _len;
+    const param = _param;
+    const len = _len;
     if (!param) {
       return len;
     }
@@ -45,135 +45,135 @@ function length_aux(_len, _param) {
   };
 }
 
-let length = Stdlib__List.length;
+const length = Stdlib__List.length;
 
-let compare_lengths = Stdlib__List.compare_lengths;
+const compare_lengths = Stdlib__List.compare_lengths;
 
-let compare_length_with = Stdlib__List.compare_length_with;
+const compare_length_with = Stdlib__List.compare_length_with;
 
-let is_empty = Stdlib__List.is_empty;
+const is_empty = Stdlib__List.is_empty;
 
-let cons = Stdlib__List.cons;
+const cons = Stdlib__List.cons;
 
-let hd = Stdlib__List.hd;
+const hd = Stdlib__List.hd;
 
-let tl = Stdlib__List.tl;
+const tl = Stdlib__List.tl;
 
-let nth = Stdlib__List.nth;
+const nth = Stdlib__List.nth;
 
-let nth_opt = Stdlib__List.nth_opt;
+const nth_opt = Stdlib__List.nth_opt;
 
-let rev = Stdlib__List.rev;
+const rev = Stdlib__List.rev;
 
-let init = Stdlib__List.init;
+const init = Stdlib__List.init;
 
-let append = Stdlib__List.append;
+const append = Stdlib__List.append;
 
-let rev_append = Stdlib__List.rev_append;
+const rev_append = Stdlib__List.rev_append;
 
-let concat = Stdlib__List.concat;
+const concat = Stdlib__List.concat;
 
-let flatten = Stdlib__List.flatten;
+const flatten = Stdlib__List.flatten;
 
-let equal = Stdlib__List.equal;
+const equal = Stdlib__List.equal;
 
-let compare = Stdlib__List.compare;
+const compare = Stdlib__List.compare;
 
-let iter = Stdlib__List.iter;
+const iter = Stdlib__List.iter;
 
-let iteri = Stdlib__List.iteri;
+const iteri = Stdlib__List.iteri;
 
-let map = Stdlib__List.map;
+const map = Stdlib__List.map;
 
-let mapi = Stdlib__List.mapi;
+const mapi = Stdlib__List.mapi;
 
-let rev_map = Stdlib__List.rev_map;
+const rev_map = Stdlib__List.rev_map;
 
-let filter_map = Stdlib__List.filter_map;
+const filter_map = Stdlib__List.filter_map;
 
-let concat_map = Stdlib__List.concat_map;
+const concat_map = Stdlib__List.concat_map;
 
-let fold_left_map = Stdlib__List.fold_left_map;
+const fold_left_map = Stdlib__List.fold_left_map;
 
-let fold_left = Stdlib__List.fold_left;
+const fold_left = Stdlib__List.fold_left;
 
-let fold_right = Stdlib__List.fold_right;
+const fold_right = Stdlib__List.fold_right;
 
-let iter2 = Stdlib__List.iter2;
+const iter2 = Stdlib__List.iter2;
 
-let map2 = Stdlib__List.map2;
+const map2 = Stdlib__List.map2;
 
-let rev_map2 = Stdlib__List.rev_map2;
+const rev_map2 = Stdlib__List.rev_map2;
 
-let fold_left2 = Stdlib__List.fold_left2;
+const fold_left2 = Stdlib__List.fold_left2;
 
-let fold_right2 = Stdlib__List.fold_right2;
+const fold_right2 = Stdlib__List.fold_right2;
 
-let for_all = Stdlib__List.for_all;
+const for_all = Stdlib__List.for_all;
 
-let exists = Stdlib__List.exists;
+const exists = Stdlib__List.exists;
 
-let for_all2 = Stdlib__List.for_all2;
+const for_all2 = Stdlib__List.for_all2;
 
-let exists2 = Stdlib__List.exists2;
+const exists2 = Stdlib__List.exists2;
 
-let mem = Stdlib__List.mem;
+const mem = Stdlib__List.mem;
 
-let memq = Stdlib__List.memq;
+const memq = Stdlib__List.memq;
 
-let find = Stdlib__List.find;
+const find = Stdlib__List.find;
 
-let find_opt = Stdlib__List.find_opt;
+const find_opt = Stdlib__List.find_opt;
 
-let find_index = Stdlib__List.find_index;
+const find_index = Stdlib__List.find_index;
 
-let find_map = Stdlib__List.find_map;
+const find_map = Stdlib__List.find_map;
 
-let find_mapi = Stdlib__List.find_mapi;
+const find_mapi = Stdlib__List.find_mapi;
 
-let filter = Stdlib__List.filter;
+const filter = Stdlib__List.filter;
 
-let find_all = Stdlib__List.find_all;
+const find_all = Stdlib__List.find_all;
 
-let filteri = Stdlib__List.filteri;
+const filteri = Stdlib__List.filteri;
 
-let partition = Stdlib__List.partition;
+const partition = Stdlib__List.partition;
 
-let partition_map = Stdlib__List.partition_map;
+const partition_map = Stdlib__List.partition_map;
 
-let assoc = Stdlib__List.assoc;
+const assoc = Stdlib__List.assoc;
 
-let assoc_opt = Stdlib__List.assoc_opt;
+const assoc_opt = Stdlib__List.assoc_opt;
 
-let assq = Stdlib__List.assq;
+const assq = Stdlib__List.assq;
 
-let assq_opt = Stdlib__List.assq_opt;
+const assq_opt = Stdlib__List.assq_opt;
 
-let mem_assoc = Stdlib__List.mem_assoc;
+const mem_assoc = Stdlib__List.mem_assoc;
 
-let mem_assq = Stdlib__List.mem_assq;
+const mem_assq = Stdlib__List.mem_assq;
 
-let remove_assoc = Stdlib__List.remove_assoc;
+const remove_assoc = Stdlib__List.remove_assoc;
 
-let remove_assq = Stdlib__List.remove_assq;
+const remove_assq = Stdlib__List.remove_assq;
 
-let split = Stdlib__List.split;
+const split = Stdlib__List.split;
 
-let combine = Stdlib__List.combine;
+const combine = Stdlib__List.combine;
 
-let sort = Stdlib__List.sort;
+const sort = Stdlib__List.sort;
 
-let stable_sort = Stdlib__List.stable_sort;
+const stable_sort = Stdlib__List.stable_sort;
 
-let fast_sort = Stdlib__List.fast_sort;
+const fast_sort = Stdlib__List.fast_sort;
 
-let sort_uniq = Stdlib__List.sort_uniq;
+const sort_uniq = Stdlib__List.sort_uniq;
 
-let merge = Stdlib__List.merge;
+const merge = Stdlib__List.merge;
 
-let to_seq = Stdlib__List.to_seq;
+const to_seq = Stdlib__List.to_seq;
 
-let of_seq = Stdlib__List.of_seq;
+const of_seq = Stdlib__List.of_seq;
 
 exports.f = f;
 exports.f1 = f1;

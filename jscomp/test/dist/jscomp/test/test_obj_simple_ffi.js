@@ -15,13 +15,13 @@ function v(displayName, param) {
   return tmp;
 }
 
-let v2 = {
+const v2 = {
   test: 3,
   config: 3,
   hi: "ghos"
 };
 
-let v3 = {
+const v3 = {
   displayName: "display",
   test: 3,
   config: 3,

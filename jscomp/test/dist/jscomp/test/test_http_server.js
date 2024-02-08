@@ -3,10 +3,10 @@
 
 let Http = require("http");
 
-let hostname = "127.0.0.1";
+const hostname = "127.0.0.1";
 
 function create_server(http) {
-  let server = http.createServer(function (req, resp) {
+  const server = http.createServer(function (req, resp) {
         resp.statusCode = 200;
         resp.setHeader("Content-Type", "text/plain");
         return resp.end("Hello world\n");

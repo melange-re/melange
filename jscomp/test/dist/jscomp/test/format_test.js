@@ -11,11 +11,11 @@ let Stdlib__List = require("melange/list.js");
 let Stdlib__Printf = require("melange/printf.js");
 let Stdlib__Scanf = require("melange/scanf.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -71,7 +71,7 @@ function u(param) {
             });
 }
 
-let M = {};
+const M = {};
 
 eq("File \"jscomp/test/format_test.ml\", line 31, characters 5-12", Curry._1(Stdlib__Format.asprintf(u(undefined)), "x"), "xx xyy");
 
@@ -181,12 +181,12 @@ function aux_list(loc, ls) {
         }), ls);
 }
 
-let literals_0 = [
+const literals_0 = [
   7.875,
   "0x1.f8p+2"
 ];
 
-let literals_1 = {
+const literals_1 = {
   hd: [
     0.3,
     "0x1.3333333333333p-2"
@@ -236,7 +236,7 @@ let literals_1 = {
   }
 };
 
-let literals = {
+const literals = {
   hd: literals_0,
   tl: literals_1
 };
@@ -283,7 +283,7 @@ Stdlib__List.iter((function (param) {
         scan_float("File \"jscomp/test/format_test.ml\", line 123, characters 13-20", param[1], param[0]);
       }), literals);
 
-let f1 = - -9.9;
+const f1 = - -9.9;
 
 eq("File \"jscomp/test/format_test.ml\", line 129, characters 5-12", f1, 9.9);
 

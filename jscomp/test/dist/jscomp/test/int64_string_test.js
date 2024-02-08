@@ -8,11 +8,11 @@ let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 let Mt = require("./mt.js");
 let Stdlib__Int64 = require("melange/int64.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -20,7 +20,7 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-let v = Caml_format.caml_int64_format("%d", Stdlib__Int64.max_int);
+const v = Caml_format.caml_int64_format("%d", Stdlib__Int64.max_int);
 
 eq("File \"jscomp/test/int64_string_test.ml\", line 9, characters 6-13", v, "9223372036854775807");
 
@@ -28,7 +28,7 @@ function f(a, b) {
   eq("File \"jscomp/test/int64_string_test.ml\", line 11, characters 5-12", Caml_format.caml_int64_format("%d", a), b);
 }
 
-let hh = Caml_int64.add(Stdlib__Int64.min_int, [
+const hh = Caml_int64.add(Stdlib__Int64.min_int, [
       0,
       100
     ]);
@@ -69,7 +69,7 @@ for(let i$2 = 0; i$2 <= 8; ++i$2){
   eq("File \"jscomp/test/int64_string_test.ml\", line 33, characters 5-12", Caml_format.caml_int64_format("%d", Caml_int64.add(Stdlib__Int64.min_int, Caml_int64.of_int32(1000000 + i$2 | 0))), "-922337203685377580" + String(8 - i$2 | 0));
 }
 
-let u = [
+const u = [
   2097151,
   4294957295
 ];
@@ -78,7 +78,7 @@ for(let i$3 = 0; i$3 <= 6; ++i$3){
   eq("File \"jscomp/test/int64_string_test.ml\", line 42, characters 5-12", Caml_format.caml_int64_format("%d", Caml_int64.add(u, Caml_int64.of_int32(Math.imul(i$3, 10000)))), "90071992547" + (String(3 + i$3 | 0) + "0991"));
 }
 
-let v$1 = [
+const v$1 = [
   -2097153,
   4294917297
 ];
@@ -104,7 +104,7 @@ eq("File \"jscomp/test/int64_string_test.ml\", line 54, characters 6-13", Caml_f
 
 eq("File \"jscomp/test/int64_string_test.ml\", line 55, characters 6-13", Caml_format.caml_int64_format("%d", Caml_int64.max_int), "9223372036854775807");
 
-let random_data = {
+const random_data = {
   hd: {
     hd: [
       [
@@ -1318,7 +1318,7 @@ Belt__Belt_List.forEach(random_data, (function (u) {
                       ]
                     });
           }
-          let match = u.hd;
+          const match = u.hd;
           return eq("File \"jscomp/test/int64_string_test.ml\", line 160, characters 21-28", Caml_format.caml_int64_format("%d", match[0]), match[1]);
         }
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {

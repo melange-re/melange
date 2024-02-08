@@ -8,17 +8,17 @@ let Js__Js_exn = require("melange.js/js_exn.js");
 let Mt = require("./mt.js");
 let Stdlib = require("melange/stdlib.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let counter = {
+const counter = {
   contents: 0
 };
 
 function add_test(loc, test) {
   counter.contents = counter.contents + 1 | 0;
-  let id = loc + (" id " + String(counter.contents));
+  const id = loc + (" id " + String(counter.contents));
   suites.contents = {
     hd: [
       id,
@@ -65,7 +65,7 @@ try {
   exit = 1;
 }
 catch (raw_exn){
-  let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+  const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
   if (exn.MEL_EXN_ID === Js__Js_exn.$$Error) {
     add_test("File \"jscomp/test/js_exception_catch_test.ml\", line 21, characters 10-17", (function (param) {
             return {
@@ -87,11 +87,11 @@ if (exit === 1) {
         }));
 }
 
-let A = /* @__PURE__ */Caml_exceptions.create("Js_exception_catch_test.A");
+const A = /* @__PURE__ */Caml_exceptions.create("Js_exception_catch_test.A");
 
-let B = /* @__PURE__ */Caml_exceptions.create("Js_exception_catch_test.B");
+const B = /* @__PURE__ */Caml_exceptions.create("Js_exception_catch_test.B");
 
-let C = /* @__PURE__ */Caml_exceptions.create("Js_exception_catch_test.C");
+const C = /* @__PURE__ */Caml_exceptions.create("Js_exception_catch_test.C");
 
 function test(f) {
   try {
@@ -99,7 +99,7 @@ function test(f) {
     return "No_error";
   }
   catch (raw_e){
-    let e = Caml_js_exceptions.internalToOCamlException(raw_e);
+    const e = Caml_js_exceptions.internalToOCamlException(raw_e);
     if (e.MEL_EXN_ID === Stdlib.Not_found) {
       return "Not_found";
     } else if (e.MEL_EXN_ID === Stdlib.Invalid_argument) {

@@ -5,11 +5,11 @@ let Ext_filename_test = require("./ext_filename_test.js");
 let Mt = require("./mt.js");
 let Stdlib__Array = require("melange/array.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 

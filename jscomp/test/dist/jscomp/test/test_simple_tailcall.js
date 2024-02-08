@@ -18,12 +18,12 @@ function non_length(x) {
 
 function length(_acc, _x) {
   while(true) {
-    let x = _x;
-    let acc = _acc;
+    const x = _x;
+    const acc = _acc;
     if (!x) {
       return acc;
     }
-    let match = x.tl;
+    const match = x.tl;
     if (match) {
       return 1 + length(acc + 1 | 0, match.tl) | 0;
     }

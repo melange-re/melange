@@ -3,7 +3,7 @@
 
 let Glob_u = require("./glob_u.js");
 
-let v = Glob_u.v;
+const v = Glob_u.v;
 
 exports.v = v;
 /* No side effect */

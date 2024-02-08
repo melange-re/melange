@@ -15,7 +15,7 @@ function Reactjs_ppx_custom$Internal$header(Props) {
           });
 }
 
-let Internal = {
+const Internal = {
   header: Reactjs_ppx_custom$Internal$header
 };
 
@@ -23,7 +23,7 @@ function Reactjs_ppx_custom(Props) {
   return JsxRuntime.jsx(Reactjs_ppx_custom$Internal$header, {});
 }
 
-let make = Reactjs_ppx_custom;
+const make = Reactjs_ppx_custom;
 
 exports.Internal = Internal;
 exports.make = make;

@@ -2,9 +2,9 @@
 'use strict';
 
 
-let N = {};
+const N = {};
 
-let u = [
+const u = [
   undefined,
   3
 ];

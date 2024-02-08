@@ -3,9 +3,9 @@
 
 let Caml_exceptions = require("melange.js/caml_exceptions.js");
 
-let A = /* @__PURE__ */Caml_exceptions.create("Rebind_module.A");
+const A = /* @__PURE__ */Caml_exceptions.create("Rebind_module.A");
 
-let AA = /* @__PURE__ */Caml_exceptions.create("Rebind_module.AA");
+const AA = /* @__PURE__ */Caml_exceptions.create("Rebind_module.AA");
 
 exports.A = A;
 exports.AA = AA;

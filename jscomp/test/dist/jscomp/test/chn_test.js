@@ -6,11 +6,11 @@ let Caml_string = require("melange.js/caml_string.js");
 let Mt = require("./mt.js");
 let Stdlib__Array = require("melange/array.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -37,7 +37,7 @@ console.log("\x3f\u003f\b\t\n\v\f\r\0\"'");
 
 function convert(s) {
   return Stdlib__Array.to_list(Array.from(s, (function (x) {
-                    let x$1 = x.codePointAt(0);
+                    const x$1 = x.codePointAt(0);
                     if (x$1 !== undefined) {
                       return x$1;
                     }

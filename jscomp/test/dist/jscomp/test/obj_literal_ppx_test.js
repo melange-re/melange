@@ -2,7 +2,7 @@
 'use strict';
 
 
-let a = {
+const a = {
   x: 3,
   y: {
     hd: 1,

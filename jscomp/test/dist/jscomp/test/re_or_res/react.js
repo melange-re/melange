@@ -2,19 +2,19 @@
 'use strict';
 
 
-let Ref = {};
+const Ref = {};
 
-let Children = {};
+const Children = {};
 
-let Context = {};
+const Context = {};
 
-let Fragment = {};
+const Fragment = {};
 
-let StrictMode = {};
+const StrictMode = {};
 
-let Suspense = {};
+const Suspense = {};
 
-let SuspenseList = {};
+const SuspenseList = {};
 
 exports.Ref = Ref;
 exports.Children = Children;

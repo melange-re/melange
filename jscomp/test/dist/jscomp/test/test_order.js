@@ -3,7 +3,7 @@
 
 let Caml = require("melange.js/caml.js");
 
-let compare = Caml.caml_int_compare;
+const compare = Caml.caml_int_compare;
 
 exports.compare = compare;
 /* No side effect */

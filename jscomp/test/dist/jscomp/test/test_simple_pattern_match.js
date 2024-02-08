@@ -20,9 +20,9 @@ switch (Stdlib__Sys.os_type) {
     ];
 }
 
-let a = match[0];
+const a = match[0];
 
-let b = match[1];
+const b = match[1];
 
 exports.a = a;
 exports.b = b;

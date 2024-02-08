@@ -3,11 +3,11 @@
 
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -34,7 +34,7 @@ function hi (cb){
 }
 ;
 
-let xs = {
+const xs = {
   contents: /* [] */0
 };
 

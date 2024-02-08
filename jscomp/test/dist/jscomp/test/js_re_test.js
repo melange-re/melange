@@ -5,19 +5,19 @@ let Caml_array = require("melange.js/caml_array.js");
 let Caml_option = require("melange.js/caml_option.js");
 let Mt = require("./mt.js");
 
-let suites_0 = [
+const suites_0 = [
   "captures",
   (function (param) {
-      let re = /(\d+)-(?:(\d+))?/g;
-      let result = re.exec("3-");
+      const re = /(\d+)-(?:(\d+))?/g;
+      const result = re.exec("3-");
       if (result === null) {
         return {
                 TAG: /* Fail */8,
                 _0: undefined
               };
       }
-      let defined = Caml_array.get(result, 1);
-      let $$undefined = Caml_array.get(result, 2);
+      const defined = Caml_array.get(result, 1);
+      const $$undefined = Caml_array.get(result, 2);
       return {
               TAG: /* Eq */0,
               _0: [
@@ -32,12 +32,12 @@ let suites_0 = [
     })
 ];
 
-let suites_1 = {
+const suites_1 = {
   hd: [
     "fromString",
     (function (param) {
-        let contentOf = function (tag, xmlString) {
-          let param = new RegExp("<" + (tag + (">(.*?)<\\/" + (tag + ">")))).exec(xmlString);
+        const contentOf = function (tag, xmlString) {
+          const param = new RegExp("<" + (tag + (">(.*?)<\\/" + (tag + ">")))).exec(xmlString);
           if (param !== null) {
             return Caml_option.nullable_to_opt(Caml_array.get(param, 1));
           }
@@ -54,7 +54,7 @@ let suites_1 = {
     hd: [
       "exec_literal",
       (function (param) {
-          let res = /[^.]+/.exec("http://xxx.domain.com");
+          const res = /[^.]+/.exec("http://xxx.domain.com");
           if (res !== null) {
             return {
                     TAG: /* Eq */0,
@@ -73,7 +73,7 @@ let suites_1 = {
       hd: [
         "exec_no_match",
         (function (param) {
-            let match = /https:\/\/(.*)/.exec("http://xxx.domain.com");
+            const match = /https:\/\/(.*)/.exec("http://xxx.domain.com");
             if (match !== null) {
               return {
                       TAG: /* FailWith */9,
@@ -91,7 +91,7 @@ let suites_1 = {
         hd: [
           "test_str",
           (function (param) {
-              let res = new RegExp("foo").test("#foo#");
+              const res = new RegExp("foo").test("#foo#");
               return {
                       TAG: /* Eq */0,
                       _0: true,
@@ -103,7 +103,7 @@ let suites_1 = {
           hd: [
             "fromStringWithFlags",
             (function (param) {
-                let res = new RegExp("foo", "g");
+                const res = new RegExp("foo", "g");
                 return {
                         TAG: /* Eq */0,
                         _0: true,
@@ -115,7 +115,7 @@ let suites_1 = {
             hd: [
               "result_index",
               (function (param) {
-                  let res = new RegExp("zbar").exec("foobarbazbar");
+                  const res = new RegExp("zbar").exec("foobarbazbar");
                   if (res !== null) {
                     return {
                             TAG: /* Eq */0,
@@ -134,8 +134,8 @@ let suites_1 = {
               hd: [
                 "result_input",
                 (function (param) {
-                    let input = "foobar";
-                    let res = /foo/g.exec(input);
+                    const input = "foobar";
+                    const res = /foo/g.exec(input);
                     if (res !== null) {
                       return {
                               TAG: /* Eq */0,
@@ -187,7 +187,7 @@ let suites_1 = {
                       hd: [
                         "t_lastIndex",
                         (function (param) {
-                            let re = /na/g;
+                            const re = /na/g;
                             re.exec("banana");
                             return {
                                     TAG: /* Eq */0,
@@ -200,10 +200,10 @@ let suites_1 = {
                         hd: [
                           "t_setLastIndex",
                           (function (param) {
-                              let re = /na/g;
-                              let before = re.lastIndex;
+                              const re = /na/g;
+                              const before = re.lastIndex;
                               re.lastIndex = 42;
-                              let after = re.lastIndex;
+                              const after = re.lastIndex;
                               return {
                                       TAG: /* Eq */0,
                                       _0: [
@@ -279,7 +279,7 @@ let suites_1 = {
   }
 };
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: suites_1
 };

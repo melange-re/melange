@@ -3,11 +3,11 @@
 
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -43,11 +43,11 @@ function ff(x, i, v) {
   return x._open(3);
 }
 
-let u = {
+const u = {
   "Content'type": "x"
 };
 
-let h = {
+const h = {
   open: 3,
   end: 32
 };

@@ -7,13 +7,13 @@ function x(v){return [v]}
 
 x("3");
 
-let v = x(3);
+const v = x(3);
 
-let xxx = x;
+const xxx = x;
 
-let u = xxx(3);
+const u = xxx(3);
 
-let xx = xxx("3");
+const xx = xxx("3");
 
 exports.v = v;
 exports.xxx = xxx;

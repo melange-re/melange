@@ -4,11 +4,11 @@
 let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -16,7 +16,7 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-let match = [1];
+const match = [1];
 
 if (match.length !== 1) {
   throw new Caml_js_exceptions.MelangeError("Match_failure", {
@@ -29,9 +29,9 @@ if (match.length !== 1) {
           });
 }
 
-let a = match[0];
+const a = match[0];
 
-let x = 1;
+const x = 1;
 
 exports.suites = suites;
 exports.test_id = test_id;

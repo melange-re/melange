@@ -8,18 +8,18 @@ let CamlinternalOO = require("melange/camlinternalOO.js");
 let Curry = require("melange.js/curry.js");
 let Mt = require("./mt.js");
 
-let shared = ["repr"];
+const shared = ["repr"];
 
-let shared$1 = [
+const shared$1 = [
   "leq",
   "value"
 ];
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -34,7 +34,7 @@ function comparable_1($$class) {
   };
 }
 
-let comparable = [
+const comparable = [
   undefined,
   comparable_1,
   undefined,
@@ -42,15 +42,15 @@ let comparable = [
 ];
 
 function money_init($$class) {
-  let ids = CamlinternalOO.new_methods_variables($$class, [
+  const ids = CamlinternalOO.new_methods_variables($$class, [
         "value",
         "leq"
       ], shared);
-  let value = ids[0];
-  let leq = ids[1];
-  let repr = ids[2];
-  let inh = CamlinternalOO.inherits($$class, 0, ["leq"], 0, comparable, true);
-  let obj_init = inh[0];
+  const value = ids[0];
+  const leq = ids[1];
+  const repr = ids[2];
+  const inh = CamlinternalOO.inherits($$class, 0, ["leq"], 0, comparable, true);
+  const obj_init = inh[0];
   CamlinternalOO.set_methods($$class, [
         value,
         (function (self$2) {
@@ -62,38 +62,38 @@ function money_init($$class) {
           })
       ]);
   return function (env, self, x) {
-    let self$1 = CamlinternalOO.create_object_opt(self, $$class);
+    const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     Curry._1(obj_init, self$1);
     self$1[repr] = x;
     return CamlinternalOO.run_initializers_opt(self, self$1, $$class);
   };
 }
 
-let money = CamlinternalOO.make_class(shared$1, money_init);
+const money = CamlinternalOO.make_class(shared$1, money_init);
 
 function money2_init($$class) {
-  let ids = CamlinternalOO.get_method_labels($$class, [
+  const ids = CamlinternalOO.get_method_labels($$class, [
         "value",
         "times",
         "leq"
       ]);
-  let times = ids[1];
-  let inh = CamlinternalOO.inherits($$class, shared, 0, shared$1, money, true);
-  let obj_init = inh[0];
-  let repr = inh[1];
+  const times = ids[1];
+  const inh = CamlinternalOO.inherits($$class, shared, 0, shared$1, money, true);
+  const obj_init = inh[0];
+  const repr = inh[1];
   CamlinternalOO.set_method($$class, times, (function (self$3, k) {
-          let copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$3));
+          const copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$3));
           copy[repr] = k * self$3[repr];
           return copy;
         }));
   return function (env, self, x) {
-    let self$1 = CamlinternalOO.create_object_opt(self, $$class);
+    const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     Curry._2(obj_init, self$1, x);
     return CamlinternalOO.run_initializers_opt(self, self$1, $$class);
   };
 }
 
-let money2 = CamlinternalOO.make_class([
+const money2 = CamlinternalOO.make_class([
       "leq",
       "times",
       "value"
@@ -107,11 +107,11 @@ function min(x, y) {
   }
 }
 
-let tmp = min(Curry._2(money[0], undefined, 1.0), Curry._2(money[0], undefined, 3.0));
+const tmp = min(Curry._2(money[0], undefined, 1.0), Curry._2(money[0], undefined, 3.0));
 
 eq("File \"jscomp/test/class8_test.ml\", line 30, characters 5-12", 1, Caml_oo_curry.js1(834174833, 3, tmp));
 
-let tmp$1 = min(Curry._2(money2[0], undefined, 5.0), Curry._2(money2[0], undefined, 3));
+const tmp$1 = min(Curry._2(money2[0], undefined, 5.0), Curry._2(money2[0], undefined, 3));
 
 eq("File \"jscomp/test/class8_test.ml\", line 35, characters 5-12", 3, Caml_oo_curry.js1(834174833, 4, tmp$1));
 

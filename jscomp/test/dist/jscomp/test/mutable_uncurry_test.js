@@ -5,11 +5,11 @@ let Caml_obj = require("melange.js/caml_obj.js");
 let Curry = require("melange.js/curry.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -18,13 +18,13 @@ function eqs(loc, x, y) {
 }
 
 function eq(param, param$1) {
-  let x = param.contents;
-  let y = param$1.contents;
+  const x = param.contents;
+  const y = param$1.contents;
   return x === y;
 }
 
 function eq2(x, param) {
-  let y = param.contents;
+  const y = param.contents;
   return Caml_obj.caml_equal(x.contents, y);
 }
 
@@ -40,15 +40,15 @@ eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 16, characters 7-14", tr
           contents: 2
         }));
 
-let u = {
+const u = {
   hi: (function (param, param$1) {
-      let x = param.contents;
-      let y = param$1.contents;
+      const x = param.contents;
+      const y = param$1.contents;
       return x === y;
     })
 };
 
-let h = u.hi({
+const h = u.hi({
       contents: 1
     }, {
       contents: 2
@@ -57,9 +57,9 @@ let h = u.hi({
 eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 26, characters 7-14", h, false);
 
 function ut3(param, param$1, param$2) {
-  let x0 = param.contents;
-  let x1 = param$1.contents;
-  let x2 = param$2.contents;
+  const x0 = param.contents;
+  const x1 = param$1.contents;
+  const x2 = param$2.contents;
   return [
           x0,
           x1,
@@ -68,11 +68,11 @@ function ut3(param, param$1, param$2) {
 }
 
 function t3(param) {
-  let x0 = param.contents;
+  const x0 = param.contents;
   return function (param) {
-    let x1 = param.contents;
+    const x1 = param.contents;
     return function (param) {
-      let x2 = param.contents;
+      const x2 = param.contents;
       return [
               x0,
               x1,
@@ -83,12 +83,12 @@ function t3(param) {
 }
 
 function ut4(param, param$1, param$2, param$3) {
-  let x0 = param.contents;
-  let x1 = param$1.contents;
+  const x0 = param.contents;
+  const x1 = param$1.contents;
   return Curry._2((function (param) {
-                let x2 = param.contents;
+                const x2 = param.contents;
                 return function (param) {
-                  let x3 = param.contents;
+                  const x3 = param.contents;
                   return [
                           x0,
                           x1,
@@ -100,13 +100,13 @@ function ut4(param, param$1, param$2, param$3) {
 }
 
 function t4(param) {
-  let x0 = param.contents;
+  const x0 = param.contents;
   return function (param) {
-    let x1 = param.contents;
+    const x1 = param.contents;
     return function (param) {
-      let x2 = param.contents;
+      const x2 = param.contents;
       return function (param) {
-        let x3 = param.contents;
+        const x3 = param.contents;
         return [
                 x0,
                 x1,
@@ -119,14 +119,14 @@ function t4(param) {
 }
 
 function ut5(param, param$1, param$2, param$3, param$4) {
-  let x0 = param.contents;
-  let x1 = param$1.contents;
+  const x0 = param.contents;
+  const x1 = param$1.contents;
   return Curry._3((function (param) {
-                let x2 = param.contents;
+                const x2 = param.contents;
                 return function (param) {
-                  let x3 = param.contents;
+                  const x3 = param.contents;
                   return function (param) {
-                    let x4 = param.contents;
+                    const x4 = param.contents;
                     return [
                             x0,
                             x1,
@@ -140,15 +140,15 @@ function ut5(param, param$1, param$2, param$3, param$4) {
 }
 
 function t5(param) {
-  let x0 = param.contents;
+  const x0 = param.contents;
   return function (param) {
-    let x1 = param.contents;
+    const x1 = param.contents;
     return function (param) {
-      let x2 = param.contents;
+      const x2 = param.contents;
       return function (param) {
-        let x3 = param.contents;
+        const x3 = param.contents;
         return function (param) {
-          let x4 = param.contents;
+          const x4 = param.contents;
           return [
                   x0,
                   x1,
@@ -163,16 +163,16 @@ function t5(param) {
 }
 
 function nested0(param, param$1, param$2) {
-  let x0 = param.contents;
-  let x1 = param$1.contents;
-  let x2 = param$2.contents;
-  let a = (x0 + x1 | 0) + x2 | 0;
+  const x0 = param.contents;
+  const x1 = param$1.contents;
+  const x2 = param$2.contents;
+  const a = (x0 + x1 | 0) + x2 | 0;
   return function (param) {
-    let x0 = param.contents;
+    const x0 = param.contents;
     return function (param) {
-      let x1 = param.contents;
+      const x1 = param.contents;
       return function (param) {
-        let x2 = param.contents;
+        const x2 = param.contents;
         return ((a + x0 | 0) + x1 | 0) + x2 | 0;
       };
     };
@@ -180,16 +180,16 @@ function nested0(param, param$1, param$2) {
 }
 
 function nested1(param) {
-  let x0 = param.contents;
+  const x0 = param.contents;
   return function (param) {
-    let x1 = param.contents;
+    const x1 = param.contents;
     return function (param) {
-      let x2 = param.contents;
-      let a = (x0 + x1 | 0) + x2 | 0;
+      const x2 = param.contents;
+      const a = (x0 + x1 | 0) + x2 | 0;
       return function (param, param$1, param$2) {
-        let x0 = param.contents;
-        let x1 = param$1.contents;
-        let x2 = param$2.contents;
+        const x0 = param.contents;
+        const x1 = param$1.contents;
+        const x2 = param$2.contents;
         return ((a + x0 | 0) + x1 | 0) + x2 | 0;
       };
     };

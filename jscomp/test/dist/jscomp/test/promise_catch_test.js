@@ -8,11 +8,11 @@ let Mt = require("./mt.js");
 let Stdlib = require("melange/stdlib.js");
 let Stdlib__Option = require("melange/option.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -78,8 +78,8 @@ try {
   exit = 1;
 }
 catch (raw_e){
-  let e = Caml_js_exceptions.internalToOCamlException(raw_e);
-  let r = myHandler(e);
+  const e = Caml_js_exceptions.internalToOCamlException(raw_e);
+  const r = myHandler(e);
   eq("File \"jscomp/test/promise_catch_test.ml\", line 35, characters 7-14", true, r !== undefined && 2 === Stdlib__Option.get(r));
 }
 

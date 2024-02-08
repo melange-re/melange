@@ -2,12 +2,12 @@
 'use strict';
 
 
-let v1 = {
+const v1 = {
   stdio: "inherit",
   v: 3
 };
 
-let v2 = {
+const v2 = {
   stdio: 1,
   v: 2
 };
@@ -56,7 +56,7 @@ function register(p) {
         }));
 }
 
-let config = {
+const config = {
   stdio: "inherit",
   cwd: "."
 };

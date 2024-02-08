@@ -6,21 +6,21 @@ function get_uint8(str, off) {
   return 33;
 }
 
-let BigEndian = {
+const BigEndian = {
   get_uint8: get_uint8
 };
 
-let ExtUnixAll = {
+const ExtUnixAll = {
   BigEndian: BigEndian
 };
 
-let ExtUnix = {};
+const ExtUnix = {};
 
 function test_endian_string(x) {
   return 33;
 }
 
-let Test = {
+const Test = {
   test_endian_string: test_endian_string,
   v: 33
 };

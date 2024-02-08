@@ -2,7 +2,7 @@
 'use strict';
 
 
-let ff = "B";
+const ff = "B";
 
 console.log([
       "A",

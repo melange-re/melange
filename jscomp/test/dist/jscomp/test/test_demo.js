@@ -43,32 +43,32 @@ function f(x, y, z) {
 }
 
 function g(x, y) {
-  let u = x + y | 0;
+  const u = x + y | 0;
   return function (z) {
     return u + z | 0;
   };
 }
 
 function g1(x, y) {
-  let u = x + y | 0;
+  const u = x + y | 0;
   return function (xx, yy) {
     return (xx + yy | 0) + u | 0;
   };
 }
 
-let u = 8;
+const u = 8;
 
-let x = u + 6 | 0;
+const x = u + 6 | 0;
 
-let u$1 = 7;
+const u$1 = 7;
 
 function v(param) {
   return (6 + param | 0) + u$1 | 0;
 }
 
-let nil = /* Nil */0;
+const nil = /* Nil */0;
 
-let len = Stdlib__List.length;
+const len = Stdlib__List.length;
 
 exports.fib = fib;
 exports.nil = nil;

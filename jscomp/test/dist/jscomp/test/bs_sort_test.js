@@ -9,11 +9,11 @@ let Belt__Belt_SortArrayInt = require("melange.belt/belt_SortArrayInt.js");
 let Caml = require("melange.js/caml.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -30,28 +30,28 @@ function cmp(x, y) {
 }
 
 function unions(xs, ys) {
-  let lenX = xs.length;
-  let lenY = ys.length;
-  let o = new Array(lenX + lenY | 0);
-  let v = Belt__Belt_SortArray.union(xs, 0, lenX, ys, 0, lenY, o, 0, cmp);
+  const lenX = xs.length;
+  const lenY = ys.length;
+  const o = new Array(lenX + lenY | 0);
+  const v = Belt__Belt_SortArray.union(xs, 0, lenX, ys, 0, lenY, o, 0, cmp);
   o.length = v;
   return o;
 }
 
 function inters(xs, ys) {
-  let lenX = xs.length;
-  let lenY = ys.length;
-  let o = new Array(lenX);
-  let v = Belt__Belt_SortArray.intersect(xs, 0, lenX, ys, 0, lenY, o, 0, cmp);
+  const lenX = xs.length;
+  const lenY = ys.length;
+  const o = new Array(lenX);
+  const v = Belt__Belt_SortArray.intersect(xs, 0, lenX, ys, 0, lenY, o, 0, cmp);
   o.length = v;
   return o;
 }
 
 function diffs(xs, ys) {
-  let lenX = xs.length;
-  let lenY = ys.length;
-  let o = new Array(lenX);
-  let v = Belt__Belt_SortArray.diff(xs, 0, lenX, ys, 0, lenY, o, 0, cmp);
+  const lenX = xs.length;
+  const lenY = ys.length;
+  const o = new Array(lenX);
+  const v = Belt__Belt_SortArray.diff(xs, 0, lenX, ys, 0, lenY, o, 0, cmp);
   o.length = v;
   return o;
 }
@@ -93,13 +93,13 @@ eq("File \"jscomp/test/bs_sort_test.ml\", line 48, characters 5-12", diffs(Array
     ]);
 
 b("File \"jscomp/test/bs_sort_test.ml\", line 50, characters 4-11", Belt__Belt_Range.every(0, 200, (function (i) {
-            let v = Array_data_util.randomRange(0, i);
+            const v = Array_data_util.randomRange(0, i);
             Belt__Belt_SortArray.stableSortInPlaceBy(v, cmp);
             return Belt__Belt_SortArray.isSorted(v, cmp);
           })));
 
 b("File \"jscomp/test/bs_sort_test.ml\", line 56, characters 4-11", Belt__Belt_Range.every(0, 200, (function (i) {
-            let v = Array_data_util.randomRange(0, i);
+            const v = Array_data_util.randomRange(0, i);
             Belt__Belt_SortArray.stableSortInPlaceBy(v, cmp);
             return Belt__Belt_SortArray.isSorted(v, cmp);
           })));
@@ -118,11 +118,11 @@ b("File \"jscomp/test/bs_sort_test.ml\", line 70, characters 4-11", !Belt__Belt_
           0
         ], cmp));
 
-let u = Array_data_util.randomRange(0, 1000000);
+const u = Array_data_util.randomRange(0, 1000000);
 
-let u1 = u.slice(0);
+const u1 = u.slice(0);
 
-let u2 = u.slice(0);
+const u2 = u.slice(0);
 
 console.time("bs_sort_test.ml 80");
 
@@ -148,7 +148,7 @@ console.timeEnd("bs_sort_test.ml 84");
 
 b("File \"jscomp/test/bs_sort_test.ml\", line 85, characters 4-11", Belt__Belt_SortArray.isSorted(u1, cmp));
 
-let u$1 = [
+const u$1 = [
   [
     1,
     "a"
@@ -180,7 +180,7 @@ eq("File \"jscomp/test/bs_sort_test.ml\", line 90, characters 5-12", Belt__Belt_
       ]
     ]);
 
-let u$2 = [
+const u$2 = [
   [
     1,
     "b"
@@ -220,7 +220,7 @@ eq("File \"jscomp/test/bs_sort_test.ml\", line 96, characters 5-12", Belt__Belt_
       ]
     ]);
 
-let u$3 = [
+const u$3 = [
   [
     1,
     "c"
@@ -333,13 +333,13 @@ eq("File \"jscomp/test/bs_sort_test.ml\", line 116, characters 5-12", Belt__Belt
           36
         ], 4, cmp), 3);
 
-let aa = Array_data_util.range(0, 1000);
+const aa = Array_data_util.range(0, 1000);
 
 b("File \"jscomp/test/bs_sort_test.ml\", line 118, characters 4-11", Belt__Belt_Range.every(0, 1000, (function (i) {
             return Belt__Belt_SortArray.binarySearchBy(aa, i, cmp) === i;
           })));
 
-let cc = Belt__Belt_Array.map(Array_data_util.range(0, 2000), (function (x) {
+const cc = Belt__Belt_Array.map(Array_data_util.range(0, 2000), (function (x) {
         return (x << 1);
       }));
 

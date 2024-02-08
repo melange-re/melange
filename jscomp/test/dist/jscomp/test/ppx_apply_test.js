@@ -3,11 +3,11 @@
 
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -28,7 +28,7 @@ function eq(loc, x, y) {
   };
 }
 
-let u = 3;
+const u = 3;
 
 function nullary() {
   return 3;
@@ -38,7 +38,7 @@ function unary(a) {
   return a + 3 | 0;
 }
 
-let xx = unary(3);
+const xx = unary(3);
 
 eq("File \"jscomp/test/ppx_apply_test.ml\", line 17, characters 5-12", u, 3);
 

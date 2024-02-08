@@ -4,7 +4,7 @@
 let Mt = require("./mt.js");
 let Stdlib = require("melange/stdlib.js");
 
-let suites_0 = [
+const suites_0 = [
   "string_of_float_1",
   (function (param) {
       return {
@@ -15,7 +15,7 @@ let suites_0 = [
     })
 ];
 
-let suites_1 = {
+const suites_1 = {
   hd: [
     "string_of_int",
     (function (param) {
@@ -41,7 +41,7 @@ let suites_1 = {
   }
 };
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: suites_1
 };

@@ -9,11 +9,11 @@ let Stdlib__List = require("melange/list.js");
 let Stdlib__Printf = require("melange/printf.js");
 let Stdlib__Scanf = require("melange/scanf.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -71,7 +71,7 @@ function scan_rest(ib, accu) {
                                                 case "]" :
                                                     return accu$1;
                                                 default:
-                                                  let s = Stdlib__Printf.sprintf(/* Format */{
+                                                  const s = Stdlib__Printf.sprintf(/* Format */{
                                                         _0: {
                                                           TAG: /* String_literal */11,
                                                           _0: "scan_int_list",

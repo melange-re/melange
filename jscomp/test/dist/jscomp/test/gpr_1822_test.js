@@ -3,11 +3,11 @@
 
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -28,7 +28,7 @@ function eq(loc, x, y) {
   };
 }
 
-let myShape = {
+const myShape = {
   TAG: /* Circle */0,
   _0: 10
 };

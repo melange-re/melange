@@ -10,12 +10,12 @@ let Stdlib__Array = require("melange/array.js");
 let Stdlib__List = require("melange/list.js");
 let Stdlib__Printf = require("melange/printf.js");
 
-let one_float = [
+const one_float = [
   1072693248,
   0
 ];
 
-let int32_pairs = [
+const int32_pairs = [
   [
     32,
     4.48415508583941463e-44
@@ -28,8 +28,8 @@ let int32_pairs = [
 
 function from_pairs(pair) {
   return Stdlib__List.concat(Stdlib__Array.to_list(Stdlib__Array.mapi((function (i, param) {
-                        let f = param[1];
-                        let i32 = param[0];
+                        const f = param[1];
+                        const i32 = param[0];
                         return {
                                 hd: [
                                   Curry._1(Stdlib__Printf.sprintf(/* Format */{
@@ -84,7 +84,7 @@ function from_pairs(pair) {
                       }), int32_pairs)));
 }
 
-let suites = Stdlib.$at({
+const suites = Stdlib.$at({
       hd: [
         "one",
         (function (param) {

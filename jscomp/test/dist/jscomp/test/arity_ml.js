@@ -2,7 +2,7 @@
 'use strict';
 
 
-let o = {
+const o = {
   hi: (function (x, y) {
       return x + y | 0;
     })

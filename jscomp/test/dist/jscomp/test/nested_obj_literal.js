@@ -2,7 +2,7 @@
 'use strict';
 
 
-let structural_obj = {
+const structural_obj = {
   x: {
     y: {
       z: 3
@@ -10,7 +10,7 @@ let structural_obj = {
   }
 };
 
-let f_record = {
+const f_record = {
   x: {
     y: {
       z: 3
