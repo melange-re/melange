@@ -29,9 +29,13 @@ Test `Js.Set` code generation
   >   )
   > let () = Js.log (Js.Set.has t ~value:3)
   > let () = Js.log (Js.Set.has t2 ~value:3)
+  > 
+  > let t_1 = Js.Set.make ()
+  > let t_2 = Js.Set.add ~value:1 t_1
+  > let () = Js.log (Printf.sprintf "t_1 size = %i; t_2 size = %i" (Js.Set.size t_1) (Js.Set.size t_2))
   > EOF
   $ dune build @melange
   $ node _build/default/out/x.js
   true
   false
-
+  t_1 size = 1; t_2 size = 1
