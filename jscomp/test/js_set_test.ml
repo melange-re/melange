@@ -12,7 +12,7 @@ let suites = Mt.[
       Eq(2, Js.Set.size set)
     );
     "size - with duplicates", (fun _ ->
-      let set = Js.Set.fromArray [|"one"; "two"|] in
+      let set = Js.Set.fromArray [|"one"; "one"|] in
       Eq(1, Js.Set.size set)
     );
     "has - true", (fun _ ->
