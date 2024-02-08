@@ -19,7 +19,7 @@ Test `@mel.as` in inline records / record extensions
   let Caml_exceptions = require("melange.js/caml_exceptions.js");
   let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
   
-  let UserException = /* @__PURE__ */Caml_exceptions.create("X.UserException");
+  const UserException = /* @__PURE__ */Caml_exceptions.create("X.UserException");
   
   function user3(param) {
     try {
@@ -29,7 +29,7 @@ Test `@mel.as` in inline records / record extensions
               });
     }
     catch (raw_exn){
-      let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+      const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === UserException) {
         console.log("name:", exn.renamed);
         return ;
@@ -38,11 +38,11 @@ Test `@mel.as` in inline records / record extensions
     }
   }
   
-  let user = {
+  const user = {
     renamed: "Corentin"
   };
   
-  let user2 = /* User */{
+  const user2 = /* User */{
     renamed: "Corentin"
   };
   

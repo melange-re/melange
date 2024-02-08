@@ -32,7 +32,7 @@
   'use strict';
   
   
-  let person1 = {
+  const person1 = {
     TAG: /* Teacher */0,
     age: 12345
   };
@@ -46,7 +46,7 @@
     message = typeof tmp === "number" || tmp.TAG === /* Vacations */0 ? "a" : "b";
   }
   
-  let Test1 = {
+  const Test1 = {
     person1: person1,
     message: message
   };

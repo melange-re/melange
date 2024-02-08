@@ -39,7 +39,7 @@ Path should point to proper name of the .js dep
   
   let Lib__A = require("../lib/lib__A.js");
   
-  let t = Lib__A.t;
+  const t = Lib__A.t;
   
   exports.t = t;
   /* No side effect */

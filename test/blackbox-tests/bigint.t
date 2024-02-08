@@ -40,11 +40,11 @@ Test `Js.Bigint` code generation
   'use strict';
   
   
-  let a = BigInt("5");
+  const a = BigInt("5");
   
-  let b = BigInt("3");
+  const b = BigInt("3");
   
-  let x = b * (a + b) - b;
+  const x = b * (a + b) - b;
   
   console.log(x);
   

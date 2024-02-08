@@ -26,9 +26,9 @@ Test `[%mel.node ... ]`
   let Js__Js_undefined = require("melange.js/js_undefined.js");
   let Stdlib__Option = require("melange/option.js");
   
-  let $$require = Stdlib__Option.get(Caml_option.undefined_to_opt(typeof require === "undefined" ? undefined : require));
+  const $$require = Stdlib__Option.get(Caml_option.undefined_to_opt(typeof require === "undefined" ? undefined : require));
   
-  let main = Js__Js_undefined.getExn($$require.main);
+  const main = Js__Js_undefined.getExn($$require.main);
   
   console.log(main.exports);
   

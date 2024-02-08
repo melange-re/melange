@@ -12,7 +12,7 @@
   'use strict';
   
   
-  let X = {};
+  const X = {};
   
   console.log("OK");
   

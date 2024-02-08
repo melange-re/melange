@@ -10,7 +10,7 @@
       '\n' +
       'import * as Belt__Belt_List from "melange.belt/belt_List.js";\n' +
       '\n' +
-      'let foo = Belt__Belt_List.map;\n' +
+      'const foo = Belt__Belt_List.map;\n' +
       '\n' +
       'export {\n' +
       '  foo ,\n' +
