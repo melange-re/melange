@@ -152,8 +152,8 @@ external concat : other:t -> t = "concat"
 ]}
 *)
 
-external concatMany : strings:t array -> t = "concat"
-[@@mel.send.pipe: t] [@@mel.variadic]
+external concatMany : sep:t -> t array -> t = "concat"
+[@@mel.send] [@@mel.variadic]
 (** [concatMany ~strings original] returns a new string consisting of each item
     of the array of strings [strings] added to the [original] string.
 
