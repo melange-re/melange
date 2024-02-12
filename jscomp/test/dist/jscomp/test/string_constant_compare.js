@@ -2,17 +2,17 @@
 'use strict';
 
 
-var a1 = true;
+let a1 = true;
 
-var a2 = false;
+let a2 = false;
 
-var a3 = true;
+let a3 = true;
 
-var a4 = false;
+let a4 = false;
 
-var a5 = "'" === "'";
+let a5 = "'" === "'";
 
-var a6 = "'" !== "'";
+let a6 = "'" !== "'";
 
 exports.a1 = a1;
 exports.a2 = a2;

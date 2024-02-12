@@ -20,12 +20,12 @@ Test `@mel.unwrap` in `@mel.obj`
   'use strict';
   
   
-  var x = {
+  let x = {
     param: "x",
     polyParam: "hi"
   };
   
-  var y = {
+  let y = {
     param: "x",
     polyParam: "hello"
   };

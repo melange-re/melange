@@ -2,27 +2,27 @@
 'use strict';
 
 
-var obj = {
+let obj = {
   hi: (function (x) {
       console.log(x);
     })
 };
 
-var eventObj = {
+let eventObj = {
   events: [],
   empty: (function () {
       
     }),
   push: (function (a) {
-      var self = this ;
+      let self = this ;
       self.events[0] = a;
     }),
   needRebuild: (function () {
-      var self = this ;
+      let self = this ;
       return self.events.length !== 0;
     }),
   currentEvents: (function () {
-      var self = this ;
+      let self = this ;
       return self.events;
     })
 };

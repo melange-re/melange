@@ -144,7 +144,7 @@ let compile
   let lam =
     let lam =
       lam
-      |> _d "flattern1"
+      |> _d "flatten1"
       |>  Lam_pass_exits.simplify_exits
       |> _d "simplyf_exits"
       |> (fun lam -> Lam_pass_collect.collect_info meta lam;
@@ -260,14 +260,12 @@ in
 js
 |> _j "initial"
 |> Js_pass_flatten.program
-|> _j "flattern"
+|> _j "flatten"
 |> Js_pass_tailcall_inline.tailcall_inline
 |> _j "inline_and_shake"
 |> Js_pass_flatten_and_mark_dead.program
 |> _j "flatten_and_mark_dead"
-(* |> Js_inline_and_eliminate.inline_and_shake *)
-(* |> _j "inline_and_shake" *)
-|> (fun js -> ignore @@ Js_pass_scope.program  js ; js )
+|> Js_pass_scope.program
 |> Js_shake.shake_program
 |> _j "shake"
 |> ( fun (program:  J.program) ->

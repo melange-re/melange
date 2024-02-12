@@ -38,6 +38,14 @@ let count_hard_dependencies hard_dependencies =
               (Lam_module_ident.of_runtime id)
         | _ -> ());
         super.expression self x);
+    statement =
+      (fun self x ->
+        (match Js_block_runtime.check_additional_statement_id x with
+        | Some id ->
+            add_lam_module_ident hard_dependencies
+              (Lam_module_ident.of_runtime id)
+        | _ -> ());
+        super.statement self x);
   }
 
 let calculate_hard_dependencies block =

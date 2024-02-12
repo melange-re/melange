@@ -32,7 +32,7 @@ Tests for deriving `jsProperties, getSet`
   'use strict';
   
   
-  var t = {
+  let t = {
     height: 2,
     width: "bar"
   };

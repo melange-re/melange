@@ -8,6 +8,12 @@ Unreleased
 - core: emit `throw new Error(..)` rather than throwing a JS object with the
   Melange exception payload
   ([#1036](https://github.com/melange-re/melange/pull/1036))
+- stdlib: fix runtime primitive for `Float.{min,max}` and related functions
+  ([#1050](https://github.com/melange-re/melange/pull/1050))
+- core: emit `let` instead of `var` in compiled JS
+  ([#1019](https://github.com/melange-re/melange/pull/1019))
+- core: in compiled JS, stop generating closures in loops that capture mutable
+  variables ([#1020](https://github.com/melange-re/melange/pull/1020))
 
 3.0.0 2024-01-28
 ---------------
@@ -85,6 +91,8 @@ Unreleased
 - BREAKING(ppx): disallow attribute payload in `[@mel.new]` in favor of the
   external primitive string
   ([#938](https://github.com/melange-re/melange/pull/938))
+- FFI: support `@mel.new` alongisde `@mel.send` / `@mel.send.pipe`
+  ([#906](https://github.com/melange-re/melange/pull/906))
 - Don't process `[@mel.config]` twice
   ([#940](https://github.com/melange-re/melange/pull/940/))
 - BREAKING(ppx): remove `@mel.splice` in favor of `@mel.variadic`
@@ -122,7 +130,8 @@ Unreleased
   [#982](https://github.com/melange-re/melange/pull/982)
 - Fix error messages related to `[@mel.meth]` arity mismatches
   ([PR](https://github.com/melange-re/melange/pull/986))
-- ppx: split `[@@deriving abstract]` into two:
+- ppx: split `[@@deriving abstract]` into two
+  ([#987](https://github.com/melange-re/melange/pull/987)):
     - `[@@deriving jsProperties]` derives a JS object creation function that
       can generate a JS object with optional keys (when using `[@mel.optiona]`)
     - `[@@deriving getSet]` derives getter / setter functions for the JS object

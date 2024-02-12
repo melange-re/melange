@@ -7,7 +7,7 @@ function test_v(x) {
 }
 
 function test_vv(h) {
-  var hey = h.hey;
+  let hey = h.hey;
   return hey(1, 2);
 }
 

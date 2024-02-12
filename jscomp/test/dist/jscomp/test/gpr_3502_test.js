@@ -10,16 +10,16 @@ function name(param) {
   return 2;
 }
 
-var Language = {
+let Language = {
   toString: toString,
   name: name
 };
 
-var language = "a";
+let language = "a";
 
-var shortName = "a";
+let shortName = "a";
 
-var name$1 = 2;
+let name$1 = 2;
 
 exports.Language = Language;
 exports.language = language;

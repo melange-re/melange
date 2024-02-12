@@ -32,9 +32,6 @@ type t
 val make : ?immutable_mask:bool array -> int -> t
 val no_tailcall : t -> bool list
 val set_unbounded : t -> Ident.Set.t -> unit
-val set_lexical_scope : t -> Ident.Set.t -> unit
-val get_lexical_scope : t -> Ident.Set.t
 val mark_unused : t -> int -> unit
 val get_unused : t -> int -> bool
-val get_mutable_params : Ident.t list -> t -> Ident.t list
 val get_unbounded : t -> Ident.Set.t

@@ -12,7 +12,7 @@
   'use strict';
   
   
-  var x = 1;
+  let x = 1;
   
   exports.x = x;
   /* No side effect */

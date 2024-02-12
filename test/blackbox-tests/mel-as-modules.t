@@ -26,7 +26,7 @@ Use `[@mel.as]` to change how module output name in resulting JS
   'use strict';
   
   
-  var Obj = {};
+  let Obj = {};
   
   exports.Obj = Obj;
   /* No side effect */
@@ -48,7 +48,7 @@ Also applies to signatures
   'use strict';
   
   
-  var Obj2 = {};
+  let Obj2 = {};
   
   exports.Obj2 = Obj2;
   /* No side effect */

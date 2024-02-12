@@ -24,7 +24,7 @@ Check b.js output
   
   import * as Stdlib__List from "melange/list.js";
   
-  var t = Stdlib__List.map((function (greeting) {
+  let t = Stdlib__List.map((function (greeting) {
           return greeting;
         }), {
         hd: "Hello",

@@ -131,7 +131,10 @@ let semi cxt = string cxt L.semi
 let comma cxt = string cxt L.comma
 
 let new_error name cause =
-  E.new_ (E.js_global Js_dump_lit.error) [ name; cause ]
+  E.new_
+    (E.runtime_var_dot Js_runtime_modules.caml_js_exceptions
+       Js_dump_lit.melange_error)
+    [ name; cause ]
 
 let exn_block_as_obj ~(stack : bool) (el : J.expression list) (ext : J.tag_info)
     : J.expression =
@@ -151,24 +154,10 @@ let exn_block_as_obj ~(stack : bool) (el : J.expression list) (ext : J.tag_info)
       loc = None;
     }
   in
-  if stack then
-    new_error (List.hd el)
-      {
-        J.expression_desc = Object [ (Lit Js_dump_lit.cause, cause) ];
-        comment = None;
-        loc = None;
-      }
-  else cause
+  if stack then new_error (List.hd el) cause else cause
 
-let exn_ref_as_obj e : J.expression =
-  let cause = { J.expression_desc = e; comment = None; loc = None } in
-  new_error
-    (E.record_access cause Js_dump_lit.exception_id 0l)
-    {
-      J.expression_desc = Object [ (Lit Js_dump_lit.cause, cause) ];
-      comment = None;
-      loc = None;
-    }
+let exn_ref_as_obj cause : J.expression =
+  new_error (E.record_access cause Js_dump_lit.exception_id 0l) cause
 
 let rec iter_lst cxt ls element inter =
   match ls with
@@ -218,13 +207,6 @@ let exp_need_paren (e : J.expression) =
   | Typeof _ | Number _ | Js_not _ | Bool _ | New _ ->
       false
 
-let comma_idents (cxt : cxt) ls = iter_lst cxt ls ident comma
-
-let pp_paren_params (cxt : cxt) (lexical : Ident.t list) : unit =
-  string cxt L.lparen;
-  let (_ : cxt) = comma_idents cxt lexical in
-  string cxt L.rparen
-
 (* Print as underscore for unused vars, may not be
     needed in the future *)
 (* let ipp_ident cxt id (un_used : bool) =
@@ -235,7 +217,7 @@ let pp_paren_params (cxt : cxt) (lexical : Ident.t list) : unit =
        id) *)
 
 let pp_var_assign cxt id =
-  string cxt L.var;
+  string cxt L.let_;
   space cxt;
   let acxt = ident cxt id in
   space cxt;
@@ -252,7 +234,7 @@ let pp_var_assign_this cxt id =
   cxt
 
 let pp_var_declare cxt id =
-  string cxt L.var;
+  string cxt L.let_;
   space cxt;
   let acxt = ident cxt id in
   semi cxt;
@@ -410,7 +392,7 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
           optimize len ~p:(arity = NA && len <= 8) cxt v)
   | _ ->
       let set_env =
-        (* identifiers will be printed cxtollowing*)
+        (* identifiers will be printed following*)
         match fn_state with
         | Is_return | No_name _ -> Js_fun_env.get_unbounded env
         | Name_top id | Name_non_top id ->
@@ -449,70 +431,29 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
           space cxt;
           brace_vgroup cxt 1 (fun _ -> function_body ~return_unit cxt b)
       in
-      let lexical : Ident.Set.t = Js_fun_env.get_lexical_scope env in
-      let enclose lexical =
-        let handle lexical =
-          if Ident.Set.is_empty lexical then (
-            match fn_state with
-            | Is_return ->
-                return_sp cxt;
-                string cxt L.function_;
-                space cxt;
-                param_body ()
-            | No_name { single_arg } ->
-                (* see # 1692, add a paren for annoymous function for safety  *)
-                cond_paren_group cxt (not single_arg) 1 (fun _ ->
-                    string cxt L.function_;
-                    space cxt;
-                    param_body ())
-            | Name_non_top x ->
-                ignore (pp_var_assign inner_cxt x : cxt);
-                string cxt L.function_;
-                space cxt;
-                param_body ();
-                semi cxt
-            | Name_top x ->
-                string cxt L.function_;
-                space cxt;
-                ignore (ident inner_cxt x : cxt);
-                param_body ())
-          else
-            (* print our closure as
-               {[(function(x,y){ return function(..){...}} (x,y))]}
-               Maybe changed to `let` in the future
-            *)
-            let lexical = Ident.Set.elements lexical in
-            (match fn_state with
-            | Is_return -> return_sp cxt
-            | No_name _ -> ()
-            | Name_non_top name | Name_top name ->
-                ignore (pp_var_assign inner_cxt name : cxt));
-            string cxt L.lparen;
-            string cxt L.function_;
-            pp_paren_params inner_cxt lexical;
-            brace_vgroup cxt 0 (fun _ ->
-                return_sp cxt;
-                string cxt L.function_;
-                space cxt;
-                (match fn_state with
-                | Is_return | No_name _ -> ()
-                | Name_non_top x | Name_top x -> ignore (ident inner_cxt x));
-                param_body ());
-            pp_paren_params inner_cxt lexical;
-            string cxt L.rparen;
-            match fn_state with
-            | Is_return | No_name _ -> () (* expression *)
-            | _ -> semi cxt (* has binding, a statement *)
-        in
-        handle
-          (match fn_state with
-          | (Name_top name | Name_non_top name) when Ident.Set.mem lexical name
-            ->
-              (*TODO: when calculating lexical we should not include itself *)
-              Ident.Set.remove lexical name
-          | _ -> lexical)
-      in
-      enclose lexical;
+      (match fn_state with
+      | Is_return ->
+          return_sp cxt;
+          string cxt L.function_;
+          space cxt;
+          param_body ()
+      | No_name { single_arg } ->
+          (* see # 1692, add a paren for annoymous function for safety  *)
+          cond_paren_group cxt (not single_arg) 1 (fun _ ->
+              string cxt L.function_;
+              space cxt;
+              param_body ())
+      | Name_non_top x ->
+          ignore (pp_var_assign inner_cxt x : cxt);
+          string cxt L.function_;
+          space cxt;
+          param_body ();
+          semi cxt
+      | Name_top x ->
+          string cxt L.function_;
+          space cxt;
+          ignore (ident inner_cxt x : cxt);
+          param_body ());
       outer_cxt
 
 (* Assume the cond would not change the context,
@@ -1061,7 +1002,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
           string cxt L.else_;
           space cxt;
           brace_block cxt s2)
-  | While (label, e, s, _env) ->
+  | While (label, e, s) ->
       (*  FIXME: print scope as well *)
       (match label with
       | Some i ->
@@ -1087,7 +1028,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       let cxt = brace_block cxt s in
       semi cxt;
       cxt
-  | ForRange (for_ident_expression, finish, id, direction, s, env) ->
+  | ForRange (for_ident_expression, finish, id, direction, s) ->
       let action cxt =
         vgroup cxt 0 (fun _ ->
             let cxt =
@@ -1154,24 +1095,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
             in
             brace_block cxt s)
       in
-      let lexical = Js_closure.get_lexical_scope env in
-      if Ident.Set.is_empty lexical then action cxt
-      else
-        (* unlike function,
-           [print for loop] has side effect,
-           we should take it out
-        *)
-        let inner_cxt = merge_scope cxt lexical in
-        let lexical = Ident.Set.elements lexical in
-        vgroup cxt 0 (fun _ ->
-            string cxt L.lparen;
-            string cxt L.function_;
-            pp_paren_params inner_cxt lexical;
-            let cxt = brace_vgroup cxt 0 (fun _ -> action inner_cxt) in
-            pp_paren_params inner_cxt lexical;
-            string cxt L.rparen;
-            semi cxt;
-            cxt)
+      action cxt
   | Continue s ->
       continue cxt s;
       cxt (* newline cxt;  #2642 *)
@@ -1245,8 +1169,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
               expression_desc =
                 (exn_block_as_obj ~stack:true el ext).expression_desc;
             }
-        | exp ->
-            { e with expression_desc = (exn_ref_as_obj exp).expression_desc }
+        | _ -> { e with expression_desc = (exn_ref_as_obj e).expression_desc }
       in
       string cxt L.throw;
       space cxt;

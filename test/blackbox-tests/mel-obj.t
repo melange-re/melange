@@ -18,7 +18,7 @@ Test `@mel.as` in `@mel.obj` and `%mel.obj`
   'use strict';
   
   
-  var x = {
+  let x = {
     bar: "x",
     "poly-param1": {
       NAME: "Str",
@@ -27,7 +27,7 @@ Test `@mel.as` in `@mel.obj` and `%mel.obj`
     "poly-param2": 5
   };
   
-  var y = {
+  let y = {
     lo: 3,
     hi: 42
   };
@@ -50,7 +50,7 @@ Test `@mel.as` in `@mel.obj` and `%mel.obj`
   'use strict';
   
   
-  var x = {
+  let x = {
     "Content-Type": "text/plain",
     "Content-Length": "50"
   };
