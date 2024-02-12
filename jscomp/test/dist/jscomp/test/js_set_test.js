@@ -16,8 +16,7 @@ let suites_0 = [
               _0: [
                 1,
                 2,
-                3,
-                4
+                3
               ],
               _1: Array.from(set)
             };
@@ -42,6 +41,7 @@ let suites_1 = {
       (function (param) {
           let set = new Set([
                 "one",
+                "two",
                 "two"
               ]);
           return {
@@ -57,7 +57,7 @@ let suites_1 = {
         (function (param) {
             let set = new Set([
                   "one",
-                  "two"
+                  "one"
                 ]);
             return {
                     TAG: /* Eq */0,
@@ -120,32 +120,85 @@ let suites_1 = {
             ],
             tl: {
               hd: [
-                "difference",
+                "add",
                 (function (param) {
-                    let odds = new Set([
-                          1,
-                          3,
-                          5,
-                          7,
-                          9
-                        ]);
-                    let squares = new Set([
-                          1,
-                          4,
-                          9
-                        ]);
+                    let set = new Set().add("one").add("two");
                     return {
                             TAG: /* Eq */0,
                             _0: [
-                              3,
-                              5,
-                              7
+                              "one",
+                              "two"
                             ],
-                            _1: Array.from(odds.difference(squares))
+                            _1: Array.from(set)
                           };
                   })
               ],
-              tl: /* [] */0
+              tl: {
+                hd: [
+                  "clear",
+                  (function (param) {
+                      let set = new Set([
+                            "one",
+                            "two"
+                          ]);
+                      set.clear();
+                      return {
+                              TAG: /* Eq */0,
+                              _0: 0,
+                              _1: set.size
+                            };
+                    })
+                ],
+                tl: {
+                  hd: [
+                    "add mutate + return new set",
+                    (function (param) {
+                        let set_1 = new Set();
+                        let set_2 = set_1.add("one");
+                        let set_3 = set_2.add("two");
+                        let all_same_size = set_1.size === 2 && set_2.size === 2 && set_3.size === 2;
+                        let all_same_ref = set_1 === set_2 && set_2 === set_3;
+                        return {
+                                TAG: /* Eq */0,
+                                _0: [
+                                  true,
+                                  true
+                                ],
+                                _1: [
+                                  all_same_size,
+                                  all_same_ref
+                                ]
+                              };
+                      })
+                  ],
+                  tl: {
+                    hd: [
+                      "forEach",
+                      (function (param) {
+                          let set = new Set([
+                                "one",
+                                "two"
+                              ]);
+                          let arr = {
+                            contents: []
+                          };
+                          set.forEach(function (value) {
+                                arr.contents.push(value);
+                              });
+                          return {
+                                  TAG: /* Eq */0,
+                                  _0: [
+                                    "one",
+                                    "two"
+                                  ],
+                                  _1: arr.contents
+                                };
+                        })
+                    ],
+                    tl: /* [] */0
+                  }
+                }
+              }
             }
           }
         }
