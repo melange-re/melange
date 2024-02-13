@@ -5,7 +5,7 @@ let Caml_array = require("melange.js/caml_array.js");
 let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 let Stdlib = require("melange/stdlib.js");
 
-let x = [
+const x = [
   1,
   2
 ];
@@ -16,7 +16,7 @@ try {
   y = Caml_array.get(x, 3);
 }
 catch (raw_exn){
-  let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+  const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
   if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
     console.log(exn._1);
     y = 0;

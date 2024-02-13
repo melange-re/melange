@@ -3,7 +3,7 @@
 
 let Curry = require("melange.js/curry.js");
 
-let v = {
+const v = {
   contents: 0
 };
 
@@ -17,7 +17,7 @@ function $$return(param) {
 }
 
 function Make(U) {
-  let h = function (x, x$1) {
+  const h = function (x, x$1) {
     console.log(f(x$1, x$1));
     return Curry._2(U.say, x$1, x$1);
   };

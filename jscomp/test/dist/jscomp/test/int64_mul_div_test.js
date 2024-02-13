@@ -25,7 +25,7 @@ function commutative_mul(result, a, b) {
         };
 }
 
-let pairs = [
+const pairs = [
   [
     [
       -1482940033,
@@ -310,9 +310,9 @@ let pairs = [
 
 function from_pairs(prefix, pairs) {
   return Stdlib__Array.to_list(Stdlib__Array.mapi((function (i, param) {
-                    let b = param[2];
-                    let a = param[1];
-                    let result = param[0];
+                    const b = param[2];
+                    const a = param[1];
+                    const result = param[0];
                     return [
                             Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                       _0: {
@@ -339,7 +339,7 @@ function from_pairs(prefix, pairs) {
                   }), pairs));
 }
 
-let small_pairs = [
+const small_pairs = [
   [
     [
       0,
@@ -426,7 +426,7 @@ let small_pairs = [
   ]
 ];
 
-let to_floats = [
+const to_floats = [
   [
     Caml_int64.one,
     1
@@ -871,7 +871,7 @@ let to_floats = [
   ]
 ];
 
-let check_complete_compare = [
+const check_complete_compare = [
   true,
   true,
   true,
@@ -882,7 +882,7 @@ let check_complete_compare = [
   true
 ];
 
-let of_float_pairs = [
+const of_float_pairs = [
   [
     6853066956871844,
     [
@@ -1165,7 +1165,7 @@ let of_float_pairs = [
   ]
 ];
 
-let simple_divs = [
+const simple_divs = [
   [
     [
       0,
@@ -1530,10 +1530,10 @@ let simple_divs = [
 
 function from(xs) {
   return Stdlib__List.mapi((function (i, param) {
-                let d = param[3];
-                let c = param[2];
-                let b = param[1];
-                let a = param[0];
+                const d = param[3];
+                const c = param[2];
+                const b = param[1];
+                const a = param[0];
                 return [
                         Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                   _0: {
@@ -1564,12 +1564,12 @@ function from(xs) {
               }), Stdlib__Array.to_list(xs));
 }
 
-let to_string = [[
+const to_string = [[
     Caml_int64.zero,
     "0"
   ]];
 
-let int64_compare_tests = [
+const int64_compare_tests = [
   [
     Caml_int64.one,
     [
@@ -1598,9 +1598,9 @@ let int64_compare_tests = [
 
 function from_compare(xs) {
   return Stdlib__List.mapi((function (i, param) {
-                let c = param[2];
-                let b = param[1];
-                let a = param[0];
+                const c = param[2];
+                const b = param[1];
+                const a = param[0];
                 return [
                         Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                   _0: {
@@ -1627,8 +1627,8 @@ function from_compare(xs) {
 
 function from_to_string(xs) {
   return Stdlib__List.mapi((function (i, param) {
-                let str_a = param[1];
-                let a = param[0];
+                const str_a = param[1];
+                const a = param[0];
                 return [
                         Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                   _0: {
@@ -1654,8 +1654,8 @@ function from_to_string(xs) {
 }
 
 Mt.from_pair_suites("Int64_mul_div_test", Stdlib.$at(from_pairs("random", pairs), Stdlib.$at(from_pairs("small", small_pairs), Stdlib.$at(Stdlib__List.mapi((function (i, param) {
-                        let f = param[1];
-                        let i64 = param[0];
+                        const f = param[1];
+                        const i64 = param[0];
                         return [
                                 Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                           _0: {
@@ -1680,8 +1680,8 @@ Mt.from_pair_suites("Int64_mul_div_test", Stdlib.$at(from_pairs("random", pairs)
                                   })
                               ];
                       }), Stdlib__Array.to_list(to_floats)), Stdlib.$at(Stdlib__List.mapi((function (i, param) {
-                            let i64 = param[1];
-                            let f = param[0];
+                            const i64 = param[1];
+                            const f = param[0];
                             return [
                                     Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                               _0: {

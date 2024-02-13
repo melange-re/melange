@@ -2,11 +2,11 @@
 'use strict';
 
 
-let $$case = 3;
+const $$case = 3;
 
-let $$window = 2;
+const $$window = 2;
 
-let $$switch = 3;
+const $$switch = 3;
 
 exports.$$case = $$case;
 exports.$$window = $$window;

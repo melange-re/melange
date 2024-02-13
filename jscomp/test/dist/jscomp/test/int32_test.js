@@ -18,11 +18,11 @@ function f(x) {
         ];
 }
 
-let shift_right_logical_tests_0 = Stdlib__Array.map((function (x) {
+const shift_right_logical_tests_0 = Stdlib__Array.map((function (x) {
         return (-1 >>> x) | 0;
       }), Ext_array_test.range(0, 31));
 
-let shift_right_logical_tests_1 = [
+const shift_right_logical_tests_1 = [
   -1,
   2147483647,
   1073741823,
@@ -57,16 +57,16 @@ let shift_right_logical_tests_1 = [
   1
 ];
 
-let shift_right_logical_tests = [
+const shift_right_logical_tests = [
   shift_right_logical_tests_0,
   shift_right_logical_tests_1
 ];
 
-let shift_right_tests_0 = Stdlib__Array.map((function (x) {
+const shift_right_tests_0 = Stdlib__Array.map((function (x) {
         return (Stdlib__Int32.min_int >> x);
       }), Ext_array_test.range(0, 31));
 
-let shift_right_tests_1 = [
+const shift_right_tests_1 = [
   -2147483648,
   -1073741824,
   -536870912,
@@ -101,16 +101,16 @@ let shift_right_tests_1 = [
   -1
 ];
 
-let shift_right_tests = [
+const shift_right_tests = [
   shift_right_tests_0,
   shift_right_tests_1
 ];
 
-let shift_left_tests_0 = Stdlib__Array.map((function (x) {
+const shift_left_tests_0 = Stdlib__Array.map((function (x) {
         return (1 << x);
       }), Ext_array_test.range(0, 31));
 
-let shift_left_tests_1 = [
+const shift_left_tests_1 = [
   1,
   2,
   4,
@@ -145,7 +145,7 @@ let shift_left_tests_1 = [
   -2147483648
 ];
 
-let shift_left_tests = [
+const shift_left_tests = [
   shift_left_tests_0,
   shift_left_tests_1
 ];
@@ -154,7 +154,7 @@ function $star$tilde(prim0, prim1) {
   return Math.imul(prim0, prim1);
 }
 
-let suites = {
+const suites = {
   contents: Stdlib.$at({
         hd: [
           "File \"jscomp/test/int32_test.ml\", line 31, characters 2-9",
@@ -254,7 +254,7 @@ let suites = {
                         }), shift_left_tests_0, shift_left_tests_1)))))
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -268,7 +268,7 @@ eq("File \"jscomp/test/int32_test.ml\", line 48, characters 5-12", Caml_float.ca
 
 Mt.from_pair_suites("Int32_test", suites.contents);
 
-let test_div = 30;
+const test_div = 30;
 
 exports.f = f;
 exports.shift_right_logical_tests = shift_right_logical_tests;

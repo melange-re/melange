@@ -7,7 +7,7 @@ let Stdlib__Bytes = require("melange/bytes.js");
 let Stdlib__List = require("melange/list.js");
 let Test_char = require("./test_char.js");
 
-let suites_0 = [
+const suites_0 = [
   "caml_is_printable",
   (function (param) {
       return {
@@ -18,12 +18,12 @@ let suites_0 = [
     })
 ];
 
-let suites_1 = {
+const suites_1 = {
   hd: [
     "caml_string_of_bytes",
     (function (param) {
-        let match = Stdlib__List.split(Stdlib__List.map((function (x) {
-                    let b = Caml_bytes.caml_create_bytes(x);
+        const match = Stdlib__List.split(Stdlib__List.map((function (x) {
+                    const b = Caml_bytes.caml_create_bytes(x);
                     Stdlib__Bytes.fill(b, 0, x, /* 'c' */99);
                     return [
                             Stdlib__Bytes.to_string(b),
@@ -63,7 +63,7 @@ let suites_1 = {
   tl: /* [] */0
 };
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: suites_1
 };

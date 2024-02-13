@@ -10,11 +10,11 @@ let Mt = require("./mt.js");
 let Stdlib = require("melange/stdlib.js");
 let Stdlib__Lazy = require("melange/lazy.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -22,13 +22,13 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-let Xx = {
+const Xx = {
   f: (function (prim0, prim1) {
       return Caml_external_polyfill.resolve("caml_hfiehi")(prim0, prim1);
     })
 };
 
-let Int3 = Caml_module.init_mod([
+const Int3 = Caml_module.init_mod([
       "jscomp/test/recursive_module.ml",
       27,
       6
@@ -48,7 +48,7 @@ Caml_module.update_mod({
         ]]
     }, Int3, Int3);
 
-let Inta = Caml_module.init_mod([
+const Inta = Caml_module.init_mod([
       "jscomp/test/recursive_module.ml",
       31,
       6
@@ -60,7 +60,7 @@ let Inta = Caml_module.init_mod([
         ]]
     });
 
-let Intb = Caml_module.init_mod([
+const Intb = Caml_module.init_mod([
       "jscomp/test/recursive_module.ml",
       36,
       6
@@ -72,7 +72,7 @@ let Intb = Caml_module.init_mod([
         ]]
     });
 
-let a = {
+const a = {
   LAZY_DONE: false,
   VAL: (function () {
       return CamlinternalLazy.force(Intb.a);
@@ -89,7 +89,7 @@ Caml_module.update_mod({
       a: a
     });
 
-let a$1 = {
+const a$1 = {
   LAZY_DONE: false,
   VAL: (function () {
       return CamlinternalLazy.force(Inta.a) + 1 | 0;
@@ -112,7 +112,7 @@ try {
   tmp = CamlinternalLazy.force(Intb.a);
 }
 catch (raw_exn){
-  let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+  const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
   if (exn.MEL_EXN_ID === Stdlib__Lazy.Undefined) {
     tmp = -1;
   } else {
@@ -122,7 +122,7 @@ catch (raw_exn){
 
 eq("File \"jscomp/test/recursive_module.ml\", line 41, characters 3-10", -1, tmp);
 
-let Inta$1 = Caml_module.init_mod([
+const Inta$1 = Caml_module.init_mod([
       "jscomp/test/recursive_module.ml",
       48,
       8
@@ -134,7 +134,7 @@ let Inta$1 = Caml_module.init_mod([
         ]]
     });
 
-let Intb$1 = Caml_module.init_mod([
+const Intb$1 = Caml_module.init_mod([
       "jscomp/test/recursive_module.ml",
       53,
       8
@@ -146,7 +146,7 @@ let Intb$1 = Caml_module.init_mod([
         ]]
     });
 
-let a$2 = {
+const a$2 = {
   LAZY_DONE: false,
   VAL: (function () {
       return CamlinternalLazy.force(Intb$1.a) + 1 | 0;
@@ -163,7 +163,7 @@ Caml_module.update_mod({
       a: a$2
     });
 
-let a$3 = {
+const a$3 = {
   LAZY_DONE: true,
   VAL: 2
 };
@@ -178,7 +178,7 @@ Caml_module.update_mod({
       a: a$3
     });
 
-let A = {
+const A = {
   Inta: Inta$1,
   Intb: Intb$1
 };
@@ -192,7 +192,7 @@ try {
   tmp$1 = 3;
 }
 catch (raw_exn$1){
-  let exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
+  const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
   if (exn$1.MEL_EXN_ID === Stdlib.Undefined_recursive_module) {
     tmp$1 = 4;
   } else {
@@ -206,7 +206,7 @@ Mt.from_pair_suites("Recursive_module", suites.contents);
 
 let Int32;
 
-let uuu = Xx.f;
+const uuu = Xx.f;
 
 exports.suites = suites;
 exports.test_id = test_id;

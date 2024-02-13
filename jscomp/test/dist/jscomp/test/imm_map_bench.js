@@ -7,12 +7,12 @@ let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 let Js__Js_exn = require("melange.js/js_exn.js");
 let Immutable = require("immutable");
 
-let empty = new Immutable.OrderedMap();
+const empty = new Immutable.OrderedMap();
 
 function fromArray(kvs) {
   let v = empty;
   for(let i = 0 ,i_finish = kvs.length; i < i_finish; ++i){
-    let match = kvs[i];
+    const match = kvs[i];
     v = v.set(match[0], match[1]);
   }
   return v;
@@ -25,7 +25,7 @@ function should(b) {
   throw new Caml_js_exceptions.MelangeError(new Error("impossible").MEL_EXN_ID, new Error("impossible"));
 }
 
-let shuffledDataAdd = Belt__Belt_Array.makeByAndShuffle(1000001, (function (i) {
+const shuffledDataAdd = Belt__Belt_Array.makeByAndShuffle(1000001, (function (i) {
         return [
                 i,
                 i
@@ -33,14 +33,14 @@ let shuffledDataAdd = Belt__Belt_Array.makeByAndShuffle(1000001, (function (i) {
       }));
 
 function test(param) {
-  let v = fromArray(shuffledDataAdd);
+  const v = fromArray(shuffledDataAdd);
   for(let j = 0; j <= 1000000; ++j){
     should(v.has(j));
   }
 }
 
 function test2(param) {
-  let v = Belt__Belt_MapInt.fromArray(shuffledDataAdd);
+  const v = Belt__Belt_MapInt.fromArray(shuffledDataAdd);
   for(let j = 0; j <= 1000000; ++j){
     should(Belt__Belt_MapInt.has(v, j));
   }
@@ -58,7 +58,7 @@ test2(undefined);
 
 console.timeEnd("imm_map_bench.ml 45");
 
-let count = 1000000;
+const count = 1000000;
 
 exports.empty = empty;
 exports.fromArray = fromArray;

@@ -4,9 +4,9 @@
 let Stdlib__Filename = require("melange/filename.js");
 let Stdlib__List = require("melange/list.js");
 
-let u = Stdlib__Filename.chop_extension;
+const u = Stdlib__Filename.chop_extension;
 
-let v = Stdlib__List.length;
+const v = Stdlib__List.length;
 
 exports.u = u;
 exports.v = v;

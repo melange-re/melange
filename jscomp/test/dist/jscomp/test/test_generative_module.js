@@ -8,7 +8,7 @@ function M($star) {
         };
 }
 
-let V = {
+const V = {
   v: 3
 };
 

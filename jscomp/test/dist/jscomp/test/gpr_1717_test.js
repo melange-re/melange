@@ -2,11 +2,11 @@
 'use strict';
 
 
-let A = {};
+const A = {};
 
-let A0 = {};
+const A0 = {};
 
-let A1 = {};
+const A1 = {};
 
 exports.A = A;
 exports.A0 = A0;

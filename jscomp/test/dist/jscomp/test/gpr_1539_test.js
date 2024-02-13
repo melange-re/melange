@@ -3,7 +3,7 @@
 
 let Caml_module = require("melange.js/caml_module.js");
 
-let Point = Caml_module.init_mod([
+const Point = Caml_module.init_mod([
       "jscomp/test/gpr_1539_test.ml",
       10,
       6

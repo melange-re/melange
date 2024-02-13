@@ -3,7 +3,7 @@
 
 let Gpr_3865_foo = require("./gpr_3865_foo.js");
 
-let B = Gpr_3865_foo;
+const B = Gpr_3865_foo;
 
 console.log(Gpr_3865_foo.$$return);
 

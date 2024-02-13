@@ -4,7 +4,7 @@
 let Belt__Belt_Array = require("melange.belt/belt_Array.js");
 let Belt__Belt_List = require("melange.belt/belt_List.js");
 
-let N = {};
+const N = {};
 
 function f(X, xs) {
   X.forEach(xs, {
@@ -23,9 +23,9 @@ Belt__Belt_List.forEachU({
         console.log(x.x);
       }));
 
-let Foo = {};
+const Foo = {};
 
-let bar = [{
+const bar = [{
     foo: "bar"
   }];
 

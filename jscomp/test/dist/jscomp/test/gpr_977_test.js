@@ -4,11 +4,11 @@
 let Mt = require("./mt.js");
 let Stdlib__Int32 = require("melange/int32.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -43,7 +43,7 @@ function int32_f(x) {
   return -x | 0;
 }
 
-let u = f(-2147483648);
+const u = f(-2147483648);
 
 eq("File \"jscomp/test/gpr_977_test.ml\", line 32, characters 5-12", -2147483648, u);
 
@@ -51,7 +51,7 @@ eq("File \"jscomp/test/gpr_977_test.ml\", line 33, characters 5-12", Stdlib__Int
 
 Mt.from_pair_suites("Gpr_977_test", suites.contents);
 
-let min_32_int = -2147483648;
+const min_32_int = -2147483648;
 
 exports.suites = suites;
 exports.test_id = test_id;

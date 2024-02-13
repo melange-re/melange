@@ -8,17 +8,17 @@ function anno_fun(arg) {
   
 }
 
-let usage_msg = "Usage:\n";
+const usage_msg = "Usage:\n";
 
-let compile = {
+const compile = {
   contents: false
 };
 
-let test = {
+const test = {
   contents: true
 };
 
-let arg_spec_0 = [
+const arg_spec_0 = [
   "-c",
   {
     TAG: /* Set */2,
@@ -27,7 +27,7 @@ let arg_spec_0 = [
   " Compile"
 ];
 
-let arg_spec_1 = {
+const arg_spec_1 = {
   hd: [
     "-d",
     {
@@ -39,7 +39,7 @@ let arg_spec_1 = {
   tl: /* [] */0
 };
 
-let arg_spec = {
+const arg_spec = {
   hd: arg_spec_0,
   tl: arg_spec_1
 };

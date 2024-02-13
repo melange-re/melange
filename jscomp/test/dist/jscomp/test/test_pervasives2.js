@@ -5,7 +5,7 @@ let Stdlib = require("melange/stdlib.js");
 let Stdlib__List = require("melange/list.js");
 let Stdlib__Stack = require("melange/stack.js");
 
-let List = {
+const List = {
   length: Stdlib__List.length,
   compare_lengths: Stdlib__List.compare_lengths,
   compare_length_with: Stdlib__List.compare_length_with,
@@ -170,7 +170,7 @@ let List = {
   do_domain_local_at_exit: Stdlib.do_domain_local_at_exit
 };
 
-let U = {
+const U = {
   Empty: Stdlib__Stack.Empty,
   create: Stdlib__Stack.create,
   push: Stdlib__Stack.push,
@@ -288,11 +288,11 @@ let U = {
   do_domain_local_at_exit: Stdlib.do_domain_local_at_exit
 };
 
-let f = Stdlib.$at;
+const f = Stdlib.$at;
 
-let ff = Stdlib__List.length;
+const ff = Stdlib__List.length;
 
-let fff = Stdlib.$at;
+const fff = Stdlib.$at;
 
 exports.List = List;
 exports.U = U;

@@ -29,7 +29,7 @@ Output does not contain B_alias
   'use strict';
   
   
-  let App = {};
+  const App = {};
   
   exports.App = App;
   /* No side effect */

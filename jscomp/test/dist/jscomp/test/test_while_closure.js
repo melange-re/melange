@@ -6,18 +6,18 @@ let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 let Curry = require("melange.js/curry.js");
 let Stdlib__Array = require("melange/array.js");
 
-let v = {
+const v = {
   contents: 0
 };
 
-let arr = Caml_array.make(10, (function (param) {
+const arr = Caml_array.make(10, (function (param) {
         
       }));
 
 function f(param) {
   let n = 0;
   while(n < 10) {
-    let j = n;
+    const j = n;
     Caml_array.set(arr, j, (function (param) {
             v.contents = v.contents + j | 0;
           }));
@@ -44,7 +44,7 @@ if (v.contents !== 45) {
           });
 }
 
-let count = 10;
+const count = 10;
 
 exports.v = v;
 exports.count = count;

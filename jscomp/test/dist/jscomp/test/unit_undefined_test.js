@@ -4,11 +4,11 @@
 let Caml_option = require("melange.js/caml_option.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -42,13 +42,13 @@ function u0(x) {
   return Caml_option.some(x);
 }
 
-let u1 = Caml_option.some(undefined);
+const u1 = Caml_option.some(undefined);
 
 function u2(x) {
   return Caml_option.some(x);
 }
 
-let u3 = Caml_option.some(undefined);
+const u3 = Caml_option.some(undefined);
 
 eq("File \"jscomp/test/unit_undefined_test.ml\", line 31, characters 6-13", Caml_option.some(undefined), Caml_option.some(undefined));
 

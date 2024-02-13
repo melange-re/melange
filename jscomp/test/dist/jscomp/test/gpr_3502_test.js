@@ -10,16 +10,16 @@ function name(param) {
   return 2;
 }
 
-let Language = {
+const Language = {
   toString: toString,
   name: name
 };
 
-let language = "a";
+const language = "a";
 
-let shortName = "a";
+const shortName = "a";
 
-let name$1 = 2;
+const name$1 = 2;
 
 exports.Language = Language;
 exports.language = language;

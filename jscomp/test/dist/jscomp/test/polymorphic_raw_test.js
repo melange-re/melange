@@ -3,11 +3,11 @@
 
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -28,12 +28,12 @@ function eq(loc, x, y) {
   };
 }
 
-let f = ((a) => typeof a
+const f = ((a) => typeof a
 );
 
-let a = f(3);
+const a = f(3);
 
-let b = f("3");
+const b = f("3");
 
 eq("File \"jscomp/test/polymorphic_raw_test.ml\", line 22, characters 6-13", a, "number");
 

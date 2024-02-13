@@ -6,11 +6,11 @@ let Mt = require("./mt.js");
 let Mt_global = require("./mt_global.js");
 let Stdlib__Printf = require("melange/printf.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -18,7 +18,7 @@ function eq(f, param) {
   Mt_global.collect_eq(test_id, suites, f, param[0], param[1]);
 }
 
-let s = Curry._1(Stdlib__Printf.sprintf(/* Format */{
+const s = Curry._1(Stdlib__Printf.sprintf(/* Format */{
           _0: {
             TAG: /* Format_arg */13,
             _0: undefined,
@@ -51,7 +51,7 @@ eq("File \"jscomp/test/sprintf_reg_test.ml\", line 8, characters 5-12", [
       "%s."
     ]);
 
-let s$1 = Curry._2(Stdlib__Printf.sprintf(/* Format */{
+const s$1 = Curry._2(Stdlib__Printf.sprintf(/* Format */{
           _0: {
             TAG: /* Int */4,
             _0: /* Int_i */3,

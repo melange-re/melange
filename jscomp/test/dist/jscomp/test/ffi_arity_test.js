@@ -16,7 +16,7 @@ function f(v) {
   }
 }
 
-let v = [
+const v = [
     1,
     2,
     3
@@ -24,7 +24,7 @@ let v = [
       return f(a)(b);
     });
 
-let vv = [
+const vv = [
     1,
     2,
     3
@@ -32,7 +32,7 @@ let vv = [
       return a + b | 0;
     });
 
-let hh = [
+const hh = [
     "1",
     "2",
     "3"
@@ -44,7 +44,7 @@ function u() {
   return 3;
 }
 
-let vvv = {
+const vvv = {
   contents: 0
 };
 
@@ -64,7 +64,7 @@ function abc(x, y, z) {
   return (x + y | 0) + z | 0;
 }
 
-let abc_u = abc;
+const abc_u = abc;
 
 g();
 

@@ -3,7 +3,7 @@
 
 let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
-let u = 3;
+const u = 3;
 
 function f(param) {
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {

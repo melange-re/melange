@@ -8,11 +8,11 @@ let Mt = require("./mt.js");
 let Stdlib__Format = require("melange/format.js");
 let Stdlib__Printexc = require("melange/printexc.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -33,11 +33,11 @@ function eq(loc, x, y) {
   };
 }
 
-let Hi = /* @__PURE__ */Caml_exceptions.create("Exception_repr_test.Hi");
+const Hi = /* @__PURE__ */Caml_exceptions.create("Exception_repr_test.Hi");
 
-let Hello = /* @__PURE__ */Caml_exceptions.create("Exception_repr_test.Hello");
+const Hello = /* @__PURE__ */Caml_exceptions.create("Exception_repr_test.Hello");
 
-let A = /* @__PURE__ */Caml_exceptions.create("Exception_repr_test.A");
+const A = /* @__PURE__ */Caml_exceptions.create("Exception_repr_test.A");
 
 Stdlib__Printexc.register_printer(function (param) {
       if (param.MEL_EXN_ID === Hi) {
@@ -86,7 +86,7 @@ eq("File \"jscomp/test/exception_repr_test.ml\", line 27, characters 7-14", "A",
 
 Mt.from_pair_suites("Exception_repr_test", suites.contents);
 
-let AAA = Exception_def.A;
+const AAA = Exception_def.A;
 
 exports.suites = suites;
 exports.test_id = test_id;

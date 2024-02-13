@@ -2,9 +2,9 @@
 'use strict';
 
 
-let $$__esModule = false;
+const $$__esModule = false;
 
-let $$default = 4;
+const $$default = 4;
 
 exports.$$__esModule = $$__esModule;
 exports.default = $$default;

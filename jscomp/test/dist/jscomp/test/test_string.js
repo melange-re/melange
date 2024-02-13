@@ -43,7 +43,7 @@ function h(s, b) {
   }
 }
 
-let v = 2;
+const v = 2;
 
 exports.f = f;
 exports.a = a;

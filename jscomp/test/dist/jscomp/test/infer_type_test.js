@@ -2,25 +2,25 @@
 'use strict';
 
 
-let hh = {
+const hh = {
   hi: 30,
   lo: 20
 };
 
-let v = {
+const v = {
   hi: 32,
   lo: 3
 };
 
-let vv = {
+const vv = {
   hi: 3,
   lo: 3,
   width: 3
 };
 
-let u = v.hi;
+const u = v.hi;
 
-let uu = v.width;
+const uu = v.width;
 
 exports.hh = hh;
 exports.v = v;

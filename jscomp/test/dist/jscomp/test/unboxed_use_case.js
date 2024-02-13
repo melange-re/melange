@@ -20,7 +20,7 @@ map_pair(u, [
       true
     ]);
 
-let hi = [
+const hi = [
   3,
   2,
   "x"
@@ -37,7 +37,7 @@ Caml_obj.update_dummy(v0, {
       VAL: v0
     });
 
-let v1 = {
+const v1 = {
   NAME: "A",
   VAL: "B"
 };

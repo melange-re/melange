@@ -4,11 +4,11 @@
 let Caml_option = require("melange.js/caml_option.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -48,7 +48,7 @@ function makeWrapper3(foo, param) {
 function makeWrapper4(foo, param) {
   console.log(2);
   let tmp = {};
-  let tmp$1 = foo > 100 ? undefined : (
+  const tmp$1 = foo > 100 ? undefined : (
       foo > 10 ? "b" : "a"
     );
   if (tmp$1 !== undefined) {

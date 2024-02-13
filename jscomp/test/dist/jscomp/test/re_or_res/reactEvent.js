@@ -2,35 +2,35 @@
 'use strict';
 
 
-let Synthetic = {};
+const Synthetic = {};
 
-let Clipboard = {};
+const Clipboard = {};
 
-let Composition = {};
+const Composition = {};
 
-let Keyboard = {};
+const Keyboard = {};
 
-let Focus = {};
+const Focus = {};
 
-let Form = {};
+const Form = {};
 
-let Mouse = {};
+const Mouse = {};
 
-let $$Selection = {};
+const $$Selection = {};
 
-let $$Touch = {};
+const $$Touch = {};
 
-let UI = {};
+const UI = {};
 
-let Wheel = {};
+const Wheel = {};
 
-let Media = {};
+const Media = {};
 
-let $$Image = {};
+const $$Image = {};
 
-let $$Animation = {};
+const $$Animation = {};
 
-let Transition = {};
+const Transition = {};
 
 exports.Synthetic = Synthetic;
 exports.Clipboard = Clipboard;

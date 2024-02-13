@@ -5,7 +5,7 @@ let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 function is_number(_expr) {
   while(true) {
-    let expr = _expr;
+    const expr = _expr;
     switch (expr.TAG | 0) {
       case /* Val */0 :
           if (expr._0.TAG === /* Natural */0) {
@@ -28,8 +28,8 @@ function is_number(_expr) {
 
 function compare(context, state, _a, _b) {
   while(true) {
-    let b = _b;
-    let a = _a;
+    const b = _b;
+    const a = _a;
     let exit = 0;
     let na;
     let da;
@@ -173,7 +173,7 @@ function compare(context, state, _a, _b) {
               return -1;
           }
       case 2 :
-          let denom = compare(context, state, da, db);
+          const denom = compare(context, state, da, db);
           if (denom !== 0) {
             return denom;
           }
@@ -185,7 +185,7 @@ function compare(context, state, _a, _b) {
   };
 }
 
-let a = {
+const a = {
   TAG: /* Sum */2,
   _0: {
     hd: {
@@ -208,7 +208,7 @@ let a = {
   }
 };
 
-let b = {
+const b = {
   TAG: /* Val */0,
   _0: {
     TAG: /* Symbol */1,

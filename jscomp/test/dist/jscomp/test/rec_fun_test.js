@@ -5,11 +5,11 @@ let Caml_obj = require("melange.js/caml_obj.js");
 let Curry = require("melange.js/curry.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -30,13 +30,13 @@ function eq(loc, x, y) {
   };
 }
 
-let called = {
+const called = {
   contents: 0
 };
 
 function g(param) {
   let v = {};
-  let next = function (i, b) {
+  const next = function (i, b) {
     called.contents = called.contents + 1 | 0;
     if (b) {
       Curry._2(v.contents, i, false);

@@ -421,9 +421,9 @@ function isEqual(title, num1, num2) {
         };
 }
 
-let five = BigInt("5");
+const five = BigInt("5");
 
-let suites = Stdlib.$at(isLessThan("123 and 555555", BigInt("123"), BigInt("555555")), Stdlib.$at(isEqual("98765 and 98765", BigInt("98765"), BigInt("98765")), isEqual("same instance", five, five)));
+const suites = Stdlib.$at(isLessThan("123 and 555555", BigInt("123"), BigInt("555555")), Stdlib.$at(isEqual("98765 and 98765", BigInt("98765"), BigInt("98765")), isEqual("same instance", five, five)));
 
 Mt.from_pair_suites("jscomp/test/caml_compare_bigint_test.ml", suites);
 

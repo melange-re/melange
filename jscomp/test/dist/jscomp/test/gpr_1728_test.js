@@ -4,11 +4,11 @@
 let Caml_format = require("melange.js/caml_format.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -34,7 +34,7 @@ function foo(x) {
 }
 
 function badInlining(obj) {
-  let x = obj.field;
+  const x = obj.field;
   Caml_format.caml_int_of_string(x) !== 3;
 }
 

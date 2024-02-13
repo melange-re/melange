@@ -63,7 +63,7 @@ function xx(param) {
   };
 }
 
-let test_as = Stdlib__List.map;
+const test_as = Stdlib__List.map;
 
 exports.h0 = h0;
 exports.h00 = h00;

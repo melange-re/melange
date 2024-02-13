@@ -3,11 +3,11 @@
 
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -33,7 +33,7 @@ function sum(a,b){
 }
 ;
 
-let h = sum(1.0, 2.0);
+const h = sum(1.0, 2.0);
 
 eq("File \"jscomp/test/uncurry_external_test.ml\", line 25, characters 5-12", h, 3);
 

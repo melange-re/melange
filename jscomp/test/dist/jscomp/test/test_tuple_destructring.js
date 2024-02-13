@@ -2,19 +2,19 @@
 'use strict';
 
 
-let N = {
+const N = {
   b: 3
 };
 
-let v = 3;
+const v = 3;
 
-let u = 3;
+const u = 3;
 
-let h = 4;
+const h = 4;
 
-let g = 3;
+const g = 3;
 
-let gg = 4;
+const gg = 4;
 
 exports.N = N;
 exports.v = v;

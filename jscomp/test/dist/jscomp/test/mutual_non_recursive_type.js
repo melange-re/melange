@@ -6,11 +6,11 @@ function f(x) {
   return x;
 }
 
-let U = {
+const U = {
   f: f
 };
 
-let v = /* H */{
+const v = /* H */{
   _0: /* OT */0
 };
 

@@ -3,7 +3,7 @@
 
 
 function show(param) {
-  let a = param._0;
+  const a = param._0;
   if (a === 0 && param._1 === 0 && param._2 === 0) {
     return "zeroes";
   }

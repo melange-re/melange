@@ -6,11 +6,11 @@ let Functor_def = require("./functor_def.js");
 let Functor_inst = require("./functor_inst.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -31,15 +31,15 @@ function eq(loc, x, y) {
   };
 }
 
-let Y0 = Functor_def.Make(Functor_inst);
+const Y0 = Functor_def.Make(Functor_inst);
 
-let Y1 = Functor_def.Make(Functor_inst);
+const Y1 = Functor_def.Make(Functor_inst);
 
 eq("File \"jscomp/test/functor_app_test.ml\", line 23, characters 6-13", Curry._2(Y0.h, 1, 2), 4);
 
 eq("File \"jscomp/test/functor_app_test.ml\", line 24, characters 6-13", Curry._2(Y1.h, 2, 3), 6);
 
-let v = Functor_def.$$return(undefined);
+const v = Functor_def.$$return(undefined);
 
 eq("File \"jscomp/test/functor_app_test.ml\", line 29, characters 6-13", v, 2);
 

@@ -2,7 +2,7 @@
 'use strict';
 
 
-let Foo = {};
+const Foo = {};
 
 exports.Foo = Foo;
 /* No side effect */

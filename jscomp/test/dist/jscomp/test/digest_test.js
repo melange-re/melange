@@ -16,7 +16,7 @@ function f(x) {
   return Stdlib__Digest.to_hex(Stdlib__Digest.string(x));
 }
 
-let ref = [
+const ref = [
   "d41d8cd98f00b204e9800998ecf8427e",
   "0cc175b9c0f1b6a831c399e269772661",
   "4124bc0a9335c27f086f24ba207a4912",

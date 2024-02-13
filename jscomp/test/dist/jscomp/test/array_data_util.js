@@ -10,7 +10,7 @@ function range(i, j) {
 }
 
 function randomRange(i, j) {
-  let v = Belt__Belt_Array.makeBy((j - i | 0) + 1 | 0, (function (k) {
+  const v = Belt__Belt_Array.makeBy((j - i | 0) + 1 | 0, (function (k) {
           return k + i | 0;
         }));
   Belt__Belt_Array.shuffleInPlace(v);

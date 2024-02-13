@@ -26,7 +26,7 @@ function bark(param) {
   };
 }
 
-let js_obj = {
+const js_obj = {
   bark: (function (x, y) {
       let o = this ;
       console.log(o);

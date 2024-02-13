@@ -6,11 +6,11 @@ let Mt = require("./mt.js");
 let Mt_global = require("./mt_global.js");
 let Stdlib__Scanf = require("melange/scanf.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 

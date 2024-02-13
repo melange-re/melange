@@ -23,7 +23,7 @@ let Stdlib__Printf = require("melange/printf.js");
 let Stdlib__String = require("melange/string.js");
 
 function field(optionsOpt, label, number, type_, name) {
-  let options = optionsOpt !== undefined ? optionsOpt : /* [] */0;
+  const options = optionsOpt !== undefined ? optionsOpt : /* [] */0;
   return {
           field_name: name,
           field_number: number,
@@ -34,7 +34,7 @@ function field(optionsOpt, label, number, type_, name) {
 }
 
 function map(map_optionsOpt, number, key_type, value_type, name) {
-  let map_options = map_optionsOpt !== undefined ? map_optionsOpt : /* [] */0;
+  const map_options = map_optionsOpt !== undefined ? map_optionsOpt : /* [] */0;
   return {
           map_name: name,
           map_number: number,
@@ -45,7 +45,7 @@ function map(map_optionsOpt, number, key_type, value_type, name) {
 }
 
 function oneof_field(optionsOpt, number, type_, name) {
-  let options = optionsOpt !== undefined ? optionsOpt : /* [] */0;
+  const options = optionsOpt !== undefined ? optionsOpt : /* [] */0;
   return {
           field_name: name,
           field_number: number,
@@ -55,12 +55,12 @@ function oneof_field(optionsOpt, number, type_, name) {
         };
 }
 
-let message_counter = {
+const message_counter = {
   contents: 0
 };
 
 function extension_range_range(from, to_) {
-  let to_$1 = typeof to_ === "string" ? /* To_max */0 : /* To_number */({
+  const to_$1 = typeof to_ === "string" ? /* To_max */0 : /* To_number */({
         _0: to_.VAL
       });
   return {
@@ -96,7 +96,7 @@ function extend(extend_name, extend_body) {
 }
 
 function proto(syntax, file_option, $$package, $$import, message, $$enum, proto$1, extend, param) {
-  let proto$2 = proto$1 !== undefined ? proto$1 : ({
+  const proto$2 = proto$1 !== undefined ? proto$1 : ({
         syntax: syntax,
         imports: /* [] */0,
         file_options: /* [] */0,
@@ -105,7 +105,7 @@ function proto(syntax, file_option, $$package, $$import, message, $$enum, proto$
         enums: /* [] */0,
         extends: /* [] */0
       });
-  let proto$3 = syntax !== undefined ? ({
+  const proto$3 = syntax !== undefined ? ({
         syntax: syntax,
         imports: proto$2.imports,
         file_options: proto$2.file_options,
@@ -114,7 +114,7 @@ function proto(syntax, file_option, $$package, $$import, message, $$enum, proto$
         enums: proto$2.enums,
         extends: proto$2.extends
       }) : proto$2;
-  let proto$4 = $$package !== undefined ? ({
+  const proto$4 = $$package !== undefined ? ({
         syntax: proto$3.syntax,
         imports: proto$3.imports,
         file_options: proto$3.file_options,
@@ -123,7 +123,7 @@ function proto(syntax, file_option, $$package, $$import, message, $$enum, proto$
         enums: proto$3.enums,
         extends: proto$3.extends
       }) : proto$3;
-  let proto$5 = message !== undefined ? ({
+  const proto$5 = message !== undefined ? ({
         syntax: proto$4.syntax,
         imports: proto$4.imports,
         file_options: proto$4.file_options,
@@ -135,7 +135,7 @@ function proto(syntax, file_option, $$package, $$import, message, $$enum, proto$
         enums: proto$4.enums,
         extends: proto$4.extends
       }) : proto$4;
-  let proto$6 = $$enum !== undefined ? ({
+  const proto$6 = $$enum !== undefined ? ({
         syntax: proto$5.syntax,
         imports: proto$5.imports,
         file_options: proto$5.file_options,
@@ -147,7 +147,7 @@ function proto(syntax, file_option, $$package, $$import, message, $$enum, proto$
         },
         extends: proto$5.extends
       }) : proto$5;
-  let proto$7 = $$import !== undefined ? ({
+  const proto$7 = $$import !== undefined ? ({
         syntax: proto$6.syntax,
         imports: {
           hd: $$import,
@@ -159,7 +159,7 @@ function proto(syntax, file_option, $$package, $$import, message, $$enum, proto$
         enums: proto$6.enums,
         extends: proto$6.extends
       }) : proto$6;
-  let proto$8 = file_option !== undefined ? ({
+  const proto$8 = file_option !== undefined ? ({
         syntax: proto$7.syntax,
         imports: proto$7.imports,
         file_options: {
@@ -195,7 +195,7 @@ function file_option(file_options, name) {
     x = Stdlib__List.assoc(name, file_options);
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
@@ -205,17 +205,17 @@ function file_option(file_options, name) {
 }
 
 function rev_split_by_char(c, s) {
-  let loop = function (i, l) {
+  const loop = function (i, l) {
     try {
-      let i$p = Stdlib__String.index_from(s, i, c);
-      let s$p = Stdlib__String.sub(s, i, i$p - i | 0);
+      const i$p = Stdlib__String.index_from(s, i, c);
+      const s$p = Stdlib__String.sub(s, i, i$p - i | 0);
       return loop(i$p + 1 | 0, s$p === "" ? l : ({
                       hd: s$p,
                       tl: l
                     }));
     }
     catch (raw_exn){
-      let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+      const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return {
                 hd: Stdlib__String.sub(s, i, s.length - i | 0),
@@ -247,11 +247,11 @@ function pop_last(param) {
 
 function apply_until(f, _param) {
   while(true) {
-    let param = _param;
+    const param = _param;
     if (!param) {
       return ;
     }
-    let x = Curry._1(f, param.hd);
+    const x = Curry._1(f, param.hd);
     if (x !== undefined) {
       return x;
     }
@@ -280,12 +280,12 @@ function string_of_string_list(l) {
 }
 
 function string_fold_lefti(f, e0, s) {
-  let len = s.length;
+  const len = s.length;
   let _acc = e0;
   let _i = 0;
   while(true) {
-    let i = _i;
-    let acc = _acc;
+    const i = _i;
+    const acc = _acc;
     if (i === len) {
       return acc;
     }
@@ -304,9 +304,9 @@ function option_default(x, param) {
 }
 
 function from_lexbuf(lexbuf) {
-  let x = lexbuf.lex_curr_p.pos_fname;
-  let file_name = x === "" ? undefined : x;
-  let line = lexbuf.lex_curr_p.pos_lnum;
+  const x = lexbuf.lex_curr_p.pos_fname;
+  const file_name = x === "" ? undefined : x;
+  const line = lexbuf.lex_curr_p.pos_lnum;
   return {
           file_name: file_name,
           line: line
@@ -370,7 +370,7 @@ function string_of_programmatic_error(e) {
   return "Programatic_error" + tmp;
 }
 
-let Compilation_error = /* @__PURE__ */Caml_exceptions.create("Ocaml_proto_test.Exception.Compilation_error");
+const Compilation_error = /* @__PURE__ */Caml_exceptions.create("Ocaml_proto_test.Exception.Compilation_error");
 
 function prepare_error(param) {
   if (typeof param === "number") {
@@ -385,7 +385,7 @@ function prepare_error(param) {
   }
   switch (param.TAG | 0) {
     case /* Unresolved_type */0 :
-        let match = param._0;
+        const match = param._0;
         return Curry._3(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -419,7 +419,7 @@ function prepare_error(param) {
                         _1: "unresolved type for field name : %s (type:%s, in message: %s)"
                       }), match.field_name, match.type_, match.message_name);
     case /* Duplicated_field_number */1 :
-        let match$1 = param._0;
+        const match$1 = param._0;
         return Curry._3(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -453,7 +453,7 @@ function prepare_error(param) {
                         _1: "duplicated field number for field name: %s (previous field name:%s, message: %s)"
                       }), match$1.field_name, match$1.previous_field_name, match$1.message_name);
     case /* Invalid_default_value */2 :
-        let match$2 = param._0;
+        const match$2 = param._0;
         return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -479,7 +479,7 @@ function prepare_error(param) {
                         _1: "invalid default value for field name:%s (info: %s)"
                       }), option_default("", match$2.field_name), match$2.info);
     case /* Unsupported_field_type */3 :
-        let match$3 = param._0;
+        const match$3 = param._0;
         return Curry._3(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -720,9 +720,9 @@ function add_loc(loc, exn) {
     }
     
   }
-  let file_name$1 = option_default("", file_name(loc));
-  let line$1 = line(loc);
-  let detail = Stdlib__Printexc.to_string(exn);
+  const file_name$1 = option_default("", file_name(loc));
+  const line$1 = line(loc);
+  const detail = Stdlib__Printexc.to_string(exn);
   return {
           MEL_EXN_ID: Compilation_error,
           _1: {
@@ -779,7 +779,7 @@ function invalid_enum_specification(enum_name, loc) {
           });
 }
 
-let yytransl_const = [
+const yytransl_const = [
   257,
   258,
   259,
@@ -809,7 +809,7 @@ let yytransl_const = [
   0
 ];
 
-let yytransl_block = [
+const yytransl_block = [
   260,
   264,
   284,
@@ -819,7 +819,7 @@ let yytransl_block = [
   0
 ];
 
-let yyact = [
+const yyact = [
   (function (param) {
       throw new Caml_js_exceptions.MelangeError("Failure", {
                 MEL_EXN_ID: "Failure",
@@ -863,86 +863,86 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(_1, undefined, undefined, undefined, undefined, undefined, _2, undefined, undefined);
     }),
   (function (__caml_parser_env) {
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, undefined, _1, undefined, undefined, undefined, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, _1, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, _1, undefined, undefined, undefined, undefined, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, undefined, undefined, _1, undefined, undefined, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, undefined, undefined, undefined, _1, undefined, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, undefined, undefined, undefined, undefined, undefined, _1, undefined);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, undefined, _1, undefined, undefined, _2, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, _1, undefined, undefined, undefined, undefined, _2, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, _1, undefined, undefined, undefined, _2, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, undefined, undefined, _1, undefined, _2, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, undefined, undefined, undefined, _1, _2, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, undefined, undefined, undefined, undefined, _2, _1, undefined);
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return _3;
     }),
   (function (__caml_parser_env) {
       Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return $$import(undefined, _2);
     }),
   (function (__caml_parser_env) {
       Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return $$import(Caml_option.some(undefined), _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
       Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
@@ -955,31 +955,31 @@ let yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return _2[1];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return message(_4, _2[1]);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return message(/* [] */0, _2[1]);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: _2
@@ -1028,46 +1028,46 @@ let yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return extend(_2[1], _4);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return extend(_2[1], /* [] */0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: _2
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return _2;
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: _3
@@ -1080,21 +1080,21 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return extension_range_range(_1, {
                   NAME: "Number",
                   VAL: _3
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       return extension_range_range(_1, "Max");
     }),
   (function (__caml_parser_env) {
       Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               oneof_name: _2[1],
@@ -1102,7 +1102,7 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       throw new Caml_js_exceptions.MelangeError(Compilation_error, {
@@ -1117,64 +1117,64 @@ let yyact = [
       return /* [] */0;
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: _2
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return oneof_field(_5, _4, _1[1], _2);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return oneof_field(undefined, _4, _1[1], _2);
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 7);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _9 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 7);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _9 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return map(undefined, _9, _3[1], _5[1], _7);
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 8);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _9 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _10 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 8);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _9 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _10 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return map(_10, _9, _3[1], _5[1], _7);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return field(_6, _1, _5, _2[1], _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return field(undefined, _1, _5, _2[1], _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
       Stdlib__Parsing.peek_val(__caml_parser_env, 4);
       Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
@@ -1188,7 +1188,7 @@ let yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
       Stdlib__Parsing.peek_val(__caml_parser_env, 3);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
@@ -1263,7 +1263,7 @@ let yyact = [
       return "Optional";
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       throw new Caml_js_exceptions.MelangeError(Compilation_error, {
                 MEL_EXN_ID: Compilation_error,
                 _1: {
@@ -1279,31 +1279,31 @@ let yyact = [
       return /* [] */0;
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: _3
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _1[1],
               _3
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _2[1],
               _5
@@ -1319,13 +1319,13 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return _1 + _2[1];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _2,
@@ -1333,22 +1333,22 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Constant_int */2,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Constant_float */3,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let litteral = _1[1];
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const litteral = _1[1];
       switch (litteral) {
         case "false" :
             return {
@@ -1368,19 +1368,19 @@ let yyact = [
       }
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Constant_string */0,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       let enum_valuesOpt = _4;
       let enum_name = _2[1];
-      let enum_values = enum_valuesOpt !== undefined ? enum_valuesOpt : /* [] */0;
+      const enum_values = enum_valuesOpt !== undefined ? enum_valuesOpt : /* [] */0;
       message_counter.contents = message_counter.contents + 1 | 0;
       return {
               enum_id: message_counter.contents,
@@ -1392,16 +1392,16 @@ let yyact = [
       return /* [] */0;
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: _2
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               enum_value_name: _1[1],
@@ -1409,7 +1409,7 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       let enum_value = _1[1];
       let loc = _1[0];
@@ -1423,20 +1423,20 @@ let yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return invalid_enum_specification(_1[1], _1[0]);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return invalid_enum_specification(_1[1], _1[0]);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return invalid_enum_specification(_1[1], _1[0]);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return invalid_enum_specification(_1[1], _1[0]);
     }),
   (function (__caml_parser_env) {
@@ -1525,7 +1525,7 @@ let yyact = [
     })
 ];
 
-let yytables = {
+const yytables = {
   actions: yyact,
   transl_const: yytransl_const,
   transl_block: yytransl_block,
@@ -1549,7 +1549,7 @@ function proto_(lexfun, lexbuf) {
 }
 
 function update_loc(lexbuf) {
-  let pos = lexbuf.lex_curr_p;
+  const pos = lexbuf.lex_curr_p;
   lexbuf.lex_curr_p = {
     pos_fname: pos.pos_fname,
     pos_lnum: pos.pos_lnum + 1 | 0,
@@ -1558,7 +1558,7 @@ function update_loc(lexbuf) {
   };
 }
 
-let __ocaml_lex_tables = {
+const __ocaml_lex_tables = {
   lex_base: "\0\0\xea\xff\xeb\xffN\0\xed\xff\xee\xff\x01\0\xa0\0\xf0\0;\x01\x88\x01\x9e\x01\xf2\xff\x10\0\xf5\xff\xf6\xff\xf7\xff\xf8\xff\xf9\xff\xfa\xff\xfb\xff\xfc\xff\xfd\xff\xfe\xff\xff\xff\xf3\xff\xf4\xff\x1a\0\xbe\x01\xc8\x01\x92\x01\xa8\x01#\0\xef\xff\xed\x01:\x02\x87\x02\xd4\x02!\x03n\x03\x05\0\x12\x01\xfd\xff\xfe\xff\xff\xff\x06\0\x07\0!\x01\xfc\xff\xfd\xff\x11\0\xff\xff\x0b\0\f\0\xfe\xff\xc2\x01\xfc\xff\xfd\xff\xfe\xff\xc9\x03\xff\xff",
   lex_backtrk: "\x0f\0\xff\xff\xff\xff\x13\0\xff\xff\xff\xff\x15\0\x13\0\x13\0\x0f\0\x0e\0\x0f\0\xff\xff\x15\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x0f\0\x0f\0\xff\xff\xff\xff\xff\xff\xff\xff\x13\0\x0f\0\x13\0\x13\0\x10\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01\0\xff\xff\xff\xff\xff\xff\xff\xff\x02\0\xff\xff\x02\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x02\0\xff\xff",
   lex_default: "\x01\0\0\0\0\0\xff\xff\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff+\0\0\0\0\0\0\0\xff\xff\xff\xff1\0\0\0\0\0\xff\xff\0\0\xff\xff\xff\xff\0\x009\0\0\0\0\0\0\0\xff\xff\0\0",
@@ -1574,9 +1574,9 @@ let __ocaml_lex_tables = {
 
 function __ocaml_lex_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let l = _l;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const l = _l;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           update_loc(lexbuf);
@@ -1602,9 +1602,9 @@ function __ocaml_lex_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
 
 function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let l = _l;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const l = _l;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           update_loc(lexbuf);
@@ -1634,12 +1634,12 @@ function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
 
 function __ocaml_lex_string_rec(_l, lexbuf, ___ocaml_lex_state) {
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let l = _l;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const l = _l;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-          let c = Stdlib__Lexing.lexeme_char(lexbuf, 1);
+          const c = Stdlib__Lexing.lexeme_char(lexbuf, 1);
           ___ocaml_lex_state = 55;
           _l = {
             hd: Stdlib__Char.escaped(c),
@@ -1670,8 +1670,8 @@ function __ocaml_lex_string_rec(_l, lexbuf, ___ocaml_lex_state) {
 function lexer(lexbuf) {
   let ___ocaml_lex_state = 0;
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           return /* LBRACE */15;
@@ -1696,21 +1696,21 @@ function lexer(lexbuf) {
       case 10 :
           return /* COMMA */24;
       case 11 :
-          let match = __ocaml_lex_comment_rec(/* [] */0, lexbuf, 41);
+          const match = __ocaml_lex_comment_rec(/* [] */0, lexbuf, 41);
           if (!match) {
             return /* EOF */25;
           }
           ___ocaml_lex_state = 0;
           continue ;
       case 12 :
-          let match$1 = __ocaml_lex_multi_line_comment_rec(/* [] */0, lexbuf, 47);
+          const match$1 = __ocaml_lex_multi_line_comment_rec(/* [] */0, lexbuf, 47);
           if (!match$1) {
             return /* EOF */25;
           }
           ___ocaml_lex_state = 0;
           continue ;
       case 13 :
-          let s = __ocaml_lex_string_rec(/* [] */0, lexbuf, 55);
+          const s = __ocaml_lex_string_rec(/* [] */0, lexbuf, 55);
           if (s) {
             return {
                     TAG: /* STRING */2,
@@ -1795,7 +1795,7 @@ function lexer(lexbuf) {
       case 20 :
           return /* EOF */25;
       case 21 :
-          let s$1 = Curry._1(Stdlib__Printf.sprintf(/* Format */{
+          const s$1 = Curry._1(Stdlib__Printf.sprintf(/* Format */{
                     _0: {
                       TAG: /* String_literal */11,
                       _0: "Unknown character found ",
@@ -1854,7 +1854,7 @@ function string_of_field_type(param) {
     return string_of_basic_type(param._0);
   } else {
     let param$1 = param._0;
-    let module_ = param$1.udt_module;
+    const module_ = param$1.udt_module;
     if (module_ !== undefined) {
       return module_ + ("." + param$1.udt_type_name);
     } else {
@@ -1870,12 +1870,12 @@ function string_of_record_field_type(param) {
     case /* Rft_optional */1 :
         return string_of_field_type(param._0[0]) + " option";
     case /* Rft_repeated_field */2 :
-        let match = param._0;
+        const match = param._0;
         return string_of_field_type(match[1]) + (" " + (
                   match[0] ? "Pbrt.Repeated_field.t" : "list"
                 ));
     case /* Rft_associative_field */3 :
-        let match$1 = param._0;
+        const match$1 = param._0;
         if (match$1[0]) {
           return Curry._3(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
@@ -1942,7 +1942,7 @@ function string_of_record_field_type(param) {
 }
 
 function function_name_of_user_defined(prefix, param) {
-  let module_ = param.udt_module;
+  const module_ = param.udt_module;
   if (module_ !== undefined) {
     return Curry._3(Stdlib__Printf.sprintf(/* Format */{
                     _0: {
@@ -2024,7 +2024,7 @@ function line$1(scope, s) {
 }
 
 function scope(scope$1, f) {
-  let sub_scope = {
+  const sub_scope = {
     items: /* [] */0
   };
   Curry._1(f, sub_scope);
@@ -2063,14 +2063,14 @@ function indentation_prefix(n) {
 }
 
 function print(scope) {
-  let loop = function (_acc, i, _param) {
+  const loop = function (_acc, i, _param) {
     while(true) {
-      let param = _param;
-      let acc = _acc;
+      const param = _param;
+      const acc = _acc;
       if (!param) {
         return acc;
       }
-      let s = param.hd;
+      const s = param.hd;
       if (s.TAG === /* Line */0) {
         _param = param.tl;
         _acc = {
@@ -2079,8 +2079,8 @@ function print(scope) {
         };
         continue ;
       }
-      let items = s._0.items;
-      let sub = loop(/* [] */0, i + 1 | 0, items);
+      const items = s._0.items;
+      const sub = loop(/* [] */0, i + 1 | 0, items);
       _param = param.tl;
       _acc = Stdlib.$at(sub, acc);
       continue ;
@@ -2090,9 +2090,9 @@ function print(scope) {
 }
 
 function runtime_function(param) {
-  let match = param[0];
+  const match = param[0];
   if (match === "Decode") {
-    let match$1 = param[1];
+    const match$1 = param[1];
     if (typeof match$1 === "number") {
       switch (match$1) {
         case /* Pk_bits32 */0 :
@@ -2132,7 +2132,7 @@ function runtime_function(param) {
               
             }
         case /* Pk_bytes */2 :
-            let match$2 = param[2];
+            const match$2 = param[2];
             if (match$2 === 5) {
               return "Pbrt.Decoder.bytes";
             }
@@ -2184,7 +2184,7 @@ function runtime_function(param) {
       }
     }
   } else if (match === "Encode") {
-    let match$3 = param[1];
+    const match$3 = param[1];
     if (typeof match$3 === "number") {
       switch (match$3) {
         case /* Pk_bits32 */0 :
@@ -2224,7 +2224,7 @@ function runtime_function(param) {
               
             }
         case /* Pk_bytes */2 :
-            let match$4 = param[2];
+            const match$4 = param[2];
             if (match$4 === 5) {
               return "Pbrt.Encoder.bytes";
             }
@@ -2298,8 +2298,8 @@ function decode_field_f(field_type, pk) {
   if (field_type.TAG === /* Ft_basic_type */0) {
     return decode_basic_type(field_type._0, pk) + " d";
   }
-  let t = field_type._0;
-  let f_name = function_name_of_user_defined("decode", t);
+  const t = field_type._0;
+  const f_name = function_name_of_user_defined("decode", t);
   if (t.udt_nested) {
     return f_name + " (Pbrt.Decoder.nested d)";
   } else {
@@ -2308,10 +2308,10 @@ function decode_field_f(field_type, pk) {
 }
 
 function gen_decode_record(and_, param, sc) {
-  let r_fields = param.r_fields;
-  let r_name = param.r_name;
-  let all_lists = Stdlib__List.fold_left((function (acc, param) {
-          let rf_field_type = param.rf_field_type;
+  const r_fields = param.r_fields;
+  const r_name = param.r_name;
+  const all_lists = Stdlib__List.fold_left((function (acc, param) {
+          const rf_field_type = param.rf_field_type;
           switch (rf_field_type.TAG | 0) {
             case /* Rft_repeated_field */2 :
             case /* Rft_associative_field */3 :
@@ -2328,7 +2328,7 @@ function gen_decode_record(and_, param, sc) {
                   };
           }
         }), /* [] */0, r_fields);
-  let process_field_common = function (sc, encoding_number, pk_as_string, f) {
+  const process_field_common = function (sc, encoding_number, pk_as_string, f) {
     line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String_literal */11,
@@ -2423,7 +2423,7 @@ function gen_decode_record(and_, param, sc) {
           }));
     line$1(sc, ")");
   };
-  let mutable_record_name = r_name + "_mutable";
+  const mutable_record_name = r_name + "_mutable";
   line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
@@ -2495,13 +2495,13 @@ function gen_decode_record(and_, param, sc) {
                         }));
                   line$1(sc, ")");
                   Stdlib__List.iter((function (param) {
-                          let rf_field_type = param.rf_field_type;
-                          let rf_label = param.rf_label;
+                          const rf_field_type = param.rf_field_type;
+                          const rf_label = param.rf_label;
                           switch (rf_field_type.TAG | 0) {
                             case /* Rft_required */0 :
                                 let param$1 = rf_field_type._0;
-                                let pk = param$1[2];
-                                let field_type = param$1[0];
+                                const pk = param$1[2];
+                                const field_type = param$1[0];
                                 return process_field_common(sc, param$1[1], string_of_payload_kind(Caml_option.some(undefined), pk, false), (function (sc) {
                                               line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                                             _0: {
@@ -2530,8 +2530,8 @@ function gen_decode_record(and_, param, sc) {
                                             }));
                             case /* Rft_optional */1 :
                                 let param$2 = rf_field_type._0;
-                                let pk$1 = param$2[2];
-                                let field_type$1 = param$2[0];
+                                const pk$1 = param$2[2];
+                                const field_type$1 = param$2[0];
                                 return process_field_common(sc, param$2[1], string_of_payload_kind(Caml_option.some(undefined), pk$1, false), (function (sc) {
                                               line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                                             _0: {
@@ -2560,10 +2560,10 @@ function gen_decode_record(and_, param, sc) {
                                             }));
                             case /* Rft_repeated_field */2 :
                                 let param$3 = rf_field_type._0;
-                                let is_packed = param$3[4];
-                                let pk$2 = param$3[3];
-                                let encoding_number = param$3[2];
-                                let field_type$2 = param$3[1];
+                                const is_packed = param$3[4];
+                                const pk$2 = param$3[3];
+                                const encoding_number = param$3[2];
+                                const field_type$2 = param$3[1];
                                 if (param$3[0]) {
                                   if (is_packed) {
                                     return process_field_common(sc, encoding_number, "Bytes", (function (sc) {
@@ -2689,19 +2689,19 @@ function gen_decode_record(and_, param, sc) {
                                 }
                             case /* Rft_associative_field */3 :
                                 let param$4 = rf_field_type._0;
-                                let match = param$4[3];
-                                let value_pk = match[1];
-                                let value_type = match[0];
-                                let match$1 = param$4[2];
-                                let at = param$4[0];
-                                let decode_key_f = decode_basic_type(match$1[0], match$1[1]);
+                                const match = param$4[3];
+                                const value_pk = match[1];
+                                const value_type = match[0];
+                                const match$1 = param$4[2];
+                                const at = param$4[0];
+                                const decode_key_f = decode_basic_type(match$1[0], match$1[1]);
                                 return process_field_common(sc, param$4[1], "Bytes", (function (sc) {
                                               line$1(sc, "let decode_value = (fun d ->");
                                               scope(sc, (function (sc) {
                                                       line$1(sc, decode_field_f(value_type, value_pk));
                                                     }));
                                               line$1(sc, ") in");
-                                              let decode_expression = Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                                              const decode_expression = Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                                         _0: {
                                                           TAG: /* String_literal */11,
                                                           _0: "(Pbrt.Decoder.map_entry d ~decode_key:",
@@ -2795,9 +2795,9 @@ function gen_decode_record(and_, param, sc) {
                             case /* Rft_variant_field */4 :
                                 let param$5 = rf_field_type._0;
                                 return Stdlib__List.iter((function (param) {
-                                              let pk = param.vc_payload_kind;
-                                              let vc_field_type = param.vc_field_type;
-                                              let vc_constructor = param.vc_constructor;
+                                              const pk = param.vc_payload_kind;
+                                              const vc_field_type = param.vc_field_type;
+                                              const vc_constructor = param.vc_constructor;
                                               process_field_common(sc, param.vc_encoding_number, string_of_payload_kind(Caml_option.some(undefined), pk, false), (function (sc) {
                                                       if (vc_field_type) {
                                                         return line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
@@ -2889,8 +2889,8 @@ function gen_decode_record(and_, param, sc) {
 }
 
 function gen_decode_variant(and_, param, sc) {
-  let v_constructors = param.v_constructors;
-  let v_name = param.v_name;
+  const v_constructors = param.v_constructors;
+  const v_name = param.v_name;
   line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
@@ -2940,9 +2940,9 @@ function gen_decode_variant(and_, param, sc) {
                   scope(sc, (function (sc) {
                           line$1(sc, "| None -> failwith \"None of the known key is found\"");
                           Stdlib__List.iter((function (ctor) {
-                                  let vc_encoding_number = ctor.vc_encoding_number;
-                                  let vc_field_type = ctor.vc_field_type;
-                                  let vc_constructor = ctor.vc_constructor;
+                                  const vc_encoding_number = ctor.vc_encoding_number;
+                                  const vc_field_type = ctor.vc_field_type;
+                                  const vc_constructor = ctor.vc_constructor;
                                   if (vc_field_type) {
                                     return line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                                                         _0: {
@@ -3021,8 +3021,8 @@ function gen_decode_variant(and_, param, sc) {
 }
 
 function gen_decode_const_variant(and_, param, sc) {
-  let cv_constructors = param.cv_constructors;
-  let cv_name = param.cv_name;
+  const cv_constructors = param.cv_constructors;
+  const cv_name = param.cv_name;
   line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
@@ -3101,7 +3101,7 @@ function gen_decode_const_variant(and_, param, sc) {
 }
 
 function gen_struct(and_, t, sc) {
-  let r = t.spec;
+  const r = t.spec;
   let tmp;
   switch (r.TAG | 0) {
     case /* Record */0 :
@@ -3128,7 +3128,7 @@ function gen_struct(and_, t, sc) {
 }
 
 function gen_sig(and_, t, sc) {
-  let f = function (type_name) {
+  const f = function (type_name) {
     line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String_literal */11,
@@ -3174,7 +3174,7 @@ function gen_sig(and_, t, sc) {
                   _1: "(** [decode_%s decoder] decodes a [%s] value from [decoder] *)"
                 }), type_name, type_name));
   };
-  let match = t.spec;
+  const match = t.spec;
   let tmp;
   switch (match.TAG | 0) {
     case /* Record */0 :
@@ -3200,18 +3200,18 @@ function gen_sig(and_, t, sc) {
   return tmp[1];
 }
 
-let Codegen_decode = {
+const Codegen_decode = {
   gen_sig: gen_sig,
   gen_struct: gen_struct,
   ocamldoc_title: "Protobuf Decoding"
 };
 
-let __log__ = {
+const __log__ = {
   contents: undefined
 };
 
 function log(x) {
-  let oc = __log__.contents;
+  const oc = __log__.contents;
   if (oc !== undefined) {
     return Stdlib__Printf.fprintf(Caml_option.valFromOption(oc), x);
   } else {
@@ -3253,8 +3253,8 @@ function gen_pp_field(field_type) {
 }
 
 function gen_pp_record(and_, param, sc) {
-  let r_fields = param.r_fields;
-  let r_name = param.r_name;
+  const r_fields = param.r_fields;
+  const r_name = param.r_name;
   Curry._1(log(/* Format */{
             _0: {
               TAG: /* String_literal */11,
@@ -3304,9 +3304,9 @@ function gen_pp_record(and_, param, sc) {
           scope(sc, (function (sc) {
                   line$1(sc, "Format.pp_open_vbox fmt 1;");
                   Stdlib__List.iter((function (record_field) {
-                          let rf_field_type = record_field.rf_field_type;
-                          let rf_label = record_field.rf_label;
-                          let var_name = Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                          const rf_field_type = record_field.rf_field_type;
+                          const rf_label = record_field.rf_label;
+                          const var_name = Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                     _0: {
                                       TAG: /* String_literal */11,
                                       _0: "v.",
@@ -3320,7 +3320,7 @@ function gen_pp_record(and_, param, sc) {
                                   }), rf_label);
                           switch (rf_field_type.TAG | 0) {
                             case /* Rft_required */0 :
-                                let field_string_of = gen_pp_field(rf_field_type._0[0]);
+                                const field_string_of = gen_pp_field(rf_field_type._0[0]);
                                 return line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                                                     _0: {
                                                       TAG: /* String_literal */11,
@@ -3354,7 +3354,7 @@ function gen_pp_record(and_, param, sc) {
                                                     _1: "Pbrt.Pp.pp_record_field \"%s\" %s fmt %s;"
                                                   }), rf_label, field_string_of, var_name));
                             case /* Rft_optional */1 :
-                                let field_string_of$1 = gen_pp_field(rf_field_type._0[0]);
+                                const field_string_of$1 = gen_pp_field(rf_field_type._0[0]);
                                 return line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                                                     _0: {
                                                       TAG: /* String_literal */11,
@@ -3388,8 +3388,8 @@ function gen_pp_record(and_, param, sc) {
                                                     _1: "Pbrt.Pp.pp_record_field \"%s\" (Pbrt.Pp.pp_option %s) fmt %s;"
                                                   }), rf_label, field_string_of$1, var_name));
                             case /* Rft_repeated_field */2 :
-                                let match = rf_field_type._0;
-                                let field_string_of$2 = gen_pp_field(match[1]);
+                                const match = rf_field_type._0;
+                                const field_string_of$2 = gen_pp_field(match[1]);
                                 if (match[0]) {
                                   return line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                                                       _0: {
@@ -3458,13 +3458,13 @@ function gen_pp_record(and_, param, sc) {
                                                     }), rf_label, field_string_of$2, var_name));
                                 }
                             case /* Rft_associative_field */3 :
-                                let match$1 = rf_field_type._0;
-                                let pp_runtime_function = match$1[0] ? "pp_hastable" : "pp_associative_list";
-                                let pp_key = gen_pp_field({
+                                const match$1 = rf_field_type._0;
+                                const pp_runtime_function = match$1[0] ? "pp_hastable" : "pp_associative_list";
+                                const pp_key = gen_pp_field({
                                       TAG: /* Ft_basic_type */0,
                                       _0: match$1[2][0]
                                     });
-                                let pp_value = gen_pp_field(match$1[3][0]);
+                                const pp_value = gen_pp_field(match$1[3][0]);
                                 return line$1(sc, Curry._5(Stdlib__Printf.sprintf(/* Format */{
                                                     _0: {
                                                       TAG: /* String_literal */11,
@@ -3557,8 +3557,8 @@ function gen_pp_record(and_, param, sc) {
 }
 
 function gen_pp_variant(and_, param, sc) {
-  let v_constructors = param.v_constructors;
-  let v_name = param.v_name;
+  const v_constructors = param.v_constructors;
+  const v_name = param.v_name;
   line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
@@ -3590,8 +3590,8 @@ function gen_pp_variant(and_, param, sc) {
   scope(sc, (function (sc) {
           line$1(sc, "match v with");
           Stdlib__List.iter((function (param) {
-                  let vc_field_type = param.vc_field_type;
-                  let vc_constructor = param.vc_constructor;
+                  const vc_field_type = param.vc_field_type;
+                  const vc_constructor = param.vc_constructor;
                   if (!vc_field_type) {
                     return line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                         _0: {
@@ -3618,7 +3618,7 @@ function gen_pp_variant(and_, param, sc) {
                                         _1: "| %s  -> Format.fprintf fmt \"%s\""
                                       }), vc_constructor, vc_constructor));
                   }
-                  let field_string_of = gen_pp_field(vc_field_type._0);
+                  const field_string_of = gen_pp_field(vc_field_type._0);
                   line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                                 _0: {
                                   TAG: /* String_literal */11,
@@ -3682,8 +3682,8 @@ function gen_pp_variant(and_, param, sc) {
 }
 
 function gen_pp_const_variant(and_, param, sc) {
-  let cv_constructors = param.cv_constructors;
-  let cv_name = param.cv_name;
+  const cv_constructors = param.cv_constructors;
+  const cv_name = param.cv_name;
   line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
@@ -3715,7 +3715,7 @@ function gen_pp_const_variant(and_, param, sc) {
   scope(sc, (function (sc) {
           line$1(sc, "match v with");
           Stdlib__List.iter((function (param) {
-                  let name = param[0];
+                  const name = param[0];
                   line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                 _0: {
                                   TAG: /* String_literal */11,
@@ -3745,7 +3745,7 @@ function gen_pp_const_variant(and_, param, sc) {
 }
 
 function gen_struct$1(and_, t, sc) {
-  let r = t.spec;
+  const r = t.spec;
   switch (r.TAG | 0) {
     case /* Record */0 :
         gen_pp_record(and_, r._0, sc);
@@ -3762,7 +3762,7 @@ function gen_struct$1(and_, t, sc) {
 }
 
 function gen_sig$1(and_, t, sc) {
-  let f = function (type_name) {
+  const f = function (type_name) {
     line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String_literal */11,
@@ -3804,7 +3804,7 @@ function gen_sig$1(and_, t, sc) {
                   _1: "(** [pp_%s v] formats v] *)"
                 }), type_name));
   };
-  let v = t.spec;
+  const v = t.spec;
   switch (v.TAG | 0) {
     case /* Record */0 :
         f(v._0.r_name);
@@ -3820,15 +3820,15 @@ function gen_sig$1(and_, t, sc) {
   return true;
 }
 
-let Codegen_pp = {
+const Codegen_pp = {
   gen_sig: gen_sig$1,
   gen_struct: gen_struct$1,
   ocamldoc_title: "Formatters"
 };
 
-let compare = Caml_obj.caml_compare;
+const compare = Caml_obj.caml_compare;
 
-let funarg = {
+const funarg = {
   compare: compare
 };
 
@@ -3841,8 +3841,8 @@ function height(param) {
 }
 
 function create(l, x, d, r) {
-  let hl = height(l);
-  let hr = height(r);
+  const hl = height(l);
+  const hr = height(r);
   return /* Node */{
           l: l,
           v: x,
@@ -3853,14 +3853,14 @@ function create(l, x, d, r) {
 }
 
 function bal(l, x, d, r) {
-  let hl = l ? l.h : 0;
-  let hr = r ? r.h : 0;
+  const hl = l ? l.h : 0;
+  const hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
     if (l) {
-      let lr = l.r;
-      let ld = l.d;
-      let lv = l.v;
-      let ll = l.l;
+      const lr = l.r;
+      const ld = l.d;
+      const lv = l.v;
+      const ll = l.l;
       if (height(ll) >= height(lr)) {
         return create(ll, lv, ld, create(lr, x, d, r));
       }
@@ -3887,10 +3887,10 @@ function bal(l, x, d, r) {
           };
   }
   if (r) {
-    let rr = r.r;
-    let rd = r.d;
-    let rv = r.v;
-    let rl = r.l;
+    const rr = r.r;
+    const rd = r.d;
+    const rv = r.v;
+    const rl = r.l;
     if (height(rr) >= height(rl)) {
       return create(create(l, x, d, rl), rv, rd, rr);
     }
@@ -3918,11 +3918,11 @@ function add(x, data, m) {
             h: 1
           };
   }
-  let r = m.r;
-  let d = m.d;
-  let v = m.v;
-  let l = m.l;
-  let c = Curry._2(funarg.compare, x, v);
+  const r = m.r;
+  const d = m.d;
+  const v = m.v;
+  const l = m.l;
+  const c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -3937,14 +3937,14 @@ function add(x, data, m) {
     }
   }
   if (c < 0) {
-    let ll = add(x, data, l);
+    const ll = add(x, data, l);
     if (l === ll) {
       return m;
     } else {
       return bal(ll, v, d, r);
     }
   }
-  let rr = add(x, data, r);
+  const rr = add(x, data, r);
   if (r === rr) {
     return m;
   } else {
@@ -3954,9 +3954,9 @@ function add(x, data, m) {
 
 function find(x, _param) {
   while(true) {
-    let param = _param;
+    const param = _param;
     if (param) {
-      let c = Curry._2(funarg.compare, x, param.v);
+      const c = Curry._2(funarg.compare, x, param.v);
       if (c === 0) {
         return param.d;
       }
@@ -3973,9 +3973,9 @@ function map$1(f, param) {
   if (!param) {
     return /* Empty */0;
   }
-  let l$p = map$1(f, param.l);
-  let d$p = Curry._1(f, param.d);
-  let r$p = map$1(f, param.r);
+  const l$p = map$1(f, param.l);
+  const d$p = Curry._1(f, param.d);
+  const r$p = map$1(f, param.r);
   return /* Node */{
           l: l$p,
           v: param.v,
@@ -3987,8 +3987,8 @@ function map$1(f, param) {
 
 function fold(f, _m, _accu) {
   while(true) {
-    let accu = _accu;
-    let m = _m;
+    const accu = _accu;
+    const m = _m;
     if (!m) {
       return accu;
     }
@@ -3998,12 +3998,12 @@ function fold(f, _m, _accu) {
   };
 }
 
-let empty_graph = /* Empty */0;
+const empty_graph = /* Empty */0;
 
 function min_value(param) {
-  let x = param[0];
+  const x = param[0];
   if (x !== undefined) {
-    let y = param[1];
+    const y = param[1];
     if (y !== undefined) {
       return Caml_option.some(Caml_obj.caml_min(Caml_option.valFromOption(x), Caml_option.valFromOption(y)));
     }
@@ -4019,9 +4019,9 @@ function min_value(param) {
 }
 
 function eq_value(param) {
-  let x = param[0];
+  const x = param[0];
   if (x !== undefined) {
-    let y = param[1];
+    const y = param[1];
     if (y !== undefined) {
       return Caml_obj.caml_equal(Caml_option.valFromOption(x), Caml_option.valFromOption(y));
     }
@@ -4101,16 +4101,16 @@ function strong_connect(g, sccs, stack, index, v) {
           }), v.core.id, index);
   v.index = index;
   v.lowlink = index;
-  let stack$1 = {
+  const stack$1 = {
     hd: v,
     tl: stack
   };
   v.on_stack = true;
-  let match = Stdlib__List.fold_left((function (param, id) {
-          let index = param[2];
-          let stack = param[1];
-          let sccs = param[0];
-          let w = Curry._2(find, id, g);
+  const match = Stdlib__List.fold_left((function (param, id) {
+          const index = param[2];
+          const stack = param[1];
+          const sccs = param[0];
+          const w = Curry._2(find, id, g);
           Curry._2(log(/* Format */{
                     _0: {
                       TAG: /* String_literal */11,
@@ -4139,7 +4139,7 @@ function strong_connect(g, sccs, stack, index, v) {
                   }), w.core.id, string_of_option((function (prim) {
                       return String(prim);
                     }), w.index));
-          let match = w.index;
+          const match = w.index;
           if (match !== undefined) {
             if (w.on_stack) {
               v.lowlink = min_value([
@@ -4153,7 +4153,7 @@ function strong_connect(g, sccs, stack, index, v) {
                     index
                   ];
           }
-          let match$1 = strong_connect(g, sccs, stack, index + 1 | 0, w);
+          const match$1 = strong_connect(g, sccs, stack, index + 1 | 0, w);
           v.lowlink = min_value([
                 v.lowlink,
                 w.lowlink
@@ -4168,9 +4168,9 @@ function strong_connect(g, sccs, stack, index, v) {
         stack$1,
         index
       ], v.core.sub);
-  let index$1 = match[2];
-  let stack$2 = match[1];
-  let sccs$1 = match[0];
+  const index$1 = match[2];
+  const stack$2 = match[1];
+  const sccs$1 = match[0];
   Curry._3(log(/* Format */{
             _0: {
               TAG: /* String_literal */11,
@@ -4237,10 +4237,10 @@ function strong_connect(g, sccs, stack, index, v) {
             index$1
           ];
   }
-  let match$1 = Stdlib__List.fold_left((function (param, n) {
-          let splitted = param[2];
-          let stack = param[1];
-          let scc = param[0];
+  const match$1 = Stdlib__List.fold_left((function (param, n) {
+          const splitted = param[2];
+          const stack = param[1];
+          const scc = param[0];
           if (splitted) {
             return [
                     scc,
@@ -4288,12 +4288,12 @@ function strong_connect(g, sccs, stack, index, v) {
 }
 
 function tarjan(g) {
-  let g$1 = reset(g);
+  const g$1 = reset(g);
   return Curry._3(fold, (function (param, n, param$1) {
-                  let index = param$1[2];
-                  let stack = param$1[1];
-                  let sccs = param$1[0];
-                  let match = n.index;
+                  const index = param$1[2];
+                  const stack = param$1[1];
+                  const sccs = param$1[0];
+                  const match = n.index;
                   if (match !== undefined) {
                     return [
                             sccs,
@@ -4340,7 +4340,7 @@ function find_field_option(field_options, option_name) {
     x = Stdlib__List.assoc(option_name, field_options);
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
@@ -4413,7 +4413,7 @@ function scope_of_package(param) {
 }
 
 function unresolved_of_string(s) {
-  let match = rev_split_by_char(/* '.' */46, s);
+  const match = rev_split_by_char(/* '.' */46, s);
   if (match) {
     return {
             scope: Stdlib__List.rev(match.tl),
@@ -4470,9 +4470,9 @@ function field_type_of_string(s) {
 }
 
 function compile_default_p2(all_types, field) {
-  let field_name$1 = field_name(field);
-  let field_type$1 = field_type(field);
-  let field_default$1 = field_default(field);
+  const field_name$1 = field_name(field);
+  const field_type$1 = field_type(field);
+  const field_default$1 = field_default(field);
   if (field_default$1 === undefined) {
     return ;
   }
@@ -4517,14 +4517,14 @@ function compile_default_p2(all_types, field) {
     if (field_default$1.TAG !== /* Constant_litteral */4) {
       return invalid_default_value(field_name$1, "default value not supported for message", undefined);
     }
-    let default_enum_value = field_default$1._0;
-    let match = type_of_id(all_types, field_type$1._0);
-    let spec = match.spec;
+    const default_enum_value = field_default$1._0;
+    const match = type_of_id(all_types, field_type$1._0);
+    const spec = match.spec;
     if (spec.TAG !== /* Enum */0) {
       return invalid_default_value(field_name$1, "field of type message cannot have a default litteral value", undefined);
     }
-    let default_enum_value$1 = apply_until((function (param) {
-            let enum_value_name = param.enum_value_name;
+    const default_enum_value$1 = apply_until((function (param) {
+            const enum_value_name = param.enum_value_name;
             if (enum_value_name === default_enum_value) {
               return enum_value_name;
             }
@@ -4575,7 +4575,7 @@ function get_default(field_name, field_options, field_type) {
     constant = Stdlib__List.assoc("default", field_options);
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
@@ -4585,9 +4585,9 @@ function get_default(field_name, field_options, field_type) {
 }
 
 function compile_field_p1(field_parsed) {
-  let field_options = field_parsed.field_options;
-  let field_type = field_type_of_string(field_parsed.field_type);
-  let field_default = get_default(field_parsed.field_name, field_options, field_type);
+  const field_options = field_parsed.field_options;
+  const field_type = field_type_of_string(field_parsed.field_type);
+  const field_default = get_default(field_parsed.field_name, field_options, field_type);
   return {
           field_parsed: field_parsed,
           field_type: field_type,
@@ -4619,7 +4619,7 @@ function not_found(f) {
     return false;
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return true;
     }
@@ -4629,9 +4629,9 @@ function not_found(f) {
 
 function list_assoc2(x, _param) {
   while(true) {
-    let param = _param;
+    const param = _param;
     if (param) {
-      let match = param.hd;
+      const match = param.hd;
       if (Caml_obj.caml_equal(match[1], x)) {
         return match[0];
       }
@@ -4655,7 +4655,7 @@ function type_of_spec(file_name, file_options, id, scope, spec) {
 }
 
 function compile_enum_p1(file_name, file_options, scope, param) {
-  let enum_values = Stdlib__List.map((function (enum_value) {
+  const enum_values = Stdlib__List.map((function (enum_value) {
           return {
                   enum_value_name: enum_value.enum_value_name,
                   enum_value_int: enum_value.enum_value_int
@@ -4671,23 +4671,23 @@ function compile_enum_p1(file_name, file_options, scope, param) {
 }
 
 function compile_message_p1(file_name, file_options, message_scope, param) {
-  let message_name = param.message_name;
-  let sub_scope_packages = message_scope.packages;
-  let sub_scope_message_names = Stdlib.$at(message_scope.message_names, {
+  const message_name = param.message_name;
+  const sub_scope_packages = message_scope.packages;
+  const sub_scope_message_names = Stdlib.$at(message_scope.message_names, {
         hd: message_name,
         tl: /* [] */0
       });
-  let sub_scope = {
+  const sub_scope = {
     packages: sub_scope_packages,
     message_names: sub_scope_message_names
   };
-  let match = Stdlib__List.fold_left((function (param, param$1) {
-          let all_types = param[2];
-          let extensions = param[1];
-          let message_body = param[0];
+  const match = Stdlib__List.fold_left((function (param, param$1) {
+          const all_types = param[2];
+          const extensions = param[1];
+          const message_body = param[0];
           switch (param$1.TAG | 0) {
             case /* Message_field */0 :
-                let field = {
+                const field = {
                   TAG: /* Message_field */0,
                   _0: compile_field_p1(param$1._0)
                 };
@@ -4700,7 +4700,7 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
                         all_types
                       ];
             case /* Message_map_field */1 :
-                let field$1 = {
+                const field$1 = {
                   TAG: /* Message_map_field */2,
                   _0: compile_map_p1(param$1._0)
                 };
@@ -4713,7 +4713,7 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
                         all_types
                       ];
             case /* Message_oneof_field */2 :
-                let field$2 = {
+                const field$2 = {
                   TAG: /* Message_oneof_field */1,
                   _0: compile_oneof_p1(param$1._0)
                 };
@@ -4726,7 +4726,7 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
                         all_types
                       ];
             case /* Message_sub */3 :
-                let all_sub_types = compile_message_p1(file_name, file_options, sub_scope, param$1._0);
+                const all_sub_types = compile_message_p1(file_name, file_options, sub_scope, param$1._0);
                 return [
                         message_body,
                         extensions,
@@ -4754,10 +4754,10 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
         /* [] */0,
         /* [] */0
       ], param.message_body);
-  let message_body = Stdlib__List.rev(match[0]);
-  let validate_duplicate = function (number_index, field) {
-    let number = field_number(field);
-    let name = field_name(field);
+  const message_body = Stdlib__List.rev(match[0]);
+  const validate_duplicate = function (number_index, field) {
+    const number = field_number(field);
+    const name = field_name(field);
     if (not_found(function (param) {
             Stdlib__List.assoc(number, number_index);
           }) && not_found(function (param) {
@@ -4810,9 +4810,9 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
 }
 
 function compile_proto_p1(file_name, param) {
-  let file_options = param.file_options;
-  let scope = scope_of_package(param.package);
-  let pbtt_msgs = Stdlib__List.fold_right((function (e, pbtt_msgs) {
+  const file_options = param.file_options;
+  const scope = scope_of_package(param.package);
+  const pbtt_msgs = Stdlib__List.fold_right((function (e, pbtt_msgs) {
           return {
                   hd: compile_enum_p1(file_name, file_options, scope, e),
                   tl: pbtt_msgs
@@ -4828,7 +4828,7 @@ function type_scope_of_type(param) {
 }
 
 function is_empty_message(param) {
-  let match = param.spec;
+  const match = param.spec;
   if (match.TAG === /* Enum */0) {
     return false;
   } else {
@@ -4837,7 +4837,7 @@ function is_empty_message(param) {
 }
 
 function type_name_of_type(param) {
-  let match = param.spec;
+  const match = param.spec;
   if (match.TAG === /* Enum */0) {
     return match._0.enum_name;
   } else {
@@ -4847,29 +4847,29 @@ function type_name_of_type(param) {
 
 function find_all_types_in_field_scope(all_types, scope) {
   return Stdlib__List.filter((function (t) {
-                let match = type_scope_of_type(t);
-                let dec_scope = Stdlib.$at(match.packages, match.message_names);
+                const match = type_scope_of_type(t);
+                const dec_scope = Stdlib.$at(match.packages, match.message_names);
                 return Caml_obj.caml_equal(dec_scope, scope);
               }), all_types);
 }
 
 function compile_message_p2(types, param, message) {
-  let message_name = message.message_name;
-  let message_scope = Stdlib.$at(param.packages, Stdlib.$at(param.message_names, {
+  const message_name = message.message_name;
+  const message_scope = Stdlib.$at(param.packages, Stdlib.$at(param.message_names, {
             hd: message_name,
             tl: /* [] */0
           }));
-  let search_scopes = function (field_scope, from_root) {
+  const search_scopes = function (field_scope, from_root) {
     if (from_root) {
       return {
               hd: field_scope,
               tl: /* [] */0
             };
     }
-    let loop = function (_scopes, _l) {
+    const loop = function (_scopes, _l) {
       while(true) {
-        let l = _l;
-        let scopes = _scopes;
+        const l = _l;
+        const scopes = _scopes;
         if (!l) {
           return {
                   hd: field_scope,
@@ -4886,7 +4886,7 @@ function compile_message_p2(types, param, message) {
     };
     return Stdlib__List.rev(loop(/* [] */0, message_scope));
   };
-  let compile_field_p2 = function (field_name, field_type) {
+  const compile_field_p2 = function (field_name, field_type) {
     Curry._1(log(/* Format */{
               _0: {
                 TAG: /* String_literal */11,
@@ -4915,10 +4915,10 @@ function compile_message_p2(types, param, message) {
                 }
               });
     }
-    let unresolved = field_type._0;
-    let type_name = unresolved.type_name;
+    const unresolved = field_type._0;
+    const type_name = unresolved.type_name;
     endline("[pbtt] " + string_of_unresolved(unresolved));
-    let search_scopes$1 = search_scopes(unresolved.scope, unresolved.from_root);
+    const search_scopes$1 = search_scopes(unresolved.scope, unresolved.from_root);
     Curry._1(log(/* Format */{
               _0: {
                 TAG: /* String_literal */11,
@@ -4967,16 +4967,16 @@ function compile_message_p2(types, param, message) {
                       _1: "[pbtt] search_scope[%2i] : %s\n"
                     }), i, string_of_string_list(scope));
           }), search_scopes$1);
-    let id = apply_until((function (scope) {
-            let types$1 = find_all_types_in_field_scope(types, scope);
+    const id = apply_until((function (scope) {
+            const types$1 = find_all_types_in_field_scope(types, scope);
             try {
-              let t = Stdlib__List.find((function (t) {
+              const t = Stdlib__List.find((function (t) {
                       return type_name === type_name_of_type(t);
                     }), types$1);
               return type_id_of_type(t);
             }
             catch (raw_exn){
-              let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+              const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
               if (exn.MEL_EXN_ID === Stdlib.Not_found) {
                 return ;
               }
@@ -5001,27 +5001,27 @@ function compile_message_p2(types, param, message) {
               });
     }
   };
-  let message_body = Stdlib__List.fold_left((function (message_body, param) {
+  const message_body = Stdlib__List.fold_left((function (message_body, param) {
           switch (param.TAG | 0) {
             case /* Message_field */0 :
-                let field = param._0;
-                let field_name$1 = field_name(field);
-                let field_type$1 = field_type(field);
-                let field_field_parsed = field.field_parsed;
-                let field_field_type = compile_field_p2(field_name$1, field_type$1);
-                let field_field_default = field.field_default;
-                let field_field_options = field.field_options;
-                let field$1 = {
+                const field = param._0;
+                const field_name$1 = field_name(field);
+                const field_type$1 = field_type(field);
+                const field_field_parsed = field.field_parsed;
+                const field_field_type = compile_field_p2(field_name$1, field_type$1);
+                const field_field_default = field.field_default;
+                const field_field_options = field.field_options;
+                const field$1 = {
                   field_parsed: field_field_parsed,
                   field_type: field_field_type,
                   field_default: field_field_default,
                   field_options: field_field_options
                 };
-                let field_field_parsed$1 = field_field_parsed;
-                let field_field_type$1 = field_field_type;
-                let field_field_default$1 = compile_default_p2(types, field$1);
-                let field_field_options$1 = field_field_options;
-                let field$2 = {
+                const field_field_parsed$1 = field_field_parsed;
+                const field_field_type$1 = field_field_type;
+                const field_field_default$1 = compile_default_p2(types, field$1);
+                const field_field_options$1 = field_field_options;
+                const field$2 = {
                   field_parsed: field_field_parsed$1,
                   field_type: field_field_type$1,
                   field_default: field_field_default$1,
@@ -5035,11 +5035,11 @@ function compile_message_p2(types, param, message) {
                         tl: message_body
                       };
             case /* Message_oneof_field */1 :
-                let oneof = param._0;
-                let oneof_fields = Stdlib__List.fold_left((function (oneof_fields, field) {
-                        let field_name$2 = field_name(field);
-                        let field_type$2 = field_type(field);
-                        let field_type$3 = compile_field_p2(field_name$2, field_type$2);
+                const oneof = param._0;
+                const oneof_fields = Stdlib__List.fold_left((function (oneof_fields, field) {
+                        const field_name$2 = field_name(field);
+                        const field_type$2 = field_type(field);
+                        const field_type$3 = compile_field_p2(field_name$2, field_type$2);
                         return {
                                 hd: {
                                   field_parsed: field.field_parsed,
@@ -5050,7 +5050,7 @@ function compile_message_p2(types, param, message) {
                                 tl: oneof_fields
                               };
                       }), /* [] */0, oneof.oneof_fields);
-                let oneof_fields$1 = Stdlib__List.rev(oneof_fields);
+                const oneof_fields$1 = Stdlib__List.rev(oneof_fields);
                 return {
                         hd: {
                           TAG: /* Message_oneof_field */1,
@@ -5062,11 +5062,11 @@ function compile_message_p2(types, param, message) {
                         tl: message_body
                       };
             case /* Message_map_field */2 :
-                let map = param._0;
-                let map_name = map.map_name;
-                let map_key_type = compile_field_p2(map_name, map.map_key_type);
-                let map_value_type = compile_field_p2(map_name, map.map_value_type);
-                let resolved_map = {
+                const map = param._0;
+                const map_name = map.map_name;
+                const map_key_type = compile_field_p2(map_name, map.map_key_type);
+                const map_value_type = compile_field_p2(map_name, map.map_value_type);
+                const resolved_map = {
                   TAG: /* Message_map_field */2,
                   _0: {
                     map_name: map_name,
@@ -5083,7 +5083,7 @@ function compile_message_p2(types, param, message) {
             
           }
         }), /* [] */0, message.message_body);
-  let message_body$1 = Stdlib__List.rev(message_body);
+  const message_body$1 = Stdlib__List.rev(message_body);
   return {
           extensions: message.extensions,
           message_name: message.message_name,
@@ -5092,18 +5092,18 @@ function compile_message_p2(types, param, message) {
 }
 
 function node_of_proto_type(param) {
-  let match = param.spec;
-  let id = param.id;
+  const match = param.spec;
+  const id = param.id;
   if (match.TAG === /* Enum */0) {
     return {
             id: id,
             sub: /* [] */0
           };
   }
-  let sub = Stdlib__List.flatten(Stdlib__List.map((function (param) {
+  const sub = Stdlib__List.flatten(Stdlib__List.map((function (param) {
               switch (param.TAG | 0) {
                 case /* Message_field */0 :
-                    let field_type = param._0.field_type;
+                    const field_type = param._0.field_type;
                     if (typeof field_type === "number") {
                       return /* [] */0;
                     } else {
@@ -5114,7 +5114,7 @@ function node_of_proto_type(param) {
                     }
                 case /* Message_oneof_field */1 :
                     return Stdlib__List.flatten(Stdlib__List.map((function (param) {
-                                      let field_type = param.field_type;
+                                      const field_type = param.field_type;
                                       if (typeof field_type === "number") {
                                         return /* [] */0;
                                       } else {
@@ -5125,7 +5125,7 @@ function node_of_proto_type(param) {
                                       }
                                     }), param._0.oneof_fields));
                 case /* Message_map_field */2 :
-                    let map_value_type = param._0.map_value_type;
+                    const map_value_type = param._0.map_value_type;
                     if (typeof map_value_type === "number") {
                       return /* [] */0;
                     } else {
@@ -5144,11 +5144,11 @@ function node_of_proto_type(param) {
 }
 
 function group(proto) {
-  let g = Stdlib__List.map(node_of_proto_type, proto);
-  let g$1 = Stdlib__List.fold_left((function (m, n) {
+  const g = Stdlib__List.map(node_of_proto_type, proto);
+  const g$1 = Stdlib__List.fold_left((function (m, n) {
           return Curry._3(add, n.id, n, m);
         }), empty_graph, g);
-  let sccs = tarjan(g$1);
+  const sccs = tarjan(g$1);
   return Stdlib__List.map((function (l) {
                 return Stdlib__List.map((function (id) {
                               return Stdlib__List.find((function (param) {
@@ -5167,10 +5167,10 @@ function type_decl_of_and(param) {
 }
 
 function gen_type_record(mutable_, and_, param, sc) {
-  let r_fields = param.r_fields;
-  let r_name = param.r_name;
-  let mutable_$1 = mutable_ !== undefined;
-  let is_imperative_type = function (param) {
+  const r_fields = param.r_fields;
+  const r_name = param.r_name;
+  const mutable_$1 = mutable_ !== undefined;
+  const is_imperative_type = function (param) {
     switch (param.TAG | 0) {
       case /* Rft_repeated_field */2 :
       case /* Rft_associative_field */3 :
@@ -5183,14 +5183,14 @@ function gen_type_record(mutable_, and_, param, sc) {
         return false;
     }
   };
-  let field_prefix = function (field_type, field_mutable) {
+  const field_prefix = function (field_type, field_mutable) {
     if (field_mutable || !(is_imperative_type(field_type) || !mutable_$1)) {
       return "mutable ";
     } else {
       return "";
     }
   };
-  let r_name$1 = mutable_$1 ? r_name + "_mutable" : r_name;
+  const r_name$1 = mutable_$1 ? r_name + "_mutable" : r_name;
   line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
@@ -5213,9 +5213,9 @@ function gen_type_record(mutable_, and_, param, sc) {
               }), type_decl_of_and(and_), r_name$1));
   scope(sc, (function (sc) {
           Stdlib__List.iter((function (param) {
-                  let rf_field_type = param.rf_field_type;
-                  let prefix = field_prefix(rf_field_type, param.rf_mutable);
-                  let type_string = string_of_record_field_type(rf_field_type);
+                  const rf_field_type = param.rf_field_type;
+                  const prefix = field_prefix(rf_field_type, param.rf_mutable);
+                  const type_string = string_of_record_field_type(rf_field_type);
                   line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                                 _0: {
                                   TAG: /* String */2,
@@ -5246,7 +5246,7 @@ function gen_type_record(mutable_, and_, param, sc) {
 }
 
 function gen_type_variant(and_, variant, sc) {
-  let v_constructors = variant.v_constructors;
+  const v_constructors = variant.v_constructors;
   line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
@@ -5269,8 +5269,8 @@ function gen_type_variant(and_, variant, sc) {
               }), type_decl_of_and(and_), variant.v_name));
   scope(sc, (function (sc) {
           Stdlib__List.iter((function (param) {
-                  let vc_field_type = param.vc_field_type;
-                  let vc_constructor = param.vc_constructor;
+                  const vc_field_type = param.vc_field_type;
+                  const vc_constructor = param.vc_constructor;
                   if (!vc_field_type) {
                     return line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                         _0: {
@@ -5285,7 +5285,7 @@ function gen_type_variant(and_, variant, sc) {
                                         _1: "| %s"
                                       }), vc_constructor));
                   }
-                  let type_string = string_of_field_type(vc_field_type._0);
+                  const type_string = string_of_field_type(vc_field_type._0);
                   line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                 _0: {
                                   TAG: /* String_literal */11,
@@ -5311,7 +5311,7 @@ function gen_type_variant(and_, variant, sc) {
 }
 
 function gen_type_const_variant(and_, param, sc) {
-  let cv_constructors = param.cv_constructors;
+  const cv_constructors = param.cv_constructors;
   line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
@@ -5355,10 +5355,10 @@ function gen_type_const_variant(and_, param, sc) {
 }
 
 function gen_struct$2(and_, t, scope) {
-  let r = t.spec;
+  const r = t.spec;
   switch (r.TAG | 0) {
     case /* Record */0 :
-        let r$1 = r._0;
+        const r$1 = r._0;
         gen_type_record(undefined, and_, r$1, scope);
         line$1(scope, "");
         gen_type_record(Caml_option.some(undefined), Caml_option.some(undefined), r$1, scope);
@@ -5375,7 +5375,7 @@ function gen_struct$2(and_, t, scope) {
 }
 
 function gen_sig$2(and_, t, scope) {
-  let r = t.spec;
+  const r = t.spec;
   switch (r.TAG | 0) {
     case /* Record */0 :
         gen_type_record(undefined, and_, r._0, scope);
@@ -5391,15 +5391,15 @@ function gen_sig$2(and_, t, scope) {
   return true;
 }
 
-let Codegen_type = {
+const Codegen_type = {
   gen_sig: gen_sig$2,
   gen_struct: gen_struct$2,
   ocamldoc_title: "Types"
 };
 
 function gen_encode_field_key(sc, number, pk, is_packed) {
-  let s = string_of_payload_kind(undefined, pk, is_packed);
-  let s$1 = Caml_bytes.bytes_to_string(Stdlib__Bytes.lowercase_ascii(Caml_bytes.bytes_of_string(s)));
+  const s = string_of_payload_kind(undefined, pk, is_packed);
+  const s$1 = Caml_bytes.bytes_to_string(Stdlib__Bytes.lowercase_ascii(Caml_bytes.bytes_of_string(s)));
   line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String_literal */11,
@@ -5437,7 +5437,7 @@ function encode_basic_type(bt, pk) {
 }
 
 function gen_encode_field_type(with_key, sc, var_name, encoding_number, pk, is_packed, field_type) {
-  let encode_key = function (sc) {
+  const encode_key = function (sc) {
     if (with_key !== undefined) {
       return gen_encode_field_key(sc, encoding_number, pk, is_packed);
     }
@@ -5449,7 +5449,7 @@ function gen_encode_field_type(with_key, sc, var_name, encoding_number, pk, is_p
   }
   if (field_type.TAG === /* Ft_basic_type */0) {
     encode_key(sc);
-    let rt = encode_basic_type(field_type._0, pk);
+    const rt = encode_basic_type(field_type._0, pk);
     return line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String */2,
@@ -5471,9 +5471,9 @@ function gen_encode_field_type(with_key, sc, var_name, encoding_number, pk, is_p
                         _1: "%s %s encoder;"
                       }), rt, var_name));
   }
-  let ud = field_type._0;
+  const ud = field_type._0;
   encode_key(sc);
-  let f_name = function_name_of_user_defined("encode", ud);
+  const f_name = function_name_of_user_defined("encode", ud);
   if (ud.udt_nested) {
     return line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
@@ -5524,8 +5524,8 @@ function gen_encode_field_type(with_key, sc, var_name, encoding_number, pk, is_p
 }
 
 function gen_encode_record(and_, param, sc) {
-  let r_fields = param.r_fields;
-  let r_name = param.r_name;
+  const r_fields = param.r_fields;
+  const r_name = param.r_name;
   Curry._1(log(/* Format */{
             _0: {
               TAG: /* String_literal */11,
@@ -5572,12 +5572,12 @@ function gen_encode_record(and_, param, sc) {
               }), let_decl_of_and(and_), r_name, r_name));
   scope(sc, (function (sc) {
           Stdlib__List.iter((function (record_field) {
-                  let rf_field_type = record_field.rf_field_type;
-                  let rf_label = record_field.rf_label;
+                  const rf_field_type = record_field.rf_field_type;
+                  const rf_label = record_field.rf_label;
                   switch (rf_field_type.TAG | 0) {
                     case /* Rft_required */0 :
-                        let match = rf_field_type._0;
-                        let var_name = Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                        const match = rf_field_type._0;
+                        const var_name = Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                   _0: {
                                     TAG: /* String_literal */11,
                                     _0: "v.",
@@ -5591,10 +5591,10 @@ function gen_encode_record(and_, param, sc) {
                                 }), rf_label);
                         return gen_encode_field_type(Caml_option.some(undefined), sc, var_name, match[1], match[2], false, match[0]);
                     case /* Rft_optional */1 :
-                        let match$1 = rf_field_type._0;
-                        let pk = match$1[2];
-                        let encoding_number = match$1[1];
-                        let field_type = match$1[0];
+                        const match$1 = rf_field_type._0;
+                        const pk = match$1[2];
+                        const encoding_number = match$1[1];
+                        const field_type = match$1[0];
                         line$1(sc, "(");
                         scope(sc, (function (sc) {
                                 line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
@@ -5629,11 +5629,11 @@ function gen_encode_record(and_, param, sc) {
                               }));
                         return line$1(sc, ");");
                     case /* Rft_repeated_field */2 :
-                        let match$2 = rf_field_type._0;
-                        let is_packed = match$2[4];
-                        let pk$1 = match$2[3];
-                        let encoding_number$1 = match$2[2];
-                        let field_type$1 = match$2[1];
+                        const match$2 = rf_field_type._0;
+                        const is_packed = match$2[4];
+                        const pk$1 = match$2[3];
+                        const encoding_number$1 = match$2[2];
+                        const field_type$1 = match$2[1];
                         if (match$2[0]) {
                           if (is_packed) {
                             gen_encode_field_key(sc, encoding_number$1, pk$1, is_packed);
@@ -5732,13 +5732,13 @@ function gen_encode_record(and_, param, sc) {
                                             }), rf_label));
                         }
                     case /* Rft_associative_field */3 :
-                        let match$3 = rf_field_type._0;
-                        let match$4 = match$3[3];
-                        let value_pk = match$4[1];
-                        let value_type = match$4[0];
-                        let match$5 = match$3[2];
-                        let key_pk = match$5[1];
-                        let encoding_number$2 = match$3[1];
+                        const match$3 = rf_field_type._0;
+                        const match$4 = match$3[3];
+                        const value_pk = match$4[1];
+                        const value_type = match$4[0];
+                        const match$5 = match$3[2];
+                        const key_pk = match$5[1];
+                        const encoding_number$2 = match$3[1];
                         line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                       _0: {
                                         TAG: /* String_literal */11,
@@ -5810,7 +5810,7 @@ function gen_encode_record(and_, param, sc) {
                                             _1: ") v.%s;"
                                           }), rf_label));
                     case /* Rft_variant_field */4 :
-                        let v_constructors = rf_field_type._0.v_constructors;
+                        const v_constructors = rf_field_type._0.v_constructors;
                         line$1(sc, "(");
                         scope(sc, (function (sc) {
                                 line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
@@ -5830,12 +5830,12 @@ function gen_encode_record(and_, param, sc) {
                                               _1: "match v.%s with"
                                             }), rf_label));
                                 Stdlib__List.iter((function (param) {
-                                        let vc_payload_kind = param.vc_payload_kind;
-                                        let vc_encoding_number = param.vc_encoding_number;
-                                        let vc_field_type = param.vc_field_type;
-                                        let vc_constructor = param.vc_constructor;
+                                        const vc_payload_kind = param.vc_payload_kind;
+                                        const vc_encoding_number = param.vc_encoding_number;
+                                        const vc_field_type = param.vc_field_type;
+                                        const vc_constructor = param.vc_constructor;
                                         if (vc_field_type) {
-                                          let field_type = vc_field_type._0;
+                                          const field_type = vc_field_type._0;
                                           line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                                         _0: {
                                                           TAG: /* String_literal */11,
@@ -5889,8 +5889,8 @@ function gen_encode_record(and_, param, sc) {
 }
 
 function gen_encode_variant(and_, variant, sc) {
-  let v_constructors = variant.v_constructors;
-  let v_name = variant.v_name;
+  const v_constructors = variant.v_constructors;
+  const v_name = variant.v_name;
   line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
@@ -5922,12 +5922,12 @@ function gen_encode_variant(and_, variant, sc) {
   scope(sc, (function (sc) {
           line$1(sc, "match v with");
           Stdlib__List.iter((function (param) {
-                  let vc_payload_kind = param.vc_payload_kind;
-                  let vc_encoding_number = param.vc_encoding_number;
-                  let vc_field_type = param.vc_field_type;
-                  let vc_constructor = param.vc_constructor;
+                  const vc_payload_kind = param.vc_payload_kind;
+                  const vc_encoding_number = param.vc_encoding_number;
+                  const vc_field_type = param.vc_field_type;
+                  const vc_constructor = param.vc_constructor;
                   if (vc_field_type) {
-                    let field_type = vc_field_type._0;
+                    const field_type = vc_field_type._0;
                     line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                   _0: {
                                     TAG: /* String_literal */11,
@@ -5975,8 +5975,8 @@ function gen_encode_variant(and_, variant, sc) {
 }
 
 function gen_encode_const_variant(and_, param, sc) {
-  let cv_constructors = param.cv_constructors;
-  let cv_name = param.cv_name;
+  const cv_constructors = param.cv_constructors;
+  const cv_name = param.cv_name;
   line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
@@ -6008,8 +6008,8 @@ function gen_encode_const_variant(and_, param, sc) {
   scope(sc, (function (sc) {
           line$1(sc, "match v with");
           Stdlib__List.iter((function (param) {
-                  let value = param[1];
-                  let name = param[0];
+                  const value = param[1];
+                  const name = param[0];
                   line$1(sc, value > 0 ? Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                   _0: {
                                     TAG: /* String_literal */11,
@@ -6066,7 +6066,7 @@ function gen_encode_const_variant(and_, param, sc) {
 }
 
 function gen_struct$3(and_, t, sc) {
-  let r = t.spec;
+  const r = t.spec;
   let tmp;
   switch (r.TAG | 0) {
     case /* Record */0 :
@@ -6093,7 +6093,7 @@ function gen_struct$3(and_, t, sc) {
 }
 
 function gen_sig$3(and_, t, sc) {
-  let f = function (type_name) {
+  const f = function (type_name) {
     line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String_literal */11,
@@ -6135,7 +6135,7 @@ function gen_sig$3(and_, t, sc) {
                   _1: "(** [encode_%s v encoder] encodes [v] with the given [encoder] *)"
                 }), type_name));
   };
-  let v = t.spec;
+  const v = t.spec;
   let tmp;
   switch (v.TAG | 0) {
     case /* Record */0 :
@@ -6161,7 +6161,7 @@ function gen_sig$3(and_, t, sc) {
   return tmp[1];
 }
 
-let Codegen_encode = {
+const Codegen_encode = {
   gen_sig: gen_sig$3,
   gen_struct: gen_struct$3,
   ocamldoc_title: "Protobuf Toding"
@@ -6296,7 +6296,7 @@ function default_value_of_field_type(field_name, field_type, field_default) {
           if (field_default.TAG !== /* Constant_bool */1) {
             return invalid_default_value(field_name, "invalid default type", undefined);
           }
-          let b = field_default._0;
+          const b = field_default._0;
           if (b) {
             return "true";
           } else {
@@ -6310,21 +6310,21 @@ function default_value_of_field_type(field_name, field_type, field_default) {
 }
 
 function record_field_default_info(record_field) {
-  let rf_field_type = record_field.rf_field_type;
-  let rf_label = record_field.rf_label;
-  let type_string = string_of_record_field_type(rf_field_type);
-  let dfvft = function (field_type, defalut_value) {
+  const rf_field_type = record_field.rf_field_type;
+  const rf_label = record_field.rf_label;
+  const type_string = string_of_record_field_type(rf_field_type);
+  const dfvft = function (field_type, defalut_value) {
     return default_value_of_field_type(rf_label, field_type, defalut_value);
   };
   let default_value;
   switch (rf_field_type.TAG | 0) {
     case /* Rft_required */0 :
-        let match = rf_field_type._0;
+        const match = rf_field_type._0;
         default_value = dfvft(match[0], match[3]);
         break;
     case /* Rft_optional */1 :
-        let match$1 = rf_field_type._0;
-        let default_value$1 = match$1[3];
+        const match$1 = rf_field_type._0;
+        const default_value$1 = match$1[3];
         default_value = default_value$1 !== undefined ? Curry._1(Stdlib__Printf.sprintf(/* Format */{
                     _0: {
                       TAG: /* String_literal */11,
@@ -6343,7 +6343,7 @@ function record_field_default_info(record_field) {
                   }), dfvft(match$1[0], default_value$1)) : "None";
         break;
     case /* Rft_repeated_field */2 :
-        let match$2 = rf_field_type._0;
+        const match$2 = rf_field_type._0;
         default_value = match$2[0] ? Curry._1(Stdlib__Printf.sprintf(/* Format */{
                     _0: {
                       TAG: /* String_literal */11,
@@ -6365,11 +6365,11 @@ function record_field_default_info(record_field) {
         default_value = rf_field_type._0[0] ? "Hashtbl.create 128" : "[]";
         break;
     case /* Rft_variant_field */4 :
-        let v_constructors = rf_field_type._0.v_constructors;
+        const v_constructors = rf_field_type._0.v_constructors;
         if (v_constructors) {
-          let match$3 = v_constructors.hd;
-          let vc_field_type = match$3.vc_field_type;
-          let vc_constructor = match$3.vc_constructor;
+          const match$3 = v_constructors.hd;
+          const vc_field_type = match$3.vc_field_type;
+          const vc_constructor = match$3.vc_constructor;
           default_value = vc_field_type ? Curry._2(Stdlib__Printf.sprintf(/* Format */{
                       _0: {
                         TAG: /* String */2,
@@ -6411,10 +6411,10 @@ function record_field_default_info(record_field) {
 }
 
 function gen_default_record(mutable_, and_, param, sc) {
-  let r_name = param.r_name;
-  let fields_default_info = Stdlib__List.map(record_field_default_info, param.r_fields);
+  const r_name = param.r_name;
+  const fields_default_info = Stdlib__List.map(record_field_default_info, param.r_fields);
   if (mutable_ !== undefined) {
-    let rn = r_name + "_mutable";
+    const rn = r_name + "_mutable";
     line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String */2,
@@ -6490,7 +6490,7 @@ function gen_default_record(mutable_, and_, param, sc) {
                 }), let_decl_of_and(and_), r_name));
     scope(sc, (function (sc) {
             Stdlib__List.iter((function (param) {
-                    let fname = param[0];
+                    const fname = param[0];
                     line$1(sc, Curry._4(Stdlib__Printf.sprintf(/* Format */{
                                   _0: {
                                     TAG: /* Char_literal */12,
@@ -6570,13 +6570,13 @@ function gen_default_record(mutable_, and_, param, sc) {
 }
 
 function gen_default_variant(and_, param, sc) {
-  let v_constructors = param.v_constructors;
-  let v_name = param.v_name;
+  const v_constructors = param.v_constructors;
+  const v_name = param.v_name;
   if (v_constructors) {
-    let match = v_constructors.hd;
-    let vc_field_type = match.vc_field_type;
-    let vc_constructor = match.vc_constructor;
-    let decl = let_decl_of_and(and_);
+    const match = v_constructors.hd;
+    const vc_field_type = match.vc_field_type;
+    const vc_constructor = match.vc_constructor;
+    const decl = let_decl_of_and(and_);
     if (!vc_field_type) {
       return line$1(sc, Curry._4(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
@@ -6611,7 +6611,7 @@ function gen_default_variant(and_, param, sc) {
                           _1: "%s default_%s (): %s = %s"
                         }), decl, v_name, v_name, vc_constructor));
     }
-    let default_value = default_value_of_field_type(v_name, vc_field_type._0, undefined);
+    const default_value = default_value_of_field_type(v_name, vc_field_type._0, undefined);
     return line$1(sc, Curry._5(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String */2,
@@ -6664,8 +6664,8 @@ function gen_default_variant(and_, param, sc) {
 }
 
 function gen_default_const_variant(and_, param, sc) {
-  let cv_constructors = param.cv_constructors;
-  let cv_name = param.cv_name;
+  const cv_constructors = param.cv_constructors;
+  const cv_name = param.cv_name;
   let first_constructor_name;
   if (cv_constructors) {
     first_constructor_name = cv_constructors.hd[0];
@@ -6714,11 +6714,11 @@ function gen_default_const_variant(and_, param, sc) {
 }
 
 function gen_struct$4(and_, t, sc) {
-  let r = t.spec;
+  const r = t.spec;
   let tmp;
   switch (r.TAG | 0) {
     case /* Record */0 :
-        let r$1 = r._0;
+        const r$1 = r._0;
         tmp = [
           (gen_default_record(undefined, and_, r$1, sc), line$1(sc, ""), gen_default_record(Caml_option.some(undefined), Caml_option.some(undefined), r$1, sc)),
           true
@@ -6742,7 +6742,7 @@ function gen_struct$4(and_, t, sc) {
 }
 
 function gen_sig_record(sc, param) {
-  let r_name = param.r_name;
+  const r_name = param.r_name;
   line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String_literal */11,
@@ -6759,7 +6759,7 @@ function gen_sig_record(sc, param) {
                 },
                 _1: "val default_%s : "
               }), r_name));
-  let fields_default_info = Stdlib__List.map(record_field_default_info, param.r_fields);
+  const fields_default_info = Stdlib__List.map(record_field_default_info, param.r_fields);
   scope(sc, (function (sc) {
           Stdlib__List.iter((function (param) {
                   line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
@@ -6817,7 +6817,7 @@ function gen_sig_record(sc, param) {
 }
 
 function gen_sig$4(and_, t, sc) {
-  let f = function (type_name) {
+  const f = function (type_name) {
     line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String_literal */11,
@@ -6863,7 +6863,7 @@ function gen_sig$4(and_, t, sc) {
                   _1: "(** [default_%s ()] is the default value for type [%s] *)"
                 }), type_name, type_name));
   };
-  let r = t.spec;
+  const r = t.spec;
   let tmp;
   switch (r.TAG | 0) {
     case /* Record */0 :
@@ -6889,21 +6889,21 @@ function gen_sig$4(and_, t, sc) {
   return tmp[1];
 }
 
-let Codegen_default = {
+const Codegen_default = {
   gen_sig: gen_sig$4,
   gen_struct: gen_struct$4,
   ocamldoc_title: "Default values"
 };
 
 function rev_split_by_naming_convention(s) {
-  let is_uppercase = function (c) {
+  const is_uppercase = function (c) {
     if (64 < c) {
       return c < 91;
     } else {
       return false;
     }
   };
-  let add_sub_string = function (start_i, end_i, l) {
+  const add_sub_string = function (start_i, end_i, l) {
     if (start_i === end_i) {
       return l;
     } else {
@@ -6913,9 +6913,9 @@ function rev_split_by_naming_convention(s) {
             };
     }
   };
-  let match = string_fold_lefti((function (param, i, c) {
-          let start_i = param[1];
-          let l = param[0];
+  const match = string_fold_lefti((function (param, i, c) {
+          const start_i = param[1];
+          const l = param[0];
           if (c !== 95) {
             if (param[2] || !is_uppercase(c)) {
               return [
@@ -6942,7 +6942,7 @@ function rev_split_by_naming_convention(s) {
         0,
         false
       ], s);
-  let len = s.length;
+  const len = s.length;
   return add_sub_string(match[1], len, match[0]);
 }
 
@@ -7011,24 +7011,24 @@ function fix_ocaml_keyword_conflict(s) {
 }
 
 function constructor_name(s) {
-  let s$1 = Stdlib__String.concat("_", Stdlib__List.rev(rev_split_by_naming_convention(s)));
-  let s$2 = Caml_bytes.bytes_to_string(Stdlib__Bytes.lowercase_ascii(Caml_bytes.bytes_of_string(s$1)));
+  const s$1 = Stdlib__String.concat("_", Stdlib__List.rev(rev_split_by_naming_convention(s)));
+  const s$2 = Caml_bytes.bytes_to_string(Stdlib__Bytes.lowercase_ascii(Caml_bytes.bytes_of_string(s$1)));
   return Caml_bytes.bytes_to_string(Stdlib__Bytes.capitalize_ascii(Caml_bytes.bytes_of_string(s$2)));
 }
 
 function label_name_of_field_name(s) {
-  let s$1 = Stdlib__String.concat("_", Stdlib__List.rev(rev_split_by_naming_convention(s)));
+  const s$1 = Stdlib__String.concat("_", Stdlib__List.rev(rev_split_by_naming_convention(s)));
   return fix_ocaml_keyword_conflict(Caml_bytes.bytes_to_string(Stdlib__Bytes.lowercase_ascii(Caml_bytes.bytes_of_string(s$1))));
 }
 
 function module_of_file_name(file_name) {
-  let file_name$1 = Curry._1(Stdlib__Filename.basename, file_name);
+  const file_name$1 = Curry._1(Stdlib__Filename.basename, file_name);
   let dot_index;
   try {
     dot_index = Stdlib__String.rindex(file_name$1, /* '.' */46);
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       throw new Caml_js_exceptions.MelangeError(Compilation_error, {
                 MEL_EXN_ID: Compilation_error,
@@ -7044,14 +7044,14 @@ function module_of_file_name(file_name) {
 }
 
 function type_name(message_scope, name) {
-  let all_names = Stdlib.$at(message_scope, {
+  const all_names = Stdlib.$at(message_scope, {
         hd: name,
         tl: /* [] */0
       });
-  let all_names$1 = Stdlib__List.map((function (s) {
+  const all_names$1 = Stdlib__List.map((function (s) {
           return Stdlib__List.map(Stdlib__String.lowercase_ascii, Stdlib__List.rev(rev_split_by_naming_convention(s)));
         }), all_names);
-  let all_names$2 = Stdlib__List.flatten(all_names$1);
+  const all_names$2 = Stdlib__List.flatten(all_names$1);
   if (all_names$2) {
     if (all_names$2.tl) {
       return Stdlib__String.concat("_", all_names$2);
@@ -7095,7 +7095,7 @@ function encoding_info_of_field_type(all_types, field_type) {
       
     }
   } else {
-    let match = type_of_id(all_types, field_type._0);
+    const match = type_of_id(all_types, field_type._0);
     if (match.spec.TAG === /* Enum */0) {
       return /* Pk_varint */{
               _0: false
@@ -7107,13 +7107,13 @@ function encoding_info_of_field_type(all_types, field_type) {
 }
 
 function encoding_of_field(all_types, field) {
-  let match = field_option(field, "packed");
+  const match = field_option(field, "packed");
   let packed;
   if (match !== undefined) {
     if (match.TAG === /* Constant_bool */1) {
       packed = match._0;
     } else {
-      let field_name$1 = field_name(field);
+      const field_name$1 = field_name(field);
       throw new Caml_js_exceptions.MelangeError(Compilation_error, {
                 MEL_EXN_ID: Compilation_error,
                 _1: {
@@ -7125,7 +7125,7 @@ function encoding_of_field(all_types, field) {
   } else {
     packed = false;
   }
-  let pk = encoding_info_of_field_type(all_types, field_type(field));
+  const pk = encoding_info_of_field_type(all_types, field_type(field));
   return [
           pk,
           field_number(field),
@@ -7135,18 +7135,18 @@ function encoding_of_field(all_types, field) {
 }
 
 function compile_field_type(field_name, all_types, file_options, field_options, file_name, field_type) {
-  let match = find_field_option(field_options, "ocaml_type");
-  let ocaml_type = match !== undefined && match.TAG === /* Constant_litteral */4 && match._0 === "int_t" ? "Int_t" : "None";
-  let match$1 = file_option(file_options, "int32_type");
-  let int32_type = match$1 !== undefined && match$1.TAG === /* Constant_litteral */4 && match$1._0 === "int_t" ? ({
+  const match = find_field_option(field_options, "ocaml_type");
+  const ocaml_type = match !== undefined && match.TAG === /* Constant_litteral */4 && match._0 === "int_t" ? "Int_t" : "None";
+  const match$1 = file_option(file_options, "int32_type");
+  const int32_type = match$1 !== undefined && match$1.TAG === /* Constant_litteral */4 && match$1._0 === "int_t" ? ({
         TAG: /* Ft_basic_type */0,
         _0: /* Bt_int */2
       }) : ({
         TAG: /* Ft_basic_type */0,
         _0: /* Bt_int32 */3
       });
-  let match$2 = file_option(file_options, "int64_type");
-  let int64_type = match$2 !== undefined && match$2.TAG === /* Constant_litteral */4 && match$2._0 === "int_t" ? ({
+  const match$2 = file_option(file_options, "int64_type");
+  const int64_type = match$2 !== undefined && match$2.TAG === /* Constant_litteral */4 && match$2._0 === "int_t" ? ({
         TAG: /* Ft_basic_type */0,
         _0: /* Bt_int */2
       }) : ({
@@ -7155,13 +7155,13 @@ function compile_field_type(field_name, all_types, file_options, field_options, 
       });
   if (typeof field_type !== "number") {
     let i = field_type._0;
-    let module_ = module_of_file_name(file_name);
+    const module_ = module_of_file_name(file_name);
     let t;
     try {
       t = type_of_id(all_types, i);
     }
     catch (raw_exn){
-      let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+      const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         throw new Caml_js_exceptions.MelangeError(Compilation_error, {
                   MEL_EXN_ID: Compilation_error,
@@ -7178,9 +7178,9 @@ function compile_field_type(field_name, all_types, file_options, field_options, 
     }
     let udt_nested;
     udt_nested = t.spec.TAG === /* Enum */0 ? false : true;
-    let field_type_module = module_of_file_name(t.file_name);
-    let match$3 = type_scope_of_type(t);
-    let udt_type_name = type_name(match$3.message_names, type_name_of_type(t));
+    const field_type_module = module_of_file_name(t.file_name);
+    const match$3 = type_scope_of_type(t);
+    const udt_type_name = type_name(match$3.message_names, type_name_of_type(t));
     if (field_type_module === module_) {
       return {
               TAG: /* Ft_user_defined_type */1,
@@ -7256,7 +7256,7 @@ function compile_field_type(field_name, all_types, file_options, field_options, 
 }
 
 function is_mutable(field_name, field_options) {
-  let match = find_field_option(field_options, "ocaml_mutable");
+  const match = find_field_option(field_options, "ocaml_mutable");
   if (match === undefined) {
     return false;
   }
@@ -7273,7 +7273,7 @@ function is_mutable(field_name, field_options) {
 }
 
 function ocaml_container(field_options) {
-  let match = find_field_option(field_options, "ocaml_container");
+  const match = find_field_option(field_options, "ocaml_container");
   if (match !== undefined && match.TAG === /* Constant_litteral */4) {
     return match._0;
   }
@@ -7281,11 +7281,11 @@ function ocaml_container(field_options) {
 }
 
 function variant_of_oneof(include_oneof_name, outer_message_names, all_types, file_options, file_name, oneof_field) {
-  let v_constructors = Stdlib__List.map((function (field) {
-          let pbtt_field_type = field_type(field);
-          let field_type$1 = compile_field_type(field_name(field), all_types, file_options, field_options(field), file_name, pbtt_field_type);
-          let match = encoding_of_field(all_types, field);
-          let vc_constructor = constructor_name(field_name(field));
+  const v_constructors = Stdlib__List.map((function (field) {
+          const pbtt_field_type = field_type(field);
+          const field_type$1 = compile_field_type(field_name(field), all_types, file_options, field_options(field), file_name, pbtt_field_type);
+          const match = encoding_of_field(all_types, field);
+          const vc_constructor = constructor_name(field_name(field));
           return {
                   vc_constructor: vc_constructor,
                   vc_field_type: typeof field_type$1 === "number" ? /* Vct_nullary */0 : /* Vct_non_nullary_constructor */({
@@ -7295,7 +7295,7 @@ function variant_of_oneof(include_oneof_name, outer_message_names, all_types, fi
                   vc_payload_kind: match[0]
                 };
         }), oneof_field.oneof_fields);
-  let v_name = include_oneof_name !== undefined ? type_name(outer_message_names, oneof_field.oneof_name) : type_name(outer_message_names, "");
+  const v_name = include_oneof_name !== undefined ? type_name(outer_message_names, oneof_field.oneof_name) : type_name(outer_message_names, "");
   return {
           v_name: v_name,
           v_constructors: v_constructors
@@ -7303,8 +7303,8 @@ function variant_of_oneof(include_oneof_name, outer_message_names, all_types, fi
 }
 
 function compile_enum(file_name, scope, param) {
-  let module_ = module_of_file_name(file_name);
-  let cv_constructors = Stdlib__List.map((function (param) {
+  const module_ = module_of_file_name(file_name);
+  const cv_constructors = Stdlib__List.map((function (param) {
           return [
                   constructor_name(param.enum_value_name),
                   param.enum_value_int
@@ -7322,7 +7322,7 @@ function compile_enum(file_name, scope, param) {
         };
 }
 
-let all_code_gen_1 = {
+const all_code_gen_1 = {
   hd: Codegen_default,
   tl: {
     hd: Codegen_decode,
@@ -7336,28 +7336,28 @@ let all_code_gen_1 = {
   }
 };
 
-let all_code_gen = {
+const all_code_gen = {
   hd: Codegen_type,
   tl: all_code_gen_1
 };
 
 function compile(proto_definition) {
-  let lexbuf = Stdlib__Lexing.from_string(undefined, proto_definition);
+  const lexbuf = Stdlib__Lexing.from_string(undefined, proto_definition);
   let proto;
   try {
     proto = proto_(lexer, lexbuf);
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     throw new Caml_js_exceptions.MelangeError(add_loc(from_lexbuf(lexbuf), exn).MEL_EXN_ID, add_loc(from_lexbuf(lexbuf), exn));
   }
-  let all_pbtt_msgs = compile_proto_p1("tmp.proto", proto);
-  let all_pbtt_msgs$1 = Stdlib__List.map((function (param) {
-          let m = param.spec;
-          let file_options = param.file_options;
-          let file_name = param.file_name;
-          let id = param.id;
-          let scope = param.scope;
+  const all_pbtt_msgs = compile_proto_p1("tmp.proto", proto);
+  const all_pbtt_msgs$1 = Stdlib__List.map((function (param) {
+          const m = param.spec;
+          const file_options = param.file_options;
+          const file_name = param.file_name;
+          const id = param.id;
+          const scope = param.scope;
           if (m.TAG === /* Enum */0) {
             return {
                     scope: scope,
@@ -7379,12 +7379,12 @@ function compile(proto_definition) {
                   };
           }
         }), all_pbtt_msgs);
-  let grouped_pbtt_msgs = Stdlib__List.rev(group(all_pbtt_msgs$1));
-  let grouped_ocaml_types = Stdlib__List.map((function (pbtt_msgs) {
+  const grouped_pbtt_msgs = Stdlib__List.rev(group(all_pbtt_msgs$1));
+  const grouped_ocaml_types = Stdlib__List.map((function (pbtt_msgs) {
           return Stdlib__List.map((function (pbtt_msg) {
-                        let m = pbtt_msg.spec;
-                        let file_name = pbtt_msg.file_name;
-                        let scope = pbtt_msg.scope;
+                        const m = pbtt_msg.spec;
+                        const file_name = pbtt_msg.file_name;
+                        const scope = pbtt_msg.scope;
                         if (m.TAG === /* Enum */0) {
                           return {
                                   hd: compile_enum(file_name, scope, m._0),
@@ -7393,22 +7393,22 @@ function compile(proto_definition) {
                         } else {
                           let file_options = pbtt_msg.file_options;
                           let message = m._0;
-                          let module_ = module_of_file_name(file_name);
-                          let message_names = scope.message_names;
-                          let message_body = message.message_body;
-                          let message_name = message.message_name;
+                          const module_ = module_of_file_name(file_name);
+                          const message_names = scope.message_names;
+                          const message_body = message.message_body;
+                          const message_name = message.message_name;
                           if (!message_body) {
                             return /* [] */0;
                           }
-                          let f = message_body.hd;
+                          const f = message_body.hd;
                           switch (f.TAG | 0) {
                             case /* Message_oneof_field */1 :
                                 if (!message_body.tl) {
-                                  let outer_message_names = Stdlib.$at(message_names, {
+                                  const outer_message_names = Stdlib.$at(message_names, {
                                         hd: message_name,
                                         tl: /* [] */0
                                       });
-                                  let variant = variant_of_oneof(undefined, outer_message_names, all_pbtt_msgs$1, file_options, file_name, f._0);
+                                  const variant = variant_of_oneof(undefined, outer_message_names, all_pbtt_msgs$1, file_options, file_name, f._0);
                                   return {
                                           hd: {
                                             module_: module_,
@@ -7426,21 +7426,21 @@ function compile(proto_definition) {
                                 break;
                             
                           }
-                          let match = Stdlib__List.fold_left((function (param, param$1) {
-                                  let fields = param[1];
-                                  let variants = param[0];
+                          const match = Stdlib__List.fold_left((function (param, param$1) {
+                                  const fields = param[1];
+                                  const variants = param[0];
                                   switch (param$1.TAG | 0) {
                                     case /* Message_field */0 :
-                                        let field = param$1._0;
-                                        let match = encoding_of_field(all_pbtt_msgs$1, field);
-                                        let encoding_number = match[1];
-                                        let pk = match[0];
-                                        let field_name$1 = field_name(field);
-                                        let field_options$1 = field_options(field);
-                                        let field_type$1 = compile_field_type(field_name$1, all_pbtt_msgs$1, file_options, field_options$1, file_name, field_type(field));
-                                        let field_default$1 = field_default(field);
-                                        let mutable_ = is_mutable(field_name$1, field_options$1);
-                                        let match$1 = field_label(field);
+                                        const field = param$1._0;
+                                        const match = encoding_of_field(all_pbtt_msgs$1, field);
+                                        const encoding_number = match[1];
+                                        const pk = match[0];
+                                        const field_name$1 = field_name(field);
+                                        const field_options$1 = field_options(field);
+                                        const field_type$1 = compile_field_type(field_name$1, all_pbtt_msgs$1, file_options, field_options$1, file_name, field_type(field));
+                                        const field_default$1 = field_default(field);
+                                        const mutable_ = is_mutable(field_name$1, field_options$1);
+                                        const match$1 = field_label(field);
                                         let record_field_type;
                                         if (match$1 === "Optional") {
                                           record_field_type = {
@@ -7463,7 +7463,7 @@ function compile(proto_definition) {
                                             ]
                                           };
                                         } else {
-                                          let match$2 = ocaml_container(field_options$1);
+                                          const match$2 = ocaml_container(field_options$1);
                                           let repeated_type;
                                           if (match$2 !== undefined) {
                                             if (match$2 === "repeated_field") {
@@ -7488,8 +7488,8 @@ function compile(proto_definition) {
                                             ]
                                           };
                                         }
-                                        let record_field_rf_label = label_name_of_field_name(field_name$1);
-                                        let record_field = {
+                                        const record_field_rf_label = label_name_of_field_name(field_name$1);
+                                        const record_field = {
                                           rf_label: record_field_rf_label,
                                           rf_field_type: record_field_type,
                                           rf_mutable: mutable_
@@ -7502,34 +7502,34 @@ function compile(proto_definition) {
                                                 }
                                               ];
                                     case /* Message_oneof_field */1 :
-                                        let field$1 = param$1._0;
-                                        let outer_message_names = Stdlib.$at(message_names, {
+                                        const field$1 = param$1._0;
+                                        const outer_message_names = Stdlib.$at(message_names, {
                                               hd: message_name,
                                               tl: /* [] */0
                                             });
-                                        let variant = variant_of_oneof(Caml_option.some(undefined), outer_message_names, all_pbtt_msgs$1, file_options, file_name, field$1);
-                                        let record_field_rf_label$1 = label_name_of_field_name(field$1.oneof_name);
-                                        let record_field_rf_field_type = {
+                                        const variant = variant_of_oneof(Caml_option.some(undefined), outer_message_names, all_pbtt_msgs$1, file_options, file_name, field$1);
+                                        const record_field_rf_label$1 = label_name_of_field_name(field$1.oneof_name);
+                                        const record_field_rf_field_type = {
                                           TAG: /* Rft_variant_field */4,
                                           _0: variant
                                         };
-                                        let record_field$1 = {
+                                        const record_field$1 = {
                                           rf_label: record_field_rf_label$1,
                                           rf_field_type: record_field_rf_field_type,
                                           rf_mutable: false
                                         };
-                                        let variants_0 = {
+                                        const variants_0 = {
                                           module_: module_,
                                           spec: {
                                             TAG: /* Variant */1,
                                             _0: variant
                                           }
                                         };
-                                        let variants$1 = {
+                                        const variants$1 = {
                                           hd: variants_0,
                                           tl: variants
                                         };
-                                        let fields$1 = {
+                                        const fields$1 = {
                                           hd: record_field$1,
                                           tl: fields
                                         };
@@ -7538,12 +7538,12 @@ function compile(proto_definition) {
                                                 fields$1
                                               ];
                                     case /* Message_map_field */2 :
-                                        let mf = param$1._0;
-                                        let map_options = mf.map_options;
-                                        let map_value_type = mf.map_value_type;
-                                        let map_key_type = mf.map_key_type;
-                                        let map_name = mf.map_name;
-                                        let key_type = compile_field_type(Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                                        const mf = param$1._0;
+                                        const map_options = mf.map_options;
+                                        const map_value_type = mf.map_value_type;
+                                        const map_key_type = mf.map_key_type;
+                                        const map_name = mf.map_name;
+                                        const key_type = compile_field_type(Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                                       _0: {
                                                         TAG: /* String_literal */11,
                                                         _0: "key of ",
@@ -7555,7 +7555,7 @@ function compile(proto_definition) {
                                                       },
                                                       _1: "key of %s"
                                                     }), map_name), all_pbtt_msgs$1, file_options, map_options, file_name, map_key_type);
-                                        let key_pk = encoding_info_of_field_type(all_pbtt_msgs$1, map_key_type);
+                                        const key_pk = encoding_info_of_field_type(all_pbtt_msgs$1, map_key_type);
                                         let key_type$1;
                                         if (typeof key_type === "number") {
                                           throw new Caml_js_exceptions.MelangeError("Failure", {
@@ -7571,7 +7571,7 @@ function compile(proto_definition) {
                                                     _1: "Only Basic Types are supported for map keys"
                                                   });
                                         }
-                                        let value_type = compile_field_type(Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                                        const value_type = compile_field_type(Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                                       _0: {
                                                         TAG: /* String_literal */11,
                                                         _0: "value of ",
@@ -7583,8 +7583,8 @@ function compile(proto_definition) {
                                                       },
                                                       _1: "value of %s"
                                                     }), map_name), all_pbtt_msgs$1, file_options, map_options, file_name, map_value_type);
-                                        let value_pk = encoding_info_of_field_type(all_pbtt_msgs$1, map_value_type);
-                                        let match$3 = ocaml_container(map_options);
+                                        const value_pk = encoding_info_of_field_type(all_pbtt_msgs$1, map_value_type);
+                                        const match$3 = ocaml_container(map_options);
                                         let associative_type;
                                         if (match$3 !== undefined) {
                                           if (match$3 === "hashtbl") {
@@ -7598,7 +7598,7 @@ function compile(proto_definition) {
                                         } else {
                                           associative_type = /* At_list */0;
                                         }
-                                        let record_field_type$1 = {
+                                        const record_field_type$1 = {
                                           TAG: /* Rft_associative_field */3,
                                           _0: [
                                             associative_type,
@@ -7613,9 +7613,9 @@ function compile(proto_definition) {
                                             ]
                                           ]
                                         };
-                                        let record_field_rf_label$2 = label_name_of_field_name(map_name);
-                                        let record_field_rf_mutable = is_mutable(map_name, map_options);
-                                        let record_field$2 = {
+                                        const record_field_rf_label$2 = label_name_of_field_name(map_name);
+                                        const record_field_rf_mutable = is_mutable(map_name, map_options);
+                                        const record_field$2 = {
                                           rf_label: record_field_rf_label$2,
                                           rf_field_type: record_field_type$1,
                                           rf_mutable: record_field_rf_mutable
@@ -7633,17 +7633,17 @@ function compile(proto_definition) {
                                 /* [] */0,
                                 /* [] */0
                               ], message_body);
-                          let record_r_name = type_name(message_names, message_name);
-                          let record_r_fields = Stdlib__List.rev(match[1]);
-                          let record = {
+                          const record_r_name = type_name(message_names, message_name);
+                          const record_r_fields = Stdlib__List.rev(match[1]);
+                          const record = {
                             r_name: record_r_name,
                             r_fields: record_r_fields
                           };
-                          let type__spec = {
+                          const type__spec = {
                             TAG: /* Record */0,
                             _0: record
                           };
-                          let type_ = {
+                          const type_ = {
                             module_: module_,
                             spec: type__spec
                           };
@@ -7654,12 +7654,12 @@ function compile(proto_definition) {
                         }
                       }), pbtt_msgs);
         }), grouped_pbtt_msgs);
-  let all_ocaml_types = Stdlib__List.flatten(grouped_ocaml_types);
+  const all_ocaml_types = Stdlib__List.flatten(grouped_ocaml_types);
   let proto_file_name = "tmp.proto";
-  let gen = function (otypes, sc, fs) {
+  const gen = function (otypes, sc, fs) {
     Stdlib__List.iter((function (param) {
-            let ocamldoc_title = param[1];
-            let f = param[0];
+            const ocamldoc_title = param[1];
+            const f = param[0];
             if (ocamldoc_title !== undefined) {
               line$1(sc, "");
               line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
@@ -7682,7 +7682,7 @@ function compile(proto_definition) {
             }
             Stdlib__List.iter((function (types) {
                     Stdlib__List.fold_left((function (first, type_) {
-                            let has_encoded = first ? Curry._3(f, undefined, type_, sc) : Curry._3(f, Caml_option.some(undefined), type_, sc);
+                            const has_encoded = first ? Curry._3(f, undefined, type_, sc) : Curry._3(f, Caml_option.some(undefined), type_, sc);
                             line$1(sc, "");
                             if (first) {
                               return !has_encoded;
@@ -7693,7 +7693,7 @@ function compile(proto_definition) {
                   }), otypes);
           }), fs);
   };
-  let sc = {
+  const sc = {
     items: /* [] */0
   };
   line$1(sc, "[@@@ocaml.warning \"-30\"]");
@@ -7704,8 +7704,8 @@ function compile(proto_definition) {
                       undefined
                     ];
             }), all_code_gen));
-  let struct_string = print(sc);
-  let sc$1 = {
+  const struct_string = print(sc);
+  const sc$1 = {
     items: /* [] */0
   };
   line$1(sc$1, Curry._1(Stdlib__Printf.sprintf(/* Format */{
@@ -7730,20 +7730,20 @@ function compile(proto_definition) {
                       m.ocamldoc_title
                     ];
             }), all_code_gen));
-  let sig_string = print(sc$1);
+  const sig_string = print(sc$1);
   return [
           sig_string,
           struct_string
         ];
 }
 
-let match = compile("message T {required int32 j = 1; }");
+const match = compile("message T {required int32 j = 1; }");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 

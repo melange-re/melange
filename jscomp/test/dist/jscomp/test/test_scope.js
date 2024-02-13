@@ -2,9 +2,9 @@
 'use strict';
 
 
-let h = x(3);
+const h = x(3);
 
-let hh = x(3);
+const hh = x(3);
 
 function f(x, y) {
   return x + y;

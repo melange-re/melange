@@ -2,12 +2,12 @@
 'use strict';
 
 
-let a = {
+const a = {
   x: 3,
   y: [1]
 };
 
-let b = {
+const b = {
   x: 3,
   y: [1],
   z: 3,
@@ -24,11 +24,11 @@ function h(obj) {
   return obj.u(1, 2);
 }
 
-let u = f(a);
+const u = f(a);
 
-let v = f(b);
+const v = f(b);
 
-let vv = h(b);
+const vv = h(b);
 
 exports.a = a;
 exports.b = b;

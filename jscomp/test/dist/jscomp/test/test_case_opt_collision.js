@@ -3,11 +3,11 @@
 
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -16,8 +16,8 @@ function eq(loc, x, y) {
 }
 
 function f(xOpt, y) {
-  let x = xOpt !== undefined ? xOpt : 3;
-  let xOpt$1 = x + 2 | 0;
+  const x = xOpt !== undefined ? xOpt : 3;
+  const xOpt$1 = x + 2 | 0;
   console.log(xOpt$1);
   return xOpt$1 + y | 0;
 }

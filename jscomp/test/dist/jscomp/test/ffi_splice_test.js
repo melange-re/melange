@@ -3,11 +3,11 @@
 
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -52,9 +52,9 @@ function f(x) {
   return x.test("a", "b").test("a", "b");
 }
 
-let v = new Make(1, 2, 3, 4);
+const v = new Make(1, 2, 3, 4);
 
-let u = v.sum();
+const u = v.sum();
 
 eq("File \"jscomp/test/ffi_splice_test.ml\", line 61, characters 12-19", u, 10);
 

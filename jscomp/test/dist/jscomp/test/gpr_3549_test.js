@@ -3,11 +3,11 @@
 
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -15,7 +15,7 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-let others = [
+const others = [
   0,
   0,
   1,
@@ -41,13 +41,13 @@ eq("File \"jscomp/test/gpr_3549_test.ml\", line 22, characters 5-12", others, [
 
 Mt.from_pair_suites("Gpr_3549_test", suites.contents);
 
-let u = 32;
+const u = 32;
 
-let x = 7.0;
+const x = 7.0;
 
-let y = 2e3;
+const y = 2e3;
 
-let z = 0.2;
+const z = 0.2;
 
 exports.suites = suites;
 exports.test_id = test_id;

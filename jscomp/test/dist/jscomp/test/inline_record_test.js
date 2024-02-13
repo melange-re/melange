@@ -6,11 +6,11 @@ let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 let Mt = require("./mt.js");
 let Stdlib__List = require("melange/list.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -18,13 +18,13 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-let v = {
+const v = {
   TAG: /* A0 */0,
   lbl: 3,
   more: /* [] */0
 };
 
-let v1 = {
+const v1 = {
   TAG: /* A1 */1,
   more: {
     hd: 1,
@@ -55,9 +55,9 @@ console.log(f(v));
 
 console.log(f(v1));
 
-let A0 = /* @__PURE__ */Caml_exceptions.create("Inline_record_test.A0");
+const A0 = /* @__PURE__ */Caml_exceptions.create("Inline_record_test.A0");
 
-let v3 = {
+const v3 = {
   MEL_EXN_ID: A0,
   lbl: 3,
   more: /* [] */0
@@ -88,14 +88,14 @@ function ff(x) {
   }
 }
 
-let v4 = {
+const v4 = {
   TAG: /* A0 */0,
   x: 0,
   y: 0,
   z: 0
 };
 
-let v5 = {
+const v5 = {
   TAG: /* A1 */1,
   z: 0
 };
@@ -139,9 +139,9 @@ tmp$2 = v5.z;
 
 eq("File \"jscomp/test/inline_record_test.ml\", line 66, characters 6-13", tmp$2, 22);
 
-let A4 = /* @__PURE__ */Caml_exceptions.create("Inline_record_test.A4");
+const A4 = /* @__PURE__ */Caml_exceptions.create("Inline_record_test.A4");
 
-let v6 = {
+const v6 = {
   MEL_EXN_ID: A4,
   x: 0,
   y: 0,
@@ -191,12 +191,12 @@ function ff1(x) {
 
 Mt.from_pair_suites("Inline_record_test", suites.contents);
 
-let v2 = /* A0 */{
+const v2 = /* A0 */{
   lbl: 3,
   more: /* [] */0
 };
 
-let vvv = /* A0 */{
+const vvv = /* A0 */{
   lbl: 3,
   more: /* [] */0
 };

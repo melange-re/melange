@@ -2,7 +2,7 @@
 'use strict';
 
 
-let f = {
+const f = {
   x: {
     y: {
       z: 3
@@ -10,7 +10,7 @@ let f = {
   }
 };
 
-let f2_0 = {
+const f2_0 = {
   hd: {
     x: {
       y: {
@@ -30,7 +30,7 @@ let f2_0 = {
   }
 };
 
-let f2_1 = [
+const f2_1 = [
   {
     x: {
       y: {
@@ -47,12 +47,12 @@ let f2_1 = [
   }
 ];
 
-let f2 = [
+const f2 = [
   f2_0,
   f2_1
 ];
 
-let f3 = {
+const f3 = {
   x: {
     y: {
       z: 3
@@ -60,7 +60,7 @@ let f3 = {
   }
 };
 
-let f_record = {
+const f_record = {
   x: {
     y: {
       z: 3

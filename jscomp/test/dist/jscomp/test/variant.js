@@ -21,7 +21,7 @@ function foo(param) {
     case /* C */1 :
         return param._0 + param._1 | 0;
     case /* D */2 :
-        let match = param._0;
+        const match = param._0;
         return match[0] + match[1] | 0;
     
   }
@@ -56,17 +56,17 @@ function switchNum(param) {
   }
 }
 
-let same = Caml_obj.caml_equal;
+const same = Caml_obj.caml_equal;
 
-let compare = Caml_obj.caml_compare;
+const compare = Caml_obj.caml_compare;
 
-let Path = {
+const Path = {
   same: same,
   compare: compare
 };
 
 function Make(M) {
-  let find = function (x) {
+  const find = function (x) {
     
   };
   return {
@@ -78,7 +78,7 @@ function find(x) {
   
 }
 
-let M = {
+const M = {
   find: find
 };
 
@@ -87,7 +87,7 @@ function rollback_path(subst, p) {
     return "try";
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       switch (p.TAG | 0) {
         case /* Pdot */1 :
@@ -103,22 +103,22 @@ function rollback_path(subst, p) {
   }
 }
 
-let EA1 = /* @__PURE__ */Caml_exceptions.create("Variant.EA1");
+const EA1 = /* @__PURE__ */Caml_exceptions.create("Variant.EA1");
 
-let EA2 = /* @__PURE__ */Caml_exceptions.create("Variant.EA2");
+const EA2 = /* @__PURE__ */Caml_exceptions.create("Variant.EA2");
 
-let EB = /* @__PURE__ */Caml_exceptions.create("Variant.EB");
+const EB = /* @__PURE__ */Caml_exceptions.create("Variant.EB");
 
-let EC = /* @__PURE__ */Caml_exceptions.create("Variant.EC");
+const EC = /* @__PURE__ */Caml_exceptions.create("Variant.EC");
 
-let ED = /* @__PURE__ */Caml_exceptions.create("Variant.ED");
+const ED = /* @__PURE__ */Caml_exceptions.create("Variant.ED");
 
 function fooExn(f) {
   try {
     return Curry._1(f, undefined);
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === EA1) {
       return 1;
     }
@@ -132,29 +132,29 @@ function fooExn(f) {
       return exn._1 + exn._2 | 0;
     }
     if (exn.MEL_EXN_ID === ED) {
-      let match = exn._1;
+      const match = exn._1;
       return match[0] + match[1] | 0;
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
-let a1 = /* A1 */0;
+const a1 = /* A1 */0;
 
-let a2 = /* A2 */1;
+const a2 = /* A2 */1;
 
-let b = {
+const b = {
   TAG: /* B */0,
   _0: 34
 };
 
-let c = {
+const c = {
   TAG: /* C */1,
   _0: 4,
   _1: 2
 };
 
-let d = {
+const d = {
   TAG: /* D */2,
   _0: [
     4,

@@ -66,20 +66,20 @@ function naive(n) {
   }
 }
 
-let four = {
+const four = {
   contents: 2
 };
 
-let three = {
+const three = {
   contents: 3
 };
 
-let h = {
+const h = {
   LAZY_DONE: true,
   VAL: fib
 };
 
-let v = {
+const v = {
   contents: (function (param) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
@@ -112,12 +112,12 @@ function zs(param) {
   return Stdlib__List.hd(xs[0]);
 }
 
-let xs_0 = {
+const xs_0 = {
   hd: 2,
   tl: /* [] */0
 };
 
-let xs = [
+const xs = [
   xs_0,
   zs
 ];
@@ -130,7 +130,7 @@ function fib2(n) {
   }
 }
 
-let two = 2;
+const two = 2;
 
 function fib3(n) {
   if (n === 0 || n === 1) {
@@ -155,7 +155,7 @@ function even(n) {
 
 function even2(_n) {
   while(true) {
-    let n = _n;
+    const n = _n;
     if (n === 0) {
       return true;
     }
@@ -164,7 +164,7 @@ function even2(_n) {
   };
 }
 
-let lazy_v = {
+const lazy_v = {
   LAZY_DONE: true,
   VAL: (function (param) {
       CamlinternalLazy.force(lazy_v);
@@ -173,8 +173,8 @@ let lazy_v = {
 
 function sum(_acc, _n) {
   while(true) {
-    let n = _n;
-    let acc = _acc;
+    const n = _n;
+    const acc = _acc;
     if (n <= 0) {
       return acc;
     }
@@ -184,7 +184,7 @@ function sum(_acc, _n) {
   };
 }
 
-let fake_v = {
+const fake_v = {
   hd: 1,
   tl: {
     hd: 2,
@@ -192,7 +192,7 @@ let fake_v = {
   }
 };
 
-let fake_y = {
+const fake_y = {
   hd: 2,
   tl: {
     hd: 3,
@@ -200,12 +200,12 @@ let fake_y = {
   }
 };
 
-let fake_z = {
+const fake_z = {
   hd: 1,
   tl: fake_y
 };
 
-let fake_y2 = {
+const fake_y2 = {
   hd: 2,
   tl: {
     hd: 3,
@@ -213,12 +213,12 @@ let fake_y2 = {
   }
 };
 
-let fake_z2_1 = {
+const fake_z2_1 = {
   hd: sum(0, 10),
   tl: fake_y2
 };
 
-let fake_z2 = {
+const fake_z2 = {
   hd: 1,
   tl: fake_z2_1
 };
@@ -227,7 +227,7 @@ function rec_variant_b_1(param) {
   return rec_variant_a;
 }
 
-let rec_variant_b = {
+const rec_variant_b = {
   TAG: /* B */0,
   _0: "gho",
   _1: rec_variant_b_1
@@ -237,7 +237,7 @@ function rec_variant_a_1(param) {
   return rec_variant_b;
 }
 
-let rec_variant_a = {
+const rec_variant_a = {
   TAG: /* A */1,
   _0: 3,
   _1: rec_variant_a_1
@@ -307,7 +307,7 @@ function xtl(h) {
   return h.tail;
 }
 
-let suites_0 = [
+const suites_0 = [
   "File \"jscomp/test/rec_value_test.ml\", line 128, characters 2-9",
   (function (param) {
       return {
@@ -318,7 +318,7 @@ let suites_0 = [
     })
 ];
 
-let suites_1 = {
+const suites_1 = {
   hd: [
     "File \"jscomp/test/rec_value_test.ml\", line 130, characters 2-9",
     (function (param) {
@@ -346,7 +346,7 @@ let suites_1 = {
         (function (param) {
             let tmp;
             if (a) {
-              let match = a.tl;
+              const match = a.tl;
               if (match) {
                 tmp = match.hd;
               } else {
@@ -548,7 +548,7 @@ let suites_1 = {
   }
 };
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: suites_1
 };
@@ -558,15 +558,15 @@ function fake_minus(n) {
   return n + 1 | 0;
 }
 
-let fake_odd = fake_minus;
+const fake_odd = fake_minus;
 
 function fake_inline_minus(n) {
   return n + 1 | 0;
 }
 
-let fake_inline = fake_inline_minus;
+const fake_inline = fake_inline_minus;
 
-let fake_inline_inlie2 = fake_inline_minus(3);
+const fake_inline_inlie2 = fake_inline_minus(3);
 
 let u = [];
 
@@ -577,7 +577,7 @@ Caml_obj.update_dummy(u, [
 
 Mt.from_pair_suites("Rec_value_test", suites);
 
-let v$1 = 3;
+const v$1 = 3;
 
 exports.x = x;
 exports.x0 = x0;

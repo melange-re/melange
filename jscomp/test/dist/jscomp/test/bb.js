@@ -64,13 +64,13 @@ function test(x) {
   }
 }
 
-let test_poly = "a";
+const test_poly = "a";
 
-let c = f("a");
+const c = f("a");
 
-let d = f("b");
+const d = f("b");
 
-let e = f("c");
+const e = f("c");
 
 exports.f = f;
 exports.ff = ff;

@@ -3,17 +3,17 @@
 
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
 function eq(loc, param) {
-  let y = param[1];
-  let x = param[0];
+  const y = param[1];
+  const x = param[0];
   test_id.contents = test_id.contents + 1 | 0;
   suites.contents = {
     hd: [
@@ -30,7 +30,7 @@ function eq(loc, param) {
   };
 }
 
-let v = {
+const v = {
   x: (function () {
       return 3;
     }),
@@ -44,7 +44,7 @@ let v = {
     })
 };
 
-let v2 = {
+const v2 = {
   hi: (function (x, y) {
       let self = this ;
       return self.say(x) + y;
@@ -58,10 +58,10 @@ let v2 = {
     })
 };
 
-let v3 = {
+const v3 = {
   hi: (function (x, y) {
       let self = this ;
-      let u = {
+      const u = {
         x: x
       };
       return self.say(u.x) + y + x;
@@ -75,7 +75,7 @@ let v3 = {
     })
 };
 
-let v4 = {
+const v4 = {
   hi: (function (x, y) {
       return x + y;
     }),
@@ -87,7 +87,7 @@ let v4 = {
     })
 };
 
-let collection = [
+const collection = [
   v,
   v2,
   v3,

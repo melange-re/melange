@@ -37,7 +37,7 @@ function print_pair(fmt, param) {
           }), param[0], param[1]);
 }
 
-let suites_0 = [
+const suites_0 = [
   "sprintf_simple",
   (function (param) {
       return {
@@ -61,7 +61,7 @@ let suites_0 = [
     })
 ];
 
-let suites_1 = {
+const suites_1 = {
   hd: [
     "print_asprintf",
     (function (param) {
@@ -103,12 +103,12 @@ let suites_1 = {
   }
 };
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: suites_1
 };
 
-let v = Stdlib__Format.asprintf(/* Format */{
+const v = Stdlib__Format.asprintf(/* Format */{
       _0: {
         TAG: /* String_literal */11,
         _0: "xx",

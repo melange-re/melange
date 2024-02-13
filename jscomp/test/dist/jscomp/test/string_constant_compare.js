@@ -2,17 +2,17 @@
 'use strict';
 
 
-let a1 = true;
+const a1 = true;
 
-let a2 = false;
+const a2 = false;
 
-let a3 = true;
+const a3 = true;
 
-let a4 = false;
+const a4 = false;
 
-let a5 = "'" === "'";
+const a5 = "'" === "'";
 
-let a6 = "'" !== "'";
+const a6 = "'" !== "'";
 
 exports.a1 = a1;
 exports.a2 = a2;

@@ -10,11 +10,11 @@ let Belt__Belt_internalAVLtree = require("melange.belt/belt_internalAVLtree.js")
 let Caml = require("melange.js/caml.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -26,7 +26,7 @@ function b(loc, v) {
   Mt.bool_suites(test_id, suites, loc, v);
 }
 
-let Icmp = Belt__Belt_Id.comparable(Caml.caml_int_compare);
+const Icmp = Belt__Belt_Id.comparable(Caml.caml_int_compare);
 
 function f(x) {
   return Belt__Belt_MutableMap.fromArray(x, Icmp);
@@ -45,7 +45,7 @@ function randomRange(i, j) {
               }));
 }
 
-let a0 = Belt__Belt_MutableMap.fromArray(randomRange(0, 10), Icmp);
+const a0 = Belt__Belt_MutableMap.fromArray(randomRange(0, 10), Icmp);
 
 Belt__Belt_MutableMap.set(a0, 3, 33);
 
@@ -74,7 +74,7 @@ Belt__Belt_MutableMap.removeMany(a0, Array_data_util.randomRange(0, 100));
 
 b("File \"jscomp/test/bs_poly_mutable_map_test.ml\", line 33, characters 4-11", Belt__Belt_MutableMap.isEmpty(a0));
 
-let a0$1 = Belt__Belt_MutableMap.fromArray(randomRange(0, 10000), Icmp);
+const a0$1 = Belt__Belt_MutableMap.fromArray(randomRange(0, 10000), Icmp);
 
 Belt__Belt_MutableMap.set(a0$1, 2000, 33);
 

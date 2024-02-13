@@ -3,9 +3,9 @@
 
 let ReasonReact = require("./reasonReact.js");
 
-let wrapReactForReasonReact = ReasonReact.wrapJsForReason;
+const wrapReactForReasonReact = ReasonReact.wrapJsForReason;
 
-let wrapReasonReactForReact = ReasonReact.wrapReasonForJs;
+const wrapReasonReactForReact = ReasonReact.wrapReasonForJs;
 
 exports.wrapReactForReasonReact = wrapReactForReasonReact;
 exports.wrapReasonReactForReact = wrapReasonReactForReact;

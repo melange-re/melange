@@ -4,7 +4,7 @@
 let Stdlib = require("melange/stdlib.js");
 let Stdlib__List = require("melange/list.js");
 
-let Stdlib$1 = {
+const Stdlib$1 = {
   invalid_arg: Stdlib.invalid_arg,
   failwith: Stdlib.failwith,
   Exit: Stdlib.Exit,
@@ -170,7 +170,7 @@ let Stdlib$1 = {
   of_seq: Stdlib__List.of_seq
 };
 
-let v = Stdlib.$at;
+const v = Stdlib.$at;
 
 exports.Stdlib = Stdlib$1;
 exports.v = v;

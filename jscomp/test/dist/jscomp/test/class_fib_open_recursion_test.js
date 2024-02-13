@@ -9,13 +9,13 @@ let Mt = require("./mt.js");
 let Stdlib = require("melange/stdlib.js");
 let Stdlib__Hashtbl = require("melange/hashtbl.js");
 
-let shared = ["calc"];
+const shared = ["calc"];
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -37,7 +37,7 @@ function eq(loc, x, y) {
 }
 
 function fib_init($$class) {
-  let calc = CamlinternalOO.get_method_label($$class, "calc");
+  const calc = CamlinternalOO.get_method_label($$class, "calc");
   CamlinternalOO.set_method($$class, calc, (function (self$1, x) {
           if (x === 0 || x === 1) {
             return 1;
@@ -50,23 +50,23 @@ function fib_init($$class) {
   };
 }
 
-let fib = CamlinternalOO.make_class(shared, fib_init);
+const fib = CamlinternalOO.make_class(shared, fib_init);
 
 function memo_fib_init($$class) {
-  let ids = CamlinternalOO.new_methods_variables($$class, shared, ["cache"]);
-  let calc = ids[0];
-  let cache = ids[1];
-  let inh = CamlinternalOO.inherits($$class, 0, 0, shared, fib, true);
-  let obj_init = inh[0];
-  let calc$1 = inh[1];
+  const ids = CamlinternalOO.new_methods_variables($$class, shared, ["cache"]);
+  const calc = ids[0];
+  const cache = ids[1];
+  const inh = CamlinternalOO.inherits($$class, 0, 0, shared, fib, true);
+  const obj_init = inh[0];
+  const calc$1 = inh[1];
   CamlinternalOO.set_method($$class, calc, (function (self$2, x) {
           try {
             return Stdlib__Hashtbl.find(self$2[cache], x);
           }
           catch (raw_exn){
-            let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+            const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-              let v = Curry._2(calc$1, self$2, x);
+              const v = Curry._2(calc$1, self$2, x);
               Stdlib__Hashtbl.add(self$2[cache], x, v);
               return v;
             }
@@ -74,16 +74,16 @@ function memo_fib_init($$class) {
           }
         }));
   return function (env, self) {
-    let self$1 = CamlinternalOO.create_object_opt(self, $$class);
+    const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     self$1[cache] = Stdlib__Hashtbl.create(undefined, 31);
     Curry._1(obj_init, self$1);
     return CamlinternalOO.run_initializers_opt(self, self$1, $$class);
   };
 }
 
-let memo_fib = CamlinternalOO.make_class(shared, memo_fib_init);
+const memo_fib = CamlinternalOO.make_class(shared, memo_fib_init);
 
-let tmp = Curry._1(memo_fib[0], undefined);
+const tmp = Curry._1(memo_fib[0], undefined);
 
 eq("File \"jscomp/test/class_fib_open_recursion_test.ml\", line 33, characters 5-12", Caml_oo_curry.js2(-1044768619, 1, tmp, 40), 165580141);
 

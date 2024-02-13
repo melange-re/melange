@@ -16,7 +16,7 @@ function fix(param) {
 
 function unfixLeak(_param) {
   while(true) {
-    let param = _param;
+    const param = _param;
     _param = CamlinternalLazy.force(param._0);
     continue ;
   };
@@ -24,7 +24,7 @@ function unfixLeak(_param) {
 
 function unfix(p) {
   while(true) {
-    let match = p.contents;
+    const match = p.contents;
     p.contents = CamlinternalLazy.force(match._0);
   };
 }

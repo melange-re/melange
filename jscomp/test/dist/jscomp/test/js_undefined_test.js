@@ -5,7 +5,7 @@ let Caml_option = require("melange.js/caml_option.js");
 let Js__Js_undefined = require("melange.js/js_undefined.js");
 let Mt = require("./mt.js");
 
-let suites_0 = [
+const suites_0 = [
   "toOption - empty",
   (function (param) {
       return {
@@ -16,7 +16,7 @@ let suites_0 = [
     })
 ];
 
-let suites_1 = {
+const suites_1 = {
   hd: [
     "File \"jscomp/test/js_undefined_test.ml\", line 5, characters 2-9",
     (function (param) {
@@ -90,7 +90,7 @@ let suites_1 = {
               hd: [
                 "iter - empty",
                 (function (param) {
-                    let hit = {
+                    const hit = {
                       contents: false
                     };
                     Js__Js_undefined.iter((function (param) {
@@ -107,7 +107,7 @@ let suites_1 = {
                 hd: [
                   "iter - 'a",
                   (function (param) {
-                      let hit = {
+                      const hit = {
                         contents: 0
                       };
                       Js__Js_undefined.iter((function (v) {
@@ -154,7 +154,7 @@ let suites_1 = {
   }
 };
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: suites_1
 };

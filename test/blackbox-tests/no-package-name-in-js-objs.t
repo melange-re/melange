@@ -39,7 +39,7 @@ B depends on A, so it should import a.js in the right path
   
   let A = require("../lib/a.js");
   
-  let t = A.t;
+  const t = A.t;
   
   exports.t = t;
   /* No side effect */

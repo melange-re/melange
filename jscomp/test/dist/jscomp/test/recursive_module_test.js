@@ -5,11 +5,11 @@ let Caml_module = require("melange.js/caml_module.js");
 let Curry = require("melange.js/curry.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -37,7 +37,7 @@ function add(suite) {
   };
 }
 
-let Int3 = Caml_module.init_mod([
+const Int3 = Caml_module.init_mod([
       "jscomp/test/recursive_module_test.ml",
       13,
       6
@@ -65,13 +65,13 @@ function fact(n) {
   }
 }
 
-let M = {
+const M = {
   fact: fact
 };
 
-let fact$1 = M.fact;
+const fact$1 = M.fact;
 
-let Fact = {
+const Fact = {
   M: M,
   fact: fact$1
 };

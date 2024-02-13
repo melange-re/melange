@@ -4,11 +4,11 @@
 let Mt = require("./mt.js");
 let String_set = require("./string_set.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 

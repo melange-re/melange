@@ -17,9 +17,9 @@ function test(code) {
   }
 }
 
-let a = "good response";
+const a = "good response";
 
-let b = "bad response";
+const b = "bad response";
 
 if (a !== "good response") {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {

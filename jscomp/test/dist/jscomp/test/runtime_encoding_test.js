@@ -2,7 +2,7 @@
 'use strict';
 
 
-let v = [
+const v = [
   0,
   1
 ];

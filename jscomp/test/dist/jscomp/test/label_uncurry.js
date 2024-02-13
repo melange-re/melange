@@ -20,7 +20,7 @@ function h(unit) {
   return 3;
 }
 
-let a = u1(u);
+const a = u1(u);
 
 exports.f = f;
 exports.u = u;

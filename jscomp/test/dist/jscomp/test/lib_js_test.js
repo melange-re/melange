@@ -16,7 +16,7 @@ console.log(JSON.stringify({
 
 console.log("hey");
 
-let suites_0 = [
+const suites_0 = [
   "anything_to_string",
   (function (param) {
       return {
@@ -27,7 +27,7 @@ let suites_0 = [
     })
 ];
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: /* [] */0
 };

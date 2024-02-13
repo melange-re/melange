@@ -4,13 +4,13 @@
 let Caml_array = require("melange.js/caml_array.js");
 let Stdlib__Array = require("melange/array.js");
 
-let v = Caml_array.make(6, 5);
+const v = Caml_array.make(6, 5);
 
 Caml_array.make_float(30);
 
-let h = Stdlib__Array.sub(v, 0, 2);
+const h = Stdlib__Array.sub(v, 0, 2);
 
-let hhh = Stdlib__Array.append([
+const hhh = Stdlib__Array.append([
       1,
       2,
       3,
@@ -22,7 +22,7 @@ let hhh = Stdlib__Array.append([
       5
     ]);
 
-let u = Caml_array.concat({
+const u = Caml_array.concat({
       hd: [
         1,
         2
@@ -42,7 +42,7 @@ let u = Caml_array.concat({
       }
     });
 
-let hh = Stdlib__Array.blit;
+const hh = Stdlib__Array.blit;
 
 exports.v = v;
 exports.h = h;

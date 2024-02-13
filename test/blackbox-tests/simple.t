@@ -48,7 +48,7 @@ B imports A with the correct paths
   
   let A = require("../lib/a.js");
   
-  let t = A.t;
+  const t = A.t;
   
   exports.t = t;
   /* No side effect */

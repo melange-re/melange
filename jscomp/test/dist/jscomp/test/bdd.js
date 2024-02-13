@@ -6,7 +6,7 @@ let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 function $$eval(_bdd, vars) {
   while(true) {
-    let bdd = _bdd;
+    const bdd = _bdd;
     if (typeof bdd === "number") {
       if (bdd) {
         return false;
@@ -35,19 +35,19 @@ function getId(bdd) {
   }
 }
 
-let nodeC = {
+const nodeC = {
   contents: 1
 };
 
-let sz_1 = {
+const sz_1 = {
   contents: 8191
 };
 
-let htab = {
+const htab = {
   contents: Caml_array.make(sz_1.contents + 1 | 0, /* [] */0)
 };
 
-let n_items = {
+const n_items = {
   contents: 0
 };
 
@@ -56,16 +56,16 @@ function hashVal(x, y, v) {
 }
 
 function resize(newSize) {
-  let arr = htab.contents;
-  let newSz_1 = newSize - 1 | 0;
-  let newArr = Caml_array.make(newSize, /* [] */0);
-  let copyBucket = function (_bucket) {
+  const arr = htab.contents;
+  const newSz_1 = newSize - 1 | 0;
+  const newArr = Caml_array.make(newSize, /* [] */0);
+  const copyBucket = function (_bucket) {
     while(true) {
-      let bucket = _bucket;
+      const bucket = _bucket;
       if (!bucket) {
         return ;
       }
-      let n = bucket.hd;
+      const n = bucket.hd;
       if (typeof n === "number") {
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                   MEL_EXN_ID: "Assert_failure",
@@ -76,7 +76,7 @@ function resize(newSize) {
                   ]
                 });
       }
-      let ind = hashVal(getId(n._0), getId(n._3), n._1) & newSz_1;
+      const ind = hashVal(getId(n._0), getId(n._3), n._1) & newSz_1;
       Caml_array.set(newArr, ind, {
             hd: n,
             tl: Caml_array.get(newArr, ind)
@@ -102,7 +102,7 @@ function insert(idl, idh, v, ind, bucket, newNode) {
     return ;
   }
   resize((sz_1.contents + sz_1.contents | 0) + 2 | 0);
-  let ind$1 = hashVal(idl, idh, v) & sz_1.contents;
+  const ind$1 = hashVal(idl, idh, v) & sz_1.contents;
   Caml_array.set(htab.contents, ind$1, {
         hd: newNode,
         tl: Caml_array.get(htab.contents, ind$1)
@@ -117,18 +117,18 @@ function resetUnique(param) {
 }
 
 function mkNode(low, v, high) {
-  let idl = getId(low);
-  let idh = getId(high);
+  const idl = getId(low);
+  const idh = getId(high);
   if (idl === idh) {
     return low;
   }
-  let ind = hashVal(idl, idh, v) & sz_1.contents;
-  let bucket = Caml_array.get(htab.contents, ind);
+  const ind = hashVal(idl, idh, v) & sz_1.contents;
+  const bucket = Caml_array.get(htab.contents, ind);
   let _b = bucket;
   while(true) {
-    let b = _b;
+    const b = _b;
     if (b) {
-      let n = b.hd;
+      const n = b.hd;
       if (typeof n === "number") {
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                   MEL_EXN_ID: "Assert_failure",
@@ -145,8 +145,8 @@ function mkNode(low, v, high) {
       _b = b.tl;
       continue ;
     }
-    let n_2 = (nodeC.contents = nodeC.contents + 1 | 0, nodeC.contents);
-    let n$1 = /* Node */{
+    const n_2 = (nodeC.contents = nodeC.contents + 1 | 0, nodeC.contents);
+    const n$1 = /* Node */{
       _0: low,
       _1: v,
       _2: n_2,
@@ -171,21 +171,21 @@ function mkVar(x) {
   return mkNode(/* Zero */1, x, /* One */0);
 }
 
-let andslot1 = Caml_array.make(1999, 0);
+const andslot1 = Caml_array.make(1999, 0);
 
-let andslot2 = Caml_array.make(1999, 0);
+const andslot2 = Caml_array.make(1999, 0);
 
-let andslot3 = Caml_array.make(1999, /* Zero */1);
+const andslot3 = Caml_array.make(1999, /* Zero */1);
 
-let xorslot1 = Caml_array.make(1999, 0);
+const xorslot1 = Caml_array.make(1999, 0);
 
-let xorslot2 = Caml_array.make(1999, 0);
+const xorslot2 = Caml_array.make(1999, 0);
 
-let xorslot3 = Caml_array.make(1999, /* Zero */1);
+const xorslot3 = Caml_array.make(1999, /* Zero */1);
 
-let notslot1 = Caml_array.make(1999, 0);
+const notslot1 = Caml_array.make(1999, 0);
 
-let notslot2 = Caml_array.make(1999, /* One */0);
+const notslot2 = Caml_array.make(1999, /* One */0);
 
 function hash(x, y) {
   return ((x << 1) + y | 0) % 1999;
@@ -199,12 +199,12 @@ function not(n) {
       return /* Zero */1;
     }
   }
-  let id = n._2;
-  let h = id % 1999;
+  const id = n._2;
+  const h = id % 1999;
   if (id === Caml_array.get(notslot1, h)) {
     return Caml_array.get(notslot2, h);
   }
-  let f = mkNode(not(n._0), n._1, not(n._3));
+  const f = mkNode(not(n._0), n._1, not(n._3));
   Caml_array.set(notslot1, h, id);
   Caml_array.set(notslot2, h, f);
   return f;
@@ -218,10 +218,10 @@ function and2(n1, n2) {
       return n2;
     }
   }
-  let r1 = n1._3;
-  let i1 = n1._2;
-  let v1 = n1._1;
-  let l1 = n1._0;
+  const r1 = n1._3;
+  const i1 = n1._2;
+  const v1 = n1._1;
+  const l1 = n1._0;
   if (typeof n2 === "number") {
     if (n2) {
       return /* Zero */1;
@@ -229,15 +229,15 @@ function and2(n1, n2) {
       return n1;
     }
   }
-  let r2 = n2._3;
-  let i2 = n2._2;
-  let v2 = n2._1;
-  let l2 = n2._0;
-  let h = hash(i1, i2);
+  const r2 = n2._3;
+  const i2 = n2._2;
+  const v2 = n2._1;
+  const l2 = n2._0;
+  const h = hash(i1, i2);
   if (i1 === Caml_array.get(andslot1, h) && i2 === Caml_array.get(andslot2, h)) {
     return Caml_array.get(andslot3, h);
   }
-  let match = cmpVar(v1, v2);
+  const match = cmpVar(v1, v2);
   let f;
   switch (match) {
     case /* LESS */0 :
@@ -265,10 +265,10 @@ function xor(n1, n2) {
       return not(n2);
     }
   }
-  let r1 = n1._3;
-  let i1 = n1._2;
-  let v1 = n1._1;
-  let l1 = n1._0;
+  const r1 = n1._3;
+  const i1 = n1._2;
+  const v1 = n1._1;
+  const l1 = n1._0;
   if (typeof n2 === "number") {
     if (n2) {
       return n1;
@@ -276,15 +276,15 @@ function xor(n1, n2) {
       return not(n1);
     }
   }
-  let r2 = n2._3;
-  let i2 = n2._2;
-  let v2 = n2._1;
-  let l2 = n2._0;
-  let h = hash(i1, i2);
+  const r2 = n2._3;
+  const i2 = n2._2;
+  const v2 = n2._1;
+  const l2 = n2._0;
+  const h = hash(i1, i2);
   if (i1 === Caml_array.get(andslot1, h) && i2 === Caml_array.get(andslot2, h)) {
     return Caml_array.get(andslot3, h);
   }
-  let match = cmpVar(v1, v2);
+  const match = cmpVar(v1, v2);
   let f;
   switch (match) {
     case /* LESS */0 :
@@ -305,14 +305,14 @@ function xor(n1, n2) {
 }
 
 function hwb(n) {
-  let h = function (i, j) {
+  const h = function (i, j) {
     if (i === j) {
       return mkNode(/* Zero */1, i, /* One */0);
     } else {
       return xor(and2(not(mkNode(/* Zero */1, j, /* One */0)), h(i, j - 1 | 0)), and2(mkNode(/* Zero */1, j, /* One */0), g(i, j - 1 | 0)));
     }
   };
-  let g = function (i, j) {
+  const g = function (i, j) {
     if (i === j) {
       return mkNode(/* Zero */1, i, /* One */0);
     } else {
@@ -322,7 +322,7 @@ function hwb(n) {
   return h(0, n - 1 | 0);
 }
 
-let seed = {
+const seed = {
   contents: 0
 };
 
@@ -332,7 +332,7 @@ function random(param) {
 }
 
 function random_vars(n) {
-  let vars = Caml_array.make(n, false);
+  const vars = Caml_array.make(n, false);
   for(let i = 0; i < n; ++i){
     Caml_array.set(vars, i, random(undefined));
   }
@@ -365,7 +365,7 @@ function test_hwb(bdd, vars) {
 }
 
 function main(param) {
-  let bdd = hwb(22);
+  const bdd = hwb(22);
   let succeeded = true;
   for(let _i = 1; _i <= 100; ++_i){
     succeeded = succeeded && test_hwb(bdd, random_vars(22));
@@ -385,13 +385,13 @@ function main(param) {
 
 main(undefined);
 
-let initSize_1 = 8191;
+const initSize_1 = 8191;
 
-let zero = /* Zero */1;
+const zero = /* Zero */1;
 
-let one = /* One */0;
+const one = /* One */0;
 
-let cacheSize = 1999;
+const cacheSize = 1999;
 
 exports.$$eval = $$eval;
 exports.getId = getId;

@@ -2,7 +2,7 @@
 'use strict';
 
 
-let u = {
+const u = {
   hi: 2,
   lo: 3,
   lo2: {hi:-3 },

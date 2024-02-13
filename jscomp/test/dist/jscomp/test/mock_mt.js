@@ -10,8 +10,8 @@ function from_pair_suites(name, suites) {
         "testing"
       ]);
   Stdlib__List.iter((function (param) {
-          let name = param[0];
-          let fn = Curry._1(param[1], undefined);
+          const name = param[0];
+          const fn = Curry._1(param[1], undefined);
           switch (fn.TAG | 0) {
             case /* Eq */0 :
                 console.log([

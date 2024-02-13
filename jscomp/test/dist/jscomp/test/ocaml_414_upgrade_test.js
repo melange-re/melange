@@ -4,7 +4,7 @@
 let Belt__Belt_Array = require("melange.belt/belt_Array.js");
 let Curry = require("melange.js/curry.js");
 
-let N = {};
+const N = {};
 
 function forEach(xs, f) {
   Belt__Belt_Array.forEach(xs, (function (x) {
@@ -12,7 +12,7 @@ function forEach(xs, f) {
         }));
 }
 
-let Y = {
+const Y = {
   forEach: forEach
 };
 
@@ -30,7 +30,7 @@ function g(X, xs) {
         }));
 }
 
-let g_result = g(Y, []);
+const g_result = g(Y, []);
 
 exports.N = N;
 exports.Y = Y;

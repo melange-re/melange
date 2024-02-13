@@ -7,7 +7,7 @@ function f(p) {
   return p.catch(3);
 }
 
-let p = new SysBluebird.Promise();
+const p = new SysBluebird.Promise();
 
 p.then(function (x) {
         return x + 3 | 0;
@@ -15,16 +15,16 @@ p.then(function (x) {
       return reason;
     });
 
-let u = {
+const u = {
   then: 3,
   catch: 32
 };
 
-let uu = {
+const uu = {
   "'x": 3
 };
 
-let hh = uu["'x"];
+const hh = uu["'x"];
 
 exports.f = f;
 exports.u = u;

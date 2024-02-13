@@ -3,7 +3,7 @@
 
 let CamlinternalLazy = require("melange/camlinternalLazy.js");
 
-let lazy1 = {
+const lazy1 = {
   LAZY_DONE: false,
   VAL: (function () {
       console.log("Hello, lazy");
@@ -11,16 +11,16 @@ let lazy1 = {
     })
 };
 
-let lazy2 = {
+const lazy2 = {
   LAZY_DONE: true,
   VAL: 3
 };
 
 console.log(lazy1, lazy2);
 
-let la = CamlinternalLazy.force(lazy1);
+const la = CamlinternalLazy.force(lazy1);
 
-let lb = CamlinternalLazy.force(lazy2);
+const lb = CamlinternalLazy.force(lazy2);
 
 console.log(la, lb);
 

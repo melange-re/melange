@@ -6,12 +6,12 @@ let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 let Curry = require("melange.js/curry.js");
 let Stdlib__Array = require("melange/array.js");
 
-let v = {
+const v = {
   contents: 0
 };
 
 function f(param) {
-  let arr = Caml_array.make(10, (function (param) {
+  const arr = Caml_array.make(10, (function (param) {
           
         }));
   for(let i = 0; i <= 9; ++i){
@@ -22,7 +22,7 @@ function f(param) {
   return arr;
 }
 
-let u = f(undefined);
+const u = f(undefined);
 
 Stdlib__Array.iter((function (x) {
         Curry._1(x, undefined);

@@ -8,7 +8,7 @@ function i(obj, s) {
 }
 
 function f(obj, s) {
-  let p = obj.prop;
+  const p = obj.prop;
   return Curry._1(p, s);
 }
 

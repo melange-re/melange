@@ -4,7 +4,7 @@
 let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 let Js__Js_math = require("melange.js/js_math.js");
 
-let match = 1;
+const match = 1;
 
 if (match !== undefined) {
   if (match !== 1) {
@@ -17,7 +17,7 @@ if (match !== undefined) {
               ]
             });
   }
-  let match$1 = 1;
+  const match$1 = 1;
   if (match$1 !== 1) {
     if (match$1 !== 2) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {

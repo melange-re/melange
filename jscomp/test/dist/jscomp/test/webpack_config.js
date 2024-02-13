@@ -9,15 +9,15 @@ let Stdlib__List = require("melange/list.js");
 let List$1 = require("reactV");
 let List$2 = require("reactX");
 
-let configx = WebpackConfigJs;
+const configx = WebpackConfigJs;
 
-let WebpackConfig = {
+const WebpackConfig = {
   configx: configx
 };
 
-let configx$1 = WebpackMiddlewareConfigJs;
+const configx$1 = WebpackMiddlewareConfigJs;
 
-let WebpackDevMiddlewareConfig = {
+const WebpackDevMiddlewareConfig = {
   configx: configx$1
 };
 
@@ -29,13 +29,13 @@ function configX$1(prim) {
   return WebpackConfigJs.configX();
 }
 
-let U = {
+const U = {
   configX: configX$1
 };
 
-let A = {};
+const A = {};
 
-let B = {};
+const B = {};
 
 function f(param) {
   return [

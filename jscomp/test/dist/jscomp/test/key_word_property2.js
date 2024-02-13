@@ -17,11 +17,11 @@ function test(p) {
         ];
 }
 
-let $$case = Export_keyword.$$case;
+const $$case = Export_keyword.$$case;
 
-let $$window = Export_keyword.$$window;
+const $$window = Export_keyword.$$window;
 
-let $$switch = Export_keyword.$$switch;
+const $$switch = Export_keyword.$$switch;
 
 exports.test2 = test2;
 exports.test = test;

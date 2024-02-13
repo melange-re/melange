@@ -26,7 +26,7 @@ b.js produces a require to a.js, but with lower case
   
   let A = require("../lib/A.js");
   
-  let t = A.t;
+  const t = A.t;
   
   exports.t = t;
   /* No side effect */

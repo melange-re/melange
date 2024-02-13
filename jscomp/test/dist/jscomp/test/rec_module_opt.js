@@ -19,21 +19,21 @@ function compare(t1, t2) {
   }
 }
 
-let A = {
+const A = {
   compare: compare
 };
 
-let ASet = Stdlib__Set.Make(A);
+const ASet = Stdlib__Set.Make(A);
 
-let X0 = {};
+const X0 = {};
 
-let Y0 = {};
+const Y0 = {};
 
 function f(x) {
   return x + 1 | 0;
 }
 
-let X1 = {
+const X1 = {
   f: f
 };
 
@@ -41,7 +41,7 @@ function f$1(x) {
   return x + 2 | 0;
 }
 
-let Y1 = {
+const Y1 = {
   f: f$1
 };
 

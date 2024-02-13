@@ -5,11 +5,11 @@ let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 let Mt = require("./mt.js");
 let Stdlib = require("melange/stdlib.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -39,7 +39,7 @@ try {
           });
 }
 catch (raw_exn){
-  let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+  const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
   if (exn.MEL_EXN_ID === Stdlib.Failure) {
     y = exn._1;
   } else {
@@ -58,7 +58,7 @@ try {
           });
 }
 catch (raw_exn$1){
-  let exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
+  const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
   if (exn$1.MEL_EXN_ID === Stdlib.Failure) {
     x = exn$1._1;
   } else {

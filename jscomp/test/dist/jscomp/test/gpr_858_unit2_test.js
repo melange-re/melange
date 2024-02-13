@@ -4,16 +4,16 @@
 let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 let Curry = require("melange.js/curry.js");
 
-let delayed = {
+const delayed = {
   contents: (function (param) {
       
     })
 };
 
 for(let i = 1; i <= 2; ++i){
-  let f = function (n, j) {
+  const f = function (n, j) {
     if (j !== 0) {
-      let prev = delayed.contents;
+      const prev = delayed.contents;
       delayed.contents = (function (param) {
           Curry._1(prev, undefined);
           f(((n + 1 | 0) + i | 0) - i | 0, j - 1 | 0);

@@ -10,9 +10,9 @@ let Stdlib__Array = require("melange/array.js");
 let Stdlib__Buffer = require("melange/buffer.js");
 let Stdlib__Format = require("melange/format.js");
 
-let buf = Stdlib__Buffer.create(50);
+const buf = Stdlib__Buffer.create(50);
 
-let fmt = Stdlib__Format.formatter_of_buffer(buf);
+const fmt = Stdlib__Format.formatter_of_buffer(buf);
 
 function print_float(f) {
   Curry._1(Stdlib__Format.fprintf(fmt)(/* Format */{
@@ -36,7 +36,7 @@ function print_newline(param) {
       });
 }
 
-let s = {
+const s = {
   f: 1.0
 };
 
@@ -44,9 +44,9 @@ print_float(1.0);
 
 print_newline(undefined);
 
-let b = Float_array.small_float_array(12);
+const b = Float_array.small_float_array(12);
 
-let c = Float_array.longer_float_array(34);
+const c = Float_array.longer_float_array(34);
 
 function print_array(a) {
   Stdlib__Array.iter((function (f) {
@@ -60,11 +60,11 @@ print_array(b[0]);
 
 print_array(c[0]);
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 

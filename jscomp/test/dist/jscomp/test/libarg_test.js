@@ -8,11 +8,11 @@ let Stdlib__Arg = require("melange/arg.js");
 let Stdlib__List = require("melange/list.js");
 let Stdlib__Printf = require("melange/printf.js");
 
-let current = {
+const current = {
   contents: 0
 };
 
-let accum = {
+const accum = {
   contents: /* [] */0
 };
 
@@ -55,11 +55,11 @@ function f_bool(b) {
           }), b);
 }
 
-let r_set = {
+const r_set = {
   contents: false
 };
 
-let r_clear = {
+const r_clear = {
   contents: true
 };
 
@@ -82,7 +82,7 @@ function f_string(s) {
           }), s);
 }
 
-let r_string = {
+const r_string = {
   contents: ""
 };
 
@@ -107,7 +107,7 @@ function f_int(i) {
           }), i);
 }
 
-let r_int = {
+const r_int = {
   contents: 0
 };
 
@@ -135,7 +135,7 @@ function f_float(f) {
           }), f);
 }
 
-let r_float = {
+const r_float = {
   contents: 0.0
 };
 
@@ -196,7 +196,7 @@ function f_anon(s) {
           }), s);
 }
 
-let spec_0 = [
+const spec_0 = [
   "-u",
   {
     TAG: /* Unit */0,
@@ -205,7 +205,7 @@ let spec_0 = [
   "Unit (0)"
 ];
 
-let spec_1 = {
+const spec_1 = {
   hd: [
     "-b",
     {
@@ -355,12 +355,12 @@ let spec_1 = {
   }
 };
 
-let spec = {
+const spec = {
   hd: spec_0,
   tl: spec_1
 };
 
-let args1 = [
+const args1 = [
   "prog",
   "anon1",
   "-u",
@@ -394,7 +394,7 @@ let args1 = [
   "r2"
 ];
 
-let args2 = [
+const args2 = [
   "prog",
   "anon1",
   "-u",
@@ -455,8 +455,8 @@ function test(argv) {
   r_float.contents = 0.0;
   accum.contents = /* [] */0;
   Stdlib__Arg.parse_argv(current, argv, spec, f_anon, "usage");
-  let result = Stdlib__List.rev(accum.contents);
-  let reference = {
+  const result = Stdlib__List.rev(accum.contents);
+  const reference = {
     hd: "anon(anon1)",
     tl: {
       hd: "unit()",
@@ -503,7 +503,7 @@ function test(argv) {
     }
   };
   if (Caml_obj.caml_notequal(result, reference)) {
-    let f = function (x, y) {
+    const f = function (x, y) {
       Curry._3(Stdlib__Printf.printf(/* Format */{
                 _0: {
                   TAG: /* String */2,
@@ -558,7 +558,7 @@ test(args2);
 
 Mt.from_pair_suites("Libarg_test", /* [] */0);
 
-let suites = /* [] */0;
+const suites = /* [] */0;
 
 exports.current = current;
 exports.accum = accum;

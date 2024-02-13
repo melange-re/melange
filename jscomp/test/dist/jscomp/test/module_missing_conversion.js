@@ -10,7 +10,7 @@ function f(x) {
   return x;
 }
 
-let XX = {
+const XX = {
   init: Stdlib__Array.init,
   make_matrix: Stdlib__Array.make_matrix,
   append: Stdlib__Array.append,
@@ -54,11 +54,11 @@ let XX = {
   f: f
 };
 
-let u = [Stdlib__String];
+const u = [Stdlib__String];
 
-let ghh = Curry._2(Stdlib__MoreLabels.Hashtbl.create, undefined, 30);
+const ghh = Curry._2(Stdlib__MoreLabels.Hashtbl.create, undefined, 30);
 
-let hh = 1;
+const hh = 1;
 
 exports.XX = XX;
 exports.u = u;

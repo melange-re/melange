@@ -4,19 +4,19 @@
 let Mt = require("./mt.js");
 let Stdlib = require("melange/stdlib.js");
 
-let v = {
+const v = {
   MEL_EXN_ID: Stdlib.Not_found
 };
 
-let u = {
+const u = {
   MEL_EXN_ID: Stdlib.Not_found
 };
 
-let s = {
+const s = {
   MEL_EXN_ID: Stdlib.End_of_file
 };
 
-let suites_0 = [
+const suites_0 = [
   "not_found_equal",
   (function (param) {
       return {
@@ -27,7 +27,7 @@ let suites_0 = [
     })
 ];
 
-let suites_1 = {
+const suites_1 = {
   hd: [
     "not_found_not_equal_end_of_file",
     (function (param) {
@@ -41,7 +41,7 @@ let suites_1 = {
   tl: /* [] */0
 };
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: suites_1
 };

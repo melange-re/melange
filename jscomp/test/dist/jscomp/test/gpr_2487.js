@@ -3,7 +3,7 @@
 
 let Belt__Belt_Array = require("melange.belt/belt_Array.js");
 
-let b = Belt__Belt_Array.eq([
+const b = Belt__Belt_Array.eq([
       1,
       2,
       3

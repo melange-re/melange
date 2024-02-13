@@ -11,7 +11,7 @@ function say(prim0, prim1) {
   return prim1.say(prim0);
 }
 
-let v = Caml_obj.caml_compare;
+const v = Caml_obj.caml_compare;
 
 exports.min_int = min_int;
 exports.say = say;

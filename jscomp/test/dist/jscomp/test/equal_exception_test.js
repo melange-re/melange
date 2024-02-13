@@ -9,7 +9,7 @@ let Mt = require("./mt.js");
 let Stdlib = require("melange/stdlib.js");
 let Stdlib__Bytes = require("melange/bytes.js");
 
-let v = "gso";
+const v = "gso";
 
 function is_equal(param) {
   if (Caml_bytes.get(Stdlib__Bytes.make(3, /* 'a' */97), 0) !== /* 'a' */97) {
@@ -32,7 +32,7 @@ function is_equal(param) {
               ]
             });
   }
-  let u = Stdlib__Bytes.make(3, /* 'a' */97);
+  const u = Stdlib__Bytes.make(3, /* 'a' */97);
   u[0] = /* 'b' */98;
   if (u[0] !== /* 'b' */98) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -54,7 +54,7 @@ function is_exception(param) {
             });
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
@@ -63,8 +63,8 @@ function is_exception(param) {
 }
 
 function is_normal_exception(_x) {
-  let A = /* @__PURE__ */Caml_exceptions.create("A");
-  let v = {
+  const A = /* @__PURE__ */Caml_exceptions.create("A");
+  const v = {
     MEL_EXN_ID: A,
     _1: 3
   };
@@ -72,7 +72,7 @@ function is_normal_exception(_x) {
     throw new Caml_js_exceptions.MelangeError(v.MEL_EXN_ID, v);
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === A) {
       if (exn._1 === 3) {
         return ;
@@ -84,7 +84,7 @@ function is_normal_exception(_x) {
 }
 
 function is_arbitrary_exception(param) {
-  let A = /* @__PURE__ */Caml_exceptions.create("A");
+  const A = /* @__PURE__ */Caml_exceptions.create("A");
   try {
     throw new Caml_js_exceptions.MelangeError(A, {
               MEL_EXN_ID: A
@@ -95,12 +95,12 @@ function is_arbitrary_exception(param) {
   }
 }
 
-let suites_0 = [
+const suites_0 = [
   "is_equal",
   is_equal
 ];
 
-let suites_1 = {
+const suites_1 = {
   hd: [
     "is_exception",
     is_exception
@@ -120,12 +120,12 @@ let suites_1 = {
   }
 };
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: suites_1
 };
 
-let e = {
+const e = {
   MEL_EXN_ID: Stdlib.Not_found
 };
 
@@ -133,7 +133,7 @@ function eq(param) {
   return param.MEL_EXN_ID === Stdlib.Not_found;
 }
 
-let Not_found = /* @__PURE__ */Caml_exceptions.create("Equal_exception_test.Not_found");
+const Not_found = /* @__PURE__ */Caml_exceptions.create("Equal_exception_test.Not_found");
 
 if (Caml_obj.caml_equal(e, {
         MEL_EXN_ID: Not_found

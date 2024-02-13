@@ -11,8 +11,8 @@ function height(param) {
 }
 
 function create(l, v, r) {
-  let hl = height(l);
-  let hr = height(r);
+  const hl = height(l);
+  const hr = height(r);
   return /* Node */{
           _0: l,
           _1: v,
@@ -22,15 +22,15 @@ function create(l, v, r) {
 }
 
 function bal(l, v, r) {
-  let hl = height(l);
-  let hr = height(r);
+  const hl = height(l);
+  const hr = height(r);
   if (hl > (hr + 2 | 0)) {
     if (!l) {
       return /* Empty */0;
     }
-    let lr = l._2;
-    let lv = l._1;
-    let ll = l._0;
+    const lr = l._2;
+    const lv = l._1;
+    const ll = l._0;
     if (height(ll) >= height(lr)) {
       return create(ll, lv, create(lr, v, r));
     } else if (lr) {
@@ -50,9 +50,9 @@ function bal(l, v, r) {
   if (!r) {
     return /* Empty */0;
   }
-  let rr = r._2;
-  let rv = r._1;
-  let rl = r._0;
+  const rr = r._2;
+  const rv = r._1;
+  const rl = r._0;
   if (height(rr) >= height(rl)) {
     return create(create(l, v, rl), rv, rr);
   } else if (rl) {
@@ -81,10 +81,10 @@ function add(x, t) {
             _3: 1
           };
   }
-  let r = t._2;
-  let v = t._1;
-  let l = t._0;
-  let c = compare_int(x, v);
+  const r = t._2;
+  const v = t._1;
+  const l = t._0;
+  const c = compare_int(x, v);
   if (c === 0) {
     return t;
   } else if (c < 0) {
@@ -96,12 +96,12 @@ function add(x, t) {
 
 function min_elt(_def, _param) {
   while(true) {
-    let param = _param;
-    let def = _def;
+    const param = _param;
+    const def = _def;
     if (!param) {
       return def;
     }
-    let l = param._0;
+    const l = param._0;
     if (!l) {
       return param._1;
     }
@@ -126,7 +126,7 @@ function internal_merge(l, r) {
   if (!r) {
     return l;
   }
-  let rv = r._1;
+  const rv = r._1;
   return bal(l, min_elt(rv, r), remove_min_elt(r._0, rv, r._2));
 }
 
@@ -134,10 +134,10 @@ function remove(x, tree) {
   if (!tree) {
     return /* Empty */0;
   }
-  let r = tree._2;
-  let v = tree._1;
-  let l = tree._0;
-  let c = compare_int(x, v);
+  const r = tree._2;
+  const v = tree._1;
+  const l = tree._0;
+  const c = compare_int(x, v);
   if (c === 0) {
     return internal_merge(l, r);
   } else if (c < 0) {
@@ -149,11 +149,11 @@ function remove(x, tree) {
 
 function mem(x, _param) {
   while(true) {
-    let param = _param;
+    const param = _param;
     if (!param) {
       return false;
     }
-    let c = compare_int(x, param._1);
+    const c = compare_int(x, param._1);
     if (c === 0) {
       return true;
     }
@@ -179,7 +179,7 @@ for(let i$2 = 0; i$2 <= 100000; ++i$2){
   v = remove(i$2, v);
 }
 
-let match = v;
+const match = v;
 
 if (match) {
   console.log("impossible");

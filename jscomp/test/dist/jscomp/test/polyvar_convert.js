@@ -2,9 +2,9 @@
 'use strict';
 
 
-let revData = {"x":"a","b":"b"};
+const revData = {"x":"a","b":"b"};
 
-let data = {"a":"x","b":"b"};
+const data = {"a":"x","b":"b"};
 
 function tToJs(x) {
   return data[x];

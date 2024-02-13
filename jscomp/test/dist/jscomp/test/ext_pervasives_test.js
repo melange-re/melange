@@ -28,21 +28,21 @@ function with_file_as_chan(filename, f) {
 
 function with_file_as_pp(filename, f) {
   return $$finally(Stdlib.open_out_bin(filename), Stdlib.close_out, (function (chan) {
-                let fmt = Stdlib__Format.formatter_of_out_channel(chan);
-                let v = Curry._1(f, fmt);
+                const fmt = Stdlib__Format.formatter_of_out_channel(chan);
+                const v = Curry._1(f, fmt);
                 Stdlib__Format.pp_print_flush(fmt, undefined);
                 return v;
               }));
 }
 
 function is_pos_pow(n) {
-  let E = /* @__PURE__ */Caml_exceptions.create("E");
+  const E = /* @__PURE__ */Caml_exceptions.create("E");
   try {
     let _c = 0;
     let _n = n;
     while(true) {
-      let n$1 = _n;
-      let c = _c;
+      const n$1 = _n;
+      const c = _c;
       if (n$1 <= 0) {
         return -2;
       }
@@ -60,7 +60,7 @@ function is_pos_pow(n) {
     };
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === E) {
       return -1;
     }
@@ -70,7 +70,7 @@ function is_pos_pow(n) {
 
 function failwithf(loc, fmt) {
   return Stdlib__Format.ksprintf((function (s) {
-                let s$1 = loc + s;
+                const s$1 = loc + s;
                 throw new Caml_js_exceptions.MelangeError("Failure", {
                           MEL_EXN_ID: "Failure",
                           _1: s$1

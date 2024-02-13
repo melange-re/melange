@@ -5,11 +5,11 @@ let Caml_option = require("melange.js/caml_option.js");
 let Gpr_3566_test = require("./gpr_3566_test.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -17,11 +17,11 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-let H = Gpr_3566_test.Test(undefined);
+const H = Gpr_3566_test.Test(undefined);
 
 eq("File \"jscomp/test/gpr_3566_drive_test.ml\", line 8, characters 5-12", H.b, true);
 
-let Caml_option$1 = {};
+const Caml_option$1 = {};
 
 function f(x) {
   return Caml_option.some(x);

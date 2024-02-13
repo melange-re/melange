@@ -3,11 +3,11 @@
 
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -15,9 +15,9 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-let _map = {"a":"x","u":"hi","b":"你","c":"我"};
+const _map = {"a":"x","u":"hi","b":"你","c":"我"};
 
-let _revMap = {"x":"a","hi":"u","你":"b","我":"c"};
+const _revMap = {"x":"a","hi":"u","你":"b","我":"c"};
 
 function tToJs(param) {
   return _map[param];
@@ -47,9 +47,9 @@ eq("File \"jscomp/test/gpr_3142_test.ml\", line 26, characters 6-13", tFromJs("x
 
 Mt.from_pair_suites("Gpr_3142_test", suites.contents);
 
-let v = tToJs;
+const v = tToJs;
 
-let u = tFromJs;
+const u = tFromJs;
 
 exports.suites = suites;
 exports.test_id = test_id;

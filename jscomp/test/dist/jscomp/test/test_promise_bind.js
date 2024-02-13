@@ -3,7 +3,7 @@
 
 let $$Promise = require("./promise.js");
 
-let v = $$Promise.f;
+const v = $$Promise.f;
 
 exports.v = v;
 /* Promise Not a pure module */
