@@ -66,7 +66,7 @@ Melange has good support for Nix:
 
 ### OCaml version compatibility
 
-- Melange v3.0 works on OCaml 5.1.1 only.
+- Melange v3.0 works on OCaml (>=4.14 & <5.0) or 5.1.1.
 - Melange v2.0 works on OCaml 5.1 only.
 - Melange v1.0 can build projects with OCaml >= 4.13 (including OCaml 5.x).
   - Editor integration only works on OCaml 4.14, because Melange emits [`.cmt`
