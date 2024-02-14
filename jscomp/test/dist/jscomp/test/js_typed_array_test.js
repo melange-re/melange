@@ -19,13 +19,13 @@ function viaInt8(f, arr) {
   };
 }
 
-let x = new Int8Array([
+const x = new Int8Array([
       1,
       2,
       3
     ]);
 
-let suites_0 = [
+const suites_0 = [
   "array_buffer - make",
   (function (param) {
       return {
@@ -36,7 +36,7 @@ let suites_0 = [
     })
 ];
 
-let suites_1 = {
+const suites_1 = {
   hd: [
     "array_buffer - byteLength",
     (function (param) {
@@ -90,7 +90,7 @@ let suites_1 = {
           hd: [
             "typed_array - unsafe_set",
             (function (param) {
-                let a = new Int8Array([
+                const a = new Int8Array([
                       1,
                       2,
                       3,
@@ -164,7 +164,7 @@ let suites_1 = {
                   hd: [
                     "typed_array - setArray",
                     (function (param) {
-                        let f = function (a) {
+                        const f = function (a) {
                           a.set([
                                 9,
                                 8,
@@ -195,7 +195,7 @@ let suites_1 = {
                     hd: [
                       "typed_array - setArrayOffset",
                       (function (param) {
-                          let f = function (a) {
+                          const f = function (a) {
                             a.set([
                                   9,
                                   8,
@@ -818,7 +818,7 @@ let suites_1 = {
                                                                                       hd: [
                                                                                         "typed_array - forEach",
                                                                                         (function (param) {
-                                                                                            let sum = {
+                                                                                            const sum = {
                                                                                               contents: 0
                                                                                             };
                                                                                             new Int8Array([
@@ -839,7 +839,7 @@ let suites_1 = {
                                                                                         hd: [
                                                                                           "typed_array - forEachi",
                                                                                           (function (param) {
-                                                                                              let sum = {
+                                                                                              const sum = {
                                                                                                 contents: 0
                                                                                               };
                                                                                               new Int8Array([
@@ -1051,7 +1051,7 @@ let suites_1 = {
                                                                                                                 hd: [
                                                                                                                   "int8_array - fromBufferOffset",
                                                                                                                   (function (param) {
-                                                                                                                      let buffer = new ArrayBuffer(32);
+                                                                                                                      const buffer = new ArrayBuffer(32);
                                                                                                                       return {
                                                                                                                               TAG: /* Eq */0,
                                                                                                                               _0: 24,
@@ -1063,7 +1063,7 @@ let suites_1 = {
                                                                                                                   hd: [
                                                                                                                     "int8_array - fromBufferRange",
                                                                                                                     (function (param) {
-                                                                                                                        let buffer = new ArrayBuffer(32);
+                                                                                                                        const buffer = new ArrayBuffer(32);
                                                                                                                         return {
                                                                                                                                 TAG: /* Eq */0,
                                                                                                                                 _0: 2,
@@ -1086,7 +1086,7 @@ let suites_1 = {
                                                                                                                       hd: [
                                                                                                                         "int8_array - unsafe_set - typed_array sanity check",
                                                                                                                         (function (param) {
-                                                                                                                            let a = new Int8Array([
+                                                                                                                            const a = new Int8Array([
                                                                                                                                   1,
                                                                                                                                   2,
                                                                                                                                   3,
@@ -1142,7 +1142,7 @@ let suites_1 = {
                                                                                                                               hd: [
                                                                                                                                 "uint8_array - fromBufferOffset",
                                                                                                                                 (function (param) {
-                                                                                                                                    let buffer = new ArrayBuffer(32);
+                                                                                                                                    const buffer = new ArrayBuffer(32);
                                                                                                                                     return {
                                                                                                                                             TAG: /* Eq */0,
                                                                                                                                             _0: 24,
@@ -1154,7 +1154,7 @@ let suites_1 = {
                                                                                                                                 hd: [
                                                                                                                                   "uint8_array - fromBufferRange",
                                                                                                                                   (function (param) {
-                                                                                                                                      let buffer = new ArrayBuffer(32);
+                                                                                                                                      const buffer = new ArrayBuffer(32);
                                                                                                                                       return {
                                                                                                                                               TAG: /* Eq */0,
                                                                                                                                               _0: 2,
@@ -1177,7 +1177,7 @@ let suites_1 = {
                                                                                                                                     hd: [
                                                                                                                                       "uint8_array - unsafe_set - typed_array sanity check",
                                                                                                                                       (function (param) {
-                                                                                                                                          let a = new Uint8Array([
+                                                                                                                                          const a = new Uint8Array([
                                                                                                                                                 1,
                                                                                                                                                 2,
                                                                                                                                                 3,
@@ -1233,7 +1233,7 @@ let suites_1 = {
                                                                                                                                             hd: [
                                                                                                                                               "uint8clamped_array - fromBufferOffset",
                                                                                                                                               (function (param) {
-                                                                                                                                                  let buffer = new ArrayBuffer(32);
+                                                                                                                                                  const buffer = new ArrayBuffer(32);
                                                                                                                                                   return {
                                                                                                                                                           TAG: /* Eq */0,
                                                                                                                                                           _0: 24,
@@ -1245,7 +1245,7 @@ let suites_1 = {
                                                                                                                                               hd: [
                                                                                                                                                 "uint8clamped_array - fromBufferRange",
                                                                                                                                                 (function (param) {
-                                                                                                                                                    let buffer = new ArrayBuffer(32);
+                                                                                                                                                    const buffer = new ArrayBuffer(32);
                                                                                                                                                     return {
                                                                                                                                                             TAG: /* Eq */0,
                                                                                                                                                             _0: 2,
@@ -1268,7 +1268,7 @@ let suites_1 = {
                                                                                                                                                   hd: [
                                                                                                                                                     "uint8clamped_array - unsafe_set - typed_array sanity check",
                                                                                                                                                     (function (param) {
-                                                                                                                                                        let a = new Uint8ClampedArray([
+                                                                                                                                                        const a = new Uint8ClampedArray([
                                                                                                                                                               1,
                                                                                                                                                               2,
                                                                                                                                                               3,
@@ -1324,7 +1324,7 @@ let suites_1 = {
                                                                                                                                                           hd: [
                                                                                                                                                             "int16_array - fromBufferOffset",
                                                                                                                                                             (function (param) {
-                                                                                                                                                                let buffer = new ArrayBuffer(32);
+                                                                                                                                                                const buffer = new ArrayBuffer(32);
                                                                                                                                                                 return {
                                                                                                                                                                         TAG: /* Eq */0,
                                                                                                                                                                         _0: 24,
@@ -1336,7 +1336,7 @@ let suites_1 = {
                                                                                                                                                             hd: [
                                                                                                                                                               "int16_array - fromBufferRange",
                                                                                                                                                               (function (param) {
-                                                                                                                                                                  let buffer = new ArrayBuffer(32);
+                                                                                                                                                                  const buffer = new ArrayBuffer(32);
                                                                                                                                                                   return {
                                                                                                                                                                           TAG: /* Eq */0,
                                                                                                                                                                           _0: 4,
@@ -1359,7 +1359,7 @@ let suites_1 = {
                                                                                                                                                                 hd: [
                                                                                                                                                                   "int16_array - unsafe_set - typed_array sanity check",
                                                                                                                                                                   (function (param) {
-                                                                                                                                                                      let a = new Int16Array([
+                                                                                                                                                                      const a = new Int16Array([
                                                                                                                                                                             1,
                                                                                                                                                                             2,
                                                                                                                                                                             3,
@@ -1415,7 +1415,7 @@ let suites_1 = {
                                                                                                                                                                         hd: [
                                                                                                                                                                           "uint16_array - fromBufferOffset",
                                                                                                                                                                           (function (param) {
-                                                                                                                                                                              let buffer = new ArrayBuffer(32);
+                                                                                                                                                                              const buffer = new ArrayBuffer(32);
                                                                                                                                                                               return {
                                                                                                                                                                                       TAG: /* Eq */0,
                                                                                                                                                                                       _0: 24,
@@ -1427,7 +1427,7 @@ let suites_1 = {
                                                                                                                                                                           hd: [
                                                                                                                                                                             "uint16_array - fromBufferRange",
                                                                                                                                                                             (function (param) {
-                                                                                                                                                                                let buffer = new ArrayBuffer(32);
+                                                                                                                                                                                const buffer = new ArrayBuffer(32);
                                                                                                                                                                                 return {
                                                                                                                                                                                         TAG: /* Eq */0,
                                                                                                                                                                                         _0: 4,
@@ -1450,7 +1450,7 @@ let suites_1 = {
                                                                                                                                                                               hd: [
                                                                                                                                                                                 "uint16_array - unsafe_set - typed_array sanity check",
                                                                                                                                                                                 (function (param) {
-                                                                                                                                                                                    let a = new Uint16Array([
+                                                                                                                                                                                    const a = new Uint16Array([
                                                                                                                                                                                           1,
                                                                                                                                                                                           2,
                                                                                                                                                                                           3,
@@ -1508,7 +1508,7 @@ let suites_1 = {
                                                                                                                                                                                       hd: [
                                                                                                                                                                                         "int32_array - fromBufferOffset",
                                                                                                                                                                                         (function (param) {
-                                                                                                                                                                                            let buffer = new ArrayBuffer(32);
+                                                                                                                                                                                            const buffer = new ArrayBuffer(32);
                                                                                                                                                                                             return {
                                                                                                                                                                                                     TAG: /* Eq */0,
                                                                                                                                                                                                     _0: 24,
@@ -1520,7 +1520,7 @@ let suites_1 = {
                                                                                                                                                                                         hd: [
                                                                                                                                                                                           "int32_array - fromBufferRange",
                                                                                                                                                                                           (function (param) {
-                                                                                                                                                                                              let buffer = new ArrayBuffer(32);
+                                                                                                                                                                                              const buffer = new ArrayBuffer(32);
                                                                                                                                                                                               return {
                                                                                                                                                                                                       TAG: /* Eq */0,
                                                                                                                                                                                                       _0: 8,
@@ -1543,7 +1543,7 @@ let suites_1 = {
                                                                                                                                                                                             hd: [
                                                                                                                                                                                               "int32_array - unsafe_set - typed_array sanity check",
                                                                                                                                                                                               (function (param) {
-                                                                                                                                                                                                  let a = new Int32Array(Stdlib__Array.map((function (prim) {
+                                                                                                                                                                                                  const a = new Int32Array(Stdlib__Array.map((function (prim) {
                                                                                                                                                                                                               return prim;
                                                                                                                                                                                                             }), [
                                                                                                                                                                                                             1,
@@ -1601,7 +1601,7 @@ let suites_1 = {
                                                                                                                                                                                                     hd: [
                                                                                                                                                                                                       "uint32_array - fromBufferOffset",
                                                                                                                                                                                                       (function (param) {
-                                                                                                                                                                                                          let buffer = new ArrayBuffer(32);
+                                                                                                                                                                                                          const buffer = new ArrayBuffer(32);
                                                                                                                                                                                                           return {
                                                                                                                                                                                                                   TAG: /* Eq */0,
                                                                                                                                                                                                                   _0: 24,
@@ -1613,7 +1613,7 @@ let suites_1 = {
                                                                                                                                                                                                       hd: [
                                                                                                                                                                                                         "uint32_array - fromBufferRange",
                                                                                                                                                                                                         (function (param) {
-                                                                                                                                                                                                            let buffer = new ArrayBuffer(32);
+                                                                                                                                                                                                            const buffer = new ArrayBuffer(32);
                                                                                                                                                                                                             return {
                                                                                                                                                                                                                     TAG: /* Eq */0,
                                                                                                                                                                                                                     _0: 8,
@@ -1636,7 +1636,7 @@ let suites_1 = {
                                                                                                                                                                                                           hd: [
                                                                                                                                                                                                             "uint32_array - unsafe_set - typed_array sanity check",
                                                                                                                                                                                                             (function (param) {
-                                                                                                                                                                                                                let a = new Uint32Array([
+                                                                                                                                                                                                                const a = new Uint32Array([
                                                                                                                                                                                                                       1,
                                                                                                                                                                                                                       2,
                                                                                                                                                                                                                       3,
@@ -1692,7 +1692,7 @@ let suites_1 = {
                                                                                                                                                                                                                   hd: [
                                                                                                                                                                                                                     "float32_array - fromBufferOffset",
                                                                                                                                                                                                                     (function (param) {
-                                                                                                                                                                                                                        let buffer = new ArrayBuffer(32);
+                                                                                                                                                                                                                        const buffer = new ArrayBuffer(32);
                                                                                                                                                                                                                         return {
                                                                                                                                                                                                                                 TAG: /* Eq */0,
                                                                                                                                                                                                                                 _0: 24,
@@ -1704,7 +1704,7 @@ let suites_1 = {
                                                                                                                                                                                                                     hd: [
                                                                                                                                                                                                                       "float32_array - fromBufferRange",
                                                                                                                                                                                                                       (function (param) {
-                                                                                                                                                                                                                          let buffer = new ArrayBuffer(32);
+                                                                                                                                                                                                                          const buffer = new ArrayBuffer(32);
                                                                                                                                                                                                                           return {
                                                                                                                                                                                                                                   TAG: /* Eq */0,
                                                                                                                                                                                                                                   _0: 8,
@@ -1727,7 +1727,7 @@ let suites_1 = {
                                                                                                                                                                                                                         hd: [
                                                                                                                                                                                                                           "float32_array - unsafe_set - typed_array sanity check",
                                                                                                                                                                                                                           (function (param) {
-                                                                                                                                                                                                                              let a = new Float32Array([
+                                                                                                                                                                                                                              const a = new Float32Array([
                                                                                                                                                                                                                                     1,
                                                                                                                                                                                                                                     2,
                                                                                                                                                                                                                                     3,
@@ -1783,7 +1783,7 @@ let suites_1 = {
                                                                                                                                                                                                                                 hd: [
                                                                                                                                                                                                                                   "float64_array - fromBufferOffset",
                                                                                                                                                                                                                                   (function (param) {
-                                                                                                                                                                                                                                      let buffer = new ArrayBuffer(32);
+                                                                                                                                                                                                                                      const buffer = new ArrayBuffer(32);
                                                                                                                                                                                                                                       return {
                                                                                                                                                                                                                                               TAG: /* Eq */0,
                                                                                                                                                                                                                                               _0: 24,
@@ -1795,7 +1795,7 @@ let suites_1 = {
                                                                                                                                                                                                                                   hd: [
                                                                                                                                                                                                                                     "float64_array - fromBufferRange",
                                                                                                                                                                                                                                     (function (param) {
-                                                                                                                                                                                                                                        let buffer = new ArrayBuffer(32);
+                                                                                                                                                                                                                                        const buffer = new ArrayBuffer(32);
                                                                                                                                                                                                                                         return {
                                                                                                                                                                                                                                                 TAG: /* Eq */0,
                                                                                                                                                                                                                                                 _0: 16,
@@ -1818,7 +1818,7 @@ let suites_1 = {
                                                                                                                                                                                                                                       hd: [
                                                                                                                                                                                                                                         "float64_array - unsafe_set - typed_array sanity check",
                                                                                                                                                                                                                                         (function (param) {
-                                                                                                                                                                                                                                            let a = new Float64Array([
+                                                                                                                                                                                                                                            const a = new Float64Array([
                                                                                                                                                                                                                                                   1,
                                                                                                                                                                                                                                                   2,
                                                                                                                                                                                                                                                   3,
@@ -1859,7 +1859,7 @@ let suites_1 = {
                                                                                                                                                                                                                                             hd: [
                                                                                                                                                                                                                                               "DataView - fromBufferOffset",
                                                                                                                                                                                                                                               (function (param) {
-                                                                                                                                                                                                                                                  let buffer = new ArrayBuffer(32);
+                                                                                                                                                                                                                                                  const buffer = new ArrayBuffer(32);
                                                                                                                                                                                                                                                   return {
                                                                                                                                                                                                                                                           TAG: /* Eq */0,
                                                                                                                                                                                                                                                           _0: 24,
@@ -1871,7 +1871,7 @@ let suites_1 = {
                                                                                                                                                                                                                                               hd: [
                                                                                                                                                                                                                                                 "DataView - fromBufferRange",
                                                                                                                                                                                                                                                 (function (param) {
-                                                                                                                                                                                                                                                    let buffer = new ArrayBuffer(32);
+                                                                                                                                                                                                                                                    const buffer = new ArrayBuffer(32);
                                                                                                                                                                                                                                                     return {
                                                                                                                                                                                                                                                             TAG: /* Eq */0,
                                                                                                                                                                                                                                                             _0: 4,
@@ -1883,7 +1883,7 @@ let suites_1 = {
                                                                                                                                                                                                                                                 hd: [
                                                                                                                                                                                                                                                   "DataView - buffer",
                                                                                                                                                                                                                                                   (function (param) {
-                                                                                                                                                                                                                                                      let buffer = new ArrayBuffer(32);
+                                                                                                                                                                                                                                                      const buffer = new ArrayBuffer(32);
                                                                                                                                                                                                                                                       return {
                                                                                                                                                                                                                                                               TAG: /* Eq */0,
                                                                                                                                                                                                                                                               _0: buffer,
@@ -1895,7 +1895,7 @@ let suites_1 = {
                                                                                                                                                                                                                                                   hd: [
                                                                                                                                                                                                                                                     "DataView - byteOffset",
                                                                                                                                                                                                                                                     (function (param) {
-                                                                                                                                                                                                                                                        let buffer = new ArrayBuffer(32);
+                                                                                                                                                                                                                                                        const buffer = new ArrayBuffer(32);
                                                                                                                                                                                                                                                         return {
                                                                                                                                                                                                                                                                 TAG: /* Eq */0,
                                                                                                                                                                                                                                                                 _0: 8,
@@ -1907,8 +1907,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                     hd: [
                                                                                                                                                                                                                                                       "DataView - setInt8, getInt8",
                                                                                                                                                                                                                                                       (function (param) {
-                                                                                                                                                                                                                                                          let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                          let view = new DataView(buffer);
+                                                                                                                                                                                                                                                          const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                          const view = new DataView(buffer);
                                                                                                                                                                                                                                                           view.setInt8(0, 1);
                                                                                                                                                                                                                                                           return {
                                                                                                                                                                                                                                                                   TAG: /* Eq */0,
@@ -1921,8 +1921,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                       hd: [
                                                                                                                                                                                                                                                         "DataView - setUint8, getUint8",
                                                                                                                                                                                                                                                         (function (param) {
-                                                                                                                                                                                                                                                            let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                            let view = new DataView(buffer);
+                                                                                                                                                                                                                                                            const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                            const view = new DataView(buffer);
                                                                                                                                                                                                                                                             view.setUint8(0, 128);
                                                                                                                                                                                                                                                             return {
                                                                                                                                                                                                                                                                     TAG: /* Eq */0,
@@ -1935,8 +1935,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                         hd: [
                                                                                                                                                                                                                                                           "DataView - setInt16, getInt16",
                                                                                                                                                                                                                                                           (function (param) {
-                                                                                                                                                                                                                                                              let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                              let view = new DataView(buffer);
+                                                                                                                                                                                                                                                              const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                              const view = new DataView(buffer);
                                                                                                                                                                                                                                                               view.setInt16(0, 257);
                                                                                                                                                                                                                                                               return {
                                                                                                                                                                                                                                                                       TAG: /* Eq */0,
@@ -1949,8 +1949,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                           hd: [
                                                                                                                                                                                                                                                             "DataView - getInt16LittleEndian",
                                                                                                                                                                                                                                                             (function (param) {
-                                                                                                                                                                                                                                                                let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                                let view = new DataView(buffer);
+                                                                                                                                                                                                                                                                const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                                const view = new DataView(buffer);
                                                                                                                                                                                                                                                                 view.setInt16(0, 25000, 1);
                                                                                                                                                                                                                                                                 return {
                                                                                                                                                                                                                                                                         TAG: /* Eq */0,
@@ -1963,8 +1963,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                             hd: [
                                                                                                                                                                                                                                                               "DataView - setInt16LittleEndian",
                                                                                                                                                                                                                                                               (function (param) {
-                                                                                                                                                                                                                                                                  let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                                  let view = new DataView(buffer);
+                                                                                                                                                                                                                                                                  const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                                  const view = new DataView(buffer);
                                                                                                                                                                                                                                                                   view.setInt16(0, 25000, 1);
                                                                                                                                                                                                                                                                   return {
                                                                                                                                                                                                                                                                           TAG: /* Eq */0,
@@ -1977,8 +1977,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                               hd: [
                                                                                                                                                                                                                                                                 "DataView - setUint16, getUint16",
                                                                                                                                                                                                                                                                 (function (param) {
-                                                                                                                                                                                                                                                                    let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                                    let view = new DataView(buffer);
+                                                                                                                                                                                                                                                                    const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                                    const view = new DataView(buffer);
                                                                                                                                                                                                                                                                     view.setUint16(0, 32768);
                                                                                                                                                                                                                                                                     return {
                                                                                                                                                                                                                                                                             TAG: /* Eq */0,
@@ -1991,8 +1991,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                                 hd: [
                                                                                                                                                                                                                                                                   "DataView - getUint16LittleEndian",
                                                                                                                                                                                                                                                                   (function (param) {
-                                                                                                                                                                                                                                                                      let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                                      let view = new DataView(buffer);
+                                                                                                                                                                                                                                                                      const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                                      const view = new DataView(buffer);
                                                                                                                                                                                                                                                                       view.setUint16(0, 32768, 1);
                                                                                                                                                                                                                                                                       return {
                                                                                                                                                                                                                                                                               TAG: /* Eq */0,
@@ -2005,8 +2005,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                                   hd: [
                                                                                                                                                                                                                                                                     "DataView - setUint16LittleEndian",
                                                                                                                                                                                                                                                                     (function (param) {
-                                                                                                                                                                                                                                                                        let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                                        let view = new DataView(buffer);
+                                                                                                                                                                                                                                                                        const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                                        const view = new DataView(buffer);
                                                                                                                                                                                                                                                                         view.setUint16(0, 32768, 1);
                                                                                                                                                                                                                                                                         return {
                                                                                                                                                                                                                                                                                 TAG: /* Eq */0,
@@ -2019,8 +2019,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                                     hd: [
                                                                                                                                                                                                                                                                       "DataView - setInt32, getInt32",
                                                                                                                                                                                                                                                                       (function (param) {
-                                                                                                                                                                                                                                                                          let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                                          let view = new DataView(buffer);
+                                                                                                                                                                                                                                                                          const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                                          const view = new DataView(buffer);
                                                                                                                                                                                                                                                                           view.setInt32(0, 65537);
                                                                                                                                                                                                                                                                           return {
                                                                                                                                                                                                                                                                                   TAG: /* Eq */0,
@@ -2033,8 +2033,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                                       hd: [
                                                                                                                                                                                                                                                                         "DataView - getInt32LittleEndian",
                                                                                                                                                                                                                                                                         (function (param) {
-                                                                                                                                                                                                                                                                            let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                                            let view = new DataView(buffer);
+                                                                                                                                                                                                                                                                            const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                                            const view = new DataView(buffer);
                                                                                                                                                                                                                                                                             view.setInt32(0, 65537, 1);
                                                                                                                                                                                                                                                                             return {
                                                                                                                                                                                                                                                                                     TAG: /* Eq */0,
@@ -2047,8 +2047,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                                         hd: [
                                                                                                                                                                                                                                                                           "DataView - setInt32LittleEndian",
                                                                                                                                                                                                                                                                           (function (param) {
-                                                                                                                                                                                                                                                                              let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                                              let view = new DataView(buffer);
+                                                                                                                                                                                                                                                                              const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                                              const view = new DataView(buffer);
                                                                                                                                                                                                                                                                               view.setInt32(0, 65537, 1);
                                                                                                                                                                                                                                                                               return {
                                                                                                                                                                                                                                                                                       TAG: /* Eq */0,
@@ -2061,8 +2061,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                                           hd: [
                                                                                                                                                                                                                                                                             "DataView - setUint32, getUint32",
                                                                                                                                                                                                                                                                             (function (param) {
-                                                                                                                                                                                                                                                                                let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                                                let view = new DataView(buffer);
+                                                                                                                                                                                                                                                                                const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                                                const view = new DataView(buffer);
                                                                                                                                                                                                                                                                                 view.setUint32(0, 65537);
                                                                                                                                                                                                                                                                                 return {
                                                                                                                                                                                                                                                                                         TAG: /* Eq */0,
@@ -2075,8 +2075,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                                             hd: [
                                                                                                                                                                                                                                                                               "DataView - getUint32LittleEndian",
                                                                                                                                                                                                                                                                               (function (param) {
-                                                                                                                                                                                                                                                                                  let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                                                  let view = new DataView(buffer);
+                                                                                                                                                                                                                                                                                  const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                                                  const view = new DataView(buffer);
                                                                                                                                                                                                                                                                                   view.setUint32(0, 65537, 1);
                                                                                                                                                                                                                                                                                   return {
                                                                                                                                                                                                                                                                                           TAG: /* Eq */0,
@@ -2089,8 +2089,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                                               hd: [
                                                                                                                                                                                                                                                                                 "DataView - setUint32LittleEndian",
                                                                                                                                                                                                                                                                                 (function (param) {
-                                                                                                                                                                                                                                                                                    let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                                                    let view = new DataView(buffer);
+                                                                                                                                                                                                                                                                                    const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                                                    const view = new DataView(buffer);
                                                                                                                                                                                                                                                                                     view.setUint32(0, 65537, 1);
                                                                                                                                                                                                                                                                                     return {
                                                                                                                                                                                                                                                                                             TAG: /* Eq */0,
@@ -2103,8 +2103,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                                                 hd: [
                                                                                                                                                                                                                                                                                   "DataView - setFloat32, getFloat32",
                                                                                                                                                                                                                                                                                   (function (param) {
-                                                                                                                                                                                                                                                                                      let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                                                      let view = new DataView(buffer);
+                                                                                                                                                                                                                                                                                      const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                                                      const view = new DataView(buffer);
                                                                                                                                                                                                                                                                                       view.setFloat32(0, 65537.0);
                                                                                                                                                                                                                                                                                       return {
                                                                                                                                                                                                                                                                                               TAG: /* Eq */0,
@@ -2117,8 +2117,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                                                   hd: [
                                                                                                                                                                                                                                                                                     "DataView - getFloat32LittleEndian",
                                                                                                                                                                                                                                                                                     (function (param) {
-                                                                                                                                                                                                                                                                                        let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                                                        let view = new DataView(buffer);
+                                                                                                                                                                                                                                                                                        const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                                                        const view = new DataView(buffer);
                                                                                                                                                                                                                                                                                         view.setFloat32(0, 65537.0, 1);
                                                                                                                                                                                                                                                                                         return {
                                                                                                                                                                                                                                                                                                 TAG: /* Eq */0,
@@ -2131,8 +2131,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                                                     hd: [
                                                                                                                                                                                                                                                                                       "DataView - setFloat32LittleEndian",
                                                                                                                                                                                                                                                                                       (function (param) {
-                                                                                                                                                                                                                                                                                          let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                                                          let view = new DataView(buffer);
+                                                                                                                                                                                                                                                                                          const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                                                          const view = new DataView(buffer);
                                                                                                                                                                                                                                                                                           view.setFloat32(0, 1.0, 1);
                                                                                                                                                                                                                                                                                           return {
                                                                                                                                                                                                                                                                                                   TAG: /* Eq */0,
@@ -2145,8 +2145,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                                                       hd: [
                                                                                                                                                                                                                                                                                         "DataView - setFloat64, getFloat64",
                                                                                                                                                                                                                                                                                         (function (param) {
-                                                                                                                                                                                                                                                                                            let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                                                            let view = new DataView(buffer);
+                                                                                                                                                                                                                                                                                            const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                                                            const view = new DataView(buffer);
                                                                                                                                                                                                                                                                                             view.setFloat64(0, 1e200);
                                                                                                                                                                                                                                                                                             return {
                                                                                                                                                                                                                                                                                                     TAG: /* Eq */0,
@@ -2159,8 +2159,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                                                         hd: [
                                                                                                                                                                                                                                                                                           "DataView - getFloat64LittleEndian",
                                                                                                                                                                                                                                                                                           (function (param) {
-                                                                                                                                                                                                                                                                                              let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                                                              let view = new DataView(buffer);
+                                                                                                                                                                                                                                                                                              const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                                                              const view = new DataView(buffer);
                                                                                                                                                                                                                                                                                               view.setFloat64(0, 1e200, 1);
                                                                                                                                                                                                                                                                                               return {
                                                                                                                                                                                                                                                                                                       TAG: /* Eq */0,
@@ -2173,8 +2173,8 @@ let suites_1 = {
                                                                                                                                                                                                                                                                                           hd: [
                                                                                                                                                                                                                                                                                             "DataView - setFloat64LittleEndian",
                                                                                                                                                                                                                                                                                             (function (param) {
-                                                                                                                                                                                                                                                                                                let buffer = new ArrayBuffer(8);
-                                                                                                                                                                                                                                                                                                let view = new DataView(buffer);
+                                                                                                                                                                                                                                                                                                const buffer = new ArrayBuffer(8);
+                                                                                                                                                                                                                                                                                                const view = new DataView(buffer);
                                                                                                                                                                                                                                                                                                 view.setFloat64(0, 1.0, 1);
                                                                                                                                                                                                                                                                                                 return {
                                                                                                                                                                                                                                                                                                         TAG: /* Eq */0,
@@ -2326,7 +2326,7 @@ let suites_1 = {
   }
 };
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: suites_1
 };

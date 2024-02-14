@@ -6,11 +6,11 @@ let Caml_obj = require("melange.js/caml_obj.js");
 let Mt = require("./mt.js");
 let Stdlib__List = require("melange/list.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -80,7 +80,7 @@ function tl_exn(x) {
 
 eq("File \"jscomp/test/recursive_records_test.ml\", line 56, characters 6-13", (hd(rec_cell2) + hd(tl_exn(rec_cell2)) | 0) + hd(tl_exn(tl_exn(rec_cell2))) | 0, 9);
 
-let rec_cell2$1 = f2(3);
+const rec_cell2$1 = f2(3);
 
 eq("File \"jscomp/test/recursive_records_test.ml\", line 60, characters 5-12", (hd(rec_cell2$1) + hd(tl_exn(rec_cell2$1)) | 0) + hd(tl_exn(tl_exn(rec_cell2$1))) | 0, 9);
 
@@ -101,7 +101,7 @@ function f3(x) {
 
 eq("File \"jscomp/test/recursive_records_test.ml\", line 74, characters 5-12", (Stdlib__List.hd(rec_cell3) + Stdlib__List.hd(Stdlib__List.tl(rec_cell3)) | 0) + Stdlib__List.hd(Stdlib__List.tl(Stdlib__List.tl(rec_cell3))) | 0, 9);
 
-let rec_cell3$1 = f3(3);
+const rec_cell3$1 = f3(3);
 
 eq("File \"jscomp/test/recursive_records_test.ml\", line 77, characters 5-12", (Stdlib__List.hd(rec_cell3$1) + Stdlib__List.hd(Stdlib__List.tl(rec_cell3$1)) | 0) + Stdlib__List.hd(Stdlib__List.tl(Stdlib__List.tl(rec_cell3$1))) | 0, 9);
 

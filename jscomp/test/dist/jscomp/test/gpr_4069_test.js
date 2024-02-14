@@ -12,7 +12,7 @@ function f(value) {
 }
 
 function fxx(v) {
-  let match = Curry._1(v, undefined);
+  const match = Curry._1(v, undefined);
   switch (match) {
     case 1 :
         return /* 'a' */97;

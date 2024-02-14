@@ -19,14 +19,14 @@ let Stdlib__String = require("melange/string.js");
 let Stdlib__Sys = require("melange/sys.js");
 
 function _with_in(filename, f) {
-  let ic = Stdlib.open_in_bin(filename);
+  const ic = Stdlib.open_in_bin(filename);
   try {
-    let x = Curry._1(f, ic);
+    const x = Curry._1(f, ic);
     Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
     return x;
   }
   catch (raw_e){
-    let e = Caml_js_exceptions.internalToOCamlException(raw_e);
+    const e = Caml_js_exceptions.internalToOCamlException(raw_e);
     Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
     return {
             NAME: "Error",
@@ -38,7 +38,7 @@ function _with_in(filename, f) {
 function _must_escape(s) {
   try {
     for(let i = 0 ,i_finish = s.length; i < i_finish; ++i){
-      let c = s.charCodeAt(i);
+      const c = s.charCodeAt(i);
       let exit = 0;
       if (c >= 42) {
         if (c !== 59) {
@@ -95,7 +95,7 @@ function _must_escape(s) {
     return false;
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Exit) {
       return true;
     }
@@ -105,7 +105,7 @@ function _must_escape(s) {
 
 function to_buf(b, t) {
   if (t.NAME === "List") {
-    let l = t.VAL;
+    const l = t.VAL;
     if (l) {
       if (l.tl) {
         Stdlib__Buffer.add_char(b, /* '(' */40);
@@ -137,7 +137,7 @@ function to_buf(b, t) {
       return Stdlib__Buffer.add_string(b, "()");
     }
   }
-  let s = t.VAL;
+  const s = t.VAL;
   if (_must_escape(s)) {
     return Curry._1(Stdlib__Printf.bprintf(b, /* Format */{
                     _0: {
@@ -161,14 +161,14 @@ function to_buf(b, t) {
 }
 
 function to_string(t) {
-  let b = Stdlib__Buffer.create(128);
+  const b = Stdlib__Buffer.create(128);
   to_buf(b, t);
   return Stdlib__Buffer.contents(b);
 }
 
 function print(fmt, t) {
   if (t.NAME === "List") {
-    let l = t.VAL;
+    const l = t.VAL;
     if (l) {
       if (l.tl) {
         Stdlib__Format.fprintf(fmt)(/* Format */{
@@ -262,7 +262,7 @@ function print(fmt, t) {
       return Stdlib__Format.pp_print_string(fmt, "()");
     }
   }
-  let s = t.VAL;
+  const s = t.VAL;
   if (_must_escape(s)) {
     return Curry._1(Stdlib__Format.fprintf(fmt)(/* Format */{
                     _0: {
@@ -287,7 +287,7 @@ function print(fmt, t) {
 
 function print_noindent(fmt, t) {
   if (t.NAME === "List") {
-    let l = t.VAL;
+    const l = t.VAL;
     if (l) {
       if (l.tl) {
         Stdlib__Format.pp_print_char(fmt, /* '(' */40);
@@ -319,7 +319,7 @@ function print_noindent(fmt, t) {
       return Stdlib__Format.pp_print_string(fmt, "()");
     }
   }
-  let s = t.VAL;
+  const s = t.VAL;
   if (_must_escape(s)) {
     return Curry._1(Stdlib__Format.fprintf(fmt)(/* Format */{
                     _0: {
@@ -343,21 +343,21 @@ function print_noindent(fmt, t) {
 }
 
 function to_chan(oc, t) {
-  let fmt = Stdlib__Format.formatter_of_out_channel(oc);
+  const fmt = Stdlib__Format.formatter_of_out_channel(oc);
   print(fmt, t);
   Stdlib__Format.pp_print_flush(fmt, undefined);
 }
 
 function to_file_seq(filename, seq) {
-  let f = function (oc) {
+  const f = function (oc) {
     return Curry._1(seq, (function (t) {
                   to_chan(oc, t);
                   Caml_io.caml_ml_output_char(oc, /* '\n' */10);
                 }));
   };
-  let oc = Stdlib.open_out(filename);
+  const oc = Stdlib.open_out(filename);
   try {
-    let x = Curry._1(f, oc);
+    const x = Curry._1(f, oc);
     Caml_io.caml_ml_flush(oc);
     Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
     return x;
@@ -383,14 +383,14 @@ function $great$great$eq(x, f) {
   return Curry._1(f, x);
 }
 
-let ID_MONAD = {
+const ID_MONAD = {
   $$return: $$return,
   $great$great$eq: $great$great$eq
 };
 
 function make(bufsizeOpt, refill) {
-  let bufsize = bufsizeOpt !== undefined ? bufsizeOpt : 1024;
-  let bufsize$1 = Caml.caml_int_min(bufsize > 16 ? bufsize : 16, Stdlib__Sys.max_string_length);
+  const bufsize = bufsizeOpt !== undefined ? bufsizeOpt : 1024;
+  const bufsize$1 = Caml.caml_int_min(bufsize > 16 ? bufsize : 16, Stdlib__Sys.max_string_length);
   return {
           buf: Caml_bytes.caml_create_bytes(bufsize$1),
           refill: refill,
@@ -411,7 +411,7 @@ function _is_digit(c) {
 }
 
 function _refill(t, k_succ, k_fail) {
-  let n = Curry._3(t.refill, t.buf, 0, t.buf.length);
+  const n = Curry._3(t.refill, t.buf, 0, t.buf.length);
   t.i = 0;
   t.len = n;
   if (n === 0) {
@@ -432,7 +432,7 @@ function _get(t) {
               ]
             });
   }
-  let c = Caml_bytes.get(t.buf, t.i);
+  const c = Caml_bytes.get(t.buf, t.i);
   t.i = t.i + 1 | 0;
   if (c === /* '\n' */10) {
     t.col = 1;
@@ -444,7 +444,7 @@ function _get(t) {
 }
 
 function _error(t, msg) {
-  let b = Stdlib__Buffer.create(32);
+  const b = Stdlib__Buffer.create(32);
   Curry._2(Stdlib__Printf.bprintf(b, /* Format */{
             _0: {
               TAG: /* String_literal */11,
@@ -474,7 +474,7 @@ function _error(t, msg) {
             _1: "at %d, %d: "
           }), t.line, t.col);
   return Stdlib__Printf.kbprintf((function (b) {
-                let msg$p = Stdlib__Buffer.contents(b);
+                const msg$p = Stdlib__Buffer.contents(b);
                 return {
                         NAME: "Error",
                         VAL: msg$p
@@ -500,7 +500,7 @@ function expr(k, t) {
                     return expr(k, param);
                   }), _error_eof);
     }
-    let c = _get(t);
+    const c = _get(t);
     if (c >= 11) {
       if (c !== 32) {
         return expr_starting_with(c, k, t);
@@ -589,7 +589,7 @@ function expr_list(acc, k, t) {
                     return expr_list(acc, k, param);
                   }), _error_eof);
     }
-    let c = _get(t);
+    const c = _get(t);
     if (c > 32 || c < 9) {
       if (c === 41) {
         return Curry._2(k, undefined, {
@@ -637,7 +637,7 @@ function expr_list(acc, k, t) {
 }
 
 function _return_atom(last, k, t) {
-  let s = Stdlib__Buffer.contents(t.atom);
+  const s = Stdlib__Buffer.contents(t.atom);
   t.atom.position = 0;
   return Curry._2(k, last, {
               NAME: "Atom",
@@ -654,7 +654,7 @@ function atom(k, t) {
                     return _return_atom(undefined, k, param);
                   }));
     }
-    let c = _get(t);
+    const c = _get(t);
     let exit = 0;
     if (c >= 35) {
       if (c >= 42) {
@@ -716,7 +716,7 @@ function quoted(k, t) {
                     return quoted(k, param);
                   }), _error_eof);
     }
-    let c = _get(t);
+    const c = _get(t);
     if (c === 34) {
       return _return_atom(undefined, k, t);
     }
@@ -737,7 +737,7 @@ function escaped(k, t) {
                   return escaped(k, param);
                 }), _error_eof);
   }
-  let c = _get(t);
+  const c = _get(t);
   if (c >= 92) {
     if (c < 117) {
       switch (c) {
@@ -808,7 +808,7 @@ function read2int(i, k, t) {
                   return read2int(i, k, param);
                 }), _error_eof);
   }
-  let c = _get(t);
+  const c = _get(t);
   if (_is_digit(c)) {
     return read1int(Math.imul(10, i) + (c - /* '0' */48 | 0) | 0, k, t);
   } else {
@@ -836,7 +836,7 @@ function read1int(i, k, t) {
                   return read1int(i, k, param);
                 }), _error_eof);
   }
-  let c = _get(t);
+  const c = _get(t);
   if (_is_digit(c)) {
     return Curry._1(k, Math.imul(10, i) + (c - /* '0' */48 | 0) | 0);
   } else {
@@ -865,7 +865,7 @@ function skip_comment(k, t) {
                     return skip_comment(k, param);
                   }), _error_eof);
     }
-    let match = _get(t);
+    const match = _get(t);
     if (match === 10) {
       return Curry._2(k, undefined, undefined);
     }
@@ -882,7 +882,7 @@ function expr_or_end(k, t) {
                     return "End";
                   }));
     }
-    let c = _get(t);
+    const c = _get(t);
     if (c >= 11) {
       if (c !== 32) {
         return expr_starting_with(c, k, t);
@@ -906,11 +906,11 @@ function next(t) {
 }
 
 function parse_string(s) {
-  let n = s.length;
-  let stop = {
+  const n = s.length;
+  const stop = {
     contents: false
   };
-  let refill = function (bytes, i, _len) {
+  const refill = function (bytes, i, _len) {
     if (stop.contents) {
       return 0;
     } else {
@@ -919,8 +919,8 @@ function parse_string(s) {
       return n;
     }
   };
-  let d = make(n, refill);
-  let res = next(d);
+  const d = make(n, refill);
+  const res = next(d);
   if (typeof res === "string") {
     return {
             NAME: "Error",
@@ -932,10 +932,10 @@ function parse_string(s) {
 }
 
 function parse_chan(bufsize, ic) {
-  let d = make(bufsize, (function (param, param$1, param$2) {
+  const d = make(bufsize, (function (param, param$1, param$2) {
           return Stdlib.input(ic, param, param$1, param$2);
         }));
-  let res = next(d);
+  const res = next(d);
   if (typeof res === "string") {
     return {
             NAME: "Error",
@@ -947,11 +947,11 @@ function parse_chan(bufsize, ic) {
 }
 
 function parse_chan_gen(bufsize, ic) {
-  let d = make(bufsize, (function (param, param$1, param$2) {
+  const d = make(bufsize, (function (param, param$1, param$2) {
           return Stdlib.input(ic, param, param$1, param$2);
         }));
   return function (param) {
-    let e = next(d);
+    const e = next(d);
     if (typeof e === "string") {
       return ;
     } else {
@@ -961,13 +961,13 @@ function parse_chan_gen(bufsize, ic) {
 }
 
 function parse_chan_list(bufsize, ic) {
-  let d = make(bufsize, (function (param, param$1, param$2) {
+  const d = make(bufsize, (function (param, param$1, param$2) {
           return Stdlib.input(ic, param, param$1, param$2);
         }));
   let _acc = /* [] */0;
   while(true) {
-    let acc = _acc;
-    let e = next(d);
+    const acc = _acc;
+    const e = next(d);
     if (typeof e === "string") {
       return {
               NAME: "Ok",
@@ -998,10 +998,10 @@ function parse_file_list(filename) {
 }
 
 function MakeDecode(funarg) {
-  let $great$great$eq = funarg.$great$great$eq;
-  let make = function (bufsizeOpt, refill) {
-    let bufsize = bufsizeOpt !== undefined ? bufsizeOpt : 1024;
-    let bufsize$1 = Caml.caml_int_min(bufsize > 16 ? bufsize : 16, Stdlib__Sys.max_string_length);
+  const $great$great$eq = funarg.$great$great$eq;
+  const make = function (bufsizeOpt, refill) {
+    const bufsize = bufsizeOpt !== undefined ? bufsizeOpt : 1024;
+    const bufsize$1 = Caml.caml_int_min(bufsize > 16 ? bufsize : 16, Stdlib__Sys.max_string_length);
     return {
             buf: Caml_bytes.caml_create_bytes(bufsize$1),
             refill: refill,
@@ -1012,14 +1012,14 @@ function MakeDecode(funarg) {
             col: 1
           };
   };
-  let _is_digit = function (c) {
+  const _is_digit = function (c) {
     if (/* '0' */48 <= c) {
       return c <= /* '9' */57;
     } else {
       return false;
     }
   };
-  let _refill = function (t, k_succ, k_fail) {
+  const _refill = function (t, k_succ, k_fail) {
     return Curry._2($great$great$eq, Curry._3(t.refill, t.buf, 0, t.buf.length), (function (n) {
                   t.i = 0;
                   t.len = n;
@@ -1030,7 +1030,7 @@ function MakeDecode(funarg) {
                   }
                 }));
   };
-  let _get = function (t) {
+  const _get = function (t) {
     if (t.i >= t.len) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
@@ -1041,7 +1041,7 @@ function MakeDecode(funarg) {
                 ]
               });
     }
-    let c = Caml_bytes.get(t.buf, t.i);
+    const c = Caml_bytes.get(t.buf, t.i);
     t.i = t.i + 1 | 0;
     if (c === /* '\n' */10) {
       t.col = 1;
@@ -1051,8 +1051,8 @@ function MakeDecode(funarg) {
     }
     return c;
   };
-  let _error = function (t, msg) {
-    let b = Stdlib__Buffer.create(32);
+  const _error = function (t, msg) {
+    const b = Stdlib__Buffer.create(32);
     Curry._2(Stdlib__Printf.bprintf(b, /* Format */{
               _0: {
                 TAG: /* String_literal */11,
@@ -1082,14 +1082,14 @@ function MakeDecode(funarg) {
               _1: "at %d, %d: "
             }), t.line, t.col);
     return Stdlib__Printf.kbprintf((function (b) {
-                  let msg$p = Stdlib__Buffer.contents(b);
+                  const msg$p = Stdlib__Buffer.contents(b);
                   return Curry._1(funarg.$$return, {
                               NAME: "Error",
                               VAL: msg$p
                             });
                 }), b, msg);
   };
-  let _error_eof = function (t) {
+  const _error_eof = function (t) {
     return _error(t, /* Format */{
                 _0: {
                   TAG: /* String_literal */11,
@@ -1099,14 +1099,14 @@ function MakeDecode(funarg) {
                 _1: "unexpected end of input"
               });
   };
-  let expr = function (k, t) {
+  const expr = function (k, t) {
     while(true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
                       return expr(k, param);
                     }), _error_eof);
       }
-      let c = _get(t);
+      const c = _get(t);
       if (c >= 11) {
         if (c !== 32) {
           return expr_starting_with(c, k, t);
@@ -1119,7 +1119,7 @@ function MakeDecode(funarg) {
       continue ;
     };
   };
-  let expr_starting_with = function (c, k, t) {
+  const expr_starting_with = function (c, k, t) {
     if (c >= 42) {
       if (c === 59) {
         return skip_comment((function (param, param$1) {
@@ -1186,14 +1186,14 @@ function MakeDecode(funarg) {
     Stdlib__Buffer.add_char(t.atom, c);
     return atom(k, t);
   };
-  let expr_list = function (acc, k, t) {
+  const expr_list = function (acc, k, t) {
     while(true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
                       return expr_list(acc, k, param);
                     }), _error_eof);
       }
-      let c = _get(t);
+      const c = _get(t);
       if (c > 32 || c < 9) {
         if (c === 41) {
           return Curry._2(k, undefined, {
@@ -1239,15 +1239,15 @@ function MakeDecode(funarg) {
                   }), t);
     };
   };
-  let _return_atom = function (last, k, t) {
-    let s = Stdlib__Buffer.contents(t.atom);
+  const _return_atom = function (last, k, t) {
+    const s = Stdlib__Buffer.contents(t.atom);
     t.atom.position = 0;
     return Curry._2(k, last, {
                 NAME: "Atom",
                 VAL: s
               });
   };
-  let atom = function (k, t) {
+  const atom = function (k, t) {
     while(true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
@@ -1256,7 +1256,7 @@ function MakeDecode(funarg) {
                       return _return_atom(undefined, k, param);
                     }));
       }
-      let c = _get(t);
+      const c = _get(t);
       let exit = 0;
       if (c >= 35) {
         if (c >= 42) {
@@ -1310,14 +1310,14 @@ function MakeDecode(funarg) {
       }
     };
   };
-  let quoted = function (k, t) {
+  const quoted = function (k, t) {
     while(true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
                       return quoted(k, param);
                     }), _error_eof);
       }
-      let c = _get(t);
+      const c = _get(t);
       if (c === 34) {
         return _return_atom(undefined, k, t);
       }
@@ -1331,13 +1331,13 @@ function MakeDecode(funarg) {
       continue ;
     };
   };
-  let escaped = function (k, t) {
+  const escaped = function (k, t) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
                     return escaped(k, param);
                   }), _error_eof);
     }
-    let c = _get(t);
+    const c = _get(t);
     if (c >= 92) {
       if (c < 117) {
         switch (c) {
@@ -1401,13 +1401,13 @@ function MakeDecode(funarg) {
                     }), c);
     }
   };
-  let read2int = function (i, k, t) {
+  const read2int = function (i, k, t) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
                     return read2int(i, k, param);
                   }), _error_eof);
     }
-    let c = _get(t);
+    const c = _get(t);
     if (_is_digit(c)) {
       return read1int(Math.imul(10, i) + (c - /* '0' */48 | 0) | 0, k, t);
     } else {
@@ -1428,13 +1428,13 @@ function MakeDecode(funarg) {
                     }), c);
     }
   };
-  let read1int = function (i, k, t) {
+  const read1int = function (i, k, t) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
                     return read1int(i, k, param);
                   }), _error_eof);
     }
-    let c = _get(t);
+    const c = _get(t);
     if (_is_digit(c)) {
       return Curry._1(k, Math.imul(10, i) + (c - /* '0' */48 | 0) | 0);
     } else {
@@ -1455,21 +1455,21 @@ function MakeDecode(funarg) {
                     }), c);
     }
   };
-  let skip_comment = function (k, t) {
+  const skip_comment = function (k, t) {
     while(true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
                       return skip_comment(k, param);
                     }), _error_eof);
       }
-      let match = _get(t);
+      const match = _get(t);
       if (match === 10) {
         return Curry._2(k, undefined, undefined);
       }
       continue ;
     };
   };
-  let expr_or_end = function (k, t) {
+  const expr_or_end = function (k, t) {
     while(true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
@@ -1478,7 +1478,7 @@ function MakeDecode(funarg) {
                       return Curry._1(funarg.$$return, "End");
                     }));
       }
-      let c = _get(t);
+      const c = _get(t);
       if (c >= 11) {
         if (c !== 32) {
           return expr_starting_with(c, k, t);
@@ -1491,7 +1491,7 @@ function MakeDecode(funarg) {
       continue ;
     };
   };
-  let next = function (t) {
+  const next = function (t) {
     return expr_or_end((function (param, x) {
                   return Curry._1(funarg.$$return, {
                               NAME: "Ok",
@@ -1505,7 +1505,7 @@ function MakeDecode(funarg) {
         };
 }
 
-let D = {
+const D = {
   make: make,
   next: next
 };

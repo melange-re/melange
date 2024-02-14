@@ -3,7 +3,7 @@
 
 let A2_a3 = require("./a2_a3.js");
 
-let v = A2_a3.v;
+const v = A2_a3.v;
 
 exports.v = v;
 /* No side effect */

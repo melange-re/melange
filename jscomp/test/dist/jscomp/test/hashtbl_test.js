@@ -22,7 +22,7 @@ function to_list(tbl) {
 }
 
 function f(param) {
-  let tbl = Stdlib__Hashtbl.create(undefined, 17);
+  const tbl = Stdlib__Hashtbl.create(undefined, 17);
   Stdlib__Hashtbl.add(tbl, 1, /* '1' */49);
   Stdlib__Hashtbl.add(tbl, 2, /* '2' */50);
   return Stdlib__List.sort((function (param, param$1) {
@@ -31,20 +31,20 @@ function f(param) {
 }
 
 function g(count) {
-  let tbl = Stdlib__Hashtbl.create(undefined, 17);
+  const tbl = Stdlib__Hashtbl.create(undefined, 17);
   for(let i = 0; i <= count; ++i){
     Stdlib__Hashtbl.replace(tbl, (i << 1), String(i));
   }
   for(let i$1 = 0; i$1 <= count; ++i$1){
     Stdlib__Hashtbl.replace(tbl, (i$1 << 1), String(i$1));
   }
-  let v = to_list(tbl);
+  const v = to_list(tbl);
   return Stdlib__Array.of_list(Stdlib__List.sort((function (param, param$1) {
                     return Caml.caml_int_compare(param[0], param$1[0]);
                   }), v));
 }
 
-let suites_0 = [
+const suites_0 = [
   "simple",
   (function (param) {
       return {
@@ -67,7 +67,7 @@ let suites_0 = [
     })
 ];
 
-let suites_1 = {
+const suites_1 = {
   hd: [
     "more_iterations",
     (function (param) {
@@ -87,7 +87,7 @@ let suites_1 = {
     hd: [
       "More_labels_regressionfix_374",
       (function (param) {
-          let tbl = Curry._2(Stdlib__MoreLabels.Hashtbl.create, undefined, 30);
+          const tbl = Curry._2(Stdlib__MoreLabels.Hashtbl.create, undefined, 30);
           Stdlib__Hashtbl.add(tbl, 3, 3);
           return {
                   TAG: /* Eq */0,
@@ -100,7 +100,7 @@ let suites_1 = {
   }
 };
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: suites_1
 };

@@ -5,11 +5,11 @@ let Curry = require("melange.js/curry.js");
 let Gpr_1423_nav = require("./gpr_1423_nav.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 

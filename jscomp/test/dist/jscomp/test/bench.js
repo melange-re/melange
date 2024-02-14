@@ -7,12 +7,12 @@ let Curry = require("melange.js/curry.js");
 let Stdlib = require("melange/stdlib.js");
 
 function map(f, a) {
-  let f$1 = Curry.__1(f);
-  let l = a.length;
+  const f$1 = Curry.__1(f);
+  const l = a.length;
   if (l === 0) {
     return [];
   }
-  let r = Caml_array.make(l, f$1(a[0]));
+  const r = Caml_array.make(l, f$1(a[0]));
   for(let i = 1; i < l; ++i){
     r[i] = f$1(a[i]);
   }
@@ -20,7 +20,7 @@ function map(f, a) {
 }
 
 function init(l, f) {
-  let f$1 = Curry.__1(f);
+  const f$1 = Curry.__1(f);
   if (l === 0) {
     return [];
   }
@@ -30,7 +30,7 @@ function init(l, f) {
               _1: "Array.init"
             });
   }
-  let res = Caml_array.make(l, f$1(0));
+  const res = Caml_array.make(l, f$1(0));
   for(let i = 1; i < l; ++i){
     res[i] = f$1(i);
   }
@@ -38,7 +38,7 @@ function init(l, f) {
 }
 
 function fold_left(f, x, a) {
-  let f$1 = Curry.__2(f);
+  const f$1 = Curry.__2(f);
   let r = x;
   for(let i = 0 ,i_finish = a.length; i < i_finish; ++i){
     r = f$1(r, a[i]);
@@ -47,13 +47,13 @@ function fold_left(f, x, a) {
 }
 
 function f2(param) {
-  let arr = init(3000000, (function (i) {
+  const arr = init(3000000, (function (i) {
           return i;
         }));
-  let b = map((function (i) {
+  const b = map((function (i) {
           return i + i - 1;
         }), arr);
-  let v = fold_left((function (prim0, prim1) {
+  const v = fold_left((function (prim0, prim1) {
           return prim0 + prim1;
         }), 0, b);
   console.log(Stdlib.string_of_float(v));

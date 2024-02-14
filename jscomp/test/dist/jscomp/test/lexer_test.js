@@ -14,11 +14,11 @@ let Stdlib__Lexing = require("melange/lexing.js");
 let Stdlib__List = require("melange/list.js");
 
 function get_tokens(lex, str) {
-  let buf = Stdlib__Lexing.from_string(undefined, str);
+  const buf = Stdlib__Lexing.from_string(undefined, str);
   let _acc = /* [] */0;
   while(true) {
-    let acc = _acc;
-    let v = Curry._1(lex, buf);
+    const acc = _acc;
+    const v = Curry._1(lex, buf);
     if (Caml_obj.caml_equal(v, /* EOF */7)) {
       return Stdlib__List.rev(acc);
     }
@@ -35,11 +35,11 @@ function f(param) {
 }
 
 function from_tokens(lst) {
-  let l = {
+  const l = {
     contents: lst
   };
   return function (param) {
-    let match = l.contents;
+    const match = l.contents;
     if (match) {
       l.contents = match.tl;
       return match.hd;
@@ -50,7 +50,7 @@ function from_tokens(lst) {
   };
 }
 
-let lexer_suites_0 = [
+const lexer_suites_0 = [
   "arith_token",
   (function (param) {
       return {
@@ -94,7 +94,7 @@ let lexer_suites_0 = [
     })
 ];
 
-let lexer_suites_1 = {
+const lexer_suites_1 = {
   hd: [
     "simple token",
     (function (param) {
@@ -112,10 +112,10 @@ let lexer_suites_1 = {
     hd: [
       "number_lexer",
       (function (param) {
-          let v = {
+          const v = {
             contents: /* [] */0
           };
-          let add = function (t) {
+          const add = function (t) {
             v.contents = {
               hd: t,
               tl: v.contents
@@ -208,7 +208,7 @@ let lexer_suites_1 = {
   }
 };
 
-let lexer_suites = {
+const lexer_suites = {
   hd: lexer_suites_0,
   tl: lexer_suites_1
 };

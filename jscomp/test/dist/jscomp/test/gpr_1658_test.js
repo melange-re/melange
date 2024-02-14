@@ -4,11 +4,11 @@
 let Js__Js_types = require("melange.js/js_types.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -31,7 +31,7 @@ function eq(loc, x, y) {
 
 eq("File \"jscomp/test/gpr_1658_test.ml\", line 11, characters 7-14", null, null);
 
-let match = Js__Js_types.classify(null);
+const match = Js__Js_types.classify(null);
 
 if (match === 2) {
   eq("File \"jscomp/test/gpr_1658_test.ml\", line 14, characters 11-18", true, true);

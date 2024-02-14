@@ -6,18 +6,18 @@ let CamlinternalOO = require("melange/camlinternalOO.js");
 let Curry = require("melange.js/curry.js");
 let Mt = require("./mt.js");
 
-let shared = [
+const shared = [
   "move",
   "get_x"
 ];
 
-let shared$1 = ["x"];
+const shared$1 = ["x"];
 
 function point_init($$class) {
-  let ids = CamlinternalOO.new_methods_variables($$class, shared, shared$1);
-  let move = ids[0];
-  let get_x = ids[1];
-  let x = ids[2];
+  const ids = CamlinternalOO.new_methods_variables($$class, shared, shared$1);
+  const move = ids[0];
+  const get_x = ids[1];
+  const x = ids[2];
   CamlinternalOO.set_methods($$class, [
         get_x,
         (function (self$1) {
@@ -29,31 +29,31 @@ function point_init($$class) {
           })
       ]);
   return function (env, self) {
-    let self$1 = CamlinternalOO.create_object_opt(self, $$class);
+    const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     self$1[x] = 0;
     return self$1;
   };
 }
 
-let point = CamlinternalOO.make_class(shared, point_init);
+const point = CamlinternalOO.make_class(shared, point_init);
 
-let p = Curry._1(point[0], undefined);
+const p = Curry._1(point[0], undefined);
 
-let zero = Caml_oo_curry.js1(291546447, 1, p);
+const zero = Caml_oo_curry.js1(291546447, 1, p);
 
 Caml_oo_curry.js2(-933174511, 2, p, 3);
 
-let three = Caml_oo_curry.js1(291546447, 3, p);
+const three = Caml_oo_curry.js1(291546447, 3, p);
 
-let x0 = {
+const x0 = {
   contents: 0
 };
 
 function point2_init($$class) {
-  let ids = CamlinternalOO.new_methods_variables($$class, shared, shared$1);
-  let move = ids[0];
-  let get_x = ids[1];
-  let x = ids[2];
+  const ids = CamlinternalOO.new_methods_variables($$class, shared, shared$1);
+  const move = ids[0];
+  const get_x = ids[1];
+  const x = ids[2];
   CamlinternalOO.set_methods($$class, [
         get_x,
         (function (self$2) {
@@ -65,24 +65,24 @@ function point2_init($$class) {
           })
       ]);
   return function (env, self) {
-    let self$1 = CamlinternalOO.create_object_opt(self, $$class);
+    const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     x0.contents = x0.contents + 1 | 0;
     self$1[x] = x0.contents;
     return self$1;
   };
 }
 
-let point2 = CamlinternalOO.make_class(shared, point2_init);
+const point2 = CamlinternalOO.make_class(shared, point2_init);
 
-let tmp = Curry._1(point2[0], undefined);
+const tmp = Curry._1(point2[0], undefined);
 
-let one = Caml_oo_curry.js1(291546447, 4, tmp);
+const one = Caml_oo_curry.js1(291546447, 4, tmp);
 
-let tmp$1 = Curry._1(point2[0], undefined);
+const tmp$1 = Curry._1(point2[0], undefined);
 
-let two = Caml_oo_curry.js1(291546447, 5, tmp$1);
+const two = Caml_oo_curry.js1(291546447, 5, tmp$1);
 
-let u = {
+const u = {
   x: 3,
   getX: (function () {
       let self = this ;

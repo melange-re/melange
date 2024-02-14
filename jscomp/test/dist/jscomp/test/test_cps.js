@@ -6,8 +6,8 @@ let Curry = require("melange.js/curry.js");
 
 function f(_n, _acc) {
   while(true) {
-    let acc = _acc;
-    let n = _n;
+    const acc = _acc;
+    const n = _n;
     if (n === 0) {
       return Curry._1(acc, undefined);
     }
@@ -21,7 +21,7 @@ function f(_n, _acc) {
 }
 
 function test_closure(param) {
-  let arr = Caml_array.make(6, (function (x) {
+  const arr = Caml_array.make(6, (function (x) {
           return x;
         }));
   for(let i = 0; i <= 6; ++i){

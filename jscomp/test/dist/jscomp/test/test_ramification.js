@@ -36,10 +36,10 @@ function f2(x) {
   let y;
   v = 1;
   if (x.TAG === /* A */0) {
-    let z = 33;
+    const z = 33;
     y = z + 3 | 0;
   } else {
-    let z$1 = 33;
+    const z$1 = 33;
     y = z$1 + 4 | 0;
   }
   return y + 32 | 0;

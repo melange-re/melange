@@ -9,7 +9,7 @@ let Stdlib__Hashtbl = require("melange/hashtbl.js");
 let Stdlib__List = require("melange/list.js");
 
 function f(H) {
-  let tbl = Curry._1(H.create, 17);
+  const tbl = Curry._1(H.create, 17);
   Curry._3(H.add, tbl, 1, /* '1' */49);
   Curry._3(H.add, tbl, 2, /* '2' */50);
   return Stdlib__List.sort((function (param, param$1) {
@@ -26,14 +26,14 @@ function f(H) {
 }
 
 function g(H, count) {
-  let tbl = Curry._1(H.create, 17);
+  const tbl = Curry._1(H.create, 17);
   for(let i = 0; i <= count; ++i){
     Curry._3(H.replace, tbl, (i << 1), String(i));
   }
   for(let i$1 = 0; i$1 <= count; ++i$1){
     Curry._3(H.replace, tbl, (i$1 << 1), String(i$1));
   }
-  let v = Curry._3(H.fold, (function (k, v, acc) {
+  const v = Curry._3(H.fold, (function (k, v, acc) {
           return {
                   hd: [
                     k,
@@ -47,18 +47,18 @@ function g(H, count) {
                   }), v));
 }
 
-let hash = Stdlib__Hashtbl.hash;
+const hash = Stdlib__Hashtbl.hash;
 
 function equal(x, y) {
   return x === y;
 }
 
-let Int_hash = Stdlib__Hashtbl.Make({
+const Int_hash = Stdlib__Hashtbl.Make({
       equal: equal,
       hash: hash
     });
 
-let suites_0 = [
+const suites_0 = [
   "simple",
   (function (param) {
       return {
@@ -81,7 +81,7 @@ let suites_0 = [
     })
 ];
 
-let suites_1 = {
+const suites_1 = {
   hd: [
     "more_iterations",
     (function (param) {
@@ -100,7 +100,7 @@ let suites_1 = {
   tl: /* [] */0
 };
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: suites_1
 };

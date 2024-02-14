@@ -3,11 +3,11 @@
 
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -23,15 +23,15 @@ function get(param) {
   return param;
 }
 
-let x = "foo";
+const x = "foo";
 
 eq("File \"jscomp/test/unboxed_attribute_test.ml\", line 18, characters 3-10", x, x);
 
-let x$1 = "foo";
+const x$1 = "foo";
 
 eq("File \"jscomp/test/unboxed_attribute_test.ml\", line 26, characters 3-10", x$1, x$1);
 
-let x$2 = "foo";
+const x$2 = "foo";
 
 eq("File \"jscomp/test/unboxed_attribute_test.ml\", line 33, characters 3-10", x$2, x$2);
 
@@ -41,7 +41,7 @@ y._0 = y;
 
 Mt.from_pair_suites("jscomp/test/unboxed_attribute_test.ml", suites.contents);
 
-let v0 = 3;
+const v0 = 3;
 
 exports.suites = suites;
 exports.test_id = test_id;

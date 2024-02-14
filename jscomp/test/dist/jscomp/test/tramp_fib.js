@@ -3,11 +3,11 @@
 
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -32,7 +32,7 @@ function fib(n, k) {
   }
 }
 
-let u = fib(10, (function (x) {
+const u = fib(10, (function (x) {
         return {
                 TAG: /* Continue */0,
                 _0: x
@@ -41,7 +41,7 @@ let u = fib(10, (function (x) {
 
 function iter(_bounce) {
   while(true) {
-    let bounce = _bounce;
+    const bounce = _bounce;
     if (bounce.TAG === /* Continue */0) {
       return bounce._0;
     }

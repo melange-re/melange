@@ -32,39 +32,39 @@ function a4(x, y) {
   return a3(x, y) + 1 | 0;
 }
 
-let A4 = {
+const A4 = {
   a4: a4
 };
 
-let A3 = {
+const A3 = {
   a3: a3,
   A4: A4
 };
 
-let A2 = {
+const A2 = {
   a2: a2,
   A3: A3
 };
 
-let A1 = {
+const A1 = {
   a1: a1,
   A2: A2
 };
 
-let A0 = {
+const A0 = {
   a0: a0,
   A1: A1
 };
 
-let v1 = a1(1, 2);
+const v1 = a1(1, 2);
 
-let v2 = a2(1, 2);
+const v2 = a2(1, 2);
 
-let v3 = a3(1, 2);
+const v3 = a3(1, 2);
 
-let v4 = a4(1, 2);
+const v4 = a4(1, 2);
 
-let v0 = 4;
+const v0 = 4;
 
 exports.A0 = A0;
 exports.v0 = v0;

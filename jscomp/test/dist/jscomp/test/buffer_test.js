@@ -6,9 +6,9 @@ let Mt = require("./mt.js");
 let Stdlib__Buffer = require("melange/buffer.js");
 let Stdlib__Bytes = require("melange/bytes.js");
 
-let v = "gso";
+const v = "gso";
 
-let suites_0 = [
+const suites_0 = [
   "equal",
   (function (param) {
       return {
@@ -25,11 +25,11 @@ let suites_0 = [
     })
 ];
 
-let suites_1 = {
+const suites_1 = {
   hd: [
     "equal2",
     (function (param) {
-        let u = Stdlib__Bytes.make(3, /* 'a' */97);
+        const u = Stdlib__Bytes.make(3, /* 'a' */97);
         u[0] = /* 'b' */98;
         return {
                 TAG: /* Eq */0,
@@ -48,7 +48,7 @@ let suites_1 = {
     hd: [
       "buffer",
       (function (param) {
-          let v = Stdlib__Buffer.create(30);
+          const v = Stdlib__Buffer.create(30);
           for(let i = 0; i <= 10; ++i){
             Stdlib__Buffer.add_string(v, String(i));
           }
@@ -63,7 +63,7 @@ let suites_1 = {
   }
 };
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: suites_1
 };

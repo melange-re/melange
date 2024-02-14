@@ -4,7 +4,7 @@
 let Caml_option = require("melange.js/caml_option.js");
 
 function Make(S) {
-  let opt_get = function (f, i) {
+  const opt_get = function (f, i) {
     return Caml_option.undefined_to_opt(f[i]);
   };
   return {
@@ -16,7 +16,7 @@ function opt_get(f, i) {
   return Caml_option.undefined_to_opt(f[i]);
 }
 
-let Int_arr = {
+const Int_arr = {
   opt_get: opt_get
 };
 

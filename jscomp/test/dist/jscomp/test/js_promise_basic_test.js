@@ -9,11 +9,11 @@ let Mt = require("./mt.js");
 let Stdlib = require("melange/stdlib.js");
 let Stdlib__List = require("melange/list.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -56,14 +56,14 @@ function fail(param) {
 }
 
 function thenTest(param) {
-  let p = Promise.resolve(4);
+  const p = Promise.resolve(4);
   return p.then(function (x) {
               return Promise.resolve(assert_bool(x === 4));
             });
 }
 
 function andThenTest(param) {
-  let p = Promise.resolve(6);
+  const p = Promise.resolve(6);
   return p.then(function (param) {
                 return Promise.resolve(12);
               }).then(function (y) {
@@ -71,10 +71,10 @@ function andThenTest(param) {
             });
 }
 
-let h = Promise.resolve(undefined);
+const h = Promise.resolve(undefined);
 
 function assertIsNotFound(x) {
-  let match = Caml_exceptions.caml_is_extension(x) && x.MEL_EXN_ID === Stdlib.Not_found ? 0 : undefined;
+  const match = Caml_exceptions.caml_is_extension(x) && x.MEL_EXN_ID === Stdlib.Not_found ? 0 : undefined;
   if (match !== undefined) {
     return h;
   }
@@ -89,14 +89,14 @@ function assertIsNotFound(x) {
 }
 
 function catchTest(param) {
-  let p = Promise.reject({
+  const p = Promise.reject({
         MEL_EXN_ID: Stdlib.Not_found
       });
   return p.then(fail).catch(assertIsNotFound);
 }
 
 function orResolvedTest(param) {
-  let p = Promise.resolve(42);
+  const p = Promise.resolve(42);
   return p.catch(function (param) {
                   return Promise.resolve(22);
                 }).then(function (value) {
@@ -105,7 +105,7 @@ function orResolvedTest(param) {
 }
 
 function orRejectedTest(param) {
-  let p = Promise.reject({
+  const p = Promise.reject({
         MEL_EXN_ID: Stdlib.Not_found
       });
   return p.catch(function (param) {
@@ -116,7 +116,7 @@ function orRejectedTest(param) {
 }
 
 function orElseResolvedTest(param) {
-  let p = Promise.resolve(42);
+  const p = Promise.resolve(42);
   return p.catch(function (param) {
                   return Promise.resolve(22);
                 }).then(function (value) {
@@ -125,7 +125,7 @@ function orElseResolvedTest(param) {
 }
 
 function orElseRejectedResolveTest(param) {
-  let p = Promise.reject({
+  const p = Promise.reject({
         MEL_EXN_ID: Stdlib.Not_found
       });
   return p.catch(function (param) {
@@ -136,7 +136,7 @@ function orElseRejectedResolveTest(param) {
 }
 
 function orElseRejectedRejectTest(param) {
-  let p = Promise.reject({
+  const p = Promise.reject({
         MEL_EXN_ID: Stdlib.Not_found
       });
   return p.catch(function (param) {
@@ -144,7 +144,7 @@ function orElseRejectedRejectTest(param) {
                               MEL_EXN_ID: Stdlib.Stack_overflow
                             });
                 }).then(fail).catch(function (error) {
-              let match = Caml_exceptions.caml_is_extension(error) && error.MEL_EXN_ID === Stdlib.Stack_overflow ? 0 : undefined;
+              const match = Caml_exceptions.caml_is_extension(error) && error.MEL_EXN_ID === Stdlib.Stack_overflow ? 0 : undefined;
               if (match !== undefined) {
                 return h;
               }
@@ -160,38 +160,38 @@ function orElseRejectedRejectTest(param) {
 }
 
 function resolveTest(param) {
-  let p1 = Promise.resolve(10);
+  const p1 = Promise.resolve(10);
   return p1.then(function (x) {
               return Promise.resolve(assert_bool(x === 10));
             });
 }
 
 function rejectTest(param) {
-  let p = Promise.reject({
+  const p = Promise.reject({
         MEL_EXN_ID: Stdlib.Not_found
       });
   return p.catch(assertIsNotFound);
 }
 
 function thenCatchChainResolvedTest(param) {
-  let p = Promise.resolve(20);
+  const p = Promise.resolve(20);
   return p.then(function (value) {
                 return Promise.resolve(assert_bool(value === 20));
               }).catch(fail);
 }
 
 function thenCatchChainRejectedTest(param) {
-  let p = Promise.reject({
+  const p = Promise.reject({
         MEL_EXN_ID: Stdlib.Not_found
       });
   return p.then(fail).catch(assertIsNotFound);
 }
 
 function allResolvedTest(param) {
-  let p1 = Promise.resolve(1);
-  let p2 = Promise.resolve(2);
-  let p3 = Promise.resolve(3);
-  let promises = [
+  const p1 = Promise.resolve(1);
+  const p2 = Promise.resolve(2);
+  const p3 = Promise.resolve(3);
+  const promises = [
     p1,
     p2,
     p3
@@ -209,12 +209,12 @@ function is_not_found(error) {
 }
 
 function allRejectTest(param) {
-  let p1 = Promise.resolve(1);
-  let p2 = Promise.resolve(3);
-  let p3 = Promise.reject({
+  const p1 = Promise.resolve(1);
+  const p2 = Promise.resolve(3);
+  const p3 = Promise.reject({
         MEL_EXN_ID: Stdlib.Not_found
       });
-  let promises = [
+  const promises = [
     p1,
     p2,
     p3
@@ -226,10 +226,10 @@ function allRejectTest(param) {
 }
 
 function raceTest(param) {
-  let p1 = Promise.resolve("first");
-  let p2 = Promise.resolve("second");
-  let p3 = Promise.resolve("third");
-  let promises = [
+  const p1 = Promise.resolve("first");
+  const p2 = Promise.resolve("second");
+  const p3 = Promise.resolve("third");
+  const promises = [
     p1,
     p2,
     p3
@@ -309,7 +309,7 @@ console.log("hey");
 
 Mt.from_pair_suites("Js_promise_basic_test", suites.contents);
 
-let twop = Promise.resolve(2);
+const twop = Promise.resolve(2);
 
 function then_(prim0, prim1) {
   return prim1.then(Curry.__1(prim0));

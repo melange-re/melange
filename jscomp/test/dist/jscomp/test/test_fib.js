@@ -25,7 +25,7 @@ for(let i = 0; i <= 10; ++i){
   v = v + i | 0;
 }
 
-let sum = v;
+const sum = v;
 
 let v$1 = 0;
 
@@ -33,7 +33,7 @@ for(let i$1 = 10; i$1 >= 0; --i$1){
   v$1 = v$1 + i$1 | 0;
 }
 
-let sumdown = v$1;
+const sumdown = v$1;
 
 function cons(x, y) {
   return /* Cons */{
@@ -76,9 +76,9 @@ function fib3(n) {
   let _b = 1;
   let _n = n;
   while(true) {
-    let n$1 = _n;
-    let b = _b;
-    let a = _a;
+    const n$1 = _n;
+    const b = _b;
+    const a = _a;
     if (n$1 <= 0) {
       return a;
     }
@@ -89,7 +89,7 @@ function fib3(n) {
   };
 }
 
-let b = fib;
+const b = fib;
 
 exports.fib = fib;
 exports.fib2 = fib2;

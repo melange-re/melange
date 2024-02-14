@@ -6,7 +6,7 @@ function map(f, param) {
   if (typeof param === "string") {
     return "Nil";
   }
-  let match = param.VAL;
+  const match = param.VAL;
   return {
           NAME: "Cons",
           VAL: [

@@ -6,11 +6,11 @@ let Inline_const = require("./inline_const.js");
 let Mt = require("./mt.js");
 let Stdlib__Int64 = require("melange/int64.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -18,17 +18,17 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-let H = {};
+const H = {};
 
-let f = "hello";
+const f = "hello";
 
-let f1 = "a";
+const f1 = "a";
 
-let f2 = "中文";
+const f2 = "中文";
 
-let f3 = "中文";
+const f3 = "中文";
 
-let f4 = "中文";
+const f4 = "中文";
 
 eq("File \"jscomp/test/inline_const_test.ml\", line 29, characters 5-12", f, "hello");
 
@@ -46,18 +46,18 @@ eq("File \"jscomp/test/inline_const_test.ml\", line 35, characters 5-12", 1, 1);
 
 eq("File \"jscomp/test/inline_const_test.ml\", line 36, characters 5-12", 3e-6, 0.000003);
 
-let h = Caml_int64.add(Caml_int64.add([
+const h = Caml_int64.add(Caml_int64.add([
           0,
           100
         ], Stdlib__Int64.one), Caml_int64.one);
 
 Mt.from_pair_suites("File \"jscomp/test/inline_const_test.ml\", line 43, characters 22-29", suites.contents);
 
-let f5 = true;
+const f5 = true;
 
-let f6 = 1;
+const f6 = 1;
 
-let f7 = 3e-6;
+const f7 = 3e-6;
 
 exports.suites = suites;
 exports.test_id = test_id;

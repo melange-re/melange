@@ -7,7 +7,7 @@ function g(x) {
   return Curry._1(x, x);
 }
 
-let loop = g(g);
+const loop = g(g);
 
 exports.g = g;
 exports.loop = loop;

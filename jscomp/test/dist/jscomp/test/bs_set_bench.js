@@ -50,7 +50,7 @@ bench(undefined);
 
 console.timeEnd("bs_set_bench.ml 21");
 
-let count = 1000000;
+const count = 1000000;
 
 exports.count = count;
 exports.bench = bench;

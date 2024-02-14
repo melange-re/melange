@@ -5,7 +5,7 @@ let Mt = require("./mt.js");
 
 function f(b, x, _n) {
   while(true) {
-    let n = _n;
+    const n = _n;
     if (n > 100000) {
       return false;
     }
@@ -19,7 +19,7 @@ function f(b, x, _n) {
 
 function or_f(b, x, _n) {
   while(true) {
-    let n = _n;
+    const n = _n;
     if (n > 100000) {
       return false;
     }
@@ -31,7 +31,7 @@ function or_f(b, x, _n) {
   };
 }
 
-let suites_0 = [
+const suites_0 = [
   "and_tail",
   (function (param) {
       return {
@@ -42,7 +42,7 @@ let suites_0 = [
     })
 ];
 
-let suites_1 = {
+const suites_1 = {
   hd: [
     "or_tail",
     (function (param) {
@@ -56,7 +56,7 @@ let suites_1 = {
   tl: /* [] */0
 };
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: suites_1
 };

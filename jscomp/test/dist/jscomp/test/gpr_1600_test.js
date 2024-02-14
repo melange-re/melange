@@ -2,13 +2,13 @@
 'use strict';
 
 
-let obj = {
+const obj = {
   hi: (function (x) {
       console.log(x);
     })
 };
 
-let eventObj = {
+const eventObj = {
   events: [],
   empty: (function () {
       

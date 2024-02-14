@@ -2,7 +2,7 @@
 'use strict';
 
 
-let v = true;
+const v = true;
 
 exports.v = v;
 /* No side effect */

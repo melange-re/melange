@@ -6,11 +6,11 @@ let Mt = require("./mt.js");
 let Stdlib = require("melange/stdlib.js");
 let Stdlib__Int64 = require("melange/int64.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -40,7 +40,7 @@ function g(x) {
   return Caml_int64.or_(x, (Stdlib.print_string("f"), x));
 }
 
-let v = {
+const v = {
   contents: 0
 };
 
@@ -53,7 +53,7 @@ function g2(x) {
   return Caml_int64.or_(x, (v.contents = v.contents + 1 | 0, x));
 }
 
-let a = Caml_int64.or_(Stdlib__Int64.one, (v.contents = v.contents + 1 | 0, Stdlib__Int64.one));
+const a = Caml_int64.or_(Stdlib__Int64.one, (v.contents = v.contents + 1 | 0, Stdlib__Int64.one));
 
 eq("File \"jscomp/test/gpr_1154_test.ml\", line 27, characters 12-19", v.contents, 1);
 

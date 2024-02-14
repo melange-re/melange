@@ -32,11 +32,11 @@ function is_empty(param) {
 
 function mem(x, _param) {
   while(true) {
-    let param = _param;
+    const param = _param;
     if (!param) {
       return false;
     }
-    let y = param._2;
+    const y = param._2;
     if (x === y) {
       return true;
     }
@@ -59,7 +59,7 @@ function balance_left(l, x, r) {
   let z;
   let d;
   if (l && l._0) {
-    let a$1 = l._1;
+    const a$1 = l._1;
     let exit$1 = 0;
     if (a$1 && a$1._0) {
       a = a$1._1;
@@ -74,7 +74,7 @@ function balance_left(l, x, r) {
       exit$1 = 3;
     }
     if (exit$1 === 3) {
-      let match = l._3;
+      const match = l._3;
       if (match && match._0) {
         a = a$1;
         x$1 = l._2;
@@ -131,7 +131,7 @@ function balance_right(l, x, r) {
   let z;
   let d;
   if (r && r._0) {
-    let b$1 = r._1;
+    const b$1 = r._1;
     let exit$1 = 0;
     if (b$1 && b$1._0) {
       a = l;
@@ -146,7 +146,7 @@ function balance_right(l, x, r) {
       exit$1 = 3;
     }
     if (exit$1 === 3) {
-      let match = r._3;
+      const match = r._3;
       if (match && match._0) {
         a = l;
         x$1 = x;
@@ -205,7 +205,7 @@ function singleton(x) {
 function unbalanced_left(param) {
   if (param) {
     if (param._0) {
-      let match = param._1;
+      const match = param._1;
       if (match && !match._0) {
         return [
                 balance_left(/* Node */{
@@ -219,7 +219,7 @@ function unbalanced_left(param) {
       }
       
     } else {
-      let match$1 = param._1;
+      const match$1 = param._1;
       if (match$1) {
         if (!match$1._0) {
           return [
@@ -232,7 +232,7 @@ function unbalanced_left(param) {
                   true
                 ];
         }
-        let match$2 = match$1._3;
+        const match$2 = match$1._3;
         if (match$2 && !match$2._0) {
           return [
                   /* Node */{
@@ -267,7 +267,7 @@ function unbalanced_left(param) {
 function unbalanced_right(param) {
   if (param) {
     if (param._0) {
-      let match = param._3;
+      const match = param._3;
       if (match && !match._0) {
         return [
                 balance_right(param._1, param._2, /* Node */{
@@ -281,10 +281,10 @@ function unbalanced_right(param) {
       }
       
     } else {
-      let match$1 = param._3;
+      const match$1 = param._3;
       if (match$1) {
-        let x = param._2;
-        let a = param._1;
+        const x = param._2;
+        const a = param._1;
         if (!match$1._0) {
           return [
                   balance_right(a, x, /* Node */{
@@ -296,7 +296,7 @@ function unbalanced_right(param) {
                   true
                 ];
         }
-        let match$2 = match$1._1;
+        const match$2 = match$1._1;
         if (match$2 && !match$2._0) {
           return [
                   /* Node */{
@@ -345,8 +345,8 @@ function lbalance(x1, x2, x3) {
             _3: x3
           };
   }
-  let r = x1._3;
-  let l = x1._1;
+  const r = x1._3;
+  const l = x1._1;
   if (l && l._0) {
     return /* Node */{
             _0: /* Red */1,
@@ -381,7 +381,7 @@ function lbalance(x1, x2, x3) {
             _3: x3
           };
   }
-  let y = r._2;
+  const y = r._2;
   return /* Node */{
           _0: /* Red */1,
           _1: /* Node */{
@@ -402,7 +402,7 @@ function lbalance(x1, x2, x3) {
 
 function rbalance(x1, x2, x3) {
   if (x3 && x3._0) {
-    let b = x3._1;
+    const b = x3._1;
     let exit = 0;
     if (b) {
       if (b._0) {
@@ -428,7 +428,7 @@ function rbalance(x1, x2, x3) {
       exit = 2;
     }
     if (exit === 2) {
-      let match = x3._3;
+      const match = x3._3;
       if (match && match._0) {
         return /* Node */{
                 _0: /* Red */1,
@@ -469,12 +469,12 @@ function ins(x, s) {
           };
   }
   if (s._0) {
-    let y = s._2;
+    const y = s._2;
     if (x === y) {
       return s;
     }
-    let b = s._3;
-    let a = s._1;
+    const b = s._3;
+    const a = s._1;
     if (x < y) {
       return /* Node */{
               _0: /* Red */1,
@@ -491,12 +491,12 @@ function ins(x, s) {
             };
     }
   }
-  let y$1 = s._2;
+  const y$1 = s._2;
   if (x === y$1) {
     return s;
   }
-  let b$1 = s._3;
-  let a$1 = s._1;
+  const b$1 = s._3;
+  const a$1 = s._1;
   if (x < y$1) {
     return lbalance(ins(x, a$1), y$1, b$1);
   } else {
@@ -505,7 +505,7 @@ function ins(x, s) {
 }
 
 function add(x, s) {
-  let s$1 = ins(x, s);
+  const s$1 = ins(x, s);
   if (s$1 && s$1._0) {
     return /* Node */{
             _0: /* Black */0,
@@ -520,7 +520,7 @@ function add(x, s) {
 
 function remove_min(param) {
   if (param) {
-    let c = param._0;
+    const c = param._0;
     if (c) {
       if (!param._1) {
         return [
@@ -531,8 +531,8 @@ function remove_min(param) {
       }
       
     } else if (!param._1) {
-      let match = param._3;
-      let x = param._2;
+      const match = param._3;
+      const x = param._2;
       if (!match) {
         return [
                 /* Empty */0,
@@ -561,12 +561,12 @@ function remove_min(param) {
                 ]
               });
     }
-    let match$1 = remove_min(param._1);
-    let y = match$1[1];
-    let s_1 = match$1[0];
-    let s_2 = param._2;
-    let s_3 = param._3;
-    let s = /* Node */{
+    const match$1 = remove_min(param._1);
+    const y = match$1[1];
+    const s_1 = match$1[0];
+    const s_2 = param._2;
+    const s_3 = param._3;
+    const s = /* Node */{
       _0: c,
       _1: s_1,
       _2: s_2,
@@ -579,7 +579,7 @@ function remove_min(param) {
               false
             ];
     }
-    let match$2 = unbalanced_right(s);
+    const match$2 = unbalanced_right(s);
     return [
             match$2[0],
             y,
@@ -603,10 +603,10 @@ function remove_aux(x, n) {
             false
           ];
   }
-  let r = n._3;
-  let y = n._2;
-  let l = n._1;
-  let c = n._0;
+  const r = n._3;
+  const y = n._2;
+  const l = n._1;
+  const c = n._0;
   if (x === y) {
     if (!r) {
       if (c === /* Red */1) {
@@ -618,10 +618,10 @@ function remove_aux(x, n) {
         return blackify(l);
       }
     }
-    let match = remove_min(r);
-    let n_2 = match[1];
-    let n_3 = match[0];
-    let n$1 = /* Node */{
+    const match = remove_min(r);
+    const n_2 = match[1];
+    const n_3 = match[0];
+    const n$1 = /* Node */{
       _0: c,
       _1: l,
       _2: n_2,
@@ -637,9 +637,9 @@ function remove_aux(x, n) {
     }
   }
   if (x < y) {
-    let match$1 = remove_aux(x, l);
-    let n_1 = match$1[0];
-    let n$2 = /* Node */{
+    const match$1 = remove_aux(x, l);
+    const n_1 = match$1[0];
+    const n$2 = /* Node */{
       _0: c,
       _1: n_1,
       _2: y,
@@ -654,9 +654,9 @@ function remove_aux(x, n) {
             ];
     }
   }
-  let match$2 = remove_aux(x, r);
-  let n_3$1 = match$2[0];
-  let n$3 = /* Node */{
+  const match$2 = remove_aux(x, r);
+  const n_3$1 = match$2[0];
+  const n$3 = /* Node */{
     _0: c,
     _1: l,
     _2: y,
@@ -684,7 +684,7 @@ function cardinal(param) {
   }
 }
 
-let empty = /* Empty */0;
+const empty = /* Empty */0;
 
 exports.blackify = blackify;
 exports.empty = empty;

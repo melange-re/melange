@@ -12,15 +12,15 @@ function assert_fail(msg) {
 }
 
 function is_mocha(param) {
-  let match = Stdlib__Array.to_list(Process.argv);
+  const match = Stdlib__Array.to_list(Process.argv);
   if (!match) {
     return false;
   }
-  let match$1 = match.tl;
+  const match$1 = match.tl;
   if (!match$1) {
     return false;
   }
-  let exec = Path.basename(match$1.hd);
+  const exec = Path.basename(match$1.hd);
   if (exec === "mocha") {
     return true;
   } else {
@@ -29,11 +29,11 @@ function is_mocha(param) {
 }
 
 function from_suites(name, suite) {
-  let match = Stdlib__Array.to_list(Process.argv);
+  const match = Stdlib__Array.to_list(Process.argv);
   if (match && is_mocha(undefined)) {
     describe(name, (function () {
             return Stdlib__List.iter((function (param) {
-                          let partial_arg = param[1];
+                          const partial_arg = param[1];
                           it(param[0], (function () {
                                   return Curry._1(partial_arg, undefined);
                                 }));
@@ -45,7 +45,7 @@ function from_suites(name, suite) {
 }
 
 function close_enough(thresholdOpt, a, b) {
-  let threshold = thresholdOpt !== undefined ? thresholdOpt : 0.0000001;
+  const threshold = thresholdOpt !== undefined ? thresholdOpt : 0.0000001;
   return Math.abs(a - b) < threshold;
 }
 
@@ -67,8 +67,8 @@ function handleCode(spec) {
         Assert.ok(spec._0);
         return ;
     case /* Approx */5 :
-        let b = spec._1;
-        let a = spec._0;
+        const b = spec._1;
+        const a = spec._0;
         if (!close_enough(undefined, a, b)) {
           Assert.deepEqual(a, b);
           return ;
@@ -76,8 +76,8 @@ function handleCode(spec) {
           return ;
         }
     case /* ApproxThreshold */6 :
-        let b$1 = spec._2;
-        let a$1 = spec._1;
+        const b$1 = spec._2;
+        const a$1 = spec._1;
         if (!close_enough(spec._0, a$1, b$1)) {
           Assert.deepEqual(a$1, b$1);
           return ;
@@ -96,12 +96,12 @@ function handleCode(spec) {
 }
 
 function from_pair_suites(name, suites) {
-  let match = Stdlib__Array.to_list(Process.argv);
+  const match = Stdlib__Array.to_list(Process.argv);
   if (match) {
     if (is_mocha(undefined)) {
       describe(name, (function () {
               return Stdlib__List.iter((function (param) {
-                            let code = param[1];
+                            const code = param[1];
                             it(param[0], (function () {
                                     return handleCode(Curry._1(code, undefined));
                                   }));
@@ -114,8 +114,8 @@ function from_pair_suites(name, suites) {
             "testing"
           ]);
       return Stdlib__List.iter((function (param) {
-                    let name = param[0];
-                    let _fn = Curry._1(param[1], undefined);
+                    const name = param[0];
+                    const _fn = Curry._1(param[1], undefined);
                     switch (_fn.TAG | 0) {
                       case /* Eq */0 :
                           console.log([
@@ -191,15 +191,15 @@ function from_pair_suites(name, suites) {
   
 }
 
-let val_unit = Promise.resolve(undefined);
+const val_unit = Promise.resolve(undefined);
 
 function from_promise_suites(name, suites) {
-  let match = Stdlib__Array.to_list(Process.argv);
+  const match = Stdlib__Array.to_list(Process.argv);
   if (match) {
     if (is_mocha(undefined)) {
       describe(name, (function () {
               return Stdlib__List.iter((function (param) {
-                            let code = param[1];
+                            const code = param[1];
                             it(param[0], (function () {
                                     return code.then(function (x) {
                                                 handleCode(x);

@@ -4,10 +4,10 @@
 let Mt = require("./mt.js");
 let Stdlib = require("melange/stdlib.js");
 
-let v = (Number.EPSILON?Number.EPSILON:2.220446049250313e-16
+const v = (Number.EPSILON?Number.EPSILON:2.220446049250313e-16
 );
 
-let suites_0 = [
+const suites_0 = [
   "epsilon",
   (function (param) {
       return {
@@ -18,7 +18,7 @@ let suites_0 = [
     })
 ];
 
-let suites_1 = {
+const suites_1 = {
   hd: [
     "raw_epsilon",
     (function (param) {
@@ -32,7 +32,7 @@ let suites_1 = {
   tl: /* [] */0
 };
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: suites_1
 };

@@ -9,9 +9,9 @@ let Stdlib = require("melange/stdlib.js");
 let Stdlib__List = require("melange/list.js");
 let Stdlib__String = require("melange/string.js");
 
-let compare = Caml.caml_int_compare;
+const compare = Caml.caml_int_compare;
 
-let Int = {
+const Int = {
   compare: compare
 };
 
@@ -24,8 +24,8 @@ function height(param) {
 }
 
 function create(l, x, d, r) {
-  let hl = height(l);
-  let hr = height(r);
+  const hl = height(l);
+  const hr = height(r);
   return /* Node */{
           l: l,
           v: x,
@@ -36,14 +36,14 @@ function create(l, x, d, r) {
 }
 
 function bal(l, x, d, r) {
-  let hl = l ? l.h : 0;
-  let hr = r ? r.h : 0;
+  const hl = l ? l.h : 0;
+  const hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
     if (l) {
-      let lr = l.r;
-      let ld = l.d;
-      let lv = l.v;
-      let ll = l.l;
+      const lr = l.r;
+      const ld = l.d;
+      const lv = l.v;
+      const ll = l.l;
       if (height(ll) >= height(lr)) {
         return create(ll, lv, ld, create(lr, x, d, r));
       }
@@ -70,10 +70,10 @@ function bal(l, x, d, r) {
           };
   }
   if (r) {
-    let rr = r.r;
-    let rd = r.d;
-    let rv = r.v;
-    let rl = r.l;
+    const rr = r.r;
+    const rd = r.d;
+    const rv = r.v;
+    const rl = r.l;
     if (height(rr) >= height(rl)) {
       return create(create(l, x, d, rl), rv, rd, rr);
     }
@@ -101,11 +101,11 @@ function add(x, data, m) {
             h: 1
           };
   }
-  let r = m.r;
-  let d = m.d;
-  let v = m.v;
-  let l = m.l;
-  let c = Curry._2(Int.compare, x, v);
+  const r = m.r;
+  const d = m.d;
+  const v = m.v;
+  const l = m.l;
+  const c = Curry._2(Int.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -120,14 +120,14 @@ function add(x, data, m) {
     }
   }
   if (c < 0) {
-    let ll = add(x, data, l);
+    const ll = add(x, data, l);
     if (l === ll) {
       return m;
     } else {
       return bal(ll, v, d, r);
     }
   }
-  let rr = add(x, data, r);
+  const rr = add(x, data, r);
   if (r === rr) {
     return m;
   } else {
@@ -137,8 +137,8 @@ function add(x, data, m) {
 
 function cons_enum(_m, _e) {
   while(true) {
-    let e = _e;
-    let m = _m;
+    const e = _e;
+    const m = _m;
     if (!m) {
       return e;
     }
@@ -157,8 +157,8 @@ function compare$1(cmp, m1, m2) {
   let _e1 = cons_enum(m1, /* End */0);
   let _e2 = cons_enum(m2, /* End */0);
   while(true) {
-    let e2 = _e2;
-    let e1 = _e1;
+    const e2 = _e2;
+    const e1 = _e1;
     if (!e1) {
       if (e2) {
         return -1;
@@ -169,11 +169,11 @@ function compare$1(cmp, m1, m2) {
     if (!e2) {
       return 1;
     }
-    let c = Curry._2(Int.compare, e1._0, e2._0);
+    const c = Curry._2(Int.compare, e1._0, e2._0);
     if (c !== 0) {
       return c;
     }
-    let c$1 = Curry._2(cmp, e1._1, e2._1);
+    const c$1 = Curry._2(cmp, e1._1, e2._1);
     if (c$1 !== 0) {
       return c$1;
     }
@@ -187,8 +187,8 @@ function equal(cmp, m1, m2) {
   let _e1 = cons_enum(m1, /* End */0);
   let _e2 = cons_enum(m2, /* End */0);
   while(true) {
-    let e2 = _e2;
-    let e1 = _e1;
+    const e2 = _e2;
+    const e1 = _e1;
     if (!e1) {
       if (e2) {
         return false;
@@ -225,7 +225,7 @@ function of_list(bs) {
               }), /* Empty */0, bs);
 }
 
-let funarg = {
+const funarg = {
   compare: Stdlib__String.compare
 };
 
@@ -238,8 +238,8 @@ function height$1(param) {
 }
 
 function create$1(l, x, d, r) {
-  let hl = height$1(l);
-  let hr = height$1(r);
+  const hl = height$1(l);
+  const hr = height$1(r);
   return /* Node */{
           l: l,
           v: x,
@@ -250,14 +250,14 @@ function create$1(l, x, d, r) {
 }
 
 function bal$1(l, x, d, r) {
-  let hl = l ? l.h : 0;
-  let hr = r ? r.h : 0;
+  const hl = l ? l.h : 0;
+  const hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
     if (l) {
-      let lr = l.r;
-      let ld = l.d;
-      let lv = l.v;
-      let ll = l.l;
+      const lr = l.r;
+      const ld = l.d;
+      const lv = l.v;
+      const ll = l.l;
       if (height$1(ll) >= height$1(lr)) {
         return create$1(ll, lv, ld, create$1(lr, x, d, r));
       }
@@ -284,10 +284,10 @@ function bal$1(l, x, d, r) {
           };
   }
   if (r) {
-    let rr = r.r;
-    let rd = r.d;
-    let rv = r.v;
-    let rl = r.l;
+    const rr = r.r;
+    const rd = r.d;
+    const rv = r.v;
+    const rl = r.l;
     if (height$1(rr) >= height$1(rl)) {
       return create$1(create$1(l, x, d, rl), rv, rd, rr);
     }
@@ -315,11 +315,11 @@ function add$1(x, data, m) {
             h: 1
           };
   }
-  let r = m.r;
-  let d = m.d;
-  let v = m.v;
-  let l = m.l;
-  let c = Curry._2(funarg.compare, x, v);
+  const r = m.r;
+  const d = m.d;
+  const v = m.v;
+  const l = m.l;
+  const c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -334,14 +334,14 @@ function add$1(x, data, m) {
     }
   }
   if (c < 0) {
-    let ll = add$1(x, data, l);
+    const ll = add$1(x, data, l);
     if (l === ll) {
       return m;
     } else {
       return bal$1(ll, v, d, r);
     }
   }
-  let rr = add$1(x, data, r);
+  const rr = add$1(x, data, r);
   if (r === rr) {
     return m;
   } else {
@@ -351,9 +351,9 @@ function add$1(x, data, m) {
 
 function find(x, _param) {
   while(true) {
-    let param = _param;
+    const param = _param;
     if (param) {
-      let c = Curry._2(funarg.compare, x, param.v);
+      const c = Curry._2(funarg.compare, x, param.v);
       if (c === 0) {
         return param.d;
       }
@@ -366,10 +366,10 @@ function find(x, _param) {
   };
 }
 
-let int_map_suites_0 = [
+const int_map_suites_0 = [
   "add",
   (function (param) {
-      let v = Curry._1(of_list, {
+      const v = Curry._1(of_list, {
             hd: [
               1,
               /* '1' */49
@@ -396,11 +396,11 @@ let int_map_suites_0 = [
     })
 ];
 
-let int_map_suites_1 = {
+const int_map_suites_1 = {
   hd: [
     "equal",
     (function (param) {
-        let v = Curry._1(of_list, {
+        const v = Curry._1(of_list, {
               hd: [
                 1,
                 /* '1' */49
@@ -419,7 +419,7 @@ let int_map_suites_1 = {
                 }
               }
             });
-        let u = Curry._1(of_list, {
+        const u = Curry._1(of_list, {
               hd: [
                 2,
                 /* '3' */51
@@ -449,7 +449,7 @@ let int_map_suites_1 = {
     hd: [
       "equal2",
       (function (param) {
-          let v = Curry._1(of_list, {
+          const v = Curry._1(of_list, {
                 hd: [
                   1,
                   /* '1' */49
@@ -468,7 +468,7 @@ let int_map_suites_1 = {
                   }
                 }
               });
-          let u = Curry._1(of_list, {
+          const u = Curry._1(of_list, {
                 hd: [
                   2,
                   /* '3' */51
@@ -523,7 +523,7 @@ let int_map_suites_1 = {
   }
 };
 
-let int_map_suites = {
+const int_map_suites = {
   hd: int_map_suites_0,
   tl: int_map_suites_1
 };

@@ -62,17 +62,17 @@ function gg(x) {
 }
 
 function rev_split_by_char(c, s) {
-  let loop = function (i, l) {
+  const loop = function (i, l) {
     try {
-      let i$p = Stdlib__String.index_from(s, i, c);
-      let s$p = Stdlib__String.sub(s, i, i$p - i | 0);
+      const i$p = Stdlib__String.index_from(s, i, c);
+      const s$p = Stdlib__String.sub(s, i, i$p - i | 0);
       return loop(i$p + 1 | 0, s$p === "" ? l : ({
                       hd: s$p,
                       tl: l
                     }));
     }
     catch (raw_exn){
-      let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+      const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return {
                 hd: Stdlib__String.sub(s, i, s.length - i | 0),
@@ -86,13 +86,13 @@ function rev_split_by_char(c, s) {
 }
 
 function xsplit(delim, s) {
-  let len = s.length;
+  const len = s.length;
   if (len !== 0) {
     let _l = /* [] */0;
     let _i = len;
     while(true) {
-      let i = _i;
-      let l = _l;
+      const i = _i;
+      const l = _l;
       if (i === 0) {
         return l;
       }
@@ -101,7 +101,7 @@ function xsplit(delim, s) {
         i$p = Stdlib__String.rindex_from(s, i - 1 | 0, delim);
       }
       catch (raw_exn){
-        let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+        const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
           return {
                   hd: Stdlib__String.sub(s, 0, i),
@@ -110,12 +110,12 @@ function xsplit(delim, s) {
         }
         throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
-      let l_0 = Stdlib__String.sub(s, i$p + 1 | 0, (i - i$p | 0) - 1 | 0);
-      let l$1 = {
+      const l_0 = Stdlib__String.sub(s, i$p + 1 | 0, (i - i$p | 0) - 1 | 0);
+      const l$1 = {
         hd: l_0,
         tl: l
       };
-      let l$2 = i$p === 0 ? ({
+      const l$2 = i$p === 0 ? ({
             hd: "",
             tl: l$1
           }) : l$1;

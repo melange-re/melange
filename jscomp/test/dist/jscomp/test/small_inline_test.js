@@ -29,7 +29,7 @@ function hello5(y, f) {
 
 function f(_x) {
   while(true) {
-    let x = _x;
+    const x = _x;
     _x = x + 1 | 0;
     continue ;
   };
@@ -37,8 +37,8 @@ function f(_x) {
 
 function ff(_x, _y) {
   while(true) {
-    let y = _y;
-    let x = _x;
+    const y = _y;
+    const x = _x;
     _y = x + 1 | 0;
     _x = y;
     continue ;
@@ -47,8 +47,8 @@ function ff(_x, _y) {
 
 function fff(_x, _y) {
   while(true) {
-    let y = _y;
-    let x = _x;
+    const y = _y;
+    const x = _x;
     _y = x;
     _x = y;
     continue ;

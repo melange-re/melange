@@ -3,7 +3,7 @@
 
 let Stdlib__Array = require("melange/array.js");
 
-let const_v = Stdlib__Array.append([
+const const_v = Stdlib__Array.append([
       1,
       2
     ], [3]);

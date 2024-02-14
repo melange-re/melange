@@ -10,11 +10,11 @@ let Belt__Belt_internalAVLset = require("melange.belt/belt_internalAVLset.js");
 let Caml = require("melange.js/caml.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -26,7 +26,7 @@ function b(loc, x) {
   Mt.bool_suites(test_id, suites, loc, x);
 }
 
-let IntCmp = Belt__Belt_Id.comparable(Caml.caml_int_compare);
+const IntCmp = Belt__Belt_Id.comparable(Caml.caml_int_compare);
 
 function fromArray(param) {
   return Belt__Belt_MutableSet.fromArray(param, IntCmp);
@@ -39,7 +39,7 @@ function empty(param) {
         };
 }
 
-let u = fromArray(Array_data_util.range(0, 30));
+const u = fromArray(Array_data_util.range(0, 30));
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 18, characters 4-11", Belt__Belt_MutableSet.removeCheck(u, 0));
 
@@ -51,7 +51,7 @@ b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 21, characters 4-11", 
 
 eq("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 22, characters 5-12", Belt__Belt_internalAVLset.size(u.data), 28);
 
-let r = Array_data_util.randomRange(0, 30);
+const r = Array_data_util.randomRange(0, 30);
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 24, characters 4-11", 29 === Belt__Belt_internalAVLset.maxUndefined(u.data));
 
@@ -115,13 +115,13 @@ Belt__Belt_MutableSet.removeMany(u, Array_data_util.randomRange(10000, 30000));
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 56, characters 4-11", Belt__Belt_MutableSet.isEmpty(u));
 
-let v = fromArray(Array_data_util.randomRange(1000, 2000));
+const v = fromArray(Array_data_util.randomRange(1000, 2000));
 
-let bs = Belt__Belt_Array.map(Array_data_util.randomRange(500, 1499), (function (x) {
+const bs = Belt__Belt_Array.map(Array_data_util.randomRange(500, 1499), (function (x) {
         return Belt__Belt_MutableSet.removeCheck(v, x);
       }));
 
-let indeedRemoved = Belt__Belt_Array.reduce(bs, 0, (function (acc, x) {
+const indeedRemoved = Belt__Belt_Array.reduce(bs, 0, (function (acc, x) {
         if (x) {
           return acc + 1 | 0;
         } else {
@@ -133,11 +133,11 @@ eq("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 63, characters 5-12",
 
 eq("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 64, characters 5-12", Belt__Belt_internalAVLset.size(v.data), 501);
 
-let cs = Belt__Belt_Array.map(Array_data_util.randomRange(500, 2000), (function (x) {
+const cs = Belt__Belt_Array.map(Array_data_util.randomRange(500, 2000), (function (x) {
         return Belt__Belt_MutableSet.addCheck(v, x);
       }));
 
-let indeedAded = Belt__Belt_Array.reduce(cs, 0, (function (acc, x) {
+const indeedAded = Belt__Belt_Array.reduce(cs, 0, (function (acc, x) {
         if (x) {
           return acc + 1 | 0;
         } else {
@@ -180,13 +180,13 @@ eq("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 78, characters 5-12",
 
 eq("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 79, characters 5-12", Belt__Belt_MutableSet.get(v, 1200), 1200);
 
-let match = Belt__Belt_MutableSet.split(v, 1000);
+const match = Belt__Belt_MutableSet.split(v, 1000);
 
-let match$1 = match[0];
+const match$1 = match[0];
 
-let bb = match$1[1];
+const bb = match$1[1];
 
-let aa = match$1[0];
+const aa = match$1[0];
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 81, characters 4-11", match[1]);
 
@@ -204,17 +204,17 @@ b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 85, characters 4-11", 
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 86, characters 4-11", Belt__Belt_MutableSet.isEmpty(Belt__Belt_MutableSet.intersect(aa, bb)));
 
-let c = Belt__Belt_MutableSet.removeCheck(v, 1000);
+const c = Belt__Belt_MutableSet.removeCheck(v, 1000);
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 88, characters 4-11", c);
 
-let match$2 = Belt__Belt_MutableSet.split(v, 1000);
+const match$2 = Belt__Belt_MutableSet.split(v, 1000);
 
-let match$3 = match$2[0];
+const match$3 = match$2[0];
 
-let bb$1 = match$3[1];
+const bb$1 = match$3[1];
 
-let aa$1 = match$3[0];
+const aa$1 = match$3[0];
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 90, characters 4-11", !match$2[1]);
 
@@ -232,17 +232,17 @@ b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 94, characters 4-11", 
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 95, characters 4-11", Belt__Belt_MutableSet.isEmpty(Belt__Belt_MutableSet.intersect(aa$1, bb$1)));
 
-let aa$2 = fromArray(Array_data_util.randomRange(0, 100));
+const aa$2 = fromArray(Array_data_util.randomRange(0, 100));
 
-let bb$2 = fromArray(Array_data_util.randomRange(40, 120));
+const bb$2 = fromArray(Array_data_util.randomRange(40, 120));
 
-let cc = Belt__Belt_MutableSet.union(aa$2, bb$2);
+const cc = Belt__Belt_MutableSet.union(aa$2, bb$2);
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 104, characters 4-11", Belt__Belt_MutableSet.eq(cc, fromArray(Array_data_util.randomRange(0, 120))));
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 106, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.union(fromArray(Array_data_util.randomRange(0, 20)), fromArray(Array_data_util.randomRange(21, 40))), fromArray(Array_data_util.randomRange(0, 40))));
 
-let dd = Belt__Belt_MutableSet.intersect(aa$2, bb$2);
+const dd = Belt__Belt_MutableSet.intersect(aa$2, bb$2);
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 111, characters 4-11", Belt__Belt_MutableSet.eq(dd, fromArray(Array_data_util.randomRange(40, 100))));
 
@@ -285,23 +285,23 @@ b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 140, characters 4-11",
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 147, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.diff(fromArray(Array_data_util.randomRange(0, 20)), fromArray(Array_data_util.randomRange(0, 40))), fromArray(Array_data_util.randomRange(0, -1))));
 
-let a0 = fromArray(Array_data_util.randomRange(0, 1000));
+const a0 = fromArray(Array_data_util.randomRange(0, 1000));
 
-let a1 = Belt__Belt_MutableSet.keep(a0, (function (x) {
+const a1 = Belt__Belt_MutableSet.keep(a0, (function (x) {
         return x % 2 === 0;
       }));
 
-let a2 = Belt__Belt_MutableSet.keep(a0, (function (x) {
+const a2 = Belt__Belt_MutableSet.keep(a0, (function (x) {
         return x % 2 !== 0;
       }));
 
-let match$4 = Belt__Belt_MutableSet.partition(a0, (function (x) {
+const match$4 = Belt__Belt_MutableSet.partition(a0, (function (x) {
         return x % 2 === 0;
       }));
 
-let a4 = match$4[1];
+const a4 = match$4[1];
 
-let a3 = match$4[0];
+const a3 = match$4[0];
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 162, characters 4-11", Belt__Belt_MutableSet.eq(a1, a3));
 
@@ -328,11 +328,11 @@ Belt__Belt_List.forEach({
 
 Mt.from_pair_suites("Bs_poly_mutable_set_test", suites.contents);
 
-let $plus$plus = Belt__Belt_MutableSet.union;
+const $plus$plus = Belt__Belt_MutableSet.union;
 
-let f = fromArray;
+const f = fromArray;
 
-let $eq$tilde = Belt__Belt_MutableSet.eq;
+const $eq$tilde = Belt__Belt_MutableSet.eq;
 
 exports.suites = suites;
 exports.test_id = test_id;

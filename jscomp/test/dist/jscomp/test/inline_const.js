@@ -2,22 +2,22 @@
 'use strict';
 
 
-let N = {};
+const N = {};
 
 console.log([
       3e-6,
       3e-6
     ]);
 
-let x = true;
+const x = true;
 
 function N1(funarg) {
   return {};
 }
 
-let h = "hello";
+const h = "hello";
 
-let hh = "hellohello";
+const hh = "hellohello";
 
 exports.x = x;
 exports.N = N;

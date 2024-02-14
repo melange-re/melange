@@ -3,21 +3,21 @@
 
 let Caml_exceptions = require("melange.js/caml_exceptions.js");
 
-let Custom_inline = /* @__PURE__ */Caml_exceptions.create("Test_literal.Custom_inline");
+const Custom_inline = /* @__PURE__ */Caml_exceptions.create("Test_literal.Custom_inline");
 
-let v = {
+const v = {
   MEL_EXN_ID: Custom_inline,
   _1: 1,
   _2: 2
 };
 
-let vv = [
+const vv = [
   1,
   2,
   3
 ];
 
-let long_v = [
+const long_v = [
   1,
   2,
   3,
@@ -26,7 +26,7 @@ let long_v = [
   6
 ];
 
-let long_int_v = [
+const long_int_v = [
   1,
   2,
   3,
@@ -35,9 +35,9 @@ let long_int_v = [
   6
 ];
 
-let short_int_v = [1];
+const short_int_v = [1];
 
-let empty = [];
+const empty = [];
 
 exports.Custom_inline = Custom_inline;
 exports.v = v;

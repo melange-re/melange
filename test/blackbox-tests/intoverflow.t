@@ -54,25 +54,25 @@
   'use strict';
   
   
-  let v1 = 2147483647;
+  const v1 = 2147483647;
   
-  let v2 = -2147483648;
+  const v2 = -2147483648;
   
-  let v3 = -2147483647;
+  const v3 = -2147483647;
   
-  let v4 = -2147483647;
+  const v4 = -2147483647;
   
-  let v5 = -2147483648;
+  const v5 = -2147483648;
   
-  let v6 = 2147483647;
+  const v6 = 2147483647;
   
-  let v7 = -1;
+  const v7 = -1;
   
-  let v8 = 1;
+  const v8 = 1;
   
-  let v9 = 0;
+  const v9 = 0;
   
-  let v10 = 0;
+  const v10 = 0;
   
   exports.v1 = v1;
   exports.v2 = v2;

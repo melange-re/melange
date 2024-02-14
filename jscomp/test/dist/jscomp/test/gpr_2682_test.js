@@ -3,20 +3,20 @@
 
 let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
-let sum = ((a,b) => a + b
+const sum = ((a,b) => a + b
 );
 
-let v = sum(1, 2);
+const v = sum(1, 2);
 
 function f(a) {
   return a + 3 | 0;
 }
 
-let b = f(1);
+const b = f(1);
 
-let c = f(2);
+const c = f(2);
 
-let forIn = ((o,foo)=> {
+const forIn = ((o,foo)=> {
   for (var i in o){
     foo(o)
   }
@@ -27,7 +27,7 @@ function log(x) {
   console.log(x);
 }
 
-let N = {
+const N = {
   log2: log
 };
 
@@ -44,10 +44,10 @@ forIn({
         console.log(x);
       }));
 
-let f3 = (()=>true
+const f3 = (()=>true
 );
 
-let bbbb = f3();
+const bbbb = f3();
 
 if (!bbbb) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {

@@ -11,7 +11,7 @@ function is_empty(param) {
   }
 }
 
-let v = Curry._1(is_empty, /* Empty */0);
+const v = Curry._1(is_empty, /* Empty */0);
 
 exports.v = v;
 /* M Not a pure module */

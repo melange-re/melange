@@ -4,7 +4,7 @@
 let Ext_list_test = require("./ext_list_test.js");
 let Mt = require("./mt.js");
 
-let suites_0 = [
+const suites_0 = [
   "drop",
   (function (param) {
       return {
@@ -24,7 +24,7 @@ let suites_0 = [
     })
 ];
 
-let suites_1 = {
+const suites_1 = {
   hd: [
     "drop1",
     (function (param) {
@@ -104,7 +104,7 @@ let suites_1 = {
   }
 };
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: suites_1
 };

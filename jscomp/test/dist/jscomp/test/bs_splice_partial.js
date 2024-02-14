@@ -8,7 +8,7 @@ function test(g) {
 }
 
 function test_hi(x) {
-  let y = x.hi(1, 2, 3);
+  const y = x.hi(1, 2, 3);
   if (y !== null) {
     console.log(y);
     return 2;
@@ -18,7 +18,7 @@ function test_hi(x) {
 }
 
 function test_hi__2(x) {
-  let match = x.hi__2();
+  const match = x.hi__2();
   if (match == null) {
     return 1;
   } else {

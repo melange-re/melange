@@ -6,17 +6,17 @@ function f(x) {
   return x + 1 | 0;
 }
 
-let a = f(1);
+const a = f(1);
 
-let b = f(2);
+const b = f(2);
 
 function g(param) {
   return 1;
 }
 
-let c = g(undefined);
+const c = g(undefined);
 
-let d = g(undefined);
+const d = g(undefined);
 
 exports.f = f;
 exports.a = a;

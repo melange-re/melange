@@ -51,12 +51,12 @@ function d(param) {
   return param.d;
 }
 
-let v = {
+const v = {
   TAG: /* D_int */0,
   _0: 3
 };
 
-let h_1 = {
+const h_1 = {
   hd: {
     TAG: /* D_int */0,
     _0: 3
@@ -86,7 +86,7 @@ let h_1 = {
   }
 };
 
-let h = {
+const h = {
   hd: /* D_empty */0,
   tl: h_1
 };
@@ -103,9 +103,9 @@ function a(param_0) {
         };
 }
 
-let d_empty = /* D_empty */0;
+const d_empty = /* D_empty */0;
 
-let hei = /* Hei */0;
+const hei = /* Hei */0;
 
 exports.u_x = u_x;
 exports.b_x = b_x;

@@ -12,7 +12,7 @@ for the module.
   let Curry = require("melange.js/curry.js");
   let Melange__FieldsRequestDescr = require("./fieldsRequestDescr.js");
   
-  let dr = Curry._1(Melange__FieldsRequestDescr.Fields.Field_dsl.Aggregations.any, 2);
+  const dr = Curry._1(Melange__FieldsRequestDescr.Fields.Field_dsl.Aggregations.any, 2);
   
   exports.dr = dr;
   /* dr Not a pure module */

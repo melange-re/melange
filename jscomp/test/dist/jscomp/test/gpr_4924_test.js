@@ -3,11 +3,11 @@
 
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let id = {
+const id = {
   contents: 0
 };
 
@@ -77,9 +77,9 @@ function u6(b) {
 
 Mt.from_pair_suites("File \"jscomp/test/gpr_4924_test.ml\", line 49, characters 20-27", suites.contents);
 
-let from_pair_suites = Mt.from_pair_suites;
+const from_pair_suites = Mt.from_pair_suites;
 
-let eq_suites = Mt.eq_suites;
+const eq_suites = Mt.eq_suites;
 
 exports.from_pair_suites = from_pair_suites;
 exports.eq_suites = eq_suites;

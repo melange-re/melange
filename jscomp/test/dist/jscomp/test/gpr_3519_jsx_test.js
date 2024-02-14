@@ -2,7 +2,7 @@
 'use strict';
 
 
-let React = {
+const React = {
   $$null: undefined
 };
 
@@ -10,7 +10,7 @@ function Gpr_3519_jsx_test$Foo(Props) {
   
 }
 
-let Foo = {
+const Foo = {
   make: Gpr_3519_jsx_test$Foo
 };
 

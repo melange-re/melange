@@ -2,11 +2,11 @@
 'use strict';
 
 
-let node_modules = "node_modules";
+const node_modules = "node_modules";
 
-let node_modules_length = 12;
+const node_modules_length = 12;
 
-let bsconfig_json = "bsconfig.json";
+const bsconfig_json = "bsconfig.json";
 
 exports.node_modules = node_modules;
 exports.node_modules_length = node_modules_length;

@@ -3,7 +3,7 @@
 
 let Nightmare = require("nightmare");
 
-let v = Nightmare({
+const v = Nightmare({
       show: true
     });
 

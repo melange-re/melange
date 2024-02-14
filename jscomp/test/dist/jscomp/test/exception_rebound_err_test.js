@@ -7,11 +7,11 @@ let Curry = require("melange.js/curry.js");
 let Mt = require("./mt.js");
 let Stdlib = require("melange/stdlib.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -32,11 +32,11 @@ function eq(loc, x, y) {
   };
 }
 
-let A = /* @__PURE__ */Caml_exceptions.create("Exception_rebound_err_test.A");
+const A = /* @__PURE__ */Caml_exceptions.create("Exception_rebound_err_test.A");
 
-let B = /* @__PURE__ */Caml_exceptions.create("Exception_rebound_err_test.B");
+const B = /* @__PURE__ */Caml_exceptions.create("Exception_rebound_err_test.B");
 
-let C = /* @__PURE__ */Caml_exceptions.create("Exception_rebound_err_test.C");
+const C = /* @__PURE__ */Caml_exceptions.create("Exception_rebound_err_test.C");
 
 function test_js_error4(param) {
   try {
@@ -44,7 +44,7 @@ function test_js_error4(param) {
     return 1;
   }
   catch (raw_e){
-    let e = Caml_js_exceptions.internalToOCamlException(raw_e);
+    const e = Caml_js_exceptions.internalToOCamlException(raw_e);
     if (e.MEL_EXN_ID === Stdlib.Not_found) {
       return 2;
     }
@@ -72,7 +72,7 @@ function f(g) {
     return Curry._1(g, undefined);
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return 1;
     }

@@ -7,11 +7,11 @@ let Mt = require("./mt.js");
 let Stdlib = require("melange/stdlib.js");
 let Stdlib__Lazy = require("melange/lazy.js");
 
-let u = {
+const u = {
   contents: 3
 };
 
-let v = {
+const v = {
   LAZY_DONE: false,
   VAL: (function () {
       u.contents = 32;
@@ -19,9 +19,9 @@ let v = {
 };
 
 function lazy_test(param) {
-  let h = u.contents;
+  const h = u.contents;
   CamlinternalLazy.force(v);
-  let g = u.contents;
+  const g = u.contents;
   return [
           h,
           g
@@ -30,12 +30,12 @@ function lazy_test(param) {
 
 function f(param) {
   CamlinternalLazy.force(param[0]);
-  let match = param[2].contents;
+  const match = param[2].contents;
   if (match === undefined) {
     return 0;
   }
   CamlinternalLazy.force(param[1]);
-  let x = param[2].contents;
+  const x = param[2].contents;
   if (x !== undefined) {
     return 1;
   }
@@ -49,18 +49,18 @@ function f(param) {
           });
 }
 
-let s = {
+const s = {
   contents: undefined
 };
 
-let set_true = {
+const set_true = {
   LAZY_DONE: false,
   VAL: (function () {
       s.contents = 1;
     })
 };
 
-let set_false = {
+const set_false = {
   LAZY_DONE: false,
   VAL: (function () {
       s.contents = undefined;
@@ -77,7 +77,7 @@ try {
       ]);
 }
 catch (raw_exn){
-  let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+  const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
   if (exn.MEL_EXN_ID === Stdlib.Match_failure) {
     h = 2;
   } else {
@@ -85,11 +85,11 @@ catch (raw_exn){
   }
 }
 
-let u_v = {
+const u_v = {
   contents: 0
 };
 
-let u$1 = {
+const u$1 = {
   LAZY_DONE: false,
   VAL: (function () {
       u_v.contents = 2;
@@ -98,16 +98,16 @@ let u$1 = {
 
 CamlinternalLazy.force(u$1);
 
-let exotic = CamlinternalLazy.force;
+const exotic = CamlinternalLazy.force;
 
-let l_from_fun = {
+const l_from_fun = {
   LAZY_DONE: false,
   VAL: (function () {
       return 3;
     })
 };
 
-let forward_test = {
+const forward_test = {
   LAZY_DONE: false,
   VAL: (function () {
       let u = 3;
@@ -116,12 +116,12 @@ let forward_test = {
     })
 };
 
-let f005 = {
+const f005 = {
   LAZY_DONE: true,
   VAL: 6
 };
 
-let f006 = {
+const f006 = {
   LAZY_DONE: false,
   VAL: (function () {
       return function (param) {
@@ -130,7 +130,7 @@ let f006 = {
     })
 };
 
-let f007 = {
+const f007 = {
   LAZY_DONE: false,
   VAL: (function () {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -139,7 +139,7 @@ let f007 = {
     })
 };
 
-let f008 = {
+const f008 = {
   LAZY_DONE: false,
   VAL: (function () {
       console.log("hi");
@@ -156,29 +156,29 @@ function a2(x) {
         };
 }
 
-let a3 = {
+const a3 = {
   LAZY_DONE: true,
   VAL: 3
 };
 
-let a4 = {
+const a4 = {
   LAZY_DONE: true,
   VAL: 3
 };
 
-let a5 = {
+const a5 = {
   LAZY_DONE: true,
   VAL: undefined
 };
 
-let a6 = {
+const a6 = {
   LAZY_DONE: true,
   VAL: undefined
 };
 
-let a7 = CamlinternalLazy.force(a5);
+const a7 = CamlinternalLazy.force(a5);
 
-let a8 = CamlinternalLazy.force(a6);
+const a8 = CamlinternalLazy.force(a6);
 
 Mt.from_pair_suites("Lazy_test", {
       hd: [

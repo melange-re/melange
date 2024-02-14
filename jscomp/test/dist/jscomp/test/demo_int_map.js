@@ -9,7 +9,7 @@ function compare(x, y) {
   return x - y | 0;
 }
 
-let funarg = {
+const funarg = {
   compare: compare
 };
 
@@ -22,8 +22,8 @@ function height(param) {
 }
 
 function create(l, x, d, r) {
-  let hl = height(l);
-  let hr = height(r);
+  const hl = height(l);
+  const hr = height(r);
   return /* Node */{
           l: l,
           v: x,
@@ -34,14 +34,14 @@ function create(l, x, d, r) {
 }
 
 function bal(l, x, d, r) {
-  let hl = l ? l.h : 0;
-  let hr = r ? r.h : 0;
+  const hl = l ? l.h : 0;
+  const hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
     if (l) {
-      let lr = l.r;
-      let ld = l.d;
-      let lv = l.v;
-      let ll = l.l;
+      const lr = l.r;
+      const ld = l.d;
+      const lv = l.v;
+      const ll = l.l;
       if (height(ll) >= height(lr)) {
         return create(ll, lv, ld, create(lr, x, d, r));
       }
@@ -68,10 +68,10 @@ function bal(l, x, d, r) {
           };
   }
   if (r) {
-    let rr = r.r;
-    let rd = r.d;
-    let rv = r.v;
-    let rl = r.l;
+    const rr = r.r;
+    const rd = r.d;
+    const rv = r.v;
+    const rl = r.l;
     if (height(rr) >= height(rl)) {
       return create(create(l, x, d, rl), rv, rd, rr);
     }
@@ -99,11 +99,11 @@ function add(x, data, m) {
             h: 1
           };
   }
-  let r = m.r;
-  let d = m.d;
-  let v = m.v;
-  let l = m.l;
-  let c = Curry._2(funarg.compare, x, v);
+  const r = m.r;
+  const d = m.d;
+  const v = m.v;
+  const l = m.l;
+  const c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -118,14 +118,14 @@ function add(x, data, m) {
     }
   }
   if (c < 0) {
-    let ll = add(x, data, l);
+    const ll = add(x, data, l);
     if (l === ll) {
       return m;
     } else {
       return bal(ll, v, d, r);
     }
   }
-  let rr = add(x, data, r);
+  const rr = add(x, data, r);
   if (r === rr) {
     return m;
   } else {
@@ -135,9 +135,9 @@ function add(x, data, m) {
 
 function find(x, _param) {
   while(true) {
-    let param = _param;
+    const param = _param;
     if (param) {
-      let c = Curry._2(funarg.compare, x, param.v);
+      const c = Curry._2(funarg.compare, x, param.v);
       if (c === 0) {
         return param.d;
       }

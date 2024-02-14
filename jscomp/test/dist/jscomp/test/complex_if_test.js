@@ -16,7 +16,7 @@ function fib(n) {
 function escaped(s) {
   let n = 0;
   for(let i = 0 ,i_finish = s.length; i < i_finish; ++i){
-    let match = s[i];
+    const match = s[i];
     n = n + (
       match >= 32 ? (
           match > 92 || match < 34 ? (
@@ -36,10 +36,10 @@ function escaped(s) {
   if (n === s.length) {
     return Stdlib__Bytes.copy(s);
   }
-  let s$p = Caml_bytes.caml_create_bytes(n);
+  const s$p = Caml_bytes.caml_create_bytes(n);
   n = 0;
   for(let i$1 = 0 ,i_finish$1 = s.length; i$1 < i_finish$1; ++i$1){
-    let c = s[i$1];
+    const c = s[i$1];
     let exit = 0;
     if (c >= 35) {
       if (c !== 92) {
@@ -122,7 +122,7 @@ function string_escaped(s) {
   return Stdlib__Bytes.to_string(escaped(Stdlib__Bytes.of_string(s)));
 }
 
-let suites_0 = [
+const suites_0 = [
   "complete_escape",
   (function (param) {
       return {
@@ -133,7 +133,7 @@ let suites_0 = [
     })
 ];
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: /* [] */0
 };

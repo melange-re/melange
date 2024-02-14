@@ -4,7 +4,7 @@
 
 console.log("hello");
 
-let v = 0;
+const v = 0;
 
 exports.v = v;
 /*  Not a pure module */

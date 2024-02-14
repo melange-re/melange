@@ -2,16 +2,16 @@
 'use strict';
 
 
-let u = {
+const u = {
   y: 3
 };
 
-let v_ice_cream3_0 = {
+const v_ice_cream3_0 = {
   flavor: "vanilla",
   num: 3
 };
 
-let v_ice_cream3_1 = {
+const v_ice_cream3_1 = {
   hd: {
     flavor: "x",
     num: 3
@@ -25,17 +25,17 @@ let v_ice_cream3_1 = {
   }
 };
 
-let v_ice_cream3 = {
+const v_ice_cream3 = {
   hd: v_ice_cream3_0,
   tl: v_ice_cream3_1
 };
 
-let v_ice_cream4_0 = {
+const v_ice_cream4_0 = {
   flavor: "vanilla",
   num: 3
 };
 
-let v_ice_cream4_1 = {
+const v_ice_cream4_1 = {
   hd: {
     flavor: "x",
     num: 3
@@ -43,26 +43,26 @@ let v_ice_cream4_1 = {
   tl: /* [] */0
 };
 
-let v_ice_cream4 = {
+const v_ice_cream4 = {
   hd: v_ice_cream4_0,
   tl: v_ice_cream4_1
 };
 
-let vv = {
+const vv = {
   x: 3
 };
 
-let int_expect = {
+const int_expect = {
   x: 0
 };
 
-let int_expect2 = {
+const int_expect2 = {
   x: 0
 };
 
-let int_expects_0 = {};
+const int_expects_0 = {};
 
-let int_expects_1 = {
+const int_expects_1 = {
   hd: {
     x: 2
   },
@@ -74,52 +74,52 @@ let int_expects_1 = {
   }
 };
 
-let int_expects = {
+const int_expects = {
   hd: int_expects_0,
   tl: int_expects_1
 };
 
-let mk_ice = {
+const mk_ice = {
   flavour: "vanilla",
   num: 3
 };
 
-let my_ice2 = {
+const my_ice2 = {
   flavour: "vanilla",
   num: 1
 };
 
-let my_ice3 = {
+const my_ice3 = {
   num: 2
 };
 
-let v_mk4 = {
+const v_mk4 = {
   y: 3
 };
 
-let v_mk5 = {
+const v_mk5 = {
   x: undefined,
   y: 3
 };
 
-let v_mk6 = {
+const v_mk6 = {
   y: 3
 };
 
-let v_mk6_1 = {
+const v_mk6_1 = {
   x: undefined,
   y: 3
 };
 
-let mk_u = {
+const mk_u = {
   x: 0
 };
 
-let v_mk7_0 = {
+const v_mk7_0 = {
   y: 3
 };
 
-let v_mk7_1 = {
+const v_mk7_1 = {
   hd: {
     y: 2
   },
@@ -131,7 +131,7 @@ let v_mk7_1 = {
   }
 };
 
-let v_mk7 = {
+const v_mk7 = {
   hd: v_mk7_0,
   tl: v_mk7_1
 };
@@ -150,7 +150,7 @@ again3(3);
 
 again3(2);
 
-let side_effect = {
+const side_effect = {
   contents: 0
 };
 

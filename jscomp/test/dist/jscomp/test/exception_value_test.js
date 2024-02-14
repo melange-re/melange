@@ -33,13 +33,13 @@ function hh(param) {
           });
 }
 
-let A = /* @__PURE__ */Caml_exceptions.create("Exception_value_test.A");
+const A = /* @__PURE__ */Caml_exceptions.create("Exception_value_test.A");
 
-let B = /* @__PURE__ */Caml_exceptions.create("Exception_value_test.B");
+const B = /* @__PURE__ */Caml_exceptions.create("Exception_value_test.B");
 
-let C = /* @__PURE__ */Caml_exceptions.create("Exception_value_test.C");
+const C = /* @__PURE__ */Caml_exceptions.create("Exception_value_test.C");
 
-let u = {
+const u = {
   MEL_EXN_ID: A,
   _1: 3
 };
@@ -49,7 +49,7 @@ function test_not_found(f, param) {
     return Curry._1(f, undefined);
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return 2;
     }
@@ -62,7 +62,7 @@ function test_js_error2(param) {
     return JSON.parse(" {\"x\" : }");
   }
   catch (raw_e){
-    let e = Caml_js_exceptions.internalToOCamlException(raw_e);
+    const e = Caml_js_exceptions.internalToOCamlException(raw_e);
     if (e.MEL_EXN_ID === Js__Js_exn.$$Error) {
       console.log(e._1.stack);
       throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);

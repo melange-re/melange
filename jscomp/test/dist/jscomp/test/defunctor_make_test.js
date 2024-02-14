@@ -12,7 +12,7 @@ function Make(M) {
   return M;
 }
 
-let Comparable = {
+const Comparable = {
   getcompare: getcompare,
   Make: Make
 };
@@ -26,8 +26,8 @@ function height(param) {
 }
 
 function create(l, x, d, r) {
-  let hl = height(l);
-  let hr = height(r);
+  const hl = height(l);
+  const hr = height(r);
   return /* Node */{
           _0: l,
           _1: x,
@@ -38,14 +38,14 @@ function create(l, x, d, r) {
 }
 
 function bal(l, x, d, r) {
-  let hl = l ? l._4 : 0;
-  let hr = r ? r._4 : 0;
+  const hl = l ? l._4 : 0;
+  const hr = r ? r._4 : 0;
   if (hl > (hr + 2 | 0)) {
     if (l) {
-      let lr = l._3;
-      let ld = l._2;
-      let lv = l._1;
-      let ll = l._0;
+      const lr = l._3;
+      const ld = l._2;
+      const lv = l._1;
+      const ll = l._0;
       if (height(ll) >= height(lr)) {
         return create(ll, lv, ld, create(lr, x, d, r));
       }
@@ -72,10 +72,10 @@ function bal(l, x, d, r) {
           };
   }
   if (r) {
-    let rr = r._3;
-    let rd = r._2;
-    let rv = r._1;
-    let rl = r._0;
+    const rr = r._3;
+    const rd = r._2;
+    const rv = r._1;
+    const rl = r._0;
     if (height(rr) >= height(rl)) {
       return create(create(l, x, d, rl), rv, rd, rr);
     }
@@ -103,11 +103,11 @@ function add(x, data, compare, param) {
             _4: 1
           };
   }
-  let r = param._3;
-  let d = param._2;
-  let v = param._1;
-  let l = param._0;
-  let c = compare(x, v);
+  const r = param._3;
+  const d = param._2;
+  const v = param._1;
+  const l = param._0;
+  const c = compare(x, v);
   if (c === 0) {
     return /* Node */{
             _0: l,
@@ -124,7 +124,7 @@ function add(x, data, compare, param) {
 }
 
 function add$1(x, data, v) {
-  let X = v.compare;
+  const X = v.compare;
   return {
           compare: v.compare,
           data: add(x, data, X.compare, v.data)
@@ -138,29 +138,29 @@ function empty(v) {
         };
 }
 
-let compare = Caml.caml_int_compare;
+const compare = Caml.caml_int_compare;
 
-let V0 = {
+const V0 = {
   compare: compare
 };
 
-let compare$1 = Caml.caml_int_compare;
+const compare$1 = Caml.caml_int_compare;
 
-let V1 = {
+const V1 = {
   compare: compare$1
 };
 
-let v0 = {
+const v0 = {
   compare: V0,
   data: /* Empty */0
 };
 
-let v1 = {
+const v1 = {
   compare: V1,
   data: /* Empty */0
 };
 
-let v3 = add$1(3, "a", v0);
+const v3 = add$1(3, "a", v0);
 
 console.log(v3);
 

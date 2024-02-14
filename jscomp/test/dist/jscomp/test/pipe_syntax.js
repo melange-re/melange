@@ -29,7 +29,7 @@ function f(a, b, c) {
 }
 
 function f1(a, b, c, d) {
-  let __ocaml_internal_obj = Curry._1(a, b);
+  const __ocaml_internal_obj = Curry._1(a, b);
   return [
           Curry._1(c, __ocaml_internal_obj),
           Curry._1(d, __ocaml_internal_obj)
@@ -37,17 +37,17 @@ function f1(a, b, c, d) {
 }
 
 function f2(a, b, c, d) {
-  let __ocaml_internal_obj = Curry._1(a, b);
-  let u = Curry._1(c, __ocaml_internal_obj);
-  let v = Curry._1(d, __ocaml_internal_obj);
+  const __ocaml_internal_obj = Curry._1(a, b);
+  const u = Curry._1(c, __ocaml_internal_obj);
+  const v = Curry._1(d, __ocaml_internal_obj);
   return u + v | 0;
 }
 
 function f3(a, b, c, d, e) {
-  let __ocaml_internal_obj = Curry._1(a, b);
-  let u = Curry._2(c, __ocaml_internal_obj, d);
-  let v = Curry._3(d, __ocaml_internal_obj, 1, 2);
-  let h = Curry._1(e, __ocaml_internal_obj);
+  const __ocaml_internal_obj = Curry._1(a, b);
+  const u = Curry._2(c, __ocaml_internal_obj, d);
+  const v = Curry._3(d, __ocaml_internal_obj, 1, 2);
+  const h = Curry._1(e, __ocaml_internal_obj);
   return (u + v | 0) + h | 0;
 }
 
@@ -59,9 +59,9 @@ function f4(a, b, c) {
 }
 
 function f5(a, b, c, d) {
-  let v0 = Curry._3(b, a, c, c);
-  let v1 = Curry._3(b, a, c, c);
-  let v2 = Curry._3(b, a, d, d);
+  const v0 = Curry._3(b, a, c, c);
+  const v1 = Curry._3(b, a, c, c);
+  const v2 = Curry._3(b, a, d, d);
   return (v0 + v1 | 0) + v2 | 0;
 }
 
@@ -87,7 +87,7 @@ function hi(x) {
               }));
 }
 
-let with_poly = {
+const with_poly = {
   NAME: "Foo",
   VAL: 1
 };

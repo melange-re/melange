@@ -50,7 +50,7 @@ bench(undefined);
 
 console.timeEnd("bs_rbset_int_bench.ml 21");
 
-let count = 1000000;
+const count = 1000000;
 
 exports.count = count;
 exports.bench = bench;

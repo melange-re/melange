@@ -16,11 +16,11 @@ try {
         }));
 }
 catch (raw_exn){
-  let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+  const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
   function_equal_test = exn.MEL_EXN_ID === Stdlib.Invalid_argument && exn._1 === "equal: functional value" ? true : false;
 }
 
-let suites = {
+const suites = {
   contents: {
     hd: [
       "File \"jscomp/test/caml_compare_test.ml\", line 9, characters 4-11",
@@ -1132,7 +1132,7 @@ let suites = {
   }
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 

@@ -6,15 +6,15 @@ let Stdlib = require("melange/stdlib.js");
 let Fs = require("fs");
 let Path = require("path");
 
-let package_json = "package.json";
+const package_json = "package.json";
 
 function find_package_json(_dir) {
   while(true) {
-    let dir = _dir;
+    const dir = _dir;
     if (Fs.existsSync(Path.join(dir, package_json))) {
       return dir;
     }
-    let new_dir = Path.dirname(dir);
+    const new_dir = Path.dirname(dir);
     if (new_dir === dir) {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
                 MEL_EXN_ID: Stdlib.Not_found
@@ -25,7 +25,7 @@ function find_package_json(_dir) {
   };
 }
 
-let x = typeof __dirname === "undefined" ? undefined : __dirname;
+const x = typeof __dirname === "undefined" ? undefined : __dirname;
 
 if (x !== undefined) {
   console.log(find_package_json(x));

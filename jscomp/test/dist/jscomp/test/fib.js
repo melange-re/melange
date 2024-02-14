@@ -15,9 +15,9 @@ function fib2(n) {
   let _b = 1;
   let _i = 0;
   while(true) {
-    let i = _i;
-    let b = _b;
-    let a = _a;
+    const i = _i;
+    const b = _b;
+    const a = _a;
     if (n === i) {
       return a;
     }
@@ -32,7 +32,7 @@ function fib3(n) {
   let a = 1;
   let b = 1;
   for(let _i = 1; _i <= n; ++_i){
-    let tmp = a;
+    const tmp = a;
     a = b;
     b = b + tmp | 0;
   }

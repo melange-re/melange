@@ -3,9 +3,9 @@
 
 let Caml_exceptions = require("melange.js/caml_exceptions.js");
 
-let U = /* @__PURE__ */Caml_exceptions.create("Test_common.U");
+const U = /* @__PURE__ */Caml_exceptions.create("Test_common.U");
 
-let H = /* @__PURE__ */Caml_exceptions.create("Test_common.H");
+const H = /* @__PURE__ */Caml_exceptions.create("Test_common.H");
 
 exports.U = U;
 exports.H = H;

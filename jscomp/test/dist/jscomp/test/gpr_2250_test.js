@@ -6,11 +6,11 @@ let CamlinternalOO = require("melange/camlinternalOO.js");
 let Curry = require("melange.js/curry.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -31,7 +31,7 @@ function eq(loc, x, y) {
   };
 }
 
-let object_tables = /* Cons */{
+const object_tables = /* Cons */{
   key: undefined,
   data: undefined,
   next: undefined
@@ -39,17 +39,17 @@ let object_tables = /* Cons */{
 
 function create(param) {
   if (!object_tables.key) {
-    let $$class = CamlinternalOO.create_table([
+    const $$class = CamlinternalOO.create_table([
           "add",
           "get"
         ]);
-    let ids = CamlinternalOO.new_methods_variables($$class, [
+    const ids = CamlinternalOO.new_methods_variables($$class, [
           "get",
           "add"
         ], ["data"]);
-    let get = ids[0];
-    let add = ids[1];
-    let data = ids[2];
+    const get = ids[0];
+    const add = ids[1];
+    const data = ids[2];
     CamlinternalOO.set_methods($$class, [
           add,
           (function (self$1, param) {
@@ -61,8 +61,8 @@ function create(param) {
               return self$1[data];
             })
         ]);
-    let env_init = function (env) {
-      let self = CamlinternalOO.create_object_opt(undefined, $$class);
+    const env_init = function (env) {
+      const self = CamlinternalOO.create_object_opt(undefined, $$class);
       self[data] = 0;
       return self;
     };
@@ -72,21 +72,21 @@ function create(param) {
   return Curry._1(object_tables.key, undefined);
 }
 
-let cxt1 = create(undefined);
+const cxt1 = create(undefined);
 
-let tmp = Caml_oo_curry.js2(4846113, 1, cxt1, undefined);
+const tmp = Caml_oo_curry.js2(4846113, 1, cxt1, undefined);
 
-let result = Caml_oo_curry.js2(5144726, 2, tmp, undefined);
+const result = Caml_oo_curry.js2(5144726, 2, tmp, undefined);
 
 eq("File \"jscomp/test/gpr_2250_test.ml\", line 26, characters 5-12", result, 1);
 
-let cxt2 = create(undefined);
+const cxt2 = create(undefined);
 
-let tmp$1 = Caml_oo_curry.js2(4846113, 3, cxt2, undefined);
+const tmp$1 = Caml_oo_curry.js2(4846113, 3, cxt2, undefined);
 
-let tmp$2 = Caml_oo_curry.js2(4846113, 4, tmp$1, undefined);
+const tmp$2 = Caml_oo_curry.js2(4846113, 4, tmp$1, undefined);
 
-let result2 = Caml_oo_curry.js2(5144726, 5, tmp$2, undefined);
+const result2 = Caml_oo_curry.js2(5144726, 5, tmp$2, undefined);
 
 eq("File \"jscomp/test/gpr_2250_test.ml\", line 37, characters 5-12", result2, 2);
 

@@ -5,11 +5,11 @@ let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 let Js__Js_mapper_runtime = require("melange.js/js_mapper_runtime.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -47,7 +47,7 @@ function aFromJs(param) {
   return param - 0 | 0;
 }
 
-let jsMapperConstantArray = [
+const jsMapperConstantArray = [
   0,
   3,
   4
@@ -61,7 +61,7 @@ function bFromJs(param) {
   return Js__Js_mapper_runtime.fromIntAssert(3, jsMapperConstantArray, param);
 }
 
-let _map = {"c0":"c0","c1":"c1","c2":"c2"};
+const _map = {"c0":"c0","c1":"c1","c2":"c2"};
 
 function cToJs(param) {
   return param;

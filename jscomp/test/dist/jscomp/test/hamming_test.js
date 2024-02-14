@@ -10,37 +10,37 @@ let Mt = require("./mt.js");
 let Stdlib__Buffer = require("melange/buffer.js");
 let Stdlib__Printf = require("melange/printf.js");
 
-let n0 = Caml_int64.zero;
+const n0 = Caml_int64.zero;
 
-let n1 = Caml_int64.one;
+const n1 = Caml_int64.one;
 
-let n2 = [
+const n2 = [
   0,
   2
 ];
 
-let n3 = [
+const n3 = [
   0,
   3
 ];
 
-let n5 = [
+const n5 = [
   0,
   5
 ];
 
-let $percent = Caml_int64.mod_;
+const $percent = Caml_int64.mod_;
 
-let $star = Caml_int64.mul;
+const $star = Caml_int64.mul;
 
-let $slash = Caml_int64.div;
+const $slash = Caml_int64.div;
 
-let $plus = Caml_int64.add;
+const $plus = Caml_int64.add;
 
-let digit = Caml_format.caml_int64_of_string("1000000000000000000");
+const digit = Caml_format.caml_int64_of_string("1000000000000000000");
 
 function mul(n, param) {
-  let pl = param[0];
+  const pl = param[0];
   return [
           Caml_int64.mod_(Caml_int64.mul(n, pl), digit),
           Caml_int64.add(Caml_int64.mul(n, param[1]), Caml_int64.div(Caml_int64.mul(n, pl), digit))
@@ -48,16 +48,16 @@ function mul(n, param) {
 }
 
 function cmp(param, param$1) {
-  let ph = param$1[1];
-  let nh = param[1];
+  const ph = param$1[1];
+  const nh = param[1];
   if (Caml_obj.caml_lessthan(nh, ph)) {
     return -1;
   }
   if (Caml_obj.caml_greaterthan(nh, ph)) {
     return 1;
   }
-  let pl = param$1[0];
-  let nl = param[0];
+  const pl = param$1[0];
+  const nl = param[0];
   if (Caml_obj.caml_lessthan(nl, pl)) {
     return -1;
   } else if (Caml_obj.caml_greaterthan(nl, pl)) {
@@ -79,16 +79,16 @@ function x5(p) {
   return mul(n5, p);
 }
 
-let nn1 = [
+const nn1 = [
   n1,
   n0
 ];
 
-let buf = Stdlib__Buffer.create(5000);
+const buf = Stdlib__Buffer.create(5000);
 
 function pr(param) {
-  let nh = param[1];
-  let nl = param[0];
+  const nh = param[1];
+  const nl = param[0];
   if (Caml_int64.compare(nh, n0) === 0) {
     return Curry._1(Stdlib__Printf.bprintf(buf, /* Format */{
                     _0: {
@@ -136,7 +136,7 @@ function map(f, l) {
   return {
           LAZY_DONE: false,
           VAL: (function () {
-              let match = CamlinternalLazy.force(l);
+              const match = CamlinternalLazy.force(l);
               return /* Cons */{
                       _0: Curry._1(f, match._0),
                       _1: map(f, match._1)
@@ -149,13 +149,13 @@ function merge(cmp, l1, l2) {
   return {
           LAZY_DONE: false,
           VAL: (function () {
-              let match = CamlinternalLazy.force(l1);
-              let match$1 = CamlinternalLazy.force(l2);
-              let ll2 = match$1._1;
-              let x2 = match$1._0;
-              let ll1 = match._1;
-              let x1 = match._0;
-              let c = Curry._2(cmp, x1, x2);
+              const match = CamlinternalLazy.force(l1);
+              const match$1 = CamlinternalLazy.force(l2);
+              const ll2 = match$1._1;
+              const x2 = match$1._0;
+              const ll1 = match._1;
+              const x1 = match._0;
+              const c = Curry._2(cmp, x1, x2);
               if (c === 0) {
                 return /* Cons */{
                         _0: x1,
@@ -178,14 +178,14 @@ function merge(cmp, l1, l2) {
 
 function iter_interval(f, _l, _param) {
   while(true) {
-    let param = _param;
-    let l = _l;
-    let stop = param[1];
+    const param = _param;
+    const l = _l;
+    const stop = param[1];
     if (stop === 0) {
       return ;
     }
-    let start = param[0];
-    let match = CamlinternalLazy.force(l);
+    const start = param[0];
+    const match = CamlinternalLazy.force(l);
     if (start <= 0) {
       Curry._1(f, match._0);
     }
@@ -198,7 +198,7 @@ function iter_interval(f, _l, _param) {
   };
 }
 
-let hamming = {
+const hamming = {
   LAZY_DONE: false,
   VAL: (function () {
       return /* Cons */{
@@ -208,21 +208,21 @@ let hamming = {
     })
 };
 
-let ham2 = {
+const ham2 = {
   LAZY_DONE: false,
   VAL: (function () {
       return CamlinternalLazy.force(map(x2, hamming));
     })
 };
 
-let ham3 = {
+const ham3 = {
   LAZY_DONE: false,
   VAL: (function () {
       return CamlinternalLazy.force(map(x3, hamming));
     })
 };
 
-let ham5 = {
+const ham5 = {
   LAZY_DONE: false,
   VAL: (function () {
       return CamlinternalLazy.force(map(x5, hamming));

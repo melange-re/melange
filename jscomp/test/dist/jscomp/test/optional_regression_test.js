@@ -4,11 +4,11 @@
 let Caml_option = require("melange.js/caml_option.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -32,7 +32,7 @@ function make(s, b, i) {
   };
 }
 
-let hh = {
+const hh = {
   s: "",
   b: false,
   i: 0

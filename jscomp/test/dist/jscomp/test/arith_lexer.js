@@ -6,7 +6,7 @@ let Curry = require("melange.js/curry.js");
 let Stdlib = require("melange/stdlib.js");
 let Stdlib__Lexing = require("melange/lexing.js");
 
-let __ocaml_lex_tables = {
+const __ocaml_lex_tables = {
   lex_base: "\0\0\xf6\xff\xf7\xff\xf8\xff\xf9\xff\xfa\xff\xfb\xff\xfc\xff:\0\x85\0\xff\xff",
   lex_backtrk: "\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x02\0\x01\0\xff\xff",
   lex_default: "\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xff\xff\xff\xff\0\0",
@@ -22,8 +22,8 @@ let __ocaml_lex_tables = {
 
 function __ocaml_lex_lexeme_rec(lexbuf, ___ocaml_lex_state) {
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           ___ocaml_lex_state = 0;

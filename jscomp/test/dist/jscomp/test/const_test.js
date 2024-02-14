@@ -11,7 +11,7 @@ function ff(x) {
 }
 
 function fff(x) {
-  let x$1 = {
+  const x$1 = {
     TAG: /* A */0,
     _0: x
   };
@@ -40,7 +40,7 @@ function hh(param) {
   return 3;
 }
 
-let g = h("A");
+const g = h("A");
 
 exports.f = f;
 exports.ff = ff;

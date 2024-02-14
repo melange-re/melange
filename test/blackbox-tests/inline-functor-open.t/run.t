@@ -33,7 +33,7 @@
   let Samplelib = require("./samplelib.js");
   
   function test3(param) {
-    let open = Samplelib.MonadOps(Samplelib.$$Promise);
+    const open = Samplelib.MonadOps(Samplelib.$$Promise);
     return Curry._1(open.$$return, 2);
   }
   

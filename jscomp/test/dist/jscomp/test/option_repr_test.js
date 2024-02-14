@@ -6,11 +6,11 @@ let Caml_obj = require("melange.js/caml_obj.js");
 let Caml_option = require("melange.js/caml_option.js");
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -23,7 +23,7 @@ function b(loc, v) {
 }
 
 function f0(x) {
-  let match = x[1];
+  const match = x[1];
   if (match !== undefined && match) {
     return 1;
   } else {
@@ -40,7 +40,7 @@ function f1(u) {
 }
 
 function f2(x, y, zOpt, param) {
-  let z = zOpt !== undefined ? zOpt : 3;
+  const z = zOpt !== undefined ? zOpt : 3;
   console.log(x);
   if (y !== undefined) {
     return y + z | 0;
@@ -73,16 +73,16 @@ function f6(a) {
   return Caml_option.some(a) !== undefined;
 }
 
-let f10 = Caml_option.some(Caml_option.some(Caml_option.some(Caml_option.some(undefined))));
+const f10 = Caml_option.some(Caml_option.some(Caml_option.some(Caml_option.some(undefined))));
 
-let f11 = Caml_option.some(f10);
+const f11 = Caml_option.some(f10);
 
-let randomized = {
+const randomized = {
   contents: false
 };
 
 function create(randomOpt, param) {
-  let random = randomOpt !== undefined ? randomOpt : randomized.contents;
+  const random = randomOpt !== undefined ? randomOpt : randomized.contents;
   if (random) {
     return 2;
   } else {
@@ -90,25 +90,25 @@ function create(randomOpt, param) {
   }
 }
 
-let ff = create(false, undefined);
+const ff = create(false, undefined);
 
 function f13(xOpt, yOpt, param) {
-  let x = xOpt !== undefined ? xOpt : 3;
-  let y = yOpt !== undefined ? yOpt : 4;
+  const x = xOpt !== undefined ? xOpt : 3;
+  const y = yOpt !== undefined ? yOpt : 4;
   return x + y | 0;
 }
 
-let a = f13(2, undefined, undefined);
+const a = f13(2, undefined, undefined);
 
 function f12(x) {
   return x;
 }
 
-let length_8_id = Belt__Belt_List.makeBy(8, (function (x) {
+const length_8_id = Belt__Belt_List.makeBy(8, (function (x) {
         return x;
       }));
 
-let length_10_id = Belt__Belt_List.makeBy(10, (function (x) {
+const length_10_id = Belt__Belt_List.makeBy(10, (function (x) {
         return x;
       }));
 
@@ -175,9 +175,9 @@ function all_true(xs) {
               }));
 }
 
-let xs_0 = gtx(Caml_option.some(null), Caml_option.some(undefined));
+const xs_0 = gtx(Caml_option.some(null), Caml_option.some(undefined));
 
-let xs = {
+const xs = {
   hd: xs_0,
   tl: /* [] */0
 };
@@ -186,9 +186,9 @@ b("File \"jscomp/test/option_repr_test.ml\", line 121, characters 5-12", Belt__B
             return x;
           })));
 
-let xs_0$1 = ltx(Caml_option.some(undefined), 3);
+const xs_0$1 = ltx(Caml_option.some(undefined), 3);
 
-let xs_1 = {
+const xs_1 = {
   hd: ltx(Caml_option.some(undefined), Caml_option.some(Caml_option.some(undefined))),
   tl: {
     hd: ltx(Caml_option.some(undefined), "3"),
@@ -222,7 +222,7 @@ let xs_1 = {
   }
 };
 
-let xs$1 = {
+const xs$1 = {
   hd: xs_0$1,
   tl: xs_1
 };
@@ -231,9 +231,9 @@ b("File \"jscomp/test/option_repr_test.ml\", line 127, characters 5-12", Belt__B
             return x;
           })));
 
-let xs_0$2 = eqx(undefined, undefined);
+const xs_0$2 = eqx(undefined, undefined);
 
-let xs_1$1 = {
+const xs_1$1 = {
   hd: neqx(undefined, null),
   tl: {
     hd: eqx(Caml_option.some(undefined), Caml_option.some(undefined)),
@@ -247,7 +247,7 @@ let xs_1$1 = {
   }
 };
 
-let xs$2 = {
+const xs$2 = {
   hd: xs_0$2,
   tl: xs_1$1
 };
@@ -264,7 +264,7 @@ function v0(x) {
   return x;
 }
 
-let N0 = {
+const N0 = {
   v: v,
   v0: v0
 };
@@ -273,9 +273,9 @@ Mt.from_pair_suites("Option_repr_test", suites.contents);
 
 let f7;
 
-let f8 = Caml_option.some(undefined);
+const f8 = Caml_option.some(undefined);
 
-let f9 = Caml_option.some(Caml_option.some(undefined));
+const f9 = Caml_option.some(Caml_option.some(undefined));
 
 let none_arg;
 

@@ -3,7 +3,7 @@
 
 let Curry = require("melange.js/curry.js");
 
-let v = {
+const v = {
   contents: 0
 };
 
@@ -12,23 +12,23 @@ function gen(param) {
   return v.contents;
 }
 
-let h = {
+const h = {
   contents: 0
 };
 
 let a = 0;
 
-let c = {
+const c = {
   contents: 0
 };
 
-let not_real_escape = a;
+const not_real_escape = a;
 
 function real_escape(f, v) {
   return Curry._1(f, c);
 }
 
-let u = h;
+const u = h;
 
 exports.u = u;
 exports.gen = gen;

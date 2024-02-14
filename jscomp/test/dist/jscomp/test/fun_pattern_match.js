@@ -14,9 +14,9 @@ function f2(param, param$1) {
 }
 
 function f3(param) {
-  let lhs = param.rank;
+  const lhs = param.rank;
   return function (param) {
-    let rhs = param.rank;
+    const rhs = param.rank;
     if (typeof lhs === "number") {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
@@ -42,9 +42,9 @@ function f3(param) {
 }
 
 function f4(param) {
-  let lhs = param.rank;
+  const lhs = param.rank;
   return function (param) {
-    let rhs = param.rank;
+    const rhs = param.rank;
     if (typeof lhs === "number") {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
@@ -69,7 +69,7 @@ function f4(param) {
   };
 }
 
-let x = {
+const x = {
   NAME: "A",
   VAL: r
 };
@@ -78,9 +78,9 @@ function r(param) {
   return x;
 }
 
-let match = r(undefined);
+const match = r(undefined);
 
-let v = Curry._1(match.VAL, undefined);
+const v = Curry._1(match.VAL, undefined);
 
 console.log(v);
 

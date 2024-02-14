@@ -6,9 +6,9 @@ function Make($star) {
   return {};
 }
 
-let U = {};
+const U = {};
 
-let V = {};
+const V = {};
 
 exports.Make = Make;
 exports.U = U;

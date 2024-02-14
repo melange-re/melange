@@ -225,6 +225,15 @@ let pp_var_assign cxt id =
   space cxt;
   acxt
 
+let pp_const_assign cxt id =
+  string cxt "const";
+  space cxt;
+  let acxt = ident cxt id in
+  space cxt;
+  string cxt L.eq;
+  space cxt;
+  acxt
+
 let pp_var_assign_this cxt id =
   let cxt = pp_var_assign cxt id in
   string cxt L.this;
@@ -333,6 +342,11 @@ let block_has_all_int_fields =
       !r
     with Local r -> r
 
+let pp_assign ~(property : Lam_group.let_kind) cxt name =
+  match property with
+  | Variable -> pp_var_assign cxt name
+  | Strict | Alias | StrictOpt -> pp_const_assign cxt name
+
 (* TODO: refactoring
    Note that {!pp_function} could print both statement and expression when [No_name] is given
 *)
@@ -383,7 +397,7 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
       (* length *)
       match fn_state with
       | Name_top i | Name_non_top i ->
-          let cxt = pp_var_assign cxt i in
+          let cxt = pp_const_assign cxt i in
           let cxt = optimize len ~p:(arity = NA && len <= 8) cxt v in
           semi cxt;
           cxt
@@ -444,7 +458,7 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
               space cxt;
               param_body ())
       | Name_non_top x ->
-          ignore (pp_var_assign inner_cxt x : cxt);
+          ignore (pp_const_assign inner_cxt x : cxt);
           string cxt L.function_;
           space cxt;
           param_body ();
@@ -894,7 +908,13 @@ and variable_declaration top cxt (variable : J.variable_declaration) : cxt =
   match variable with
   | { ident = i; value = None; ident_info; _ } ->
       if ident_info.used_stats = Dead_pure then cxt else pp_var_declare cxt i
-  | { ident = name; value = Some e; ident_info = { used_stats; _ }; _ } -> (
+  | {
+   ident = name;
+   value = Some e;
+   ident_info = { used_stats; _ };
+   property;
+   _;
+  } -> (
       match used_stats with
       | Dead_pure -> cxt
       | Dead_non_pure ->
@@ -907,7 +927,7 @@ and variable_declaration top cxt (variable : J.variable_declaration) : cxt =
                 ~fn_state:(if top then Name_top name else Name_non_top name)
                 params b env
           | _ ->
-              let cxt = pp_var_assign cxt name in
+              let cxt = pp_assign ~property cxt name in
               let cxt = expression ~level:1 cxt e in
               semi cxt;
               cxt))

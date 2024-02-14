@@ -17,10 +17,10 @@ function split(x, tree) {
             /* Empty */0
           ];
   }
-  let r = tree._2;
-  let v = tree._1;
-  let l = tree._0;
-  let c = Caml.caml_string_compare(x, v);
+  const r = tree._2;
+  const v = tree._1;
+  const l = tree._0;
+  const c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     return [
             l,
@@ -29,14 +29,14 @@ function split(x, tree) {
           ];
   }
   if (c < 0) {
-    let match = split(x, l);
+    const match = split(x, l);
     return [
             match[0],
             match[1],
             Set_gen.internal_join(match[2], v, r)
           ];
   }
-  let match$1 = split(x, r);
+  const match$1 = split(x, r);
   return [
           Set_gen.internal_join(l, v, match$1[0]),
           match$1[1],
@@ -53,10 +53,10 @@ function add(x, tree) {
             _3: 1
           };
   }
-  let r = tree._2;
-  let v = tree._1;
-  let l = tree._0;
-  let c = Caml.caml_string_compare(x, v);
+  const r = tree._2;
+  const v = tree._1;
+  const l = tree._0;
+  const c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     return tree;
   } else if (c < 0) {
@@ -73,21 +73,21 @@ function union(s1, s2) {
   if (!s2) {
     return s1;
   }
-  let h2 = s2._3;
-  let v2 = s2._1;
-  let h1 = s1._3;
-  let v1 = s1._1;
+  const h2 = s2._3;
+  const v2 = s2._1;
+  const h1 = s1._3;
+  const v1 = s1._1;
   if (h1 >= h2) {
     if (h2 === 1) {
       return add(v2, s1);
     }
-    let match = split(v1, s2);
+    const match = split(v1, s2);
     return Set_gen.internal_join(union(s1._0, match[0]), v1, union(s1._2, match[2]));
   }
   if (h1 === 1) {
     return add(v1, s2);
   }
-  let match$1 = split(v2, s1);
+  const match$1 = split(v2, s1);
   return Set_gen.internal_join(union(match$1[0], s2._0), v2, union(match$1[2], s2._2));
 }
 
@@ -98,11 +98,11 @@ function inter(s1, s2) {
   if (!s2) {
     return /* Empty */0;
   }
-  let r1 = s1._2;
-  let v1 = s1._1;
-  let l1 = s1._0;
-  let match = split(v1, s2);
-  let l2 = match[0];
+  const r1 = s1._2;
+  const v1 = s1._1;
+  const l1 = s1._0;
+  const match = split(v1, s2);
+  const l2 = match[0];
   if (match[1]) {
     return Set_gen.internal_join(inter(l1, l2), v1, inter(r1, match[2]));
   } else {
@@ -117,11 +117,11 @@ function diff(s1, s2) {
   if (!s2) {
     return s1;
   }
-  let r1 = s1._2;
-  let v1 = s1._1;
-  let l1 = s1._0;
-  let match = split(v1, s2);
-  let l2 = match[0];
+  const r1 = s1._2;
+  const v1 = s1._1;
+  const l1 = s1._0;
+  const match = split(v1, s2);
+  const l2 = match[0];
   if (match[1]) {
     return Set_gen.internal_concat(diff(l1, l2), diff(r1, match[2]));
   } else {
@@ -131,11 +131,11 @@ function diff(s1, s2) {
 
 function mem(x, _tree) {
   while(true) {
-    let tree = _tree;
+    const tree = _tree;
     if (!tree) {
       return false;
     }
-    let c = Caml.caml_string_compare(x, tree._1);
+    const c = Caml.caml_string_compare(x, tree._1);
     if (c === 0) {
       return true;
     }
@@ -148,10 +148,10 @@ function remove(x, tree) {
   if (!tree) {
     return /* Empty */0;
   }
-  let r = tree._2;
-  let v = tree._1;
-  let l = tree._0;
-  let c = Caml.caml_string_compare(x, v);
+  const r = tree._2;
+  const v = tree._1;
+  const l = tree._0;
+  const c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     return Set_gen.internal_merge(l, r);
   } else if (c < 0) {
@@ -171,20 +171,20 @@ function equal(s1, s2) {
 
 function subset(_s1, _s2) {
   while(true) {
-    let s2 = _s2;
-    let s1 = _s1;
+    const s2 = _s2;
+    const s1 = _s1;
     if (!s1) {
       return true;
     }
     if (!s2) {
       return false;
     }
-    let r2 = s2._2;
-    let l2 = s2._0;
-    let r1 = s1._2;
-    let v1 = s1._1;
-    let l1 = s1._0;
-    let c = Caml.caml_string_compare(v1, s2._1);
+    const r2 = s2._2;
+    const l2 = s2._0;
+    const r1 = s1._2;
+    const v1 = s1._1;
+    const l1 = s1._0;
+    const c = Caml.caml_string_compare(v1, s2._1);
     if (c === 0) {
       if (!subset(l1, l2)) {
         return false;
@@ -220,10 +220,10 @@ function subset(_s1, _s2) {
 
 function find(x, _tree) {
   while(true) {
-    let tree = _tree;
+    const tree = _tree;
     if (tree) {
-      let v = tree._1;
-      let c = Caml.caml_string_compare(x, v);
+      const v = tree._1;
+      const c = Caml.caml_string_compare(x, v);
       if (c === 0) {
         return v;
       }
@@ -240,23 +240,23 @@ function of_list(l) {
   if (!l) {
     return /* Empty */0;
   }
-  let match = l.tl;
-  let x0 = l.hd;
+  const match = l.tl;
+  const x0 = l.hd;
   if (!match) {
     return Set_gen.singleton(x0);
   }
-  let match$1 = match.tl;
-  let x1 = match.hd;
+  const match$1 = match.tl;
+  const x1 = match.hd;
   if (!match$1) {
     return add(x1, Set_gen.singleton(x0));
   }
-  let match$2 = match$1.tl;
-  let x2 = match$1.hd;
+  const match$2 = match$1.tl;
+  const x2 = match$1.hd;
   if (!match$2) {
     return add(x2, add(x1, Set_gen.singleton(x0)));
   }
-  let match$3 = match$2.tl;
-  let x3 = match$2.hd;
+  const match$3 = match$2.tl;
+  const x3 = match$2.hd;
   if (match$3) {
     if (match$3.tl) {
       return Set_gen.of_sorted_list(Stdlib__List.sort_uniq(Stdlib__String.compare, l));
@@ -279,39 +279,39 @@ function invariant(t) {
   return Set_gen.is_ordered(Stdlib__String.compare, t);
 }
 
-let compare_elt = Stdlib__String.compare;
+const compare_elt = Stdlib__String.compare;
 
-let empty = /* Empty */0;
+const empty = /* Empty */0;
 
-let is_empty = Set_gen.is_empty;
+const is_empty = Set_gen.is_empty;
 
-let iter = Set_gen.iter;
+const iter = Set_gen.iter;
 
-let fold = Set_gen.fold;
+const fold = Set_gen.fold;
 
-let for_all = Set_gen.for_all;
+const for_all = Set_gen.for_all;
 
-let exists = Set_gen.exists;
+const exists = Set_gen.exists;
 
-let singleton = Set_gen.singleton;
+const singleton = Set_gen.singleton;
 
-let cardinal = Set_gen.cardinal;
+const cardinal = Set_gen.cardinal;
 
-let elements = Set_gen.elements;
+const elements = Set_gen.elements;
 
-let min_elt = Set_gen.min_elt;
+const min_elt = Set_gen.min_elt;
 
-let max_elt = Set_gen.max_elt;
+const max_elt = Set_gen.max_elt;
 
-let choose = Set_gen.choose;
+const choose = Set_gen.choose;
 
-let partition = Set_gen.partition;
+const partition = Set_gen.partition;
 
-let filter = Set_gen.filter;
+const filter = Set_gen.filter;
 
-let of_sorted_list = Set_gen.of_sorted_list;
+const of_sorted_list = Set_gen.of_sorted_list;
 
-let of_sorted_array = Set_gen.of_sorted_array;
+const of_sorted_array = Set_gen.of_sorted_array;
 
 exports.compare_elt = compare_elt;
 exports.empty = empty;

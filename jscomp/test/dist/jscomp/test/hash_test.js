@@ -9,11 +9,11 @@ let Stdlib__Bytes = require("melange/bytes.js");
 let Stdlib__Char = require("melange/char.js");
 let Stdlib__Hashtbl = require("melange/hashtbl.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -23,12 +23,12 @@ function eq(f) {
   };
 }
 
-let test_strings = Stdlib__Array.init(32, (function (i) {
-        let c = Stdlib__Char.chr(i);
+const test_strings = Stdlib__Array.init(32, (function (i) {
+        const c = Stdlib__Char.chr(i);
         return Caml_bytes.bytes_to_string(Stdlib__Bytes.make(i, c));
       }));
 
-let test_strings_hash_results = [
+const test_strings_hash_results = [
   0,
   904391063,
   889600889,

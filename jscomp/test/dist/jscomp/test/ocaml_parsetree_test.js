@@ -39,18 +39,18 @@ try {
   Caml_sys.caml_sys_getenv("BSLIB");
 }
 catch (raw_exn){
-  let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+  const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
   if (exn.MEL_EXN_ID !== Stdlib.Not_found) {
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
   
 }
 
-let fast = {
+const fast = {
   contents: false
 };
 
-let applicative_functors = {
+const applicative_functors = {
   contents: true
 };
 
@@ -64,11 +64,11 @@ catch (exn$1){
   bs_vscode = false;
 }
 
-let color = {
+const color = {
   contents: undefined
 };
 
-let Fatal_error = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Misc.Fatal_error");
+const Fatal_error = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Misc.Fatal_error");
 
 function fatal_error(msg) {
   Stdlib.prerr_string(">> Fatal error: ");
@@ -79,7 +79,7 @@ function fatal_error(msg) {
 }
 
 function create_hashtable(size, init) {
-  let tbl = Stdlib__Hashtbl.create(undefined, size);
+  const tbl = Stdlib__Hashtbl.create(undefined, size);
   Stdlib__List.iter((function (param) {
           Stdlib__Hashtbl.add(tbl, param[0], param[1]);
         }), init);
@@ -128,13 +128,13 @@ function code_of_style(param) {
 }
 
 function ansi_of_style_l(l) {
-  let s = l ? (
+  const s = l ? (
       l.tl ? Stdlib__String.concat(";", Stdlib__List.map(code_of_style, l)) : code_of_style(l.hd)
     ) : "0";
   return "\x1b[" + (s + "m");
 }
 
-let default_styles = {
+const default_styles = {
   error: {
     hd: /* Bold */0,
     tl: {
@@ -161,7 +161,7 @@ let default_styles = {
   }
 };
 
-let cur_styles = {
+const cur_styles = {
   contents: default_styles
 };
 
@@ -223,17 +223,17 @@ function style_of_tag(param) {
   }
 }
 
-let color_enabled = {
+const color_enabled = {
   contents: true
 };
 
 function set_color_tag_handling(ppf) {
-  let functions = Stdlib__Format.pp_get_formatter_stag_functions(ppf, undefined);
-  let partial_arg = functions.mark_open_stag;
-  let partial_arg$1 = functions.mark_close_stag;
-  let functions$p_mark_open_stag = function (param) {
+  const functions = Stdlib__Format.pp_get_formatter_stag_functions(ppf, undefined);
+  const partial_arg = functions.mark_open_stag;
+  const partial_arg$1 = functions.mark_close_stag;
+  const functions$p_mark_open_stag = function (param) {
     try {
-      let style = style_of_tag(param);
+      const style = style_of_tag(param);
       if (color_enabled.contents) {
         return ansi_of_style_l(style);
       } else {
@@ -241,14 +241,14 @@ function set_color_tag_handling(ppf) {
       }
     }
     catch (raw_exn){
-      let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+      const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return Curry._1(partial_arg, param);
       }
       throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   };
-  let functions$p_mark_close_stag = function (param) {
+  const functions$p_mark_close_stag = function (param) {
     try {
       style_of_tag(param);
       if (color_enabled.contents) {
@@ -261,16 +261,16 @@ function set_color_tag_handling(ppf) {
       }
     }
     catch (raw_exn){
-      let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+      const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return Curry._1(partial_arg$1, param);
       }
       throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   };
-  let functions$p_print_open_stag = functions.print_open_stag;
-  let functions$p_print_close_stag = functions.print_close_stag;
-  let functions$p = {
+  const functions$p_print_open_stag = functions.print_open_stag;
+  const functions$p_print_close_stag = functions.print_close_stag;
+  const functions$p = {
     mark_open_stag: functions$p_mark_open_stag,
     mark_close_stag: functions$p_mark_close_stag,
     print_open_stag: functions$p_print_open_stag,
@@ -280,11 +280,11 @@ function set_color_tag_handling(ppf) {
   Stdlib__Format.pp_set_formatter_stag_functions(ppf, functions$p);
 }
 
-let first = {
+const first = {
   contents: true
 };
 
-let formatter_l_1 = {
+const formatter_l_1 = {
   hd: Stdlib__Format.err_formatter,
   tl: {
     hd: Stdlib__Format.str_formatter,
@@ -292,7 +292,7 @@ let formatter_l_1 = {
   }
 };
 
-let formatter_l = {
+const formatter_l = {
   hd: Stdlib__Format.std_formatter,
   tl: formatter_l_1
 };
@@ -322,7 +322,7 @@ function setup(o) {
   
 }
 
-let Misc_Color = {
+const Misc_Color = {
   ansi_of_style_l: ansi_of_style_l,
   default_styles: default_styles,
   get_styles: get_styles,
@@ -462,7 +462,7 @@ function loop(i) {
   }
 }
 
-let letter_all = loop(104);
+const letter_all = loop(104);
 
 function letter(param) {
   switch (param) {
@@ -629,7 +629,7 @@ function letter(param) {
   }
 }
 
-let current = {
+const current = {
   contents: {
     active: Caml_array.make(105, true),
     error: Caml_array.make(105, false)
@@ -641,27 +641,27 @@ function is_active(x) {
 }
 
 function parse_opt(error, active, flags, s) {
-  let set = function (i) {
+  const set = function (i) {
     Caml_array.set(flags, i, true);
   };
-  let clear = function (i) {
+  const clear = function (i) {
     Caml_array.set(flags, i, false);
   };
-  let set_all = function (i) {
+  const set_all = function (i) {
     Caml_array.set(active, i, true);
     Caml_array.set(error, i, true);
   };
-  let get_num = function (_n, _i) {
+  const get_num = function (_n, _i) {
     while(true) {
-      let i = _i;
-      let n = _n;
+      const i = _i;
+      const n = _n;
       if (i >= s.length) {
         return [
                 i,
                 n
               ];
       }
-      let match = Caml_string.get(s, i);
+      const match = Caml_string.get(s, i);
       if (match > 57 || match < 48) {
         return [
                 i,
@@ -673,10 +673,10 @@ function parse_opt(error, active, flags, s) {
       continue ;
     };
   };
-  let get_range = function (i) {
-    let match = get_num(0, i);
-    let n1 = match[1];
-    let i$1 = match[0];
+  const get_range = function (i) {
+    const match = get_num(0, i);
+    const n1 = match[1];
+    const i$1 = match[0];
     if (!((i$1 + 2 | 0) < s.length && Caml_string.get(s, i$1) === /* '.' */46 && Caml_string.get(s, i$1 + 1 | 0) === /* '.' */46)) {
       return [
               i$1,
@@ -684,8 +684,8 @@ function parse_opt(error, active, flags, s) {
               n1
             ];
     }
-    let match$1 = get_num(0, i$1 + 2 | 0);
-    let n2 = match$1[1];
+    const match$1 = get_num(0, i$1 + 2 | 0);
+    const n2 = match$1[1];
     if (n2 < n1) {
       throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
                 MEL_EXN_ID: Stdlib__Arg.Bad,
@@ -698,13 +698,13 @@ function parse_opt(error, active, flags, s) {
             n2
           ];
   };
-  let loop = function (_i) {
+  const loop = function (_i) {
     while(true) {
-      let i = _i;
+      const i = _i;
       if (i >= s.length) {
         return ;
       }
-      let c = Caml_string.get(s, i);
+      const c = Caml_string.get(s, i);
       if (c >= 65) {
         if (c >= 97) {
           if (c >= 123) {
@@ -757,14 +757,14 @@ function parse_opt(error, active, flags, s) {
       }
     };
   };
-  let loop_letter_num = function (myset, i) {
+  const loop_letter_num = function (myset, i) {
     if (i >= s.length) {
       throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
                 MEL_EXN_ID: Stdlib__Arg.Bad,
                 _1: "Ill-formed list of warnings"
               });
     }
-    let match = Caml_string.get(s, i);
+    const match = Caml_string.get(s, i);
     if (match >= 65) {
       if (match >= 97) {
         if (match >= 123) {
@@ -791,7 +791,7 @@ function parse_opt(error, active, flags, s) {
                 _1: "Ill-formed list of warnings"
               });
     }
-    let match$1 = get_range(i);
+    const match$1 = get_range(i);
     for(let n = match$1[1] ,n_finish = Caml.caml_int_min(match$1[2], 104); n <= n_finish; ++n){
       Curry._1(myset, n);
     }
@@ -801,8 +801,8 @@ function parse_opt(error, active, flags, s) {
 }
 
 function parse_options(errflag, s) {
-  let error = Stdlib__Array.copy(current.contents.error);
-  let active = Stdlib__Array.copy(current.contents.active);
+  const error = Stdlib__Array.copy(current.contents.error);
+  const active = Stdlib__Array.copy(current.contents.active);
   parse_opt(error, active, errflag ? error : active, s);
   current.contents = {
     active: active,
@@ -858,16 +858,16 @@ function message(param) {
       case /* Deprecated */0 :
           return "deprecated: " + param._0;
       case /* Fragile_match */1 :
-          let s = param._0;
+          const s = param._0;
           if (s === "") {
             return "this pattern-matching is fragile.";
           } else {
             return "this pattern-matching is fragile.\nIt will remain exhaustive when constructors are added to type " + (s + ".");
           }
       case /* Method_override */2 :
-          let match = param._0;
+          const match = param._0;
           if (match) {
-            let lab = match.hd;
+            const lab = match.hd;
             if (match.tl) {
               return Stdlib__String.concat(" ", {
                           hd: "the following methods are overridden by the class",
@@ -892,7 +892,7 @@ function message(param) {
                     ]
                   });
       case /* Partial_match */3 :
-          let s$1 = param._0;
+          const s$1 = param._0;
           if (s$1 === "") {
             return "this pattern-matching is not exhaustive.";
           } else {
@@ -901,9 +901,9 @@ function message(param) {
       case /* Non_closed_record_pattern */4 :
           return "the following labels are not bound in this record pattern:\n" + (param._0 + "\nEither bind these labels explicitly or add '; _' to the pattern.");
       case /* Instance_variable_override */5 :
-          let match$1 = param._0;
+          const match$1 = param._0;
           if (match$1) {
-            let lab$1 = match$1.hd;
+            const lab$1 = match$1.hd;
             if (match$1.tl) {
               return Stdlib__String.concat(" ", {
                           hd: "the following instance variables are overridden by the class",
@@ -1023,7 +1023,7 @@ function message(param) {
       case /* Unused_ancestor */20 :
           return "unused ancestor variable " + (param._0 + ".");
       case /* Unused_constructor */21 :
-          let s$2 = param._0;
+          const s$2 = param._0;
           if (param._1) {
             return "constructor " + (s$2 + " is never used to build values.\n(However, this constructor appears in patterns.)");
           } else if (param._2) {
@@ -1032,7 +1032,7 @@ function message(param) {
             return "unused constructor " + (s$2 + ".");
           }
       case /* Unused_extension */22 :
-          let s$3 = param._0;
+          const s$3 = param._0;
           if (param._1) {
             return "extension constructor " + (s$3 + " is never used to build values.\n(However, this constructor appears in patterns.)");
           } else if (param._2) {
@@ -1041,8 +1041,8 @@ function message(param) {
             return "unused extension constructor " + (s$3 + ".");
           }
       case /* Name_out_of_scope */23 :
-          let slist = param._1;
-          let ty = param._0;
+          const slist = param._1;
+          const ty = param._0;
           if (slist && !slist.tl && !param._2) {
             return slist.hd + (" was selected from type " + (ty + ".\nIt is not visible in the current scope, and will not \nbe selected if the type becomes unknown."));
           }
@@ -1059,7 +1059,7 @@ function message(param) {
                   });
           break;
       case /* Ambiguous_name */24 :
-          let slist$1 = param._0;
+          const slist$1 = param._0;
           if (slist$1 && !slist$1.tl && !param._2) {
             return slist$1.hd + (" belongs to several types: " + (Stdlib__String.concat(" ", param._1) + "\nThe first one was selected. Please disambiguate if this is wrong."));
           }
@@ -1172,7 +1172,7 @@ function message(param) {
                           _1: "illegal payload for attribute '%s'.\n%s"
                         }), param._0, param._1);
       case /* Eliminated_optional_arguments */31 :
-          let sl = param._0;
+          const sl = param._0;
           return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
                             TAG: /* String_literal */11,
@@ -1212,13 +1212,13 @@ function message(param) {
   }
 }
 
-let nerrors = {
+const nerrors = {
   contents: 0
 };
 
 function print(ppf, w) {
-  let msg = message(w);
-  let num = number(w);
+  const msg = message(w);
+  const num = number(w);
   Curry._2(Stdlib__Format.fprintf(ppf)(/* Format */{
             _0: {
               TAG: /* Int */4,
@@ -1245,14 +1245,14 @@ function print(ppf, w) {
   
 }
 
-let Errors = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Warnings.Errors");
+const Errors = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Warnings.Errors");
 
-let absname = {
+const absname = {
   contents: false
 };
 
 function in_file(name) {
-  let loc = {
+  const loc = {
     pos_fname: name,
     pos_lnum: 1,
     pos_bol: 0,
@@ -1265,7 +1265,7 @@ function in_file(name) {
         };
 }
 
-let none = in_file("_none_");
+const none = in_file("_none_");
 
 function curr(lexbuf) {
   return {
@@ -1299,25 +1299,25 @@ function rhs_loc(n) {
         };
 }
 
-let input_name = {
+const input_name = {
   contents: "_none_"
 };
 
-let input_lexbuf = {
+const input_lexbuf = {
   contents: undefined
 };
 
-let status = {
+const status = {
   contents: /* Uninitialised */0
 };
 
-let num_loc_lines = {
+const num_loc_lines = {
   contents: 0
 };
 
 function highlight_terminfo(ppf, num_lines, lb, locs) {
   Stdlib__Format.pp_print_flush(ppf, undefined);
-  let pos0 = -lb.lex_abs_pos | 0;
+  const pos0 = -lb.lex_abs_pos | 0;
   if (pos0 < 0) {
     throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
               MEL_EXN_ID: Stdlib.Exit
@@ -1354,7 +1354,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
             }), locs)) {
       Caml_external_polyfill.resolve("caml_terminfo_standout")(false);
     }
-    let c = Caml_bytes.get(lb.lex_buffer, pos + pos0 | 0);
+    const c = Caml_bytes.get(lb.lex_buffer, pos + pos0 | 0);
     Stdlib.print_char(c);
     bol = c === /* '\n' */10;
   }
@@ -1364,13 +1364,13 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
 }
 
 function highlight_dumb(ppf, lb, loc) {
-  let pos0 = -lb.lex_abs_pos | 0;
+  const pos0 = -lb.lex_abs_pos | 0;
   if (pos0 < 0) {
     throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
               MEL_EXN_ID: Stdlib.Exit
             });
   }
-  let end_pos = (lb.lex_buffer_len - pos0 | 0) - 1 | 0;
+  const end_pos = (lb.lex_buffer_len - pos0 | 0) - 1 | 0;
   let line_start = 0;
   let line_end = 0;
   for(let pos = 0; pos <= end_pos; ++pos){
@@ -1421,7 +1421,7 @@ function highlight_dumb(ppf, lb, loc) {
   let line = 0;
   let pos_at_bol = 0;
   for(let pos$1 = 0; pos$1 <= end_pos; ++pos$1){
-    let c = Caml_bytes.get(lb.lex_buffer, pos$1 + pos0 | 0);
+    const c = Caml_bytes.get(lb.lex_buffer, pos$1 + pos0 | 0);
     if (c !== 10) {
       if (c !== 13) {
         if (line === line_start && line === line_end) {
@@ -1487,10 +1487,10 @@ function highlight_dumb(ppf, lb, loc) {
 
 function highlight_locations(ppf, locs) {
   while(true) {
-    let num_lines = status.contents;
+    const num_lines = status.contents;
     if (typeof num_lines === "number") {
       if (num_lines) {
-        let lb = input_lexbuf.contents;
+        const lb = input_lexbuf.contents;
         if (lb === undefined) {
           return false;
         }
@@ -1499,7 +1499,7 @@ function highlight_locations(ppf, locs) {
           norepeat = Caml_sys.caml_sys_getenv("TERM") === "norepeat";
         }
         catch (raw_exn){
-          let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+          const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             norepeat = false;
           } else {
@@ -1509,13 +1509,13 @@ function highlight_locations(ppf, locs) {
         if (norepeat) {
           return false;
         }
-        let loc1 = Stdlib__List.hd(locs);
+        const loc1 = Stdlib__List.hd(locs);
         try {
           highlight_dumb(ppf, lb, loc1);
           return true;
         }
         catch (raw_exn$1){
-          let exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
+          const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
           if (exn$1.MEL_EXN_ID === Stdlib.Exit) {
             return false;
           }
@@ -1526,7 +1526,7 @@ function highlight_locations(ppf, locs) {
         continue ;
       }
     } else {
-      let lb$1 = input_lexbuf.contents;
+      const lb$1 = input_lexbuf.contents;
       if (lb$1 === undefined) {
         return false;
       }
@@ -1535,7 +1535,7 @@ function highlight_locations(ppf, locs) {
         return true;
       }
       catch (raw_exn$2){
-        let exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
+        const exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
         if (exn$2.MEL_EXN_ID === Stdlib.Exit) {
           return false;
         }
@@ -1547,12 +1547,12 @@ function highlight_locations(ppf, locs) {
 
 function show_filename(file) {
   if (absname.contents) {
-    let s = Curry._1(Stdlib__Filename.is_relative, file) ? Stdlib__Filename.concat(Caml_sys.caml_sys_getcwd(undefined), file) : file;
-    let aux = function (_s) {
+    const s = Curry._1(Stdlib__Filename.is_relative, file) ? Stdlib__Filename.concat(Caml_sys.caml_sys_getcwd(undefined), file) : file;
+    const aux = function (_s) {
       while(true) {
-        let s = _s;
-        let base = Curry._1(Stdlib__Filename.basename, s);
-        let dir = Curry._1(Stdlib__Filename.dirname, s);
+        const s = _s;
+        const base = Curry._1(Stdlib__Filename.basename, s);
+        const dir = Curry._1(Stdlib__Filename.dirname, s);
         if (dir === s) {
           return dir;
         }
@@ -1594,11 +1594,11 @@ function get_pos_info(pos) {
 
 function print_loc(ppf, loc) {
   Curry._1(Misc_Color.setup, color.contents);
-  let match = get_pos_info(loc.loc_start);
-  let startchar = match[2];
-  let file = match[0];
-  let startchar$1 = bs_vscode ? startchar + 1 | 0 : startchar;
-  let endchar = (loc.loc_end.pos_cnum - loc.loc_start.pos_cnum | 0) + startchar$1 | 0;
+  const match = get_pos_info(loc.loc_start);
+  const startchar = match[2];
+  const file = match[0];
+  const startchar$1 = bs_vscode ? startchar + 1 | 0 : startchar;
+  const endchar = (loc.loc_end.pos_cnum - loc.loc_start.pos_cnum | 0) + startchar$1 | 0;
   if (file === "//toplevel//") {
     if (highlight_locations(ppf, {
             hd: loc,
@@ -1748,7 +1748,7 @@ function print$1(ppf, loc) {
   }
 }
 
-let error_prefix = "Error";
+const error_prefix = "Error";
 
 function print_error(ppf, loc) {
   print$1(ppf, loc);
@@ -1830,23 +1830,23 @@ function default_warning_printer(loc, ppf, w) {
   
 }
 
-let warning_printer = {
+const warning_printer = {
   contents: default_warning_printer
 };
 
-let formatter_for_warnings = {
+const formatter_for_warnings = {
   contents: Stdlib__Format.err_formatter
 };
 
 function prerr_warning(loc, w) {
   let ppf = formatter_for_warnings.contents;
   let f = Curry._1(warning_printer.contents, loc);
-  let out_functions = Stdlib__Format.pp_get_formatter_out_functions(ppf, undefined);
-  let out_string = function (str, start, len) {
-    let count = function (_i, _c) {
+  const out_functions = Stdlib__Format.pp_get_formatter_out_functions(ppf, undefined);
+  const out_string = function (str, start, len) {
+    const count = function (_i, _c) {
       while(true) {
-        let c = _c;
-        let i = _i;
+        const c = _c;
+        const i = _i;
         if (i === (start + len | 0)) {
           return c;
         }
@@ -1879,11 +1879,11 @@ function print_phanton_error_prefix(ppf) {
 }
 
 function errorf(locOpt, subOpt, if_highlightOpt, fmt) {
-  let loc = locOpt !== undefined ? locOpt : none;
-  let sub = subOpt !== undefined ? subOpt : /* [] */0;
-  let if_highlight = if_highlightOpt !== undefined ? if_highlightOpt : "";
+  const loc = locOpt !== undefined ? locOpt : none;
+  const sub = subOpt !== undefined ? subOpt : /* [] */0;
+  const if_highlight = if_highlightOpt !== undefined ? if_highlightOpt : "";
   let before = print_phanton_error_prefix;
-  let k = function (msg) {
+  const k = function (msg) {
     return {
             loc: loc,
             msg: msg,
@@ -1891,8 +1891,8 @@ function errorf(locOpt, subOpt, if_highlightOpt, fmt) {
             if_highlight: if_highlight
           };
   };
-  let buf = Stdlib__Buffer.create(64);
-  let ppf = Stdlib__Format.formatter_of_buffer(buf);
+  const buf = Stdlib__Buffer.create(64);
+  const ppf = Stdlib__Format.formatter_of_buffer(buf);
   Curry._1(Misc_Color.set_color_tag_handling, ppf);
   if (before !== undefined) {
     Curry._1(before, ppf);
@@ -1903,7 +1903,7 @@ function errorf(locOpt, subOpt, if_highlightOpt, fmt) {
               }), ppf, fmt);
 }
 
-let error_of_exn = {
+const error_of_exn = {
   contents: /* [] */0
 };
 
@@ -1966,7 +1966,7 @@ register_error_of_exn(function (param) {
       }
     });
 
-let $$Error = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Location.Error");
+const $$Error = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Location.Error");
 
 register_error_of_exn(function (param) {
       if (param.MEL_EXN_ID === $$Error) {
@@ -1992,15 +1992,15 @@ function assert_fail(msg) {
 }
 
 function is_mocha(param) {
-  let match = Stdlib__Array.to_list(Process.argv);
+  const match = Stdlib__Array.to_list(Process.argv);
   if (!match) {
     return false;
   }
-  let match$1 = match.tl;
+  const match$1 = match.tl;
   if (!match$1) {
     return false;
   }
-  let exec = Path.basename(match$1.hd);
+  const exec = Path.basename(match$1.hd);
   if (exec === "mocha") {
     return true;
   } else {
@@ -2009,17 +2009,17 @@ function is_mocha(param) {
 }
 
 function close_enough(thresholdOpt, a, b) {
-  let threshold = thresholdOpt !== undefined ? thresholdOpt : 0.0000001;
+  const threshold = thresholdOpt !== undefined ? thresholdOpt : 0.0000001;
   return Math.abs(a - b) < threshold;
 }
 
 function from_pair_suites(name, suites) {
-  let match = Stdlib__Array.to_list(Process.argv);
+  const match = Stdlib__Array.to_list(Process.argv);
   if (match) {
     if (is_mocha(undefined)) {
       describe(name, (function () {
               return Stdlib__List.iter((function (param) {
-                            let code = param[1];
+                            const code = param[1];
                             it(param[0], (function () {
                                     let spec = Curry._1(code, undefined);
                                     switch (spec.TAG | 0) {
@@ -2039,8 +2039,8 @@ function from_pair_suites(name, suites) {
                                           Assert.ok(spec._0);
                                           return ;
                                       case /* Approx */5 :
-                                          let b = spec._1;
-                                          let a = spec._0;
+                                          const b = spec._1;
+                                          const a = spec._0;
                                           if (!close_enough(undefined, a, b)) {
                                             Assert.deepEqual(a, b);
                                             return ;
@@ -2048,8 +2048,8 @@ function from_pair_suites(name, suites) {
                                             return ;
                                           }
                                       case /* ApproxThreshold */6 :
-                                          let b$1 = spec._2;
-                                          let a$1 = spec._1;
+                                          const b$1 = spec._2;
+                                          const a$1 = spec._1;
                                           if (!close_enough(spec._0, a$1, b$1)) {
                                             Assert.deepEqual(a$1, b$1);
                                             return ;
@@ -2075,8 +2075,8 @@ function from_pair_suites(name, suites) {
             "testing"
           ]);
       return Stdlib__List.iter((function (param) {
-                    let name = param[0];
-                    let fn = Curry._1(param[1], undefined);
+                    const name = param[0];
+                    const fn = Curry._1(param[1], undefined);
                     switch (fn.TAG | 0) {
                       case /* Eq */0 :
                           console.log([
@@ -2154,7 +2154,7 @@ function from_pair_suites(name, suites) {
 
 Promise.resolve(undefined);
 
-let docstrings = {
+const docstrings = {
   contents: /* [] */0
 };
 
@@ -2164,7 +2164,7 @@ function warn_bad_docstrings(param) {
           _0: true
         })) {
     return Stdlib__List.iter((function (ds) {
-                  let match = ds.ds_attached;
+                  const match = ds.ds_attached;
                   switch (match) {
                     case /* Unattached */0 :
                         return prerr_warning(ds.ds_loc, {
@@ -2174,7 +2174,7 @@ function warn_bad_docstrings(param) {
                     case /* Info */1 :
                         return ;
                     case /* Docs */2 :
-                        let match$1 = ds.ds_associated;
+                        const match$1 = ds.ds_associated;
                         if (match$1 >= 2) {
                           return prerr_warning(ds.ds_loc, {
                                       TAG: /* Bad_docstring */33,
@@ -2191,7 +2191,7 @@ function warn_bad_docstrings(param) {
 }
 
 function docstring(body, loc) {
-  let ds = {
+  const ds = {
     ds_body: body,
     ds_loc: loc,
     ds_attached: /* Unattached */0,
@@ -2204,18 +2204,18 @@ function docstring(body, loc) {
   return ds;
 }
 
-let empty_docs = {
+const empty_docs = {
   docs_pre: undefined,
   docs_post: undefined
 };
 
-let doc_loc = {
+const doc_loc = {
   txt: "ocaml.doc",
   loc: none
 };
 
 function docs_attr(ds) {
-  let exp_pexp_desc = {
+  const exp_pexp_desc = {
     TAG: /* Pexp_constant */1,
     _0: {
       TAG: /* Const_string */2,
@@ -2223,19 +2223,19 @@ function docs_attr(ds) {
       _1: undefined
     }
   };
-  let exp_pexp_loc = ds.ds_loc;
-  let exp = {
+  const exp_pexp_loc = ds.ds_loc;
+  const exp = {
     pexp_desc: exp_pexp_desc,
     pexp_loc: exp_pexp_loc,
     pexp_attributes: /* [] */0
   };
-  let item_pstr_desc = {
+  const item_pstr_desc = {
     TAG: /* Pstr_eval */0,
     _0: exp,
     _1: /* [] */0
   };
-  let item_pstr_loc = exp_pexp_loc;
-  let item = {
+  const item_pstr_loc = exp_pexp_loc;
+  const item = {
     pstr_desc: item_pstr_desc,
     pstr_loc: item_pstr_loc
   };
@@ -2252,12 +2252,12 @@ function docs_attr(ds) {
 }
 
 function add_docs_attrs(docs, attrs) {
-  let ds = docs.docs_pre;
-  let attrs$1 = ds !== undefined ? ({
+  const ds = docs.docs_pre;
+  const attrs$1 = ds !== undefined ? ({
         hd: docs_attr(ds),
         tl: attrs
       }) : attrs;
-  let ds$1 = docs.docs_post;
+  const ds$1 = docs.docs_post;
   if (ds$1 !== undefined) {
     return Stdlib.$at(attrs$1, {
                 hd: docs_attr(ds$1),
@@ -2279,13 +2279,13 @@ function add_info_attrs(info, attrs) {
   }
 }
 
-let text_loc = {
+const text_loc = {
   txt: "ocaml.text",
   loc: none
 };
 
 function text_attr(ds) {
-  let exp_pexp_desc = {
+  const exp_pexp_desc = {
     TAG: /* Pexp_constant */1,
     _0: {
       TAG: /* Const_string */2,
@@ -2293,19 +2293,19 @@ function text_attr(ds) {
       _1: undefined
     }
   };
-  let exp_pexp_loc = ds.ds_loc;
-  let exp = {
+  const exp_pexp_loc = ds.ds_loc;
+  const exp = {
     pexp_desc: exp_pexp_desc,
     pexp_loc: exp_pexp_loc,
     pexp_attributes: /* [] */0
   };
-  let item_pstr_desc = {
+  const item_pstr_desc = {
     TAG: /* Pstr_eval */0,
     _0: exp,
     _1: /* [] */0
   };
-  let item_pstr_loc = exp_pexp_loc;
-  let item = {
+  const item_pstr_loc = exp_pexp_loc;
+  const item = {
     pstr_desc: item_pstr_desc,
     pstr_loc: item_pstr_loc
   };
@@ -2328,12 +2328,12 @@ function add_text_attrs(dsl, attrs) {
 function get_docstring(info, dsl) {
   let _param = dsl;
   while(true) {
-    let param = _param;
+    const param = _param;
     if (!param) {
       return ;
     }
-    let ds = param.hd;
-    let match = ds.ds_attached;
+    const ds = param.hd;
+    const match = ds.ds_attached;
     if (match !== 1) {
       ds.ds_attached = info ? /* Info */1 : /* Docs */2;
       return ds;
@@ -2347,13 +2347,13 @@ function get_docstrings(dsl) {
   let _acc = /* [] */0;
   let _param = dsl;
   while(true) {
-    let param = _param;
-    let acc = _acc;
+    const param = _param;
+    const acc = _acc;
     if (!param) {
       return Stdlib__List.rev(acc);
     }
-    let ds = param.hd;
-    let match = ds.ds_attached;
+    const ds = param.hd;
+    const match = ds.ds_attached;
     if (match !== 1) {
       ds.ds_attached = /* Docs */2;
       _param = param.tl;
@@ -2370,7 +2370,7 @@ function get_docstrings(dsl) {
 
 function associate_docstrings(dsl) {
   Stdlib__List.iter((function (ds) {
-          let match = ds.ds_associated;
+          const match = ds.ds_associated;
           if (match) {
             ds.ds_associated = /* Many */2;
           } else {
@@ -2379,7 +2379,7 @@ function associate_docstrings(dsl) {
         }), dsl);
 }
 
-let pre_table = Stdlib__Hashtbl.create(undefined, 50);
+const pre_table = Stdlib__Hashtbl.create(undefined, 50);
 
 function set_pre_docstrings(pos, dsl) {
   if (Caml_obj.caml_notequal(dsl, /* [] */0)) {
@@ -2390,12 +2390,12 @@ function set_pre_docstrings(pos, dsl) {
 
 function get_pre_docs(pos) {
   try {
-    let dsl = Stdlib__Hashtbl.find(pre_table, pos);
+    const dsl = Stdlib__Hashtbl.find(pre_table, pos);
     associate_docstrings(dsl);
     return get_docstring(false, dsl);
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
@@ -2408,7 +2408,7 @@ function mark_pre_docs(pos) {
     return associate_docstrings(Stdlib__Hashtbl.find(pre_table, pos));
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
@@ -2416,7 +2416,7 @@ function mark_pre_docs(pos) {
   }
 }
 
-let post_table = Stdlib__Hashtbl.create(undefined, 50);
+const post_table = Stdlib__Hashtbl.create(undefined, 50);
 
 function set_post_docstrings(pos, dsl) {
   if (Caml_obj.caml_notequal(dsl, /* [] */0)) {
@@ -2427,12 +2427,12 @@ function set_post_docstrings(pos, dsl) {
 
 function get_post_docs(pos) {
   try {
-    let dsl = Stdlib__Hashtbl.find(post_table, pos);
+    const dsl = Stdlib__Hashtbl.find(post_table, pos);
     associate_docstrings(dsl);
     return get_docstring(false, dsl);
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
@@ -2445,7 +2445,7 @@ function mark_post_docs(pos) {
     return associate_docstrings(Stdlib__Hashtbl.find(post_table, pos));
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
@@ -2455,11 +2455,11 @@ function mark_post_docs(pos) {
 
 function get_info(pos) {
   try {
-    let dsl = Stdlib__Hashtbl.find(post_table, pos);
+    const dsl = Stdlib__Hashtbl.find(post_table, pos);
     return get_docstring(true, dsl);
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return ;
     }
@@ -2467,7 +2467,7 @@ function get_info(pos) {
   }
 }
 
-let floating_table = Stdlib__Hashtbl.create(undefined, 50);
+const floating_table = Stdlib__Hashtbl.create(undefined, 50);
 
 function set_floating_docstrings(pos, dsl) {
   if (Caml_obj.caml_notequal(dsl, /* [] */0)) {
@@ -2481,7 +2481,7 @@ function get_text(pos) {
     return get_docstrings(Stdlib__Hashtbl.find(floating_table, pos));
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return /* [] */0;
     }
@@ -2489,7 +2489,7 @@ function get_text(pos) {
   }
 }
 
-let pre_extra_table = Stdlib__Hashtbl.create(undefined, 50);
+const pre_extra_table = Stdlib__Hashtbl.create(undefined, 50);
 
 function set_pre_extra_docstrings(pos, dsl) {
   if (Caml_obj.caml_notequal(dsl, /* [] */0)) {
@@ -2503,7 +2503,7 @@ function get_pre_extra_text(pos) {
     return get_docstrings(Stdlib__Hashtbl.find(pre_extra_table, pos));
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return /* [] */0;
     }
@@ -2511,7 +2511,7 @@ function get_pre_extra_text(pos) {
   }
 }
 
-let post_extra_table = Stdlib__Hashtbl.create(undefined, 50);
+const post_extra_table = Stdlib__Hashtbl.create(undefined, 50);
 
 function set_post_extra_docstrings(pos, dsl) {
   if (Caml_obj.caml_notequal(dsl, /* [] */0)) {
@@ -2525,7 +2525,7 @@ function get_post_extra_text(pos) {
     return get_docstrings(Stdlib__Hashtbl.find(post_extra_table, pos));
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return /* [] */0;
     }
@@ -2541,8 +2541,8 @@ function symbol_docs(param) {
 }
 
 function symbol_docs_lazy(param) {
-  let p1 = Stdlib__Parsing.symbol_start_pos(undefined);
-  let p2 = Stdlib__Parsing.symbol_end_pos(undefined);
+  const p1 = Stdlib__Parsing.symbol_start_pos(undefined);
+  const p2 = Stdlib__Parsing.symbol_end_pos(undefined);
   return {
           LAZY_DONE: false,
           VAL: (function () {
@@ -2565,7 +2565,7 @@ function mark_rhs_docs(pos1, pos2) {
 }
 
 function symbol_text_lazy(param) {
-  let pos = Stdlib__Parsing.symbol_start_pos(undefined);
+  const pos = Stdlib__Parsing.symbol_start_pos(undefined);
   return {
           LAZY_DONE: false,
           VAL: (function () {
@@ -2583,13 +2583,13 @@ function init(param) {
   Stdlib__Hashtbl.reset(post_extra_table);
 }
 
-let default_loc = {
+const default_loc = {
   contents: none
 };
 
 function mk(locOpt, attrsOpt, d) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
   return {
           ptyp_desc: d,
           ptyp_loc: loc,
@@ -2609,8 +2609,8 @@ function attr(d, a) {
 }
 
 function mk$1(locOpt, attrsOpt, d) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
   return {
           ppat_desc: d,
           ppat_loc: loc,
@@ -2630,8 +2630,8 @@ function attr$1(d, a) {
 }
 
 function mk$2(locOpt, attrsOpt, d) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
   return {
           pexp_desc: d,
           pexp_loc: loc,
@@ -2930,8 +2930,8 @@ function $$case(lhs, guard, rhs) {
 }
 
 function mk$3(locOpt, attrsOpt, d) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
   return {
           pmty_desc: d,
           pmty_loc: loc,
@@ -2958,8 +2958,8 @@ function alias(loc, attrs, a) {
 }
 
 function mk$4(locOpt, attrsOpt, d) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
   return {
           pmod_desc: d,
           pmod_loc: loc,
@@ -2979,7 +2979,7 @@ function attr$4(d, a) {
 }
 
 function mk$5(locOpt, d) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
   return {
           psig_desc: d,
           psig_loc: loc
@@ -2988,8 +2988,8 @@ function mk$5(locOpt, d) {
 
 function text(txt) {
   return Stdlib__List.map((function (ds) {
-                let a = text_attr(ds);
-                let loc = ds.ds_loc;
+                const a = text_attr(ds);
+                const loc = ds.ds_loc;
                 return mk$5(loc, {
                             TAG: /* Psig_attribute */11,
                             _0: a
@@ -2998,7 +2998,7 @@ function text(txt) {
 }
 
 function mk$6(locOpt, d) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
   return {
           pstr_desc: d,
           pstr_loc: loc
@@ -3007,8 +3007,8 @@ function mk$6(locOpt, d) {
 
 function text$1(txt) {
   return Stdlib__List.map((function (ds) {
-                let a = text_attr(ds);
-                let loc = ds.ds_loc;
+                const a = text_attr(ds);
+                const loc = ds.ds_loc;
                 return mk$6(loc, {
                             TAG: /* Pstr_attribute */13,
                             _0: a
@@ -3017,8 +3017,8 @@ function text$1(txt) {
 }
 
 function mk$7(locOpt, attrsOpt, d) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
   return {
           pcl_desc: d,
           pcl_loc: loc,
@@ -3038,8 +3038,8 @@ function attr$5(d, a) {
 }
 
 function mk$8(locOpt, attrsOpt, d) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
   return {
           pcty_desc: d,
           pcty_loc: loc,
@@ -3059,9 +3059,9 @@ function attr$6(d, a) {
 }
 
 function mk$9(locOpt, attrsOpt, docsOpt, d) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
-  let docs = docsOpt !== undefined ? docsOpt : empty_docs;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const docs = docsOpt !== undefined ? docsOpt : empty_docs;
   return {
           pctf_desc: d,
           pctf_loc: loc,
@@ -3142,9 +3142,9 @@ function attr$7(d, a) {
 }
 
 function mk$10(locOpt, attrsOpt, docsOpt, d) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
-  let docs = docsOpt !== undefined ? docsOpt : empty_docs;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const docs = docsOpt !== undefined ? docsOpt : empty_docs;
   return {
           pcf_desc: d,
           pcf_loc: loc,
@@ -3247,10 +3247,10 @@ function attr$8(d, a) {
 }
 
 function mk$11(locOpt, attrsOpt, docsOpt, primOpt, name, typ) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
-  let docs = docsOpt !== undefined ? docsOpt : empty_docs;
-  let prim = primOpt !== undefined ? primOpt : /* [] */0;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const docs = docsOpt !== undefined ? docsOpt : empty_docs;
+  const prim = primOpt !== undefined ? primOpt : /* [] */0;
   return {
           pval_name: name,
           pval_type: typ,
@@ -3261,10 +3261,10 @@ function mk$11(locOpt, attrsOpt, docsOpt, primOpt, name, typ) {
 }
 
 function mk$12(locOpt, attrsOpt, docsOpt, textOpt, name, typ) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
-  let docs = docsOpt !== undefined ? docsOpt : empty_docs;
-  let text = textOpt !== undefined ? textOpt : /* [] */0;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const docs = docsOpt !== undefined ? docsOpt : empty_docs;
+  const text = textOpt !== undefined ? textOpt : /* [] */0;
   return {
           pmd_name: name,
           pmd_type: typ,
@@ -3274,10 +3274,10 @@ function mk$12(locOpt, attrsOpt, docsOpt, textOpt, name, typ) {
 }
 
 function mk$13(locOpt, attrsOpt, docsOpt, textOpt, typ, name) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
-  let docs = docsOpt !== undefined ? docsOpt : empty_docs;
-  let text = textOpt !== undefined ? textOpt : /* [] */0;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const docs = docsOpt !== undefined ? docsOpt : empty_docs;
+  const text = textOpt !== undefined ? textOpt : /* [] */0;
   return {
           pmtd_name: name,
           pmtd_type: typ,
@@ -3287,10 +3287,10 @@ function mk$13(locOpt, attrsOpt, docsOpt, textOpt, typ, name) {
 }
 
 function mk$14(locOpt, attrsOpt, docsOpt, textOpt, name, expr) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
-  let docs = docsOpt !== undefined ? docsOpt : empty_docs;
-  let text = textOpt !== undefined ? textOpt : /* [] */0;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const docs = docsOpt !== undefined ? docsOpt : empty_docs;
+  const text = textOpt !== undefined ? textOpt : /* [] */0;
   return {
           pmb_name: name,
           pmb_expr: expr,
@@ -3300,10 +3300,10 @@ function mk$14(locOpt, attrsOpt, docsOpt, textOpt, name, expr) {
 }
 
 function mk$15(locOpt, attrsOpt, docsOpt, overrideOpt, lid) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
-  let docs = docsOpt !== undefined ? docsOpt : empty_docs;
-  let override = overrideOpt !== undefined ? overrideOpt : /* Fresh */1;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const docs = docsOpt !== undefined ? docsOpt : empty_docs;
+  const override = overrideOpt !== undefined ? overrideOpt : /* Fresh */1;
   return {
           popen_lid: lid,
           popen_override: override,
@@ -3313,9 +3313,9 @@ function mk$15(locOpt, attrsOpt, docsOpt, overrideOpt, lid) {
 }
 
 function mk$16(locOpt, attrsOpt, docsOpt, mexpr) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
-  let docs = docsOpt !== undefined ? docsOpt : empty_docs;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const docs = docsOpt !== undefined ? docsOpt : empty_docs;
   return {
           pincl_mod: mexpr,
           pincl_loc: loc,
@@ -3324,10 +3324,10 @@ function mk$16(locOpt, attrsOpt, docsOpt, mexpr) {
 }
 
 function mk$17(locOpt, attrsOpt, docsOpt, textOpt, pat, expr) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
-  let docs = docsOpt !== undefined ? docsOpt : empty_docs;
-  let text = textOpt !== undefined ? textOpt : /* [] */0;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const docs = docsOpt !== undefined ? docsOpt : empty_docs;
+  const text = textOpt !== undefined ? textOpt : /* [] */0;
   return {
           pvb_pat: pat,
           pvb_expr: expr,
@@ -3337,12 +3337,12 @@ function mk$17(locOpt, attrsOpt, docsOpt, textOpt, pat, expr) {
 }
 
 function mk$18(locOpt, attrsOpt, docsOpt, textOpt, virtOpt, paramsOpt, name, expr) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
-  let docs = docsOpt !== undefined ? docsOpt : empty_docs;
-  let text = textOpt !== undefined ? textOpt : /* [] */0;
-  let virt = virtOpt !== undefined ? virtOpt : /* Concrete */1;
-  let params = paramsOpt !== undefined ? paramsOpt : /* [] */0;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const docs = docsOpt !== undefined ? docsOpt : empty_docs;
+  const text = textOpt !== undefined ? textOpt : /* [] */0;
+  const virt = virtOpt !== undefined ? virtOpt : /* Concrete */1;
+  const params = paramsOpt !== undefined ? paramsOpt : /* [] */0;
   return {
           pci_virt: virt,
           pci_params: params,
@@ -3354,14 +3354,14 @@ function mk$18(locOpt, attrsOpt, docsOpt, textOpt, virtOpt, paramsOpt, name, exp
 }
 
 function mk$19(locOpt, attrsOpt, docsOpt, textOpt, paramsOpt, cstrsOpt, kindOpt, privOpt, manifest, name) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
-  let docs = docsOpt !== undefined ? docsOpt : empty_docs;
-  let text = textOpt !== undefined ? textOpt : /* [] */0;
-  let params = paramsOpt !== undefined ? paramsOpt : /* [] */0;
-  let cstrs = cstrsOpt !== undefined ? cstrsOpt : /* [] */0;
-  let kind = kindOpt !== undefined ? kindOpt : /* Ptype_abstract */0;
-  let priv = privOpt !== undefined ? privOpt : /* Public */1;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const docs = docsOpt !== undefined ? docsOpt : empty_docs;
+  const text = textOpt !== undefined ? textOpt : /* [] */0;
+  const params = paramsOpt !== undefined ? paramsOpt : /* [] */0;
+  const cstrs = cstrsOpt !== undefined ? cstrsOpt : /* [] */0;
+  const kind = kindOpt !== undefined ? kindOpt : /* Ptype_abstract */0;
+  const priv = privOpt !== undefined ? privOpt : /* Public */1;
   return {
           ptype_name: name,
           ptype_params: params,
@@ -3375,10 +3375,10 @@ function mk$19(locOpt, attrsOpt, docsOpt, textOpt, paramsOpt, cstrsOpt, kindOpt,
 }
 
 function constructor(locOpt, attrsOpt, infoOpt, argsOpt, res, name) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
-  let info = infoOpt !== undefined ? Caml_option.valFromOption(infoOpt) : undefined;
-  let args = argsOpt !== undefined ? argsOpt : /* [] */0;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const info = infoOpt !== undefined ? Caml_option.valFromOption(infoOpt) : undefined;
+  const args = argsOpt !== undefined ? argsOpt : /* [] */0;
   return {
           pcd_name: name,
           pcd_args: args,
@@ -3389,10 +3389,10 @@ function constructor(locOpt, attrsOpt, infoOpt, argsOpt, res, name) {
 }
 
 function field$1(locOpt, attrsOpt, infoOpt, mutOpt, name, typ) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
-  let info = infoOpt !== undefined ? Caml_option.valFromOption(infoOpt) : undefined;
-  let mut = mutOpt !== undefined ? mutOpt : /* Immutable */0;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const info = infoOpt !== undefined ? Caml_option.valFromOption(infoOpt) : undefined;
+  const mut = mutOpt !== undefined ? mutOpt : /* Immutable */0;
   return {
           pld_name: name,
           pld_mutable: mut,
@@ -3403,10 +3403,10 @@ function field$1(locOpt, attrsOpt, infoOpt, mutOpt, name, typ) {
 }
 
 function mk$20(attrsOpt, docsOpt, paramsOpt, privOpt, path, constructors) {
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
-  let docs = docsOpt !== undefined ? docsOpt : empty_docs;
-  let params = paramsOpt !== undefined ? paramsOpt : /* [] */0;
-  let priv = privOpt !== undefined ? privOpt : /* Public */1;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const docs = docsOpt !== undefined ? docsOpt : empty_docs;
+  const params = paramsOpt !== undefined ? paramsOpt : /* [] */0;
+  const priv = privOpt !== undefined ? privOpt : /* Public */1;
   return {
           ptyext_path: path,
           ptyext_params: params,
@@ -3417,11 +3417,11 @@ function mk$20(attrsOpt, docsOpt, paramsOpt, privOpt, path, constructors) {
 }
 
 function decl(locOpt, attrsOpt, docsOpt, infoOpt, argsOpt, res, name) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
-  let docs = docsOpt !== undefined ? docsOpt : empty_docs;
-  let info = infoOpt !== undefined ? Caml_option.valFromOption(infoOpt) : undefined;
-  let args = argsOpt !== undefined ? argsOpt : /* [] */0;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const docs = docsOpt !== undefined ? docsOpt : empty_docs;
+  const info = infoOpt !== undefined ? Caml_option.valFromOption(infoOpt) : undefined;
+  const args = argsOpt !== undefined ? argsOpt : /* [] */0;
   return {
           pext_name: name,
           pext_kind: {
@@ -3435,10 +3435,10 @@ function decl(locOpt, attrsOpt, docsOpt, infoOpt, argsOpt, res, name) {
 }
 
 function rebind(locOpt, attrsOpt, docsOpt, infoOpt, name, lid) {
-  let loc = locOpt !== undefined ? locOpt : default_loc.contents;
-  let attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
-  let docs = docsOpt !== undefined ? docsOpt : empty_docs;
-  let info = infoOpt !== undefined ? Caml_option.valFromOption(infoOpt) : undefined;
+  const loc = locOpt !== undefined ? locOpt : default_loc.contents;
+  const attrs = attrsOpt !== undefined ? attrsOpt : /* [] */0;
+  const docs = docsOpt !== undefined ? docsOpt : empty_docs;
+  const info = infoOpt !== undefined ? Caml_option.valFromOption(infoOpt) : undefined;
   return {
           pext_name: name,
           pext_kind: {
@@ -3450,7 +3450,7 @@ function rebind(locOpt, attrsOpt, docsOpt, infoOpt, name, lid) {
         };
 }
 
-let Ast_helper_Exp = {
+const Ast_helper_Exp = {
   mk: mk$2,
   attr: attr$2,
   ident: ident,
@@ -3490,7 +3490,7 @@ let Ast_helper_Exp = {
   $$case: $$case
 };
 
-let Ast_helper_Ctf = {
+const Ast_helper_Ctf = {
   mk: mk$9,
   attr: attr$7,
   inherit_: inherit_,
@@ -3502,7 +3502,7 @@ let Ast_helper_Ctf = {
   text: text$2
 };
 
-let Ast_helper_Cf = {
+const Ast_helper_Cf = {
   mk: mk$10,
   attr: attr$8,
   inherit_: inherit_$1,
@@ -3517,15 +3517,15 @@ let Ast_helper_Cf = {
   concrete: concrete
 };
 
-let $$Error$1 = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Syntaxerr.Error");
+const $$Error$1 = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Syntaxerr.Error");
 
-let Escape_error = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Syntaxerr.Escape_error");
+const Escape_error = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Syntaxerr.Escape_error");
 
 function prepare_error(param) {
   switch (param.TAG | 0) {
     case /* Unclosed */0 :
-        let closing = param._3;
-        let opening = param._1;
+        const closing = param._3;
+        const opening = param._1;
         return Curry._1(errorf(param._2, {
                         hd: Curry._1(errorf(param._0, undefined, undefined, /* Format */{
                                   _0: {
@@ -3627,7 +3627,7 @@ function prepare_error(param) {
                     _1: "Syntax error: applicative paths of the form F(X).t are not supported when the option -no-app-func is set."
                   });
     case /* Variable_in_scope */4 :
-        let $$var = param._1;
+        const $$var = param._1;
         return Curry._2(errorf(param._0, undefined, undefined, /* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -3730,10 +3730,10 @@ function mkcf(attrs, docs, d) {
 }
 
 function mkoption(d) {
-  let init = d.ptyp_loc;
-  let loc_loc_start = init.loc_start;
-  let loc_loc_end = init.loc_end;
-  let loc = {
+  const init = d.ptyp_loc;
+  const loc_loc_start = init.loc_start;
+  const loc_loc_end = init.loc_end;
+  const loc = {
     loc_start: loc_loc_start,
     loc_end: loc_loc_end,
     loc_ghost: true
@@ -3775,7 +3775,7 @@ function reloc_exp(x) {
 }
 
 function mkoperator(name, pos) {
-  let loc = rhs_loc(pos);
+  const loc = rhs_loc(pos);
   return Curry._3(Ast_helper_Exp.mk, loc, undefined, {
               TAG: /* Pexp_ident */0,
               _0: {
@@ -3868,16 +3868,16 @@ function mkpat_cons(consloc, args, loc) {
 
 function mktailexp(nilloc, param) {
   if (param) {
-    let e1 = param.hd;
-    let exp_el = mktailexp(nilloc, param.tl);
-    let loc_loc_start = e1.pexp_loc.loc_start;
-    let loc_loc_end = exp_el.pexp_loc.loc_end;
-    let loc = {
+    const e1 = param.hd;
+    const exp_el = mktailexp(nilloc, param.tl);
+    const loc_loc_start = e1.pexp_loc.loc_start;
+    const loc_loc_end = exp_el.pexp_loc.loc_end;
+    const loc = {
       loc_start: loc_loc_start,
       loc_end: loc_loc_end,
       loc_ghost: true
     };
-    let arg = Curry._3(Ast_helper_Exp.mk, loc, undefined, {
+    const arg = Curry._3(Ast_helper_Exp.mk, loc, undefined, {
           TAG: /* Pexp_tuple */8,
           _0: {
             hd: e1,
@@ -3893,18 +3893,18 @@ function mktailexp(nilloc, param) {
                 loc_ghost: true
               }, arg, loc);
   }
-  let loc_loc_start$1 = nilloc.loc_start;
-  let loc_loc_end$1 = nilloc.loc_end;
-  let loc$1 = {
+  const loc_loc_start$1 = nilloc.loc_start;
+  const loc_loc_end$1 = nilloc.loc_end;
+  const loc$1 = {
     loc_start: loc_loc_start$1,
     loc_end: loc_loc_end$1,
     loc_ghost: true
   };
-  let nil_txt = {
+  const nil_txt = {
     TAG: /* Lident */0,
     _0: "[]"
   };
-  let nil = {
+  const nil = {
     txt: nil_txt,
     loc: loc$1
   };
@@ -3917,16 +3917,16 @@ function mktailexp(nilloc, param) {
 
 function mktailpat(nilloc, param) {
   if (param) {
-    let p1 = param.hd;
-    let pat_pl = mktailpat(nilloc, param.tl);
-    let loc_loc_start = p1.ppat_loc.loc_start;
-    let loc_loc_end = pat_pl.ppat_loc.loc_end;
-    let loc = {
+    const p1 = param.hd;
+    const pat_pl = mktailpat(nilloc, param.tl);
+    const loc_loc_start = p1.ppat_loc.loc_start;
+    const loc_loc_end = pat_pl.ppat_loc.loc_end;
+    const loc = {
       loc_start: loc_loc_start,
       loc_end: loc_loc_end,
       loc_ghost: true
     };
-    let arg = mk$1(loc, undefined, {
+    const arg = mk$1(loc, undefined, {
           TAG: /* Ppat_tuple */4,
           _0: {
             hd: p1,
@@ -3942,18 +3942,18 @@ function mktailpat(nilloc, param) {
                 loc_ghost: true
               }, arg, loc);
   }
-  let loc_loc_start$1 = nilloc.loc_start;
-  let loc_loc_end$1 = nilloc.loc_end;
-  let loc$1 = {
+  const loc_loc_start$1 = nilloc.loc_start;
+  const loc_loc_end$1 = nilloc.loc_end;
+  const loc$1 = {
     loc_start: loc_loc_start$1,
     loc_end: loc_loc_end$1,
     loc_ghost: true
   };
-  let nil_txt = {
+  const nil_txt = {
     TAG: /* Lident */0,
     _0: "[]"
   };
-  let nil = {
+  const nil = {
     txt: nil_txt,
     loc: loc$1
   };
@@ -3976,8 +3976,8 @@ function mkstrexp(e, attrs) {
 }
 
 function mkexp_constraint(e, param) {
-  let t2 = param[1];
-  let t1 = param[0];
+  const t2 = param[1];
+  const t1 = param[0];
   if (t1 !== undefined) {
     if (t2 !== undefined) {
       return ghexp({
@@ -4080,7 +4080,7 @@ function bigarray_function(str, name) {
 }
 
 function bigarray_untuplify(exp) {
-  let explist = exp.pexp_desc;
+  const explist = exp.pexp_desc;
   if (explist.TAG === /* Pexp_tuple */8) {
     return explist._0;
   } else {
@@ -4092,7 +4092,7 @@ function bigarray_untuplify(exp) {
 }
 
 function exp_of_label(lbl, pos) {
-  let rhs = {
+  const rhs = {
     TAG: /* Lident */0,
     _0: last(lbl)
   };
@@ -4106,7 +4106,7 @@ function exp_of_label(lbl, pos) {
 }
 
 function pat_of_label(lbl, pos) {
-  let rhs = last(lbl);
+  const rhs = last(lbl);
   return mkpat({
               TAG: /* Ppat_var */0,
               _0: {
@@ -4131,15 +4131,15 @@ function check_variable(vl, loc, v) {
 }
 
 function varify_constructors(var_names, t) {
-  let loop = function (t) {
-    let x = t.ptyp_desc;
+  const loop = function (t) {
+    const x = t.ptyp_desc;
     let desc;
     if (typeof x === "number") {
       desc = /* Ptyp_any */0;
     } else {
       switch (x.TAG | 0) {
         case /* Ptyp_var */0 :
-            let x$1 = x._0;
+            const x$1 = x._0;
             check_variable(var_names, t.ptyp_loc, x$1);
             desc = {
               TAG: /* Ptyp_var */0,
@@ -4161,15 +4161,15 @@ function varify_constructors(var_names, t) {
             };
             break;
         case /* Ptyp_constr */3 :
-            let longident = x._0;
+            const longident = x._0;
             let exit = 0;
-            let s = longident.txt;
+            const s = longident.txt;
             switch (s.TAG | 0) {
               case /* Lident */0 :
                   if (x._1) {
                     exit = 1;
                   } else {
-                    let s$1 = s._0;
+                    const s$1 = s._0;
                     if (Stdlib__List.mem(s$1, var_names)) {
                       desc = {
                         TAG: /* Ptyp_var */0,
@@ -4215,7 +4215,7 @@ function varify_constructors(var_names, t) {
             };
             break;
         case /* Ptyp_alias */6 :
-            let string = x._1;
+            const string = x._1;
             check_variable(var_names, t.ptyp_loc, string);
             desc = {
               TAG: /* Ptyp_alias */6,
@@ -4232,8 +4232,8 @@ function varify_constructors(var_names, t) {
             };
             break;
         case /* Ptyp_poly */8 :
-            let string_lst = x._0;
-            let partial_arg = t.ptyp_loc;
+            const string_lst = x._0;
+            const partial_arg = t.ptyp_loc;
             Stdlib__List.iter((function (param) {
                     return check_variable(var_names, partial_arg, param);
                   }), string_lst);
@@ -4244,7 +4244,7 @@ function varify_constructors(var_names, t) {
             };
             break;
         case /* Ptyp_package */9 :
-            let match = x._0;
+            const match = x._0;
             desc = {
               TAG: /* Ptyp_package */9,
               _0: [
@@ -4259,7 +4259,7 @@ function varify_constructors(var_names, t) {
             };
             break;
         case /* Ptyp_extension */10 :
-            let match$1 = x._0;
+            const match$1 = x._0;
             desc = {
               TAG: /* Ptyp_extension */10,
               _0: [
@@ -4277,7 +4277,7 @@ function varify_constructors(var_names, t) {
             ptyp_attributes: t.ptyp_attributes
           };
   };
-  let loop_row_field = function (param) {
+  const loop_row_field = function (param) {
     if (param.TAG === /* Rtag */0) {
       return {
               TAG: /* Rtag */0,
@@ -4297,12 +4297,12 @@ function varify_constructors(var_names, t) {
 }
 
 function wrap_type_annotation(newtypes, core_type, body) {
-  let exp = mkexp({
+  const exp = mkexp({
         TAG: /* Pexp_constraint */19,
         _0: body,
         _1: core_type
       });
-  let exp$1 = Stdlib__List.fold_right((function (newtype, exp) {
+  const exp$1 = Stdlib__List.fold_right((function (newtype, exp) {
           return mkexp({
                       TAG: /* Pexp_newtype */30,
                       _0: newtype,
@@ -4320,11 +4320,11 @@ function wrap_type_annotation(newtypes, core_type, body) {
 }
 
 function wrap_exp_attrs(body, param) {
-  let ext = param[0];
-  let body_pexp_desc = body.pexp_desc;
-  let body_pexp_loc = body.pexp_loc;
-  let body_pexp_attributes = Stdlib.$at(param[1], body.pexp_attributes);
-  let body$1 = {
+  const ext = param[0];
+  const body_pexp_desc = body.pexp_desc;
+  const body_pexp_loc = body.pexp_loc;
+  const body_pexp_attributes = Stdlib.$at(param[1], body.pexp_attributes);
+  const body$1 = {
     pexp_desc: body_pexp_desc,
     pexp_loc: body_pexp_loc,
     pexp_attributes: body_pexp_attributes
@@ -4359,8 +4359,8 @@ function text_def(pos) {
 }
 
 function extra_text(text, pos, items) {
-  let pre_extras = get_pre_extra_text(Stdlib__Parsing.rhs_start_pos(pos));
-  let post_extras = get_post_extra_text(Stdlib__Parsing.rhs_end_pos(pos));
+  const pre_extras = get_pre_extra_text(Stdlib__Parsing.rhs_start_pos(pos));
+  const post_extras = get_post_extra_text(Stdlib__Parsing.rhs_end_pos(pos));
   return Stdlib.$at(Curry._1(text, pre_extras), Stdlib.$at(items, Curry._1(text, post_extras)));
 }
 
@@ -4376,8 +4376,8 @@ function add_nonrec(rf, attrs, pos) {
   if (rf) {
     return attrs;
   }
-  let name_loc = rhs_loc(pos);
-  let name = {
+  const name_loc = rhs_loc(pos);
+  const name = {
     txt: "nonrec",
     loc: name_loc
   };
@@ -4404,7 +4404,7 @@ function mklb(param, attrs) {
         };
 }
 
-let yytransl_const = [
+const yytransl_const = [
   257,
   258,
   259,
@@ -4509,7 +4509,7 @@ let yytransl_const = [
   0
 ];
 
-let yytransl_block = [
+const yytransl_block = [
   268,
   287,
   298,
@@ -4533,7 +4533,7 @@ let yytransl_block = [
   0
 ];
 
-let yyact = [
+const yyact = [
   (function (param) {
       throw new Caml_js_exceptions.MelangeError("Failure", {
                 MEL_EXN_ID: "Failure",
@@ -4541,15 +4541,15 @@ let yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return extra_text(text$1, 1, _1);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return extra_text(text, 1, _1);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return {
               TAG: /* Ptop_def */0,
               _0: extra_text(text$1, 1, _1)
@@ -4564,8 +4564,8 @@ let yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return Stdlib.$at(text$1(get_text(Stdlib__Parsing.rhs_start_pos(1))), {
                   hd: mkstrexp(_1, _2),
                   tl: /* [] */0
@@ -4578,15 +4578,15 @@ let yyact = [
       return /* [] */0;
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return Stdlib.$at(text$1(get_text(Stdlib__Parsing.rhs_start_pos(1))), {
                   hd: _1,
                   tl: _2
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       let pos = 1;
       return extra_text((function (txt) {
                     return {
@@ -4602,9 +4602,9 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return Stdlib.$at(text_def(1), {
                   hd: {
                     TAG: /* Ptop_def */0,
@@ -4623,9 +4623,9 @@ let yyact = [
       return text_def(1);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       mark_rhs_docs(2, 3);
       return Stdlib.$at(text_def(1), Stdlib.$at(text_def(2), {
                       hd: {
@@ -4639,8 +4639,8 @@ let yyact = [
                     }));
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return Stdlib.$at(text_def(1), Stdlib.$at(text_def(2), {
                       hd: {
                         TAG: /* Ptop_def */0,
@@ -4653,8 +4653,8 @@ let yyact = [
                     }));
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       mark_rhs_docs(2, 3);
       return Stdlib.$at(text_def(1), Stdlib.$at(text_def(2), {
                       hd: _2,
@@ -4662,8 +4662,8 @@ let yyact = [
                     }));
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return Stdlib.$at(text_def(1), {
                   hd: {
                     TAG: /* Ptop_def */0,
@@ -4676,8 +4676,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       mark_rhs_docs(1, 1);
       return Stdlib.$at(text_def(1), {
                   hd: _1,
@@ -4703,8 +4703,8 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return [
               {
                 txt: _2,
@@ -4720,22 +4720,22 @@ let yyact = [
       return "_";
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _2,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkmod({
                   TAG: /* Pmod_ident */0,
                   _0: {
@@ -4745,7 +4745,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkmod({
                   TAG: /* Pmod_structure */1,
                   _0: extra_text(text$1, 2, _2)
@@ -4756,8 +4756,8 @@ let yyact = [
       return unclosed("struct", 1, "end", 3);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return Stdlib__List.fold_left((function (acc, param) {
                     return mkmod({
                                 TAG: /* Pmod_functor */2,
@@ -4768,8 +4768,8 @@ let yyact = [
                   }), _4, _2);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkmod({
                   TAG: /* Pmod_apply */3,
                   _0: _1,
@@ -4777,7 +4777,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       return mkmod({
                   TAG: /* Pmod_apply */3,
                   _0: _1,
@@ -4793,8 +4793,8 @@ let yyact = [
       return unclosed("(", 2, ")", 4);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkmod({
                   TAG: /* Pmod_constraint */4,
                   _0: _2,
@@ -4814,15 +4814,15 @@ let yyact = [
       return unclosed("(", 1, ")", 3);
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkmod({
                   TAG: /* Pmod_unpack */5,
                   _0: _3
                 });
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkmod({
                   TAG: /* Pmod_unpack */5,
                   _0: ghexp({
@@ -4836,9 +4836,9 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkmod({
                   TAG: /* Pmod_unpack */5,
                   _0: ghexp({
@@ -4856,8 +4856,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkmod({
                   TAG: /* Pmod_unpack */5,
                   _0: ghexp({
@@ -4884,21 +4884,21 @@ let yyact = [
       return unclosed("(", 1, ")", 4);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return attr$4(_1, _2);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkmod({
                   TAG: /* Pmod_extension */6,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       mark_rhs_docs(1, 2);
       return Stdlib.$at(text$1(get_text(Stdlib__Parsing.rhs_start_pos(1))), {
                   hd: mkstrexp(_1, _2),
@@ -4912,12 +4912,12 @@ let yyact = [
       return /* [] */0;
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return Stdlib.$at(text$1(get_text(Stdlib__Parsing.rhs_start_pos(1))), _2);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return Stdlib.$at(text$1(get_text(Stdlib__Parsing.rhs_start_pos(1))), {
                   hd: _1,
                   tl: _2
@@ -4925,13 +4925,13 @@ let yyact = [
     }),
   (function (__caml_parser_env) {
       let lbs = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let bindings = lbs.lbs_bindings;
+      const bindings = lbs.lbs_bindings;
       let str;
       let exit = 0;
       if (bindings) {
-        let lb = bindings.hd;
+        const lb = bindings.hd;
         if (typeof lb.lb_pattern.ppat_desc === "number" && !bindings.tl) {
-          let exp = wrap_exp_attrs(lb.lb_expression, [
+          const exp = wrap_exp_attrs(lb.lb_expression, [
                 undefined,
                 lbs.lbs_attributes
               ]);
@@ -4957,7 +4957,7 @@ let yyact = [
                     }
                   });
         }
-        let bindings$1 = Stdlib__List.map((function (lb) {
+        const bindings$1 = Stdlib__List.map((function (lb) {
                 return mk$17(lb.lb_loc, lb.lb_attributes, CamlinternalLazy.force(lb.lb_docs), CamlinternalLazy.force(lb.lb_text), lb.lb_pattern, lb.lb_expression);
               }), bindings);
         str = mkstr({
@@ -4966,7 +4966,7 @@ let yyact = [
               _1: Stdlib__List.rev(bindings$1)
             });
       }
-      let id = lbs.lbs_extension;
+      const id = lbs.lbs_extension;
       if (id !== undefined) {
         let d = {
           TAG: /* Pstr_extension */14,
@@ -4988,85 +4988,85 @@ let yyact = [
       }
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkstr({
                   TAG: /* Pstr_primitive */2,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkstr({
                   TAG: /* Pstr_type */3,
                   _0: Stdlib__List.rev(_1)
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkstr({
                   TAG: /* Pstr_typext */4,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkstr({
                   TAG: /* Pstr_exception */5,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkstr({
                   TAG: /* Pstr_module */6,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkstr({
                   TAG: /* Pstr_recmodule */7,
                   _0: Stdlib__List.rev(_1)
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkstr({
                   TAG: /* Pstr_modtype */8,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkstr({
                   TAG: /* Pstr_open */9,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkstr({
                   TAG: /* Pstr_class */10,
                   _0: Stdlib__List.rev(_1)
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkstr({
                   TAG: /* Pstr_class_type */11,
                   _0: Stdlib__List.rev(_1)
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkstr({
                   TAG: /* Pstr_include */12,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkstr({
                   TAG: /* Pstr_extension */14,
                   _0: _1,
@@ -5074,7 +5074,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       mark_symbol_docs(undefined);
       return mkstr({
                   TAG: /* Pstr_attribute */13,
@@ -5082,16 +5082,16 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$16(symbol_rloc(undefined), _3, symbol_docs(undefined), _2);
     }),
   (function (__caml_parser_env) {
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkmod({
                   TAG: /* Pmod_constraint */4,
                   _0: _4,
@@ -5099,8 +5099,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkmod({
                   TAG: /* Pmod_functor */2,
                   _0: _1[0],
@@ -5109,49 +5109,49 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$14(symbol_rloc(undefined), _4, symbol_docs(undefined), undefined, {
                   txt: _2,
                   loc: rhs_loc(2)
                 }, _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _2,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$14(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, {
                   txt: _3,
                   loc: rhs_loc(3)
                 }, _4);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$14(symbol_rloc(undefined), _4, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), {
                   txt: _2,
                   loc: rhs_loc(2)
                 }, _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkmty({
                   TAG: /* Pmty_ident */0,
                   _0: {
@@ -5161,7 +5161,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkmty({
                   TAG: /* Pmty_signature */1,
                   _0: extra_text(text, 2, _2)
@@ -5172,8 +5172,8 @@ let yyact = [
       return unclosed("sig", 1, "end", 3);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return Stdlib__List.fold_left((function (acc, param) {
                     return mkmty({
                                 TAG: /* Pmty_functor */2,
@@ -5184,8 +5184,8 @@ let yyact = [
                   }), _4, _2);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkmty({
                   TAG: /* Pmty_with */3,
                   _0: _1,
@@ -5193,7 +5193,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkmty({
                   TAG: /* Pmty_typeof */4,
                   _0: _4
@@ -5207,126 +5207,126 @@ let yyact = [
       return unclosed("(", 1, ")", 3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkmty({
                   TAG: /* Pmty_extension */5,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return attr$3(_1, _2);
     }),
   (function (__caml_parser_env) {
       return /* [] */0;
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return Stdlib.$at(text(get_text(Stdlib__Parsing.rhs_start_pos(1))), _2);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return Stdlib.$at(text(get_text(Stdlib__Parsing.rhs_start_pos(1))), {
                   hd: _1,
                   tl: _2
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mksig({
                   TAG: /* Psig_value */0,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mksig({
                   TAG: /* Psig_value */0,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mksig({
                   TAG: /* Psig_type */1,
                   _0: Stdlib__List.rev(_1)
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mksig({
                   TAG: /* Psig_typext */2,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mksig({
                   TAG: /* Psig_exception */3,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mksig({
                   TAG: /* Psig_module */4,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mksig({
                   TAG: /* Psig_module */4,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mksig({
                   TAG: /* Psig_recmodule */5,
                   _0: Stdlib__List.rev(_1)
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mksig({
                   TAG: /* Psig_modtype */6,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mksig({
                   TAG: /* Psig_open */7,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mksig({
                   TAG: /* Psig_include */8,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mksig({
                   TAG: /* Psig_class */9,
                   _0: Stdlib__List.rev(_1)
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mksig({
                   TAG: /* Psig_class_type */10,
                   _0: Stdlib__List.rev(_1)
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mksig({
                   TAG: /* Psig_extension */12,
                   _0: _1,
@@ -5334,7 +5334,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       mark_symbol_docs(undefined);
       return mksig({
                   TAG: /* Psig_attribute */11,
@@ -5342,26 +5342,26 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$15(symbol_rloc(undefined), _4, symbol_docs(undefined), _2, {
                   txt: _3,
                   loc: rhs_loc(3)
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$16(symbol_rloc(undefined), _3, symbol_docs(undefined), _2);
     }),
   (function (__caml_parser_env) {
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkmty({
                   TAG: /* Pmty_functor */2,
                   _0: {
@@ -5373,7 +5373,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkmty({
                   TAG: /* Pmty_functor */2,
                   _0: {
@@ -5385,18 +5385,18 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$12(symbol_rloc(undefined), _4, symbol_docs(undefined), undefined, {
                   txt: _2,
                   loc: rhs_loc(2)
                 }, _3);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$12(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, {
                   txt: _2,
                   loc: rhs_loc(2)
@@ -5406,33 +5406,33 @@ let yyact = [
                     }));
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _2,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$12(symbol_rloc(undefined), _6, symbol_docs(undefined), undefined, {
                   txt: _3,
                   loc: rhs_loc(3)
                 }, _5);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$12(symbol_rloc(undefined), _5, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), {
                   txt: _2,
                   loc: rhs_loc(2)
@@ -5445,46 +5445,46 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$13(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, _4, {
                   txt: _3,
                   loc: rhs_loc(3)
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _2,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$18(symbol_rloc(undefined), _6, symbol_docs(undefined), undefined, _2, _3, {
                   txt: _4,
                   loc: rhs_loc(4)
                 }, _5);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$18(symbol_rloc(undefined), _6, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, _3, {
                   txt: _4,
                   loc: rhs_loc(4)
@@ -5494,8 +5494,8 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkclass({
                   TAG: /* Pcl_constraint */5,
                   _0: _4,
@@ -5503,8 +5503,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkclass({
                   TAG: /* Pcl_fun */2,
                   _0: _1[0],
@@ -5520,8 +5520,8 @@ let yyact = [
       return Stdlib__List.rev(Stdlib__Parsing.peek_val(__caml_parser_env, 1));
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkclass({
                   TAG: /* Pcl_fun */2,
                   _0: _1[0],
@@ -5531,8 +5531,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkclass({
                   TAG: /* Pcl_fun */2,
                   _0: _1[0],
@@ -5548,8 +5548,8 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkclass({
                   TAG: /* Pcl_apply */3,
                   _0: _1,
@@ -5557,9 +5557,9 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let bindings = Stdlib__List.map((function (lb) {
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const bindings = Stdlib__List.map((function (lb) {
               if (Caml_obj.caml_notequal(lb.lb_attributes, /* [] */0)) {
                 throw new Caml_js_exceptions.MelangeError($$Error$1, {
                           MEL_EXN_ID: $$Error$1,
@@ -5600,20 +5600,20 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return attr$5(_1, _2);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkclass({
                   TAG: /* Pcl_extension */6,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkclass({
                   TAG: /* Pcl_constr */0,
                   _0: {
@@ -5624,7 +5624,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkclass({
                   TAG: /* Pcl_constr */0,
                   _0: {
@@ -5635,7 +5635,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkclass({
                   TAG: /* Pcl_structure */1,
                   _0: _2
@@ -5646,8 +5646,8 @@ let yyact = [
       return unclosed("object", 1, "end", 3);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkclass({
                   TAG: /* Pcl_constraint */5,
                   _0: _2,
@@ -5667,8 +5667,8 @@ let yyact = [
       return unclosed("(", 1, ")", 3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               pcstr_self: _1,
               pcstr_fields: extra_cstr(2, Stdlib__List.rev(_2))
@@ -5678,8 +5678,8 @@ let yyact = [
       return reloc_pat(Stdlib__Parsing.peek_val(__caml_parser_env, 1));
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkpat({
                   TAG: /* Ppat_constraint */10,
                   _0: _2,
@@ -5693,18 +5693,18 @@ let yyact = [
       return /* [] */0;
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return Stdlib.$at({
                   hd: _2,
                   tl: Curry._1(Ast_helper_Cf.text, get_text(Stdlib__Parsing.rhs_start_pos(2)))
                 }, _1);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkcf(_5, symbol_docs(undefined), {
                   TAG: /* Pcf_inherit */0,
                   _0: _2,
@@ -5713,47 +5713,47 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkcf(_3, symbol_docs(undefined), {
                   TAG: /* Pcf_val */1,
                   _0: _2
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkcf(_3, symbol_docs(undefined), {
                   TAG: /* Pcf_method */2,
                   _0: _2
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkcf(_3, symbol_docs(undefined), {
                   TAG: /* Pcf_constraint */3,
                   _0: _2
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkcf(_3, symbol_docs(undefined), {
                   TAG: /* Pcf_initializer */4,
                   _0: _2
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkcf(_2, symbol_docs(undefined), {
                   TAG: /* Pcf_extension */6,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       mark_symbol_docs(undefined);
       return mkcf(undefined, undefined, {
                   TAG: /* Pcf_attribute */5,
@@ -5767,9 +5767,9 @@ let yyact = [
       
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       if (_1 === /* Override */0) {
         throw new Caml_js_exceptions.MelangeError(Escape_error, {
                   MEL_EXN_ID: Escape_error
@@ -5788,9 +5788,9 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               {
                 txt: _3,
@@ -5804,10 +5804,10 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               {
                 txt: _3,
@@ -5822,12 +5822,12 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let e = mkexp_constraint(_6, _4);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const e = mkexp_constraint(_6, _4);
       return [
               {
                 txt: _3,
@@ -5842,9 +5842,9 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       if (_1 === /* Override */0) {
         throw new Caml_js_exceptions.MelangeError(Escape_error, {
                   MEL_EXN_ID: Escape_error
@@ -5863,10 +5863,10 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       if (_1 === /* Override */0) {
         throw new Caml_js_exceptions.MelangeError(Escape_error, {
                   MEL_EXN_ID: Escape_error
@@ -5885,10 +5885,10 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               {
                 txt: _3,
@@ -5907,11 +5907,11 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               {
                 txt: _3,
@@ -5930,13 +5930,13 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 9);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 8);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 7);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _10 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let match = wrap_type_annotation(_6, _8, _10);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 9);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 8);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 7);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _10 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const match = wrap_type_annotation(_6, _8, _10);
       return [
               {
                 txt: _3,
@@ -5958,9 +5958,9 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkcty({
                   TAG: /* Pcty_arrow */2,
                   _0: "?" + _2,
@@ -5969,9 +5969,9 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkcty({
                   TAG: /* Pcty_arrow */2,
                   _0: "?" + _1,
@@ -5980,9 +5980,9 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkcty({
                   TAG: /* Pcty_arrow */2,
                   _0: _1,
@@ -5991,8 +5991,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkcty({
                   TAG: /* Pcty_arrow */2,
                   _0: "",
@@ -6001,8 +6001,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkcty({
                   TAG: /* Pcty_constr */0,
                   _0: {
@@ -6013,7 +6013,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkcty({
                   TAG: /* Pcty_constr */0,
                   _0: {
@@ -6024,7 +6024,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkcty({
                   TAG: /* Pcty_signature */1,
                   _0: _2
@@ -6035,20 +6035,20 @@ let yyact = [
       return unclosed("object", 1, "end", 3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return attr$6(_1, _2);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkcty({
                   TAG: /* Pcty_extension */3,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               pcsig_self: _1,
               pcsig_fields: extra_csig(2, Stdlib__List.rev(_2))
@@ -6064,34 +6064,34 @@ let yyact = [
       return /* [] */0;
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return Stdlib.$at({
                   hd: _2,
                   tl: Curry._1(Ast_helper_Ctf.text, get_text(Stdlib__Parsing.rhs_start_pos(2)))
                 }, _1);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkctf(_3, symbol_docs(undefined), {
                   TAG: /* Pctf_inherit */0,
                   _0: _2
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkctf(_3, symbol_docs(undefined), {
                   TAG: /* Pctf_val */1,
                   _0: _2
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkctf(_6, symbol_docs(undefined), {
                   TAG: /* Pctf_method */2,
                   _0: [
@@ -6103,23 +6103,23 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkctf(_3, symbol_docs(undefined), {
                   TAG: /* Pctf_constraint */3,
                   _0: _2
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkctf(_2, symbol_docs(undefined), {
                   TAG: /* Pctf_extension */5,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       mark_symbol_docs(undefined);
       return mkctf(undefined, undefined, {
                   TAG: /* Pctf_attribute */4,
@@ -6127,9 +6127,9 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _3,
               _2,
@@ -6138,9 +6138,9 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _3,
               /* Mutable */1,
@@ -6149,8 +6149,8 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _1,
               /* Immutable */0,
@@ -6159,8 +6159,8 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _1,
               _3,
@@ -6168,82 +6168,82 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _1,
               _3
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _2,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$18(symbol_rloc(undefined), _7, symbol_docs(undefined), undefined, _2, _3, {
                   txt: _4,
                   loc: rhs_loc(4)
                 }, _6);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$18(symbol_rloc(undefined), _7, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, _3, {
                   txt: _4,
                   loc: rhs_loc(4)
                 }, _6);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _2,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$18(symbol_rloc(undefined), _8, symbol_docs(undefined), undefined, _3, _4, {
                   txt: _5,
                   loc: rhs_loc(5)
                 }, _7);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$18(symbol_rloc(undefined), _7, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, _3, {
                   txt: _4,
                   loc: rhs_loc(4)
@@ -6256,8 +6256,8 @@ let yyact = [
       return reloc_exp(Stdlib__Parsing.peek_val(__caml_parser_env, 1));
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_sequence */16,
                   _0: _1,
@@ -6265,8 +6265,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return [
               "?" + _3[0],
               _4,
@@ -6274,7 +6274,7 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               "?" + _2[0],
               undefined,
@@ -6282,9 +6282,9 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return [
               "?" + _1,
               _4,
@@ -6292,8 +6292,8 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               "?" + _1,
               undefined,
@@ -6301,7 +6301,7 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return [
               _3[0],
               undefined,
@@ -6309,7 +6309,7 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _2[0],
               undefined,
@@ -6317,8 +6317,8 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _1,
               undefined,
@@ -6326,7 +6326,7 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               "",
               undefined,
@@ -6334,7 +6334,7 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkpat({
                   TAG: /* Ppat_var */0,
                   _0: {
@@ -6356,8 +6356,8 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _1[0],
               mkpat({
@@ -6368,7 +6368,7 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _1,
               mkpat({
@@ -6384,8 +6384,8 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkpat({
                   TAG: /* Ppat_constraint */10,
                   _0: _1,
@@ -6396,8 +6396,8 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_apply */5,
                   _0: _1,
@@ -6405,9 +6405,9 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let bindings = Stdlib__List.map((function (lb) {
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const bindings = Stdlib__List.map((function (lb) {
               if (Caml_obj.caml_notequal(lb.lb_attributes, /* [] */0)) {
                 throw new Caml_js_exceptions.MelangeError($$Error$1, {
                           MEL_EXN_ID: $$Error$1,
@@ -6420,9 +6420,9 @@ let yyact = [
               }
               return mk$17(lb.lb_loc, undefined, undefined, undefined, lb.lb_pattern, lb.lb_expression);
             }), _1.lbs_bindings);
-      let d_0 = _1.lbs_rec;
-      let d_1 = Stdlib__List.rev(bindings);
-      let d = {
+      const d_0 = _1.lbs_rec;
+      const d_1 = Stdlib__List.rev(bindings);
+      const d = {
         TAG: /* Pexp_let */2,
         _0: d_0,
         _1: d_1,
@@ -6434,15 +6434,15 @@ let yyact = [
                 ]);
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let d_0 = {
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const d_0 = {
         txt: _4,
         loc: rhs_loc(4)
       };
-      let d = {
+      const d = {
         TAG: /* Pexp_letmodule */25,
         _0: d_0,
         _1: _5,
@@ -6451,15 +6451,15 @@ let yyact = [
       return wrap_exp_attrs(mkexp(d), _3);
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let d_1 = {
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const d_1 = {
         txt: _5,
         loc: rhs_loc(5)
       };
-      let d = {
+      const d = {
         TAG: /* Pexp_open */32,
         _0: _3,
         _1: d_1,
@@ -6468,19 +6468,19 @@ let yyact = [
       return wrap_exp_attrs(mkexp(d), _4);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let d = {
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const d = {
         TAG: /* Pexp_function */3,
         _0: Stdlib__List.rev(_4)
       };
       return wrap_exp_attrs(mkexp(d), _2);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return wrap_exp_attrs(mkexp({
                       TAG: /* Pexp_fun */4,
                       _0: _3[0],
@@ -6490,9 +6490,9 @@ let yyact = [
                     }), _2);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return wrap_exp_attrs(mkexp({
                       TAG: /* Pexp_newtype */30,
                       _0: _5,
@@ -6500,12 +6500,12 @@ let yyact = [
                     }), _2);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let d_1 = Stdlib__List.rev(_6);
-      let d = {
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const d_1 = Stdlib__List.rev(_6);
+      const d = {
         TAG: /* Pexp_match */6,
         _0: _3,
         _1: d_1
@@ -6513,12 +6513,12 @@ let yyact = [
       return wrap_exp_attrs(mkexp(d), _2);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let d_1 = Stdlib__List.rev(_6);
-      let d = {
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const d_1 = Stdlib__List.rev(_6);
+      const d = {
         TAG: /* Pexp_try */7,
         _0: _3,
         _1: d_1
@@ -6533,15 +6533,15 @@ let yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_tuple */8,
                   _0: Stdlib__List.rev(_1)
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_construct */9,
                   _0: {
@@ -6552,8 +6552,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_variant */10,
                   _0: _1,
@@ -6561,10 +6561,10 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return wrap_exp_attrs(mkexp({
                       TAG: /* Pexp_ifthenelse */15,
                       _0: _3,
@@ -6573,9 +6573,9 @@ let yyact = [
                     }), _2);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return wrap_exp_attrs(mkexp({
                       TAG: /* Pexp_ifthenelse */15,
                       _0: _3,
@@ -6584,9 +6584,9 @@ let yyact = [
                     }), _2);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return wrap_exp_attrs(mkexp({
                       TAG: /* Pexp_while */17,
                       _0: _3,
@@ -6594,12 +6594,12 @@ let yyact = [
                     }), _2);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 8);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 7);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _9 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 8);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 7);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _9 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return wrap_exp_attrs(mkexp({
                       TAG: /* Pexp_for */18,
                       _0: _3,
@@ -6610,8 +6610,8 @@ let yyact = [
                     }), _2);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp_cons(rhs_loc(2), ghexp({
                       TAG: /* Pexp_tuple */8,
                       _0: {
@@ -6624,8 +6624,8 @@ let yyact = [
                     }), symbol_rloc(undefined));
     }),
   (function (__caml_parser_env) {
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkexp_cons(rhs_loc(2), ghexp({
                       TAG: /* Pexp_tuple */8,
                       _0: {
@@ -6638,119 +6638,119 @@ let yyact = [
                     }), symbol_rloc(undefined));
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, _2, _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, _2, _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, _2, _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, _2, _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, _2, _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, "+", _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, "+.", _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, "+=", _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, "-", _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, "-.", _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, "*", _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, "%", _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, "=", _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, "<", _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, ">", _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, "or", _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, "||", _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, "&", _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, "&&", _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, ":=", _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let match = _2.pexp_desc;
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const match = _2.pexp_desc;
       let exit = 0;
       switch (_1) {
         case "-" :
             if (match.TAG === /* Pexp_constant */1) {
-              let n = match._0;
+              const n = match._0;
               switch (n.TAG | 0) {
                 case /* Const_int */0 :
                     return mkexp({
@@ -6798,7 +6798,7 @@ let yyact = [
           
       }
       if (exit === 2 && match.TAG === /* Pexp_constant */1) {
-        let f = match._0;
+        const f = match._0;
         if (f.TAG === /* Const_float */3) {
           return mkexp({
                       TAG: /* Pexp_constant */1,
@@ -6823,9 +6823,9 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let desc = _2.pexp_desc;
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const desc = _2.pexp_desc;
       let exit = 0;
       switch (_1) {
         case "+" :
@@ -6865,9 +6865,9 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_setfield */13,
                   _0: _1,
@@ -6879,9 +6879,9 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_apply */5,
                   _0: ghexp({
@@ -6910,9 +6910,9 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_apply */5,
                   _0: ghexp({
@@ -6941,14 +6941,14 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let set = fast.contents ? "unsafe_set" : "set";
-      let coords = bigarray_untuplify(_4);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const set = fast.contents ? "unsafe_set" : "set";
+      const coords = bigarray_untuplify(_4);
       if (coords) {
-        let match = coords.tl;
-        let c1 = coords.hd;
+        const match = coords.tl;
+        const c1 = coords.hd;
         if (!match) {
           return mkexp({
                       TAG: /* Pexp_apply */5,
@@ -6977,8 +6977,8 @@ let yyact = [
                       }
                     });
         }
-        let match$1 = match.tl;
-        let c2 = match.hd;
+        const match$1 = match.tl;
+        const c2 = match.hd;
         if (!match$1) {
           return mkexp({
                       TAG: /* Pexp_apply */5,
@@ -7086,8 +7086,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_setinstvar */23,
                   _0: {
@@ -7098,24 +7098,24 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return wrap_exp_attrs(mkexp({
                       TAG: /* Pexp_assert */26,
                       _0: _3
                     }), _2);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return wrap_exp_attrs(mkexp({
                       TAG: /* Pexp_lazy */27,
                       _0: _3
                     }), _2);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return wrap_exp_attrs(mkexp({
                       TAG: /* Pexp_object */29,
                       _0: _3
@@ -7127,12 +7127,12 @@ let yyact = [
       return unclosed("object", 1, "end", 4);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return Curry._2(Ast_helper_Exp.attr, _1, _2);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_ident */0,
                   _0: {
@@ -7142,14 +7142,14 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_constant */1,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_construct */9,
                   _0: {
@@ -7160,7 +7160,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_variant */10,
                   _0: _1,
@@ -7175,20 +7175,20 @@ let yyact = [
       return unclosed("(", 1, ")", 3);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return wrap_exp_attrs(reloc_exp(_3), _2);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let d_0 = {
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const d_0 = {
         txt: {
           TAG: /* Lident */0,
           _0: "()"
         },
         loc: symbol_rloc(undefined)
       };
-      let d = {
+      const d = {
         TAG: /* Pexp_construct */9,
         _0: d_0,
         _1: undefined
@@ -7201,13 +7201,13 @@ let yyact = [
       return unclosed("begin", 1, "end", 3);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkexp_constraint(_2, _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_field */12,
                   _0: _1,
@@ -7218,8 +7218,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkexp({
                   TAG: /* Pexp_open */32,
                   _0: /* Fresh */1,
@@ -7236,8 +7236,8 @@ let yyact = [
       return unclosed("(", 3, ")", 5);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkexp({
                   TAG: /* Pexp_apply */5,
                   _0: ghexp({
@@ -7265,8 +7265,8 @@ let yyact = [
       return unclosed("(", 3, ")", 5);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkexp({
                   TAG: /* Pexp_apply */5,
                   _0: ghexp({
@@ -7294,13 +7294,13 @@ let yyact = [
       return unclosed("[", 3, "]", 5);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let get = fast.contents ? "unsafe_get" : "get";
-      let coords = bigarray_untuplify(_4);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const get = fast.contents ? "unsafe_get" : "get";
+      const coords = bigarray_untuplify(_4);
       if (coords) {
-        let match = coords.tl;
-        let c1 = coords.hd;
+        const match = coords.tl;
+        const c1 = coords.hd;
         if (!match) {
           return mkexp({
                       TAG: /* Pexp_apply */5,
@@ -7323,8 +7323,8 @@ let yyact = [
                       }
                     });
         }
-        let match$1 = match.tl;
-        let c2 = match.hd;
+        const match$1 = match.tl;
+        const c2 = match.hd;
         if (!match$1) {
           return mkexp({
                       TAG: /* Pexp_apply */5,
@@ -7419,7 +7419,7 @@ let yyact = [
       return unclosed("{", 3, "}", 5);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkexp({
                   TAG: /* Pexp_record */11,
                   _0: _2[1],
@@ -7431,9 +7431,9 @@ let yyact = [
       return unclosed("{", 1, "}", 3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let rec_exp = mkexp({
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const rec_exp = mkexp({
             TAG: /* Pexp_record */11,
             _0: _4[1],
             _1: _4[0]
@@ -7454,7 +7454,7 @@ let yyact = [
       return unclosed("{", 3, "}", 5);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkexp({
                   TAG: /* Pexp_array */14,
@@ -7473,8 +7473,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkexp({
                   TAG: /* Pexp_open */32,
@@ -7496,7 +7496,7 @@ let yyact = [
       return unclosed("[|", 3, "|]", 6);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return reloc_exp(mktailexp(rhs_loc(4), Stdlib__List.rev(_2)));
     }),
@@ -7506,10 +7506,10 @@ let yyact = [
       return unclosed("[", 1, "]", 4);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let list_exp = reloc_exp(mktailexp(rhs_loc(6), Stdlib__List.rev(_4)));
+      const list_exp = reloc_exp(mktailexp(rhs_loc(6), Stdlib__List.rev(_4)));
       return mkexp({
                   TAG: /* Pexp_open */32,
                   _0: /* Fresh */1,
@@ -7527,8 +7527,8 @@ let yyact = [
       return unclosed("[", 3, "]", 6);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_apply */5,
                   _0: mkoperator(_1, 1),
@@ -7542,7 +7542,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_apply */5,
                   _0: mkoperator("!", 1),
@@ -7556,9 +7556,9 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let d = {
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const d = {
         TAG: /* Pexp_new */22,
         _0: {
           txt: _3,
@@ -7568,7 +7568,7 @@ let yyact = [
       return wrap_exp_attrs(mkexp(d), _2);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkexp({
                   TAG: /* Pexp_override */24,
@@ -7587,8 +7587,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkexp({
                   TAG: /* Pexp_open */32,
@@ -7610,8 +7610,8 @@ let yyact = [
       return unclosed("{<", 3, ">}", 6);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_send */21,
                   _0: _1,
@@ -7619,21 +7619,21 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkinfix(_1, _2, _3);
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkexp({
                   TAG: /* Pexp_pack */31,
                   _0: _3
                 });
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkexp({
                   TAG: /* Pexp_constraint */19,
                   _0: ghexp({
@@ -7651,9 +7651,9 @@ let yyact = [
       return unclosed("(", 1, ")", 5);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 7);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 7);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkexp({
                   TAG: /* Pexp_open */32,
                   _0: /* Fresh */1,
@@ -7680,29 +7680,29 @@ let yyact = [
       return unclosed("(", 3, ")", 7);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_extension */33,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _2,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               "",
               _1
@@ -7712,8 +7712,8 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _1,
               _2
@@ -7723,22 +7723,22 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               "?" + _2[0],
               _2[1]
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               "?" + _1,
               _2
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _1,
               mkexp({
@@ -7754,33 +7754,33 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: _2
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               mkpatvar(_1, 1),
               _2
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               ghpat({
                     TAG: /* Ppat_constraint */10,
@@ -7795,11 +7795,11 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 7);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let match = wrap_type_annotation(_4, _6, _8);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 7);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const match = wrap_type_annotation(_4, _6, _8);
       return [
               ghpat({
                     TAG: /* Ppat_constraint */10,
@@ -7810,17 +7810,17 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _1,
               _3
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               ghpat({
                     TAG: /* Ppat_constraint */10,
@@ -7834,8 +7834,8 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               lbs_bindings: {
                 hd: _2,
@@ -7848,10 +7848,10 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       let lb = mklb(_4, _5);
       return {
               lbs_bindings: {
@@ -7865,24 +7865,24 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mklb(_2, _3);
     }),
   (function (__caml_parser_env) {
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp_constraint(_3, _1);
     }),
   (function (__caml_parser_env) {
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return ghexp({
                   TAG: /* Pexp_fun */4,
                   _0: _1[0],
@@ -7892,8 +7892,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_newtype */30,
                   _0: _3,
@@ -7901,37 +7901,37 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _3,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return Curry._3(Ast_helper_Exp.$$case, _1, undefined, _3);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return Curry._3(Ast_helper_Exp.$$case, _1, _3, _5);
     }),
   (function (__caml_parser_env) {
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return ghexp({
                   TAG: /* Pexp_fun */4,
                   _0: _1[0],
@@ -7941,8 +7941,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkexp({
                   TAG: /* Pexp_newtype */30,
                   _0: _3,
@@ -7950,16 +7950,16 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _3,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _3,
               tl: {
@@ -7969,45 +7969,45 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _1,
               _3
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               undefined,
               _1
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: _3
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               {
                 txt: _1,
@@ -8017,7 +8017,7 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               {
                 txt: _1,
@@ -8027,8 +8027,8 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: [
                 {
@@ -8041,9 +8041,9 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: [
                 {
@@ -8056,37 +8056,37 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _3,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _2,
               undefined
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _2,
               _4
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               undefined,
               _2
@@ -8106,8 +8106,8 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkpat({
                   TAG: /* Ppat_alias */1,
                   _0: _1,
@@ -8122,15 +8122,15 @@ let yyact = [
       return expecting(3, "identifier");
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkpat({
                   TAG: /* Ppat_tuple */4,
                   _0: Stdlib__List.rev(_1)
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkpat({
                   TAG: /* Ppat_construct */5,
                   _0: {
@@ -8141,8 +8141,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkpat({
                   TAG: /* Ppat_variant */6,
                   _0: _1,
@@ -8150,8 +8150,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkpat_cons(rhs_loc(2), ghpat({
                       TAG: /* Ppat_tuple */4,
                       _0: {
@@ -8168,8 +8168,8 @@ let yyact = [
       return expecting(3, "pattern");
     }),
   (function (__caml_parser_env) {
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkpat_cons(rhs_loc(2), ghpat({
                       TAG: /* Ppat_tuple */4,
                       _0: {
@@ -8187,8 +8187,8 @@ let yyact = [
       return unclosed("(", 4, ")", 8);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkpat({
                   TAG: /* Ppat_or */9,
                   _0: _1,
@@ -8200,26 +8200,26 @@ let yyact = [
       return expecting(3, "pattern");
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkpat({
                   TAG: /* Ppat_lazy */12,
                   _0: _2
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkpat({
                   TAG: /* Ppat_exception */14,
                   _0: _2
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return attr$1(_1, _2);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkpat({
                   TAG: /* Ppat_var */0,
                   _0: {
@@ -8235,15 +8235,15 @@ let yyact = [
       return mkpat(/* Ppat_any */0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkpat({
                   TAG: /* Ppat_constant */2,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkpat({
                   TAG: /* Ppat_interval */3,
                   _0: _1,
@@ -8251,7 +8251,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkpat({
                   TAG: /* Ppat_construct */5,
                   _0: {
@@ -8262,7 +8262,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkpat({
                   TAG: /* Ppat_variant */6,
                   _0: _1,
@@ -8270,7 +8270,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkpat({
                   TAG: /* Ppat_type */11,
                   _0: {
@@ -8280,7 +8280,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkpat({
                   TAG: /* Ppat_record */7,
                   _0: _2[0],
@@ -8292,7 +8292,7 @@ let yyact = [
       return unclosed("{", 1, "}", 3);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return reloc_pat(mktailpat(rhs_loc(4), Stdlib__List.rev(_2)));
     }),
@@ -8302,7 +8302,7 @@ let yyact = [
       return unclosed("[", 1, "]", 4);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkpat({
                   TAG: /* Ppat_array */8,
@@ -8328,8 +8328,8 @@ let yyact = [
       return unclosed("(", 1, ")", 3);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkpat({
                   TAG: /* Ppat_constraint */10,
                   _0: _2,
@@ -8346,7 +8346,7 @@ let yyact = [
       return expecting(4, "type");
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkpat({
                   TAG: /* Ppat_unpack */13,
                   _0: {
@@ -8356,8 +8356,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mkpat({
                   TAG: /* Ppat_constraint */10,
                   _0: mkpat({
@@ -8379,23 +8379,23 @@ let yyact = [
       return unclosed("(", 1, ")", 6);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mkpat({
                   TAG: /* Ppat_extension */15,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _3,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _3,
               tl: {
@@ -8409,22 +8409,22 @@ let yyact = [
       return expecting(3, "pattern");
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _3,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               {
                 hd: _1,
@@ -8434,7 +8434,7 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return [
               {
                 hd: _1,
@@ -8444,7 +8444,7 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               {
@@ -8455,8 +8455,8 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               {
                 hd: _1,
@@ -8466,8 +8466,8 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               {
                 txt: _1,
@@ -8477,7 +8477,7 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               {
                 txt: _1,
@@ -8487,80 +8487,80 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$11(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, {
                   txt: _2,
                   loc: rhs_loc(2)
                 }, _4);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1[0],
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1[0],
               tl: _2
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$11(symbol_rloc(undefined), _7, symbol_docs(undefined), _6, {
                   txt: _2,
                   loc: rhs_loc(2)
                 }, _4);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _2,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$19(symbol_rloc(undefined), add_nonrec(_2, _7, 2), symbol_docs(undefined), undefined, _3, Stdlib__List.rev(_6), _5[0], _5[1], _5[2], {
                   txt: _4,
                   loc: rhs_loc(4)
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mk$19(symbol_rloc(undefined), _6, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, Stdlib__List.rev(_5), _4[0], _4[1], _4[2], {
                   txt: _3,
                   loc: rhs_loc(3)
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _3,
               tl: _1
@@ -8577,7 +8577,7 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               /* Ptype_abstract */0,
               /* Public */1,
@@ -8585,7 +8585,7 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               /* Ptype_abstract */0,
               /* Private */0,
@@ -8593,7 +8593,7 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               {
                 TAG: /* Ptype_variant */0,
@@ -8604,7 +8604,7 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               {
                 TAG: /* Ptype_variant */0,
@@ -8622,8 +8622,8 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return [
               {
                 TAG: /* Ptype_record */1,
@@ -8634,9 +8634,9 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               {
                 TAG: /* Ptype_variant */0,
@@ -8647,7 +8647,7 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       return [
               /* Ptype_open */1,
               /* Public */1,
@@ -8655,9 +8655,9 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return [
               {
                 TAG: /* Ptype_record */1,
@@ -8671,7 +8671,7 @@ let yyact = [
       return /* [] */0;
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
@@ -8681,30 +8681,30 @@ let yyact = [
       return Stdlib__List.rev(Stdlib__Parsing.peek_val(__caml_parser_env, 1));
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _2,
               _1
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _3,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mktyp({
                   TAG: /* Ptyp_var */0,
                   _0: _2
@@ -8717,7 +8717,7 @@ let yyact = [
       return /* [] */0;
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
@@ -8727,8 +8727,8 @@ let yyact = [
       return Stdlib__List.rev(Stdlib__Parsing.peek_val(__caml_parser_env, 1));
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _2,
               _1
@@ -8744,62 +8744,62 @@ let yyact = [
       return /* Contravariant */1;
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mktyp({
                   TAG: /* Ptyp_var */0,
                   _0: _2
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _3,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _2,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return constructor(symbol_rloc(undefined), _3, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _2[0], _2[1], {
                   txt: _1,
                   loc: rhs_loc(1)
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return constructor(symbol_rloc(undefined), _4, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _3[0], _3[1], {
                   txt: _2,
                   loc: rhs_loc(2)
@@ -8809,10 +8809,10 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return rebind(symbol_rloc(undefined), Stdlib.$at(_5, _6), symbol_docs(undefined), undefined, {
                   txt: _2,
                   loc: rhs_loc(2)
@@ -8822,10 +8822,10 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return decl(symbol_rloc(undefined), Stdlib.$at(_4, _5), symbol_docs(undefined), undefined, _3[0], _3[1], {
                   txt: _2,
                   loc: rhs_loc(2)
@@ -8838,79 +8838,79 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               Stdlib__List.rev(_2),
               undefined
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               Stdlib__List.rev(_2),
               _4
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               /* [] */0,
               _2
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: _2
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return field$1(symbol_rloc(undefined), _5, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _1, {
                   txt: _2,
                   loc: rhs_loc(2)
                 }, _4);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let info_before_semi = get_info(Stdlib__Parsing.rhs_end_pos(5));
-      let info = info_before_semi !== undefined ? info_before_semi : get_info(Stdlib__Parsing.symbol_end_pos(undefined));
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const info_before_semi = get_info(Stdlib__Parsing.rhs_end_pos(5));
+      const info = info_before_semi !== undefined ? info_before_semi : get_info(Stdlib__Parsing.symbol_end_pos(undefined));
       return field$1(symbol_rloc(undefined), Stdlib.$at(_5, _7), Caml_option.some(info), _1, {
                   txt: _2,
                   loc: rhs_loc(2)
                 }, _4);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       if (_2 !== /* Recursive */1) {
         not_expecting(2, "nonrec flag");
       }
@@ -8920,12 +8920,12 @@ let yyact = [
                 }, Stdlib__List.rev(_7));
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       if (_2 !== /* Recursive */1) {
         not_expecting(2, "nonrec flag");
       }
@@ -8935,93 +8935,93 @@ let yyact = [
                 }, Stdlib__List.rev(_7));
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _2,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _2,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _2,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return decl(symbol_rloc(undefined), _3, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _2[0], _2[1], {
                   txt: _1,
                   loc: rhs_loc(1)
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return decl(symbol_rloc(undefined), _4, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _3[0], _3[1], {
                   txt: _2,
                   loc: rhs_loc(2)
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return rebind(symbol_rloc(undefined), _4, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), {
                   txt: _1,
                   loc: rhs_loc(1)
@@ -9031,9 +9031,9 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return rebind(symbol_rloc(undefined), _5, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), {
                   txt: _2,
                   loc: rhs_loc(2)
@@ -9043,27 +9043,27 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _3,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let rhs = last(_3);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const rhs = last(_3);
       return {
               TAG: /* Pwith_type */0,
               _0: {
@@ -9077,9 +9077,9 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Pwith_typesubst */2,
               _0: mk$19(symbol_rloc(undefined), undefined, undefined, undefined, _2, undefined, undefined, undefined, _5, {
@@ -9089,8 +9089,8 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Pwith_module */1,
               _0: {
@@ -9104,8 +9104,8 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Pwith_modsubst */3,
               _0: {
@@ -9125,15 +9125,15 @@ let yyact = [
       return /* Private */0;
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _2,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _3,
               tl: _1
@@ -9143,8 +9143,8 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mktyp({
                   TAG: /* Ptyp_poly */8,
                   _0: Stdlib__List.rev(_1),
@@ -9155,8 +9155,8 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mktyp({
                   TAG: /* Ptyp_poly */8,
                   _0: Stdlib__List.rev(_1),
@@ -9167,16 +9167,16 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return attr(_1, _2);
     }),
   (function (__caml_parser_env) {
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mktyp({
                   TAG: /* Ptyp_alias */6,
                   _0: _1,
@@ -9187,9 +9187,9 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mktyp({
                   TAG: /* Ptyp_arrow */1,
                   _0: "?" + _2,
@@ -9198,9 +9198,9 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mktyp({
                   TAG: /* Ptyp_arrow */1,
                   _0: "?" + _1,
@@ -9209,9 +9209,9 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mktyp({
                   TAG: /* Ptyp_arrow */1,
                   _0: _1,
@@ -9220,8 +9220,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mktyp({
                   TAG: /* Ptyp_arrow */1,
                   _0: "",
@@ -9233,7 +9233,7 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       if (_2) {
         if (_2.tl) {
           throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error, {
@@ -9250,7 +9250,7 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       if (_2) {
         if (_2.tl) {
           throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error, {
@@ -9264,7 +9264,7 @@ let yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mktyp({
                   TAG: /* Ptyp_var */0,
                   _0: _2
@@ -9274,7 +9274,7 @@ let yyact = [
       return mktyp(/* Ptyp_any */0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mktyp({
                   TAG: /* Ptyp_constr */3,
                   _0: {
@@ -9285,8 +9285,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mktyp({
                   TAG: /* Ptyp_constr */3,
                   _0: {
@@ -9300,8 +9300,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mktyp({
                   TAG: /* Ptyp_constr */3,
                   _0: {
@@ -9312,7 +9312,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mktyp({
                   TAG: /* Ptyp_object */4,
                   _0: _2[0],
@@ -9327,7 +9327,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mktyp({
                   TAG: /* Ptyp_class */5,
                   _0: {
@@ -9338,8 +9338,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mktyp({
                   TAG: /* Ptyp_class */5,
                   _0: {
@@ -9353,8 +9353,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mktyp({
                   TAG: /* Ptyp_class */5,
                   _0: {
@@ -9365,7 +9365,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mktyp({
                   TAG: /* Ptyp_variant */7,
                   _0: {
@@ -9377,7 +9377,7 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mktyp({
                   TAG: /* Ptyp_variant */7,
                   _0: Stdlib__List.rev(_3),
@@ -9386,8 +9386,8 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mktyp({
                   TAG: /* Ptyp_variant */7,
                   _0: {
@@ -9400,7 +9400,7 @@ let yyact = [
     }),
   (function (__caml_parser_env) {
       Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mktyp({
                   TAG: /* Ptyp_variant */7,
                   _0: Stdlib__List.rev(_3),
@@ -9418,7 +9418,7 @@ let yyact = [
     }),
   (function (__caml_parser_env) {
       Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mktyp({
                   TAG: /* Ptyp_variant */7,
                   _0: Stdlib__List.rev(_3),
@@ -9428,8 +9428,8 @@ let yyact = [
     }),
   (function (__caml_parser_env) {
       Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mktyp({
                   TAG: /* Ptyp_variant */7,
                   _0: Stdlib__List.rev(_3),
@@ -9438,21 +9438,21 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return mktyp({
                   TAG: /* Ptyp_package */9,
                   _0: _3
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mktyp({
                   TAG: /* Ptyp_extension */10,
                   _0: _1
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               {
                 txt: _1,
@@ -9462,8 +9462,8 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               {
                 txt: _1,
@@ -9473,8 +9473,8 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               {
                 txt: _2,
@@ -9484,30 +9484,30 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: _3
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _3,
               tl: _1
@@ -9517,17 +9517,17 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Rinherit */1,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Rtag */0,
               _0: _1,
@@ -9537,8 +9537,8 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Rtag */0,
               _0: _1,
@@ -9554,30 +9554,30 @@ let yyact = [
       return false;
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _3,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _2,
               tl: _1
@@ -9587,8 +9587,8 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mktyp({
                   TAG: /* Ptyp_tuple */2,
                   _0: {
@@ -9601,8 +9601,8 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return mktyp({
                   TAG: /* Ptyp_tuple */2,
                   _0: {
@@ -9612,53 +9612,53 @@ let yyact = [
                 });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _3,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _3,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _3,
               tl: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               {
                 hd: _1,
@@ -9668,7 +9668,7 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               {
@@ -9685,9 +9685,9 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _1,
               _4,
@@ -9698,21 +9698,21 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Const_int */0,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Const_char */1,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Const_string */2,
               _0: _1[0],
@@ -9720,28 +9720,28 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Const_float */3,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Const_int32 */4,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Const_int64 */5,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Const_nativeint */6,
               _0: _1
@@ -9751,70 +9751,70 @@ let yyact = [
       return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Const_int */0,
               _0: -_2 | 0
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Const_float */3,
               _0: "-" + _2
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Const_int32 */4,
               _0: -_2 | 0
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Const_int64 */5,
               _0: Caml_int64.neg(_2)
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Const_nativeint */6,
               _0: Caml_external_polyfill.resolve("nativeint_neg")(_2)
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Const_int */0,
               _0: _2
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Const_float */3,
               _0: _2
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Const_int32 */4,
               _0: _2
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Const_int64 */5,
               _0: _2
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Const_nativeint */6,
               _0: _2
@@ -9927,15 +9927,15 @@ let yyact = [
       return "true";
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Lident */0,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Ldot */1,
               _0: _1,
@@ -9970,15 +9970,15 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Lident */0,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Ldot */1,
               _0: _1,
@@ -9986,15 +9986,15 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Lident */0,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Ldot */1,
               _0: _1,
@@ -10002,15 +10002,15 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Lident */0,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Ldot */1,
               _0: _1,
@@ -10018,15 +10018,15 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Lident */0,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Ldot */1,
               _0: _1,
@@ -10034,8 +10034,8 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       if (applicative_functors.contents) {
         return {
                 TAG: /* Lapply */2,
@@ -10052,15 +10052,15 @@ let yyact = [
               });
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Lident */0,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Ldot */1,
               _0: _1,
@@ -10068,15 +10068,15 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Lident */0,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Ldot */1,
               _0: _1,
@@ -10084,15 +10084,15 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Lident */0,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Ldot */1,
               _0: _1,
@@ -10100,7 +10100,7 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Ptop_dir */1,
               _0: _2,
@@ -10108,8 +10108,8 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Ptop_dir */1,
               _0: _2,
@@ -10120,8 +10120,8 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Ptop_dir */1,
               _0: _2,
@@ -10132,8 +10132,8 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Ptop_dir */1,
               _0: _2,
@@ -10144,8 +10144,8 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Ptop_dir */1,
               _0: _2,
@@ -10156,7 +10156,7 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return {
               TAG: /* Ptop_dir */1,
               _0: _2,
@@ -10167,7 +10167,7 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return {
               TAG: /* Ptop_dir */1,
               _0: _2,
@@ -10427,39 +10427,39 @@ let yyact = [
       return "with";
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               txt: _1,
               loc: symbol_rloc(undefined)
             };
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               txt: _1 + ("." + _3.txt),
               loc: symbol_rloc(undefined)
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return [
               _2,
               _3
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return [
               _2,
               _3
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return [
               _2,
               _3
@@ -10469,8 +10469,8 @@ let yyact = [
       return /* [] */0;
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: _2
@@ -10480,8 +10480,8 @@ let yyact = [
       return /* [] */0;
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: _2
@@ -10494,8 +10494,8 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               undefined,
               {
@@ -10505,45 +10505,45 @@ let yyact = [
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _2,
               _3
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return [
               _2,
               _3
             ];
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return [
               _2,
               _3
             ];
     }),
   (function (__caml_parser_env) {
-      let _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* PStr */0,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* PTyp */1,
               _0: _2
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* PPat */2,
               _0: _2,
@@ -10551,8 +10551,8 @@ let yyact = [
             };
     }),
   (function (__caml_parser_env) {
-      let _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      let _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* PPat */2,
               _0: _2,
@@ -10603,7 +10603,7 @@ let yyact = [
     })
 ];
 
-let yytables = {
+const yytables = {
   actions: yyact,
   transl_const: yytransl_const,
   transl_block: yytransl_block,
@@ -10659,11 +10659,11 @@ function string_of_type_directive(x) {
   }
 }
 
-let $$Error$2 = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Lexer.Error");
+const $$Error$2 = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Lexer.Error");
 
 function assert_same_type(lexbuf, x, y) {
-  let lhs = type_of_directive(x);
-  let rhs = type_of_directive(y);
+  const lhs = type_of_directive(x);
+  const rhs = type_of_directive(y);
   if (lhs !== rhs) {
     throw new Caml_js_exceptions.MelangeError($$Error$2, {
               MEL_EXN_ID: $$Error$2,
@@ -10678,7 +10678,7 @@ function assert_same_type(lexbuf, x, y) {
   return y;
 }
 
-let directive_built_in_values = Stdlib__Hashtbl.create(undefined, 51);
+const directive_built_in_values = Stdlib__Hashtbl.create(undefined, 51);
 
 Stdlib__Hashtbl.replace(directive_built_in_values, "OCAML_VERSION", {
       TAG: /* Dir_string */3,
@@ -10696,7 +10696,7 @@ try {
   exit = 1;
 }
 catch (raw_exn$1){
-  let exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
+  const exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
   if (exn$2.MEL_EXN_ID === Stdlib.Not_found) {
     tmp = "";
   } else {
@@ -10729,24 +10729,24 @@ Stdlib__Hashtbl.replace(directive_built_in_values, "WORD_SIZE", {
     });
 
 function semantic_version_parse(str, start, last_index) {
-  let aux = function (_start, _acc, last_index) {
+  const aux = function (_start, _acc, last_index) {
     while(true) {
-      let acc = _acc;
-      let start = _start;
+      const acc = _acc;
+      const start = _start;
       if (start > last_index) {
         return [
                 acc,
                 start
               ];
       }
-      let c = str.charCodeAt(start);
+      const c = str.charCodeAt(start);
       if (c === /* '.' */46) {
         return [
                 acc,
                 start + 1 | 0
               ];
       }
-      let v = c - /* '0' */48 | 0;
+      const v = c - /* '0' */48 | 0;
       if (!(v >= 0 && v <= 9)) {
         return [
                 acc,
@@ -10758,11 +10758,11 @@ function semantic_version_parse(str, start, last_index) {
       continue ;
     };
   };
-  let match = aux(start, 0, last_index);
-  let match$1 = aux(match[1], 0, last_index);
-  let match$2 = aux(match$1[1], 0, last_index);
-  let patch_end = match$2[1];
-  let additional = Stdlib__String.sub(str, patch_end, (last_index - patch_end | 0) + 1 | 0);
+  const match = aux(start, 0, last_index);
+  const match$1 = aux(match[1], 0, last_index);
+  const match$2 = aux(match$1[1], 0, last_index);
+  const patch_end = match$2[1];
+  const additional = Stdlib__String.sub(str, patch_end, (last_index - patch_end | 0) + 1 | 0);
   return [
           [
             match[0],
@@ -10800,7 +10800,7 @@ function query(loc, str) {
     v = Stdlib__Hashtbl.find(directive_built_in_values, str);
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       let exit = 0;
       let v$1;
@@ -10809,7 +10809,7 @@ function query(loc, str) {
         exit = 2;
       }
       catch (raw_exn$1){
-        let exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
+        const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
         if (exn$1.MEL_EXN_ID === Stdlib.Not_found) {
           return {
                   TAG: /* Dir_bool */0,
@@ -10913,18 +10913,18 @@ function value_of_token(loc, t) {
 }
 
 function directive_parse(token_with_comments, lexbuf) {
-  let look_ahead = {
+  const look_ahead = {
     contents: undefined
   };
-  let token = function (param) {
-    let v = look_ahead.contents;
+  const token = function (param) {
+    const v = look_ahead.contents;
     if (v !== undefined) {
       look_ahead.contents = undefined;
       return v;
     }
     let _param;
     while(true) {
-      let t = Curry._1(token_with_comments, lexbuf);
+      const t = Curry._1(token_with_comments, lexbuf);
       if (typeof t === "number") {
         switch (t) {
           case /* EOF */25 :
@@ -10951,7 +10951,7 @@ function directive_parse(token_with_comments, lexbuf) {
       }
     };
   };
-  let push = function (e) {
+  const push = function (e) {
     if (look_ahead.contents !== undefined) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
@@ -10964,8 +10964,8 @@ function directive_parse(token_with_comments, lexbuf) {
     }
     look_ahead.contents = e;
   };
-  let token_op = function (calc, no, lhs) {
-    let op = token(undefined);
+  const token_op = function (calc, no, lhs) {
+    const op = token(undefined);
     let exit = 0;
     if (typeof op === "number") {
       switch (op) {
@@ -10990,8 +10990,8 @@ function directive_parse(token_with_comments, lexbuf) {
             if (typeof lhs === "number" || lhs.TAG !== /* Dir_string */3) {
               exit$1 = 2;
             } else {
-              let curr_loc = curr(lexbuf);
-              let rhs = value_of_token(curr_loc, token(undefined));
+              const curr_loc = curr(lexbuf);
+              const rhs = value_of_token(curr_loc, token(undefined));
               let exit$2 = 0;
               if (typeof rhs === "number") {
                 exit$2 = 3;
@@ -10999,7 +10999,7 @@ function directive_parse(token_with_comments, lexbuf) {
                 if (rhs.TAG === /* Dir_string */3) {
                   let lhs$1 = lhs._0;
                   let str = rhs._0;
-                  let last_index = str.length - 1 | 0;
+                  const last_index = str.length - 1 | 0;
                   if (last_index < 0) {
                     throw new Caml_js_exceptions.MelangeError($$Error$2, {
                               MEL_EXN_ID: $$Error$2,
@@ -11010,7 +11010,7 @@ function directive_parse(token_with_comments, lexbuf) {
                               _2: curr_loc
                             });
                   }
-                  let v = str.charCodeAt(0);
+                  const v = str.charCodeAt(0);
                   let match;
                   let exit$3 = 0;
                   if (v !== 94) {
@@ -11083,11 +11083,11 @@ function directive_parse(token_with_comments, lexbuf) {
                       semantic_version_parse(str, 0, last_index)
                     ];
                   }
-                  let version = match[1][0];
-                  let major = version[0];
-                  let pred = match[0];
-                  let match$1 = semantic_version_parse(lhs$1, 0, lhs$1.length - 1 | 0);
-                  let lversion = match$1[0];
+                  const version = match[1][0];
+                  const major = version[0];
+                  const pred = match[0];
+                  const match$1 = semantic_version_parse(lhs$1, 0, lhs$1.length - 1 | 0);
+                  const lversion = match$1[0];
                   if (pred === "Ge") {
                     return Caml_obj.caml_greaterequal(lversion, version);
                   }
@@ -11103,7 +11103,7 @@ function directive_parse(token_with_comments, lexbuf) {
                   if (pred === "Exact") {
                     return Caml_obj.caml_equal(lversion, version);
                   }
-                  let l_major = lversion[0];
+                  const l_major = lversion[0];
                   if (pred === "Compatible") {
                     return major === l_major;
                   } else if (major === l_major) {
@@ -11189,8 +11189,8 @@ function directive_parse(token_with_comments, lexbuf) {
                   ]
                 });
       }
-      let curr_loc$1 = curr(lexbuf);
-      let rhs$1 = value_of_token(curr_loc$1, token(undefined));
+      const curr_loc$1 = curr(lexbuf);
+      const rhs$1 = value_of_token(curr_loc$1, token(undefined));
       if (calc) {
         return Curry._2(f, lhs, assert_same_type(lexbuf, lhs, rhs$1));
       } else {
@@ -11199,11 +11199,11 @@ function directive_parse(token_with_comments, lexbuf) {
     }
     
   };
-  let parse_or_aux = function (calc, v) {
-    let e = token(undefined);
+  const parse_or_aux = function (calc, v) {
+    const e = token(undefined);
     if (e === 8) {
-      let calc$1 = calc && !v;
-      let b = parse_or_aux(calc$1, parse_and_aux(calc$1, parse_relation(calc$1)));
+      const calc$1 = calc && !v;
+      const b = parse_or_aux(calc$1, parse_and_aux(calc$1, parse_relation(calc$1)));
       if (v) {
         return true;
       } else {
@@ -11213,15 +11213,15 @@ function directive_parse(token_with_comments, lexbuf) {
     push(e);
     return v;
   };
-  let parse_and_aux = function (calc, v) {
-    let e = token(undefined);
+  const parse_and_aux = function (calc, v) {
+    const e = token(undefined);
     if (typeof e === "number") {
       if (e) {
         push(e);
         return v;
       }
-      let calc$1 = calc && v;
-      let b = parse_and_aux(calc$1, parse_relation(calc$1));
+      const calc$1 = calc && v;
+      const b = parse_and_aux(calc$1, parse_relation(calc$1));
       if (v) {
         return b;
       } else {
@@ -11231,16 +11231,16 @@ function directive_parse(token_with_comments, lexbuf) {
     push(e);
     return v;
   };
-  let parse_relation = function (calc) {
-    let curr_token = token(undefined);
-    let curr_loc = curr(lexbuf);
+  const parse_relation = function (calc) {
+    const curr_token = token(undefined);
+    const curr_loc = curr(lexbuf);
     if (typeof curr_token === "number") {
       switch (curr_token) {
         case /* FALSE */29 :
             return false;
         case /* LPAREN */54 :
-            let v = parse_or_aux(calc, parse_and_aux(calc, parse_relation(calc)));
-            let match = token(undefined);
+            const v = parse_or_aux(calc, parse_and_aux(calc, parse_relation(calc)));
+            const match = token(undefined);
             if (match === 81) {
               return v;
             }
@@ -11276,7 +11276,7 @@ function directive_parse(token_with_comments, lexbuf) {
                         _0: Caml_format.caml_float_of_string(curr_token._0)
                       });
         case /* INT */7 :
-            let v$1 = curr_token._0;
+            const v$1 = curr_token._0;
             return token_op(calc, (function (e) {
                           push(e);
                           return v$1 !== 0;
@@ -11285,7 +11285,7 @@ function directive_parse(token_with_comments, lexbuf) {
                         _0: v$1
                       });
         case /* LIDENT */11 :
-            let r = curr_token._0;
+            const r = curr_token._0;
             switch (r) {
               case "defined" :
               case "undefined" :
@@ -11297,8 +11297,8 @@ function directive_parse(token_with_comments, lexbuf) {
                           _2: curr_loc
                         });
             }
-            let t = token(undefined);
-            let loc = curr(lexbuf);
+            const t = token(undefined);
+            const loc = curr(lexbuf);
             if (typeof t === "number") {
               throw new Caml_js_exceptions.MelangeError($$Error$2, {
                         MEL_EXN_ID: $$Error$2,
@@ -11307,7 +11307,7 @@ function directive_parse(token_with_comments, lexbuf) {
                       });
             }
             if (t.TAG === /* UIDENT */17) {
-              let s = t._0;
+              const s = t._0;
               if (calc) {
                 if (Caml_string.get(r, 0) === /* 'u' */117) {
                   return !defined(s);
@@ -11340,13 +11340,13 @@ function directive_parse(token_with_comments, lexbuf) {
                         _0: curr_token._0[0]
                       });
         case /* UIDENT */17 :
-            let value_v = query(curr_loc, curr_token._0);
+            const value_v = query(curr_loc, curr_token._0);
             return token_op(calc, (function (e) {
                           push(e);
                           if (typeof value_v !== "number" && value_v.TAG === /* Dir_bool */0) {
                             return value_v._0;
                           }
-                          let ty = type_of_directive(value_v);
+                          const ty = type_of_directive(value_v);
                           throw new Caml_js_exceptions.MelangeError($$Error$2, {
                                     MEL_EXN_ID: $$Error$2,
                                     _1: {
@@ -11366,8 +11366,8 @@ function directive_parse(token_with_comments, lexbuf) {
       }
     }
   };
-  let v = parse_or_aux(true, parse_and_aux(true, parse_relation(true)));
-  let match = token(undefined);
+  const v = parse_or_aux(true, parse_and_aux(true, parse_relation(true)));
+  const match = token(undefined);
   if (match === 88) {
     return v;
   }
@@ -11386,7 +11386,7 @@ function is_elif(i) {
   }
 }
 
-let keyword_table = create_hashtable(149, {
+const keyword_table = create_hashtable(149, {
       hd: [
         "and",
         /* AND */2
@@ -11745,13 +11745,13 @@ let keyword_table = create_hashtable(149, {
       }
     });
 
-let initial_string_buffer = Caml_bytes.caml_create_bytes(256);
+const initial_string_buffer = Caml_bytes.caml_create_bytes(256);
 
-let string_buff = {
+const string_buff = {
   contents: initial_string_buffer
 };
 
-let string_index = {
+const string_index = {
   contents: 0
 };
 
@@ -11762,7 +11762,7 @@ function reset_string_buffer(param) {
 
 function store_string_char(c) {
   if (string_index.contents >= string_buff.contents.length) {
-    let new_buff = Caml_bytes.caml_create_bytes((string_buff.contents.length << 1));
+    const new_buff = Caml_bytes.caml_create_bytes((string_buff.contents.length << 1));
     Stdlib__Bytes.blit(string_buff.contents, 0, new_buff, 0, string_buff.contents.length);
     string_buff.contents = new_buff;
   }
@@ -11777,49 +11777,49 @@ function store_string(s) {
 }
 
 function get_stored_string(param) {
-  let s = Stdlib__Bytes.sub_string(string_buff.contents, 0, string_index.contents);
+  const s = Stdlib__Bytes.sub_string(string_buff.contents, 0, string_index.contents);
   string_buff.contents = initial_string_buffer;
   return s;
 }
 
-let string_start_loc = {
+const string_start_loc = {
   contents: none
 };
 
-let comment_start_loc = {
+const comment_start_loc = {
   contents: /* [] */0
 };
 
-let is_in_string = {
+const is_in_string = {
   contents: false
 };
 
-let print_warnings = {
+const print_warnings = {
   contents: true
 };
 
-let if_then_else = {
+const if_then_else = {
   contents: /* Dir_out */2
 };
 
-let sharp_look_ahead = {
+const sharp_look_ahead = {
   contents: undefined
 };
 
 function with_comment_buffer(comment, lexbuf) {
-  let start_loc = curr(lexbuf);
+  const start_loc = curr(lexbuf);
   comment_start_loc.contents = {
     hd: start_loc,
     tl: /* [] */0
   };
   reset_string_buffer(undefined);
-  let end_loc = Curry._1(comment, lexbuf);
-  let s = get_stored_string(undefined);
+  const end_loc = Curry._1(comment, lexbuf);
+  const s = get_stored_string(undefined);
   reset_string_buffer(undefined);
-  let loc_loc_start = start_loc.loc_start;
-  let loc_loc_end = end_loc.loc_end;
-  let loc_loc_ghost = start_loc.loc_ghost;
-  let loc = {
+  const loc_loc_start = start_loc.loc_start;
+  const loc_loc_end = end_loc.loc_end;
+  const loc_loc_ghost = start_loc.loc_ghost;
+  const loc = {
     loc_start: loc_loc_start,
     loc_end: loc_loc_end,
     loc_ghost: loc_loc_ghost
@@ -11858,7 +11858,7 @@ function char_for_backslash(c) {
 }
 
 function char_for_decimal_code(lexbuf, i) {
-  let c = (Math.imul(100, Stdlib__Lexing.lexeme_char(lexbuf, i) - 48 | 0) + Math.imul(10, Stdlib__Lexing.lexeme_char(lexbuf, i + 1 | 0) - 48 | 0) | 0) + (Stdlib__Lexing.lexeme_char(lexbuf, i + 2 | 0) - 48 | 0) | 0;
+  const c = (Math.imul(100, Stdlib__Lexing.lexeme_char(lexbuf, i) - 48 | 0) + Math.imul(10, Stdlib__Lexing.lexeme_char(lexbuf, i + 1 | 0) - 48 | 0) | 0) + (Stdlib__Lexing.lexeme_char(lexbuf, i + 2 | 0) - 48 | 0) | 0;
   if (!(c < 0 || c > 255)) {
     return Stdlib__Char.chr(c);
   }
@@ -11876,12 +11876,12 @@ function char_for_decimal_code(lexbuf, i) {
 }
 
 function char_for_hexadecimal_code(lexbuf, i) {
-  let d1 = Stdlib__Lexing.lexeme_char(lexbuf, i);
-  let val1 = d1 >= 97 ? d1 - 87 | 0 : (
+  const d1 = Stdlib__Lexing.lexeme_char(lexbuf, i);
+  const val1 = d1 >= 97 ? d1 - 87 | 0 : (
       d1 >= 65 ? d1 - 55 | 0 : d1 - 48 | 0
     );
-  let d2 = Stdlib__Lexing.lexeme_char(lexbuf, i + 1 | 0);
-  let val2 = d2 >= 97 ? d2 - 87 | 0 : (
+  const d2 = Stdlib__Lexing.lexeme_char(lexbuf, i + 1 | 0);
+  const val2 = d2 >= 97 ? d2 - 87 | 0 : (
       d2 >= 65 ? d2 - 55 | 0 : d2 - 48 | 0
     );
   return Stdlib__Char.chr((val1 << 4) + val2 | 0);
@@ -11911,13 +11911,13 @@ function cvt_nativeint_literal(s) {
 }
 
 function remove_underscores(s) {
-  let l = s.length;
-  let b = Caml_bytes.caml_create_bytes(l);
+  const l = s.length;
+  const b = Caml_bytes.caml_create_bytes(l);
   let _src = 0;
   let _dst = 0;
   while(true) {
-    let dst = _dst;
-    let src = _src;
+    const dst = _dst;
+    const src = _src;
     if (src >= l) {
       if (dst >= l) {
         return s;
@@ -11925,7 +11925,7 @@ function remove_underscores(s) {
         return Stdlib__Bytes.sub_string(b, 0, dst);
       }
     }
-    let c = Caml_string.get(s, src);
+    const c = Caml_string.get(s, src);
     if (c !== 95) {
       Caml_bytes.set(b, dst, c);
       _dst = dst + 1 | 0;
@@ -11938,8 +11938,8 @@ function remove_underscores(s) {
 }
 
 function get_label_name(lexbuf) {
-  let s = Stdlib__Lexing.lexeme(lexbuf);
-  let name = Stdlib__String.sub(s, 1, s.length - 2 | 0);
+  const s = Stdlib__Lexing.lexeme(lexbuf);
+  const name = Stdlib__String.sub(s, 1, s.length - 2 | 0);
   if (Stdlib__Hashtbl.mem(keyword_table, name)) {
     throw new Caml_js_exceptions.MelangeError($$Error$2, {
               MEL_EXN_ID: $$Error$2,
@@ -11954,8 +11954,8 @@ function get_label_name(lexbuf) {
 }
 
 function update_loc(lexbuf, file, line, absolute, chars) {
-  let pos = lexbuf.lex_curr_p;
-  let new_file = file !== undefined ? file : pos.pos_fname;
+  const pos = lexbuf.lex_curr_p;
+  const new_file = file !== undefined ? file : pos.pos_fname;
   lexbuf.lex_curr_p = {
     pos_fname: new_file,
     pos_lnum: absolute ? line : pos.pos_lnum + line | 0,
@@ -11964,15 +11964,15 @@ function update_loc(lexbuf, file, line, absolute, chars) {
   };
 }
 
-let preprocessor = {
+const preprocessor = {
   contents: undefined
 };
 
-let escaped_newlines = {
+const escaped_newlines = {
   contents: false
 };
 
-let comment_list = {
+const comment_list = {
   contents: /* [] */0
 };
 
@@ -12203,7 +12203,7 @@ register_error_of_exn(function (param) {
       
     });
 
-let __ocaml_lex_tables = {
+const __ocaml_lex_tables = {
   lex_base: "\0\0\xa4\xff\xa5\xff\xe0\0\x03\x01&\x01I\x01l\x01\x8f\x01\xbc\xff\xb2\x01\xd7\x01\xc4\xff[\0\xfc\x01\x1f\x02D\0G\0T\0B\x02\xd5\xff\xd7\xff\xda\xffe\x02\xc4\x02\xe7\x02Y\0\xff\0\x05\x03\xec\xffR\x03s\x03\xbc\x03\x8c\x04\\\x05,\x06\x0b\x07g\x077\b}\0\xfe\xff\x01\0\x05\0\xff\xff\x06\0\x07\0\x16\t4\t\x04\n\xfa\xff\xf9\xff\xd4\n\xa4\x0b\xf7\xff\xf6\xff\xed\xff\xee\xff\xef\xff]\0v\x02[\0n\0\xe7\x02\x07\x04\xd7\x04e\x02\xfe\x02v\0\xc2\xff\xeb\xffx\x05\x84\f`\0q\0\x0b\0\xea\xff\xe9\xff\xe5\xff\xe5\x04\x80\0s\0\xe8\xff\xe0\0u\0\xe7\xffw\x06\x93\0\xe6\xff\x92\0\xe1\xff\x94\0\xe0\xff\xd9\0\x84\f\xdf\xff\xab\f\xaf\b\xae\x06\xde\xff\f\0\x18\x01,\x01P\x01-\x01\xde\xff\r\0\xd9\f\0\r#\rI\r\xd2\xff\xce\xff\xcf\xff\xd0\xff\xcc\xffl\r\x9a\0\xb7\0\xc5\xff\xc6\xff\xc7\xff\xc7\0\xb6\xff\xb8\xff\xbf\xff\x8f\r\xbb\xff\xbd\xff\xb2\r\xd5\r\xf8\r\x1b\x0e\xeb\x05\xf3\xff\xf4\xff\x11\0\xf5\xff>\x02\xac\x07\xfd\xff\xdf\0\xf1\0\xff\xff\xfe\xff\xfc\xff\xc8\x07-\x0e\xfa\0\xfc\0\x12\0\xfb\xff\xfa\xff\xf9\xff\x80\t\x1e\x03\x03\x01\xf8\xff\\\x03\x04\x01\xf7\xffO\n\x05\x01\xf6\xff+\x01\xc7\x01\xf7\xff\xf8\xff\xf9\xff;\x01v\x0e\xff\xff\xfa\xff\x1f\x0b$\x04\xfd\xff&\x01E\x01^\x01\xfc\x04\xfc\xff\xef\x0b\xfb\xff_\x01\xb5\x01\xfc\xff\xee\x06\xfe\xff\xff\xffo\x01p\x01\xfd\xffJ\x07\x10\x01\x13\x012\x01?\x01\x1a\x01k\x01!\x01\x13\0\xff\xff",
   lex_backtrk: "\xff\xff\xff\xff\xff\xffX\0W\0T\0S\0L\0J\0\xff\xffA\0>\0\xff\xff7\x006\x004\x002\0.\0,\0O\0\xff\xff\xff\xff\xff\xff#\0\"\0)\0'\0&\0<\0\xff\xff\x0e\0\x0e\0\r\0\f\0\x0b\0\n\0\x07\0\x04\0\x03\0\x02\0\xff\xff[\0[\0\xff\xff\xff\xff\xff\xffR\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x0f\0\xff\xff\xff\xff\xff\xff\x0e\0\x0e\0\x0e\0\x0f\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x1a\0\x1a\0\x1a\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x1b\0\xff\xff\x1c\0\xff\xff\x1d\0V\0\xff\xffY\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff$\0U\0P\0+\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff5\0F\0E\0\xff\xff\xff\xff\xff\xffH\0\xff\xff\xff\xff\xff\xff?\0\xff\xff\xff\xffQ\0K\0N\0M\0\xff\xff\xff\xff\xff\xff\f\0\xff\xff\f\0\f\0\xff\xff\f\0\f\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\b\0\b\0\xff\xff\xff\xff\x05\0\x05\0\xff\xff\x01\0\x05\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x03\0\xff\xff\xff\xff\x03\0\xff\xff\xff\xff\xff\xff\x02\0\xff\xff\xff\xff\x01\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
   lex_default: "\x01\0\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xffH\0\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\xff\xff\xff\xff\0\0\0\0\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\xff\xffM\0\xff\xff\xff\xff\xff\xff\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\0\0\xff\xff\xff\xff\0\0\xff\xff\0\0\xff\xff\0\0\xff\xff\xff\xff\0\0\xff\xffd\0\xff\xff\0\0\xff\xffd\0e\0d\0g\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\0\0\0\0\0\0\xff\xff\0\0\0\0\0\0\xff\xff\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\x85\0\0\0\0\0\xff\xff\0\0\x93\0\xff\xff\0\0\xff\xff\xff\xff\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\0\0\xff\xff\xff\xff\0\0\xff\xff\xa5\0\0\0\0\0\0\0\xff\xff\xab\0\0\0\0\0\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\0\0\xff\xff\xb8\0\0\0\xff\xff\0\0\0\0\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xc2\0\xc5\0\xff\xff\xc5\0\xff\xff\xff\xff\0\0",
@@ -12221,8 +12221,8 @@ function token(lexbuf) {
   lexbuf.lex_mem = Caml_array.make(8, -1);
   let ___ocaml_lex_state = 0;
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           if (!escaped_newlines.contents) {
@@ -12277,12 +12277,12 @@ function token(lexbuf) {
                   _0: get_label_name(lexbuf)
                 };
       case 10 :
-          let s = Stdlib__Lexing.lexeme(lexbuf);
+          const s = Stdlib__Lexing.lexeme(lexbuf);
           try {
             return Stdlib__Hashtbl.find(keyword_table, s);
           }
           catch (raw_exn){
-            let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+            const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.MEL_EXN_ID === Stdlib.Not_found) {
               return {
                       TAG: /* LIDENT */11,
@@ -12322,7 +12322,7 @@ function token(lexbuf) {
                   };
           }
           catch (raw_exn$1){
-            let exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
+            const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
             if (exn$1.MEL_EXN_ID === Stdlib.Failure) {
               throw new Caml_js_exceptions.MelangeError($$Error$2, {
                         MEL_EXN_ID: $$Error$2,
@@ -12348,7 +12348,7 @@ function token(lexbuf) {
                   };
           }
           catch (raw_exn$2){
-            let exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
+            const exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
             if (exn$2.MEL_EXN_ID === Stdlib.Failure) {
               throw new Caml_js_exceptions.MelangeError($$Error$2, {
                         MEL_EXN_ID: $$Error$2,
@@ -12369,7 +12369,7 @@ function token(lexbuf) {
                   };
           }
           catch (raw_exn$3){
-            let exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
+            const exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
             if (exn$3.MEL_EXN_ID === Stdlib.Failure) {
               throw new Caml_js_exceptions.MelangeError($$Error$2, {
                         MEL_EXN_ID: $$Error$2,
@@ -12390,7 +12390,7 @@ function token(lexbuf) {
                   };
           }
           catch (raw_exn$4){
-            let exn$4 = Caml_js_exceptions.internalToOCamlException(raw_exn$4);
+            const exn$4 = Caml_js_exceptions.internalToOCamlException(raw_exn$4);
             if (exn$4.MEL_EXN_ID === Stdlib.Failure) {
               throw new Caml_js_exceptions.MelangeError($$Error$2, {
                         MEL_EXN_ID: $$Error$2,
@@ -12406,7 +12406,7 @@ function token(lexbuf) {
       case 19 :
           reset_string_buffer(undefined);
           is_in_string.contents = true;
-          let string_start = lexbuf.lex_start_p;
+          const string_start = lexbuf.lex_start_p;
           string_start_loc.contents = curr(lexbuf);
           string(lexbuf);
           is_in_string.contents = false;
@@ -12420,10 +12420,10 @@ function token(lexbuf) {
                 };
       case 20 :
           reset_string_buffer(undefined);
-          let delim = Stdlib__Lexing.lexeme(lexbuf);
-          let delim$1 = Stdlib__String.sub(delim, 1, delim.length - 2 | 0);
+          const delim = Stdlib__Lexing.lexeme(lexbuf);
+          const delim$1 = Stdlib__String.sub(delim, 1, delim.length - 2 | 0);
           is_in_string.contents = true;
-          let string_start$1 = lexbuf.lex_start_p;
+          const string_start$1 = lexbuf.lex_start_p;
           string_start_loc.contents = curr(lexbuf);
           __ocaml_lex_quoted_string_rec(delim$1, lexbuf, 183);
           is_in_string.contents = false;
@@ -12462,8 +12462,8 @@ function token(lexbuf) {
                   _0: char_for_hexadecimal_code(lexbuf, 3)
                 };
       case 26 :
-          let l = Stdlib__Lexing.lexeme(lexbuf);
-          let esc = Stdlib__String.sub(l, 1, l.length - 1 | 0);
+          const l = Stdlib__Lexing.lexeme(lexbuf);
+          const esc = Stdlib__String.sub(l, 1, l.length - 1 | 0);
           throw new Caml_js_exceptions.MelangeError($$Error$2, {
                     MEL_EXN_ID: $$Error$2,
                     _1: {
@@ -12473,7 +12473,7 @@ function token(lexbuf) {
                     _2: curr(lexbuf)
                   });
       case 27 :
-          let match = with_comment_buffer(comment, lexbuf);
+          const match = with_comment_buffer(comment, lexbuf);
           return {
                   TAG: /* COMMENT */18,
                   _0: [
@@ -12482,14 +12482,14 @@ function token(lexbuf) {
                   ]
                 };
       case 28 :
-          let match$1 = with_comment_buffer(comment, lexbuf);
+          const match$1 = with_comment_buffer(comment, lexbuf);
           return {
                   TAG: /* DOCSTRING */19,
                   _0: docstring(match$1[0], match$1[1])
                 };
       case 29 :
-          let stars = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
-          let match$2 = with_comment_buffer((function (lexbuf) {
+          const stars = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
+          const match$2 = with_comment_buffer((function (lexbuf) {
                   store_string("*" + stars);
                   return __ocaml_lex_comment_rec(lexbuf, 132);
                 }), lexbuf);
@@ -12504,7 +12504,7 @@ function token(lexbuf) {
           if (print_warnings.contents) {
             prerr_warning(curr(lexbuf), /* Comment_start */0);
           }
-          let match$3 = with_comment_buffer(comment, lexbuf);
+          const match$3 = with_comment_buffer(comment, lexbuf);
           return {
                   TAG: /* COMMENT */18,
                   _0: [
@@ -12513,7 +12513,7 @@ function token(lexbuf) {
                   ]
                 };
       case 31 :
-          let stars$1 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos - 2 | 0);
+          const stars$1 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos - 2 | 0);
           return {
                   TAG: /* COMMENT */18,
                   _0: [
@@ -12522,10 +12522,10 @@ function token(lexbuf) {
                   ]
                 };
       case 32 :
-          let loc = curr(lexbuf);
+          const loc = curr(lexbuf);
           prerr_warning(loc, /* Comment_not_end */1);
           lexbuf.lex_curr_pos = lexbuf.lex_curr_pos - 1 | 0;
-          let curpos = lexbuf.lex_curr_p;
+          const curpos = lexbuf.lex_curr_p;
           lexbuf.lex_curr_p = {
             pos_fname: curpos.pos_fname,
             pos_lnum: curpos.pos_lnum,
@@ -12534,8 +12534,8 @@ function token(lexbuf) {
           };
           return /* STAR */86;
       case 33 :
-          let num = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
-          let name = Stdlib__Lexing.sub_lexeme_opt(lexbuf, Caml_array.get(lexbuf.lex_mem, 3), Caml_array.get(lexbuf.lex_mem, 2));
+          const num = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
+          const name = Stdlib__Lexing.sub_lexeme_opt(lexbuf, Caml_array.get(lexbuf.lex_mem, 3), Caml_array.get(lexbuf.lex_mem, 2));
           update_loc(lexbuf, name, Caml_format.caml_int_of_string(num), true, 0);
           return token(lexbuf);
       case 34 :
@@ -12708,8 +12708,8 @@ function token(lexbuf) {
 
 function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           update_loc(lexbuf, undefined, 1, false, 0);
@@ -12724,8 +12724,8 @@ function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
                     _2: string_start_loc.contents
                   });
       case 2 :
-          let edelim = Stdlib__Lexing.lexeme(lexbuf);
-          let edelim$1 = Stdlib__String.sub(edelim, 1, edelim.length - 2 | 0);
+          const edelim = Stdlib__Lexing.lexeme(lexbuf);
+          const edelim$1 = Stdlib__String.sub(edelim, 1, edelim.length - 2 | 0);
           if (delim === edelim$1) {
             return ;
           }
@@ -12748,13 +12748,13 @@ function string(lexbuf) {
   lexbuf.lex_mem = Caml_array.make(2, -1);
   let ___ocaml_lex_state = 164;
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           return ;
       case 1 :
-          let space = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
+          const space = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
           update_loc(lexbuf, undefined, 1, false, space.length);
           return string(lexbuf);
       case 2 :
@@ -12770,7 +12770,7 @@ function string(lexbuf) {
           if (Caml_obj.caml_notequal(comment_start_loc.contents, /* [] */0)) {
             return string(lexbuf);
           }
-          let loc = curr(lexbuf);
+          const loc = curr(lexbuf);
           prerr_warning(loc, /* Illegal_backslash */7);
           store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
           store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 1));
@@ -12802,8 +12802,8 @@ function string(lexbuf) {
 
 function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
   while(true) {
-    let __ocaml_lex_state = ___ocaml_lex_state;
-    let __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           comment_start_loc.contents = {
@@ -12814,7 +12814,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           ___ocaml_lex_state = 132;
           continue ;
       case 1 :
-          let match = comment_start_loc.contents;
+          const match = comment_start_loc.contents;
           if (match) {
             if (match.tl) {
               comment_start_loc.contents = match.tl;
@@ -12841,16 +12841,16 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
             string(lexbuf);
           }
           catch (raw_exn){
-            let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+            const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.MEL_EXN_ID === $$Error$2) {
-              let match$1 = exn._1;
+              const match$1 = exn._1;
               if (typeof match$1 === "number") {
                 if (match$1) {
                   throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
                 }
-                let match$2 = comment_start_loc.contents;
+                const match$2 = comment_start_loc.contents;
                 if (match$2) {
-                  let start = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
+                  const start = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
                   comment_start_loc.contents = /* [] */0;
                   throw new Caml_js_exceptions.MelangeError($$Error$2, {
                             MEL_EXN_ID: $$Error$2,
@@ -12880,8 +12880,8 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           ___ocaml_lex_state = 132;
           continue ;
       case 3 :
-          let delim = Stdlib__Lexing.lexeme(lexbuf);
-          let delim$1 = Stdlib__String.sub(delim, 1, delim.length - 2 | 0);
+          const delim = Stdlib__Lexing.lexeme(lexbuf);
+          const delim$1 = Stdlib__String.sub(delim, 1, delim.length - 2 | 0);
           string_start_loc.contents = curr(lexbuf);
           store_string(Stdlib__Lexing.lexeme(lexbuf));
           is_in_string.contents = true;
@@ -12889,16 +12889,16 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
             __ocaml_lex_quoted_string_rec(delim$1, lexbuf, 183);
           }
           catch (raw_exn$1){
-            let exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
+            const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
             if (exn$1.MEL_EXN_ID === $$Error$2) {
-              let match$3 = exn$1._1;
+              const match$3 = exn$1._1;
               if (typeof match$3 === "number") {
                 if (match$3) {
                   throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
                 }
-                let match$4 = comment_start_loc.contents;
+                const match$4 = comment_start_loc.contents;
                 if (match$4) {
-                  let start$1 = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
+                  const start$1 = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
                   comment_start_loc.contents = /* [] */0;
                   throw new Caml_js_exceptions.MelangeError($$Error$2, {
                             MEL_EXN_ID: $$Error$2,
@@ -12935,9 +12935,9 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           ___ocaml_lex_state = 132;
           continue ;
       case 10 :
-          let match$5 = comment_start_loc.contents;
+          const match$5 = comment_start_loc.contents;
           if (match$5) {
-            let start$2 = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
+            const start$2 = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
             comment_start_loc.contents = /* [] */0;
             throw new Caml_js_exceptions.MelangeError($$Error$2, {
                       MEL_EXN_ID: $$Error$2,
@@ -12983,12 +12983,12 @@ function comment(lexbuf) {
 }
 
 function at_bol(lexbuf) {
-  let pos = lexbuf.lex_start_p;
+  const pos = lexbuf.lex_start_p;
   return pos.pos_cnum === pos.pos_bol;
 }
 
 function token_with_comments(lexbuf) {
-  let match = preprocessor.contents;
+  const match = preprocessor.contents;
   if (match !== undefined) {
     return Curry._2(match[1], token, lexbuf);
   } else {
@@ -12997,13 +12997,13 @@ function token_with_comments(lexbuf) {
 }
 
 function token$1(lexbuf) {
-  let post_pos = lexbuf.lex_curr_p;
-  let attach = function (lines, docs, pre_pos) {
+  const post_pos = lexbuf.lex_curr_p;
+  const attach = function (lines, docs, pre_pos) {
     if (typeof docs === "number") {
       return ;
     }
     if (docs.TAG === /* After */0) {
-      let a = docs._0;
+      const a = docs._0;
       if (lines >= 2) {
         set_post_docstrings(post_pos, Stdlib__List.rev(a));
         return set_pre_extra_docstrings(pre_pos, Stdlib__List.rev(a));
@@ -13012,9 +13012,9 @@ function token$1(lexbuf) {
         return set_pre_docstrings(pre_pos, a);
       }
     }
-    let b = docs._2;
-    let f = docs._1;
-    let a$1 = docs._0;
+    const b = docs._2;
+    const f = docs._1;
+    const a$1 = docs._0;
     if (lines >= 2) {
       set_post_docstrings(post_pos, Stdlib__List.rev(a$1));
       set_post_extra_docstrings(post_pos, Stdlib__List.rev_append(f, Stdlib__List.rev(b)));
@@ -13028,24 +13028,24 @@ function token$1(lexbuf) {
       return set_pre_docstrings(pre_pos, b);
     }
   };
-  let loop = function (_lines, _docs, lexbuf) {
+  const loop = function (_lines, _docs, lexbuf) {
     while(true) {
-      let docs = _docs;
-      let lines = _lines;
-      let doc = token_with_comments(lexbuf);
+      const docs = _docs;
+      const lines = _lines;
+      const doc = token_with_comments(lexbuf);
       if (typeof doc === "number") {
         switch (doc) {
           case /* SHARP */84 :
               if (at_bol(lexbuf)) {
-                let cont = function (lexbuf) {
+                const cont = function (lexbuf) {
                   return loop(lines, docs, lexbuf);
                 };
-                let look_ahead = function (token) {
+                const look_ahead = function (token) {
                   sharp_look_ahead.contents = token;
                   return /* SHARP */84;
                 };
-                let if_then_else$1 = if_then_else.contents;
-                let match = token_with_comments(lexbuf);
+                const if_then_else$1 = if_then_else.contents;
+                const match = token_with_comments(lexbuf);
                 if (typeof match === "number") {
                   switch (match) {
                     case /* ELSE */23 :
@@ -13075,7 +13075,7 @@ function token$1(lexbuf) {
                           } else {
                             let _param;
                             while(true) {
-                              let token = token_with_comments(lexbuf);
+                              const token = token_with_comments(lexbuf);
                               if (Caml_obj.caml_equal(token, /* EOF */25)) {
                                 throw new Caml_js_exceptions.MelangeError($$Error$2, {
                                           MEL_EXN_ID: $$Error$2,
@@ -13084,7 +13084,7 @@ function token$1(lexbuf) {
                                         });
                               }
                               if (Caml_obj.caml_equal(token, /* SHARP */84) && at_bol(lexbuf)) {
-                                let token$1 = token_with_comments(lexbuf);
+                                const token$1 = token_with_comments(lexbuf);
                                 if (typeof token$1 === "number") {
                                   if (token$1 === 24 || token$1 === 23) {
                                     if (token$1 >= 24) {
@@ -13145,8 +13145,8 @@ function token$1(lexbuf) {
                 }
                 let _else_seen = Caml_obj.caml_equal(match, /* ELSE */23);
                 while(true) {
-                  let else_seen = _else_seen;
-                  let token$2 = token_with_comments(lexbuf);
+                  const else_seen = _else_seen;
+                  const token$2 = token_with_comments(lexbuf);
                   if (Caml_obj.caml_equal(token$2, /* EOF */25)) {
                     throw new Caml_js_exceptions.MelangeError($$Error$2, {
                               MEL_EXN_ID: $$Error$2,
@@ -13155,7 +13155,7 @@ function token$1(lexbuf) {
                             });
                   }
                   if (Caml_obj.caml_equal(token$2, /* SHARP */84) && at_bol(lexbuf)) {
-                    let token$3 = token_with_comments(lexbuf);
+                    const token$3 = token_with_comments(lexbuf);
                     if (typeof token$3 === "number") {
                       if (token$3 === 24 || token$3 === 23) {
                         if (token$3 >= 24) {
@@ -13195,7 +13195,7 @@ function token$1(lexbuf) {
               }
               break;
           case /* EOL */100 :
-              let lines$p = lines ? /* BlankLine */2 : /* NewLine */1;
+              const lines$p = lines ? /* BlankLine */2 : /* NewLine */1;
               _lines = lines$p;
               continue ;
           default:
@@ -13204,16 +13204,16 @@ function token$1(lexbuf) {
       } else {
         switch (doc.TAG | 0) {
           case /* COMMENT */18 :
-              let match$1 = doc._0;
+              const match$1 = doc._0;
               add_comment([
                     match$1[0],
                     match$1[1]
                   ]);
-              let lines$p$1 = lines >= 2 ? /* BlankLine */2 : /* NoLine */0;
+              const lines$p$1 = lines >= 2 ? /* BlankLine */2 : /* NoLine */0;
               _lines = lines$p$1;
               continue ;
           case /* DOCSTRING */19 :
-              let doc$1 = doc._0;
+              const doc$1 = doc._0;
               add_docstring_comment(doc$1);
               let docs$p;
               if (typeof docs === "number") {
@@ -13233,7 +13233,7 @@ function token$1(lexbuf) {
                       }
                     });
               } else if (docs.TAG === /* After */0) {
-                let a = docs._0;
+                const a = docs._0;
                 docs$p = lines >= 2 ? ({
                       TAG: /* Before */1,
                       _0: a,
@@ -13250,9 +13250,9 @@ function token$1(lexbuf) {
                       }
                     });
               } else {
-                let b = docs._2;
-                let f = docs._1;
-                let a$1 = docs._0;
+                const b = docs._2;
+                const f = docs._1;
+                const a$1 = docs._0;
                 docs$p = lines >= 2 ? ({
                       TAG: /* Before */1,
                       _0: a$1,
@@ -13282,7 +13282,7 @@ function token$1(lexbuf) {
       return doc;
     };
   };
-  let token$2 = sharp_look_ahead.contents;
+  const token$2 = sharp_look_ahead.contents;
   if (token$2 !== undefined) {
     sharp_look_ahead.contents = undefined;
     return token$2;
@@ -13297,7 +13297,7 @@ function init$1(param) {
   is_in_string.contents = false;
   comment_start_loc.contents = /* [] */0;
   comment_list.contents = /* [] */0;
-  let match = preprocessor.contents;
+  const match = preprocessor.contents;
   if (match !== undefined) {
     return Curry._1(match[0], undefined);
   }
@@ -13307,7 +13307,7 @@ function init$1(param) {
 function skip_phrase(lexbuf) {
   while(true) {
     try {
-      let match = token$1(lexbuf);
+      const match = token$1(lexbuf);
       if (typeof match === "number" && !(match !== 25 && match !== 83)) {
         return ;
       } else {
@@ -13315,7 +13315,7 @@ function skip_phrase(lexbuf) {
       }
     }
     catch (raw_exn){
-      let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+      const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === $$Error$2) {
         let tmp = exn._1;
         if (typeof tmp === "number") {
@@ -13352,13 +13352,13 @@ function wrap(parsing_fun, lexbuf) {
   try {
     init(undefined);
     init$1(undefined);
-    let ast = Curry._2(parsing_fun, token$1, lexbuf);
+    const ast = Curry._2(parsing_fun, token$1, lexbuf);
     Stdlib__Parsing.clear_parser(undefined);
     warn_bad_docstrings(undefined);
     return ast;
   }
   catch (raw_err){
-    let err = Caml_js_exceptions.internalToOCamlException(raw_err);
+    const err = Caml_js_exceptions.internalToOCamlException(raw_err);
     if (err.MEL_EXN_ID === $$Error$2) {
       let tmp = err._1;
       if (typeof tmp === "number") {
@@ -13385,7 +13385,7 @@ function wrap(parsing_fun, lexbuf) {
       }
       
     }
-    let loc = curr(lexbuf);
+    const loc = curr(lexbuf);
     if (input_name.contents === "//toplevel//") {
       maybe_skip_phrase(lexbuf);
     }
@@ -13399,11 +13399,11 @@ function wrap(parsing_fun, lexbuf) {
   }
 }
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -13424,188 +13424,188 @@ function eq(loc, x, y) {
   };
 }
 
-let match = wrap(implementation, Stdlib__Lexing.from_string(undefined, "let v str = \n  str  \n  |> Lexing.from_string \n  |> Parse.implementation\n"));
+const match = wrap(implementation, Stdlib__Lexing.from_string(undefined, "let v str = \n  str  \n  |> Lexing.from_string \n  |> Parse.implementation\n"));
 
 if (match) {
-  let match$1 = match.hd.pstr_desc;
+  const match$1 = match.hd.pstr_desc;
   if (match$1.TAG === /* Pstr_value */1 && !match$1._0) {
-    let match$2 = match$1._1;
+    const match$2 = match$1._1;
     if (match$2) {
-      let match$3 = match$2.hd;
-      let match$4 = match$3.pvb_pat;
-      let match$5 = match$4.ppat_desc;
+      const match$3 = match$2.hd;
+      const match$4 = match$3.pvb_pat;
+      const match$5 = match$4.ppat_desc;
       if (typeof match$5 === "number" || match$5.TAG !== /* Ppat_var */0) {
         eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
       } else {
-        let match$6 = match$5._0;
+        const match$6 = match$5._0;
         if (match$6.txt === "v") {
-          let match$7 = match$6.loc;
-          let match$8 = match$7.loc_start;
+          const match$7 = match$6.loc;
+          const match$8 = match$7.loc_start;
           if (match$8.pos_fname === "" && !(match$8.pos_lnum !== 1 || match$8.pos_bol !== 0 || match$8.pos_cnum !== 4)) {
-            let match$9 = match$7.loc_end;
+            const match$9 = match$7.loc_end;
             if (match$9.pos_fname === "" && !(match$9.pos_lnum !== 1 || match$9.pos_bol !== 0 || match$9.pos_cnum !== 5 || match$7.loc_ghost)) {
-              let match$10 = match$4.ppat_loc;
-              let match$11 = match$10.loc_start;
+              const match$10 = match$4.ppat_loc;
+              const match$11 = match$10.loc_start;
               if (match$11.pos_fname === "" && !(match$11.pos_lnum !== 1 || match$11.pos_bol !== 0 || match$11.pos_cnum !== 4)) {
-                let match$12 = match$10.loc_end;
+                const match$12 = match$10.loc_end;
                 if (match$12.pos_fname === "" && !(match$12.pos_lnum !== 1 || match$12.pos_bol !== 0 || match$12.pos_cnum !== 5 || match$10.loc_ghost || match$4.ppat_attributes)) {
-                  let match$13 = match$3.pvb_expr;
-                  let match$14 = match$13.pexp_desc;
+                  const match$13 = match$3.pvb_expr;
+                  const match$14 = match$13.pexp_desc;
                   if (match$14.TAG === /* Pexp_fun */4 && match$14._0 === "" && match$14._1 === undefined) {
-                    let match$15 = match$14._2;
-                    let match$16 = match$15.ppat_desc;
+                    const match$15 = match$14._2;
+                    const match$16 = match$15.ppat_desc;
                     if (typeof match$16 === "number" || match$16.TAG !== /* Ppat_var */0) {
                       eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                     } else {
-                      let match$17 = match$16._0;
+                      const match$17 = match$16._0;
                       if (match$17.txt === "str") {
-                        let match$18 = match$17.loc;
-                        let match$19 = match$18.loc_start;
+                        const match$18 = match$17.loc;
+                        const match$19 = match$18.loc_start;
                         if (match$19.pos_fname === "" && !(match$19.pos_lnum !== 1 || match$19.pos_bol !== 0 || match$19.pos_cnum !== 6)) {
-                          let match$20 = match$18.loc_end;
+                          const match$20 = match$18.loc_end;
                           if (match$20.pos_fname === "" && !(match$20.pos_lnum !== 1 || match$20.pos_bol !== 0 || match$20.pos_cnum !== 9 || match$18.loc_ghost)) {
-                            let match$21 = match$15.ppat_loc;
-                            let match$22 = match$21.loc_start;
+                            const match$21 = match$15.ppat_loc;
+                            const match$22 = match$21.loc_start;
                             if (match$22.pos_fname === "" && !(match$22.pos_lnum !== 1 || match$22.pos_bol !== 0 || match$22.pos_cnum !== 6)) {
-                              let match$23 = match$21.loc_end;
+                              const match$23 = match$21.loc_end;
                               if (match$23.pos_fname === "" && !(match$23.pos_lnum !== 1 || match$23.pos_bol !== 0 || match$23.pos_cnum !== 9 || match$21.loc_ghost || match$15.ppat_attributes)) {
-                                let match$24 = match$14._3;
-                                let match$25 = match$24.pexp_desc;
+                                const match$24 = match$14._3;
+                                const match$25 = match$24.pexp_desc;
                                 if (match$25.TAG === /* Pexp_apply */5) {
-                                  let match$26 = match$25._0;
-                                  let match$27 = match$26.pexp_desc;
+                                  const match$26 = match$25._0;
+                                  const match$27 = match$26.pexp_desc;
                                   if (match$27.TAG === /* Pexp_ident */0) {
-                                    let match$28 = match$27._0;
-                                    let match$29 = match$28.txt;
+                                    const match$28 = match$27._0;
+                                    const match$29 = match$28.txt;
                                     switch (match$29.TAG | 0) {
                                       case /* Lident */0 :
                                           if (match$29._0 === "|>") {
-                                            let match$30 = match$28.loc;
-                                            let match$31 = match$30.loc_start;
+                                            const match$30 = match$28.loc;
+                                            const match$31 = match$30.loc_start;
                                             if (match$31.pos_fname === "" && !(match$31.pos_lnum !== 4 || match$31.pos_bol !== 46 || match$31.pos_cnum !== 48)) {
-                                              let match$32 = match$30.loc_end;
+                                              const match$32 = match$30.loc_end;
                                               if (match$32.pos_fname === "" && !(match$32.pos_lnum !== 4 || match$32.pos_bol !== 46 || match$32.pos_cnum !== 50 || match$30.loc_ghost)) {
-                                                let match$33 = match$26.pexp_loc;
-                                                let match$34 = match$33.loc_start;
+                                                const match$33 = match$26.pexp_loc;
+                                                const match$34 = match$33.loc_start;
                                                 if (match$34.pos_fname === "" && !(match$34.pos_lnum !== 4 || match$34.pos_bol !== 46 || match$34.pos_cnum !== 48)) {
-                                                  let match$35 = match$33.loc_end;
+                                                  const match$35 = match$33.loc_end;
                                                   if (match$35.pos_fname === "" && !(match$35.pos_lnum !== 4 || match$35.pos_bol !== 46 || match$35.pos_cnum !== 50 || match$33.loc_ghost || match$26.pexp_attributes)) {
-                                                    let match$36 = match$25._1;
+                                                    const match$36 = match$25._1;
                                                     if (match$36) {
-                                                      let match$37 = match$36.hd;
+                                                      const match$37 = match$36.hd;
                                                       if (match$37[0] === "") {
-                                                        let match$38 = match$37[1];
-                                                        let match$39 = match$38.pexp_desc;
+                                                        const match$38 = match$37[1];
+                                                        const match$39 = match$38.pexp_desc;
                                                         if (match$39.TAG === /* Pexp_apply */5) {
-                                                          let match$40 = match$39._0;
-                                                          let match$41 = match$40.pexp_desc;
+                                                          const match$40 = match$39._0;
+                                                          const match$41 = match$40.pexp_desc;
                                                           if (match$41.TAG === /* Pexp_ident */0) {
-                                                            let match$42 = match$41._0;
-                                                            let match$43 = match$42.txt;
+                                                            const match$42 = match$41._0;
+                                                            const match$43 = match$42.txt;
                                                             switch (match$43.TAG | 0) {
                                                               case /* Lident */0 :
                                                                   if (match$43._0 === "|>") {
-                                                                    let match$44 = match$42.loc;
-                                                                    let match$45 = match$44.loc_start;
+                                                                    const match$44 = match$42.loc;
+                                                                    const match$45 = match$44.loc_start;
                                                                     if (match$45.pos_fname === "" && !(match$45.pos_lnum !== 3 || match$45.pos_bol !== 21 || match$45.pos_cnum !== 23)) {
-                                                                      let match$46 = match$44.loc_end;
+                                                                      const match$46 = match$44.loc_end;
                                                                       if (match$46.pos_fname === "" && !(match$46.pos_lnum !== 3 || match$46.pos_bol !== 21 || match$46.pos_cnum !== 25 || match$44.loc_ghost)) {
-                                                                        let match$47 = match$40.pexp_loc;
-                                                                        let match$48 = match$47.loc_start;
+                                                                        const match$47 = match$40.pexp_loc;
+                                                                        const match$48 = match$47.loc_start;
                                                                         if (match$48.pos_fname === "" && !(match$48.pos_lnum !== 3 || match$48.pos_bol !== 21 || match$48.pos_cnum !== 23)) {
-                                                                          let match$49 = match$47.loc_end;
+                                                                          const match$49 = match$47.loc_end;
                                                                           if (match$49.pos_fname === "" && !(match$49.pos_lnum !== 3 || match$49.pos_bol !== 21 || match$49.pos_cnum !== 25 || match$47.loc_ghost || match$40.pexp_attributes)) {
-                                                                            let match$50 = match$39._1;
+                                                                            const match$50 = match$39._1;
                                                                             if (match$50) {
-                                                                              let match$51 = match$50.hd;
+                                                                              const match$51 = match$50.hd;
                                                                               if (match$51[0] === "") {
-                                                                                let match$52 = match$51[1];
-                                                                                let match$53 = match$52.pexp_desc;
+                                                                                const match$52 = match$51[1];
+                                                                                const match$53 = match$52.pexp_desc;
                                                                                 if (match$53.TAG === /* Pexp_ident */0) {
-                                                                                  let match$54 = match$53._0;
-                                                                                  let match$55 = match$54.txt;
+                                                                                  const match$54 = match$53._0;
+                                                                                  const match$55 = match$54.txt;
                                                                                   switch (match$55.TAG | 0) {
                                                                                     case /* Lident */0 :
                                                                                         if (match$55._0 === "str") {
-                                                                                          let match$56 = match$54.loc;
-                                                                                          let match$57 = match$56.loc_start;
+                                                                                          const match$56 = match$54.loc;
+                                                                                          const match$57 = match$56.loc_start;
                                                                                           if (match$57.pos_fname === "" && !(match$57.pos_lnum !== 2 || match$57.pos_bol !== 13 || match$57.pos_cnum !== 15)) {
-                                                                                            let match$58 = match$56.loc_end;
+                                                                                            const match$58 = match$56.loc_end;
                                                                                             if (match$58.pos_fname === "" && !(match$58.pos_lnum !== 2 || match$58.pos_bol !== 13 || match$58.pos_cnum !== 18 || match$56.loc_ghost)) {
-                                                                                              let match$59 = match$52.pexp_loc;
-                                                                                              let match$60 = match$59.loc_start;
+                                                                                              const match$59 = match$52.pexp_loc;
+                                                                                              const match$60 = match$59.loc_start;
                                                                                               if (match$60.pos_fname === "" && !(match$60.pos_lnum !== 2 || match$60.pos_bol !== 13 || match$60.pos_cnum !== 15)) {
-                                                                                                let match$61 = match$59.loc_end;
+                                                                                                const match$61 = match$59.loc_end;
                                                                                                 if (match$61.pos_fname === "" && !(match$61.pos_lnum !== 2 || match$61.pos_bol !== 13 || match$61.pos_cnum !== 18 || match$59.loc_ghost || match$52.pexp_attributes)) {
-                                                                                                  let match$62 = match$50.tl;
+                                                                                                  const match$62 = match$50.tl;
                                                                                                   if (match$62) {
-                                                                                                    let match$63 = match$62.hd;
+                                                                                                    const match$63 = match$62.hd;
                                                                                                     if (match$63[0] === "") {
-                                                                                                      let match$64 = match$63[1];
-                                                                                                      let match$65 = match$64.pexp_desc;
+                                                                                                      const match$64 = match$63[1];
+                                                                                                      const match$65 = match$64.pexp_desc;
                                                                                                       if (match$65.TAG === /* Pexp_ident */0) {
-                                                                                                        let match$66 = match$65._0;
-                                                                                                        let match$67 = match$66.txt;
+                                                                                                        const match$66 = match$65._0;
+                                                                                                        const match$67 = match$66.txt;
                                                                                                         switch (match$67.TAG | 0) {
                                                                                                           case /* Ldot */1 :
-                                                                                                              let match$68 = match$67._0;
+                                                                                                              const match$68 = match$67._0;
                                                                                                               switch (match$68.TAG | 0) {
                                                                                                                 case /* Lident */0 :
                                                                                                                     if (match$68._0 === "Lexing" && match$67._1 === "from_string") {
-                                                                                                                      let match$69 = match$66.loc;
-                                                                                                                      let match$70 = match$69.loc_start;
+                                                                                                                      const match$69 = match$66.loc;
+                                                                                                                      const match$70 = match$69.loc_start;
                                                                                                                       if (match$70.pos_fname === "" && !(match$70.pos_lnum !== 3 || match$70.pos_bol !== 21 || match$70.pos_cnum !== 26)) {
-                                                                                                                        let match$71 = match$69.loc_end;
+                                                                                                                        const match$71 = match$69.loc_end;
                                                                                                                         if (match$71.pos_fname === "" && !(match$71.pos_lnum !== 3 || match$71.pos_bol !== 21 || match$71.pos_cnum !== 44 || match$69.loc_ghost)) {
-                                                                                                                          let match$72 = match$64.pexp_loc;
-                                                                                                                          let match$73 = match$72.loc_start;
+                                                                                                                          const match$72 = match$64.pexp_loc;
+                                                                                                                          const match$73 = match$72.loc_start;
                                                                                                                           if (match$73.pos_fname === "" && !(match$73.pos_lnum !== 3 || match$73.pos_bol !== 21 || match$73.pos_cnum !== 26)) {
-                                                                                                                            let match$74 = match$72.loc_end;
+                                                                                                                            const match$74 = match$72.loc_end;
                                                                                                                             if (match$74.pos_fname === "" && !(match$74.pos_lnum !== 3 || match$74.pos_bol !== 21 || match$74.pos_cnum !== 44 || match$72.loc_ghost || match$64.pexp_attributes || match$62.tl)) {
-                                                                                                                              let match$75 = match$38.pexp_loc;
-                                                                                                                              let match$76 = match$75.loc_start;
+                                                                                                                              const match$75 = match$38.pexp_loc;
+                                                                                                                              const match$76 = match$75.loc_start;
                                                                                                                               if (match$76.pos_fname === "" && !(match$76.pos_lnum !== 2 || match$76.pos_bol !== 13 || match$76.pos_cnum !== 15)) {
-                                                                                                                                let match$77 = match$75.loc_end;
+                                                                                                                                const match$77 = match$75.loc_end;
                                                                                                                                 if (match$77.pos_fname === "" && !(match$77.pos_lnum !== 3 || match$77.pos_bol !== 21 || match$77.pos_cnum !== 44 || match$75.loc_ghost || match$38.pexp_attributes)) {
-                                                                                                                                  let match$78 = match$36.tl;
+                                                                                                                                  const match$78 = match$36.tl;
                                                                                                                                   if (match$78) {
-                                                                                                                                    let match$79 = match$78.hd;
+                                                                                                                                    const match$79 = match$78.hd;
                                                                                                                                     if (match$79[0] === "") {
-                                                                                                                                      let match$80 = match$79[1];
-                                                                                                                                      let match$81 = match$80.pexp_desc;
+                                                                                                                                      const match$80 = match$79[1];
+                                                                                                                                      const match$81 = match$80.pexp_desc;
                                                                                                                                       if (match$81.TAG === /* Pexp_ident */0) {
-                                                                                                                                        let match$82 = match$81._0;
-                                                                                                                                        let match$83 = match$82.txt;
+                                                                                                                                        const match$82 = match$81._0;
+                                                                                                                                        const match$83 = match$82.txt;
                                                                                                                                         switch (match$83.TAG | 0) {
                                                                                                                                           case /* Ldot */1 :
-                                                                                                                                              let match$84 = match$83._0;
+                                                                                                                                              const match$84 = match$83._0;
                                                                                                                                               switch (match$84.TAG | 0) {
                                                                                                                                                 case /* Lident */0 :
                                                                                                                                                     if (match$84._0 === "Parse" && match$83._1 === "implementation") {
-                                                                                                                                                      let match$85 = match$82.loc;
-                                                                                                                                                      let match$86 = match$85.loc_start;
+                                                                                                                                                      const match$85 = match$82.loc;
+                                                                                                                                                      const match$86 = match$85.loc_start;
                                                                                                                                                       if (match$86.pos_fname === "" && !(match$86.pos_lnum !== 4 || match$86.pos_bol !== 46 || match$86.pos_cnum !== 51)) {
-                                                                                                                                                        let match$87 = match$85.loc_end;
+                                                                                                                                                        const match$87 = match$85.loc_end;
                                                                                                                                                         if (match$87.pos_fname === "" && !(match$87.pos_lnum !== 4 || match$87.pos_bol !== 46 || match$87.pos_cnum !== 71 || match$85.loc_ghost)) {
-                                                                                                                                                          let match$88 = match$80.pexp_loc;
-                                                                                                                                                          let match$89 = match$88.loc_start;
+                                                                                                                                                          const match$88 = match$80.pexp_loc;
+                                                                                                                                                          const match$89 = match$88.loc_start;
                                                                                                                                                           if (match$89.pos_fname === "" && !(match$89.pos_lnum !== 4 || match$89.pos_bol !== 46 || match$89.pos_cnum !== 51)) {
-                                                                                                                                                            let match$90 = match$88.loc_end;
+                                                                                                                                                            const match$90 = match$88.loc_end;
                                                                                                                                                             if (match$90.pos_fname === "" && !(match$90.pos_lnum !== 4 || match$90.pos_bol !== 46 || match$90.pos_cnum !== 71 || match$88.loc_ghost || match$80.pexp_attributes || match$78.tl)) {
-                                                                                                                                                              let match$91 = match$24.pexp_loc;
-                                                                                                                                                              let match$92 = match$91.loc_start;
+                                                                                                                                                              const match$91 = match$24.pexp_loc;
+                                                                                                                                                              const match$92 = match$91.loc_start;
                                                                                                                                                               if (match$92.pos_fname === "" && !(match$92.pos_lnum !== 2 || match$92.pos_bol !== 13 || match$92.pos_cnum !== 15)) {
-                                                                                                                                                                let match$93 = match$91.loc_end;
+                                                                                                                                                                const match$93 = match$91.loc_end;
                                                                                                                                                                 if (match$93.pos_fname === "" && !(match$93.pos_lnum !== 4 || match$93.pos_bol !== 46 || match$93.pos_cnum !== 71 || match$91.loc_ghost || match$24.pexp_attributes)) {
-                                                                                                                                                                  let match$94 = match$13.pexp_loc;
-                                                                                                                                                                  let match$95 = match$94.loc_start;
+                                                                                                                                                                  const match$94 = match$13.pexp_loc;
+                                                                                                                                                                  const match$95 = match$94.loc_start;
                                                                                                                                                                   if (match$95.pos_fname === "" && !(match$95.pos_lnum !== 1 || match$95.pos_bol !== 0 || match$95.pos_cnum !== 6)) {
-                                                                                                                                                                    let match$96 = match$94.loc_end;
+                                                                                                                                                                    const match$96 = match$94.loc_end;
                                                                                                                                                                     if (match$96.pos_fname === "" && !(match$96.pos_lnum !== 4 || match$96.pos_bol !== 46 || match$96.pos_cnum !== 71 || !(match$94.loc_ghost && !(match$13.pexp_attributes || match$3.pvb_attributes)))) {
-                                                                                                                                                                      let match$97 = match$3.pvb_loc;
-                                                                                                                                                                      let match$98 = match$97.loc_start;
+                                                                                                                                                                      const match$97 = match$3.pvb_loc;
+                                                                                                                                                                      const match$98 = match$97.loc_start;
                                                                                                                                                                       if (match$98.pos_fname === "" && !(match$98.pos_lnum !== 1 || match$98.pos_bol !== 0 || match$98.pos_cnum !== 0)) {
-                                                                                                                                                                        let match$99 = match$97.loc_end;
+                                                                                                                                                                        const match$99 = match$97.loc_end;
                                                                                                                                                                         if (match$99.pos_fname === "" && !(match$99.pos_lnum !== 4 || match$99.pos_bol !== 46 || match$99.pos_cnum !== 71 || match$97.loc_ghost || match$2.tl)) {
                                                                                                                                                                           eq("File \"ocaml_parsetree_main_bspack.ml\", line 215, characters 10-17", true, true);
                                                                                                                                                                         } else {

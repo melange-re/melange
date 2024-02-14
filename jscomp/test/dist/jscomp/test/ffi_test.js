@@ -6,27 +6,27 @@ function u(param) {
   return xx(3);
 }
 
-let Textarea = {};
+const Textarea = {};
 
-let $$Int32Array = {};
+const $$Int32Array = {};
 
 function v(param) {
-  let u = new TextArea();
+  const u = new TextArea();
   u.minHeight = 3;
   return u.minHeight;
 }
 
 function f(param) {
-  let v = new Int32Array(32);
+  const v = new Int32Array(32);
   v[0] = 3;
   return v[0];
 }
 
-let a = true;
+const a = true;
 
-let b = false;
+const b = false;
 
-let c = null;
+const c = null;
 
 let d;
 

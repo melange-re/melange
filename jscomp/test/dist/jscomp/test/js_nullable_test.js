@@ -3,11 +3,11 @@
 
 let Mt = require("./mt.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -29,7 +29,7 @@ function eq(loc, x, y) {
 }
 
 function test(dom) {
-  let elem = dom.getElementById("haha");
+  const elem = dom.getElementById("haha");
   if (elem == null) {
     return 1;
   } else {

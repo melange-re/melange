@@ -27,11 +27,11 @@ function f4(x) {
   }
 }
 
-let u = 1;
+const u = 1;
 
-let v = true;
+const v = true;
 
-let suites_0 = [
+const suites_0 = [
   "caml_bool_eq_caml_bool",
   (function (param) {
       return {
@@ -42,7 +42,7 @@ let suites_0 = [
     })
 ];
 
-let suites_1 = {
+const suites_1 = {
   hd: [
     "js_bool_eq_js_bool",
     (function (param) {
@@ -68,7 +68,7 @@ let suites_1 = {
   }
 };
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: suites_1
 };
@@ -114,7 +114,7 @@ function bb(x) {
         ];
 }
 
-let consts = [
+const consts = [
   false,
   false,
   true,
@@ -125,14 +125,14 @@ let consts = [
   true
 ];
 
-let bool_array = [
+const bool_array = [
   true,
   false
 ];
 
 Mt.from_pair_suites("Js_bool_test", suites);
 
-let f3 = true;
+const f3 = true;
 
 exports.f = f;
 exports.f2 = f2;

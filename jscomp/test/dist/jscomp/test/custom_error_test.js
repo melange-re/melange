@@ -11,7 +11,7 @@ function test_js_error(param) {
     e = JSON.parse(" {\"x\" : }");
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Js__Js_exn.$$Error) {
       console.log(exn._1.stack);
       return ;
@@ -26,7 +26,7 @@ function test_js_error2(param) {
     return JSON.parse(" {\"x\" : }");
   }
   catch (raw_e){
-    let e = Caml_js_exceptions.internalToOCamlException(raw_e);
+    const e = Caml_js_exceptions.internalToOCamlException(raw_e);
     if (e.MEL_EXN_ID === Js__Js_exn.$$Error) {
       console.log(e._1.stack);
       throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
@@ -41,7 +41,7 @@ function example1(param) {
     v = JSON.parse(" {\"x\"  }");
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Js__Js_exn.$$Error) {
       console.log(exn._1.stack);
       return ;
@@ -56,7 +56,7 @@ function example2(param) {
     return Caml_option.some(JSON.parse(" {\"x\"}"));
   }
   catch (raw_exn){
-    let exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Js__Js_exn.$$Error) {
       return ;
     }

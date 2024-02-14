@@ -18,7 +18,7 @@ function to_list(v) {
 }
 
 function v(param) {
-  let v$1 = {
+  const v$1 = {
     c: /* [] */0,
     len: 0
   };
@@ -28,7 +28,7 @@ function v(param) {
   return to_list(v$1);
 }
 
-let suites_0 = [
+const suites_0 = [
   "push_test",
   (function (param) {
       return {
@@ -48,7 +48,7 @@ let suites_0 = [
     })
 ];
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: /* [] */0
 };

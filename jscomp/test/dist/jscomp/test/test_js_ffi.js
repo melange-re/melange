@@ -13,7 +13,7 @@ function u(v) {
   return v;
 }
 
-let s = Stdlib__String;
+const s = Stdlib__String;
 
 exports.v = v;
 exports.u = u;

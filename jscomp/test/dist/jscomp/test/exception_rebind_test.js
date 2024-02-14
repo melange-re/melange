@@ -5,37 +5,37 @@ let Caml_exceptions = require("melange.js/caml_exceptions.js");
 let Exception_def = require("./exception_def.js");
 let Stdlib = require("melange/stdlib.js");
 
-let E = /* @__PURE__ */Caml_exceptions.create("Exception_rebind_test.A.E");
+const E = /* @__PURE__ */Caml_exceptions.create("Exception_rebind_test.A.E");
 
-let A = {
+const A = {
   E: E
 };
 
-let B = {
+const B = {
   F: E
 };
 
-let A0 = /* @__PURE__ */Caml_exceptions.create("Exception_rebind_test.A0");
+const A0 = /* @__PURE__ */Caml_exceptions.create("Exception_rebind_test.A0");
 
-let u0 = {
+const u0 = {
   MEL_EXN_ID: Stdlib.Invalid_argument,
   _1: "x"
 };
 
-let u1 = {
+const u1 = {
   MEL_EXN_ID: Stdlib.Invalid_argument,
   _1: "x"
 };
 
-let u2 = {
+const u2 = {
   MEL_EXN_ID: Stdlib.Not_found
 };
 
-let H = Exception_def.A;
+const H = Exception_def.A;
 
-let H0 = Stdlib.Invalid_argument;
+const H0 = Stdlib.Invalid_argument;
 
-let H1 = Stdlib.Invalid_argument;
+const H1 = Stdlib.Invalid_argument;
 
 exports.A = A;
 exports.B = B;

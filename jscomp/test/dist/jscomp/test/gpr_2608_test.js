@@ -4,11 +4,11 @@
 let Mt = require("./mt.js");
 let Stdlib__List = require("melange/list.js");
 
-let suites = {
+const suites = {
   contents: /* [] */0
 };
 
-let test_id = {
+const test_id = {
   contents: 0
 };
 
@@ -16,7 +16,7 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-let oppHeroes = {
+const oppHeroes = {
   hd: 0,
   tl: /* [] */0
 };
@@ -24,7 +24,7 @@ let oppHeroes = {
 let huntGrootCondition = false;
 
 if (Stdlib__List.length(/* [] */0) > 0) {
-  let x = Stdlib__List.filter((function (h) {
+  const x = Stdlib__List.filter((function (h) {
           return Stdlib__List.hd(/* [] */0) <= 1000;
         }), oppHeroes);
   huntGrootCondition = Stdlib__List.length(x) === 0;
@@ -33,7 +33,7 @@ if (Stdlib__List.length(/* [] */0) > 0) {
 let huntGrootCondition2 = true;
 
 if (Stdlib__List.length(/* [] */0) < 0) {
-  let x$1 = Stdlib__List.filter((function (h) {
+  const x$1 = Stdlib__List.filter((function (h) {
           return Stdlib__List.hd(/* [] */0) <= 1000;
         }), oppHeroes);
   huntGrootCondition2 = Stdlib__List.length(x$1) === 0;
@@ -45,7 +45,7 @@ eq("File \"jscomp/test/gpr_2608_test.ml\", line 24, characters 5-12", huntGrootC
 
 Mt.from_pair_suites("Gpr_2608_test", suites.contents);
 
-let nearestGroots = /* [] */0;
+const nearestGroots = /* [] */0;
 
 exports.suites = suites;
 exports.test_id = test_id;
