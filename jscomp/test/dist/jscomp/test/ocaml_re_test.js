@@ -18,6 +18,7 @@ let Stdlib__Char = require("melange/char.js");
 let Stdlib__Format = require("melange/format.js");
 let Stdlib__Hashtbl = require("melange/hashtbl.js");
 let Stdlib__List = require("melange/list.js");
+let Stdlib__Seq = require("melange/seq.js");
 let Stdlib__String = require("melange/string.js");
 
 const suites = {

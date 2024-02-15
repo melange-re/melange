@@ -7,6 +7,7 @@ let Caml_bytes = require("melange.js/caml_bytes.js");
 let Caml_exceptions = require("melange.js/caml_exceptions.js");
 let Caml_external_polyfill = require("melange.js/caml_external_polyfill.js");
 let Caml_format = require("melange.js/caml_format.js");
+let Caml_int32 = require("melange.js/caml_int32.js");
 let Caml_int64 = require("melange.js/caml_int64.js");
 let Caml_io = require("melange.js/caml_io.js");
 let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");

@@ -2,8 +2,11 @@
 'use strict';
 
 let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
+let Caml_option = require("melange.js/caml_option.js");
 let Curry = require("melange.js/curry.js");
 let Stdlib = require("melange/stdlib.js");
+let Stdlib__List = require("melange/list.js");
+let Stdlib__Seq = require("melange/seq.js");
 
 function compare(x, y) {
   return x - y | 0;
