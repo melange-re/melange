@@ -3,10 +3,10 @@
 
 let Mt = require("./mt.js");
 
-let suites_0 = [
+const suites_0 = [
   "fromArray/toArray",
   (function (param) {
-      let set = new Set([
+      const set = new Set([
             1,
             2,
             3
@@ -23,11 +23,11 @@ let suites_0 = [
     })
 ];
 
-let suites_1 = {
+const suites_1 = {
   hd: [
     "size - empty set",
     (function (param) {
-        let set = new Set();
+        const set = new Set();
         return {
                 TAG: /* Eq */0,
                 _0: 0,
@@ -39,7 +39,7 @@ let suites_1 = {
     hd: [
       "size",
       (function (param) {
-          let set = new Set([
+          const set = new Set([
                 "one",
                 "two",
                 "two"
@@ -55,7 +55,7 @@ let suites_1 = {
       hd: [
         "size - with duplicates",
         (function (param) {
-            let set = new Set([
+            const set = new Set([
                   "one",
                   "one"
                 ]);
@@ -70,7 +70,7 @@ let suites_1 = {
         hd: [
           "has - true",
           (function (param) {
-              let set = new Set([
+              const set = new Set([
                     "one",
                     "two"
                   ]);
@@ -85,7 +85,7 @@ let suites_1 = {
           hd: [
             "has - false",
             (function (param) {
-                let set = new Set([
+                const set = new Set([
                       "one",
                       "two"
                     ]);
@@ -100,11 +100,11 @@ let suites_1 = {
             hd: [
               "delete",
               (function (param) {
-                  let set = new Set([
+                  const set = new Set([
                         "one",
                         "two"
                       ]);
-                  let deleted = set.delete("two");
+                  const deleted = set.delete("two");
                   return {
                           TAG: /* Eq */0,
                           _0: [
@@ -122,7 +122,7 @@ let suites_1 = {
               hd: [
                 "add",
                 (function (param) {
-                    let set = new Set().add("one").add("two");
+                    const set = new Set().add("one").add("two");
                     return {
                             TAG: /* Eq */0,
                             _0: [
@@ -137,7 +137,7 @@ let suites_1 = {
                 hd: [
                   "clear",
                   (function (param) {
-                      let set = new Set([
+                      const set = new Set([
                             "one",
                             "two"
                           ]);
@@ -153,11 +153,11 @@ let suites_1 = {
                   hd: [
                     "add mutate + return new set",
                     (function (param) {
-                        let set_1 = new Set();
-                        let set_2 = set_1.add("one");
-                        let set_3 = set_2.add("two");
-                        let all_same_size = set_1.size === 2 && set_2.size === 2 && set_3.size === 2;
-                        let all_same_ref = set_1 === set_2 && set_2 === set_3;
+                        const set_1 = new Set();
+                        const set_2 = set_1.add("one");
+                        const set_3 = set_2.add("two");
+                        const all_same_size = set_1.size === 2 && set_2.size === 2 && set_3.size === 2;
+                        const all_same_ref = set_1 === set_2 && set_2 === set_3;
                         return {
                                 TAG: /* Eq */0,
                                 _0: [
@@ -175,11 +175,11 @@ let suites_1 = {
                     hd: [
                       "forEach",
                       (function (param) {
-                          let set = new Set([
+                          const set = new Set([
                                 "one",
                                 "two"
                               ]);
-                          let arr = {
+                          const arr = {
                             contents: []
                           };
                           set.forEach(function (value) {
@@ -207,7 +207,7 @@ let suites_1 = {
   }
 };
 
-let suites = {
+const suites = {
   hd: suites_0,
   tl: suites_1
 };

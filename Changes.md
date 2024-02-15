@@ -16,6 +16,7 @@ Unreleased
   variables ([#1020](https://github.com/melange-re/melange/pull/1020))
 - runtime: add bindings to `Js.Set`
   ([#1047](https://github.com/melange-re/melange/pull/1047))
+- runtime: add minimal bindings for JS iterators ([#1060](https://github.com/melange-re/melange/pull/1060))
 
 3.0.0 2024-01-28
 ---------------
