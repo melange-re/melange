@@ -280,6 +280,8 @@ in
         block = body}
     in
 
+    Warnings.check_fatal();
+
     let effect =
       Lam_stats_export.get_dependent_module_effect
         maybe_pure external_module_ids in
@@ -321,7 +323,6 @@ let emit_program (deps_program: J.deps_program) =
   |> Js_shake.shake_program
   |> _j "shake"
   |> (fun (program:  J.program) ->
-      Warnings.check_fatal();
       {deps_program with program })
 
 let optimize_program = emit_program
