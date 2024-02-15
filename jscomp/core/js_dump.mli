@@ -20,10 +20,11 @@
  *)
 (* Authors: Jérôme Vouillon, Hongbo Zhang  *)
 
-val statements : bool -> Ext_pp_scope.t -> Ext_pp.t -> J.block -> Ext_pp_scope.t
-(** Print JS IR to vanilla Javascript code 
-    Called by module {!Js_dump_program}
-*)
+open Import
+
+val statements : bool -> Js_pp.Scope.t -> Js_pp.t -> J.block -> Js_pp.Scope.t
+(** Print JS IR to vanilla Javascript code
+    Called by module {!Js_dump_program} *)
 
 val string_of_block : J.block -> string
 (** 2 functions Only used for debugging *)

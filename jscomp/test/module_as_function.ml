@@ -1,3 +1,3 @@
-external nightmare :  < show : bool > Js.t  ->  int  = "nightmare" [@@bs.module]
+external nightmare :  < show : bool > Js.t  ->  int  = "nightmare" [@@mel.module]
 
-let v = nightmare [%bs.obj {show = true}]
+let v = nightmare [%mel.obj {show = true}]

@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 type t = J.module_id = { id : Ident.t; kind : Js_op.kind }
 
 let id x = x.id
@@ -31,11 +33,9 @@ let of_runtime id = { id; kind = Runtime }
 let name (x : t) : string =
   match x.kind with
   | Ml | Runtime -> Ident.name x.id
-  | External { name = v } -> v
+  | External { name = v; _ } -> v
 
 module Cmp = struct
-  [@@@warning "+9"]
-
   type nonrec t = t
 
   let equal (x : t) y =
@@ -45,7 +45,7 @@ module Cmp = struct
         | External { name = y_kind; default = y_default } ->
             x_kind = (y_kind : string) && x_default = y_default
         | _ -> false)
-    | Ml | Runtime -> Ext_ident.equal x.id y.id
+    | Ml | Runtime -> Ident.equal x.id y.id
 
   (* #1556
      Note the main difference between [Ml] and [Runtime] is
@@ -64,11 +64,10 @@ module Cmp = struct
     match x.kind with
     | External { name = x_kind; _ } ->
         (* The hash collision is rare? *)
-        Bs_hash_stubs.hash_string x_kind
+        Hashtbl.hash x_kind
     | Ml | Runtime ->
         let x_id = x.id in
-        Bs_hash_stubs.hash_stamp_and_name (Ext_ident.stamp x_id)
-          (Ident.name x_id)
+        Hashtbl.hash (Ident.stamp x_id, Ident.name x_id)
 end
 
 module Hash = Hash.Make (Cmp)

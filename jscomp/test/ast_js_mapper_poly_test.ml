@@ -1,27 +1,26 @@
-
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0
-let eq loc x y = 
-  incr test_id ; 
-  suites := 
+let eq loc x y =
+  incr test_id ;
+  suites :=
     (loc ^" id " ^ (string_of_int !test_id), (fun _ -> Mt.Eq(x,y))) :: !suites
 
 
-type u = 
-  [ `D 
-  | `C 
-  | `f [@bs.as "x"]
+type u =
+  [ `D
+  | `C
+  | `f [@mel.as "x"]
   ]
-[@@bs.deriving jsConverter]
+[@@deriving jsConverter]
 
 let eqU (x : u) (y : u) = x = y
-let eqUOpt (x : u option) y = 
-  match x,y with 
-  | Some x, Some y -> x = y 
+let eqUOpt (x : u option) y =
+  match x,y with
+  | Some x, Some y -> x = y
   | None, None -> true
-  | _, _ -> false 
+  | _, _ -> false
 
-let () =   
+let () =
   eq __LOC__ (eqUOpt (uFromJs "x") (Some `f )) true;
   eq __LOC__ (eqUOpt (uFromJs "D") (Some `D )) true;
   eq __LOC__ (eqUOpt (uFromJs "C") (Some `C )) true;
@@ -30,60 +29,60 @@ let () =
 
 
 
-type v = 
-  | A0 
-  | A1 [@bs.as 3]
+type v =
+  | A0
+  | A1 [@mel.as 3]
   | A2
-  | A3 
-[@@bs.deriving jsConverter]
+  | A3
+[@@deriving jsConverter]
 
 let eqV (x : v) (y : v) = x = y
-let eqVOpt (x : v option) y= 
-  match x,y with 
-  | Some x, Some y -> x = y 
+let eqVOpt (x : v option) y=
+  match x,y with
+  | Some x, Some y -> x = y
   | None, None -> true
-  | _, _ -> false 
+  | _, _ -> false
 
-let s = function 
+let s = function
   | A0 -> "A0"
   | A1 -> "A1"
   | A2 -> "A2"
   | A3 -> "A3"
 
-let () = 
+let () =
   eq __LOC__ (Array.map vToJs [|A0;A1;A2;A3|]) [|0;3;4;5|];
   eq __LOC__ (Array.map vFromJs [|0;1;2;3;4;5;6|])
   [|Some A0; None; None; Some A1; Some A2; Some A3; None|]
 
 
-type v1 =     
-  | B0 
-  | B1 
-  | B2 
-  | B3 
-  | B4 
-  | B5 
-[@@bs.deriving jsConverter]
-let () = 
+type v1 =
+  | B0
+  | B1
+  | B2
+  | B3
+  | B4
+  | B5
+[@@deriving jsConverter]
+let () =
   eq __LOC__ (Array.map v1ToJs [|B0;B1;B2;B3;B4;B5|]) [|0;1;2;3;4;5|];
   eq __LOC__ (Array.map v1FromJs [|-1;0;1;2;3;4;5;6|])
   [|None;Some B0; Some B1; Some B2; Some B3; Some B4; Some B5; None|]
 
-(** TODO: add newType support *)  
-type v2 =  
-  | C0  [@bs.as 2 ]
+(** TODO: add newType support *)
+type v2 =
+  | C0  [@mel.as 2 ]
   | C1
-  | C2 
-  | C3 
+  | C2
+  | C3
   | C4
-  | C5 
-[@@bs.deriving jsConverter ]
+  | C5
+[@@deriving jsConverter ]
 
 
-;;  
+;;
 let (+>) = Array.append
-let () = 
-  eq __LOC__ 
+let () =
+  eq __LOC__
   (Array.map v2ToJs [|C0; C1; C2 ; C3 ; C4; C5 |])
   [|2;3;4;5;6;7|];
   eq __LOC__

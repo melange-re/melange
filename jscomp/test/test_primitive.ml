@@ -1,4 +1,3 @@
-
 (* include ( module X : sig val fib : int -> int end = struct let rec fib = function *)
 (*   | 0 | 1 -> 1  *)
 (*   | n -> fib (n - 1) + fib (n - 2) *)
@@ -15,7 +14,7 @@
 (* let leaf = Leaf  *)
 (* let node l r = Node (l,r) *)
 
-(* let f = Math.abs 3.0 
+(* let f = Math.abs 3.0
 Original definition at externs.zip//es3.js:888
 var Math=require("Math");
 *)
@@ -50,7 +49,7 @@ type u = {
   }
 let xx = (0.,0.)
 let unboxed_x = {u=0.; v = 0.}
-let f = fun {u;} -> u
+let f = fun {u;_} -> u
 
 let gg x = x.u <-0.
 
@@ -58,11 +57,11 @@ let f (x:string) = String.length x
 
 let is_lazy_force x = Lazy.force x
 
-let rec fib (n:int) = 
-  match n with 
-  | 0 | 1 -> 1 
-  | n -> 
+let rec fib (n:int) =
+  match n with
+  | 0 | 1 -> 1
+  | n ->
       let fib1 =  fib(n-1) in
       let fib2 = fib(n-2) in
       let fib3 = 3 in
-      fib1 + fib2 + fib3 
+      fib1 + fib2 + fib3

@@ -24,8 +24,8 @@ let f = test_curry 32
 (** Create a typed binding for react *)
 type t
 type element
-external document :  t = "document" [@@bs.val ] 
-external getElementById : t -> string -> element = "getElementById" [@@bs.send ]
+external document :  t = "document"
+external getElementById : t -> string -> element = "getElementById" [@@mel.send ]
 
 (** Phantom types *)
 type config
@@ -36,49 +36,47 @@ type component_class
 external config :
       ?display_name:string ->
         render:(unit -> component) -> unit ->
-          config = "" [@@bs.obj ] (** make a json object *)
+          config = "" [@@mel.obj ] (** make a json object *)
 external attrs:
         ?alt: string ->
         ?autoPlay: bool ->
-          unit -> attrs = "" [@@bs.obj]
+          unit -> attrs = "" [@@mel.obj]
 external str : string -> component = "%identity"
 
-type vdom 
-external vdom : vdom = "DOM" [@@bs.module "react"] [@@bs.val]
+type vdom
+external vdom : vdom = "DOM" [@@mel.module "react"]
 
 
-(* FIXME: investigate 
+(* FIXME: investigate
    cases:
    {[
-     [@@bs.module "package1" "same_name"]
-     [@@bs.module "package2" "same_name"]
+     [@@mel.module "package1" "same_name"]
+     [@@mel.module "package2" "same_name"]
    ]}
    {[
-     [@@bs.module "package" "name1"]
-     [@@bs.module "package" "name2"]
+     [@@mel.module "package" "name1"]
+     [@@mel.module "package" "name2"]
    ]}
 *)
-external h1 : vdom -> ?attrs:attrs -> component array  -> component = "h1" 
-    [@@bs.send]  [@@bs.splice]
-external h2 : vdom -> ?attrs:attrs -> component array  -> component = "h2" 
-    [@@bs.send]  [@@bs.splice]
+external h1 : vdom -> ?attrs:attrs -> component array  -> component = "h1"
+    [@@mel.send]  [@@mel.variadic]
+external h2 : vdom -> ?attrs:attrs -> component array  -> component = "h2"
+    [@@mel.send]  [@@mel.variadic]
 
 external h3 : vdom ->  ?attrs:attrs -> component array  -> component = "h3"
-    [@@bs.send]  [@@bs.splice]
+    [@@mel.send]  [@@mel.variadic]
 
 external h4 : vdom ->  ?attrs:attrs -> component array  -> component = "h4"
-    [@@bs.send]  [@@bs.splice]
+    [@@mel.send]  [@@mel.variadic]
 
 external div : vdom -> ?attrs:attrs -> component array ->  component = "div"
-    [@@bs.send]  [@@bs.splice]
+    [@@mel.send]  [@@mel.variadic]
 
 external createClass :
       config -> component_class = "createClass"
-        [@@bs.val "createClass"]
-        [@@bs.module "react"]
-external render : component_class -> element -> unit = ""
-    [@@bs.val "render"]
-    [@@bs.module "react-dom"]
+        [@@mel.module "react"]
+external render : component_class -> element -> unit = "render"
+    [@@mel.module "react-dom"]
 ;;
 (** Do the rendering *)
 render (

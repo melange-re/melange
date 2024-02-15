@@ -22,10 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-module P = Ext_pp
+open Import
+module P = Js_pp
 module L = Js_dump_lit
 
-let default_export = "default"
+let default_export = L.default
 let esModule = ("__esModule", "true")
 (* Exports printer *)
 
@@ -34,23 +35,25 @@ let rev_iter_inter lst f inter =
   | [] -> ()
   | [ a ] -> f a
   | a :: rest ->
-      Ext_list.rev_iter rest (fun x ->
+      List.rev_iter rest (fun x ->
           f x;
           inter ());
       f a
 
-(* Print exports in Google module format, CommonJS format *)
+(* Print exports in CommonJS format *)
 let exports cxt f (idents : Ident.t list) =
   let outer_cxt, reversed_list =
-    Ext_list.fold_left idents (cxt, []) (fun (cxt, acc) id ->
+    List.fold_left
+      ~f:(fun (cxt, acc) id ->
         let id_name = Ident.name id in
-        let s = Ext_ident.convert id_name in
-        let str, cxt = Ext_pp_scope.str_of_ident cxt id in
+        let s = Ident.convert id_name in
+        let str, cxt = Js_pp.Scope.str_of_ident cxt id in
         ( cxt,
           if id_name = default_export then
             (* TODO check how it will affect AMDJS*)
-            esModule :: (default_export, str) :: (s, str) :: acc
+            esModule :: (default_export, str) :: acc
           else (s, str) :: acc ))
+      ~init:(cxt, []) idents
   in
   P.at_least_two_lines f;
   rev_iter_inter reversed_list
@@ -70,14 +73,15 @@ let exports cxt f (idents : Ident.t list) =
 (** Print module in ES6 format, it is ES6, trailing comma is valid ES6 code *)
 let es6_export cxt f (idents : Ident.t list) =
   let outer_cxt, reversed_list =
-    Ext_list.fold_left idents (cxt, []) (fun (cxt, acc) id ->
+    List.fold_left
+      ~f:(fun (cxt, acc) id ->
         let id_name = Ident.name id in
-        let s = Ext_ident.convert id_name in
-        let str, cxt = Ext_pp_scope.str_of_ident cxt id in
+        let s = Ident.convert id_name in
+        let str, cxt = Js_pp.Scope.str_of_ident cxt id in
         ( cxt,
-          if id_name = default_export then
-            (default_export, str) :: (s, str) :: acc
+          if id_name = default_export then (default_export, str) :: acc
           else (s, str) :: acc ))
+      ~init:(cxt, []) idents
   in
   P.at_least_two_lines f;
   P.string f L.export;
@@ -88,7 +92,7 @@ let es6_export cxt f (idents : Ident.t list) =
           P.group f 0 (fun _ ->
               P.string f export;
               P.space f;
-              if not @@ Ext_string.equal export s then (
+              if not @@ String.equal export s then (
                 P.string f L.as_;
                 P.space f;
                 P.string f s);
@@ -96,17 +100,19 @@ let es6_export cxt f (idents : Ident.t list) =
         (fun _ -> P.newline f));
   outer_cxt
 
-(** Node or Google module style imports *)
+(** Node style imports *)
 let requires require_lit cxt f (modules : (Ident.t * string * bool) list) =
   (* the context used to print the following program *)
   let outer_cxt, reversed_list =
-    Ext_list.fold_left modules (cxt, []) (fun (cxt, acc) (id, s, b) ->
-        let str, cxt = Ext_pp_scope.str_of_ident cxt id in
+    List.fold_left
+      ~f:(fun (cxt, acc) (id, s, b) ->
+        let str, cxt = Js_pp.Scope.str_of_ident cxt id in
         (cxt, (str, s, b) :: acc))
+      ~init:(cxt, []) modules
   in
   P.at_least_two_lines f;
-  Ext_list.rev_iter reversed_list (fun (s, file, default) ->
-      P.string f L.var;
+  List.rev_iter reversed_list (fun (s, file, default) ->
+      P.string f L.let_;
       P.space f;
       P.string f s;
       P.space f;
@@ -114,7 +120,9 @@ let requires require_lit cxt f (modules : (Ident.t * string * bool) list) =
       P.space f;
       P.string f require_lit;
       P.paren_group f 0 (fun _ -> Js_dump_string.pp_string f file);
-      if default then P.string f ".default";
+      if default then (
+        P.string f L.dot;
+        P.string f L.default);
       P.string f L.semi;
       P.newline f);
   outer_cxt
@@ -123,12 +131,14 @@ let requires require_lit cxt f (modules : (Ident.t * string * bool) list) =
 let imports cxt f (modules : (Ident.t * string * bool) list) =
   (* the context used to print the following program *)
   let outer_cxt, reversed_list =
-    Ext_list.fold_left modules (cxt, []) (fun (cxt, acc) (id, s, b) ->
-        let str, cxt = Ext_pp_scope.str_of_ident cxt id in
+    List.fold_left
+      ~f:(fun (cxt, acc) (id, s, b) ->
+        let str, cxt = Js_pp.Scope.str_of_ident cxt id in
         (cxt, (str, s, b) :: acc))
+      ~init:(cxt, []) modules
   in
   P.at_least_two_lines f;
-  Ext_list.rev_iter reversed_list (fun (s, file, default) ->
+  List.rev_iter reversed_list (fun (s, file, default) ->
       P.string f L.import;
       P.space f;
       if default then (

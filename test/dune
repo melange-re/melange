@@ -1,4 +1,0 @@
-(cram
- (package melange)
- (deps
-  (package melange)))

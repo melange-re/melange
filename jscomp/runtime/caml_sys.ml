@@ -22,15 +22,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Melange_mini_stdlib
 
+external getEnv : 'a -> string -> string option = "" [@@mel.get_index]
 
-external getEnv : 'a -> string -> string option = "" [@@bs.get_index]
 let caml_sys_getenv s =
-  if Js.typeof [%raw{|process|}] = "undefined"
-  || [%raw{|process.env|}] = Caml_undefined_extern.empty
+  let module Js = Js_internal in
+  if
+    Js.typeof [%raw {|process|}] = "undefined"
+    || [%raw {|process.env|}] = Caml_undefined_extern.empty
   then raise Not_found
   else
-    match getEnv [%raw{|process.env|}] s with
+    match getEnv [%raw {|process.env|}] s with
     | None -> raise Not_found
     | Some x -> x
 
@@ -39,7 +42,10 @@ let caml_sys_getenv s =
    The return value is equivalent to process.platform.
    NodeJS does not support Cygwin very well
 *)
-let os_type : unit -> string = [%raw{|function(_){
+let os_type : unit -> string =
+  let module Js = Js_internal in
+  [%raw
+    {|function(_){
   if(typeof process !== 'undefined' && process.platform === 'win32'){
         return "Win32"
   }
@@ -49,26 +55,24 @@ let os_type : unit -> string = [%raw{|function(_){
 }|}]
 (* TODO: improve [js_pass_scope] to avoid remove unused n here *)
 
-
-
 (* let caml_initial_time = now ()  *. 0.001 *)
 
 type process
-external uptime : process -> unit -> float = "uptime" [@@bs.send]
-external exit : process -> int -> 'a =  "exit"  [@@bs.send]
+
+external uptime : process -> unit -> float = "uptime" [@@mel.send]
+external exit : process -> int -> 'a = "exit" [@@mel.send]
 
 let caml_sys_time () =
-  if Js.typeof [%raw{|process|}] = "undefined"
-  || [%raw{|process.uptime|}] = Caml_undefined_extern.empty
+  let module Js = Js_internal in
+  if
+    Js.typeof [%raw {|process|}] = "undefined"
+    || [%raw {|process.uptime|}] = Caml_undefined_extern.empty
   then -1.
-  else uptime [%raw{|process|}] ()
-
-
-
+  else uptime [%raw {|process|}] ()
 
 (*
 type spawnResult
-external spawnSync : string -> spawnResult = "spawnSync" [@@bs.module "child_process"]
+external spawnSync : string -> spawnResult = "spawnSync" [@@mel.module "child_process"]
 
 external readAs : spawnResult ->
   <
@@ -77,38 +81,39 @@ external readAs : spawnResult ->
   "%identity"
 *)
 
-
 let caml_sys_system_command _cmd = 127
 
-let caml_sys_getcwd : unit -> string = [%raw{|function(param){
+let caml_sys_getcwd : unit -> string =
+  let module Js = Js_internal in
+  [%raw
+    {|function(param){
     if (typeof process === "undefined" || process.cwd === undefined){
       return "/"
     }
     return process.cwd()
   }|}]
 
-
 let caml_sys_executable_name () : string =
-  if Js.typeof [%raw{|process|}] = "undefined" then ""
+  let module Js = Js_internal in
+  if Js.typeof [%raw {|process|}] = "undefined" then ""
   else
-    let argv = [%raw{|process.argv|}] in
-    if Js.testAny argv then ""
-    else Caml_array_extern.unsafe_get argv 0
+    let argv = [%raw {|process.argv|}] in
+    if Js.testAny argv then "" else Caml_array_extern.unsafe_get argv 0
 
 (* Called by {!Sys} in the toplevel, should never fail*)
-let caml_sys_argv () : string * string array =
-  if Js.typeof [%raw{|process|}] = "undefined" then "",[|""|]
+let caml_sys_argv () : string array =
+  let module Js = Js_internal in
+  if Js.typeof [%raw {|process|}] = "undefined" then [| "" |]
   else
-    let argv = [%raw{|process.argv|}] in
-    if Js.testAny argv then ("",[|""|])
-    else Caml_array_extern.unsafe_get argv 0, argv
+    let argv = [%raw {|process.argv|}] in
+    if Js.testAny argv then [| "" |] else argv
 
 (** {!Pervasives.sys_exit} *)
-let caml_sys_exit :int -> 'a = fun exit_code ->
-  if Js.typeof [%raw{|process|}] <> "undefined"  then
-    exit [%raw{|process|}] exit_code
-
-
+let caml_sys_exit : int -> 'a =
+ fun exit_code ->
+  let module Js = Js_internal in
+  if Js.typeof [%raw {|process|}] <> "undefined" then
+    exit [%raw {|process|}] exit_code
 
 let caml_sys_is_directory _s =
   raise (Failure "caml_sys_is_directory not implemented")
@@ -117,5 +122,4 @@ let caml_sys_is_directory _s =
     {!Sys.is_directory} or {!Sys.file_exists} {!Sys.command}
 *)
 let caml_sys_file_exists _s =
-  raise ( Failure "caml_sys_file_exists not implemented")
-
+  raise (Failure "caml_sys_file_exists not implemented")

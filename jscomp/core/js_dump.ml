@@ -20,6 +20,8 @@
  *)
 (* Authors: Jérôme Vouillon, Hongbo Zhang  *)
 
+open Import
+
 (*
   http://stackoverflow.com/questions/2846283/what-are-the-rules-for-javascripts-automatic-semicolon-insertion-asi
   ASI catch up
@@ -71,37 +73,37 @@ module L = Js_dump_lit
    (our call Js_fun_env.get_unbounded env) is not precise
 *)
 
-type cxt = { scope : Ext_pp_scope.t; pp : Ext_pp.t }
+type cxt = { scope : Js_pp.Scope.t; pp : Js_pp.t }
 
-let from_pp pp = { scope = Ext_pp_scope.empty; pp }
-let from_buffer buf = from_pp (Ext_pp.from_buffer buf)
+let from_pp pp = { scope = Js_pp.Scope.empty; pp }
+let from_buffer buf = from_pp (Js_pp.from_buffer buf)
 let update_scope cxt scope = { cxt with scope }
-let ident cxt id = update_scope cxt (Ext_pp_scope.ident cxt.scope cxt.pp id)
-let string cxt s = Ext_pp.string cxt.pp s
-let group cxt = Ext_pp.group cxt.pp
-let newline cxt = Ext_pp.newline cxt.pp
-let paren_group cxt = Ext_pp.paren_group cxt.pp
-let paren_vgroup cxt = Ext_pp.paren_vgroup cxt.pp
-let vgroup cxt = Ext_pp.vgroup cxt.pp
-let space cxt = Ext_pp.space cxt.pp
-let cond_paren_group cxt = Ext_pp.cond_paren_group cxt.pp
-let paren cxt = Ext_pp.paren cxt.pp
-let brace_vgroup cxt = Ext_pp.brace_vgroup cxt.pp
-let bracket_group cxt = Ext_pp.bracket_group cxt.pp
-let bracket_vgroup cxt = Ext_pp.bracket_vgroup cxt.pp
+let ident cxt id = update_scope cxt (Js_pp.Scope.ident cxt.scope cxt.pp id)
+let string cxt s = Js_pp.string cxt.pp s
+let group cxt = Js_pp.group cxt.pp
+let newline cxt = Js_pp.newline cxt.pp
+let paren_group cxt = Js_pp.paren_group cxt.pp
+let paren_vgroup cxt = Js_pp.paren_vgroup cxt.pp
+let vgroup cxt = Js_pp.vgroup cxt.pp
+let space cxt = Js_pp.space cxt.pp
+let cond_paren_group cxt = Js_pp.cond_paren_group cxt.pp
+let paren cxt = Js_pp.paren cxt.pp
+let brace_vgroup cxt = Js_pp.brace_vgroup cxt.pp
+let bracket_group cxt = Js_pp.bracket_group cxt.pp
+let bracket_vgroup cxt = Js_pp.bracket_vgroup cxt.pp
 
 let merge_scope cxt l =
-  let scope = Ext_pp_scope.merge cxt.scope l in
+  let scope = Js_pp.Scope.merge cxt.scope l in
   { cxt with scope }
 
-let sub_scope cxt l = update_scope cxt (Ext_pp_scope.sub_scope cxt.scope l)
+let sub_scope cxt l = update_scope cxt (Js_pp.Scope.sub_scope cxt.scope l)
 
 let str_of_ident cxt id =
-  let str, scope = Ext_pp_scope.str_of_ident cxt.scope id in
+  let str, scope = Js_pp.Scope.str_of_ident cxt.scope id in
   (str, update_scope cxt scope)
 
-let at_least_two_lines cxt = Ext_pp.at_least_two_lines cxt.pp
-let flush cxt () = Ext_pp.flush cxt.pp ()
+let at_least_two_lines cxt = Js_pp.at_least_two_lines cxt.pp
+let flush cxt () = Js_pp.flush cxt.pp ()
 
 module Curry_gen = struct
   let pp_curry_dot cxt =
@@ -123,28 +125,39 @@ module Curry_gen = struct
     string cxt (Printf.sprintf "%d" len)
 end
 
-let return_indent = String.length L.return / Ext_pp.indent_length
-let throw_indent = String.length L.throw / Ext_pp.indent_length
+let return_indent = String.length L.return / Js_pp.indent_length
+let throw_indent = String.length L.throw / Js_pp.indent_length
 let semi cxt = string cxt L.semi
 let comma cxt = string cxt L.comma
 
+let new_error name cause =
+  E.new_
+    (E.runtime_var_dot Js_runtime_modules.caml_js_exceptions
+       Js_dump_lit.melange_error)
+    [ name; cause ]
+
 let exn_block_as_obj ~(stack : bool) (el : J.expression list) (ext : J.tag_info)
-    : J.expression_desc =
+    : J.expression =
   let field_name =
     match ext with
     | Blk_extension -> (
-        fun i ->
-          match i with 0 -> Literals.exception_id | i -> "_" ^ string_of_int i)
+        fun i -> match i with 0 -> L.exception_id | i -> "_" ^ string_of_int i)
     | Blk_record_ext ss -> (
-        fun i -> match i with 0 -> Literals.exception_id | i -> ss.(i - 1))
+        fun i -> match i with 0 -> L.exception_id | i -> ss.(i - 1))
     | _ -> assert false
   in
-  Object
-    (if stack then
-     Ext_list.mapi_append el
-       (fun i e -> (Js_op.Lit (field_name i), e))
-       [ (Js_op.Lit "Error", E.new_ (E.js_global "Error") []) ]
-    else Ext_list.mapi el (fun i e -> (Js_op.Lit (field_name i), e)))
+  let cause =
+    {
+      J.expression_desc =
+        Object (List.mapi ~f:(fun i e -> (Js_op.Lit (field_name i), e)) el);
+      comment = None;
+      loc = None;
+    }
+  in
+  if stack then new_error (List.hd el) cause else cause
+
+let exn_ref_as_obj cause : J.expression =
+  new_error (E.record_access cause Js_dump_lit.exception_id 0l) cause
 
 let rec iter_lst cxt ls element inter =
   match ls with
@@ -156,8 +169,9 @@ let rec iter_lst cxt ls element inter =
       iter_lst acxt r element inter
 
 let raw_snippet_exp_simple_enough (s : string) =
-  Ext_string.for_all s (fun c ->
-      match c with 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' -> true | _ -> false)
+  String.for_all
+    ~f:(function 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' -> true | _ -> false)
+    s
 (* Parentheses are required when the expression
    starts syntactically with "{" or "function"
    TODO:  be more conservative, since Google Closure will handle
@@ -174,8 +188,8 @@ let raw_snippet_exp_simple_enough (s : string) =
 let exp_need_paren (e : J.expression) =
   match e.expression_desc with
   (* | Caml_uninitialized_obj _  *)
-  | Call ({ expression_desc = Fun _ | Raw_js_code _ }, _, _) -> true
-  | Raw_js_code { code_info = Exp _ }
+  | Call ({ expression_desc = Fun _ | Raw_js_code _; _ }, _, _) -> true
+  | Raw_js_code { code_info = Exp _; _ }
   | Fun _
   | Caml_block
       ( _,
@@ -185,7 +199,7 @@ let exp_need_paren (e : J.expression) =
         | Blk_record_ext _ | Blk_record_inlined _ | Blk_constructor _ ) )
   | Object _ ->
       true
-  | Raw_js_code { code_info = Stmt _ }
+  | Raw_js_code { code_info = Stmt _; _ }
   | Length _ | Call _ | Caml_block_tag _ | Seq _ | Static_index _ | Cond _
   | Bin _ | Is_null_or_undefined _ | String_index _ | Array_index _
   | String_append _ | Char_of_int _ | Char_to_int _ | Var _ | Undefined | Null
@@ -193,24 +207,26 @@ let exp_need_paren (e : J.expression) =
   | Typeof _ | Number _ | Js_not _ | Bool _ | New _ ->
       false
 
-let comma_idents (cxt : cxt) ls = iter_lst cxt ls ident comma
-
-let pp_paren_params (cxt : cxt) (lexical : Ident.t list) : unit =
-  string cxt L.lparen;
-  let (_ : cxt) = comma_idents cxt lexical in
-  string cxt L.rparen
-
 (* Print as underscore for unused vars, may not be
     needed in the future *)
 (* let ipp_ident cxt id (un_used : bool) =
-   Ext_pp_scope.ident cxt (
+   Js_pp.Scope.ident cxt (
      if un_used then
-       Ext_ident.make_unused ()
+       Ident.make_unused ()
      else
        id) *)
 
 let pp_var_assign cxt id =
-  string cxt L.var;
+  string cxt L.let_;
+  space cxt;
+  let acxt = ident cxt id in
+  space cxt;
+  string cxt L.eq;
+  space cxt;
+  acxt
+
+let pp_const_assign cxt id =
+  string cxt "const";
   space cxt;
   let acxt = ident cxt id in
   space cxt;
@@ -227,7 +243,7 @@ let pp_var_assign_this cxt id =
   cxt
 
 let pp_var_declare cxt id =
-  string cxt L.var;
+  string cxt L.let_;
   space cxt;
   let acxt = ident cxt id in
   semi cxt;
@@ -312,6 +328,25 @@ type fn_exp_state =
 
 let default_fn_exp_state = No_name { single_arg = false }
 
+let block_has_all_int_fields =
+  let exception Local of bool in
+  fun fields ->
+    let len = Array.length fields in
+    let r = ref true in
+    try
+      for i = 0 to len - 1 do
+        let k_eq_v = string_of_int i = Array.unsafe_get fields i in
+        r := !r && k_eq_v;
+        if not !r then raise (Local false)
+      done;
+      !r
+    with Local r -> r
+
+let pp_assign ~(property : Lam_group.let_kind) cxt name =
+  match property with
+  | Variable -> pp_var_assign cxt name
+  | Strict | Alias | StrictOpt -> pp_const_assign cxt name
+
 (* TODO: refactoring
    Note that {!pp_function} could print both statement and expression when [No_name] is given
 *)
@@ -336,7 +371,9 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
                    (* TODO: need a case to justify it*)
                    call_info = Call_builtin_runtime | Call_ml;
                  } );
+           _;
          };
+     _;
    };
   ]
     when (* match such case:
@@ -344,14 +381,14 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
             it can be optimized in to either [u] or [Curry.__n(u)]
          *)
          (not is_method)
-         && Ext_list.for_all2_no_exn ls l is_var
+         && List.for_all2_no_exn ls l is_var
          &&
          match v with
          (* This check is needed to avoid some edge cases
             {[function(x){return x(x)}]}
             here the function is also called `x`
          *)
-         | Id id -> not (Ext_list.exists l (fun x -> Ident.same x id))
+         | Id id -> not (List.exists ~f:(fun x -> Ident.same x id) l)
          | Qualified _ -> true -> (
       let optimize len ~p cxt v =
         if p then try_optimize_curry cxt len function_id else vident cxt v
@@ -360,7 +397,7 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
       (* length *)
       match fn_state with
       | Name_top i | Name_non_top i ->
-          let cxt = pp_var_assign cxt i in
+          let cxt = pp_const_assign cxt i in
           let cxt = optimize len ~p:(arity = NA && len <= 8) cxt v in
           semi cxt;
           cxt
@@ -368,12 +405,12 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
           if fn_state = Is_return then return_sp cxt;
           optimize len ~p:(arity = NA && len <= 8) cxt v)
   | _ ->
-      let set_env : Set_ident.t =
-        (* identifiers will be printed cxtollowing*)
+      let set_env =
+        (* identifiers will be printed following*)
         match fn_state with
         | Is_return | No_name _ -> Js_fun_env.get_unbounded env
         | Name_top id | Name_non_top id ->
-            Set_ident.add (Js_fun_env.get_unbounded env) id
+            Ident.Set.add (Js_fun_env.get_unbounded env) id
       in
       (* the context will be continued after this function *)
       let outer_cxt = merge_scope cxt set_env in
@@ -408,70 +445,29 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
           space cxt;
           brace_vgroup cxt 1 (fun _ -> function_body ~return_unit cxt b)
       in
-      let lexical : Set_ident.t = Js_fun_env.get_lexical_scope env in
-      let enclose lexical =
-        let handle lexical =
-          if Set_ident.is_empty lexical then (
-            match fn_state with
-            | Is_return ->
-                return_sp cxt;
-                string cxt L.function_;
-                space cxt;
-                param_body ()
-            | No_name { single_arg } ->
-                (* see # 1692, add a paren for annoymous function for safety  *)
-                cond_paren_group cxt (not single_arg) 1 (fun _ ->
-                    string cxt L.function_;
-                    space cxt;
-                    param_body ())
-            | Name_non_top x ->
-                ignore (pp_var_assign inner_cxt x : cxt);
-                string cxt L.function_;
-                space cxt;
-                param_body ();
-                semi cxt
-            | Name_top x ->
-                string cxt L.function_;
-                space cxt;
-                ignore (ident inner_cxt x : cxt);
-                param_body ())
-          else
-            (* print our closure as
-               {[(function(x,y){ return function(..){...}} (x,y))]}
-               Maybe changed to `let` in the future
-            *)
-            let lexical = Set_ident.elements lexical in
-            (match fn_state with
-            | Is_return -> return_sp cxt
-            | No_name _ -> ()
-            | Name_non_top name | Name_top name ->
-                ignore (pp_var_assign inner_cxt name : cxt));
-            string cxt L.lparen;
-            string cxt L.function_;
-            pp_paren_params inner_cxt lexical;
-            brace_vgroup cxt 0 (fun _ ->
-                return_sp cxt;
-                string cxt L.function_;
-                space cxt;
-                (match fn_state with
-                | Is_return | No_name _ -> ()
-                | Name_non_top x | Name_top x -> ignore (ident inner_cxt x));
-                param_body ());
-            pp_paren_params inner_cxt lexical;
-            string cxt L.rparen;
-            match fn_state with
-            | Is_return | No_name _ -> () (* expression *)
-            | _ -> semi cxt (* has binding, a statement *)
-        in
-        handle
-          (match fn_state with
-          | (Name_top name | Name_non_top name) when Set_ident.mem lexical name
-            ->
-              (*TODO: when calculating lexical we should not include itself *)
-              Set_ident.remove lexical name
-          | _ -> lexical)
-      in
-      enclose lexical;
+      (match fn_state with
+      | Is_return ->
+          return_sp cxt;
+          string cxt L.function_;
+          space cxt;
+          param_body ()
+      | No_name { single_arg } ->
+          (* see # 1692, add a paren for annoymous function for safety  *)
+          cond_paren_group cxt (not single_arg) 1 (fun _ ->
+              string cxt L.function_;
+              space cxt;
+              param_body ())
+      | Name_non_top x ->
+          ignore (pp_const_assign inner_cxt x : cxt);
+          string cxt L.function_;
+          space cxt;
+          param_body ();
+          semi cxt
+      | Name_top x ->
+          string cxt L.function_;
+          space cxt;
+          ignore (ident inner_cxt x : cxt);
+          param_body ());
       outer_cxt
 
 (* Assume the cond would not change the context,
@@ -509,18 +505,22 @@ and pp_one_case_clause : 'a. _ -> (_ -> 'a -> unit) -> 'a * J.case_clause -> _ =
 
 and loop_case_clauses : 'a. _ -> (_ -> 'a -> unit) -> ('a * _) list -> _ =
  fun cxt pp_cond cases ->
-  Ext_list.fold_left cases cxt (fun acc x -> pp_one_case_clause acc pp_cond x)
+  List.fold_left
+    ~f:(fun acc x -> pp_one_case_clause acc pp_cond x)
+    ~init:cxt cases
 
 and vident cxt (v : J.vident) =
   match v with
   | Id v
-  | Qualified ({ id = v }, None)
-  | Qualified ({ id = v; kind = External { default = true } }, _) ->
+  | Qualified ({ id = v; _ }, None)
+  | Qualified ({ id = v; kind = External { default = true; _ } }, _) ->
       ident cxt v
   | Qualified ({ id; kind = Ml | Runtime }, Some name) ->
       let cxt = ident cxt id in
       string cxt L.dot;
-      string cxt (Ext_ident.convert name);
+      string cxt
+        (if name = Js_dump_import_export.default_export then name
+         else Ident.convert name);
       cxt
   | Qualified ({ id; kind = External _ }, Some name) ->
       let cxt = ident cxt id in
@@ -559,14 +559,14 @@ and expression_desc cxt ~(level : int) x : cxt =
          It seems the optimizer already did work to make sure
          {[
            Call (Raw_js_code (s, Exp i), el, {Full})
-           when Ext_list.length_equal el i
+           when List.length_equal el i
          ]}
       *)
   | Call (e, el, info) ->
       cond_paren_group cxt (level > 15) 1 (fun _ ->
           group cxt 1 (fun _ ->
               match (info, el) with
-              | { arity = Full }, _ | _, [] ->
+              | { arity = Full; _ }, _ | _, [] ->
                   let cxt = expression ~level:15 cxt e in
                   paren_group cxt 1 (fun _ ->
                       match el with
@@ -574,6 +574,7 @@ and expression_desc cxt ~(level : int) x : cxt =
                        {
                          expression_desc =
                            Fun (is_method, l, b, env, return_unit);
+                         _;
                        };
                       ] ->
                           pp_function ~return_unit ~is_method cxt
@@ -634,15 +635,16 @@ and expression_desc cxt ~(level : int) x : cxt =
       match info with
       | Exp exp_info ->
           let raw_paren =
-            not
-              (match exp_info with
-              | Js_literal _ -> true
-              | Js_function _ | Js_exp_unknown ->
-                  false || raw_snippet_exp_simple_enough s)
+            match exp_info with
+            | Js_literal _ -> false
+            | Js_function _ | Js_exp_unknown ->
+                not (raw_snippet_exp_simple_enough s)
           in
           if raw_paren then string cxt L.lparen;
           string cxt s;
-          if raw_paren then string cxt L.rparen;
+          if raw_paren then (
+            newline cxt;
+            string cxt L.rparen);
           cxt
       | Stmt stmt_info ->
           if stmt_info = Js_stmt_comment then string cxt s
@@ -691,7 +693,11 @@ and expression_desc cxt ~(level : int) x : cxt =
       expression ~level:13 cxt e
   | Bin
       ( Minus,
-        { expression_desc = Number (Int { i = 0l; _ } | Float { f = "0." }) },
+        {
+          expression_desc =
+            Number ((Int { i = 0l; _ } | Float { f = "0." }) as desc);
+          _;
+        },
         e )
   (* TODO:
      Handle multiple cases like
@@ -700,7 +706,7 @@ and expression_desc cxt ~(level : int) x : cxt =
      {[ 0.000 - x ]}
   *) ->
       cond_paren_group cxt (level > 13) 1 (fun _ ->
-          string cxt "-";
+          string cxt (match desc with Float _ -> "- " | _ -> "-");
           expression ~level:13 cxt e)
   | Bin (op, e1, e2) ->
       let out, lft, rght = Js_op_util.op_prec op in
@@ -735,35 +741,34 @@ and expression_desc cxt ~(level : int) x : cxt =
   | Optional_block (e, identity) ->
       expression ~level cxt
         (if identity then e
-        else E.runtime_call Js_runtime_modules.option "some" [ e ])
+         else E.runtime_call Js_runtime_modules.option "some" [ e ])
   | Caml_block (el, _, _, Blk_module fields) ->
       expression_desc cxt ~level
         (Object
-           (Ext_list.map_combine fields el (fun x ->
-                Js_op.Lit (Ext_ident.convert x))))
+           (List.map_combine fields el (fun x -> Js_op.Lit (Ident.convert x))))
   (*name convention of Record is slight different from modules*)
   | Caml_block (el, mutable_flag, _, Blk_record fields) ->
-      if Ext_array.for_alli fields (fun i v -> string_of_int i = v) then
+      if block_has_all_int_fields fields then
         expression_desc cxt ~level (Array (el, mutable_flag))
       else
         expression_desc cxt ~level
-          (Object (Ext_list.combine_array fields el (fun i -> Js_op.Lit i)))
+          (Object (List.map_combine_array fields el (fun i -> Js_op.Lit i)))
   | Caml_block (el, _, _, Blk_poly_var) -> (
       match el with
-      | [ { expression_desc = Str (_, name) }; value ] ->
+      | [ { expression_desc = Str (_, name); _ }; value ] ->
           expression_desc cxt ~level
             (Object
                [
-                 (Js_op.Lit Literals.polyvar_hash, E.str name);
-                 (Lit Literals.polyvar_value, value);
+                 (Js_op.Lit L.polyvar_hash, E.str name);
+                 (Lit L.polyvar_value, value);
                ])
       | _ -> assert false)
   | Caml_block (el, _, _, ((Blk_extension | Blk_record_ext _) as ext)) ->
-      expression_desc cxt ~level (exn_block_as_obj ~stack:false el ext)
+      expression cxt ~level (exn_block_as_obj ~stack:false el ext)
   | Caml_block (el, _, tag, Blk_record_inlined p) ->
       let objs =
         let tails =
-          Ext_list.combine_array_append p.fields el
+          List.map_combine_array_append p.fields el
             (if !Js_config.debug then [ (name_symbol, E.str p.name) ] else [])
             (fun i -> Js_op.Lit i)
         in
@@ -778,19 +783,17 @@ and expression_desc cxt ~(level : int) x : cxt =
         pp_comment_option cxt (Some p.name);
       expression_desc cxt ~level (Object objs)
   | Caml_block (el, _, tag, Blk_constructor p) ->
-      let not_is_cons = p.name <> Literals.cons in
+      let not_is_cons = not (Js_op_util.is_cons p.name) in
       let objs =
         let tails =
-          Ext_list.mapi_append el
-            (fun i e ->
-              ( (match (not_is_cons, i) with
-                | false, 0 -> Js_op.Lit Literals.hd
-                | false, 1 -> Js_op.Lit Literals.tl
-                | _ -> Js_op.Lit ("_" ^ string_of_int i)),
-                e ))
-            (if !Js_config.debug && not_is_cons then
-             [ (name_symbol, E.str p.name) ]
-            else [])
+          List.mapi
+            ~f:(fun i e ->
+              (Js_op.Lit (E.variant_pos ~constr:p.name (Int32.of_int i)), e))
+            el
+          @
+          if !Js_config.debug && not_is_cons then
+            [ (name_symbol, E.str p.name) ]
+          else []
         in
         if p.num_nonconst = 1 then tails
         else
@@ -905,7 +908,13 @@ and variable_declaration top cxt (variable : J.variable_declaration) : cxt =
   match variable with
   | { ident = i; value = None; ident_info; _ } ->
       if ident_info.used_stats = Dead_pure then cxt else pp_var_declare cxt i
-  | { ident = name; value = Some e; ident_info = { used_stats; _ } } -> (
+  | {
+   ident = name;
+   value = Some e;
+   ident_info = { used_stats; _ };
+   property;
+   _;
+  } -> (
       match used_stats with
       | Dead_pure -> cxt
       | Dead_non_pure ->
@@ -918,7 +927,7 @@ and variable_declaration top cxt (variable : J.variable_declaration) : cxt =
                 ~fn_state:(if top then Name_top name else Name_non_top name)
                 params b env
           | _ ->
-              let cxt = pp_var_assign cxt name in
+              let cxt = pp_assign ~property cxt name in
               let cxt = expression ~level:1 cxt e in
               semi cxt;
               cxt))
@@ -953,7 +962,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       ipp_comment cxt L.empty_block;
       (* debugging*)
       cxt
-  | Exp { expression_desc = Var _ } ->
+  | Exp { expression_desc = Var _; _ } ->
       (* Does it make sense to optimize here? *)
       (* semi cxt; *)
       cxt
@@ -962,7 +971,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       | Raw_js_code { code; code_info = Stmt Js_stmt_comment } ->
           string cxt code;
           cxt
-      | Raw_js_code { code_info = Exp (Js_literal { comment }) } ->
+      | Raw_js_code { code_info = Exp (Js_literal { comment }); _ } ->
           (match comment with
           (* The %raw is just a comment *)
           | Some s -> string cxt s
@@ -991,11 +1000,13 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       space cxt;
       let cxt = brace_block cxt s1 in
       match s2 with
-      | [] | [ { statement_desc = Block [] | Exp { expression_desc = Var _ } } ]
-        ->
+      | []
+      | [
+          { statement_desc = Block [] | Exp { expression_desc = Var _; _ }; _ };
+        ] ->
           newline cxt;
           cxt
-      | [ ({ statement_desc = If _ } as nest) ]
+      | [ ({ statement_desc = If _; _ } as nest) ]
       | [
           {
             statement_desc = Block [ ({ statement_desc = If _; _ } as nest) ];
@@ -1011,7 +1022,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
           string cxt L.else_;
           space cxt;
           brace_block cxt s2)
-  | While (label, e, s, _env) ->
+  | While (label, e, s) ->
       (*  FIXME: print scope as well *)
       (match label with
       | Some i ->
@@ -1021,7 +1032,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       | None -> ());
       let cxt =
         match e.expression_desc with
-        | Number (Int { i = 1l }) ->
+        | Number (Int { i = 1l; _ }) ->
             string cxt L.while_;
             string cxt L.lparen;
             string cxt L.true_;
@@ -1037,7 +1048,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       let cxt = brace_block cxt s in
       semi cxt;
       cxt
-  | ForRange (for_ident_expression, finish, id, direction, s, env) ->
+  | ForRange (for_ident_expression, finish, id, direction, s) ->
       let action cxt =
         vgroup cxt 0 (fun _ ->
             let cxt =
@@ -1059,9 +1070,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
                             in
                             space cxt;
                             comma cxt;
-                            let id =
-                              Ext_ident.create (Ident.name id ^ "_finish")
-                            in
+                            let id = Ident.create (Ident.name id ^ "_finish") in
                             let cxt = ident cxt id in
                             space cxt;
                             string cxt L.eq;
@@ -1069,9 +1078,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
                             (expression ~level:1 cxt finish, Some id)
                         | None, (Number _ | Var _) -> (cxt, None)
                         | None, _ ->
-                            let id =
-                              Ext_ident.create (Ident.name id ^ "_finish")
-                            in
+                            let id = Ident.create (Ident.name id ^ "_finish") in
                             let cxt = pp_var_assign cxt id in
                             (expression ~level:15 cxt finish, Some id)
                       in
@@ -1108,24 +1115,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
             in
             brace_block cxt s)
       in
-      let lexical = Js_closure.get_lexical_scope env in
-      if Set_ident.is_empty lexical then action cxt
-      else
-        (* unlike function,
-           [print for loop] has side effect,
-           we should take it out
-        *)
-        let inner_cxt = merge_scope cxt lexical in
-        let lexical = Set_ident.elements lexical in
-        vgroup cxt 0 (fun _ ->
-            string cxt L.lparen;
-            string cxt L.function_;
-            pp_paren_params inner_cxt lexical;
-            let cxt = brace_vgroup cxt 0 (fun _ -> action inner_cxt) in
-            pp_paren_params inner_cxt lexical;
-            string cxt L.rparen;
-            semi cxt;
-            cxt)
+      action cxt
   | Continue s ->
       continue cxt s;
       cxt (* newline cxt;  #2642 *)
@@ -1194,8 +1184,12 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       let e =
         match e.expression_desc with
         | Caml_block (el, _, _, ((Blk_extension | Blk_record_ext _) as ext)) ->
-            { e with expression_desc = exn_block_as_obj ~stack:true el ext }
-        | _ -> e
+            {
+              e with
+              expression_desc =
+                (exn_block_as_obj ~stack:true el ext).expression_desc;
+            }
+        | _ -> { e with expression_desc = (exn_ref_as_obj e).expression_desc }
       in
       string cxt L.throw;
       space cxt;
@@ -1236,16 +1230,18 @@ and function_body (cxt : cxt) ~return_unit (b : J.block) : unit =
       | If
           ( bool,
             then_,
-            [ { statement_desc = Return { expression_desc = Undefined } } ] ) ->
+            [
+              { statement_desc = Return { expression_desc = Undefined; _ }; _ };
+            ] ) ->
           ignore
             (statement false cxt
                { s with statement_desc = If (bool, then_, []) }
               : cxt)
-      | Return { expression_desc = Undefined } -> ()
+      | Return { expression_desc = Undefined; _ } -> ()
       | Return exp when return_unit ->
           ignore (statement false cxt (S.exp exp) : cxt)
       | _ -> ignore (statement false cxt s : cxt))
-  | [ s; { statement_desc = Return { expression_desc = Undefined } } ] ->
+  | [ s; { statement_desc = Return { expression_desc = Undefined; _ }; _ } ] ->
       ignore (statement false cxt s : cxt)
   | s :: r ->
       let cxt = statement false cxt s in

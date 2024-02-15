@@ -2,7 +2,7 @@
 
 external mk_config :
   hi:int -> lo:int -> ?width:int -> unit -> _  =
-  "" [@@bs.obj]
+  "" [@@mel.obj]
 
 type hh =  < hi : int; lo : int; width : int  Js.undefined > Js.t
 let hh = mk_config ~hi:30 ~lo:20 ()
@@ -16,7 +16,7 @@ external
   hi:int ->
   lo:int ->
   ?width:int ->
-  unit -> _ = "" [@@bs.obj]
+  unit -> _ = "" [@@mel.obj]
 
 let v = config ~hi:32 ~lo:3 ()
 

@@ -1,14 +1,17 @@
+{ ocamlVersion }:
+
 let
   lock = builtins.fromJSON (builtins.readFile ./../../flake.lock);
-  src = fetchGit {
-    url = with lock.nodes.nixpkgs.locked;"https://github.com/${owner}/${repo}";
-    inherit (lock.nodes.nixpkgs.locked) rev;
-    # inherit (lock.nodes.nixpkgs.original) ref;
+  findFlakeSrc = { name, allRefs ? false }: fetchGit {
+    url = with lock.nodes.${name}.locked;"https://github.com/${owner}/${repo}";
+    inherit (lock.nodes.${name}.locked) rev;
+    inherit allRefs;
   };
-  nix-filter-src = fetchGit {
-    url = with lock.nodes.nix-filter.locked; "https://github.com/${owner}/${repo}";
-    inherit (lock.nodes.nix-filter.locked) rev;
-    # inherit (lock.nodes.nixpkgs.original) ref;
+
+  src = findFlakeSrc { name = "nixpkgs"; };
+  nix-filter-src = findFlakeSrc { name = "nix-filter"; };
+  melange-compiler-libs-src = findFlakeSrc {
+    name = "melange-compiler-libs";
     allRefs = true;
   };
   nix-filter = import "${nix-filter-src}";
@@ -16,55 +19,62 @@ let
   pkgs = import src {
     extraOverlays = [
       (self: super: {
-        ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper: {
-          dune_3 = osuper.dune_3.overrideAttrs (_: {
-            src = builtins.fetchurl {
-              url = https://github.com/ocaml/dune/archive/b8250aa70.tar.gz;
-              sha256 = "0rk49ywbjjzrqk47z8sc36b68ig0vvbp1b8f2hr1bp769sj9s79n";
-            };
-          });
-        });
+        ocamlPackages = super.ocaml-ng."ocamlPackages_${ocamlVersion}";
       })
     ];
   };
-  inherit (pkgs) stdenv nodejs yarn git lib ocamlPackages;
-  packages = pkgs.callPackage ./.. { inherit nix-filter; };
+  inherit (pkgs) stdenv nodejs yarn git lib nodePackages ocamlPackages tree;
+  packages = rec {
+    melange = pkgs.callPackage ./.. {
+      inherit nix-filter;
+      melange-compiler-libs-vendor-dir = melange-compiler-libs-src;
+    };
+  };
   inputString =
     builtins.substring
       11 32
       (builtins.unsafeDiscardStringContext packages.melange.outPath);
 in
 
+with ocamlPackages;
+
 stdenv.mkDerivation {
   name = "melange-tests-${inputString}";
 
   src = ../../jscomp/test;
 
-  # https://blog.eigenvalue.net/nix-rerunning-fixed-output-derivations/
-  # the dream of running fixed-output-derivations is dead -- somehow after
-  # Nix 2.4 it results in `error: unexpected end-of-file`.
-  # Example: https://github.com/melange-re/melange/runs/4132970590
-
-  outputHashMode = "flat";
-  outputHashAlgo = "sha256";
-  outputHash = builtins.hashString "sha256" "melange";
-  installPhase = ''
-    echo -n melange > $out
-  '';
-
   phases = [ "unpackPhase" "checkPhase" "installPhase" ];
 
-  doCheck = true;
+  installPhase = ''
+    mkdir -p $out/lib
+    cp -r dist dist-es6 $out/lib
+  '';
 
-  nativeBuildInputs = with ocamlPackages; [ ocaml findlib dune ];
-  buildInputs = [ yarn nodejs packages.melange packages.mel ocamlPackages.reason ];
+  doCheck = true;
+  nativeBuildInputs = [
+    ocaml
+    findlib
+    dune
+    git
+    nodePackages.mocha
+    ocamlPackages.reason
+    tree
+    nodejs
+    yarn
+  ];
+  buildInputs = [
+    packages.melange
+    reason-react-ppx
+    js_of_ocaml-compiler
+  ];
 
   checkPhase = ''
-    # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
-    yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
-    ln -sfn ${packages.melange}/lib/melange/runtime node_modules/melange
-    mel build -- --display=short
+    cat > dune-project <<EOF
+    (lang dune 3.8)
+    (using melange 0.1)
+    EOF
+    dune build @melange-runtime-tests --display=short
 
-    node ./node_modules/.bin/mocha "./*_test.js"
+    mocha "_build/default/dist/**/*_test.js"
   '';
 }

@@ -22,11 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module E = Js_exp_make
 
-(* If it is the return value, since it is a side-effect call,
-   we return unit, otherwise just return it
-*)
+(* If it is the return value, since it is a side-effect call, we return unit,
+   otherwise just return it *)
 let ensure_value_unit (st : Lam_compile_context.continuation) e : E.t =
   match st with
   | EffectCall (Maybe_tail_is_return _)
@@ -39,17 +39,12 @@ let ensure_value_unit (st : Lam_compile_context.continuation) e : E.t =
 let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
     (args : J.expression list) : J.expression =
   match prim with
-  | Pis_not_none -> Js_of_lam_option.is_not_none (Ext_list.singleton_exn args)
+  | Pis_not_none -> Js_of_lam_option.is_not_none (List.hd args)
   | Pcreate_extension s -> E.make_exception s
   | Pwrap_exn ->
       E.runtime_call Js_runtime_modules.caml_js_exceptions
         "internalToOCamlException" args
-  | Praw_js_code { code; code_info } ->
-      E.raw_js_code code_info code
-      (* FIXME: save one allocation
-         trim can not be done before syntax checking
-         otherwise location is incorrect
-      *)
+  | Praw_js_code { code; code_info } -> E.raw_js_code code_info code
   | Pjs_runtime_apply -> (
       match args with [ f; args ] -> E.flat_call f args | _ -> assert false)
   | Pjs_apply -> (
@@ -79,12 +74,12 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
           | _ -> E.runtime_call Js_runtime_modules.option "nullable_to_opt" args
           )
       | _ -> assert false)
-  | Pjs_function_length -> E.function_length (Ext_list.singleton_exn args)
-  | Pcaml_obj_length -> E.obj_length (Ext_list.singleton_exn args)
-  | Pis_null -> E.is_null (Ext_list.singleton_exn args)
-  | Pis_undefined -> E.is_undef (Ext_list.singleton_exn args)
-  | Pis_null_undefined -> E.is_null_undefined (Ext_list.singleton_exn args)
-  | Pjs_typeof -> E.typeof (Ext_list.singleton_exn args)
+  | Pjs_function_length -> E.function_length (List.hd args)
+  | Pcaml_obj_length -> E.obj_length (List.hd args)
+  | Pis_null -> E.is_null (List.hd args)
+  | Pis_undefined -> E.is_undef (List.hd args)
+  | Pis_null_undefined -> E.is_null_undefined (List.hd args)
+  | Pjs_typeof -> E.typeof (List.hd args)
   | Pjs_unsafe_downgrade _ | Pdebugger | Pvoid_run | Pfull_apply | Pjs_fn_make _
     ->
       assert false (* already handled by {!Lam_compile} *)
@@ -94,7 +89,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   | Pinit_mod -> E.runtime_call Js_runtime_modules.module_ "init_mod" args
   | Pupdate_mod -> E.runtime_call Js_runtime_modules.module_ "update_mod" args
   | Psome -> (
-      let arg = Ext_list.singleton_exn args in
+      let arg = List.hd args in
       match arg.expression_desc with
       | Null | Object _ | Number _ | Caml_block _ | Array _ | Str _ ->
           (* This makes sense when type info
@@ -103,19 +98,16 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
           *)
           E.optional_not_nest_block arg
       | _ -> E.optional_block arg)
-  | Psome_not_nest -> E.optional_not_nest_block (Ext_list.singleton_exn args)
+  | Psome_not_nest -> E.optional_not_nest_block (List.hd args)
   | Pmakeblock (tag, tag_info, mutable_flag) ->
       (* RUNTIME *)
       Js_of_lam_block.make_block
         (Js_op_util.of_lam_mutable_flag mutable_flag)
         tag_info (E.small_int tag) args
-  | Pval_from_option ->
-      Js_of_lam_option.val_from_option (Ext_list.singleton_exn args)
-  | Pval_from_option_not_nest -> Ext_list.singleton_exn args
+  | Pval_from_option -> Js_of_lam_option.val_from_option (List.hd args)
+  | Pval_from_option_not_nest -> List.hd args
   | Pfield (i, fld_info) ->
-      Js_of_lam_block.field fld_info
-        (Ext_list.singleton_exn args)
-        (Int32.of_int i)
+      Js_of_lam_block.field fld_info (List.hd args) (Int32.of_int i)
   (* Invariant depends on runtime *)
   | Pfield_computed -> (
       match args with
@@ -123,9 +115,9 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       | _ -> assert false (* Negate boxed int *))
   | Pnegint ->
       (* #977 *)
-      E.int32_minus E.zero_int_literal (Ext_list.singleton_exn args)
+      E.int32_minus E.zero_int_literal (List.hd args)
   | Pnegint64 -> Js_long.neg args
-  | Pnegfloat -> E.float_minus E.zero_float_lit (Ext_list.singleton_exn args)
+  | Pnegfloat -> E.float_minus E.zero_float_lit (List.hd args)
   (* Negate boxed int end*)
   (* Int addition and subtraction *)
   | Paddint -> (
@@ -194,16 +186,12 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   | Pintoffloat -> (
       match args with [ e ] -> E.to_int32 e | _ -> assert false)
   | Pint64ofint -> Js_long.of_int32 args
-  | Pfloatofint -> Ext_list.singleton_exn args
+  | Pfloatofint -> List.hd args
   | Pintofint64 -> Js_long.to_int32 args
-  | Pnot -> E.not (Ext_list.singleton_exn args)
-  | Poffsetint n -> E.offset (Ext_list.singleton_exn args) n
+  | Pnot -> E.not (List.hd args)
+  | Poffsetint n -> E.offset (List.hd args) n
   | Poffsetref n ->
-      let v =
-        Js_of_lam_block.field Lambda.ref_field_info
-          (Ext_list.singleton_exn args)
-          0l
-      in
+      let v = Js_of_lam_block.field Lambda.ref_field_info (List.hd args) 0l in
       E.seq (E.assign v (E.offset v n)) E.unit
   | Psequand -> (
       (* TODO: rhs is possibly a tail call *)
@@ -230,11 +218,10 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
          if we have byte_get/string_get
          still necessary, since you can set it now.
       *)
-      Js_of_lam_string.bytes_of_string (Ext_list.singleton_exn args)
-  | Pbytes_to_string ->
-      Js_of_lam_string.bytes_to_string (Ext_list.singleton_exn args)
-  | Pstringlength -> E.string_length (Ext_list.singleton_exn args)
-  | Pbyteslength -> E.bytes_length (Ext_list.singleton_exn args)
+      Js_of_lam_string.bytes_of_string (List.hd args)
+  | Pbytes_to_string -> Js_of_lam_string.bytes_to_string (List.hd args)
+  | Pstringlength -> E.string_length (List.hd args)
+  | Pbyteslength -> E.bytes_length (List.hd args)
   (* This should only be Pbyteset(u|s), which in js, is an int array
      Bytes is an int array in javascript
   *)
@@ -249,6 +236,33 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       | [ e; e1 ] -> Js_of_lam_string.ref_byte e e1
       | _ -> assert false)
   | Pbytesrefs -> E.runtime_call Js_runtime_modules.bytes "get" args
+  | Pstring_load_16 unsafe ->
+      let fn = if unsafe then "get16u" else "get16" in
+      E.runtime_call Js_runtime_modules.bytes fn args
+  | Pstring_load_32 unsafe ->
+      let fn = if unsafe then "get32u" else "get32" in
+      E.runtime_call Js_runtime_modules.bytes fn args
+  | Pstring_load_64 unsafe ->
+      let fn = if unsafe then "get64u" else "get64" in
+      E.runtime_call Js_runtime_modules.bytes fn args
+  | Pbytes_load_16 unsafe ->
+      let fn = if unsafe then "get16u" else "get16" in
+      E.runtime_call Js_runtime_modules.bytes fn args
+  | Pbytes_load_32 unsafe ->
+      let fn = if unsafe then "get32u" else "get32" in
+      E.runtime_call Js_runtime_modules.bytes fn args
+  | Pbytes_load_64 unsafe ->
+      let fn = if unsafe then "get64u" else "get64" in
+      E.runtime_call Js_runtime_modules.bytes fn args
+  | Pbytes_set_16 unsafe ->
+      let fn = if unsafe then "set16u" else "set16" in
+      E.runtime_call Js_runtime_modules.bytes fn args
+  | Pbytes_set_32 unsafe ->
+      let fn = if unsafe then "set32u" else "set32" in
+      E.runtime_call Js_runtime_modules.bytes fn args
+  | Pbytes_set_64 unsafe ->
+      let fn = if unsafe then "set64u" else "set64" in
+      E.runtime_call Js_runtime_modules.bytes fn args
   | Pstringrefs -> E.runtime_call Js_runtime_modules.string "get" args
   (* For bytes and string, they both return [int] in ocaml
       we need tell Pbyteref from Pstringref
@@ -262,7 +276,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   (* only when Lapply -> expand = true*)
   | Praise -> assert false (* handled before here *)
   (* Runtime encoding relevant *)
-  | Parraylength -> E.array_length (Ext_list.singleton_exn args)
+  | Parraylength -> E.array_length (List.hd args)
   | Psetfield (i, field_info) -> (
       match args with
       | [ e0; e1 ] ->
@@ -294,11 +308,11 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   (* Lam_compile_external_call.translate loc cxt prim args *)
   (* Test if the argument is a block or an immediate integer *)
   | Pjs_object_create _ -> assert false
-  | Pjs_call { arg_types; ffi } ->
+  | Pjs_call { arg_types; ffi; _ } ->
       Lam_compile_external_call.translate_ffi cxt arg_types ffi args
   (* FIXME, this can be removed later *)
-  | Pisint -> E.is_type_number (Ext_list.singleton_exn args)
-  | Pis_poly_var_const -> E.is_type_string (Ext_list.singleton_exn args)
+  | Pisint -> E.is_type_number (List.hd args)
+  | Pis_poly_var_const -> E.is_type_string (List.hd args)
   | Pctconst ct -> (
       match ct with
       | Big_endian -> E.bool Sys.big_endian
@@ -318,9 +332,14 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
           (* 2 ^ 32 - 1*)
       | Backend_type ->
           E.make_block E.zero_int_literal
-            (Blk_constructor { name = "Other"; num_nonconst = 1 })
-            [ E.str "BS" ]
+            (Blk_constructor
+               { name = "Other"; num_nonconst = 1; attributes = [] })
+            [ E.str "Melange" ]
             Immutable)
+  | Pbswap16 -> E.runtime_call Js_runtime_modules.bytes "bswap16" args
+  | Pbbswap Pnativeint -> assert false
+  | Pbbswap Pint32 -> E.runtime_call Js_runtime_modules.bytes "bswap32" args
+  | Pbbswap Pint64 -> E.runtime_call Js_runtime_modules.bytes "bswap64" args
   | Pduprecord (Record_regular | Record_extension | Record_inlined _) ->
       Lam_dispatch_primitive.translate loc "caml_obj_dup" args
   | Plazyforce
@@ -333,5 +352,5 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
      It is inlined, this should not appear here *) ->
       (*we dont use [throw] here, since [throw] is an statement  *)
       let s = Lam_print.primitive_to_string prim in
-      Bs_warnings.warn_missing_primitive loc s;
+      Location.prerr_warning loc (Mel_unimplemented_primitive s);
       E.resolve_and_apply s args

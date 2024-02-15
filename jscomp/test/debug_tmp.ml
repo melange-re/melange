@@ -1,5 +1,4 @@
-
-[@@@config {
+[@@@mel.config {
   flags = [|
   (* "-w";
   "@A" *)
@@ -10,4 +9,3 @@
   (* "-dsource"; *)
   |]
 }]
-

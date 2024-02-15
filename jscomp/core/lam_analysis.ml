@@ -22,10 +22,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (*used in effect analysis, it is sound but not-complete *)
-let not_zero_constant (x : Lam_constant.t) =
+let not_zero_constant (x : Lam.Constant.t) =
   match x with
-  | Const_int { i } -> i <> 0l
+  | Const_int { i; _ } -> i <> 0l
   | Const_int64 i -> i <> 0L
   | _ -> false
 
@@ -38,7 +40,7 @@ let rec no_side_effects (lam : Lam.t) : bool =
          this expression itself is side effect free
       *)
   | Lprim { primitive; args; _ } -> (
-      Ext_list.for_all args no_side_effects
+      List.for_all ~f:no_side_effects args
       &&
       match primitive with
       | Pccall { prim_name } -> (
@@ -55,10 +57,11 @@ let rec no_side_effects (lam : Lam.t) : bool =
               | "nativeint_mod" | "nativeint_lsr" | "nativeint_mul" ),
               _ ) ->
               true
-          | "caml_ml_open_descriptor_in", [ Lconst (Const_int { i = 0l }) ] ->
+          | "caml_ml_open_descriptor_in", [ Lconst (Const_int { i = 0l; _ }) ]
+            ->
               true
           | ( "caml_ml_open_descriptor_out",
-              [ Lconst (Const_int { i = 1l | 2l }) ] ) ->
+              [ Lconst (Const_int { i = 1l | 2l; _ }) ] ) ->
               true
           (* we can not mark it pure
              only when we guarantee this exception is caught...
@@ -88,7 +91,9 @@ let rec no_side_effects (lam : Lam.t) : bool =
       | Paddfloat | Psubfloat | Pmulfloat | Pdivfloat | Pfloatcomp _ | Pjscomp _
       (* String operations *)
       | Pstringlength | Pstringrefu | Pstringrefs | Pbyteslength | Pbytesrefu
-      | Pbytesrefs | Pmakearray | Parraylength | Parrayrefu | Parrayrefs
+      | Pbytesrefs | Pstring_load_16 _ | Pstring_load_32 _ | Pstring_load_64 _
+      | Pbytes_load_16 _ | Pbytes_load_32 _ | Pbytes_load_64 _ | Pmakearray
+      | Parraylength | Parrayrefu | Parrayrefs
       (* Test if the argument is a block or an immediate integer *)
       | Pisint | Pis_poly_var_const
       (* Test if the (integer) argument is outside an interval *)
@@ -103,18 +108,20 @@ let rec no_side_effects (lam : Lam.t) : bool =
           {
             code_info =
               Exp (Js_function _ | Js_literal _) | Stmt Js_stmt_comment;
+            _;
           } ->
           true
       | Pjs_apply | Pjs_runtime_apply | Pjs_call _ | Pinit_mod | Pupdate_mod
       | Pjs_unsafe_downgrade _ | Pdebugger | Pvoid_run | Pfull_apply
       | Pjs_fn_method
       (* TODO *)
-      | Praw_js_code _ | Pbytessetu | Pbytessets
+      | Praw_js_code _ | Pbytessetu | Pbytessets | Pbytes_set_16 _
+      | Pbytes_set_32 _ | Pbytes_set_64 _
       (* Operations on boxed integers (Nativeint.t, Int32.t, Int64.t) *)
       | Parraysets
       (* byte swap *)
-      | Parraysetu | Poffsetref _ | Praise | Plazyforce | Psetfield _
-      | Psetfield_computed ->
+      | Pbswap16 | Pbbswap _ | Parraysetu | Poffsetref _ | Praise | Plazyforce
+      | Psetfield _ | Psetfield_computed ->
           false)
   | Llet (_, _, arg, body) | Lmutlet (_, arg, body) ->
       no_side_effects arg && no_side_effects body
@@ -132,17 +139,20 @@ let rec no_side_effects (lam : Lam.t) : bool =
       no_side_effects a && no_side_effects b && no_side_effects c
   | Lsequence (a, b) -> no_side_effects a && no_side_effects b
   | Lletrec (bindings, body) ->
-      Ext_list.for_all_snd bindings no_side_effects && no_side_effects body
+      List.for_all ~f:(fun (_, x) -> no_side_effects x) bindings
+      && no_side_effects body
   | Lwhile _ ->
       false (* conservative here, non-terminating loop does have side effect *)
   | Lfor _ -> false
   | Lassign _ -> false (* actually it depends ... *)
   | Lsend _ -> false
+  | Lifused _ -> false
   | Lapply
       {
         ap_func =
-          Lprim { primitive = Pfield (_, Fld_module { name = "from_fun" }) };
+          Lprim { primitive = Pfield (_, Fld_module { name = "from_fun" }); _ };
         ap_args = [ arg ];
+        _;
       } ->
       no_side_effects arg
   | Lapply _ -> false (* we need purity analysis .. *)
@@ -173,7 +183,7 @@ let rec size (lam : Lam.t) =
         1
     | Lprim { primitive = Praise | Pis_not_none; args = [ l ]; _ } -> size l
     | Lglobal_module _ -> 1
-    | Lprim { primitive = Praw_js_code _ } -> really_big ()
+    | Lprim { primitive = Praw_js_code _; _ } -> really_big ()
     | Lprim { args = ll; _ } -> size_lams 1 ll
     (* complicated
         1. inline this function
@@ -185,11 +195,11 @@ let rec size (lam : Lam.t) =
     *)
     | Lapply { ap_func; ap_args; _ } -> size_lams (size ap_func) ap_args
     (* | Lfunction(_, params, l) -> really_big () *)
-    | Lfunction { body } -> size body
+    | Lfunction { body; _ } -> size body
     | Lswitch _ -> really_big ()
     | Lstringswitch (_, _, _) -> really_big ()
     | Lstaticraise (_i, ls) ->
-        Ext_list.fold_left ls 1 (fun acc x -> size x + acc)
+        List.fold_left ~f:(fun acc x -> size x + acc) ~init:1 ls
     | Lstaticcatch _ -> really_big ()
     | Ltrywith _ -> really_big ()
     | Lifthenelse (l1, l2, l3) -> 1 + size l1 + size l2 + size l3
@@ -198,6 +208,7 @@ let rec size (lam : Lam.t) =
     | Lfor _ -> really_big ()
     | Lassign (_, v) -> 1 + size v (* This is side effectful,  be careful *)
     | Lsend _ -> really_big ()
+    | Lifused (_v, l) -> size l
   with Too_big_to_inline -> 1000
 
 and size_constant x =
@@ -206,19 +217,19 @@ and size_constant x =
   | Const_js_null | Const_js_undefined | Const_module_alias | Const_js_true
   | Const_js_false ->
       1
-  | Const_unicode _ (* TODO: this seems to be not good heurisitives*)
-  | Const_string _ ->
-      1
+  | Const_string _ -> 1
   | Const_some s -> size_constant s
   | Const_block (_, _, str) ->
-      Ext_list.fold_left str 0 (fun acc x -> acc + size_constant x)
+      List.fold_left ~f:(fun acc x -> acc + size_constant x) ~init:0 str
   | Const_float_array xs -> List.length xs
 
 and size_lams acc (lams : Lam.t list) =
-  Ext_list.fold_left lams acc (fun acc l -> acc + size l)
+  List.fold_left ~f:(fun acc l -> acc + size l) ~init:acc lams
 
 let args_all_const (args : Lam.t list) =
-  Ext_list.for_all args (fun x -> match x with Lconst _ -> true | _ -> false)
+  List.for_all
+    ~f:(fun (x : Lam.t) -> match x with Lconst _ -> true | _ -> false)
+    args
 
 let exit_inline_size = 7
 let small_inline_size = 5
@@ -261,7 +272,7 @@ let ok_to_inline_fun_when_app (m : Lam.lfunction) (args : Lam.t list) =
   | Never_inline -> false
   | Default_inline -> (
       match m with
-      | { body; params } ->
+      | { body; params; _ } ->
           let s = size body in
           s < small_inline_size
           || destruct_pattern body params args
@@ -275,7 +286,7 @@ let safe_to_inline (lam : Lam.t) =
   | Lfunction _ -> true
   | Lconst
       ( Const_pointer _
-      | Const_int { comment = Pt_constructor _ }
+      | Const_int { comment = Pt_constructor _; _ }
       | Const_js_true | Const_js_false | Const_js_undefined ) ->
       true
   | _ -> false

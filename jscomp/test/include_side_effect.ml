@@ -1,2 +1,2 @@
-[@@@bs.config{no_export}]
+[@@@mel.config{no_export}]
 include Side_effect

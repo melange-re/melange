@@ -22,54 +22,37 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type ('a,'b) t = Ok of 'a | Error of 'b
+type ('a, 'b) t = ('a, 'b) Stdlib.result = Ok of 'a | Error of 'b
 
-let getExn = function
-  | Ok x -> x
-  | Error _ -> raise Not_found
+let getExn = function Ok x -> x | Error _ -> raise Not_found
 
-let mapWithDefaultU opt default f = match opt with
-  | Ok x -> (f x [@bs])
-  | Error _ -> default
+let mapWithDefaultU opt default f =
+  match opt with Ok x -> f x [@u] | Error _ -> default
 
-let mapWithDefault opt default f = mapWithDefaultU opt default (fun[@bs] x -> f x)
+let mapWithDefault opt default f =
+  mapWithDefaultU opt default (fun [@u] x -> f x)
 
-let mapU opt f = match opt with
-  | Ok x -> Ok (f x [@bs])
-  | Error y -> Error y
+let mapU opt f = match opt with Ok x -> Ok (f x [@u]) | Error y -> Error y
+let map opt f = mapU opt (fun [@u] x -> f x)
+let flatMapU opt f = match opt with Ok x -> f x [@u] | Error y -> Error y
+let flatMap opt f = flatMapU opt (fun [@u] x -> f x)
+let getWithDefault opt default = match opt with Ok x -> x | Error _ -> default
+let isOk = function Ok _ -> true | Error _ -> false
+let isError = function Ok _ -> false | Error _ -> true
 
-let map opt f = mapU opt (fun[@bs] x -> f x)
+let eqU a b f =
+  match (a, b) with
+  | Ok a, Ok b -> f a b [@u]
+  | Error _, Ok _ | Ok _, Error _ -> false
+  | Error _, Error _ -> true
 
-let flatMapU opt f = match opt with
-  | Ok x -> (f x [@bs])
-  | Error y -> Error y
+let eq a b f = eqU a b (fun [@u] x y -> f x y)
 
-let flatMap opt f = flatMapU opt (fun[@bs] x -> f x)
+let cmpU a b f =
+  match (a, b) with
+  | Ok a, Ok b -> f a b [@u]
+  | Error _, Ok _ -> -1
+  | Ok _, Error _ -> 1
+  | Error _, Error _ -> 0
 
-let getWithDefault opt default = match opt with
-  | Ok x -> x
-  | Error _ -> default
-
-let isOk = function
-  | Ok _ -> true
-  | Error _ -> false
-
-let isError = function
-  | Ok _ -> false
-  | Error _ -> true
-
-let eqU a b f = match (a, b) with
-  | (Ok a, Ok b) -> f a b [@bs]
-  | (Error _, Ok _)
-  | (Ok _, Error _) -> false
-  | (Error _, Error _) -> true
-
-let eq a b f = eqU a b (fun[@bs] x y -> f x y)
-
-let cmpU a b f = match (a, b) with
-  | (Ok a, Ok b) -> f a b [@bs]
-  | (Error _, Ok _) -> -1
-  | (Ok _, Error _) -> 1
-  | (Error _, Error _) -> 0
-
-let cmp a b f = cmpU a b (fun[@bs] x y -> f x y)
+let cmp a b f = cmpU a b (fun [@u] x y -> f x y)

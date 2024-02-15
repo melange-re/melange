@@ -1,5 +1,0 @@
-(library
- (name outcome_printer)
- (libraries melange-compiler-libs ext)
- (flags
-  (:standard -open Melange_compiler_libs)))

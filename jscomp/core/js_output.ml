@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module E = Js_exp_make
 module S = Js_stmt_make
 
@@ -41,7 +42,7 @@ let make ?value ?(output_finished = False) block =
 
 let dummy = { value = None; block = []; output_finished = Dummy }
 
-(** This can be merged with 
+(** This can be merged with
     {!output_of_block_and_expression} *)
 let output_of_expression (continuation : continuation) (exp : J.expression)
     ~(no_effects : bool Lazy.t) =
@@ -60,10 +61,9 @@ let output_of_block_and_expression (continuation : continuation)
   match continuation with
   | EffectCall Not_tail -> make block ~value:exp
   | EffectCall (Maybe_tail_is_return _) ->
-      make (Ext_list.append_one block (S.return_stmt exp)) ~output_finished:True
-  | Declare (kind, n) ->
-      make (Ext_list.append_one block (S.define_variable ~kind n exp))
-  | Assign n -> make (Ext_list.append_one block (S.assign n exp))
+      make (block @ [ S.return_stmt exp ]) ~output_finished:True
+  | Declare (kind, n) -> make (block @ [ S.define_variable ~kind n exp ])
+  | Assign n -> make (block @ [ S.assign n exp ])
   | NeedValue _ -> make block ~value:exp
 
 let block_with_opt_expr block (x : J.expression option) : J.block =
@@ -80,7 +80,7 @@ let opt_expr_with_block (x : J.expression option) block : J.block =
 
 let rec unnest_block (block : J.block) : J.block =
   match block with
-  | [ { statement_desc = Block block } ] -> unnest_block block
+  | [ { statement_desc = Block block; _ } ] -> unnest_block block
   | _ -> block
 
 let output_as_block (x : t) : J.block =
@@ -97,8 +97,8 @@ let to_break_block (x : t) : J.block * bool =
       (* value does not matter when [finished] is true
           TODO: check if it has side efects
       *)
-  | { value = None; output_finished } -> (
-      (block, match output_finished with True -> false | False | Dummy -> true))
+  | { value = None; output_finished; _ } ->
+      (block, match output_finished with True -> false | False | Dummy -> true)
   | { value = Some _ as opt; _ } -> (block_with_opt_expr block opt, true)
 
 (** TODO: make everything expression make inlining hard, and code not readable?
@@ -140,6 +140,6 @@ let append_output (x : t) (y : t) : t =
 
 (* Fold right is more efficient *)
 let concat (xs : t list) : t =
-  Ext_list.fold_right xs dummy (fun x acc -> append_output x acc)
+  List.fold_right ~f:(fun x acc -> append_output x acc) xs ~init:dummy
 
 let to_string x = Js_dump.string_of_block (output_as_block x)

@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (** Type definition to keep track of compilation state
   *)
 
@@ -36,7 +38,7 @@ type return_label = {
   label : J.label;
   params : Ident.t list;
   immutable_mask : bool array;
-  mutable new_params : Ident.t Map_ident.t;
+  mutable new_params : Ident.t Ident.Map.t;
   mutable triggered : bool;
 }
 

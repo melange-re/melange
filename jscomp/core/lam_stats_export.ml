@@ -22,36 +22,41 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(* let pp = Format.fprintf  *)
+open Import
+
 (* we should exclude meaninglist names and do the convert as well *)
 
 (* let meaningless_names  = ["*opt*"; "param";] *)
 
 let single_na = Js_cmj_format.single_na
 
-let values_of_export (meta : Lam_stats.t) (export_map : Lam.t Map_ident.t) :
-    Js_cmj_format.cmj_value Map_string.t =
-  Ext_list.fold_left meta.exports Map_string.empty (fun acc x ->
+let values_of_export (meta : Lam_stats.t) (export_map : Lam.t Ident.Map.t) :
+    Js_cmj_format.cmj_value String.Map.t =
+  List.fold_left
+    ~f:(fun acc x ->
       let arity : Js_cmj_format.arity =
-        match Hash_ident.find_opt meta.ident_tbl x with
+        match Ident.Hash.find_opt meta.ident_tbl x with
         | Some (FunctionId { arity; _ }) -> Single arity
         | Some (ImmutableBlock elems) ->
             (* FIXME: field name for dumping*)
             Submodule
-              (Ext_array.map elems (fun x ->
+              (Array.map
+                 ~f:(fun (x : Lam_id_kind.element) ->
                    match x with
                    | NA -> Lam_arity.na
-                   | SimpleForm lam -> Lam_arity_analysis.get_arity meta lam))
+                   | SimpleForm lam -> Lam_arity_analysis.get_arity meta lam)
+                 elems)
         | Some _ | None -> (
-            match Map_ident.find_opt export_map x with
-            | Some (Lprim { primitive = Pmakeblock (_, _, Immutable); args }) ->
+            match Ident.Map.find_opt export_map x with
+            | Some (Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ })
+              ->
                 Submodule
-                  (Ext_array.of_list_map args (fun lam ->
+                  (Array.of_list_map args (fun lam ->
                        Lam_arity_analysis.get_arity meta lam))
             | Some _ | None -> single_na)
       in
       let persistent_closed_lambda =
-        let optlam = Map_ident.find_opt export_map x in
+        let optlam = Ident.Map.find_opt export_map x in
         match optlam with
         | Some
             (Lconst
@@ -68,12 +73,12 @@ let values_of_export (meta : Lam_stats.t) (export_map : Lam.t Map_ident.t) :
               *)
             then
               match lambda with
-              | Lfunction { attr = { inline = Always_inline } }
+              | Lfunction { attr = { inline = Always_inline; _ }; _ }
               (* FIXME: is_closed lambda is too restrictive
                  It precludes ues cases
                  - inline forEach but not forEachU
               *)
-              | Lfunction { attr = { is_a_functor = true } } ->
+              | Lfunction { attr = { is_a_functor = true; _ }; _ } ->
                   if Lam_closure.is_closed lambda (* TODO: seriealize more*)
                   then optlam
                   else None
@@ -84,15 +89,15 @@ let values_of_export (meta : Lam_stats.t) (export_map : Lam.t Map_ident.t) :
                      2. [lambda_exports] is not precise
                   *)
                   let free_variables =
-                    Lam_closure.free_variables Set_ident.empty Map_ident.empty
+                    Lam_closure.free_variables Ident.Set.empty Ident.Map.empty
                       lambda
                   in
                   if
                     lam_size < Lam_analysis.small_inline_size
-                    && Map_ident.is_empty free_variables
+                    && Ident.Map.is_empty free_variables
                   then (
-                    Ext_log.dwarn ~__POS__ "%s recorded for inlining @."
-                      (Ident.name x);
+                    Log.warn ~loc:(Loc.of_pos __POS__)
+                      (Pp.textf "%s recorded for inlining @." (Ident.name x));
                     optlam)
                   else None
             else None
@@ -104,7 +109,8 @@ let values_of_export (meta : Lam_stats.t) (export_map : Lam.t Map_ident.t) :
           let cmj_value : Js_cmj_format.cmj_value =
             { arity; persistent_closed_lambda }
           in
-          Map_string.add acc (Ident.name x) cmj_value)
+          String.Map.add acc (Ident.name x) cmj_value)
+    ~init:String.Map.empty meta.exports
 
 (* ATTENTION: all runtime modules, if it is not hard required,
    it should be okay to not reference it
@@ -113,7 +119,9 @@ let get_dependent_module_effect (maybe_pure : string option)
     (external_ids : Lam_module_ident.t list) =
   if maybe_pure = None then
     let non_pure_module =
-      Ext_list.find_first_not external_ids Lam_compile_env.is_pure_module
+      List.find_opt
+        ~f:(fun id -> not (Lam_compile_env.is_pure_module id))
+        external_ids
     in
     Option.map (fun x -> Lam_module_ident.name x) non_pure_module
   else maybe_pure
@@ -122,7 +130,7 @@ let get_dependent_module_effect (maybe_pure : string option)
    [lambda_exports] is
    lambda expression to be exported
    for the js backend, we compile to js
-   for the inliner, we try to seriaize it --
+   for the inliner, we try to serialize it --
    relies on other optimizations to make this happen
    {[
      exports.Make = function () {.....}

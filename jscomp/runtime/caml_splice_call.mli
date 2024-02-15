@@ -22,12 +22,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Bs_stdlib_mini
+open Melange_mini_stdlib
 
 type obj = Obj.t
 
 val spliceApply : obj -> obj -> obj
-
 val spliceNewApply : obj -> obj -> obj
-
 val spliceObjApply : obj -> obj -> obj -> obj

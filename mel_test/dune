@@ -1,6 +1,0 @@
-(test
- (package mel)
- (name mel_test)
- (flags
-  (:standard -w -9 -open Melange_compiler_libs))
- (libraries ounit2 ext mellib core melange-compiler-libs))

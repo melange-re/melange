@@ -17,7 +17,7 @@ let suites = Mt.[
   "asinh", (fun _ -> ApproxThreshold(0.001, 0.390, asinh 0.4));
   "atan", (fun _ -> ApproxThreshold(0.001, 0.380, atan 0.4));
   "atanh", (fun _ -> ApproxThreshold(0.001, 0.423, atanh 0.4));
-  "atan2", (fun _ -> ApproxThreshold(0.001, 0.588, atan2 ~x:0.6 ~y:0.4 ()));
+  "atan2", (fun _ -> ApproxThreshold(0.001, 0.588, atan2 ~x:0.6 ~y:0.4));
   "cbrt", (fun _ -> Eq(2., cbrt 8.));
   "unsafe_ceil_int", (fun _ -> Eq (4, unsafe_ceil_int 3.2));
   "ceil_int", (fun _ -> Eq(4, ceil_int 3.2));

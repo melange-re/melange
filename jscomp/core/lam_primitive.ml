@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-[@@@ocaml.warning "+9"]
+open Import
 
 type ident = Ident.t
 
@@ -37,7 +37,7 @@ type t =
   | Pbytes_to_string
   | Pbytes_of_string
   (* Operations on heap blocks *)
-  | Pmakeblock of int * Lam_tag_info.t * Asttypes.mutable_flag
+  | Pmakeblock of int * Melange_ffi.Lam_tag_info.t * Asttypes.mutable_flag
   | Pfield of int * Lam_compat.field_dbg_info
   | Psetfield of int * Lam_compat.set_field_dbg_info
   (* could have field info at least for record *)
@@ -48,10 +48,10 @@ type t =
   | Pccall of { prim_name : string }
   | Pjs_call of {
       prim_name : string;
-      arg_types : External_arg_spec.params;
-      ffi : External_ffi_types.external_spec;
+      arg_types : Melange_ffi.External_arg_spec.params;
+      ffi : Melange_ffi.External_ffi_types.external_spec;
     }
-  | Pjs_object_create of External_arg_spec.obj_params
+  | Pjs_object_create of Melange_ffi.External_arg_spec.obj_params
   (* Exceptions *)
   | Praise
   (* Boolean operations *)
@@ -97,6 +97,15 @@ type t =
   | Pbytessetu
   | Pbytesrefs
   | Pbytessets
+  | Pstring_load_16 of bool
+  | Pstring_load_32 of bool
+  | Pstring_load_64 of bool
+  | Pbytes_load_16 of bool
+  | Pbytes_load_32 of bool
+  | Pbytes_load_64 of bool
+  | Pbytes_set_16 of bool
+  | Pbytes_set_32 of bool
+  | Pbytes_set_64 of bool
   (* Array operations *)
   | Pmakearray
   | Parraylength
@@ -126,11 +135,13 @@ type t =
   (* Compile time constants *)
   | Pctconst of
       Lam_compat.compile_time_constant (* Integer to external pointer *)
+  | Pbswap16
+  | Pbbswap of Lam_compat.boxed_integer
   | Pdebugger
   | Pjs_unsafe_downgrade of { name : string; setter : bool; loc : Location.t }
   | Pinit_mod
   | Pupdate_mod
-  | Praw_js_code of Js_raw_info.t
+  | Praw_js_code of Melange_ffi.Js_raw_info.t
   | Pjs_fn_make of int
   | Pvoid_run
   | Pfull_apply
@@ -169,7 +180,7 @@ let eq_set_field_dbg_info (x : Lam_compat.set_field_dbg_info)
   x = y
 (* save it to avoid conditional compilation, fix it later *)
 
-let eq_tag_info (x : Lam_tag_info.t) y = x = y
+let eq_tag_info (x : Melange_ffi.Lam_tag_info.t) y = x = y
 
 let eq_record_representation (p : record_representation)
     (p1 : record_representation) =
@@ -227,6 +238,24 @@ let eq_primitive_approx (lhs : t) (rhs : t) =
   | Pbytessetu -> rhs = Pbytessetu
   | Pbytesrefs -> rhs = Pbytesrefs
   | Pbytessets -> rhs = Pbytessets
+  | Pstring_load_16 b1 -> (
+      match rhs with Pstring_load_16 b2 -> b1 = b2 | _ -> false)
+  | Pstring_load_32 b1 -> (
+      match rhs with Pstring_load_32 b2 -> b1 = b2 | _ -> false)
+  | Pstring_load_64 b1 -> (
+      match rhs with Pstring_load_64 b2 -> b1 = b2 | _ -> false)
+  | Pbytes_load_16 b1 -> (
+      match rhs with Pbytes_load_16 b2 -> b1 = b2 | _ -> false)
+  | Pbytes_load_32 b1 -> (
+      match rhs with Pbytes_load_32 b2 -> b1 = b2 | _ -> false)
+  | Pbytes_load_64 b1 -> (
+      match rhs with Pbytes_load_64 b2 -> b1 = b2 | _ -> false)
+  | Pbytes_set_16 b1 -> (
+      match rhs with Pbytes_set_16 b2 -> b1 = b2 | _ -> false)
+  | Pbytes_set_32 b1 -> (
+      match rhs with Pbytes_set_32 b2 -> b1 = b2 | _ -> false)
+  | Pbytes_set_64 b1 -> (
+      match rhs with Pbytes_set_64 b2 -> b1 = b2 | _ -> false)
   | Pundefined_to_opt -> rhs = Pundefined_to_opt
   | Pnull_to_opt -> rhs = Pnull_to_opt
   | Pnull_undefined_to_opt -> rhs = Pnull_undefined_to_opt
@@ -324,6 +353,8 @@ let eq_primitive_approx (lhs : t) (rhs : t) =
           Lam_compat.eq_compile_time_constant compile_time_constant
             compile_time_constant1
       | _ -> false)
+  | Pbswap16 -> rhs = Pbswap16
+  | Pbbswap i1 -> ( match rhs with Pbbswap i2 -> i1 = i2 | _ -> false)
   | Pjs_unsafe_downgrade { name; loc = _; setter } -> (
       match rhs with
       | Pjs_unsafe_downgrade rhs -> name = rhs.name && setter = rhs.setter

@@ -1,6 +1,0 @@
-(library
- (name mel_workspace)
- (preprocess
-  (action
-   (run %{bin:cppo} %{env:CPPO_FLAGS=} %{input-file})))
- (libraries ext unix))

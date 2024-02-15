@@ -2,7 +2,7 @@ type 'a vlist = [`Nil | `Cons of 'a * 'a vlist];;
 
 let rec map f : 'a vlist -> 'b vlist = function
    | `Nil -> `Nil
-   | `Cons(a, l) -> `Cons(f a [@bs], map f l)
+   | `Cons(a, l) -> `Cons(f a [@u], map f l)
  ;;
 
 
@@ -32,11 +32,11 @@ let rec map f : 'a vlist -> 'b vlist = function
  | `As -> "A"
  | #abc -> "other" ;;
 
-type myvariant2 = [`Tag3 of int | `Tag4 | myvariant] 
+type myvariant2 = [`Tag3 of int | `Tag4 | myvariant]
 type x = [`a | `b | `c ]
-let f2 x = 
-  match x with 
-  | #myvariant2 as x -> Js.log x ; 2 
-  | `hello -> 3 
-  | `h -> 2 
+let f2 x =
+  match x with
+  | #myvariant2 as x -> Js.log x ; 2
+  | `hello -> 3
+  | `h -> 2
   | #x -> 333

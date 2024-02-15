@@ -46,7 +46,6 @@ type error =
 
 exception Stop of error;; (* used internally *)
 
-open Printf
 
 let rec assoc3 x l =
   match l with

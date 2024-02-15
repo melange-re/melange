@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (** Keep track of which identifiers are aliased
   *)
 
@@ -39,7 +41,7 @@ type t =
   | OptionalBlock of Lam.t * boxed_nullable
   | ImmutableBlock of element array
   | MutableBlock of element array
-  | Constant of Lam_constant.t
+  | Constant of Lam.Constant.t
   | Module of Ident.t  (** TODO: static module vs first class module *)
   | FunctionId of {
       mutable arity : Lam_arity.t;
@@ -68,7 +70,7 @@ let print fmt (kind : t) =
   | OptionalBlock (_, Null_undefined) -> pp fmt "?Nullable"
   | MutableBlock arr -> pp fmt "Mutable(%d)" (Array.length arr)
   | Constant _ -> pp fmt "Constant"
-  | Module id -> pp fmt "%s/%d" (Ident.name id) (Ext_ident.stamp id)
+  | Module id -> pp fmt "%s/%d" (Ident.name id) (Ident.stamp id)
   | FunctionId _ -> pp fmt "FunctionID"
   | Exception -> pp fmt "Exception"
   | Parameter -> pp fmt "Parameter"

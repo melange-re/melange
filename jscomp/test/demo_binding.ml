@@ -1,109 +1,108 @@
+class type titlex =
+  object
+    method title : string [@@mel.set] [@@mel.get {null ; undefined}]
+  end[@u]
 
-class type titlex = 
-  object 
-    method title : string [@@bs.set] [@@bs.get {null ; undefined}]
-  end[@bs]
-
-class type widget = 
-  object 
-      method on : string ->  (event -> unit [@bs]) -> unit 
-  end[@bs]
-and  event = 
-  object 
+class type widget =
+  object
+      method on : string ->  (event -> unit [@u]) -> unit
+  end[@u]
+and  event =
+  object
     method source : widget
     method target : widget
-  end[@bs]
+  end[@u]
 
 
-class type title = 
-  object 
-    method title : string [@@bs.set]
-  end[@bs]
-
-class type text = 
+class type title =
   object
-    method text : string [@@set]
-  end[@bs]
+    method title : string [@@mel.set]
+  end[@u]
+
+class type text =
+  object
+    method text : string [@@mel.set]
+  end[@u]
 
 class type measure =
     object
-      method minHeight : int [@@set]
-      method minWidth : int [@@bs.set]
-      method maxHeight : int  [@@bs.set]
-      method maxWidth : int [@@bs.set]
-    end[@bs]
+      method minHeight : int [@@mel.set]
+      method minWidth : int [@@mel.set]
+      method maxHeight : int  [@@mel.set]
+      method maxWidth : int [@@mel.set]
+    end[@u]
 
-class type layout = 
-    object 
-      method orientation : string [@@bs.set]
-    end[@bs]
+class type layout =
+    object
+      method orientation : string [@@mel.set]
+    end[@u]
 
-class type applicationContext = 
-  object 
-    method exit : int -> unit 
-  end[@bs]
-class type contentable = 
+class type applicationContext =
   object
-    method content : #widget Js.t [@@bs.set]
-    method contentWidth : int  [@@bs.set]
-  end[@bs]
+    method exit : int -> unit
+  end[@u]
+class type contentable =
+  object
+    method content : #widget Js.t [@@mel.set]
+    method contentWidth : int  [@@mel.set]
+  end[@u]
 
 class type hostedWindow =
   object
-    inherit widget 
+    inherit widget
     inherit title
     inherit contentable
-    method show : unit -> unit 
-    method hide : unit -> unit 
-    method focus : unit -> unit 
-    method appContext : applicationContext [@@bs.set]
-  end[@bs]
+    method show : unit -> unit
+    method hide : unit -> unit
+    method focus : unit -> unit
+    method appContext : applicationContext [@@mel.set]
+  end[@u]
 
 class type hostedContent =
-  object 
+  object
     inherit widget
     inherit contentable
-  end[@bs]
+  end[@u]
 
 
-class type stackPanel = 
+class type stackPanel =
   object
     inherit measure
-    inherit layout 
+    inherit layout
     inherit widget
 
-    method addChild : #widget Js.t -> unit 
+    method addChild : #widget Js.t -> unit
 
-  end[@bs]
+  end[@u]
 
-class type grid  = 
+class type grid  =
   object
     inherit widget
     inherit measure
-    method columns :  <width : int; .. >  Js.t  array [@@bs.set]
-    method titleRows : 
-       <label : <text : string; .. > Js.t   ; ..> Js.t   array [@@bs.set]
+    method columns :  <width : int; .. >  Js.t  array [@@mel.set]
+    method titleRows :
+       <label : <text : string; .. > Js.t   ; ..> Js.t   array [@@mel.set]
     method dataSource :
-       <label : <text : string; .. >  Js.t ; ..>  Js.t  array array [@@bs.set]
-  end[@bs]
+       <label : <text : string; .. >  Js.t ; ..>  Js.t  array array [@@mel.set]
+  end[@u]
 
 
-class type button = 
+class type button =
   object
     inherit widget
     inherit text
     inherit measure
-  end[@bs]
+  end[@u]
 
-class type textArea = 
+class type textArea =
   object
     inherit widget
     inherit measure
-    inherit text 
-  end[@bs]
+    inherit text
+  end[@u]
 
 
-external set_interval : (unit -> unit [@bs]) -> float -> unit  =  "setInterval"
-     [@@bs.module "@runtime", "Runtime"]
+external set_interval : (unit -> unit [@u]) -> float -> unit  =  "setInterval"
+     [@@mel.module "@runtime", "Runtime"]
 
-external toFixed : float -> int -> string = "toFixed" [@@send]
+external toFixed : float -> int -> string = "toFixed" [@@mel.send]

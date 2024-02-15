@@ -22,22 +22,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 type t = Lam.t
 
-let hit_variables (fv : Set_ident.t) (l : t) : bool =
+let hit_variables (fv : Ident.Set.t) (l : t) : bool =
   let rec hit_opt (x : t option) =
     match x with None -> false | Some a -> hit a
-  and hit_var (id : Ident.t) = Set_ident.mem fv id
+  and hit_var (id : Ident.t) = Ident.Set.mem fv id
   and hit_list_snd : 'a. ('a * t) list -> bool =
-   fun x -> Ext_list.exists_snd x hit
-  and hit_list xs = Ext_list.exists xs hit
+   fun x -> List.exists ~f:(fun (_, x) -> hit x) x
+  and hit_list xs = List.exists ~f:hit xs
   and hit (l : t) =
     match (l : t) with
     | Lvar id | Lmutvar id -> hit_var id
     | Lassign (id, e) -> hit_var id || hit e
     | Lstaticcatch (e1, (_, _vars), e2) -> hit e1 || hit e2
     | Ltrywith (e1, _exn, e2) -> hit e1 || hit e2
-    | Lfunction { body; params = _ } -> hit body
+    | Lfunction { body; params = _; _ } -> hit body
     | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) -> hit arg || hit body
     | Lletrec (decl, body) -> hit body || hit_list_snd decl
     | Lfor (_v, e1, e2, _dir, e3) -> hit e1 || hit e2 || hit e3
@@ -55,6 +57,7 @@ let hit_variables (fv : Set_ident.t) (l : t) : bool =
     | Lsequence (e1, e2) -> hit e1 || hit e2
     | Lwhile (e1, e2) -> hit e1 || hit e2
     | Lsend (_k, met, obj, args, _) -> hit met || hit obj || hit_list args
+    | Lifused (_v, e) -> hit e
   in
   hit l
 
@@ -63,15 +66,15 @@ let hit_variable (fv : Ident.t) (l : t) : bool =
     match x with None -> false | Some a -> hit a
   and hit_var (id : Ident.t) = Ident.same id fv
   and hit_list_snd : 'a. ('a * t) list -> bool =
-   fun x -> Ext_list.exists_snd x hit
-  and hit_list xs = Ext_list.exists xs hit
+   fun x -> List.exists ~f:(fun (_, x) -> hit x) x
+  and hit_list xs = List.exists ~f:hit xs
   and hit (l : t) =
     match (l : t) with
     | Lvar id | Lmutvar id -> hit_var id
     | Lassign (id, e) -> hit_var id || hit e
     | Lstaticcatch (e1, (_, _vars), e2) -> hit e1 || hit e2
     | Ltrywith (e1, _exn, e2) -> hit e1 || hit e2
-    | Lfunction { body; params = _ } -> hit body
+    | Lfunction { body; params = _; _ } -> hit body
     | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) -> hit arg || hit body
     | Lletrec (decl, body) -> hit body || hit_list_snd decl
     | Lfor (_v, e1, e2, _dir, e3) -> hit e1 || hit e2 || hit e3
@@ -89,5 +92,6 @@ let hit_variable (fv : Ident.t) (l : t) : bool =
     | Lsequence (e1, e2) -> hit e1 || hit e2
     | Lwhile (e1, e2) -> hit e1 || hit e2
     | Lsend (_k, met, obj, args, _) -> hit met || hit obj || hit_list args
+    | Lifused (_v, e) -> hit e
   in
   hit l

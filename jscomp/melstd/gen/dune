@@ -1,0 +1,5 @@
+(executable
+ (name build_reserved)
+ (preprocess
+  (pps ppxlib.metaquot))
+ (libraries ppxlib.ast))

@@ -22,10 +22,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 let wrap_single_field_record loc lbl_name (lambda : Lambda.lambda) :
     Lambda.lambda =
   if lbl_name.[0] = 'I' then
-    let arity_s = String.sub lbl_name 1 (String.length lbl_name - 1) in
+    let arity_s =
+      String.sub lbl_name ~pos:1 ~len:(String.length lbl_name - 1)
+    in
     Lprim
       ( Pccall
           (Primitive.make ~name:"#fn_mk" ~alloc:true ~native_name:arity_s

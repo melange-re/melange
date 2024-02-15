@@ -19,7 +19,7 @@ let () =
         `Ok (`List [`Atom "x"; `Atom "x"; `Atom "gh"; `Atom "3"; `Atom "3"]) ,
          a );
     eq __LOC__
-      (Js.String2.trim (Format.asprintf "%a" print_or_error a) , Js.String2.trim "Ok:(x x gh 3 3)\n")
+      (Js.String.trim (Format.asprintf "%a" print_or_error a) , Js.String.trim "Ok:(x x gh 3 3)\n")
   end
 
 
@@ -27,5 +27,5 @@ let ()
   = Mt.from_pair_suites __MODULE__ !suites
 
 (**
-[%bs.internal.test ]
+[%mel.internal.test ]
 *)

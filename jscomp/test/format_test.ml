@@ -19,13 +19,13 @@ let u () = "xx %s" ^^ "yy"
 
 module M = struct
   external infinity : float = "POSITIVE_INFINITY"
-  [@@val]  [@@scope "Number"]
+    [@@mel.scope "Number"]
   external neg_infinity : float = "NEGATIVE_INFINITY"
-  [@@bs.val]  [@@bs.scope "Number"]
+    [@@mel.scope "Number"]
   external nan : float = "NaN"
-  [@@bs.val]  [@@bs.scope "Number"]
+    [@@mel.scope "Number"]
   external max_float : float = "MAX_VALUE"
-  [@@bs.val]  [@@bs.scope "Number"]
+    [@@mel.scope "Number"]
 end
 let () =
   eq __LOC__ (Format.asprintf (u ()) "x") ("xx x" ^ "yy");
@@ -33,7 +33,6 @@ let () =
   eq __LOC__ (Format.asprintf "%d" 0x8000_0000) "-2147483648"
 
 
-#if OCAML_VERSION =~ ">4.03.0" then
 let () =
   eq __LOC__ (0x3.fp+1) (7.875);
 
@@ -73,14 +72,12 @@ let () =
     ((1. +. 0xffffp0 /. 0x10000p0) *. 8.)
     0x1.ffffp3
   ;;
-#end
 (*TODO: add scanf example *)
 
 let f loc ls  =
   List.iter  (fun (a,b) ->
   eq loc (float_of_string a) b ) ls
 
-#if OCAML_VERSION=~ ">4.03.0" then
 let () =
     f __LOC__ [
       "0x3.fp+1",  0x3.fp+1 ;
@@ -88,11 +85,9 @@ let () =
       " 0x4.fp2", 0x4.fp2
       ];
 
-#end
 ;;
 
 
-#if OCAML_VERSION =~ ">4.03.0" then
 let sl f =
   Printf.sprintf "%h" f
 
@@ -127,14 +122,10 @@ let () =
   List.iter (fun (a,b) ->
   scan_float __LOC__ b a
   ) literals
-#end
 
+let () =
+  let f = -9.9 in
+  let f1 = -.f in
+  eq __LOC__ f1 9.9
 
-#if (* OCAML_VERSION =~ ">4.03.0" *) 0
-then
-
-
-
-
-#end
 let () = Mt.from_pair_suites __MODULE__ !suites

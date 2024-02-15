@@ -1,0 +1,59 @@
+(library
+ (name test_runner)
+ (wrapped false)
+ (modes melange)
+ (modules mt)
+ (preprocess
+  (pps melange.ppx))
+ (melange.compile_flags -bs-cross-module-opt)
+ (libraries melange melange.node))
+
+(library
+ (name melange_runtime_tests)
+ (modes melange)
+ (libraries test_runner melange.dom melange.belt)
+ (wrapped false)
+ (preprocess
+  (pps melange.ppx reason-react-ppx))
+ (modules :standard \ mt es6_export es6_import es6_module_test)
+ (melange.compile_flags -w -27-32+104 -bs-cross-module-opt))
+
+(include_subdirs unqualified)
+
+;; same as above but no preprocessing with reason-react-ppx
+
+(library
+ (name melange_runtime_es6_tests)
+ (modes melange)
+ (libraries test_runner)
+ (preprocess
+  (pps melange.ppx))
+ (wrapped false)
+ (modules es6_export es6_import es6_module_test)
+ (melange.compile_flags -w +104 -bs-cross-module-opt))
+
+(ocamllex arith_lexer)
+
+(ocamllex number_lexer)
+
+(ocamllex simple_lexer_test)
+
+(melange.emit
+ (target dist)
+ (alias melange-runtime-tests)
+ (promote (until-clean))
+ (modules)
+ (module_systems
+  (commonjs js))
+ (libraries melange melange_runtime_tests)
+ (runtime_deps
+  (glob_files *.js)))
+
+(melange.emit
+ (target dist-es6)
+ (alias melange-runtime-tests)
+ (promote (until-clean))
+ (modules)
+ (module_systems
+  (es6 mjs))
+ (libraries melange melange_runtime_es6_tests))

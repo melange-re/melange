@@ -22,15 +22,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** ReScript entry point in the OCaml compiler *)
+open Import
 
-(** Compile and register the hook of function to compile  a lambda to JS IR
- *)
+(** Melange entry point in the OCaml compiler *)
+
+(** Compile and register the hook of function to compile  a lambda to JS IR *)
 
 val compile_coercion : output_prefix:string -> Lambda.lambda -> J.deps_program
 (** For toplevel, [filename] is [""] which is the same as
-    {!Env.get_unit_name ()}
- *)
+    {!Env.get_unit_name ()} *)
+
+val optimize_program : J.deps_program -> J.deps_program
 
 val lambda_as_module :
   package_info:Js_packages_info.t ->

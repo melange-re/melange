@@ -11,6 +11,8 @@
 (***********************************************************************)
 (* Adapted for Javascript backend : Hongbo Zhang,  *)
 
+open Import
+
 type used_info = {
   mutable times : int;
   mutable captured : bool;
@@ -21,7 +23,7 @@ type used_info = {
       *)
 }
 
-type occ_tbl = used_info Hash_ident.t
+type occ_tbl = used_info Ident.Hash.t
 
 val dummy_info : unit -> used_info
 val collect_occurs : Lam.t -> occ_tbl

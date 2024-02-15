@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,13 +17,12 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-type lex_tables 
+type lex_tables
 type lexbuf
 
 (** *)
@@ -33,8 +32,8 @@ type lexbuf
 (* @param s *)
 (* @returns {any[]} *)
 
-
-[%%bs.raw{| 
+[%%mel.raw
+{|
 
 /***********************************************************************/
 /*                                                                     */
@@ -57,9 +56,9 @@ function caml_lex_array(s) {
     var l = s.length / 2;
     var a = new Array(l);
     // when s.charCodeAt(2 * i + 1 ) > 128 (0x80)
-    // a[i] < 0  
+    // a[i] < 0
     // for(var i = 0 ; i <= 0xffff; ++i) { if (i << 16 >> 16 !==i){console.log(i<<16>>16, 'vs',i)}}
-    // 
+    //
     for (var i = 0; i < l; i++)
         a[i] = (s.charCodeAt(2 * i) | (s.charCodeAt(2 * i + 1) << 8)) << 16 >> 16;
     return a;
@@ -102,14 +101,16 @@ function caml_lex_array(s) {
  * @param lexbuf
  * @returns {any}
  *)
-let caml_lex_engine_aux : lex_tables -> int -> lexbuf -> exn -> int = [%raw{|function (tbl, start_state, lexbuf, exn){
+let caml_lex_engine_aux : lex_tables -> int -> lexbuf -> exn -> int =
+  [%raw
+    {|function (tbl, start_state, lexbuf, exn){
 
     if (!Array.isArray(tbl.lex_default)) {
         tbl.lex_base = caml_lex_array(tbl.lex_base);
         tbl.lex_backtrk = caml_lex_array(tbl.lex_backtrk);
         tbl.lex_check = caml_lex_array(tbl.lex_check);
         tbl.lex_trans = caml_lex_array(tbl.lex_trans);
-        tbl.lex_default = caml_lex_array(tbl.lex_default);  
+        tbl.lex_default = caml_lex_array(tbl.lex_default);
     }
     var c;
     var state = start_state;
@@ -158,7 +159,7 @@ let caml_lex_engine_aux : lex_tables -> int -> lexbuf -> exn -> int = [%raw{|fun
         if (state < 0) {
             lexbuf.lex_curr_pos = lexbuf.lex_last_pos;
             if (lexbuf.lex_last_action == -1)
-                throw exn
+              throw new Error(exn.MEL_EXN_ID, { cause: exn })
             else
                 return lexbuf.lex_last_action;
         }
@@ -170,16 +171,16 @@ let caml_lex_engine_aux : lex_tables -> int -> lexbuf -> exn -> int = [%raw{|fun
                 lexbuf.lex_eof_reached = 0;
         }
     }
-}    
+}
 |}]
 
 let empty_token_lit = "lexing: empty token"
 
 let caml_lex_engine : lex_tables -> int -> lexbuf -> int =
-    fun tbls i buf -> 
-    caml_lex_engine_aux tbls i buf (Failure empty_token_lit)
+ fun tbls i buf -> caml_lex_engine_aux tbls i buf (Failure empty_token_lit)
 
-[%%bs.raw{|
+[%%mel.raw
+{|
 
 
 /***********************************************/
@@ -189,8 +190,8 @@ let caml_lex_engine : lex_tables -> int -> lexbuf -> int =
 /**
  * s -> Lexing.lex_tables.lex_code
  * mem -> Lexing.lexbuf.lex_mem (* int array *)
- */          
-          
+ */
+
 function caml_lex_run_mem(s, i, mem, curr_pos) {
     for (;;) {
         var dst = s.charCodeAt(i);
@@ -211,7 +212,7 @@ function caml_lex_run_mem(s, i, mem, curr_pos) {
  * s -> Lexing.lex_tables.lex_code
  * mem -> Lexing.lexbuf.lex_mem (* int array *)
  */
-  
+
 function caml_lex_run_tag(s, i, mem) {
     for (;;) {
         var dst = s.charCodeAt(i);
@@ -236,8 +237,9 @@ function caml_lex_run_tag(s, i, mem) {
  * @returns {any}
  *)
 
-
-let caml_new_lex_engine_aux : lex_tables -> int -> lexbuf -> exn -> int= [%raw{|function (tbl, start_state, lexbuf, exn) {
+let caml_new_lex_engine_aux : lex_tables -> int -> lexbuf -> exn -> int =
+  [%raw
+    {|function (tbl, start_state, lexbuf, exn) {
 
     if (!Array.isArray(tbl.lex_default)) {
         tbl.lex_base = caml_lex_array(tbl.lex_base);
@@ -246,7 +248,7 @@ let caml_new_lex_engine_aux : lex_tables -> int -> lexbuf -> exn -> int= [%raw{|
         tbl.lex_trans = caml_lex_array(tbl.lex_trans);
         tbl.lex_default = caml_lex_array(tbl.lex_default);
     }
-    if(!Array.isArray(tbl.lex_default_code)){    
+    if(!Array.isArray(tbl.lex_default_code)){
         tbl.lex_base_code = caml_lex_array(tbl.lex_base_code);
         tbl.lex_backtrk_code = caml_lex_array(tbl.lex_backtrk_code);
         tbl.lex_check_code = caml_lex_array(tbl.lex_check_code);
@@ -303,7 +305,7 @@ let caml_new_lex_engine_aux : lex_tables -> int -> lexbuf -> exn -> int= [%raw{|
         if (state < 0) {
             lexbuf.lex_curr_pos = lexbuf.lex_last_pos;
             if (lexbuf.lex_last_action == -1)
-                throw exn;
+                throw new Error(exn.MEL_EXN_ID, { cause: exn })
             else
                 return lexbuf.lex_last_action;
         }
@@ -326,9 +328,5 @@ let caml_new_lex_engine_aux : lex_tables -> int -> lexbuf -> exn -> int= [%raw{|
     }
 |}]
 
-
-
-let caml_new_lex_engine : lex_tables -> int -> lexbuf -> int
-  = fun tbl i buf -> 
-caml_new_lex_engine_aux tbl i buf (Failure empty_token_lit)
-
+let caml_new_lex_engine : lex_tables -> int -> lexbuf -> int =
+ fun tbl i buf -> caml_new_lex_engine_aux tbl i buf (Failure empty_token_lit)

@@ -1,13 +1,14 @@
-(lang dune 3.5)
+(lang dune 3.8)
 
-(using directory-targets 0.1)
+(using experimental_building_ocaml_compiler_with_dune 0.1)
+
+(using menhir 2.1)
+
+(using melange 0.1)
 
 (executables_implicit_empty_intf true)
 
 (cram enable)
-
-(formatting
- (enabled_for ocaml))
 
 (generate_opam_files true)
 
@@ -31,44 +32,34 @@
  (synopsis "Toolchain to produce JS from Reason/OCaml")
  (depends
   (ocaml
+   (>= "5.1"))
+  (cmdliner
+   (>= "1.1.0"))
+  dune-build-info
+  (cppo :build)
+  (ounit :with-test)
+  (reason
    (and
-    (>= "4.14.0")
-    (< "4.15.0")))
-  (melange-compiler-libs
-   (>= "0.0.1-414"))
-  (cmdliner
-   (>= "1.1.0"))
-  (meldep
-   (= :version))
-  (cppo :build)
-  (ounit :with-test)))
+    :with-test
+    (>= "3.9.0")))
+  (ppxlib
+   (>= "0.30.0"))
+  (menhir
+   (>= 20201214))
+  pp
+  (reason-react-ppx
+   (and :with-test :post))
+  (merlin :with-test)))
 
 (package
- (name meldep)
- (synopsis
-  "Melange counterpart to `ocamldep` that understands Melange-specific constructs")
+ (name melange-playground)
+ (synopsis "The Melange compiler, bundled for the browser")
+ (allow_empty)
  (depends
   ocaml
-  (cppo :build)
-  (base64
-   (>= "3.1.0"))
-  (cmdliner
-   (>= "1.1.0"))
-  (melange-compiler-libs
-   (>= "0.0.1-414"))))
-
-(package
- (name mel)
- (synopsis
-  "Build system for Melange that defers to Dune for build orchestration")
- (depends
-  ocaml
+  js_of_ocaml
+  (reason
+   (>= "3.10.0"))
   (melange
    (= :version))
-  (cmdliner
-   (>= "1.1.0"))
-  (luv
-   (>= "0.5.11"))
-  (ocaml-migrate-parsetree
-   (>= "2.3.0"))
-  (ounit :with-test)))
+  reason-react-ppx))

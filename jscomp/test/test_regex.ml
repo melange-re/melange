@@ -1,5 +1,5 @@
-let v = [%bs.re "/b/ig"]
-let r = [%bs.re "/Bucklescript是一个程序语言/"]
+let v = [%mel.re "/b/ig"]
+let r = [%mel.re "/Bucklescript是一个程序语言/"]
 
 (*Js.log(v);;
 Js.log(r);;*)

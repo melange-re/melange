@@ -1,5 +1,5 @@
 (*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -9,40 +9,78 @@ open Flow_ast
 
 type 'loc binding = 'loc * string
 
-type 'loc ident = 'loc * string
+type 'loc ident = 'loc * string [@@deriving show]
 
-type 'loc source = 'loc * string
+type 'loc source = 'loc * string [@@deriving show]
 
 let rec fold_bindings_of_pattern =
-  let open Pattern in
-  let property f acc =
-    let open Object in
-    function
-    | Property (_, { Property.pattern = p; _ })
-    | RestElement (_, { RestElement.argument = p; comments = _ }) ->
-      fold_bindings_of_pattern f acc p
-  in
-  let element f acc =
-    let open Array in
-    function
-    | Hole _ -> acc
-    | Element (_, { Element.argument = p; default = _ })
-    | RestElement (_, { RestElement.argument = p; comments = _ }) ->
-      fold_bindings_of_pattern f acc p
-  in
-  fun f acc -> function
-    | (_, Identifier { Identifier.name; annot; _ }) -> f acc name annot
-    | (_, Object { Object.properties; _ }) -> List.fold_left (property f) acc properties
-    | (_, Array { Array.elements; _ }) -> List.fold_left (element f) acc elements
-    | (_, Expression _) -> acc
+  Pattern.(
+    let property f acc =
+      Object.(
+        function
+        | Property (_, { Property.pattern = p; _ })
+        | RestElement (_, { RestElement.argument = p; comments = _ }) ->
+          fold_bindings_of_pattern f acc p
+      )
+    in
+    let element f acc =
+      Array.(
+        function
+        | Hole _ -> acc
+        | Element (_, { Element.argument = p; default = _ })
+        | RestElement (_, { RestElement.argument = p; comments = _ }) ->
+          fold_bindings_of_pattern f acc p
+      )
+    in
+    fun f acc -> function
+      | (_, Identifier { Identifier.name; _ }) -> f acc name
+      | (_, Object { Object.properties; _ }) -> List.fold_left (property f) acc properties
+      | (_, Array { Array.elements; _ }) -> List.fold_left (element f) acc elements
+      (* This is for assignment and default param destructuring `[a.b=1]=c`, ignore these for now. *)
+      | (_, Expression _) -> acc
+  )
 
 let fold_bindings_of_variable_declarations f acc declarations =
   let open Flow_ast.Statement.VariableDeclaration in
   List.fold_left
     (fun acc -> function
-      | (_, { Declarator.id = pattern; _ }) -> fold_bindings_of_pattern f acc pattern)
+      | (_, { Declarator.id = pattern; _ }) ->
+        let has_anno =
+          (* Only the toplevel annotation in a pattern is meaningful *)
+          let open Flow_ast.Pattern in
+          match pattern with
+          | (_, Array { Array.annot = Flow_ast.Type.Available _; _ })
+          | (_, Object { Object.annot = Flow_ast.Type.Available _; _ })
+          | (_, Identifier { Identifier.annot = Flow_ast.Type.Available _; _ }) ->
+            true
+          | _ -> false
+        in
+        fold_bindings_of_pattern (f has_anno) acc pattern)
     acc
     declarations
+
+let rec pattern_has_binding =
+  let open Pattern in
+  let property =
+    let open Object in
+    function
+    | Property (_, { Property.pattern = p; _ })
+    | RestElement (_, { RestElement.argument = p; comments = _ }) ->
+      pattern_has_binding p
+  in
+  let element =
+    let open Array in
+    function
+    | Hole _ -> false
+    | Element (_, { Element.argument = p; default = _ })
+    | RestElement (_, { RestElement.argument = p; comments = _ }) ->
+      pattern_has_binding p
+  in
+  function
+  | (_, Identifier _) -> true
+  | (_, Object { Object.properties; _ }) -> List.exists property properties
+  | (_, Array { Array.elements; _ }) -> List.exists element elements
+  | (_, Expression _) -> false
 
 let partition_directives statements =
   let open Flow_ast.Statement in
@@ -53,15 +91,129 @@ let partition_directives statements =
   in
   helper [] statements
 
-let negate_number_literal (value, raw) =
-  let raw_len = String.length raw in
-  let raw =
-    if raw_len > 0 && raw.[0] = '-' then
-      String.sub raw 1 (raw_len - 1)
-    else
-      "-" ^ raw
+let hoist_function_and_component_declarations stmts =
+  let open Flow_ast.Statement in
+  let (func_and_component_decs, other_stmts) =
+    List.partition
+      (function
+        (* function f() {} / component F() {} *)
+        | (_, (FunctionDeclaration { Flow_ast.Function.id = Some _; _ } | ComponentDeclaration _))
+        (* export function f() {} / export component F() {} *)
+        | ( _,
+            ExportNamedDeclaration
+              {
+                ExportNamedDeclaration.declaration =
+                  Some
+                    ( _,
+                      ( FunctionDeclaration { Flow_ast.Function.id = Some _; _ }
+                      | ComponentDeclaration _ )
+                    );
+                _;
+              }
+          )
+        (* export default function f() {} / export default component F() {} *)
+        | ( _,
+            ExportDefaultDeclaration
+              {
+                ExportDefaultDeclaration.declaration =
+                  ExportDefaultDeclaration.Declaration
+                    ( _,
+                      ( FunctionDeclaration { Flow_ast.Function.id = Some _; _ }
+                      | ComponentDeclaration _ )
+                    );
+                _;
+              }
+          )
+        (* TODO(jmbrown): Hoist declared components *)
+        (* declare function f(): void; *)
+        | (_, DeclareFunction _)
+        (* declare export function f(): void; *)
+        | ( _,
+            DeclareExportDeclaration DeclareExportDeclaration.{ declaration = Some (Function _); _ }
+          ) ->
+          true
+        | _ -> false)
+      stmts
   in
-  (-.value, raw)
+  func_and_component_decs @ other_stmts
+
+let negate_raw_lit raw =
+  let raw_len = String.length raw in
+  if raw_len > 0 && raw.[0] = '-' then
+    String.sub raw 1 (raw_len - 1)
+  else
+    "-" ^ raw
+
+let negate_number_literal (value, raw) = (~-.value, negate_raw_lit raw)
+
+let negate_bigint_literal (value, raw) =
+  match value with
+  | None -> (None, raw)
+  | Some value -> (Some (Int64.neg value), negate_raw_lit raw)
+
+let is_call_to_invariant callee =
+  match callee with
+  | (_, Expression.Identifier (_, { Identifier.name = "invariant"; _ })) -> true
+  | _ -> false
+
+let is_call_to_is_array callee =
+  match callee with
+  | ( _,
+      Flow_ast.Expression.Member
+        {
+          Flow_ast.Expression.Member._object =
+            ( _,
+              Flow_ast.Expression.Identifier
+                (_, { Flow_ast.Identifier.name = "Array"; comments = _ })
+            );
+          property =
+            Flow_ast.Expression.Member.PropertyIdentifier
+              (_, { Flow_ast.Identifier.name = "isArray"; comments = _ });
+          comments = _;
+        }
+    ) ->
+    true
+  | _ -> false
+
+let is_call_to_object_dot_freeze callee =
+  match callee with
+  | ( _,
+      Flow_ast.Expression.Member
+        {
+          Flow_ast.Expression.Member._object =
+            ( _,
+              Flow_ast.Expression.Identifier
+                (_, { Flow_ast.Identifier.name = "Object"; comments = _ })
+            );
+          property =
+            Flow_ast.Expression.Member.PropertyIdentifier
+              (_, { Flow_ast.Identifier.name = "freeze"; comments = _ });
+          comments = _;
+        }
+    ) ->
+    true
+  | _ -> false
+
+let is_call_to_object_static_method callee =
+  match callee with
+  | ( _,
+      Flow_ast.Expression.Member
+        {
+          Flow_ast.Expression.Member._object =
+            ( _,
+              Flow_ast.Expression.Identifier
+                (_, { Flow_ast.Identifier.name = "Object"; comments = _ })
+            );
+          property = Flow_ast.Expression.Member.PropertyIdentifier _;
+          comments = _;
+        }
+    ) ->
+    true
+  | _ -> false
+
+let is_super_member_access = function
+  | { Flow_ast.Expression.Member._object = (_, Flow_ast.Expression.Super _); _ } -> true
+  | _ -> false
 
 let loc_of_statement = fst
 
@@ -107,7 +259,8 @@ let merge_comments_with_internal ~inner ~outer =
   | (None, Some { Syntax.leading; trailing; _ }) ->
     mk_comments_with_internal_opt ~leading ~trailing ~internal:[] ()
   | ( Some { Syntax.leading = inner_leading; trailing = inner_trailing; internal },
-      Some { Syntax.leading = outer_leading; trailing = outer_trailing; _ } ) ->
+      Some { Syntax.leading = outer_leading; trailing = outer_trailing; _ }
+    ) ->
     mk_comments_with_internal_opt
       ~leading:(outer_leading @ inner_leading)
       ~trailing:(inner_trailing @ outer_trailing)
@@ -135,6 +288,9 @@ let string_of_assignment_operator op =
   | BitOrAssign -> "|="
   | BitXorAssign -> "^="
   | BitAndAssign -> "&="
+  | NullishAssign -> "??="
+  | AndAssign -> "&&="
+  | OrAssign -> "||="
 
 let string_of_binary_operator op =
   let open Flow_ast.Expression.Binary in
@@ -170,10 +326,8 @@ module ExpressionSort = struct
     | Binary
     | Call
     | Class
-    | Comprehension
     | Conditional
     | Function
-    | Generator
     | Identifier
     | Import
     | JSXElement
@@ -195,6 +349,7 @@ module ExpressionSort = struct
     | Unary
     | Update
     | Yield
+  [@@deriving show]
 
   let to_string = function
     | Array -> "array"
@@ -203,10 +358,8 @@ module ExpressionSort = struct
     | Binary -> "binary expression"
     | Call -> "call expression"
     | Class -> "class"
-    | Comprehension -> "comprehension expression"
     | Conditional -> "conditional expression"
     | Function -> "function"
-    | Generator -> "generator"
     | Identifier -> "identifier"
     | Import -> "import expression"
     | JSXElement -> "JSX element"
@@ -229,3 +382,73 @@ module ExpressionSort = struct
     | Update -> "update expression"
     | Yield -> "yield expression"
 end
+
+let loc_of_annotation_or_hint =
+  let open Flow_ast.Type in
+  function
+  | Missing loc
+  | Available (_, (loc, _)) ->
+    loc
+
+let loc_of_return_annot =
+  let open Flow_ast.Function.ReturnAnnot in
+  function
+  | Missing loc
+  | Available (_, (loc, _))
+  | TypeGuard (loc, _) ->
+    loc
+
+(* Apply type [t] at the toplevel of expression [exp]. This is straightforward overall
+ * except for the case of Identifier and Member, where we push the type within the
+ * identifier and member property type position as well. This is to ensure that
+ * type-at-pos searcher will detect the updated type. *)
+let push_toplevel_type t exp =
+  let open Flow_ast.Expression in
+  let push_toplevel_identifier id =
+    let ((id_loc, _), id) = id in
+    ((id_loc, t), id)
+  in
+  let push_to_member mem =
+    match mem with
+    | { Member.property = Member.PropertyIdentifier id; _ } ->
+      { mem with Member.property = Member.PropertyIdentifier (push_toplevel_identifier id) }
+    | p -> p
+  in
+  let ((loc, _), e) = exp in
+  let e' =
+    match e with
+    | Identifier id -> Identifier (push_toplevel_identifier id)
+    | Member member -> Member (push_to_member member)
+    | OptionalMember ({ OptionalMember.member; _ } as omem) ->
+      OptionalMember { omem with OptionalMember.member = push_to_member member }
+    | _ -> e
+  in
+  ((loc, t), e')
+
+let hook_name s =
+  let is_A_to_Z c = c >= 'A' && c <= 'Z' in
+  String.starts_with ~prefix:"use" s && (String.length s = 3 || is_A_to_Z s.[3])
+
+let hook_function { Flow_ast.Function.id; _ } =
+  match id with
+  | Some (loc, { Flow_ast.Identifier.name; _ }) when hook_name name -> Some loc
+  | _ -> None
+
+let hook_call { Flow_ast.Expression.Call.callee; _ } =
+  (* A.B.C.useFoo() is a hook, A().useFoo() is not *)
+  let open Flow_ast.Expression in
+  let rec hook_callee top exp =
+    match exp with
+    | (_, Identifier (_, { Flow_ast.Identifier.name; _ })) -> hook_name name || not top
+    | ( _,
+        Member
+          {
+            Member._object;
+            property = Member.PropertyIdentifier (_, { Flow_ast.Identifier.name; _ });
+            _;
+          }
+      ) ->
+      (hook_name name || not top) && hook_callee false _object
+    | _ -> false
+  in
+  hook_callee true callee

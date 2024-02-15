@@ -1,4 +1,3 @@
-
 module N = Js.Date
 
 let date () =
@@ -15,7 +14,7 @@ let suites = Mt.[
       Eq(N.parseAsFloat "1976-03-08T12:34:56.789+01:23", 195131516789.));
 
     "parseAsFloat_invalid", (fun _ ->
-      Ok(N.parseAsFloat "gibberish" |> Js_float.isNaN));
+      Ok(N.parseAsFloat "gibberish" |> Js.Float.isNaN));
 
     "fromFloat", (fun _ ->
       Eq("1976-03-08T11:11:56.789Z",
@@ -29,21 +28,18 @@ let suites = Mt.[
     "fromString_invalid", (fun _ ->
       Ok( N.fromString "gibberish"
           |> N.getTime
-          |> Js_float.isNaN
+          |> Js.Float.isNaN
           ));
 
     "makeWithYM", (fun _ ->
-      let d = N.makeWithYM ~year:1984.
-                                 ~month:4. () in
+      let d = N.makeWithYM ~year:1984. ~month:4. in
 
       Eq( (1984., 4.),
           (N.getFullYear d,
            N.getMonth d))
     );
     "makeWithYMD", (fun _ ->
-      let d = N.makeWithYMD ~year:1984.
-                                  ~month:4.
-                                  ~date:6. () in
+      let d = N.makeWithYMD ~year:1984. ~month:4. ~date:6. in
 
       Eq( (1984., 4., 6.),
           (N.getFullYear d,
@@ -51,10 +47,7 @@ let suites = Mt.[
            N.getDate d))
     );
     "makeWithYMDH", (fun _ ->
-      let d = N.makeWithYMDH ~year:1984.
-                                   ~month:4.
-                                   ~date:6.
-                                   ~hours:3. () in
+      let d = N.makeWithYMDH ~year:1984. ~month:4. ~date:6. ~hours:3. in
 
       Eq( (1984., 4., 6., 3.),
           (N.getFullYear d,
@@ -63,11 +56,9 @@ let suites = Mt.[
            N.getHours d))
     );
     "makeWithYMDHM", (fun _ ->
-      let d = N.makeWithYMDHM ~year:1984.
-                                    ~month:4.
-                                    ~date:6.
-                                    ~hours:3.
-                                    ~minutes:59. () in
+      let d =
+        N.makeWithYMDHM ~year:1984. ~month:4. ~date:6. ~hours:3. ~minutes:59.
+      in
 
       Eq( (1984., 4., 6., 3., 59.),
           (N.getFullYear d,
@@ -77,12 +68,15 @@ let suites = Mt.[
            N.getMinutes d))
     );
     "makeWithYMDHMS", (fun _ ->
-      let d = N.makeWithYMDHMS ~year:1984.
-                                     ~month:4.
-                                     ~date:6.
-                                     ~hours:3.
-                                     ~minutes:59.
-                                     ~seconds:27. () in
+      let d =
+        N.makeWithYMDHMS
+          ~year:1984.
+          ~month:4.
+          ~date:6.
+          ~hours:3.
+          ~minutes:59.
+          ~seconds:27.
+      in
 
       Eq( (1984., 4., 6., 3., 59., 27.),
           (N.getFullYear d,
@@ -94,8 +88,7 @@ let suites = Mt.[
     );
 
     "utcWithYM", (fun _ ->
-      let d = N.utcWithYM ~year:1984.
-                                ~month:4. () in
+      let d = N.utcWithYM ~year:1984. ~month:4. in
       let d = N.fromFloat d in
 
       Eq( (1984., 4.),
@@ -103,9 +96,7 @@ let suites = Mt.[
            N.getUTCMonth d))
     );
     "utcWithYMD", (fun _ ->
-      let d = N.utcWithYMD ~year:1984.
-                                 ~month:4.
-                                 ~date:6. () in
+      let d = N.utcWithYMD ~year:1984. ~month:4. ~date:6. in
       let d = N.fromFloat d in
 
       Eq( (1984., 4., 6.),
@@ -114,10 +105,7 @@ let suites = Mt.[
            N.getUTCDate d))
     );
     "utcWithYMDH", (fun _ ->
-      let d = N.utcWithYMDH ~year:1984.
-                                  ~month:4.
-                                  ~date:6.
-                                  ~hours:3. () in
+      let d = N.utcWithYMDH ~year:1984. ~month:4. ~date:6. ~hours:3. in
       let d = N.fromFloat d in
 
       Eq( (1984., 4., 6., 3.),
@@ -127,11 +115,8 @@ let suites = Mt.[
            N.getUTCHours d))
     );
     "utcWithYMDHM", (fun _ ->
-      let d = N.utcWithYMDHM ~year:1984.
-                                   ~month:4.
-                                   ~date:6.
-                                   ~hours:3.
-                                   ~minutes:59. () in
+      let d =
+        N.utcWithYMDHM ~year:1984. ~month:4. ~date:6. ~hours:3. ~minutes:59. in
       let d = N.fromFloat d in
 
       Eq( (1984., 4., 6., 3., 59.),
@@ -142,12 +127,15 @@ let suites = Mt.[
            N.getUTCMinutes d))
     );
     "utcWithYMDHMS", (fun _ ->
-      let d = N.utcWithYMDHMS ~year:1984.
-                                    ~month:4.
-                                    ~date:6.
-                                    ~hours:3.
-                                    ~minutes:59.
-                                    ~seconds:27. () in
+      let d =
+        N.utcWithYMDHMS
+          ~year:1984.
+          ~month:4.
+          ~date:6.
+          ~hours:3.
+          ~minutes:59.
+          ~seconds:27.
+      in
       let d = N.fromFloat d in
 
       Eq( (1984., 4., 6., 3., 59., 27.),
@@ -208,29 +196,26 @@ let suites = Mt.[
 
     "setDate", (fun _ ->
       let d = date () in
-      let _ = N.setDate d 12. in
+      let _ = N.setDate 12. d in
 
       Eq(12., N.getDate d)
     );
     "setFullYear", (fun _ ->
       let d = date () in
-      let _ = N.setFullYear d 1986. in
+      let _ = N.setFullYear 1986. d in
 
       Eq(1986., N.getFullYear d)
     );
     "setFullYearM", (fun _ ->
       let d = date () in
-      let _ = N.setFullYearM d ~year:1986.
-                                     ~month:7. () in
+      let _ = N.setFullYearM d ~year:1986. ~month:7. in
       Eq( (1986., 7.),
           (N.getFullYear d,
            N.getMonth d))
     );
     "setFullYearMD", (fun _ ->
       let d = date () in
-      let _ = N.setFullYearMD d ~year:1986.
-                                      ~month:7.
-                                      ~date:23. () in
+      let _ = N.setFullYearMD d ~year:1986. ~month:7. ~date:23. in
       Eq( (1986., 7., 23.),
           (N.getFullYear d,
            N.getMonth d,
@@ -238,23 +223,20 @@ let suites = Mt.[
     );
     "setHours", (fun _ ->
       let d = date () in
-      let _ = N.setHours d 22. in
+      let _ = N.setHours 22. d in
 
       Eq(22., N.getHours d)
     );
     "setHoursM", (fun _ ->
       let d = date () in
-      let _ = N.setHoursM d ~hours:22.
-                                  ~minutes:48. () in
+      let _ = N.setHoursM d ~hours:22. ~minutes:48. in
       Eq( (22., 48.),
           (N.getHours d,
            N.getMinutes d))
     );
     "setHoursMS", (fun _ ->
       let d = date () in
-      let _ = N.setHoursMS d ~hours:22.
-                                   ~minutes:48.
-                                   ~seconds:54. () in
+      let _ = N.setHoursMS d ~hours:22. ~minutes:48. ~seconds:54. in
       Eq( (22., 48., 54.),
           (N.getHours d,
            N.getMinutes d,
@@ -262,29 +244,26 @@ let suites = Mt.[
     );
     "setMilliseconds", (fun _ ->
       let d = date () in
-      let _ = N.setMilliseconds d 543. in
+      let _ = N.setMilliseconds 543. d in
 
       Eq(543., N.getMilliseconds d)
     );
     "setMinutes", (fun _ ->
       let d = date () in
-      let _ = N.setMinutes d 18. in
+      let _ = N.setMinutes 18. d in
 
       Eq(18., N.getMinutes d)
     );
     "setMinutesS", (fun _ ->
       let d = date () in
-      let _ = N.setMinutesS d ~minutes:18.
-                                    ~seconds:42. () in
+      let _ = N.setMinutesS d ~minutes:18. ~seconds:42. in
       Eq( (18., 42.),
          (N.getMinutes d,
           N.getSeconds d))
     );
     "setMinutesSMs", (fun _ ->
       let d = date () in
-      let _ = N.setMinutesSMs d ~minutes:18.
-                                      ~seconds:42.
-                                      ~milliseconds:311. () in
+      let _ = N.setMinutesSMs d ~minutes:18. ~seconds:42. ~milliseconds:311. in
       Eq( (18., 42., 311.),
           (N.getMinutes d,
            N.getSeconds d,
@@ -292,57 +271,52 @@ let suites = Mt.[
     );
     "setMonth", (fun _ ->
       let d = date () in
-      let _ = N.setMonth d 10. in
+      let _ = N.setMonth 10. d in
 
       Eq(10., N.getMonth d)
     );
     "setMonthD", (fun _ ->
       let d = date () in
-      let _ = N.setMonthD d ~month:10.
-                                  ~date:14. () in
+      let _ = N.setMonthD d ~month:10. ~date:14. in
       Eq( (10., 14.),
           (N.getMonth d,
            N.getDate d))
     );
     "setSeconds", (fun _ ->
       let d = date () in
-      let _ = N.setSeconds d 36. in
+      let _ = N.setSeconds 36. d in
 
       Eq(36., N.getSeconds d)
     );
     "setSecondsMs", (fun _ ->
       let d = date () in
-      let _ = N.setSecondsMs d ~seconds:36.
-                                     ~milliseconds:420. () in
+      let _ = N.setSecondsMs d ~seconds:36. ~milliseconds:420. in
       Eq( (36., 420.),
           (N.getSeconds d,
            N.getMilliseconds d))
     );
     "setUTCDate", (fun _ ->
       let d = date () in
-      let _ = N.setUTCDate d 12. in
+      let _ = N.setUTCDate 12. d in
 
       Eq(12., N.getUTCDate d)
     );
     "setUTCFullYear", (fun _ ->
       let d = date () in
-      let _ = N.setUTCFullYear d 1986. in
+      let _ = N.setUTCFullYear 1986. d in
 
       Eq(1986., N.getUTCFullYear d)
     );
     "setUTCFullYearM", (fun _ ->
       let d = date () in
-      let _ = N.setUTCFullYearM d ~year:1986.
-                                        ~month:7. () in
+      let _ = N.setUTCFullYearM d ~year:1986. ~month:7. in
       Eq( (1986., 7.),
           (N.getUTCFullYear d,
            N.getUTCMonth d))
     );
     "setUTCFullYearMD", (fun _ ->
       let d = date () in
-      let _ = N.setUTCFullYearMD d ~year:1986.
-                                         ~month:7.
-                                         ~date:23. () in
+      let _ = N.setUTCFullYearMD d ~year:1986. ~month:7. ~date:23. in
       Eq( (1986., 7., 23.),
           (N.getUTCFullYear d,
            N.getUTCMonth d,
@@ -350,23 +324,20 @@ let suites = Mt.[
     );
     "setUTCHours", (fun _ ->
       let d = date () in
-      let _ = N.setUTCHours d 22. in
+      let _ = N.setUTCHours 22. d in
 
       Eq(22., N.getUTCHours d)
     );
     "setUTCHoursM", (fun _ ->
       let d = date () in
-      let _ = N.setUTCHoursM d ~hours:22.
-                                     ~minutes:48. () in
+      let _ = N.setUTCHoursM d ~hours:22. ~minutes:48. in
       Eq( (22., 48.),
           (N.getUTCHours d,
            N.getUTCMinutes d))
     );
     "setUTCHoursMS", (fun _ ->
       let d = date () in
-      let _ = N.setUTCHoursMS d ~hours:22.
-                                      ~minutes:48.
-                                      ~seconds:54. () in
+      let _ = N.setUTCHoursMS d ~hours:22. ~minutes:48. ~seconds:54. in
       Eq( (22., 48., 54.),
           (N.getUTCHours d,
            N.getUTCMinutes d,
@@ -374,29 +345,28 @@ let suites = Mt.[
     );
     "setUTCMilliseconds", (fun _ ->
       let d = date () in
-      let _ = N.setUTCMilliseconds d 543. in
+      let _ = N.setUTCMilliseconds 543. d in
 
       Eq(543., N.getUTCMilliseconds d)
     );
     "setUTCMinutes", (fun _ ->
       let d = date () in
-      let _ = N.setUTCMinutes d 18. in
+      let _ = N.setUTCMinutes 18. d in
 
       Eq(18., N.getUTCMinutes d)
     );
     "setUTCMinutesS", (fun _ ->
       let d = date () in
-      let _ = N.setUTCMinutesS d ~minutes:18.
-                                       ~seconds:42. () in
+      let _ = N.setUTCMinutesS d ~minutes:18. ~seconds:42. in
       Eq( (18., 42.),
           (N.getUTCMinutes d,
            N.getUTCSeconds d))
     );
     "setUTCMinutesSMs", (fun _ ->
       let d = date () in
-      let _ = N.setUTCMinutesSMs d ~minutes:18.
-                                         ~seconds:42.
-                                        ~milliseconds:311. () in
+      let _ =
+        N.setUTCMinutesSMs d ~minutes:18. ~seconds:42. ~milliseconds:311.
+      in
       Eq( (18., 42., 311.),
           (N.getUTCMinutes d,
            N.getUTCSeconds d,
@@ -404,28 +374,26 @@ let suites = Mt.[
     );
     "setUTCMonth", (fun _ ->
       let d = date () in
-      let _ = N.setUTCMonth d 10. in
+      let _ = N.setUTCMonth 10. d in
 
       Eq(10., N.getUTCMonth d)
     );
     "setUTCMonthD", (fun _ ->
       let d = date () in
-      let _ = N.setUTCMonthD d ~month:10.
-                                     ~date:14. () in
+      let _ = N.setUTCMonthD d ~month:10. ~date:14. in
       Eq( (10., 14.),
           (N.getUTCMonth d,
            N.getUTCDate d))
     );
     "setUTCSeconds", (fun _ ->
       let d = date () in
-      let _ = N.setUTCSeconds d 36. in
+      let _ = N.setUTCSeconds 36. d in
 
       Eq(36., N.getUTCSeconds d)
     );
     "setUTCSecondsMs", (fun _ ->
       let d = date () in
-      let _ = N.setUTCSecondsMs d ~seconds:36.
-                                        ~milliseconds:420. () in
+      let _ = N.setUTCSecondsMs d ~seconds:36. ~milliseconds:420. in
       Eq( (36., 420.),
           (N.getUTCSeconds d,
            N.getUTCMilliseconds d))
@@ -438,7 +406,7 @@ let suites = Mt.[
     "toISOString", (fun _ ->
       Eq("1976-03-08T11:11:56.789Z", N.toISOString (date ())));
     "toJSON", (fun _ ->
-      Eq("1976-03-08T11:11:56.789Z", N.toJSON (date ())));
+      Eq("1976-03-08T11:11:56.789Z", N.toJSON (date ()) |> Option.get ));
     "toJSONUnsafe", (fun _ ->
       Eq("1976-03-08T11:11:56.789Z", N.toJSONUnsafe (date ())));
     (* locale dependent
@@ -455,10 +423,10 @@ let suites = Mt.[
     *)
     "toUTCString", (fun _ ->
       Eq("Mon, 08 Mar 1976 11:11:56 GMT", N.toUTCString (date ())));
-    "eq" , (fun _ -> 
-      let a = Js.Date.fromString "2013-03-01T01:10:00" in 
-      let b = Js.Date.fromString "2013-03-01T01:10:00" in 
-      let c = Js.Date.fromString "2013-03-01T01:10:01" in 
+    "eq" , (fun _ ->
+      let a = Js.Date.fromString "2013-03-01T01:10:00" in
+      let b = Js.Date.fromString "2013-03-01T01:10:00" in
+      let c = Js.Date.fromString "2013-03-01T01:10:01" in
       Ok (a = b && b <> c &&  c > b)
     );
 ]

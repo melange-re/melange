@@ -1,18 +1,11 @@
 (library
- (name common)
- (wrapped false)
- (flags :standard -open Melange_compiler_libs)
- (modules_without_implementation js_raw_info)
- (libraries ext melange-compiler-libs))
+ (name melange_ffi)
+ (package melange)
+ (modules_without_implementation js_raw_info lam_tag_info)
+ (libraries melstd melange_compiler_libs js_parser))
 
 (rule
- (target js_config.ml)
- (deps js_config.cppo.ml)
+ (target oprint_mel_primitive_name.ml)
+ (deps oprint_mel_primitive_name.dev.ml oprint_mel_primitive_name.release.ml)
  (action
-  (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{target})))
-
-(rule
- (targets melange_version.ml)
- (deps ../build_version.ml ../../package.json)
- (action
-  (run ../build_version.exe %{targets})))
+  (copy# oprint_mel_primitive_name.%{profile}.ml %{target})))

@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,26 +17,24 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Melange_mini_stdlib
+
 (***********************)
 (* replaced primitives *)
-(* Note that we explicitly define [unsafe_set] instead of 
-   using {!Bytes.unsafe_set} since for some standard libraries, 
+(* Note that we explicitly define [unsafe_set] instead of
+   using {!Bytes.unsafe_set} since for some standard libraries,
    it might point to ["%string_unsafe_set"]
 *)
 
-
-
-let get s i= 
-  if i >=Caml_string_extern.length s || i < 0  then
-    raise (Invalid_argument "index out of bounds") 
+let get s i =
+  if i >= Caml_string_extern.length s || i < 0 then
+    raise (Invalid_argument "index out of bounds")
   else Caml_string_extern.unsafe_get s i
 
-let make n (ch : char) : string = 
-  (Caml_string_extern.of_char ch)   
-  |. Caml_string_extern.repeat   n
-
+let make n (ch : char) : string =
+  Caml_string_extern.of_char ch |. Caml_string_extern.repeat n

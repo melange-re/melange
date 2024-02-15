@@ -22,15 +22,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-module Node = Node__no_aliases
 (** Node Child Process API *)
 
 type option
 
-external option : ?cwd:string -> ?encoding:string -> unit -> option = "" [@@bs.obj]
+external option : ?cwd:string -> ?encoding:string -> unit -> option = ""
+[@@mel.obj]
 
 (* TODO: when no option it would return buffer  *)
-external execSync : string -> option -> string = "execSync" [@@bs.module "child_process"]
+external execSync : string -> option -> string = "execSync"
+[@@mel.module "child_process"]
 
 (* Note we have to make it abstract type, since if you declare it as
    [ < pid : float > Js.t ], then you will create other external
@@ -38,13 +39,14 @@ external execSync : string -> option -> string = "execSync" [@@bs.module "child_
 *)
 type spawnResult
 
+external spawnSync : string -> spawnResult = "spawnSync"
+[@@mel.module "child_process"]
 
-external spawnSync : string -> spawnResult = "spawnSync" [@@bs.module "child_process"]
-
-external readAs : spawnResult ->
-  < pid : int ;
-    status : int Js.null;
-    signal : string Js.null ;
-    stdout : Node.string_buffer Js.null ;
-    stderr : Node.string_buffer Js.null > Js.t =
-  "%identity"
+external readAs :
+  spawnResult ->
+  < pid : int
+  ; status : int Js.null
+  ; signal : string Js.null
+  ; stdout : Node.string_buffer Js.null
+  ; stderr : Node.string_buffer Js.null >
+  Js.t = "%identity"

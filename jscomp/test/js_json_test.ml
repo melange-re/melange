@@ -31,7 +31,7 @@ let () =
         begin match ty2 with
         | J.JSONArray x ->  (* compiler infer x : J.t array *)
           x
-          |. Js.Array2.forEach (fun  x ->
+          |. Js.Array.forEach ~f:(fun  x ->
               let ty3 = J.classify x in
               match ty3 with
               | J.JSONNumber _ -> ()
@@ -103,9 +103,9 @@ let () =
 let option_get = function | None -> assert false | Some x -> x
 
 let () =
-  let dict = Js_dict.empty  () in
-  Js_dict.set dict "a" (J.string "test string");
-  Js_dict.set dict "b" (J.number 123.0);
+  let dict = Js.Dict.empty  () in
+  Js.Dict.set dict "a" (J.string "test string");
+  Js.Dict.set dict "b" (J.number 123.0);
 
   let json =
     dict |> J.object_ |> J.stringify |> J.parseExn
@@ -117,14 +117,14 @@ let () =
   | J.JSONObject x ->
 
     (* Test field 'a' *)
-    let ta = J.classify (option_get @@ Js_dict.get x "a") in
+    let ta = J.classify (option_get @@ Js.Dict.get x "a") in
     begin match ta with
     | J.JSONString a ->
       if a <> "test string"
       then false_ __LOC__
       else
         (* Test field 'b' *)
-        let ty = J.classify (option_get @@ Js_dict.get x "b") in
+        let ty = J.classify (option_get @@ Js.Dict.get x "b") in
         begin match ty with
         | J.JSONNumber b ->
           add_test __LOC__ (fun _ -> Mt.Approx (123.0, b))
@@ -253,9 +253,9 @@ let () =
 
 let () =
   let make_d s i =
-    let d = Js_dict.empty() in
-    Js_dict.set d "a" (J.string s);
-    Js_dict.set d "b" (J.number (float_of_int i));
+    let d = Js.Dict.empty() in
+    Js.Dict.set d "a" (J.string s);
+    Js.Dict.set d "b" (J.number (float_of_int i));
     d
   in
 
@@ -273,7 +273,7 @@ let () =
     let ty= J.classify x.(1) in
     begin match ty with
     | J.JSONObject a1->
-      let ty =  J.classify @@ option_get @@ Js_dict.get a1 "a" in
+      let ty =  J.classify @@ option_get @@ Js.Dict.get a1 "a" in
       begin match ty with
       | J.JSONString aValue -> eq __LOC__ aValue "bbb"
       | _ -> false_ __LOC__
@@ -298,7 +298,7 @@ let () = eq __LOC__ (J.stringifyAny [|1; 2; 3|]) (Some "[1,2,3]")
 let () =
   eq
   __LOC__
-  (J.stringifyAny [%bs.obj {foo = 1; bar = "hello"; baz = [%bs.obj {baaz = 10}]}])
+  (J.stringifyAny [%mel.obj {foo = 1; bar = "hello"; baz = [%mel.obj {baaz = 10}]}])
   (Some {|{"foo":1,"bar":"hello","baz":{"baaz":10}}|})
 
 let () = eq __LOC__ (J.stringifyAny Js.Null.empty) (Some "null")
@@ -391,13 +391,13 @@ let () =
     (J.decodeNull (J.number 1.23)) None
 
 
-let id (type t ) (obj : t) : t  = 
+let id (type t ) (obj : t) : t  =
     obj |. J.serializeExn |. J.deserializeUnsafe
-    
 
-let idtest obj = 
-  eq __LOC__ obj (id obj)      
-let ( ) = 
+
+let idtest obj =
+  eq __LOC__ obj (id obj)
+let ( ) =
   idtest None;
   idtest [None, None, None];
   idtest (Belt.List.makeBy 500 (fun i -> if i mod 2 = 0 then None else Some 1));

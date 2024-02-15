@@ -7,8 +7,9 @@ external ff : int -> int -> int = "caml_fancy_add"
 
 
 [%%raw{|
-require('melange/lib/js/caml_external_polyfill.js').register("caml_fancy_add", function(x,y){
-  return + ((""+x ) + (""+y))
+require('melange.js/caml_external_polyfill.js')
+  .register("caml_fancy_add", function(x,y){
+    return + ((""+x ) + (""+y))
 })
 |}]
 

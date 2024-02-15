@@ -1,5 +1,3 @@
-
-
 (* let test _g =
     on_exit_slice3 __LINE__ [|1;2;3|]
 
@@ -8,12 +6,12 @@
 type t
 external on_exit_slice3 :
     int
-    -> h:(_ [@bs.as 3])
-    -> (_ [@bs.as "xxx"])
+    -> h:(_ [@mel.as 3])
+    -> (_ [@mel.as "xxx"])
     -> int array
     -> unit
     =
-    "xx"    [@@bs.send.pipe: t] [@@bs.splice]
+    "xx"    [@@mel.send.pipe: t] [@@mel.variadic]
 
 
 
@@ -25,8 +23,8 @@ external on_exit_slice3 :
 
 
 external hi : int array -> int option = "hi"
-    [@@bs.splice] [@@bs.return {null_to_opt}]
-    [@@bs.send.pipe:int]
+    [@@mel.variadic] [@@mel.return {null_to_opt}]
+    [@@mel.send.pipe:int]
 
 
 let test_hi x =
@@ -36,8 +34,8 @@ let test_hi x =
 
 
 external hi__2 : int array -> int option = "hi__2"
-[@@variadic] [@@return nullable ]
-[@@bs.send.pipe:int]
+[@@mel.variadic] [@@mel.return nullable ]
+[@@mel.send.pipe:int]
 
 let test_hi__2 x =
     match x |> hi__2 [||]with
@@ -47,28 +45,28 @@ let test_hi__2 x =
 type id = int -> int
 
 external cb : string -> int array -> id = "cb"
-[@@variadic] [@@bs.send.pipe: int]
+[@@mel.variadic] [@@mel.send.pipe: int]
 
 
-type id2 = int -> int [@bs]
+type id2 = int -> int [@u]
 external cb2 : string -> int array -> id2 = "cb2"
-[@@variadic] [@@bs.send.pipe: int]
+[@@mel.variadic] [@@mel.send.pipe: int]
 
 
 let test_cb x =
     ignore ((x |> cb "hI" [|1;2;3|] ) 3);
     ignore @@ (cb "hI" [|1;2;3|] x ) 3 ;
-    (cb2 "hI" [|1;2;3|] x ) 3 [@bs]
+    (cb2 "hI" [|1;2;3|] x ) 3 [@u]
 
 
-type u = int -> int [@bs]
-external v : u = "v" [@@bs.val]
+type u = int -> int [@u]
+external v : u = "v"
 
 let f  x =
-    ignore @@ (v x [@bs])
+    ignore @@ (v x [@u])
 
-external fff0 : int -> int -> (_[@bs.as {json|[undefined,undefined]|json}]) -> int = "say"
-[@@bs.val]
+external fff0 : int -> int -> (_[@mel.as {json|[undefined,undefined]|json}]) -> int = "say"
+
 
 let testUndefined () =
     fff0 1 2

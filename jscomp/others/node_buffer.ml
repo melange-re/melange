@@ -22,27 +22,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-module Node = Node__no_aliases
 (** Node Buffer API *)
 
 type t = Node.buffer
 
-external isBuffer : 'a -> bool = "Buffer.isBuffer"
-[@@bs.val]
-
-external fromString : string -> t = "Buffer.from"
-[@@bs.val]
-
 type encoding =
-  [ `ascii  | `utf8  | `utf16le  | `usc2  | `base64  | `latin1 | `binary  | `hex ]
-external fromStringWithEncoding : string -> encoding -> t = "from"
-[@@bs.val] [@@bs.scope "Buffer"]
+  [ `ascii | `utf8 | `utf16le | `usc2 | `base64 | `latin1 | `binary | `hex ]
 
-external toString : t -> string = "toString"
-[@@bs.send]
+external isBuffer : 'a -> bool = "isBuffer" [@@mel.scope "Buffer"]
 
-external toStringWithEncoding : t -> encoding -> string = "toString"
-[@@bs.send]
+external fromString : ?encoding:encoding -> string -> t = "from"
+[@@mel.scope "Buffer"]
 
-external concat : t array -> t = "Buffer.concat"
-[@@bs.val]
+external toString : ?encoding:encoding -> string = "toString"
+[@@mel.send.pipe: t]
+
+external concat : t array -> t = "concat" [@@mel.scope "Buffer"]

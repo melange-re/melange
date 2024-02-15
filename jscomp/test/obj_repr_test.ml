@@ -1,5 +1,3 @@
-
-
 (**
 for objects its size is dynamic
 let xx = object ... end
@@ -13,15 +11,13 @@ field 1 is its id
 ```
 class point ..
 ```
-point is quarduple, produced by 
+point is quarduple, produced by
 Caml_internalOO.make_class
 
 
 *)
-[@@@bs.config {
-flags = [|"-drawlambda"|]}]
-let u = object 
-  val x0 = 1 
+let u = object
+  val x0 = 1
   val x1 = 2
   val x2 = 3
   val x3 = 4

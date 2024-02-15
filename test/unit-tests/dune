@@ -1,0 +1,5 @@
+(test
+ (name ounit_tests)
+ (package melange)
+ (flags :standard -open Melange_compiler_libs)
+ (libraries ounit2 str melangelib melange.ppx))

@@ -1,17 +1,15 @@
-
-[@@@bs.config no_export ]
+[@@@mel.config no_export ]
 
 let f x =
   match x with
-  | `A -> "A" 
+  | `A -> "A"
   | `B -> "B"
 
 let f1 x = match x with `A -> "A"
 
 let ff =
-  let x = 66 in   
+  let x = 66 in
   if x >= 66 then
     "B"
-  else "A"      
+  else "A"
 let () = Js.log (f `A,ff, f1 `A)
-

@@ -22,42 +22,44 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (* Apply a substitution to a lambda-term.
    Assumes that the bound variables of the lambda-term do not
    belong to the domain of the substitution.
    Assumes that the image of the substitution is out of reach
    of the bound variables of the lambda-term (no capture). *)
 
-let subst (s : Lam.t Map_ident.t) lam =
+let subst (s : Lam.t Ident.Map.t) lam =
   let rec subst_aux (x : Lam.t) : Lam.t =
     match x with
-    | Lvar id | Lmutvar id -> Map_ident.find_default s id x
+    | Lvar id | Lmutvar id -> Ident.Map.find_default s id x
     | Lconst _ -> x
     | Lapply { ap_func; ap_args; ap_info } ->
-        Lam.apply (subst_aux ap_func) (Ext_list.map ap_args subst_aux) ap_info
+        Lam.apply (subst_aux ap_func) (List.map ~f:subst_aux ap_args) ap_info
     | Lfunction { arity; params; body; attr } ->
         Lam.function_ ~arity ~params ~body:(subst_aux body) ~attr
     | Llet (str, id, arg, body) ->
         Lam.let_ str id (subst_aux arg) (subst_aux body)
     | Lmutlet (id, arg, body) -> Lam.mutlet id (subst_aux arg) (subst_aux body)
     | Lletrec (decl, body) ->
-        Lam.letrec (Ext_list.map decl subst_decl) (subst_aux body)
+        Lam.letrec (List.map ~f:subst_decl decl) (subst_aux body)
     | Lprim { primitive; args; loc } ->
-        Lam.prim ~primitive ~args:(Ext_list.map args subst_aux) loc
+        Lam.prim ~primitive ~args:(List.map ~f:subst_aux args) loc
     | Lglobal_module _ -> x
     | Lswitch (arg, sw) ->
         Lam.switch (subst_aux arg)
           {
             sw with
-            sw_consts = Ext_list.map sw.sw_consts subst_case;
-            sw_blocks = Ext_list.map sw.sw_blocks subst_case;
+            sw_consts = List.map ~f:subst_case sw.sw_consts;
+            sw_blocks = List.map ~f:subst_case sw.sw_blocks;
             sw_failaction = subst_opt sw.sw_failaction;
           }
     | Lstringswitch (arg, cases, default) ->
         Lam.stringswitch (subst_aux arg)
-          (Ext_list.map cases subst_strcase)
+          (List.map ~f:subst_strcase cases)
           (subst_opt default)
-    | Lstaticraise (i, args) -> Lam.staticraise i (Ext_list.map args subst_aux)
+    | Lstaticraise (i, args) -> Lam.staticraise i (List.map ~f:subst_aux args)
     | Lstaticcatch (e1, io, e2) ->
         Lam.staticcatch (subst_aux e1) io (subst_aux e2)
     | Ltrywith (e1, exn, e2) -> Lam.try_ (subst_aux e1) exn (subst_aux e2)
@@ -70,8 +72,9 @@ let subst (s : Lam.t Map_ident.t) lam =
     | Lassign (id, e) -> Lam.assign id (subst_aux e)
     | Lsend (k, met, obj, args, loc) ->
         Lam.send k (subst_aux met) (subst_aux obj)
-          (Ext_list.map args subst_aux)
+          (List.map ~f:subst_aux args)
           loc
+    | Lifused (v, e) -> Lam.ifused v (subst_aux e)
   and subst_decl (id, exp) = (id, subst_aux exp)
   and subst_case (key, case) = (key, subst_aux case)
   and subst_strcase (key, case) = (key, subst_aux case)

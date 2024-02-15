@@ -1,6 +1,4 @@
-
-
-external min_int : int -> int -> int = "min" [@@bs.val] [@@bs.scope "Math"]
+external min_int : int -> int -> int = "min"  [@@mel.scope "Math"]
 
 (* ATTENTION: only built-in runtime would simplify it
    as
@@ -9,19 +7,19 @@ external min_int : int -> int -> int = "min" [@@bs.val] [@@bs.scope "Math"]
    ]}
    otherwise it has to be expanded as
    {[
-     var min_int = funciton(x,y){
+     var min_int = function(x,y){
        return Math.min(x,y)
      }
    ]}
-   There are other things like [@bs.send] which does not like eta reduction
-   
+   There are other things like [@mel.send] which does not like eta reduction
+
 *)
 let min_int = min_int
 
-type t 
-external say : int -> int = "say"[@@bs.send.pipe:t]
+type t
+external say : int -> int = "say"[@@mel.send.pipe:t]
 
 let say = say
 
 [@@@warning "-102"]
-let v = Pervasives.compare
+let v = Stdlib.compare

@@ -1,15 +1,15 @@
-let keys :  Obj.t -> string array [@bs] = [%bs.raw " function (x){return Object.keys(x)}" ]
+let keys :  Obj.t -> string array [@u] = [%mel.raw " function (x){return Object.keys(x)}" ]
 
 
 
-[%%bs.raw{|
+[%%mel.raw{|
   function $$higher_order(x){
    return function(y,z){
       return x + y + z
    }
   }
 |}]
-external higher_order: int -> (int -> int -> int  [@bs]) = "$$higher_order" [@@bs.val]
+external higher_order: int -> (int -> int -> int  [@u]) = "$$higher_order"
 
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0
@@ -22,14 +22,14 @@ type _ kind =
   | Int : int kind
   | Str : string kind
 
-external config : kind:('a kind [@bs.ignore] ) -> hi:int -> low:'a ->  _ = "" [@@bs.obj]
+external config : kind:('a kind [@mel.ignore] ) -> hi:int -> low:'a ->  _ = "" [@@mel.obj]
 
 let int_config = config ~kind:Int ~hi:3  ~low:32
 
 let string_config = config ~kind:Str ~hi:3  ~low:"32"
 
 let () =
-  eq __LOC__ (6, ((higher_order 1 ) 2 3 [@bs]))
+  eq __LOC__ (6, ((higher_order 1 ) 2 3 [@u]))
 
 
 let same_type =
@@ -37,14 +37,14 @@ let same_type =
    [string_config ; [%obj{hi = 3 ; low = "32"}]]
   )
 
-let v_obj = object method hi__x () = Js.log "hei" end [@bs]
+let v_obj = object method hi__x () = Js.log "hei" end [@u]
 
 
 let () =
-  eq __LOC__ (Array.length (Js_obj.keys int_config), 2 );
-  eq __LOC__ (Array.length (Js_obj.keys string_config), 2 );
-  eq __LOC__ (Js_obj.keys v_obj |. Js.Array2.indexOf "hi_x" , -1 );
-  eq __LOC__ (Js_obj.keys v_obj |. Js.Array2.indexOf "hi", 0 )
+  eq __LOC__ (Array.length (Js.Obj.keys int_config), 2 );
+  eq __LOC__ (Array.length (Js.Obj.keys string_config), 2 );
+  eq __LOC__ (Js.Obj.keys v_obj |. Js.Array.indexOf ~value:"hi_x", -1 );
+  eq __LOC__ (Js.Obj.keys v_obj |. Js.Array.indexOf ~value:"hi", 0 )
 
 let u = ref 3
 
@@ -55,10 +55,10 @@ let () =
 
 type null_obj
 
-external hh : null_obj   -> int = "hh" [@@bs.send] (* it also work *)
-external ff : null_obj -> unit  -> int = "ff" [@@bs.send]
-external ff_pipe :  unit  -> int = "ff_pipe" [@@bs.send.pipe: null_obj]
-external ff_pipe2 :   int = "ff_pipe2" [@@bs.send.pipe: null_obj] (* FIXME *)
+external hh : null_obj   -> int = "hh" [@@mel.send] (* it also work *)
+external ff : null_obj -> unit  -> int = "ff" [@@mel.send]
+external ff_pipe :  unit  -> int = "ff_pipe" [@@mel.send.pipe: null_obj]
+external ff_pipe2 :   int = "ff_pipe2" [@@mel.send.pipe: null_obj] (* FIXME *)
 let vv z = hh z
 
 let v z = ff z ()
@@ -69,39 +69,39 @@ let vvvv z = z |> ff_pipe2
 let create_prim () =  [%obj{ x' = 3 ; x'' = 3; x'''' = 2}]
 
 type t
-external setGADT : t -> ('a kind [@bs.ignore]) -> 'a ->  unit = "setGADT" [@@bs.set]
+external setGADT : t -> ('a kind [@mel.ignore]) -> 'a ->  unit = "setGADT" [@@mel.set]
 external setGADT2 :
  t ->
- ('a kind [@bs.ignore]) ->
- ('b kind [@bs.ignore]) ->
- ('a * 'b) ->  unit = "setGADT2" [@@bs.set]
+ ('a kind [@mel.ignore]) ->
+ ('b kind [@mel.ignore]) ->
+ ('a * 'b) ->  unit = "setGADT2" [@@mel.set]
 
-external getGADT : t -> ('a kind [@bs.ignore]) -> 'a  = "getGADT" [@@bs.get]
+external getGADT : t -> ('a kind [@mel.ignore]) -> 'a  = "getGADT" [@@mel.get]
 
 external getGADT2 :
- t -> ('a kind [@bs.ignore]) ->
- ('b kind [@bs.ignore])
-  -> ('a * 'b)  = "getGADT2" [@@bs.get]
+ t -> ('a kind [@mel.ignore]) ->
+ ('b kind [@mel.ignore])
+  -> ('a * 'b)  = "getGADT2" [@@mel.get]
 
 external getGADTI2 :
- t -> ('a kind [@bs.ignore]) ->
- ('b kind [@bs.ignore]) -> int
-  -> ('a * 'b)  = "" [@@bs.get_index]
+ t -> ('a kind [@mel.ignore]) ->
+ ('b kind [@mel.ignore]) -> int
+  -> ('a * 'b)  = "" [@@mel.get_index]
 
 external getGADTI3 :
- t -> ('a kind [@bs.ignore]) ->
- ('b kind [@bs.ignore]) -> (_ [@bs.as 3])
-  -> ('a * 'b)  = "" [@@bs.get_index]
+ t -> ('a kind [@mel.ignore]) ->
+ ('b kind [@mel.ignore]) -> (_ [@mel.as 3])
+  -> ('a * 'b)  = "" [@@mel.get_index]
 
 external setGADTI2 :
- t -> ('a kind [@bs.ignore]) ->
- ('b kind [@bs.ignore]) -> int
-  -> ('a * 'b) -> unit  = "" [@@set_index]
+ t -> ('a kind [@mel.ignore]) ->
+ ('b kind [@mel.ignore]) -> int
+  -> ('a * 'b) -> unit  = "" [@@mel.set_index]
 
 external setGADTI3 :
- t -> ('a kind [@bs.ignore]) ->
- ('b kind [@bs.ignore]) -> (_ [@bs.as 3] )
-  -> ('a * 'b) -> unit  = "" [@@set_index]
+ t -> ('a kind [@mel.ignore]) ->
+ ('b kind [@mel.ignore]) -> (_ [@mel.as 3] )
+  -> ('a * 'b) -> unit  = "" [@@mel.set_index]
 
 let ffff x =
   begin

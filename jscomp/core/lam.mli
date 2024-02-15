@@ -22,6 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+module Constant = Melange_ffi.Lam_constant
+module Methname = Melange_ffi.Lam_methname
+module Tag_info = Melange_ffi.Lam_tag_info
+
 type apply_status = App_na | App_infer_full | App_uncurry
 
 type ap_info = {
@@ -60,7 +65,7 @@ and t = private
   | Lvar of ident
   | Lmutvar of ident
   | Lglobal_module of ident
-  | Lconst of Lam_constant.t
+  | Lconst of Constant.t
   | Lapply of apply
   | Lfunction of lfunction
   | Llet of Lam_compat.let_kind * ident * t * t
@@ -78,6 +83,7 @@ and t = private
   | Lfor of ident * t * t * Asttypes.direction_flag * t
   | Lassign of ident * t
   | Lsend of Lambda.meth_kind * t * t * t list * Location.t
+  | Lifused of ident * t
 (* | Levent of t * Lambda.lambda_event
    [Levent] in the branch hurt pattern match,
    we should use record for trivial debugger info
@@ -85,10 +91,10 @@ and t = private
 
 val inner_map : t -> (t -> t) -> t
 
-val handle_bs_non_obj_ffi :
-  External_arg_spec.params ->
-  External_ffi_types.return_wrapper ->
-  External_ffi_types.external_spec ->
+val handle_mel_non_obj_ffi :
+  Melange_ffi.External_arg_spec.params ->
+  Melange_ffi.External_ffi_types.return_wrapper ->
+  Melange_ffi.External_ffi_types.external_spec ->
   t list ->
   Location.t ->
   string ->
@@ -101,7 +107,7 @@ val var : ident -> t
 
 val mutvar : ident -> t
 val global_module : ident -> t
-val const : Lam_constant.t -> t
+val const : Constant.t -> t
 val apply : t -> t list -> ap_info -> t
 
 val function_ :
@@ -129,10 +135,10 @@ val false_ : t
 val unit : t
 
 val sequor : t -> t -> t
-(** convert [l || r] to [if l then true else r]*)
+(** convert [l || r] to [if l then true else r] *)
 
 val sequand : t -> t -> t
-(** convert [l && r] to [if l then r else false *)
+(** convert [l && r] to [if l then r else false] *)
 
 val not_ : Location.t -> t -> t
 (** constant folding *)
@@ -144,6 +150,7 @@ val while_ : t -> t -> t
 
 (* val event : t -> Lambda.lambda_event -> t   *)
 val try_ : t -> ident -> t -> t
+val ifused : ident -> t -> t
 val assign : ident -> t -> t
 val send : Lambda.meth_kind -> t -> t -> t list -> Location.t -> t
 

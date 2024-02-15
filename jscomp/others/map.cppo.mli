@@ -14,45 +14,45 @@ val isEmpty: 'v t -> bool
 
 val has: 'v t -> key -> bool
 
-val cmpU: 'v t -> 'v t -> ('v -> 'v -> int [@bs]) -> int
+val cmpU: 'v t -> 'v t -> ('v -> 'v -> int [@u]) -> int
 val cmp: 'v t -> 'v t -> ('v -> 'v -> int) -> int
 
-val eqU: 'v t -> 'v t -> ('v -> 'v -> bool [@bs]) -> bool
+val eqU: 'v t -> 'v t -> ('v -> 'v -> bool [@u]) -> bool
 val eq: 'v t -> 'v t -> ('v -> 'v -> bool) -> bool
 (** [eq m1 m2] tests whether the maps [m1] and [m2] are
    equal, that is, contain equal keys and associate them with
    equal data. *)
 
-val findFirstByU : 'v t -> (key -> 'v -> bool [@bs]) -> (key * 'v) option
+val findFirstByU : 'v t -> (key -> 'v -> bool [@u]) -> (key * 'v) option
 val findFirstBy : 'v t -> (key -> 'v -> bool) -> (key * 'v) option
 (** [findFirstBy m p] uses funcion [f] to find the first key value pair
     to match predicate [p].
 
-    @example {[
+    {[
       let s0 = fromArray ~id:(module IntCmp) [|4,"4";1,"1";2,"2,"3""|];;
       findFirstBy s0 (fun k v -> k = 4 ) = option (4, "4");;
     ]}
 *)
 
-val forEachU: 'v t -> (key -> 'v -> unit [@bs]) -> unit
+val forEachU: 'v t -> (key -> 'v -> unit [@u]) -> unit
 val forEach: 'v t -> (key -> 'v -> unit) -> unit
 (** [forEach m f] applies [f] to all bindings in map [m].
     [f] receives the key as first argument, and the associated value
     as second argument. The bindings are passed to [f] in increasing
     order with respect to the ordering over the type of the keys. *)
 
-val reduceU: 'v t -> 'v2 -> ('v2 -> key -> 'v -> 'v2 [@bs]) -> 'v2
+val reduceU: 'v t -> 'v2 -> ('v2 -> key -> 'v -> 'v2 [@u]) -> 'v2
 val reduce: 'v t -> 'v2 -> ('v2 -> key -> 'v -> 'v2) -> 'v2
 (** [reduce m a f] computes [(f kN dN ... (f k1 d1 a)...)],
     where [k1 ... kN] are the keys of all bindings in [m]
     (in increasing order), and [d1 ... dN] are the associated data. *)
 
-val everyU: 'v t -> (key -> 'v -> bool [@bs]) -> bool
+val everyU: 'v t -> (key -> 'v -> bool [@u]) -> bool
 val every: 'v t -> (key -> 'v -> bool) -> bool
 (** [every m p] checks if all the bindings of the map
     satisfy the predicate [p]. Order unspecified *)
 
-val someU: 'v t -> (key -> 'v -> bool [@bs]) -> bool
+val someU: 'v t -> (key -> 'v -> bool [@u]) -> bool
 val some: 'v t -> (key -> 'v -> bool) -> bool
 (** [some m p] checks if at least one binding of the map
     satisfy the predicate [p]. Order unspecified *)
@@ -94,7 +94,7 @@ val getUndefined: 'v t -> key -> 'v Js.undefined
 val getWithDefault: 'v t -> key -> 'v -> 'v
 
 val getExn: 'v t -> key -> 'v
- 
+
 val checkInvariantInternal: _ t -> unit
 (**
    {b raise} when invariant is not held
@@ -111,12 +111,12 @@ val set: 'v t -> key -> 'v -> 'v t
    [m], plus a binding of [x] to [y]. If [x] was already bound
    in [m], its previous binding disappears. *)
 
-val updateU: 'v t -> key -> ('v option -> 'v option [@bs]) -> 'v t
+val updateU: 'v t -> key -> ('v option -> 'v option [@u]) -> 'v t
 val update: 'v t -> key -> ('v option -> 'v option) -> 'v t
 
 val mergeU:
     'v t -> 'v2 t ->
-    (key -> 'v option -> 'v2 option -> 'c option [@bs]) ->
+    (key -> 'v option -> 'v2 option -> 'c option [@u]) ->
     'c t
 val merge:
     'v t -> 'v2 t ->
@@ -132,7 +132,7 @@ val mergeMany: 'v t -> (key * 'v) array -> 'v t
 
 val keepU:
     'v t ->
-    (key -> 'v -> bool [@bs]) ->
+    (key -> 'v -> bool [@u]) ->
     'v t
 val keep:
     'v t ->
@@ -143,9 +143,9 @@ val keep:
 
 val partitionU:
     'v t ->
-    (key -> 'v -> bool [@bs]) ->
+    (key -> 'v -> bool [@u]) ->
     'v t * 'v t
-val partition: 
+val partition:
     'v t ->
     (key -> 'v -> bool) ->
     'v t * 'v t
@@ -165,7 +165,7 @@ val split: key -> 'v t -> 'v t * 'v option * 'v t
       or [Some v] if [m] binds [v] to [x].
  *)
 
-val mapU: 'v t -> ('v -> 'v2 [@bs]) -> 'v2 t
+val mapU: 'v t -> ('v -> 'v2 [@u]) -> 'v2 t
 val map: 'v t -> ('v -> 'v2) -> 'v2 t
 (** [map m f] returns a map with same domain as [m], where the
     associated value [a] of all bindings of [m] has been
@@ -173,5 +173,5 @@ val map: 'v t -> ('v -> 'v2) -> 'v2 t
     The bindings are passed to [f] in increasing order
     with respect to the ordering over the type of the keys. *)
 
-val mapWithKeyU: 'v t -> (key -> 'v -> 'v2 [@bs]) -> 'v2 t
+val mapWithKeyU: 'v t -> (key -> 'v -> 'v2 [@u]) -> 'v2 t
 val mapWithKey: 'v t -> (key -> 'v -> 'v2) -> 'v2 t

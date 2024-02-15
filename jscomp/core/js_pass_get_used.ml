@@ -22,12 +22,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let add_use stats id = Hash_ident.add_or_update stats id 1 ~update:succ
+open Import
+
+let add_use stats id = Ident.Hash.add_or_update stats id 1 ~update:succ
 
 let post_process_stats my_export_set
-    (defined_idents : J.variable_declaration Hash_ident.t) stats =
-  Hash_ident.iter defined_idents (fun ident v ->
-      if Set_ident.mem my_export_set ident then
+    (defined_idents : J.variable_declaration Ident.Hash.t) stats =
+  Ident.Hash.iter defined_idents (fun ident v ->
+      if Ident.Set.mem my_export_set ident then
         Js_op_util.update_used_stats v.ident_info Exported
       else
         let pure =
@@ -35,7 +37,7 @@ let post_process_stats my_export_set
           | None -> false (* can not happen *)
           | Some x -> Js_analyzer.no_side_effect_expression x
         in
-        match Hash_ident.find_opt stats ident with
+        match Ident.Hash.find_opt stats ident with
         | None ->
             Js_op_util.update_used_stats v.ident_info
               (if pure then Dead_pure else Dead_non_pure)
@@ -52,22 +54,22 @@ let post_process_stats my_export_set
 *)
 let super = Js_record_iter.super
 
-let count_collects (* collect used status*) (stats : int Hash_ident.t)
+let count_collects (* collect used status*) (stats : int Ident.Hash.t)
     (* collect all def sites *)
-      (defined_idents : J.variable_declaration Hash_ident.t) =
+      (defined_idents : J.variable_declaration Ident.Hash.t) =
   {
     super with
     variable_declaration =
       (fun self ({ ident; value; property = _; ident_info = _ } as v) ->
-        Hash_ident.add defined_idents ident v;
+        Ident.Hash.add defined_idents ident v;
         match value with None -> () | Some x -> self.expression self x);
     ident = (fun _ id -> add_use stats id);
   }
 
-let get_stats (program : J.program) : J.variable_declaration Hash_ident.t =
-  let stats : int Hash_ident.t = Hash_ident.create 83 in
-  let defined_idents : J.variable_declaration Hash_ident.t =
-    Hash_ident.create 83
+let get_stats (program : J.program) : J.variable_declaration Ident.Hash.t =
+  let stats : int Ident.Hash.t = Ident.Hash.create 83 in
+  let defined_idents : J.variable_declaration Ident.Hash.t =
+    Ident.Hash.create 83
   in
   let my_export_set = program.export_set in
   let obj = count_collects stats defined_idents in

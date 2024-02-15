@@ -1,5 +1,5 @@
 (* Copyright (C) 2017 Hongbo Zhang, Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -26,25 +26,16 @@
     Utililites for Float
 *)
 
-external isNaN : float -> bool = "isNaN" [@@bs.val]
-
-external toInt: float -> int = "%intoffloat"
-
-external fromInt: int -> float = "%identity"
-
-external fromString: string -> float = "parseFloat" [@@bs.val]
+external isNaN : float -> bool = "isNaN"
+external toInt : float -> int = "%intoffloat"
+external fromInt : int -> float = "%identity"
+external fromString : string -> float = "parseFloat"
 
 let fromString i =
-  match (fromString i) with
-  | i when isNaN i -> None
-  | i -> Some i
+  match fromString i with i when isNaN i -> None | i -> Some i
 
-external toString: float -> string = "String" [@@bs.val]
-
+external toString : float -> string = "String"
 external ( + ) : float -> float -> float = "%addfloat"
-
 external ( - ) : float -> float -> float = "%subfloat"
-
 external ( * ) : float -> float -> float = "%mulfloat"
-
 external ( / ) : float -> float -> float = "%divfloat"

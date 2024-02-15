@@ -1,38 +1,30 @@
-
-[@@@bs.config{flags = 
-[|
-  "-bs-diagnose"
-  ; "-drawlambda"
-  ; "-dtypedtree"
-|]}]
-
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0
-let eq loc x y = Mt.eq_suites ~test_id ~suites loc x y 
+let eq loc x y = Mt.eq_suites ~test_id ~suites loc x y
 
 
 external
- hi: (unit -> unit [@bs.uncurry 0]) -> int = "hi" [@@bs.val]
+ hi: (unit -> unit [@mel.uncurry 0]) -> int = "hi"
 
 let f_01 () = hi (fun (() as x) -> if x = () then Js.log "x" ) (* FIXME: not inlined *)
 
 
 
-let u x = 
-  match () with 
-  | () when x > 3 -> 1 
+let u x =
+  match () with
+  | () when x > 3 -> 1
   | () when x < 2 -> 2
   | () when x > 4 -> 0
-  | () -> 3 
+  | () -> 3
 
-let fx () = ()  
+let fx () = ()
 
-let u0 (x : unit) = Some x 
+let u0 (x : unit) = Some x
 
 let u1 = Some ()
 type t = unit
 
-let u2 (x : t) = Some x 
+let u2 (x : t) = Some x
 let u3 : t option = Some ()
 let u4 : t = ()
 

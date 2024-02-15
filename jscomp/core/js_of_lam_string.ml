@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -46,18 +46,18 @@ let ref_byte e e0 = E.array_index e e0
 let set_byte e e0 e1 = E.assign (E.array_index e e0) e1
 
 (**
-   Note that [String.fromCharCode] also works, but it only 
-   work for small arrays, however, for {bytes_to_string} it is likely the bytes 
+   Note that [String.fromCharCode] also works, but it only
+   work for small arrays, however, for {bytes_to_string} it is likely the bytes
    will become big
    {[
      String.fromCharCode.apply(null,[87,97])
        "Wa"
        String.fromCharCode(87,97)
-       "Wa" 
+       "Wa"
    ]}
    This does not work for large arrays
    {[
-     String.fromCharCode.apply(null, prim = Array[1048576]) 
+     String.fromCharCode.apply(null, prim = Array[1048576])
        Maxiume call stack size exceeded
    ]}
 *)

@@ -11,6 +11,8 @@
 (************************************)
 (* Adapted for Javascript backend: Hongbo Zhang                        *)
 
+open Import
+
 (*
         [no_bounded_varaibles lambda]
         checks if [lambda] contains bounded variable, for
@@ -19,10 +21,10 @@
         to inline directly since if it contains bounded variables it
         must be rebounded before inlining
 *)
-let rec no_list args = Ext_list.for_all args no_bounded_variables
+let rec no_list args = List.for_all ~f:no_bounded_variables args
 
 and no_list_snd : 'a. ('a * Lam.t) list -> bool =
- fun args -> Ext_list.for_all_snd args no_bounded_variables
+ fun args -> List.for_all ~f:(fun (_, x) -> no_bounded_variables x) args
 
 and no_opt x = match x with None -> true | Some a -> no_bounded_variables a
 
@@ -34,7 +36,7 @@ and no_bounded_variables (l : Lam.t) =
   | Lapply { ap_func; ap_args; _ } ->
       no_bounded_variables ap_func && no_list ap_args
   | Lglobal_module _ -> true
-  | Lprim { args; primitive = _ } -> no_list args
+  | Lprim { args; primitive = _; _ } -> no_list args
   | Lswitch (arg, sw) ->
       no_bounded_variables arg && no_list_snd sw.sw_consts
       && no_list_snd sw.sw_blocks && no_opt sw.sw_failaction
@@ -48,9 +50,10 @@ and no_bounded_variables (l : Lam.t) =
   | Lwhile (e1, e2) -> no_bounded_variables e1 && no_bounded_variables e2
   | Lsend (_k, met, obj, args, _) ->
       no_bounded_variables met && no_bounded_variables obj && no_list args
+  | Lifused (_v, e) -> no_bounded_variables e
   | Lstaticcatch (e1, (_, vars), e2) ->
       vars = [] && no_bounded_variables e1 && no_bounded_variables e2
-  | Lfunction { body; params } -> params = [] && no_bounded_variables body
+  | Lfunction { body; params; _ } -> params = [] && no_bounded_variables body
   | Lfor _ -> false
   | Ltrywith _ -> false
   | Llet _ | Lmutlet _ -> false
@@ -184,35 +187,38 @@ let subst_helper ~try_depth (subst : subst_tbl)
         | Some (_, handler) -> to_lam handler
         | None -> lam)
     | Lstaticraise (i, ls) -> (
-        let ls = Ext_list.map ls simplif in
+        let ls = List.map ~f:simplif ls in
         match Hash_int.find_opt subst i with
         | Some (xs, handler) ->
             let handler = to_lam handler in
-            let ys = Ext_list.map xs Ident.rename in
+            let ys = List.map ~f:Ident.rename xs in
             let env =
-              Ext_list.fold_right2 xs ys Map_ident.empty (fun x y t ->
-                  Map_ident.add t x (Lam.var y))
+              List.fold_right2
+                ~f:(fun x y t -> Ident.Map.add t x (Lam.var y))
+                xs ys ~init:Ident.Map.empty
             in
-            Ext_list.fold_right2 ys ls (Lam_subst.subst env handler)
-              (fun y l r -> Lam.let_ Strict y l r)
+            List.fold_right2
+              ~f:(fun y l r -> Lam.let_ Strict y l r)
+              ys ls
+              ~init:(Lam_subst.subst env handler)
         | None -> Lam.staticraise i ls)
     | Lvar _ | Lmutvar _ | Lconst _ -> lam
     | Lapply { ap_func; ap_args; ap_info } ->
-        Lam.apply (simplif ap_func) (Ext_list.map ap_args simplif) ap_info
+        Lam.apply (simplif ap_func) (List.map ~f:simplif ap_args) ap_info
     | Lfunction { arity; params; body; attr } ->
         Lam.function_ ~arity ~params ~body:(simplif body) ~attr
     | Llet (kind, v, l1, l2) -> Lam.let_ kind v (simplif l1) (simplif l2)
     | Lmutlet (v, l1, l2) -> Lam.mutlet v (simplif l1) (simplif l2)
     | Lletrec (bindings, body) ->
-        Lam.letrec (Ext_list.map_snd bindings simplif) (simplif body)
+        Lam.letrec (List.map_snd bindings simplif) (simplif body)
     | Lglobal_module _ -> lam
     | Lprim { primitive; args; loc } ->
-        let args = Ext_list.map args simplif in
+        let args = List.map ~f:simplif args in
         Lam.prim ~primitive ~args loc
     | Lswitch (l, sw) ->
         let new_l = simplif l in
-        let new_consts = Ext_list.map_snd sw.sw_consts simplif in
-        let new_blocks = Ext_list.map_snd sw.sw_blocks simplif in
+        let new_consts = List.map_snd sw.sw_consts simplif in
+        let new_blocks = List.map_snd sw.sw_blocks simplif in
         let new_fail = Option.map simplif sw.sw_failaction in
         Lam.switch new_l
           {
@@ -222,8 +228,7 @@ let subst_helper ~try_depth (subst : subst_tbl)
             sw_failaction = new_fail;
           }
     | Lstringswitch (l, sw, d) ->
-        Lam.stringswitch (simplif l)
-          (Ext_list.map_snd sw simplif)
+        Lam.stringswitch (simplif l) (List.map_snd sw simplif)
           (Option.map simplif d)
     | Ltrywith (l1, v, l2) ->
         incr try_depth;
@@ -237,7 +242,8 @@ let subst_helper ~try_depth (subst : subst_tbl)
         Lam.for_ v (simplif l1) (simplif l2) dir (simplif l3)
     | Lassign (v, l) -> Lam.assign v (simplif l)
     | Lsend (k, m, o, ll, loc) ->
-        Lam.send k (simplif m) (simplif o) (Ext_list.map ll simplif) loc
+        Lam.send k (simplif m) (simplif o) (List.map ~f:simplif ll) loc
+    | Lifused (v, l) -> Lam.ifused v (simplif l)
   in
   simplif lam
 

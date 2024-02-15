@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (*
 
     Base line
@@ -91,47 +93,18 @@
     done
     ]}
 *)
-type state = {
-  defined_idents : Set_ident.t;
-  used_idents : Set_ident.t;
-  loop_mutable_values : Set_ident.t;
-  mutable_values : Set_ident.t;
-  closured_idents : Set_ident.t;
-  in_loop : bool;
-}
+type state = { defined_idents : Ident.Set.t; used_idents : Ident.Set.t }
 
 let init_state =
-  {
-    defined_idents = Set_ident.empty;
-    used_idents = Set_ident.empty;
-    loop_mutable_values = Set_ident.empty;
-    mutable_values = Set_ident.empty;
-    closured_idents = Set_ident.empty;
-    in_loop = false;
-  }
-
-let with_in_loop (st : state) b =
-  if b = st.in_loop then st else { st with in_loop = b }
-
-let add_loop_mutable_variable (st : state) id =
-  {
-    st with
-    loop_mutable_values = Set_ident.add st.loop_mutable_values id;
-    mutable_values = Set_ident.add st.mutable_values id;
-  }
-
-let add_mutable_variable (st : state) id =
-  { st with mutable_values = Set_ident.add st.mutable_values id }
-
-let add_defined_ident (st : state) id =
-  { st with defined_idents = Set_ident.add st.defined_idents id }
-
-let add_used_ident (st : state) id =
-  { st with used_idents = Set_ident.add st.used_idents id }
-
-let super = Js_record_fold.super
+  { defined_idents = Ident.Set.empty; used_idents = Ident.Set.empty }
 
 let record_scope_pass =
+  let super = Js_record_fold.super in
+  let add_defined_ident (st : state) id =
+    { st with defined_idents = Ident.Set.add st.defined_idents id }
+  and add_used_ident (st : state) id =
+    { st with used_idents = Ident.Set.add st.used_idents id }
+  in
   {
     super with
     expression =
@@ -146,188 +119,92 @@ let record_scope_pass =
             *)
             (* Note that [used_idents] is not complete
                 it ignores some locally defined idents *)
-            let param_set = Set_ident.of_list params in
-            let { defined_idents = defined_idents'; used_idents = used_idents' }
-                =
-              self.block self
-                {
-                  init_state with
-                  mutable_values =
-                    Set_ident.of_list (Js_fun_env.get_mutable_params params env);
-                }
-                block
+            let param_set = Ident.Set.of_list params in
+            let {
+              defined_idents = defined_idents';
+              used_idents = used_idents';
+              _;
+            } =
+              self.block self init_state block
             in
-            (* let defined_idents', used_idents' =
-               obj#get_defined_idents, obj#get_used_idents  in *)
-            (* mark which param is used *)
-            params
-            |> List.iteri (fun i v ->
-                   if not (Set_ident.mem used_idents' v) then
-                     Js_fun_env.mark_unused env i);
+            (* mark unused params *)
+            List.iteri params ~f:(fun i v ->
+                if not (Ident.Set.mem used_idents' v) then
+                  Js_fun_env.mark_unused env i);
             let closured_idents' =
               (* pass param_set down *)
-              Set_ident.(diff used_idents' (union defined_idents' param_set))
+              Ident.Set.(diff used_idents' (union defined_idents' param_set))
             in
 
-            (* Noe that we don't know which variables are exactly mutable yet ..
-               due to the recursive thing
-            *)
+            (* Note that we don't know which variables are exactly mutable yet ..
+               due to the recursive thing *)
             Js_fun_env.set_unbounded env closured_idents';
-            let lexical_scopes =
-              Set_ident.(inter closured_idents' state.loop_mutable_values)
-            in
-            Js_fun_env.set_lexical_scope env lexical_scopes;
-            (* tailcall , note that these varibles are used in another pass *)
+            (* tailcall, note that these variables are used in another pass *)
             {
               state with
-              used_idents = Set_ident.union state.used_idents closured_idents';
-              (* There is a bug in ocaml -dsource*)
-              closured_idents =
-                Set_ident.union state.closured_idents closured_idents';
+              used_idents = Ident.Set.union state.used_idents closured_idents';
             }
         | _ -> (
-            let obj = super.expression self state x in
+            let state = super.expression self state x in
             match Js_block_runtime.check_additional_id x with
-            | None -> obj
-            | Some id -> add_used_ident obj id));
+            | None -> state
+            | Some id -> add_used_ident state id));
     variable_declaration =
       (fun self state x ->
-        match x with
-        | { ident; value; property } -> (
-            let obj =
-              add_defined_ident
-                (match (state.in_loop, property) with
-                | true, Variable -> add_loop_mutable_variable state ident
-                | true, (Strict | StrictOpt | Alias)
-                (* Not real true immutable in javascript
-                    since it's in the loop
-
-                    TODO: we should also
-                *) -> (
-                    match value with
-                    | None ->
-                        add_loop_mutable_variable state ident
-                        (* TODO: Check why assertion failure *)
-                        (* self#add_loop_mutable_variable ident *)
-                        (* assert false *)
-                    | Some x -> (
-                        (*
-                     when x is an immediate immutable value,
-                     (like integer .. )
-                     not a reference, it should be Immutable
-                     or string,
-                     type system might help here
-                     TODO:
-                 *)
-                        match x.expression_desc with
-                        | Fun _ | Number _ | Str _ -> state
-                        | _ ->
-                            (* if Set_ident.(is_empty @@ *)
-                            (*   inter self#get_mutable_values  *)
-                            (*     ( ({<  *)
-                            (*         defined_idents = Set_ident.empty;  *)
-                            (*         used_idents = Set_ident.empty; *)
-                            (*         >} # expression x) # get_used_idents)) then *)
-                            (*   (\* FIXME: still need to check expression is pure or not*\) *)
-                            (*   self *)
-                            (* else  *)
-                            add_loop_mutable_variable state ident))
-                | false, Variable -> add_mutable_variable state ident
-                | false, (Strict | StrictOpt | Alias) -> state)
-                ident
-            in
-            match value with
-            | None -> obj
-            | Some x -> self.expression self obj x));
+        let { J.ident; value; _ } = x in
+        let state = add_defined_ident state ident in
+        match value with
+        | None -> state
+        | Some x -> self.expression self state x);
     statement =
       (fun self state x ->
         match x.statement_desc with
-        | ForRange (_, _, loop_id, _, _, a_env) ->
+        | ForRange (_, _, loop_id, _, stmts) ->
             (* TODO: simplify definition of For *)
             let {
               defined_idents = defined_idents';
               used_idents = used_idents';
-              closured_idents = closured_idents';
+              _;
             } =
-              super.statement self
-                {
-                  in_loop = true;
-                  loop_mutable_values = Set_ident.singleton loop_id;
-                  used_idents = Set_ident.empty;
-                  (* TODO: if unused, can we generate better code? *)
-                  defined_idents = Set_ident.singleton loop_id;
-                  closured_idents = Set_ident.empty;
-                  (* Think about nested for blocks *)
-                  (* Invariant: Finish id is never used *)
-                  mutable_values = state.mutable_values;
-                }
-                x
+              (* Invariant: Finish id is never used *)
+              self.block self
+                (* TODO: if unused, can we generate better code? *)
+                (add_defined_ident init_state loop_id)
+                stmts
             in
-
-            (* CHECK*)
-
-            (* let defined_idents', used_idents', closured_idents' =
-               obj#get_defined_idents, obj#get_used_idents, obj#get_closured_idents in *)
-            let lexical_scope =
-              Set_ident.(
-                inter
-                  (diff closured_idents' defined_idents')
-                  state.loop_mutable_values)
-            in
-            let () = Js_closure.set_lexical_scope a_env lexical_scope in
-            (* set scope *)
             {
-              state with
-              used_idents = Set_ident.union state.used_idents used_idents';
+              used_idents = Ident.Set.union state.used_idents used_idents';
               (* walk around ocaml -dsource bug
                  {[
-                   Set_ident.(union used_idents used_idents)
+                   Ident.Set.(union used_idents used_idents)
                  ]}
               *)
               defined_idents =
-                Set_ident.union state.defined_idents defined_idents';
-              (* TODO: if we our generated code also follow lexical scope,
-                 this is not necessary ;
-                 [varaibles] are mutable or not is known at definition
-              *)
-              closured_idents =
-                Set_ident.union state.closured_idents lexical_scope;
+                Ident.Set.union state.defined_idents defined_idents';
             }
-        | While (_label, pred, body, _env) ->
-            with_in_loop
-              (self.block self
-                 (with_in_loop (self.expression self state pred) true)
-                 body)
-              state.in_loop
         | _ -> super.statement self state x);
     exception_ident =
       (fun _ state x ->
         (* we can not simply skip it, since it can be used
             TODO: check loop exception
             (loop {
-            excption(i){
+            exception(i){
             () => {i}
             }
             })
         *)
         {
-          state with
-          used_idents = Set_ident.add state.used_idents x;
-          defined_idents = Set_ident.add state.defined_idents x;
-        });
-    for_ident =
-      (fun _ state x ->
-        {
-          state with
-          loop_mutable_values = Set_ident.add state.loop_mutable_values x;
+          used_idents = Ident.Set.add state.used_idents x;
+          defined_idents = Ident.Set.add state.defined_idents x;
         });
     ident =
       (fun _ state x ->
-        if Set_ident.mem state.defined_idents x then state
-        else { state with used_idents = Set_ident.add state.used_idents x });
+        if Ident.Set.mem state.defined_idents x then state
+        else add_used_ident state x);
   }
 
 let program js =
-  (record_scope_pass.program record_scope_pass init_state js)
-    .loop_mutable_values
-(* (scope_pass # program js ) # get_loop_mutable_values *)
+  let _state : state =
+    record_scope_pass.program record_scope_pass init_state js
+  in
+  js

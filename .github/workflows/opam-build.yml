@@ -25,18 +25,19 @@ jobs:
           - ubuntu-latest
           # - windows-latest # for some reason windows build is not picking dune 3.5
         ocaml-compiler:
-          - 4.14.x
+          - ocaml-base-compiler.5.1.1
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
+          submodules: 'recursive'
           path: melange
 
       - name: Use Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
 
@@ -50,32 +51,31 @@ jobs:
         with:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
 
-      - name: Pin melange to current
+      - name: Install dependencies
         working-directory: melange
         run: |
-          env IGNORECONSTRAINTS="melange,meldep,mel"
-          opam pin add dune https://github.com/ocaml/dune.git#405c0bc3bb168fa43b86e3f56e610124311de6f5
-          opam pin add melange-compiler-libs --dev-repo
-          opam install luv reason
-          opam pin add meldep . --with-test
-          opam pin add melange . --with-test
-          opam pin add mel . --with-test
+          opam update
+          make opam-install-test
 
       - name: Clone melange-opam-template
-        run: git clone https://github.com/melange-re/melange-opam-template.git
+        run: |
+          git clone https://github.com/melange-re/melange-opam-template.git
+          cd melange-opam-template
 
       - name: Install all deps
         working-directory: melange-opam-template
-        run: make install
+        run: |
+          opam pin add reason-react-ppx.dev git+https://github.com/reasonml/reason-react
+          opam pin add reason-react.dev git+https://github.com/reasonml/reason-react
+          npm install
 
       - name: Build basic template
         working-directory: melange-opam-template
         run: |
-          opam exec -- mel build -- --display=short
+          opam exec -- dune build @react @node --profile=release --display=short
           npm run bundle
 
       - name: Run resulting .js files
         working-directory: melange-opam-template
         run: |
-          node _build/default/src/Hello.bs.js
-          node _build/default/src/Main.bs.js
+          node ./_build/default/src/node/src/Hello.js

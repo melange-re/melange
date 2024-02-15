@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module E = Js_exp_make
 module S = Js_stmt_make
 
@@ -30,16 +31,16 @@ type meta_info = Info of J.ident_info | Recursive
 let super = Js_record_iter.super
 
 let mark_dead_code (js : J.program) : J.program =
-  let ident_use_stats : meta_info Hash_ident.t = Hash_ident.create 17 in
+  let ident_use_stats : meta_info Ident.Hash.t = Ident.Hash.create 17 in
   let mark_dead =
     {
       super with
       ident =
         (fun _ ident ->
-          match Hash_ident.find_opt ident_use_stats ident with
+          match Ident.Hash.find_opt ident_use_stats ident with
           | None ->
               (* First time *)
-              Hash_ident.add ident_use_stats ident Recursive
+              Ident.Hash.add ident_use_stats ident Recursive
           (* recursive identifiers *)
           | Some Recursive -> ()
           | Some (Info x) -> Js_op_util.update_used_stats x Used);
@@ -63,13 +64,13 @@ let mark_dead_code (js : J.program) : J.program =
                     Js_analyzer.no_side_effect_expression x
               in
               let () =
-                if Set_ident.mem js.export_set ident then
+                if Ident.Set.mem js.export_set ident then
                   Js_op_util.update_used_stats ident_info Exported
               in
-              match Hash_ident.find_opt ident_use_stats ident with
+              match Ident.Hash.find_opt ident_use_stats ident with
               | Some Recursive ->
                   Js_op_util.update_used_stats ident_info Used;
-                  Hash_ident.replace ident_use_stats ident (Info ident_info)
+                  Ident.Hash.replace ident_use_stats ident (Info ident_info)
               | Some (Info _) ->
                   (* check [camlinternlFormat,box_type] inlined twice
                       FIXME: seems we have redeclared identifiers
@@ -78,13 +79,13 @@ let mark_dead_code (js : J.program) : J.program =
               (* assert false *)
               | None ->
                   (* First time *)
-                  Hash_ident.add ident_use_stats ident (Info ident_info);
+                  Ident.Hash.add ident_use_stats ident (Info ident_info);
                   Js_op_util.update_used_stats ident_info
                     (if pure then Scanning_pure else Scanning_non_pure)));
     }
   in
   mark_dead.program mark_dead js;
-  Hash_ident.iter ident_use_stats (fun _id (info : meta_info) ->
+  Ident.Hash.iter ident_use_stats (fun _id (info : meta_info) ->
       match info with
       | Info ({ used_stats = Scanning_pure } as info) ->
           Js_op_util.update_used_stats info Dead_pure
@@ -149,9 +150,9 @@ let mark_dead_code (js : J.program) : J.program =
 let super = Js_record_map.super
 
 let add_substitue substitution (ident : Ident.t) (e : J.expression) =
-  Hash_ident.replace substitution ident e
+  Ident.Hash.replace substitution ident e
 
-let subst_map (substitution : J.expression Hash_ident.t) =
+let subst_map (substitution : J.expression Ident.Hash.t) =
   {
     super with
     statement =
@@ -164,6 +165,7 @@ let subst_map (substitution : J.expression Hash_ident.t) =
               ident = _;
               ident_info = { used_stats = Dead_non_pure };
               value = None;
+              _;
             } ->
             { v with statement_desc = Block [] }
         | Variable
@@ -171,6 +173,7 @@ let subst_map (substitution : J.expression Hash_ident.t) =
               ident = _;
               ident_info = { used_stats = Dead_non_pure };
               value = Some x;
+              _;
             } ->
             { v with statement_desc = Exp x }
         | Variable
@@ -183,15 +186,19 @@ let subst_map (substitution : J.expression Hash_ident.t) =
                       expression_desc =
                         Caml_block
                           ((_ :: _ :: _ as ls), Immutable, tag, tag_info);
+                      _;
                     } as block);
+               _;
              } as variable) -> (
             (* If we do this, we should prevent incorrect inlning to inline it into an array :)
                 do it only when block size is larger than one
             *)
             let _, e, bindings =
-              Ext_list.fold_left ls (0, [], []) (fun (i, e, acc) x ->
+              List.fold_left
+                ~f:(fun (i, e, acc) (x : J.expression) ->
                   match x.expression_desc with
-                  | Var _ | Number _ | Str _ | J.Bool _ | Undefined ->
+                  | Var _ | Number _ | Str _ | Unicode _ | J.Bool _ | Undefined
+                    ->
                       (* TODO: check the optimization *)
                       (i + 1, x :: e, acc)
                   | _ ->
@@ -203,20 +210,23 @@ let subst_map (substitution : J.expression Hash_ident.t) =
                       *)
                       let v' = self.expression self x in
                       let match_id =
-                        Ext_ident.create
+                        Ident.create
                           (Ident.name ident ^ "_"
                           ^
                           match tag_info with
                           | Blk_module fields -> (
-                              match Ext_list.nth_opt fields i with
+                              match List.nth_opt fields i with
                               | None -> Printf.sprintf "%d" i
                               | Some x -> x)
-                          | Blk_record fields ->
-                              Ext_array.get_or fields i (fun _ ->
+                          | Blk_record fields -> (
+                              match Array.get fields i with
+                              | i -> i
+                              | exception Invalid_argument _ ->
                                   Printf.sprintf "%d" i)
                           | _ -> Printf.sprintf "%d" i)
                       in
                       (i + 1, E.var match_id :: e, (match_id, v') :: acc))
+                ~init:(0, [], []) ls
             in
             let e =
               {
@@ -238,25 +248,30 @@ let subst_map (substitution : J.expression Hash_ident.t) =
             | _ ->
                 (* self#add_substitue ident e ; *)
                 S.block
-                @@ Ext_list.rev_map_append bindings [ original_statement ]
-                     (fun (id, v) -> S.define_variable ~kind:Strict id v))
+                  (List.rev_append
+                     (List.map
+                        ~f:(fun (id, v) -> S.define_variable ~kind:Strict id v)
+                        bindings)
+                     [ original_statement ]))
         | _ -> super.statement self v);
     expression =
       (fun self x ->
         match x.expression_desc with
         | Array_index
-            ( { expression_desc = Var (Id id) },
-              { expression_desc = Number (Int { i; _ }) } )
-        | Static_index ({ expression_desc = Var (Id id) }, _, Some i) -> (
-            match Hash_ident.find_opt substitution id with
-            | Some { expression_desc = Caml_block (ls, Immutable, _, _) } -> (
+            ( { expression_desc = Var (Id id); _ },
+              { expression_desc = Number (Int { i; _ }); _ } )
+        | Static_index ({ expression_desc = Var (Id id); _ }, _, Some i) -> (
+            match Ident.Hash.find_opt substitution id with
+            | Some { expression_desc = Caml_block (ls, Immutable, _, _); _ }
+              -> (
                 (* user program can be wrong, we should not
                    turn a runtime crash into compile time crash : )
                 *)
-                match Ext_list.nth_opt ls (Int32.to_int i) with
+                match List.nth_opt ls (Int32.to_int i) with
                 | Some
                     ({
                        expression_desc = J.Var _ | Number _ | Str _ | Undefined;
+                       _;
                      } as x) ->
                     x
                 | None | Some _ -> super.expression self x)
@@ -271,7 +286,7 @@ let subst_map (substitution : J.expression Hash_ident.t) =
 *)
 
 let program (js : J.program) =
-  let obj = subst_map (Hash_ident.create 32) in
+  let obj = subst_map (Ident.Hash.create 32) in
   let js = obj.program obj js in
   mark_dead_code js
 (* |> mark_dead_code *)

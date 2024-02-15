@@ -32,22 +32,46 @@ make nix-fish # Runs fish shell in the nix environment
 
 ### OPAM
 
-To set up a development environment using [opam](https://opam.ocaml.org/), run `make opam-init` to set up an opam [local switch](https://opam.ocaml.org/blog/opam-local-switches/) and download the required dependencies.
+**Prerequisites**:
+- Install the [opam](https://opam.ocaml.org/) package manager
+- Install `tree` command line tool (`brew install tree` for macOS or `apt install tree` for Linux)
 
-## Developing
-
-Before you try building the project with `dune`, be sure to install the local `ocaml-tree` project:
+After cloning the repository, make sure to initialize git submodules, so that
+`melange-compiler-libs` is updated:
 
 ```sh
-$ cd ocaml-tree
-$ npm install
+$ git submodule update --init --recursive --remote
 ```
+
+To set up a development environment using [opam](https://opam.ocaml.org/), run `make opam-init` to set up an opam [local switch](https://opam.ocaml.org/blog/opam-local-switches/) and download the required dependencies.
+
+Install the dependencies in `melange.opam` without building and installing melange itself by running:
+
+    $ opam install ./melange.opam --deps-only
+
+
+If you plan to work on improving documentation, you will need to install `odoc`: `opam install odoc`.
+
+## Developing
 
 Here are some common commands you may find useful:
 
 - `dune build` builds the whole project
 - `dune runtest` runs the native tests
 - `dune exec jscomp/main/melc.exe` is useful to run the development version of `melc`
+
+### Updating the `vendor/melange-compiler-libs` submodule:
+
+1. Make your change in
+   [`vendor/melange-compiler-libs`](./vendor/melange-compiler-libs)
+2. Commit to your fork of the [`melange-compiler-libs`
+   repo](https://github.com/melange-re/melange-compiler-libs) and get a PR
+   through
+3. Commit the updated branch to the submodule in this repository
+4. To make it build in CI, change the `melange-compiler-libs` input URL in
+   [flake.nix](https://github.com/melange-re/melange/blob/9597451da4c83fd6ba937e4592941b7cb18b45e8/flake.nix#L14)
+   (if necessary, e.g. to point to an unmerged branch), then run `nix flake
+   update` and commit the modified `flake.lock`
 
 ## Submitting a Pull Request
 
@@ -59,3 +83,140 @@ $ nix-build nix/ci/test.nix
 ```
 
 If that all passes, then congratulations! You are well on your way to becoming a contributor 🎉
+
+To submit a Pull Request, follow [this guide](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) on creating one from a fork.
+
+## Update JS Reserved Keywords Map
+
+The compiler sources include a list of reserved JS keywords in
+`jscomp/ext/js_reserved_map.ml` which includes all identifiers in global scope
+(`window` / `globalThis`). This list should be updated from time to time for
+newer browser versions.
+
+To update it, run:
+
+```sh
+npm install puppeteer
+node scripts/build_reserved.js
+```
+
+## Upgrading the Flow JS parser
+
+Melange vendors a copy of Facebook's Flow parser. It's used, among other
+things, to parse the JS code under `%mel.raw` extension points. From time to
+time we want to upgrade the Flow parser to get the newer features added to
+JavaScript.
+
+Follow these steps to upgrade the vendored Flow parser within Melange:
+
+1. Clone the [Flow repository](https://github.com/facebook/flow) and build the
+   parser with `dune b -p flow_parser`
+
+2. Copy the `.ml{,i}` sources to `jscomp/js_parser`:
+
+```shell
+$ cp \
+    ${FLOW_SRC}/src/parser/*.ml{,i} \
+    ${FLOW_SRC}/src/hack_forked/utils/third_party/flow_{set,map}.ml \
+    ${MELANGE_SRC}/jscomp/js_parser
+```
+
+3. Write a small program to get the expanded AST back to source code
+  - this way we don't need to depend on the sedlex PPX in Melange. We'll be
+    copying the expanded sources from the dune build folder
+
+For `.ml` files:
+
+```ocaml
+let () =
+  let ast = Pparse.read_ast Structure Sys.argv.(1) in
+  Format.printf "%a" Pprintast.structure ast
+```
+
+For `.mli` files:
+
+```ocaml
+let () =
+  let ast = Pparse.read_ast Signature Sys.argv.(1) in
+  Format.printf "%a" Pprintast.signature ast
+```
+
+4. Run this small program on the following modules: `Flow_lexer`,
+   `Parse_error`, `Enum_common` and `Token`:
+
+```shell
+# Example for `Flow_lexer`
+
+dune exec ./pp_ast.exe -- flow/_build/default/src/parser/flow_lexer.pp.ml > jscomp/js_parser/flow_lexer.ml
+dune exec ./pp_ast.exe -- flow/_build/default/src/parser/flow_lexer.pp.mli > jscomp/js_parser/flow_lexer.mli
+```
+
+5. Prune unnecessary modules (e.g. look at `${FLOW_SRC}/src/parser/dune` and
+   remove the modules that aren't part of the flow_parser library, etc). A good
+   rule of thumb is to prune most new files after staging them in Git. If they
+   aren't used in any other modules, most likely Melange won't either.
+
+## A whirlwind tour to the compiler codebase
+
+### Folder structure:
+
+- `bin` contains all binaries shipped in a Melange distribution.
+- `docs` contains the old [BuckleScript
+  manual](https://melange.re/melange/Manual.html) which we host to consult
+  (rarely).
+- `jscomp` is where the compiler implementation and some tests live:
+    - `common` defines the `melange_ffi` private library, housing code shared
+      by both the Melange core library and `melange.ppx`.
+    - `core` defines the `core` Melange library, containing the bulk of the
+      compiler backend implementation.
+    - `melstd` contains the sources for the `ext` private library. This is a
+      standard library extension with additional functions and data structures
+      used throughout the Melange code.
+    - `js_parser` is a vendored copy of the [Flow
+      parser](https://github.com/facebook/flow/tree/main/src/parser), used in
+      Melange to classify `%mel.raw` JavaScript code.
+    - `runtime` is the Melange runtime. It has:
+        - the `melange.js` library.
+        - the `Caml_*` modules, implementing the low-level OCaml primitives.
+          While these are technically part of the `melange.js` library, they:
+            1. aren't exposed in the `Js.*` module.
+            2. are only ever accessed from JS: Melange internals don't address
+               any of these modules directly, and you shouldn't either.
+            3. are still exposed e.g. as `Js__Caml_array` because of Dune
+               namespacing implementation details.
+    - `stdlib` is the Melange stdlib, included in the final distribution.
+      - Depends on the runtime
+    - `others` contains the sources for the additional opt-in libraries
+      distributed with Melange: `melange.belt`, `melange.dom` and
+      `melange.node`.
+    - `test` has both:
+        - the sources for the Melange runtime tests that are executed on every
+          CI run
+        - a snapshot of their compilation to JavaScript (in
+          [`jscomp/test/dist`](https://github.com/melange-re/melange/tree/main/jscomp/test/dist)
+          and
+          [`jscomp/test/dist-es6`](https://github.com/melange-re/melange/tree/main/jscomp/test/dist-es6))
+            - **NOTE**: these snapshots are currently built manually. To do so,
+              comment the only line in
+              [`jscomp/dune`](https://github.com/melange-re/melange/blob/main/jscomp/dune)
+              and run `dune build`.
+- `playground` contains the Melange in-browser playground code
+- `ppx` has the code for `melange.ppx`, for example:
+    - all the `%mel.*` extensions and `@deriving` derivers are declared in
+      [`ppx/melange_ppx.ml`](https://github.com/melange-re/melange/blob/main/ppx/melange_ppx.ml).
+    - the Melange FFI (Foreign Function Interface) `external`s and attributes
+      are interpreted in the PPX.
+    - the Melange PPX isn't just a traditional syntax transformation: some
+      attributes and functions generated by the PPX get interpreted later
+      during Melange compilation. This [piece of
+      code](https://github.com/melange-re/melange/blob/1167ca745c7ddc2b950559e53d2ebe43585f3850/jscomp/core/lam_convert.ml#L526-L544)
+      shows an example of that.
+- `rfcs` has the Melange RFC template and the RFCs to Melange that have been
+  accepted to the project.
+- `test` is where the Melange unit tests and the blackbox
+  [cram](https://dune.readthedocs.io/en/stable/tests.html#cram-tests) tests are
+  located.
+- `vendor` includes the
+  [`melange-compiler-libs`](https://github.com/melange-re/melange-compiler-libs)
+  Git submodule.
+

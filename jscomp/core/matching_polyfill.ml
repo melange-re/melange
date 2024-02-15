@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 let is_nullary_variant (x : Types.constructor_arguments) =
   match x with Types.Cstr_tuple [] -> true | _ -> false
 
@@ -29,18 +31,20 @@ let names_from_construct_pattern
     (pat : Patterns.Head.desc Typedtree.pattern_data) =
   let names_from_type_variant (cstrs : Types.constructor_declaration list) =
     let consts, blocks =
-      Ext_list.fold_left cstrs ([], []) (fun (consts, blocks) cstr ->
+      List.fold_left
+        ~f:(fun (consts, blocks) (cstr : Types.constructor_declaration) ->
           if is_nullary_variant cstr.cd_args then
             (Ident.name cstr.cd_id :: consts, blocks)
           else (consts, Ident.name cstr.cd_id :: blocks))
+        ~init:([], []) cstrs
     in
     Some
       {
-        Lambda.consts = Ext_array.reverse_of_list consts;
-        blocks = Ext_array.reverse_of_list blocks;
+        Lambda.consts = Array.reverse_of_list consts;
+        blocks = Array.reverse_of_list blocks;
       }
   in
-  let rec resolve_path n (path : Path.t) =
+  let rec resolve_path n path =
     match Env.find_type path pat.pat_env with
     | { type_kind = Type_variant (cstrs, _repr); _ } ->
         names_from_type_variant cstrs

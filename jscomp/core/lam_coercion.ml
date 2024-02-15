@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (*
   Invariant: The last one is always [exports]
   Compile definitions
@@ -71,8 +73,8 @@
 
 type t = {
   export_list : Ident.t list;
-  export_set : Set_ident.t;
-  export_map : Lam.t Map_ident.t;
+  export_set : Ident.Set.t;
+  export_map : Lam.t Ident.Map.t;
   (* not used in code generation, mostly used
       for store some information in cmj files *)
   groups : Lam_group.t list;
@@ -82,20 +84,15 @@ type t = {
 let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
     (reverse_input : Lam_group.t list) =
   let (original_exports : Ident.t list) = meta.exports in
-  let (original_export_set : Set_ident.t) = meta.export_idents in
+  let (original_export_set : Ident.Set.t) = meta.export_idents in
   let len = List.length original_exports in
-  let tbl = Hash_set_string.create len in
-  let ({ export_list; export_set } as result) =
-    Ext_list.fold_right2 original_exports lambda_exports
-      {
-        export_list = [];
-        export_set = original_export_set;
-        export_map = Map_ident.empty;
-        groups = [];
-      } (fun (original_export_id : Ident.t) (lam : Lam.t) (acc : t) ->
+  let tbl = String.Hash_set.create len in
+  let ({ export_list; export_set; _ } as result) =
+    List.fold_right2
+      ~f:(fun (original_export_id : Ident.t) (lam : Lam.t) (acc : t) ->
         let original_name = Ident.name original_export_id in
-        if not @@ Hash_set_string.check_add tbl original_name then
-          Bs_exception.error (Bs_duplicate_exports original_name);
+        if not @@ String.Hash_set.check_add tbl original_name then
+          Mel_exception.error (Mel_duplicate_exports original_name);
         match lam with
         | Lvar id | Lmutvar id ->
             if Ident.name id = original_name then
@@ -103,12 +100,12 @@ let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
                 acc with
                 export_list = id :: acc.export_list;
                 export_set =
-                  (if Ext_ident.stamp id = Ext_ident.stamp original_export_id
-                  then acc.export_set
-                  else
-                    Set_ident.add
-                      (Set_ident.remove acc.export_set original_export_id)
-                      id);
+                  (if Ident.stamp id = Ident.stamp original_export_id then
+                     acc.export_set
+                   else
+                     Ident.Set.add
+                       (Ident.Set.remove acc.export_set original_export_id)
+                       id);
               }
             else
               let newid = Ident.rename original_export_id in
@@ -117,7 +114,7 @@ let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
               {
                 acc with
                 export_list = newid :: acc.export_list;
-                export_map = Map_ident.add acc.export_map newid lam;
+                export_map = Ident.Map.add acc.export_map newid lam;
                 groups =
                   Single
                     ( (match lam with
@@ -148,7 +145,7 @@ let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
             let newid = Ident.rename original_export_id in
             (let arity = Lam_arity_analysis.get_arity meta lam in
              if not (Lam_arity.first_arity_na arity) then
-               Hash_ident.add meta.ident_tbl newid
+               Ident.Hash.add meta.ident_tbl newid
                  (FunctionId
                     {
                       arity;
@@ -160,22 +157,32 @@ let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
             {
               acc with
               export_list = newid :: acc.export_list;
-              export_map = Map_ident.add acc.export_map newid lam;
+              export_map = Ident.Map.add acc.export_map newid lam;
               groups = Single (Strict, newid, lam) :: acc.groups;
             })
+      original_exports lambda_exports
+      ~init:
+        {
+          export_list = [];
+          export_set = original_export_set;
+          export_map = Ident.Map.empty;
+          groups = [];
+        }
   in
 
   let export_map, coerced_input =
-    Ext_list.fold_left reverse_input (result.export_map, result.groups)
-      (fun (export_map, acc) x ->
+    List.fold_left
+      ~f:(fun (export_map, acc) (x : Lam_group.t) ->
         ( (match x with
-          | Single (_, id, lam) when Set_ident.mem export_set id ->
-              Map_ident.add export_map id lam
+          | Single (_, id, lam) when Ident.Set.mem export_set id ->
+              Ident.Map.add export_map id lam
               (* relies on the Invariant that [eoid] can not be bound before
                   FIX: such invariant may not hold
               *)
           | _ -> export_map),
           x :: acc ))
+      ~init:(result.export_map, result.groups)
+      reverse_input
   in
   { result with export_map; groups = Lam_dce.remove export_list coerced_input }
 
@@ -206,7 +213,8 @@ let rec flatten (acc : Lam_group.t list) (lam : Lam.t) :
 *)
 let coerce_and_group_big_lambda (meta : Lam_stats.t) lam : t * Lam_stats.t =
   match flatten [] lam with
-  | Lprim { primitive = Pmakeblock _; args = lambda_exports }, reverse_input ->
+  | Lprim { primitive = Pmakeblock _; args = lambda_exports; _ }, reverse_input
+    ->
       let coerced_input = handle_exports meta lambda_exports reverse_input in
       ( coerced_input,
         {
@@ -223,7 +231,7 @@ let coerce_and_group_big_lambda (meta : Lam_stats.t) lam : t * Lam_stats.t =
 (* {
      export_list = meta.exports;
      export_set = meta.export_idents;
-     export_map = Map_ident.empty ;
+     export_map = Ident.Map.empty ;
      (* not used in code generation, mostly used
          for store some information in cmj files *)
      groups = [Nop lam] ;

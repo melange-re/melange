@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 type env_value =
   | Ml of Js_cmj_format.cmj_load_info
   | External
@@ -60,16 +62,16 @@ let reset () =
     since when we print it in the end, it will
     be escaped quite ugly
 *)
-let add_js_module (hint_name : External_ffi_types.module_bind_name)
+let add_js_module (hint_name : Melange_ffi.External_ffi_types.module_bind_name)
     (module_name : string) default : Ident.t =
   let id =
     Ident.create_local
       (match hint_name with
-      | Phint_name hint_name -> Ext_string.capitalize_ascii hint_name
+      | Phint_name hint_name -> String.capitalize_ascii hint_name
       (* make sure the module name is capitalized
          TODO: maybe a warning if the user hint is not good
       *)
-      | Phint_nothing -> Ext_modulename.js_id_name_of_hint_name module_name)
+      | Phint_nothing -> Modulename.js_id_name_of_hint_name module_name)
   in
   let lam_module_ident : J.module_id =
     { id; kind = External { name = module_name; default } }
@@ -85,16 +87,16 @@ let query_external_id_info (module_id : Ident.t) (name : string) : ident_info =
   let cmj_table =
     match Lam_module_ident.Hash.find_opt cached_tbl oid with
     | None ->
-        let cmj_load_info = !Js_cmj_load.load_unit (Ident.name module_id) in
+        let cmj_load_info = Js_cmj_format.load_unit (Ident.name module_id) in
         oid +> Ml cmj_load_info;
         cmj_load_info.cmj_table
-    | Some (Ml { cmj_table }) -> cmj_table
+    | Some (Ml { cmj_table; _ }) -> cmj_table
     | Some External -> assert false
   in
   Js_cmj_format.query_by_name cmj_table name
 
-let get_package_path_from_cmj (id : Lam_module_ident.t) :
-    string * Js_packages_info.t * Ext_js_file_kind.case =
+let get_dependency_info_from_cmj (id : Lam_module_ident.t) :
+    Js_packages_info.t * Js_packages_info.file_case =
   let cmj_load_info =
     match Lam_module_ident.Hash.find_opt cached_tbl id with
     | Some (Ml cmj_load_info) -> cmj_load_info
@@ -107,13 +109,13 @@ let get_package_path_from_cmj (id : Lam_module_ident.t) :
         | Runtime | External _ -> assert false
         | Ml ->
             let cmj_load_info =
-              !Js_cmj_load.load_unit (Lam_module_ident.name id)
+              Js_cmj_format.load_unit (Lam_module_ident.name id)
             in
             id +> Ml cmj_load_info;
             cmj_load_info)
   in
   let cmj_table = cmj_load_info.cmj_table in
-  (cmj_load_info.package_path, cmj_table.package_spec, cmj_table.case)
+  (cmj_table.package_spec, cmj_table.case)
 
 let add = Lam_module_ident.Hash_set.add
 
@@ -125,12 +127,12 @@ let is_pure_module (oid : Lam_module_ident.t) =
   | Ml -> (
       match Lam_module_ident.Hash.find_opt cached_tbl oid with
       | None -> (
-          match !Js_cmj_load.load_unit (Lam_module_ident.name oid) with
+          match Js_cmj_format.load_unit (Lam_module_ident.name oid) with
           | cmj_load_info ->
               oid +> Ml cmj_load_info;
               cmj_load_info.cmj_table.pure
           | exception _ -> false)
-      | Some (Ml { cmj_table }) -> cmj_table.pure
+      | Some (Ml { cmj_table; _ }) -> cmj_table.pure
       | Some External -> false)
 
 let populate_required_modules extras

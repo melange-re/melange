@@ -22,14 +22,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 type t =
   | Arity_info of int list * bool
-      (**
-     the last one means it can take any params later,
-     for an exception: it is (Determin (true,[], true))
-     1. approximation sound but not complete
-
-  *)
+      (** The last one means it can take any params later, for an exception: it
+          is (Determin (true,[], true))
+          1. approximation sound but not complete *)
   | Arity_na
 
 let equal (x : t) y =
@@ -38,7 +37,7 @@ let equal (x : t) y =
   | Arity_info (xs, a) -> (
       match y with
       | Arity_info (ys, b) ->
-          a = b && Ext_list.for_all2_no_exn xs ys (fun x y -> x = y)
+          a = b && List.for_all2_no_exn xs ys (fun x y -> x = y)
       | Arity_na -> false)
 
 let pp = Format.fprintf

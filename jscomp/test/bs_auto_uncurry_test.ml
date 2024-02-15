@@ -7,8 +7,8 @@ let eq loc x y =
 
 
 external map :
-     ('a -> 'b [@bs.uncurry]) -> 'b array =
-     "map" [@@bs.send.pipe: 'a array]
+     ('a -> 'b [@mel.uncurry]) -> 'b array =
+     "map" [@@mel.send.pipe: 'a array]
 
 
 [%%raw{|
@@ -18,7 +18,7 @@ function hi (cb){
 }
 |}]
 
-external hi : (unit -> unit [@bs.uncurry]) -> unit = "hi" [@@bs.val]
+external hi : (unit -> unit [@mel.uncurry]) -> unit = "hi"
 
 let () =
     let xs = ref [] in
@@ -34,23 +34,23 @@ let () =
     ([|1;2;3|] |> map (fun x -> x + 1))
     ([|2;3;4|]);
     eq __LOC__
-    ([|1;2;3|] |. Js.Array2.map (fun x -> x + 1))
+    ([|1;2;3|] |. Js.Array.map ~f:(fun x -> x + 1))
     ([|2;3;4|]);
 
     eq __LOC__
-    ([|1;2;3|] |. Js.Array2.reduce (+) 0)
+    ([|1;2;3|] |. Js.Array.reduce ~f:(+) ~init:0)
     6 ;
 
     eq __LOC__
-    ([|1;2;3|] |. Js.Array2.reducei (fun x y i -> x + y + i) 0)
+    ([|1;2;3|] |. Js.Array.reducei ~f:(fun x y i -> x + y + i) ~init:0)
     9;
 
     eq __LOC__
-    ([| 1;2;3|] |. Js.Array2.some (fun x -> x <1))
+    ([| 1;2;3|] |. Js.Array.some ~f:(fun x -> x <1))
     false ;
 
     eq __LOC__
-    ([|1;2;3|] |. Js.Array2.every (fun x -> x > 0))
+    ([|1;2;3|] |. Js.Array.every ~f:(fun x -> x > 0))
     true
 
     end

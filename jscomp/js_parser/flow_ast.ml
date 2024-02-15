@@ -1,5 +1,5 @@
 (*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -28,35 +28,11 @@ and PrivateName : sig
   type 'M t = 'M * 'M t'
 
   and 'M t' = {
-    id: ('M, 'M) Identifier.t;
+    name: string;
     comments: ('M, unit) Syntax.t option;
   }
 end =
   PrivateName
-
-and Literal : sig
-  module RegExp : sig
-    type t = {
-      pattern: string;
-      flags: string;
-    }
-  end
-
-  type 'M t = {
-    value: value;
-    raw: string;
-    comments: ('M, unit) Syntax.t option;
-  }
-
-  and value =
-    | String of string
-    | Boolean of bool
-    | Null
-    | Number of float
-    | BigInt of float
-    | RegExp of RegExp.t
-end =
-  Literal
 
 and StringLiteral : sig
   type 'M t = {
@@ -78,8 +54,9 @@ end =
 
 and BigIntLiteral : sig
   type 'M t = {
-    approx_value: float;
-    bigint: string;
+    (* This will be None if we couldn't parse `raw`. That could be if the number is out of range or invalid (like a float) *)
+    value: int64 option;
+    raw: string;
     comments: ('M, unit) Syntax.t option;
   }
 end =
@@ -93,12 +70,40 @@ and BooleanLiteral : sig
 end =
   BooleanLiteral
 
+and RegExpLiteral : sig
+  type 'M t = {
+    pattern: string;
+    flags: string;
+    raw: string;
+    comments: ('M, unit) Syntax.t option;
+  }
+  [@@deriving show]
+end =
+  RegExpLiteral
+
+and ModuleRefLiteral : sig
+  type ('M, 'T) t = {
+    value: string;
+    require_out: 'T;
+    prefix_len: int;
+    legacy_interop: bool;
+    raw: string;
+    comments: ('M, unit) Syntax.t option;
+  }
+  [@@deriving show]
+end =
+  ModuleRefLiteral
+
 and Variance : sig
   type 'M t = 'M * 'M t'
 
   and kind =
     | Plus
     | Minus
+    | Readonly
+    | In
+    | Out
+    | InOut
 
   and 'M t' = {
     kind: kind;
@@ -117,7 +122,35 @@ and ComputedKey : sig
 end =
   ComputedKey
 
+and Variable : sig
+  type kind =
+    | Var
+    | Let
+    | Const
+  [@@deriving show]
+end =
+  Variable
+
 and Type : sig
+  module Conditional : sig
+    type ('M, 'T) t = {
+      check_type: ('M, 'T) Type.t;
+      extends_type: ('M, 'T) Type.t;
+      true_type: ('M, 'T) Type.t;
+      false_type: ('M, 'T) Type.t;
+      comments: ('M, unit) Syntax.t option;
+    }
+    [@@deriving show]
+  end
+
+  module Infer : sig
+    type ('M, 'T) t = {
+      tparam: ('M, 'T) Type.TypeParam.t;
+      comments: ('M, unit) Syntax.t option;
+    }
+    [@@deriving show]
+  end
+
   module Function : sig
     module Param : sig
       type ('M, 'T) t = 'M * ('M, 'T) t'
@@ -156,12 +189,61 @@ and Type : sig
         rest: ('M, 'T) RestParam.t option;
         comments: ('M, 'M Comment.t list) Syntax.t option;
       }
+      [@@deriving show]
     end
 
     type ('M, 'T) t = {
       tparams: ('M, 'T) Type.TypeParams.t option;
       params: ('M, 'T) Params.t;
-      return: ('M, 'T) Type.t;
+      return: ('M, 'T) return_annotation;
+      comments: ('M, unit) Syntax.t option;
+    }
+
+    and ('M, 'T) return_annotation =
+      | TypeAnnotation of ('M, 'T) Type.t
+      | TypeGuard of ('M, 'T) Type.TypeGuard.t
+    [@@deriving show]
+  end
+
+  module Component : sig
+    module Param : sig
+      type ('M, 'T) t = 'M * ('M, 'T) t'
+
+      and ('M, 'T) t' = {
+        name: ('M, 'T) Statement.ComponentDeclaration.Param.param_name;
+        annot: ('M, 'T) Type.annotation;
+        optional: bool;
+      }
+      [@@deriving show]
+    end
+
+    module RestParam : sig
+      type ('M, 'T) t = 'M * ('M, 'T) t'
+
+      and ('M, 'T) t' = {
+        argument: ('M, 'T) Identifier.t option;
+        annot: ('M, 'T) Type.t;
+        optional: bool;
+        comments: ('M, unit) Syntax.t option;
+      }
+      [@@deriving show]
+    end
+
+    module Params : sig
+      type ('M, 'T) t = 'M * ('M, 'T) t'
+
+      and ('M, 'T) t' = {
+        params: ('M, 'T) Param.t list;
+        rest: ('M, 'T) RestParam.t option;
+        comments: ('M, 'M Comment.t list) Syntax.t option;
+      }
+      [@@deriving show]
+    end
+
+    type ('M, 'T) t = {
+      tparams: ('M, 'T) Type.TypeParams.t option;
+      params: ('M, 'T) Params.t;
+      renders: ('M, 'T) Type.component_renders_annotation;
       comments: ('M, unit) Syntax.t option;
     }
   end
@@ -242,7 +324,28 @@ and Type : sig
         comments: ('M, unit) Syntax.t option;
       }
 
-      and ('M, 'T) t = 'M * ('M, 'T) t'
+      and ('M, 'T) t = 'M * ('M, 'T) t' [@@deriving show]
+    end
+
+    module MappedType : sig
+      (* PlusOptional = +?, MinusOptional = -?, Optional = ?, NoOptionalFlag = blank *)
+      type optional_flag =
+        | PlusOptional
+        | MinusOptional
+        | Optional
+        | NoOptionalFlag
+      [@@deriving show]
+
+      type ('M, 'T) t' = {
+        key_tparam: ('M, 'T) Type.TypeParam.t;
+        prop_type: ('M, 'T) Type.t;
+        source_type: ('M, 'T) Type.t;
+        variance: 'M Variance.t option;
+        optional: optional_flag;
+        comments: ('M, unit) Syntax.t option;
+      }
+
+      and ('M, 'T) t = 'M * ('M, 'T) t' [@@deriving show]
     end
 
     module CallProperty : sig
@@ -270,6 +373,13 @@ and Type : sig
 
     type ('M, 'T) t = {
       exact: bool;
+      (* Inexact indicates the presence of ... in the object. It is more
+       * easily understood if exact is read as "explicitly exact" and "inexact"
+       * is read as "explicitly inexact".
+       *
+       * This confusion will go away when we get rid of the exact flag in favor
+       * of inexact as part of the work to make object types exact by default.
+       * *)
       inexact: bool;
       properties: ('M, 'T) property list;
       comments: ('M, 'M Comment.t list) Syntax.t option;
@@ -281,6 +391,8 @@ and Type : sig
       | Indexer of ('M, 'T) Indexer.t
       | CallProperty of ('M, 'T) CallProperty.t
       | InternalSlot of ('M, 'T) InternalSlot.t
+      | MappedType of ('M, 'T) MappedType.t
+    [@@deriving show]
   end
 
   module Interface : sig
@@ -299,16 +411,87 @@ and Type : sig
   end
 
   module Typeof : sig
+    module Target : sig
+      type ('M, 'T) t =
+        | Unqualified of ('M, 'T) Identifier.t
+        | Qualified of ('M, 'T) qualified
+
+      and ('M, 'T) qualified' = {
+        qualification: ('M, 'T) t;
+        id: ('M, 'T) Identifier.t;
+      }
+
+      and ('M, 'T) qualified = 'T * ('M, 'T) qualified' [@@deriving show]
+    end
+
     type ('M, 'T) t = {
-      argument: ('M, 'T) Type.t;
-      internal: bool;
+      argument: ('M, 'T) Target.t;
+      targs: ('M, 'T) Type.TypeArgs.t option;
       comments: ('M, unit) Syntax.t option;
     }
   end
 
-  module Tuple : sig
+  module Keyof : sig
     type ('M, 'T) t = {
-      types: ('M, 'T) Type.t list;
+      argument: ('M, 'T) Type.t;
+      comments: ('M, unit) Syntax.t option;
+    }
+    [@@deriving show]
+  end
+
+  module Renders : sig
+    type variant =
+      | Normal
+      | Maybe
+      | Star
+    [@@deriving show]
+
+    type ('M, 'T) t = {
+      operator_loc: 'M;
+      argument: ('M, 'T) Type.t;
+      comments: ('M, unit) Syntax.t option;
+      variant: variant;
+    }
+    [@@deriving show]
+  end
+
+  module ReadOnly : sig
+    type ('M, 'T) t = {
+      argument: ('M, 'T) Type.t;
+      comments: ('M, unit) Syntax.t option;
+    }
+    [@@deriving show]
+  end
+
+  module Tuple : sig
+    module LabeledElement : sig
+      type ('M, 'T) t = {
+        name: ('M, 'T) Identifier.t;
+        annot: ('M, 'T) Type.t;
+        variance: 'M Variance.t option;
+        optional: bool;
+      }
+      [@@deriving show]
+    end
+
+    module SpreadElement : sig
+      type ('M, 'T) t = {
+        name: ('M, 'T) Identifier.t option;
+        annot: ('M, 'T) Type.t;
+      }
+      [@@deriving show]
+    end
+
+    type ('M, 'T) element = 'M * ('M, 'T) element' [@@deriving show]
+
+    and ('M, 'T) element' =
+      | UnlabeledElement of ('M, 'T) Type.t
+      | LabeledElement of ('M, 'T) LabeledElement.t
+      | SpreadElement of ('M, 'T) SpreadElement.t
+    [@@deriving show]
+
+    and ('M, 'T) t = {
+      elements: ('M, 'T) element list;
       comments: ('M, unit) Syntax.t option;
     }
   end
@@ -336,6 +519,8 @@ and Type : sig
 
   type ('M, 'T) t = 'T * ('M, 'T) t'
 
+  (* Yes, we could add a little complexity here to show that Any and Void
+   * should never be declared nullable, but that check can happen later *)
   and ('M, 'T) t' =
     | Any of ('M, unit) Syntax.t option
     | Mixed of ('M, unit) Syntax.t option
@@ -345,38 +530,69 @@ and Type : sig
     | Number of ('M, unit) Syntax.t option
     | BigInt of ('M, unit) Syntax.t option
     | String of ('M, unit) Syntax.t option
-    | Boolean of ('M, unit) Syntax.t option
+    | Boolean of {
+        raw: [ `Boolean | `Bool ];
+        comments: ('M, unit) Syntax.t option;
+      }
     | Symbol of ('M, unit) Syntax.t option
     | Exists of ('M, unit) Syntax.t option
     | Nullable of ('M, 'T) Nullable.t
     | Function of ('M, 'T) Function.t
+    | Component of ('M, 'T) Component.t
     | Object of ('M, 'T) Object.t
     | Interface of ('M, 'T) Interface.t
     | Array of ('M, 'T) Array.t
+    | Conditional of ('M, 'T) Conditional.t
+    | Infer of ('M, 'T) Infer.t
     | Generic of ('M, 'T) Generic.t
     | IndexedAccess of ('M, 'T) IndexedAccess.t
     | OptionalIndexedAccess of ('M, 'T) OptionalIndexedAccess.t
     | Union of ('M, 'T) Union.t
     | Intersection of ('M, 'T) Intersection.t
     | Typeof of ('M, 'T) Typeof.t
+    | Keyof of ('M, 'T) Keyof.t
+    | Renders of ('M, 'T) Renders.t
+    | ReadOnly of ('M, 'T) ReadOnly.t
     | Tuple of ('M, 'T) Tuple.t
     | StringLiteral of 'M StringLiteral.t
     | NumberLiteral of 'M NumberLiteral.t
     | BigIntLiteral of 'M BigIntLiteral.t
     | BooleanLiteral of 'M BooleanLiteral.t
+    | Unknown of ('M, unit) Syntax.t option
+    | Never of ('M, unit) Syntax.t option
+    | Undefined of ('M, unit) Syntax.t option
 
+  (* Type.annotation is a concrete syntax node with a location that starts at
+   * the colon and ends after the type. For example, "var a: number", the
+   * identifier a would have a property annot which contains a
+   * Type.annotation with a location from column 6-14 *)
   and ('M, 'T) annotation = 'M * ('M, 'T) t
+
+  (* Same convention about the colon holds for type guards. *)
+  and ('M, 'T) type_guard_annotation = 'M * ('M, 'T) Type.TypeGuard.t
 
   and ('M, 'T) annotation_or_hint =
     | Missing of 'T
     | Available of ('M, 'T) Type.annotation
+  [@@deriving show]
+
+  and ('M, 'T) component_renders_annotation =
+    | MissingRenders of 'T
+    | AvailableRenders of 'M * ('M, 'T) Type.Renders.t
+  [@@deriving show]
 
   module TypeParam : sig
+    type bound_kind =
+      | Colon
+      | Extends
+    [@@deriving show]
+
     type ('M, 'T) t = 'M * ('M, 'T) t'
 
     and ('M, 'T) t' = {
       name: ('M, 'M) Identifier.t;
       bound: ('M, 'T) Type.annotation_or_hint;
+      bound_kind: bound_kind;
       variance: 'M Variance.t option;
       default: ('M, 'T) Type.t option;
     }
@@ -411,6 +627,18 @@ and Type : sig
     and ('M, 'T) kind =
       | Declared of ('M, 'T) Expression.t
       | Inferred
+    [@@deriving show]
+  end
+
+  module TypeGuard : sig
+    type ('M, 'T) t = 'M * ('M, 'T) t'
+
+    and ('M, 'T) t' = {
+      asserts: bool;
+      guard: ('M, 'M) Identifier.t * ('M, 'T) Type.t option;
+      comments: ('M, 'M Comment.t list) Syntax.t option;
+    }
+    [@@deriving show]
   end
 end =
   Type
@@ -464,7 +692,7 @@ and Statement : sig
   end
 
   module Debugger : sig
-    type 'M t = { comments: ('M, unit) Syntax.t option }
+    type 'M t = { comments: ('M, unit) Syntax.t option } [@@deriving show]
   end
 
   module With : sig
@@ -509,6 +737,7 @@ and Statement : sig
       discriminant: ('M, 'T) Expression.t;
       cases: ('M, 'T) Case.t list;
       comments: ('M, unit) Syntax.t option;
+      exhaustive_out: 'T;
     }
   end
 
@@ -516,6 +745,7 @@ and Statement : sig
     type ('M, 'T) t = {
       argument: ('M, 'T) Expression.t option;
       comments: ('M, unit) Syntax.t option;
+      return_out: 'T;
     }
   end
 
@@ -557,14 +787,10 @@ and Statement : sig
 
     type ('M, 'T) t = {
       declarations: ('M, 'T) Declarator.t list;
-      kind: kind;
+      kind: Variable.kind;
       comments: ('M, unit) Syntax.t option;
     }
-
-    and kind =
-      | Var
-      | Let
-      | Const
+    [@@deriving show]
   end
 
   module While : sig
@@ -629,7 +855,7 @@ and Statement : sig
     module DefaultedMember : sig
       type 'M t = 'M * 'M t'
 
-      and 'M t' = { id: ('M, 'M) Identifier.t }
+      and 'M t' = { id: ('M, 'M) Identifier.t } [@@deriving show]
     end
 
     module InitializedMember : sig
@@ -678,6 +904,17 @@ and Statement : sig
         has_unknown_members: bool;
         comments: ('M, 'M Comment.t list) Syntax.t option;
       }
+      [@@deriving show]
+    end
+
+    module BigIntBody : sig
+      type 'M t = {
+        members: ('M BigIntLiteral.t, 'M) InitializedMember.t list;
+        explicit_type: bool;
+        has_unknown_members: bool;
+        comments: ('M, 'M Comment.t list) Syntax.t option;
+      }
+      [@@deriving show]
     end
 
     type ('M, 'T) t = {
@@ -693,6 +930,64 @@ and Statement : sig
       | NumberBody of 'M NumberBody.t
       | StringBody of 'M StringBody.t
       | SymbolBody of 'M SymbolBody.t
+      | BigIntBody of 'M BigIntBody.t
+    [@@deriving show]
+  end
+
+  module ComponentDeclaration : sig
+    module RestParam : sig
+      type ('M, 'T) t = 'M * ('M, 'T) t'
+
+      and ('M, 'T) t' = {
+        argument: ('M, 'T) Pattern.t;
+        comments: ('M, unit) Syntax.t option;
+      }
+      [@@deriving show]
+    end
+
+    module Param : sig
+      type ('M, 'T) t = 'M * ('M, 'T) t'
+
+      and ('M, 'T) t' = {
+        (* Name should only be an Identifier or StringLiteral. However, we allow parsing
+           it as an option to have better error messages. *)
+        name: ('M, 'T) param_name;
+        local: ('M, 'T) Pattern.t;
+        default: ('M, 'T) Expression.t option;
+        shorthand: bool;
+      }
+
+      and ('M, 'T) param_name =
+        | Identifier of ('M, 'T) Identifier.t
+        | StringLiteral of ('M * 'M StringLiteral.t)
+      [@@deriving show]
+    end
+
+    module Params : sig
+      type ('M, 'T) t = 'M * ('M, 'T) t'
+
+      and ('M, 'T) t' = {
+        params: ('M, 'T) Param.t list;
+        rest: ('M, 'T) RestParam.t option;
+        comments: ('M, 'M Comment.t list) Syntax.t option;
+      }
+      [@@deriving show]
+    end
+
+    type ('M, 'T) t = {
+      id: ('M, 'T) Identifier.t;
+      tparams: ('M, 'T) Type.TypeParams.t option;
+      params: ('M, 'T) Params.t;
+      renders: ('M, 'T) Type.component_renders_annotation;
+      body: 'M * ('M, 'T) Statement.Block.t;
+      comments: ('M, unit) Syntax.t option;
+      (* Location of the signature portion of a component, e.g.
+       * component Foo(): void {}
+       * ^^^^^^^^^^^^^^^^^^^^
+       *)
+      sig_loc: 'M;
+    }
+    [@@deriving show]
   end
 
   module Interface : sig
@@ -715,12 +1010,25 @@ and Statement : sig
       implements: ('M, 'T) Class.Implements.t option;
       comments: ('M, unit) Syntax.t option;
     }
+    [@@deriving show]
+  end
+
+  module DeclareComponent : sig
+    type ('M, 'T) t = {
+      id: ('M, 'T) Identifier.t;
+      tparams: ('M, 'T) Type.TypeParams.t option;
+      params: ('M, 'T) Type.Component.Params.t;
+      renders: ('M, 'T) Type.component_renders_annotation;
+      comments: ('M, unit) Syntax.t option;
+    }
+    [@@deriving show]
   end
 
   module DeclareVariable : sig
     type ('M, 'T) t = {
       id: ('M, 'T) Identifier.t;
-      annot: ('M, 'T) Type.annotation_or_hint;
+      annot: ('M, 'T) Type.annotation;
+      kind: Variable.kind;
       comments: ('M, unit) Syntax.t option;
     }
   end
@@ -739,14 +1047,14 @@ and Statement : sig
       | Identifier of ('M, 'T) Identifier.t
       | Literal of ('T * 'M StringLiteral.t)
 
-    and 'M module_kind =
-      | CommonJS of 'M
-      | ES of 'M
+    and module_kind =
+      | CommonJS
+      | ES
 
     and ('M, 'T) t = {
       id: ('M, 'T) id;
       body: 'M * ('M, 'T) Block.t;
-      kind: 'M module_kind;
+      kind: module_kind;
       comments: ('M, unit) Syntax.t option;
     }
   end
@@ -760,29 +1068,30 @@ and Statement : sig
 
   module ExportNamedDeclaration : sig
     module ExportSpecifier : sig
-      type 'M t = 'M * 'M t'
+      type ('M, 'T) t = 'M * ('M, 'T) t'
 
-      and 'M t' = {
-        local: ('M, 'M) Identifier.t;
-        exported: ('M, 'M) Identifier.t option;
+      and ('M, 'T) t' = {
+        local: ('M, 'T) Identifier.t;
+        exported: ('M, 'T) Identifier.t option;
       }
     end
 
     module ExportBatchSpecifier : sig
-      type 'M t = 'M * ('M, 'M) Identifier.t option
+      type ('M, 'T) t = 'M * ('M, 'T) Identifier.t option [@@deriving show]
     end
 
     type ('M, 'T) t = {
       declaration: ('M, 'T) Statement.t option;
-      specifiers: 'M specifier option;
-      source: ('M * 'M StringLiteral.t) option;
+      specifiers: ('M, 'T) specifier option;
+      source: ('T * 'M StringLiteral.t) option;
       export_kind: Statement.export_kind;
       comments: ('M, unit) Syntax.t option;
     }
 
-    and 'M specifier =
-      | ExportSpecifiers of 'M ExportSpecifier.t list
-      | ExportBatchSpecifier of 'M ExportBatchSpecifier.t
+    and ('M, 'T) specifier =
+      | ExportSpecifiers of ('M, 'T) ExportSpecifier.t list
+      | ExportBatchSpecifier of ('M, 'T) ExportBatchSpecifier.t
+    [@@deriving show]
   end
 
   module ExportDefaultDeclaration : sig
@@ -799,19 +1108,32 @@ and Statement : sig
 
   module DeclareExportDeclaration : sig
     type ('M, 'T) declaration =
+      (* declare export var *)
       | Variable of ('M * ('M, 'T) DeclareVariable.t)
+      (* declare export function *)
       | Function of ('M * ('M, 'T) DeclareFunction.t)
+      (* declare export class *)
       | Class of ('M * ('M, 'T) DeclareClass.t)
+      (* declare export component *)
+      | Component of ('M * ('M, 'T) DeclareComponent.t)
+      (* declare export default [type]
+       * this corresponds to things like
+       * export default 1+1; *)
       | DefaultType of ('M, 'T) Type.t
+      (* declare export type *)
       | NamedType of ('M * ('M, 'T) TypeAlias.t)
+      (* declare export opaque type *)
       | NamedOpaqueType of ('M * ('M, 'T) OpaqueType.t)
+      (* declare export interface *)
       | Interface of ('M * ('M, 'T) Interface.t)
+      (* declare export enum *)
+      | Enum of ('M * ('M, 'T) EnumDeclaration.t)
 
     and ('M, 'T) t = {
       default: 'M option;
       declaration: ('M, 'T) declaration option;
-      specifiers: 'M ExportNamedDeclaration.specifier option;
-      source: ('M * 'M StringLiteral.t) option;
+      specifiers: ('M, 'T) ExportNamedDeclaration.specifier option;
+      source: ('T * 'M StringLiteral.t) option;
       comments: ('M, unit) Syntax.t option;
     }
   end
@@ -830,12 +1152,20 @@ and Statement : sig
       kind: import_kind option;
       local: ('M, 'T) Identifier.t option;
       remote: ('M, 'T) Identifier.t;
+      (* Remote name's definition location. It will be populated only in typed AST. *)
+      remote_name_def_loc: 'M option;
+    }
+
+    and ('M, 'T) default_identifier = {
+      identifier: ('M, 'T) Identifier.t;
+      (* Remote name's definition location. It will be populated only in typed AST. *)
+      remote_default_name_def_loc: 'M option;
     }
 
     and ('M, 'T) t = {
       import_kind: import_kind;
-      source: 'M * 'M StringLiteral.t;
-      default: ('M, 'T) Identifier.t option;
+      source: 'T * 'M StringLiteral.t;
+      default: ('M, 'T) default_identifier option;
       specifiers: ('M, 'T) specifier option;
       comments: ('M, unit) Syntax.t option;
     }
@@ -850,7 +1180,7 @@ and Statement : sig
   end
 
   module Empty : sig
-    type 'M t = { comments: ('M, unit) Syntax.t option }
+    type 'M t = { comments: ('M, unit) Syntax.t option } [@@deriving show]
   end
 
   type export_kind =
@@ -863,9 +1193,12 @@ and Statement : sig
     | Block of ('M, 'T) Block.t
     | Break of 'M Break.t
     | ClassDeclaration of ('M, 'T) Class.t
+    | ComponentDeclaration of ('M, 'T) ComponentDeclaration.t
     | Continue of 'M Continue.t
     | Debugger of 'M Debugger.t
     | DeclareClass of ('M, 'T) DeclareClass.t
+    | DeclareComponent of ('M, 'T) DeclareComponent.t
+    | DeclareEnum of ('M, 'T) EnumDeclaration.t
     | DeclareExportDeclaration of ('M, 'T) DeclareExportDeclaration.t
     | DeclareFunction of ('M, 'T) DeclareFunction.t
     | DeclareInterface of ('M, 'T) Interface.t
@@ -905,7 +1238,7 @@ and Expression : sig
     module Implicit : sig
       type ('M, 'T) t = 'T * 'M t'
 
-      and 'M t' = { comments: ('M, unit) Syntax.t option }
+      and 'M t' = { comments: ('M, unit) Syntax.t option } [@@deriving show]
     end
 
     type ('M, 'T) t =
@@ -976,7 +1309,9 @@ and Expression : sig
   module Object : sig
     module Property : sig
       type ('M, 'T) key =
-        | Literal of ('T * 'M Literal.t)
+        | StringLiteral of ('T * 'M StringLiteral.t)
+        | NumberLiteral of ('T * 'M NumberLiteral.t)
+        | BigIntLiteral of ('T * 'M BigIntLiteral.t)
         | Identifier of ('M, 'T) Identifier.t
         | PrivateName of 'M PrivateName.t
         | Computed of ('M, 'T) ComputedKey.t
@@ -1096,6 +1431,9 @@ and Expression : sig
       | BitOrAssign
       | BitXorAssign
       | BitAndAssign
+      | NullishAssign
+      | AndAssign
+      | OrAssign
 
     and ('M, 'T) t = {
       operator: operator option;
@@ -1175,6 +1513,7 @@ and Expression : sig
   module OptionalCall : sig
     type ('M, 'T) t = {
       call: ('M, 'T) Call.t;
+      filtered_out: 'T;
       optional: bool;
     }
   end
@@ -1195,6 +1534,7 @@ and Expression : sig
   module OptionalMember : sig
     type ('M, 'T) t = {
       member: ('M, 'T) Member.t;
+      filtered_out: 'T;
       optional: bool;
     }
   end
@@ -1204,30 +1544,7 @@ and Expression : sig
       argument: ('M, 'T) Expression.t option;
       comments: ('M, unit) Syntax.t option;
       delegate: bool;
-    }
-  end
-
-  module Comprehension : sig
-    module Block : sig
-      type ('M, 'T) t = 'M * ('M, 'T) t'
-
-      and ('M, 'T) t' = {
-        left: ('M, 'T) Pattern.t;
-        right: ('M, 'T) Expression.t;
-        each: bool;
-      }
-    end
-
-    type ('M, 'T) t = {
-      blocks: ('M, 'T) Block.t list;
-      filter: ('M, 'T) Expression.t option;
-    }
-  end
-
-  module Generator : sig
-    type ('M, 'T) t = {
-      blocks: ('M, 'T) Comprehension.Block.t list;
-      filter: ('M, 'T) Expression.t option;
+      result_out: 'T;
     }
   end
 
@@ -1235,6 +1552,27 @@ and Expression : sig
     type ('M, 'T) t = {
       expression: ('M, 'T) Expression.t;
       annot: ('M, 'T) Type.annotation;
+      comments: ('M, unit) Syntax.t option;
+    }
+  end
+
+  module AsExpression : sig
+    type ('M, 'T) t = {
+      expression: ('M, 'T) Expression.t;
+      annot: ('M, 'T) Type.annotation;
+      comments: ('M, unit) Syntax.t option;
+    }
+  end
+
+  module TSTypeCast : sig
+    type ('M, 'T) kind =
+      | AsConst
+      | Satisfies of ('M, 'T) Type.t
+    [@@deriving show]
+
+    type ('M, 'T) t = {
+      expression: ('M, 'T) Expression.t;
+      kind: ('M, 'T) kind;
       comments: ('M, unit) Syntax.t option;
     }
   end
@@ -1248,11 +1586,11 @@ and Expression : sig
   end
 
   module This : sig
-    type 'M t = { comments: ('M, unit) Syntax.t option }
+    type 'M t = { comments: ('M, unit) Syntax.t option } [@@deriving show]
   end
 
   module Super : sig
-    type 'M t = { comments: ('M, unit) Syntax.t option }
+    type 'M t = { comments: ('M, unit) Syntax.t option } [@@deriving show]
   end
 
   module Import : sig
@@ -1267,19 +1605,24 @@ and Expression : sig
   and ('M, 'T) t' =
     | Array of ('M, 'T) Array.t
     | ArrowFunction of ('M, 'T) Function.t
+    | AsExpression of ('M, 'T) AsExpression.t
     | Assignment of ('M, 'T) Assignment.t
     | Binary of ('M, 'T) Binary.t
     | Call of ('M, 'T) Call.t
     | Class of ('M, 'T) Class.t
-    | Comprehension of ('M, 'T) Comprehension.t
     | Conditional of ('M, 'T) Conditional.t
     | Function of ('M, 'T) Function.t
-    | Generator of ('M, 'T) Generator.t
     | Identifier of ('M, 'T) Identifier.t
     | Import of ('M, 'T) Import.t
     | JSXElement of ('M, 'T) JSX.element
     | JSXFragment of ('M, 'T) JSX.fragment
-    | Literal of 'M Literal.t
+    | StringLiteral of 'M StringLiteral.t
+    | BooleanLiteral of 'M BooleanLiteral.t
+    | NullLiteral of ('M, unit) Syntax.t option
+    | NumberLiteral of 'M NumberLiteral.t
+    | BigIntLiteral of 'M BigIntLiteral.t
+    | RegExpLiteral of 'M RegExpLiteral.t
+    | ModuleRefLiteral of ('M, 'T) ModuleRefLiteral.t
     | Logical of ('M, 'T) Logical.t
     | Member of ('M, 'T) Member.t
     | MetaProperty of 'M MetaProperty.t
@@ -1293,6 +1636,7 @@ and Expression : sig
     | TemplateLiteral of ('M, 'T) TemplateLiteral.t
     | This of 'M This.t
     | TypeCast of ('M, 'T) TypeCast.t
+    | TSTypeCast of ('M, 'T) TSTypeCast.t
     | Unary of ('M, 'T) Unary.t
     | Update of ('M, 'T) Update.t
     | Yield of ('M, 'T) Yield.t
@@ -1344,8 +1688,8 @@ and JSX : sig
       | NamespacedName of ('M, 'T) NamespacedName.t
 
     and ('M, 'T) value =
-      | Literal of 'T * 'M Literal.t
-      | ExpressionContainer of 'T * ('M, 'T) ExpressionContainer.t
+      | StringLiteral of ('T * 'M StringLiteral.t)
+      | ExpressionContainer of ('T * ('M, 'T) ExpressionContainer.t)
 
     and ('M, 'T) t' = {
       name: ('M, 'T) name;
@@ -1389,6 +1733,7 @@ and JSX : sig
 
     and ('M, 'T) t' = {
       name: ('M, 'T) name;
+      targs: ('M, 'T) Expression.CallTypeArgs.t option;
       self_closing: bool;
       attributes: ('M, 'T) attribute list;
     }
@@ -1397,7 +1742,7 @@ and JSX : sig
   module Closing : sig
     type ('M, 'T) t = 'M * ('M, 'T) t'
 
-    and ('M, 'T) t' = { name: ('M, 'T) name }
+    and ('M, 'T) t' = { name: ('M, 'T) name } [@@deriving show]
   end
 
   module SpreadChild : sig
@@ -1445,7 +1790,9 @@ and Pattern : sig
   module Object : sig
     module Property : sig
       type ('M, 'T) key =
-        | Literal of ('M * 'M Literal.t)
+        | StringLiteral of ('M * 'M StringLiteral.t)
+        | NumberLiteral of ('M * 'M NumberLiteral.t)
+        | BigIntLiteral of ('M * 'M BigIntLiteral.t)
         | Identifier of ('M, 'T) Identifier.t
         | Computed of ('M, 'T) ComputedKey.t
 
@@ -1554,6 +1901,7 @@ and Class : sig
       annot: ('M, 'T) Type.annotation_or_hint;
       static: bool;
       variance: 'M Variance.t option;
+      decorators: ('M, 'T) Class.Decorator.t list;
       comments: ('M, unit) Syntax.t option;
     }
 
@@ -1572,6 +1920,7 @@ and Class : sig
       annot: ('M, 'T) Type.annotation_or_hint;
       static: bool;
       variance: 'M Variance.t option;
+      decorators: ('M, 'T) Class.Decorator.t list;
       comments: ('M, unit) Syntax.t option;
     }
   end
@@ -1676,6 +2025,15 @@ and Function : sig
       rest: ('M, 'T) RestParam.t option;
       comments: ('M, 'M Comment.t list) Syntax.t option;
     }
+    [@@deriving show]
+  end
+
+  module ReturnAnnot : sig
+    type ('M, 'T) t =
+      | Missing of 'T
+      | Available of ('M, 'T) Type.annotation
+      | TypeGuard of ('M, 'T) Type.type_guard_annotation
+    [@@deriving show]
   end
 
   type ('M, 'T) t = {
@@ -1685,9 +2043,13 @@ and Function : sig
     async: bool;
     generator: bool;
     predicate: ('M, 'T) Type.Predicate.t option;
-    return: ('M, 'T) Type.annotation_or_hint;
+    return: ('M, 'T) ReturnAnnot.t;
     tparams: ('M, 'T) Type.TypeParams.t option;
     comments: ('M, unit) Syntax.t option;
+    (* Location of the signature portion of a function, e.g.
+     * function foo(): void {}
+     * ^^^^^^^^^^^^^^^^^^^^
+     *)
     sig_loc: 'M;
   }
 
@@ -1702,6 +2064,7 @@ and Program : sig
 
   and ('M, 'T) t' = {
     statements: ('M, 'T) Statement.t list;
+    interpreter: ('M * string) option;  (** interpreter directive / shebang *)
     comments: ('M, unit) Syntax.t option;
     all_comments: 'M Comment.t list;
   }

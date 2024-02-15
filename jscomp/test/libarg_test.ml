@@ -3,7 +3,7 @@ let current = ref 0;;
 let accum = ref [];;
 
 let record fmt (* args *) =
-  Printf.kprintf (fun s -> accum := s :: !accum) fmt
+  Printf.ksprintf (fun s -> accum := s :: !accum) fmt
 ;;
 
 let f_unit () = record "unit()";;
@@ -120,13 +120,6 @@ let test argv =
 ;;
 
 test args1;;
-#if OCAML_VERSION =~ ">4.03.0" then
-test args2;; 
+test args2;;
 let suites = [];;
-#else
-  (* Arg accept -key=value since 4.04 *)
-let suites = 
-  Mt.[ "should raise", fun _ -> ThrowAny (fun _ -> test args2)]
-#end
 let () =  Mt.from_pair_suites __MODULE__ suites
-

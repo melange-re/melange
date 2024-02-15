@@ -1,4 +1,4 @@
-[@@@bs.config {flags = [|"-w";"a"|]}]
+[@@@mel.config {flags = [|"-w";"a"|]}]
 
 module Actors : sig
 #1 "actors.mli"
@@ -154,15 +154,15 @@ type imageElement
 type canvasRenderingContext2D
 type canvasElement
 
-external document: Dom.document = "document" [@@bs.val]
-external window: Dom.window = "window" [@@bs.val]
+external document: Dom.document = "document"
+external window: Dom.window = "window"
 
-(* external createImg: (_ [@bs.as "img"]) -> document -> imageElement = "createElement" [@@bs.send] *)
-external createImg: Dom.document -> (_ [@bs.as "img"]) -> imageElement = "createElement" [@@bs.send]
-external requestAnimationFrame : (float -> unit) -> unit = "requestAnimationFrame"[@@bs.val ]
-external getElementById : Dom.document -> string -> Dom.element option = "getElementById"[@@bs.return null_to_opt][@@bs.send]
-external addEventListener : Dom.document -> string -> ('a Dom.event_like -> bool) -> bool -> unit = "addEventListener" [@@bs.send]
-external addEventListenerImg : imageElement -> string -> ('a Dom.event_like -> bool) -> bool -> unit = "addEventListener" [@@bs.send]
+(* external createImg: (_ [@mel.as "img"]) -> document -> imageElement = "createElement" [@@mel.send] *)
+external createImg: Dom.document -> (_ [@mel.as "img"]) -> imageElement = "createElement" [@@mel.send]
+external requestAnimationFrame : (float -> unit) -> unit = "requestAnimationFrame"
+external getElementById : Dom.document -> string -> Dom.element option = "getElementById"[@@mel.return null_to_opt][@@mel.send]
+external addEventListener : Dom.document -> string -> ('a Dom.event_like -> bool) -> bool -> unit = "addEventListener" [@@mel.send]
+external addEventListenerImg : imageElement -> string -> ('a Dom.event_like -> bool) -> bool -> unit = "addEventListener" [@@mel.send]
 
 (* unsafe casts *)
 external imageElementToJsObj : imageElement -> < .. > Js.t = "%identity"

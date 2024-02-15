@@ -25,32 +25,31 @@
 (** Node Process API *)
 
 type t =
-  < argv : string array;
-    arch : string ;
-    abort : unit -> unit [@bs.meth];
-    chdir : string -> unit [@bs.meth];
-    cwd : unit -> string [@bs.meth];
-    disconnect : unit -> unit [@bs.meth];
-    platform : string;
-    env : string Js_dict.t; (* ocamldep sucks which can not map [Js.Dic.t] to [Js_dict.t]*)
-  >   Js.t
+  < argv : string array
+  ; arch : string
+  ; abort : unit -> unit [@mel.meth]
+  ; chdir : string -> unit [@mel.meth]
+  ; cwd : unit -> string [@mel.meth]
+  ; disconnect : unit -> unit [@mel.meth]
+  ; platform : string
+  ; env : string Js.Dict.t >
+  Js.t
 
-external process : t = "process" [@@bs.module]
-external argv : string array = "argv" [@@bs.module "process"]
-external exit : int -> 'a = "exit" [@@bs.module "process"]
-external cwd : unit -> string = "cwd" [@@bs.module "process"]
+external process : t = "process" [@@mel.module]
+external argv : string array = "argv" [@@mel.module "process"]
+external exit : int -> 'a = "exit" [@@mel.module "process"]
+external cwd : unit -> string = "cwd" [@@mel.module "process"]
 
-(** The process.uptime() method returns the number of seconds 
+external uptime : t -> unit -> float = "uptime"
+[@@mel.send]
+(** The process.uptime() method returns the number of seconds
    the current Node.js process has been running.) *)
-external uptime : t -> unit -> float = "uptime" [@@bs.send]
 
-let putEnvVar key (var : string) = 
-  Js_dict.set process##env key var
-(** Note that 
-    {[process.env.X = undefined]} will result in 
+(** Note that
+    {[process.env.X = undefined]} will result in
     {[process.env.X = "undefined"]}
     The only sane way to do it is using `delete`
 *)
+let putEnvVar key (var : string) = Js.Dict.set process##env key var
 
-let deleteEnvVar   s  =
-  Js_dict.unsafeDeleteKey process##env s  [@bs]
+let deleteEnvVar s = (Js.Dict.unsafeDeleteKey process##env s [@u])

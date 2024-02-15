@@ -33,6 +33,7 @@ end [@@inline always]
 
 module M : sig
   module F (X : S1) (Y : S1) : T
+  [@@ocaml.warning "-67"]
 end = struct
   module F (X : S) (Y : S) = struct
     let cow x = Y.foo (X.foo x)

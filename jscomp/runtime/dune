@@ -1,0 +1,40 @@
+(library
+ (public_name melange.js)
+ (name js)
+ (modes melange)
+ (preprocess
+  (pps melange.ppx -unsafe))
+ (melange.compile_flags
+  -nopervasives
+  -nostdlib
+  -mel-no-check-div-by-zero
+  -mel-cross-module-opt
+  -unsafe))
+
+(rule
+ (deps caml_io.cppo.ml)
+ (target caml_io.ml)
+ (action
+  (with-stdout-to
+   %{target}
+   (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{target}))))
+
+(rule
+ (target js_typed_array.ml)
+ (deps js_typed_array.cppo.ml)
+ (action
+  (run cppo %{deps} -o %{target})))
+
+(rule
+ (target caml_oo_curry.ml)
+ (action
+  (with-stdout-to
+   %{target}
+   (run ./gen/gen_caml_oo_curry.exe))))
+
+(rule
+ (target curry.ml)
+ (action
+  (with-stdout-to
+   %{target}
+   (run ./gen/gen_curry.exe))))

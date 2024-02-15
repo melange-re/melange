@@ -1,5 +1,6 @@
-(* Optionally preprocess a source file *)
+open Import
 
+(* Optionally preprocess a source file *)
 let call_external_preprocessor sourcefile pp =
   let tmpfile = Filename.temp_file "ocamlpp" "" in
   let comm =
@@ -20,53 +21,38 @@ let remove_preprocessed inputfile =
 
 (* Parse a file or get a dumped syntax tree from it *)
 
-let parse (type a) (kind : a Ml_binary.kind) : _ -> a =
+let parse (type a) (kind : a Ml_binary.kind) : _ -> Ast_io.Intf_or_impl.t =
   match kind with
-  | Ml_binary.Ml -> Parse.implementation
-  | Ml_binary.Mli -> Parse.interface
+  | Ml_binary.Ml ->
+      fun impl -> Ast_io.Intf_or_impl.Impl (Parse.implementation impl)
+  | Ml_binary.Mli -> fun intf -> Ast_io.Intf_or_impl.Intf (Parse.interface intf)
 
 (* [filename] is the real file name, e.g. before pre-processing. *)
-let file_aux ~filename inputfile (type a) (parse_fun : _ -> a)
-    (kind : a Ml_binary.kind) : a =
-  let ast_magic = Ml_binary.magic_of_kind kind in
-  let ic = open_in_bin inputfile in
-  let is_ast_file =
-    match really_input_string ic (String.length ast_magic) with
-    | exception _ -> false
-    | buffer ->
-        if buffer = ast_magic then true
-        else if Ext_string.starts_with buffer "Caml1999" then
-          Cmd_ast_exception.wrong_magic buffer
-        else false
+let file_aux ~filename inputfile (parse_fun : _ -> Ast_io.Intf_or_impl.t) =
+  let { Ast_io.ast; _ } =
+    Ast_io.read_exn (File inputfile)
+      ~input_kind:(Possibly_source { filename; parse_fun })
   in
-  let ast =
-    try
-      if is_ast_file then (
-        Location.set_input_name (input_value ic : string);
-        (input_value ic : a))
-      else (
-        seek_in ic 0;
-        let lexbuf = Lexing.from_channel ic in
-        Location.init lexbuf filename;
-        parse_fun lexbuf)
-    with x ->
-      close_in ic;
-      raise x
-  in
-  close_in ic;
   ast
 
 let parse_file (type a) (kind : a Ml_binary.kind) (sourcefile : string) : a =
   Location.set_input_name sourcefile;
   let inputfile = preprocess sourcefile in
   let ast =
-    try file_aux ~filename:sourcefile inputfile (parse kind) kind
+    try file_aux ~filename:sourcefile inputfile (parse kind)
     with exn ->
       remove_preprocessed inputfile;
       raise exn
   in
   remove_preprocessed inputfile;
-  ast
+  match (kind, ast) with
+  | Ml, Impl ast ->
+      let ast : Parsetree.structure = Obj.magic ast in
+      ast
+  | Mli, Intf ast ->
+      let ast : Parsetree.signature = Obj.magic ast in
+      ast
+  | _ -> assert false
 
 let parse_implementation sourcefile = parse_file Ml sourcefile
 let parse_interface sourcefile = parse_file Mli sourcefile

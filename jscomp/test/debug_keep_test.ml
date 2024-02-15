@@ -1,1 +1,1 @@
-let () = [%bs.debugger]
+let () = [%mel.debugger]

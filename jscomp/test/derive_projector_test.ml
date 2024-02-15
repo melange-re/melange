@@ -1,54 +1,52 @@
-[@@@warning "-104"]
-type a =  
+[@@@warning "-30-104"]
+type a =
   { u_x : int}
-[@@bs.deriving { accessors }]
+[@@deriving  accessors ]
 
 type 'a b = {
   b_x  : int
 }
 and 'a c = {
-  c_x : int 
+  c_x : int
 }
-[@@bs.deriving accessors]
+[@@deriving accessors]
 
 type d =
   | D_empty
-  | D_int of int 
+  | D_int of int
   | D_tuple of int * string
   | NewContent of string
   | D_tweak of (int * string)
   | Hei (* two hei derived, however, this hei is not accessible any more *)
-and u = 
+and u =
   | Hei
 and h = {d : d ; h : h list; u_X : int}
 and e = { d : d }
-
-[@@bs.deriving {accessors}]
+[@@deriving accessors]
 
 
 
 let v = d  @@ { d = d_int  3 }
 
-let g = u_X 
+let g = u_X
 
 let h = [
-  d_empty ; 
-  d_int 3 ; 
+  d_empty ;
+  d_int 3 ;
   d_tuple 3 "hgo";
   d_tweak (3,"hgo");
   newContent "3"
 ]
 
-type hh = Xx of int 
-[@@bs.deriving accessors]
+type hh = Xx of int
+[@@deriving accessors]
 
-type xx = < x : int > Js.t
-[@@bs.deriving accessors]
+(* Not applicable to this type. *)
+(* type xx = < x : int > Js.t [@@deriving accessors] *)
 
-type t = 
-  | A of (int -> int [@bs]) 
-  [@@bs.deriving accessors]
+type t =
+  | A of (int -> int [@u])
+  [@@deriving accessors]
 
 
-let f = a (fun [@bs] x -> x)  
-
+let f = a (fun [@u] x -> x)

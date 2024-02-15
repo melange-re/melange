@@ -1,5 +1,5 @@
 (* Copyright (C) 2018 Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,30 +17,23 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 type 'a opt = 'a Js.undefined
-type ('hash, 'eq, 'c) container =
-   { 
-    mutable size: int;                        (* number of entries *)
-    mutable buckets: 'c opt array;  (* the buckets *)
-    hash: 'hash;
-    eq: 'eq;
-  } 
+
+type ('hash, 'eq, 'c) container = {
+  mutable size : int; (* number of entries *)
+  mutable buckets : 'c opt array; (* the buckets *)
+  hash : 'hash;
+  eq : 'eq;
+}
 
 external toOpt : 'a opt -> 'a option = "#undefined_to_opt"
 external return : 'a -> 'a opt = "%identity"
-
 val emptyOpt : 'a Js.undefined
-val make :
-  hash:'hash ->
-  eq:'eq -> 
-  hintSize:int ->
-  ('hash, 'eq, _) container
-  
+val make : hash:'hash -> eq:'eq -> hintSize:int -> ('hash, 'eq, _) container
 val clear : _ container -> unit
-
-val isEmpty: _ container -> bool
+val isEmpty : _ container -> bool

@@ -1,8 +1,6 @@
-
-
 module Comparable : sig
     type 'a comparator
-    val getcompare : 'a comparator -> ('a -> 'a -> int [@bs])
+    val getcompare : 'a comparator -> ('a -> 'a -> int [@u])
     module type C = sig
       type id
       type key
@@ -11,21 +9,21 @@ module Comparable : sig
     type ('key, 'id) compare = (module C with type key = 'key and type id = 'id)
     module Make ( M : sig
         type key
-        val compare : key -> key -> int [@bs]
+        val compare : key -> key -> int [@u]
       end) :
-      C with type key = M. key 
+      C with type key = M. key
 end = struct
-  type 'a comparator = ('a -> 'a -> int [@bs])
-    let getcompare : 'a comparator -> ('a -> 'a -> int [@bs]) = fun x -> x
+  type 'a comparator = ('a -> 'a -> int [@u])
+    let getcompare : 'a comparator -> ('a -> 'a -> int [@u]) = fun x -> x
     module type C = sig
       type id
       type key
       val compare : key comparator
     end
     type ('key, 'id) compare = (module C with type key = 'key and type id = 'id)
-    
+
     module Make (M : sig type key
-        val compare : (key -> key -> int [@bs])
+        val compare : (key -> key -> int [@u])
       end) =
       struct
         type id
@@ -80,7 +78,7 @@ let rec add x data compare = function
     Empty ->
     Node(Empty, x, data, Empty, 1)
   | Node(l, v, d, r, h) ->
-    let c = compare x v [@bs] in
+    let c = compare x v [@u] in
     if c = 0 then
       Node(l, x, data, r, h)
     else if c < 0 then
@@ -98,7 +96,7 @@ type ('k,'v, 'id) t1 =
   }
 
 let  add (type k) (type v) (type id) x data (v : (k,v, id) t1)  =
-  let module X = (val v.compare) in 
+  let module X = (val v.compare) in
   {compare = v.compare ;
    data = add x data  (Comparable.getcompare X.compare ) v.data;}
 
@@ -107,20 +105,20 @@ let empty (v : _ Comparable.compare) =
 
 
 
-    
+
 (* module Make (X : sig type key end) = struct
   type nonrec key = X.key
-  type id 
+  type id
 end
 module U = struct
   include Make ( struct type key = int end)
-  let compare = Pervasives.compare end *)
+  let compare = Stdlib.compare end *)
 
 
-module V0 = Comparable.Make ( struct type key = int 
-  let compare = fun[@bs]  (x : key) y  -> Pervasives.compare (x : key ) y end)
-module V1 = Comparable.Make( struct type key = int 
-  let compare = fun [@bs] (x:key) y -> Pervasives.compare x y end)
+module V0 = Comparable.Make ( struct type key = int
+  let compare = fun[@u]  (x : key) y  -> Stdlib.compare (x : key ) y end)
+module V1 = Comparable.Make( struct type key = int
+  let compare = fun [@u] (x:key) y -> Stdlib.compare x y end)
 let v0 = empty (module V0)
 let v1 = empty (module V1)
 
@@ -129,11 +127,11 @@ let v3 = add 3 "a" v0
 (* let () = v0 = v1 *)
 
 (* let v1 = empty *)
-(*     (module (struct type id  type key = int let compare = Pervasives.compare end)) *)
+(*     (module (struct type id  type key = int let compare = Stdlib.compare end)) *)
 
-(* let v2 = empty [%bs.map compare] *)
+(* let v2 = empty [%mel.map compare] *)
 (* let _ = u = v *)
-  
+
 (* local variables: *)
 (* compile-command: "ocamlc.opt -c xx.ml" *)
 (* end: *)
