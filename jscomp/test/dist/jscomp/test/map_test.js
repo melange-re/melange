@@ -3,12 +3,10 @@
 
 let Caml = require("melange.js/caml.js");
 let Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
-let Caml_option = require("melange.js/caml_option.js");
 let Curry = require("melange.js/curry.js");
 let Mt = require("./mt.js");
 let Stdlib = require("melange/stdlib.js");
 let Stdlib__List = require("melange/list.js");
-let Stdlib__Seq = require("melange/seq.js");
 let Stdlib__String = require("melange/string.js");
 
 const compare = Caml.caml_int_compare;

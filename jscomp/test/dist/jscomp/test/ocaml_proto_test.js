@@ -20,7 +20,6 @@ let Stdlib__List = require("melange/list.js");
 let Stdlib__Parsing = require("melange/parsing.js");
 let Stdlib__Printexc = require("melange/printexc.js");
 let Stdlib__Printf = require("melange/printf.js");
-let Stdlib__Seq = require("melange/seq.js");
 let Stdlib__String = require("melange/string.js");
 
 function field(optionsOpt, label, number, type_, name) {

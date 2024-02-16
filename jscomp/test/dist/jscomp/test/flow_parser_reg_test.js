@@ -22,7 +22,6 @@ let Stdlib__Lexing = require("melange/lexing.js");
 let Stdlib__List = require("melange/list.js");
 let Stdlib__Printf = require("melange/printf.js");
 let Stdlib__Queue = require("melange/queue.js");
-let Stdlib__Seq = require("melange/seq.js");
 let Stdlib__String = require("melange/string.js");
 let Stdlib__Sys = require("melange/sys.js");
 let Fs = require("fs");
