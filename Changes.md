@@ -21,6 +21,11 @@ Unreleased
   going to be reassigned
   ([#1019](https://github.com/melange-re/melange/pull/1019),
   [#1059](https://github.com/melange-re/melange/pull/1059)).
+- runtime: add minimal bindings for JS iterators
+  ([#1060](https://github.com/melange-re/melange/pull/1060))
+- core: handle missing `.cmj` when compiling dune virtual libraries
+  ([#1067](https://github.com/melange-re/melange/pull/1067), fixes
+  [#658](https://github.com/melange-re/melange/issues/658))
 
 3.0.0 2024-01-28
 ---------------
