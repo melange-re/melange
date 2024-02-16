@@ -190,7 +190,8 @@ type initialization = J.block
 let rec compile_external_field (* Like [List.empty]*)
     (lamba_cxt : Lam_compile_context.t) (id : Ident.t) name : Js_output.t =
   match Lam_compile_env.query_external_id_info id name with
-  | { persistent_closed_lambda = Some lam; _ } when Lam_util.not_function lam ->
+  | { persistent_closed_lambda = Some lam; _ }
+    when not (Lam_util.is_function lam) ->
       compile_lambda lamba_cxt lam
   | _ ->
       Js_output.output_of_expression lamba_cxt.continuation

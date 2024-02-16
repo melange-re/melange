@@ -117,14 +117,15 @@ let values_of_export (meta : Lam_stats.t) (export_map : Lam.t Ident.Map.t) :
 *)
 let get_dependent_module_effect (maybe_pure : string option)
     (external_ids : Lam_module_ident.t list) =
-  if maybe_pure = None then
-    let non_pure_module =
-      List.find_opt
-        ~f:(fun id -> not (Lam_compile_env.is_pure_module id))
-        external_ids
-    in
-    Option.map (fun x -> Lam_module_ident.name x) non_pure_module
-  else maybe_pure
+  match maybe_pure with
+  | None ->
+      let non_pure_module =
+        List.find_opt
+          ~f:(fun id -> not (Lam_compile_env.is_pure_module id))
+          external_ids
+      in
+      Option.map (fun x -> Lam_module_ident.name x) non_pure_module
+  | Some _ -> maybe_pure
 
 (* Note that
    [lambda_exports] is
@@ -137,7 +138,7 @@ let get_dependent_module_effect (maybe_pure : string option)
    ]}
    TODO: check that we don't do this in browser environment
 *)
-let export_to_cmj ~case meta effect export_map =
+let export_to_cmj ~case meta ~effect export_map =
   let values = values_of_export meta export_map in
 
   Js_cmj_format.make ~values ~effect

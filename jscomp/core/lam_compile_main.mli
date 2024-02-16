@@ -28,14 +28,9 @@ open Import
 
 (** Compile and register the hook of function to compile  a lambda to JS IR *)
 
-val compile_coercion : output_prefix:string -> Lambda.lambda -> J.deps_program
+val compile_coercion : output_prefix:string -> Lambda.lambda -> Js_cmj_format.t
 (** For toplevel, [filename] is [""] which is the same as
     {!Env.get_unit_name ()} *)
 
-val optimize_program : J.deps_program -> J.deps_program
-
-val lambda_as_module :
-  package_info:Js_packages_info.t ->
-  output_prefix:string ->
-  J.deps_program ->
-  unit
+val optimize_program : Js_cmj_format.t -> J.deps_program
+val lambda_as_module : output_prefix:string -> Js_cmj_format.t -> unit

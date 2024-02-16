@@ -167,7 +167,7 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
       let lambda =
         Translmod.transl_implementation modulename typedtree_coercion
       in
-      let lambda_coercion =
+      let cmj =
         print_if ppf Clflags.dump_rawlambda Printlambda.lambda lambda.code;
         Lam_compile_main.compile_coercion ~output_prefix:outputprefix
           lambda.code
@@ -176,9 +176,11 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
         (* XXX(anmonteiro): important that we get package_info after
            processing, as `[@@@config {flags = [| ... |]}]` could have added to
            package specs. *)
-        let package_info = Js_packages_state.get_packages_info () in
-        Lam_compile_main.lambda_as_module ~package_info
-          ~output_prefix:outputprefix lambda_coercion
+        let cmj =
+          let package_spec = Js_packages_state.get_packages_info () in
+          { cmj with package_spec }
+        in
+        Lam_compile_main.lambda_as_module ~output_prefix:outputprefix cmj
 (* process_with_gentype (Artifact_extension.append_extension outputprefix Cmt) *)
 
 let implementation ~parser ppf fname =
@@ -202,5 +204,4 @@ let implementation_cmj _ppf fname =
   let output_prefix =
     output_prefix ~f:Filename.chop_all_extensions_maybe fname
   in
-  Lam_compile_main.lambda_as_module ~package_info:cmj.package_spec
-    cmj.delayed_program ~output_prefix
+  Lam_compile_main.lambda_as_module cmj ~output_prefix
