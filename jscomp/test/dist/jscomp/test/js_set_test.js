@@ -195,7 +195,96 @@ const suites_1 = {
                                 };
                         })
                     ],
-                    tl: /* [] */0
+                    tl: {
+                      hd: [
+                        "values",
+                        (function (param) {
+                            const values = Array.from(new Set([
+                                        "one",
+                                        "two"
+                                      ]).values());
+                            return {
+                                    TAG: /* Eq */0,
+                                    _0: [
+                                      "one",
+                                      "two"
+                                    ],
+                                    _1: values
+                                  };
+                          })
+                      ],
+                      tl: {
+                        hd: [
+                          "entries",
+                          (function (param) {
+                              const entries = Array.from(new Set([
+                                          "one",
+                                          "two"
+                                        ]).entries());
+                              return {
+                                      TAG: /* Eq */0,
+                                      _0: [
+                                        [
+                                          "one",
+                                          "one"
+                                        ],
+                                        [
+                                          "two",
+                                          "two"
+                                        ]
+                                      ],
+                                      _1: entries
+                                    };
+                            })
+                        ],
+                        tl: {
+                          hd: [
+                            "iterator",
+                            (function (param) {
+                                const iterator = new Set([
+                                        "one",
+                                        "two"
+                                      ]).values();
+                                const n1 = iterator.next();
+                                const n2 = iterator.next();
+                                const n3 = iterator.next();
+                                return {
+                                        TAG: /* Eq */0,
+                                        _0: [
+                                          [
+                                            n1.done,
+                                            n1.value
+                                          ],
+                                          [
+                                            n2.done,
+                                            n2.value
+                                          ],
+                                          [
+                                            n3.done,
+                                            n3.value
+                                          ]
+                                        ],
+                                        _1: [
+                                          [
+                                            false,
+                                            "one"
+                                          ],
+                                          [
+                                            false,
+                                            "two"
+                                          ],
+                                          [
+                                            true,
+                                            undefined
+                                          ]
+                                        ]
+                                      };
+                              })
+                          ],
+                          tl: /* [] */0
+                        }
+                      }
+                    }
                   }
                 }
               }

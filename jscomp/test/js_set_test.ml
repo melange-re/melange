@@ -54,6 +54,22 @@ let suites = Mt.[
       set |> Js.Set.forEach ~f:(fun value -> let (_i: int) = Js.Array.push !arr ~value in ());
       Eq([|"one"; "two"|], !arr)
     );
+    "values", (fun _ ->
+      let values = Js.Set.fromArray [|"one"; "two"|] |> Js.Set.values |> Js.Iterator.toArray in
+      Eq([|"one"; "two"|], values)
+    );
+    "entries", (fun _ ->
+      let entries = Js.Set.fromArray [|"one"; "two"|] |> Js.Set.entries |> Js.Iterator.toArray in
+      Eq([|("one", "one"); ("two", "two")|], entries)
+    );
+    "iterator", (fun _ ->
+      let iterator = Js.Set.fromArray [|"one"; "two"|] |> Js.Set.values in
+      let n1 = Js.Iterator.next iterator in
+      let n2 = Js.Iterator.next iterator in
+      let n3 = Js.Iterator.next iterator in
+      Eq([|(n1.done_, n1.value); (n2.done_, n2.value); (n3.done_, n3.value)|], 
+        [|(Some false, Some "one"); (Some false, Some "two"); (Some true, None)|])
+    );
 ]
 
 ;; Mt.from_pair_suites __MODULE__ suites
