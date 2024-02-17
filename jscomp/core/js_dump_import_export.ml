@@ -112,7 +112,7 @@ let requires require_lit cxt f (modules : (Ident.t * string * bool) list) =
   in
   P.at_least_two_lines f;
   List.rev_iter reversed_list (fun (s, file, default) ->
-      P.string f L.let_;
+      P.string f L.const;
       P.space f;
       P.string f s;
       P.space f;

@@ -24,6 +24,7 @@
 
 let function_ = "function"
 let let_ = "let"
+let const = "const"
 let return = "return"
 let require = "require"
 let import = "import"
