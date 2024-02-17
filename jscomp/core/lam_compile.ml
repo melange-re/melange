@@ -189,18 +189,6 @@ type initialization = J.block
 *)
 let rec compile_external_field (* Like [List.empty] *)
     (lamba_cxt : Lam_compile_context.t) (id : Ident.t) name : Js_output.t =
-  (* NOTE(anmonteiro): This function checks whether there's inlining
-     information available for the lambda being compiled.
-
-     The fallback case happens in 2 scenarios:
-
-       1. there's no inlining information available in the `.cmj` file
-       2. there's no `.cmj` file available. This can happen if we're compiling
-          a dune virtual library where one of the modules uses a binding from
-          any of its virtual modules. Because we're programming against the
-          interface file at this point, we can emit the fallback expression
-          too.
-  *)
   match Lam_compile_env.query_external_id_info id name with
   | Some { persistent_closed_lambda = Some lam; _ }
     when Lam_util.not_function lam ->

@@ -61,7 +61,18 @@ val add_js_module :
 
 val query_external_id_info :
   Ident.t -> string -> Js_cmj_format.keyed_cmj_value option
-(** [query_external_id_info id pos env found] *)
+(** [query_external_id_info module_id name]
+
+  Note: This function checks whether there's inlining information available for
+  the lambda being compiled.
+
+  The fallback case (deopt) happens in 2 scenarios:
+
+    1. there's no inlining information available in the `.cmj` file
+    2. there's no `.cmj` file available. This can happen if we're compiling a
+    dune virtual library where one of the modules uses a binding from any of
+    its virtual modules. Because we're programming against the interface file
+    at this point, we must emit the deoptimized expression too. *)
 
 val is_pure_module : Lam_module_ident.t -> bool
 
