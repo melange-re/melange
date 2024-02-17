@@ -212,7 +212,8 @@ let compile =
                 suffix = Js_suffix.default;
               }
             (Js_pp.from_buffer buffer)
-            (Lam_compile_main.compile "" lam)
+            (Lam_compile_main.compile_coercion ~output_prefix:"" lam
+            |> Lam_compile_main.optimize_program)
         in
         Buffer.contents buffer
       in

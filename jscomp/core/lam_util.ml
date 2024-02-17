@@ -198,8 +198,6 @@ let generate_label ?(name = "") () =
 let is_function (lam : Lam.t) =
   match lam with Lfunction _ -> true | _ -> false
 
-let not_function (lam : Lam.t) =
-  match lam with Lfunction _ -> false | _ -> true
 (*
 let is_var (lam : Lam.t) id =
   match lam with

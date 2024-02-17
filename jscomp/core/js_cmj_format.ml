@@ -33,8 +33,6 @@ type cmj_value = {
       (** Either constant or closed functor *)
 }
 
-type effect = string option
-
 let single_na = Single Lam_arity.na
 
 type keyed_cmj_value = {
@@ -47,7 +45,7 @@ type keyed_cmj_values = keyed_cmj_value array
 
 type t = {
   values : keyed_cmj_values;
-  pure : bool;
+  effect : string option;
   package_spec : Js_packages_info.t;
   case : Js_packages_info.file_case;
   delayed_program : J.deps_program;
@@ -63,7 +61,7 @@ let make ~(values : cmj_value String.Map.t) ~effect ~package_spec ~case
             arity = v.arity;
             persistent_closed_lambda = v.persistent_closed_lambda;
           });
-    pure = effect = None;
+    effect;
     package_spec;
     case;
     delayed_program;
