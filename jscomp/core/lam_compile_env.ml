@@ -82,7 +82,8 @@ let add_js_module (hint_name : Melange_ffi.External_ffi_types.module_bind_name)
       id
   | Some old_key -> old_key.id
 
-let query_external_id_info (module_id : Ident.t) (name : string) : ident_info =
+let query_external_id_info_exn (module_id : Ident.t) (name : string) :
+    ident_info =
   let oid = Lam_module_ident.of_ml module_id in
   let cmj_table =
     match Lam_module_ident.Hash.find_opt cached_tbl oid with
@@ -94,6 +95,10 @@ let query_external_id_info (module_id : Ident.t) (name : string) : ident_info =
     | Some External -> assert false
   in
   Js_cmj_format.query_by_name cmj_table name
+
+let query_external_id_info module_id name =
+  try Some (query_external_id_info_exn module_id name)
+  with Mel_exception.Error (Cmj_not_found _) -> None
 
 let get_dependency_info_from_cmj (id : Lam_module_ident.t) :
     Js_packages_info.t * Js_packages_info.file_case =

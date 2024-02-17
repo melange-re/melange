@@ -59,11 +59,15 @@ val add_js_module :
    pay attention to for those modules are actually used or not
 *)
 
-val query_external_id_info : Ident.t -> string -> Js_cmj_format.keyed_cmj_value
+val query_external_id_info_exn :
+  Ident.t -> string -> Js_cmj_format.keyed_cmj_value
 (**
   [query_external_id_info id pos env found]
-  will raise if not found
-*)
+  will raise if cmj not found *)
+
+val query_external_id_info :
+  Ident.t -> string -> Js_cmj_format.keyed_cmj_value option
+(** [query_external_id_info id pos env found] *)
 
 val is_pure_module : Lam_module_ident.t -> bool
 

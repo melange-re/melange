@@ -202,9 +202,10 @@ let rec compile_external_field (* Like [List.empty] *)
           too.
   *)
   match Lam_compile_env.query_external_id_info id name with
-  | { persistent_closed_lambda = Some lam; _ } when Lam_util.not_function lam ->
+  | Some { persistent_closed_lambda = Some lam; _ }
+    when Lam_util.not_function lam ->
       compile_lambda lamba_cxt lam
-  | _ | (exception Mel_exception.Error (Cmj_not_found _)) ->
+  | Some _ | None ->
       Js_output.output_of_expression lamba_cxt.continuation
         ~no_effects:no_effects_const (E.ml_var_dot id name)
 
@@ -241,8 +242,9 @@ and compile_external_field_apply (appinfo : Lam.apply) (module_id : Ident.t)
     Lam_compile_env.query_external_id_info module_id field_name
   in
   let ap_args = appinfo.ap_args in
-  match ident_info.persistent_closed_lambda with
-  | Some (Lfunction { params; body; _ }) when List.same_length params ap_args ->
+  match ident_info with
+  | Some { persistent_closed_lambda = Some (Lfunction { params; body; _ }); _ }
+    when List.same_length params ap_args ->
       (* TODO: serialize it when exporting to save compile time *)
       let _, param_map =
         Lam_closure.is_closed_with_map Ident.Set.empty params body
@@ -250,7 +252,12 @@ and compile_external_field_apply (appinfo : Lam.apply) (module_id : Ident.t)
       compile_lambda lambda_cxt
         (Lam_beta_reduce.propogate_beta_reduce_with_map lambda_cxt.meta
            param_map params body ap_args)
-  | _ ->
+  | Some _ | None ->
+      let arity =
+        ident_info
+        |> Option.map (fun (t : Js_cmj_format.keyed_cmj_value) -> t.arity)
+        |> Option.value ~default:Js_cmj_format.single_na
+      in
       let args_code, args =
         let dummy = ([], []) in
         if ap_args = [] then dummy
@@ -265,13 +272,13 @@ and compile_external_field_apply (appinfo : Lam.apply) (module_id : Ident.t)
             ap_args ~init:dummy
       in
 
-      let fn = E.ml_var_dot module_id ident_info.name in
+      let fn = E.ml_var_dot module_id field_name in
       let expression =
         match appinfo.ap_info.ap_status with
         | (App_infer_full | App_uncurry) as ap_status ->
             E.call ~info:(call_info_of_ap_status ap_status) fn args
         | App_na -> (
-            match ident_info.arity with
+            match arity with
             | Submodule _ | Single Arity_na ->
                 E.call ~info:Js_call_info.dummy fn args
             | Single x ->
