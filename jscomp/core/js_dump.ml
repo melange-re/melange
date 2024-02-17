@@ -226,7 +226,7 @@ let pp_var_assign cxt id =
   acxt
 
 let pp_const_assign cxt id =
-  string cxt "const";
+  string cxt L.const;
   space cxt;
   let acxt = ident cxt id in
   space cxt;

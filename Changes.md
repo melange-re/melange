@@ -17,6 +17,10 @@ Unreleased
 - runtime: add bindings to `Js.Set`
   ([#1047](https://github.com/melange-re/melange/pull/1047))
 - runtime: add minimal bindings for JS iterators ([#1060](https://github.com/melange-re/melange/pull/1060))
+- core: in compiled JS, emit `const` for variables that Melange knows aren't
+  going to be reassigned
+  ([#1019](https://github.com/melange-re/melange/pull/1019),
+  [#1059](https://github.com/melange-re/melange/pull/1059)).
 
 3.0.0 2024-01-28
 ---------------
