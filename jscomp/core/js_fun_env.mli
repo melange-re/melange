@@ -34,5 +34,4 @@ val no_tailcall : t -> bool list
 val set_unbounded : t -> Ident.Set.t -> unit
 val mark_unused : t -> int -> unit
 val get_unused : t -> int -> bool
-val get_mutable_params : Ident.t list -> t -> Ident.t list
 val get_unbounded : t -> Ident.Set.t

@@ -2,7 +2,7 @@
 'use strict';
 
 
-let v = {
+const v = {
   contents: 0
 };
 
@@ -18,7 +18,7 @@ function fib(n) {
   }
 }
 
-let x = {
+const x = {
   contents: 3
 };
 

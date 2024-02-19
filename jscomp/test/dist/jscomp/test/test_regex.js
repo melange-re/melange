@@ -2,11 +2,11 @@
 'use strict';
 
 
-let v = /b/ig;
+const v = /b/ig;
 
-let r = /Bucklescript是一个程序语言/;
+const r = /Bucklescript是一个程序语言/;
 
-let c = v;
+const c = v;
 
 exports.v = v;
 exports.r = r;

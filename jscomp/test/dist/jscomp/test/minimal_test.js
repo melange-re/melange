@@ -2,7 +2,7 @@
 'use strict';
 
 
-let fake_y = {
+const fake_y = {
   hd: 2,
   tl: {
     hd: 3,
@@ -10,7 +10,7 @@ let fake_y = {
   }
 };
 
-let fake_z = {
+const fake_z = {
   hd: 1,
   tl: fake_y
 };

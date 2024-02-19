@@ -2,7 +2,7 @@
 'use strict';
 
 
-let a = [];
+const a = [];
 
 exports.a = a;
 /* No side effect */

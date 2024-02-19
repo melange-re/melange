@@ -3,8 +3,8 @@
 
 
 function f(point) {
-  let y = point.y;
-  let x = point.x;
+  const y = point.y;
+  const x = point.x;
   return Math.pow(x * x + y * y, 2);
 }
 

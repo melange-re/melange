@@ -4,7 +4,7 @@
 
 console.log(3);
 
-let v = console.log(3);
+const v = console.log(3);
 
 let u;
 

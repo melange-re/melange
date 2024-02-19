@@ -2,12 +2,12 @@
 'use strict';
 
 
-let u = /* A */{
+const u = /* A */{
   _0: 1,
   _1: 2
 };
 
-let h = {
+const h = {
   hd: 1,
   tl: /* [] */0
 };

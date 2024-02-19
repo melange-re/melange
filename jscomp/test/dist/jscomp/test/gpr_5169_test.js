@@ -2,37 +2,37 @@
 'use strict';
 
 
-let NotOption = {};
+const NotOption = {};
 
-let TotallyNotOption = {};
+const TotallyNotOption = {};
 
-let NotOption2 = {};
+const NotOption2 = {};
 
 let a;
 
-let b = 1;
+const b = 1;
 
 let c;
 
-let d = 1;
+const d = 1;
 
 let e;
 
-let f = 1;
+const f = 1;
 
 let g;
 
-let h = 1;
+const h = 1;
 
-let i = /* None */0;
+const i = /* None */0;
 
-let j = /* Some */{
+const j = /* Some */{
   _0: 1
 };
 
-let k = /* None */0;
+const k = /* None */0;
 
-let l = /* Some */{
+const l = /* Some */{
   _0: 1
 };
 

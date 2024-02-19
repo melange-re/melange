@@ -2,7 +2,7 @@
 'use strict';
 
 
-let v = mk(2);
+const v = mk(2);
 
 exports.v = v;
 /* v Not a pure module */

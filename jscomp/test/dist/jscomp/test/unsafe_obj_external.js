@@ -2,7 +2,7 @@
 'use strict';
 
 
-let v = {
+const v = {
   x: (function () {
       return 3;
     }),
@@ -12,7 +12,7 @@ let v = {
     })
 };
 
-let u = v.x() + v.say(3) | 0;
+const u = v.x() + v.say(3) | 0;
 
 exports.v = v;
 exports.u = u;

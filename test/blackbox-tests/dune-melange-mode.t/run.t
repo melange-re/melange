@@ -26,9 +26,9 @@ Demonstrate dune produces JS files corresponding to the original file name
   
   import * as A__Other from "./other.js";
   
-  let x = A__Other.t;
+  const x = A__Other.t;
   
-  let t = 1;
+  const t = 1;
   
   export {
     x ,

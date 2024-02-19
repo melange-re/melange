@@ -2,7 +2,7 @@
 'use strict';
 
 
-let u = {
+const u = {
   x: 3,
   y: 32,
   bark: (function ($$this, x, y) {
@@ -22,7 +22,7 @@ function uux_this(x, y) {
   return (o.length + x | 0) + y | 0;
 }
 
-let js_obj = {
+const js_obj = {
   x: 3,
   y: 32,
   bark: (function (x, y) {

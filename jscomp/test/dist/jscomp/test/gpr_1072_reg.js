@@ -2,7 +2,7 @@
 'use strict';
 
 
-let v1 = {
+const v1 = {
   localeMatcher: "best fit",
   formatMatcher: "basic",
   day: "2-digit",
