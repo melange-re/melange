@@ -133,7 +133,11 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
           ap_info;
         } -> (
         match Lam_compile_env.query_external_id_info ident fld_name with
-        | { persistent_closed_lambda = Some (Lfunction { params; body; _ }); _ }
+        | Some
+            {
+              persistent_closed_lambda = Some (Lfunction { params; body; _ });
+              _;
+            }
         (* be more cautious when do cross module inlining *)
           when List.same_length params args
                && List.for_all
@@ -146,7 +150,8 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
                       | _ -> true)
                     args ->
             simpl (Lam_beta_reduce.propogate_beta_reduce meta params body args)
-        | _ -> Lam.apply (simpl l1) (List.map ~f:simpl args) ap_info)
+        | Some _ | None -> Lam.apply (simpl l1) (List.map ~f:simpl args) ap_info
+        )
     (* Function inlining interact with other optimizations...
 
         - parameter attributes
