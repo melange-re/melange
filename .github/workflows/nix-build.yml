@@ -33,14 +33,17 @@ jobs:
       run: nix-build ./nix/ci/test.nix --argstr ocamlVersion ${{ matrix.ocaml-version }}
 
   macos-tests:
-    name: Build and test (macOS)
+    name: Build and test (${{ matrix.os }})
 
     strategy:
       matrix:
+        os:
+          - macos-latest
+          - macos-14
         ocaml-version:
           - 5_1
 
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
       with:
