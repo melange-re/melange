@@ -9,12 +9,10 @@ external size : 'a t -> int = "size" [@@mel.get]
 external add : value:'a -> 'a t = "add" [@@mel.send.pipe: 'a t]
 external clear : 'a t -> unit = "clear" [@@mel.send]
 external delete : value:'a -> bool = "delete" [@@mel.send.pipe: 'a t]
-
-(* commented out until Melange has a plan for iterators
-   external entries : 'a t -> 'a array_iter = "entries" [@@mel.send] (* ES2015 *) *)
-
 external forEach : f:('a -> unit) -> unit = "forEach" [@@mel.send.pipe: 'a t]
 external has : value:'a -> bool = "has" [@@mel.send.pipe: 'a t]
+external values : 'a Js_iterator.t = "values" [@@mel.send.pipe: 'a t]
+external entries : ('a * 'a) Js_iterator.t = "entries" [@@mel.send.pipe: 'a t]
 
 (*
  external difference : other:'a t -> 'a t = "difference" [@@mel.send.pipe: 'a t]
