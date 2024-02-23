@@ -26,6 +26,8 @@ Unreleased
 - core: handle missing `.cmj` when compiling dune virtual libraries
   ([#1067](https://github.com/melange-re/melange/pull/1067), fixes
   [#658](https://github.com/melange-re/melange/issues/658))
+- core: print lambda IR after TRMC pass when `--drawlambda` is passed
+  ([#1072](https://github.com/melange-re/melange/pull/1072))
 
 3.0.0 2024-01-28
 ---------------
