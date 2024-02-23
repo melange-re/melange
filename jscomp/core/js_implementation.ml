@@ -164,12 +164,15 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
       implementation;
     if !Clflags.print_types || !Js_config.cmi_only then Warnings.check_fatal ()
     else
-      let lambda =
-        Translmod.transl_implementation modulename typedtree_coercion
-      in
       let js_program =
-        print_if_pipe ppf Clflags.dump_rawlambda Printlambda.lambda lambda.code
-        |> Lam_compile_main.compile outputprefix
+        let lambda =
+          let program =
+            Translmod.transl_implementation modulename typedtree_coercion
+          in
+          Tmc.rewrite program.code
+          |> print_if_pipe ppf Clflags.dump_rawlambda Printlambda.lambda
+        in
+        Lam_compile_main.compile outputprefix lambda
       in
       if not !Js_config.cmj_only then
         (* XXX(anmonteiro): important that we get package_info after

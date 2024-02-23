@@ -129,7 +129,6 @@ let compile
 #endif
     Lam_compile_env.reset () ;
   in
-  let lam = Tmc.rewrite lam in
   let lam, may_required_modules = Lam_convert.convert export_ident_sets lam in
 
 
