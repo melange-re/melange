@@ -39,10 +39,10 @@ const Hello = /* @__PURE__ */Caml_exceptions.create("Exception_repr_test.Hello")
 
 const A = /* @__PURE__ */Caml_exceptions.create("Exception_repr_test.A");
 
-Stdlib__Printexc.register_printer(function (param) {
-      if (param.MEL_EXN_ID === Hi) {
+Stdlib__Printexc.register_printer(function (s) {
+      if (s.MEL_EXN_ID === Hi) {
         return "hey";
-      } else if (param.MEL_EXN_ID === A) {
+      } else if (s.MEL_EXN_ID === A) {
         return Curry._1(Stdlib__Format.asprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -60,7 +60,7 @@ Stdlib__Printexc.register_printer(function (param) {
                           }
                         },
                         _1: "A(%d)"
-                      }), param._1);
+                      }), s._1);
       } else {
         return ;
       }

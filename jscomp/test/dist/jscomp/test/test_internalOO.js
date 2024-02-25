@@ -569,11 +569,11 @@ function update(x, f, m) {
 }
 
 function add_to_list(x, data, m) {
-  const add = function (param) {
-    if (param !== undefined) {
+  const add = function (l) {
+    if (l !== undefined) {
       return {
               hd: data,
-              tl: param
+              tl: l
             };
     } else {
       return {
@@ -1691,11 +1691,11 @@ function update$1(x, f, m) {
 }
 
 function add_to_list$1(x, data, m) {
-  const add = function (param) {
-    if (param !== undefined) {
+  const add = function (l) {
+    if (l !== undefined) {
       return {
               hd: data,
-              tl: param
+              tl: l
             };
     } else {
       return {
@@ -2813,11 +2813,11 @@ function update$2(x, f, m) {
 }
 
 function add_to_list$2(x, data, m) {
-  const add = function (param) {
-    if (param !== undefined) {
+  const add = function (l) {
+    if (l !== undefined) {
       return {
               hd: data,
-              tl: param
+              tl: l
             };
     } else {
       return {

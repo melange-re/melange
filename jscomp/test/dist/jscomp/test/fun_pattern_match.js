@@ -13,60 +13,56 @@ function f2(param, param$1) {
   return (((((param.x0 + param.x1 | 0) + param.x2 | 0) + param.x3 | 0) + param.x4 | 0) + param$1.a | 0) + param$1.b | 0;
 }
 
-function f3(param) {
+function f3(param, param$1) {
   const lhs = param.rank;
-  return function (param) {
-    const rhs = param.rank;
-    if (typeof lhs === "number") {
-      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/fun_pattern_match.ml",
-                  41,
-                  9
-                ]
-              });
-    }
-    if (typeof rhs === "number") {
-      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/fun_pattern_match.ml",
-                  41,
-                  9
-                ]
-              });
-    }
-    return Caml.caml_int_compare(lhs._0, rhs._0);
-  };
+  const rhs = param$1.rank;
+  if (typeof lhs === "number") {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/fun_pattern_match.ml",
+                41,
+                9
+              ]
+            });
+  }
+  if (typeof rhs === "number") {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/fun_pattern_match.ml",
+                41,
+                9
+              ]
+            });
+  }
+  return Caml.caml_int_compare(lhs._0, rhs._0);
 }
 
-function f4(param) {
+function f4(param, param$1) {
   const lhs = param.rank;
-  return function (param) {
-    const rhs = param.rank;
-    if (typeof lhs === "number") {
-      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/fun_pattern_match.ml",
-                  49,
-                  9
-                ]
-              });
-    }
-    if (typeof rhs === "number") {
-      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/fun_pattern_match.ml",
-                  49,
-                  9
-                ]
-              });
-    }
-    return Caml.caml_int_compare(lhs._0, rhs._0);
-  };
+  const rhs = param$1.rank;
+  if (typeof lhs === "number") {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/fun_pattern_match.ml",
+                49,
+                9
+              ]
+            });
+  }
+  if (typeof rhs === "number") {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/fun_pattern_match.ml",
+                49,
+                9
+              ]
+            });
+  }
+  return Caml.caml_int_compare(lhs._0, rhs._0);
 }
 
 const x = {

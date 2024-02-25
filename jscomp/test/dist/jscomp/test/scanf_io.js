@@ -100,10 +100,10 @@ function get_lines(fname) {
     };
     return Stdlib__List.rev(l.contents);
   }
-  catch (raw_exn){
-    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib__Scanf.Scan_failure) {
-      const s = Curry._2(Stdlib__Printf.sprintf(/* Format */{
+  catch (raw_s){
+    const s = Caml_js_exceptions.internalToOCamlException(raw_s);
+    if (s.MEL_EXN_ID === Stdlib__Scanf.Scan_failure) {
+      const s$1 = Curry._2(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String_literal */11,
                   _0: "in file ",
@@ -122,14 +122,14 @@ function get_lines(fname) {
                   }
                 },
                 _1: "in file %s, %s"
-              }), fname, exn._1);
+              }), fname, s._1);
       throw new Caml_js_exceptions.MelangeError("Failure", {
                 MEL_EXN_ID: "Failure",
-                _1: s
+                _1: s$1
               });
     }
-    if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
-      const s$1 = Curry._1(Stdlib__Printf.sprintf(/* Format */{
+    if (s.MEL_EXN_ID === Stdlib.End_of_file) {
+      const s$2 = Curry._1(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String_literal */11,
                   _0: "in file ",
@@ -147,10 +147,10 @@ function get_lines(fname) {
               }), fname);
       throw new Caml_js_exceptions.MelangeError("Failure", {
                 MEL_EXN_ID: "Failure",
-                _1: s$1
+                _1: s$2
               });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw new Caml_js_exceptions.MelangeError(s.MEL_EXN_ID, s);
   }
 }
 

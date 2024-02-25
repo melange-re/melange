@@ -19,8 +19,8 @@ function make(x) {
   return x;
 }
 
-function get(param) {
-  return param;
+function get(x) {
+  return x;
 }
 
 const x = "foo";
