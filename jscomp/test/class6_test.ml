@@ -1,8 +1,8 @@
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0
-let eq loc x y = 
-  incr test_id ; 
-  suites := 
+let eq loc x y =
+  incr test_id ;
+  suites :=
     (loc ^" id " ^ (string_of_int !test_id), (fun _ -> Mt.Eq(x,y))) :: !suites
 
 
@@ -20,7 +20,8 @@ class colored_point x (c : string) =
       method color = c
     end;;
 
-let colored_point_to_point cp = (cp : colored_point :> point);;
+(* https://github.com/ocaml-ppx/ppxlib/issues/477 *)
+(* let colored_point_to_point cp = (cp : colored_point :> point);; *)
 
 let p = new point 3 and q = new colored_point 4 "blue";;
 
@@ -55,9 +56,9 @@ class functional_point y =
 
 
 
-let () = 
-  let p = new functional_point 7 in 
-  eq __LOC__ 
+let () =
+  let p = new functional_point 7 in
+  eq __LOC__
     (7,10,7)
     (p#get_x, (p#move 3)#get_x , p#get_x)
 
@@ -69,8 +70,8 @@ class bad_functional_point y =
       method move d = new bad_functional_point (x+d)
     end;;
 
-let () = 
-  let p = new bad_functional_point 7 in 
+let () =
+  let p = new bad_functional_point 7 in
   eq __LOC__
     (7,10,7)
     (p#get_x, (p#move 3)#get_x , p#get_x)

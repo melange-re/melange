@@ -9,8 +9,6 @@
   > EOF
   $ melc -ppx melppx x.ml
   File "x.ml", line 4, characters 5-15:
-  4 |    [@mel.string]
-           ^^^^^^^^^^
   Alert unused: Unused attribute [@mel.string]
   This means such annotation is not annotated properly.
   For example, some annotations are only meaningful in externals
