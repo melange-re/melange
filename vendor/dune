@@ -22,4 +22,4 @@
    (package melange)
    (flags -w -9)
    (libraries menhirLib melange_wrapper)
-   (modules_without_implementation annot))))
+   (modules_without_implementation annot value_rec_types))))
