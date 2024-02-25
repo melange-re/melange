@@ -42,6 +42,8 @@
 Skip over the temporary file name printed in the error trace
 
   $ melc -ppx melppx -bs-eval 'let bla4 foo x y= foo##(method1 x y [@u])' 2>&1 | grep -v File
+  1 | let bla4 foo x y= foo##(method1 x y [@u])
+                                            ^
   Alert unused: Unused attribute [@u]
   This means such annotation is not annotated properly.
   For example, some annotations are only meaningful in externals
@@ -59,6 +61,8 @@ Skip over the temporary file name printed in the error trace
 
 
   $ melc -ppx melppx -bs-eval 'external mk : int -> ([`a|`b [@mel.string]]) = "mk"' 2>&1 | grep -v File
+  1 | external mk : int -> ([`a|`b [@mel.string]]) = "mk"
+                                     ^^^^^^^^^^
   Alert unused: Unused attribute [@mel.string]
   This means such annotation is not annotated properly.
   For example, some annotations are only meaningful in externals
@@ -86,6 +90,8 @@ Skip over the temporary file name printed in the error trace
   > EOF
   $ melc -ppx melppx x.ml
   File "x.ml", line 2, characters 37-48:
+  2 |   int -> int -> (int -> int -> int [@mel.uncurry]) = "v3"
+                                           ^^^^^^^^^^^
   Alert unused: Unused attribute [@mel.uncurry]
   This means such annotation is not annotated properly.
   For example, some annotations are only meaningful in externals
@@ -109,6 +115,8 @@ Skip over the temporary file name printed in the error trace
   Error: Offset: 3, Invalid \u escape
 
   $ melc -ppx 'melppx -alert -fragile' -bs-eval 'external mk : int -> ([`a|`b] [@mel.string]) = ""' 2>&1 | grep -v File
+  1 | external mk : int -> ([`a|`b] [@mel.string]) = ""
+                                      ^^^^^^^^^^
   Alert unused: Unused attribute [@mel.string]
   This means such annotation is not annotated properly.
   For example, some annotations are only meaningful in externals
@@ -224,6 +232,8 @@ Skip over the temporary file name printed in the error trace
   [2]
 
   $ melc -ppx melppx -bs-eval 'let bla4 foo x y = foo##(method1 x y [@u])' 2>&1 | grep -v File
+  1 | let bla4 foo x y = foo##(method1 x y [@u])
+                                             ^
   Alert unused: Unused attribute [@u]
   This means such annotation is not annotated properly.
   For example, some annotations are only meaningful in externals
@@ -249,6 +259,8 @@ Skip over the temporary file name printed in the error trace
   > EOF
   $ melc -ppx melppx x.ml
   File "x.ml", line 4, characters 5-15:
+  4 |    [@mel.string]
+           ^^^^^^^^^^
   Alert unused: Unused attribute [@mel.string]
   This means such annotation is not annotated properly.
   For example, some annotations are only meaningful in externals

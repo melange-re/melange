@@ -27,6 +27,8 @@ Adding a callback breaks
   > EOF
   $ dune build @mel
   File "main.ml", line 1, characters 22-44:
+  1 | let unsafeDeleteKey = [%raw fun _foo -> "2"]
+                            ^^^^^^^^^^^^^^^^^^^^^^
   Error: `%mel.raw' can only be applied to a string
   [1]
 

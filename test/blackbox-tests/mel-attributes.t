@@ -32,6 +32,8 @@
   > EOF
   $ dune build @melange
   File "x.ml", line 2, characters 63-66:
+  2 | external clipboardData : t -> < .. > Js.t = "clipboardData" [@@get]
+                                                                     ^^^
   Error: `[@bs.*]' and non-namespaced attributes have been removed in favor of `[@mel.*]' attributes.
   [1]
 

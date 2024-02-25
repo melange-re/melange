@@ -18,6 +18,8 @@ Demonstrate PPX error messages
   > EOF
   $ dune build @melange
   File "x.ml", line 1, characters 0-44:
+  1 | external join : string -> string = "join!me"
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Error: "join!me" isn't a valid JavaScript identifier
   [1]
 
@@ -26,6 +28,8 @@ Demonstrate PPX error messages
   > EOF
   $ dune build @melange
   File "x.ml", line 1, characters 0-55:
+  1 | external join : string -> string = "" [@@mel.module ""]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Error: `@mel.module' name cannot be empty
   [1]
 

@@ -73,6 +73,8 @@ Duplicate `@mel.as` attributes
 
   $ dune build @melange
   File "z.ml", line 2, characters 21-38:
+  2 | let [@mel.as "POST"] [@mel.as "OTHER"] js_post = post
+                           ^^^^^^^^^^^^^^^^^
   Error: Duplicate `@mel.as' attribute found
   [1]
 
