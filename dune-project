@@ -1,4 +1,4 @@
-(lang dune 3.8)
+(lang dune 3.13)
 
 (using experimental_building_ocaml_compiler_with_dune 0.1)
 

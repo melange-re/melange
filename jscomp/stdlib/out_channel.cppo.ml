@@ -46,6 +46,13 @@ let with_open_text s f =
 let with_open_gen flags perm s f =
   with_open (Stdlib.open_out_gen flags perm) s f
 
+#ifdef BS
+#else
+external unsafe_output_bigarray :
+  t -> _ Bigarray.Array1.t -> int -> int -> unit
+  = "caml_ml_output_bigarray"
+#endif
+
 let seek = Stdlib.LargeFile.seek_out
 let pos = Stdlib.LargeFile.pos_out
 let length = Stdlib.LargeFile.out_channel_length
@@ -59,7 +66,17 @@ let output_string = Stdlib.output_string
 let output_bytes = Stdlib.output_bytes
 let output = Stdlib.output
 let output_substring = Stdlib.output_substring
+#ifdef BS
+#else
+let output_bigarray oc buf ofs len =
+  if ofs < 0 || len < 0 || ofs > Bigarray.Array1.dim buf - len
+  then invalid_arg "output_bigarray"
+  else unsafe_output_bigarray oc buf ofs len
+#endif
+
 let set_binary_mode = Stdlib.set_binary_mode_out
+
+external is_binary_mode : out_channel -> bool = "caml_ml_is_binary_mode"
 
 external set_buffered : t -> bool -> unit = "caml_ml_set_buffered"
 

@@ -16,6 +16,7 @@
 open Import
 open Lambda
 open Debuginfo.Scoped_location
+
 (* Tail call info in annotation files *)
 
 let rec emit_tail_infos is_tail lambda =
@@ -41,12 +42,22 @@ let rec emit_tail_infos is_tail lambda =
        | Tailcall_expectation expect_tail -> maybe_warn ~is_tail ~expect_tail);
       emit_tail_infos false ap.ap_func;
       list_emit_tail_infos false ap.ap_args
+#if OCAML_VERSION >= (5,2,0)
+  | Lfunction lfun -> emit_tail_infos_lfunction is_tail lfun
+#else
   | Lfunction { body = lam; _ } -> emit_tail_infos true lam
+#endif
   | Llet (_, _k, _, lam, body) | Lmutlet (_k, _, lam, body) ->
       emit_tail_infos false lam;
       emit_tail_infos is_tail body
   | Lletrec (bindings, body) ->
+#if OCAML_VERSION >= (5,2,0)
+      List.iter
+        ~f:(fun { def; _ } -> emit_tail_infos_lfunction is_tail def)
+        bindings;
+#else
       List.iter ~f:(fun (_, lam) -> emit_tail_infos false lam) bindings;
+#endif
       emit_tail_infos is_tail body
   | Lprim ((Pbytes_to_string | Pbytes_of_string), [ arg ], _) ->
       emit_tail_infos is_tail arg
@@ -96,6 +107,13 @@ and list_emit_tail_infos_fun f is_tail =
   List.iter ~f:(fun x -> emit_tail_infos is_tail (f x))
 
 and list_emit_tail_infos is_tail = List.iter ~f:(emit_tail_infos is_tail)
+
+#if OCAML_VERSION >= (5,2,0)
+and emit_tail_infos_lfunction _is_tail lfun =
+  (* Tail call annotations are only meaningful with respect to the
+     current function; so entering a function resets the [is_tail] flag *)
+  emit_tail_infos true lfun.body
+#endif
 
 let simplify_lambda lam =
   let lam = lam |> Tmc.rewrite in

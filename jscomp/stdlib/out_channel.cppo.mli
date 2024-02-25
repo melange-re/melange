@@ -113,6 +113,15 @@ val output_substring : t -> string -> int -> int -> unit
 (** Same as {!output} but take a string as argument instead of a byte
     sequence. *)
 
+#ifdef BS
+#else
+val output_bigarray :
+  t -> (_, Bigarray.int8_unsigned_elt, Bigarray.c_layout) Bigarray.Array1.t ->
+  int -> int -> unit
+(** Same as {!output} but take the data from a bigarray.
+    @since 5.2 *)
+#endif
+
 (** {1:flushing Flushing} *)
 
 val flush : t -> unit
@@ -147,7 +156,6 @@ val length : t -> int64
     given channel is opened.  If the channel is opened on a file that is not a
     regular file, the result is meaningless. *)
 
-
 val set_binary_mode : t -> bool -> unit
 (** [set_binary_mode oc true] sets the channel [oc] to binary mode: no
     translations take place during output.
@@ -159,6 +167,11 @@ val set_binary_mode : t -> bool -> unit
 
     This function has no effect under operating systems that do not distinguish
     between text mode and binary mode. *)
+
+val is_binary_mode : t -> bool
+(** [is_binary_mode oc] returns whether the channel [oc] is in binary mode
+    (see {!set_binary_mode}).
+    @since 5.2 *)
 
 val set_buffered : t -> bool -> unit
 (** [set_buffered oc true] sets the channel [oc] to {e buffered} mode. In this

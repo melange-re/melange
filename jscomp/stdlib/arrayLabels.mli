@@ -91,6 +91,19 @@ val make_matrix : dimx:int -> dimy:int -> 'a -> 'a array array
    If the value of [e] is a floating-point number, then the maximum
    size is only [Sys.max_array_length / 2]. *)
 
+val init_matrix : dimx:int -> dimy:int -> f:(int -> int -> 'a) -> 'a array array
+(** [init_matrix ~dimx ~dimy ~f] returns a two-dimensional array
+   (an array of arrays)
+   with first dimension [dimx] and second dimension [dimy],
+   where the element at index ([x,y]) is initialized with [f x y].
+   The element ([x,y]) of a matrix [m] is accessed
+   with the notation [m.(x).(y)].
+   @raise Invalid_argument if [dimx] or [dimy] is negative or
+   greater than {!Sys.max_array_length}.
+   If the return type of [f] is [float],
+   then the maximum size is only [Sys.max_array_length / 2].
+   @since 5.2 *)
+
 val append : 'a array -> 'a array -> 'a array
 (** [append v1 v2] returns a fresh array containing the
    concatenation of the arrays [v1] and [v2].
@@ -236,13 +249,13 @@ val exists2 : f:('a -> 'b -> bool) -> 'a array -> 'b array -> bool
 
 val mem : 'a -> set:'a array -> bool
 (** [mem a ~set] is true if and only if [a] is structurally equal
-    to an element of [l] (i.e. there is an [x] in [l] such that
+    to an element of [set] (i.e. there is an [x] in [set] such that
     [compare a x = 0]).
     @since 4.03 *)
 
 val memq : 'a -> set:'a array -> bool
 (** Same as {!mem}, but uses physical equality
-   instead of structural equality to compare list elements.
+   instead of structural equality to compare array elements.
    @since 4.03 *)
 
 val find_opt : f:('a -> bool) -> 'a array -> 'a option
@@ -287,7 +300,7 @@ val combine : 'a array -> 'b array -> ('a * 'b) array
 
     @since 4.13 *)
 
-(** {1 Sorting} *)
+(** {1:sorting_and_shuffling Sorting and shuffling} *)
 
 val sort : cmp:('a -> 'a -> int) -> 'a array -> unit
 (** Sort an array in increasing order according to a comparison
@@ -328,6 +341,15 @@ val fast_sort : cmp:('a -> 'a -> int) -> 'a array -> unit
 (** Same as {!sort} or {!stable_sort}, whichever is
     faster on typical input. *)
 
+val shuffle :
+  rand: (* thwart tools/sync_stdlib_docs *) (int -> int) -> 'a array -> unit
+(** [shuffle ~rand a] randomly permutes [a]'s element using [rand] for
+    randomness. The distribution of permutations is uniform.
+    [rand] must be such that a call to [rand n] returns a uniformly
+    distributed random number in the range \[[0];[n-1]\].
+    {!Random.int} can be used for this (do not forget to
+    {{!Random.self_init}initialize} the generator).
+    @since 5.2 *)
 
 (** {1 Arrays and Sequences} *)
 
