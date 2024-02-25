@@ -186,10 +186,14 @@ let compile =
     let types_signature = ref [] in
     warnings_collected := [];
     try
+      let lexbuf = Lexing.from_string str in
+      Ocaml_common.Location.input_lexbuf := Some lexbuf;
+      Location.input_lexbuf := Some lexbuf;
       let ast =
-        (* default *)
-        impl (Lexing.from_string str)
-        |> melange_ppx |> Builtin_ast_mapper.rewrite_structure
+        lexbuf
+        |> impl
+        |> melange_ppx
+        |> Builtin_ast_mapper.rewrite_structure
       in
       let typed_tree =
         let { Typedtree.structure; coercion; shape = _; signature } =
