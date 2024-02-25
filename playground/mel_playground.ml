@@ -193,7 +193,8 @@ let compile =
       in
       let typed_tree =
         let { Typedtree.structure; coercion; shape = _; signature } =
-          Typemod.type_implementation modulename modulename modulename env ast
+          let unit_info = Unit_info.make ~source_file:modulename modulename in
+          Typemod.type_implementation unit_info env ast
         in
         (* finalenv := c ; *)
         types_signature := signature;
@@ -294,12 +295,12 @@ let () =
     (playground_warning_reporter, playground_alert_reporter)
   in
 
-  let load_cmi ~unit_name : Persistent_env.Persistent_signature.t option =
+  let load_cmi ~allow_hidden:_ ~unit_name : Persistent_env.Persistent_signature.t option =
     match
       Initialization.find_in_path_exn
         (Artifact_extension.append_extension unit_name Cmi)
     with
-    | filename -> Some { filename; cmi = Cmi_format.read_cmi filename }
+    | filename -> Some { filename; cmi = Cmi_format.read_cmi filename; visibility = Visible }
     | exception Not_found -> None
   in
 
@@ -312,7 +313,7 @@ let () =
   Ocaml_common.Location.alert_reporter := playground_alert_reporter;
   Location.alert_reporter := playground_alert_reporter;
   (* To add a directory to the load path *)
-  Load_path.add_dir "/static"
+  Load_path.add_dir ~hidden:false "/static"
 
 let () =
   Js.set

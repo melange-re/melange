@@ -69,7 +69,8 @@ module Global = struct
     Lambda.blk_record_inlined := Record_attributes_check.blk_record_inlined;
     Lambda.blk_record_ext := Record_attributes_check.blk_record_ext;
     Matching.names_from_construct_pattern :=
-      Matching_polyfill.names_from_construct_pattern
+      Matching_polyfill.names_from_construct_pattern;
+    Value_rec_compiler.compile_letrec := Compile_letrec.compile_letrec
 
   let () = at_exit (fun _ -> Format.pp_print_flush Format.err_formatter ())
 end
@@ -82,12 +83,14 @@ module Perfile = struct
     in
     Load_path.reset ();
     let exp_dirs = List.rev_append exp_dirs (Js_config.std_include_dirs ()) in
-    List.iter ~f:Load_path.add_dir exp_dirs;
+    List.iter ~f:(Load_path.add_dir ~hidden:false) exp_dirs;
+    let { Load_path.visible; hidden } =(Load_path.get_paths ()) in
     Log.info ~loc:(Loc.of_pos __POS__)
       (Pp.concat ~sep:Pp.space
          [
            Pp.text "Compiler include dirs:";
-           Pp.enumerate (Load_path.get_paths ()) ~f:Pp.text;
+           Pp.enumerate visible ~f:Pp.text;
+           Pp.enumerate hidden ~f:Pp.text;
          ]);
     Env.reset_cache ()
 
@@ -113,4 +116,4 @@ end
 
 (* ATTENTION: lazy to wait [Config.load_path] populated *)
 let find_in_path_exn file =
-  Misc.find_in_path_uncap (Load_path.get_paths ()) file
+  Misc.find_in_path_normalized (Load_path.get_paths ()).visible file

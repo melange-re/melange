@@ -62,7 +62,13 @@ let process_with_gentype filename =
       ignore (Sys.command comm)
 *)
 
-let after_parsing_sig ppf outputprefix ast =
+let output_prefix ?(f = Filename.remove_extension) name =
+  match !Clflags.output_name with
+  | None -> Filename.remove_extension name
+  | Some oname -> f oname
+
+let after_parsing_sig ppf fname ast =
+  let outputprefix = output_prefix fname in
   if !Js_config.modules then Meldep.output_deps_set !Location.input_name Mli ast;
   if !Js_config.as_pp then (
     output_string stdout Config.ast_intf_magic_number;
@@ -88,20 +94,17 @@ let after_parsing_sig ppf outputprefix ast =
     Typecore.force_delayed_checks ();
     Warnings.check_fatal ();
     if not !Clflags.print_types then
+      let unit_info =
+        Unit_info.make ~check_modname:false ~source_file:fname outputprefix
+      in
       let sg =
         let alerts = Builtin_attributes.alerts_of_sig ast in
-        Env.save_signature ~alerts tsg.Typedtree.sig_type modulename
-          (Artifact_extension.append_extension outputprefix Cmi)
+        Env.save_signature ~alerts tsg.Typedtree.sig_type
+          (Unit_info.cmi unit_info)
       in
-      Typemod.save_signature modulename tsg outputprefix !Location.input_name
-        initial_env sg
+      Typemod.save_signature unit_info tsg initial_env sg
 (* process_with_gentype *)
 (* (Artifact_extension.append_extension outputprefix Cmti) *)
-
-let output_prefix ?(f = Filename.remove_extension) name =
-  match !Clflags.output_name with
-  | None -> Filename.remove_extension name
-  | Some oname -> f oname
 
 let interface ~parser ppf fname =
   Initialization.Perfile.init_path ();
@@ -111,7 +114,7 @@ let interface ~parser ppf fname =
   |> Builtin_ast_mapper.rewrite_signature
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.interface
   |> print_if_pipe ppf Clflags.dump_source Pprintast.signature
-  |> after_parsing_sig ppf (output_prefix fname)
+  |> after_parsing_sig ppf fname
 
 let all_module_alias (ast : Parsetree.structure) =
   List.for_all
@@ -157,7 +160,10 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
     let env = Initialization.Perfile.initial_env () in
     Env.set_unit_name modulename;
     let ({ Typedtree.structure = typedtree; coercion; _ } as implementation) =
-      Typemod.type_implementation fname outputprefix modulename env ast
+      let unit_info =
+        Unit_info.make ~check_modname:false ~source_file:fname outputprefix
+      in
+      Typemod.type_implementation unit_info env ast
     in
     let typedtree_coercion = (typedtree, coercion) in
     print_if ppf Clflags.dump_typedtree Printtyped.implementation_with_coercion

@@ -72,9 +72,9 @@ let rec is_function_or_const_block (lam : Lambda.lambda) acc =
       let rec aux_bindings bindings acc =
         match bindings with
         | [] -> Some acc
-        | (id, Lambda.Lfunction _) :: rest ->
+        | {Lambda.id; def = {attr={smuggled_lambda=false;_};_}} :: rest ->
             aux_bindings rest (Ident.Set.add acc id)
-        | (_, _) :: _ -> None
+        | { id = _; _ } :: _ -> None
       in
       match aux_bindings bindings acc with
       | None -> false
@@ -132,7 +132,19 @@ let eval_rec_bindings (bindings : binding list) cont =
     Lambda.Lletrec
       ( List.filter_map
           ~f:(fun (binding : binding) ->
-            match binding with Id id, _, rhs -> Some (id, rhs) | _ -> None)
+            match binding with
+            | Id id, _, Lfunction def ->
+              Some { Lambda.id; def}
+            | Id id, _, rhs ->
+              let def =
+                Lambda.lfunction'
+                  ~kind:Tupled ~params:[] ~return:Pgenval
+                  ~body:rhs
+                  ~attr:{ Lambda.default_function_attribute with smuggled_lambda = true }
+                  ~loc:Loc_unknown
+              in
+              Some { Lambda.id; def}
+            | _ -> None)
           bindings,
         cont )
   else eval_rec_bindings_aux bindings cont
