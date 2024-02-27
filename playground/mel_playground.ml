@@ -30,12 +30,12 @@ module Melange_OCaml_version = Ast_io.Melange_ast_version
 
 module Melange_ast = struct
   external to_ppxlib :
-    Melange_compiler_libs.Parsetree.structure ->
+    Parsetree.structure ->
     Melange_OCaml_version.Ast.Parsetree.structure = "%identity"
 
   external from_ppxlib :
     Melange_OCaml_version.Ast.Parsetree.structure ->
-    Melange_compiler_libs.Parsetree.structure = "%identity"
+    Parsetree.structure = "%identity"
 end
 
 let warnings_collected : Location.report list ref = ref []
@@ -326,7 +326,7 @@ let () =
                  ~impl:(fun
                      buf : Melange_OCaml_version.Ast.Parsetree.structure ->
                    Melange_ast.to_ppxlib
-                     (Melange_compiler_libs.Parse.implementation buf))
+                     (Parse.implementation buf))
                  (Js.to_string code)) );
          ( "compileRE",
            Js.wrap_meth_callback (fun _ code ->

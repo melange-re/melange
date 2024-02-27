@@ -111,9 +111,7 @@ let apply_lazy ~source ~target =
       output_value oc ast
   | Impl ast ->
       let ast: Ppxlib_ast__.Versions.OCaml_current.Ast.Parsetree.structure =
-        let ast: Melange_compiler_libs.Parsetree.structure =
-          apply ~kind:Ml_binary.Ml ast
-        in
+        let ast = apply ~kind:Ml_binary.Ml ast in
         let ppxlib_ast: Melange_ast_version.Ast.Parsetree.structure =
           Obj.magic ast
         in
