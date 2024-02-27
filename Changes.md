@@ -28,6 +28,9 @@ Unreleased
   [#658](https://github.com/melange-re/melange/issues/658))
 - core: print lambda IR after TRMC pass when `--drawlambda` is passed
   ([#1072](https://github.com/melange-re/melange/pull/1072))
+- core: remove unnecessary internal code from melange-compiler-libs, slimming
+  down the melange executable and speeding up the build
+  ([#1075](https://github.com/melange-re/melange/pull/1075))
 
 3.0.0 2024-01-28
 ---------------

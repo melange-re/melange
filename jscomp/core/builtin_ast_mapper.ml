@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Import
-
 let rewrite_signature (ast : Parsetree.signature) : Parsetree.signature =
   Ast_config.iter_on_mel_config_sigi ast;
   Mel_ast_invariant.emit_external_warnings_on_signature ast;

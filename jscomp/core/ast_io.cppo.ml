@@ -37,8 +37,8 @@ module type OCaml_version = Ppxlib_ast.OCaml_version
 
 module Intf_or_impl = struct
   type t =
-    | Intf of Melange_compiler_libs.Parsetree.signature
-    | Impl of Melange_compiler_libs.Parsetree.structure
+    | Intf of Parsetree.signature
+    | Impl of Parsetree.structure
 
   module Convert =
     Ppxlib_ast.Convert
@@ -49,7 +49,7 @@ module Intf_or_impl = struct
    fun stru ->
     let melange_stru =
       let ocaml_51_stru = Convert.copy_structure stru in
-      (Obj.magic ocaml_51_stru : Melange_compiler_libs.Parsetree.structure)
+      (Obj.magic ocaml_51_stru : Parsetree.structure)
     in
     Impl melange_stru
 
@@ -57,7 +57,7 @@ module Intf_or_impl = struct
    fun sig_ ->
     let melange_sig =
       let ocaml_51_sig = Convert.copy_signature sig_ in
-      (Obj.magic ocaml_51_sig : Melange_compiler_libs.Parsetree.signature)
+      (Obj.magic ocaml_51_sig : Parsetree.signature)
     in
     Intf melange_sig
 end
@@ -126,7 +126,8 @@ let from_channel ch ~input_kind : (t, read_error) result =
       match Find_version.from_magic s with
       | Intf (module Input_version : OCaml_version) ->
           let input_name : string = input_value ch in
-          Location.set_input_name input_name;
+          Ocaml_common.Location.input_name := input_name;
+          Location.input_name := input_name;
           let ast = input_value ch in
           let module Input_to_ppxlib =
             Convert (Input_version) (Ppxlib_ast.Selected_ast)
@@ -140,7 +141,8 @@ let from_channel ch ~input_kind : (t, read_error) result =
             }
       | Impl (module Input_version : OCaml_version) ->
           let input_name : string = input_value ch in
-          Location.set_input_name input_name;
+          Location.input_name := input_name;
+          Ocaml_common.Location.input_name := input_name;
           let ast = input_value ch in
           let module Input_to_ppxlib =
             Convert (Input_version) (Ppxlib_ast.Selected_ast)

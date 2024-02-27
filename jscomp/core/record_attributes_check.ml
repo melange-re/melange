@@ -165,9 +165,8 @@ let check_duplicated_labels =
           | Some ({ txt = s; _ } as l) ->
               if
                 String.Set.mem coll s
-                (*use coll to make check a bit looser
-                  allow cases like [ x : int [@as "x"]]
-                *)
+                (* use coll to make check a bit looser
+                   allow cases like [ x : int [@as "x"]] *)
               then Some l
               else
                 check_duplicated_labels_aux rest

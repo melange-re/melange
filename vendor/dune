@@ -22,31 +22,4 @@
    (package melange)
    (flags -w -9)
    (libraries menhirLib melange_wrapper)
-   (modules_without_implementation annot outcometree parsetree))
-  (ocamllex
-   (modules lexer)
-   (mode fallback))
-  (menhir
-   (modules parser)
-   ; flag reference:
-   ; https://github.com/ocaml/ocaml/blob/f0a1be6f0/Makefile.menhir#L76-L82
-   (flags
-    --lalr
-    --explain
-    --dump
-    --require-aliases
-    --strict
-    --table
-    -lg
-    1
-    -la
-    1
-    --unused-token
-    COMMENT
-    --unused-token
-    DOCSTRING
-    --unused-token
-    EOL
-    --unused-token
-    GREATERRBRACKET
-    --fixed-exception))))
+   (modules_without_implementation annot))))
