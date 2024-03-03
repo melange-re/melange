@@ -30,10 +30,10 @@ will evaluate to a {! t} that can be passed around and used like usual.
 
 {b Note:} This is not an immutable API. A RegExp object with the [global] ("g")
 flag set will modify the {! lastIndex} property when the RegExp object is used,
-and subsequent uses will ocntinue the search from the previous {! lastIndex}.
+and subsequent uses will continue the search from the previous {! lastIndex}.
 
 {[
-let maybeMatches = "banana" |> Js.String.match_ [\[%re "/na+/g"\]]
+let maybeMatches = Js.String.exec ~str:"banana" [\[%re "/na+/g"\]]
 ]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp> JavaScript API reference on MDN
