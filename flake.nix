@@ -26,11 +26,7 @@
     } // (flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages."${system}".extend (self: super: {
-          ocamlPackages = super.ocaml-ng.ocamlPackages_5_1.overrideScope (oself: osuper: {
-            ocaml = osuper.ocaml.overrideAttrs (_: {
-              enableParallelBuilding = false;
-            });
-          });
+          ocamlPackages = super.ocaml-ng.ocamlPackages_5_1;
         });
 
         packages =
