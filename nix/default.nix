@@ -45,7 +45,10 @@ buildDunePackage {
       --set MELANGELIB "$OCAMLFIND_DESTDIR/melange/melange:$OCAMLFIND_DESTDIR/melange/js/melange"
   '';
 
-  inherit doCheck;
+  doCheck = doCheck &&
+    # for some reason `-Wtrigraphs` was enabled in nixpkgs recently for
+    # x86_64-darwin?
+    !(stdenv.isDarwin && stdenv.isx86_64);
   nativeCheckInputs = [ tree nodejs reason jq merlin ];
   checkInputs = [ ounit2 ];
 
