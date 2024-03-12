@@ -10,7 +10,7 @@ function f(x) {
   throw new Caml_js_exceptions.MelangeError("Match_failure", {
             MEL_EXN_ID: "Match_failure",
             _1: [
-              "test_incomplete.ml",
+              "jscomp/test/test_incomplete.ml",
               3,
               2
             ]

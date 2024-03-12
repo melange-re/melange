@@ -494,7 +494,7 @@ function style_of_tag(param) {
     throw new Caml_js_exceptions.MelangeError("Match_failure", {
               MEL_EXN_ID: "Match_failure",
               _1: [
-                "ocaml_typedtree_test.ml",
+                "jscomp/test/ocaml_typedtree_test.ml",
                 1191,
                 19
               ]
