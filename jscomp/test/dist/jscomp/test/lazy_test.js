@@ -42,7 +42,7 @@ function f(param) {
   throw new Caml_js_exceptions.MelangeError("Match_failure", {
             MEL_EXN_ID: "Match_failure",
             _1: [
-              "lazy_test.ml",
+              "jscomp/test/lazy_test.ml",
               9,
               8
             ]

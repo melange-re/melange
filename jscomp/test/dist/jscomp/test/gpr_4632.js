@@ -25,7 +25,7 @@ const T0 = {
 throw new Caml_js_exceptions.MelangeError("Match_failure", {
           MEL_EXN_ID: "Match_failure",
           _1: [
-            "gpr_4632.ml",
+            "jscomp/test/gpr_4632.ml",
             12,
             6
           ]
