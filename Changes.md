@@ -31,6 +31,10 @@ Unreleased
 - core: remove unnecessary internal code from melange-compiler-libs, slimming
   down the melange executable and speeding up the build
   ([#1075](https://github.com/melange-re/melange/pull/1075))
+- core: implement warning 51 in Melange (`wrong-tailcall-expectation`)
+    - This warning had previously been disabled entirely in the typechecker
+      version that Melange uses. It becomes more important with TRMC support
+      added in Melange 2.1.0.
 
 3.0.0 2024-01-28
 ---------------
