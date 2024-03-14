@@ -16,6 +16,7 @@
 open Import
 open Lambda
 open Debuginfo.Scoped_location
+
 (* Tail call info in annotation files *)
 
 let rec emit_tail_infos is_tail lambda =
@@ -41,12 +42,14 @@ let rec emit_tail_infos is_tail lambda =
        | Tailcall_expectation expect_tail -> maybe_warn ~is_tail ~expect_tail);
       emit_tail_infos false ap.ap_func;
       list_emit_tail_infos false ap.ap_args
-  | Lfunction { body = lam; _ } -> emit_tail_infos true lam
+  | Lfunction lfun -> emit_tail_infos_lfunction is_tail lfun
   | Llet (_, _k, _, lam, body) | Lmutlet (_k, _, lam, body) ->
       emit_tail_infos false lam;
       emit_tail_infos is_tail body
   | Lletrec (bindings, body) ->
-      List.iter ~f:(fun (_, lam) -> emit_tail_infos false lam) bindings;
+      List.iter
+        ~f:(fun { def; _ } -> emit_tail_infos_lfunction is_tail def)
+        bindings;
       emit_tail_infos is_tail body
   | Lprim ((Pbytes_to_string | Pbytes_of_string), [ arg ], _) ->
       emit_tail_infos is_tail arg
@@ -96,6 +99,11 @@ and list_emit_tail_infos_fun f is_tail =
   List.iter ~f:(fun x -> emit_tail_infos is_tail (f x))
 
 and list_emit_tail_infos is_tail = List.iter ~f:(emit_tail_infos is_tail)
+
+and emit_tail_infos_lfunction _is_tail lfun =
+  (* Tail call annotations are only meaningful with respect to the
+     current function; so entering a function resets the [is_tail] flag *)
+  emit_tail_infos true lfun.body
 
 let simplify_lambda lam =
   let lam = lam |> Tmc.rewrite in
