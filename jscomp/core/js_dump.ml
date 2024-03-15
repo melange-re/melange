@@ -704,7 +704,8 @@ and expression_desc cxt ~(level : int) x : cxt =
      {[ 0. - x ]}
      {[ 0.00 - x ]}
      {[ 0.000 - x ]}
-  *) ->
+  *)
+    ->
       cond_paren_group cxt (level > 13) 1 (fun _ ->
           string cxt (match desc with Float _ -> "- " | _ -> "-");
           expression ~level:13 cxt e)

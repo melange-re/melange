@@ -875,7 +875,7 @@ let rec int_comp (cmp : Lam_compat.integer_comparison) ?loc ?comment (e0 : t)
              expression_desc =
                Var
                  (Qualified
-                   (({ id = _; kind = Runtime } as iid), Some "caml_compare"));
+                    (({ id = _; kind = Runtime } as iid), Some "caml_compare"));
              _;
            } as fn),
           ([ _; _ ] as args),

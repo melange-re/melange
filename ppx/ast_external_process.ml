@@ -167,7 +167,8 @@ let refine_obj_arg_type ~(nolabel : bool) (ptyp : core_type) :
         Arg_cst (External_arg_spec.cst_int i)
     | Some (Str i) -> Arg_cst (External_arg_spec.cst_string i)
     | Some (Js_literal_str s) -> Arg_cst (External_arg_spec.cst_obj_literal s))
-  else (* ([`a|`b] [@string]) *)
+  else
+    (* ([`a|`b] [@string]) *)
     spec_of_ptyp nolabel ptyp
 
 (* Given the type of argument, process its [mel.*] attribute and new type,

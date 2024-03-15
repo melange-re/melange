@@ -43,7 +43,8 @@ let refine_let ~kind param (arg : Lam.t) (l : Lam.t) : Lam.t =
     when Ident.same w param
          (* let k = xx in k
             there is no [rec] so [k] would not appear in [xx]
-         *) ->
+         *)
+    ->
       arg (* TODO: optimize here -- it's safe to do substitution here *)
   | _, _, Lprim { primitive; args = [ Lvar w ]; loc; _ }
     when Ident.same w param
