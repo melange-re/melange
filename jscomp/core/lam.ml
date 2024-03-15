@@ -648,7 +648,8 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc : t =
                { x0 : y0 ; x1 : y1 }
              ]}
              such module x can indeed be replaced by module y
-          *))
+          *)
+          )
       | _ -> default ())
 
 let not_ loc x : t =

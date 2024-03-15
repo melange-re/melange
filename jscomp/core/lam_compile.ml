@@ -479,20 +479,20 @@ and compile_recursive_lets cxt id_args : Js_output.t =
             ~init:acc rest)
 
 and compile_general_cases :
-      'a.
-      ('a -> string option) ->
-      ('a -> J.expression) ->
-      (J.expression -> J.expression -> J.expression) ->
-      Lam_compile_context.t ->
-      (?default:J.block ->
-      ?declaration:Lam_group.let_kind * Ident.t ->
-      _ ->
-      ('a * J.case_clause) list ->
-      J.statement) ->
-      _ ->
-      ('a * Lam.t) list ->
-      default_case ->
-      J.block =
+    'a.
+    ('a -> string option) ->
+    ('a -> J.expression) ->
+    (J.expression -> J.expression -> J.expression) ->
+    Lam_compile_context.t ->
+    (?default:J.block ->
+    ?declaration:Lam_group.let_kind * Ident.t ->
+    _ ->
+    ('a * J.case_clause) list ->
+    J.statement) ->
+    _ ->
+    ('a * Lam.t) list ->
+    default_case ->
+    J.block =
  fun (make_comment : _ -> string option) (make_exp : _ -> J.expression)
      (eq_exp : J.expression -> J.expression -> J.expression)
      (cxt : Lam_compile_context.t)

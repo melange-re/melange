@@ -53,7 +53,8 @@ let parseWith =
       Js.to_string code ^ "\n"
     in
     try f (Lexing.from_string code)
-    with (* from ocaml and reason *)
+    with
+    (* from ocaml and reason *)
     | Reason_errors.Reason_error (err, loc) ->
       let jsLocation = locationToJsObj loc in
       let error_buf = Buffer.create 256 in

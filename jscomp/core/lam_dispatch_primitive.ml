@@ -105,7 +105,9 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
   | "caml_fmod_float" (* float module like js number module *) -> (
       match args with [ e0; e1 ] -> E.float_mod e0 e1 | _ -> assert false)
   | "caml_signbit_float" -> (
-      match args with [ e0 ] -> E.float_comp CFlt e0 E.zero_float_lit | _ -> assert false)
+      match args with
+      | [ e0 ] -> E.float_comp CFlt e0 E.zero_float_lit
+      | _ -> assert false)
   | "caml_string_equal" -> (
       match args with [ e0; e1 ] -> E.string_equal e0 e1 | _ -> assert false)
   | "caml_string_notequal" -> (

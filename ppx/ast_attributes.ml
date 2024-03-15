@@ -262,7 +262,7 @@ let iter_process_mel_string_or_int_as (attrs : attributes) =
                                 pexp_desc =
                                   Pexp_constant
                                     (Pconst_string
-                                      (s, _, ((None | Some "json") as dec)));
+                                       (s, _, ((None | Some "json") as dec)));
                                 pexp_loc;
                                 _;
                               },
