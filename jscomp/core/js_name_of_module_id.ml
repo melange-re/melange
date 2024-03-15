@@ -62,13 +62,16 @@ let get_runtime_module_path ~package_info ~output_info
   | Package_script -> Module_system.runtime_package_path js_file
   | Package_found _path_info -> (
       match module_system with
-      | NodeJS | Es6 -> Module_system.runtime_package_path js_file
+      | CommonJS | ESM -> Module_system.runtime_package_path js_file
       (* Note we did a post-processing when working on Windows *)
-      | Es6_global ->
+      | ESM_global ->
           (* lib/ocaml/xx.cmj --
               HACKING: FIXME
               maybe we can caching relative package path calculation or employ package map *)
-          let dep_path = "lib" // Module_system.runtime_dir module_system in
+          let dep_path =
+            "lib"
+            (* // Module_system.runtime_dir module_system  *)
+          in
           (* TODO(anmonteiro): This doesn't work yet *)
           Path.rel_normalized_absolute_path
             ~from:
@@ -132,9 +135,9 @@ let string_of_module_id ~package_info ~output_info
                   ~to_:dep_info.rel_path js_file
             | false -> (
                 match module_system with
-                | NodeJS | Es6 -> dep_info.pkg_rel_path // js_file
+                | CommonJS | ESM -> dep_info.pkg_rel_path // js_file
                 (* Note we did a post-processing when working on Windows *)
-                | Es6_global ->
+                | ESM_global ->
                     Path.rel_normalized_absolute_path
                       ~from:
                         (Js_packages_info.get_output_dir

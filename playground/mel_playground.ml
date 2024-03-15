@@ -208,7 +208,7 @@ let compile =
             ~package_info:Js_packages_info.empty
             ~output_info:
               {
-                Js_packages_info.module_system = Es6;
+                Js_packages_info.module_system = ESM;
                 suffix = Js_suffix.default;
               }
             (Js_pp.from_buffer buffer)
