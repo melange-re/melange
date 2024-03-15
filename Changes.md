@@ -39,6 +39,8 @@ Unreleased
   `--mel-module-type`; accept `--mel-module-system` in addition to
   `--mel-module-type` too
   ([#1086](https://github.com/melange-re/melange/pull/1086)).
+- core: upgrade the OCaml type checker version to OCaml 5.2
+  ([#1074](https://github.com/melange-re/melange/pull/1074))
 
 3.0.0 2024-01-28
 ---------------
