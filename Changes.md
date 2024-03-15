@@ -35,6 +35,10 @@ Unreleased
     - This warning had previously been disabled entirely in the typechecker
       version that Melange uses. It becomes more important with TRMC support
       added in Melange 2.1.0.
+- core: accept `esm{,-global}` in addition to `es6{,-global}` for
+  `--mel-module-type`; accept `--mel-module-system` in addition to
+  `--mel-module-type` too
+  ([#1086](https://github.com/melange-re/melange/pull/1086)).
 
 3.0.0 2024-01-28
 ---------------

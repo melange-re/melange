@@ -33,7 +33,7 @@ type t = {
   ppx : string list;
   open_modules : string list;
   bs_package_output : string list;
-  bs_module_type : Module_system.t option;
+  mel_module_system : Module_system.t option;
   bs_syntax_only : bool;
   bs_g : bool;
   bs_package_name : string option;
@@ -259,7 +259,7 @@ module Internal = struct
       value & opt_all string []
       & info [ "bs-package-output"; "mel-package-output" ] ~doc)
 
-  let bs_module_type =
+  let mel_module_system =
     let module_system_conv =
       let parse m =
         match Module_system.of_string m with
@@ -267,14 +267,16 @@ module Internal = struct
         | None -> Error (`Msg (Format.asprintf "Invalid module system %s" m))
       in
       let print fmt ms = Format.fprintf fmt "%s" (Module_system.to_string ms) in
-      Arg.conv ~docv:"method" (parse, print)
+      Arg.conv ~docv:"module system" (parse, print)
     in
     let doc = "Specify the module type for JS imports" in
     let docv = "module-type" in
     Arg.(
       value
       & opt (some module_system_conv) None
-      & info [ "bs-module-type"; "mel-module-type" ] ~doc ~docv)
+      & info
+          [ "bs-module-type"; "mel-module-type"; "mel-module-system" ]
+          ~doc ~docv)
 
   let as_ppx =
     let doc = "*internal* As ppx for editor integration" in
@@ -459,7 +461,7 @@ module Compat = struct
 end
 
 let parse help include_dirs alerts warnings output_name ppx open_modules
-    bs_package_output bs_module_type bs_syntax_only bs_g bs_package_name
+    bs_package_output mel_module_system bs_syntax_only bs_g bs_package_name
     bs_module_name as_ppx as_pp no_alias_deps bs_gentype unboxed_types
     bs_unsafe_empty_array nostdlib color bs_eval bs_cmi_only
     bs_no_version_header bs_cross_module_opt bs_diagnose where verbose keep_locs
@@ -477,7 +479,7 @@ let parse help include_dirs alerts warnings output_name ppx open_modules
     ppx;
     open_modules;
     bs_package_output;
-    bs_module_type;
+    mel_module_system;
     bs_syntax_only;
     bs_g;
     bs_package_name;
@@ -536,7 +538,7 @@ let parse help include_dirs alerts warnings output_name ppx open_modules
 let cmd =
   Term.(
     const parse $ help $ include_dirs $ alerts $ warnings $ output_name $ ppx
-    $ open_modules $ Internal.bs_package_output $ Internal.bs_module_type
+    $ open_modules $ Internal.bs_package_output $ Internal.mel_module_system
     $ bs_syntax_only $ bs_g $ bs_package_name $ bs_module_name $ Internal.as_ppx
     $ Internal.as_pp $ Internal.no_alias_deps $ Internal.bs_gentype
     $ unboxed_types $ Internal.bs_unsafe_empty_array $ Internal.nostdlib $ color

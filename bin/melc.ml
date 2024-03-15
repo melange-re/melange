@@ -213,7 +213,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       ppx;
       open_modules;
       bs_package_output;
-      bs_module_type;
+      mel_module_system;
       bs_syntax_only;
       bs_g;
       bs_package_name;
@@ -295,9 +295,9 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if bs_g then Js_config.debug := bs_g;
 
     Option.iter Js_packages_state.set_package_name bs_package_name;
-    begin match bs_module_type, bs_package_output with
+    begin match mel_module_system, bs_package_output with
     | None, [] -> ()
-    | Some bs_module_type, [] ->
+    | Some mel_module_system, [] ->
       let suffix = match output_name with
         | Some output_name ->
           (match Filename.get_all_extensions_maybe output_name with
@@ -307,7 +307,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
         | None ->
           raise (Arg.Bad "`-o FILENAME` is required when passing `-bs-module-type`")
       in
-      Js_packages_state.set_output_info ~suffix bs_module_type
+      Js_packages_state.set_output_info ~suffix mel_module_system
     | None, bs_package_output ->
       List.iter
         ~f:(Js_packages_state.update_npm_package_path ?module_name:bs_module_name)

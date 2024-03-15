@@ -132,9 +132,9 @@ let pp_deps_program =
       let output_dir = Filename.dirname output_prefix in
       ignore
         (match output_info.module_system with
-        | Es6 | Es6_global ->
+        | ESM | ESM_global ->
             es6_program ~package_info ~output_dir ~output_info f program
-        | NodeJS ->
+        | CommonJS ->
             node_program ~package_info ~output_info ~output_dir f program);
       P.newline f;
       P.string f
