@@ -98,6 +98,10 @@ const colored_point = CamlinternalOO.make_class([
       "get_x"
     ], colored_point_init);
 
+function colored_point_to_point(cp) {
+  return cp;
+}
+
 const p = Curry._2(point[0], undefined, 3);
 
 const q = Curry._3(colored_point[0], undefined, 4, "blue");
@@ -221,7 +225,7 @@ const p$1 = Curry._2(functional_point[0], undefined, 7);
 
 const tmp = Caml_oo_curry.js2(-933174511, 2, p$1, 3);
 
-eq("File \"jscomp/test/class6_test.ml\", line 61, characters 5-12", [
+eq("File \"jscomp/test/class6_test.ml\", line 60, characters 5-12", [
       7,
       10,
       7
@@ -272,7 +276,7 @@ const p$2 = Curry._2(bad_functional_point_0, undefined, 7);
 
 const tmp$1 = Caml_oo_curry.js2(-933174511, 6, p$2, 3);
 
-eq("File \"jscomp/test/class6_test.ml\", line 75, characters 5-12", [
+eq("File \"jscomp/test/class6_test.ml\", line 74, characters 5-12", [
       7,
       10,
       7
@@ -289,6 +293,7 @@ exports.test_id = test_id;
 exports.eq = eq;
 exports.point = point;
 exports.colored_point = colored_point;
+exports.colored_point_to_point = colored_point_to_point;
 exports.p = p;
 exports.q = q;
 exports.lookup_obj = lookup_obj;
