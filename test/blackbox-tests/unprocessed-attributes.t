@@ -48,7 +48,7 @@
   File "x.ml", line 1, characters 15-17:
   1 | let () = ref 0 |. incr
                      ^^
-  Error: |. is not a valid value identifier.
+  Error: '|.' is not a valid value identifier.
   [1]
 
   $ cat > x.ml <<EOF
