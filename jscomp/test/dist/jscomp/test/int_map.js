@@ -535,11 +535,11 @@ function update(x, f, m) {
 }
 
 function add_to_list(x, data, m) {
-  const add = function (l) {
-    if (l !== undefined) {
+  const add = function (param) {
+    if (param !== undefined) {
       return {
               hd: data,
-              tl: l
+              tl: param
             };
     } else {
       return {

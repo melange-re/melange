@@ -66,14 +66,14 @@ function u(f) {
   try {
     return Curry._1(f, undefined);
   }
-  catch (raw_x){
-    const x = Caml_js_exceptions.internalToOCamlException(raw_x);
-    if (x.MEL_EXN_ID === A) {
-      return x.name + x.x | 0;
-    } else if (x.MEL_EXN_ID === B) {
-      return x._1 + x._2 | 0;
-    } else if (x.MEL_EXN_ID === C) {
-      return x.name;
+  catch (raw_exn){
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    if (exn.MEL_EXN_ID === A) {
+      return exn.name + exn.x | 0;
+    } else if (exn.MEL_EXN_ID === B) {
+      return exn._1 + exn._2 | 0;
+    } else if (exn.MEL_EXN_ID === C) {
+      return exn.name;
     } else {
       return -1;
     }

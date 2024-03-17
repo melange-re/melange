@@ -70,8 +70,8 @@ const h5 = {
   _1: "xx"
 };
 
-Stdlib__Printexc.register_printer(function (s) {
-      if (s.MEL_EXN_ID === A) {
+Stdlib__Printexc.register_printer(function (param) {
+      if (param.MEL_EXN_ID === A) {
         return "A";
       }
       

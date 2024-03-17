@@ -918,16 +918,16 @@ function samelist(pred, _l1, _l2) {
   };
 }
 
-function may(f, x) {
-  if (x !== undefined) {
-    return Curry._1(f, Caml_option.valFromOption(x));
+function may(f, param) {
+  if (param !== undefined) {
+    return Curry._1(f, Caml_option.valFromOption(param));
   }
   
 }
 
-function may_map(f, x) {
-  if (x !== undefined) {
-    return Caml_option.some(Curry._1(f, Caml_option.valFromOption(x)));
+function may_map(f, param) {
+  if (param !== undefined) {
+    return Caml_option.some(Curry._1(f, Caml_option.valFromOption(param)));
   }
   
 }
@@ -1019,12 +1019,12 @@ function remove_file(filename) {
   try {
     return Caml_external_polyfill.resolve("caml_sys_remove")(filename);
   }
-  catch (raw_msg){
-    const msg = Caml_js_exceptions.internalToOCamlException(raw_msg);
-    if (msg.MEL_EXN_ID === Stdlib.Sys_error) {
+  catch (raw_exn){
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    if (exn.MEL_EXN_ID === Stdlib.Sys_error) {
       return ;
     }
-    throw new Caml_js_exceptions.MelangeError(msg.MEL_EXN_ID, msg);
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
@@ -1469,15 +1469,15 @@ function ansi_of_color(param) {
   }
 }
 
-function code_of_style(c) {
-  if (typeof c !== "number") {
-    if (c.TAG === /* FG */0) {
-      return "3" + ansi_of_color(c._0);
+function code_of_style(param) {
+  if (typeof param !== "number") {
+    if (param.TAG === /* FG */0) {
+      return "3" + ansi_of_color(param._0);
     } else {
-      return "4" + ansi_of_color(c._0);
+      return "4" + ansi_of_color(param._0);
     }
   }
-  switch (c) {
+  switch (param) {
     case /* Bold */0 :
         return "1";
     case /* Reset */1 :
@@ -1534,9 +1534,9 @@ function set_styles(s) {
   cur_styles.contents = s;
 }
 
-function style_of_tag(s) {
-  if (s.MEL_EXN_ID === Stdlib__Format.String_tag) {
-    switch (s._1) {
+function style_of_tag(param) {
+  if (param.MEL_EXN_ID === Stdlib__Format.String_tag) {
+    switch (param._1) {
       case "dim" :
           return {
                   hd: /* Dim */2,
@@ -2240,9 +2240,9 @@ parse_options(false, defaults_w);
 
 parse_options(true, defaults_warn_error);
 
-function message(s) {
-  if (typeof s === "number") {
-    switch (s) {
+function message(param) {
+  if (typeof param === "number") {
+    switch (param) {
       case /* Comment_start */0 :
           return "this is the start of a comment.";
       case /* Comment_not_end */1 :
@@ -2280,18 +2280,18 @@ function message(s) {
       
     }
   } else {
-    switch (s.TAG | 0) {
+    switch (param.TAG | 0) {
       case /* Deprecated */0 :
-          return "deprecated: " + s._0;
+          return "deprecated: " + param._0;
       case /* Fragile_match */1 :
-          const s$1 = s._0;
-          if (s$1 === "") {
+          const s = param._0;
+          if (s === "") {
             return "this pattern-matching is fragile.";
           } else {
-            return "this pattern-matching is fragile.\nIt will remain exhaustive when constructors are added to type " + (s$1 + ".");
+            return "this pattern-matching is fragile.\nIt will remain exhaustive when constructors are added to type " + (s + ".");
           }
       case /* Method_override */2 :
-          const match = s._0;
+          const match = param._0;
           if (match) {
             const lab = match.hd;
             if (match.tl) {
@@ -2318,16 +2318,16 @@ function message(s) {
                     ]
                   });
       case /* Partial_match */3 :
-          const s$2 = s._0;
-          if (s$2 === "") {
+          const s$1 = param._0;
+          if (s$1 === "") {
             return "this pattern-matching is not exhaustive.";
           } else {
-            return "this pattern-matching is not exhaustive.\nHere is an example of a value that is not matched:\n" + s$2;
+            return "this pattern-matching is not exhaustive.\nHere is an example of a value that is not matched:\n" + s$1;
           }
       case /* Non_closed_record_pattern */4 :
-          return "the following labels are not bound in this record pattern:\n" + (s._0 + "\nEither bind these labels explicitly or add '; _' to the pattern.");
+          return "the following labels are not bound in this record pattern:\n" + (param._0 + "\nEither bind these labels explicitly or add '; _' to the pattern.");
       case /* Instance_variable_override */5 :
-          const match$1 = s._0;
+          const match$1 = param._0;
           if (match$1) {
             const lab$1 = match$1.hd;
             if (match$1.tl) {
@@ -2354,20 +2354,20 @@ function message(s) {
                     ]
                   });
       case /* Implicit_public_methods */6 :
-          return "the following private methods were made public implicitly:\n " + (Stdlib__String.concat(" ", s._0) + ".");
+          return "the following private methods were made public implicitly:\n " + (Stdlib__String.concat(" ", param._0) + ".");
       case /* Undeclared_virtual_method */7 :
-          return "the virtual method " + (s._0 + " is not declared.");
+          return "the virtual method " + (param._0 + " is not declared.");
       case /* Not_principal */8 :
-          return s._0 + " is not principal.";
+          return param._0 + " is not principal.";
       case /* Without_principality */9 :
-          return s._0 + " without principality.";
+          return param._0 + " without principality.";
       case /* Preprocessor */10 :
-          return s._0;
+          return param._0;
       case /* Bad_module_name */11 :
-          return "bad source file name: \"" + (s._0 + "\" is not a valid module name.");
+          return "bad source file name: \"" + (param._0 + "\" is not a valid module name.");
       case /* Unused_var */12 :
       case /* Unused_var_strict */13 :
-          return "unused variable " + (s._0 + ".");
+          return "unused variable " + (param._0 + ".");
       case /* Duplicate_definitions */14 :
           return Curry._4(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
@@ -2408,7 +2408,7 @@ function message(s) {
                             }
                           },
                           _1: "the %s %s is defined in both types %s and %s."
-                        }), s._0, s._1, s._2, s._3);
+                        }), param._0, param._1, param._2, param._3);
       case /* Multiple_definition */15 :
           return Curry._3(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
@@ -2437,42 +2437,42 @@ function message(s) {
                             }
                           },
                           _1: "files %s and %s both define a module named %s"
-                        }), s._1, s._2, s._0);
+                        }), param._1, param._2, param._0);
       case /* Unused_value_declaration */16 :
-          return "unused value " + (s._0 + ".");
+          return "unused value " + (param._0 + ".");
       case /* Unused_open */17 :
-          return "unused open " + (s._0 + ".");
+          return "unused open " + (param._0 + ".");
       case /* Unused_type_declaration */18 :
-          return "unused type " + (s._0 + ".");
+          return "unused type " + (param._0 + ".");
       case /* Unused_for_index */19 :
-          return "unused for-loop index " + (s._0 + ".");
+          return "unused for-loop index " + (param._0 + ".");
       case /* Unused_ancestor */20 :
-          return "unused ancestor variable " + (s._0 + ".");
+          return "unused ancestor variable " + (param._0 + ".");
       case /* Unused_constructor */21 :
-          const s$3 = s._0;
-          if (s._1) {
-            return "constructor " + (s$3 + " is never used to build values.\n(However, this constructor appears in patterns.)");
-          } else if (s._2) {
-            return "constructor " + (s$3 + " is never used to build values.\nIts type is exported as a private type.");
+          const s$2 = param._0;
+          if (param._1) {
+            return "constructor " + (s$2 + " is never used to build values.\n(However, this constructor appears in patterns.)");
+          } else if (param._2) {
+            return "constructor " + (s$2 + " is never used to build values.\nIts type is exported as a private type.");
           } else {
-            return "unused constructor " + (s$3 + ".");
+            return "unused constructor " + (s$2 + ".");
           }
       case /* Unused_extension */22 :
-          const s$4 = s._0;
-          if (s._1) {
-            return "extension constructor " + (s$4 + " is never used to build values.\n(However, this constructor appears in patterns.)");
-          } else if (s._2) {
-            return "extension constructor " + (s$4 + " is never used to build values.\nIt is exported or rebound as a private extension.");
+          const s$3 = param._0;
+          if (param._1) {
+            return "extension constructor " + (s$3 + " is never used to build values.\n(However, this constructor appears in patterns.)");
+          } else if (param._2) {
+            return "extension constructor " + (s$3 + " is never used to build values.\nIt is exported or rebound as a private extension.");
           } else {
-            return "unused extension constructor " + (s$4 + ".");
+            return "unused extension constructor " + (s$3 + ".");
           }
       case /* Name_out_of_scope */23 :
-          const slist = s._1;
-          const ty = s._0;
-          if (slist && !slist.tl && !s._2) {
+          const slist = param._1;
+          const ty = param._0;
+          if (slist && !slist.tl && !param._2) {
             return slist.hd + (" was selected from type " + (ty + ".\nIt is not visible in the current scope, and will not \nbe selected if the type becomes unknown."));
           }
-          if (s._2) {
+          if (param._2) {
             return "this record of type " + (ty + (" contains fields that are \nnot visible in the current scope: " + (Stdlib__String.concat(" ", slist) + ".\nThey will not be selected if the type becomes unknown.")));
           }
           throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -2485,12 +2485,12 @@ function message(s) {
                   });
           break;
       case /* Ambiguous_name */24 :
-          const slist$1 = s._0;
-          if (slist$1 && !slist$1.tl && !s._2) {
-            return slist$1.hd + (" belongs to several types: " + (Stdlib__String.concat(" ", s._1) + "\nThe first one was selected. Please disambiguate if this is wrong."));
+          const slist$1 = param._0;
+          if (slist$1 && !slist$1.tl && !param._2) {
+            return slist$1.hd + (" belongs to several types: " + (Stdlib__String.concat(" ", param._1) + "\nThe first one was selected. Please disambiguate if this is wrong."));
           }
-          if (s._2) {
-            return "these field labels belong to several types: " + (Stdlib__String.concat(" ", s._1) + "\nThe first one was selected. Please disambiguate if this is wrong.");
+          if (param._2) {
+            return "these field labels belong to several types: " + (Stdlib__String.concat(" ", param._1) + "\nThe first one was selected. Please disambiguate if this is wrong.");
           }
           throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                     MEL_EXN_ID: "Assert_failure",
@@ -2502,9 +2502,9 @@ function message(s) {
                   });
           break;
       case /* Disambiguated_name */25 :
-          return "this use of " + (s._0 + " required disambiguation.");
+          return "this use of " + (param._0 + " required disambiguation.");
       case /* Nonoptional_label */26 :
-          return "the label " + (s._0 + " is not optional.");
+          return "the label " + (param._0 + " is not optional.");
       case /* Open_shadow_identifier */27 :
           return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
@@ -2529,7 +2529,7 @@ function message(s) {
                             }
                           },
                           _1: "this open statement shadows the %s identifier %s (which is later used)"
-                        }), s._0, s._1);
+                        }), param._0, param._1);
       case /* Open_shadow_label_constructor */28 :
           return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
@@ -2554,7 +2554,7 @@ function message(s) {
                             }
                           },
                           _1: "this open statement shadows the %s %s (which is later used)"
-                        }), s._0, s._1);
+                        }), param._0, param._1);
       case /* Bad_env_variable */29 :
           return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
@@ -2575,7 +2575,7 @@ function message(s) {
                             }
                           },
                           _1: "illegal environment variable %s : %s"
-                        }), s._0, s._1);
+                        }), param._0, param._1);
       case /* Attribute_payload */30 :
           return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
@@ -2596,9 +2596,9 @@ function message(s) {
                             }
                           },
                           _1: "illegal payload for attribute '%s'.\n%s"
-                        }), s._0, s._1);
+                        }), param._0, param._1);
       case /* Eliminated_optional_arguments */31 :
-          const sl = s._0;
+          const sl = param._0;
           return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
                             TAG: /* String_literal */11,
@@ -2620,19 +2620,19 @@ function message(s) {
                           _1: "implicit elimination of optional argument%s %s"
                         }), Stdlib__List.length(sl) === 1 ? "" : "s", Stdlib__String.concat(", ", sl));
       case /* No_cmi_file */32 :
-          return "no cmi file was found in path for module " + s._0;
+          return "no cmi file was found in path for module " + param._0;
       case /* Bad_docstring */33 :
-          if (s._0) {
+          if (param._0) {
             return "unattached documentation comment (ignored)";
           } else {
             return "ambiguous documentation comment";
           }
       case /* Mel_unused_attribute */34 :
-          return "Unused BuckleScript attribute: " + s._0;
+          return "Unused BuckleScript attribute: " + param._0;
       case /* Mel_ffi_warning */35 :
-          return "BuckleScript FFI warning: " + s._0;
+          return "BuckleScript FFI warning: " + param._0;
       case /* Bs_derive_warning */36 :
-          return "BuckleScript bs.deriving warning: " + s._0;
+          return "BuckleScript bs.deriving warning: " + param._0;
       
     }
   }
@@ -3962,8 +3962,8 @@ function error_of_printer_file(print, x) {
   return error_of_printer(in_file(input_name.contents), print, x);
 }
 
-register_error_of_exn(function (msg) {
-      if (msg.MEL_EXN_ID === Stdlib.Sys_error) {
+register_error_of_exn(function (param) {
+      if (param.MEL_EXN_ID === Stdlib.Sys_error) {
         return Curry._1(errorf(in_file(input_name.contents), undefined, undefined, /* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -3975,8 +3975,8 @@ register_error_of_exn(function (msg) {
                           }
                         },
                         _1: "I/O error: %s"
-                      }), msg._1);
-      } else if (msg.MEL_EXN_ID === Errors) {
+                      }), param._1);
+      } else if (param.MEL_EXN_ID === Errors) {
         return Curry._1(errorf(in_file(input_name.contents), undefined, undefined, /* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -3994,7 +3994,7 @@ register_error_of_exn(function (msg) {
                           }
                         },
                         _1: "Some fatal warnings were triggered (%d occurrences)"
-                      }), msg._1);
+                      }), param._1);
       } else {
         return ;
       }
@@ -4051,9 +4051,9 @@ function report_exception(ppf, exn) {
 
 const $$Error = /* @__PURE__ */Caml_exceptions.create("Parser_api.Location.Error");
 
-register_error_of_exn(function (e) {
-      if (e.MEL_EXN_ID === $$Error) {
-        return e._1;
+register_error_of_exn(function (param) {
+      if (param.MEL_EXN_ID === $$Error) {
+        return param._1;
       }
       
     });
@@ -4127,20 +4127,20 @@ const Asttypes = {};
 
 function flatten(lid) {
   let _accu = /* [] */0;
-  let _s = lid;
+  let _param = lid;
   while(true) {
-    const s = _s;
+    const param = _param;
     const accu = _accu;
-    switch (s.TAG | 0) {
+    switch (param.TAG | 0) {
       case /* Lident */0 :
           return {
-                  hd: s._0,
+                  hd: param._0,
                   tl: accu
                 };
       case /* Ldot */1 :
-          _s = s._0;
+          _param = param._0;
           _accu = {
-            hd: s._1,
+            hd: param._1,
             tl: accu
           };
           continue ;
@@ -4151,12 +4151,12 @@ function flatten(lid) {
   };
 }
 
-function last(s) {
-  switch (s.TAG | 0) {
+function last(param) {
+  switch (param.TAG | 0) {
     case /* Lident */0 :
-        return s._0;
+        return param._0;
     case /* Ldot */1 :
-        return s._1;
+        return param._1;
     case /* Lapply */2 :
         return fatal_error("Longident.last");
     
@@ -6546,13 +6546,13 @@ const $$Error$1 = /* @__PURE__ */Caml_exceptions.create("Parser_api.Syntaxerr.Er
 
 const Escape_error = /* @__PURE__ */Caml_exceptions.create("Parser_api.Syntaxerr.Escape_error");
 
-function prepare_error(loc) {
-  switch (loc.TAG | 0) {
+function prepare_error(param) {
+  switch (param.TAG | 0) {
     case /* Unclosed */0 :
-        const closing = loc._3;
-        const opening = loc._1;
-        return Curry._1(errorf(loc._2, {
-                        hd: Curry._1(errorf(loc._0, undefined, undefined, /* Format */{
+        const closing = param._3;
+        const opening = param._1;
+        return Curry._1(errorf(param._2, {
+                        hd: Curry._1(errorf(param._0, undefined, undefined, /* Format */{
                                   _0: {
                                     TAG: /* String_literal */11,
                                     _0: "This '",
@@ -6609,7 +6609,7 @@ function prepare_error(loc) {
                         _1: "Syntax error: '%s' expected"
                       }), closing);
     case /* Expecting */1 :
-        return Curry._1(errorf(loc._0, undefined, undefined, /* Format */{
+        return Curry._1(errorf(param._0, undefined, undefined, /* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "Syntax error: ",
@@ -6624,9 +6624,9 @@ function prepare_error(loc) {
                           }
                         },
                         _1: "Syntax error: %s expected."
-                      }), loc._1);
+                      }), param._1);
     case /* Not_expecting */2 :
-        return Curry._1(errorf(loc._0, undefined, undefined, /* Format */{
+        return Curry._1(errorf(param._0, undefined, undefined, /* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "Syntax error: ",
@@ -6641,9 +6641,9 @@ function prepare_error(loc) {
                           }
                         },
                         _1: "Syntax error: %s not expected."
-                      }), loc._1);
+                      }), param._1);
     case /* Applicative_path */3 :
-        return errorf(loc._0, undefined, undefined, /* Format */{
+        return errorf(param._0, undefined, undefined, /* Format */{
                     _0: {
                       TAG: /* String_literal */11,
                       _0: "Syntax error: applicative paths of the form F(X).t are not supported when the option -no-app-func is set.",
@@ -6652,8 +6652,8 @@ function prepare_error(loc) {
                     _1: "Syntax error: applicative paths of the form F(X).t are not supported when the option -no-app-func is set."
                   });
     case /* Variable_in_scope */4 :
-        const $$var = loc._1;
-        return Curry._2(errorf(loc._0, undefined, undefined, /* Format */{
+        const $$var = param._1;
+        return Curry._2(errorf(param._0, undefined, undefined, /* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "In this scoped type, variable '",
@@ -6678,7 +6678,7 @@ function prepare_error(loc) {
                         _1: "In this scoped type, variable '%s is reserved for the local type %s."
                       }), $$var, $$var);
     case /* Other */5 :
-        return errorf(loc._0, undefined, undefined, /* Format */{
+        return errorf(param._0, undefined, undefined, /* Format */{
                     _0: {
                       TAG: /* String_literal */11,
                       _0: "Syntax error",
@@ -6687,7 +6687,7 @@ function prepare_error(loc) {
                     _1: "Syntax error"
                   });
     case /* Ill_formed_ast */6 :
-        return Curry._1(errorf(loc._0, undefined, undefined, /* Format */{
+        return Curry._1(errorf(param._0, undefined, undefined, /* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "broken invariant in parsetree: ",
@@ -6698,14 +6698,14 @@ function prepare_error(loc) {
                           }
                         },
                         _1: "broken invariant in parsetree: %s"
-                      }), loc._1);
+                      }), param._1);
     
   }
 }
 
-register_error_of_exn(function (err) {
-      if (err.MEL_EXN_ID === $$Error$1) {
-        return prepare_error(err._1);
+register_error_of_exn(function (param) {
+      if (param.MEL_EXN_ID === $$Error$1) {
+        return prepare_error(param._1);
       }
       
     });
@@ -7329,19 +7329,19 @@ function varify_constructors(var_names, t) {
             ptyp_attributes: t.ptyp_attributes
           };
   };
-  const loop_row_field = function (t) {
-    if (t.TAG === /* Rtag */0) {
+  const loop_row_field = function (param) {
+    if (param.TAG === /* Rtag */0) {
       return {
               TAG: /* Rtag */0,
-              _0: t._0,
-              _1: t._1,
-              _2: t._2,
-              _3: Stdlib__List.map(loop, t._3)
+              _0: param._0,
+              _1: param._1,
+              _2: param._2,
+              _3: Stdlib__List.map(loop, param._3)
             };
     } else {
       return {
               TAG: /* Rinherit */1,
-              _0: loop(t._0)
+              _0: loop(param._0)
             };
     }
   };
@@ -14416,6 +14416,20 @@ function directive_parse(token_with_comments, lexbuf) {
     }
     
   };
+  const parse_or_aux = function (calc, v) {
+    const e = token(undefined);
+    if (e === 8) {
+      const calc$1 = calc && !v;
+      const b = parse_or_aux(calc$1, parse_and_aux(calc$1, parse_relation(calc$1)));
+      if (v) {
+        return true;
+      } else {
+        return b;
+      }
+    }
+    push(e);
+    return v;
+  };
   const parse_and_aux = function (calc, v) {
     const e = token(undefined);
     if (typeof e === "number") {
@@ -14568,20 +14582,6 @@ function directive_parse(token_with_comments, lexbuf) {
                   });
       }
     }
-  };
-  const parse_or_aux = function (calc, v) {
-    const e = token(undefined);
-    if (e === 8) {
-      const calc$1 = calc && !v;
-      const b = parse_or_aux(calc$1, parse_and_aux(calc$1, parse_relation(calc$1)));
-      if (v) {
-        return true;
-      } else {
-        return b;
-      }
-    }
-    push(e);
-    return v;
   };
   const v = parse_or_aux(true, parse_and_aux(true, parse_relation(true)));
   const match = token(undefined);
@@ -15219,9 +15219,9 @@ function comments(param) {
   return Stdlib__List.rev(comment_list.contents);
 }
 
-function report_error$2(ppf, c) {
-  if (typeof c === "number") {
-    switch (c) {
+function report_error$2(ppf, param) {
+  if (typeof param === "number") {
+    switch (param) {
       case /* Unterminated_string */0 :
           return Stdlib__Format.fprintf(ppf)(/* Format */{
                       _0: {
@@ -15288,7 +15288,7 @@ function report_error$2(ppf, c) {
       
     }
   } else {
-    switch (c.TAG | 0) {
+    switch (param.TAG | 0) {
       case /* Illegal_character */0 :
           return Curry._1(Stdlib__Format.fprintf(ppf)(/* Format */{
                           _0: {
@@ -15305,7 +15305,7 @@ function report_error$2(ppf, c) {
                             }
                           },
                           _1: "Illegal character (%s)"
-                        }), Stdlib__Char.escaped(c._0));
+                        }), Stdlib__Char.escaped(param._0));
       case /* Illegal_escape */1 :
           return Curry._1(Stdlib__Format.fprintf(ppf)(/* Format */{
                           _0: {
@@ -15322,7 +15322,7 @@ function report_error$2(ppf, c) {
                             }
                           },
                           _1: "Illegal backslash escape in string or character (%s)"
-                        }), c._0);
+                        }), param._0);
       case /* Unterminated_comment */2 :
           return Stdlib__Format.fprintf(ppf)(/* Format */{
                       _0: {
@@ -15351,7 +15351,7 @@ function report_error$2(ppf, c) {
                             }
                           },
                           _1: "This comment contains an unterminated string literal@.%aString literal begins here"
-                        }), print_error, c._1);
+                        }), print_error, param._1);
       case /* Keyword_as_label */4 :
           return Curry._1(Stdlib__Format.fprintf(ppf)(/* Format */{
                           _0: {
@@ -15368,7 +15368,7 @@ function report_error$2(ppf, c) {
                             }
                           },
                           _1: "`%s' is a keyword, it cannot be used as label name"
-                        }), c._0);
+                        }), param._0);
       case /* Literal_overflow */5 :
           return Curry._1(Stdlib__Format.fprintf(ppf)(/* Format */{
                           _0: {
@@ -15381,7 +15381,7 @@ function report_error$2(ppf, c) {
                             }
                           },
                           _1: "Integer literal exceeds the range of representable integers of type %s"
-                        }), c._0);
+                        }), param._0);
       case /* Illegal_semver */6 :
           return Curry._1(Stdlib__Format.fprintf(ppf)(/* Format */{
                           _0: {
@@ -15394,7 +15394,7 @@ function report_error$2(ppf, c) {
                             }
                           },
                           _1: "Illegal semantic version string %s"
-                        }), c._0);
+                        }), param._0);
       case /* Conditional_expr_expected_type */7 :
           return Curry._2(Stdlib__Format.fprintf(ppf)(/* Format */{
                           _0: {
@@ -15419,7 +15419,7 @@ function report_error$2(ppf, c) {
                             }
                           },
                           _1: "Conditional expression type mismatch (%s,%s)"
-                        }), string_of_type_directive(c._0), string_of_type_directive(c._1));
+                        }), string_of_type_directive(param._0), string_of_type_directive(param._1));
       
     }
   }
@@ -15935,44 +15935,6 @@ function token(lexbuf) {
   };
 }
 
-function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
-  while(true) {
-    const __ocaml_lex_state = ___ocaml_lex_state;
-    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
-    switch (__ocaml_lex_state$1) {
-      case 0 :
-          update_loc(lexbuf, undefined, 1, false, 0);
-          store_string(Stdlib__Lexing.lexeme(lexbuf));
-          ___ocaml_lex_state = 183;
-          continue ;
-      case 1 :
-          is_in_string.contents = false;
-          throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                    MEL_EXN_ID: $$Error$2,
-                    _1: /* Unterminated_string */0,
-                    _2: string_start_loc.contents
-                  });
-      case 2 :
-          const edelim = Stdlib__Lexing.lexeme(lexbuf);
-          const edelim$1 = Stdlib__String.sub(edelim, 1, edelim.length - 2 | 0);
-          if (delim === edelim$1) {
-            return ;
-          }
-          store_string(Stdlib__Lexing.lexeme(lexbuf));
-          ___ocaml_lex_state = 183;
-          continue ;
-      case 3 :
-          store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
-          ___ocaml_lex_state = 183;
-          continue ;
-      default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
-        ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
-    }
-  };
-}
-
 function string(lexbuf) {
   lexbuf.lex_mem = Caml_array.make(2, -1);
   let ___ocaml_lex_state = 164;
@@ -16202,6 +16164,44 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
       case 12 :
           store_string(Stdlib__Lexing.lexeme(lexbuf));
           ___ocaml_lex_state = 132;
+          continue ;
+      default:
+        Curry._1(lexbuf.refill_buff, lexbuf);
+        ___ocaml_lex_state = __ocaml_lex_state$1;
+        continue ;
+    }
+  };
+}
+
+function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
+  while(true) {
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    switch (__ocaml_lex_state$1) {
+      case 0 :
+          update_loc(lexbuf, undefined, 1, false, 0);
+          store_string(Stdlib__Lexing.lexeme(lexbuf));
+          ___ocaml_lex_state = 183;
+          continue ;
+      case 1 :
+          is_in_string.contents = false;
+          throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                    MEL_EXN_ID: $$Error$2,
+                    _1: /* Unterminated_string */0,
+                    _2: string_start_loc.contents
+                  });
+      case 2 :
+          const edelim = Stdlib__Lexing.lexeme(lexbuf);
+          const edelim$1 = Stdlib__String.sub(edelim, 1, edelim.length - 2 | 0);
+          if (delim === edelim$1) {
+            return ;
+          }
+          store_string(Stdlib__Lexing.lexeme(lexbuf));
+          ___ocaml_lex_state = 183;
+          continue ;
+      case 3 :
+          store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
+          ___ocaml_lex_state = 183;
           continue ;
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);

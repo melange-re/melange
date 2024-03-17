@@ -1728,8 +1728,8 @@ function kwd(ppf, s) {
           }), s);
 }
 
-function pr_exp0(ppf, s) {
-  switch (s.TAG | 0) {
+function pr_exp0(ppf, lam) {
+  switch (lam.TAG | 0) {
     case /* Var */1 :
         return Curry._2(Stdlib__Format.fprintf(ppf)(/* Format */{
                         _0: {
@@ -1737,7 +1737,7 @@ function pr_exp0(ppf, s) {
                           _0: /* End_of_format */0
                         },
                         _1: "%a"
-                      }), ident, s._0);
+                      }), ident, lam._0);
     case /* Lambda */0 :
     case /* Apply */2 :
         break;
@@ -1775,7 +1775,7 @@ function pr_exp0(ppf, s) {
               }
             },
             _1: "@[<1>(%a)@]"
-          }), pr_lambda, s);
+          }), pr_lambda, lam);
 }
 
 function pr_app(ppf, e) {

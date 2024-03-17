@@ -14,10 +14,10 @@ function fix(param) {
         };
 }
 
-function unfixLeak(_f) {
+function unfixLeak(_param) {
   while(true) {
-    const f = _f;
-    _f = CamlinternalLazy.force(f._0);
+    const param = _param;
+    _param = CamlinternalLazy.force(param._0);
     continue ;
   };
 }

@@ -56,9 +56,9 @@ function split(delim, s) {
   }
 }
 
-function string_of_float_option(x) {
-  if (x !== undefined) {
-    return Stdlib.string_of_float(x);
+function string_of_float_option(param) {
+  if (param !== undefined) {
+    return Stdlib.string_of_float(param);
   } else {
     return "nan";
   }
@@ -69,9 +69,9 @@ const Util = {
   string_of_float_option: string_of_float_option
 };
 
-function string_of_rank(i) {
-  if (typeof i === "number") {
-    if (i) {
+function string_of_rank(param) {
+  if (typeof param === "number") {
+    if (param) {
       return "Visited";
     } else {
       return "Uninitialized";
@@ -94,7 +94,7 @@ function string_of_rank(i) {
                       }
                     },
                     _1: "Ranked(%i)"
-                  }), i._0);
+                  }), param._0);
   }
 }
 
@@ -640,11 +640,11 @@ function update(x, f, m) {
 }
 
 function add_to_list(x, data, m) {
-  const add = function (l) {
-    if (l !== undefined) {
+  const add = function (param) {
+    if (param !== undefined) {
       return {
               hd: data,
-              tl: l
+              tl: param
             };
     } else {
       return {

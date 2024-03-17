@@ -12,10 +12,8 @@ function h00(x) {
   return x();
 }
 
-function h1(x) {
-  return function (y) {
-    return x(y);
-  };
+function h1(x, y) {
+  return x(y);
 }
 
 function h10(x) {

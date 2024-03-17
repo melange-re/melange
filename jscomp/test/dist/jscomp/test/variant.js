@@ -7,21 +7,21 @@ const Caml_obj = require("melange.js/caml_obj.js");
 const Curry = require("melange.js/curry.js");
 const Stdlib = require("melange/stdlib.js");
 
-function foo(n) {
-  if (typeof n === "number") {
-    if (n === /* A1 */0) {
+function foo(param) {
+  if (typeof param === "number") {
+    if (param === /* A1 */0) {
       return 1;
     } else {
       return 2;
     }
   }
-  switch (n.TAG | 0) {
+  switch (param.TAG | 0) {
     case /* B */0 :
-        return n._0;
+        return param._0;
     case /* C */1 :
-        return n._0 + n._1 | 0;
+        return param._0 + param._1 | 0;
     case /* D */2 :
-        const match = n._0;
+        const match = param._0;
         return match[0] + match[1] | 0;
     
   }
@@ -117,25 +117,25 @@ function fooExn(f) {
   try {
     return Curry._1(f, undefined);
   }
-  catch (raw_n){
-    const n = Caml_js_exceptions.internalToOCamlException(raw_n);
-    if (n.MEL_EXN_ID === EA1) {
+  catch (raw_exn){
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    if (exn.MEL_EXN_ID === EA1) {
       return 1;
     }
-    if (n.MEL_EXN_ID === EA2) {
+    if (exn.MEL_EXN_ID === EA2) {
       return 2;
     }
-    if (n.MEL_EXN_ID === EB) {
-      return n._1;
+    if (exn.MEL_EXN_ID === EB) {
+      return exn._1;
     }
-    if (n.MEL_EXN_ID === EC) {
-      return n._1 + n._2 | 0;
+    if (exn.MEL_EXN_ID === EC) {
+      return exn._1 + exn._2 | 0;
     }
-    if (n.MEL_EXN_ID === ED) {
-      const match = n._1;
+    if (exn.MEL_EXN_ID === ED) {
+      const match = exn._1;
       return match[0] + match[1] | 0;
     }
-    throw new Caml_js_exceptions.MelangeError(n.MEL_EXN_ID, n);
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 

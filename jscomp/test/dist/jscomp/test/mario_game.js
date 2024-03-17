@@ -811,20 +811,20 @@ function set_vel_to_speed(obj) {
   }
 }
 
-function make_type$2(t) {
-  switch (t.TAG | 0) {
+function make_type$2(param) {
+  switch (param.TAG | 0) {
     case /* SPlayer */0 :
         return setup_obj(undefined, 2.8, undefined);
     case /* SEnemy */1 :
-        let param = t._0;
-        if (param >= 3) {
+        let param$1 = param._0;
+        if (param$1 >= 3) {
           return setup_obj(undefined, 3, undefined);
         } else {
           return setup_obj(undefined, undefined, undefined);
         }
     case /* SItem */2 :
-        let param$1 = t._0;
-        if (param$1 >= 3) {
+        let param$2 = param._0;
+        if (param$2 >= 3) {
           return setup_obj(false, undefined, undefined);
         } else {
           return setup_obj(undefined, undefined, undefined);
@@ -840,9 +840,9 @@ function new_id(param) {
   return id_counter.contents;
 }
 
-function make$2(idOpt, dirOpt, spawnable, context, param) {
-  const id = idOpt !== undefined ? Caml_option.valFromOption(idOpt) : undefined;
-  const dir = dirOpt !== undefined ? dirOpt : /* Left */0;
+function make$2($staropt$star, $staropt$star$1, spawnable, context, param) {
+  const id = $staropt$star !== undefined ? Caml_option.valFromOption($staropt$star) : undefined;
+  const dir = $staropt$star$1 !== undefined ? $staropt$star$1 : /* Left */0;
   const spr = make(spawnable, dir, context);
   const params = make_type$2(spawnable);
   const id$1 = id !== undefined ? id : new_id(undefined);

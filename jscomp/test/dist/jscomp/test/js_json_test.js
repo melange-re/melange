@@ -253,9 +253,9 @@ test(true);
 
 test(false);
 
-function option_get(x) {
-  if (x !== undefined) {
-    return Caml_option.valFromOption(x);
+function option_get(param) {
+  if (param !== undefined) {
+    return Caml_option.valFromOption(param);
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             MEL_EXN_ID: "Assert_failure",

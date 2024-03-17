@@ -15,13 +15,13 @@ let y;
 try {
   y = Caml_array.get(x, 3);
 }
-catch (raw_msg){
-  const msg = Caml_js_exceptions.internalToOCamlException(raw_msg);
-  if (msg.MEL_EXN_ID === Stdlib.Invalid_argument) {
-    console.log(msg._1);
+catch (raw_exn){
+  const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+  if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
+    console.log(exn._1);
     y = 0;
   } else {
-    throw new Caml_js_exceptions.MelangeError(msg.MEL_EXN_ID, msg);
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
 }
 
