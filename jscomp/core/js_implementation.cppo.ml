@@ -94,15 +94,23 @@ let after_parsing_sig ppf fname ast =
     Typecore.force_delayed_checks ();
     Warnings.check_fatal ();
     if not !Clflags.print_types then
-      let unit_info =
-        Unit_info.make ~check_modname:false ~source_file:fname outputprefix
-      in
       let sg =
         let alerts = Builtin_attributes.alerts_of_sig ast in
         Env.save_signature ~alerts tsg.Typedtree.sig_type
-          (Unit_info.cmi unit_info)
+#if OCAML_VERSION >= (5,2,0)
+          (Unit_info.make ~check_modname:false ~source_file:fname outputprefix
+           |> Unit_info.cmi)
+#else
+          modulename
+          (Artifact_extension.append_extension outputprefix Cmi)
+#endif
       in
+#if OCAML_VERSION >= (5,2,0)
       Typemod.save_signature unit_info tsg initial_env sg
+#else
+      Typemod.save_signature modulename tsg outputprefix !Location.input_name
+        initial_env sg
+#endif
 (* process_with_gentype *)
 (* (Artifact_extension.append_extension outputprefix Cmti) *)
 
@@ -160,10 +168,14 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
     let env = Initialization.Perfile.initial_env () in
     Env.set_unit_name modulename;
     let ({ Typedtree.structure = typedtree; coercion; _ } as implementation) =
+#if OCAML_VERSION >= (5,2,0)
       let unit_info =
         Unit_info.make ~check_modname:false ~source_file:fname outputprefix
       in
       Typemod.type_implementation unit_info env ast
+#else
+      Typemod.type_implementation fname outputprefix modulename env ast
+#endif
     in
     let typedtree_coercion = (typedtree, coercion) in
     print_if ppf Clflags.dump_typedtree Printtyped.implementation_with_coercion

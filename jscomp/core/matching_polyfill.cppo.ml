@@ -48,13 +48,27 @@ let names_from_construct_pattern
     match Env.find_type path pat.pat_env with
     | { type_kind = Type_variant (cstrs, _repr); _ } ->
         names_from_type_variant cstrs
-    | { type_kind = Type_abstract _; type_manifest = Some t; _ } -> (
+    | { type_kind =
+#if OCAML_VERSION >= (5,2,0)
+          Type_abstract _
+#else
+          Type_abstract
+#endif
+      ; type_manifest = Some t
+      ; _ } -> (
         match Types.get_desc (Ctype.unalias t) with
         | Tconstr (pathn, _, _) ->
             (* Format.eprintf "XXX path%d:%s path%d:%s@." n (Path.name path) (n+1) (Path.name pathn); *)
             resolve_path (n + 1) pathn
         | _ -> None)
-    | { type_kind = Type_abstract _; type_manifest = None; _ } -> None
+    | { type_kind =
+#if OCAML_VERSION >= (5,2,0)
+          Type_abstract _
+#else
+          Type_abstract
+#endif
+      ; type_manifest = None
+      ; _ } -> None
     | { type_kind = Type_record _ | Type_open (* Exceptions *); _ } -> None
   in
 

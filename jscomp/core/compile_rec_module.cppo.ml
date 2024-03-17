@@ -72,9 +72,17 @@ let rec is_function_or_const_block (lam : Lambda.lambda) acc =
       let rec aux_bindings bindings acc =
         match bindings with
         | [] -> Some acc
+#if OCAML_VERSION >= (5,2,0)
         | {Lambda.id; def = {attr={smuggled_lambda=false;_};_}} :: rest ->
+#else
+        | (id, Lambda.Lfunction _) :: rest ->
+#endif
             aux_bindings rest (Ident.Set.add acc id)
+#if OCAML_VERSION >= (5,2,0)
         | { id = _; _ } :: _ -> None
+#else
+        | (_, _) :: _ -> None
+#endif
       in
       match aux_bindings bindings acc with
       | None -> false
@@ -132,6 +140,7 @@ let eval_rec_bindings (bindings : binding list) cont =
     Lambda.Lletrec
       ( List.filter_map
           ~f:(fun (binding : binding) ->
+#if OCAML_VERSION >= (5,2,0)
             match binding with
             | Id id, _, Lfunction def ->
               Some { Lambda.id; def}
@@ -145,6 +154,9 @@ let eval_rec_bindings (bindings : binding list) cont =
               in
               Some { Lambda.id; def}
             | _ -> None)
+#else
+            match binding with Id id, _, rhs -> Some (id, rhs) | _ -> None)
+#endif
           bindings,
         cont )
   else eval_rec_bindings_aux bindings cont

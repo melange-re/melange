@@ -699,6 +699,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         convert_let kind id e body
     | Lmutlet (_value_kind, id, e, body) (*FIXME*) -> convert_mutlet id e body
     | Lletrec (bindings, body) ->
+#if OCAML_VERSION >= (5,2,0)
         let bindings =
           List.map ~f:(fun {Lambda.id; def} ->
             let lambda = match def.attr.smuggled_lambda with
@@ -707,6 +708,9 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
             in
             id, convert_aux lambda) bindings
         in
+#else
+        let bindings = List.map_snd bindings convert_aux in
+#endif
         let body = convert_aux body in
         let lam = Lam.letrec bindings body in
         Lam_scc.scc bindings lam body
