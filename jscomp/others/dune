@@ -21,11 +21,7 @@
  (melange.compile_flags
   -mel-no-check-div-by-zero
   -mel-cross-module-opt
-  -unsafe
-  -nopervasives
-  -nostdlib
-  -open
-  Js__Melange_mini_stdlib))
+  -unsafe))
 
 (library
  (modes melange)

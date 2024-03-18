@@ -213,8 +213,8 @@ external mod_float : float -> float -> float = "caml_fmod_float"
 *)
 
 let rec of_float (x : float) : t =
-  if Caml_float_extern.isNaN x || Pervasives.not (Caml_float_extern.isFinite x)
-  then zero
+  if Caml_float_extern.isNaN x || Stdlib.not (Caml_float_extern.isFinite x) then
+    zero
   else if x <= neg_two_ptr_63 then min_int
   else if x +. 1. >= two_ptr_63_dbl then max_int (* Undefined behavior *)
   else if x < 0. then neg (of_float (-.x))
@@ -234,8 +234,7 @@ external floor : float -> float = "floor" [@@mel.scope "Math"]
 *)
 let isSafeInteger { hi; lo } =
   let top11Bits = hi asr 21 in
-  top11Bits = 0
-  || (top11Bits = -1 && Pervasives.not (lo = 0 && hi = 0xff_e0_00_00))
+  top11Bits = 0 || (top11Bits = -1 && Stdlib.not (lo = 0 && hi = 0xff_e0_00_00))
 
 external string_of_float : float -> string = "String"
 

@@ -620,9 +620,9 @@ let rotateWithLeftChild k2 =
       k2.left <- k1.right;
       k1.right <- Some k2;
       let hlk2, hrk2 = (treeHeight k2.left, treeHeight k2.right) in
-      k2.height <- Pervasives.max hlk2 hrk2 + 1;
+      k2.height <- Stdlib.max hlk2 hrk2 + 1;
       let hlk1, hk2 = (treeHeight k1.left, k2.height) in
-      k1.height <- Pervasives.max hlk1 hk2 + 1;
+      k1.height <- Stdlib.max hlk1 hk2 + 1;
       k1
 
 (* right rotation *)
@@ -633,9 +633,9 @@ let rotateWithRightChild k1 =
       k1.right <- k2.left;
       k2.left <- Some k1;
       let hlk1, hrk1 = (treeHeight k1.left, treeHeight k1.right) in
-      k1.height <- Pervasives.max hlk1 hrk1 + 1;
+      k1.height <- Stdlib.max hlk1 hrk1 + 1;
       let hrk2, hk1 = (treeHeight k2.right, k1.height) in
-      k2.height <- Pervasives.max hrk2 hk1 + 1;
+      k2.height <- Stdlib.max hrk2 hk1 + 1;
       k2
 
 (*
@@ -655,7 +655,7 @@ let doubleWithRightChild k2 =
 
 let heightUpdateMutate t =
   let hlt, hrt = (treeHeight t.left, treeHeight t.right) in
-  t.height <- Pervasives.max hlt hrt + 1;
+  t.height <- Stdlib.max hlt hrt + 1;
   t
 
 let balMutate nt =
@@ -674,7 +674,7 @@ let balMutate nt =
         if heightGe rr rl then heightUpdateMutate (rotateWithRightChild nt)
         else heightUpdateMutate (doubleWithRightChild nt)
   else (
-    nt.height <- Pervasives.max hl hr + 1;
+    nt.height <- Stdlib.max hl hr + 1;
     nt)
 
 let rec updateMutate (t : _ t) x data ~cmp =
