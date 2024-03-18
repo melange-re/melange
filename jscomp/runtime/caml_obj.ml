@@ -99,7 +99,7 @@ let caml_obj_dup : Obj.t -> Obj.t =
    For the empty dummy object, whether it's
    [[]] or [{}] depends on how
    runtime encoding works, and will affect
-   js polymorphic comparison(Js_internal.(=)) (fine with caml polymoprhic comparison (Pervasives.equal))
+   js polymorphic comparison(Js_internal.(=)) (fine with caml polymoprhic comparison (Stdlib.equal))
    In most cases, rec value comes from record/modules,
    whose tag is 0, we optimize that case
 *)
@@ -152,14 +152,12 @@ let rec caml_compare (a : Obj.t) (b : Obj.t) : int =
     (* [a] is of type string, b can not be None,
         [a] could be (Some (Some x)) in that case [b] could be [Some None] or [null]
          so [b] has to be of type string or null *)
-    | "string", "string" ->
-        Pervasives.compare (Obj.magic a : string) (Obj.magic b)
+    | "string", "string" -> Stdlib.compare (Obj.magic a : string) (Obj.magic b)
     | "string", _ ->
         (* [b] could be [Some None] or [null] *)
         1
     | _, "string" -> -1
-    | "boolean", "boolean" ->
-        Pervasives.compare (Obj.magic a : bool) (Obj.magic b)
+    | "boolean", "boolean" -> Stdlib.compare (Obj.magic a : bool) (Obj.magic b)
     | "boolean", _ -> 1
     | _, "boolean" -> -1
     | "function", "function" ->
@@ -167,7 +165,7 @@ let rec caml_compare (a : Obj.t) (b : Obj.t) : int =
     | "function", _ -> 1
     | _, "function" -> -1
     | "bigint", "bigint" | "number", "number" ->
-        Pervasives.compare (Obj.magic a : float) (Obj.magic b : float)
+        Stdlib.compare (Obj.magic a : float) (Obj.magic b : float)
     | "number", _ ->
         if b == Obj.repr Js_internal.null || Caml_option.isNested b then 1
           (* Some (Some ..) < x *)
@@ -196,7 +194,7 @@ let rec caml_compare (a : Obj.t) (b : Obj.t) : int =
           let tag_a = Obj.tag a in
           let tag_b = Obj.tag b in
           if tag_a = 248 (* object/exception *) then
-            Pervasives.compare
+            Stdlib.compare
               (Obj.magic (Obj.field a 1) : int)
               (Obj.magic (Obj.field b 1))
           else if tag_a = 251 (* abstract_tag *) then
@@ -278,7 +276,7 @@ and aux_obj_compare (a : Obj.t) (b : Obj.t) =
     | None, None -> 0
     | Some _, None -> -1
     | None, Some _ -> 1
-    | Some x, Some y -> Pervasives.compare x y
+    | Some x, Some y -> Stdlib.compare x y
   in
   res
 

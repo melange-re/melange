@@ -112,8 +112,8 @@ let caml_log1p_float : float -> float = function x ->
 
 let caml_hypot_float (x : float) (y : float) : float =
   let x0, y0 = (abs_float x, abs_float y) in
-  let a = Pervasives.max x0 y0 in
-  let b = Pervasives.min x0 y0 /. if a <> 0. then a else 1. in
+  let a = Stdlib.max x0 y0 in
+  let b = Stdlib.min x0 y0 /. if a <> 0. then a else 1. in
   a *. sqrt (1. +. (b *. b))
 
 let caml_log10_float (x : float) : float = _LOG10E *. log x

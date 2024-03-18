@@ -132,7 +132,7 @@ let rangeBy start finish ~step =
 
 let zip xs ys =
   let lenx, leny = (length xs, length ys) in
-  let len = Pervasives.min lenx leny in
+  let len = Stdlib.min lenx leny in
   let s = makeUninitializedUnsafe len in
   for i = 0 to len - 1 do
     s.!(i) <- (xs.!(i), ys.!(i))
@@ -141,7 +141,7 @@ let zip xs ys =
 
 let zipByU xs ys f =
   let lenx, leny = (length xs, length ys) in
-  let len = Pervasives.min lenx leny in
+  let len = Stdlib.min lenx leny in
   let s = makeUninitializedUnsafe len in
   for i = 0 to len - 1 do
     s.!(i) <- (f xs.!(i) ys.!(i) [@u])
@@ -183,9 +183,9 @@ let slice a ~offset ~len =
   if len <= 0 then [||]
   else
     let lena = length a in
-    let ofs = if offset < 0 then Pervasives.max (lena + offset) 0 else offset in
+    let ofs = if offset < 0 then Stdlib.max (lena + offset) 0 else offset in
     let hasLen = lena - ofs in
-    let copyLength = Pervasives.min hasLen len in
+    let copyLength = Stdlib.min hasLen len in
     if copyLength <= 0 then [||]
     else
       let result = makeUninitializedUnsafe copyLength in
@@ -196,7 +196,7 @@ let slice a ~offset ~len =
 
 let sliceToEnd a offset =
   let lena = length a in
-  let ofs = if offset < 0 then Pervasives.max (lena + offset) 0 else offset in
+  let ofs = if offset < 0 then Stdlib.max (lena + offset) 0 else offset in
   let len = if lena > ofs then lena - ofs else 0 in
   let result = makeUninitializedUnsafe len in
   for i = 0 to len - 1 do
@@ -207,9 +207,9 @@ let sliceToEnd a offset =
 let fill a ~offset ~len v =
   if len > 0 then
     let lena = length a in
-    let ofs = if offset < 0 then Pervasives.max (lena + offset) 0 else offset in
+    let ofs = if offset < 0 then Stdlib.max (lena + offset) 0 else offset in
     let hasLen = lena - ofs in
-    let fillLength = Pervasives.min hasLen len in
+    let fillLength = Stdlib.min hasLen len in
     if fillLength > 0 then
       for i = ofs to ofs + fillLength - 1 do
         a.!(i) <- v
@@ -232,10 +232,10 @@ let blitUnsafe ~src:a1 ~srcOffset:srcofs1 ~dst:a2 ~dstOffset:srcofs2
 let blit ~src:a1 ~srcOffset:ofs1 ~dst:a2 ~dstOffset:ofs2 ~len =
   let lena1 = length a1 in
   let lena2 = length a2 in
-  let srcofs1 = if ofs1 < 0 then Pervasives.max (lena1 + ofs1) 0 else ofs1 in
-  let srcofs2 = if ofs2 < 0 then Pervasives.max (lena2 + ofs2) 0 else ofs2 in
+  let srcofs1 = if ofs1 < 0 then Stdlib.max (lena1 + ofs1) 0 else ofs1 in
+  let srcofs2 = if ofs2 < 0 then Stdlib.max (lena2 + ofs2) 0 else ofs2 in
   let blitLength =
-    Pervasives.min len (Pervasives.min (lena1 - srcofs1) (lena2 - srcofs2))
+    Stdlib.min len (Stdlib.min (lena1 - srcofs1) (lena2 - srcofs2))
   in
   (* blitUnsafe a1 srcofs1 a2 srcofs2 blitLength *)
   if srcofs2 <= srcofs1 then
@@ -376,7 +376,7 @@ let reduceReverse a x f = reduceReverseU a x (fun [@u] a b -> f a b)
 
 let reduceReverse2U a b x f =
   let r = ref x in
-  let len = Pervasives.min (length a) (length b) in
+  let len = Stdlib.min (length a) (length b) in
   for i = len - 1 downto 0 do
     r.contents <- (f r.contents a.!(i) b.!(i) [@u])
   done;
@@ -425,9 +425,9 @@ let rec someAux2 arr1 arr2 i b len =
   else if b arr1.!(i) arr2.!(i) [@u] then true
   else someAux2 arr1 arr2 (i + 1) b len
 
-let every2U a b p = everyAux2 a b 0 p (Pervasives.min (length a) (length b))
+let every2U a b p = everyAux2 a b 0 p (Stdlib.min (length a) (length b))
 let every2 a b p = every2U a b (fun [@u] a b -> p a b)
-let some2U a b p = someAux2 a b 0 p (Pervasives.min (length a) (length b))
+let some2U a b p = someAux2 a b 0 p (Stdlib.min (length a) (length b))
 let some2 a b p = some2U a b (fun [@u] a b -> p a b)
 
 let eqU a b p =

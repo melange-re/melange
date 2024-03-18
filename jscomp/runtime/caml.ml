@@ -68,12 +68,12 @@ let i64_ge ({ hi; lo } : i64) ({ hi = other_hi; lo = other_lo } : i64) : bool =
   else if hi < other_hi then false
   else lo >= other_lo
 
-let i64_neq x y = Pervasives.not (i64_eq x y)
-let i64_lt x y = Pervasives.not (i64_ge x y)
+let i64_neq x y = Stdlib.not (i64_eq x y)
+let i64_lt x y = Stdlib.not (i64_ge x y)
 
 let i64_gt (x : i64) (y : i64) =
   if x.hi > y.hi then true else if x.hi < y.hi then false else x.lo > y.lo
 
-let i64_le x y = Pervasives.not (i64_gt x y)
+let i64_le x y = Stdlib.not (i64_gt x y)
 let i64_min x y = if i64_lt x y then x else y
 let i64_max x y = if i64_gt x y then x else y
