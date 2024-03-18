@@ -94,25 +94,22 @@ external get_raw_backtrace:
 external raise_with_backtrace: exn -> raw_backtrace -> 'a
   = "%raise_with_backtrace"
 
-type backtrace_slot =
+(* Disable warning 37: values are constructed in the runtime *)
+type[@warning "-37"] backtrace_slot =
   | Known_location of {
-      is_raise    : bool;
-      filename    : string;
-      line_number : int;
-      start_char  : int;
-      end_char    : int;
-      is_inline   : bool;
-      defname     : string;
+      is_raise   : bool;
+      filename   : string;
+      start_lnum : int;
+      start_char : int;
+      end_offset : int; (* Relative to beginning of start_lnum *)
+      end_lnum   : int;
+      end_char   : int; (* Relative to beginning of end_lnum line *)
+      is_inline  : bool;
+      defname    : string;
     }
   | Unknown_location of {
       is_raise : bool
     }
-
-(* to avoid warning *)
-let _ = [Known_location { is_raise = false; filename = "";
-                          line_number = 0; start_char = 0; end_char = 0;
-                          is_inline = false; defname = "" };
-         Unknown_location { is_raise = false }]
 
 #ifdef BS
 let convert_raw_backtrace_slot:
@@ -144,10 +141,16 @@ let format_backtrace_slot pos slot =
       else
         Some (sprintf "%s unknown location" (info false))
   | Known_location l ->
-      Some (sprintf "%s %s in file \"%s\"%s, line %d, characters %d-%d"
+      let lines =
+        if l.start_lnum = l.end_lnum then
+          Printf.sprintf " %d" l.start_lnum
+        else
+          Printf.sprintf "s %d-%d" l.start_lnum l.end_lnum
+      in
+      Some (sprintf "%s %s in file \"%s\"%s, line%s, characters %d-%d"
               (info l.is_raise) l.defname l.filename
               (if l.is_inline then " (inlined)" else "")
-              l.line_number l.start_char l.end_char)
+              lines l.start_char l.end_char)
 
 let print_exception_backtrace outchan backtrace =
   match backtrace with
@@ -197,6 +200,8 @@ type location = {
   line_number : int;
   start_char : int;
   end_char : int;
+  end_line : int;
+  end_col : int;
 }
 
 let backtrace_slot_location = function
@@ -204,9 +209,11 @@ let backtrace_slot_location = function
   | Known_location l ->
     Some {
       filename    = l.filename;
-      line_number = l.line_number;
+      line_number = l.start_lnum;
       start_char  = l.start_char;
-      end_char    = l.end_char;
+      end_char    = l.end_offset;
+      end_line    = l.end_lnum;
+      end_col     = l.end_char;
     }
 
 let backtrace_slot_defname = function

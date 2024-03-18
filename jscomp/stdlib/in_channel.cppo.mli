@@ -134,6 +134,15 @@ val input : t -> bytes -> int -> int -> int
     @raise Invalid_argument if [pos] and [len] do not designate a valid range of
     [buf]. *)
 
+#ifdef BS
+#else
+val input_bigarray :
+  t -> (_, Bigarray.int8_unsigned_elt, Bigarray.c_layout) Bigarray.Array1.t ->
+  int -> int -> int
+(** Same as {!input}, but read the data into a bigarray.
+    @since 5.2 *)
+#endif
+
 val really_input : t -> bytes -> int -> int -> unit option
 (** [really_input ic buf pos len] reads [len] characters from channel [ic],
     storing them in byte sequence [buf], starting at character number [pos].
@@ -146,6 +155,15 @@ val really_input : t -> bytes -> int -> int -> unit option
 
     @raise Invalid_argument if [pos] and [len] do not designate a valid range of
     [buf]. *)
+
+#ifdef BS
+#else
+val really_input_bigarray :
+  t -> (_, Bigarray.int8_unsigned_elt, Bigarray.c_layout) Bigarray.Array1.t ->
+  int -> int -> unit option
+(** Same as {!really_input}, but read the data into a bigarray.
+    @since 5.2 *)
+#endif
 
 val fold_lines : ('acc -> string -> 'acc) -> 'acc -> t -> 'acc
 (** [fold_lines f init ic] reads lines from [ic] using {!input_line}
@@ -195,6 +213,11 @@ val set_binary_mode : t -> bool -> unit
 
     This function has no effect under operating systems that do not distinguish
     between text mode and binary mode. *)
+
+val is_binary_mode : t -> bool
+(** [is_binary_mode ic] returns whether the channel [ic] is in binary mode
+    (see {!set_binary_mode}).
+    @since 5.2 *)
 
 val isatty : t -> bool
 (** [isatty ic] is [true] if [ic] refers to a terminal or console window,

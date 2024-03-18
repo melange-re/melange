@@ -649,6 +649,7 @@ let pp_print_bool state b = pp_print_string state (string_of_bool b)
 let pp_print_char state c =
   pp_print_as state 1 (String.make 1 c)
 
+let pp_print_nothing _state () = ()
 
 (* Opening boxes. *)
 let pp_open_hbox state () = pp_open_box_gen state 0 Pp_hbox
@@ -819,6 +820,8 @@ let validate_geometry {margin; max_indent} =
     Error "max_indent < 2"
   else if margin <= max_indent then
     Error "margin <= max_indent"
+  else if margin >= pp_infinity then
+    Error "margin >= pp_infinity"
   else Ok ()
 
 let check_geometry geometry =

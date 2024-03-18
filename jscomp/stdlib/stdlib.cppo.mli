@@ -1551,6 +1551,7 @@ module Condition      = Condition
 #endif
 module Digest       = Digest
 module Domain         = Domain
+module Dynarray       = Dynarray
 [@@alert "-unstable"]
 [@@alert unstable
     "The Domain interface may change in incompatible ways in the future."

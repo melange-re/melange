@@ -68,10 +68,38 @@ let input_line ic =
 
 let input = Stdlib.input
 
+#ifdef BS
+#else
+external unsafe_input_bigarray :
+  t -> _ Bigarray.Array1.t -> int -> int -> int
+  = "caml_ml_input_bigarray"
+
+let input_bigarray ic buf ofs len =
+  if ofs < 0 || len < 0 || ofs > Bigarray.Array1.dim buf - len
+  then invalid_arg "input_bigarray"
+  else unsafe_input_bigarray ic buf ofs len
+#endif
+
 let really_input ic buf pos len =
   match Stdlib.really_input ic buf pos len with
   | () -> Some ()
   | exception End_of_file -> None
+
+#ifdef BS
+#else
+let rec unsafe_really_input_bigarray ic buf ofs len =
+  if len <= 0 then Some () else begin
+    let r = unsafe_input_bigarray ic buf ofs len in
+    if r = 0
+    then None
+    else unsafe_really_input_bigarray ic buf (ofs + r) (len - r)
+  end
+
+let really_input_bigarray ic buf ofs len =
+  if ofs < 0 || len < 0 || ofs > Bigarray.Array1.dim buf - len
+  then invalid_arg "really_input_bigarray"
+  else unsafe_really_input_bigarray ic buf ofs len
+#endif
 
 let really_input_string ic len =
   match Stdlib.really_input_string ic len with
@@ -181,5 +209,7 @@ let rec fold_lines f accu ic =
   | exception End_of_file -> accu
 
 let set_binary_mode = Stdlib.set_binary_mode_in
+
+external is_binary_mode : in_channel -> bool = "caml_ml_is_binary_mode"
 
 external isatty : t -> bool = "caml_sys_isatty"

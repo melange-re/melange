@@ -735,6 +735,7 @@ module Condition      = Condition
 #endif
 module Digest       = Digest
 module Domain         = Domain
+module Dynarray       = Dynarray
 module Effect         = Effect
 module Either       = Either
 #ifdef BS
