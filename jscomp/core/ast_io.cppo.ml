@@ -25,7 +25,9 @@
 open Import
 
 module Melange_ast_version =
-#if OCAML_VERSION >= (5, 1, 0)
+#if OCAML_VERSION >= (5, 2, 0)
+  Ppxlib_ast__.Versions.OCaml_502
+#elif OCAML_VERSION >= (5, 1, 0)
   Ppxlib_ast__.Versions.OCaml_501
 #else
   Ppxlib_ast__.Versions.OCaml_414
@@ -106,6 +108,22 @@ let read_magic ic =
   let s = Bytes.sub_string buf 0 len in
   if len = magic_length then Ok s else Error s
 
+let set_input_lexbuf () =
+  let set_input_lexbuf ic =
+    (* set input lexbuf for error messages. *)
+    let source = In_channel.input_all ic in
+    let lexbuf = Lexing.from_string source in
+    Location.input_lexbuf := Some lexbuf;
+    Ocaml_common.Location.input_lexbuf := Some lexbuf;
+    lexbuf
+  in
+  begin match
+    In_channel.with_open_bin !Location.input_name set_input_lexbuf
+  with
+  | (_ : Lexing.lexbuf) -> ()
+  | exception Sys_error _ -> ()
+  end
+
 let from_channel ch ~input_kind : (t, read_error) result =
   let input_version = (module Compiler_version : OCaml_version) in
   let module Convert = Ppxlib_ast.Convert in
@@ -116,6 +134,9 @@ let from_channel ch ~input_kind : (t, read_error) result =
         seek_in ch 0;
         let lexbuf = Lexing.from_channel ch in
         Location.init lexbuf filename;
+        Ocaml_common.Location.init lexbuf filename;
+        Location.input_lexbuf := Some lexbuf;
+        Ocaml_common.Location.input_lexbuf:= Some lexbuf;
         let ast = parse_fun lexbuf in
         Ok { input_name = filename; input_version; ast }
     | Necessarily_binary -> Error Not_a_binary_ast
@@ -128,6 +149,8 @@ let from_channel ch ~input_kind : (t, read_error) result =
           let input_name : string = input_value ch in
           Ocaml_common.Location.input_name := input_name;
           Location.input_name := input_name;
+          set_input_lexbuf ();
+
           let ast = input_value ch in
           let module Input_to_ppxlib =
             Convert (Input_version) (Ppxlib_ast.Selected_ast)
@@ -143,6 +166,8 @@ let from_channel ch ~input_kind : (t, read_error) result =
           let input_name : string = input_value ch in
           Location.input_name := input_name;
           Ocaml_common.Location.input_name := input_name;
+          set_input_lexbuf ();
+
           let ast = input_value ch in
           let module Input_to_ppxlib =
             Convert (Input_version) (Ppxlib_ast.Selected_ast)

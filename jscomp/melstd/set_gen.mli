@@ -4,7 +4,7 @@ type 'a t = private
   | Node of { l : 'a t; v : 'a; r : 'a t; h : int }
 
 val empty : 'a t
-val is_empty : 'a t -> bool [@@inline]
+val is_empty : 'a t -> bool
 val unsafe_two_elements : 'a -> 'a -> 'a t
 val cardinal : 'a t -> int
 val elements : 'a t -> 'a list

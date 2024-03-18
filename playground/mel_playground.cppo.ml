@@ -186,14 +186,23 @@ let compile =
     let types_signature = ref [] in
     warnings_collected := [];
     try
+      let lexbuf = Lexing.from_string str in
+      Ocaml_common.Location.input_lexbuf := Some lexbuf;
+      Location.input_lexbuf := Some lexbuf;
       let ast =
-        (* default *)
-        impl (Lexing.from_string str)
-        |> melange_ppx |> Builtin_ast_mapper.rewrite_structure
+        lexbuf
+        |> impl
+        |> melange_ppx
+        |> Builtin_ast_mapper.rewrite_structure
       in
       let typed_tree =
         let { Typedtree.structure; coercion; shape = _; signature } =
+#if OCAML_VERSION >= (5,2,0)
+          let unit_info = Unit_info.make ~source_file:modulename modulename in
+          Typemod.type_implementation unit_info env ast
+#else
           Typemod.type_implementation modulename modulename modulename env ast
+#endif
         in
         (* finalenv := c ; *)
         types_signature := signature;
@@ -294,12 +303,23 @@ let () =
     (playground_warning_reporter, playground_alert_reporter)
   in
 
-  let load_cmi ~unit_name : Persistent_env.Persistent_signature.t option =
+  let load_cmi
+#if OCAML_VERSION >= (5,2,0)
+  ~allow_hidden:_
+#endif
+  ~unit_name : Persistent_env.Persistent_signature.t option =
     match
       Initialization.find_in_path_exn
         (Artifact_extension.append_extension unit_name Cmi)
     with
-    | filename -> Some { filename; cmi = Cmi_format.read_cmi filename }
+    | filename ->
+      Some
+        { filename
+        ; cmi = Cmi_format.read_cmi filename
+#if OCAML_VERSION >= (5,2,0)
+        ; visibility = Visible
+#endif
+        }
     | exception Not_found -> None
   in
 
@@ -312,7 +332,11 @@ let () =
   Ocaml_common.Location.alert_reporter := playground_alert_reporter;
   Location.alert_reporter := playground_alert_reporter;
   (* To add a directory to the load path *)
-  Load_path.add_dir "/static"
+  Load_path.add_dir
+#if OCAML_VERSION >= (5,2,0)
+    ~hidden:false
+#endif
+    "/static"
 
 let () =
   Js.set

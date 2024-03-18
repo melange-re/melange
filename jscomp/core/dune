@@ -9,6 +9,66 @@
   dune-build-info))
 
 (rule
+ (targets compile_letrec.ml)
+ (deps compile_letrec.520.ml)
+ (action
+  (copy %{deps} %{targets}))
+ (enabled_if
+  (>= %{ocaml_version} 5.2.0)))
+
+(rule
+ (targets lambda_simplif.ml)
+ (deps lambda_simplif.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
+ (targets compile_rec_module.ml)
+ (deps compile_rec_module.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
+ (targets js_implementation.ml)
+ (deps js_implementation.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
+ (targets matching_polyfill.ml)
+ (deps matching_polyfill.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
  (targets lam_convert.ml)
  (deps lam_convert.cppo.ml)
  (action

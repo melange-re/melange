@@ -8,6 +8,19 @@
   reason-react-ppx
   reason))
 
+(rule
+ (targets mel_playground.ml)
+ (deps mel_playground.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
 (install
  (section bin)
  (package melange-playground)

@@ -10,6 +10,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
+open Melange_compiler_libs
 open Melstd
 
 #ifndef BS_RELEASE_BUILD

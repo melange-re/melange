@@ -69,7 +69,11 @@ module Global = struct
     Lambda.blk_record_inlined := Record_attributes_check.blk_record_inlined;
     Lambda.blk_record_ext := Record_attributes_check.blk_record_ext;
     Matching.names_from_construct_pattern :=
-      Matching_polyfill.names_from_construct_pattern
+      Matching_polyfill.names_from_construct_pattern;
+#if OCAML_VERSION >= (5,2,0)
+    Value_rec_compiler.compile_letrec := Compile_letrec.compile_letrec
+#endif
+  ;;
 
   let () = at_exit (fun _ -> Format.pp_print_flush Format.err_formatter ())
 end
@@ -82,12 +86,29 @@ module Perfile = struct
     in
     Load_path.reset ();
     let exp_dirs = List.rev_append exp_dirs (Js_config.std_include_dirs ()) in
-    List.iter ~f:Load_path.add_dir exp_dirs;
+    List.iter
+#if OCAML_VERSION >= (5,2,0)
+      ~f:(Load_path.add_dir ~hidden:false)
+#else
+      ~f:(Load_path.add_dir)
+#endif
+      exp_dirs;
+    let
+#if OCAML_VERSION >= (5,2,0)
+      { Load_path.visible; hidden }
+#else
+      visible
+#endif
+     = Load_path.get_paths ()
+    in
     Log.info ~loc:(Loc.of_pos __POS__)
       (Pp.concat ~sep:Pp.space
          [
            Pp.text "Compiler include dirs:";
-           Pp.enumerate (Load_path.get_paths ()) ~f:Pp.text;
+           Pp.enumerate visible ~f:Pp.text;
+#if OCAML_VERSION >= (5,2,0)
+      Pp.enumerate hidden ~f:Pp.text;
+#endif
          ]);
     Env.reset_cache ()
 
@@ -113,4 +134,9 @@ end
 
 (* ATTENTION: lazy to wait [Config.load_path] populated *)
 let find_in_path_exn file =
-  Misc.find_in_path_uncap (Load_path.get_paths ()) file
+#if OCAML_VERSION >= (5,2,0)
+  Misc.find_in_path_normalized (Load_path.get_paths ()).visible
+#else
+  Misc.find_in_path_uncap (Load_path.get_paths ())
+#endif
+  file
