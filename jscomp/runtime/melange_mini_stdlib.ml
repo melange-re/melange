@@ -65,7 +65,7 @@ module Obj = struct
   external size : t -> int = "#obj_length"
 end
 
-module Pervasives = struct
+module Stdlib = struct
   external compare : 'a -> 'a -> int = "%compare"
   external not : bool -> bool = "%boolnot"
   external min : 'a -> 'a -> 'a = "%bs_min"

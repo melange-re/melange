@@ -234,7 +234,7 @@ let intersect a b : _ t =
         || (p (A.getUnsafe tmp (totalSize - 1)) (A.getUnsafe tmp 0) [@u]) < 0
       then { cmp; data = None }
       else
-        let tmp2 = A.makeUninitializedUnsafe (Pervasives.min sizea sizeb) in
+        let tmp2 = A.makeUninitializedUnsafe (Stdlib.min sizea sizeb) in
         let k = Sort.intersectU tmp 0 sizea tmp sizea sizeb tmp2 0 p in
         { data = N.fromSortedArrayAux tmp2 0 k; cmp }
 
