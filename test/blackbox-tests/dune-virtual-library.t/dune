@@ -1,0 +1,7 @@
+(melange.emit
+ (target output)
+ (alias melange)
+ (modules mel)
+ (emit_stdlib false)
+ (libraries vlib impl_melange)
+ (module_systems commonjs))
