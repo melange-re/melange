@@ -24,7 +24,7 @@
 
 (** Provides functionality for dealing with the ['a Js.null] type *)
 
-type +'a t = 'a Js_internal.null
+type +'a t = 'a Js.null
 (** Local alias for ['a Js.null] *)
 
 external return : 'a -> 'a t = "%identity"
@@ -35,9 +35,6 @@ external empty : 'a t = "#null"
 
 external getUnsafe : 'a t -> 'a = "%identity"
 val getExn : 'a t -> 'a
-
-module Js := Js_internal
-
 val bind : f:(('a -> 'b t)[@u]) -> 'a t -> 'b t
 
 val map : f:(('a -> 'b)[@u]) -> 'a t -> 'b t

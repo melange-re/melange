@@ -94,13 +94,13 @@ let add (self : t) ({ lo = y_lo; hi = y_hi } : t) = add_aux self ~y_lo ~y_hi
 (* let not ( {lo; hi })  = mk ~lo:(lognot lo) ~hi:(lognot hi) *)
 
 let equal_null x y =
-  match Js_internal.nullToOption y with None -> false | Some y -> eq x y
+  match Js.nullToOption y with None -> false | Some y -> eq x y
 
 let equal_undefined x y =
-  match Js_internal.undefinedToOption y with None -> false | Some y -> eq x y
+  match Js.undefinedToOption y with None -> false | Some y -> eq x y
 
 let equal_nullable x y =
-  match Js_internal.toOption y with None -> false | Some y -> eq x y
+  match Js.toOption y with None -> false | Some y -> eq x y
 
 (* when [lo] is unsigned integer, [lognot lo] is still an unsigned integer  *)
 let sub_aux x ~lo ~hi =
@@ -194,7 +194,6 @@ let and_ { lo = this_lo; hi = this_hi } { lo = other_lo; hi = other_hi } =
 *)
 
 let to_float ({ hi; lo } : t) =
-  let module Js = Js_internal in
   Caml_nativeint_extern.to_float ((hi *~ [%raw {|0x100000000|}]) +~ lo)
 
 (** sign: Positive
@@ -389,7 +388,6 @@ let discard_sign (x : int64) : int64 =
 *)
 
 let float_of_bits (x : t) : float =
-  let module Js = Js_internal in
   ([%raw
      {|function(lo,hi){ return (new Float64Array(new Int32Array([lo,hi]).buffer))[0]}|}]
     : _ -> _ -> _)
@@ -407,7 +405,6 @@ let float_of_bits (x : t) : float =
 
 let bits_of_float : float -> t =
  fun x ->
-  let module Js = Js_internal in
   let lo, hi =
     ([%raw {|function(x){return new Int32Array(new Float64Array([x]).buffer)}|}]
       : _ -> _)

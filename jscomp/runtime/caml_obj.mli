@@ -33,9 +33,9 @@ val caml_compare : Obj.t -> Obj.t -> int
 type eq = Obj.t -> Obj.t -> bool
 
 val caml_equal : eq
-val caml_equal_null : Obj.t -> Obj.t Js_internal.null -> bool
-val caml_equal_undefined : Obj.t -> Obj.t Js_internal.undefined -> bool
-val caml_equal_nullable : Obj.t -> Obj.t Js_internal.nullable -> bool
+val caml_equal_null : Obj.t -> Obj.t Js.null -> bool
+val caml_equal_undefined : Obj.t -> Obj.t Js.undefined -> bool
+val caml_equal_nullable : Obj.t -> Obj.t Js.nullable -> bool
 val caml_notequal : eq
 val caml_greaterequal : eq
 val caml_greaterthan : eq

@@ -53,10 +53,6 @@ module ArrayBuffer = struct
   [@@mel.send.pipe: t]
 end
 
-open struct
-  module Js = Js_internal
-end
-
 #define COMMON_EXTERNALS(moduleName, eltType)\
   (** *)\
   type elt = eltType\
@@ -119,8 +115,8 @@ end
   external filter : f:(elt -> bool [@mel.uncurry]) -> t = "filter" [@@mel.send.pipe: t]\
   external filteri : f:(elt -> int  -> bool [@mel.uncurry]) -> t = "filter" [@@mel.send.pipe: t]\
   \
-  external find : f:(elt -> bool [@mel.uncurry]) -> elt Js_internal.undefined = "find" [@@mel.send.pipe: t]\
-  external findi : f:(elt -> int -> bool [@mel.uncurry]) -> elt Js_internal.undefined  = "find" [@@mel.send.pipe: t]\
+  external find : f:(elt -> bool [@mel.uncurry]) -> elt Js.undefined = "find" [@@mel.send.pipe: t]\
+  external findi : f:(elt -> int -> bool [@mel.uncurry]) -> elt Js.undefined  = "find" [@@mel.send.pipe: t]\
   \
   external findIndex : f:(elt -> bool [@mel.uncurry]) -> int = "findIndex" [@@mel.send.pipe: t]\
   external findIndexi : f:(elt -> int -> bool [@mel.uncurry]) -> int = "findIndex" [@@mel.send.pipe: t]\

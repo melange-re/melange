@@ -26,6 +26,7 @@
 
 (**/**)
 
+external unsafe_downgrade : 'a t -> 'a = "#unsafe_downgrade"
 external unsafe_to_method : 'a -> 'a = "#fn_method"
 
 (**/**)

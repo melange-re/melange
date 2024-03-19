@@ -11,7 +11,7 @@ exception Error of t
 *)
 let internalToOCamlException (e : Obj.t) =
   if
-    (not (Js_internal.testAny e))
+    (not (Js.testAny e))
     && Caml_exceptions.caml_is_extension (Obj.magic e : js_error).cause
   then (Obj.magic e : js_error).cause
   else Error (Any e)

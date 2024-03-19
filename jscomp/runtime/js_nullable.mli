@@ -24,7 +24,7 @@
 
 (** Contains functionality for dealing with values that can be both [null] and [undefined] *)
 
-type +'a t = 'a Js_internal.nullable
+type +'a t = 'a Js.nullable
 (** Local alias for ['a Js.null_undefined] *)
 
 external return : 'a -> 'a t = "%identity"
@@ -38,8 +38,6 @@ external null : 'a t = "#null"
 
 external undefined : 'a t = "#undefined"
 (** The [undefined] value of type ['a Js.null_undefined] *)
-
-module Js := Js_internal
 
 val map : f:(('a -> 'b)[@u]) -> 'a t -> 'b t
 

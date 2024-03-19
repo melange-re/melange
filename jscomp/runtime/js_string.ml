@@ -254,7 +254,7 @@ external localeCompare : other:t -> float = "localeCompare"
 ]}
 *)
 
-external match_ : regexp:Js_re.t -> t option array option = "match"
+external match_ : regexp:Js.re -> t option array option = "match"
 [@@mel.send.pipe: t] [@@mel.return { null_to_opt }]
 (**
   [match ~regexp str] matches a string against the given [regexp]. If there is
@@ -327,7 +327,7 @@ external replace : search:t -> replacement:t -> t = "replace"
 ]}
 *)
 
-external replaceByRe : regexp:Js_re.t -> replacement:t -> t = "replace"
+external replaceByRe : regexp:Js.re -> replacement:t -> t = "replace"
 [@@mel.send.pipe: t]
 (** [replaceByRe ~regexp ~replacement string] returns a new string where
     occurrences matching [regexp] have been replaced by [replacement].
@@ -339,7 +339,7 @@ external replaceByRe : regexp:Js_re.t -> replacement:t -> t = "replace"
 *)
 
 external unsafeReplaceBy0 :
-  regexp:Js_re.t -> f:((t -> int -> t -> t)[@mel.uncurry]) -> t = "replace"
+  regexp:Js.re -> f:((t -> int -> t -> t)[@mel.uncurry]) -> t = "replace"
 [@@mel.send.pipe: t]
 (** [unsafeReplaceBy0 ~regexp ~f s] returns a new string with some or all
     matches of a pattern with no capturing parentheses replaced by the value
@@ -363,7 +363,7 @@ let () = Js.log replaced (* prints "bEAUtifUl vOwEls" *)
 *)
 
 external unsafeReplaceBy1 :
-  regexp:Js_re.t -> f:((t -> t -> int -> t -> t)[@mel.uncurry]) -> t = "replace"
+  regexp:Js.re -> f:((t -> t -> int -> t -> t)[@mel.uncurry]) -> t = "replace"
 [@@mel.send.pipe: t]
 (** [unsafeReplaceBy1 ~regexp ~f s] returns a new string with some or all
     matches of a pattern with one set of capturing parentheses replaced by the
@@ -388,7 +388,7 @@ MDN
 *)
 
 external unsafeReplaceBy2 :
-  regexp:Js_re.t -> f:((t -> t -> t -> int -> t -> t)[@mel.uncurry]) -> t
+  regexp:Js.re -> f:((t -> t -> t -> int -> t -> t)[@mel.uncurry]) -> t
   = "replace"
 [@@mel.send.pipe: t]
 (** [unsafeReplaceBy2 ~regexp ~f s] returns a new string with some or all
@@ -412,7 +412,7 @@ let () = Js.log replaced (* prints "42" *)
 *)
 
 external unsafeReplaceBy3 :
-  regexp:Js_re.t -> f:((t -> t -> t -> t -> int -> t -> t)[@mel.uncurry]) -> t
+  regexp:Js.re -> f:((t -> t -> t -> t -> int -> t -> t)[@mel.uncurry]) -> t
   = "replace"
 [@@mel.send.pipe: t]
 (** [unsafeReplaceBy3 ~regexp ~f s] returns a new string with some or all
@@ -424,7 +424,7 @@ external unsafeReplaceBy3 :
     @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_function_as_a_parameter> MDN
 *)
 
-external search : regexp:Js_re.t -> int = "search"
+external search : regexp:Js.re -> int = "search"
 [@@mel.send.pipe: t]
 (** [search ~regexp str] returns the starting position of the first match of
     [regexp] in the given [str], or -1 if there is no match.
@@ -470,7 +470,7 @@ external split : ?sep:t -> ?limit:int -> t array = "split"
 ]}
 *)
 
-external splitByRe : regexp:Js_re.t -> ?limit:int -> t option array = "split"
+external splitByRe : regexp:Js.re -> ?limit:int -> t option array = "split"
 [@@mel.send.pipe: t]
 (** [splitByRe str ~regexp ?limit ()] splits the given [str] at every
     occurrence of [regexp] and returns an array of the first [limit] resulting
@@ -623,4 +623,4 @@ external link : href:t -> t = "link"
 ]}
 *)
 
-external unsafeToArrayLike : t -> t Js_array.array_like = "%identity"
+external unsafeToArrayLike : t -> t Js.Array.array_like = "%identity"

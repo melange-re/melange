@@ -6,7 +6,6 @@ const Caml_int64 = require("melange.js/caml_int64.js");
 const Caml_obj = require("melange.js/caml_obj.js");
 const Curry = require("melange.js/curry.js");
 const Ext_array_test = require("./ext_array_test.js");
-const Js__Caml_int64 = require("melange.js/caml_int64.js");
 const Mt = require("./mt.js");
 const Stdlib = require("melange/stdlib.js");
 const Stdlib__Array = require("melange/array.js");
@@ -1896,7 +1895,7 @@ const suites = Stdlib.$at({
                                                                     (function (param) {
                                                                         return {
                                                                                 TAG: /* Eq */0,
-                                                                                _0: Js__Caml_int64.discard_sign(Caml_int64.neg_one),
+                                                                                _0: Caml_int64.discard_sign(Caml_int64.neg_one),
                                                                                 _1: Caml_int64.max_int
                                                                               };
                                                                       })
@@ -1907,7 +1906,7 @@ const suites = Stdlib.$at({
                                                                       (function (param) {
                                                                           return {
                                                                                   TAG: /* Eq */0,
-                                                                                  _0: Js__Caml_int64.div_mod([
+                                                                                  _0: Caml_int64.div_mod([
                                                                                         0,
                                                                                         7
                                                                                       ], [
@@ -1930,7 +1929,7 @@ const suites = Stdlib.$at({
                                                                         (function (param) {
                                                                             return {
                                                                                     TAG: /* Eq */0,
-                                                                                    _0: Js__Caml_int64.to_hex(Caml_int64.neg_one),
+                                                                                    _0: Caml_int64.to_hex(Caml_int64.neg_one),
                                                                                     _1: "ffffffffffffffff"
                                                                                   };
                                                                           })

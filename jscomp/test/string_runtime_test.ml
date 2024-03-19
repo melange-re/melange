@@ -1,5 +1,5 @@
-module S = Js__Caml_string
-module B = Js__Caml_bytes
+module S = Caml_string
+module B = Caml_bytes
 (** TODO: performance could be improved, however,
     this function is not in critical Path
  *)

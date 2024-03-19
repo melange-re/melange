@@ -27,10 +27,6 @@ open Melange_mini_stdlib
 let stdin = Caml_undefined_extern.empty
 (* let stderr = Caml_undefined_extern.empty *)
 
-open struct
-  module Js = Js_internal
-end
-
 type out_channel  = {
   mutable buffer :  string;
   output :   (out_channel  -> string -> unit [@u])
@@ -45,8 +41,8 @@ let stdout = {
         ([%mel.raw{| process.stdout.write |} ] : string -> unit [@u]) s [@u]
       else
       if s.[v] = '\n' then
-        Js_internal.log (Caml_string_extern.slice s 0 v)
-      else Js_internal.log s)
+        Js.log (Caml_string_extern.slice s 0 v)
+      else Js.log s)
 }
 
 let stderr = {
@@ -55,8 +51,8 @@ let stderr = {
     let module String = Caml_string_extern in
     let v =Caml_string_extern.length s - 1 in
     if s.[v] = '\n' then
-      Js_internal.log (Caml_string_extern.slice s 0 v) (* TODO: change to Js_internal.error*)
-    else Js_internal.log s
+      Js.log (Caml_string_extern.slice s 0 v) (* TODO: change to Js.error*)
+    else Js.log s
 }
 
 #if false

@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type 'a t
+type 'a t = 'a Js.dict
 (** Dictionary type (ie an '\{ \}' JS object). However it is restricted
     to hold a single type; therefore values must have the same type.
 
@@ -58,8 +58,6 @@ external keys : 'a t -> string array = "keys"
 external empty : unit -> 'a t = ""
 [@@mel.obj]
 (** [empty ()] returns an empty dictionary *)
-
-module Js := Js_internal
 
 val unsafeDeleteKey : (string t -> string -> unit[@u])
 (** Experimental internal function *)

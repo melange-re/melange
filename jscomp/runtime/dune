@@ -1,12 +1,21 @@
+(rule
+ (deps js.pre.ml)
+ (target js.ml)
+ (action
+  (progn
+   (with-stdout-to
+    %{target}
+    (run awk -f %{dep:expand_module_aliases.awk} %{deps})))))
+
 (library
  (public_name melange.js)
  (name js)
  (modes melange)
+ (stdlib
+  (internal_modules Melange_mini_stdlib Caml* Curry))
  (preprocess
   (pps melange.ppx -unsafe))
  (melange.compile_flags
-  -nopervasives
-  -nostdlib
   -mel-no-check-div-by-zero
   -mel-cross-module-opt
   -unsafe))

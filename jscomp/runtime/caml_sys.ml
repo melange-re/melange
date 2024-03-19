@@ -27,7 +27,6 @@ open Melange_mini_stdlib
 external getEnv : 'a -> string -> string option = "" [@@mel.get_index]
 
 let caml_sys_getenv s =
-  let module Js = Js_internal in
   if
     Js.typeof [%raw {|process|}] = "undefined"
     || [%raw {|process.env|}] = Caml_undefined_extern.empty
@@ -43,7 +42,6 @@ let caml_sys_getenv s =
    NodeJS does not support Cygwin very well
 *)
 let os_type : unit -> string =
-  let module Js = Js_internal in
   [%raw
     {|function(_){
   if(typeof process !== 'undefined' && process.platform === 'win32'){
@@ -63,7 +61,6 @@ external uptime : process -> unit -> float = "uptime" [@@mel.send]
 external exit : process -> int -> 'a = "exit" [@@mel.send]
 
 let caml_sys_time () =
-  let module Js = Js_internal in
   if
     Js.typeof [%raw {|process|}] = "undefined"
     || [%raw {|process.uptime|}] = Caml_undefined_extern.empty
@@ -84,7 +81,6 @@ external readAs : spawnResult ->
 let caml_sys_system_command _cmd = 127
 
 let caml_sys_getcwd : unit -> string =
-  let module Js = Js_internal in
   [%raw
     {|function(param){
     if (typeof process === "undefined" || process.cwd === undefined){
@@ -94,7 +90,6 @@ let caml_sys_getcwd : unit -> string =
   }|}]
 
 let caml_sys_executable_name () : string =
-  let module Js = Js_internal in
   if Js.typeof [%raw {|process|}] = "undefined" then ""
   else
     let argv = [%raw {|process.argv|}] in
@@ -102,7 +97,6 @@ let caml_sys_executable_name () : string =
 
 (* Called by {!Sys} in the toplevel, should never fail*)
 let caml_sys_argv () : string array =
-  let module Js = Js_internal in
   if Js.typeof [%raw {|process|}] = "undefined" then [| "" |]
   else
     let argv = [%raw {|process.argv|}] in
@@ -111,7 +105,6 @@ let caml_sys_argv () : string array =
 (** {!Pervasives.sys_exit} *)
 let caml_sys_exit : int -> 'a =
  fun exit_code ->
-  let module Js = Js_internal in
   if Js.typeof [%raw {|process|}] <> "undefined" then
     exit [%raw {|process|}] exit_code
 

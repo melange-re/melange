@@ -38,3 +38,4 @@ val opaque : Longident.t
 val predef_some : Longident.t
 val predef_none : Longident.t
 val unsafe_downgrade : Longident.t
+val unsafe_to_method : Longident.t

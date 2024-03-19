@@ -68,7 +68,7 @@
   -mel-cross-module-opt
   -unsafe
   -open
-  Js__Melange_mini_stdlib))
+  Melange_mini_stdlib))
 
 (rule
  (target belt_HashSetString.ml)

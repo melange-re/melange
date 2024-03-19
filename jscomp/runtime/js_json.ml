@@ -28,12 +28,12 @@ open Melange_mini_stdlib
 type t
 
 type _ kind =
-  | String : Js_string.t kind
+  | String : string kind
   | Number : float kind
-  | Object : t Js_dict.t kind
+  | Object : t Js.Dict.t kind
   | Array : t array kind
   | Boolean : bool kind
-  | Null : Js_types.null_val kind
+  | Null : t Js.null kind
 
 type tagged_t =
   | JSONFalse
@@ -41,58 +41,55 @@ type tagged_t =
   | JSONNull
   | JSONString of string
   | JSONNumber of float
-  | JSONObject of t Js_dict.t
+  | JSONObject of t Js.Dict.t
   | JSONArray of t array
 
 let classify (x : t) : tagged_t =
-  let ty = Js_internal.typeof x in
+  let ty = Js.typeof x in
   if ty = "string" then JSONString (Obj.magic x)
   else if ty = "number" then JSONNumber (Obj.magic x)
   else if ty = "boolean" then if Obj.magic x = true then JSONTrue else JSONFalse
-  else if Obj.magic x == Js_internal.null then JSONNull
-  else if Js_array.isArray x then JSONArray (Obj.magic x)
+  else if Obj.magic x == Js.null then JSONNull
+  else if Js.Array.isArray x then JSONArray (Obj.magic x)
   else JSONObject (Obj.magic x)
 
 let test (type a) (x : 'a) (v : a kind) : bool =
   match v with
-  | Number -> Js_internal.typeof x = "number"
-  | Boolean -> Js_internal.typeof x = "boolean"
-  | String -> Js_internal.typeof x = "string"
-  | Null -> Obj.magic x == Js_internal.null
-  | Array -> Js_array.isArray x
+  | Number -> Js.typeof x = "number"
+  | Boolean -> Js.typeof x = "boolean"
+  | String -> Js.typeof x = "string"
+  | Null -> Obj.magic x == Js.null
+  | Array -> Js.Array.isArray x
   | Object ->
-      Obj.magic x != Js_internal.null
-      && Js_internal.typeof x = "object"
-      && not (Js_array.isArray x)
+      Obj.magic x != Js.null
+      && Js.typeof x = "object"
+      && not (Js.Array.isArray x)
 
 let decodeString json =
-  if Js_internal.typeof json = "string" then
-    Some (Obj.magic (json : t) : string)
+  if Js.typeof json = "string" then Some (Obj.magic (json : t) : string)
   else None
 
 let decodeNumber json =
-  if Js_internal.typeof json = "number" then Some (Obj.magic (json : t) : float)
+  if Js.typeof json = "number" then Some (Obj.magic (json : t) : float)
   else None
 
 let decodeObject json =
   if
-    Js_internal.typeof json = "object"
-    && (not (Js_array.isArray json))
-    && not ((Obj.magic json : 'a Js_internal.null) == Js_internal.null)
-  then Some (Obj.magic (json : t) : t Js_dict.t)
+    Js.typeof json = "object"
+    && (not (Js.Array.isArray json))
+    && not ((Obj.magic json : 'a Js.null) == Js.null)
+  then Some (Obj.magic (json : t) : t Js.Dict.t)
   else None
 
 let decodeArray json =
-  if Js_array.isArray json then Some (Obj.magic (json : t) : t array) else None
+  if Js.Array.isArray json then Some (Obj.magic (json : t) : t array) else None
 
 let decodeBoolean (json : t) =
-  if Js_internal.typeof json = "boolean" then Some (Obj.magic (json : t) : bool)
+  if Js.typeof json = "boolean" then Some (Obj.magic (json : t) : bool)
   else None
 
-let decodeNull json : _ Js_internal.null option =
-  if (Obj.magic json : 'a Js_internal.null) == Js_internal.null then
-    Some Js_internal.null
-  else None
+let decodeNull json : _ Js.null option =
+  if (Obj.magic json : 'a Js.null) == Js.null then Some Js.null else None
 
 (* external parse : string -> t = "parse"
    [@@mel.scope "JSON"] *)
@@ -105,7 +102,7 @@ external null : t = "null"
 external string : string -> t = "%identity"
 external number : float -> t = "%identity"
 external boolean : bool -> t = "%identity"
-external object_ : t Js_dict.t -> t = "%identity"
+external object_ : t Js.Dict.t -> t = "%identity"
 
 (* external array_ : t array -> t = "%identity" *)
 
@@ -113,7 +110,7 @@ external array : t array -> t = "%identity"
 external stringArray : string array -> t = "%identity"
 external numberArray : float array -> t = "%identity"
 external booleanArray : bool array -> t = "%identity"
-external objectArray : t Js_dict.t array -> t = "%identity"
+external objectArray : t Js.Dict.t array -> t = "%identity"
 external stringify : t -> string = "stringify" [@@mel.scope "JSON"]
 
 external stringifyWithSpace :

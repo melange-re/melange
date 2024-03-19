@@ -51,7 +51,7 @@ let to_method_callback loc (self : Ast_traverse.map) label pat body :
   let arity = List.length rev_extra_args in
   let arity_s = string_of_int arity in
   Pexp_apply
-    ( Exp.ident ~loc { loc; txt = Ldot (Ast_literal.js_oo, "unsafe_to_method") },
+    ( Exp.ident ~loc { loc; txt = Ast_literal.unsafe_to_method },
       [
         ( Nolabel,
           Exp.constraint_ ~loc
