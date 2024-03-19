@@ -3415,6 +3415,19 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
       continue ;
     };
   };
+  const branch$p = function (_left) {
+    while(true) {
+      const left = _left;
+      if (i.contents === l || test(/* '|' */124) || test(/* ')' */41)) {
+        return seq$2(Stdlib__List.rev(left));
+      }
+      _left = {
+        hd: piece(undefined),
+        tl: left
+      };
+      continue ;
+    };
+  };
   const regexp$p = function (_left) {
     while(true) {
       const left = _left;
@@ -3428,19 +3441,6 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
               tl: /* [] */0
             }
           });
-      continue ;
-    };
-  };
-  const branch$p = function (_left) {
-    while(true) {
-      const left = _left;
-      if (i.contents === l || test(/* '|' */124) || test(/* ')' */41)) {
-        return seq$2(Stdlib__List.rev(left));
-      }
-      _left = {
-        hd: piece(undefined),
-        tl: left
-      };
       continue ;
     };
   };
@@ -3741,6 +3741,38 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
       };
     }
   };
+  const piece = function (param) {
+    const r = atom(undefined);
+    if (accept(/* '*' */42)) {
+      return greedy_mod(repn(r, 0, undefined));
+    }
+    if (accept(/* '+' */43)) {
+      return greedy_mod(repn(r, 1, undefined));
+    }
+    if (accept(/* '?' */63)) {
+      return greedy_mod(repn(r, 0, 1));
+    }
+    if (!accept(/* '{' */123)) {
+      return r;
+    }
+    const i$1 = integer(undefined);
+    if (i$1 !== undefined) {
+      const j = accept(/* ',' */44) ? integer(undefined) : i$1;
+      if (!accept(/* '}' */125)) {
+        throw new Caml_js_exceptions.MelangeError(Parse_error, {
+                  MEL_EXN_ID: Parse_error
+                });
+      }
+      if (j !== undefined && j < i$1) {
+        throw new Caml_js_exceptions.MelangeError(Parse_error, {
+                  MEL_EXN_ID: Parse_error
+                });
+      }
+      return greedy_mod(repn(r, i$1, j));
+    }
+    i.contents = i.contents - 1 | 0;
+    return r;
+  };
   const $$char = function (param) {
     if (i.contents === l) {
       throw new Caml_js_exceptions.MelangeError(Parse_error, {
@@ -4026,38 +4058,6 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
               VAL: c$2
             };
     }
-  };
-  const piece = function (param) {
-    const r = atom(undefined);
-    if (accept(/* '*' */42)) {
-      return greedy_mod(repn(r, 0, undefined));
-    }
-    if (accept(/* '+' */43)) {
-      return greedy_mod(repn(r, 1, undefined));
-    }
-    if (accept(/* '?' */63)) {
-      return greedy_mod(repn(r, 0, 1));
-    }
-    if (!accept(/* '{' */123)) {
-      return r;
-    }
-    const i$1 = integer(undefined);
-    if (i$1 !== undefined) {
-      const j = accept(/* ',' */44) ? integer(undefined) : i$1;
-      if (!accept(/* '}' */125)) {
-        throw new Caml_js_exceptions.MelangeError(Parse_error, {
-                  MEL_EXN_ID: Parse_error
-                });
-      }
-      if (j !== undefined && j < i$1) {
-        throw new Caml_js_exceptions.MelangeError(Parse_error, {
-                  MEL_EXN_ID: Parse_error
-                });
-      }
-      return greedy_mod(repn(r, i$1, j));
-    }
-    i.contents = i.contents - 1 | 0;
-    return r;
   };
   const res = regexp$p(branch$p(/* [] */0));
   if (i.contents !== l) {
