@@ -41,6 +41,8 @@ Unreleased
   ([#1086](https://github.com/melange-re/melange/pull/1086)).
 - core: upgrade the OCaml type checker version to OCaml 5.2
   ([#1074](https://github.com/melange-re/melange/pull/1074))
+- core: upgrade the Stdlib to match OCaml 5.2's
+  ([#1078](https://github.com/melange-re/melange/pull/1078))
 
 3.0.0 2024-01-28
 ---------------
