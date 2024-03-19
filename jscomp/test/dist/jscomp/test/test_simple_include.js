@@ -27,6 +27,8 @@ const init = Stdlib__Array.init;
 
 const make_matrix = Stdlib__Array.make_matrix;
 
+const init_matrix = Stdlib__Array.init_matrix;
+
 const append = Stdlib__Array.append;
 
 const concat = Stdlib__Array.concat;
@@ -95,6 +97,8 @@ const stable_sort = Stdlib__Array.stable_sort;
 
 const fast_sort = Stdlib__Array.fast_sort;
 
+const shuffle = Stdlib__Array.shuffle;
+
 const to_seq = Stdlib__Array.to_seq;
 
 const to_seqi = Stdlib__Array.to_seqi;
@@ -107,6 +111,7 @@ const a = 3;
 
 exports.init = init;
 exports.make_matrix = make_matrix;
+exports.init_matrix = init_matrix;
 exports.append = append;
 exports.concat = concat;
 exports.sub = sub;
@@ -141,6 +146,7 @@ exports.combine = combine;
 exports.sort = sort;
 exports.stable_sort = stable_sort;
 exports.fast_sort = fast_sort;
+exports.shuffle = shuffle;
 exports.to_seq = to_seq;
 exports.to_seqi = to_seqi;
 exports.of_seq = of_seq;

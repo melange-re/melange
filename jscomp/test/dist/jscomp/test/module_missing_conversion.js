@@ -13,6 +13,7 @@ function f(x) {
 const XX = {
   init: Stdlib__Array.init,
   make_matrix: Stdlib__Array.make_matrix,
+  init_matrix: Stdlib__Array.init_matrix,
   append: Stdlib__Array.append,
   concat: Stdlib__Array.concat,
   sub: Stdlib__Array.sub,
@@ -47,6 +48,7 @@ const XX = {
   sort: Stdlib__Array.sort,
   stable_sort: Stdlib__Array.stable_sort,
   fast_sort: Stdlib__Array.fast_sort,
+  shuffle: Stdlib__Array.shuffle,
   to_seq: Stdlib__Array.to_seq,
   to_seqi: Stdlib__Array.to_seqi,
   of_seq: Stdlib__Array.of_seq,

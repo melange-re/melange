@@ -223,4 +223,4 @@ exports.add_digest_ib = add_digest_ib;
 exports.digest_file = digest_file;
 exports.test54 = test54;
 exports.test55 = test55;
-/* Stdlib__Scanf Not a pure module */
+/* Stdlib__Digest Not a pure module */
