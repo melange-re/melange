@@ -106,6 +106,12 @@ type 'a dict
 (** The type for a simple key-value dictionary abstraction over native
     JavaScript objects *)
 
+type 'a iterator
+(** The type for JavaScript iterators *)
+
+type 'a array_like
+(** The type for array-like objects in JavaScript *)
+
 external toOption : 'a nullable -> 'a option = "#nullable_to_opt"
 external undefinedToOption : 'a undefined -> 'a option = "#undefined_to_opt"
 external nullToOption : 'a null -> 'a option = "#null_to_opt"
@@ -168,20 +174,6 @@ external unsafe_ge : 'a -> 'a -> bool = "#unsafe_ge"
 
 type 'a t
 (** This used to be mark a Js object type. *)
-
-(**/**)
-
-(* module Private = struct
-  module Js_OO = struct
-    include Js.OO
-
-    (* NOTE(anmonteiro): unsafe_downgrade is exposed here instead of Js_OO
-       since it depends on `'a Js.t`, defined above. *)
-    external unsafe_downgrade : 'a t -> 'a = "#unsafe_downgrade"
-  end
-end
- *)
-(**/**)
 
 (*MODULE_ALIASES*)
 module Exn = Js_exn

@@ -25,7 +25,7 @@
 (** JavaScript Array API *)
 
 type 'a t = 'a array
-type 'a array_like
+type 'a array_like = 'a Js.array_like
 
 (* commented out until Melange has a plan for iterators
    type 'a array_iter = 'a array_like

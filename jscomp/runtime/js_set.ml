@@ -35,8 +35,8 @@ external clear : 'a t -> unit = "clear" [@@mel.send]
 external delete : value:'a -> bool = "delete" [@@mel.send.pipe: 'a t]
 external forEach : f:('a -> unit) -> unit = "forEach" [@@mel.send.pipe: 'a t]
 external has : value:'a -> bool = "has" [@@mel.send.pipe: 'a t]
-external values : 'a Js.Iterator.t = "values" [@@mel.send.pipe: 'a t]
-external entries : ('a * 'a) Js.Iterator.t = "entries" [@@mel.send.pipe: 'a t]
+external values : 'a Js.iterator = "values" [@@mel.send.pipe: 'a t]
+external entries : ('a * 'a) Js.iterator = "entries" [@@mel.send.pipe: 'a t]
 
 (*
  external difference : other:'a t -> 'a t = "difference" [@@mel.send.pipe: 'a t]
