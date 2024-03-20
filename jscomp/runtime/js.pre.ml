@@ -203,6 +203,7 @@ module Json = Js_json
 module Math = Js_math
 (** Provide bindings for JS [Math] object *)
 module Obj = Js_obj
+(** Provide utilities for `Js.t` *)
 module Typed_array = Js_typed_array
 (** Provide bindings for JS typed array *)
 module Types = Js_types
