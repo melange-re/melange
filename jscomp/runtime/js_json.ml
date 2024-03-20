@@ -30,7 +30,7 @@ type t
 type _ kind =
   | String : string kind
   | Number : float kind
-  | Object : t Js.Dict.t kind
+  | Object : t Js.dict kind
   | Array : t array kind
   | Boolean : bool kind
   | Null : t Js.null kind
@@ -41,7 +41,7 @@ type tagged_t =
   | JSONNull
   | JSONString of string
   | JSONNumber of float
-  | JSONObject of t Js.Dict.t
+  | JSONObject of t Js.dict
   | JSONArray of t array
 
 let classify (x : t) : tagged_t =
@@ -78,7 +78,7 @@ let decodeObject json =
     Js.typeof json = "object"
     && (not (Js.Array.isArray json))
     && not ((Obj.magic json : 'a Js.null) == Js.null)
-  then Some (Obj.magic (json : t) : t Js.Dict.t)
+  then Some (Obj.magic (json : t) : t Js.dict)
   else None
 
 let decodeArray json =
@@ -102,7 +102,7 @@ external null : t = "null"
 external string : string -> t = "%identity"
 external number : float -> t = "%identity"
 external boolean : bool -> t = "%identity"
-external object_ : t Js.Dict.t -> t = "%identity"
+external object_ : t Js.dict -> t = "%identity"
 
 (* external array_ : t array -> t = "%identity" *)
 
@@ -110,7 +110,7 @@ external array : t array -> t = "%identity"
 external stringArray : string array -> t = "%identity"
 external numberArray : float array -> t = "%identity"
 external booleanArray : bool array -> t = "%identity"
-external objectArray : t Js.Dict.t array -> t = "%identity"
+external objectArray : t Js.dict array -> t = "%identity"
 external stringify : t -> string = "stringify" [@@mel.scope "JSON"]
 
 external stringifyWithSpace :

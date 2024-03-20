@@ -623,4 +623,4 @@ external link : href:t -> t = "link"
 ]}
 *)
 
-external unsafeToArrayLike : t -> t Js.Array.array_like = "%identity"
+external unsafeToArrayLike : t -> t Js.array_like = "%identity"

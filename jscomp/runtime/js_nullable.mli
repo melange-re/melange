@@ -25,49 +25,49 @@
 (** Contains functionality for dealing with values that can be both [null] and [undefined] *)
 
 type +'a t = 'a Js.nullable
-(** Local alias for ['a Js.null_undefined] *)
+(** Local alias for ['a Js.nullable] *)
 
 external return : 'a -> 'a t = "%identity"
-(** Constructs a value of ['a Js.null_undefined] containing a value of ['a] *)
+(** Constructs a value of ['a Js.nullable] containing a value of ['a] *)
 
 external isNullable : 'a t -> bool = "#is_nullable"
 (** Returns [true] if the given value is [null] or [undefined], [false] otherwise *)
 
 external null : 'a t = "#null"
-(** The [null] value of type ['a Js.null_undefined]*)
+(** The [null] value of type ['a Js.nullable]*)
 
 external undefined : 'a t = "#undefined"
-(** The [undefined] value of type ['a Js.null_undefined] *)
+(** The [undefined] value of type ['a Js.nullable] *)
 
 val map : f:(('a -> 'b)[@u]) -> 'a t -> 'b t
 
 val bind : f:(('a -> 'b t)[@u]) -> 'a t -> 'b t
 (** Binds the contained value using the given function
 
-If ['a Js.null_undefined] contains a value, that value is unwrapped, mapped to
+If ['a Js.nullable] contains a value, that value is unwrapped, mapped to
 a ['b] using the given function [a' -> 'b], then wrapped back up and returned
-as ['b Js.null_undefined]
+as ['b Js.nullable]
 
 {[
-let maybeGreetWorld (maybeGreeting: string Js.null_undefined) =
-  Js.Undefined.bind maybeGreeting ~f:(fun greeting -> greeting ^ " world!")
+let maybeGreetWorld (maybeGreeting: string Js.nullable) =
+  Js.Nullable.bind maybeGreeting ~f:(fun greeting -> greeting ^ " world!")
 ]}
 *)
 
 val iter : f:(('a -> unit)[@u]) -> 'a t -> unit
 (** Iterates over the contained value with the given function
 
-If ['a Js.null_undefined] contains a value, that value is unwrapped and applied
+If ['a Js.nullable] contains a value, that value is unwrapped and applied
 to the given function.
 
 {[
-let maybeSay (maybeMessage: string Js.null_undefined) =
-  Js.Null_undefined.iter maybeMessage ~f:(fun message -> Js.log message)
+let maybeSay (maybeMessage: string Js.nullable) =
+  Js.Nullable.iter maybeMessage ~f:(fun message -> Js.log message)
 ]}
 *)
 
 val fromOption : 'a option -> 'a t
-(** Maps ['a option] to ['a Js.null_undefined]
+(** Maps ['a option] to ['a Js.nullable]
 
 {%html:
 <table>
@@ -78,7 +78,7 @@ val fromOption : 'a option -> 'a t
 *)
 
 external toOption : 'a t -> 'a option = "#nullable_to_opt"
-(** Maps ['a Js.null_undefined] to ['a option]
+(** Maps ['a Js.nullable] to ['a option]
 
 {%html:
 <table>
