@@ -8,6 +8,7 @@ Test `Js.Bigint` code generation
   $ cat > dune <<EOF
   > (melange.emit
   >  (target out)
+  >  (emit_stdlib false)
   >  (preprocess (pps melange.ppx)))
   > EOF
   $ cat > x.ml <<EOF

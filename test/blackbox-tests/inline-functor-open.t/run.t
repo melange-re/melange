@@ -20,7 +20,8 @@
   > (melange.emit
   >  (target _out)
   >  (modules)
-  >  (libraries samplelib_test))
+  >  (emit_stdlib false)
+  >  (libraries melange.js samplelib_test))
   > EOF
 
   $ dune build @melange
