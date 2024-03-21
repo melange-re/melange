@@ -1,7 +1,6 @@
 Showcase how to use `[@mel.meth]`
 
- $ . ./setup.sh
-
+  $ . ./setup.sh
   $ cat > dune-project <<EOF
   > (lang dune 3.8)
   > (using melange 0.1)
@@ -10,6 +9,7 @@ Showcase how to use `[@mel.meth]`
   > (melange.emit
   >  (target melange)
   >  (alias mel)
+  >  (emit_stdlib false)
   >  (preprocess (pps melange.ppx)))
   > EOF
 
