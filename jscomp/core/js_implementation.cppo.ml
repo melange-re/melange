@@ -94,12 +94,16 @@ let after_parsing_sig ppf fname ast =
     Typecore.force_delayed_checks ();
     Warnings.check_fatal ();
     if not !Clflags.print_types then
+#if OCAML_VERSION >= (5,2,0)
+      let unit_info =
+        Unit_info.make ~check_modname:false ~source_file:fname outputprefix
+      in
+#endif
       let sg =
         let alerts = Builtin_attributes.alerts_of_sig ast in
         Env.save_signature ~alerts tsg.Typedtree.sig_type
 #if OCAML_VERSION >= (5,2,0)
-          (Unit_info.make ~check_modname:false ~source_file:fname outputprefix
-           |> Unit_info.cmi)
+          (Unit_info.cmi unit_info)
 #else
           modulename
           (Artifact_extension.append_extension outputprefix Cmi)
