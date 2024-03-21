@@ -226,4 +226,3 @@ module WeakMap = Js_weakmap
 module Iterator = Js_iterator
 (** Provides bindings for ES6 iterators *)
 module OO = Js_OO
-module Mini_stdlib = Melange_mini_stdlib
