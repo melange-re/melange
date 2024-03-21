@@ -28,16 +28,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1710822551,
+        "lastModified": 1711060737,
         "narHash": "sha256-ZuZytZI1aU7u3vYNBrXgV2EhI3NV/nKHKNB9ze/Du1g=",
         "owner": "melange-re",
         "repo": "melange-compiler-libs",
-        "rev": "f11eb8be049b9a5ab99b18a14870f6ce8dc10873",
+        "rev": "dc042ce26dcd2e3871466def46b7fb52c99a9f00",
         "type": "github"
       },
       "original": {
         "owner": "melange-re",
-        "ref": "anmonteiro/adapt-to-new-js-lib",
         "repo": "melange-compiler-libs",
         "type": "github"
       }
@@ -65,11 +64,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1710999095,
-        "narHash": "sha256-WFUGvSia3Ick79ibJveXAtPB4uMOIKjwdsOvOC+8jjQ=",
+        "lastModified": 1711058227,
+        "narHash": "sha256-pro8ZrYmyEZPMyrGGLThBIw7ITRFYDydshoBi6S/1Ao=",
         "owner": "nix-ocaml",
         "repo": "nix-overlays",
-        "rev": "c487635da5a5a5474874126e0db408eec5c9f3c1",
+        "rev": "8d581054f95509da2bce23929c0f3f137b6b6c7a",
         "type": "github"
       },
       "original": {
@@ -80,17 +79,17 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1710938121,
-        "narHash": "sha256-AJBv/MEktbJ+sHf1G6rdPmde3IapsG/2/5TLsk6KfZk=",
+        "lastModified": 1711001935,
+        "narHash": "sha256-URtGpHue7HHZK0mrHnSf8wJ6OmMKYSsoLmJybrOLFSQ=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "66e2e75c671f9a674a28d340e59a0157efb6f905",
+        "rev": "20f77aa09916374aa3141cbc605c955626762c9a",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "66e2e75c671f9a674a28d340e59a0157efb6f905",
+        "rev": "20f77aa09916374aa3141cbc605c955626762c9a",
         "type": "github"
       }
     },
