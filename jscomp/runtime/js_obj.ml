@@ -22,28 +22,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Melange_mini_stdlib
+external empty : unit -> < .. > t = "" [@@mel.obj]
 
-(** Provides functionality for dealing with the ['a Js.undefined] type *)
+external assign : < .. > t -> < .. > t -> < .. > t = "assign"
+[@@mel.scope "Object"]
 
-type +'a t = 'a Js.undefined
+external merge : (_[@mel.as {json|{}|json}]) -> < .. > t -> < .. > t -> < .. > t
+  = "assign"
+[@@mel.scope "Object"]
+(** [merge obj1 obj2] assigns the properties in [obj2] to a copy of
+      [obj1]. The function returns a new object, and both arguments are not
+      mutated *)
 
-external toOption : 'a t -> 'a option = "#undefined_to_opt"
-external return : 'a -> 'a t = "%identity"
-external empty : 'a t = "#undefined"
-
-let testAny : 'a -> bool = fun x -> Obj.magic x = empty
-
-external getUnsafe : 'a t -> 'a = "%identity"
-
-let getExn f =
-  match toOption f with
-  | None -> Js.Exn.raiseError "Js.Undefined.getExn"
-  | Some x -> x
-
-let map ~f x =
-  match toOption x with None -> empty | Some x -> return (f x [@u])
-
-let bind ~f x = match toOption x with None -> empty | Some x -> f x [@u]
-let iter ~f x = match toOption x with None -> () | Some x -> f x [@u]
-let fromOption x = match x with None -> empty | Some x -> return x
+external keys : _ t -> string array = "keys" [@@mel.scope "Object"]

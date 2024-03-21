@@ -26,9 +26,9 @@ open Melange_mini_stdlib
 
 type nested = { depth : int [@mel.as "MEL_PRIVATE_NESTED_SOME_NONE"] }
 
-val nullable_to_opt : 'a Js_internal.nullable -> 'a option
-val undefined_to_opt : 'a Js_internal.undefined -> 'a option
-val null_to_opt : 'a Js_internal.null -> 'a option
+val nullable_to_opt : 'a Js.nullable -> 'a option
+val undefined_to_opt : 'a Js.undefined -> 'a option
+val null_to_opt : 'a Js.null -> 'a option
 val valFromOption : Obj.t -> Obj.t
 val some : Obj.t -> Obj.t
 val isNested : Obj.t -> bool

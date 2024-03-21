@@ -48,9 +48,9 @@ val mul : t -> t -> t
 val xor : t -> t -> t
 val or_ : t -> t -> t
 val and_ : t -> t -> t
-val equal_null : t -> t Js_internal.null -> bool
-val equal_undefined : t -> t Js_internal.undefined -> bool
-val equal_nullable : t -> t Js_internal.nullable -> bool
+val equal_null : t -> t Js.null -> bool
+val equal_undefined : t -> t Js.undefined -> bool
+val equal_nullable : t -> t Js.nullable -> bool
 val to_float : t -> float
 val of_float : float -> t
 val div : t -> t -> t

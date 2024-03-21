@@ -29,10 +29,6 @@
 type +'a t
 type error
 
-open struct
-  module Js = Js_internal
-end
-
 external make :
   ((resolve:(('a -> unit)[@u]) -> reject:((exn -> unit)[@u]) -> unit)
   [@mel.uncurry]) ->

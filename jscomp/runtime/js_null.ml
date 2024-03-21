@@ -24,20 +24,16 @@
 
 (** Provides functionality for dealing with the ['a Js.null] type *)
 
-type +'a t = 'a Js_internal.null
+type +'a t = 'a Js.null
 
 external toOption : 'a t -> 'a option = "#null_to_opt"
 external return : 'a -> 'a t = "%identity"
 external empty : 'a t = "#null"
 external getUnsafe : 'a t -> 'a = "%identity"
 
-open struct
-  module Js = Js_internal
-end
-
 let getExn f =
   match toOption f with
-  | None -> Js_exn.raiseError "Js.Null.getExn"
+  | None -> Js.Exn.raiseError "Js.Null.getExn"
   | Some x -> x
 
 let map ~f x =

@@ -63,19 +63,19 @@
         start: [Object],
         end: [Object],
         kind: 'expression',
-        hint: "'a Js__Js_internal.null"
+        hint: "'a Js.null"
       },
       {
         start: [Object],
         end: [Object],
         kind: 'pattern_type',
-        hint: "'a Js__Js_internal.null"
+        hint: "'a Js.null"
       },
       {
         start: [Object],
         end: [Object],
         kind: 'binding',
-        hint: "'a Js__Js_internal.null"
+        hint: "'a Js.null"
       }
     ]
   }

@@ -41,13 +41,13 @@ let maybeMatches = Js.String.exec ~str:"banana" [\[%re "/na+/g"\]]
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions> JavaScript Regular Expressions Guide on MDN
 *)
 
-type t
+type t = Js.re
 (** the RegExp object *)
 
 type result
 (** the result of a executing a RegExp on a string *)
 
-external captures : result -> string Js_internal.nullable array = "%identity"
+external captures : result -> string Js.nullable array = "%identity"
 (** an array of the match and captures, the first is the full match and the remaining are the substring captures *)
 
 external index : result -> int = "index"

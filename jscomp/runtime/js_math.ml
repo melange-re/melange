@@ -99,10 +99,21 @@ external unsafe_ceil_int : float -> int = "ceil"
 [@@mel.scope "Math"]
 (** may return values not representable by [int] *)
 
+open struct
+  module Int = struct
+    type t = int
+
+    external toFloat : t -> float = "%floatofint"
+
+    let max : t = 2147483647
+    let min : t = -2147483648
+  end
+end
+
 (** smallest int greater than or equal to the argument *)
 let ceil_int (f : float) : int =
-  if f > Js_int.toFloat Js_int.max then Js_int.max
-  else if f < Js_int.toFloat Js_int.min then Js_int.min
+  if f > Int.toFloat Int.max then Int.max
+  else if f < Int.toFloat Int.min then Int.min
   else unsafe_ceil_int f
 
 external ceil_float : float -> float = "ceil"
@@ -137,8 +148,8 @@ external unsafe_floor_int : float -> int = "floor"
 
 (** largest int greater than or equal to the arugment *)
 let floor_int f =
-  if f > Js_int.toFloat Js_int.max then Js_int.max
-  else if f < Js_int.toFloat Js_int.min then Js_int.min
+  if f > Int.toFloat Int.max then Int.max
+  else if f < Int.toFloat Int.min then Int.min
   else unsafe_floor_int f
 
 external floor_float : float -> float = "floor" [@@mel.scope "Math"]
@@ -216,8 +227,7 @@ external random : unit -> float = "random"
 (** random number in \[0,1) *)
 
 (** random number in \[min,max) *)
-let random_int min max =
-  floor_int (random () *. Js_int.toFloat (max - min)) + min
+let random_int min max = floor_int (random () *. Int.toFloat (max - min)) + min
 
 external unsafe_round : float -> int = "round"
 [@@mel.scope "Math"]

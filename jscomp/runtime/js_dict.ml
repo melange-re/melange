@@ -25,7 +25,7 @@
 open Melange_mini_stdlib
 (** Provides a simple key-value dictionary abstraction over native JavaScript objects *)
 
-type 'a t
+type 'a t = 'a Js.dict
 (** The dict type *)
 
 type key = string
@@ -39,10 +39,6 @@ external unsafeGet : 'a t -> key -> 'a = ""
     exist in [dict]. It will not throw an error. *)
 
 let ( .!() ) = unsafeGet
-
-open struct
-  module Js = Js_internal
-end
 
 (** [get dict key] returns the value associated with [key] in [dict] *)
 let get (type u) (dict : u t) (k : key) : u option =
@@ -70,20 +66,20 @@ external unsafeCreateArray : int -> 'a array = "Array" [@@mel.new]
 
 let entries dict =
   let keys = keys dict in
-  let l = Js_array.length keys in
+  let l = Js.Array.length keys in
   let values = unsafeCreateArray l in
   for i = 0 to l - 1 do
-    let key = Js_array.unsafe_get keys i in
-    Js_array.unsafe_set values i (key, dict.!(key))
+    let key = Js.Array.unsafe_get keys i in
+    Js.Array.unsafe_set values i (key, dict.!(key))
   done;
   values
 
 let values dict =
   let keys = keys dict in
-  let l = Js_array.length keys in
+  let l = Js.Array.length keys in
   let values = unsafeCreateArray l in
   for i = 0 to l - 1 do
-    Js_array.unsafe_set values i dict.!(Js_array.unsafe_get keys i)
+    Js.Array.unsafe_set values i dict.!(Js.Array.unsafe_get keys i)
   done;
   values
 
@@ -99,9 +95,9 @@ let fromList entries =
 
 let fromArray entries =
   let dict = empty () in
-  let l = Js_array.length entries in
+  let l = Js.Array.length entries in
   for i = 0 to l - 1 do
-    let key, value = Js_array.unsafe_get entries i in
+    let key, value = Js.Array.unsafe_get entries i in
     set dict key value
   done;
   dict
@@ -109,9 +105,9 @@ let fromArray entries =
 let map ~f source =
   let target = empty () in
   let keys = keys source in
-  let l = Js_array.length keys in
+  let l = Js.Array.length keys in
   for i = 0 to l - 1 do
-    let key = Js_array.unsafe_get keys i in
+    let key = Js.Array.unsafe_get keys i in
     set target key (f (unsafeGet source key) [@u])
   done;
   target
