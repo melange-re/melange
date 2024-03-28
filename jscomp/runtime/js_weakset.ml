@@ -25,3 +25,8 @@
 (** ES6 WeakSet API *)
 
 type 'a t
+
+external make : unit -> 'a t = "WeakSet" [@@mel.new]
+external add : value:'a Js.dict -> 'a t = "add" [@@mel.send.pipe: 'a t]
+external delete : value:'a Js.dict -> bool = "delete" [@@mel.send.pipe: 'a t]
+external has : value:'a Js.dict -> bool = "has" [@@mel.send.pipe: 'a t]

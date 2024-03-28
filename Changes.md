@@ -43,6 +43,8 @@ Unreleased
   ([#1074](https://github.com/melange-re/melange/pull/1074))
 - core: upgrade the Stdlib to match OCaml 5.2's
   ([#1078](https://github.com/melange-re/melange/pull/1078))
+- runtime: add bindings for functions in `WeakMap` and `WeakSet`
+  ([#1058](https://github.com/melange-re/melange/pull/1058))
 
 3.0.0 2024-01-28
 ---------------

@@ -25,3 +25,13 @@
 (** ES6 WeakMap API *)
 
 type ('k, 'v) t
+
+external make : unit -> ('k, 'v) t = "WeakMap" [@@mel.new]
+external get : key:'k Js.dict -> 'v option = "get" [@@mel.send.pipe: ('k, 'v) t]
+external has : key:'k Js.dict -> bool = "has" [@@mel.send.pipe: ('k, 'v) t]
+
+external set : key:'k Js.dict -> value:'v -> ('k, 'v) t = "set"
+[@@mel.send.pipe: ('k, 'v) t]
+
+external delete : key:'k Js.dict -> bool = "delete"
+[@@mel.send.pipe: ('k, 'v) t]
