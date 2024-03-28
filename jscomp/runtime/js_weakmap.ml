@@ -27,14 +27,11 @@
 type ('k, 'v) t
 
 external make : unit -> ('k, 'v) t = "WeakMap" [@@mel.new]
+external get : key:'k Js.dict -> 'v option = "get" [@@mel.send.pipe: ('k, 'v) t]
+external has : key:'k Js.dict -> bool = "has" [@@mel.send.pipe: ('k, 'v) t]
 
-external get : key:'k Js_dict.t -> 'v option = "get"
+external set : key:'k Js.dict -> value:'v -> ('k, 'v) t = "set"
 [@@mel.send.pipe: ('k, 'v) t]
 
-external has : key:'k Js_dict.t -> bool = "has" [@@mel.send.pipe: ('k, 'v) t]
-
-external set : key:'k Js_dict.t -> value:'v -> ('k, 'v) t = "set"
-[@@mel.send.pipe: ('k, 'v) t]
-
-external delete : key:'k Js_dict.t -> bool = "delete"
+external delete : key:'k Js.dict -> bool = "delete"
 [@@mel.send.pipe: ('k, 'v) t]
