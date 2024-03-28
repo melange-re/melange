@@ -27,10 +27,6 @@
 type 'a t = 'a array
 type 'a array_like = 'a Js.array_like
 
-(* commented out until Melange has a plan for iterators
-   type 'a array_iter = 'a array_like
-*)
-
 external from : 'a array_like -> 'a array = "from" [@@mel.scope "Array"]
 (* ES2015 *)
 
@@ -120,9 +116,7 @@ external toLocaleString : 'a t -> string = "toLocaleString" [@@mel.send]
 
 (** Iteration functions *)
 
-(* commented out until Melange has a plan for iterators
-   external entries : 'a t -> (int * 'a) array_iter = "" [@@mel.send] (* ES2015 *)
-*)
+external entries : 'a t -> (int * 'a) Js.iterator = "entries" [@@mel.send]
 
 external every : f:(('a -> bool)[@mel.uncurry]) -> bool = "every"
 [@@mel.send.pipe: 'a t]
@@ -158,9 +152,7 @@ external forEach : f:(('a -> unit)[@mel.uncurry]) -> unit = "forEach"
 external forEachi : f:(('a -> int -> unit)[@mel.uncurry]) -> unit = "forEach"
 [@@mel.send.pipe: 'a t]
 
-(* commented out until Melange has a plan for iterators
-   external keys : 'a t -> int array_iter = "" [@@mel.send] (* ES2015 *)
-*)
+external keys : 'a t -> int Js.iterator = "keys" [@@mel.send]
 
 external map : f:(('a -> 'b)[@mel.uncurry]) -> 'b t = "map"
 [@@mel.send.pipe: 'a t]
@@ -189,8 +181,6 @@ external some : f:(('a -> bool)[@mel.uncurry]) -> bool = "some"
 external somei : f:(('a -> int -> bool)[@mel.uncurry]) -> bool = "some"
 [@@mel.send.pipe: 'a t]
 
-(* commented out until Melange has a plan for iterators
-   external values : 'a t -> 'a array_iter = "" [@@mel.send] (* ES2015 *) *)
-
+external values : 'a t -> 'a Js.iterator = "values" [@@mel.send]
 external unsafe_get : 'a array -> int -> 'a = "%array_unsafe_get"
 external unsafe_set : 'a array -> int -> 'a -> unit = "%array_unsafe_set"
