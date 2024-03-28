@@ -46,7 +46,6 @@
    (>= "0.30.0"))
   (menhir
    (>= 20201214))
-  pp
   (reason-react-ppx
    (and :with-test :post))
   (merlin :with-test)))

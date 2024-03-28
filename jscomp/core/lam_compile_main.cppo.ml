@@ -152,7 +152,7 @@ let compile
         Log.warn ~loc:(Loc.of_pos __POS__)
           (Pp.concat
             [ (Pp.verbatim "Before simplify_alias: ")
-            ; Pp.of_fmt Lam_stats.print meta
+            ; Lam_stats.print meta
             ; Pp.newline])
       in
 #endif
@@ -196,7 +196,7 @@ let compile
            ~loc:(Loc.of_pos __POS__)
            (Pp.concat
              [ Pp.verbatim "Before coercion:"
-             ; Pp.of_fmt Lam_stats.print meta
+             ; Lam_stats.print meta
              ; Pp.newline
              ]);
          Lam_check.check !Location.input_name lam)
@@ -212,7 +212,7 @@ let () =
   Log.warn ~loc:(Loc.of_pos __POS__)
     (Pp.concat
       [ Pp.verbatim "After coercion: "
-      ; Pp.of_fmt Lam_stats.print meta
+      ; Lam_stats.print meta
       ; Pp.newline
       ]);
   if !Js_config.diagnose then

@@ -51,20 +51,38 @@ type t = {
   *)
 }
 
-let pp = Format.fprintf
-
 (* let pp_alias_tbl fmt (tbl : alias_tbl) =
    Ident.Hash.iter  tbl (fun k v -> pp fmt "@[%a -> %a@]@." Ident.print k Ident.print v) *)
 
-let pp_ident_tbl fmt (ident_tbl : ident_tbl) =
-  Ident.Hash.iter ident_tbl (fun k v ->
-      pp fmt "@[%a -> %a@]@." Ident.print k Lam_id_kind.print v)
+let pp_ident_tbl (ident_tbl : ident_tbl) =
+  Ident.Hash.to_list ident_tbl (fun k v ->
+      Pp.box
+        (Pp.concat
+           [
+             Pp.text (Format.asprintf "%a" Ident.print k);
+             Pp.text " -> ";
+             Pp.text (Format.asprintf "%a" Lam_id_kind.print v);
+           ]))
+  |> Pp.concat ~sep:Pp.newline
 
-let print fmt (v : t) =
-  pp fmt "@[Ident table:@ @[%a@]@]" pp_ident_tbl v.ident_tbl;
-  pp fmt "@[exports:@ @[%a@]@]"
-    (Format.pp_print_list ~pp_sep:(fun fmt () -> pp fmt "@ ;") Ident.print)
-    v.exports
+let print (v : t) =
+  Pp.concat ~sep:Pp.newline
+    [
+      Pp.box
+        (Pp.concat ~sep:Pp.space
+           [ Pp.text "Ident table:"; Pp.box (pp_ident_tbl v.ident_tbl) ]);
+      Pp.box
+        (Pp.concat ~sep:Pp.space
+           [
+             Pp.text "exports:";
+             Pp.box
+               (Pp.concat ~sep:(Pp.text "; ")
+                  (List.map
+                     ~f:(fun export ->
+                       Pp.text (Format.asprintf "%a" Ident.print export))
+                     v.exports));
+           ]);
+    ]
 
 let make ~export_idents ~export_ident_sets : t =
   {
