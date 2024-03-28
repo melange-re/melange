@@ -7,6 +7,15 @@
     %{target}
     (run awk -f %{dep:expand_module_aliases.awk} %{deps})))))
 
+(rule
+ (deps js.pre.mli)
+ (target js.mli)
+ (action
+  (progn
+   (with-stdout-to
+    %{target}
+    (run awk -f %{dep:expand_module_aliases.awk} %{deps})))))
+
 (library
  (public_name melange.js)
  (name js)
