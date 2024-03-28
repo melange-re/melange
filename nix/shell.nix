@@ -33,6 +33,7 @@ mkShell {
     cacert
     curl
     ocamlPackages.dune-release
+    ocamlPackages.odoc
     git
   ]);
   shellHook = ''
