@@ -12,8 +12,7 @@
 #*                                                                        *
 #**************************************************************************
 
-# This script adds the Js__ prefixes to the module aliases in
-# js.ml
+# This script adds the Js__ prefixes to the module aliases in js.ml
 BEGIN { state=0 }
 NR == 1 { printf ("# 1 \"%s\"\n", FILENAME) }
 /\(\*MODULE_ALIASES\*\)\r?/ { state=1 }

@@ -28,7 +28,6 @@
 *)
 
 type array_buffer
-type 'a array_like (* should be shared with js_array *)
 
 module ArrayBuffer = struct
   (** The underlying buffer that the typed arrays provide views of
@@ -105,9 +104,8 @@ end
   external toLocaleString : t -> string = "toLocaleString" [@@mel.send]\
   \
   (* Iteration functions *)\
-  (* commented out until bs has a plan for iterators
-  external entries : t -> (int * elt) array_iter = "" [@@mel.send]
-  *)\
+  external entries : t -> (int * elt) Js.iterator = "entries" [@@mel.send]\
+  \
   external every : f:(elt  -> bool [@mel.uncurry]) -> bool = "every" [@@mel.send.pipe: t]\
   external everyi : f:(elt -> int -> bool [@mel.uncurry]) -> bool = "every" [@@mel.send.pipe: t]\
   \
@@ -124,9 +122,7 @@ end
   external forEach : f:(elt -> unit [@mel.uncurry]) -> unit = "forEach" [@@mel.send.pipe: t]\
   external forEachi : f:(elt -> int -> unit [@mel.uncurry]) -> unit  = "forEach" [@@mel.send.pipe: t]\
   \
-  (* commented out until bs has a plan for iterators
-  external keys : t -> int array_iter = "" [@@mel.send]
-  *)\
+  external keys : t -> int Js.iterator = "keys" [@@mel.send]\
   \
   external map : f:(elt  -> 'b [@mel.uncurry]) -> 'b typed_array = "map" [@@mel.send.pipe: t]\
   external mapi : f:(elt -> int ->  'b [@mel.uncurry]) -> 'b typed_array = "map" [@@mel.send.pipe: t]\
@@ -148,12 +144,10 @@ end
       @param offset is in bytes, length in elements *)\
   \
   external fromLength : int -> t = STRINGIFY(moduleName) [@@mel.new]\
-  external from : elt array_like -> t = STRINGIFY(moduleName.from) \
-  (* *Array.of is redundant, use make *)
-
-  (* commented out until bs has a plan for iterators
-  external values : t -> elt array_iter = "" [@@mel.send]
-  *)
+  external from : elt Js.array_like -> t = STRINGIFY(moduleName.from) \
+  (* *Array.of is redundant, use make *)\
+  \
+  external values : t -> elt Js.iterator = "values" [@@mel.send]
 
 module Int8Array = struct
   COMMON_EXTERNALS(Int8Array,int)
