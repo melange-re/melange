@@ -25,3 +25,24 @@
 (** ES6 Map API *)
 
 type ('k, 'v) t
+
+external make : unit -> ('k, 'v) t = "Map" [@@mel.new]
+external fromArray : ('k * 'v) array -> ('k, 'v) t = "Map" [@@mel.new]
+external toArray : ('k, 'v) t -> ('k * 'v) array = "Array.from"
+external size : ('k, 'v) t -> int = "size" [@@mel.get]
+external has : key:'k -> bool = "has" [@@mel.send.pipe: ('k, 'v) t]
+
+external set : key:'k -> value:'v -> ('k, 'v) t = "set"
+[@@mel.send.pipe: ('k, 'v) t]
+
+external clear : ('k, 'v) t -> unit = "clear" [@@mel.send]
+external delete : key:'k -> bool = "delete" [@@mel.send.pipe: ('k, 'v) t]
+
+external forEach : f:(('v -> 'k -> ('k, 'v) t -> unit)[@u]) -> unit = "forEach"
+[@@mel.send.pipe: ('k, 'v) t]
+
+external keys : 'k Js.iterator = "keys" [@@mel.send.pipe: ('k, 'v) t]
+external values : 'v Js.iterator = "values" [@@mel.send.pipe: ('k, 'v) t]
+
+external entries : ('k * 'v) Js.iterator = "entries"
+[@@mel.send.pipe: ('k, 'v) t]
