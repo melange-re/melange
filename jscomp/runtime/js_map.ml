@@ -24,6 +24,8 @@
 
 (** ES6 Map API *)
 
+open Melange_mini_stdlib
+
 type ('k, 'v) t
 
 external make : unit -> ('k, 'v) t = "Map" [@@mel.new]
@@ -31,6 +33,10 @@ external fromArray : ('k * 'v) array -> ('k, 'v) t = "Map" [@@mel.new]
 external toArray : ('k, 'v) t -> ('k * 'v) array = "Array.from"
 external size : ('k, 'v) t -> int = "size" [@@mel.get]
 external has : key:'k -> bool = "has" [@@mel.send.pipe: ('k, 'v) t]
+external unsafeGet : key:'k -> 'v = "get" [@@mel.send.pipe: ('k, 'v) t]
+
+let get ~key map =
+  if map |> has ~key then Some (unsafeGet ~key map) else None
 
 external set : key:'k -> value:'v -> ('k, 'v) t = "set"
 [@@mel.send.pipe: ('k, 'v) t]

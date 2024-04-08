@@ -24,6 +24,13 @@ let suites = Mt.[
     let map = Js.Map.fromArray [|(1, "one"); (2, "two")|] in
     Eq(false, Js.Map.has map ~key:3)
   );
+  "get", (fun _ -> 
+    let map = Js.Map.fromArray [|(1, "one"); (2, "two")|] in
+    let one = map |> Js.Map.get ~key:1 in
+    let two = map |> Js.Map.get ~key:2 in
+    let three = map |> Js.Map.get ~key:3 in
+    Eq([|Some "one"; Some "two"; None|], [|one; two; three|])
+  );
   "set", (fun _ ->
     let map = Js.Map.(make () |> set ~key:1 ~value:"one" |> set ~key:2 ~value:"two" ) in
     Eq([|(1, "one"); (2, "two")|], Js.Map.toArray map)
