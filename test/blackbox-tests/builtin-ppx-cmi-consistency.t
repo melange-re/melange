@@ -56,13 +56,4 @@ and B (transitive)
   > let t = 2
   > EOF
 
-  $ dune build @mel --display=short
-           ppx lib/d.pp.ml
-      ocamldep lib/.my_lib.objs/my_lib__D.impl.d
-          melc lib/.my_lib.objs/melange/my_lib__D.{cmi,cmj,cmt}
-          melc output/lib/d.js
-          melc lib/.my_lib.objs/melange/my_lib__C.{cmi,cmj,cmt}
-          melc lib/.my_lib.objs/melange/my_lib__A.{cmi,cmj,cmt}
-          melc lib/.my_lib.objs/melange/my_lib__B.{cmi,cmj,cmt}
-          melc .output.mobjs/melange/melange__Main.{cmi,cmj,cmt}
-          melc output/main.js
+  $ dune build @mel
