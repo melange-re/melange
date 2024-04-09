@@ -29,8 +29,6 @@
 (* TODO: see GPR#333
    the encoding of int is platform dependent *)
 
-open Melange_mini_stdlib
-
 let%private { shift_right_logical = ( >>>~ ); add = ( +~ ); mul = ( *~ ) } =
   (module Caml_nativeint_extern)
 

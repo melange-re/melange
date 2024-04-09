@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Melange_mini_stdlib
-
 let caml_int_compare (x : int) (y : int) : int =
   if x < y then -1 else if x = y then 0 else 1
 

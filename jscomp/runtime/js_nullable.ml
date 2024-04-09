@@ -24,8 +24,6 @@
 
 (** Contains functionality for dealing with values that can be both [null] and [undefined] *)
 
-open Melange_mini_stdlib
-
 type +'a t = 'a Js.nullable
 
 external toOption : 'a t -> 'a option = "#nullable_to_opt"

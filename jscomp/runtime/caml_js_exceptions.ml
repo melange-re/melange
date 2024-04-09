@@ -1,5 +1,3 @@
-open Melange_mini_stdlib
-
 type t = Any : 'a -> t [@@unboxed]
 type js_error = { cause : exn }
 
