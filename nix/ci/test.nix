@@ -23,7 +23,7 @@ let
       })
     ];
   };
-  inherit (pkgs) stdenv nodejs yarn git lib nodePackages ocamlPackages tree;
+  inherit (pkgs) stdenv nodejs_latest yarn git lib nodePackages ocamlPackages tree;
   packages = rec {
     melange = pkgs.callPackage ./.. {
       inherit nix-filter;
@@ -59,7 +59,7 @@ stdenv.mkDerivation {
     nodePackages.mocha
     ocamlPackages.reason
     tree
-    nodejs
+    nodejs_latest
     yarn
   ];
   buildInputs = [
