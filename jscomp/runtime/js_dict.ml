@@ -22,7 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Melange_mini_stdlib
 (** Provides a simple key-value dictionary abstraction over native JavaScript objects *)
 
 type 'a t = 'a Js.dict

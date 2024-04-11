@@ -1,3 +1,12 @@
+(library
+ (name melange_mini_stdlib)
+ (package melange)
+ (modules melange_mini_stdlib)
+ (preprocess
+  (pps melange.ppx -unsafe))
+ (modes melange)
+ (melange.compile_flags -nostdlib -nopervasives))
+
 (rule
  (deps js.pre.ml)
  (target js.ml)
@@ -20,11 +29,15 @@
  (public_name melange.js)
  (name js)
  (modes melange)
+ (modules :standard \ melange_mini_stdlib)
  (stdlib
-  (internal_modules Melange_mini_stdlib Caml* Curry))
+  (internal_modules Caml* Curry))
  (preprocess
   (pps melange.ppx -unsafe))
+ (libraries melange_mini_stdlib)
  (melange.compile_flags
+  -open
+  Melange_mini_stdlib
   -mel-no-check-div-by-zero
   -mel-cross-module-opt
   -unsafe))

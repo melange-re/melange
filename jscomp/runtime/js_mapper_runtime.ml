@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Melange_mini_stdlib
-
 external ( .!() ) : int array -> int -> int = "" [@@mel.get_index]
 
 let raiseWhenNotFound x = if Js.testAny x then raise Not_found else x

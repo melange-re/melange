@@ -26,8 +26,6 @@
     due to we believe this is an even low level dependency
 *)
 
-open Melange_mini_stdlib
-
 [@@@ocaml.warning "-unused-constructor"] (* `Function` may be used in runtime *)
 
 type shape =
