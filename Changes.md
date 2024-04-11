@@ -45,6 +45,8 @@ Unreleased
   ([#1078](https://github.com/melange-re/melange/pull/1078))
 - runtime: add bindings for functions in `WeakMap` and `WeakSet`
   ([#1058](https://github.com/melange-re/melange/pull/1058))
+- runtime: add bindings to `Js.Map`
+  ([#1101](https://github.com/melange-re/melange/pull/1101))
 
 3.0.0 2024-01-28
 ---------------
