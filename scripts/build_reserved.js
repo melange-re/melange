@@ -5,7 +5,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 const puppeteer = require('puppeteer');
 
-const jscompDir = path.join(__dirname, '..', 'jscomp', 'ext', 'gen');
+const jscompDir = path.join(__dirname, '..', 'jscomp', 'melstd', 'gen');
 const keywordsFile = path.join(jscompDir, 'keywords.list');
 const reservedMap = path.join(jscompDir, 'ext', 'js_reserved_map.ml');
 
