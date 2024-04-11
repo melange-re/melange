@@ -26,7 +26,7 @@ Test an edge of recursive modules with an inner component that is mangled
   > EOF
 
   $ dune b
-  $ node _build/default/out/x.js
+  $ node _build/default/out/x.js 2>&1 | grep -v Node
   $TESTCASE_ROOT/_build/default/out/node_modules/melange.js/caml_module.js:78
           aux(match[0], o[name], n[name], o, name);
                                   ^
@@ -42,5 +42,3 @@ Test an edge of recursive modules with an inner component that is mangled
       at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:142:12)
       at node:internal/main/run_main_module:28:49
   
-  Node.js v21.7.2
-  [1]
