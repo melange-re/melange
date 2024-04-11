@@ -255,14 +255,11 @@ module Scope = struct
       Here we can guarantee that if mangled name and stamp are not all the same
       they can not have a collision *)
   let str_of_ident (cxt : t) (id : Ident.t) : string * t =
-    if Mel_ident.is_js id then
-      (* reserved by compiler *)
-      (Ident.name id, cxt)
-    else
-      let id_name = Ident.name id in
-      let name = Mel_ident.convert id_name in
-      let i, new_cxt = add_ident ~mangled:name (Mel_ident.stamp id) cxt in
-      ((if i == 0 then name else Printf.sprintf "%s$%d" name i), new_cxt)
+    match Mel_ident.Mangled.of_ident id with
+    | Reserved name -> (name, cxt)
+    | Mangled name ->
+        let i, new_cxt = add_ident ~mangled:name (Mel_ident.stamp id) cxt in
+        ((if i == 0 then name else Printf.sprintf "%s$%d" name i), new_cxt)
 
   let ident (cxt : t) f (id : Ident.t) : t =
     let str, cxt = str_of_ident cxt id in

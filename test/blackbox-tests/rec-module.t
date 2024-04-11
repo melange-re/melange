@@ -23,13 +23,10 @@ Test an edge of recursive modules with an inner component that is mangled
   >     let wow () = "string"
   >   end
   > end
+  > let () = Js.log (X.Date.wow ())
   > EOF
 
-  $ dune b
-  $ node _build/default/out/x.js 2>&1 | grep -v Node | grep -vE '\s+at'
-  $TESTCASE_ROOT/_build/default/out/node_modules/melange.js/caml_module.js:78
-          aux(match[0], o[name], n[name], o, name);
-                                  ^
-  
-  TypeError: Cannot read properties of undefined (reading 'wow')
-  
+  $ dune b @melange
+  $ node _build/default/out/x.js
+  string
+

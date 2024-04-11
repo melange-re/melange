@@ -47,6 +47,9 @@ Unreleased
   ([#1058](https://github.com/melange-re/melange/pull/1058))
 - runtime: add bindings to `Js.Map`
   ([#1101](https://github.com/melange-re/melange/pull/1101))
+- core: fix a recursive module code generation bug when submodule names inside
+  recursive modules are mangled
+  ([#1111](https://github.com/melange-re/melange/pull/1111))
 
 3.0.0 2024-01-28
 ---------------

@@ -160,3 +160,17 @@ let compare (x : Ident.t) (y : Ident.t) =
 let equal (x : Ident.t) (y : Ident.t) =
   if stamp x <> 0 then stamp x = stamp y
   else stamp y = 0 && Ident.name x = Ident.name y
+
+module Mangled = struct
+  type t = Reserved of string | Mangled of string
+
+  let of_ident (id : Ident.t) : t =
+    if is_js id then
+      (* reserved by compiler *)
+      Reserved (Ident.name id)
+    else
+      let id_name = Ident.name id in
+      Mangled (convert id_name)
+
+  let to_string = function Reserved name | Mangled name -> name
+end

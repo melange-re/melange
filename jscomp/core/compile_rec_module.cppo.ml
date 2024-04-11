@@ -160,3 +160,6 @@ let eval_rec_bindings (bindings : binding list) cont =
           bindings,
         cont )
   else eval_rec_bindings_aux bindings cont
+
+let mangle_ident id =
+  Ident.Mangled.of_ident id |> Ident.Mangled.to_string
