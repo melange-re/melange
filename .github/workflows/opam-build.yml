@@ -66,8 +66,7 @@ jobs:
       - name: Install all deps
         working-directory: melange-opam-template
         run: |
-          opam pin add reason-react-ppx.dev git+https://github.com/reasonml/reason-react
-          opam pin add reason-react.dev git+https://github.com/reasonml/reason-react
+          opam install -y reason-react
           npm install
 
       - name: Build basic template
