@@ -43,3 +43,10 @@ val convert : string -> string
 val is_js_or_global : Ident.t -> bool
 val compare : Ident.t -> Ident.t -> int
 val equal : Ident.t -> Ident.t -> bool
+
+module Mangled : sig
+  type t = Reserved of string | Mangled of string
+
+  val of_ident : Ident.t -> t
+  val to_string : t -> string
+end
