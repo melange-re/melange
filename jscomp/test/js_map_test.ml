@@ -24,7 +24,7 @@ let suites = Mt.[
     let map = Js.Map.fromArray [|(1, "one"); (2, "two")|] in
     Eq(false, Js.Map.has map ~key:3)
   );
-  "get", (fun _ -> 
+  "get", (fun _ ->
     let map = Js.Map.fromArray [|(1, "one"); (2, "two")|] in
     let one = map |> Js.Map.get ~key:1 in
     let two = map |> Js.Map.get ~key:2 in
@@ -50,7 +50,7 @@ let suites = Mt.[
     let map_1 = Js.Map.make () in
     let map_2 = Js.Map.set ~key:1 ~value:"one" map_1 in
     let map_3 = Js.Map.set ~key:2 ~value:"two" map_2 in
-    let all_same_size = 
+    let all_same_size =
       let size = 2 in
       Js.Map.size map_1 = size && Js.Map.size map_2 = size && Js.Map.size map_3 = size in
     let all_same_ref = map_1 == map_2 && map_2 == map_3 in
@@ -59,7 +59,9 @@ let suites = Mt.[
   "forEach", (fun _ ->
     let map = Js.Map.fromArray [|(1, "one"); (2, "two")|] in
     let arr = ref [||] in
-    map |> Js.Map.forEach ~f:(fun [@u] value key _ -> let _ = Js.Array.push !arr ~value:(key, value) in ());
+    map |> Js.Map.forEach ~f:(fun value key _ ->
+      let _ = Js.Array.push !arr ~value:(key, value) in
+      ());
     Eq([|(1, "one"); (2, "two")|], !arr)
   );
   "keys", (fun _ ->

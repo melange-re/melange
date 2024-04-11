@@ -31,17 +31,20 @@ external fromArray : ('k * 'v) array -> ('k, 'v) t = "Map" [@@mel.new]
 external toArray : ('k, 'v) t -> ('k * 'v) array = "from" [@@mel.scope "Array"]
 external size : ('k, 'v) t -> int = "size" [@@mel.get]
 external has : ('k, 'v) t -> key:'k -> bool = "has" [@@mel.send]
-external get : ('k, 'v) t -> key:'k -> 'v = "get"
+
+external get : ('k, 'v) t -> key:'k -> 'v option = "get"
 [@@mel.send] [@@mel.return { undefined_to_opt }]
-external set : ('k, 'v) t -> key:'k -> value:'v -> ('k, 'v) t = "set" [@@mel.send]
+
+external set : ('k, 'v) t -> key:'k -> value:'v -> ('k, 'v) t = "set"
+[@@mel.send]
 
 external clear : ('k, 'v) t -> unit = "clear" [@@mel.send]
 external delete : ('k, 'v) t -> key:'k -> bool = "delete" [@@mel.send]
 
-external forEach : f:(('v -> 'k -> ('k, 'v) t -> unit)[@mel.uncurry]) -> unit = "forEach"
+external forEach : f:(('v -> 'k -> ('k, 'v) t -> unit)[@mel.uncurry]) -> unit
+  = "forEach"
 [@@mel.send.pipe: ('k, 'v) t]
 
 external keys : ('k, 'v) t -> 'k Js.iterator = "keys" [@@mel.send]
 external values : ('k, 'v) t -> 'v Js.iterator = "values" [@@mel.send]
-
 external entries : ('k, 'v) t -> ('k * 'v) Js.iterator = "entries" [@@mel.send]
