@@ -24,19 +24,8 @@
 
 open Import
 
-type t = J.module_id = { id : Ident.t; kind : Js_op.kind }
-
-let id x = x.id
-let of_ml id = { id; kind = Ml }
-let of_runtime id = { id; kind = Runtime }
-
-let name (x : t) : string =
-  match x.kind with
-  | Ml | Runtime -> Ident.name x.id
-  | External { name = v; _ } -> v
-
-module Cmp = struct
-  type nonrec t = t
+module T = struct
+  type t = J.module_id = { id : Ident.t; kind : Js_op.kind }
 
   let equal (x : t) y =
     match x.kind with
@@ -70,5 +59,17 @@ module Cmp = struct
         Hashtbl.hash (Ident.stamp x_id, Ident.name x_id)
 end
 
-module Hash = Hash.Make (Cmp)
-module Hash_set = Hash_set.Make (Cmp)
+module Hash = Hash.Make (T)
+module Hash_set = Hash_set.Make (T)
+include T
+
+let of_ml id = { id; kind = Ml }
+let of_runtime id = { id; kind = Runtime }
+let external_ id ~name ~default = { id; kind = External { name; default } }
+
+let name (x : t) : string =
+  match x.kind with
+  | Ml | Runtime -> Ident.name x.id
+  | External { name = v; _ } -> v
+
+let id x = x.id

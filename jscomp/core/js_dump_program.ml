@@ -69,7 +69,7 @@ let dump_program (x : J.program) oc =
   ignore (program (P.from_channel oc) Js_pp.Scope.empty x)
 
 let modules ~output_dir ~package_info ~output_info (x : J.deps_program) =
-  List.map x.modules ~f:(fun (x : J.module_id) ->
+  List.map x.modules ~f:(fun (x : Lam_module_ident.t) ->
       {
         Js_dump_import_export.id = x.id;
         path =
