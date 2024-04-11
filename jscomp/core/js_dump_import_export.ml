@@ -100,14 +100,16 @@ let es6_export cxt f (idents : Ident.t list) =
         (fun _ -> P.newline f));
   outer_cxt
 
+type module_ = { id : Ident.t; path : string; default : bool }
+
 (** Node style imports *)
-let requires require_lit cxt f (modules : (Ident.t * string * bool) list) =
+let requires cxt f modules =
   (* the context used to print the following program *)
   let outer_cxt, reversed_list =
     List.fold_left
-      ~f:(fun (cxt, acc) (id, s, b) ->
+      ~f:(fun (cxt, acc) { id; path; default } ->
         let str, cxt = Js_pp.Scope.str_of_ident cxt id in
-        (cxt, (str, s, b) :: acc))
+        (cxt, (str, path, default) :: acc))
       ~init:(cxt, []) modules
   in
   P.at_least_two_lines f;
@@ -118,7 +120,7 @@ let requires require_lit cxt f (modules : (Ident.t * string * bool) list) =
       P.space f;
       P.string f L.eq;
       P.space f;
-      P.string f require_lit;
+      P.string f L.require;
       P.paren_group f 0 (fun _ -> Js_dump_string.pp_string f file);
       if default then (
         P.string f L.dot;
@@ -128,13 +130,13 @@ let requires require_lit cxt f (modules : (Ident.t * string * bool) list) =
   outer_cxt
 
 (** ES6 module style imports *)
-let imports cxt f (modules : (Ident.t * string * bool) list) =
+let imports cxt f modules =
   (* the context used to print the following program *)
   let outer_cxt, reversed_list =
     List.fold_left
-      ~f:(fun (cxt, acc) (id, s, b) ->
+      ~f:(fun (cxt, acc) { id; path; default } ->
         let str, cxt = Js_pp.Scope.str_of_ident cxt id in
-        (cxt, (str, s, b) :: acc))
+        (cxt, (str, path, default) :: acc))
       ~init:(cxt, []) modules
   in
   P.at_least_two_lines f;
