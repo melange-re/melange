@@ -32,6 +32,7 @@ val id : t -> Ident.t
 val name : t -> string
 val of_ml : Ident.t -> t
 val of_runtime : Ident.t -> t
+val external_ : Ident.t -> name:string -> default:bool -> t
 
 module Hash : Hash_gen.S with type key = t
 module Hash_set : Hash_set_gen.S with type key = t

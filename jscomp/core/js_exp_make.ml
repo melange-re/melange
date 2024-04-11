@@ -107,13 +107,13 @@ let ml_var_dot ?loc ?comment (id : Ident.t) e : J.expression =
 let external_var_field ?loc ?comment ~external_name:name (id : Ident.t) ~field
     ~default : t =
   make_expression ?loc ?comment
-    (Var (Qualified ({ id; kind = External { name; default } }, Some field)))
+    (Var (Qualified (Lam_module_ident.external_ id ~name ~default, Some field)))
 
 let external_var ?loc ?comment ~external_name (id : Ident.t) : t =
   make_expression ?loc ?comment
     (Var
        (Qualified
-          ( { id; kind = External { name = external_name; default = false } },
+          ( Lam_module_ident.external_ id ~name:external_name ~default:false,
             None )))
 
 let ml_module_as_var ?loc ?comment (id : Ident.t) : t =

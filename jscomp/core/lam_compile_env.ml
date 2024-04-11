@@ -73,8 +73,8 @@ let add_js_module (hint_name : Melange_ffi.External_ffi_types.module_bind_name)
       *)
       | Phint_nothing -> Modulename.js_id_name_of_hint_name module_name)
   in
-  let lam_module_ident : J.module_id =
-    { id; kind = External { name = module_name; default } }
+  let lam_module_ident : Lam_module_ident.t =
+    Lam_module_ident.external_ id ~name:module_name ~default
   in
   match Lam_module_ident.Hash.find_key_opt cached_tbl lam_module_ident with
   | None ->
