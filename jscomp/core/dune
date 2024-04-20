@@ -156,7 +156,14 @@
  (action
   (with-stdout-to
    %{targets}
-   (run ./gen/gen_traversal.exe --input %{deps} --mode record-iter))))
+   (run
+    ./gen/gen_traversal.exe
+    --input
+    %{deps}
+    --output
+    %{targets}
+    --mode
+    record-iter))))
 
 (rule
  (targets js_record_map.ml)
@@ -164,7 +171,14 @@
  (action
   (with-stdout-to
    %{targets}
-   (run ./gen/gen_traversal.exe --input %{deps} --mode record-map))))
+   (run
+    ./gen/gen_traversal.exe
+    --input
+    %{deps}
+    --output
+    %{targets}
+    --mode
+    record-map))))
 
 (rule
  (targets js_record_fold.ml)
@@ -172,7 +186,14 @@
  (action
   (with-stdout-to
    %{targets}
-   (run ./gen/gen_traversal.exe --input %{deps} --mode record-fold))))
+   (run
+    ./gen/gen_traversal.exe
+    --input
+    %{deps}
+    --output
+    %{targets}
+    --mode
+    record-fold))))
 
 (rule
  (targets git_commit.ml)
