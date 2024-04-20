@@ -11,7 +11,7 @@
  (action
   (with-stdout-to
    %{targets}
-   (run ./gen/build_reserved.exe %{deps}))))
+   (run ./gen/build_reserved.exe %{deps} %{targets}))))
 
 (rule
  (targets hash_set_string.ml)
