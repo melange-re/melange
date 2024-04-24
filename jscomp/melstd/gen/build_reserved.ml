@@ -227,7 +227,7 @@ let write_ast oc ast =
   output_value oc "reserved_keywords.ml";
   output_value oc (Ppxlib_ast.Selected_ast.To_ocaml.copy_structure ast)
 
-let main keyword_file =
+let main keyword_file output_name =
   let ast =
     let keywords_array =
       let ss = Reserved_words.all_from_file keyword_file in
@@ -243,7 +243,7 @@ let main keyword_file =
     in
     keywords_array :: binary_search
   in
-  let oc = stdout in
+  let oc = open_out_bin output_name in
   write_ast oc ast;
   close_out oc
 
@@ -253,4 +253,4 @@ for i = 0 to Array.length Sys.argv - 1  do
   print_endline ">"; print_string Sys.argv.(i)
 done
 ;; *)
-let () = main Sys.argv.(1)
+let () = main Sys.argv.(1) Sys.argv.(2)
