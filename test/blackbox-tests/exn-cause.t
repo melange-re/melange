@@ -39,10 +39,10 @@
     a0 = ((function (){throw 2} ())
     );
   }
-  catch (raw_exn){
-    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === A || exn.MEL_EXN_ID === Js__Js_exn.$$Error) {
-      a0 = exn._1;
+  catch (raw_x){
+    const x = Caml_js_exceptions.internalToOCamlException(raw_x);
+    if (x.MEL_EXN_ID === A || x.MEL_EXN_ID === Js__Js_exn.$$Error) {
+      a0 = x._1;
     } else {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
@@ -97,10 +97,10 @@ Raise `null` / `undefined`
     a0 = ((function (){throw undefined} ())
     );
   }
-  catch (raw_exn){
-    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === A || exn.MEL_EXN_ID === Js__Js_exn.$$Error) {
-      a0 = exn._1;
+  catch (raw_x){
+    const x = Caml_js_exceptions.internalToOCamlException(raw_x);
+    if (x.MEL_EXN_ID === A || x.MEL_EXN_ID === Js__Js_exn.$$Error) {
+      a0 = x._1;
     } else {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
@@ -119,10 +119,10 @@ Raise `null` / `undefined`
     a1 = ((function (){throw null} ())
     );
   }
-  catch (raw_exn$1){
-    const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-    if (exn$1.MEL_EXN_ID === A || exn$1.MEL_EXN_ID === Js__Js_exn.$$Error) {
-      a1 = exn$1._1;
+  catch (raw_x$1){
+    const x$1 = Caml_js_exceptions.internalToOCamlException(raw_x$1);
+    if (x$1.MEL_EXN_ID === A || x$1.MEL_EXN_ID === Js__Js_exn.$$Error) {
+      a1 = x$1._1;
     } else {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
