@@ -35,3 +35,8 @@ build: [
   ]
 ]
 dev-repo: "git+https://github.com/melange-re/melange.git"
+pin-depends: [
+  [ "merlin-lib.dev" "https://github.com/ocaml/merlin/releases/download/4.14-502_preview2/merlin-4.14-502.preview2.tbz" ]
+  [ "merlin.dev" "https://github.com/ocaml/merlin/releases/download/4.14-502_preview2/merlin-4.14-502.preview2.tbz" ]
+  [ "dot-merlin-reader.dev" "https://github.com/ocaml/merlin/releases/download/4.14-502_preview2/merlin-4.14-502.preview2.tbz" ]
+]
