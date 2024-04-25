@@ -139,7 +139,14 @@ let name_mangle name =
    a valid js identifier
 *)
 let convert (name : string) =
-  if Js_reserved_map.is_reserved name then "$$" ^ name else name_mangle name
+  if Js_reserved_map.is_reserved name then (
+    let len = String.length name in
+    let b = Bytes.create (2 + len) in
+    Bytes.set b 0 '$';
+    Bytes.set b 1 '$';
+    Bytes.blit_string ~src:name ~src_pos:0 ~dst:b ~dst_pos:2 ~len;
+    Bytes.unsafe_to_string b)
+  else name_mangle name
 
 (** keyword could be used in property *)
 
