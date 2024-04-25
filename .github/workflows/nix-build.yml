@@ -39,7 +39,7 @@ jobs:
       matrix:
         os:
           - macos-latest
-          # - macos-14
+          - macos-14
         ocaml-version:
           - 5_1
 
