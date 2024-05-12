@@ -43,7 +43,7 @@ Trying to build triggers both warnings
   File "main.ml", line 1, characters 9-11:
   1 | let t = "\e\n" in
                ^^
-  Warning 14 [illegal-backslash]: illegal backslash escape in string.
+  Error (warning 14 [illegal-backslash]): illegal backslash escape in string.
   Hint: Single backslashes \ are reserved for escape sequences
   (\n, \r, ...). Did you check the list of OCaml escape sequences?
   To get a backslash character, escape it with a second backslash: \\.
@@ -65,13 +65,6 @@ Let's ignore them using compile_flags
   > EOF
 
   $ dune build @mel
-  File "main.ml", line 1, characters 9-11:
-  1 | let t = "\e\n" in
-               ^^
-  Warning 14 [illegal-backslash]: illegal backslash escape in string.
-  Hint: Single backslashes \ are reserved for escape sequences
-  (\n, \r, ...). Did you check the list of OCaml escape sequences?
-  To get a backslash character, escape it with a second backslash: \\.
   $ node _build/default/output/main.js
   hello
 
@@ -89,7 +82,7 @@ Can also pass flags from the env stanza. Let's go back to failing state:
   File "main.ml", line 1, characters 9-11:
   1 | let t = "\e\n" in
                ^^
-  Warning 14 [illegal-backslash]: illegal backslash escape in string.
+  Error (warning 14 [illegal-backslash]): illegal backslash escape in string.
   Hint: Single backslashes \ are reserved for escape sequences
   (\n, \r, ...). Did you check the list of OCaml escape sequences?
   To get a backslash character, escape it with a second backslash: \\.
@@ -113,13 +106,6 @@ Adding env stanza with both warnings silenced allows the build to pass successfu
   > EOF
 
   $ dune build @mel
-  File "main.ml", line 1, characters 9-11:
-  1 | let t = "\e\n" in
-               ^^
-  Warning 14 [illegal-backslash]: illegal backslash escape in string.
-  Hint: Single backslashes \ are reserved for escape sequences
-  (\n, \r, ...). Did you check the list of OCaml escape sequences?
-  To get a backslash character, escape it with a second backslash: \\.
   $ node _build/default/output/main.js
   hello
 
