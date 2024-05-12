@@ -1,5 +1,6 @@
 Test flags and compile_flags fields on melange.emit stanza
 
+  $ . ./setup.sh
   $ cat > dune-project <<EOF
   > (lang dune 3.8)
   > (using melange 0.1)
