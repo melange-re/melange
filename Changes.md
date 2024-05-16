@@ -1,4 +1,4 @@
-Unreleased
+4.0.0 2024-05-15
 ---------------
 
 - CLI: passing `--eval` to `melc` now works as expected
