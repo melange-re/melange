@@ -32,7 +32,7 @@
  (synopsis "Toolchain to produce JS from Reason/OCaml")
  (depends
   (ocaml
-   (>= "5.1"))
+   (>= "5.2"))
   (cmdliner
    (>= "1.1.0"))
   dune-build-info
