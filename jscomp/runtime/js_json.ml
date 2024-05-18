@@ -43,13 +43,15 @@ type tagged_t =
   | JSONObject of t Js.dict
   | JSONArray of t array
 
+external isArray : 'a -> bool = "isArray" [@@mel.scope "Array"]
+
 let classify (x : t) : tagged_t =
   let ty = Js.typeof x in
   if ty = "string" then JSONString (Obj.magic x)
   else if ty = "number" then JSONNumber (Obj.magic x)
   else if ty = "boolean" then if Obj.magic x = true then JSONTrue else JSONFalse
   else if Obj.magic x == Js.null then JSONNull
-  else if Js.Array.isArray x then JSONArray (Obj.magic x)
+  else if isArray x then JSONArray (Obj.magic x)
   else JSONObject (Obj.magic x)
 
 let test (type a) (x : 'a) (v : a kind) : bool =
@@ -58,11 +60,9 @@ let test (type a) (x : 'a) (v : a kind) : bool =
   | Boolean -> Js.typeof x = "boolean"
   | String -> Js.typeof x = "string"
   | Null -> Obj.magic x == Js.null
-  | Array -> Js.Array.isArray x
+  | Array -> isArray x
   | Object ->
-      Obj.magic x != Js.null
-      && Js.typeof x = "object"
-      && not (Js.Array.isArray x)
+      Obj.magic x != Js.null && Js.typeof x = "object" && not (isArray x)
 
 let decodeString json =
   if Js.typeof json = "string" then Some (Obj.magic (json : t) : string)
@@ -75,13 +75,13 @@ let decodeNumber json =
 let decodeObject json =
   if
     Js.typeof json = "object"
-    && (not (Js.Array.isArray json))
+    && (not (isArray json))
     && not ((Obj.magic json : 'a Js.null) == Js.null)
   then Some (Obj.magic (json : t) : t Js.dict)
   else None
 
 let decodeArray json =
-  if Js.Array.isArray json then Some (Obj.magic (json : t) : t array) else None
+  if isArray json then Some (Obj.magic (json : t) : t array) else None
 
 let decodeBoolean (json : t) =
   if Js.typeof json = "boolean" then Some (Obj.magic (json : t) : bool)
