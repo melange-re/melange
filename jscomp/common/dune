@@ -1,7 +1,6 @@
 (library
  (name melange_ffi)
  (package melange)
- (modules_without_implementation js_raw_info lam_tag_info)
  (libraries melstd melange_compiler_libs js_parser))
 
 (rule
