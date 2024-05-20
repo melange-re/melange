@@ -399,7 +399,7 @@ let translate_ffi =
         add_eff cur_eff
         @@
         match args with
-        | [ obj; v ] -> Js_arr.ref_array (translate_scoped_access scopes obj) v
+        | [ obj; v ] -> E.array_index (translate_scoped_access scopes obj) v
         | _ -> assert false)
     | Js_set_index { js_set_index_scopes = scopes } -> (
         let args, cur_eff = assemble_args_no_splice arg_types args in
@@ -407,5 +407,7 @@ let translate_ffi =
         @@
         match args with
         | [ obj; v; value ] ->
-            Js_arr.set_array (translate_scoped_access scopes obj) v value
+            E.assign
+              (E.array_index (translate_scoped_access scopes obj) v)
+              value
         | _ -> assert false)
