@@ -23,6 +23,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 (** Provides a simple key-value dictionary abstraction over native JavaScript objects *)
+module Array = struct
+  external length : 'a array -> int = "length" [@@mel.get]
+  external unsafe_get : 'a array -> int -> 'a = "%array_unsafe_get"
+  external unsafe_set : 'a array -> int -> 'a -> unit = "%array_unsafe_set"
+end
 
 type 'a t = 'a Js.dict
 (** The dict type *)
@@ -65,20 +70,20 @@ external unsafeCreateArray : int -> 'a array = "Array" [@@mel.new]
 
 let entries dict =
   let keys = keys dict in
-  let l = Js.Array.length keys in
+  let l = Array.length keys in
   let values = unsafeCreateArray l in
   for i = 0 to l - 1 do
-    let key = Js.Array.unsafe_get keys i in
-    Js.Array.unsafe_set values i (key, dict.!(key))
+    let key = Array.unsafe_get keys i in
+    Array.unsafe_set values i (key, dict.!(key))
   done;
   values
 
 let values dict =
   let keys = keys dict in
-  let l = Js.Array.length keys in
+  let l = Array.length keys in
   let values = unsafeCreateArray l in
   for i = 0 to l - 1 do
-    Js.Array.unsafe_set values i dict.!(Js.Array.unsafe_get keys i)
+    Array.unsafe_set values i dict.!(Array.unsafe_get keys i)
   done;
   values
 
@@ -94,9 +99,9 @@ let fromList entries =
 
 let fromArray entries =
   let dict = empty () in
-  let l = Js.Array.length entries in
+  let l = Array.length entries in
   for i = 0 to l - 1 do
-    let key, value = Js.Array.unsafe_get entries i in
+    let key, value = Array.unsafe_get entries i in
     set dict key value
   done;
   dict
@@ -104,9 +109,9 @@ let fromArray entries =
 let map ~f source =
   let target = empty () in
   let keys = keys source in
-  let l = Js.Array.length keys in
+  let l = Array.length keys in
   for i = 0 to l - 1 do
-    let key = Js.Array.unsafe_get keys i in
+    let key = Array.unsafe_get keys i in
     set target key (f (unsafeGet source key) [@u])
   done;
   target

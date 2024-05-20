@@ -31,10 +31,14 @@ external return : 'a -> 'a t = "%identity"
 external empty : 'a t = "#null"
 external getUnsafe : 'a t -> 'a = "%identity"
 
+module Exn = struct
+  external makeError : string -> 'a = "Error" [@@mel.new]
+
+  let raiseError str = raise (Obj.magic (makeError str) : exn)
+end
+
 let getExn f =
-  match toOption f with
-  | None -> Js.Exn.raiseError "Js.Null.getExn"
-  | Some x -> x
+  match toOption f with None -> Exn.raiseError "Js.Null.getExn" | Some x -> x
 
 let map ~f x =
   match toOption x with None -> empty | Some x -> return (f x [@u])

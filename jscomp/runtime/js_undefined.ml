@@ -34,9 +34,15 @@ let testAny : 'a -> bool = fun x -> Obj.magic x = empty
 
 external getUnsafe : 'a t -> 'a = "%identity"
 
+module Exn = struct
+  external makeError : string -> 'a = "Error" [@@mel.new]
+
+  let raiseError str = raise (Obj.magic (makeError str) : exn)
+end
+
 let getExn f =
   match toOption f with
-  | None -> Js.Exn.raiseError "Js.Undefined.getExn"
+  | None -> Exn.raiseError "Js.Undefined.getExn"
   | Some x -> x
 
 let map ~f x =
