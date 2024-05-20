@@ -24,7 +24,7 @@
 
 (** JavaScript BigInt API *)
 
-type t
+type t = Js.bigint
 
 external make : 'a -> t = "BigInt"
 (**

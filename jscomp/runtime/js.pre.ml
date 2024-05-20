@@ -87,6 +87,7 @@ type re
 type 'a dict
 type 'a iterator
 type 'a array_like
+type bigint
 
 external toOption : 'a nullable -> 'a option = "#nullable_to_opt"
 external undefinedToOption : 'a undefined -> 'a option = "#undefined_to_opt"

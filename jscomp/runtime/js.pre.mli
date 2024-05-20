@@ -49,6 +49,9 @@ type 'a iterator
 type 'a array_like
 (** The type for array-like objects in JavaScript *)
 
+type bigint
+(** The type for JavaScript BigInt *)
+
 external toOption : 'a nullable -> 'a option = "#nullable_to_opt"
 external undefinedToOption : 'a undefined -> 'a option = "#undefined_to_opt"
 external nullToOption : 'a null -> 'a option = "#null_to_opt"
