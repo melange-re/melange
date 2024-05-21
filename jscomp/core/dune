@@ -1,6 +1,5 @@
 (library
  (name melangelib)
- (modules_without_implementation js_op j)
  (libraries
   melstd
   melange_compiler_libs
@@ -152,7 +151,7 @@
 
 (rule
  (targets js_record_iter.ml)
- (deps j.mli)
+ (deps j.ml)
  (action
   (with-stdout-to
    %{targets}
@@ -167,7 +166,7 @@
 
 (rule
  (targets js_record_map.ml)
- (deps j.mli)
+ (deps j.ml)
  (action
   (with-stdout-to
    %{targets}
@@ -182,7 +181,7 @@
 
 (rule
  (targets js_record_fold.ml)
- (deps j.mli)
+ (deps j.ml)
  (action
   (with-stdout-to
    %{targets}
