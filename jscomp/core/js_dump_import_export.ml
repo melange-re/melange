@@ -140,26 +140,14 @@ let imports cxt f modules =
       ~init:(cxt, []) modules
   in
   P.at_least_two_lines f;
-  List.rev_iter reversed_list (fun (s, file, default) ->
+  List.rev_iter reversed_list (fun (s, file, _default) ->
       P.string f L.import;
       P.space f;
-      if default then (
-        P.string f s;
-        P.space f;
-        P.string f L.from;
-        P.space f;
-        Js_dump_string.pp_string f file)
-      else (
-        P.string f L.star;
-        P.space f;
-        (* import * as xx from 'xx'*)
-        P.string f L.as_;
-        P.space f;
-        P.string f s;
-        P.space f;
-        P.string f L.from;
-        P.space f;
-        Js_dump_string.pp_string f file);
+      P.string f s;
+      P.space f;
+      P.string f L.from;
+      P.space f;
+      Js_dump_string.pp_string f file;
       P.string f L.semi;
       P.newline f);
   outer_cxt
