@@ -268,7 +268,8 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       bs_stop_after_cmj;
       runtime = _;
       filenames;
-      help
+      help;
+      store_occurrences = _store_occurrences
     } ->
   let open Melangelib in
   if help then `Help (`Auto, None)
@@ -374,6 +375,9 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     Js_config.preamble := preamble;
     if strict_sequence then Clflags.strict_sequence := strict_sequence;
     if strict_formats then Clflags.strict_formats := strict_formats;
+#if OCAML_VERSION >= (5,2,0)
+    if _store_occurrences then Clflags.store_occurrences := _store_occurrences;
+#endif
 
     Option.iter impl impl_source_file ;
     Option.iter intf intf_source_file ;
