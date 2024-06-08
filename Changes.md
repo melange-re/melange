@@ -1,4 +1,4 @@
-Unreleased
+4.0.1 2024-06-07
 ---------------
 
 - Support `-bin-annot-occurrences` on OCaml 5.2
