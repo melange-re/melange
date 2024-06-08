@@ -88,6 +88,7 @@ type t = {
   bs_stop_after_cmj : bool;
   runtime : string option;
   filenames : string list;
+  store_occurrences : bool;
 }
 
 let include_dirs =
@@ -445,6 +446,15 @@ let filenames =
   let docv = "filenames" in
   Arg.(value & pos_all string [] & info [] ~docv)
 
+let store_occurrences =
+  let doc =
+    "Store every occurrence of a bound name in the .cmt file.\n\
+     This information can be used by external tools to provide\n\
+     features such as project-wide occurrences. This flag has\n\
+     no effect in the absence of '-bin-annot'."
+  in
+  Arg.(value & flag & info [ "bin-annot-occurrences" ] ~doc)
+
 let help =
   let doc =
     "Show this help. The format is pager or plain whenever the TERM env var is \
@@ -469,7 +479,7 @@ let parse help include_dirs alerts warnings output_name ppx open_modules
     intf_suffix g opaque preamble strict_sequence strict_formats dtypedtree
     dparsetree drawlambda dsource version pp absname bin_annot i nopervasives
     modules nolabels principal rectypes short_paths unsafe warn_help warn_error
-    bs_stop_after_cmj runtime filenames _c =
+    bs_stop_after_cmj runtime filenames _c store_occurrences =
   {
     help;
     include_dirs;
@@ -533,6 +543,7 @@ let parse help include_dirs alerts warnings output_name ppx open_modules
     bs_stop_after_cmj;
     runtime;
     filenames;
+    store_occurrences;
   }
 
 let cmd =
@@ -552,7 +563,7 @@ let cmd =
     $ pp $ absname $ bin_annot $ i $ Internal.nopervasives $ Internal.modules
     $ Internal.nolabels $ Internal.principal $ Internal.rectypes
     $ Internal.short_paths $ unsafe $ warn_help $ warn_error $ bs_stop_after_cmj
-    $ Internal.runtime $ filenames $ Compat.c)
+    $ Internal.runtime $ filenames $ Compat.c $ store_occurrences)
 
 let normalize_argv argv =
   let len = Array.length argv in
