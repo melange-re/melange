@@ -74,6 +74,8 @@ let defaults_w = "+a-4-29-40-41-42-44-45-48-58-59-60-61-63..70-102"
 let defaults_warn_error = "-a+5+6+101+109"
 (*TODO: add +10*)
 
+let default_alert_errors = "++unprocessed"
+
 let parse_warnings ~warn_error w =
   (* Set warnings for the OCaml lexer / parser, which also emit
      `Illegal_backslash` (warning 14) *)

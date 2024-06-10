@@ -1,8 +1,14 @@
+Unreleased
+---------------
+
+- Make the `unprocessed` alert fatal by default
+  ([#1135](https://github.com/melange-re/melange/pull/1135))
+
 4.0.1 2024-06-07
 ---------------
 
 - Support `-bin-annot-occurrences` on OCaml 5.2
-  ([PR](https://github.com/melange-re/melange/pull/1132))
+  ([#1132](https://github.com/melange-re/melange/pull/1132))
 
 4.0.0 2024-05-15
 ---------------
