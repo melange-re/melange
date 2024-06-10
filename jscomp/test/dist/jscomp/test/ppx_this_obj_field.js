@@ -34,7 +34,7 @@ const v5 = {
   x: 3,
   y: 3,
   setY: (function (v) {
-      let self = this ;
+      let self = this;
       self.y = 2;
       return [
               self.y,
@@ -42,11 +42,11 @@ const v5 = {
             ];
     }),
   say: (function () {
-      let self = this ;
+      let self = this;
       return self.x + self.y | 0;
     }),
   hihi: (function (u) {
-      let self = this ;
+      let self = this;
       return self.x + self.say() | 0;
     }),
   bark: (function () {
@@ -61,19 +61,19 @@ const v = {
   x: 3,
   y: 0,
   reset: (function () {
-      let self = this ;
+      let self = this;
       self.y = 0;
     }),
   incr: (function () {
-      let self = this ;
+      let self = this;
       self.y = self.y + 1 | 0;
     }),
   getY: (function () {
-      let self = this ;
+      let self = this;
       return self.y;
     }),
   say: (function () {
-      let self = this ;
+      let self = this;
       return self.x + self.y | 0;
     })
 };
@@ -105,11 +105,11 @@ const z = {
     contents: 3
   },
   setX: (function (x) {
-      let self = this ;
+      let self = this;
       self.x.contents = x;
     }),
   getX: (function () {
-      let self = this ;
+      let self = this;
       return self.x.contents;
     })
 };
@@ -117,15 +117,15 @@ const z = {
 const eventObj = {
   events: [],
   empty: (function () {
-      let self = this ;
+      let self = this;
       self.events.splice(0);
     }),
   push: (function (a) {
-      let self = this ;
+      let self = this;
       self.events.push(a);
     }),
   needRebuild: (function () {
-      let self = this ;
+      let self = this;
       return self.events.length !== 0;
     })
 };
@@ -137,11 +137,11 @@ function test__(x) {
 const zz = {
   x: 3,
   setX: (function (x) {
-      let self = this ;
+      let self = this;
       self.x = x;
     }),
   getX: (function () {
-      let self = this ;
+      let self = this;
       return self.x;
     })
 };

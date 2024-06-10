@@ -18,7 +18,7 @@ const u = {
 u.bark(u, 1, 2);
 
 function uux_this(x, y) {
-  let o = this ;
+  let o = this;
   return (o.length + x | 0) + y | 0;
 }
 
@@ -26,7 +26,7 @@ const js_obj = {
   x: 3,
   y: 32,
   bark: (function (x, y) {
-      let o = this ;
+      let o = this;
       console.log([
             o.length,
             o.x,

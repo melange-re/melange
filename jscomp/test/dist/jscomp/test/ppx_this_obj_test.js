@@ -35,22 +35,22 @@ const v = {
       return 3;
     }),
   say: (function (x) {
-      let self = this ;
+      let self = this;
       return x * self.x();
     }),
   hi: (function (x, y) {
-      let self = this ;
+      let self = this;
       return self.say(x) + y;
     })
 };
 
 const v2 = {
   hi: (function (x, y) {
-      let self = this ;
+      let self = this;
       return self.say(x) + y;
     }),
   say: (function (x) {
-      let self = this ;
+      let self = this;
       return x * self.x();
     }),
   x: (function () {
@@ -60,14 +60,14 @@ const v2 = {
 
 const v3 = {
   hi: (function (x, y) {
-      let self = this ;
+      let self = this;
       const u = {
         x: x
       };
       return self.say(u.x) + y + x;
     }),
   say: (function (x) {
-      let self = this ;
+      let self = this;
       return x * self.x();
     }),
   x: (function () {

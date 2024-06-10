@@ -85,7 +85,7 @@ const two = Caml_oo_curry.js1(291546447, 5, tmp$1);
 const u = {
   x: 3,
   getX: (function () {
-      let self = this ;
+      let self = this;
       return self.x;
     })
 };

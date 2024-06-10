@@ -35,7 +35,7 @@ const obj3 = {
       console.log(name);
     }),
   hh: (function () {
-      let self = this ;
+      let self = this;
       self.hi("x", 20);
     })
 };
@@ -45,7 +45,7 @@ const obj2 = {
       return a + b | 0;
     }),
   say: (function (a, b) {
-      let self = this ;
+      let self = this;
       return self.hi(a, b) - 1 | 0;
     }),
   xx: (function (a, b) {
