@@ -61,7 +61,7 @@ function createClass(debugName) {
               displayName: debugName,
               subscriptions: null,
               self: (function (state, retainedProps) {
-                  let $$this = this ;
+                  let $$this = this;
                   return {
                           handle: $$this.handleMethod,
                           state: state,
@@ -78,7 +78,7 @@ function createClass(debugName) {
                         };
                 }),
               componentDidMount: (function () {
-                  let $$this = this ;
+                  let $$this = this;
                   const thisJs = this;
                   const convertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
                   const component = convertedReasonProps._0;
@@ -91,7 +91,7 @@ function createClass(debugName) {
                   
                 }),
               componentDidUpdate: (function (prevProps, prevState) {
-                  let $$this = this ;
+                  let $$this = this;
                   const thisJs = this;
                   const curState = thisJs.state;
                   const curReasonState = curState.reasonState;
@@ -121,7 +121,7 @@ function createClass(debugName) {
                       });
                 }),
               componentWillUnmount: (function () {
-                  let $$this = this ;
+                  let $$this = this;
                   const thisJs = this;
                   const convertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
                   const component = convertedReasonProps._0;
@@ -140,7 +140,7 @@ function createClass(debugName) {
                   
                 }),
               componentWillUpdate: (function (nextProps, nextState) {
-                  let $$this = this ;
+                  let $$this = this;
                   const thisJs = this;
                   const newConvertedReasonProps = convertPropsIfTheyreFromJs(nextProps, thisJs.jsPropsToReason, debugName);
                   const newComponent = newConvertedReasonProps._0;
@@ -170,7 +170,7 @@ function createClass(debugName) {
                       });
                 }),
               componentWillReceiveProps: (function (nextProps) {
-                  let $$this = this ;
+                  let $$this = this;
                   const thisJs = this;
                   const newConvertedReasonProps = convertPropsIfTheyreFromJs(nextProps, thisJs.jsPropsToReason, debugName);
                   const newComponent = newConvertedReasonProps._0;
@@ -194,7 +194,7 @@ function createClass(debugName) {
                         }), null);
                 }),
               shouldComponentUpdate: (function (nextJsProps, nextState, param) {
-                  let $$this = this ;
+                  let $$this = this;
                   const thisJs = this;
                   const curJsProps = thisJs.props;
                   const oldConvertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
@@ -224,7 +224,7 @@ function createClass(debugName) {
                             });
                 }),
               onUnmountMethod: (function (subscription) {
-                  let $$this = this ;
+                  let $$this = this;
                   const subs = $$this.subscriptions;
                   if (subs !== null) {
                     subs.push(subscription);
@@ -233,7 +233,7 @@ function createClass(debugName) {
                   }
                 }),
               handleMethod: (function (callback) {
-                  let $$this = this ;
+                  let $$this = this;
                   const thisJs = this;
                   return function (callbackPayload) {
                     const curState = thisJs.state;
@@ -243,7 +243,7 @@ function createClass(debugName) {
                   };
                 }),
               sendMethod: (function (action) {
-                  let $$this = this ;
+                  let $$this = this;
                   const thisJs = this;
                   const convertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
                   const component = convertedReasonProps._0;
@@ -295,7 +295,7 @@ function createClass(debugName) {
                           }));
                 }),
               render: (function () {
-                  let $$this = this ;
+                  let $$this = this;
                   const thisJs = this;
                   const convertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
                   const created = convertedReasonProps._0;

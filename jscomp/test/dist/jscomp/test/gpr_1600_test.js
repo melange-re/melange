@@ -14,15 +14,15 @@ const eventObj = {
       
     }),
   push: (function (a) {
-      let self = this ;
+      let self = this;
       self.events[0] = a;
     }),
   needRebuild: (function () {
-      let self = this ;
+      let self = this;
       return self.events.length !== 0;
     }),
   currentEvents: (function () {
-      let self = this ;
+      let self = this;
       return self.events;
     })
 };

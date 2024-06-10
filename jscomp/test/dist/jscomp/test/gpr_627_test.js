@@ -38,14 +38,14 @@ const u = {
 
 const v = {
   hi: (function (x, y) {
-      let self = this ;
+      let self = this;
       const u = {
         x: x
       };
       return self.say(u.x) + y + x;
     }),
   say: (function (x) {
-      let self = this ;
+      let self = this;
       return x * self.x();
     }),
   x: (function () {

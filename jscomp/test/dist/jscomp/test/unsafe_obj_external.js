@@ -7,7 +7,7 @@ const v = {
       return 3;
     }),
   say: (function (x) {
-      let self = this ;
+      let self = this;
       return self.x() + x | 0;
     })
 };
