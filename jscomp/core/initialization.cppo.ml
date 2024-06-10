@@ -40,6 +40,7 @@ module Global = struct
     Clflags.no_std_include := true (* `-nostdlib` *);
     ignore @@ Warnings.parse_options false Melc_warnings.defaults_w;
     ignore @@ Warnings.parse_options true Melc_warnings.defaults_warn_error;
+    ignore @@ Warnings.parse_alert_option Melc_warnings.default_alert_errors;
     Clflags.locations := false;
     Clflags.compile_only := true;
     Config.unsafe_empty_array := false;
