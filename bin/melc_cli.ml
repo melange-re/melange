@@ -27,6 +27,7 @@ open Melstd
 
 type t = {
   include_dirs : string list;
+  hidden_include_dirs : string list;
   alerts : string list;
   warnings : string list;
   output_name : string option;
@@ -95,6 +96,11 @@ let include_dirs =
   let doc = "Add $(docv) to the list of include directories" in
   let docv = "dir" in
   Arg.(value & opt_all string [] & info [ "I" ] ~doc ~docv)
+
+let hidden_include_dirs =
+  let doc = "Add $(docv) to the list of \"hidden\" include directories" in
+  let docv = "dir" in
+  Arg.(value & opt_all string [] & info [ "H" ] ~doc ~docv)
 
 let alerts =
   let doc =
@@ -470,10 +476,10 @@ module Compat = struct
   let c = Arg.(value & flag & info [ "c" ] ~doc)
 end
 
-let parse help include_dirs alerts warnings output_name ppx open_modules
-    bs_package_output mel_module_system bs_syntax_only bs_g bs_package_name
-    bs_module_name as_ppx as_pp no_alias_deps bs_gentype unboxed_types
-    bs_unsafe_empty_array nostdlib color bs_eval bs_cmi_only
+let parse help include_dirs hidden_include_dirs alerts warnings output_name ppx
+    open_modules bs_package_output mel_module_system bs_syntax_only bs_g
+    bs_package_name bs_module_name as_ppx as_pp no_alias_deps bs_gentype
+    unboxed_types bs_unsafe_empty_array nostdlib color bs_eval bs_cmi_only
     bs_no_version_header bs_cross_module_opt bs_diagnose where verbose keep_locs
     bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc impl intf
     intf_suffix g opaque preamble strict_sequence strict_formats dtypedtree
@@ -483,6 +489,7 @@ let parse help include_dirs alerts warnings output_name ppx open_modules
   {
     help;
     include_dirs;
+    hidden_include_dirs;
     alerts;
     warnings;
     output_name;
@@ -548,14 +555,15 @@ let parse help include_dirs alerts warnings output_name ppx open_modules
 
 let cmd =
   Term.(
-    const parse $ help $ include_dirs $ alerts $ warnings $ output_name $ ppx
-    $ open_modules $ Internal.bs_package_output $ Internal.mel_module_system
-    $ bs_syntax_only $ bs_g $ bs_package_name $ bs_module_name $ Internal.as_ppx
-    $ Internal.as_pp $ Internal.no_alias_deps $ Internal.bs_gentype
-    $ unboxed_types $ Internal.bs_unsafe_empty_array $ Internal.nostdlib $ color
-    $ Internal.bs_eval $ Internal.bs_cmi_only $ Internal.bs_no_version_header
-    $ Internal.bs_cross_module_opt $ Internal.bs_diagnose $ where $ verbose
-    $ keep_locs $ Internal.bs_no_check_div_by_zero $ Internal.bs_noassertfalse
+    const parse $ help $ include_dirs $ hidden_include_dirs $ alerts $ warnings
+    $ output_name $ ppx $ open_modules $ Internal.bs_package_output
+    $ Internal.mel_module_system $ bs_syntax_only $ bs_g $ bs_package_name
+    $ bs_module_name $ Internal.as_ppx $ Internal.as_pp $ Internal.no_alias_deps
+    $ Internal.bs_gentype $ unboxed_types $ Internal.bs_unsafe_empty_array
+    $ Internal.nostdlib $ color $ Internal.bs_eval $ Internal.bs_cmi_only
+    $ Internal.bs_no_version_header $ Internal.bs_cross_module_opt
+    $ Internal.bs_diagnose $ where $ verbose $ keep_locs
+    $ Internal.bs_no_check_div_by_zero $ Internal.bs_noassertfalse
     $ Internal.noassert $ Internal.bs_loc $ Internal.impl $ Internal.intf
     $ Internal.intf_suffix $ Internal.g $ Internal.opaque $ preamble
     $ Internal.strict_sequence $ Internal.strict_formats $ Internal.dtypedtree

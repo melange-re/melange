@@ -208,6 +208,7 @@ let print_version_string () =
 let main: Melc_cli.t -> _ Cmdliner.Term.ret
     = fun {
       Melc_cli.include_dirs;
+      hidden_include_dirs;
       alerts;
       warnings;
       output_name;
@@ -278,6 +279,9 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       (* The OCaml compiler expects include_dirs in reverse CLI order, but
          cmdliner returns it in CLI order. *)
       List.rev_append include_dirs !Clflags.include_dirs;
+    Clflags.hidden_include_dirs :=
+      List.rev_append hidden_include_dirs !Clflags.hidden_include_dirs;
+
     List.iter ~f:Warnings.parse_alert_option alerts;
 
     List.iter warnings ~f:(fun w ->

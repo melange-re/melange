@@ -95,6 +95,13 @@ module Perfile = struct
       ~f:(Load_path.add_dir)
 #endif
       exp_dirs;
+#if OCAML_VERSION >= (5,2,0)
+    let hidden_dirs = !Clflags.hidden_include_dirs in
+    let hidden_exp_dirs =
+      List.map ~f:(Misc.expand_directory Config.standard_library) hidden_dirs
+    in
+    List.iter ~f:(Load_path.add_dir ~hidden:true) hidden_exp_dirs;
+#endif
     let
 #if OCAML_VERSION >= (5,2,0)
       { Load_path.visible; hidden }
@@ -107,9 +114,18 @@ module Perfile = struct
       (Pp.concat ~sep:Pp.space
          [
            Pp.text "Compiler include dirs:";
-           Pp.enumerate visible ~f:Pp.text;
+           Pp.vbox
+             (Pp.concat ~sep:Pp.newline
+               [Pp.text "Visible:"
+               ; Pp.vbox ~indent:2 (Pp.enumerate visible ~f:Pp.text)
+               ]);
+
 #if OCAML_VERSION >= (5,2,0)
-      Pp.enumerate hidden ~f:Pp.text;
+           Pp.vbox
+             (Pp.concat ~sep:Pp.newline
+               [Pp.text "Hidden:"
+               ; Pp.vbox ~indent:2 (Pp.enumerate hidden ~f:Pp.text)
+               ]);
 #endif
          ]);
     Env.reset_cache ()
