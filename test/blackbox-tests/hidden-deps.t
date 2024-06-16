@@ -28,20 +28,19 @@
   $ melc -I dep -I hidden --mel-stop-after-cmj x.ml
 
   $ cat > x.ml << EOF
-  > let x = Dep.x () ^ " " ^ Hidden.x ()
+  > let x = Dep.x ()
+  > let y = Hidden.x ()
   > EOF
-  $ melc -I dep -H hidden --mel-stop-after-cmj x.ml --verbose
+  $ melc -nopervasives -nostdlib -I dep -H hidden --mel-stop-after-cmj x.ml --verbose
   File "initialization.cppo.ml", line 113, characters 30-37:
   [INFO] Compiler include dirs:
   Visible:
   - dep
-  - /Users/anmonteiro/projects/melange/_build/default/jscomp/stdlib/.stdlib.objs/melange
-  - /Users/anmonteiro/projects/melange/_build/default/jscomp/runtime/.js.objs/melange
   Hidden:
   - hidden
-  File "x.ml", line 1, characters 25-33:
-  1 | let x = Dep.x () ^ " " ^ Hidden.x ()
-                               ^^^^^^^^
+  File "x.ml", line 2, characters 8-16:
+  2 | let y = Hidden.x ()
+              ^^^^^^^^
   Error: Unbound module Hidden
   [2]
 

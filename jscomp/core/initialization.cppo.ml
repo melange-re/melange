@@ -111,7 +111,7 @@ module Perfile = struct
      = Load_path.get_paths ()
     in
     Log.info ~loc:(Loc.of_pos __POS__)
-      (Pp.concat ~sep:Pp.space
+      (Pp.concat ~sep:Pp.newline
          [
            Pp.text "Compiler include dirs:";
            Pp.vbox
