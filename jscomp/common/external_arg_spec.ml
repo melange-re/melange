@@ -65,7 +65,6 @@ type attr =
 type param = { arg_type : attr; arg_label : label_noname }
 type obj_param = { obj_arg_type : attr; obj_arg_label : label }
 type obj_params = obj_param list
-type params = param list
 
 let cst_obj_literal s = Arg_js_literal s
 let cst_int i = Arg_int_lit i

@@ -85,7 +85,7 @@ type return_wrapper =
   | Return_null_undefined_to_opt
   | Return_replaced_with_unit
 
-type params = Params of External_arg_spec.params | Param_number of int
+type params = Params of External_arg_spec.param list | Param_number of int
 
 type t = private
   | Ffi_mel of params * return_wrapper * external_spec
@@ -107,10 +107,12 @@ val inline_bool_primitive : bool -> string list
 val inline_int_primitive : int32 -> string list
 val inline_int64_primitive : int64 -> string list
 val inline_float_primitive : string -> string list
-val ffi_mel : External_arg_spec.params -> return_wrapper -> external_spec -> t
+
+val ffi_mel :
+  External_arg_spec.param list -> return_wrapper -> external_spec -> t
 
 val ffi_mel_as_prims :
-  External_arg_spec.params -> return_wrapper -> external_spec -> string list
+  External_arg_spec.param list -> return_wrapper -> external_spec -> string list
 
 val ffi_obj_create : External_arg_spec.obj_params -> t
 val ffi_obj_as_prims : External_arg_spec.obj_params -> string list

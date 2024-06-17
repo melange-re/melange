@@ -93,7 +93,7 @@ type return_wrapper =
   | Return_null_undefined_to_opt
   | Return_replaced_with_unit
 
-type params = Params of External_arg_spec.params | Param_number of int
+type params = Params of External_arg_spec.param list | Param_number of int
 
 type t =
   | Ffi_mel of params * return_wrapper * external_spec
@@ -238,7 +238,7 @@ let inline_float_primitive (i : string) : string list =
   [ ""; to_string (Ffi_inline_const (Const_float i)) ]
 
 let ffi_mel =
-  let rec ffi_mel_aux acc (params : External_arg_spec.params) =
+  let rec ffi_mel_aux acc (params : External_arg_spec.param list) =
     match params with
     | { arg_type = Nothing; arg_label = Arg_empty }
         (* same as External_arg_spec.dummy*)
@@ -247,7 +247,7 @@ let ffi_mel =
     | _ :: _ -> -1
     | [] -> acc
   in
-  fun (params : External_arg_spec.params) return attr ->
+  fun (params : External_arg_spec.param list) return attr ->
     let n = ffi_mel_aux 0 params in
     if n < 0 then Ffi_mel (Params params, return, attr)
     else Ffi_mel (Param_number n, return, attr)

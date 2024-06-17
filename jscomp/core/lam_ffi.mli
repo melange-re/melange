@@ -1,4 +1,4 @@
-(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
+(* Copyright (C) 2018 - Hongbo Zhang, Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,21 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val ocaml_to_js_eff :
-  arg_label:Melange_ffi.External_arg_spec.label_noname ->
-  arg_type:Melange_ffi.External_arg_spec.attr ->
-  J.expression ->
-  Js_of_lam_variant.arg_expression * J.expression list
-(** Compile ocaml external function call to JS IR. *)
-
-val translate_ffi :
-  Lam_compile_context.t ->
+val handle_mel_non_obj_ffi :
   Melange_ffi.External_arg_spec.param list ->
+  Melange_ffi.External_ffi_types.return_wrapper ->
   Melange_ffi.External_ffi_types.external_spec ->
-  J.expression list ->
-  J.expression
-
-(** TODO: document supported attributes
-    Attributes starting with `js` are reserved
-    examples: "variadic"
- *)
+  Lam.t list ->
+  Location.t ->
+  string ->
+  Lam.t

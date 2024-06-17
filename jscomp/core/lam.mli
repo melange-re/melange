@@ -91,15 +91,6 @@ and t = private
 
 val inner_map : t -> (t -> t) -> t
 
-val handle_mel_non_obj_ffi :
-  Melange_ffi.External_arg_spec.params ->
-  Melange_ffi.External_ffi_types.return_wrapper ->
-  Melange_ffi.External_ffi_types.external_spec ->
-  t list ->
-  Location.t ->
-  string ->
-  t
-
 (**************************************************************)
 
 val var : ident -> t
