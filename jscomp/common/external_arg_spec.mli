@@ -50,7 +50,6 @@ type label_noname = Arg_label | Arg_empty | Arg_optional
 type obj_param = { obj_arg_type : attr; obj_arg_label : label }
 type param = { arg_type : attr; arg_label : label_noname }
 type obj_params = obj_param list
-type params = param list
 
 val cst_obj_literal : string -> cst
 val cst_int : int -> cst

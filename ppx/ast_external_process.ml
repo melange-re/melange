@@ -167,8 +167,7 @@ let refine_obj_arg_type ~(nolabel : bool) (ptyp : core_type) :
         Arg_cst (External_arg_spec.cst_int i)
     | Some (Str i) -> Arg_cst (External_arg_spec.cst_string i)
     | Some (Js_literal_str s) -> Arg_cst (External_arg_spec.cst_obj_literal s))
-  else
-    (* ([`a|`b] [@string]) *)
+  else (* ([`a|`b] [@string]) *)
     spec_of_ptyp nolabel ptyp
 
 (* Given the type of argument, process its [mel.*] attribute and new type,
@@ -666,7 +665,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
 
 let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
     (prim_name_or_pval_prim : bundle_source) (arg_type_specs_length : int)
-    arg_types_ty (arg_type_specs : External_arg_spec.params) :
+    arg_types_ty (arg_type_specs : External_arg_spec.param list) :
     External_ffi_types.external_spec =
   match st with
   | {
@@ -1032,7 +1031,7 @@ let handle_attributes (loc : Location.t) (type_annotation : core_type)
       (* need check name *)
     in
     let result_type, arg_types_ty =
-      (* Note this assumes external type is syntatic (no abstraction)*)
+      (* Note this assumes external type is syntactic (no abstraction)*)
       list_of_arrow type_annotation
     in
     if has_mel_uncurry result_type.ptyp_attributes then
@@ -1052,7 +1051,7 @@ let handle_attributes (loc : Location.t) (type_annotation : core_type)
       else
         let arg_type_specs, new_arg_types_ty, arg_type_specs_length =
           let variadic = external_desc.variadic in
-          let (init : External_arg_spec.params * param_type list * int) =
+          let (init : External_arg_spec.param list * param_type list * int) =
             match external_desc.val_send_pipe with
             | Some obj -> (
                 match refine_arg_type ~nolabel:true obj with
@@ -1136,7 +1135,6 @@ let handle_attributes (loc : Location.t) (type_annotation : core_type)
                 if arg_type = Ignore then i else i + 1 ))
             arg_types_ty ~init
         in
-
         let ffi : External_ffi_types.external_spec =
           external_desc_of_non_obj loc external_desc prim_name_or_pval_name
             arg_type_specs_length arg_types_ty arg_type_specs
