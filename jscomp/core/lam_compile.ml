@@ -1569,6 +1569,12 @@ and compile_prim (prim_info : Lam.prim_info)
          3. we need a location for Pccall in the call site
       *)
       match args with
+      | ( Lprim { primitive = Pjs_call _ as primitive; args = []; loc }
+        | Lsequence
+            (Lprim { primitive = Pjs_call _ as primitive; args = []; loc }, _)
+          )
+        :: rest ->
+          compile_lambda lambda_cxt (Lam.prim ~primitive ~args:rest loc)
       | fn :: rest ->
           compile_lambda lambda_cxt
             (Lam.apply fn rest
