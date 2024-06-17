@@ -58,9 +58,7 @@ let handle_mel_non_obj_ffi =
   let result_wrap loc
       (result_type : Melange_ffi.External_ffi_types.return_wrapper) result =
     match result_type with
-    | Return_replaced_with_unit ->
-        Format.eprintf "AHHAH@.";
-        Lam.seq result Lam.unit
+    | Return_replaced_with_unit -> Lam.seq result Lam.unit
     | Return_null_to_opt ->
         Lam.prim ~primitive:Pnull_to_opt ~args:[ result ] loc
     | Return_null_undefined_to_opt ->
