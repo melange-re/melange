@@ -140,9 +140,9 @@ Exercise matching over unicode strings
   true
 
 Matching over bytes read from a binary stream works like in OCaml.
-This is the main reason why `j` and `js` quoted strings exist, and using unicode
-literals like emojis in regular strings does not produce the expected result in
-the generated JavaScript code
+This and the tests below show the main reason why `j` and `js` quoted strings
+exist, and using unicode literals like emojis in regular strings does not
+produce the expected result in the generated JavaScript code
 
   $ cat > x.ml <<EOF
   > let bytes =
@@ -165,3 +165,46 @@ the generated JavaScript code
   $ dune build @mel
   $ node _build/default/output/x.js
   true
+
+Check the length of the string
+
+  $ cat > x.ml <<EOF
+  > let camel = "🐫"
+  > 
+  > let () =
+  >   let length = String.length camel in
+  >   Printf.printf "Length of the string in bytes: %d\n" length
+  > EOF
+
+  $ ocaml x.ml
+  Length of the string in bytes: 4
+
+  $ dune build @mel
+  $ node _build/default/output/x.js
+  Length of the string in bytes: 4
+
+Index into the string at the byte level
+
+  $ cat > x.ml <<EOF
+  > let camel = "🐫"
+  > 
+  > let print_bytes s =
+  >   for i = 0 to String.length s - 1 do
+  >     Printf.printf "Byte %d: 0x%X\n" i (Char.code (String.get s i))
+  >   done
+  > 
+  > let () = print_bytes camel
+  > EOF
+
+  $ ocaml x.ml
+  Byte 0: 0xF0
+  Byte 1: 0x9F
+  Byte 2: 0x90
+  Byte 3: 0xAB
+
+  $ dune build @mel
+  $ node _build/default/output/x.js
+  Byte 0: 0xF0
+  Byte 1: 0x9F
+  Byte 2: 0x90
+  Byte 3: 0xAB
