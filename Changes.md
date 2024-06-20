@@ -1,6 +1,8 @@
 Unreleased
 ---------------
 
+- BREAKING: stop escaping unicode in regular strings
+  ([#1142](https://github.com/melange-re/melange/pull/1142))
 - Make the `unprocessed` alert fatal by default
   ([#1135](https://github.com/melange-re/melange/pull/1135))
 - support `-H` for hidden include dirs in OCaml 5.2
