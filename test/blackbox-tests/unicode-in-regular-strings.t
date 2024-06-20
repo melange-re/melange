@@ -24,7 +24,7 @@ Showcase usage of escaped and literal unicode text in regular strings
   'use strict';
   
   
-  const s = "\xf0\x9f\x90\xab";
+  const s = "🐫";
   
   exports.s = s;
   /* No side effect */
@@ -39,7 +39,7 @@ Showcase usage of escaped and literal unicode text in regular strings
   'use strict';
   
   
-  const s = "\xf0\x9f\x90\xab";
+  const s = "🐫";
   
   exports.s = s;
   /* No side effect */

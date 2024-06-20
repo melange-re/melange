@@ -28,26 +28,6 @@ module P = Js_pp
 (** Avoid to allocate single char string too many times*)
 let array_str1 = Array.init 256 ~f:(fun i -> String.make 1 (Char.chr i))
 
-let array_conv =
-  [|
-    "0";
-    "1";
-    "2";
-    "3";
-    "4";
-    "5";
-    "6";
-    "7";
-    "8";
-    "9";
-    "a";
-    "b";
-    "c";
-    "d";
-    "e";
-    "f";
-  |]
-
 (* https://mathiasbynens.be/notes/javascript-escapes *)
 let ( +> ) = Buffer.add_string
 
@@ -76,16 +56,6 @@ let escape_to_buffer f (* ?(utf=false)*) s =
              next < '0' || next > '9' ->
           f +> "\\0"
       | '\\' (* when not utf*) -> f +> "\\\\"
-      | '\000' .. '\031' | '\127' ->
-          let c = Char.code c in
-          f +> "\\x";
-          f +> Array.unsafe_get array_conv (c lsr 4);
-          f +> Array.unsafe_get array_conv (c land 0xf)
-      | '\128' .. '\255' (* when not utf*) ->
-          let c = Char.code c in
-          f +> "\\x";
-          f +> Array.unsafe_get array_conv (c lsr 4);
-          f +> Array.unsafe_get array_conv (c land 0xf)
       | '\"' -> f +> "\\\"" (* quote*)
       | _ -> f +> Array.unsafe_get array_str1 (Char.code c)
     done
