@@ -3,7 +3,7 @@ Showcase usage of escaped and literal unicode text in regular strings
   $ . ./setup.sh
 
   $ cat > dune-project <<EOF
-  > (lang dune 3.15)
+  > (lang dune 3.13)
   > (using melange 0.1)
   > EOF
   $ cat > dune <<EOF
