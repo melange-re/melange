@@ -152,7 +152,7 @@ produce the expected result in the generated JavaScript code
   >     | 2 -> '\x90'
   >     | 3 -> '\xab'
   >     (* Should never happen since the length is 4 *)
-  >     | _ -> '\x00')
+  >     | _ -> assert false)
   > 
   > let () =
   >   Format.eprintf "%B@."
