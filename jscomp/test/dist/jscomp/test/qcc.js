@@ -1866,8 +1866,8 @@ function elfgen(outf) {
 }
 
 function main(param) {
-  const ppsym = function (param) {
-    switch (param.TAG | 0) {
+  const ppsym = function (s) {
+    switch (s.TAG | 0) {
       case /* Op */0 :
           return Curry._1(Stdlib__Printf.printf(/* Format */{
                           _0: {
@@ -1884,7 +1884,7 @@ function main(param) {
                             }
                           },
                           _1: "Operator '%s'\n"
-                        }), param._0);
+                        }), s._0);
       case /* ILit */1 :
           return Curry._1(Stdlib__Printf.printf(/* Format */{
                           _0: {
@@ -1903,7 +1903,7 @@ function main(param) {
                             }
                           },
                           _1: "Int literal %d\n"
-                        }), param._0);
+                        }), s._0);
       case /* SLit */2 :
           return Curry._1(Stdlib__Printf.printf(/* Format */{
                           _0: {
@@ -1920,9 +1920,9 @@ function main(param) {
                             }
                           },
                           _1: "Str literal %S\n"
-                        }), param._1);
+                        }), s._1);
       case /* Sym */3 :
-          const i = param._0;
+          const i = s._0;
           return Curry._2(Stdlib__Printf.printf(/* Format */{
                           _0: {
                             TAG: /* String_literal */11,

@@ -38,12 +38,12 @@ try {
             _1: "boo"
           });
 }
-catch (raw_exn){
-  const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  if (exn.MEL_EXN_ID === Stdlib.Failure) {
-    y = exn._1;
+catch (raw_msg){
+  const msg = Caml_js_exceptions.internalToOCamlException(raw_msg);
+  if (msg.MEL_EXN_ID === Stdlib.Failure) {
+    y = msg._1;
   } else {
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw new Caml_js_exceptions.MelangeError(msg.MEL_EXN_ID, msg);
   }
 }
 
@@ -57,12 +57,12 @@ try {
             _1: "boo"
           });
 }
-catch (raw_exn$1){
-  const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-  if (exn$1.MEL_EXN_ID === Stdlib.Failure) {
-    x = exn$1._1;
+catch (raw_msg$1){
+  const msg$1 = Caml_js_exceptions.internalToOCamlException(raw_msg$1);
+  if (msg$1.MEL_EXN_ID === Stdlib.Failure) {
+    x = msg$1._1;
   } else {
-    throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+    throw new Caml_js_exceptions.MelangeError(msg$1.MEL_EXN_ID, msg$1);
   }
 }
 

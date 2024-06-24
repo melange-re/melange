@@ -64,9 +64,9 @@ try {
   e = JSON.parse(" {\"x\"}");
   exit = 1;
 }
-catch (raw_exn){
-  const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  if (exn.MEL_EXN_ID === Js__Js_exn.$$Error) {
+catch (raw_x){
+  const x = Caml_js_exceptions.internalToOCamlException(raw_x);
+  if (x.MEL_EXN_ID === Js__Js_exn.$$Error) {
     add_test("File \"jscomp/test/js_exception_catch_test.ml\", line 21, characters 10-17", (function (param) {
             return {
                     TAG: /* Ok */4,
@@ -74,7 +74,7 @@ catch (raw_exn){
                   };
           }));
   } else {
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw new Caml_js_exceptions.MelangeError(x.MEL_EXN_ID, x);
   }
 }
 
