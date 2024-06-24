@@ -120,7 +120,7 @@ let lambda_of_groups ~(rev_bindings : Lam_group.t list) (result : Lam.t) : Lam.t
     since its semantics depend on whether v is used or not
     return value are in reverse order, but handled by [lambda_of_groups]
 *)
-let deep_flatten (lam : Lam.t) : Lam.t =
+let deep_flatten =
   let rec flatten (acc : Lam_group.t list) (lam : Lam.t) :
       Lam.t * Lam_group.t list =
     match lam with
@@ -327,4 +327,4 @@ let deep_flatten (lam : Lam.t) : Lam.t =
         Lam.send u (aux m) (aux o) (List.map ~f:aux ll) v
     | Lifused (v, l) -> Lam.ifused v (aux l)
   in
-  aux lam
+  fun (lam : Lam.t) : Lam.t -> aux lam
