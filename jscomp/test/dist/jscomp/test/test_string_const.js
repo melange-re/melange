@@ -10,13 +10,13 @@ let hh;
 try {
   hh = Caml_string.get("ghsogh", -3);
 }
-catch (raw_exn){
-  const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
-    console.log(exn._1);
+catch (raw_e){
+  const e = Caml_js_exceptions.internalToOCamlException(raw_e);
+  if (e.MEL_EXN_ID === Stdlib.Invalid_argument) {
+    console.log(e._1);
     hh = /* 'a' */97;
   } else {
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
   }
 }
 

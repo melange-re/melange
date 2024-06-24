@@ -295,9 +295,9 @@ function string_fold_lefti(f, e0, s) {
   };
 }
 
-function option_default(x, param) {
-  if (param !== undefined) {
-    return Caml_option.valFromOption(param);
+function option_default(x, y) {
+  if (y !== undefined) {
+    return Caml_option.valFromOption(y);
   } else {
     return x;
   }
@@ -372,8 +372,8 @@ function string_of_programmatic_error(e) {
 
 const Compilation_error = /* @__PURE__ */Caml_exceptions.create("Ocaml_proto_test.Exception.Compilation_error");
 
-function prepare_error(param) {
-  if (typeof param === "number") {
+function prepare_error(e) {
+  if (typeof e === "number") {
     return Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String_literal */11,
@@ -383,9 +383,9 @@ function prepare_error(param) {
                 _1: "Syntax error"
               });
   }
-  switch (param.TAG | 0) {
+  switch (e.TAG | 0) {
     case /* Unresolved_type */0 :
-        const match = param._0;
+        const match = e._0;
         return Curry._3(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -419,7 +419,7 @@ function prepare_error(param) {
                         _1: "unresolved type for field name : %s (type:%s, in message: %s)"
                       }), match.field_name, match.type_, match.message_name);
     case /* Duplicated_field_number */1 :
-        const match$1 = param._0;
+        const match$1 = e._0;
         return Curry._3(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -453,7 +453,7 @@ function prepare_error(param) {
                         _1: "duplicated field number for field name: %s (previous field name:%s, message: %s)"
                       }), match$1.field_name, match$1.previous_field_name, match$1.message_name);
     case /* Invalid_default_value */2 :
-        const match$2 = param._0;
+        const match$2 = e._0;
         return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -479,7 +479,7 @@ function prepare_error(param) {
                         _1: "invalid default value for field name:%s (info: %s)"
                       }), option_default("", match$2.field_name), match$2.info);
     case /* Unsupported_field_type */3 :
-        const match$3 = param._0;
+        const match$3 = e._0;
         return Curry._3(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -520,7 +520,7 @@ function prepare_error(param) {
                           }
                         },
                         _1: "programmatic error: %s"
-                      }), string_of_programmatic_error(param._0));
+                      }), string_of_programmatic_error(e._0));
     case /* Invalid_import_qualifier */5 :
         return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
@@ -533,7 +533,7 @@ function prepare_error(param) {
                           }
                         },
                         _1: "%sInvalid import qualified, only 'public' supported"
-                      }), to_string(param._0));
+                      }), to_string(e._0));
     case /* Invalid_file_name */6 :
         return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
@@ -550,7 +550,7 @@ function prepare_error(param) {
                           }
                         },
                         _1: "Invalid file name: %s, format must <name>.proto"
-                      }), param._0);
+                      }), e._0);
     case /* Import_file_not_found */7 :
         return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
@@ -567,7 +567,7 @@ function prepare_error(param) {
                           }
                         },
                         _1: "File: %s, could not be found."
-                      }), param._0);
+                      }), e._0);
     case /* Invalid_packed_option */8 :
         return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
@@ -580,7 +580,7 @@ function prepare_error(param) {
                           }
                         },
                         _1: "Invalid packed option for field: %s"
-                      }), param._0);
+                      }), e._0);
     case /* Missing_semicolon_for_enum_value */9 :
         return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
@@ -597,7 +597,7 @@ function prepare_error(param) {
                           }
                         },
                         _1: "%sMissing semicolon for enum value: %s"
-                      }), to_string(param._1), param._0);
+                      }), to_string(e._1), e._0);
     case /* Invalid_enum_specification */10 :
         return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
@@ -614,7 +614,7 @@ function prepare_error(param) {
                           }
                         },
                         _1: "%sMissing enum specification (<identifier> = <id>;) for enum value: %s"
-                      }), to_string(param._1), param._0);
+                      }), to_string(e._1), e._0);
     case /* Invalid_mutable_option */11 :
         return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
@@ -627,7 +627,7 @@ function prepare_error(param) {
                           }
                         },
                         _1: "Invalid mutable option for field %s"
-                      }), option_default("", param._0));
+                      }), option_default("", e._0));
     case /* Missing_one_of_name */12 :
         return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
@@ -640,7 +640,7 @@ function prepare_error(param) {
                           }
                         },
                         _1: "%sMissing oneof name"
-                      }), to_string(param._0));
+                      }), to_string(e._0));
     case /* Invalid_field_label */13 :
         return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
@@ -653,7 +653,7 @@ function prepare_error(param) {
                           }
                         },
                         _1: "%sInvalid field label. [required|repeated|optional] expected"
-                      }), to_string(param._0));
+                      }), to_string(e._0));
     case /* Missing_field_label */14 :
         return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
@@ -666,7 +666,7 @@ function prepare_error(param) {
                           }
                         },
                         _1: "%sMissing field label. [required|repeated|optional] expected"
-                      }), to_string(param._0));
+                      }), to_string(e._0));
     case /* Parsing_error */15 :
         return Curry._3(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
@@ -697,7 +697,7 @@ function prepare_error(param) {
                           }
                         },
                         _1: "File %s, line %i:\n%s"
-                      }), param._0, param._1, param._2);
+                      }), e._0, e._1, e._2);
     
   }
 }
@@ -1572,38 +1572,6 @@ const __ocaml_lex_tables = {
   lex_code: ""
 };
 
-function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
-  while(true) {
-    const __ocaml_lex_state = ___ocaml_lex_state;
-    const l = _l;
-    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
-    switch (__ocaml_lex_state$1) {
-      case 0 :
-          update_loc(lexbuf);
-          ___ocaml_lex_state = 47;
-          continue ;
-      case 1 :
-          Stdlib__Lexing.lexeme(lexbuf);
-          return /* Comment_value */{
-                  _0: Stdlib__String.concat("", Stdlib__List.rev(l))
-                };
-      case 2 :
-          ___ocaml_lex_state = 47;
-          _l = {
-            hd: Stdlib__Lexing.lexeme(lexbuf),
-            tl: l
-          };
-          continue ;
-      case 3 :
-          return /* Comment_eof */0;
-      default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
-        ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
-    }
-  };
-}
-
 function __ocaml_lex_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
   while(true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
@@ -1659,6 +1627,38 @@ function __ocaml_lex_string_rec(_l, lexbuf, ___ocaml_lex_state) {
           continue ;
       case 3 :
           return /* String_eof */0;
+      default:
+        Curry._1(lexbuf.refill_buff, lexbuf);
+        ___ocaml_lex_state = __ocaml_lex_state$1;
+        continue ;
+    }
+  };
+}
+
+function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
+  while(true) {
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const l = _l;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    switch (__ocaml_lex_state$1) {
+      case 0 :
+          update_loc(lexbuf);
+          ___ocaml_lex_state = 47;
+          continue ;
+      case 1 :
+          Stdlib__Lexing.lexeme(lexbuf);
+          return /* Comment_value */{
+                  _0: Stdlib__String.concat("", Stdlib__List.rev(l))
+                };
+      case 2 :
+          ___ocaml_lex_state = 47;
+          _l = {
+            hd: Stdlib__Lexing.lexeme(lexbuf),
+            tl: l
+          };
+          continue ;
+      case 3 :
+          return /* Comment_eof */0;
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -1847,18 +1847,18 @@ function string_of_basic_type(param) {
   }
 }
 
-function string_of_field_type(param) {
-  if (typeof param === "number") {
+function string_of_field_type(bt) {
+  if (typeof bt === "number") {
     return "unit";
-  } else if (param.TAG === /* Ft_basic_type */0) {
-    return string_of_basic_type(param._0);
+  } else if (bt.TAG === /* Ft_basic_type */0) {
+    return string_of_basic_type(bt._0);
   } else {
-    let param$1 = param._0;
-    const module_ = param$1.udt_module;
+    let param = bt._0;
+    const module_ = param.udt_module;
     if (module_ !== undefined) {
-      return module_ + ("." + param$1.udt_type_name);
+      return module_ + ("." + param.udt_type_name);
     } else {
-      return param$1.udt_type_name;
+      return param.udt_type_name;
     }
   }
 }
@@ -4036,8 +4036,8 @@ function eq_value(param) {
           });
 }
 
-function string_of_option(f, param) {
-  if (param !== undefined) {
+function string_of_option(f, x) {
+  if (x !== undefined) {
     return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                     _0: {
                       TAG: /* String_literal */11,
@@ -4053,7 +4053,7 @@ function string_of_option(f, param) {
                       }
                     },
                     _1: "Some(%s)"
-                  }), Curry._1(f, Caml_option.valFromOption(param)));
+                  }), Curry._1(f, Caml_option.valFromOption(x)));
   } else {
     return "None";
   }
@@ -4398,10 +4398,10 @@ function string_of_unresolved(param) {
                 }), string_of_string_list(param.scope), param.type_name, param.from_root);
 }
 
-function scope_of_package(param) {
-  if (param !== undefined) {
+function scope_of_package(s) {
+  if (s !== undefined) {
     return {
-            packages: Stdlib__List.rev(rev_split_by_char(/* '.' */46, param)),
+            packages: Stdlib__List.rev(rev_split_by_char(/* '.' */46, s)),
             message_names: /* [] */0
           };
   } else {
@@ -4681,15 +4681,15 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
     packages: sub_scope_packages,
     message_names: sub_scope_message_names
   };
-  const match = Stdlib__List.fold_left((function (param, param$1) {
+  const match = Stdlib__List.fold_left((function (param, f) {
           const all_types = param[2];
           const extensions = param[1];
           const message_body = param[0];
-          switch (param$1.TAG | 0) {
+          switch (f.TAG | 0) {
             case /* Message_field */0 :
                 const field = {
                   TAG: /* Message_field */0,
-                  _0: compile_field_p1(param$1._0)
+                  _0: compile_field_p1(f._0)
                 };
                 return [
                         {
@@ -4702,7 +4702,7 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
             case /* Message_map_field */1 :
                 const field$1 = {
                   TAG: /* Message_map_field */2,
-                  _0: compile_map_p1(param$1._0)
+                  _0: compile_map_p1(f._0)
                 };
                 return [
                         {
@@ -4715,7 +4715,7 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
             case /* Message_oneof_field */2 :
                 const field$2 = {
                   TAG: /* Message_oneof_field */1,
-                  _0: compile_oneof_p1(param$1._0)
+                  _0: compile_oneof_p1(f._0)
                 };
                 return [
                         {
@@ -4726,7 +4726,7 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
                         all_types
                       ];
             case /* Message_sub */3 :
-                const all_sub_types = compile_message_p1(file_name, file_options, sub_scope, param$1._0);
+                const all_sub_types = compile_message_p1(file_name, file_options, sub_scope, f._0);
                 return [
                         message_body,
                         extensions,
@@ -4737,14 +4737,14 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
                         message_body,
                         extensions,
                         Stdlib.$at(all_types, {
-                              hd: compile_enum_p1(file_name, file_options, sub_scope, param$1._0),
+                              hd: compile_enum_p1(file_name, file_options, sub_scope, f._0),
                               tl: /* [] */0
                             })
                       ];
             case /* Message_extension */5 :
                 return [
                         message_body,
-                        Stdlib.$at(extensions, param$1._0),
+                        Stdlib.$at(extensions, f._0),
                         all_types
                       ];
             
@@ -4785,12 +4785,12 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
               });
     }
   };
-  Stdlib__List.fold_left((function (number_index, param) {
-          switch (param.TAG | 0) {
+  Stdlib__List.fold_left((function (number_index, f) {
+          switch (f.TAG | 0) {
             case /* Message_field */0 :
-                return validate_duplicate(number_index, param._0);
+                return validate_duplicate(number_index, f._0);
             case /* Message_oneof_field */1 :
-                return Stdlib__List.fold_left(validate_duplicate, number_index, param._0.oneof_fields);
+                return Stdlib__List.fold_left(validate_duplicate, number_index, f._0.oneof_fields);
             case /* Message_map_field */2 :
                 return number_index;
             
@@ -5001,17 +5001,17 @@ function compile_message_p2(types, param, message) {
               });
     }
   };
-  const message_body = Stdlib__List.fold_left((function (message_body, param) {
-          switch (param.TAG | 0) {
+  const message_body = Stdlib__List.fold_left((function (message_body, field) {
+          switch (field.TAG | 0) {
             case /* Message_field */0 :
-                const field = param._0;
-                const field_name$1 = field_name(field);
-                const field_type$1 = field_type(field);
-                const field_field_parsed = field.field_parsed;
+                const field$1 = field._0;
+                const field_name$1 = field_name(field$1);
+                const field_type$1 = field_type(field$1);
+                const field_field_parsed = field$1.field_parsed;
                 const field_field_type = compile_field_p2(field_name$1, field_type$1);
-                const field_field_default = field.field_default;
-                const field_field_options = field.field_options;
-                const field$1 = {
+                const field_field_default = field$1.field_default;
+                const field_field_options = field$1.field_options;
+                const field$2 = {
                   field_parsed: field_field_parsed,
                   field_type: field_field_type,
                   field_default: field_field_default,
@@ -5019,9 +5019,9 @@ function compile_message_p2(types, param, message) {
                 };
                 const field_field_parsed$1 = field_field_parsed;
                 const field_field_type$1 = field_field_type;
-                const field_field_default$1 = compile_default_p2(types, field$1);
+                const field_field_default$1 = compile_default_p2(types, field$2);
                 const field_field_options$1 = field_field_options;
-                const field$2 = {
+                const field$3 = {
                   field_parsed: field_field_parsed$1,
                   field_type: field_field_type$1,
                   field_default: field_field_default$1,
@@ -5030,12 +5030,12 @@ function compile_message_p2(types, param, message) {
                 return {
                         hd: {
                           TAG: /* Message_field */0,
-                          _0: field$2
+                          _0: field$3
                         },
                         tl: message_body
                       };
             case /* Message_oneof_field */1 :
-                const oneof = param._0;
+                const oneof = field._0;
                 const oneof_fields = Stdlib__List.fold_left((function (oneof_fields, field) {
                         const field_name$2 = field_name(field);
                         const field_type$2 = field_type(field);
@@ -5062,7 +5062,7 @@ function compile_message_p2(types, param, message) {
                         tl: message_body
                       };
             case /* Message_map_field */2 :
-                const map = param._0;
+                const map = field._0;
                 const map_name = map.map_name;
                 const map_key_type = compile_field_p2(map_name, map.map_key_type);
                 const map_value_type = compile_field_p2(map_name, map.map_value_type);
@@ -7426,21 +7426,21 @@ function compile(proto_definition) {
                                 break;
                             
                           }
-                          const match = Stdlib__List.fold_left((function (param, param$1) {
+                          const match = Stdlib__List.fold_left((function (param, field) {
                                   const fields = param[1];
                                   const variants = param[0];
-                                  switch (param$1.TAG | 0) {
+                                  switch (field.TAG | 0) {
                                     case /* Message_field */0 :
-                                        const field = param$1._0;
-                                        const match = encoding_of_field(all_pbtt_msgs$1, field);
+                                        const field$1 = field._0;
+                                        const match = encoding_of_field(all_pbtt_msgs$1, field$1);
                                         const encoding_number = match[1];
                                         const pk = match[0];
-                                        const field_name$1 = field_name(field);
-                                        const field_options$1 = field_options(field);
-                                        const field_type$1 = compile_field_type(field_name$1, all_pbtt_msgs$1, file_options, field_options$1, file_name, field_type(field));
-                                        const field_default$1 = field_default(field);
+                                        const field_name$1 = field_name(field$1);
+                                        const field_options$1 = field_options(field$1);
+                                        const field_type$1 = compile_field_type(field_name$1, all_pbtt_msgs$1, file_options, field_options$1, file_name, field_type(field$1));
+                                        const field_default$1 = field_default(field$1);
                                         const mutable_ = is_mutable(field_name$1, field_options$1);
-                                        const match$1 = field_label(field);
+                                        const match$1 = field_label(field$1);
                                         let record_field_type;
                                         if (match$1 === "Optional") {
                                           record_field_type = {
@@ -7502,13 +7502,13 @@ function compile(proto_definition) {
                                                 }
                                               ];
                                     case /* Message_oneof_field */1 :
-                                        const field$1 = param$1._0;
+                                        const field$2 = field._0;
                                         const outer_message_names = Stdlib.$at(message_names, {
                                               hd: message_name,
                                               tl: /* [] */0
                                             });
-                                        const variant = variant_of_oneof(Caml_option.some(undefined), outer_message_names, all_pbtt_msgs$1, file_options, file_name, field$1);
-                                        const record_field_rf_label$1 = label_name_of_field_name(field$1.oneof_name);
+                                        const variant = variant_of_oneof(Caml_option.some(undefined), outer_message_names, all_pbtt_msgs$1, file_options, file_name, field$2);
+                                        const record_field_rf_label$1 = label_name_of_field_name(field$2.oneof_name);
                                         const record_field_rf_field_type = {
                                           TAG: /* Rft_variant_field */4,
                                           _0: variant
@@ -7538,7 +7538,7 @@ function compile(proto_definition) {
                                                 fields$1
                                               ];
                                     case /* Message_map_field */2 :
-                                        const mf = param$1._0;
+                                        const mf = field._0;
                                         const map_options = mf.map_options;
                                         const map_value_type = mf.map_value_type;
                                         const map_key_type = mf.map_key_type;

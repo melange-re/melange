@@ -37,9 +37,9 @@ const suites_1 = {
     "fromString",
     (function (param) {
         const contentOf = function (tag, xmlString) {
-          const param = new RegExp("<" + (tag + (">(.*?)<\\/" + (tag + ">")))).exec(xmlString);
-          if (param !== null) {
-            return Caml_option.nullable_to_opt(Caml_array.get(param, 1));
+          const result = new RegExp("<" + (tag + (">(.*?)<\\/" + (tag + ">")))).exec(xmlString);
+          if (result !== null) {
+            return Caml_option.nullable_to_opt(Caml_array.get(result, 1));
           }
           
         };

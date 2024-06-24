@@ -26,12 +26,12 @@ function f0(x) {
 
 const Small = /* @__PURE__ */Caml_exceptions.create("Large_record_duplication_test.Small");
 
-function f_small(param) {
-  if (param.MEL_EXN_ID === Small) {
+function f_small(u) {
+  if (u.MEL_EXN_ID === Small) {
     return {
             MEL_EXN_ID: Small,
             x: 2,
-            y: param.y
+            y: u.y
           };
   } else {
     return {
