@@ -146,7 +146,7 @@ type t =
   | Pvoid_run
   | Pfull_apply
   (* we wrap it when do the conversion to prevent
-     accendential optimization
+     accidental optimization
      play safe first
   *)
   | Pjs_fn_method

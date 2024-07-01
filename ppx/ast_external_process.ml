@@ -1144,6 +1144,8 @@ let handle_attributes (loc : Location.t) (type_annotation : core_type)
         (* currently we don't process attributes of
            return type, in the future we may *)
         let return_wrapper =
+          (* TODO(anmonteiro): don't add the return wrapper for unit if this is
+             uncurried? saves the brittle pattern matching in Lam_compile *)
           check_return_wrapper loc external_desc.return_wrapper result_type
         in
         ( mk_fn_type new_arg_types_ty result_type,
@@ -1154,12 +1156,28 @@ let handle_attributes (loc : Location.t) (type_annotation : core_type)
 let handle_attributes_as_string (pval_loc : Location.t) (typ : core_type)
     (attrs : attribute list) (pval_name : string) (prim_name : string) :
     response =
-  let pval_type, ffi, pval_attributes, no_inline_cross_module =
-    handle_attributes pval_loc typ attrs pval_name prim_name
-  in
-  {
-    pval_type;
-    pval_prim = [ prim_name; External_ffi_types.to_string ffi ];
-    pval_attributes;
-    no_inline_cross_module;
-  }
+  match typ.ptyp_desc with
+  | Ptyp_constr
+      ({ txt = Ldot (Ldot (Lident "Js", "Fn"), arity); loc }, [ fn_type ]) ->
+      let pval_type, ffi, pval_attributes, no_inline_cross_module =
+        handle_attributes pval_loc fn_type attrs pval_name prim_name
+      in
+      {
+        pval_type =
+          Ast_helper.Typ.constr
+            { txt = Ldot (Ast_literal.js_fn, arity); loc }
+            [ pval_type ];
+        pval_prim = [ prim_name; External_ffi_types.to_string ffi ];
+        pval_attributes;
+        no_inline_cross_module;
+      }
+  | _ ->
+      let pval_type, ffi, pval_attributes, no_inline_cross_module =
+        handle_attributes pval_loc typ attrs pval_name prim_name
+      in
+      {
+        pval_type;
+        pval_prim = [ prim_name; External_ffi_types.to_string ffi ];
+        pval_attributes;
+        no_inline_cross_module;
+      }

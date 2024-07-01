@@ -262,17 +262,32 @@ let translate_ffi =
       (args : J.expression list) ->
     match ffi with
     | Js_call
-        { external_module_name = module_name; name = fn; variadic; scopes } ->
+        { external_module_name = module_name; name = fn; variadic; scopes } -> (
         let fn = translate_scoped_module_val module_name fn scopes in
-        if variadic then
-          let args, eff, dynamic = assemble_args_has_splice arg_types args in
-          add_eff eff
-            (if dynamic then splice_fn_apply fn args
-             else E.call ~info:{ arity = Full; call_info = Call_na } fn args)
-        else
-          let args, eff = assemble_args_no_splice arg_types args in
-          add_eff eff
-          @@ E.call ~info:{ arity = Full; call_info = Call_na } fn args
+        match (arg_types, args) with
+        | _ :: _, [] ->
+            (* We end up here in the following case:
+
+                external x : ('a -> 'a array[@u]) = "x"
+                let x = x
+
+               An uncurried external being used as an OCaml value:
+                 - arg types were extracted to process attributes, but there
+                   are no args since the function is being used as a value.
+            *)
+            fn
+        | _ ->
+            if variadic then
+              let args, eff, dynamic =
+                assemble_args_has_splice arg_types args
+              in
+              add_eff eff
+                (if dynamic then splice_fn_apply fn args
+                 else E.call ~info:{ arity = Full; call_info = Call_na } fn args)
+            else
+              let args, eff = assemble_args_no_splice arg_types args in
+              add_eff eff
+              @@ E.call ~info:{ arity = Full; call_info = Call_na } fn args)
     | Js_module_as_fn { external_module_name; variadic } ->
         let fn = external_var external_module_name in
         if variadic then
