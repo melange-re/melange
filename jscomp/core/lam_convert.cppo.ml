@@ -189,7 +189,7 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
       Lam.prim ~primitive:(Pccall { prim_name = "caml_int_compare" }) ~args loc
   | Pcompare_floats ->
       Lam.prim ~primitive:(Pccall { prim_name = "caml_float_compare" }) ~args loc
-  | Pcompare_bints Pnativeint -> assert false
+  | Pcompare_bints Pnativeint -> Lam.prim ~primitive:(Pccall {prim_name = "caml_nativeint_compare" }) ~args loc
   | Pcompare_bints Pint32 ->
       Lam.prim ~primitive:(Pccall { prim_name = "caml_int32_compare" }) ~args loc
   | Pcompare_bints Pint64 ->
