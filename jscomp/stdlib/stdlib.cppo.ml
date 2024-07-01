@@ -752,6 +752,7 @@ module In_channel   = In_channel
 module Int          = Int
 module Int32        = Int32
 module Int64        = Int64
+module Nativeint    = Nativeint
 module Lazy         = Lazy
 module Lexing       = Lexing
 module List         = List
@@ -762,7 +763,6 @@ module MoreLabels   = MoreLabels
 module Mutex          = Mutex
 #ifdef BS
 #else
-module Nativeint    = Nativeint
 #endif
 module Obj          = Obj
 module Oo           = Oo

@@ -65,16 +65,6 @@ Demonstrate PPX error messages
   [1]
 
   $ cat > x.ml <<EOF
-  > let x = 42n
-  > EOF
-  $ dune build @melange
-  File "x.ml", line 1, characters 8-11:
-  1 | let x = 42n
-              ^^^
-  Error: `nativeint' is not currently supported in Melange. The `n' suffix cannot be used.
-  [1]
-
-  $ cat > x.ml <<EOF
   > external cast: 'a -> 'b -> 'c = "%identity"
   > EOF
   $ dune build @melange
