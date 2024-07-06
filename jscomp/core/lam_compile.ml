@@ -1575,8 +1575,9 @@ and compile_prim (prim_info : Lam.prim_info)
       | Lprim
           {
             primitive =
-              Pjs_call { ffi = Js_send _ | Js_get _ | Js_get_index _; _ } as
-              primitive;
+              Pjs_call
+                { ffi = Js_call _ | Js_send _ | Js_get _ | Js_get_index _; _ }
+              as primitive;
             args = [];
             loc;
           }
