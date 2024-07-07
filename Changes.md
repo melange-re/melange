@@ -5,6 +5,8 @@ Unreleased
   ([#1135](https://github.com/melange-re/melange/pull/1135))
 - support `-H` for hidden include dirs in OCaml 5.2
   ([#1137](https://github.com/melange-re/melange/pull/1137))
+- support `[@mel.*]` attributes in uncurried externals
+  ([#1140](https://github.com/melange-re/melange/pull/1140))
 
 4.0.1 2024-06-07
 ---------------

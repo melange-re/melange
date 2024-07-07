@@ -1569,6 +1569,44 @@ and compile_prim (prim_info : Lam.prim_info)
          3. we need a location for Pccall in the call site
       *)
       match args with
+      (* It's a bit sad that we have to match specifically on the output of
+         `Lam_ffi.result_wrap` to handle the case of result wrapping for
+         uncurried externals. *)
+      | Lprim
+          {
+            primitive =
+              Pjs_call
+                { ffi = Js_call _ | Js_send _ | Js_get _ | Js_get_index _; _ }
+              as primitive;
+            args = [];
+            loc;
+          }
+        :: rest ->
+          compile_lambda lambda_cxt (Lam.prim ~primitive ~args:rest loc)
+      | Lsequence
+          (Lprim { primitive = Pjs_call _ as primitive; args = []; loc }, l2)
+        :: rest ->
+          let output_l1 =
+            compile_lambda
+              { lambda_cxt with continuation = EffectCall Not_tail }
+              (Lam.prim ~primitive ~args:rest loc)
+          in
+          let output_l2 = compile_lambda lambda_cxt l2 in
+          Js_output.append_output output_l1 output_l2
+      | Lprim
+          {
+            primitive =
+              (Pnull_to_opt | Pnull_undefined_to_opt | Pundefined_to_opt) as
+              nu_prim;
+            args =
+              [ Lprim { primitive = Pjs_call _ as primitive; args = []; loc } ];
+            loc = nu_loc;
+          }
+        :: rest ->
+          compile_lambda lambda_cxt
+            (Lam.prim ~primitive:nu_prim
+               ~args:[ Lam.prim ~primitive ~args:rest loc ]
+               nu_loc)
       | fn :: rest ->
           compile_lambda lambda_cxt
             (Lam.apply fn rest
