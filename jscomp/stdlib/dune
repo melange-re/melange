@@ -140,6 +140,12 @@
   (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
+ (deps nativeint.cppo.ml)
+ (target nativeint.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
  (deps parsing.cppo.ml)
  (target parsing.ml)
  (action
