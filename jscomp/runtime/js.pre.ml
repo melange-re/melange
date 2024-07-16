@@ -156,3 +156,4 @@ module WeakMap = Js_weakmap
 module Iterator = Js_iterator
 module FormData = Js_formData
 module OO = Js_OO
+module FormData = Js_formData
