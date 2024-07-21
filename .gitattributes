@@ -1,4 +1,6 @@
 docs/Manual.html binary
 docs/Manual.pdf binary
-*.ml linguist-language=OCaml
-*.mli linguist-language=OCaml
+*.ml linguist-language=OCaml eol=lf
+*.mli linguist-language=OCaml eol=lf
+*.sh text eol=lf
+
