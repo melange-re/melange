@@ -293,3 +293,4 @@ type svgPoint
 type eventPointerId
 
 module Storage = Dom_storage
+module FormData = Dom_formData
