@@ -687,6 +687,7 @@ let rec eval_const_as_bool (v : Constant.t) : bool =
   | Const_int { i = x; _ } -> x <> 0l
   | Const_char x -> Char.code x <> 0
   | Const_int64 x -> x <> 0L
+  | Const_nativeint x -> x <> 0n
   | Const_js_false | Const_js_null | Const_module_alias | Const_js_undefined ->
       false
   | Const_js_true | Const_string _ | Const_pointer _ | Const_float _

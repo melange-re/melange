@@ -759,11 +759,8 @@ module ListLabels   = ListLabels
 module Map          = Map
 module Marshal      = Marshal
 module MoreLabels   = MoreLabels
-module Mutex          = Mutex
-#ifdef BS
-#else
+module Mutex        = Mutex
 module Nativeint    = Nativeint
-#endif
 module Obj          = Obj
 module Oo           = Oo
 module Option       = Option
