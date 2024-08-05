@@ -218,7 +218,6 @@ type _htmlVideoElement
 type htmlVideoElement = _htmlVideoElement htmlElement_like
 type location
 type window
-type windowProxy
 type _xmlDocument
 type xmlDocument = _xmlDocument document_like
 
