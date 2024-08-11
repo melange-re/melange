@@ -14,6 +14,20 @@ type cssStyleSheet
 (* events (early) *)
 type 'a eventTarget_like
 type eventTarget = _baseClass eventTarget_like
+type _messagePort
+type messagePort = _messagePort eventTarget_like
+type _serviceWorker
+type serviceWorker = _serviceWorker eventTarget_like
+type _worker
+type worker = _worker eventTarget_like
+type 'a _workerGlobalScope
+type workerGlobalScope = _baseClass 'a _workerGlobalScope eventTarget_like
+type _dedicatedWorkerGlobalScope
+type dedicatedWorkerGlobalScope = _dedicatedWorkerGlobalScope 'a _workerGlobalScope eventTarget_like
+type _serviceWorkerGlobalScope
+type serviceWorkerGlobalScope = _serviceWorkerGlobalScope 'a _workerGlobalScope eventTarget_like
+type _sharedWorkerGlobalScope
+type sharedWorkerGlobalScope = _sharedWorkerGlobalScope 'a _workerGlobalScope eventTarget_like
 
 (* nodes *)
 type 'a _node
@@ -236,6 +250,8 @@ type _inputEvent
 type inputEvent = _inputEvent uiEvent_like
 type _keyboardEvent
 type keyboardEvent = _keyboardEvent uiEvent_like
+type _messageEvent
+type messageEvent = _messageEvent event_like
 type 'a _mouseEvent
 type 'a mouseEvent_like = 'a _mouseEvent uiEvent_like
 type mouseEvent = _baseClass mouseEvent_like
@@ -291,5 +307,6 @@ type svgPoint
 
 (* special *)
 type eventPointerId
+type messageChannel
 
 module Storage = Dom_storage
