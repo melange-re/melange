@@ -7,6 +7,8 @@ Unreleased
   ([#1137](https://github.com/melange-re/melange/pull/1137))
 - support `[@mel.*]` attributes in uncurried externals
   ([#1140](https://github.com/melange-re/melange/pull/1140))
+- add Worker types to `melange.dom`
+  ([#1147](https://github.com/melange-re/melange/pull/1147))
 
 4.0.1 2024-06-07
 ---------------
