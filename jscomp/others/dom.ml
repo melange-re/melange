@@ -21,14 +21,13 @@ type serviceWorker = _serviceWorker eventTarget_like
 type _worker
 type worker = _worker eventTarget_like
 type 'a _workerGlobalScope
-type 'a workerGlobalScope_like = 'a _workerGlobalScope eventTarget_like
-type workerGlobalScope = _baseClass workerGlobalScope_like
+type workerGlobalScope = _baseClass 'a _workerGlobalScope eventTarget_like
 type _dedicatedWorkerGlobalScope
-type dedicatedWorkerGlobalScope = _dedicatedWorkerGlobalScope workerGlobalScope_like
+type dedicatedWorkerGlobalScope = _dedicatedWorkerGlobalScope 'a _workerGlobalScope eventTarget_like
 type _serviceWorkerGlobalScope
-type serviceWorkerGlobalScope = _serviceWorkerGlobalScope workerGlobalScope_like
+type serviceWorkerGlobalScope = _serviceWorkerGlobalScope 'a _workerGlobalScope eventTarget_like
 type _sharedWorkerGlobalScope
-type sharedWorkerGlobalScope = _sharedWorkerGlobalScope workerGlobalScope_like
+type sharedWorkerGlobalScope = _sharedWorkerGlobalScope 'a _workerGlobalScope eventTarget_like
 
 (* nodes *)
 type 'a _node
