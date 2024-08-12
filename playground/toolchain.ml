@@ -61,10 +61,9 @@ let parseWith =
             ("endLineEndChar", intToJsFloat end_line_end_char);
           |]
   in
-  fun f
-      (*  : *)
-      (* Lexing.lexbuf -> Ppxlib_ast.Parsetree.structure * Reason_comment.t list *)
-        lexbuf ->
+  fun (f :
+        Lexing.lexbuf -> Ppxlib_ast.Parsetree.structure * Reason_comment.t list)
+      lexbuf ->
     (* you can't throw an Error here. jsoo parses the string and turns it into
        something else *)
     let throwAnything = Js.js_expr "function(a) {throw a}" in
