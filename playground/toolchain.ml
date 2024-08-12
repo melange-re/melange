@@ -11,15 +11,12 @@ let feed_string_with_newline str =
   let off = ref 0 in
   let f buf n =
     let remaining = strlen + 1 - !off in
-    (* Format.eprintf "off: %d; len: %d; n: %d; rem: %d@." !off strlen n remaining; *)
     if remaining = 0 then 0
     else if remaining > n then (
-      (* Format.eprintf "x0@."; *)
       Bytes.blit_string str !off buf 0 n;
       off := !off + n;
       n)
     else (
-      (* Format.eprintf "x1@."; *)
       Bytes.blit_string str !off buf 0 (remaining - 1);
       Bytes.blit_string "\n" 0 buf (remaining - 1) 1;
       off := !off + remaining;
