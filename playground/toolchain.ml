@@ -4,6 +4,29 @@ module ML = Reason_toolchain.ML
 
 let intToJsFloat i = Js.number_of_float (float_of_int i)
 
+(* Add ending newline as otherwise the Reason parser takes a while to parse
+   inputs that end with newline characters *)
+let feed_string_with_newline str =
+  let strlen = String.length str in
+  let off = ref 0 in
+  let f buf n =
+    let remaining = strlen + 1 - !off in
+    (* Format.eprintf "off: %d; len: %d; n: %d; rem: %d@." !off strlen n remaining; *)
+    if remaining = 0 then 0
+    else if remaining > n then (
+      (* Format.eprintf "x0@."; *)
+      Bytes.blit_string str !off buf 0 n;
+      off := !off + n;
+      n)
+    else (
+      (* Format.eprintf "x1@."; *)
+      Bytes.blit_string str !off buf 0 (remaining - 1);
+      Bytes.blit_string "\n" 0 buf (remaining - 1) 1;
+      off := !off + remaining;
+      remaining)
+  in
+  Lexing.from_function f
+
 let parseWith =
   (* Adapted from:
      https://github.com/reasonml/reason/blob/da280770c/js/refmt.ml *)
@@ -41,20 +64,15 @@ let parseWith =
             ("endLineEndChar", intToJsFloat end_line_end_char);
           |]
   in
-  fun (f :
-        Lexing.lexbuf -> Ppxlib_ast.Parsetree.structure * Reason_comment.t list)
-      code ->
+  fun f
+      (*  : *)
+      (* Lexing.lexbuf -> Ppxlib_ast.Parsetree.structure * Reason_comment.t list *)
+        lexbuf ->
     (* you can't throw an Error here. jsoo parses the string and turns it into
        something else *)
     let throwAnything = Js.js_expr "function(a) {throw a}" in
-    let code =
-      (* Add ending new line as otherwise reason parser chokes with inputs such
-         as "//" *)
-      Js.to_string code ^ "\n"
-    in
-    try f (Lexing.from_string code)
-    with
-    (* from ocaml and reason *)
+    try f lexbuf
+    with (* from ocaml and reason *)
     | Reason_errors.Reason_error (err, loc) ->
       let jsLocation = locationToJsObj loc in
       let error_buf = Buffer.create 256 in
@@ -69,8 +87,13 @@ let parseWith =
       in
       Obj.magic (Js.fun_call throwAnything [| jsError |])
 
-let parseRE = parseWith RE.implementation_with_comments
-let parseML = parseWith ML.implementation_with_comments
+let parseRE s =
+  parseWith RE.implementation_with_comments
+    (feed_string_with_newline (Js.to_string s))
+
+let parseML s =
+  parseWith ML.implementation_with_comments
+    (feed_string_with_newline (Js.to_string s))
 
 let printWith ~f structureAndComments =
   Js.string (Format.asprintf "%a" f structureAndComments)
