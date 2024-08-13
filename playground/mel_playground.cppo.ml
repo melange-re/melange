@@ -186,7 +186,7 @@ let compile =
     let types_signature = ref [] in
     warnings_collected := [];
     try
-      let lexbuf = Lexing.from_string str in
+      let lexbuf = Toolchain.feed_string_with_newline str in
       Ocaml_common.Location.input_lexbuf := Some lexbuf;
       Location.input_lexbuf := Some lexbuf;
       let ast =
