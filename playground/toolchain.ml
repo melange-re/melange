@@ -68,7 +68,7 @@ let parseWith =
        something else *)
     let throwAnything = Js.js_expr "function(a) {throw a}" in
     try f lexbuf
-    with (* from ocaml and reason *)
+    with
     | Reason_errors.Reason_error (err, loc) ->
       let jsLocation = locationToJsObj loc in
       let error_buf = Buffer.create 256 in
