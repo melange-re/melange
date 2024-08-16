@@ -87,6 +87,7 @@ let buildMap (row_fields : row_field list) =
               let name : string =
                 match
                   Ast_attributes.iter_process_mel_string_as tag.prf_attributes
+                  |> fst
                 with
                 | Some name ->
                     has_mel_as := true;

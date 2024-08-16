@@ -326,23 +326,25 @@ let iter_process_mel_string_int_unwrap_uncurry attrs =
     attrs;
   !st
 
-let iter_process_mel_string_as attrs : string option =
-  let st = ref None in
-  List.iter
-    ~f:(fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
+let iter_process_mel_string_as attrs : string option * attributes =
+  List.fold_right
+    ~f:(fun
+        ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr)
+        (acc, attrs_acc)
+      ->
       match txt with
-      | "mel.as" | "bs.as" | "as" ->
+      | "mel.as" | "bs.as" | "as" -> (
           error_if_bs_or_non_namespaced ~loc txt;
-          if !st = None then (
-            match Ast_payload.is_single_string payload with
-            | None -> Error.err ~loc Expect_string_literal
-            | Some (v, _dec) ->
-                Mel_ast_invariant.mark_used_mel_attribute attr;
-                st := Some v)
-          else Error.err ~loc Duplicated_mel_as
-      | _ -> ())
-    attrs;
-  !st
+          match acc with
+          | None -> (
+              match Ast_payload.is_single_string payload with
+              | None -> Error.err ~loc Expect_string_literal
+              | Some (v, _dec) ->
+                  Mel_ast_invariant.mark_used_mel_attribute attr;
+                  (Some v, attrs_acc))
+          | Some _ -> Error.err ~loc Duplicated_mel_as)
+      | _ -> (acc, attr :: attrs_acc))
+    ~init:(None, []) attrs
 
 let first_char_special (x : string) =
   match x with

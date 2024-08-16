@@ -103,15 +103,16 @@ let derive_js_constructor ?(is_deprecated = false) tdcl =
               }
               (maker, labels)
             ->
-            let newLabel =
+            let newLabel, remaining_attrs =
               match
                 Ast_attributes.iter_process_mel_string_as pld_attributes
               with
-              | None -> pld_name
-              | Some new_name -> { pld_name with txt = new_name }
+              | None, remaining_attrs -> (pld_name, remaining_attrs)
+              | Some new_name, remaining_attrs ->
+                  ({ pld_name with txt = new_name }, remaining_attrs)
             in
             let is_optional, remaining_attrs =
-              Ast_attributes.has_mel_optional pld_attributes
+              Ast_attributes.has_mel_optional remaining_attrs
             in
             let maker =
               if is_optional then
@@ -220,17 +221,17 @@ let derive_getters_setters =
               }
               acc
             ->
-            let prim_as_name =
+            let prim_as_name, remaining_attrs =
               match
                 Ast_attributes.iter_process_mel_string_as pld_attributes
               with
-              | None -> label_name
-              | Some new_name -> new_name
+              | None, remaining_attrs -> (label_name, remaining_attrs)
+              | Some new_name, remaining_attrs -> (new_name, remaining_attrs)
             in
             let prim = [ prim_as_name ] in
             let acc =
               let is_optional, _ =
-                Ast_attributes.has_mel_optional pld_attributes
+                Ast_attributes.has_mel_optional remaining_attrs
               in
               if is_optional then
                 let optional_type = pld_type in

@@ -490,6 +490,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                   | _ ->
                       Ast_attributes.iter_process_mel_string_as
                         param_type.ty.ptyp_attributes
+                      |> fst
                       |> Option.map (fun name ->
                              match param_type.label with
                              | Labelled _ -> Labelled name

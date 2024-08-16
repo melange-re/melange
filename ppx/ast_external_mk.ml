@@ -185,6 +185,7 @@ let record_as_js_object ~loc
         | Lident obj_label ->
             let obj_label =
               Ast_attributes.iter_process_mel_string_as e.pexp_attributes
+              |> fst
               |> Option.value ~default:obj_label
             in
             ( { Asttypes.loc; txt = obj_label } :: labels,
