@@ -407,16 +407,16 @@ let iter_process_mel_int_as attrs =
     attrs;
   !st
 
-let has_mel_optional attrs : bool =
-  List.exists
-    ~f:(fun ({ attr_name = { txt; loc }; _ } as attr) ->
+let has_mel_optional attrs : bool * attribute list =
+  List.fold_right
+    ~f:(fun ({ attr_name = { txt; loc }; _ } as attr) (acc, acc_attrs) ->
       match txt with
       | "mel.optional" | "bs.optional" | "optional" ->
           error_if_bs_or_non_namespaced ~loc txt;
           Mel_ast_invariant.mark_used_mel_attribute attr;
-          true
-      | _ -> false)
-    attrs
+          (true, acc_attrs)
+      | _ -> (acc, attr :: acc_attrs))
+    ~init:(false, []) attrs
 
 let is_inline : attribute -> bool =
  fun { attr_name = { txt; loc }; _ } ->

@@ -60,9 +60,6 @@ val pval_prim_of_labels : string Asttypes.loc list -> string list
     {[ [%obj { x = 2; y = 1} ] ]}
 *)
 
-val pval_prim_of_option_labels :
-  (bool * string Asttypes.loc) list -> bool -> string list
-
 val record_as_js_object :
   loc:Location.t ->
   (Longident.t Asttypes.loc * expression) list ->

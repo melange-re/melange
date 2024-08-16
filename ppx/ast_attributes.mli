@@ -57,7 +57,7 @@ val iter_process_mel_string_int_unwrap_uncurry :
 
 val iter_process_mel_string_as : attribute list -> label option
 val iter_process_mel_int_as : attribute list -> int option
-val has_mel_optional : attribute list -> bool
+val has_mel_optional : attribute list -> bool * attribute list
 val has_inline_payload : attribute list -> attribute option
 val rs_externals : attribute list -> string list -> bool
 
