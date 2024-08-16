@@ -166,7 +166,10 @@ let pval_prim_of_labels (labels : string Asttypes.loc list) =
           Melange_ffi.External_arg_spec.obj_label
             (Melange_ffi.Lam_methname.translate p.txt)
         in
-        { Melange_ffi.External_arg_spec.obj_arg_type = Nothing; obj_arg_label }
+        {
+          Melange_ffi.External_arg_spec.arg_type = Nothing;
+          arg_label = obj_arg_label;
+        }
         :: arg_kinds)
       labels ~init:[]
   in
@@ -183,7 +186,10 @@ let pval_prim_of_option_labels (labels : (bool * string Asttypes.loc) list)
             Melange_ffi.External_arg_spec.optional false label_name
           else Melange_ffi.External_arg_spec.obj_label label_name
         in
-        { Melange_ffi.External_arg_spec.obj_arg_type = Nothing; obj_arg_label }
+        {
+          Melange_ffi.External_arg_spec.arg_type = Nothing;
+          arg_label = obj_arg_label;
+        }
         :: arg_kinds)
       labels
       ~init:

@@ -30,14 +30,20 @@
    if it does not we wrap it in a normal way otherwise
 *)
 let rec no_auto_uncurried_arg_types
-    (xs : Melange_ffi.External_arg_spec.param list) =
+    (xs :
+      Melange_ffi.External_arg_spec.label_noname
+      Melange_ffi.External_arg_spec.param
+      list) =
   match xs with
   | [] -> true
   | { arg_type = Fn_uncurry_arity _; _ } :: _ -> false
   | _ :: xs -> no_auto_uncurried_arg_types xs
 
 let rec transform_uncurried_arg_type loc
-    (arg_types : Melange_ffi.External_arg_spec.param list) (args : Lam.t list) =
+    (arg_types :
+      Melange_ffi.External_arg_spec.label_noname
+      Melange_ffi.External_arg_spec.param
+      list) (args : Lam.t list) =
   match (arg_types, args) with
   | { arg_type = Fn_uncurry_arity n; arg_label } :: xs, y :: ys ->
       let o_arg_types, o_args = transform_uncurried_arg_type loc xs ys in
@@ -67,9 +73,11 @@ let handle_mel_non_obj_ffi =
         Lam.prim ~primitive:Pundefined_to_opt ~args:[ result ] loc
     | Return_unset | Return_identity -> result
   in
-  fun (arg_types : Melange_ffi.External_arg_spec.param list)
-      (result_type : Melange_ffi.External_ffi_types.return_wrapper) ffi args loc
-      prim_name ->
+  fun (arg_types :
+        Melange_ffi.External_arg_spec.label_noname
+        Melange_ffi.External_arg_spec.param
+        list) (result_type : Melange_ffi.External_ffi_types.return_wrapper) ffi
+      args loc prim_name ->
     if no_auto_uncurried_arg_types arg_types then
       result_wrap loc result_type
         (Lam.prim ~primitive:(Pjs_call { prim_name; arg_types; ffi }) ~args loc)

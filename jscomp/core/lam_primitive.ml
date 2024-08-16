@@ -48,10 +48,15 @@ type t =
   | Pccall of { prim_name : string }
   | Pjs_call of {
       prim_name : string;
-      arg_types : Melange_ffi.External_arg_spec.param list;
+      arg_types :
+        Melange_ffi.External_arg_spec.label_noname
+        Melange_ffi.External_arg_spec.param
+        list;
       ffi : Melange_ffi.External_ffi_types.external_spec;
     }
-  | Pjs_object_create of Melange_ffi.External_arg_spec.obj_params
+  | Pjs_object_create of
+      Melange_ffi.External_arg_spec.label Melange_ffi.External_arg_spec.param
+      list
   (* Exceptions *)
   | Praise
   (* Boolean operations *)

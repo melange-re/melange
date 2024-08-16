@@ -47,17 +47,13 @@ type attr =
   | Unwrap
 
 type label_noname = Arg_label | Arg_empty | Arg_optional
-type obj_param = { obj_arg_type : attr; obj_arg_label : label }
-type param = { arg_type : attr; arg_label : label_noname }
-type obj_params = obj_param list
+type 'a param = { arg_type : attr; arg_label : 'a }
 
 val cst_obj_literal : string -> cst
 val cst_int : int -> cst
 val cst_string : string -> cst
 val empty_label : label
-
-(* val empty_lit : cst -> label  *)
 val obj_label : string -> label
 val optional : bool -> string -> label
-val empty_kind : attr -> obj_param
-val dummy : param
+val empty_kind : attr -> label param
+val dummy : label_noname param
