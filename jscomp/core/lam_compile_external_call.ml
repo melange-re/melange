@@ -147,7 +147,10 @@ let ocaml_to_js_eff ~(arg_label : Melange_ffi.External_arg_spec.label_noname)
 let empty_pair = ([], [])
 let add_eff eff e = match eff with None -> e | Some v -> E.seq v e
 
-type specs = Melange_ffi.External_arg_spec.param list
+type specs =
+  Melange_ffi.External_arg_spec.label_noname Melange_ffi.External_arg_spec.param
+  list
+
 type exprs = E.t list
 
 (* TODO: fix splice,

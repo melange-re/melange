@@ -527,8 +527,8 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                       | Arg_cst _ ->
                           let s = Melange_ffi.Lam_methname.translate name in
                           ( {
-                              obj_arg_label = External_arg_spec.obj_label s;
-                              obj_arg_type;
+                              arg_label = External_arg_spec.obj_label s;
+                              arg_type = obj_arg_type;
                             },
                             arg_types,
                             (* ignored in [arg_types], reserved in [result_types] *)
@@ -536,8 +536,8 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                       | Nothing | Unwrap ->
                           let s = Melange_ffi.Lam_methname.translate name in
                           ( {
-                              obj_arg_label = External_arg_spec.obj_label s;
-                              obj_arg_type;
+                              arg_label = External_arg_spec.obj_label s;
+                              arg_type = obj_arg_type;
                             },
                             param_type :: arg_types,
                             Ast_helper.Of.tag { Asttypes.txt = name; loc } ty
@@ -545,8 +545,8 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                       | Int _ ->
                           let s = Melange_ffi.Lam_methname.translate name in
                           ( {
-                              obj_arg_label = External_arg_spec.obj_label s;
-                              obj_arg_type;
+                              arg_label = External_arg_spec.obj_label s;
+                              arg_type = obj_arg_type;
                             },
                             param_type :: arg_types,
                             Ast_helper.Of.tag
@@ -556,8 +556,8 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                       | Poly_var_string _ ->
                           let s = Melange_ffi.Lam_methname.translate name in
                           ( {
-                              obj_arg_label = External_arg_spec.obj_label s;
-                              obj_arg_type;
+                              arg_label = External_arg_spec.obj_label s;
+                              arg_type = obj_arg_type;
                             },
                             param_type :: arg_types,
                             Ast_helper.Of.tag
@@ -590,8 +590,8 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                                                               https://github.com/melange-re/melange/pull/58 for
                                                               a test case. *)
                           ( {
-                              obj_arg_label = External_arg_spec.optional false s;
-                              obj_arg_type;
+                              arg_label = External_arg_spec.optional false s;
+                              arg_type = obj_arg_type;
                             },
                             param_type :: arg_types,
                             Ast_helper.Of.tag
@@ -603,8 +603,8 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                       | Int _ ->
                           let s = Melange_ffi.Lam_methname.translate name in
                           ( {
-                              obj_arg_label = External_arg_spec.optional true s;
-                              obj_arg_type;
+                              arg_label = External_arg_spec.optional true s;
+                              arg_type = obj_arg_type;
                             },
                             param_type :: arg_types,
                             Ast_helper.Of.tag
@@ -616,8 +616,8 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                       | Poly_var_string _ ->
                           let s = Melange_ffi.Lam_methname.translate name in
                           ( {
-                              obj_arg_label = External_arg_spec.optional true s;
-                              obj_arg_type;
+                              arg_label = External_arg_spec.optional true s;
+                              arg_type = obj_arg_type;
                             },
                             param_type :: arg_types,
                             Ast_helper.Of.tag
@@ -665,7 +665,9 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
 
 let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
     (prim_name_or_pval_prim : bundle_source) (arg_type_specs_length : int)
-    arg_types_ty (arg_type_specs : External_arg_spec.param list) :
+    arg_types_ty
+    (arg_type_specs :
+      External_arg_spec.label_noname External_arg_spec.param list) :
     External_ffi_types.external_spec =
   match st with
   | {
@@ -1051,7 +1053,10 @@ let handle_attributes (loc : Location.t) (type_annotation : core_type)
       else
         let arg_type_specs, new_arg_types_ty, arg_type_specs_length =
           let variadic = external_desc.variadic in
-          let (init : External_arg_spec.param list * param_type list * int) =
+          let (init
+                : External_arg_spec.label_noname External_arg_spec.param list
+                  * param_type list
+                  * int) =
             match external_desc.val_send_pipe with
             | Some obj -> (
                 match refine_arg_type ~nolabel:true obj with

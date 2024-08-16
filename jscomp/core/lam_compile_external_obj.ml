@@ -38,16 +38,17 @@ module S = Js_stmt_make
 *)
 
 (* TODO: check stackoverflow *)
-let assemble_obj_args (labels : Melange_ffi.External_arg_spec.obj_params)
-    (args : J.expression list) : J.block * J.expression =
-  let rec aux (labels : Melange_ffi.External_arg_spec.obj_params) args :
-      (Js_op.property_name * E.t) list * J.expression list * _ =
+let assemble_obj_args
+    (labels :
+      Melange_ffi.External_arg_spec.label Melange_ffi.External_arg_spec.param
+      list) (args : J.expression list) : J.block * J.expression =
+  let rec aux
+      (labels :
+        Melange_ffi.External_arg_spec.label Melange_ffi.External_arg_spec.param
+        list) args : (Js_op.property_name * E.t) list * J.expression list * _ =
     match (labels, args) with
     | [], [] -> ([], [], [])
-    | ( {
-          obj_arg_label = Obj_label { name = label };
-          obj_arg_type = Arg_cst cst;
-        }
+    | ( { arg_label = Obj_label { name = label }; arg_type = Arg_cst cst }
         :: labels,
         args ) ->
         let accs, eff, assign = aux labels args in
@@ -55,25 +56,24 @@ let assemble_obj_args (labels : Melange_ffi.External_arg_spec.obj_params)
           eff,
           assign )
     (* | {obj_arg_label = EmptyCst _ } :: rest  , args -> assert false  *)
-    | { obj_arg_label = Obj_empty; _ } :: labels, arg :: args ->
+    | { arg_label = Obj_empty; _ } :: labels, arg :: args ->
         (* unit type*)
         let ((accs, eff, assign) as r) = aux labels args in
         if Js_analyzer.no_side_effect_expression arg then r
         else (accs, arg :: eff, assign)
-    | ( ({ obj_arg_label = Obj_label { name = label }; _ } as arg_kind) :: labels,
+    | ( ({ arg_label = Obj_label { name = label }; _ } as arg_kind) :: labels,
         arg :: args ) -> (
         let accs, eff, assign = aux labels args in
         let acc, new_eff =
           Lam_compile_external_call.ocaml_to_js_eff ~arg_label:Arg_label
-            ~arg_type:arg_kind.obj_arg_type arg
+            ~arg_type:arg_kind.arg_type arg
         in
         match acc with
         | Splice2 _ | Splice0 -> assert false
         | Splice1 x ->
             ((Js_op.Lit label, x) :: accs, List.append new_eff eff, assign)
         (* evaluation order is undefined *))
-    | ( ({ obj_arg_label = Obj_optional { name = label; _ }; obj_arg_type } as
-         arg_kind)
+    | ( ({ arg_label = Obj_optional { name = label; _ }; arg_type } as arg_kind)
         :: labels,
         arg :: args ) ->
         let ((accs, eff, assign) as r) = aux labels args in
@@ -81,15 +81,14 @@ let assemble_obj_args (labels : Melange_ffi.External_arg_spec.obj_params)
           ~for_sure_some:(fun x ->
             let acc, new_eff =
               Lam_compile_external_call.ocaml_to_js_eff ~arg_label:Arg_label
-                ~arg_type:obj_arg_type x
+                ~arg_type x
             in
             match acc with
             | Splice2 _ | Splice0 -> assert false
             | Splice1 x ->
                 ((Js_op.Lit label, x) :: accs, List.append new_eff eff, assign))
           ~not_sure:(fun _ -> (accs, eff, (arg_kind, arg) :: assign))
-    | { obj_arg_label = Obj_empty | Obj_label _ | Obj_optional _; _ } :: _, []
-      ->
+    | { arg_label = Obj_empty | Obj_label _ | Obj_optional _; _ } :: _, [] ->
         assert false
     | [], _ :: _ -> assert false
   in
@@ -109,12 +108,14 @@ let assemble_obj_args (labels : Melange_ffi.External_arg_spec.obj_params)
           | x :: xs -> E.seq (E.fuse_to_seq x xs) (E.obj map))
         :: List.concat_map
              ~f:(fun
-                 ( (xlabel : Melange_ffi.External_arg_spec.obj_param),
+                 ( (xlabel :
+                     Melange_ffi.External_arg_spec.label
+                     Melange_ffi.External_arg_spec.param),
                    (arg : J.expression) )
                ->
                match xlabel with
                | {
-                obj_arg_label =
+                arg_label =
                   Obj_optional { name = label; for_sure_no_nested_option };
                 _;
                } -> (
@@ -125,7 +126,7 @@ let assemble_obj_args (labels : Melange_ffi.External_arg_spec.obj_params)
                    | None -> (
                        let acc, new_eff =
                          Lam_compile_external_call.ocaml_to_js_eff
-                           ~arg_label:Arg_empty ~arg_type:xlabel.obj_arg_type
+                           ~arg_label:Arg_empty ~arg_type:xlabel.arg_type
                            (if for_sure_no_nested_option then arg
                             else Js_of_lam_option.val_from_option arg)
                        in
@@ -148,7 +149,7 @@ let assemble_obj_args (labels : Melange_ffi.External_arg_spec.obj_params)
                        let arg = E.var id in
                        let acc, new_eff =
                          Lam_compile_external_call.ocaml_to_js_eff
-                           ~arg_label:Arg_empty ~arg_type:xlabel.obj_arg_type
+                           ~arg_label:Arg_empty ~arg_type:xlabel.arg_type
                            (if for_sure_no_nested_option then arg
                             else Js_of_lam_option.val_from_option arg)
                        in

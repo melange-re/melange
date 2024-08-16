@@ -85,11 +85,13 @@ type return_wrapper =
   | Return_null_undefined_to_opt
   | Return_replaced_with_unit
 
-type params = Params of External_arg_spec.param list | Param_number of int
+type params =
+  | Params of External_arg_spec.label_noname External_arg_spec.param list
+  | Param_number of int
 
 type t = private
   | Ffi_mel of params * return_wrapper * external_spec
-  | Ffi_obj_create of External_arg_spec.obj_params
+  | Ffi_obj_create of External_arg_spec.label External_arg_spec.param list
   | Ffi_inline_const of Lam_constant.t
   | Ffi_normal
 (* When it's normal, it is handled as normal c functional ffi call *)
@@ -109,10 +111,18 @@ val inline_int64_primitive : int64 -> string list
 val inline_float_primitive : string -> string list
 
 val ffi_mel :
-  External_arg_spec.param list -> return_wrapper -> external_spec -> t
+  External_arg_spec.label_noname External_arg_spec.param list ->
+  return_wrapper ->
+  external_spec ->
+  t
 
 val ffi_mel_as_prims :
-  External_arg_spec.param list -> return_wrapper -> external_spec -> string list
+  External_arg_spec.label_noname External_arg_spec.param list ->
+  return_wrapper ->
+  external_spec ->
+  string list
 
-val ffi_obj_create : External_arg_spec.obj_params -> t
-val ffi_obj_as_prims : External_arg_spec.obj_params -> string list
+val ffi_obj_create : External_arg_spec.label External_arg_spec.param list -> t
+
+val ffi_obj_as_prims :
+  External_arg_spec.label External_arg_spec.param list -> string list

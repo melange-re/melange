@@ -62,9 +62,7 @@ type attr =
   | Ignore
   | Unwrap
 
-type param = { arg_type : attr; arg_label : label_noname }
-type obj_param = { obj_arg_type : attr; obj_arg_label : label }
-type obj_params = obj_param list
+type 'a param = { arg_type : attr; arg_label : 'a }
 
 let cst_obj_literal s = Arg_js_literal s
 let cst_int i = Arg_int_lit i
@@ -75,5 +73,7 @@ let obj_label name = Obj_label { name }
 let optional for_sure_no_nested_option name =
   Obj_optional { name; for_sure_no_nested_option }
 
-let empty_kind obj_arg_type = { obj_arg_label = empty_label; obj_arg_type }
+let empty_kind obj_arg_type =
+  { arg_label = empty_label; arg_type = obj_arg_type }
+
 let dummy = { arg_type = Nothing; arg_label = Arg_empty }
