@@ -34,8 +34,9 @@ Tests for deriving `jsProperties, getSet`
       [@@ocaml.warning "-unboxable-type-in-prim-decl"][@@ocaml.warning
                                                         "-unboxable-type-in-prim-decl"]
       external actionSet :
-        t -> [ `String of string  | `Int of int ] -> unit = "action"
-          "\132\149\166\190\000\000\000\r\000\000\000\004\000\000\000\012\000\000\000\011\176\145BE\167&action@"
+        t -> (([ `String of string  | `Int of int ])[@mel.unwrap ]) -> unit =
+          "action"
+          "\132\149\166\190\000\000\000\021\000\000\000\b\000\000\000\024\000\000\000\023\176\144\160\160AA\160\160CA@E\167&action@"
       [@@ocaml.warning "-unboxable-type-in-prim-decl"][@@ocaml.warning
                                                         "-unboxable-type-in-prim-decl"]
       external actionGet :
@@ -62,10 +63,7 @@ Tests for deriving `jsProperties, getSet`
     action: "hello"
   };
   
-  t.action = {
-    NAME: "String",
-    VAL: "hello2"
-  };
+  t.action = "hello2";
   
   console.log("Action after setting: ", t);
   

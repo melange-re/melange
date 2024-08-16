@@ -229,10 +229,10 @@ let derive_getters_setters =
               | Some new_name, remaining_attrs -> (new_name, remaining_attrs)
             in
             let prim = [ prim_as_name ] in
+            let is_optional, remaining_attrs =
+              Ast_attributes.has_mel_optional remaining_attrs
+            in
             let acc =
-              let is_optional, _ =
-                Ast_attributes.has_mel_optional remaining_attrs
-              in
               if is_optional then
                 let optional_type = pld_type in
                 Val.mk ~loc:pld_loc
@@ -258,7 +258,14 @@ let derive_getters_setters =
             in
             match pld_mutable with
             | Mutable ->
-                let pld_type = get_pld_type pld_type ~attrs:pld_attributes in
+                let pld_type =
+                  let pld_type = get_pld_type pld_type ~attrs:pld_attributes in
+                  {
+                    pld_type with
+                    ptyp_attributes =
+                      List.append pld_type.ptyp_attributes remaining_attrs;
+                  }
+                in
                 let setter_type =
                   [%type: [%t core_type] -> [%t pld_type] -> unit]
                 in
