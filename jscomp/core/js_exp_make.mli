@@ -48,7 +48,13 @@ val runtime_var_dot :
 
 (* val runtime_var_vid : string -> string -> J.vident *)
 
-val ml_var_dot : ?loc:Location.t -> ?comment:string -> Ident.t -> string -> t
+val ml_var_dot :
+  ?loc:Location.t ->
+  ?comment:string ->
+  dynamic_import:bool ->
+  Ident.t ->
+  string ->
+  t
 (** [ml_var_dot ocaml_module name]
 *)
 
@@ -56,6 +62,7 @@ val external_var_field :
   ?loc:Location.t ->
   ?comment:string ->
   external_name:string ->
+  dynamic_import:bool ->
   Ident.t ->
   field:string ->
   default:bool ->
@@ -65,9 +72,16 @@ val external_var_field :
 *)
 
 val external_var :
-  ?loc:Location.t -> ?comment:string -> external_name:string -> Ident.t -> t
+  ?loc:Location.t ->
+  ?comment:string ->
+  external_name:string ->
+  dynamic_import:bool ->
+  Ident.t ->
+  t
 
-val ml_module_as_var : ?loc:Location.t -> ?comment:string -> Ident.t -> t
+val ml_module_as_var :
+  ?loc:Location.t -> ?comment:string -> dynamic_import:bool -> Ident.t -> t
+
 val runtime_call : module_name:string -> fn_name:string -> t list -> t
 val pure_runtime_call : module_name:string -> fn_name:string -> t list -> t
 val runtime_ref : string -> string -> t

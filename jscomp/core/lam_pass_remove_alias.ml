@@ -126,13 +126,15 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
             Lprim
               {
                 primitive = Pfield (_, Fld_module { name = fld_name });
-                args = [ Lglobal_module ident ];
+                args = [ Lglobal_module { id = ident; dynamic_import } ];
                 _;
               } as l1;
           ap_args = args;
           ap_info;
         } -> (
-        match Lam_compile_env.query_external_id_info ident fld_name with
+        match
+          Lam_compile_env.query_external_id_info ~dynamic_import ident fld_name
+        with
         | Some
             {
               persistent_closed_lambda = Some (Lfunction { params; body; _ });
@@ -167,14 +169,14 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         match Ident.Hash.find_opt meta.ident_tbl v with
         | Some
             (FunctionId
-               {
-                 lambda =
-                   Some
-                     ( Lfunction
-                         ({ params; body; attr = { is_a_functor; _ }; _ } as m),
-                       rec_flag );
-                 _;
-               }) ->
+              {
+                lambda =
+                  Some
+                    ( Lfunction
+                        ({ params; body; attr = { is_a_functor; _ }; _ } as m),
+                      rec_flag );
+                _;
+              }) ->
             if List.same_length ap_args params (* && false *) then
               if
                 is_a_functor

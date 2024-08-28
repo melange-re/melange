@@ -25,7 +25,11 @@
 open Import
 
 module T = struct
-  type t = J.module_id = { id : Ident.t; kind : Js_op.kind }
+  type t = J.module_id = {
+    id : Ident.t;
+    kind : Js_op.kind;
+    dynamic_import : bool;
+  }
 
   let equal (x : t) y =
     match x.kind with
@@ -63,9 +67,11 @@ module Hash = Hash.Make (T)
 module Hash_set = Hash_set.Make (T)
 include T
 
-let of_ml id = { id; kind = Ml }
-let of_runtime id = { id; kind = Runtime }
-let external_ id ~name ~default = { id; kind = External { name; default } }
+let of_ml ~dynamic_import id = { id; kind = Ml; dynamic_import }
+let of_runtime id = { id; kind = Runtime; dynamic_import = false }
+
+let external_ ~dynamic_import id ~name ~default =
+  { id; kind = External { name; default }; dynamic_import }
 
 let name (x : t) : string =
   match x.kind with

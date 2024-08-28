@@ -146,7 +146,8 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
               |> List.hd
             in
             Js_name_of_module_id.string_of_module_id
-              ~package_info:cxt.package_info ~output_info ~output_dir module_id
+              ~package_info:cxt.package_info ~output_info ~output_dir
+              { module_id with J.dynamic_import = true }
           in
 
           match module_value with

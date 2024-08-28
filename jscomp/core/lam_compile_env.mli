@@ -60,7 +60,10 @@ val add_js_module :
 *)
 
 val query_external_id_info :
-  Ident.t -> string -> Js_cmj_format.keyed_cmj_value option
+  dynamic_import:bool ->
+  Ident.t ->
+  string ->
+  Js_cmj_format.keyed_cmj_value option
 (** [query_external_id_info module_id name]
 
   Note: This function checks whether there's inlining information available for

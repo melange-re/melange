@@ -69,15 +69,22 @@ let dump_program (x : J.program) oc =
   ignore (program (P.from_channel oc) Js_pp.Scope.empty x)
 
 let modules ~output_dir ~package_info ~output_info (x : J.deps_program) =
-  List.map x.modules ~f:(fun (x : Lam_module_ident.t) ->
-      {
-        Js_dump_import_export.id = x.id;
-        path =
-          Js_name_of_module_id.string_of_module_id ~package_info ~output_info
-            ~output_dir x;
-        default =
-          (match x.kind with External { default; _ } -> default | _ -> false);
-      })
+  List.filter_map x.modules ~f:(fun (x : Lam_module_ident.t) ->
+      Format.eprintf "lol: %s %B@." (Ident.name x.id) x.dynamic_import;
+      match x.dynamic_import with
+      | true -> None
+      | false ->
+          Some
+            {
+              Js_dump_import_export.id = x.id;
+              path =
+                Js_name_of_module_id.string_of_module_id ~package_info
+                  ~output_info ~output_dir x;
+              default =
+                (match x.kind with
+                | External { default; _ } -> default
+                | _ -> false);
+            })
 
 let node_program ~package_info ~output_info ~output_dir f (x : J.deps_program) =
   P.string f L.strict_directive;

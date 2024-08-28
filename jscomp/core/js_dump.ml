@@ -512,16 +512,16 @@ and vident cxt (v : J.vident) =
   match v with
   | Id v
   | Qualified ({ id = v; _ }, None)
-  | Qualified ({ id = v; kind = External { default = true; _ } }, _) ->
+  | Qualified ({ id = v; kind = External { default = true; _ }; _ }, _) ->
       ident cxt v
-  | Qualified ({ id; kind = Ml | Runtime }, Some name) ->
+  | Qualified ({ id; kind = Ml | Runtime; _ }, Some name) ->
       let cxt = ident cxt id in
       string cxt L.dot;
       string cxt
         (if name = Js_dump_import_export.default_export then name
          else Ident.convert name);
       cxt
-  | Qualified ({ id; kind = External _ }, Some name) ->
+  | Qualified ({ id; kind = External _; _ }, Some name) ->
       let cxt = ident cxt id in
       Js_dump_property.property_access cxt.pp name;
       cxt

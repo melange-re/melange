@@ -43,8 +43,7 @@ let refine_let ~kind param (arg : Lam.t) (l : Lam.t) : Lam.t =
     when Ident.same w param
          (* let k = xx in k
             there is no [rec] so [k] would not appear in [xx]
-         *)
-    ->
+         *) ->
       arg (* TODO: optimize here -- it's safe to do substitution here *)
   | _, _, Lprim { primitive; args = [ Lvar w ]; loc; _ }
     when Ident.same w param
@@ -176,7 +175,7 @@ let field_flatten_get lam v i info (tbl : Lam_id_kind.t Ident.Hash.t) : Lam.t =
   | Some (Module g) ->
       Lam.prim
         ~primitive:(Pfield (i, info))
-        ~args:[ Lam.global_module g ]
+        ~args:[ Lam.global_module ~dynamic_import:false g ]
         Location.none
   | Some (ImmutableBlock arr) -> (
       match arr.(i) with
