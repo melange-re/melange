@@ -53,7 +53,7 @@ let args_const_unbox_approx_int_two (args : J.expression list) =
 *)
 let translate loc (prim_name : string) (args : J.expression list) : J.expression
     =
-  let[@inline] call m = E.runtime_call m prim_name args in
+  let[@inline] call m = E.runtime_call ~module_name:m ~fn_name:prim_name args in
   match prim_name with
   | "caml_add_float" -> (
       match args with
@@ -74,19 +74,24 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
       | [ e0; e1 ] -> E.float_comp CFgt e0 e1
       | _ -> assert false)
   | "caml_float_of_int" -> ( match args with [ e ] -> e | _ -> assert false)
-  | "caml_int32_of_int" -> ( match args with [ e ] -> e | _ -> assert false)
-  | "caml_int32_of_float" | "caml_int_of_float" -> (
+  | "caml_int32_of_int" | "caml_nativeint_of_int" | "caml_nativeint_of_int32"
+    -> (
+      match args with [ e ] -> e | _ -> assert false)
+  | "caml_int32_of_float" | "caml_int_of_float" | "caml_nativeint_of_float" -> (
       match args with [ e ] -> E.to_int32 e | _ -> assert false)
-  | "caml_int32_to_float" | "caml_int32_to_int" -> (
+  | "caml_int32_to_float" | "caml_int32_to_int" | "caml_nativeint_to_int"
+  | "caml_nativeint_to_float" | "caml_nativeint_to_int32" -> (
       match args with
       | [ e ] -> e (* TODO: do more checking when [to_int32]*)
       | _ -> assert false)
   | "caml_bytes_greaterthan" | "caml_bytes_greaterequal" | "caml_bytes_lessthan"
   | "caml_bytes_lessequal" | "caml_bytes_compare" | "caml_bytes_equal" ->
       call Js_runtime_modules.bytes
-  | "caml_int64_succ" -> E.runtime_call Js_runtime_modules.int64 "succ" args
+  | "caml_int64_succ" ->
+      E.runtime_call ~module_name:Js_runtime_modules.int64 ~fn_name:"succ" args
   | "caml_int64_to_string" ->
-      E.runtime_call Js_runtime_modules.int64 "to_string" args
+      E.runtime_call ~module_name:Js_runtime_modules.int64 ~fn_name:"to_string"
+        args
   | "caml_int64_equal_null" -> Js_long.equal_null args
   | "caml_int64_equal_undefined" -> Js_long.equal_undefined args
   | "caml_int64_equal_nullable" -> Js_long.equal_nullable args
@@ -131,7 +136,9 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
               E.call
                 (E.dot (E.str str) "repeat")
                 [ n ] ~info:Js_call_info.builtin_runtime_call)
-      | _ -> E.runtime_call Js_runtime_modules.string "make" args)
+      | _ ->
+          E.runtime_call ~module_name:Js_runtime_modules.string ~fn_name:"make"
+            args)
   | "caml_string_greaterthan" -> (
       match args with [ e0; e1 ] -> E.string_comp Gt e0 e1 | _ -> assert false)
   | "caml_bool_notequal" -> (
@@ -177,7 +184,9 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
             (if i = 0l then []
              else
                List.init ~len:(Int32.to_int i) ~f:(fun _ -> E.zero_int_literal))
-      | _ -> E.runtime_call Js_runtime_modules.bytes "caml_create_bytes" args)
+      | _ ->
+          E.runtime_call ~module_name:Js_runtime_modules.bytes
+            ~fn_name:"caml_create_bytes" args)
   | "caml_bool_compare" -> (
       match args with
       | [ { expression_desc = Bool a; _ }; { expression_desc = Bool b; _ } ] ->
@@ -185,7 +194,8 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
           E.int (if c = 0 then 0l else if c > 0 then 1l else -1l)
       | _ -> call Js_runtime_modules.caml_primitive)
   | "caml_int_compare" | "caml_int32_compare" ->
-      E.runtime_call Js_runtime_modules.caml_primitive "caml_int_compare" args
+      E.runtime_call ~module_name:Js_runtime_modules.caml_primitive
+        ~fn_name:"caml_int_compare" args
   | "caml_float_compare" | "caml_string_compare" ->
       call Js_runtime_modules.caml_primitive
   | "caml_bool_min" | "caml_int_min" | "caml_float_min" | "caml_string_min"
@@ -208,7 +218,8 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
           then E.econd (E.js_comp Cgt a b) a b
           else call Js_runtime_modules.caml_primitive
       | _ -> assert false)
-  | "caml_string_get" -> E.runtime_call Js_runtime_modules.string "get" args
+  | "caml_string_get" ->
+      E.runtime_call ~module_name:Js_runtime_modules.string ~fn_name:"get" args
   | "caml_fill_bytes" | "bytes_to_string" | "bytes_of_string"
   | "caml_blit_string" | "caml_blit_bytes" ->
       call Js_runtime_modules.bytes
@@ -244,13 +255,19 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
       call Js_runtime_modules.parser
   | "caml_make_float_vect"
   | "caml_floatarray_create" (* TODO: compile float array into TypedArray*) ->
-      E.runtime_call Js_runtime_modules.array "make_float" args
-  | "caml_array_sub" -> E.runtime_call Js_runtime_modules.array "sub" args
-  | "caml_array_concat" -> E.runtime_call Js_runtime_modules.array "concat" args
+      E.runtime_call ~module_name:Js_runtime_modules.array ~fn_name:"make_float"
+        args
+  | "caml_array_sub" ->
+      E.runtime_call ~module_name:Js_runtime_modules.array ~fn_name:"sub" args
+  | "caml_array_concat" ->
+      E.runtime_call ~module_name:Js_runtime_modules.array ~fn_name:"concat"
+        args
   (*external concat: 'a array list -> 'a array
      Not good for inline *)
-  | "caml_array_blit" -> E.runtime_call Js_runtime_modules.array "blit" args
-  | "caml_make_vect" -> E.runtime_call Js_runtime_modules.array "make" args
+  | "caml_array_blit" ->
+      E.runtime_call ~module_name:Js_runtime_modules.array ~fn_name:"blit" args
+  | "caml_make_vect" ->
+      E.runtime_call ~module_name:Js_runtime_modules.array ~fn_name:"make" args
   | "caml_ml_flush" | "caml_ml_out_channels_list" | "caml_ml_output_char"
   | "caml_ml_output" ->
       call Js_runtime_modules.io
@@ -264,7 +281,9 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
              and discarded it immediately
              This could be canceled
           *)
-          | _ -> E.runtime_call Js_runtime_modules.array "dup" args)
+          | _ ->
+              E.runtime_call ~module_name:Js_runtime_modules.array
+                ~fn_name:"dup" args)
       | _ -> assert false)
   | "caml_format_float" | "caml_hexstring_of_float" | "caml_nativeint_format"
   | "caml_int32_format" | "caml_float_of_string"

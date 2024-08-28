@@ -26,15 +26,18 @@ open Import
 module E = Js_exp_make
 
 let splice_fn_apply fn args =
-  E.runtime_call Js_runtime_modules.caml_splice_call "spliceApply"
+  E.runtime_call ~module_name:Js_runtime_modules.caml_splice_call
+    ~fn_name:"spliceApply"
     [ fn; E.array Immutable args ]
 
 let splice_fn_new_apply fn args =
-  E.runtime_call Js_runtime_modules.caml_splice_call "spliceNewApply"
+  E.runtime_call ~module_name:Js_runtime_modules.caml_splice_call
+    ~fn_name:"spliceNewApply"
     [ fn; E.array Immutable args ]
 
 let splice_obj_fn_apply obj name args =
-  E.runtime_call Js_runtime_modules.caml_splice_call "spliceObjApply"
+  E.runtime_call ~module_name:Js_runtime_modules.caml_splice_call
+    ~fn_name:"spliceObjApply"
     [ obj; E.str name; E.array Immutable args ]
 
 (*

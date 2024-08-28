@@ -120,12 +120,12 @@ let ml_module_as_var ?loc ?comment (id : Ident.t) : t =
   make_expression ?loc ?comment (Var (Qualified ({ id; kind = Ml }, None)))
 
 (* Static_index .....................*)
-let runtime_call module_name fn_name args =
+let runtime_call ~module_name ~fn_name args =
   call ~info:Js_call_info.builtin_runtime_call
     (runtime_var_dot module_name fn_name)
     args
 
-let pure_runtime_call module_name fn_name args =
+let pure_runtime_call ~module_name ~fn_name args =
   call ~comment:L.pure ~info:Js_call_info.builtin_runtime_call
     (runtime_var_dot module_name fn_name)
     args
@@ -754,11 +754,11 @@ let public_method_call _meth_name obj label cache args =
   let len = List.length args in
   (* econd (int_equal (tag obj ) obj_int_tag_literal) *)
   if len <= 7 then
-    runtime_call Js_runtime_modules.caml_oo_curry
-      ("js" ^ string_of_int (len + 1))
+    runtime_call ~module_name:Js_runtime_modules.caml_oo_curry
+      ~fn_name:("js" ^ string_of_int (len + 1))
       (label :: int cache :: obj :: args)
   else
-    runtime_call Js_runtime_modules.caml_oo_curry "js"
+    runtime_call ~module_name:Js_runtime_modules.caml_oo_curry ~fn_name:"js"
       [ label; int cache; obj; array NA (obj :: args) ]
 
 (* TODO: handle arbitrary length of args ..
@@ -875,7 +875,7 @@ let rec int_comp (cmp : Lam_compat.integer_comparison) ?loc ?comment (e0 : t)
              expression_desc =
                Var
                  (Qualified
-                    (({ id = _; kind = Runtime } as iid), Some "caml_compare"));
+                   (({ id = _; kind = Runtime } as iid), Some "caml_compare"));
              _;
            } as fn),
           ([ _; _ ] as args),
@@ -1080,7 +1080,9 @@ let int32_div ~checked ?loc ?comment (e1 : t) (e2 : t) : t =
       | Number (Int { i = i0; _ }) -> int ?loc (Int32.div i0 i1)
       | _ -> to_int32 ?loc (float_div ?comment e1 e2))
   | _, _ ->
-      if checked then runtime_call Js_runtime_modules.int32 "div" [ e1; e2 ]
+      if checked then
+        runtime_call ~module_name:Js_runtime_modules.int32 ~fn_name:"div"
+          [ e1; e2 ]
       else to_int32 ?loc (float_div ?comment e1 e2)
 
 let int32_mod ~checked ?loc ?comment e1 (e2 : t) : J.expression =
@@ -1088,7 +1090,9 @@ let int32_mod ~checked ?loc ?comment e1 (e2 : t) : J.expression =
   | Number (Int { i; _ }) when i <> 0l ->
       make_expression ?loc ?comment (Bin (Mod, e1, e2))
   | _ ->
-      if checked then runtime_call Js_runtime_modules.int32 "mod_" [ e1; e2 ]
+      if checked then
+        runtime_call ~module_name:Js_runtime_modules.int32 ~fn_name:"mod_"
+          [ e1; e2 ]
       else make_expression ?loc ?comment (Bin (Mod, e1, e2))
 
 let float_mul ?loc ?comment e1 e2 = bin ?loc ?comment Mul e1 e2
@@ -1233,8 +1237,11 @@ let neq_null_undefined_boolean ?loc ?comment (a : t) (b : t) =
 *)
 let resolve_and_apply (s : string) (args : t list) : t =
   call ~info:Js_call_info.builtin_runtime_call
-    (runtime_call Js_runtime_modules.external_polyfill L.resolve [ str s ])
+    (runtime_call ~module_name:Js_runtime_modules.external_polyfill
+       ~fn_name:L.resolve
+       [ str s ])
     args
 
 let make_exception (s : string) =
-  pure_runtime_call Js_runtime_modules.exceptions L.create [ str s ]
+  pure_runtime_call ~module_name:Js_runtime_modules.exceptions ~fn_name:L.create
+    [ str s ]

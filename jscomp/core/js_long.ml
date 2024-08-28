@@ -27,7 +27,7 @@ module E = Js_exp_make
 type int64_call = J.expression list -> J.expression
 
 let int64_call (fn : string) args =
-  E.runtime_call Js_runtime_modules.int64 fn args
+  E.runtime_call ~module_name:Js_runtime_modules.int64 ~fn_name:fn args
 
 (* below should  not depend on layout *)
 
@@ -56,18 +56,25 @@ let of_int32 (args : J.expression list) =
   | _ -> int64_call "of_int32" args
 
 let comp (cmp : Lam_compat.integer_comparison) args =
-  E.runtime_call Js_runtime_modules.caml_primitive
-    (match cmp with
-    | Ceq -> "i64_eq"
-    | Cne -> "i64_neq"
-    | Clt -> "i64_lt"
-    | Cgt -> "i64_gt"
-    | Cle -> "i64_le"
-    | Cge -> "i64_ge")
+  E.runtime_call ~module_name:Js_runtime_modules.caml_primitive
+    ~fn_name:
+      (match cmp with
+      | Ceq -> "i64_eq"
+      | Cne -> "i64_neq"
+      | Clt -> "i64_lt"
+      | Cgt -> "i64_gt"
+      | Cle -> "i64_le"
+      | Cge -> "i64_ge")
     args
 
-let min args = E.runtime_call Js_runtime_modules.caml_primitive "i64_min" args
-let max args = E.runtime_call Js_runtime_modules.caml_primitive "i64_max" args
+let min args =
+  E.runtime_call ~module_name:Js_runtime_modules.caml_primitive
+    ~fn_name:"i64_min" args
+
+let max args =
+  E.runtime_call ~module_name:Js_runtime_modules.caml_primitive
+    ~fn_name:"i64_max" args
+
 let neg args = int64_call "neg" args
 let add args = int64_call "add" args
 let sub args = int64_call "sub" args
