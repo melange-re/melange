@@ -162,6 +162,28 @@ let no_effects_const = lazy true
 
 type initialization = J.block
 
+let import_of_path path =
+  E.call
+    ~info:{ arity = Full; call_info = Call_na }
+    (E.js_global "import")
+    [ E.str path ]
+
+let wrap_then import value =
+  let arg = Ident.create "m" in
+  E.call
+    ~info:{ arity = Full; call_info = Call_na }
+    (E.dot import "then")
+    [
+      E.ocaml_fun ~return_unit:false
+        (* ~oneUnitArg:false *) [ arg ]
+        [
+          {
+            statement_desc = J.Return (E.dot (E.var arg) value);
+            comment = None;
+          };
+        ];
+    ]
+
 (* since it's only for alias, there is no arguments,
    we should not inline function definition here, even though
    it is very small
@@ -1670,6 +1692,91 @@ and compile_prim (prim_info : Lam.prim_info)
       in
       Js_output.output_of_block_and_expression lambda_cxt.continuation
         (List.concat args_block @ block)
+        exp
+  | { primitive = Pimport; args = [] | _ :: _ :: _; _ } -> assert false
+  | { primitive = Pimport; args = [ mod_ ]; loc } ->
+      let output_dir = Filename.dirname lambda_cxt.output_prefix in
+      let module_id, module_value, args_block =
+        match mod_ with
+        | Lglobal_module _ | Lmutvar _ | Lvar _
+        | Lprim { primitive = Pfield _ | Pjs_call _ | Pccall _; _ } ->
+            let args_block, args_expr =
+              let new_cxt =
+                { lambda_cxt with continuation = NeedValue Not_tail }
+              in
+              match compile_lambda new_cxt mod_ with
+              | { block; value = Some b; _ } -> ([ block ], b)
+              | { value = None; _ } -> assert false
+            in
+
+            Format.eprintf "x: %s@." (Js_dump.string_of_expression args_expr);
+
+            let module_id, module_value =
+              match args_expr.expression_desc with
+              | J.Var (J.Qualified (module_id, value)) -> (module_id, value)
+              | _ ->
+                  Location.raise_errorf ~loc
+                    "Invalid argument: Dynamic import requires a module or \
+                     module value that is a file as argument. Passing a value \
+                     or local module is not allowed."
+            in
+            (module_id, module_value, args_block)
+        | Lfunction { attr = { stub = true; _ }; body = Lprim _ as body; _ } ->
+            let args_block, args_expr =
+              let new_cxt =
+                { lambda_cxt with continuation = NeedValue Not_tail }
+              in
+              match compile_lambda new_cxt body with
+              | { block; value = Some b; _ } -> ([ block ], b)
+              | { value = None; _ } -> assert false
+            in
+
+            Format.eprintf "x: %s@." (Js_dump.string_of_expression args_expr);
+
+            let module_id, module_value =
+              match args_expr.expression_desc with
+              | J.Call
+                  ( {
+                      expression_desc = J.Var (J.Qualified (module_id, value));
+                      _;
+                    },
+                    _,
+                    _ ) ->
+                  (module_id, value)
+              | _ ->
+                  Location.raise_errorf ~loc
+                    "Invalid argument: Dynamic import requires a module or \
+                     module value that is a file as argument. Passing a value \
+                     or local module is not allowed."
+            in
+            (module_id, module_value, args_block)
+        | _ ->
+            Location.raise_errorf ~loc
+              "Invalid argument: unsupported argument to dynamic import. If \
+               you believe this should be supported, please open an issue."
+      in
+      let path =
+        let output_info =
+          Js_packages_info.assemble_output_info lambda_cxt.package_info
+          (* TODO(anmonteiro): this might not be taking the right module
+             system into account at this stage *)
+          |> (fun x ->
+               Format.eprintf "xx: %d@." (List.length x);
+               x)
+          |> List.hd
+        in
+        Js_name_of_module_id.string_of_module_id
+          ~package_info:lambda_cxt.package_info ~output_info ~output_dir
+          { module_id with J.dynamic_import = true }
+      in
+
+      let exp =
+        match module_value with
+        | Some value -> wrap_then (import_of_path path) value
+        | None -> import_of_path path
+      in
+      let args_code : J.block = List.concat args_block in
+      Js_output.output_of_block_and_expression lambda_cxt.continuation args_code
         exp
   | { primitive; args; loc } ->
       let args_block, args_expr =

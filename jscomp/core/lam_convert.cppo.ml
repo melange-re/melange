@@ -703,7 +703,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
           }
     | Lfunction { params; body; attr; _ } ->
         let just_params = List.map ~f:fst params in
-        let body = convert_aux body in
+        let body = convert_aux ~dynamic_import body in
         let new_map, body =
           rename_optional_parameters Ident.Map.empty just_params body
         in

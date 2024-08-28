@@ -237,8 +237,10 @@ let translate_scoped_module_val
           E.external_var_field ~dynamic_import ~external_name:bundle ~field:fn
             ~default id
       | x :: rest ->
-          (* TODO: what happens when scope contains "default" ?*)
-          let default = false in
+          let default =
+            (* TODO: what happens when scope contains "default"? *)
+            false
+          in
           let id =
             Lam_compile_env.add_js_module module_bind_name bundle ~default
               ~dynamic_import

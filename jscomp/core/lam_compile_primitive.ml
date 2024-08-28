@@ -36,44 +36,6 @@ let ensure_value_unit (st : Lam_compile_context.continuation) e : E.t =
   | EffectCall Not_tail -> e
 (* NeedValue should return a meaningful expression*)
 
-let module_of_expression = function
-  | J.Var (J.Qualified (module_id, value)) -> [ (module_id, value) ]
-  | _ -> []
-
-(*
-let get_module_system () =
-  let package_info = Js_packages_state.get_packages_info () in
-  let module_system =
-    if Js_packages_info.is_empty package_info && !Js_config.js_stdout then
-      [ Module_system.CommonJS ]
-    else
-      Js_packages_info.map package_info (fun { module_system } -> module_system)
-  in
-  match module_system with [ module_system ] -> module_system | _ -> CommonJS
- *)
-
-let import_of_path path =
-  E.call
-    ~info:{ arity = Full; call_info = Call_na }
-    (E.js_global "import")
-    [ E.str path ]
-
-let wrap_then import value =
-  let arg = Ident.create "m" in
-  E.call
-    ~info:{ arity = Full; call_info = Call_na }
-    (E.dot import "then")
-    [
-      E.ocaml_fun ~return_unit:false
-        (* ~oneUnitArg:false *) [ arg ]
-        [
-          {
-            statement_desc = J.Return (E.dot (E.var arg) value);
-            comment = None;
-          };
-        ];
-    ]
-
 let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
     (args : J.expression list) : J.expression =
   match prim with
@@ -116,47 +78,6 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
               E.runtime_call ~module_name:Js_runtime_modules.option
                 ~fn_name:"nullable_to_opt" args)
       | _ -> assert false)
-  (* Compile #import: The module argument for dynamic import is represented as a path,
-     and the module value is expressed through wrapping it with promise.then *)
-  | Pimport -> (
-      match args with
-      | [ e ] -> (
-          let output_dir = Filename.dirname cxt.output_prefix in
-
-          Format.eprintf "x: %s@." (Js_dump.string_of_expression e);
-
-          let module_id, module_value =
-            match module_of_expression e.expression_desc with
-            | [ module_ ] -> module_
-            | _ ->
-                Location.raise_errorf ~loc
-                  "Invalid argument: Dynamic import requires a module or \
-                   module value that is a file as argument. Passing a value or \
-                   local module is not allowed."
-          in
-
-          let path =
-            let output_info =
-              Js_packages_info.assemble_output_info cxt.package_info
-              (* TODO(anmonteiro): this might not be taking the right module
-                 system into account at this stage *)
-              |> (fun x ->
-                   Format.eprintf "xx: %d@." (List.length x);
-                   x)
-              |> List.hd
-            in
-            Js_name_of_module_id.string_of_module_id
-              ~package_info:cxt.package_info ~output_info ~output_dir
-              { module_id with J.dynamic_import = true }
-          in
-
-          match module_value with
-          | Some value -> wrap_then (import_of_path path) value
-          | None -> import_of_path path)
-      | [] | _ ->
-          Location.raise_errorf ~loc
-            "Invalid argument: Dynamic import must take a single module or \
-             module value as its argument.")
   | Pjs_function_length -> E.function_length (List.hd args)
   | Pcaml_obj_length -> E.obj_length (List.hd args)
   | Pis_null -> E.is_null (List.hd args)
@@ -164,7 +85,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   | Pis_null_undefined -> E.is_null_undefined (List.hd args)
   | Pjs_typeof -> E.typeof (List.hd args)
   | Pjs_unsafe_downgrade _ | Pdebugger | Pvoid_run | Pfull_apply | Pjs_fn_make _
-    ->
+  | Pimport ->
       assert false (* already handled by {!Lam_compile} *)
   | Pjs_fn_method -> assert false
   | Pstringadd -> (
