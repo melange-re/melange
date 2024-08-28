@@ -740,7 +740,9 @@ and expression_desc cxt ~(level : int) x : cxt =
   | Optional_block (e, identity) ->
       expression ~level cxt
         (if identity then e
-         else E.runtime_call Js_runtime_modules.option "some" [ e ])
+         else
+           E.runtime_call ~module_name:Js_runtime_modules.option ~fn_name:"some"
+             [ e ])
   | Caml_block (el, _, _, Blk_module fields) ->
       expression_desc cxt ~level
         (Object

@@ -68,25 +68,8 @@ val external_var :
   ?loc:Location.t -> ?comment:string -> external_name:string -> Ident.t -> t
 
 val ml_module_as_var : ?loc:Location.t -> ?comment:string -> Ident.t -> t
-
-val runtime_call :
-  string ->
-  (* module_name *)
-  string ->
-  (* fn_name *)
-  t list ->
-  (* args *)
-  t
-
-val pure_runtime_call :
-  string ->
-  (* module_name *)
-  string ->
-  (* fn_name *)
-  t list ->
-  (* args *)
-  t
-
+val runtime_call : module_name:string -> fn_name:string -> t list -> t
+val pure_runtime_call : module_name:string -> fn_name:string -> t list -> t
 val runtime_ref : string -> string -> t
 val public_method_call : string -> t -> t -> Int32.t -> t list -> t
 val str : ?pure:bool -> ?loc:Location.t -> ?comment:string -> string -> t
