@@ -30,4 +30,5 @@ val handle_mel_non_obj_ffi :
   Lam.t list ->
   Location.t ->
   string ->
+  dynamic_import:bool ->
   Lam.t

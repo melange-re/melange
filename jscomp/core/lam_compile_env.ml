@@ -63,7 +63,7 @@ let reset () =
     be escaped quite ugly
 *)
 let add_js_module (hint_name : Melange_ffi.External_ffi_types.module_bind_name)
-    (module_name : string) default : Ident.t =
+    (module_name : string) ~default ~dynamic_import : Ident.t =
   let id =
     Ident.create_local
       (match hint_name with
@@ -74,8 +74,7 @@ let add_js_module (hint_name : Melange_ffi.External_ffi_types.module_bind_name)
       | Phint_nothing -> Modulename.js_id_name_of_hint_name module_name)
   in
   let lam_module_ident : Lam_module_ident.t =
-    Lam_module_ident.external_ id ~dynamic_import:false ~name:module_name
-      ~default
+    Lam_module_ident.external_ id ~dynamic_import ~name:module_name ~default
   in
   match Lam_module_ident.Hash.find_key_opt cached_tbl lam_module_ident with
   | None ->

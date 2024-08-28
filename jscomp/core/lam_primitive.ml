@@ -53,6 +53,7 @@ type t =
         Melange_ffi.External_arg_spec.param
         list;
       ffi : Melange_ffi.External_ffi_types.external_spec;
+      dynamic_import : bool;
     }
   | Pjs_object_create of
       Melange_ffi.External_arg_spec.label Melange_ffi.External_arg_spec.param
@@ -304,11 +305,12 @@ let eq_primitive_approx (lhs : t) (rhs : t) =
       | Pduprecord record_repesentation1 ->
           eq_record_representation record_repesentation0 record_repesentation1
       | _ -> false)
-  | Pjs_call { prim_name; arg_types; ffi } -> (
+  | Pjs_call { prim_name; arg_types; ffi; dynamic_import } -> (
       match rhs with
       | Pjs_call rhs ->
           prim_name = rhs.prim_name && arg_types = rhs.arg_types
           && ffi = rhs.ffi
+          && dynamic_import = rhs.dynamic_import
       | _ -> false)
   | Pjs_object_create obj_create -> (
       match rhs with

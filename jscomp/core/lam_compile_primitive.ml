@@ -400,8 +400,9 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   (* Lam_compile_external_call.translate loc cxt prim args *)
   (* Test if the argument is a block or an immediate integer *)
   | Pjs_object_create _ -> assert false
-  | Pjs_call { arg_types; ffi; _ } ->
+  | Pjs_call { arg_types; ffi; dynamic_import; _ } ->
       Lam_compile_external_call.translate_ffi cxt arg_types ffi args
+        ~dynamic_import
   (* FIXME, this can be removed later *)
   | Pisint -> E.is_type_number (List.hd args)
   | Pis_poly_var_const -> E.is_type_string (List.hd args)

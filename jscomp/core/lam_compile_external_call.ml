@@ -53,9 +53,12 @@ let splice_obj_fn_apply obj name args =
 
 let external_var
     ({ bundle; module_bind_name } :
-      Melange_ffi.External_ffi_types.external_module_name) =
-  let id = Lam_compile_env.add_js_module module_bind_name bundle false in
-  E.external_var id ~external_name:bundle
+      Melange_ffi.External_ffi_types.external_module_name) ~dynamic_import =
+  let id =
+    Lam_compile_env.add_js_module module_bind_name bundle ~default:false
+      ~dynamic_import
+  in
+  E.external_var id ~external_name:bundle ~dynamic_import
 
 (* let handle_external_opt
      (module_name : External_ffi_types.external_module_name option)
@@ -221,26 +224,28 @@ let assemble_args_has_splice (arg_types : specs) (args : exprs) :
 
 let translate_scoped_module_val
     (module_name : Melange_ffi.External_ffi_types.external_module_name option)
-    (fn : string) (scopes : string list) =
+    (fn : string) (scopes : string list) ~dynamic_import =
   match module_name with
   | Some { bundle; module_bind_name } -> (
       match scopes with
       | [] ->
           let default = fn = "default" in
           let id =
-            Lam_compile_env.add_js_module module_bind_name bundle default
+            Lam_compile_env.add_js_module module_bind_name bundle ~default
+              ~dynamic_import
           in
-          E.external_var_field (* TODO(anmonteiro): check this *)
-            ~dynamic_import:false ~external_name:bundle ~field:fn ~default id
+          E.external_var_field ~dynamic_import ~external_name:bundle ~field:fn
+            ~default id
       | x :: rest ->
           (* TODO: what happens when scope contains "default" ?*)
           let default = false in
           let id =
-            Lam_compile_env.add_js_module module_bind_name bundle default
+            Lam_compile_env.add_js_module module_bind_name bundle ~default
+              ~dynamic_import
           in
           let start =
-            E.external_var_field (* TODO(anmonteiro): check this *)
-              ~dynamic_import:false ~external_name:bundle ~field:x ~default id
+            E.external_var_field ~dynamic_import ~external_name:bundle ~field:x
+              ~default id
           in
           List.fold_left ~f:E.dot ~init:start (List.append rest [ fn ]))
   | None -> (
@@ -267,11 +272,13 @@ let translate_ffi =
   in
   fun (cxt : Lam_compile_context.t) arg_types
       (ffi : Melange_ffi.External_ffi_types.external_spec)
-      (args : J.expression list) ->
+      (args : J.expression list) ~dynamic_import ->
     match ffi with
     | Js_call
         { external_module_name = module_name; name = fn; variadic; scopes } -> (
-        let fn = translate_scoped_module_val module_name fn scopes in
+        let fn =
+          translate_scoped_module_val module_name fn scopes ~dynamic_import
+        in
         match (arg_types, args) with
         | _ :: _, [] ->
             (* We end up here in the following case:
@@ -297,10 +304,7 @@ let translate_ffi =
               add_eff eff
               @@ E.call ~info:{ arity = Full; call_info = Call_na } fn args)
     | Js_module_as_fn { external_module_name; variadic } ->
-        let fn =
-          external_var (* TODO(anmonteiro): check this *)
-            ~dynamic_import:false external_module_name
-        in
+        let fn = external_var ~dynamic_import external_module_name in
         if variadic then
           let args, eff, dynamic = assemble_args_has_splice arg_types args in
           (* TODO: fix in rest calling convention *)
@@ -323,7 +327,9 @@ let translate_ffi =
            TODO: we should propagate this property
            as much as we can(in alias table)
         *)
-        let fn = translate_scoped_module_val module_name fn scopes in
+        let fn =
+          translate_scoped_module_val module_name fn scopes ~dynamic_import
+        in
         if variadic then
           let args, eff, dynamic = assemble_args_has_splice arg_types args in
           add_eff eff
@@ -382,9 +388,7 @@ let translate_ffi =
                   (let self = translate_scoped_access js_send_scopes self in
                    process_send ~new_ self name args)
           | _ -> assert false)
-    | Js_module_as_var module_name ->
-        external_var (* TODO(anmonteiro): check this *)
-          ~dynamic_import:false module_name
+    | Js_module_as_var module_name -> external_var ~dynamic_import module_name
     | Js_var { name; external_module_name; scopes } ->
         (* TODO #11
            1. check args -- error checking
@@ -392,11 +396,9 @@ let translate_ffi =
            we need know whether we should call [add_js_module] or not
         *)
         translate_scoped_module_val external_module_name name scopes
+          ~dynamic_import
     | Js_module_as_class module_name ->
-        let fn =
-          external_var (* TODO(anmonteiro): check this *)
-            ~dynamic_import:false module_name
-        in
+        let fn = external_var ~dynamic_import module_name in
         let args, eff = assemble_args_no_splice arg_types args in
         (* TODO: fix in rest calling convention *)
         add_eff eff

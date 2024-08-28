@@ -533,7 +533,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
   let may_depends = Lam_module_ident.Hash_set.create 0 in
 
   let rec convert_ccall (a_prim : Primitive.description)
-      (args : Lambda.lambda list) loc : Lam.t =
+      (args : Lambda.lambda list) loc ~dynamic_import : Lam.t =
     let prim_name = a_prim.prim_name in
     let prim_name_len = String.length prim_name in
     match
@@ -556,7 +556,14 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
               List.init ~len:i ~f:(fun _ -> Melange_ffi.External_arg_spec.dummy)
         in
         let args = List.map ~f:convert_aux args in
-        Lam_ffi.handle_mel_non_obj_ffi arg_types result_type ffi args loc prim_name
+        Lam_ffi.handle_mel_non_obj_ffi
+          arg_types
+          result_type
+          ffi
+          args
+          loc
+          prim_name
+          ~dynamic_import
     | Ffi_inline_const i -> Lam.const i
   and convert_js_primitive (p : Primitive.description)
       (args : Lambda.lambda list) loc =
@@ -728,7 +735,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         let lam = Lam.letrec bindings body in
         Lam_scc.scc bindings lam body
     | Lprim (Pccall a, args, loc) ->
-        convert_ccall a args (Debuginfo.Scoped_location.to_location loc)
+        convert_ccall ~dynamic_import a args (Debuginfo.Scoped_location.to_location loc)
     | Lprim (Pgetglobal id, args, _) ->
         let args = List.map ~f:(convert_aux ~dynamic_import) args in
         if Ident.is_predef id then

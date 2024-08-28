@@ -27,7 +27,11 @@
 val reset : unit -> unit
 
 val add_js_module :
-  Melange_ffi.External_ffi_types.module_bind_name -> string -> bool -> Ident.t
+  Melange_ffi.External_ffi_types.module_bind_name ->
+  string ->
+  default:bool ->
+  dynamic_import:bool ->
+  Ident.t
 (**
   [add_js_module hint_name module_name]
   Given a js module name and hint name, assign an id to it

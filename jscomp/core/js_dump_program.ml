@@ -70,7 +70,6 @@ let dump_program (x : J.program) oc =
 
 let modules ~output_dir ~package_info ~output_info (x : J.deps_program) =
   List.filter_map x.modules ~f:(fun (x : Lam_module_ident.t) ->
-      Format.eprintf "lol: %s %B@." (Ident.name x.id) x.dynamic_import;
       match x.dynamic_import with
       | true -> None
       | false ->

@@ -20,6 +20,8 @@ Demonstrate dynamic `import()` semantics
   > module type z = module type of Z
   > let a = Js.import (module Z : z)
   > let b = Js.import Y.x
+  > external ext: string = "default" [@@mel.module "lib"]
+  > let _ext: string Js.promise = Js.import(ext)
   > EOF
 
   $ cat > y.ml <<EOF
@@ -46,8 +48,13 @@ Demonstrate dynamic `import()` semantics
   const b = import("./y.js").then(function (m) {
         return m.x;
       });
-  
+
+  const _ext = import("lib").then(function (m) {
+        return m.default;
+      });
+
   exports.x = x;
   exports.a = a;
   exports.b = b;
-  /* Melange__Z Not a pure module */
+  exports._ext = _ext;
+  /* _ext Not a pure module */
