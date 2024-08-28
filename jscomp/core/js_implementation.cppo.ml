@@ -186,6 +186,10 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
       implementation;
     if !Clflags.print_types || !Js_config.cmi_only then Warnings.check_fatal ()
     else
+      (* XXX(anmonteiro): important that we get package_info after
+         processing, as `[@@@config {flags = [| ... |]}]` could have added to
+         package specs. *)
+      let package_info = Js_packages_state.get_packages_info () in
       let js_program =
         let lambda =
           let program =
@@ -195,13 +199,9 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
           |> print_if_pipe ppf Clflags.dump_rawlambda Printlambda.lambda
         in
 
-        Lam_compile_main.compile outputprefix lambda
+        Lam_compile_main.compile ~package_info outputprefix lambda
       in
       if not !Js_config.cmj_only then
-        (* XXX(anmonteiro): important that we get package_info after
-           processing, as `[@@@config {flags = [| ... |]}]` could have added to
-           package specs. *)
-        let package_info = Js_packages_state.get_packages_info () in
         Lam_compile_main.lambda_as_module ~package_info js_program outputprefix
 (* process_with_gentype (Artifact_extension.append_extension outputprefix Cmt) *)
 

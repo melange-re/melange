@@ -24,7 +24,11 @@
 
 open Import
 
-let compile_group (meta : Lam_stats.t) (x : Lam_group.t) : Js_output.t =
+let compile_group
+  ~package_info
+  output_prefix
+  (meta : Lam_stats.t)
+  (x : Lam_group.t) : Js_output.t =
   match x with
   (*
         We need
@@ -52,6 +56,8 @@ let compile_group (meta : Lam_stats.t) (x : Lam_group.t) : Js_output.t =
     (* ([Js_stmt_make.comment (Gen_of_env.query_type id  env )], None)  ++ *)
     Lam_compile.compile_lambda { continuation = Declare (kind, id);
                                  jmp_table = Lam_compile_context.empty_handler_map;
+                                 package_info;
+                                 output_prefix;
                                  meta
                                } lam
 
@@ -59,12 +65,16 @@ let compile_group (meta : Lam_stats.t) (x : Lam_group.t) : Js_output.t =
     Lam_compile.compile_recursive_lets
       { continuation = EffectCall Not_tail;
         jmp_table = Lam_compile_context.empty_handler_map;
+        package_info;
+        output_prefix;
         meta
       }
       id_lams
   | Nop lam -> (* TODO: Side effect callls, log and see statistics *)
     Lam_compile.compile_lambda {continuation = EffectCall Not_tail;
                                 jmp_table = Lam_compile_context.empty_handler_map;
+                                package_info;
+                                output_prefix;
                                 meta
                                } lam
 
@@ -113,6 +123,7 @@ let _j = Js_pass_debug.dump
     it's used or not
 *)
 let compile
+    ~package_info
     (output_prefix : string)
     (lam : Lambda.lambda)   =
   let export_idents = Translmod.get_export_identifiers() in
@@ -238,7 +249,7 @@ in
 #endif
 let body  =
   groups
-  |> List.map ~f:(fun group -> compile_group meta group)
+  |> List.map ~f:(fun group -> compile_group ~package_info output_prefix meta group)
   |> Js_output.concat
   |> Js_output.output_as_block
 in
@@ -302,7 +313,7 @@ js
     let case =
       Js_packages_info.module_case
         ~output_prefix
-        (Js_packages_state.get_packages_info ())
+        package_info
     in
     let cmj : Js_cmj_format.t =
       Lam_stats_export.export_to_cmj

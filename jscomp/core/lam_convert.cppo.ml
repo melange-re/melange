@@ -630,6 +630,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
           | "#nullable_to_opt" -> Pnull_undefined_to_opt
           | "#null_to_opt" -> Pnull_to_opt
           | "#is_nullable" -> Pis_null_undefined
+          | "#import" -> Pimport
           | "#string_append" -> Pstringadd
           | "#obj_length" -> Pcaml_obj_length
           | "#function_length" -> Pjs_function_length

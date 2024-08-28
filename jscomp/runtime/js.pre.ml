@@ -88,11 +88,13 @@ type 'a dict
 type 'a iterator
 type 'a array_like
 type bigint
+type +'a promise
 
 external toOption : 'a nullable -> 'a option = "#nullable_to_opt"
 external undefinedToOption : 'a undefined -> 'a option = "#undefined_to_opt"
 external nullToOption : 'a null -> 'a option = "#null_to_opt"
 external isNullable : 'a nullable -> bool = "#is_nullable"
+external import : 'a -> 'a promise = "#import"
 external testAny : 'a -> bool = "#is_nullable"
 external null : 'a null = "#null"
 external undefined : 'a undefined = "#undefined"
