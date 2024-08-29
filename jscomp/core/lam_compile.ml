@@ -1698,8 +1698,9 @@ and compile_prim (prim_info : Lam.prim_info)
       let output_dir = Filename.dirname lambda_cxt.output_prefix in
       let module_id, module_value, args_block =
         match mod_ with
-        | Lglobal_module _ | Lmutvar _ | Lvar _
-        | Lprim { primitive = Pfield _ | Pjs_call _ | Pccall _; _ } ->
+        | (( Lglobal_module _ | Lmutvar _ | Lvar _
+           | Lprim { primitive = Pfield _ | Pjs_call _ | Pccall _; _ } ) as mod_)
+        | Lsequence ((Lprim _ as mod_), Lconst Const_js_undefined) ->
             let args_block, args_expr =
               let new_cxt =
                 { lambda_cxt with continuation = NeedValue Not_tail }
