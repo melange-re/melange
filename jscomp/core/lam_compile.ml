@@ -1721,7 +1721,14 @@ and compile_prim (prim_info : Lam.prim_info)
                      or local module is not allowed."
             in
             (module_id, module_value, args_block)
-        | Lfunction { attr = { stub = true; _ }; body = Lprim _ as body; _ } ->
+        | Lfunction
+            {
+              attr = { stub = true; _ };
+              body =
+                ( (Lprim _ as body)
+                | Lsequence ((Lprim _ as body), Lconst Const_js_undefined) );
+              _;
+            } ->
             let args_block, args_expr =
               let new_cxt =
                 { lambda_cxt with continuation = NeedValue Not_tail }
