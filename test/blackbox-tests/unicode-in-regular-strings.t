@@ -68,12 +68,12 @@ Locations are broken when using emojis (this is also the case in OCaml)
   > let q = "💩💩💩💩💩💩💩💩💩💩" ^ ("a" ^ 3 ^ "b")
   > EOF
 
-  $ ocaml x.ml
+  $ ocaml -color never x.ml
   File "./x.ml", line 1, characters 60-61:
   1 | let q = "💩💩💩💩💩💩💩💩💩💩" ^ ("a" ^ 3 ^ "b")
                                                                   ^
-  Error: This expression has type int but an expression was expected of type
-           string
+  Error: This expression has type "int" but an expression was expected of type
+           "string"
   [2]
 
   $ dune build @mel
