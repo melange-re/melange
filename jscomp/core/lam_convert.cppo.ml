@@ -440,7 +440,11 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
   | Pduparray _ -> assert false
 #if OCAML_VERSION >= (5, 1, 0)
   | Prunstack | Pperform | Presume | Preperform | Patomic_exchange | Patomic_cas
-  | Patomic_fetch_add | Pdls_get | Patomic_load _ ->
+  | Patomic_fetch_add | Pdls_get | Patomic_load _
+#if OCAML_VERSION >= (5, 3, 0)
+  | Ppoll
+#endif
+  ->
       Location.raise_errorf ~loc
         "OCaml 5 multicore primitives (Effect, Condition, Semaphore) are not \
          currently supported in Melange"

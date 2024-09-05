@@ -620,11 +620,26 @@ module Mapper = struct
                 match
                   Melange_ffi.Utf8_string.transform ~loc ~delim:dec
                     (Ocaml_common.Ast_helper.Exp.constant
-                       (Pconst_string (s, loc, Some dec)))
+#if OCAML_VERSION >= (5, 3, 0)
+                       {
+                         pconst_desc = Pconst_string (s, loc, Some dec);
+                         pconst_loc = loc;
+                       }
+#else
+                       (Pconst_string (s, loc, Some dec))
+#endif
+                         )
                     s
                 with
-                | { pexp_desc = Pexp_constant (Pconst_string (s, _, dec)); _ }
-                  ->
+                | {
+                 pexp_desc =
+#if OCAML_VERSION >= (5, 3, 0)
+                   Pexp_constant { pconst_desc = Pconst_string (s, _, dec); _ };
+#else
+                   Pexp_constant (Pconst_string (s, _, dec));
+#endif
+                 _;
+                } ->
                     succeed attr pvb_attributes;
                     {
                       str with
@@ -858,11 +873,25 @@ module Mapper = struct
                       match
                         Melange_ffi.Utf8_string.transform ~loc ~delim:dec
                           (Ocaml_common.Ast_helper.Exp.constant
-                             (Pconst_string (s, loc, Some dec)))
+#if OCAML_VERSION >= (5, 3, 0)
+                             {
+                               pconst_desc = Pconst_string (s, loc, Some dec);
+                               pconst_loc = loc;
+                             }
+#else
+                             (Pconst_string (s, loc, Some dec))
+#endif
+                               )
                           s
                       with
                       | {
-                       pexp_desc = Pexp_constant (Pconst_string (s, _, dec));
+                       pexp_desc =
+                         Pexp_constant
+#if OCAML_VERSION >= (5, 3, 0)
+                           { pconst_desc = Pconst_string (s, _, dec); _ };
+#else
+                           (Pconst_string (s, _, dec));
+#endif
                        _;
                       } ->
                           succeed attr pval_attributes;

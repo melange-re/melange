@@ -24,6 +24,10 @@
 
 open Import
 
+#if OCAML_VERSION < (5, 3, 0)
+module Format_doc = Format
+#endif
+
 type byte = Single of int | Cont of int | Leading of int * int | Invalid
 
 (** [classify chr] returns the {!byte} corresponding to [chr] *)
@@ -31,30 +35,19 @@ let classify chr =
   let c = int_of_char chr in
   (* Classify byte according to leftmost 0 bit *)
   if c land 0b1000_0000 = 0 then Single c
-  else if
-    (* c 0b0____*)
-    c land 0b0100_0000 = 0
-  then Cont (c land 0b0011_1111)
-  else if
-    (* c 0b10___*)
-    c land 0b0010_0000 = 0
-  then Leading (1, c land 0b0001_1111)
-  else if
-    (* c 0b110__*)
-    c land 0b0001_0000 = 0
-  then Leading (2, c land 0b0000_1111)
-  else if
-    (* c 0b1110_ *)
-    c land 0b0000_1000 = 0
-  then Leading (3, c land 0b0000_0111)
-  else if
-    (* c 0b1111_0___*)
-    c land 0b0000_0100 = 0
-  then Leading (4, c land 0b0000_0011)
-  else if
-    (* c 0b1111_10__*)
-    c land 0b0000_0010 = 0
-  then Leading (5, c land 0b0000_0001) (* c 0b1111_110__ *)
+  else if (* c 0b0____*)
+          c land 0b0100_0000 = 0 then Cont (c land 0b0011_1111)
+  else if (* c 0b10___*)
+          c land 0b0010_0000 = 0 then Leading (1, c land 0b0001_1111)
+  else if (* c 0b110__*)
+          c land 0b0001_0000 = 0 then Leading (2, c land 0b0000_1111)
+  else if (* c 0b1110_ *)
+          c land 0b0000_1000 = 0 then Leading (3, c land 0b0000_0111)
+  else if (* c 0b1111_0___*)
+          c land 0b0000_0100 = 0 then Leading (4, c land 0b0000_0011)
+  else if (* c 0b1111_10__*)
+          c land 0b0000_0010 = 0 then Leading (5, c land 0b0000_0001)
+    (* c 0b1111_110__ *)
   else Invalid
 
 let rec next s ~remaining offset =
@@ -104,7 +97,7 @@ let pp_error fmt err =
     | Invalid_hex_escape -> "Invalid \\x escape"
     | Invalid_unicode_escape -> "Invalid \\u escape"
   in
-  Format.pp_print_string fmt msg
+  Format_doc.pp_print_string fmt msg
 
 type exn += Error of int (* offset *) * error
 
@@ -225,7 +218,15 @@ let transform =
           e with
           pexp_desc =
             Pexp_constant
-              (Pconst_string (transform ~loc s, loc, escaped_j_delimiter));
+#if OCAML_VERSION >= (5, 3, 0)
+              {
+                pconst_desc =
+                  Pconst_string (transform ~loc s, loc, escaped_j_delimiter);
+                pconst_loc = loc;
+              };
+#else
+                  (Pconst_string (transform ~loc s, loc, escaped_j_delimiter));
+#endif
         }
     | false -> (
         match String.equal delim unescaped_j_delimiter with
@@ -236,7 +237,15 @@ let transform =
               e with
               pexp_desc =
                 Pexp_constant
-                  (Pconst_string (transform ~loc s, loc, escaped_j_delimiter));
+#if OCAML_VERSION >= (5, 3, 0)
+                  {
+                    pconst_desc =
+                      Pconst_string (transform ~loc s, loc, escaped_j_delimiter);
+                    pconst_loc = loc;
+                  };
+#else
+                      (Pconst_string (transform ~loc s, loc, escaped_j_delimiter));
+#endif
             }
         | false -> e)
   in
@@ -250,7 +259,12 @@ let rewrite_structure =
       expr =
         (fun self e ->
           match e.pexp_desc with
-          | Pexp_constant (Pconst_string (s, loc, Some delim)) ->
+          | Pexp_constant
+#if OCAML_VERSION >= (5, 3, 0)
+              { pconst_desc = Pconst_string (s, loc, Some delim); _ } ->
+#else
+              Pconst_string (s, loc, Some delim)  ->
+#endif
               transform e s ~loc ~delim
           | _ -> super.expr self e);
     }
