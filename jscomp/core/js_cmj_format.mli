@@ -24,7 +24,7 @@
 
 open Import
 
-(** Define intemediate format to be serialized for cross module optimization *)
+(** Define intermediate format to be serialized for cross module optimization *)
 
 (** In this module,
     currently only arity information is  exported,
@@ -54,8 +54,6 @@ type cmj_value = {
       (* Either constant or closed functor *)
 }
 
-type effect = string option
-
 type keyed_cmj_value = {
   name : string;
   arity : arity;
@@ -72,7 +70,7 @@ type t = {
 
 val make :
   values:cmj_value String.Map.t ->
-  effect:effect ->
+  effect_:string option ->
   package_spec:Js_packages_info.t ->
   case:Js_packages_info.file_case ->
   delayed_program:J.deps_program ->

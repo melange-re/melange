@@ -414,7 +414,12 @@ let file_level_flags_handler (e : Parsetree.expression option) =
     let args =
       ( List.map ~f:(fun (e: Parsetree.expression) ->
           match e.pexp_desc with
-          | Pexp_constant (Pconst_string(name,_,_)) -> name
+#if OCAML_VERSION >= (5, 3, 0)
+          | Pexp_constant { pconst_desc = Pconst_string(name,_,_); _ }
+#else
+          | Pexp_constant (Pconst_string(name,_,_))
+#endif
+            -> name
           | _ -> Location.raise_errorf ~loc:e.pexp_loc "Flags must be a literal array of strings") args)
     in
     let argv = Melc_cli.normalize_argv (Array.of_list (Sys.argv.(0) :: args)) in

@@ -7,3 +7,16 @@
  (preprocess
   (pps ppxlib.metaquot))
  (libraries melange_ffi ppxlib js_parser))
+
+(rule
+ (targets melange_ppx.ml)
+ (deps melange_ppx.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))

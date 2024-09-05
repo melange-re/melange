@@ -29,6 +29,19 @@
    %{targets})))
 
 (rule
+ (targets cmd_ast_exception.ml)
+ (deps cmd_ast_exception.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
  (targets compile_rec_module.ml)
  (deps compile_rec_module.cppo.ml)
  (action
@@ -44,6 +57,45 @@
 (rule
  (targets js_implementation.ml)
  (deps js_implementation.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
+ (targets record_attributes_check.ml)
+ (deps record_attributes_check.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
+ (targets mel_ast_invariant.ml)
+ (deps mel_ast_invariant.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
+ (targets mel_exception.ml)
+ (deps mel_exception.cppo.ml)
  (action
   (run
    cppo

@@ -76,11 +76,22 @@ let after_parsing_sig ppf fname ast =
     output_value stdout ast);
   if !Js_config.syntax_only then Warnings.check_fatal ()
   else
-    let modulename = module_name outputprefix in
     Lam_compile_env.reset ();
     let initial_env = Initialization.Perfile.initial_env () in
+#if OCAML_VERSION >= (5,3,0)
+    let unit_info =
+      Unit_info.make ~check_modname:false ~source_file:fname Intf outputprefix
+    in
+    Env.set_current_unit unit_info;
+#elif OCAML_VERSION >= (5,2,0)
+    let unit_info =
+      Unit_info.make ~check_modname:false ~source_file:fname outputprefix
+    in
+#endif
+#if OCAML_VERSION < (5,3,0)
+    let modulename = module_name outputprefix in
     Env.set_unit_name modulename;
-
+#endif
     let tsg = Typemod.type_interface initial_env ast in
     if !Clflags.dump_typedtree then
       Format.fprintf ppf "%a@." Printtyped.interface tsg;
@@ -90,17 +101,20 @@ let after_parsing_sig ppf fname ast =
           Format.fprintf Format.std_formatter "%a@."
             (Printtyp.printed_signature !Location.input_name)
             sg);
+#if OCAML_VERSION >= (5, 3, 0)
+    ignore (Includemod.signatures initial_env ~mark:true sg sg);
+#else
     ignore (Includemod.signatures initial_env ~mark:Mark_both sg sg);
+#endif
     Typecore.force_delayed_checks ();
     Warnings.check_fatal ();
     if not !Clflags.print_types then
-#if OCAML_VERSION >= (5,2,0)
-      let unit_info =
-        Unit_info.make ~check_modname:false ~source_file:fname outputprefix
-      in
-#endif
       let sg =
-        let alerts = Builtin_attributes.alerts_of_sig ast in
+        let alerts = Builtin_attributes.alerts_of_sig
+#if OCAML_VERSION >= (5,3,0)
+ ~mark:true
+#endif
+        ast in
         Env.save_signature ~alerts tsg.Typedtree.sig_type
 #if OCAML_VERSION >= (5,2,0)
           (Unit_info.cmi unit_info)
@@ -170,12 +184,21 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
     let modulename = module_name outputprefix in
     Lam_compile_env.reset ();
     let env = Initialization.Perfile.initial_env () in
+#if OCAML_VERSION >= (5,3,0)
+    let unit_info =
+      Unit_info.make ~check_modname:false ~source_file:fname Impl outputprefix
+    in
+    Env.set_current_unit unit_info;
+#elif OCAML_VERSION >= (5,2,0)
+    let unit_info =
+      Unit_info.make ~check_modname:false ~source_file:fname outputprefix
+    in
+#endif
+#if OCAML_VERSION < (5,3,0)
     Env.set_unit_name modulename;
+#endif
     let ({ Typedtree.structure = typedtree; coercion; _ } as implementation) =
 #if OCAML_VERSION >= (5,2,0)
-      let unit_info =
-        Unit_info.make ~check_modname:false ~source_file:fname outputprefix
-      in
       Typemod.type_implementation unit_info env ast
 #else
       Typemod.type_implementation fname outputprefix modulename env ast
