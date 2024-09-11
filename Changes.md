@@ -9,6 +9,9 @@ Unreleased
   ([#1140](https://github.com/melange-re/melange/pull/1140))
 - add Worker types to `melange.dom`
   ([#1147](https://github.com/melange-re/melange/pull/1147))
+- support `[@mel.unwrap]` and all other `external` FFI attributes in the maker
+  function for `[@@deriving jsProperties]`
+  ([#1162](https://github.com/melange-re/melange/pull/1162))
 
 4.0.1 2024-06-07
 ---------------

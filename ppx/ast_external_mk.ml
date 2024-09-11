@@ -175,30 +175,6 @@ let pval_prim_of_labels (labels : string Asttypes.loc list) =
   in
   Melange_ffi.External_ffi_types.ffi_obj_as_prims arg_kinds
 
-let pval_prim_of_option_labels (labels : (bool * string Asttypes.loc) list)
-    (ends_with_unit : bool) =
-  let arg_kinds =
-    List.fold_right
-      ~f:(fun (is_option, p) arg_kinds ->
-        let label_name = Melange_ffi.Lam_methname.translate p.txt in
-        let obj_arg_label =
-          if is_option then
-            Melange_ffi.External_arg_spec.optional false label_name
-          else Melange_ffi.External_arg_spec.obj_label label_name
-        in
-        {
-          Melange_ffi.External_arg_spec.arg_type = Nothing;
-          arg_label = obj_arg_label;
-        }
-        :: arg_kinds)
-      labels
-      ~init:
-        (if ends_with_unit then
-           [ Melange_ffi.External_arg_spec.empty_kind Extern_unit ]
-         else [])
-  in
-  Melange_ffi.External_ffi_types.ffi_obj_as_prims arg_kinds
-
 let record_as_js_object ~loc
     (label_exprs : (Longident.t Asttypes.loc * expression) list) :
     expression_desc =
@@ -209,6 +185,7 @@ let record_as_js_object ~loc
         | Lident obj_label ->
             let obj_label =
               Ast_attributes.iter_process_mel_string_as e.pexp_attributes
+              |> fst
               |> Option.value ~default:obj_label
             in
             ( { Asttypes.loc; txt = obj_label } :: labels,

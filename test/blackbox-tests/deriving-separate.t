@@ -2,7 +2,7 @@ Tests for deriving `jsProperties, getSet`
 
   $ . ./setup.sh
 
-`[@@deriving make_opt_keys]` just derives the constructor
+`[@@deriving jsProperties]` just derives the constructor
 
   $ cat > x.ml <<EOF
   > type chartDataItemType =

@@ -46,7 +46,7 @@ let handleExternalInSig (self : Ast_traverse.map) (prim : value_description)
         no_inline_cross_module;
       } =
         Ast_external_process.handle_attributes_as_string loc pval_type
-          pval_attributes prim.pval_name.txt v
+          pval_attributes ~pval_name:prim.pval_name.txt ~prim_name:v
       in
 
       {
@@ -78,7 +78,7 @@ let handleExternalInStru (self : Ast_traverse.map) (prim : value_description)
         no_inline_cross_module;
       } =
         Ast_external_process.handle_attributes_as_string loc pval_type
-          pval_attributes prim.pval_name.txt v
+          pval_attributes ~pval_name:prim.pval_name.txt ~prim_name:v
       in
       let external_result =
         {

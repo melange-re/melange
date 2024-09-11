@@ -104,6 +104,7 @@ let map_row_fields_into_strings ptyp_loc (row_fields : row_field list) :
             let name =
               match
                 Ast_attributes.iter_process_mel_string_as tag.prf_attributes
+                |> fst
               with
               | Some name ->
                   has_mel_as := true;
@@ -115,6 +116,7 @@ let map_row_fields_into_strings ptyp_loc (row_fields : row_field list) :
             let name =
               match
                 Ast_attributes.iter_process_mel_string_as tag.prf_attributes
+                |> fst
               with
               | Some name ->
                   has_mel_as := true;

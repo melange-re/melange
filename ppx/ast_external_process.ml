@@ -490,6 +490,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                   | _ ->
                       Ast_attributes.iter_process_mel_string_as
                         param_type.ty.ptyp_attributes
+                      |> fst
                       |> Option.map (fun name ->
                              match param_type.label with
                              | Labelled _ -> Labelled name
@@ -1012,10 +1013,11 @@ let list_of_arrow (ty : core_type) : core_type * param_type list =
   in
   aux ty []
 
-(* Note that the passed [type_annotation] is already processed by visitor pattern before*)
+(* Note that the passed [type_annotation] is already processed by visitor
+   pattern before *)
 let handle_attributes (loc : Location.t) (type_annotation : core_type)
-    (prim_attributes : attribute list) (pval_name : string) (prim_name : string)
-    : core_type * External_ffi_types.t * attributes * bool =
+    (prim_attributes : attribute list) ~pval_name ~prim_name :
+    core_type * External_ffi_types.t * attributes * bool =
   (* sanity check here
       {[ int -> int -> (int -> int -> int [@uncurry])]}
       It does not make sense *)
@@ -1159,13 +1161,12 @@ let handle_attributes (loc : Location.t) (type_annotation : core_type)
           relative )
 
 let handle_attributes_as_string (pval_loc : Location.t) (typ : core_type)
-    (attrs : attribute list) (pval_name : string) (prim_name : string) :
-    response =
+    (attrs : attribute list) ~pval_name ~prim_name : response =
   match typ.ptyp_desc with
   | Ptyp_constr
       ({ txt = Ldot (Ldot (Lident "Js", "Fn"), arity); loc }, [ fn_type ]) ->
       let pval_type, ffi, pval_attributes, no_inline_cross_module =
-        handle_attributes pval_loc fn_type attrs pval_name prim_name
+        handle_attributes pval_loc fn_type attrs ~pval_name ~prim_name
       in
       {
         pval_type =
@@ -1178,7 +1179,7 @@ let handle_attributes_as_string (pval_loc : Location.t) (typ : core_type)
       }
   | _ ->
       let pval_type, ffi, pval_attributes, no_inline_cross_module =
-        handle_attributes pval_loc typ attrs pval_name prim_name
+        handle_attributes pval_loc typ attrs ~pval_name ~prim_name
       in
       {
         pval_type;

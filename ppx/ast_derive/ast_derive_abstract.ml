@@ -46,14 +46,37 @@ let with_deprecation ~is_deprecated attrs =
   | true -> deprecated_abstract :: attrs
 
 let get_pld_type pld_type ~attrs =
-  let is_optional = Ast_attributes.has_mel_optional attrs in
+  let is_optional, _ = Ast_attributes.has_mel_optional attrs in
   if is_optional then
     match pld_type.ptyp_desc with
     | Ptyp_constr ({ txt = Lident "option"; _ }, [ pld_type ]) -> pld_type
     | _ ->
         Location.raise_errorf ~loc:pld_type.ptyp_loc
-          "`[@mel.optional]' must appear on an option literal type (`_ option')"
+          "`[@mel.optional]' must appear on a literal option type (`_ option')"
   else pld_type
+
+let exernal_arg_spec_option_labels (labels : (bool * string Asttypes.loc) list)
+    (ends_with_unit : bool) :
+    Melange_ffi.External_arg_spec.label Melange_ffi.External_arg_spec.param list
+    =
+  List.fold_right
+    ~f:(fun (is_option, p) arg_kinds ->
+      let label_name = Melange_ffi.Lam_methname.translate p.txt in
+      let obj_arg_label =
+        if is_option then
+          Melange_ffi.External_arg_spec.optional false label_name
+        else Melange_ffi.External_arg_spec.obj_label label_name
+      in
+      {
+        Melange_ffi.External_arg_spec.arg_type = Nothing;
+        arg_label = obj_arg_label;
+      }
+      :: arg_kinds)
+    labels
+    ~init:
+      (if ends_with_unit then
+         [ Melange_ffi.External_arg_spec.empty_kind Extern_unit ]
+       else [])
 
 let derive_js_constructor ?(is_deprecated = false) tdcl =
   match tdcl.ptype_kind with
@@ -62,7 +85,10 @@ let derive_js_constructor ?(is_deprecated = false) tdcl =
       let has_optional_field =
         List.exists
           ~f:(fun (x : label_declaration) ->
-            Ast_attributes.has_mel_optional x.pld_attributes)
+            let is_optional, _ =
+              Ast_attributes.has_mel_optional x.pld_attributes
+            in
+            is_optional)
           label_declarations
       in
       let makeType, labels =
@@ -77,19 +103,35 @@ let derive_js_constructor ?(is_deprecated = false) tdcl =
               }
               (maker, labels)
             ->
-            let newLabel =
+            let newLabel, remaining_attrs =
               match
                 Ast_attributes.iter_process_mel_string_as pld_attributes
               with
-              | None -> pld_name
-              | Some new_name -> { pld_name with txt = new_name }
+              | None, remaining_attrs -> (pld_name, remaining_attrs)
+              | Some new_name, remaining_attrs ->
+                  ({ pld_name with txt = new_name }, remaining_attrs)
             in
-            let is_optional = Ast_attributes.has_mel_optional pld_attributes in
+            let is_optional, remaining_attrs =
+              Ast_attributes.has_mel_optional remaining_attrs
+            in
             let maker =
               if is_optional then
-                let pld_type = get_pld_type ~attrs:pld_attributes pld_type in
-                Typ.arrow ~loc:pld_loc (Optional label_name) pld_type maker
-              else Typ.arrow ~loc:pld_loc (Labelled label_name) pld_type maker
+                let pld_type = get_pld_type pld_type ~attrs:pld_attributes in
+                Typ.arrow ~loc:pld_loc (Optional label_name)
+                  {
+                    pld_type with
+                    ptyp_attributes =
+                      List.append pld_type.ptyp_attributes remaining_attrs;
+                  }
+                  maker
+              else
+                Typ.arrow ~loc:pld_loc (Labelled label_name)
+                  {
+                    pld_type with
+                    ptyp_attributes =
+                      List.append pld_type.ptyp_attributes remaining_attrs;
+                  }
+                  maker
             in
             (maker, (is_optional, newLabel) :: labels))
           label_declarations
@@ -104,16 +146,50 @@ let derive_js_constructor ?(is_deprecated = false) tdcl =
       match tdcl.ptype_private with
       | Private -> []
       | Public ->
-          let myPrims =
-            Ast_external_mk.pval_prim_of_option_labels labels has_optional_field
+          let prim_labels =
+            exernal_arg_spec_option_labels labels has_optional_field
           in
+          let _pval_type, ffi, _pval_attributes, _no_inline_cross_module =
+            Ast_external_process.handle_attributes loc makeType
+              [
+                {
+                  attr_name = { txt = "mel.obj"; loc = Location.none };
+                  attr_payload = PStr [];
+                  attr_loc = Location.none;
+                };
+              ]
+              ~pval_name:"" ~prim_name:""
+          in
+          let prim =
+            match ffi with
+            | Melange_ffi.External_ffi_types.Ffi_obj_create obj_arg_types ->
+                assert (List.length prim_labels = List.length obj_arg_types);
+                List.map2
+                  ~f:(fun
+                      (label :
+                        Melange_ffi.External_arg_spec.label
+                        Melange_ffi.External_arg_spec.param)
+                      (obj_arg_type :
+                        Melange_ffi.External_arg_spec.label
+                        Melange_ffi.External_arg_spec.param)
+                    ->
+                    {
+                      Melange_ffi.External_arg_spec.arg_type =
+                        obj_arg_type.arg_type;
+                      arg_label = label.arg_label;
+                    })
+                  prim_labels obj_arg_types
+            | _ -> assert false
+          in
+
           [
             Val.mk ~loc
               { loc; txt = tdcl.ptype_name.txt }
               ~attrs:
                 (with_deprecation ~is_deprecated
                    [ Ast_attributes.unboxable_type_in_prim_decl ])
-              ~prim:myPrims makeType;
+              ~prim:(Melange_ffi.External_ffi_types.ffi_obj_as_prims prim)
+              makeType;
           ])
   | Ptype_abstract | Ptype_variant _ | Ptype_open ->
       (* Looks obvious that it does not make sense to warn *)
@@ -145,16 +221,19 @@ let derive_getters_setters =
               }
               acc
             ->
-            let prim_as_name =
+            let prim_as_name, remaining_attrs =
               match
                 Ast_attributes.iter_process_mel_string_as pld_attributes
               with
-              | None -> label_name
-              | Some new_name -> new_name
+              | None, remaining_attrs -> (label_name, remaining_attrs)
+              | Some new_name, remaining_attrs -> (new_name, remaining_attrs)
             in
             let prim = [ prim_as_name ] in
+            let is_optional, remaining_attrs =
+              Ast_attributes.has_mel_optional remaining_attrs
+            in
             let acc =
-              if Ast_attributes.has_mel_optional pld_attributes then
+              if is_optional then
                 let optional_type = pld_type in
                 Val.mk ~loc:pld_loc
                   (if light then pld_name
@@ -179,7 +258,14 @@ let derive_getters_setters =
             in
             match pld_mutable with
             | Mutable ->
-                let pld_type = get_pld_type pld_type ~attrs:pld_attributes in
+                let pld_type =
+                  let pld_type = get_pld_type pld_type ~attrs:pld_attributes in
+                  {
+                    pld_type with
+                    ptyp_attributes =
+                      List.append pld_type.ptyp_attributes remaining_attrs;
+                  }
+                in
                 let setter_type =
                   [%type: [%t core_type] -> [%t pld_type] -> unit]
                 in

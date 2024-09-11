@@ -31,8 +31,21 @@ type response = {
   no_inline_cross_module : bool;
 }
 
+val handle_attributes :
+  Location.t ->
+  core_type ->
+  attribute list ->
+  pval_name:string ->
+  prim_name:string ->
+  core_type * Melange_ffi.External_ffi_types.t * attributes * bool
+
 val handle_attributes_as_string :
-  Location.t -> core_type -> attribute list -> string -> string -> response
+  Location.t ->
+  core_type ->
+  attribute list ->
+  pval_name:string ->
+  prim_name:string ->
+  response
 (**
   [handle_attributes_as_string
   loc pval_name.txt pval_type pval_attributes pval_prim]
