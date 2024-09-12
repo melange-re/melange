@@ -74,8 +74,6 @@ let continuation_is_return (x : continuation) =
 type t = {
   mutable continuation : continuation;
   jmp_table : jmp_table;
-  package_info : Js_packages_info.t;
-  output_prefix : string;
   meta : Lam_stats.t;
 }
 

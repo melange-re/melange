@@ -60,13 +60,18 @@ let extract_file_comments (x : J.deps_program) =
   let comments, new_block = extract_block_comments [] x.program.block in
   (comments, { x with program = { x.program with block = new_block } })
 
-let program f cxt (x : J.program) =
+let program ~output_dir ~package_info ~output_info f cxt (x : J.program) =
   P.at_least_two_lines f;
-  let cxt = Js_dump.statements true cxt f x.block in
+  let cxt =
+    Js_dump.statements ~top:true ~scope:cxt ~output_dir ~package_info
+      ~output_info f x.block
+  in
   Js_dump_import_export.exports cxt f x.exports
 
-let dump_program (x : J.program) oc =
-  ignore (program (P.from_channel oc) Js_pp.Scope.empty x)
+let dump_program ~output_dir ~package_info ~output_info (x : J.program) oc =
+  ignore
+    (program ~output_dir ~package_info ~output_info (P.from_channel oc)
+       Js_pp.Scope.empty x)
 
 let modules ~output_dir ~package_info ~output_info (x : J.deps_program) =
   List.filter_map x.modules ~f:(fun (x : Lam_module_ident.t) ->
@@ -85,14 +90,14 @@ let modules ~output_dir ~package_info ~output_info (x : J.deps_program) =
                 | _ -> false);
             })
 
-let node_program ~package_info ~output_info ~output_dir f (x : J.deps_program) =
+let node_program ~output_dir ~package_info ~output_info f (x : J.deps_program) =
   P.string f L.strict_directive;
   P.newline f;
   let cxt =
     Js_dump_import_export.requires Js_pp.Scope.empty f
       (modules ~package_info ~output_info ~output_dir x)
   in
-  program f cxt x.program
+  program ~output_dir ~package_info ~output_info f cxt x.program
 
 let es6_program ~package_info ~output_info ~output_dir f (x : J.deps_program) =
   let cxt =
@@ -100,7 +105,10 @@ let es6_program ~package_info ~output_info ~output_dir f (x : J.deps_program) =
       (modules ~package_info ~output_info ~output_dir x)
   in
   let () = P.at_least_two_lines f in
-  let cxt = Js_dump.statements true cxt f x.program.block in
+  let cxt =
+    Js_dump.statements ~top:true ~output_dir ~output_info ~package_info
+      ~scope:cxt f x.program.block
+  in
   Js_dump_import_export.es6_export cxt f x.program.exports
 
 let pp_deps_program =

@@ -149,6 +149,7 @@ let str ?(pure = true) ?loc ?comment s : t =
   make_expression ?loc ?comment (Str (pure, s))
 
 let unicode ?loc ?comment s : t = make_expression ?loc ?comment (Unicode s)
+let module_ ?loc ?comment id : t = make_expression ?loc ?comment (Module id)
 
 let raw_js_code ?loc ?comment info s : t =
   make_expression ?loc ?comment

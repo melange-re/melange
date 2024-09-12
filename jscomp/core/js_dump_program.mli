@@ -24,7 +24,13 @@
 
 open Import
 
-val dump_program : J.program -> out_channel -> unit
+val dump_program :
+  output_dir:string ->
+  package_info:Js_packages_info.t ->
+  output_info:Js_packages_info.output_info ->
+  J.program ->
+  out_channel ->
+  unit
 (** only used for debugging purpose *)
 
 val dump_deps_program :

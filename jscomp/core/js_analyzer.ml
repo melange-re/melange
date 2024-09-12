@@ -58,8 +58,7 @@ let free_variables (stats : idents_stats) =
         | Fun (_, _, _, env, _)
         (* a optimization to avoid walking into function again
             if it's already comuted
-        *)
-          ->
+        *) ->
             stats.used_idents <-
               Ident.Set.union (Js_fun_env.get_unbounded env) stats.used_idents
         | _ -> super.expression self exp);
@@ -84,7 +83,7 @@ let free_variables_of_expression st =
 
 let rec no_side_effect_expression_desc (x : J.expression_desc) =
   match x with
-  | Undefined | Null | Bool _ | Var _ | Unicode _ -> true
+  | Undefined | Null | Bool _ | Var _ | Unicode _ | Module _ -> true
   | Fun _ -> true
   | Number _ -> true (* Can be refined later *)
   | Static_index (obj, (_name : string), (_pos : int32 option)) ->
@@ -188,6 +187,11 @@ let rec eq_expression ({ expression_desc = x0; _ } : J.expression)
   | Str (a0, b0) -> (
       match y0 with Str (a1, b1) -> a0 = a1 && b0 = b1 | _ -> false)
   | Unicode s0 -> ( match y0 with Unicode s1 -> s0 = s1 | _ -> false)
+  | Module { id = id0; dynamic_import = d0; _ } -> (
+      match y0 with
+      | Module { id = id1; dynamic_import = d1; _ } ->
+          Ident.same id0 id1 && d0 = d1
+      | _ -> false)
   | Static_index (e0, p0, off0) -> (
       match y0 with
       | Static_index (e1, p1, off1) ->

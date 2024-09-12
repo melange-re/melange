@@ -25,8 +25,6 @@
 open Import
 
 let compile_group
-  ~package_info
-  output_prefix
   (meta : Lam_stats.t)
   (x : Lam_group.t) : Js_output.t =
   match x with
@@ -56,8 +54,6 @@ let compile_group
     (* ([Js_stmt_make.comment (Gen_of_env.query_type id  env )], None)  ++ *)
     Lam_compile.compile_lambda { continuation = Declare (kind, id);
                                  jmp_table = Lam_compile_context.empty_handler_map;
-                                 package_info;
-                                 output_prefix;
                                  meta
                                } lam
 
@@ -65,16 +61,12 @@ let compile_group
     Lam_compile.compile_recursive_lets
       { continuation = EffectCall Not_tail;
         jmp_table = Lam_compile_context.empty_handler_map;
-        package_info;
-        output_prefix;
         meta
       }
       id_lams
   | Nop lam -> (* TODO: Side effect callls, log and see statistics *)
     Lam_compile.compile_lambda {continuation = EffectCall Not_tail;
                                 jmp_table = Lam_compile_context.empty_handler_map;
-                                package_info;
-                                output_prefix;
                                 meta
                                } lam
 
@@ -117,8 +109,6 @@ let _d  = fun  s lam ->
 #endif
   lam
 
-let _j = Js_pass_debug.dump
-
 (* Actually simplify_lets is kind of global optimization since it requires you to know whether
     it's used or not
 *)
@@ -126,6 +116,14 @@ let compile
     ~package_info
     (output_prefix : string)
     (lam : Lambda.lambda)   =
+  let _j =
+    Js_pass_debug.dump
+      ~output_dir:(Filename.dirname output_prefix)
+      ~package_info
+      ~output_info:(Js_packages_state.get_output_info () |> List.hd)
+  in
+
+
   let export_idents = Translmod.get_export_identifiers() in
   let export_ident_sets = Ident.Set.of_list export_idents in
   (* To make toplevel happy - reentrant for js-demo *)
@@ -249,7 +247,7 @@ in
 #endif
 let body  =
   groups
-  |> List.map ~f:(fun group -> compile_group ~package_info output_prefix meta group)
+  |> List.map ~f:(fun group -> compile_group meta group)
   |> Js_output.concat
   |> Js_output.output_as_block
 in

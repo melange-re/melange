@@ -162,11 +162,11 @@ let no_effects_const = lazy true
 
 type initialization = J.block
 
-let import_of_path path =
+let import_of_module module_ =
   E.call
     ~info:{ arity = Full; call_info = Call_na }
     (E.js_global "import")
-    [ E.str path ]
+    [ E.module_ module_ ]
 
 let wrap_then import value =
   let arg = Ident.create "m" in
@@ -1695,7 +1695,6 @@ and compile_prim (prim_info : Lam.prim_info)
         exp
   | { primitive = Pimport; args = [] | _ :: _ :: _; _ } -> assert false
   | { primitive = Pimport; args = [ mod_ ]; loc } ->
-      let output_dir = Filename.dirname lambda_cxt.output_prefix in
       let module_id, module_value, args_block =
         match mod_ with
         | (( Lglobal_module _ | Lmutvar _ | Lvar _
@@ -1709,8 +1708,6 @@ and compile_prim (prim_info : Lam.prim_info)
               | { block; value = Some b; _ } -> ([ block ], b)
               | { value = None; _ } -> assert false
             in
-
-            Format.eprintf "x: %s@." (Js_dump.string_of_expression args_expr);
 
             let module_id, module_value =
               match args_expr.expression_desc with
@@ -1739,8 +1736,6 @@ and compile_prim (prim_info : Lam.prim_info)
               | { value = None; _ } -> assert false
             in
 
-            Format.eprintf "x: %s@." (Js_dump.string_of_expression args_expr);
-
             let module_id, module_value =
               match args_expr.expression_desc with
               | J.Call
@@ -1763,25 +1758,12 @@ and compile_prim (prim_info : Lam.prim_info)
               "Invalid argument: unsupported argument to dynamic import. If \
                you believe this should be supported, please open an issue."
       in
-      let path =
-        let output_info =
-          Js_packages_info.assemble_output_info lambda_cxt.package_info
-          (* TODO(anmonteiro): this might not be taking the right module
-             system into account at this stage *)
-          |> (fun x ->
-               Format.eprintf "xx: %d@." (List.length x);
-               x)
-          |> List.hd
-        in
-        Js_name_of_module_id.string_of_module_id
-          ~package_info:lambda_cxt.package_info ~output_info ~output_dir
-          { module_id with J.dynamic_import = true }
-      in
 
+      let module_ = { module_id with J.dynamic_import = true } in
       let exp =
         match module_value with
-        | Some value -> wrap_then (import_of_path path) value
-        | None -> import_of_path path
+        | Some value -> wrap_then (import_of_module module_) value
+        | None -> import_of_module module_
       in
       let args_code : J.block = List.concat args_block in
       Js_output.output_of_block_and_expression lambda_cxt.continuation args_code

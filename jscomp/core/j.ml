@@ -180,6 +180,7 @@ and expression_desc =
   | Object of property_map
   | Undefined
   | Null
+  | Module of module_id
 
 and for_ident_expression = expression
 (* pure*)

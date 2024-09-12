@@ -88,6 +88,7 @@ val runtime_ref : string -> string -> t
 val public_method_call : string -> t -> t -> Int32.t -> t list -> t
 val str : ?pure:bool -> ?loc:Location.t -> ?comment:string -> string -> t
 val unicode : ?loc:Location.t -> ?comment:string -> string -> t
+val module_ : ?loc:Location.t -> ?comment:string -> J.module_id -> t
 
 val ocaml_fun :
   ?loc:Location.t ->
