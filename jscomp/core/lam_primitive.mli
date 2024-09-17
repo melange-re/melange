@@ -50,6 +50,7 @@ type t =
         Melange_ffi.External_arg_spec.param
         list;
       ffi : Melange_ffi.External_ffi_types.external_spec;
+      dynamic_import : bool;
     }
   | Pjs_object_create of
       Melange_ffi.External_arg_spec.label Melange_ffi.External_arg_spec.param
@@ -150,6 +151,7 @@ type t =
   | Pis_null
   | Pis_undefined
   | Pis_null_undefined
+  | Pimport
   | Pjs_typeof
   | Pjs_function_length
   | Pcaml_obj_length

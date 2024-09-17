@@ -74,7 +74,7 @@ let rec no_side_effects (lam : Lam.t) : bool =
       | Pcreate_extension _ | Pjs_typeof | Pis_null | Pis_not_none | Psome
       | Psome_not_nest | Pis_undefined | Pis_null_undefined | Pnull_to_opt
       | Pundefined_to_opt | Pnull_undefined_to_opt | Pjs_fn_make _
-      | Pjs_object_create _ (* TODO: check *) | Pbytes_to_string
+      | Pjs_object_create _ (* TODO: check *) | Pimport | Pbytes_to_string
       | Pbytes_of_string | Pmakeblock _ (* whether it's mutable or not *)
       | Pfield _ | Pfield_computed | Pval_from_option
       | Pval_from_option_not_nest

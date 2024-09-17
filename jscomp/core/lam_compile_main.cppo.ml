@@ -24,7 +24,9 @@
 
 open Import
 
-let compile_group (meta : Lam_stats.t) (x : Lam_group.t) : Js_output.t =
+let compile_group
+  (meta : Lam_stats.t)
+  (x : Lam_group.t) : Js_output.t =
   match x with
   (*
         We need
@@ -107,14 +109,21 @@ let _d  = fun  s lam ->
 #endif
   lam
 
-let _j = Js_pass_debug.dump
-
 (* Actually simplify_lets is kind of global optimization since it requires you to know whether
     it's used or not
 *)
 let compile
+    ~package_info
     (output_prefix : string)
     (lam : Lambda.lambda)   =
+  let _j =
+    Js_pass_debug.dump
+      ~output_dir:(Filename.dirname output_prefix)
+      ~package_info
+      ~output_info:(Js_packages_state.get_output_info () |> List.hd)
+  in
+
+
   let export_idents = Translmod.get_export_identifiers() in
   let export_ident_sets = Ident.Set.of_list export_idents in
   (* To make toplevel happy - reentrant for js-demo *)
@@ -302,7 +311,7 @@ js
     let case =
       Js_packages_info.module_case
         ~output_prefix
-        (Js_packages_state.get_packages_info ())
+        package_info
     in
     let cmj : Js_cmj_format.t =
       Lam_stats_export.export_to_cmj

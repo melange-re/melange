@@ -63,7 +63,7 @@ let reset () =
     be escaped quite ugly
 *)
 let add_js_module (hint_name : Melange_ffi.External_ffi_types.module_bind_name)
-    (module_name : string) default : Ident.t =
+    (module_name : string) ~default ~dynamic_import : Ident.t =
   let id =
     Ident.create_local
       (match hint_name with
@@ -74,7 +74,7 @@ let add_js_module (hint_name : Melange_ffi.External_ffi_types.module_bind_name)
       | Phint_nothing -> Modulename.js_id_name_of_hint_name module_name)
   in
   let lam_module_ident : Lam_module_ident.t =
-    Lam_module_ident.external_ id ~name:module_name ~default
+    Lam_module_ident.external_ id ~dynamic_import ~name:module_name ~default
   in
   match Lam_module_ident.Hash.find_key_opt cached_tbl lam_module_ident with
   | None ->
@@ -82,9 +82,9 @@ let add_js_module (hint_name : Melange_ffi.External_ffi_types.module_bind_name)
       id
   | Some old_key -> old_key.id
 
-let query_external_id_info_exn (module_id : Ident.t) (name : string) :
-    ident_info =
-  let oid = Lam_module_ident.of_ml module_id in
+let query_external_id_info_exn ~dynamic_import (module_id : Ident.t)
+    (name : string) : ident_info =
+  let oid = Lam_module_ident.of_ml ~dynamic_import module_id in
   let cmj_table =
     match Lam_module_ident.Hash.find_opt cached_tbl oid with
     | None ->
@@ -96,8 +96,8 @@ let query_external_id_info_exn (module_id : Ident.t) (name : string) :
   in
   Js_cmj_format.query_by_name cmj_table name
 
-let query_external_id_info module_id name =
-  try Some (query_external_id_info_exn module_id name)
+let query_external_id_info ~dynamic_import module_id name =
+  try Some (query_external_id_info_exn ~dynamic_import module_id name)
   with Mel_exception.Error (Cmj_not_found _) -> None
 
 let get_dependency_info_from_cmj (id : Lam_module_ident.t) :

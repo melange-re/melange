@@ -64,7 +64,7 @@ and prim_info = private {
 and t = private
   | Lvar of ident
   | Lmutvar of ident
-  | Lglobal_module of ident
+  | Lglobal_module of { id : ident; dynamic_import : bool }
   | Lconst of Constant.t
   | Lapply of apply
   | Lfunction of lfunction
@@ -97,7 +97,7 @@ val var : ident -> t
 (** Smart constructors *)
 
 val mutvar : ident -> t
-val global_module : ident -> t
+val global_module : dynamic_import:bool -> ident -> t
 val const : Constant.t -> t
 val apply : t -> t list -> ap_info -> t
 

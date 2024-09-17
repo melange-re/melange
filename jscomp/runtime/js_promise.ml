@@ -26,7 +26,7 @@
     this binding does not track the error type, it treat it as an opaque type
 *)
 
-type +'a t
+type +'a t = 'a Js.promise
 type error
 
 external make :

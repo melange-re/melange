@@ -93,10 +93,17 @@ let flat_call ?loc ?comment e0 es : t =
 let runtime_var_dot ?loc ?comment (x : string) (e1 : string) : J.expression =
   make_expression ?loc ?comment
     (Var
-       (Qualified ({ id = Ident.create_persistent x; kind = Runtime }, Some e1)))
+       (Qualified
+          ( {
+              id = Ident.create_persistent x;
+              kind = Runtime;
+              dynamic_import = false;
+            },
+            Some e1 )))
 
-let ml_var_dot ?loc ?comment (id : Ident.t) e : J.expression =
-  make_expression ?loc ?comment (Var (Qualified ({ id; kind = Ml }, Some e)))
+let ml_var_dot ?loc ?comment ~dynamic_import (id : Ident.t) e : J.expression =
+  make_expression ?loc ?comment
+    (Var (Qualified (Lam_module_ident.of_ml ~dynamic_import id, Some e)))
 
 (**
    module as a value
@@ -104,20 +111,26 @@ let ml_var_dot ?loc ?comment (id : Ident.t) e : J.expression =
      var http = require("http")
    ]}
 *)
-let external_var_field ?loc ?comment ~external_name:name (id : Ident.t) ~field
-    ~default : t =
-  make_expression ?loc ?comment
-    (Var (Qualified (Lam_module_ident.external_ id ~name ~default, Some field)))
-
-let external_var ?loc ?comment ~external_name (id : Ident.t) : t =
+let external_var_field ?loc ?comment ~external_name:name ~dynamic_import
+    (id : Ident.t) ~field ~default : t =
   make_expression ?loc ?comment
     (Var
        (Qualified
-          ( Lam_module_ident.external_ id ~name:external_name ~default:false,
+          ( Lam_module_ident.external_ id ~dynamic_import ~name ~default,
+            Some field )))
+
+let external_var ?loc ?comment ~external_name ~dynamic_import (id : Ident.t) : t
+    =
+  make_expression ?loc ?comment
+    (Var
+       (Qualified
+          ( Lam_module_ident.external_ id ~dynamic_import ~name:external_name
+              ~default:false,
             None )))
 
-let ml_module_as_var ?loc ?comment (id : Ident.t) : t =
-  make_expression ?loc ?comment (Var (Qualified ({ id; kind = Ml }, None)))
+let ml_module_as_var ?loc ?comment ~dynamic_import (id : Ident.t) : t =
+  make_expression ?loc ?comment
+    (Var (Qualified (Lam_module_ident.of_ml ~dynamic_import id, None)))
 
 (* Static_index .....................*)
 let runtime_call ~module_name ~fn_name args =
@@ -136,6 +149,7 @@ let str ?(pure = true) ?loc ?comment s : t =
   make_expression ?loc ?comment (Str (pure, s))
 
 let unicode ?loc ?comment s : t = make_expression ?loc ?comment (Unicode s)
+let module_ ?loc ?comment id : t = make_expression ?loc ?comment (Module id)
 
 let raw_js_code ?loc ?comment info s : t =
   make_expression ?loc ?comment
@@ -875,7 +889,7 @@ let rec int_comp (cmp : Lam_compat.integer_comparison) ?loc ?comment (e0 : t)
              expression_desc =
                Var
                  (Qualified
-                   (({ id = _; kind = Runtime } as iid), Some "caml_compare"));
+                   (({ id = _; kind = Runtime; _ } as iid), Some "caml_compare"));
              _;
            } as fn),
           ([ _; _ ] as args),

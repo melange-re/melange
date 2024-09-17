@@ -28,7 +28,8 @@ open Import
 
 (** Compile and register the hook of function to compile  a lambda to JS IR *)
 
-val compile : string -> Lambda.lambda -> J.deps_program
+val compile :
+  package_info:Js_packages_info.t -> string -> Lambda.lambda -> J.deps_program
 (** For toplevel, [filename] is [""] which is the same as
     {!Env.get_unit_name ()} *)
 

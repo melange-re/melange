@@ -142,4 +142,6 @@ let append_output (x : t) (y : t) : t =
 let concat (xs : t list) : t =
   List.fold_right ~f:(fun x acc -> append_output x acc) xs ~init:dummy
 
-let to_string x = Js_dump.string_of_block (output_as_block x)
+let to_string ~output_dir ~package_info ~output_info x =
+  Js_dump.string_of_block ~output_dir ~package_info ~output_info
+    (output_as_block x)

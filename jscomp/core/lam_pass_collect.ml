@@ -86,7 +86,8 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
       ->
         Ident.Hash.replace meta.ident_tbl ident
           (OptionalBlock (l, Null_undefined))
-    | Lglobal_module v -> Lam_util.alias_ident_or_global meta ident v (Module v)
+    | Lglobal_module { id = v; _ } ->
+        Lam_util.alias_ident_or_global meta ident v (Module v)
     | Lvar v ->
         (* if Ident.global v then  *)
         Lam_util.alias_ident_or_global meta ident v NA

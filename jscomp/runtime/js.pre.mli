@@ -52,10 +52,16 @@ type 'a array_like
 type bigint
 (** The type for JavaScript BigInt *)
 
+type +'a promise
+(** The type for JavaScript Promise *)
+
 external toOption : 'a nullable -> 'a option = "#nullable_to_opt"
 external undefinedToOption : 'a undefined -> 'a option = "#undefined_to_opt"
 external nullToOption : 'a null -> 'a option = "#null_to_opt"
 external isNullable : 'a nullable -> bool = "#is_nullable"
+
+external import : 'a -> 'a promise = "#import"
+(** TODO(anmonteiro): document *)
 
 external testAny : 'a -> bool = "#is_nullable"
 (** The same as {!isNullable} except that it is more permissive on the types of

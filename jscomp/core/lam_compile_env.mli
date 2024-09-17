@@ -27,7 +27,11 @@
 val reset : unit -> unit
 
 val add_js_module :
-  Melange_ffi.External_ffi_types.module_bind_name -> string -> bool -> Ident.t
+  Melange_ffi.External_ffi_types.module_bind_name ->
+  string ->
+  default:bool ->
+  dynamic_import:bool ->
+  Ident.t
 (**
   [add_js_module hint_name module_name]
   Given a js module name and hint name, assign an id to it
@@ -60,7 +64,10 @@ val add_js_module :
 *)
 
 val query_external_id_info :
-  Ident.t -> string -> Js_cmj_format.keyed_cmj_value option
+  dynamic_import:bool ->
+  Ident.t ->
+  string ->
+  Js_cmj_format.keyed_cmj_value option
 (** [query_external_id_info module_id name]
 
   Note: This function checks whether there's inlining information available for

@@ -94,7 +94,7 @@ module Types = struct
   and t =
     | Lvar of ident
     | Lmutvar of ident
-    | Lglobal_module of ident
+    | Lglobal_module of { id : ident; dynamic_import : bool }
     | Lconst of Constant.t
     | Lapply of apply
     | Lfunction of lfunction
@@ -144,7 +144,7 @@ module X = struct
   and t = Types.t =
     | Lvar of ident
     | Lmutvar of ident
-    | Lglobal_module of ident
+    | Lglobal_module of { id : ident; dynamic_import : bool }
     | Lconst of Constant.t
     | Lapply of apply
     | Lfunction of lfunction
@@ -366,8 +366,11 @@ let rec apply fn args (ap_info : ap_info) : t =
 
 let rec eq_approx (l1 : t) (l2 : t) =
   match l1 with
-  | Lglobal_module i1 -> (
-      match l2 with Lglobal_module i2 -> Ident.same i1 i2 | _ -> false)
+  | Lglobal_module { id = i1; dynamic_import = d1 } -> (
+      match l2 with
+      | Lglobal_module { id = i2; dynamic_import = d2 } ->
+          Ident.same i1 i2 && d1 = d2
+      | _ -> false)
   | Lvar i1 -> ( match l2 with Lvar i2 -> Ident.same i1 i2 | _ -> false)
   | Lmutvar i1 -> ( match l2 with Lmutvar i2 -> Ident.same i1 i2 | _ -> false)
   | Lconst c1 -> (
@@ -480,7 +483,7 @@ let rec seq (a : t) b : t =
 
 let var id : t = Lvar id
 let mutvar id : t = Lmutvar id
-let global_module id = Lglobal_module id
+let global_module ~dynamic_import id = Lglobal_module { id; dynamic_import }
 let const ct : t = Lconst ct
 
 let function_ ~attr ~arity ~params ~body : t =
@@ -623,7 +626,7 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc : t =
                 Lprim
                   {
                     primitive = Pfield (pos, Fld_module { name = f1 });
-                    args = [ (Lglobal_module v1 | Lvar v1) ];
+                    args = [ (Lglobal_module { id = v1; _ } | Lvar v1) ];
                     _;
                   }
                 :: args ) ->
@@ -636,7 +639,7 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc : t =
               Lprim
                 {
                   primitive = Pfield (pos, Fld_module { name = f1 });
-                  args = [ ((Lglobal_module v1 | Lvar v1) as lam) ];
+                  args = [ ((Lglobal_module { id = v1; _ } | Lvar v1) as lam) ];
                   _;
                 }
               :: args1 ) ->

@@ -76,4 +76,10 @@ val output_of_block_and_expression :
 *)
 
 val concat : t list -> t
-val to_string : t -> string
+
+val to_string :
+  output_dir:string ->
+  package_info:Js_packages_info.t ->
+  output_info:Js_packages_info.output_info ->
+  t ->
+  string

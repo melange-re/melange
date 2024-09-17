@@ -53,6 +53,7 @@ type t =
         Melange_ffi.External_arg_spec.param
         list;
       ffi : Melange_ffi.External_ffi_types.external_spec;
+      dynamic_import : bool;
     }
   | Pjs_object_create of
       Melange_ffi.External_arg_spec.label Melange_ffi.External_arg_spec.param
@@ -161,6 +162,7 @@ type t =
   | Pis_null
   | Pis_undefined
   | Pis_null_undefined
+  | Pimport
   | Pjs_typeof
   | Pjs_function_length
   | Pcaml_obj_length
@@ -270,6 +272,7 @@ let eq_primitive_approx (lhs : t) (rhs : t) =
   | Psome_not_nest -> rhs = Psome_not_nest
   | Pis_undefined -> rhs = Pis_undefined
   | Pis_null_undefined -> rhs = Pis_null_undefined
+  | Pimport -> rhs = Pimport
   | Pjs_typeof -> rhs = Pjs_typeof
   | Pisint -> rhs = Pisint
   | Pis_poly_var_const -> rhs = Pis_poly_var_const
@@ -302,11 +305,12 @@ let eq_primitive_approx (lhs : t) (rhs : t) =
       | Pduprecord record_repesentation1 ->
           eq_record_representation record_repesentation0 record_repesentation1
       | _ -> false)
-  | Pjs_call { prim_name; arg_types; ffi } -> (
+  | Pjs_call { prim_name; arg_types; ffi; dynamic_import } -> (
       match rhs with
       | Pjs_call rhs ->
           prim_name = rhs.prim_name && arg_types = rhs.arg_types
           && ffi = rhs.ffi
+          && dynamic_import = rhs.dynamic_import
       | _ -> false)
   | Pjs_object_create obj_create -> (
       match rhs with

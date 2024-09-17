@@ -533,7 +533,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
   let may_depends = Lam_module_ident.Hash_set.create 0 in
 
   let rec convert_ccall (a_prim : Primitive.description)
-      (args : Lambda.lambda list) loc : Lam.t =
+      (args : Lambda.lambda list) loc ~dynamic_import : Lam.t =
     let prim_name = a_prim.prim_name in
     let prim_name_len = String.length prim_name in
     match
@@ -556,22 +556,34 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
               List.init ~len:i ~f:(fun _ -> Melange_ffi.External_arg_spec.dummy)
         in
         let args = List.map ~f:convert_aux args in
-        Lam_ffi.handle_mel_non_obj_ffi arg_types result_type ffi args loc prim_name
+        Lam_ffi.handle_mel_non_obj_ffi
+          arg_types
+          result_type
+          ffi
+          args
+          loc
+          prim_name
+          ~dynamic_import
     | Ffi_inline_const i -> Lam.const i
   and convert_js_primitive (p : Primitive.description)
       (args : Lambda.lambda list) loc =
     let s = p.prim_name in
-    let args = List.map ~f:convert_aux args in
     match () with
-    | _ when s = "#is_not_none" -> Lam.prim ~primitive:Pis_not_none ~args loc
+    | _ when s = "#is_not_none" ->
+        let args = List.map ~f:convert_aux args in
+        Lam.prim ~primitive:Pis_not_none ~args loc
     | _ when s = "#val_from_unnest_option" ->
+        let args = List.map ~f:convert_aux args in
         let v = List.hd args in
         Lam.prim ~primitive:Pval_from_option_not_nest ~args:[ v ] loc
     | _ when s = "#val_from_option" ->
+        let args = List.map ~f:convert_aux args in
         Lam.prim ~primitive:Pval_from_option ~args loc
     | _ when s = "#is_poly_var_const" ->
+        let args = List.map ~f:convert_aux args in
         Lam.prim ~primitive:Pis_poly_var_const ~args loc
     | _ when s = "#raw_expr" -> (
+        let args = List.map ~f:convert_aux args in
         match args with
         | [ Lconst (Const_string { s = code; _ }) ] ->
             (* js parsing here *)
@@ -581,6 +593,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
               ~args:[] loc
         | _ -> assert false)
     | _ when s = "#raw_stmt" -> (
+        let args = List.map ~f:convert_aux args in
         match args with
         | [ Lconst (Const_string { s = code; _ }) ] ->
             let kind = Melange_ffi.Classify_function.classify_stmt code in
@@ -596,16 +609,19 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         Lam.prim ~primitive:(Pctconst Ostype) ~args:[ unit ] loc
     | _ when s = "#undefined" -> Lam.const Const_js_undefined
     | _ when s = "#init_mod" -> (
+        let args = List.map ~f:convert_aux args in
         match args with
         | [ _loc; Lconst (Const_block (0, _, [ Const_block (0, _, []) ])) ] ->
             Lam.unit
         | _ -> Lam.prim ~primitive:Pinit_mod ~args loc)
     | _ when s = "#update_mod" -> (
+        let args = List.map ~f:convert_aux args in
         match args with
         | [ Lconst (Const_block (0, _, [ Const_block (0, _, []) ])); _; _ ] ->
             Lam.unit
         | _ -> Lam.prim ~primitive:Pupdate_mod ~args loc)
     | _ when s = "#extension_slot_eq" -> (
+        let args = List.map ~f:convert_aux args in
         match args with
         | [ lhs; rhs ] ->
             Lam.prim
@@ -630,6 +646,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
           | "#nullable_to_opt" -> Pnull_undefined_to_opt
           | "#null_to_opt" -> Pnull_to_opt
           | "#is_nullable" -> Pis_null_undefined
+          | "#import" -> Pimport
           | "#string_append" -> Pstringadd
           | "#obj_length" -> Pcaml_obj_length
           | "#function_length" -> Pjs_function_length
@@ -653,14 +670,20 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
                 s
         in
         if primitive = Pfull_apply then
+          let args = List.map ~f:convert_aux args in
           match args with
           | [ Lapply { ap_func; ap_args; _ } ] ->
               Lam.prim ~primitive ~args:(ap_func :: ap_args) loc
               (* There may be some optimization opportunities here
                  for cases like `(fun [@u] a b -> a + b ) 1 2 [@u]` *)
           | _ -> assert false
-        else Lam.prim ~primitive ~args loc
-  and convert_aux (lam : Lambda.lambda) : Lam.t =
+        else
+          let args =
+            let dynamic_import = primitive = Pimport in
+            List.map ~f:(convert_aux ~dynamic_import) args
+          in
+          Lam.prim ~primitive ~args loc
+  and convert_aux ?(dynamic_import=false) (lam : Lambda.lambda) : Lam.t =
     match lam with
     | Lvar x -> Lam.var (Ident.Hash.find_default alias_tbl x x)
     | Lmutvar x -> Lam.mutvar (Ident.Hash.find_default alias_tbl x x)
@@ -680,7 +703,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
           }
     | Lfunction { params; body; attr; _ } ->
         let just_params = List.map ~f:fst params in
-        let body = convert_aux body in
+        let body = convert_aux ~dynamic_import body in
         let new_map, body =
           rename_optional_parameters Ident.Map.empty just_params body
         in
@@ -712,17 +735,17 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         let lam = Lam.letrec bindings body in
         Lam_scc.scc bindings lam body
     | Lprim (Pccall a, args, loc) ->
-        convert_ccall a args (Debuginfo.Scoped_location.to_location loc)
+        convert_ccall ~dynamic_import a args (Debuginfo.Scoped_location.to_location loc)
     | Lprim (Pgetglobal id, args, _) ->
-        let args = List.map ~f:convert_aux args in
+        let args = List.map ~f:(convert_aux ~dynamic_import) args in
         if Ident.is_predef id then
           Lam.const (Const_string { s = Ident.name id; unicode = false })
         else (
-          may_depend may_depends (Lam_module_ident.of_ml id);
+          may_depend may_depends (Lam_module_ident.of_ml ~dynamic_import id);
           assert (args = []);
-          Lam.global_module id)
+          Lam.global_module ~dynamic_import id)
     | Lprim (primitive, args, loc) ->
-        let args = List.map ~f:convert_aux args in
+        let args = List.map ~f:(convert_aux ~dynamic_import) args in
         lam_prim ~primitive ~args (Debuginfo.Scoped_location.to_location loc)
     | Lswitch (e, s, _loc) -> convert_switch e s
     | Lstringswitch (e, cases, default, _) ->
@@ -752,7 +775,9 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
                handler)
         else Lam.try_ body id handler
     | Lifthenelse (b, then_, else_) ->
-        Lam.if_ (convert_aux b) (convert_aux then_) (convert_aux else_)
+        Lam.if_ (convert_aux b)
+          (convert_aux then_)
+          (convert_aux else_)
     | Lsequence (a, b) -> Lam.seq (convert_aux a) (convert_aux b)
     | Lwhile (b, body) -> Lam.while_ (convert_aux b) (convert_aux body)
     | Lfor (id, from_, to_, dir, loop) ->

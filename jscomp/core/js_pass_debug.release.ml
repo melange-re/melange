@@ -22,4 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let[@inline] dump _ (prog : J.program) = prog
+let[@inline] dump ~output_dir:_ ~package_info:_ ~output_info:_ _
+    (prog : J.program) =
+  prog

@@ -73,10 +73,20 @@ module L = Js_dump_lit
    (our call Js_fun_env.get_unbounded env) is not precise
 *)
 
-type cxt = { scope : Js_pp.Scope.t; pp : Js_pp.t }
+type cxt = {
+  scope : Js_pp.Scope.t;
+  pp : Js_pp.t;
+  output_dir : string;
+  package_info : Js_packages_info.t;
+  output_info : Js_packages_info.output_info;
+}
 
-let from_pp pp = { scope = Js_pp.Scope.empty; pp }
-let from_buffer buf = from_pp (Js_pp.from_buffer buf)
+let from_pp ~output_dir ~package_info ~output_info pp =
+  { scope = Js_pp.Scope.empty; pp; output_dir; package_info; output_info }
+
+let from_buffer ~output_dir ~package_info ~output_info buf =
+  from_pp ~output_dir ~package_info ~output_info (Js_pp.from_buffer buf)
+
 let update_scope cxt scope = { cxt with scope }
 let ident cxt id = update_scope cxt (Js_pp.Scope.ident cxt.scope cxt.pp id)
 let string cxt s = Js_pp.string cxt.pp s
@@ -203,8 +213,8 @@ let exp_need_paren (e : J.expression) =
   | Length _ | Call _ | Caml_block_tag _ | Seq _ | Static_index _ | Cond _
   | Bin _ | Is_null_or_undefined _ | String_index _ | Array_index _
   | String_append _ | Char_of_int _ | Char_to_int _ | Var _ | Undefined | Null
-  | Str _ | Unicode _ | Array _ | Optional_block _ | Caml_block _ | FlatCall _
-  | Typeof _ | Number _ | Js_not _ | Bool _ | New _ ->
+  | Str _ | Unicode _ | Module _ | Array _ | Optional_block _ | Caml_block _
+  | FlatCall _ | Typeof _ | Number _ | Js_not _ | Bool _ | New _ ->
       false
 
 (* Print as underscore for unused vars, may not be
@@ -491,7 +501,7 @@ and pp_one_case_clause : 'a. _ -> (_ -> 'a -> unit) -> 'a * J.case_clause -> _ =
               | [] -> cxt
               | _ ->
                   newline cxt;
-                  statements false cxt switch_body
+                  statements ~top:false cxt switch_body
             in
             if should_break then (
               newline cxt;
@@ -512,16 +522,16 @@ and vident cxt (v : J.vident) =
   match v with
   | Id v
   | Qualified ({ id = v; _ }, None)
-  | Qualified ({ id = v; kind = External { default = true; _ } }, _) ->
+  | Qualified ({ id = v; kind = External { default = true; _ }; _ }, _) ->
       ident cxt v
-  | Qualified ({ id; kind = Ml | Runtime }, Some name) ->
+  | Qualified ({ id; kind = Ml | Runtime; _ }, Some name) ->
       let cxt = ident cxt id in
       string cxt L.dot;
       string cxt
         (if name = Js_dump_import_export.default_export then name
          else Ident.convert name);
       cxt
-  | Qualified ({ id; kind = External _ }, Some name) ->
+  | Qualified ({ id; kind = External _; _ }, Some name) ->
       let cxt = ident cxt id in
       Js_dump_property.property_access cxt.pp name;
       cxt
@@ -629,6 +639,13 @@ and expression_desc cxt ~(level : int) x : cxt =
          when utf8-> it will not escape '\\' which is definitely not we want
       *)
       Js_dump_string.pp_string cxt.pp s;
+      cxt
+  | Module module_id ->
+      let path =
+        Js_name_of_module_id.string_of_module_id ~package_info:cxt.package_info
+          ~output_info:cxt.output_info ~output_dir:cxt.output_dir module_id
+      in
+      Js_dump_string.pp_string cxt.pp path;
       cxt
   | Raw_js_code { code = s; code_info = info } -> (
       match info with
@@ -953,7 +970,8 @@ and pp_comment_option cxt comment =
   match comment with None -> () | Some x -> pp_comment cxt x
 
 (* and pp_loc_option f loc =  *)
-and statement top cxt ({ statement_desc = s; comment; _ } : J.statement) : cxt =
+and statement ~top cxt ({ statement_desc = s; comment; _ } : J.statement) : cxt
+    =
   pp_comment_option cxt comment;
   statement_desc top cxt s
 
@@ -989,7 +1007,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
   | Block b ->
       (* No braces needed here *)
       ipp_comment cxt L.start_block;
-      let cxt = statements top cxt b in
+      let cxt = statements ~top cxt b in
       ipp_comment cxt L.end_block;
       cxt
   | Variable l -> variable_declaration top cxt l
@@ -1017,7 +1035,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
           space cxt;
           string cxt L.else_;
           space cxt;
-          statement false cxt nest
+          statement ~top:false cxt nest
       | _ :: _ as s2 ->
           space cxt;
           string cxt L.else_;
@@ -1161,7 +1179,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
                   string cxt L.default;
                   string cxt L.colon;
                   newline cxt;
-                  statements false cxt def))
+                  statements ~top:false cxt def))
   | String_switch (e, cc, def) ->
       string cxt L.switch;
       space cxt;
@@ -1180,7 +1198,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
                   string cxt L.default;
                   string cxt L.colon;
                   newline cxt;
-                  statements false cxt def))
+                  statements ~top:false cxt def))
   | Throw e ->
       let e =
         match e.expression_desc with
@@ -1235,42 +1253,44 @@ and function_body (cxt : cxt) ~return_unit (b : J.block) : unit =
               { statement_desc = Return { expression_desc = Undefined; _ }; _ };
             ] ) ->
           ignore
-            (statement false cxt
+            (statement ~top:false cxt
                { s with statement_desc = If (bool, then_, []) }
               : cxt)
       | Return { expression_desc = Undefined; _ } -> ()
       | Return exp when return_unit ->
-          ignore (statement false cxt (S.exp exp) : cxt)
-      | _ -> ignore (statement false cxt s : cxt))
+          ignore (statement ~top:false cxt (S.exp exp) : cxt)
+      | _ -> ignore (statement ~top:false cxt s : cxt))
   | [ s; { statement_desc = Return { expression_desc = Undefined; _ }; _ } ] ->
-      ignore (statement false cxt s : cxt)
+      ignore (statement ~top:false cxt s : cxt)
   | s :: r ->
-      let cxt = statement false cxt s in
+      let cxt = statement ~top:false cxt s in
       newline cxt;
       function_body cxt r ~return_unit
 
 and brace_block cxt b =
   (* This one is for '{' *)
-  brace_vgroup cxt 1 (fun _ -> statements false cxt b)
+  brace_vgroup cxt 1 (fun _ -> statements ~top:false cxt b)
 
 (* main entry point *)
-and statements top cxt b =
+and statements ~top cxt b =
   iter_lst cxt b
-    (fun cxt s -> statement top cxt s)
+    (fun cxt s -> statement ~top cxt s)
     (if top then at_least_two_lines else newline)
 
-let string_of_block (block : J.block) =
+let string_of_block ~output_dir ~package_info ~output_info (block : J.block) =
   let buffer = Buffer.create 50 in
-  let cxt = from_buffer buffer in
-  let (_ : cxt) = statements true cxt block in
+  let cxt = from_buffer ~output_dir ~package_info ~output_info buffer in
+  let (_ : cxt) = statements ~top:true cxt block in
   flush cxt ();
   Buffer.contents buffer
 
-let string_of_expression (e : J.expression) =
+let string_of_expression ~output_dir ~package_info ~output_info
+    (e : J.expression) =
   let buffer = Buffer.create 50 in
-  let cxt = from_buffer buffer in
+  let cxt = from_buffer ~output_dir ~package_info ~output_info buffer in
   let (_ : cxt) = expression ~level:0 cxt e in
   flush cxt ();
   Buffer.contents buffer
 
-let statements top scope pp b = (statements top { scope; pp } b).scope
+let statements ~top ~scope ~output_dir ~package_info ~output_info pp b =
+  (statements ~top { scope; pp; output_dir; package_info; output_info } b).scope

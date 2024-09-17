@@ -26,7 +26,7 @@ open Import
 
 let log_counter = ref 0
 
-let dump name (prog : J.program) =
+let dump ~output_dir ~package_info ~output_info name (prog : J.program) =
   let () =
     if !Js_config.diagnose then (
       incr log_counter;
@@ -41,6 +41,8 @@ let dump name (prog : J.program) =
       in
       Fun.protect
         ~finally:(fun () -> close_out oc)
-        (fun () -> Js_dump_program.dump_program prog oc))
+        (fun () ->
+          Js_dump_program.dump_program ~output_dir ~package_info ~output_info
+            prog oc))
   in
   prog
