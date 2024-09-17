@@ -57,4 +57,4 @@ Demonstrate dynamic `import()` semantics
   exports.a = a;
   exports.b = b;
   exports._ext = _ext;
-  /* _ext Not a pure module */
+  /* a Not a pure module */
