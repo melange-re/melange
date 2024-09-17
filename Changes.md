@@ -9,6 +9,8 @@ Unreleased
   ([#1140](https://github.com/melange-re/melange/pull/1140))
 - add Worker types to `melange.dom`
   ([#1147](https://github.com/melange-re/melange/pull/1147))
+- Add support for dynamic `import()`
+  ([#1164](https://github.com/melange-re/melange/pull/1164))
 
 4.0.1 2024-06-07
 ---------------
