@@ -10,7 +10,7 @@ Test `@mel.as` in variant constructors
   'use strict';
   
   
-  var x = "A";
+  const x = "A";
   
   exports.x = x;
   /* No side effect */
