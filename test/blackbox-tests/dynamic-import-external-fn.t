@@ -30,7 +30,7 @@ translation converts into LFunction stubs
       });
   
   exports._ext = _ext;
-  /* lib Not a pure module */
+  /* _ext Not a pure module */
 
 Example where the `return_unit` function attribute is `true` and the lambda
 includes `Lsequence (_, Lconst Const_js_undefined)`
@@ -55,7 +55,7 @@ includes `Lsequence (_, Lconst Const_js_undefined)`
       });
   
   exports.dynamicallyImportedUseEffect = dynamicallyImportedUseEffect;
-  /* react Not a pure module */
+  /* dynamicallyImportedUseEffect Not a pure module */
 
 
   $ cat > x.re <<EOF
