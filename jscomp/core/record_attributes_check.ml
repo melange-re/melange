@@ -26,12 +26,6 @@ open Import
 
 type label = Types.label_description
 
-let rec find_with_default xs ~f ~default =
-  match xs with
-  | [] -> default
-  | x :: l -> (
-      match f x with Some v -> v | None -> find_with_default l ~f ~default)
-
 let namespace_error ~loc txt =
   match txt with
   | "bs.as" | "as" ->
@@ -40,7 +34,7 @@ let namespace_error ~loc txt =
          `[@mel.*]' attributes. Use `[@mel.as]' instead."
   | _ -> ()
 
-let find_name (attr : Parsetree.attribute) =
+let find_mel_as_name (attr : Parsetree.attribute) =
   match attr with
   | {
    attr_name = { txt = ("mel.as" | "as" | "bs.as") as txt; loc };
@@ -59,6 +53,14 @@ let find_name (attr : Parsetree.attribute) =
       namespace_error ~loc txt;
       Some s
   | _ -> None
+
+let rec find_with_default xs ~default =
+  match xs with
+  | [] -> default
+  | x :: l -> (
+      match find_mel_as_name x with
+      | Some v -> v
+      | None -> find_with_default l ~default)
 
 let find_name_with_loc (attr : Parsetree.attribute) : string Asttypes.loc option
     =
@@ -84,43 +86,35 @@ let find_name_with_loc (attr : Parsetree.attribute) : string Asttypes.loc option
 let fld_record (lbl : label) =
   Lambda.Fld_record
     {
-      name =
-        find_with_default lbl.lbl_attributes ~f:find_name ~default:lbl.lbl_name;
+      name = find_with_default lbl.lbl_attributes ~default:lbl.lbl_name;
       mutable_flag = lbl.Types.lbl_mut;
     }
 
 let fld_record_set (lbl : label) =
   Lambda.Fld_record_set
-    (find_with_default lbl.lbl_attributes ~f:find_name ~default:lbl.lbl_name)
+    (find_with_default lbl.lbl_attributes ~default:lbl.lbl_name)
 
 let fld_record_inline (lbl : label) =
   Lambda.Fld_record_inline
-    {
-      name =
-        find_with_default lbl.lbl_attributes ~f:find_name ~default:lbl.lbl_name;
-    }
+    { name = find_with_default lbl.lbl_attributes ~default:lbl.lbl_name }
 
 let fld_record_inline_set (lbl : label) =
   Lambda.Fld_record_inline_set
-    (find_with_default lbl.lbl_attributes ~f:find_name ~default:lbl.lbl_name)
+    (find_with_default lbl.lbl_attributes ~default:lbl.lbl_name)
 
 let fld_record_extension (lbl : label) =
   Lambda.Fld_record_extension
-    {
-      name =
-        find_with_default lbl.lbl_attributes ~f:find_name ~default:lbl.lbl_name;
-    }
+    { name = find_with_default lbl.lbl_attributes ~default:lbl.lbl_name }
 
 let fld_record_extension_set (lbl : label) =
   Lambda.Fld_record_extension_set
-    (find_with_default lbl.lbl_attributes ~f:find_name ~default:lbl.lbl_name)
+    (find_with_default lbl.lbl_attributes ~default:lbl.lbl_name)
 
 let blk_record fields =
   let all_labels_info =
     Array.map
       ~f:(fun ((lbl : label), _) ->
-        find_with_default lbl.Types.lbl_attributes ~f:find_name
-          ~default:lbl.lbl_name)
+        find_with_default lbl.Types.lbl_attributes ~default:lbl.lbl_name)
       fields
   in
   Lambda.Blk_record all_labels_info
@@ -129,8 +123,7 @@ let blk_record_ext fields =
   let all_labels_info =
     Array.map
       ~f:(fun ((lbl : label), _) ->
-        find_with_default lbl.Types.lbl_attributes ~f:find_name
-          ~default:lbl.lbl_name)
+        find_with_default lbl.Types.lbl_attributes ~default:lbl.lbl_name)
       fields
   in
   Lambda.Blk_record_ext all_labels_info
@@ -139,16 +132,15 @@ let blk_record_inlined fields name num_nonconst =
   let fields =
     Array.map
       ~f:(fun ((lbl : label), _) ->
-        find_with_default lbl.Types.lbl_attributes ~f:find_name
-          ~default:lbl.lbl_name)
+        find_with_default lbl.Types.lbl_attributes ~default:lbl.lbl_name)
       fields
   in
   Lambda.Blk_record_inlined { fields; name; num_nonconst }
 
 let check_mel_attributes_inclusion (attrs1 : Parsetree.attributes)
     (attrs2 : Parsetree.attributes) lbl_name =
-  let a = find_with_default attrs1 ~f:find_name ~default:lbl_name in
-  let b = find_with_default attrs2 ~f:find_name ~default:lbl_name in
+  let a = find_with_default attrs1 ~default:lbl_name in
+  let b = find_with_default attrs2 ~default:lbl_name in
   if a = b then None else Some (a, b)
 
 let check_duplicated_labels =
