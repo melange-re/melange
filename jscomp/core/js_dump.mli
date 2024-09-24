@@ -42,9 +42,4 @@ val string_of_block :
   string
 (** 2 functions Only used for debugging *)
 
-val string_of_expression :
-  output_dir:string ->
-  package_info:Js_packages_info.t ->
-  output_info:Js_packages_info.output_info ->
-  J.expression ->
-  string
+val string_of_expression : J.expression -> string

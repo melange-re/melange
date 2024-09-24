@@ -1284,10 +1284,12 @@ let string_of_block ~output_dir ~package_info ~output_info (block : J.block) =
   flush cxt ();
   Buffer.contents buffer
 
-let string_of_expression ~output_dir ~package_info ~output_info
-    (e : J.expression) =
+let string_of_expression (e : J.expression) =
   let buffer = Buffer.create 50 in
-  let cxt = from_buffer ~output_dir ~package_info ~output_info buffer in
+  let cxt =
+    from_buffer ~output_dir:"." ~package_info:Js_packages_info.empty
+      ~output_info:Js_packages_info.default_output_info buffer
+  in
   let (_ : cxt) = expression ~level:0 cxt e in
   flush cxt ();
   Buffer.contents buffer
