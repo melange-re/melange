@@ -28,7 +28,12 @@ type ident = Ident.t
 
 type record_representation =
   | Record_regular
-  | Record_inlined of { tag : int; name : string; num_nonconsts : int }
+  | Record_inlined of {
+      tag : int;
+      name : string;
+      num_nonconsts : int;
+      attributes : Parsetree.attributes;
+    }
     (* Inlined record *)
   | Record_extension
 (* Inlined record under extension *)

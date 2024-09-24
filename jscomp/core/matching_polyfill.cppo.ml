@@ -30,12 +30,17 @@ let is_nullary_variant (x : Types.constructor_arguments) =
 let names_from_construct_pattern
     (pat : Patterns.Head.desc Typedtree.pattern_data) =
   let names_from_type_variant (cstrs : Types.constructor_declaration list) =
+    let get_cstr_name (cstr: Types.constructor_declaration) =
+      Lam_constant_convert.modifier ~name:(Ident.name cstr.cd_id) cstr.cd_attributes
+    in
     let consts, blocks =
       List.fold_left
-        ~f:(fun (consts, blocks) (cstr : Types.constructor_declaration) ->
+        ~f:(fun (consts, blocks)
+                (cstr : Types.constructor_declaration) ->
           if is_nullary_variant cstr.cd_args then
-            (Ident.name cstr.cd_id :: consts, blocks)
-          else (consts, Ident.name cstr.cd_id :: blocks))
+            (get_cstr_name cstr :: consts , blocks)
+          else
+            (consts , get_cstr_name cstr :: blocks))
         ~init:([], []) cstrs
     in
     Some

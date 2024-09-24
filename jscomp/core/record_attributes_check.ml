@@ -34,33 +34,36 @@ let namespace_error ~loc txt =
          `[@mel.*]' attributes. Use `[@mel.as]' instead."
   | _ -> ()
 
-let find_mel_as_name (attr : Parsetree.attribute) =
-  match attr with
-  | {
-   attr_name = { txt = ("mel.as" | "as" | "bs.as") as txt; loc };
-   attr_payload =
-     PStr
-       [
-         {
-           pstr_desc =
-             Pstr_eval
-               ({ pexp_desc = Pexp_constant (Pconst_string (s, _, _)); _ }, _);
-           _;
-         };
-       ];
-   _;
-  } ->
-      namespace_error ~loc txt;
-      Some s
-  | _ -> None
+let find_mel_as_name =
+  let find_mel_as_name (attr : Parsetree.attribute) =
+    match attr.attr_name with
+    | { txt = ("mel.as" | "as" | "bs.as") as txt; loc } -> (
+        match attr.attr_payload with
+        | PStr
+            [
+              {
+                pstr_desc = Pstr_eval ({ pexp_desc = Pexp_constant const; _ }, _);
+                _;
+              };
+            ] -> (
+            namespace_error ~loc txt;
+            match const with
+            | Pconst_string (s, _, _) -> Some (Lambda.String s)
+            | Pconst_integer (s, None) -> Some (Int (int_of_string s))
+            | _ -> None)
+        | _ -> None)
+    | _ -> None
+  in
+  fun attributes -> List.find_map ~f:find_mel_as_name attributes
 
-let rec find_with_default xs ~default =
+let find_with_default xs ~default =
   match xs with
   | [] -> default
-  | x :: l -> (
-      match find_mel_as_name x with
-      | Some v -> v
-      | None -> find_with_default l ~default)
+  | xs -> (
+      match find_mel_as_name xs with
+      | Some (String v) -> v
+      | Some (Int _) -> assert false
+      | None -> default)
 
 let find_name_with_loc (attr : Parsetree.attribute) : string Asttypes.loc option
     =
@@ -128,14 +131,14 @@ let blk_record_ext fields =
   in
   Lambda.Blk_record_ext all_labels_info
 
-let blk_record_inlined fields name num_nonconst =
+let blk_record_inlined fields name num_nonconst attrs =
   let fields =
     Array.map
       ~f:(fun ((lbl : label), _) ->
         find_with_default lbl.Types.lbl_attributes ~default:lbl.lbl_name)
       fields
   in
-  Lambda.Blk_record_inlined { fields; name; num_nonconst }
+  Lambda.Blk_record_inlined { fields; name; num_nonconst; attributes = attrs }
 
 let check_mel_attributes_inclusion (attrs1 : Parsetree.attributes)
     (attrs2 : Parsetree.attributes) lbl_name =

@@ -124,12 +124,13 @@ let lam_is_var (x : Lam.t) (y : Ident.t) =
 (* Make sure no int range overflow happens
     also we only check [int]
 *)
-let happens_to_be_diff (sw_consts : (int * Lam.t) list) : int32 option =
+let happens_to_be_diff (sw_consts : (int * Lam.t) list) sw_names : int32 option =
   match sw_consts with
   | (a, Lconst (Const_int { i = a0; comment = _ }))
     :: (b, Lconst (Const_int { i = b0; comment = _ }))
     :: rest
-    when no_over_flow a && no_over_flow_int32 a0 && no_over_flow b
+    when sw_names = None
+         && no_over_flow a && no_over_flow_int32 a0 && no_over_flow b
          && no_over_flow_int32 b0 ->
       let a = Int32.of_int a in
       let b = Int32.of_int b in
@@ -170,8 +171,8 @@ let convert_record_repr (x : Types.record_representation) :
   | Record_extension _ -> Record_extension
   | Record_unboxed _ ->
       assert false (* see patches in {!Typedecl.get_unboxed_from_attributes}*)
-  | Record_inlined { tag; name; num_nonconsts } ->
-      Record_inlined { tag; name; num_nonconsts }
+  | Record_inlined { tag; name; num_nonconsts; attributes } ->
+      Record_inlined { tag; name; num_nonconsts; attributes }
 
 let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
   match p with
@@ -231,9 +232,9 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
       | Blk_record s ->
           let info : Lam.Tag_info.t = Blk_record s in
           Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
-      | Blk_record_inlined { name; fields; num_nonconst } ->
+      | Blk_record_inlined { name; fields; num_nonconst; attributes } ->
           let info : Lam.Tag_info.t =
-            Blk_record_inlined { name; fields; num_nonconst }
+            Blk_record_inlined { name; fields; num_nonconst; attributes }
           in
           Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
       | Blk_module s ->
@@ -936,10 +937,11 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
      sw_numblocks = 0;
      sw_consts;
      sw_numconsts;
+     sw_names;
      _;
     } -> (
         let sw_consts = List.map_snd sw_consts convert_aux in
-        match happens_to_be_diff sw_consts with
+        match happens_to_be_diff sw_consts sw_names with
         | Some 0l -> e
         | Some i ->
             Lam.prim ~primitive:Paddint
@@ -966,7 +968,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
             sw_names = s.sw_names;
           }
   in
-  (convert_aux lam, may_depends)
+  convert_aux lam, may_depends
 
 (* FIXME: more precise analysis of [id], if it is not
     used, we can remove it

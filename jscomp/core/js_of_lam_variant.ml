@@ -40,7 +40,7 @@ let eval (arg : J.expression) (dispatches : (string * string) list) : E.t =
             S.string_switch arg
               (List.map
                  ~f:(fun (i, r) ->
-                   ( i,
+                   ( Lambda.String i,
                      J.
                        {
                          switch_body = [ S.return_stmt (E.str r) ];
@@ -74,7 +74,7 @@ let eval_as_event (arg : J.expression)
                     (E.poly_var_tag_access arg)
                     (List.map
                        ~f:(fun (i, r) ->
-                         ( i,
+                         ( Lambda.String i,
                            J.
                              {
                                switch_body = [ S.return_stmt (E.str r) ];
@@ -110,7 +110,7 @@ let eval_as_int (arg : J.expression) (dispatches : (string * int) list) : E.t =
             S.string_switch arg
               (List.map
                  ~f:(fun (i, r) ->
-                   ( i,
+                   ( Lambda.String i,
                      J.
                        {
                          switch_body =

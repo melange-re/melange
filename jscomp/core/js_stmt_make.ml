@@ -131,14 +131,17 @@ let int_switch ?(comment : string option)
 
 let string_switch ?(comment : string option)
     ?(declaration : (J.property * Ident.t) option) ?(default : J.block option)
-    (e : J.expression) (clauses : (string * J.case_clause) list) : t =
+    (e : J.expression) (clauses : (Lambda.as_modifier * J.case_clause) list) : t
+    =
   match e.expression_desc with
   | Str (_, txt) | Unicode txt -> (
       let continuation =
         match
           List.find_map
             ~f:(fun (switch_case, (x : J.case_clause)) ->
-              if switch_case = txt then Some x.switch_body else None)
+              match switch_case with
+              | Lambda.String s -> if s = txt then Some x.switch_body else None
+              | Int _ -> None)
             clauses
         with
         | Some case -> case

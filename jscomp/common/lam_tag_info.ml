@@ -39,6 +39,7 @@ type t =
       name : string;
       num_nonconst : int;
       fields : string array;
+      attributes : Parsetree.attributes;
     }
   | Blk_constructor of {
       name : string;

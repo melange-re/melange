@@ -1188,7 +1188,9 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       brace_vgroup cxt 1 (fun _ ->
           let cxt =
             loop_case_clauses cxt
-              (fun cxt s -> Js_dump_string.pp_string cxt.pp s)
+              (fun cxt as_value ->
+                let e = E.as_value as_value in
+                ignore @@ expression_desc cxt ~level:0 e.expression_desc)
               cc
           in
           match def with

@@ -48,8 +48,12 @@ and translate (x : Lam.Constant.t) : J.expression =
   | Const_js_false -> E.bool false
   | Const_js_null -> E.nil
   | Const_js_undefined -> E.undefined
-  | Const_int { i; comment } ->
-      E.int i ?comment:(Lam.Constant.string_of_pointer_info comment)
+  | Const_int { i; comment = cstr_data } -> (
+      let comment = Lam.Constant.comment_of_pointer_info cstr_data in
+      match Lam.Constant.modifier_of_pointer_info cstr_data with
+      | None -> E.int i ?comment
+      | Some (Int i) -> E.int (Int32.of_int i) ?comment
+      | Some (String s) -> E.unicode ?comment s)
   | Const_char i -> Js_of_lam_string.const_char i
   (* E.float (Int32.to_string i) *)
   | Const_int64 i ->

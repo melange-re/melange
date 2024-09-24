@@ -300,6 +300,15 @@ let small_int i : t =
   | 248 -> obj_int_tag_literal
   | i -> int (Int32.of_int i)
 
+(* var (Jident.create_js "true") *)
+let true_ : t = make_expression (Bool true)
+let false_ : t = make_expression (Bool false)
+let bool v = if v then true_ else false_
+
+let as_value = function
+  | Lambda.String s -> str s (* ~delim:DStarJ *)
+  | Int i -> small_int i
+
 let array_index ?loc ?comment (e0 : t) (e1 : t) : t =
   match (e0.expression_desc, e1.expression_desc) with
   | Array (l, _), Number (Int { i; _ })
@@ -508,13 +517,6 @@ let obj ?loc ?comment properties : t =
 
 (* currently only in method call, no dependency introduced
 *)
-
-(* Static_index .....................*)
-
-(* var (Jident.create_js "true") *)
-let true_ : t = make_expression (Bool true)
-let false_ : t = make_expression (Bool false)
-let bool v = if v then true_ else false_
 
 (** Arith operators *)
 (* Static_index .....................**)

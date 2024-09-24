@@ -44,24 +44,4 @@ let jsop_of_float_comp (cmp : Lam_compat.float_comparison) : Js_op.binop =
   | CFge -> Ge
   | CFnge -> Lt
 
-let comment_of_tag_info (x : Lam.Tag_info.t) =
-  match x with
-  | Blk_constructor { name = n; _ } -> Some n
-  | Blk_tuple -> Some "tuple"
-  | Blk_class -> Some "class"
-  | Blk_poly_var -> None
-  | Blk_record _ -> None
-  | Blk_record_inlined { name = ctor; _ } -> Some ctor
-  | Blk_record_ext _ -> None
-  | Blk_array ->
-      (* so far only appears in {!Translclass}
-         and some constant immutable array block
-      *)
-      Some "array"
-  | Blk_module_export | Blk_module _ ->
-      (* Turn it on next time to save some noise diff*)
-      None
-  | Blk_extension (* TODO: enhance it later *) -> None
-  | Blk_na s -> if s = "" then None else Some s
-
 (* let module_alias = Some "alias"   *)
