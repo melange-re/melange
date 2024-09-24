@@ -11,6 +11,8 @@ Unreleased
   ([#1147](https://github.com/melange-re/melange/pull/1147))
 - Add support for dynamic `import()`
   ([#1164](https://github.com/melange-re/melange/pull/1164))
+- Fix code generation of custom `true` / `false` constructors
+  ([#1175](https://github.com/melange-re/melange/pull/1175))
 
 4.0.1 2024-06-07
 ---------------
