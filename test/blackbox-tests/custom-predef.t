@@ -16,9 +16,9 @@ Demonstrate redefining the `true` / `false` constructors
   
   const z = /* A */0;
   
-  const x = true;
+  const x = /* true */1;
   
-  const y = true;
+  const y = /* false */2;
   
   const t = false;
   
