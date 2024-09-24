@@ -16,8 +16,8 @@ Using flags field in melange.emit stanzas is not supported
   >  (flags -w -14-26))
   > EOF
 
-  $ dune build @mel 2>&1 | grep -o 'Error: Unknown field'
-  Error: Unknown field
+  $ dune build @mel 2>&1 | grep -io 'unknown field'
+  Unknown field
 
 Adds a module that contains unused var (warning 26) and illegal backlash (warning 14)
 
