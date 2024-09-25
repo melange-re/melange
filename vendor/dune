@@ -1,45 +1,40 @@
 (data_only_dirs melange-compiler-libs)
 
 (subdir
+ gen
+ (rule
+  (targets optional_5_2_modules.txt)
+  (action
+   (with-stdout-to
+    %{targets}
+    (echo value_rec_types)))
+  (enabled_if
+   (>= %{ocaml_version} 5.2.0)))
+ (rule
+  (targets optional_5_2_modules.txt)
+  (action
+   (with-stdout-to
+    %{targets}
+    (echo "()")))
+  (enabled_if
+   (< %{ocaml_version} 5.2.0))))
+
+(subdir
  melange-compiler-libs
- (subdir
-  wrapper
-  (library
-   (name melange_wrapper)
-   (package melange)
-   (libraries compiler-libs.common)
-   (modules_without_implementation melange_wrapper)))
- (subdir
-  gen
-  (rule
-   (targets optional_5_2_modules.txt)
-   (action
-    (with-stdout-to
-     %{targets}
-     (echo value_rec_types)))
-   (enabled_if
-    (>= %{ocaml_version} 5.2.0)))
-  (rule
-   (targets optional_5_2_modules.txt)
-   (action
-    (with-stdout-to
-     %{targets}
-     (echo "()")))
-   (enabled_if
-    (< %{ocaml_version} 5.2.0))))
- (subdir
-  lib
-  ;; the `#` directive breaks menhir
-  (copy_files ../parsing/*)
-  (copy_files# ../utils/*)
-  (copy_files# ../file_formats/*)
-  (copy_files# ../lambda/*)
-  (copy_files# ../typing/*)
-  (library
-   (name melange_compiler_libs)
-   (package melange)
-   (flags -w -9)
-   (libraries menhirLib melange_wrapper)
-   (modules_without_implementation
-    annot
-    (:include ../gen/optional_5_2_modules.txt)))))
+ (dirs wrapper lib parsing utils file_formats lambda typing)
+ (include_subdirs unqualified)
+ (library
+  (name melange_wrapper)
+  (package melange)
+  (libraries compiler-libs.common)
+  (modules melange_wrapper)
+  (modules_without_implementation melange_wrapper))
+ (library
+  (name melange_compiler_libs)
+  (package melange)
+  (flags -w -9)
+  (libraries menhirLib melange_wrapper)
+  (modules :standard \ melange_wrapper)
+  (modules_without_implementation
+   annot
+   (:include ../gen/optional_5_2_modules.txt))))
