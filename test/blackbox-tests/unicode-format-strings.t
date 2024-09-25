@@ -23,7 +23,8 @@
   const Curry = require("melange.js/curry.js");
   const Stdlib__Format = require("melange/format.js");
   
-  console.log(Curry._1(Stdlib__Format.sprintf(/* Format */{
+  console.log(Curry._1(Stdlib__Format.sprintf({
+                TAG: /* Format */0,
                 _0: {
                   TAG: /* String_literal */11,
                   _0: "你 ",

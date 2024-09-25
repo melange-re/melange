@@ -665,13 +665,7 @@ and compile_cases cxt (switch_exp : E.t) table default ~get_cstr_name =
         (fun i ->
           match get_cstr_name i with
           | Some { name; as_modifier = Some modifier } ->
-              {
-                (match modifier with
-                | Int modifier -> E.small_int modifier
-                | String s -> E.str s)
-                with
-                comment = Some name;
-              }
+              E.as_value ~comment:name modifier
           | Some { name; as_modifier = None } ->
               { (E.small_int i) with comment = Some name }
           | None -> E.small_int i)
@@ -757,7 +751,13 @@ and compile_switch (switch_arg : Lam.t) (sw : Lam.lambda_switch)
   | EffectCall _ | Assign _ -> Js_output.make (compile_whole lambda_cxt)
 
 and compile_string_cases ~get_cstr_name cxt switch_exp table default =
-  compile_general_cases ~get_cstr_name E.as_value E.string_equal cxt
+  compile_general_cases ~get_cstr_name
+    (fun as_value ->
+      let comment =
+        get_cstr_name as_value |> Option.map (fun x -> x.Lambda.name)
+      in
+      E.as_value ?comment as_value)
+    E.string_equal cxt
     (fun ?default ?declaration e clauses ->
       S.string_switch ?default ?declaration e clauses)
     switch_exp table default

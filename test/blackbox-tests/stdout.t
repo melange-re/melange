@@ -8,7 +8,8 @@
   
   const Stdlib__Format = require("melange/format.js");
   
-  Stdlib__Format.eprintf(/* Format */{
+  Stdlib__Format.eprintf({
+        TAG: /* Format */0,
         _0: {
           TAG: /* String_literal */11,
           _0: "hello, world",

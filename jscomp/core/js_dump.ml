@@ -795,9 +795,9 @@ and expression_desc cxt ~(level : int) x : cxt =
         in
         ( Js_op.Lit L.tag,
           {
-            (Option.value
-               (Option.map E.as_value as_value.as_modifier)
-               ~default:tag)
+            (match as_value.as_modifier with
+            | Some modifier -> E.as_value modifier
+            | None -> tag)
             with
             comment = Some as_value.name;
           } )
@@ -824,9 +824,9 @@ and expression_desc cxt ~(level : int) x : cxt =
           in
           ( Js_op.Lit L.tag,
             {
-              (Option.value
-                 (Option.map E.as_value as_value.as_modifier)
-                 ~default:tag)
+              (match as_value.as_modifier with
+              | Some modifier -> E.as_value modifier
+              | None -> tag)
               with
               comment = Some as_value.name;
             } )

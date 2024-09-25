@@ -131,8 +131,7 @@ let int_switch ?(comment : string option)
 
 let string_switch ?(comment : string option)
     ?(declaration : (J.property * Ident.t) option) ?(default : J.block option)
-    (e : J.expression) (clauses : (Lambda.as_modifier * J.case_clause) list) : t
-    =
+    (e : J.expression) (clauses : J.string_clause list) : t =
   match e.expression_desc with
   | Str (_, txt) | Unicode txt -> (
       let continuation =
