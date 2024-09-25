@@ -91,7 +91,7 @@
   
   
   function f(x) {
-    if (x === "A") {
+    if (x === /* A */"A") {
       return "a";
     } else {
       return "b";

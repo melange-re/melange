@@ -35,7 +35,7 @@ Test `@mel.as` in variant constructors
   
   function f(param) {
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      if (param === 0) {
+      if (param === /* No_payload */0) {
         return "payload1";
       } else {
         return "nopaylod2";
@@ -83,12 +83,12 @@ Test `@mel.as` in variant constructors
   
   function f(param) {
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      if (param === 0) {
+      if (param === /* No_payload */0) {
         return "nopayload1";
       } else {
         return "nopaylod2";
       }
-    } else if (param.TAG === "payload1") {
+    } else if (param.TAG === /* Has_payload */"payload1") {
       return "payload1";
     } else {
       return "payload2";
