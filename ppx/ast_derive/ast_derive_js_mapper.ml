@@ -314,24 +314,15 @@ let derive_signature =
                   Exp.constant
                     (Pconst_string (U.notApplicable derivingName, loc, None))]]];
             ])
-    | Ptype_variant ctors ->
-        if Ast_polyvar.is_enum_constructors ctors then
-          let ty1 = if createType then newType else [%type: int] in
-          let ty2 =
-            if createType then core_type
-            else Ast_core_type.lift_option_type core_type
-          in
-          newTypeStr
-          +? [ toJsType ty1; Sig.value (Val.mk patFromJs (ty1 ->~ ty2)) ]
-        else
-          let loc = tdcl.ptype_loc in
-          [
-            [%sigi:
-              [%%ocaml.error
-              [%e
-                Exp.constant
-                  (Pconst_string (U.notApplicable derivingName, loc, None))]]];
-          ]
+    | Ptype_variant _ ->
+        let loc = tdcl.ptype_loc in
+        [
+          [%sigi:
+            [%%ocaml.error
+            [%e
+              Exp.constant
+                (Pconst_string (U.notApplicable derivingName, loc, None))]]];
+        ]
     | Ptype_open ->
         let loc = tdcl.ptype_loc in
         [

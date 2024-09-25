@@ -723,7 +723,7 @@ and compile_switch (switch_arg : Lam.t) (sw : Lam.lambda_switch)
         else
           (* [e] will be used twice  *)
           let dispatch e =
-            S.if_ (E.is_type_number e)
+            S.if_ (E.is_tag e)
               (compile_cases cxt e sw_consts sw_num_default
                  ~get_cstr_name:get_const_name)
               (* default still needed, could simplified*)

@@ -749,6 +749,13 @@ let string_equal ?loc ?comment (e0 : t) (e1 : t) : t =
 let is_type_number ?loc ?comment (e : t) : t =
   string_equal ?loc ?comment (typeof e) (str "number")
 
+(* XXX(anmonteiro): this needs to change if we ever allow `[@mel.as ..]`
+   payloads to have types other than string or number *)
+let is_tag (e : t) : t =
+  or_ ~comment:"tag"
+    (string_equal (typeof e) (str "number"))
+    (string_equal (typeof e) (str "string"))
+
 let is_type_string ?loc ?comment (e : t) : t =
   string_equal ?loc ?comment (typeof e) (str "string")
 
@@ -757,10 +764,7 @@ let is_type_string ?loc ?comment (e : t) : t =
    call plain [dot]
 *)
 
-let tag ?loc ?comment e : t =
-  make_expression
-    (Bin
-       (Bor, make_expression ?loc ?comment (Caml_block_tag e), zero_int_literal))
+let tag ?loc ?comment e : t = make_expression ?loc ?comment (Caml_block_tag e)
 
 (* according to the compiler, [Btype.hash_variant],
    it's reduced to 31 bits for hash
