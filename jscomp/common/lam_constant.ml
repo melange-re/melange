@@ -57,7 +57,7 @@ type t =
   | Const_js_false
   | Const_int of { i : int32; comment : pointer_info }
   | Const_char of char
-  | Const_string of { s : string; unicode : bool; comment : pointer_info }
+  | Const_string of { s : string; unicode : bool }
   | Const_float of string
   | Const_int64 of int64
   | Const_pointer of string
@@ -78,9 +78,9 @@ let rec eq_approx (x : t) (y : t) =
   | Const_js_false -> y = Const_js_false
   | Const_int ix -> ( match y with Const_int iy -> ix.i = iy.i | _ -> false)
   | Const_char ix -> ( match y with Const_char iy -> ix = iy | _ -> false)
-  | Const_string { s = sx; unicode = ux; comment = _ } -> (
+  | Const_string { s = sx; unicode = ux } -> (
       match y with
-      | Const_string { s = sy; unicode = uy; comment = _ } -> sx = sy && ux = uy
+      | Const_string { s = sy; unicode = uy } -> sx = sy && ux = uy
       | _ -> false)
   | Const_float ix -> ( match y with Const_float iy -> ix = iy | _ -> false)
   | Const_int64 ix -> ( match y with Const_int64 iy -> ix = iy | _ -> false)

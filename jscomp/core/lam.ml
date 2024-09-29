@@ -458,7 +458,7 @@ let switch lam (lam_switch : lambda_switch) : t =
 
 let stringswitch (lam : t) cases default : t =
   match lam with
-  | Lconst (Const_string { s; unicode = false; comment = _ }) -> (
+  | Lconst (Const_string { s; unicode = false }) -> (
       match List.assoc s cases with
       | v -> v
       | exception Not_found -> Option.get default)
@@ -519,10 +519,7 @@ module Lift = struct
      Lconst ((Const_nativeint b)) *)
 
   let int64 b : t = Lconst (Const_int64 b)
-
-  let string s : t =
-    Lconst (Const_string { s; unicode = false; comment = None })
-
+  let string s : t = Lconst (Const_string { s; unicode = false })
   let char b : t = Lconst (Const_char b)
 end
 
@@ -538,7 +535,7 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc : t =
           Lift.int (Int32.of_float (float_of_string a))
       (* | Pnegfloat -> Lift.float (-. a) *)
       (* | Pabsfloat -> Lift.float (abs_float a) *)
-      | Pstringlength, Const_string { s; unicode = false; comment = _ } ->
+      | Pstringlength, Const_string { s; unicode = false } ->
           Lift.int (Int32.of_int (String.length s))
       (* | Pnegbint Pnativeint, ( (Const_nativeint i)) *)
       (*   ->   *)
@@ -611,11 +608,11 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc : t =
       | Psequor, Const_js_false, Const_js_true -> true_
       | Psequor, Const_js_false, Const_js_false -> false_
       | ( Pstringadd,
-          Const_string { s = a; unicode = false; comment = _ },
-          Const_string { s = b; unicode = false; comment = _ } ) ->
+          Const_string { s = a; unicode = false },
+          Const_string { s = b; unicode = false } ) ->
           Lift.string (a ^ b)
       | ( (Pstringrefs | Pstringrefu),
-          Const_string { s = a; unicode = false; comment = _ },
+          Const_string { s = a; unicode = false },
           Const_int { i = b; _ } ) -> (
           try Lift.char (String.get a (Int32.to_int b)) with _ -> default ())
       | _ -> default ())

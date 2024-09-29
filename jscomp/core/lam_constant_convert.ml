@@ -69,13 +69,13 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
         | Some opt -> Melange_ffi.Utf8_string.is_unicode_string opt
         | _ -> false
       in
-      Const_string { s; unicode; comment = None }
+      Const_string { s; unicode }
   | Const_base (Const_float i, _) -> Const_float i
   | Const_base (Const_int32 i, _) -> Const_int { i; comment = None }
   | Const_base (Const_int64 i, _) -> Const_int64 i
   | Const_base (Const_nativeint _, _) -> assert false
   | Const_float_array s -> Const_float_array s
-  | Const_immstring s -> Const_string { s; unicode = false; comment = None }
+  | Const_immstring s -> Const_string { s; unicode = false }
   | Const_block (i, t, xs) -> (
       match t with
       | Blk_some_not_nested -> Const_some (convert_constant (List.hd xs))
@@ -103,8 +103,7 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
                 ( i,
                   t,
                   [
-                    Const_string { s; unicode = false; comment = None };
-                    convert_constant value;
+                    Const_string { s; unicode = false }; convert_constant value;
                   ] )
           | _ -> assert false)
       | Blk_record s ->

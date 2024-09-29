@@ -252,7 +252,7 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
                 ~args:
                   [
                     Lam.const
-                      (Const_string { s; unicode = false; comment = None });
+                      (Const_string { s; unicode = false });
                     value;
                   ]
                 loc
@@ -746,7 +746,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         let args = List.map ~f:(convert_aux ~dynamic_import) args in
         if Ident.is_predef id then
           Lam.const
-            (Const_string { s = Ident.name id; unicode = false; comment = None })
+            (Const_string { s = Ident.name id; unicode = false })
         else (
           may_depend may_depends (Lam_module_ident.of_ml ~dynamic_import id);
           assert (args = []);
