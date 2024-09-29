@@ -68,7 +68,7 @@
     };
   }
   
-  const x = /* [] */"lol";
+  const x = /* [] */0;
   
   exports.x = x;
   exports.f = f;

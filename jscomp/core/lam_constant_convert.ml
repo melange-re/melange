@@ -25,10 +25,12 @@
 open Import
 
 let modifier ~name attributes =
-  match Record_attributes_check.find_mel_as_name attributes with
-  | Some (String s) -> { Lambda.name; as_modifier = Some (String s) }
-  | Some (Int modifier) -> { name; as_modifier = Some (Int modifier) }
-  | None -> { name; as_modifier = None }
+  if name = "[]" then { Lambda.name; as_modifier = None }
+  else
+    match Record_attributes_check.find_mel_as_name attributes with
+    | Some (String s) -> { Lambda.name; as_modifier = Some (String s) }
+    | Some (Int modifier) -> { name; as_modifier = Some (Int modifier) }
+    | None -> { name; as_modifier = None }
 
 let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
   match const with
