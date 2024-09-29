@@ -26,12 +26,7 @@ open Import
 
 type pointer_info =
   | None
-  | Pt_constructor of {
-      name : Lambda.cstr_name;
-      const : int;
-      non_const : int;
-      attributes : Parsetree.attributes;
-    }
+  | Pt_constructor of { name : Lambda.cstr_name; const : int; non_const : int }
   | Pt_assertfalse
   | Some of string
 

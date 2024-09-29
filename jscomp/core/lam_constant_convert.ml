@@ -50,12 +50,7 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
               i = Int32.of_int i;
               comment =
                 Pt_constructor
-                  {
-                    name = modifier ~name attributes;
-                    const;
-                    non_const;
-                    attributes;
-                  };
+                  { name = modifier ~name attributes; const; non_const };
             }
       | Pt_constructor_access { cstr_name } ->
           Const_pointer
