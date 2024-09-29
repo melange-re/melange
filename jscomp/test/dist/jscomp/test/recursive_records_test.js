@@ -49,7 +49,8 @@ rec_cell2.next = rec_cell2;
 
 function f2(x) {
   let rec_cell2 = {};
-  Caml_obj.update_dummy(rec_cell2, /* Cons */{
+  Caml_obj.update_dummy(rec_cell2, {
+        TAG: /* Cons */0,
         content: Math.imul(x, x) - 6 | 0,
         next: rec_cell2
       });
@@ -57,15 +58,15 @@ function f2(x) {
 }
 
 function hd(x) {
-  if (x) {
-    return x.content;
-  } else {
+  if (/* tag */typeof x === "number" || typeof x === "string") {
     return 0;
+  } else {
+    return x.content;
   }
 }
 
 function tl_exn(x) {
-  if (x) {
+  if (!/* tag */(typeof x === "number" || typeof x === "string")) {
     return x.next;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {

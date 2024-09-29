@@ -43,7 +43,8 @@ Stdlib__Printexc.register_printer(function (s) {
       if (s.MEL_EXN_ID === Hi) {
         return "hey";
       } else if (s.MEL_EXN_ID === A) {
-        return Curry._1(Stdlib__Format.asprintf(/* Format */{
+        return Curry._1(Stdlib__Format.asprintf({
+                        TAG: /* Format */0,
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "A(",

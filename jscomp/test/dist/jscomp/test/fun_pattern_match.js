@@ -16,53 +16,43 @@ function f2(param, param$1) {
 function f3(param, param$1) {
   const lhs = param.rank;
   const rhs = param$1.rank;
-  if (typeof lhs === "number") {
-    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/fun_pattern_match.ml",
-                41,
-                9
-              ]
-            });
+  if (/* tag */typeof lhs === "number" || typeof lhs === "string") {
+    lhs === /* Uninitialized */0;
+  } else {
+    if (!/* tag */(typeof rhs === "number" || typeof rhs === "string")) {
+      return Caml.caml_int_compare(lhs._0, rhs._0);
+    }
+    rhs === /* Uninitialized */0;
   }
-  if (typeof rhs === "number") {
-    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/fun_pattern_match.ml",
-                41,
-                9
-              ]
-            });
-  }
-  return Caml.caml_int_compare(lhs._0, rhs._0);
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/fun_pattern_match.ml",
+              41,
+              9
+            ]
+          });
 }
 
 function f4(param, param$1) {
   const lhs = param.rank;
   const rhs = param$1.rank;
-  if (typeof lhs === "number") {
-    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/fun_pattern_match.ml",
-                49,
-                9
-              ]
-            });
+  if (/* tag */typeof lhs === "number" || typeof lhs === "string") {
+    lhs === /* Uninitialized */0;
+  } else {
+    if (!/* tag */(typeof rhs === "number" || typeof rhs === "string")) {
+      return Caml.caml_int_compare(lhs._0, rhs._0);
+    }
+    rhs === /* Uninitialized */0;
   }
-  if (typeof rhs === "number") {
-    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/fun_pattern_match.ml",
-                49,
-                9
-              ]
-            });
-  }
-  return Caml.caml_int_compare(lhs._0, rhs._0);
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/fun_pattern_match.ml",
+              49,
+              9
+            ]
+          });
 }
 
 const x = {

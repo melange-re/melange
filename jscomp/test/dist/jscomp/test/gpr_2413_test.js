@@ -3,7 +3,7 @@
 
 
 function f(param) {
-  switch (param.TAG | 0) {
+  switch (param.TAG) {
     case /* A */0 :
         const a = param._0;
         if (a.TAG === /* P */0) {

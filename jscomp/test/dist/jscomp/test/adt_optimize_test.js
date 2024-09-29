@@ -4,11 +4,27 @@
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 function f(x) {
-  return x + 1 | 0;
+  switch (x) {
+    case /* A */0 :
+        return 1;
+    case /* B */1 :
+        return 2;
+    case /* C */2 :
+        return 3;
+    
+  }
 }
 
 function f_0(x) {
-  return x - 1 | 0;
+  switch (x) {
+    case /* A */0 :
+        return -1;
+    case /* B */1 :
+        return 0;
+    case /* C */2 :
+        return 1;
+    
+  }
 }
 
 function f2(param) {
@@ -20,7 +36,19 @@ function f2(param) {
 }
 
 function f3(param) {
-  return param;
+  switch (param) {
+    case /* X0 */0 :
+        return /* Y0 */0;
+    case /* X1 */1 :
+        return /* Y1 */1;
+    case /* X2 */2 :
+        return /* Y2 */2;
+    case /* X3 */3 :
+        return /* Y3 */3;
+    case /* X4 */4 :
+        return /* Y4 */4;
+    
+  }
 }
 
 function f4(param) {
@@ -28,7 +56,7 @@ function f4(param) {
 }
 
 function f5(param) {
-  if (typeof param === "number") {
+  if (/* tag */typeof param === "number" || typeof param === "string") {
     switch (param) {
       case /* A */0 :
           return 1;
@@ -39,7 +67,7 @@ function f5(param) {
       
     }
   } else {
-    switch (param.TAG | 0) {
+    switch (param.TAG) {
       case /* C */0 :
       case /* D */1 :
           return 1;
@@ -51,19 +79,21 @@ function f5(param) {
 }
 
 function f6(param) {
-  if (typeof param === "number") {
-    if (param >= 2) {
-      return 2;
-    } else {
-      return 0;
-    }
-  } else {
+  if (!/* tag */(typeof param === "number" || typeof param === "string")) {
     return 1;
+  }
+  switch (param) {
+    case /* A */0 :
+    case /* B */1 :
+        return 0;
+    case /* F */2 :
+        return 2;
+    
   }
 }
 
 function f7(param) {
-  if (typeof param === "number") {
+  if (/* tag */typeof param === "number" || typeof param === "string") {
     switch (param) {
       case /* A */0 :
           return 1;
@@ -74,7 +104,7 @@ function f7(param) {
       
     }
   } else {
-    switch (param.TAG | 0) {
+    switch (param.TAG) {
       case /* C */0 :
           return 3;
       case /* D */1 :
@@ -87,7 +117,7 @@ function f7(param) {
 }
 
 function f8(param) {
-  if (typeof param === "number") {
+  if (/* tag */typeof param === "number" || typeof param === "string") {
     switch (param) {
       case /* T60 */0 :
       case /* T61 */1 :
@@ -96,7 +126,7 @@ function f8(param) {
         return 3;
     }
   } else {
-    switch (param.TAG | 0) {
+    switch (param.TAG) {
       case /* T64 */0 :
       case /* T65 */1 :
           return 2;
@@ -107,7 +137,7 @@ function f8(param) {
 }
 
 function f9(param) {
-  if (typeof param === "number") {
+  if (/* tag */typeof param === "number" || typeof param === "string") {
     switch (param) {
       case /* T60 */0 :
       case /* T61 */1 :
@@ -117,7 +147,7 @@ function f9(param) {
         return 3;
     }
   } else {
-    switch (param.TAG | 0) {
+    switch (param.TAG) {
       case /* T64 */0 :
       case /* T65 */1 :
           return 2;
@@ -128,7 +158,7 @@ function f9(param) {
 }
 
 function f10(param) {
-  if (typeof param === "number") {
+  if (/* tag */typeof param === "number" || typeof param === "string") {
     switch (param) {
       case /* T60 */0 :
           return 0;
@@ -141,7 +171,7 @@ function f10(param) {
       
     }
   } else {
-    switch (param.TAG | 0) {
+    switch (param.TAG) {
       case /* T64 */0 :
       case /* T65 */1 :
           return 2;
@@ -154,7 +184,7 @@ function f10(param) {
 }
 
 function f11(x) {
-  if (typeof x === "number") {
+  if (/* tag */typeof x === "number" || typeof x === "string") {
     return 2;
   }
   if (x.TAG === /* D */0) {

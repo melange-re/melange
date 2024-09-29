@@ -43,14 +43,16 @@ function eq3(loc, a, b, c) {
 }
 
 function $caret$caret(param, param$1) {
-  return /* Format */{
+  return {
+          TAG: /* Format */0,
           _0: CamlinternalFormatBasics.concat_fmt(param._0, param$1._0),
           _1: param._1 + ("%," + param$1._1)
         };
 }
 
 function u(param) {
-  return $caret$caret(/* Format */{
+  return $caret$caret({
+              TAG: /* Format */0,
               _0: {
                 TAG: /* String_literal */11,
                 _0: "xx ",
@@ -61,7 +63,8 @@ function u(param) {
                 }
               },
               _1: "xx %s"
-            }, /* Format */{
+            }, {
+              TAG: /* Format */0,
               _0: {
                 TAG: /* String_literal */11,
                 _0: "yy",
@@ -75,7 +78,8 @@ const M = {};
 
 eq("File \"jscomp/test/format_test.ml\", line 31, characters 5-12", Curry._1(Stdlib__Format.asprintf(u(undefined)), "x"), "xx xyy");
 
-eq("File \"jscomp/test/format_test.ml\", line 32, characters 5-12", Curry._1(Stdlib__Format.asprintf(/* Format */{
+eq("File \"jscomp/test/format_test.ml\", line 32, characters 5-12", Curry._1(Stdlib__Format.asprintf({
+              TAG: /* Format */0,
               _0: {
                 TAG: /* Int32 */5,
                 _0: /* Int_d */0,
@@ -86,7 +90,8 @@ eq("File \"jscomp/test/format_test.ml\", line 32, characters 5-12", Curry._1(Std
               _1: "%ld"
             }), -2147483648), "-2147483648");
 
-eq("File \"jscomp/test/format_test.ml\", line 33, characters 5-12", Curry._1(Stdlib__Format.asprintf(/* Format */{
+eq("File \"jscomp/test/format_test.ml\", line 33, characters 5-12", Curry._1(Stdlib__Format.asprintf({
+              TAG: /* Format */0,
               _0: {
                 TAG: /* Int */4,
                 _0: /* Int_d */0,
@@ -160,7 +165,8 @@ f("File \"jscomp/test/format_test.ml\", line 82, characters 6-13", {
     });
 
 function sl(f) {
-  return Curry._1(Stdlib__Printf.sprintf(/* Format */{
+  return Curry._1(Stdlib__Printf.sprintf({
+                  TAG: /* Format */0,
                   _0: {
                     TAG: /* Float */8,
                     _0: [
@@ -243,7 +249,8 @@ const literals = {
 
 aux_list("File \"jscomp/test/format_test.ml\", line 112, characters 11-18", literals);
 
-eq("File \"jscomp/test/format_test.ml\", line 115, characters 5-12", Curry._1(Stdlib__Printf.sprintf(/* Format */{
+eq("File \"jscomp/test/format_test.ml\", line 115, characters 5-12", Curry._1(Stdlib__Printf.sprintf({
+              TAG: /* Format */0,
               _0: {
                 TAG: /* Float */8,
                 _0: [
@@ -258,7 +265,8 @@ eq("File \"jscomp/test/format_test.ml\", line 115, characters 5-12", Curry._1(St
             }), 7.875), "0X1.F8P+2");
 
 function scan_float(loc, s, expect) {
-  Curry._1(Stdlib__Scanf.sscanf(s, /* Format */{
+  Curry._1(Stdlib__Scanf.sscanf(s, {
+            TAG: /* Format */0,
             _0: {
               TAG: /* Float */8,
               _0: [

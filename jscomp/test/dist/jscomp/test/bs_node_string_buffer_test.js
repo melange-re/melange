@@ -5,17 +5,17 @@ const $$Node = require("melange.node/node.js");
 
 function f(str) {
   const match = $$Node.test(str);
-  if (match[0]) {
-    console.log([
-          "buffer",
-          Buffer.isBuffer(match[1])
-        ]);
-  } else {
+  if (match[0] === /* String */0) {
     console.log([
           "string",
           match[1]
         ]);
+    return ;
   }
+  console.log([
+        "buffer",
+        Buffer.isBuffer(match[1])
+      ]);
 }
 
 f("xx");

@@ -32,7 +32,8 @@ function from_pairs(pair) {
                         const i32 = param[0];
                         return {
                                 hd: [
-                                  Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                                  Curry._1(Stdlib__Printf.sprintf({
+                                            TAG: /* Format */0,
                                             _0: {
                                               TAG: /* String_literal */11,
                                               _0: "int32_float_of_bits ",
@@ -56,7 +57,8 @@ function from_pairs(pair) {
                                 ],
                                 tl: {
                                   hd: [
-                                    Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                                    Curry._1(Stdlib__Printf.sprintf({
+                                              TAG: /* Format */0,
                                               _0: {
                                                 TAG: /* String_literal */11,
                                                 _0: "int32_bits_of_float ",

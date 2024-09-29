@@ -90,7 +90,8 @@ function pr(param) {
   const nh = param[1];
   const nl = param[0];
   if (Caml_int64.compare(nh, n0) === 0) {
-    return Curry._1(Stdlib__Printf.bprintf(buf, /* Format */{
+    return Curry._1(Stdlib__Printf.bprintf(buf, {
+                    TAG: /* Format */0,
                     _0: {
                       TAG: /* Int64 */7,
                       _0: /* Int_d */0,
@@ -105,7 +106,8 @@ function pr(param) {
                     _1: "%Ld\n"
                   }), nl);
   } else {
-    return Curry._2(Stdlib__Printf.bprintf(buf, /* Format */{
+    return Curry._2(Stdlib__Printf.bprintf(buf, {
+                    TAG: /* Format */0,
                     _0: {
                       TAG: /* Int64 */7,
                       _0: /* Int_d */0,
@@ -137,7 +139,8 @@ function map(f, l) {
           LAZY_DONE: false,
           VAL: (function () {
               const match = CamlinternalLazy.force(l);
-              return /* Cons */{
+              return {
+                      TAG: /* Cons */0,
                       _0: Curry._1(f, match._0),
                       _1: map(f, match._1)
                     };
@@ -157,17 +160,20 @@ function merge(cmp, l1, l2) {
               const x1 = match._0;
               const c = Curry._2(cmp, x1, x2);
               if (c === 0) {
-                return /* Cons */{
+                return {
+                        TAG: /* Cons */0,
                         _0: x1,
                         _1: merge(cmp, ll1, ll2)
                       };
               } else if (c < 0) {
-                return /* Cons */{
+                return {
+                        TAG: /* Cons */0,
                         _0: x1,
                         _1: merge(cmp, ll1, l2)
                       };
               } else {
-                return /* Cons */{
+                return {
+                        TAG: /* Cons */0,
                         _0: x2,
                         _1: merge(cmp, l1, ll2)
                       };
@@ -201,7 +207,8 @@ function iter_interval(f, _l, _param) {
 const hamming = {
   LAZY_DONE: false,
   VAL: (function () {
-      return /* Cons */{
+      return {
+              TAG: /* Cons */0,
               _0: nn1,
               _1: merge(cmp, ham2, merge(cmp, ham3, ham5))
             };

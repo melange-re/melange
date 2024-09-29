@@ -22,7 +22,8 @@ function eq(f, param) {
 }
 
 function scan_rest(ib, accu) {
-  return Curry._1(Stdlib__Scanf.bscanf(ib, /* Format */{
+  return Curry._1(Stdlib__Scanf.bscanf(ib, {
+                  TAG: /* Format */0,
                   _0: {
                     TAG: /* Scan_char_set */20,
                     _0: undefined,
@@ -34,7 +35,8 @@ function scan_rest(ib, accu) {
                 if (param === "]") {
                   return accu;
                 } else {
-                  return Curry._1(Stdlib__Scanf.bscanf(ib, /* Format */{
+                  return Curry._1(Stdlib__Scanf.bscanf(ib, {
+                                  TAG: /* Format */0,
                                   _0: {
                                     TAG: /* Char_literal */12,
                                     _0: /* ' ' */32,
@@ -56,7 +58,8 @@ function scan_rest(ib, accu) {
                                   hd: i,
                                   tl: accu
                                 };
-                                return Curry._1(Stdlib__Scanf.bscanf(ib, /* Format */{
+                                return Curry._1(Stdlib__Scanf.bscanf(ib, {
+                                                TAG: /* Format */0,
                                                 _0: {
                                                   TAG: /* Scan_char_set */20,
                                                   _0: 1,
@@ -71,7 +74,8 @@ function scan_rest(ib, accu) {
                                                 case "]" :
                                                     return accu$1;
                                                 default:
-                                                  const s = Stdlib__Printf.sprintf(/* Format */{
+                                                  const s = Stdlib__Printf.sprintf({
+                                                        TAG: /* Format */0,
                                                         _0: {
                                                           TAG: /* String_literal */11,
                                                           _0: "scan_int_list",
@@ -91,7 +95,8 @@ function scan_rest(ib, accu) {
 }
 
 function scan_int_list(ib) {
-  Curry._1(Stdlib__Scanf.bscanf(ib, /* Format */{
+  Curry._1(Stdlib__Scanf.bscanf(ib, {
+            TAG: /* Format */0,
             _0: {
               TAG: /* String_literal */11,
               _0: " [ ",

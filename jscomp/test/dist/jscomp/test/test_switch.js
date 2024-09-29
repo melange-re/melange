@@ -4,14 +4,14 @@
 const Curry = require("melange.js/curry.js");
 
 function f(param) {
-  if (typeof param === "number") {
+  if (/* tag */typeof param === "number" || typeof param === "string") {
     if (param === /* G */0) {
       return 4;
     } else {
       return 5;
     }
   }
-  switch (param.TAG | 0) {
+  switch (param.TAG) {
     case /* A */0 :
         return 0;
     case /* B */1 :

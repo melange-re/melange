@@ -4,7 +4,8 @@
 const Curry = require("melange.js/curry.js");
 const Stdlib__Printf = require("melange/printf.js");
 
-console.error(Curry._2(Stdlib__Printf.sprintf(/* Format */{
+console.error(Curry._2(Stdlib__Printf.sprintf({
+              TAG: /* Format */0,
               _0: {
                 TAG: /* Int */4,
                 _0: /* Int_d */0,

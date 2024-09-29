@@ -15,7 +15,8 @@ const buf = Stdlib__Buffer.create(50);
 const fmt = Stdlib__Format.formatter_of_buffer(buf);
 
 function print_float(f) {
-  Curry._1(Stdlib__Format.fprintf(fmt)(/* Format */{
+  Curry._1(Stdlib__Format.fprintf(fmt)({
+            TAG: /* Format */0,
             _0: {
               TAG: /* String */2,
               _0: /* No_padding */0,
@@ -26,7 +27,8 @@ function print_float(f) {
 }
 
 function print_newline(param) {
-  Stdlib__Format.fprintf(fmt)(/* Format */{
+  Stdlib__Format.fprintf(fmt)({
+        TAG: /* Format */0,
         _0: {
           TAG: /* Char_literal */12,
           _0: /* '\n' */10,

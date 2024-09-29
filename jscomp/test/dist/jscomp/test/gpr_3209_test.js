@@ -3,7 +3,7 @@
 
 
 function f9(param) {
-  if (typeof param === "number") {
+  if (/* tag */typeof param === "number" || typeof param === "string") {
     switch (param) {
       case /* T60 */0 :
       case /* T61 */1 :
@@ -13,7 +13,7 @@ function f9(param) {
         return 3;
     }
   } else {
-    switch (param.TAG | 0) {
+    switch (param.TAG) {
       case /* T64 */0 :
       case /* T65 */1 :
           return 2;

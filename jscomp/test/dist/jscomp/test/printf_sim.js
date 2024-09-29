@@ -4,7 +4,8 @@
 const Curry = require("melange.js/curry.js");
 const Stdlib__Printf = require("melange/printf.js");
 
-Curry._1(Stdlib__Printf.printf(/* Format */{
+Curry._1(Stdlib__Printf.printf({
+          TAG: /* Format */0,
           _0: {
             TAG: /* Int64 */7,
             _0: /* Int_d */0,
@@ -22,7 +23,8 @@ Curry._1(Stdlib__Printf.printf(/* Format */{
       32
     ]);
 
-Stdlib__Printf.printf(/* Format */{
+Stdlib__Printf.printf({
+      TAG: /* Format */0,
       _0: {
         TAG: /* String_literal */11,
         _0: "heloo!\nhelloxx\n",
@@ -31,7 +33,8 @@ Stdlib__Printf.printf(/* Format */{
       _1: "heloo!\nhelloxx\n"
     });
 
-Stdlib__Printf.printf(/* Format */{
+Stdlib__Printf.printf({
+      TAG: /* Format */0,
       _0: {
         TAG: /* String_literal */11,
         _0: "hello\nhi\n",
@@ -40,7 +43,8 @@ Stdlib__Printf.printf(/* Format */{
       _1: "hello\nhi\n"
     });
 
-Curry._2(Stdlib__Printf.printf(/* Format */{
+Curry._2(Stdlib__Printf.printf({
+          TAG: /* Format */0,
           _0: {
             TAG: /* Int */4,
             _0: /* Int_d */0,
@@ -58,14 +62,16 @@ Curry._2(Stdlib__Printf.printf(/* Format */{
           _1: "%*d\n\n"
         }), 32, 3);
 
-Curry._1(Stdlib__Printf.printf(/* Format */{
+Curry._1(Stdlib__Printf.printf({
+          TAG: /* Format */0,
           _0: {
             TAG: /* String */2,
             _0: /* No_padding */0,
             _1: /* End_of_format */0
           },
           _1: "%s"
-        }), Curry._2(Stdlib__Printf.sprintf(/* Format */{
+        }), Curry._2(Stdlib__Printf.sprintf({
+              TAG: /* Format */0,
               _0: {
                 TAG: /* Int */4,
                 _0: /* Int_d */0,

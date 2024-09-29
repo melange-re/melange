@@ -32,10 +32,10 @@ function f0(x) {
 }
 
 function f1(u) {
-  if (u) {
-    return 0;
-  } else {
+  if (/* tag */typeof u === "number" || typeof u === "string") {
     return 1;
+  } else {
+    return 0;
   }
 }
 

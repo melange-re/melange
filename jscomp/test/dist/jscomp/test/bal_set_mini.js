@@ -3,17 +3,18 @@
 
 
 function height(param) {
-  if (param) {
-    return param._3;
-  } else {
+  if (/* tag */typeof param === "number" || typeof param === "string") {
     return 0;
+  } else {
+    return param._3;
   }
 }
 
 function create(l, v, r) {
   const hl = height(l);
   const hr = height(r);
-  return /* Node */{
+  return {
+          TAG: /* Node */0,
           _0: l,
           _1: v,
           _2: r,
@@ -25,7 +26,7 @@ function bal(l, v, r) {
   const hl = height(l);
   const hr = height(r);
   if (hl > (hr + 2 | 0)) {
-    if (!l) {
+    if (/* tag */typeof l === "number" || typeof l === "string") {
       return /* Empty */0;
     }
     const lr = l._2;
@@ -33,21 +34,22 @@ function bal(l, v, r) {
     const ll = l._0;
     if (height(ll) >= height(lr)) {
       return create(ll, lv, create(lr, v, r));
-    } else if (lr) {
-      return create(create(ll, lv, lr._0), lr._1, create(lr._2, v, r));
-    } else {
+    } else if (/* tag */typeof lr === "number" || typeof lr === "string") {
       return /* Empty */0;
+    } else {
+      return create(create(ll, lv, lr._0), lr._1, create(lr._2, v, r));
     }
   }
   if (hr <= (hl + 2 | 0)) {
-    return /* Node */{
+    return {
+            TAG: /* Node */0,
             _0: l,
             _1: v,
             _2: r,
             _3: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (!r) {
+  if (/* tag */typeof r === "number" || typeof r === "string") {
     return /* Empty */0;
   }
   const rr = r._2;
@@ -55,10 +57,10 @@ function bal(l, v, r) {
   const rl = r._0;
   if (height(rr) >= height(rl)) {
     return create(create(l, v, rl), rv, rr);
-  } else if (rl) {
-    return create(create(l, v, rl._0), rl._1, create(rl._2, rv, rr));
-  } else {
+  } else if (/* tag */typeof rl === "number" || typeof rl === "string") {
     return /* Empty */0;
+  } else {
+    return create(create(l, v, rl._0), rl._1, create(rl._2, rv, rr));
   }
 }
 
@@ -73,8 +75,9 @@ function compare_int(x, y) {
 }
 
 function add(x, t) {
-  if (!t) {
-    return /* Node */{
+  if (/* tag */typeof t === "number" || typeof t === "string") {
+    return {
+            TAG: /* Node */0,
             _0: /* Empty */0,
             _1: x,
             _2: /* Empty */0,
@@ -98,11 +101,11 @@ function min_elt(_def, _param) {
   while(true) {
     const param = _param;
     const def = _def;
-    if (!param) {
+    if (/* tag */typeof param === "number" || typeof param === "string") {
       return def;
     }
     const l = param._0;
-    if (!l) {
+    if (/* tag */typeof l === "number" || typeof l === "string") {
       return param._1;
     }
     _param = l;
@@ -112,18 +115,18 @@ function min_elt(_def, _param) {
 }
 
 function remove_min_elt(l, v, r) {
-  if (l) {
-    return bal(remove_min_elt(l._0, l._1, l._2), v, r);
-  } else {
+  if (/* tag */typeof l === "number" || typeof l === "string") {
     return r;
+  } else {
+    return bal(remove_min_elt(l._0, l._1, l._2), v, r);
   }
 }
 
 function internal_merge(l, r) {
-  if (!l) {
+  if (/* tag */typeof l === "number" || typeof l === "string") {
     return r;
   }
-  if (!r) {
+  if (/* tag */typeof r === "number" || typeof r === "string") {
     return l;
   }
   const rv = r._1;
@@ -131,7 +134,7 @@ function internal_merge(l, r) {
 }
 
 function remove(x, tree) {
-  if (!tree) {
+  if (/* tag */typeof tree === "number" || typeof tree === "string") {
     return /* Empty */0;
   }
   const r = tree._2;
@@ -150,7 +153,7 @@ function remove(x, tree) {
 function mem(x, _param) {
   while(true) {
     const param = _param;
-    if (!param) {
+    if (/* tag */typeof param === "number" || typeof param === "string") {
       return false;
     }
     const c = compare_int(x, param._1);
@@ -181,7 +184,7 @@ for(let i$2 = 0; i$2 <= 100000; ++i$2){
 
 const match = v;
 
-if (match) {
+if (!/* tag */(typeof match === "number" || typeof match === "string")) {
   console.log("impossible");
 }
 

@@ -7,11 +7,13 @@ function g(x) {
   return Curry._1(x._0, x);
 }
 
-const loop = g(/* A */{
+const loop = g({
+      TAG: /* A */0,
       _0: g
     });
 
-const x = /* A */{
+const x = {
+  TAG: /* A */0,
   _0: g
 };
 

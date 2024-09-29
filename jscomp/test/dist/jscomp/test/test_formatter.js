@@ -3,7 +3,8 @@
 
 
 function f(param) {
-  return /* Format */{
+  return {
+          TAG: /* Format */0,
           _0: {
             TAG: /* Int */4,
             _0: /* Int_d */0,

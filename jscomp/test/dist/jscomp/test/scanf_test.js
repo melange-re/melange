@@ -19,7 +19,8 @@ function eq(f, param) {
 }
 
 eq("File \"jscomp/test/scanf_test.ml\", line 6, characters 5-12", [
-      Curry._1(Stdlib__Scanf.sscanf("32 31", /* Format */{
+      Curry._1(Stdlib__Scanf.sscanf("32 31", {
+                TAG: /* Format */0,
                 _0: {
                   TAG: /* Int */4,
                   _0: /* Int_d */0,
@@ -45,7 +46,8 @@ eq("File \"jscomp/test/scanf_test.ml\", line 6, characters 5-12", [
     ]);
 
 eq("File \"jscomp/test/scanf_test.ml\", line 7, characters 5-12", [
-      Curry._1(Stdlib__Scanf.sscanf("12306459064359371967", /* Format */{
+      Curry._1(Stdlib__Scanf.sscanf("12306459064359371967", {
+                TAG: /* Format */0,
                 _0: {
                   TAG: /* Int64 */7,
                   _0: /* Int_u */12,

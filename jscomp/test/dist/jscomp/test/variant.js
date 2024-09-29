@@ -8,14 +8,14 @@ const Curry = require("melange.js/curry.js");
 const Stdlib = require("melange/stdlib.js");
 
 function foo(n) {
-  if (typeof n === "number") {
+  if (/* tag */typeof n === "number" || typeof n === "string") {
     if (n === /* A1 */0) {
       return 1;
     } else {
       return 2;
     }
   }
-  switch (n.TAG | 0) {
+  switch (n.TAG) {
     case /* B */0 :
         return n._0;
     case /* C */1 :
@@ -28,7 +28,7 @@ function foo(n) {
 }
 
 function fooA1(param) {
-  if (typeof param === "number" && !param) {
+  if (/* tag */(typeof param === "number" || typeof param === "string") && param === /* A1 */0) {
     return 1;
   } else {
     return 42;
@@ -36,7 +36,7 @@ function fooA1(param) {
 }
 
 function fooC(param) {
-  if (typeof param === "number" || param.TAG !== /* C */1) {
+  if (/* tag */typeof param === "number" || typeof param === "string" || param.TAG !== /* C */1) {
     return 42;
   } else {
     return param._0 + param._1 | 0;
@@ -89,7 +89,7 @@ function rollback_path(subst, p) {
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      switch (p.TAG | 0) {
+      switch (p.TAG) {
         case /* Pdot */1 :
             return "Pdot";
         case /* Pident */0 :

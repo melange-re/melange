@@ -501,7 +501,8 @@ function string_of_format(param) {
 }
 
 function $caret$caret(param, param$1) {
-  return /* Format */{
+  return {
+          TAG: /* Format */0,
           _0: CamlinternalFormatBasics.concat_fmt(param._0, param$1._0),
           _1: $caret(param._1, $caret("%,", param$1._1))
         };

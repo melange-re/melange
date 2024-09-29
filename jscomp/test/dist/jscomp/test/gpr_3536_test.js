@@ -36,7 +36,8 @@ Mt.from_pair_suites("Gpr_3536_test", suites.contents);
 
 const v = 5;
 
-const u = /* Some */{
+const u = {
+  TAG: /* Some */0,
   _0: 3
 };
 

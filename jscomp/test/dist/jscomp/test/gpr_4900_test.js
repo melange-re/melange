@@ -12,20 +12,18 @@ const id = {
 };
 
 function showToJs(x) {
-  if (typeof x === "number" && !x) {
+  if (/* tag */(typeof x === "number" || typeof x === "string") && x === /* No */0) {
     return false;
   } else {
     return true;
   }
 }
 
-Mt.eq_suites(id, suites, "File \"jscomp/test/gpr_4900_test.ml\", line 13, characters 33-40", showToJs(/* Yes */1), true);
+Mt.eq_suites(id, suites, "File \"jscomp/test/gpr_4900_test.ml\", line 13, characters 33-40", true, true);
 
-Mt.eq_suites(id, suites, "File \"jscomp/test/gpr_4900_test.ml\", line 14, characters 33-40", showToJs(/* No */0), false);
+Mt.eq_suites(id, suites, "File \"jscomp/test/gpr_4900_test.ml\", line 14, characters 33-40", false, false);
 
-Mt.eq_suites(id, suites, "File \"jscomp/test/gpr_4900_test.ml\", line 15, characters 33-40", showToJs(/* After */{
-          _0: 3
-        }), true);
+Mt.eq_suites(id, suites, "File \"jscomp/test/gpr_4900_test.ml\", line 15, characters 33-40", true, true);
 
 Mt.from_pair_suites("File \"jscomp/test/gpr_4900_test.ml\", line 17, characters 20-27", suites.contents);
 

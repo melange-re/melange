@@ -46,7 +46,8 @@ function convertPropsIfTheyreFromJs(props, jsPropsToReason, debugName) {
     return match;
   }
   if (jsPropsToReason !== undefined) {
-    return /* Element */{
+    return {
+            TAG: /* Element */0,
             _0: jsPropsToReason(props)
           };
   }
@@ -263,10 +264,10 @@ function createClass(debugName) {
                             return null;
                           }
                           let nextTotalState;
-                          if (typeof reasonStateUpdate === "number") {
+                          if (/* tag */typeof reasonStateUpdate === "number" || typeof reasonStateUpdate === "string") {
                             nextTotalState = curTotalState;
                           } else {
-                            switch (reasonStateUpdate.TAG | 0) {
+                            switch (reasonStateUpdate.TAG) {
                               case /* Update */0 :
                                   nextTotalState = {
                                     reasonState: reasonStateUpdate._0
@@ -338,7 +339,8 @@ const reducerComponentWithRetainedProps = basicComponent;
 function element(keyOpt, refOpt, component) {
   const key = keyOpt !== undefined ? keyOpt : undefined;
   const ref = refOpt !== undefined ? refOpt : undefined;
-  const element$1 = /* Element */{
+  const element$1 = {
+    TAG: /* Element */0,
     _0: component
   };
   const jsElementWrapped = component.jsElementWrapped;

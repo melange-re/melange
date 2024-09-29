@@ -114,14 +114,16 @@ if (Caml_oo_curry.js1(-804710761, 4, v1) !== 3) {
           });
 }
 
-if (typeof Stdlib__Sys.backend_type !== "number" && Stdlib__Sys.backend_type._0 === "Melange") {
+if (/* tag */typeof Stdlib__Sys.backend_type === "number" || typeof Stdlib__Sys.backend_type === "string") {
+  Stdlib__Sys.backend_type === /* Native */0;
+} else if (Stdlib__Sys.backend_type._0 === "Melange") {
   console.log([
-        Caml_oo_curry.js1(-804710761, 7, v1),
-        Caml_oo_curry.js1(-804710761, 8, v2)
+        Caml_oo_curry.js1(-804710761, 5, v1),
+        Caml_oo_curry.js1(-804710761, 6, v2)
       ]);
 }
 
-if (Caml_oo_curry.js1(-804710761, 9, v2) !== 9) {
+if (Caml_oo_curry.js1(-804710761, 7, v2) !== 9) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             MEL_EXN_ID: "Assert_failure",
             _1: [
@@ -164,7 +166,7 @@ const point = CamlinternalOO.make_class([
 
 const v$1 = Curry._1(point[0], undefined);
 
-if (Caml_oo_curry.js1(590348294, 10, v$1) !== 5) {
+if (Caml_oo_curry.js1(590348294, 8, v$1) !== 5) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             MEL_EXN_ID: "Assert_failure",
             _1: [

@@ -15,7 +15,7 @@ function fff(x) {
     TAG: /* A */0,
     _0: x
   };
-  switch (x$1.TAG | 0) {
+  switch (x$1.TAG) {
     case /* A */0 :
         return x;
     case /* B */1 :

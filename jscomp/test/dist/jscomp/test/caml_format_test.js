@@ -95,7 +95,8 @@ function from_of_string(xs) {
                     const b = param[1];
                     const a = param[0];
                     return [
-                            Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                            Curry._1(Stdlib__Printf.sprintf({
+                                      TAG: /* Format */0,
                                       _0: {
                                         TAG: /* String_literal */11,
                                         _0: "of_string ",
@@ -119,7 +120,8 @@ function from_of_string(xs) {
 }
 
 function u(v) {
-  return Curry._1(Stdlib__Printf.sprintf(/* Format */{
+  return Curry._1(Stdlib__Printf.sprintf({
+                  TAG: /* Format */0,
                   _0: {
                     TAG: /* Int */4,
                     _0: /* Int_d */0,
@@ -137,7 +139,8 @@ function u(v) {
 
 const to_str = Caml_format.caml_int_of_string;
 
-const v = Curry._1(Stdlib__Printf.sprintf(/* Format */{
+const v = Curry._1(Stdlib__Printf.sprintf({
+          TAG: /* Format */0,
           _0: {
             TAG: /* Int */4,
             _0: /* Int_d */0,
@@ -206,7 +209,8 @@ const suites = Stdlib.$at(from_of_string(of_string), Stdlib.$at({
                         const b = param[1];
                         const a = param[0];
                         return [
-                                Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                                Curry._1(Stdlib__Printf.sprintf({
+                                          TAG: /* Format */0,
                                           _0: {
                                             TAG: /* String_literal */11,
                                             _0: "infinity_of_string ",
@@ -257,7 +261,8 @@ const suites = Stdlib.$at(from_of_string(of_string), Stdlib.$at({
                             const b = param[1];
                             const a = param[0];
                             return [
-                                    Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                                    Curry._1(Stdlib__Printf.sprintf({
+                                              TAG: /* Format */0,
                                               _0: {
                                                 TAG: /* String_literal */11,
                                                 _0: "normal_float_of_string ",
@@ -282,7 +287,8 @@ const suites = Stdlib.$at(from_of_string(of_string), Stdlib.$at({
                           }), pairs$1))))));
 
 function $caret$caret(param, param$1) {
-  return /* Format */{
+  return {
+          TAG: /* Format */0,
           _0: CamlinternalFormatBasics.concat_fmt(param._0, param$1._0),
           _1: param._1 + ("%," + param$1._1)
         };
@@ -297,7 +303,8 @@ const formatter_suites_0 = [
   (function (param) {
       return {
               TAG: /* Eq */0,
-              _0: Curry._6(Stdlib__Format.asprintf($caret$caret(/* Format */{
+              _0: Curry._6(Stdlib__Format.asprintf($caret$caret({
+                            TAG: /* Format */0,
                             _0: {
                               TAG: /* String */2,
                               _0: /* No_padding */0,
@@ -326,7 +333,8 @@ const formatter_suites_0 = [
                               }
                             },
                             _1: "%s %03d %L"
-                          }, /* Format */{
+                          }, {
+                            TAG: /* Format */0,
                             _0: {
                               TAG: /* Caml_string */3,
                               _0: /* No_padding */0,
@@ -367,7 +375,8 @@ const formatter_suites_1 = {
     (function (param) {
         return {
                 TAG: /* Eq */0,
-                _0: Curry._8(Stdlib__Format.asprintf($caret$caret(/* Format */{
+                _0: Curry._8(Stdlib__Format.asprintf($caret$caret({
+                              TAG: /* Format */0,
                               _0: {
                                 TAG: /* String */2,
                                 _0: /* No_padding */0,
@@ -396,7 +405,8 @@ const formatter_suites_1 = {
                                 }
                               },
                               _1: "%s %03d %L"
-                            }, /* Format */{
+                            }, {
+                              TAG: /* Format */0,
                               _0: {
                                 TAG: /* Caml_string */3,
                                 _0: /* No_padding */0,
@@ -454,7 +464,8 @@ const formatter_suites_1 = {
       (function (param) {
           return {
                   TAG: /* Eq */0,
-                  _0: Curry.app(Stdlib__Format.asprintf(/* Format */{
+                  _0: Curry.app(Stdlib__Format.asprintf({
+                            TAG: /* Format */0,
                             _0: {
                               TAG: /* Int */4,
                               _0: /* Int_d */0,
@@ -839,12 +850,14 @@ const formatter_suites_1 = {
         (function (param) {
             return {
                     TAG: /* Eq */0,
-                    _0: Curry.app(Stdlib__Format.asprintf(/* Format */{
+                    _0: Curry.app(Stdlib__Format.asprintf({
+                              TAG: /* Format */0,
                               _0: {
                                 TAG: /* Formatting_gen */18,
                                 _0: {
                                   TAG: /* Open_box */1,
-                                  _0: /* Format */{
+                                  _0: {
+                                    TAG: /* Format */0,
                                     _0: /* End_of_format */0,
                                     _1: ""
                                   }
@@ -1278,7 +1291,8 @@ const formatter_suites_1 = {
           (function (param) {
               return {
                       TAG: /* Eq */0,
-                      _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                      _0: Curry._1(Stdlib__Format.asprintf({
+                                TAG: /* Format */0,
                                 _0: {
                                   TAG: /* Int */4,
                                   _0: /* Int_d */0,
@@ -1302,7 +1316,8 @@ const formatter_suites_1 = {
             (function (param) {
                 return {
                         TAG: /* Eq */0,
-                        _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                        _0: Curry._1(Stdlib__Format.asprintf({
+                                  TAG: /* Format */0,
                                   _0: {
                                     TAG: /* Float */8,
                                     _0: [
@@ -1314,7 +1329,8 @@ const formatter_suites_1 = {
                                       _0: /* Right */1,
                                       _1: 10
                                     },
-                                    _2: /* Lit_precision */{
+                                    _2: {
+                                      TAG: /* Lit_precision */0,
                                       _0: 3
                                     },
                                     _3: /* End_of_format */0
@@ -1331,7 +1347,8 @@ const formatter_suites_1 = {
               (function (param) {
                   return {
                           TAG: /* Eq */0,
-                          _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                          _0: Curry._1(Stdlib__Format.asprintf({
+                                    TAG: /* Format */0,
                                     _0: {
                                       TAG: /* Int */4,
                                       _0: /* Int_x */6,
@@ -1355,7 +1372,8 @@ const formatter_suites_1 = {
                 (function (param) {
                     return {
                             TAG: /* Eq */0,
-                            _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                            _0: Curry._1(Stdlib__Format.asprintf({
+                                      TAG: /* Format */0,
                                       _0: {
                                         TAG: /* Int */4,
                                         _0: /* Int_Cx */7,
@@ -1380,7 +1398,8 @@ const formatter_suites_1 = {
                       return {
                               TAG: /* Eq */0,
                               _0: [
-                                Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                Curry._1(Stdlib__Format.asprintf({
+                                          TAG: /* Format */0,
                                           _0: {
                                             TAG: /* Int */4,
                                             _0: /* Int_Co */11,
@@ -1390,7 +1409,8 @@ const formatter_suites_1 = {
                                           },
                                           _1: "%#o"
                                         }), 32),
-                                Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                Curry._1(Stdlib__Format.asprintf({
+                                          TAG: /* Format */0,
                                           _0: {
                                             TAG: /* Int */4,
                                             _0: /* Int_o */10,
@@ -1425,7 +1445,8 @@ const formatter_suites_1 = {
                       (function (param) {
                           return {
                                   TAG: /* Eq */0,
-                                  _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                  _0: Curry._1(Stdlib__Format.asprintf({
+                                            TAG: /* Format */0,
                                             _0: {
                                               TAG: /* Int */4,
                                               _0: /* Int_pd */1,
@@ -1449,7 +1470,8 @@ const formatter_suites_1 = {
                         (function (param) {
                             return {
                                     TAG: /* Eq */0,
-                                    _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                    _0: Curry._1(Stdlib__Format.asprintf({
+                                              TAG: /* Format */0,
                                               _0: {
                                                 TAG: /* Int */4,
                                                 _0: /* Int_sd */2,
@@ -1473,7 +1495,8 @@ const formatter_suites_1 = {
                           (function (param) {
                               return {
                                       TAG: /* Eq */0,
-                                      _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                      _0: Curry._1(Stdlib__Format.asprintf({
+                                                TAG: /* Format */0,
                                                 _0: {
                                                   TAG: /* Int32 */5,
                                                   _0: /* Int_u */12,
@@ -1493,7 +1516,8 @@ const formatter_suites_1 = {
                             (function (param) {
                                 return {
                                         TAG: /* Eq */0,
-                                        _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                        _0: Curry._1(Stdlib__Format.asprintf({
+                                                  TAG: /* Format */0,
                                                   _0: {
                                                     TAG: /* Int32 */5,
                                                     _0: /* Int_d */0,
@@ -1524,12 +1548,14 @@ const formatter_suites_1 = {
                                 (function (param) {
                                     return {
                                             TAG: /* Eq */0,
-                                            _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                            _0: Curry._1(Stdlib__Format.asprintf({
+                                                      TAG: /* Format */0,
                                                       _0: {
                                                         TAG: /* Int */4,
                                                         _0: /* Int_d */0,
                                                         _1: /* No_padding */0,
-                                                        _2: /* Lit_precision */{
+                                                        _2: {
+                                                          TAG: /* Lit_precision */0,
                                                           _0: 10
                                                         },
                                                         _3: /* End_of_format */0
@@ -1707,7 +1733,8 @@ const float_data = [
 ];
 
 function ident(ppf, s) {
-  Curry._1(Stdlib__Format.fprintf(ppf)(/* Format */{
+  Curry._1(Stdlib__Format.fprintf(ppf)({
+            TAG: /* Format */0,
             _0: {
               TAG: /* String */2,
               _0: /* No_padding */0,
@@ -1718,7 +1745,8 @@ function ident(ppf, s) {
 }
 
 function kwd(ppf, s) {
-  Curry._1(Stdlib__Format.fprintf(ppf)(/* Format */{
+  Curry._1(Stdlib__Format.fprintf(ppf)({
+            TAG: /* Format */0,
             _0: {
               TAG: /* String */2,
               _0: /* No_padding */0,
@@ -1729,9 +1757,10 @@ function kwd(ppf, s) {
 }
 
 function pr_exp0(ppf, s) {
-  switch (s.TAG | 0) {
+  switch (s.TAG) {
     case /* Var */1 :
-        return Curry._2(Stdlib__Format.fprintf(ppf)(/* Format */{
+        return Curry._2(Stdlib__Format.fprintf(ppf)({
+                        TAG: /* Format */0,
                         _0: {
                           TAG: /* Alpha */15,
                           _0: /* End_of_format */0
@@ -1743,12 +1772,14 @@ function pr_exp0(ppf, s) {
         break;
     
   }
-  Curry._2(Stdlib__Format.fprintf(ppf)(/* Format */{
+  Curry._2(Stdlib__Format.fprintf(ppf)({
+            TAG: /* Format */0,
             _0: {
               TAG: /* Formatting_gen */18,
               _0: {
                 TAG: /* Open_box */1,
-                _0: /* Format */{
+                _0: {
+                  TAG: /* Format */0,
                   _0: {
                     TAG: /* String_literal */11,
                     _0: "<1>",
@@ -1779,12 +1810,14 @@ function pr_exp0(ppf, s) {
 }
 
 function pr_app(ppf, e) {
-  Curry._2(Stdlib__Format.fprintf(ppf)(/* Format */{
+  Curry._2(Stdlib__Format.fprintf(ppf)({
+            TAG: /* Format */0,
             _0: {
               TAG: /* Formatting_gen */18,
               _0: {
                 TAG: /* Open_box */1,
-                _0: /* Format */{
+                _0: {
+                  TAG: /* Format */0,
                   _0: {
                     TAG: /* String_literal */11,
                     _0: "<2>",
@@ -1807,12 +1840,13 @@ function pr_app(ppf, e) {
 }
 
 function pr_other_applications(ppf, f) {
-  switch (f.TAG | 0) {
+  switch (f.TAG) {
     case /* Lambda */0 :
     case /* Var */1 :
         return pr_exp0(ppf, f);
     case /* Apply */2 :
-        return Curry._4(Stdlib__Format.fprintf(ppf)(/* Format */{
+        return Curry._4(Stdlib__Format.fprintf(ppf)({
+                        TAG: /* Format */0,
                         _0: {
                           TAG: /* Alpha */15,
                           _0: {
@@ -1836,14 +1870,16 @@ function pr_other_applications(ppf, f) {
 }
 
 function pr_lambda(ppf, e) {
-  switch (e.TAG | 0) {
+  switch (e.TAG) {
     case /* Lambda */0 :
-        return Curry._8(Stdlib__Format.fprintf(ppf)(/* Format */{
+        return Curry._8(Stdlib__Format.fprintf(ppf)({
+                        TAG: /* Format */0,
                         _0: {
                           TAG: /* Formatting_gen */18,
                           _0: {
                             TAG: /* Open_box */1,
-                            _0: /* Format */{
+                            _0: {
+                              TAG: /* Format */0,
                               _0: {
                                 TAG: /* String_literal */11,
                                 _0: "<1>",
@@ -1888,7 +1924,8 @@ function pr_lambda(ppf, e) {
   }
 }
 
-const string_of_lambda = Curry._1(Stdlib__Format.asprintf(/* Format */{
+const string_of_lambda = Curry._1(Stdlib__Format.asprintf({
+          TAG: /* Format */0,
           _0: {
             TAG: /* Alpha */15,
             _0: /* End_of_format */0
@@ -1975,7 +2012,8 @@ function from_lambda_pairs(p) {
                     const b = param[1];
                     const a = param[0];
                     return [
-                            Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                            Curry._1(Stdlib__Printf.sprintf({
+                                      TAG: /* Format */0,
                                       _0: {
                                         TAG: /* String_literal */11,
                                         _0: "lambda_print ",
@@ -2010,7 +2048,8 @@ const ksprintf_suites_0 = [
       };
       return {
               TAG: /* Eq */0,
-              _0: Curry._2(f(/* Format */{
+              _0: Curry._2(f({
+                        TAG: /* Format */0,
                         _0: {
                           TAG: /* String */2,
                           _0: /* No_padding */0,
@@ -2041,7 +2080,8 @@ const ksprintf_suites_1 = {
     (function (param) {
         return {
                 TAG: /* Eq */0,
-                _0: Curry._2(Stdlib__Format.sprintf(/* Format */{
+                _0: Curry._2(Stdlib__Format.sprintf({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String */2,
                             _0: /* No_padding */0,
@@ -2074,7 +2114,8 @@ const int64_suites_0 = [
   (function (param) {
       return {
               TAG: /* Eq */0,
-              _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+              _0: Curry._1(Stdlib__Format.asprintf({
+                        TAG: /* Format */0,
                         _0: {
                           TAG: /* Int */4,
                           _0: /* Int_x */6,
@@ -2095,7 +2136,8 @@ const int64_suites_1 = {
     (function (param) {
         return {
                 TAG: /* Eq */0,
-                _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                _0: Curry._1(Stdlib__Format.asprintf({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* Int */4,
                             _0: /* Int_o */10,
@@ -2115,7 +2157,8 @@ const int64_suites_1 = {
       (function (param) {
           return {
                   TAG: /* Eq */0,
-                  _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                  _0: Curry._1(Stdlib__Format.asprintf({
+                            TAG: /* Format */0,
                             _0: {
                               TAG: /* Int64 */7,
                               _0: /* Int_d */0,
@@ -2138,7 +2181,8 @@ const int64_suites_1 = {
         (function (param) {
             return {
                     TAG: /* Eq */0,
-                    _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                    _0: Curry._1(Stdlib__Format.asprintf({
+                              TAG: /* Format */0,
                               _0: {
                                 TAG: /* Int64 */7,
                                 _0: /* Int_x */6,
@@ -2161,7 +2205,8 @@ const int64_suites_1 = {
           (function (param) {
               return {
                       TAG: /* Eq */0,
-                      _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                      _0: Curry._1(Stdlib__Format.asprintf({
+                                TAG: /* Format */0,
                                 _0: {
                                   TAG: /* Int64 */7,
                                   _0: /* Int_i */3,
@@ -2184,7 +2229,8 @@ const int64_suites_1 = {
             (function (param) {
                 return {
                         TAG: /* Eq */0,
-                        _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                        _0: Curry._1(Stdlib__Format.asprintf({
+                                  TAG: /* Format */0,
                                   _0: {
                                     TAG: /* Int64 */7,
                                     _0: /* Int_X */8,
@@ -2207,7 +2253,8 @@ const int64_suites_1 = {
               (function (param) {
                   return {
                           TAG: /* Eq */0,
-                          _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                          _0: Curry._1(Stdlib__Format.asprintf({
+                                    TAG: /* Format */0,
                                     _0: {
                                       TAG: /* Int64 */7,
                                       _0: /* Int_x */6,
@@ -2230,7 +2277,8 @@ const int64_suites_1 = {
                 (function (param) {
                     return {
                             TAG: /* Eq */0,
-                            _0: Curry._2(Stdlib__Format.asprintf(/* Format */{
+                            _0: Curry._2(Stdlib__Format.asprintf({
+                                      TAG: /* Format */0,
                                       _0: {
                                         TAG: /* Int64 */7,
                                         _0: /* Int_x */6,
@@ -2270,7 +2318,8 @@ const int64_suites_1 = {
                     (function (param) {
                         return {
                                 TAG: /* Eq */0,
-                                _0: Curry._2(Stdlib__Format.asprintf(/* Format */{
+                                _0: Curry._2(Stdlib__Format.asprintf({
+                                          TAG: /* Format */0,
                                           _0: {
                                             TAG: /* Int64 */7,
                                             _0: /* Int_d */0,
@@ -2306,7 +2355,8 @@ const int64_suites_1 = {
                       (function (param) {
                           return {
                                   TAG: /* Eq */0,
-                                  _0: Curry._2(Stdlib__Format.asprintf(/* Format */{
+                                  _0: Curry._2(Stdlib__Format.asprintf({
+                                            TAG: /* Format */0,
                                             _0: {
                                               TAG: /* Int64 */7,
                                               _0: /* Int_d */0,
@@ -2339,7 +2389,8 @@ const int64_suites_1 = {
                         (function (param) {
                             return {
                                     TAG: /* Eq */0,
-                                    _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                    _0: Curry._1(Stdlib__Format.asprintf({
+                                              TAG: /* Format */0,
                                               _0: {
                                                 TAG: /* Int64 */7,
                                                 _0: /* Int_x */6,
@@ -2359,7 +2410,8 @@ const int64_suites_1 = {
                           (function (param) {
                               return {
                                       TAG: /* Eq */0,
-                                      _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                      _0: Curry._1(Stdlib__Format.asprintf({
+                                                TAG: /* Format */0,
                                                 _0: {
                                                   TAG: /* Int64 */7,
                                                   _0: /* Int_d */0,
@@ -2379,7 +2431,8 @@ const int64_suites_1 = {
                             (function (param) {
                                 return {
                                         TAG: /* Eq */0,
-                                        _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                        _0: Curry._1(Stdlib__Format.asprintf({
+                                                  TAG: /* Format */0,
                                                   _0: {
                                                     TAG: /* Int64 */7,
                                                     _0: /* Int_d */0,
@@ -2402,7 +2455,8 @@ const int64_suites_1 = {
                               (function (param) {
                                   return {
                                           TAG: /* Eq */0,
-                                          _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                          _0: Curry._1(Stdlib__Format.asprintf({
+                                                    TAG: /* Format */0,
                                                     _0: {
                                                       TAG: /* Int64 */7,
                                                       _0: /* Int_X */8,
@@ -2422,7 +2476,8 @@ const int64_suites_1 = {
                                 (function (param) {
                                     return {
                                             TAG: /* Eq */0,
-                                            _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                            _0: Curry._1(Stdlib__Format.asprintf({
+                                                      TAG: /* Format */0,
                                                       _0: {
                                                         TAG: /* Int64 */7,
                                                         _0: /* Int_x */6,
@@ -2442,7 +2497,8 @@ const int64_suites_1 = {
                                   (function (param) {
                                       return {
                                               TAG: /* Eq */0,
-                                              _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                              _0: Curry._1(Stdlib__Format.asprintf({
+                                                        TAG: /* Format */0,
                                                         _0: {
                                                           TAG: /* Int64 */7,
                                                           _0: /* Int_X */8,
@@ -2462,7 +2518,8 @@ const int64_suites_1 = {
                                     (function (param) {
                                         return {
                                                 TAG: /* Eq */0,
-                                                _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                                _0: Curry._1(Stdlib__Format.asprintf({
+                                                          TAG: /* Format */0,
                                                           _0: {
                                                             TAG: /* Int64 */7,
                                                             _0: /* Int_X */8,
@@ -2482,7 +2539,8 @@ const int64_suites_1 = {
                                       (function (param) {
                                           return {
                                                   TAG: /* Eq */0,
-                                                  _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                                  _0: Curry._1(Stdlib__Format.asprintf({
+                                                            TAG: /* Format */0,
                                                             _0: {
                                                               TAG: /* Int64 */7,
                                                               _0: /* Int_u */12,
@@ -2502,7 +2560,8 @@ const int64_suites_1 = {
                                         (function (param) {
                                             return {
                                                     TAG: /* Eq */0,
-                                                    _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                                    _0: Curry._1(Stdlib__Format.asprintf({
+                                                              TAG: /* Format */0,
                                                               _0: {
                                                                 TAG: /* Int64 */7,
                                                                 _0: /* Int_u */12,
@@ -2525,7 +2584,8 @@ const int64_suites_1 = {
                                           (function (param) {
                                               return {
                                                       TAG: /* Eq */0,
-                                                      _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                                      _0: Curry._1(Stdlib__Format.asprintf({
+                                                                TAG: /* Format */0,
                                                                 _0: {
                                                                   TAG: /* Int64 */7,
                                                                   _0: /* Int_u */12,
@@ -2545,7 +2605,8 @@ const int64_suites_1 = {
                                             (function (param) {
                                                 return {
                                                         TAG: /* Eq */0,
-                                                        _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                                        _0: Curry._1(Stdlib__Format.asprintf({
+                                                                  TAG: /* Format */0,
                                                                   _0: {
                                                                     TAG: /* Int64 */7,
                                                                     _0: /* Int_u */12,
@@ -2568,7 +2629,8 @@ const int64_suites_1 = {
                                               (function (param) {
                                                   return {
                                                           TAG: /* Eq */0,
-                                                          _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                                          _0: Curry._1(Stdlib__Format.asprintf({
+                                                                    TAG: /* Format */0,
                                                                     _0: {
                                                                       TAG: /* Int64 */7,
                                                                       _0: /* Int_o */10,
@@ -2588,7 +2650,8 @@ const int64_suites_1 = {
                                                 (function (param) {
                                                     return {
                                                             TAG: /* Eq */0,
-                                                            _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                                            _0: Curry._1(Stdlib__Format.asprintf({
+                                                                      TAG: /* Format */0,
                                                                       _0: {
                                                                         TAG: /* Int64 */7,
                                                                         _0: /* Int_X */8,
@@ -2608,7 +2671,8 @@ const int64_suites_1 = {
                                                   (function (param) {
                                                       return {
                                                               TAG: /* Eq */0,
-                                                              _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                                              _0: Curry._1(Stdlib__Format.asprintf({
+                                                                        TAG: /* Format */0,
                                                                         _0: {
                                                                           TAG: /* Int64 */7,
                                                                           _0: /* Int_x */6,
@@ -2635,7 +2699,8 @@ const int64_suites_1 = {
                                                     (function (param) {
                                                         return {
                                                                 TAG: /* Eq */0,
-                                                                _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                                                _0: Curry._1(Stdlib__Format.asprintf({
+                                                                          TAG: /* Format */0,
                                                                           _0: {
                                                                             TAG: /* Int64 */7,
                                                                             _0: /* Int_X */8,
@@ -2658,7 +2723,8 @@ const int64_suites_1 = {
                                                       (function (param) {
                                                           return {
                                                                   TAG: /* Eq */0,
-                                                                  _0: Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                                                  _0: Curry._1(Stdlib__Format.asprintf({
+                                                                            TAG: /* Format */0,
                                                                             _0: {
                                                                               TAG: /* Int64 */7,
                                                                               _0: /* Int_d */0,
@@ -2686,7 +2752,8 @@ const int64_suites_1 = {
                                                             const buf = Stdlib__Buffer.create(30);
                                                             return {
                                                                     TAG: /* Eq */0,
-                                                                    _0: (Curry._1(Stdlib__Printf.bprintf(buf, /* Format */{
+                                                                    _0: (Curry._1(Stdlib__Printf.bprintf(buf, {
+                                                                                TAG: /* Format */0,
                                                                                 _0: {
                                                                                   TAG: /* Int64 */7,
                                                                                   _0: /* Int_d */0,
@@ -2803,7 +2870,8 @@ Mt.from_pair_suites("Caml_format_test", Stdlib.$at(suites, Stdlib.$at(formatter_
                                     const f = param[1];
                                     const fmt = param[0];
                                     return [
-                                            Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                                            Curry._1(Stdlib__Printf.sprintf({
+                                                      TAG: /* Format */0,
                                                       _0: {
                                                         TAG: /* String_literal */11,
                                                         _0: "float_format ",
@@ -2829,7 +2897,8 @@ Mt.from_pair_suites("Caml_format_test", Stdlib.$at(suites, Stdlib.$at(formatter_
                                         const b = param[1];
                                         const a = param[0];
                                         return [
-                                                Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                                                Curry._1(Stdlib__Printf.sprintf({
+                                                          TAG: /* Format */0,
                                                           _0: {
                                                             TAG: /* String_literal */11,
                                                             _0: "int64_of_string ",

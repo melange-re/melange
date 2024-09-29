@@ -179,24 +179,27 @@ if (v6.MEL_EXN_ID === A4) {
 eq("File \"jscomp/test/inline_record_test.ml\", line 82, characters 6-13", tmp$3, 11);
 
 function ff1(x) {
-  if (x) {
-    return /* A0 */{
+  if (/* tag */typeof x === "number" || typeof x === "string") {
+    return /* A1 */0;
+  } else {
+    return {
+            TAG: /* A0 */0,
             lbl: x.lbl + 1 | 0,
             more: x.more
           };
-  } else {
-    return /* A1 */0;
   }
 }
 
 Mt.from_pair_suites("Inline_record_test", suites.contents);
 
-const v2 = /* A0 */{
+const v2 = {
+  TAG: /* A0 */0,
   lbl: 3,
   more: /* [] */0
 };
 
-const vvv = /* A0 */{
+const vvv = {
+  TAG: /* A0 */0,
   lbl: 3,
   more: /* [] */0
 };

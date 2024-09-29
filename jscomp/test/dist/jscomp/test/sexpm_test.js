@@ -35,12 +35,14 @@ function eq(loc, param) {
 
 function print_or_error(fmt, x) {
   if (x.NAME === "Error") {
-    return Curry._1(Stdlib__Format.fprintf(fmt)(/* Format */{
+    return Curry._1(Stdlib__Format.fprintf(fmt)({
+                    TAG: /* Format */0,
                     _0: {
                       TAG: /* Formatting_gen */18,
                       _0: {
                         TAG: /* Open_box */1,
-                        _0: /* Format */{
+                        _0: {
+                          TAG: /* Format */0,
                           _0: /* End_of_format */0,
                           _1: ""
                         }
@@ -66,12 +68,14 @@ function print_or_error(fmt, x) {
                     _1: "@[Error:%s@]@."
                   }), x.VAL);
   } else {
-    return Curry._2(Stdlib__Format.fprintf(fmt)(/* Format */{
+    return Curry._2(Stdlib__Format.fprintf(fmt)({
+                    TAG: /* Format */0,
                     _0: {
                       TAG: /* Formatting_gen */18,
                       _0: {
                         TAG: /* Open_box */1,
-                        _0: /* Format */{
+                        _0: {
+                          TAG: /* Format */0,
                           _0: /* End_of_format */0,
                           _1: ""
                         }
@@ -142,7 +146,8 @@ eq("File \"jscomp/test/sexpm_test.ml\", line 17, characters 7-14", [
     ]);
 
 eq("File \"jscomp/test/sexpm_test.ml\", line 21, characters 7-14", [
-      Curry._2(Stdlib__Format.asprintf(/* Format */{
+      Curry._2(Stdlib__Format.asprintf({
+                  TAG: /* Format */0,
                   _0: {
                     TAG: /* Alpha */15,
                     _0: /* End_of_format */0

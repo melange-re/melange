@@ -53,21 +53,6 @@ function searchForSureExists(xs, k) {
   };
 }
 
-const jsMapperConstantArray = [
-  0,
-  3,
-  4,
-  5
-];
-
-function aToJs(param) {
-  return jsMapperConstantArray[param];
-}
-
-function aFromJs(param) {
-  return Js__Js_mapper_runtime.fromIntAssert(4, jsMapperConstantArray, param);
-}
-
 const _map = {"b0":"b0","b1":"b1","b2":"b2","b3":"b3"};
 
 function bToJs(param) {
@@ -81,8 +66,6 @@ function bFromJs(param) {
 exports.tToJs = tToJs;
 exports.tFromJs = tFromJs;
 exports.searchForSureExists = searchForSureExists;
-exports.aToJs = aToJs;
-exports.aFromJs = aFromJs;
 exports.bToJs = bToJs;
 exports.bFromJs = bFromJs;
 /* u Not a pure module */

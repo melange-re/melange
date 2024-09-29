@@ -4,7 +4,8 @@
 const Curry = require("melange.js/curry.js");
 const Stdlib__Format = require("melange/format.js");
 
-Curry._1(Stdlib__Format.fprintf(Stdlib__Format.std_formatter)(/* Format */{
+Curry._1(Stdlib__Format.fprintf(Stdlib__Format.std_formatter)({
+          TAG: /* Format */0,
           _0: {
             TAG: /* Int */4,
             _0: /* Int_d */0,

@@ -71,7 +71,8 @@ function chop_extension(locOpt, name) {
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
-      return Curry._2(Stdlib__Format.ksprintf(Stdlib.invalid_arg, /* Format */{
+      return Curry._2(Stdlib__Format.ksprintf(Stdlib.invalid_arg, {
+                      TAG: /* Format */0,
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "Filename.chop_extension ( ",
@@ -168,7 +169,8 @@ function node_relative_path(node_modules_shorten, file1, dep_file) {
     while(true) {
       const i = _i;
       if (i >= len) {
-        return Curry._1(Ext_pervasives_test.failwithf("File \"jscomp/test/ext_filename_test.ml\", line 162, characters 43-50", /* Format */{
+        return Curry._1(Ext_pervasives_test.failwithf("File \"jscomp/test/ext_filename_test.ml\", line 162, characters 43-50", {
+                        TAG: /* Format */0,
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "invalid path: ",
@@ -200,7 +202,8 @@ function find_root_filename(_cwd, filename) {
     }
     const cwd$p = Curry._1(Stdlib__Filename.dirname, cwd);
     if (cwd$p.length >= cwd.length) {
-      return Curry._2(Ext_pervasives_test.failwithf("File \"jscomp/test/ext_filename_test.ml\", line 205, characters 13-20", /* Format */{
+      return Curry._2(Ext_pervasives_test.failwithf("File \"jscomp/test/ext_filename_test.ml\", line 205, characters 13-20", {
+                      TAG: /* Format */0,
                       _0: {
                         TAG: /* String */2,
                         _0: /* No_padding */0,

@@ -383,7 +383,8 @@ function patch(rel, loc, n) {
   const loc$p = get32(loc);
   const x = rel ? n - (loc + 4 | 0) | 0 : n;
   if (dbg.contents) {
-    Curry._3(Stdlib__Printf.eprintf(/* Format */{
+    Curry._3(Stdlib__Printf.eprintf({
+              TAG: /* Format */0,
               _0: {
                 TAG: /* String_literal */11,
                 _0: "patching at ",
@@ -489,17 +490,7 @@ function patchlval(param) {
 }
 
 function read(param) {
-  if (param) {
-    out(4722614);
-    le(8, 0);
-    lval.contents = [
-      {
-        TAG: /* Del */1,
-        _0: 4
-      },
-      /* Chr */1
-    ];
-  } else {
+  if (param === /* Int */0) {
     out(18571);
     le(8, 0);
     lval.contents = [
@@ -509,7 +500,17 @@ function read(param) {
       },
       /* Int */0
     ];
+    return ;
   }
+  out(4722614);
+  le(8, 0);
+  lval.contents = [
+    {
+      TAG: /* Del */1,
+      _0: 4
+    },
+    /* Chr */1
+  ];
 }
 
 const globs = Caml_array.make(100, {
@@ -928,7 +929,7 @@ function binary(stk, lvl) {
 
 function unary(stk) {
   const i = Curry._1(next$1, undefined);
-  switch (i.TAG | 0) {
+  switch (i.TAG) {
     case /* Op */0 :
         const o = i._0;
         switch (o) {
@@ -998,7 +999,8 @@ function unary(stk) {
             };
             unary(stk);
             if (!Stdlib__List.mem_assoc(o, unops)) {
-              const s = Curry._1(Stdlib__Printf.sprintf(/* Format */{
+              const s = Curry._1(Stdlib__Printf.sprintf({
+                        TAG: /* Format */0,
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "unknown operator ",
@@ -1287,7 +1289,8 @@ function decl(g, _n, _stk) {
       const match = vars(0, stk);
       Curry._1(next$1, undefined);
       if (dbg.contents) {
-        Curry._1(Stdlib__Printf.eprintf(/* Format */{
+        Curry._1(Stdlib__Printf.eprintf({
+                  TAG: /* Format */0,
                   _0: {
                     TAG: /* String_literal */11,
                     _0: "end of decl (",
@@ -1527,7 +1530,7 @@ function top(_param) {
           const n = _n;
           const regs = _regs;
           const i = Curry._1(next$1, undefined);
-          switch (i.TAG | 0) {
+          switch (i.TAG) {
             case /* Op */0 :
                 if (i._0 === ")") {
                   return stk;
@@ -1606,7 +1609,8 @@ function top(_param) {
       patch(true, retl.contents, opos.contents);
       out(51651);
       if (dbg.contents) {
-        Curry._1(Stdlib__Printf.eprintf(/* Format */{
+        Curry._1(Stdlib__Printf.eprintf({
+                  TAG: /* Format */0,
                   _0: {
                     TAG: /* String_literal */11,
                     _0: "done with function ",
@@ -1867,9 +1871,10 @@ function elfgen(outf) {
 
 function main(param) {
   const ppsym = function (s) {
-    switch (s.TAG | 0) {
+    switch (s.TAG) {
       case /* Op */0 :
-          return Curry._1(Stdlib__Printf.printf(/* Format */{
+          return Curry._1(Stdlib__Printf.printf({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "Operator '",
@@ -1886,7 +1891,8 @@ function main(param) {
                           _1: "Operator '%s'\n"
                         }), s._0);
       case /* ILit */1 :
-          return Curry._1(Stdlib__Printf.printf(/* Format */{
+          return Curry._1(Stdlib__Printf.printf({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "Int literal ",
@@ -1905,7 +1911,8 @@ function main(param) {
                           _1: "Int literal %d\n"
                         }), s._0);
       case /* SLit */2 :
-          return Curry._1(Stdlib__Printf.printf(/* Format */{
+          return Curry._1(Stdlib__Printf.printf({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "Str literal ",
@@ -1923,7 +1930,8 @@ function main(param) {
                         }), s._1);
       case /* Sym */3 :
           const i = s._0;
-          return Curry._2(Stdlib__Printf.printf(/* Format */{
+          return Curry._2(Stdlib__Printf.printf({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "Symbol '",
@@ -1975,7 +1983,8 @@ function main(param) {
           const tok = Curry._1(next$1, undefined);
           if (tok.TAG === /* Op */0) {
             if (tok._0 === "EOF!") {
-              return Stdlib__Printf.printf(/* Format */{
+              return Stdlib__Printf.printf({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "End of input stream\n",
