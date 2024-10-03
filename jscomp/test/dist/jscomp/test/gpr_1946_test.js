@@ -50,7 +50,7 @@ eq("File \"jscomp/test/gpr_1946_test.ml\", line 29, characters 6-13", [
 
 console.log(({
           "5": 3
-        }).TAG | 0);
+        }).TAG);
 
 Mt.from_pair_suites("File \"jscomp/test/gpr_1946_test.ml\", line 32, characters 23-30", suites.contents);
 

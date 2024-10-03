@@ -36,7 +36,8 @@ function print_test_number(param) {
 
 function print_failure_test_fail(param) {
   all_tests_ok.contents = false;
-  Stdlib.print_string(Curry._1(Stdlib__Printf.sprintf(/* Format */{
+  Stdlib.print_string(Curry._1(Stdlib__Printf.sprintf({
+                TAG: /* Format */0,
                 _0: {
                   TAG: /* String_literal */11,
                   _0: "\n********* Failure Test number ",
@@ -58,7 +59,8 @@ function print_failure_test_fail(param) {
 
 function print_failure_test_succeed(param) {
   all_tests_ok.contents = false;
-  Stdlib.print_string(Curry._1(Stdlib__Printf.sprintf(/* Format */{
+  Stdlib.print_string(Curry._1(Stdlib__Printf.sprintf({
+                TAG: /* Format */0,
                 _0: {
                   TAG: /* String_literal */11,
                   _0: "\n********* Failure Test number ",
@@ -83,7 +85,8 @@ function test(b) {
   print_test_number(undefined);
   if (!b) {
     all_tests_ok.contents = false;
-    return Stdlib.print_string(Curry._1(Stdlib__Printf.sprintf(/* Format */{
+    return Stdlib.print_string(Curry._1(Stdlib__Printf.sprintf({
+                        TAG: /* Format */0,
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "\n********* Test number ",

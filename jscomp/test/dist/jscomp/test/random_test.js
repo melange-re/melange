@@ -71,7 +71,8 @@ const xx = Stdlib__Random.$$float(3.0);
 
 const xxx = Stdlib__Random.int32(103);
 
-Curry._5(Stdlib__Printf.printf(/* Format */{
+Curry._5(Stdlib__Printf.printf({
+          TAG: /* Format */0,
           _0: {
             TAG: /* Int64 */7,
             _0: /* Int_d */0,

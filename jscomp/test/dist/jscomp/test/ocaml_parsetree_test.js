@@ -109,7 +109,7 @@ function ansi_of_color(param) {
 }
 
 function code_of_style(c) {
-  if (typeof c !== "number") {
+  if (!/* tag */(typeof c === "number" || typeof c === "string")) {
     if (c.TAG === /* FG */0) {
       return "3" + ansi_of_color(c._0);
     } else {
@@ -332,7 +332,7 @@ const Misc_Color = {
 };
 
 function number(param) {
-  if (typeof param === "number") {
+  if (/* tag */typeof param === "number" || typeof param === "string") {
     switch (param) {
       case /* Comment_start */0 :
           return 1;
@@ -371,7 +371,7 @@ function number(param) {
       
     }
   } else {
-    switch (param.TAG | 0) {
+    switch (param.TAG) {
       case /* Deprecated */0 :
           return 3;
       case /* Fragile_match */1 :
@@ -815,7 +815,7 @@ parse_options(false, "+a-4-6-7-9-27-29-32..39-41..42-44-45-48-50-102");
 parse_options(true, "-a");
 
 function message(s) {
-  if (typeof s === "number") {
+  if (/* tag */typeof s === "number" || typeof s === "string") {
     switch (s) {
       case /* Comment_start */0 :
           return "this is the start of a comment.";
@@ -854,7 +854,7 @@ function message(s) {
       
     }
   } else {
-    switch (s.TAG | 0) {
+    switch (s.TAG) {
       case /* Deprecated */0 :
           return "deprecated: " + s._0;
       case /* Fragile_match */1 :
@@ -943,7 +943,8 @@ function message(s) {
       case /* Unused_var_strict */13 :
           return "unused variable " + (s._0 + ".");
       case /* Duplicate_definitions */14 :
-          return Curry._4(Stdlib__Printf.sprintf(/* Format */{
+          return Curry._4(Stdlib__Printf.sprintf({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "the ",
@@ -984,7 +985,8 @@ function message(s) {
                           _1: "the %s %s is defined in both types %s and %s."
                         }), s._0, s._1, s._2, s._3);
       case /* Multiple_definition */15 :
-          return Curry._3(Stdlib__Printf.sprintf(/* Format */{
+          return Curry._3(Stdlib__Printf.sprintf({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "files ",
@@ -1080,7 +1082,8 @@ function message(s) {
       case /* Nonoptional_label */26 :
           return "the label " + (s._0 + " is not optional.");
       case /* Open_shadow_identifier */27 :
-          return Curry._2(Stdlib__Printf.sprintf(/* Format */{
+          return Curry._2(Stdlib__Printf.sprintf({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "this open statement shadows the ",
@@ -1105,7 +1108,8 @@ function message(s) {
                           _1: "this open statement shadows the %s identifier %s (which is later used)"
                         }), s._0, s._1);
       case /* Open_shadow_label_constructor */28 :
-          return Curry._2(Stdlib__Printf.sprintf(/* Format */{
+          return Curry._2(Stdlib__Printf.sprintf({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "this open statement shadows the ",
@@ -1130,7 +1134,8 @@ function message(s) {
                           _1: "this open statement shadows the %s %s (which is later used)"
                         }), s._0, s._1);
       case /* Bad_env_variable */29 :
-          return Curry._2(Stdlib__Printf.sprintf(/* Format */{
+          return Curry._2(Stdlib__Printf.sprintf({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "illegal environment variable ",
@@ -1151,7 +1156,8 @@ function message(s) {
                           _1: "illegal environment variable %s : %s"
                         }), s._0, s._1);
       case /* Attribute_payload */30 :
-          return Curry._2(Stdlib__Printf.sprintf(/* Format */{
+          return Curry._2(Stdlib__Printf.sprintf({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "illegal payload for attribute '",
@@ -1173,7 +1179,8 @@ function message(s) {
                         }), s._0, s._1);
       case /* Eliminated_optional_arguments */31 :
           const sl = s._0;
-          return Curry._2(Stdlib__Printf.sprintf(/* Format */{
+          return Curry._2(Stdlib__Printf.sprintf({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "implicit elimination of optional argument",
@@ -1219,7 +1226,8 @@ const nerrors = {
 function print(ppf, w) {
   const msg = message(w);
   const num = number(w);
-  Curry._2(Stdlib__Format.fprintf(ppf)(/* Format */{
+  Curry._2(Stdlib__Format.fprintf(ppf)({
+            TAG: /* Format */0,
             _0: {
               TAG: /* Int */4,
               _0: /* Int_d */0,
@@ -1385,7 +1393,8 @@ function highlight_dumb(ppf, lb, loc) {
     }
     
   }
-  Curry._2(Stdlib__Format.fprintf(ppf)(/* Format */{
+  Curry._2(Stdlib__Format.fprintf(ppf)({
+            TAG: /* Format */0,
             _0: {
               TAG: /* String_literal */11,
               _0: "Characters ",
@@ -1446,7 +1455,8 @@ function highlight_dumb(ppf, lb, loc) {
       
     } else {
       if (line === line_start && line === line_end) {
-        Stdlib__Format.fprintf(ppf)(/* Format */{
+        Stdlib__Format.fprintf(ppf)({
+              TAG: /* Format */0,
               _0: {
                 TAG: /* Formatting_lit */17,
                 _0: /* Flush_newline */4,
@@ -1466,7 +1476,8 @@ function highlight_dumb(ppf, lb, loc) {
         }
       }
       if (line >= line_start && line <= line_end) {
-        Stdlib__Format.fprintf(ppf)(/* Format */{
+        Stdlib__Format.fprintf(ppf)({
+              TAG: /* Format */0,
               _0: {
                 TAG: /* Formatting_lit */17,
                 _0: /* Flush_newline */4,
@@ -1488,42 +1499,41 @@ function highlight_dumb(ppf, lb, loc) {
 function highlight_locations(ppf, locs) {
   while(true) {
     const num_lines = status.contents;
-    if (typeof num_lines === "number") {
-      if (num_lines) {
-        const lb = input_lexbuf.contents;
-        if (lb === undefined) {
-          return false;
-        }
-        let norepeat;
-        try {
-          norepeat = Caml_sys.caml_sys_getenv("TERM") === "norepeat";
-        }
-        catch (raw_exn){
-          const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-            norepeat = false;
-          } else {
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
-          }
-        }
-        if (norepeat) {
-          return false;
-        }
-        const loc1 = Stdlib__List.hd(locs);
-        try {
-          highlight_dumb(ppf, lb, loc1);
-          return true;
-        }
-        catch (raw_exn$1){
-          const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-          if (exn$1.MEL_EXN_ID === Stdlib.Exit) {
-            return false;
-          }
-          throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
-        }
-      } else {
+    if (/* tag */typeof num_lines === "number" || typeof num_lines === "string") {
+      if (num_lines === /* Uninitialised */0) {
         status.contents = Caml_external_polyfill.resolve("caml_terminfo_setup")(Stdlib.stdout);
         continue ;
+      }
+      const lb = input_lexbuf.contents;
+      if (lb === undefined) {
+        return false;
+      }
+      let norepeat;
+      try {
+        norepeat = Caml_sys.caml_sys_getenv("TERM") === "norepeat";
+      }
+      catch (raw_exn){
+        const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+        if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+          norepeat = false;
+        } else {
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        }
+      }
+      if (norepeat) {
+        return false;
+      }
+      const loc1 = Stdlib__List.hd(locs);
+      try {
+        highlight_dumb(ppf, lb, loc1);
+        return true;
+      }
+      catch (raw_exn$1){
+        const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
+        if (exn$1.MEL_EXN_ID === Stdlib.Exit) {
+          return false;
+        }
+        throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
       }
     } else {
       const lb$1 = input_lexbuf.contents;
@@ -1574,7 +1584,8 @@ function show_filename(file) {
 }
 
 function print_filename(ppf, file) {
-  Curry._1(Stdlib__Format.fprintf(ppf)(/* Format */{
+  Curry._1(Stdlib__Format.fprintf(ppf)({
+            TAG: /* Format */0,
             _0: {
               TAG: /* String */2,
               _0: /* No_padding */0,
@@ -1606,7 +1617,8 @@ function print_loc(ppf, loc) {
           })) {
       return ;
     } else {
-      return Curry._2(Stdlib__Format.fprintf(ppf)(/* Format */{
+      return Curry._2(Stdlib__Format.fprintf(ppf)({
+                      TAG: /* Format */0,
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "Characters ",
@@ -1632,7 +1644,8 @@ function print_loc(ppf, loc) {
                     }), loc.loc_start.pos_cnum, loc.loc_end.pos_cnum);
     }
   } else {
-    Curry._5(Stdlib__Format.fprintf(ppf)(/* Format */{
+    Curry._5(Stdlib__Format.fprintf(ppf)({
+              TAG: /* Format */0,
               _0: {
                 TAG: /* String */2,
                 _0: /* No_padding */0,
@@ -1640,7 +1653,8 @@ function print_loc(ppf, loc) {
                   TAG: /* Formatting_gen */18,
                   _0: {
                     TAG: /* Open_tag */0,
-                    _0: /* Format */{
+                    _0: {
+                      TAG: /* Format */0,
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "<loc>",
@@ -1668,7 +1682,8 @@ function print_loc(ppf, loc) {
               _1: "%s@{<loc>%a%s%i"
             }), "File \"", print_filename, file, "\", line ", match[1]);
     if (startchar$1 >= 0) {
-      Curry._4(Stdlib__Format.fprintf(ppf)(/* Format */{
+      Curry._4(Stdlib__Format.fprintf(ppf)({
+                TAG: /* Format */0,
                 _0: {
                   TAG: /* String */2,
                   _0: /* No_padding */0,
@@ -1693,7 +1708,8 @@ function print_loc(ppf, loc) {
                 _1: "%s%i%s%i"
               }), ", characters ", startchar$1, "-", endchar);
     }
-    return Stdlib__Format.fprintf(ppf)(/* Format */{
+    return Stdlib__Format.fprintf(ppf)({
+                TAG: /* Format */0,
                 _0: {
                   TAG: /* Formatting_lit */17,
                   _0: /* Close_tag */1,
@@ -1712,12 +1728,14 @@ function print$1(ppf, loc) {
         })) {
     return ;
   } else {
-    return Curry._3(Stdlib__Format.fprintf(ppf)(/* Format */{
+    return Curry._3(Stdlib__Format.fprintf(ppf)({
+                    TAG: /* Format */0,
                     _0: {
                       TAG: /* Formatting_gen */18,
                       _0: {
                         TAG: /* Open_tag */0,
-                        _0: /* Format */{
+                        _0: {
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "<loc>",
@@ -1753,12 +1771,14 @@ const error_prefix = "Error";
 function print_error(ppf, loc) {
   print$1(ppf, loc);
   Curry._1(Misc_Color.setup, color.contents);
-  Curry._1(Stdlib__Format.fprintf(ppf)(/* Format */{
+  Curry._1(Stdlib__Format.fprintf(ppf)({
+            TAG: /* Format */0,
             _0: {
               TAG: /* Formatting_gen */18,
               _0: {
                 TAG: /* Open_tag */0,
-                _0: /* Format */{
+                _0: {
+                  TAG: /* Format */0,
                   _0: {
                     TAG: /* String_literal */11,
                     _0: "<error>",
@@ -1789,12 +1809,14 @@ function default_warning_printer(loc, ppf, w) {
   if (is_active(w)) {
     Curry._1(Misc_Color.setup, color.contents);
     print$1(ppf, loc);
-    return Curry._3(Stdlib__Format.fprintf(ppf)(/* Format */{
+    return Curry._3(Stdlib__Format.fprintf(ppf)({
+                    TAG: /* Format */0,
                     _0: {
                       TAG: /* Formatting_gen */18,
                       _0: {
                         TAG: /* Open_tag */0,
-                        _0: /* Format */{
+                        _0: {
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "<warning>",
@@ -1915,7 +1937,8 @@ function register_error_of_exn(f) {
 }
 
 function error_of_printer(loc, print, x) {
-  return Curry._2(errorf(loc, undefined, undefined, /* Format */{
+  return Curry._2(errorf(loc, undefined, undefined, {
+                  TAG: /* Format */0,
                   _0: {
                     TAG: /* Alpha */15,
                     _0: {
@@ -1930,7 +1953,8 @@ function error_of_printer(loc, print, x) {
 
 register_error_of_exn(function (msg) {
       if (msg.MEL_EXN_ID === Stdlib.Sys_error) {
-        return Curry._1(errorf(in_file(input_name.contents), undefined, undefined, /* Format */{
+        return Curry._1(errorf(in_file(input_name.contents), undefined, undefined, {
+                        TAG: /* Format */0,
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "I/O error: ",
@@ -1943,7 +1967,8 @@ register_error_of_exn(function (msg) {
                         _1: "I/O error: %s"
                       }), msg._1);
       } else if (msg.MEL_EXN_ID === Errors) {
-        return Curry._1(errorf(in_file(input_name.contents), undefined, undefined, /* Format */{
+        return Curry._1(errorf(in_file(input_name.contents), undefined, undefined, {
+                        TAG: /* Format */0,
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "Some fatal warnings were triggered (",
@@ -1976,7 +2001,7 @@ register_error_of_exn(function (e) {
     });
 
 function last(s) {
-  switch (s.TAG | 0) {
+  switch (s.TAG) {
     case /* Lident */0 :
         return s._0;
     case /* Ldot */1 :
@@ -2022,7 +2047,7 @@ function from_pair_suites(name, suites) {
                             const code = param[1];
                             it(param[0], (function () {
                                     let spec = Curry._1(code, undefined);
-                                    switch (spec.TAG | 0) {
+                                    switch (spec.TAG) {
                                       case /* Eq */0 :
                                           Assert.deepEqual(spec._0, spec._1);
                                           return ;
@@ -2077,7 +2102,7 @@ function from_pair_suites(name, suites) {
       return Stdlib__List.iter((function (param) {
                     const name = param[0];
                     const fn = Curry._1(param[1], undefined);
-                    switch (fn.TAG | 0) {
+                    switch (fn.TAG) {
                       case /* Eq */0 :
                           console.log([
                                 name,
@@ -2175,13 +2200,16 @@ function warn_bad_docstrings(param) {
                         return ;
                     case /* Docs */2 :
                         const match$1 = ds.ds_associated;
-                        if (match$1 >= 2) {
-                          return prerr_warning(ds.ds_loc, {
-                                      TAG: /* Bad_docstring */33,
-                                      _0: false
-                                    });
-                        } else {
-                          return ;
+                        switch (match$1) {
+                          case /* Zero */0 :
+                          case /* One */1 :
+                              return ;
+                          case /* Many */2 :
+                              return prerr_warning(ds.ds_loc, {
+                                          TAG: /* Bad_docstring */33,
+                                          _0: false
+                                        });
+                          
                         }
                     
                   }
@@ -2334,12 +2362,17 @@ function get_docstring(info, dsl) {
     }
     const ds = param.hd;
     const match = ds.ds_attached;
-    if (match !== 1) {
-      ds.ds_attached = info ? /* Info */1 : /* Docs */2;
-      return ds;
+    switch (match) {
+      case /* Info */1 :
+          _param = param.tl;
+          continue ;
+      case /* Unattached */0 :
+      case /* Docs */2 :
+          break;
+      
     }
-    _param = param.tl;
-    continue ;
+    ds.ds_attached = info ? /* Info */1 : /* Docs */2;
+    return ds;
   };
 }
 
@@ -2354,16 +2387,21 @@ function get_docstrings(dsl) {
     }
     const ds = param.hd;
     const match = ds.ds_attached;
-    if (match !== 1) {
-      ds.ds_attached = /* Docs */2;
-      _param = param.tl;
-      _acc = {
-        hd: ds,
-        tl: acc
-      };
-      continue ;
+    switch (match) {
+      case /* Info */1 :
+          _param = param.tl;
+          continue ;
+      case /* Unattached */0 :
+      case /* Docs */2 :
+          break;
+      
     }
+    ds.ds_attached = /* Docs */2;
     _param = param.tl;
+    _acc = {
+      hd: ds,
+      tl: acc
+    };
     continue ;
   };
 }
@@ -2371,10 +2409,15 @@ function get_docstrings(dsl) {
 function associate_docstrings(dsl) {
   Stdlib__List.iter((function (ds) {
           const match = ds.ds_associated;
-          if (match) {
-            ds.ds_associated = /* Many */2;
-          } else {
-            ds.ds_associated = /* One */1;
+          switch (match) {
+            case /* Zero */0 :
+                ds.ds_associated = /* One */1;
+                return ;
+            case /* One */1 :
+            case /* Many */2 :
+                ds.ds_associated = /* Many */2;
+                return ;
+            
           }
         }), dsl);
 }
@@ -3522,12 +3565,13 @@ const $$Error$1 = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Sy
 const Escape_error = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Syntaxerr.Escape_error");
 
 function prepare_error(loc) {
-  switch (loc.TAG | 0) {
+  switch (loc.TAG) {
     case /* Unclosed */0 :
         const closing = loc._3;
         const opening = loc._1;
         return Curry._1(errorf(loc._2, {
-                        hd: Curry._1(errorf(loc._0, undefined, undefined, /* Format */{
+                        hd: Curry._1(errorf(loc._0, undefined, undefined, {
+                                  TAG: /* Format */0,
                                   _0: {
                                     TAG: /* String_literal */11,
                                     _0: "This '",
@@ -3544,7 +3588,8 @@ function prepare_error(loc) {
                                   _1: "This '%s' might be unmatched"
                                 }), opening),
                         tl: /* [] */0
-                      }, Curry._2(Stdlib__Printf.sprintf(/* Format */{
+                      }, Curry._2(Stdlib__Printf.sprintf({
+                                TAG: /* Format */0,
                                 _0: {
                                   TAG: /* String_literal */11,
                                   _0: "Syntax error: '",
@@ -3567,7 +3612,8 @@ function prepare_error(loc) {
                                   }
                                 },
                                 _1: "Syntax error: '%s' expected, the highlighted '%s' might be unmatched"
-                              }), closing, opening), /* Format */{
+                              }), closing, opening), {
+                        TAG: /* Format */0,
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "Syntax error: '",
@@ -3584,7 +3630,8 @@ function prepare_error(loc) {
                         _1: "Syntax error: '%s' expected"
                       }), closing);
     case /* Expecting */1 :
-        return Curry._1(errorf(loc._0, undefined, undefined, /* Format */{
+        return Curry._1(errorf(loc._0, undefined, undefined, {
+                        TAG: /* Format */0,
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "Syntax error: ",
@@ -3601,7 +3648,8 @@ function prepare_error(loc) {
                         _1: "Syntax error: %s expected."
                       }), loc._1);
     case /* Not_expecting */2 :
-        return Curry._1(errorf(loc._0, undefined, undefined, /* Format */{
+        return Curry._1(errorf(loc._0, undefined, undefined, {
+                        TAG: /* Format */0,
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "Syntax error: ",
@@ -3618,7 +3666,8 @@ function prepare_error(loc) {
                         _1: "Syntax error: %s not expected."
                       }), loc._1);
     case /* Applicative_path */3 :
-        return errorf(loc._0, undefined, undefined, /* Format */{
+        return errorf(loc._0, undefined, undefined, {
+                    TAG: /* Format */0,
                     _0: {
                       TAG: /* String_literal */11,
                       _0: "Syntax error: applicative paths of the form F(X).t are not supported when the option -no-app-func is set.",
@@ -3628,7 +3677,8 @@ function prepare_error(loc) {
                   });
     case /* Variable_in_scope */4 :
         const $$var = loc._1;
-        return Curry._2(errorf(loc._0, undefined, undefined, /* Format */{
+        return Curry._2(errorf(loc._0, undefined, undefined, {
+                        TAG: /* Format */0,
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "In this scoped type, variable '",
@@ -3653,7 +3703,8 @@ function prepare_error(loc) {
                         _1: "In this scoped type, variable '%s is reserved for the local type %s."
                       }), $$var, $$var);
     case /* Other */5 :
-        return errorf(loc._0, undefined, undefined, /* Format */{
+        return errorf(loc._0, undefined, undefined, {
+                    TAG: /* Format */0,
                     _0: {
                       TAG: /* String_literal */11,
                       _0: "Syntax error",
@@ -3662,7 +3713,8 @@ function prepare_error(loc) {
                     _1: "Syntax error"
                   });
     case /* Ill_formed_ast */6 :
-        return Curry._1(errorf(loc._0, undefined, undefined, /* Format */{
+        return Curry._1(errorf(loc._0, undefined, undefined, {
+                        TAG: /* Format */0,
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "broken invariant in parsetree: ",
@@ -4134,10 +4186,10 @@ function varify_constructors(var_names, t) {
   const loop = function (t) {
     const x = t.ptyp_desc;
     let desc;
-    if (typeof x === "number") {
+    if (/* tag */typeof x === "number" || typeof x === "string") {
       desc = /* Ptyp_any */0;
     } else {
-      switch (x.TAG | 0) {
+      switch (x.TAG) {
         case /* Ptyp_var */0 :
             const x$1 = x._0;
             check_variable(var_names, t.ptyp_loc, x$1);
@@ -4164,7 +4216,7 @@ function varify_constructors(var_names, t) {
             const longident = x._0;
             let exit = 0;
             const s = longident.txt;
-            switch (s.TAG | 0) {
+            switch (s.TAG) {
               case /* Lident */0 :
                   if (x._1) {
                     exit = 1;
@@ -4373,7 +4425,7 @@ function extra_csig(pos, items) {
 }
 
 function add_nonrec(rf, attrs, pos) {
-  if (rf) {
+  if (rf !== /* Nonrecursive */0) {
     return attrs;
   }
   const name_loc = rhs_loc(pos);
@@ -4930,7 +4982,8 @@ const yyact = [
       let exit = 0;
       if (bindings) {
         const lb = bindings.hd;
-        if (typeof lb.lb_pattern.ppat_desc === "number" && !bindings.tl) {
+        let tmp = lb.lb_pattern.ppat_desc;
+        if (/* tag */(typeof tmp === "number" || typeof tmp === "string") && !bindings.tl) {
           const exp = wrap_exp_attrs(lb.lb_expression, [
                 undefined,
                 lbs.lbs_attributes
@@ -6751,7 +6804,7 @@ const yyact = [
         case "-" :
             if (match.TAG === /* Pexp_constant */1) {
               const n = match._0;
-              switch (n.TAG | 0) {
+              switch (n.TAG) {
                 case /* Const_int */0 :
                     return mkexp({
                                 TAG: /* Pexp_constant */1,
@@ -6830,7 +6883,7 @@ const yyact = [
       switch (_1) {
         case "+" :
             if (desc.TAG === /* Pexp_constant */1) {
-              switch (desc._0.TAG | 0) {
+              switch (desc._0.TAG) {
                 case /* Const_char */1 :
                 case /* Const_string */2 :
                 case /* Const_float */3 :
@@ -10627,10 +10680,10 @@ function implementation(lexfun, lexbuf) {
 }
 
 function type_of_directive(x) {
-  if (typeof x === "number") {
+  if (/* tag */typeof x === "number" || typeof x === "string") {
     return /* Dir_type_null */4;
   }
-  switch (x.TAG | 0) {
+  switch (x.TAG) {
     case /* Dir_bool */0 :
         return /* Dir_type_bool */0;
     case /* Dir_float */1 :
@@ -10787,7 +10840,7 @@ function defined(str) {
       return false;
     }
   }
-  if (typeof val === "number") {
+  if (/* tag */typeof val === "number" || typeof val === "string") {
     return false;
   } else {
     return true;
@@ -10853,7 +10906,7 @@ function query(loc, str) {
       throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   }
-  if (typeof v === "number") {
+  if (/* tag */typeof v === "number" || typeof v === "string") {
     return {
             TAG: /* Dir_bool */0,
             _0: false
@@ -10864,7 +10917,7 @@ function query(loc, str) {
 }
 
 function value_of_token(loc, t) {
-  if (typeof t === "number") {
+  if (/* tag */typeof t === "number" || typeof t === "string") {
     switch (t) {
       case /* FALSE */29 :
           return {
@@ -10884,7 +10937,7 @@ function value_of_token(loc, t) {
                 });
     }
   } else {
-    switch (t.TAG | 0) {
+    switch (t.TAG) {
       case /* FLOAT */1 :
           return {
                   TAG: /* Dir_float */1,
@@ -10925,7 +10978,7 @@ function directive_parse(token_with_comments, lexbuf) {
     let _param;
     while(true) {
       const t = Curry._1(token_with_comments, lexbuf);
-      if (typeof t === "number") {
+      if (/* tag */typeof t === "number" || typeof t === "string") {
         switch (t) {
           case /* EOF */25 :
               throw new Caml_js_exceptions.MelangeError($$Error$2, {
@@ -10940,7 +10993,7 @@ function directive_parse(token_with_comments, lexbuf) {
             return t;
         }
       } else {
-        switch (t.TAG | 0) {
+        switch (t.TAG) {
           case /* COMMENT */18 :
           case /* DOCSTRING */19 :
               _param = undefined;
@@ -10967,7 +11020,7 @@ function directive_parse(token_with_comments, lexbuf) {
   const token_op = function (calc, no, lhs) {
     const op = token(undefined);
     let exit = 0;
-    if (typeof op === "number") {
+    if (/* tag */typeof op === "number" || typeof op === "string") {
       switch (op) {
         case /* EQUAL */26 :
         case /* GREATER */34 :
@@ -10987,13 +11040,13 @@ function directive_parse(token_with_comments, lexbuf) {
               return true;
             }
             let exit$1 = 0;
-            if (typeof lhs === "number" || lhs.TAG !== /* Dir_string */3) {
+            if (/* tag */typeof lhs === "number" || typeof lhs === "string" || lhs.TAG !== /* Dir_string */3) {
               exit$1 = 2;
             } else {
               const curr_loc = curr(lexbuf);
               const rhs = value_of_token(curr_loc, token(undefined));
               let exit$2 = 0;
-              if (typeof rhs === "number") {
+              if (/* tag */typeof rhs === "number" || typeof rhs === "string") {
                 exit$2 = 3;
               } else {
                 if (rhs.TAG === /* Dir_string */3) {
@@ -11151,7 +11204,7 @@ function directive_parse(token_with_comments, lexbuf) {
     if (exit === 1) {
       let f;
       let exit$4 = 0;
-      if (typeof op === "number") {
+      if (/* tag */typeof op === "number" || typeof op === "string") {
         switch (op) {
           case /* EQUAL */26 :
               f = Caml_obj.caml_equal;
@@ -11201,54 +11254,68 @@ function directive_parse(token_with_comments, lexbuf) {
   };
   const parse_and_aux = function (calc, v) {
     const e = token(undefined);
-    if (typeof e === "number") {
-      if (e) {
-        push(e);
-        return v;
+    if (/* tag */typeof e === "number" || typeof e === "string") {
+      if (e === /* AMPERAMPER */0) {
+        const calc$1 = calc && v;
+        const b = parse_and_aux(calc$1, parse_relation(calc$1));
+        if (v) {
+          return b;
+        } else {
+          return false;
+        }
       }
-      const calc$1 = calc && v;
-      const b = parse_and_aux(calc$1, parse_relation(calc$1));
-      if (v) {
-        return b;
-      } else {
-        return false;
-      }
+      push(e);
+      return v;
+    } else {
+      push(e);
+      return v;
     }
-    push(e);
-    return v;
   };
   const parse_or_aux = function (calc, v) {
     const e = token(undefined);
-    if (e === 8) {
-      const calc$1 = calc && !v;
-      const b = parse_or_aux(calc$1, parse_and_aux(calc$1, parse_relation(calc$1)));
-      if (v) {
-        return true;
-      } else {
-        return b;
+    if (/* tag */typeof e === "number" || typeof e === "string") {
+      if (e === /* BARBAR */8) {
+        const calc$1 = calc && !v;
+        const b = parse_or_aux(calc$1, parse_and_aux(calc$1, parse_relation(calc$1)));
+        if (v) {
+          return true;
+        } else {
+          return b;
+        }
       }
+      push(e);
+      return v;
+    } else {
+      push(e);
+      return v;
     }
-    push(e);
-    return v;
   };
   const parse_relation = function (calc) {
     const curr_token = token(undefined);
     const curr_loc = curr(lexbuf);
-    if (typeof curr_token === "number") {
+    if (/* tag */typeof curr_token === "number" || typeof curr_token === "string") {
       switch (curr_token) {
         case /* FALSE */29 :
             return false;
         case /* LPAREN */54 :
             const v = parse_or_aux(calc, parse_and_aux(calc, parse_relation(calc)));
             const match = token(undefined);
-            if (match === 81) {
-              return v;
+            if (/* tag */typeof match === "number" || typeof match === "string") {
+              if (match === /* RPAREN */81) {
+                return v;
+              }
+              throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                        MEL_EXN_ID: $$Error$2,
+                        _1: /* Unterminated_paren_in_conditional */1,
+                        _2: curr(lexbuf)
+                      });
+            } else {
+              throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                        MEL_EXN_ID: $$Error$2,
+                        _1: /* Unterminated_paren_in_conditional */1,
+                        _2: curr(lexbuf)
+                      });
             }
-            throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                      MEL_EXN_ID: $$Error$2,
-                      _1: /* Unterminated_paren_in_conditional */1,
-                      _2: curr(lexbuf)
-                    });
         case /* TRUE */91 :
             return true;
         default:
@@ -11259,7 +11326,7 @@ function directive_parse(token_with_comments, lexbuf) {
                   });
       }
     } else {
-      switch (curr_token.TAG | 0) {
+      switch (curr_token.TAG) {
         case /* FLOAT */1 :
             return token_op(calc, (function (e) {
                           throw new Caml_js_exceptions.MelangeError($$Error$2, {
@@ -11299,7 +11366,7 @@ function directive_parse(token_with_comments, lexbuf) {
             }
             const t = token(undefined);
             const loc = curr(lexbuf);
-            if (typeof t === "number") {
+            if (/* tag */typeof t === "number" || typeof t === "string") {
               throw new Caml_js_exceptions.MelangeError($$Error$2, {
                         MEL_EXN_ID: $$Error$2,
                         _1: /* Unexpected_token_in_conditional */4,
@@ -11343,7 +11410,7 @@ function directive_parse(token_with_comments, lexbuf) {
             const value_v = query(curr_loc, curr_token._0);
             return token_op(calc, (function (e) {
                           push(e);
-                          if (typeof value_v !== "number" && value_v.TAG === /* Dir_bool */0) {
+                          if (!/* tag */(typeof value_v === "number" || typeof value_v === "string") && value_v.TAG === /* Dir_bool */0) {
                             return value_v._0;
                           }
                           const ty = type_of_directive(value_v);
@@ -11368,18 +11435,26 @@ function directive_parse(token_with_comments, lexbuf) {
   };
   const v = parse_or_aux(true, parse_and_aux(true, parse_relation(true)));
   const match = token(undefined);
-  if (match === 88) {
-    return v;
+  if (/* tag */typeof match === "number" || typeof match === "string") {
+    if (match === /* THEN */88) {
+      return v;
+    }
+    throw new Caml_js_exceptions.MelangeError($$Error$2, {
+              MEL_EXN_ID: $$Error$2,
+              _1: /* Expect_hash_then_in_conditional */5,
+              _2: curr(lexbuf)
+            });
+  } else {
+    throw new Caml_js_exceptions.MelangeError($$Error$2, {
+              MEL_EXN_ID: $$Error$2,
+              _1: /* Expect_hash_then_in_conditional */5,
+              _2: curr(lexbuf)
+            });
   }
-  throw new Caml_js_exceptions.MelangeError($$Error$2, {
-            MEL_EXN_ID: $$Error$2,
-            _1: /* Expect_hash_then_in_conditional */5,
-            _2: curr(lexbuf)
-          });
 }
 
 function is_elif(i) {
-  if (typeof i === "number" || !(i.TAG === /* LIDENT */11 && i._0 === "elif")) {
+  if (/* tag */typeof i === "number" || typeof i === "string" || !(i.TAG === /* LIDENT */11 && i._0 === "elif")) {
     return false;
   } else {
     return true;
@@ -11991,10 +12066,11 @@ function add_docstring_comment(ds) {
 }
 
 function report_error(ppf, c) {
-  if (typeof c === "number") {
+  if (/* tag */typeof c === "number" || typeof c === "string") {
     switch (c) {
       case /* Unterminated_string */0 :
-          return Stdlib__Format.fprintf(ppf)(/* Format */{
+          return Stdlib__Format.fprintf(ppf)({
+                      TAG: /* Format */0,
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "String literal not terminated",
@@ -12003,7 +12079,8 @@ function report_error(ppf, c) {
                       _1: "String literal not terminated"
                     });
       case /* Unterminated_paren_in_conditional */1 :
-          return Stdlib__Format.fprintf(ppf)(/* Format */{
+          return Stdlib__Format.fprintf(ppf)({
+                      TAG: /* Format */0,
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "Unterminated parens in conditional predicate",
@@ -12012,7 +12089,8 @@ function report_error(ppf, c) {
                       _1: "Unterminated parens in conditional predicate"
                     });
       case /* Unterminated_if */2 :
-          return Stdlib__Format.fprintf(ppf)(/* Format */{
+          return Stdlib__Format.fprintf(ppf)({
+                      TAG: /* Format */0,
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "#if not terminated",
@@ -12021,7 +12099,8 @@ function report_error(ppf, c) {
                       _1: "#if not terminated"
                     });
       case /* Unterminated_else */3 :
-          return Stdlib__Format.fprintf(ppf)(/* Format */{
+          return Stdlib__Format.fprintf(ppf)({
+                      TAG: /* Format */0,
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "#else not terminated",
@@ -12030,7 +12109,8 @@ function report_error(ppf, c) {
                       _1: "#else not terminated"
                     });
       case /* Unexpected_token_in_conditional */4 :
-          return Stdlib__Format.fprintf(ppf)(/* Format */{
+          return Stdlib__Format.fprintf(ppf)({
+                      TAG: /* Format */0,
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "Unexpected token in conditional predicate",
@@ -12039,7 +12119,8 @@ function report_error(ppf, c) {
                       _1: "Unexpected token in conditional predicate"
                     });
       case /* Expect_hash_then_in_conditional */5 :
-          return Stdlib__Format.fprintf(ppf)(/* Format */{
+          return Stdlib__Format.fprintf(ppf)({
+                      TAG: /* Format */0,
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "Expect `then` after conditional predicate",
@@ -12048,7 +12129,8 @@ function report_error(ppf, c) {
                       _1: "Expect `then` after conditional predicate"
                     });
       case /* Unexpected_directive */6 :
-          return Stdlib__Format.fprintf(ppf)(/* Format */{
+          return Stdlib__Format.fprintf(ppf)({
+                      TAG: /* Format */0,
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "Unexpected directive",
@@ -12059,9 +12141,10 @@ function report_error(ppf, c) {
       
     }
   } else {
-    switch (c.TAG | 0) {
+    switch (c.TAG) {
       case /* Illegal_character */0 :
-          return Curry._1(Stdlib__Format.fprintf(ppf)(/* Format */{
+          return Curry._1(Stdlib__Format.fprintf(ppf)({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "Illegal character (",
@@ -12078,7 +12161,8 @@ function report_error(ppf, c) {
                           _1: "Illegal character (%s)"
                         }), Stdlib__Char.escaped(c._0));
       case /* Illegal_escape */1 :
-          return Curry._1(Stdlib__Format.fprintf(ppf)(/* Format */{
+          return Curry._1(Stdlib__Format.fprintf(ppf)({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "Illegal backslash escape in string or character (",
@@ -12095,7 +12179,8 @@ function report_error(ppf, c) {
                           _1: "Illegal backslash escape in string or character (%s)"
                         }), c._0);
       case /* Unterminated_comment */2 :
-          return Stdlib__Format.fprintf(ppf)(/* Format */{
+          return Stdlib__Format.fprintf(ppf)({
+                      TAG: /* Format */0,
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "Comment not terminated",
@@ -12104,7 +12189,8 @@ function report_error(ppf, c) {
                       _1: "Comment not terminated"
                     });
       case /* Unterminated_string_in_comment */3 :
-          return Curry._2(Stdlib__Format.fprintf(ppf)(/* Format */{
+          return Curry._2(Stdlib__Format.fprintf(ppf)({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "This comment contains an unterminated string literal",
@@ -12124,7 +12210,8 @@ function report_error(ppf, c) {
                           _1: "This comment contains an unterminated string literal@.%aString literal begins here"
                         }), print_error, c._1);
       case /* Keyword_as_label */4 :
-          return Curry._1(Stdlib__Format.fprintf(ppf)(/* Format */{
+          return Curry._1(Stdlib__Format.fprintf(ppf)({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* Char_literal */12,
                             _0: /* '`' */96,
@@ -12141,7 +12228,8 @@ function report_error(ppf, c) {
                           _1: "`%s' is a keyword, it cannot be used as label name"
                         }), c._0);
       case /* Literal_overflow */5 :
-          return Curry._1(Stdlib__Format.fprintf(ppf)(/* Format */{
+          return Curry._1(Stdlib__Format.fprintf(ppf)({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "Integer literal exceeds the range of representable integers of type ",
@@ -12154,7 +12242,8 @@ function report_error(ppf, c) {
                           _1: "Integer literal exceeds the range of representable integers of type %s"
                         }), c._0);
       case /* Illegal_semver */6 :
-          return Curry._1(Stdlib__Format.fprintf(ppf)(/* Format */{
+          return Curry._1(Stdlib__Format.fprintf(ppf)({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "Illegal semantic version string ",
@@ -12167,7 +12256,8 @@ function report_error(ppf, c) {
                           _1: "Illegal semantic version string %s"
                         }), c._0);
       case /* Conditional_expr_expected_type */7 :
-          return Curry._2(Stdlib__Format.fprintf(ppf)(/* Format */{
+          return Curry._2(Stdlib__Format.fprintf(ppf)({
+                          TAG: /* Format */0,
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "Conditional expression type mismatch (",
@@ -12847,37 +12937,39 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           catch (raw_exn){
             const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.MEL_EXN_ID === $$Error$2) {
-              const match$1 = exn._1;
-              if (typeof match$1 === "number") {
-                if (match$1) {
-                  throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
-                }
-                const match$2 = comment_start_loc.contents;
-                if (match$2) {
-                  const start = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
-                  comment_start_loc.contents = /* [] */0;
-                  throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                            MEL_EXN_ID: $$Error$2,
-                            _1: {
-                              TAG: /* Unterminated_string_in_comment */3,
-                              _0: start,
-                              _1: exn._2
-                            },
-                            _2: match$2.hd
+              let tmp = exn._1;
+              if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
+                if (tmp === /* Unterminated_string */0) {
+                  const match$1 = comment_start_loc.contents;
+                  if (match$1) {
+                    const start = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
+                    comment_start_loc.contents = /* [] */0;
+                    throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                              MEL_EXN_ID: $$Error$2,
+                              _1: {
+                                TAG: /* Unterminated_string_in_comment */3,
+                                _0: start,
+                                _1: exn._2
+                              },
+                              _2: match$1.hd
+                            });
+                  }
+                  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                            MEL_EXN_ID: "Assert_failure",
+                            _1: [
+                              "parsing/lexer.mll",
+                              1006,
+                              18
+                            ]
                           });
                 }
-                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                          MEL_EXN_ID: "Assert_failure",
-                          _1: [
-                            "parsing/lexer.mll",
-                            1006,
-                            18
-                          ]
-                        });
+                throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+              } else {
+                throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
               }
+            } else {
               throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
           is_in_string.contents = false;
           store_string_char(/* '"' */34);
@@ -12895,37 +12987,39 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           catch (raw_exn$1){
             const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
             if (exn$1.MEL_EXN_ID === $$Error$2) {
-              const match$3 = exn$1._1;
-              if (typeof match$3 === "number") {
-                if (match$3) {
-                  throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
-                }
-                const match$4 = comment_start_loc.contents;
-                if (match$4) {
-                  const start$1 = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
-                  comment_start_loc.contents = /* [] */0;
-                  throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                            MEL_EXN_ID: $$Error$2,
-                            _1: {
-                              TAG: /* Unterminated_string_in_comment */3,
-                              _0: start$1,
-                              _1: exn$1._2
-                            },
-                            _2: match$4.hd
+              let tmp$1 = exn$1._1;
+              if (/* tag */typeof tmp$1 === "number" || typeof tmp$1 === "string") {
+                if (tmp$1 === /* Unterminated_string */0) {
+                  const match$2 = comment_start_loc.contents;
+                  if (match$2) {
+                    const start$1 = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
+                    comment_start_loc.contents = /* [] */0;
+                    throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                              MEL_EXN_ID: $$Error$2,
+                              _1: {
+                                TAG: /* Unterminated_string_in_comment */3,
+                                _0: start$1,
+                                _1: exn$1._2
+                              },
+                              _2: match$2.hd
+                            });
+                  }
+                  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                            MEL_EXN_ID: "Assert_failure",
+                            _1: [
+                              "parsing/lexer.mll",
+                              1026,
+                              18
+                            ]
                           });
                 }
-                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                          MEL_EXN_ID: "Assert_failure",
-                          _1: [
-                            "parsing/lexer.mll",
-                            1026,
-                            18
-                          ]
-                        });
+                throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+              } else {
+                throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
               }
+            } else {
               throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
             }
-            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
           }
           is_in_string.contents = false;
           store_string_char(/* '|' */124);
@@ -12939,8 +13033,8 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           ___ocaml_lex_state = 132;
           continue ;
       case 10 :
-          const match$5 = comment_start_loc.contents;
-          if (match$5) {
+          const match$3 = comment_start_loc.contents;
+          if (match$3) {
             const start$2 = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
             comment_start_loc.contents = /* [] */0;
             throw new Caml_js_exceptions.MelangeError($$Error$2, {
@@ -12949,7 +13043,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                         TAG: /* Unterminated_comment */2,
                         _0: start$2
                       },
-                      _2: match$5.hd
+                      _2: match$3.hd
                     });
           }
           throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -12999,41 +13093,49 @@ function token_with_comments(lexbuf) {
 function token$1(lexbuf) {
   const post_pos = lexbuf.lex_curr_p;
   const attach = function (lines, docs, pre_pos) {
-    if (typeof docs === "number") {
+    if (/* tag */typeof docs === "number" || typeof docs === "string") {
       return ;
     }
     if (docs.TAG === /* After */0) {
       const a = docs._0;
-      if (lines >= 2) {
-        set_post_docstrings(post_pos, Stdlib__List.rev(a));
-        return set_pre_extra_docstrings(pre_pos, Stdlib__List.rev(a));
-      } else {
-        set_post_docstrings(post_pos, Stdlib__List.rev(a));
-        return set_pre_docstrings(pre_pos, a);
+      switch (lines) {
+        case /* NoLine */0 :
+        case /* NewLine */1 :
+            break;
+        case /* BlankLine */2 :
+            set_post_docstrings(post_pos, Stdlib__List.rev(a));
+            return set_pre_extra_docstrings(pre_pos, Stdlib__List.rev(a));
+        
       }
+      set_post_docstrings(post_pos, Stdlib__List.rev(a));
+      return set_pre_docstrings(pre_pos, a);
     }
     const b = docs._2;
     const f = docs._1;
     const a$1 = docs._0;
-    if (lines >= 2) {
-      set_post_docstrings(post_pos, Stdlib__List.rev(a$1));
-      set_post_extra_docstrings(post_pos, Stdlib__List.rev_append(f, Stdlib__List.rev(b)));
-      set_floating_docstrings(pre_pos, Stdlib__List.rev_append(f, Stdlib__List.rev(b)));
-      return set_pre_extra_docstrings(pre_pos, Stdlib__List.rev(a$1));
-    } else {
-      set_post_docstrings(post_pos, Stdlib__List.rev(a$1));
-      set_post_extra_docstrings(post_pos, Stdlib__List.rev_append(f, Stdlib__List.rev(b)));
-      set_floating_docstrings(pre_pos, Stdlib__List.rev(f));
-      set_pre_extra_docstrings(pre_pos, Stdlib__List.rev(a$1));
-      return set_pre_docstrings(pre_pos, b);
+    switch (lines) {
+      case /* NoLine */0 :
+      case /* NewLine */1 :
+          break;
+      case /* BlankLine */2 :
+          set_post_docstrings(post_pos, Stdlib__List.rev(a$1));
+          set_post_extra_docstrings(post_pos, Stdlib__List.rev_append(f, Stdlib__List.rev(b)));
+          set_floating_docstrings(pre_pos, Stdlib__List.rev_append(f, Stdlib__List.rev(b)));
+          return set_pre_extra_docstrings(pre_pos, Stdlib__List.rev(a$1));
+      
     }
+    set_post_docstrings(post_pos, Stdlib__List.rev(a$1));
+    set_post_extra_docstrings(post_pos, Stdlib__List.rev_append(f, Stdlib__List.rev(b)));
+    set_floating_docstrings(pre_pos, Stdlib__List.rev(f));
+    set_pre_extra_docstrings(pre_pos, Stdlib__List.rev(a$1));
+    set_pre_docstrings(pre_pos, b);
   };
   const loop = function (_lines, _docs, lexbuf) {
     while(true) {
       const docs = _docs;
       const lines = _lines;
       const doc = token_with_comments(lexbuf);
-      if (typeof doc === "number") {
+      if (/* tag */typeof doc === "number" || typeof doc === "string") {
         switch (doc) {
           case /* SHARP */84 :
               if (at_bol(lexbuf)) {
@@ -13046,81 +13148,93 @@ function token$1(lexbuf) {
                 };
                 const if_then_else$1 = if_then_else.contents;
                 const match = token_with_comments(lexbuf);
-                if (typeof match === "number") {
+                if (/* tag */typeof match === "number" || typeof match === "string") {
                   switch (match) {
                     case /* ELSE */23 :
-                        if (if_then_else$1) {
-                          throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                                    MEL_EXN_ID: $$Error$2,
-                                    _1: /* Unexpected_directive */6,
-                                    _2: curr(lexbuf)
-                                  });
+                        switch (if_then_else$1) {
+                          case /* Dir_if_true */0 :
+                              break;
+                          case /* Dir_if_false */1 :
+                          case /* Dir_out */2 :
+                              throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                                        MEL_EXN_ID: $$Error$2,
+                                        _1: /* Unexpected_directive */6,
+                                        _2: curr(lexbuf)
+                                      });
+                          
                         }
                         break;
                     case /* END */24 :
-                        if (if_then_else$1 >= 2) {
-                          throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                                    MEL_EXN_ID: $$Error$2,
-                                    _1: /* Unexpected_directive */6,
-                                    _2: curr(lexbuf)
-                                  });
+                        switch (if_then_else$1) {
+                          case /* Dir_if_true */0 :
+                          case /* Dir_if_false */1 :
+                              if_then_else.contents = /* Dir_out */2;
+                              return Curry._1(cont, lexbuf);
+                          case /* Dir_out */2 :
+                              throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                                        MEL_EXN_ID: $$Error$2,
+                                        _1: /* Unexpected_directive */6,
+                                        _2: curr(lexbuf)
+                                      });
+                          
                         }
-                        if_then_else.contents = /* Dir_out */2;
-                        return Curry._1(cont, lexbuf);
                     case /* IF */37 :
-                        if (if_then_else$1 >= 2) {
-                          if (directive_parse(token_with_comments, lexbuf)) {
-                            if_then_else.contents = /* Dir_if_true */0;
-                            return Curry._1(cont, lexbuf);
-                          } else {
-                            let _param;
-                            while(true) {
-                              const token = token_with_comments(lexbuf);
-                              if (Caml_obj.caml_equal(token, /* EOF */25)) {
-                                throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                                          MEL_EXN_ID: $$Error$2,
-                                          _1: /* Unterminated_if */2,
-                                          _2: curr(lexbuf)
-                                        });
-                              }
-                              if (Caml_obj.caml_equal(token, /* SHARP */84) && at_bol(lexbuf)) {
-                                const token$1 = token_with_comments(lexbuf);
-                                if (typeof token$1 === "number") {
-                                  if (token$1 === 24 || token$1 === 23) {
-                                    if (token$1 >= 24) {
-                                      if_then_else.contents = /* Dir_out */2;
-                                      return Curry._1(cont, lexbuf);
-                                    } else {
-                                      if_then_else.contents = /* Dir_if_false */1;
-                                      return Curry._1(cont, lexbuf);
-                                    }
-                                  }
-                                  if (token$1 === 37) {
+                        switch (if_then_else$1) {
+                          case /* Dir_if_true */0 :
+                          case /* Dir_if_false */1 :
+                              throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                                        MEL_EXN_ID: $$Error$2,
+                                        _1: /* Unexpected_directive */6,
+                                        _2: curr(lexbuf)
+                                      });
+                          case /* Dir_out */2 :
+                              if (directive_parse(token_with_comments, lexbuf)) {
+                                if_then_else.contents = /* Dir_if_true */0;
+                                return Curry._1(cont, lexbuf);
+                              } else {
+                                let _param;
+                                while(true) {
+                                  const token = token_with_comments(lexbuf);
+                                  if (Caml_obj.caml_equal(token, /* EOF */25)) {
                                     throw new Caml_js_exceptions.MelangeError($$Error$2, {
                                               MEL_EXN_ID: $$Error$2,
-                                              _1: /* Unexpected_directive */6,
+                                              _1: /* Unterminated_if */2,
                                               _2: curr(lexbuf)
                                             });
                                   }
-                                  
-                                }
-                                if (is_elif(token$1) && directive_parse(token_with_comments, lexbuf)) {
-                                  if_then_else.contents = /* Dir_if_true */0;
-                                  return Curry._1(cont, lexbuf);
-                                }
-                                _param = undefined;
-                                continue ;
+                                  if (Caml_obj.caml_equal(token, /* SHARP */84) && at_bol(lexbuf)) {
+                                    const token$1 = token_with_comments(lexbuf);
+                                    if (/* tag */typeof token$1 === "number" || typeof token$1 === "string") {
+                                      switch (token$1) {
+                                        case /* ELSE */23 :
+                                            if_then_else.contents = /* Dir_if_false */1;
+                                            return Curry._1(cont, lexbuf);
+                                        case /* END */24 :
+                                            if_then_else.contents = /* Dir_out */2;
+                                            return Curry._1(cont, lexbuf);
+                                        case /* IF */37 :
+                                            throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                                                      MEL_EXN_ID: $$Error$2,
+                                                      _1: /* Unexpected_directive */6,
+                                                      _2: curr(lexbuf)
+                                                    });
+                                        default:
+                                          
+                                      }
+                                    }
+                                    if (is_elif(token$1) && directive_parse(token_with_comments, lexbuf)) {
+                                      if_then_else.contents = /* Dir_if_true */0;
+                                      return Curry._1(cont, lexbuf);
+                                    }
+                                    _param = undefined;
+                                    continue ;
+                                  }
+                                  _param = undefined;
+                                  continue ;
+                                };
                               }
-                              _param = undefined;
-                              continue ;
-                            };
-                          }
+                          
                         }
-                        throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                                  MEL_EXN_ID: $$Error$2,
-                                  _1: /* Unexpected_directive */6,
-                                  _2: curr(lexbuf)
-                                });
                     default:
                       return Curry._1(look_ahead, match);
                   }
@@ -13131,145 +13245,200 @@ function token$1(lexbuf) {
                   if (match._0 !== "elif") {
                     return Curry._1(look_ahead, match);
                   }
-                  if (if_then_else$1) {
-                    throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                              MEL_EXN_ID: $$Error$2,
-                              _1: /* Unexpected_directive */6,
-                              _2: curr(lexbuf)
-                            });
-                  }
-                  
-                }
-                if (if_then_else$1) {
-                  return Curry._1(look_ahead, match);
-                }
-                let _else_seen = Caml_obj.caml_equal(match, /* ELSE */23);
-                while(true) {
-                  const else_seen = _else_seen;
-                  const token$2 = token_with_comments(lexbuf);
-                  if (Caml_obj.caml_equal(token$2, /* EOF */25)) {
-                    throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                              MEL_EXN_ID: $$Error$2,
-                              _1: /* Unterminated_else */3,
-                              _2: curr(lexbuf)
-                            });
-                  }
-                  if (Caml_obj.caml_equal(token$2, /* SHARP */84) && at_bol(lexbuf)) {
-                    const token$3 = token_with_comments(lexbuf);
-                    if (typeof token$3 === "number") {
-                      if (token$3 === 24 || token$3 === 23) {
-                        if (token$3 >= 24) {
-                          if_then_else.contents = /* Dir_out */2;
-                          return Curry._1(cont, lexbuf);
-                        }
-                        if (else_seen) {
-                          throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                                    MEL_EXN_ID: $$Error$2,
-                                    _1: /* Unexpected_directive */6,
-                                    _2: curr(lexbuf)
-                                  });
-                        }
-                        _else_seen = true;
-                        continue ;
-                      }
-                      if (token$3 === 37) {
+                  switch (if_then_else$1) {
+                    case /* Dir_if_true */0 :
+                        break;
+                    case /* Dir_if_false */1 :
+                    case /* Dir_out */2 :
                         throw new Caml_js_exceptions.MelangeError($$Error$2, {
                                   MEL_EXN_ID: $$Error$2,
                                   _1: /* Unexpected_directive */6,
                                   _2: curr(lexbuf)
                                 });
-                      }
-                      
-                    }
-                    if (else_seen && is_elif(token$3)) {
-                      throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                                MEL_EXN_ID: $$Error$2,
-                                _1: /* Unexpected_directive */6,
-                                _2: curr(lexbuf)
-                              });
-                    }
-                    continue ;
+                    
                   }
-                  continue ;
-                };
+                }
+                switch (if_then_else$1) {
+                  case /* Dir_if_true */0 :
+                      let _else_seen = Caml_obj.caml_equal(match, /* ELSE */23);
+                      while(true) {
+                        const else_seen = _else_seen;
+                        const token$2 = token_with_comments(lexbuf);
+                        if (Caml_obj.caml_equal(token$2, /* EOF */25)) {
+                          throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                                    MEL_EXN_ID: $$Error$2,
+                                    _1: /* Unterminated_else */3,
+                                    _2: curr(lexbuf)
+                                  });
+                        }
+                        if (Caml_obj.caml_equal(token$2, /* SHARP */84) && at_bol(lexbuf)) {
+                          const token$3 = token_with_comments(lexbuf);
+                          if (/* tag */typeof token$3 === "number" || typeof token$3 === "string") {
+                            switch (token$3) {
+                              case /* ELSE */23 :
+                                  if (else_seen) {
+                                    throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                                              MEL_EXN_ID: $$Error$2,
+                                              _1: /* Unexpected_directive */6,
+                                              _2: curr(lexbuf)
+                                            });
+                                  }
+                                  _else_seen = true;
+                                  continue ;
+                              case /* END */24 :
+                                  if_then_else.contents = /* Dir_out */2;
+                                  return Curry._1(cont, lexbuf);
+                              case /* IF */37 :
+                                  throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                                            MEL_EXN_ID: $$Error$2,
+                                            _1: /* Unexpected_directive */6,
+                                            _2: curr(lexbuf)
+                                          });
+                              default:
+                                
+                            }
+                          }
+                          if (else_seen && is_elif(token$3)) {
+                            throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                                      MEL_EXN_ID: $$Error$2,
+                                      _1: /* Unexpected_directive */6,
+                                      _2: curr(lexbuf)
+                                    });
+                          }
+                          continue ;
+                        }
+                        continue ;
+                      };
+                  case /* Dir_if_false */1 :
+                  case /* Dir_out */2 :
+                      return Curry._1(look_ahead, match);
+                  
+                }
               }
               break;
           case /* EOL */100 :
-              const lines$p = lines ? /* BlankLine */2 : /* NewLine */1;
+              let lines$p;
+              switch (lines) {
+                case /* NoLine */0 :
+                    lines$p = /* NewLine */1;
+                    break;
+                case /* NewLine */1 :
+                case /* BlankLine */2 :
+                    lines$p = /* BlankLine */2;
+                    break;
+                
+              }
               _lines = lines$p;
               continue ;
           default:
             
         }
       } else {
-        switch (doc.TAG | 0) {
+        switch (doc.TAG) {
           case /* COMMENT */18 :
               const match$1 = doc._0;
               add_comment([
                     match$1[0],
                     match$1[1]
                   ]);
-              const lines$p$1 = lines >= 2 ? /* BlankLine */2 : /* NoLine */0;
+              let lines$p$1;
+              switch (lines) {
+                case /* NoLine */0 :
+                case /* NewLine */1 :
+                    lines$p$1 = /* NoLine */0;
+                    break;
+                case /* BlankLine */2 :
+                    lines$p$1 = /* BlankLine */2;
+                    break;
+                
+              }
               _lines = lines$p$1;
               continue ;
           case /* DOCSTRING */19 :
               const doc$1 = doc._0;
               add_docstring_comment(doc$1);
               let docs$p;
-              if (typeof docs === "number") {
-                docs$p = lines >= 2 ? ({
-                      TAG: /* Before */1,
-                      _0: /* [] */0,
-                      _1: /* [] */0,
-                      _2: {
-                        hd: doc$1,
-                        tl: /* [] */0
-                      }
-                    }) : ({
-                      TAG: /* After */0,
-                      _0: {
-                        hd: doc$1,
-                        tl: /* [] */0
-                      }
-                    });
+              if (/* tag */typeof docs === "number" || typeof docs === "string") {
+                switch (lines) {
+                  case /* NoLine */0 :
+                  case /* NewLine */1 :
+                      docs$p = {
+                        TAG: /* After */0,
+                        _0: {
+                          hd: doc$1,
+                          tl: /* [] */0
+                        }
+                      };
+                      break;
+                  case /* BlankLine */2 :
+                      docs$p = {
+                        TAG: /* Before */1,
+                        _0: /* [] */0,
+                        _1: /* [] */0,
+                        _2: {
+                          hd: doc$1,
+                          tl: /* [] */0
+                        }
+                      };
+                      break;
+                  
+                }
               } else if (docs.TAG === /* After */0) {
                 const a = docs._0;
-                docs$p = lines >= 2 ? ({
-                      TAG: /* Before */1,
-                      _0: a,
-                      _1: /* [] */0,
-                      _2: {
-                        hd: doc$1,
-                        tl: /* [] */0
-                      }
-                    }) : ({
-                      TAG: /* After */0,
-                      _0: {
-                        hd: doc$1,
-                        tl: a
-                      }
-                    });
+                switch (lines) {
+                  case /* NoLine */0 :
+                  case /* NewLine */1 :
+                      docs$p = {
+                        TAG: /* After */0,
+                        _0: {
+                          hd: doc$1,
+                          tl: a
+                        }
+                      };
+                      break;
+                  case /* BlankLine */2 :
+                      docs$p = {
+                        TAG: /* Before */1,
+                        _0: a,
+                        _1: /* [] */0,
+                        _2: {
+                          hd: doc$1,
+                          tl: /* [] */0
+                        }
+                      };
+                      break;
+                  
+                }
               } else {
                 const b = docs._2;
                 const f = docs._1;
                 const a$1 = docs._0;
-                docs$p = lines >= 2 ? ({
-                      TAG: /* Before */1,
-                      _0: a$1,
-                      _1: Stdlib.$at(b, f),
-                      _2: {
-                        hd: doc$1,
-                        tl: /* [] */0
-                      }
-                    }) : ({
-                      TAG: /* Before */1,
-                      _0: a$1,
-                      _1: f,
-                      _2: {
-                        hd: doc$1,
-                        tl: b
-                      }
-                    });
+                switch (lines) {
+                  case /* NoLine */0 :
+                  case /* NewLine */1 :
+                      docs$p = {
+                        TAG: /* Before */1,
+                        _0: a$1,
+                        _1: f,
+                        _2: {
+                          hd: doc$1,
+                          tl: b
+                        }
+                      };
+                      break;
+                  case /* BlankLine */2 :
+                      docs$p = {
+                        TAG: /* Before */1,
+                        _0: a$1,
+                        _1: Stdlib.$at(b, f),
+                        _2: {
+                          hd: doc$1,
+                          tl: /* [] */0
+                        }
+                      };
+                      break;
+                  
+                }
               }
               _docs = docs$p;
               _lines = /* NoLine */0;
@@ -13308,23 +13477,28 @@ function skip_phrase(lexbuf) {
   while(true) {
     try {
       const match = token$1(lexbuf);
-      if (typeof match === "number" && !(match !== 25 && match !== 83)) {
-        return ;
-      } else {
+      if (!/* tag */(typeof match === "number" || typeof match === "string")) {
         return skip_phrase(lexbuf);
+      }
+      switch (match) {
+        case /* EOF */25 :
+        case /* SEMISEMI */83 :
+            return ;
+        default:
+          return skip_phrase(lexbuf);
       }
     }
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === $$Error$2) {
         let tmp = exn._1;
-        if (typeof tmp === "number") {
+        if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
           if (tmp === /* Unterminated_string */0) {
             continue ;
           }
           throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         } else {
-          switch (tmp.TAG | 0) {
+          switch (tmp.TAG) {
             case /* Illegal_character */0 :
             case /* Unterminated_comment */2 :
             case /* Unterminated_string_in_comment */3 :
@@ -13361,7 +13535,7 @@ function wrap(parsing_fun, lexbuf) {
     const err = Caml_js_exceptions.internalToOCamlException(raw_err);
     if (err.MEL_EXN_ID === $$Error$2) {
       let tmp = err._1;
-      if (typeof tmp === "number") {
+      if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
         throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
       }
       if (tmp.TAG === /* Illegal_character */0) {
@@ -13428,13 +13602,13 @@ const match = wrap(implementation, Stdlib__Lexing.from_string(undefined, "let v 
 
 if (match) {
   const match$1 = match.hd.pstr_desc;
-  if (match$1.TAG === /* Pstr_value */1 && !match$1._0) {
+  if (match$1.TAG === /* Pstr_value */1 && match$1._0 === /* Nonrecursive */0) {
     const match$2 = match$1._1;
     if (match$2) {
       const match$3 = match$2.hd;
       const match$4 = match$3.pvb_pat;
       const match$5 = match$4.ppat_desc;
-      if (typeof match$5 === "number" || match$5.TAG !== /* Ppat_var */0) {
+      if (/* tag */typeof match$5 === "number" || typeof match$5 === "string" || match$5.TAG !== /* Ppat_var */0) {
         eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
       } else {
         const match$6 = match$5._0;
@@ -13454,7 +13628,7 @@ if (match) {
                   if (match$14.TAG === /* Pexp_fun */4 && match$14._0 === "" && match$14._1 === undefined) {
                     const match$15 = match$14._2;
                     const match$16 = match$15.ppat_desc;
-                    if (typeof match$16 === "number" || match$16.TAG !== /* Ppat_var */0) {
+                    if (/* tag */typeof match$16 === "number" || typeof match$16 === "string" || match$16.TAG !== /* Ppat_var */0) {
                       eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                     } else {
                       const match$17 = match$16._0;
@@ -13477,7 +13651,7 @@ if (match) {
                                   if (match$27.TAG === /* Pexp_ident */0) {
                                     const match$28 = match$27._0;
                                     const match$29 = match$28.txt;
-                                    switch (match$29.TAG | 0) {
+                                    switch (match$29.TAG) {
                                       case /* Lident */0 :
                                           if (match$29._0 === "|>") {
                                             const match$30 = match$28.loc;
@@ -13502,7 +13676,7 @@ if (match) {
                                                           if (match$41.TAG === /* Pexp_ident */0) {
                                                             const match$42 = match$41._0;
                                                             const match$43 = match$42.txt;
-                                                            switch (match$43.TAG | 0) {
+                                                            switch (match$43.TAG) {
                                                               case /* Lident */0 :
                                                                   if (match$43._0 === "|>") {
                                                                     const match$44 = match$42.loc;
@@ -13524,7 +13698,7 @@ if (match) {
                                                                                 if (match$53.TAG === /* Pexp_ident */0) {
                                                                                   const match$54 = match$53._0;
                                                                                   const match$55 = match$54.txt;
-                                                                                  switch (match$55.TAG | 0) {
+                                                                                  switch (match$55.TAG) {
                                                                                     case /* Lident */0 :
                                                                                         if (match$55._0 === "str") {
                                                                                           const match$56 = match$54.loc;
@@ -13546,10 +13720,10 @@ if (match) {
                                                                                                       if (match$65.TAG === /* Pexp_ident */0) {
                                                                                                         const match$66 = match$65._0;
                                                                                                         const match$67 = match$66.txt;
-                                                                                                        switch (match$67.TAG | 0) {
+                                                                                                        switch (match$67.TAG) {
                                                                                                           case /* Ldot */1 :
                                                                                                               const match$68 = match$67._0;
-                                                                                                              switch (match$68.TAG | 0) {
+                                                                                                              switch (match$68.TAG) {
                                                                                                                 case /* Lident */0 :
                                                                                                                     if (match$68._0 === "Lexing" && match$67._1 === "from_string") {
                                                                                                                       const match$69 = match$66.loc;
@@ -13576,10 +13750,10 @@ if (match) {
                                                                                                                                       if (match$81.TAG === /* Pexp_ident */0) {
                                                                                                                                         const match$82 = match$81._0;
                                                                                                                                         const match$83 = match$82.txt;
-                                                                                                                                        switch (match$83.TAG | 0) {
+                                                                                                                                        switch (match$83.TAG) {
                                                                                                                                           case /* Ldot */1 :
                                                                                                                                               const match$84 = match$83._0;
-                                                                                                                                              switch (match$84.TAG | 0) {
+                                                                                                                                              switch (match$84.TAG) {
                                                                                                                                                 case /* Lident */0 :
                                                                                                                                                     if (match$84._0 === "Parse" && match$83._1 === "implementation") {
                                                                                                                                                       const match$85 = match$82.loc;

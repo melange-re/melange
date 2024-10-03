@@ -26,20 +26,24 @@ open Import
 
 type pointer_info =
   | None
-  | Pt_constructor of {
-      name : string;
-      const : int;
-      non_const : int;
-      attributes : Parsetree.attributes;
-    }
+  | Pt_constructor of { name : Lambda.cstr_name; const : int; non_const : int }
   | Pt_assertfalse
   | Some of string
 
-let string_of_pointer_info (x : pointer_info) : string option =
+let comment_of_pointer_info (x : pointer_info) : string option =
   match x with
-  | Some name | Pt_constructor { name; _ } -> Some name
+  | Some name -> Some name
+  | Pt_constructor { name = { Lambda.name; _ }; _ } -> Some name
   | Pt_assertfalse -> Some "assert_false"
   | None -> None
+
+let modifier_of_pointer_info (x : pointer_info) : Lambda.as_modifier option =
+  match x with
+  | Pt_constructor { name = { as_modifier = Some modifier; _ }; _ } ->
+      Some modifier
+  | Pt_constructor { name = { as_modifier = None; _ }; _ }
+  | Pt_assertfalse | Some _ | None ->
+      None
 
 type t =
   | Const_js_null

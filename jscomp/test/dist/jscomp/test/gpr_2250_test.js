@@ -31,7 +31,8 @@ function eq(loc, x, y) {
   };
 }
 
-const object_tables = /* Cons */{
+const object_tables = {
+  TAG: /* Cons */0,
   key: undefined,
   data: undefined,
   next: undefined

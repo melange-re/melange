@@ -18,7 +18,8 @@ function eq(f, param) {
   Mt_global.collect_eq(test_id, suites, f, param[0], param[1]);
 }
 
-const s = Curry._1(Stdlib__Printf.sprintf(/* Format */{
+const s = Curry._1(Stdlib__Printf.sprintf({
+          TAG: /* Format */0,
           _0: {
             TAG: /* Format_arg */13,
             _0: undefined,
@@ -33,7 +34,8 @@ const s = Curry._1(Stdlib__Printf.sprintf(/* Format */{
             }
           },
           _1: "%{%s%}."
-        }), /* Format */{
+        }), {
+      TAG: /* Format */0,
       _0: {
         TAG: /* String_literal */11,
         _0: "32",
@@ -51,7 +53,8 @@ eq("File \"jscomp/test/sprintf_reg_test.ml\", line 8, characters 5-12", [
       "%s."
     ]);
 
-const s$1 = Curry._2(Stdlib__Printf.sprintf(/* Format */{
+const s$1 = Curry._2(Stdlib__Printf.sprintf({
+          TAG: /* Format */0,
           _0: {
             TAG: /* Int */4,
             _0: /* Int_i */3,
@@ -72,7 +75,8 @@ const s$1 = Curry._2(Stdlib__Printf.sprintf(/* Format */{
             }
           },
           _1: "%i %{%s%}"
-        }), 1, /* Format */{
+        }), 1, {
+      TAG: /* Format */0,
       _0: {
         TAG: /* String_literal */11,
         _0: "spells one ",

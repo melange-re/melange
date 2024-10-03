@@ -26,13 +26,15 @@ const h = 1;
 
 const i = /* None */0;
 
-const j = /* Some */{
+const j = {
+  TAG: /* Some */0,
   _0: 1
 };
 
 const k = /* None */0;
 
-const l = /* Some */{
+const l = {
+  TAG: /* Some */0,
   _0: 1
 };
 

@@ -28,7 +28,12 @@ type ident = Ident.t
 
 type record_representation =
   | Record_regular
-  | Record_inlined of { tag : int; name : string; num_nonconsts : int }
+  | Record_inlined of {
+      tag : int;
+      name : string;
+      num_nonconsts : int;
+      attributes : Parsetree.attributes;
+    }
     (* Inlined record *)
   | Record_extension
 (* Inlined record under extension *)
@@ -193,10 +198,12 @@ let eq_record_representation (p : record_representation)
     (p1 : record_representation) =
   match p with
   | Record_regular -> p1 = Record_regular
-  | Record_inlined { tag; name; num_nonconsts } -> (
+  | Record_inlined { tag; name; num_nonconsts; attributes } -> (
       match p1 with
       | Record_inlined rhs ->
-          tag = rhs.tag && name = rhs.name && num_nonconsts = rhs.num_nonconsts
+          tag = rhs.tag && name = rhs.name
+          && num_nonconsts = rhs.num_nonconsts
+          && attributes = rhs.attributes
       | _ -> false)
   | Record_extension -> p1 = Record_extension
 

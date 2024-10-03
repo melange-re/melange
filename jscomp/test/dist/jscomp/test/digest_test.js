@@ -223,7 +223,8 @@ Mt.from_pair_suites("Digest_test", Stdlib.$at({
           }
         }, Stdlib__Array.to_list(Stdlib__Array.map((function (i) {
                     return [
-                            Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                            Curry._1(Stdlib__Printf.sprintf({
+                                      TAG: /* Format */0,
                                       _0: {
                                         TAG: /* Int */4,
                                         _0: /* Int_d */0,

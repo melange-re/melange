@@ -5,7 +5,7 @@
 function isfree(id, _id$p) {
   while(true) {
     const id$p = _id$p;
-    switch (id$p.TAG | 0) {
+    switch (id$p.TAG) {
       case /* Pident */0 :
           return id === id$p._0;
       case /* Pdot */1 :

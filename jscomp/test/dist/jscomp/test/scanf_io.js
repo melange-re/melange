@@ -27,7 +27,8 @@ const tscanf_data_file_lines = {
 
 function create_tscanf_data(ob, lines) {
   const add_line = function (param) {
-    Stdlib__Buffer.add_string(ob, Curry._1(Stdlib__Printf.sprintf(/* Format */{
+    Stdlib__Buffer.add_string(ob, Curry._1(Stdlib__Printf.sprintf({
+                  TAG: /* Format */0,
                   _0: {
                     TAG: /* Caml_string */3,
                     _0: /* No_padding */0,
@@ -36,7 +37,8 @@ function create_tscanf_data(ob, lines) {
                   _1: "%S"
                 }), param[0]));
     Stdlib__Buffer.add_string(ob, " -> ");
-    Stdlib__Buffer.add_string(ob, Curry._1(Stdlib__Printf.sprintf(/* Format */{
+    Stdlib__Buffer.add_string(ob, Curry._1(Stdlib__Printf.sprintf({
+                  TAG: /* Format */0,
                   _0: {
                     TAG: /* Caml_string */3,
                     _0: /* No_padding */0,
@@ -65,7 +67,8 @@ function get_lines(fname) {
   };
   try {
     while(!Stdlib__Scanf.Scanning.end_of_input(ib)) {
-      Curry._1(Stdlib__Scanf.bscanf(ib, /* Format */{
+      Curry._1(Stdlib__Scanf.bscanf(ib, {
+                TAG: /* Format */0,
                 _0: {
                   TAG: /* Char_literal */12,
                   _0: /* ' ' */32,
@@ -103,7 +106,8 @@ function get_lines(fname) {
   catch (raw_s){
     const s = Caml_js_exceptions.internalToOCamlException(raw_s);
     if (s.MEL_EXN_ID === Stdlib__Scanf.Scan_failure) {
-      const s$1 = Curry._2(Stdlib__Printf.sprintf(/* Format */{
+      const s$1 = Curry._2(Stdlib__Printf.sprintf({
+                TAG: /* Format */0,
                 _0: {
                   TAG: /* String_literal */11,
                   _0: "in file ",
@@ -129,7 +133,8 @@ function get_lines(fname) {
               });
     }
     if (s.MEL_EXN_ID === Stdlib.End_of_file) {
-      const s$2 = Curry._1(Stdlib__Printf.sprintf(/* Format */{
+      const s$2 = Curry._1(Stdlib__Printf.sprintf({
+                TAG: /* Format */0,
                 _0: {
                   TAG: /* String_literal */11,
                   _0: "in file ",
@@ -156,7 +161,8 @@ function get_lines(fname) {
 
 function add_digest_ib(ob, ib) {
   const scan_line = function (ib, f) {
-    return Curry._1(Stdlib__Scanf.bscanf(ib, /* Format */{
+    return Curry._1(Stdlib__Scanf.bscanf(ib, {
+                    TAG: /* Format */0,
                     _0: {
                       TAG: /* Scan_char_set */20,
                       _0: undefined,

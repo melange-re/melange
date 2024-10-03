@@ -59,19 +59,6 @@ let is_enum_polyvar (ty : type_declaration) =
       Some row_fields
   | _ -> None
 
-let is_enum_constructors (constructors : constructor_declaration list) =
-  List.for_all
-    ~f:(fun (x : constructor_declaration) ->
-      match x with
-      | {
-       pcd_args =
-         Pcstr_tuple [] (* Note the enum is encoded using [Pcstr_tuple []]*);
-       _;
-      } ->
-          true
-      | _ -> false)
-    constructors
-
 let map_row_fields_into_ints ptyp_loc (row_fields : row_field list) =
   let _, acc =
     List.fold_left

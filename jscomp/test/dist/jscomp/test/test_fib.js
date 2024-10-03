@@ -36,28 +36,30 @@ for(let i$1 = 10; i$1 >= 0; --i$1){
 const sumdown = v$1;
 
 function cons(x, y) {
-  return /* Cons */{
+  return {
+          TAG: /* Cons */0,
           _0: x,
           _1: y
         };
 }
 
 function length(x) {
-  if (x) {
-    return 1 + length(x._1) | 0;
-  } else {
+  if (/* tag */typeof x === "number" || typeof x === "string") {
     return 0;
+  } else {
+    return 1 + length(x._1) | 0;
   }
 }
 
 function map(f, x) {
-  if (x) {
-    return /* Cons */{
+  if (/* tag */typeof x === "number" || typeof x === "string") {
+    return /* Nil */0;
+  } else {
+    return {
+            TAG: /* Cons */0,
             _0: Curry._1(f, x._0),
             _1: map(f, x._1)
           };
-  } else {
-    return /* Nil */0;
   }
 }
 

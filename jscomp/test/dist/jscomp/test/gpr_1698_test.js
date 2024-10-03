@@ -6,7 +6,7 @@ const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 function is_number(_expr) {
   while(true) {
     const expr = _expr;
-    switch (expr.TAG | 0) {
+    switch (expr.TAG) {
       case /* Val */0 :
           if (expr._0.TAG === /* Natural */0) {
             return true;
@@ -38,9 +38,9 @@ function compare(context, state, _a, _b) {
     let exit$1 = 0;
     let exit$2 = 0;
     let exit$3 = 0;
-    switch (a.TAG | 0) {
+    switch (a.TAG) {
       case /* Val */0 :
-          switch (b.TAG | 0) {
+          switch (b.TAG) {
             case /* Val */0 :
                 return 111;
             case /* Neg */1 :
@@ -73,7 +73,7 @@ function compare(context, state, _a, _b) {
           exit$3 = 5;
           break;
       case /* Frac */4 :
-          switch (b.TAG | 0) {
+          switch (b.TAG) {
             case /* Val */0 :
                 throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                           MEL_EXN_ID: "Assert_failure",
@@ -104,7 +104,7 @@ function compare(context, state, _a, _b) {
           }
           break;
       case /* Gcd */5 :
-          switch (b.TAG | 0) {
+          switch (b.TAG) {
             case /* Neg */1 :
                 exit$3 = 5;
                 break;
@@ -149,7 +149,7 @@ function compare(context, state, _a, _b) {
       }
     }
     if (exit$1 === 3) {
-      switch (a.TAG | 0) {
+      switch (a.TAG) {
         case /* Sum */2 :
             exit = 1;
             break;
@@ -164,7 +164,7 @@ function compare(context, state, _a, _b) {
     }
     switch (exit) {
       case 1 :
-          switch (b.TAG | 0) {
+          switch (b.TAG) {
             case /* Pow */3 :
                 return 1;
             case /* Gcd */5 :

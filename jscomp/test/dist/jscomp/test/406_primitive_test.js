@@ -19,11 +19,13 @@ function eq(loc, x, y) {
 
 eq("File \"jscomp/test/406_primitive_test.ml\", line 13, characters 6-13", 32, 32);
 
-const backend_type = /* Other */{
+const backend_type = {
+  TAG: /* Other */0,
   _0: "Melange"
 };
 
-eq("File \"jscomp/test/406_primitive_test.ml\", line 24, characters 6-13", backend_type, /* Other */{
+eq("File \"jscomp/test/406_primitive_test.ml\", line 24, characters 6-13", backend_type, {
+      TAG: /* Other */0,
       _0: "Melange"
     });
 

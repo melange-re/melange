@@ -34,7 +34,8 @@ type a =
   | A1 [@mel.as 3]
   | A2
   | A3
-and b =
+
+type b =
   [ `b0
   | `b1
   | `b2

@@ -19,7 +19,7 @@ function $plus$colon(_f, _g) {
       }
       
     }
-    switch (g.TAG | 0) {
+    switch (g.TAG) {
       case /* Int */0 :
           if (g._0 !== 0) {
             return {
@@ -86,7 +86,7 @@ function $star$colon(_f, _g) {
     if (exit === 2 && f.TAG === /* Int */0 && f._0 === 1) {
       return g;
     }
-    switch (g.TAG | 0) {
+    switch (g.TAG) {
       case /* Int */0 :
           if (g._0 !== 1) {
             return {
@@ -114,7 +114,7 @@ function $star$colon(_f, _g) {
 }
 
 function simplify(f) {
-  switch (f.TAG | 0) {
+  switch (f.TAG) {
     case /* Int */0 :
     case /* Var */1 :
         return f;

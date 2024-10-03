@@ -299,17 +299,18 @@ const funarg = {
 };
 
 function height(param) {
-  if (param) {
-    return param.h;
-  } else {
+  if (/* tag */typeof param === "number" || typeof param === "string") {
     return 0;
+  } else {
+    return param.h;
   }
 }
 
 function create(l, x, d, r) {
   const hl = height(l);
   const hr = height(r);
-  return /* Node */{
+  return {
+          TAG: /* Node */0,
           l: l,
           v: x,
           d: d,
@@ -319,24 +320,26 @@ function create(l, x, d, r) {
 }
 
 function bal(l, x, d, r) {
-  const hl = l ? l.h : 0;
-  const hr = r ? r.h : 0;
+  let hl;
+  hl = /* tag */typeof l === "number" || typeof l === "string" ? 0 : l.h;
+  let hr;
+  hr = /* tag */typeof r === "number" || typeof r === "string" ? 0 : r.h;
   if (hl > (hr + 2 | 0)) {
-    if (l) {
-      const lr = l.r;
-      const ld = l.d;
-      const lv = l.v;
-      const ll = l.l;
-      if (height(ll) >= height(lr)) {
-        return create(ll, lv, ld, create(lr, x, d, r));
-      }
-      if (lr) {
-        return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
-      }
+    if (/* tag */typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Map.bal"
               });
+    }
+    const lr = l.r;
+    const ld = l.d;
+    const lv = l.v;
+    const ll = l.l;
+    if (height(ll) >= height(lr)) {
+      return create(ll, lv, ld, create(lr, x, d, r));
+    }
+    if (!/* tag */(typeof lr === "number" || typeof lr === "string")) {
+      return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
@@ -344,7 +347,8 @@ function bal(l, x, d, r) {
             });
   }
   if (hr <= (hl + 2 | 0)) {
-    return /* Node */{
+    return {
+            TAG: /* Node */0,
             l: l,
             v: x,
             d: d,
@@ -352,21 +356,21 @@ function bal(l, x, d, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (r) {
-    const rr = r.r;
-    const rd = r.d;
-    const rv = r.v;
-    const rl = r.l;
-    if (height(rr) >= height(rl)) {
-      return create(create(l, x, d, rl), rv, rd, rr);
-    }
-    if (rl) {
-      return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
-    }
+  if (/* tag */typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Map.bal"
             });
+  }
+  const rr = r.r;
+  const rd = r.d;
+  const rv = r.v;
+  const rl = r.l;
+  if (height(rr) >= height(rl)) {
+    return create(create(l, x, d, rl), rv, rd, rr);
+  }
+  if (!/* tag */(typeof rl === "number" || typeof rl === "string")) {
+    return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             MEL_EXN_ID: "Invalid_argument",
@@ -375,8 +379,9 @@ function bal(l, x, d, r) {
 }
 
 function add(x, data, m) {
-  if (!m) {
-    return /* Node */{
+  if (/* tag */typeof m === "number" || typeof m === "string") {
+    return {
+            TAG: /* Node */0,
             l: /* Empty */0,
             v: x,
             d: data,
@@ -393,7 +398,8 @@ function add(x, data, m) {
     if (d === data) {
       return m;
     } else {
-      return /* Node */{
+      return {
+              TAG: /* Node */0,
               l: l,
               v: x,
               d: data,
@@ -421,17 +427,17 @@ function add(x, data, m) {
 function find(x, _param) {
   while(true) {
     const param = _param;
-    if (param) {
-      const c = Curry._2(funarg.compare, x, param.v);
-      if (c === 0) {
-        return param.d;
-      }
-      _param = c < 0 ? param.l : param.r;
-      continue ;
+    if (/* tag */typeof param === "number" || typeof param === "string") {
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                MEL_EXN_ID: Stdlib.Not_found
+              });
     }
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              MEL_EXN_ID: Stdlib.Not_found
-            });
+    const c = Curry._2(funarg.compare, x, param.v);
+    if (c === 0) {
+      return param.d;
+    }
+    _param = c < 0 ? param.l : param.r;
+    continue ;
   };
 }
 
@@ -502,17 +508,20 @@ const funarg$1 = {
 };
 
 function height$1(param) {
-  if (param) {
-    return param.h;
-  } else {
+  if (/* tag */typeof param === "number" || typeof param === "string") {
     return 0;
+  } else {
+    return param.h;
   }
 }
 
 function create$1(l, v, r) {
-  const hl = l ? l.h : 0;
-  const hr = r ? r.h : 0;
-  return /* Node */{
+  let hl;
+  hl = /* tag */typeof l === "number" || typeof l === "string" ? 0 : l.h;
+  let hr;
+  hr = /* tag */typeof r === "number" || typeof r === "string" ? 0 : r.h;
+  return {
+          TAG: /* Node */0,
           l: l,
           v: v,
           r: r,
@@ -521,23 +530,25 @@ function create$1(l, v, r) {
 }
 
 function bal$1(l, v, r) {
-  const hl = l ? l.h : 0;
-  const hr = r ? r.h : 0;
+  let hl;
+  hl = /* tag */typeof l === "number" || typeof l === "string" ? 0 : l.h;
+  let hr;
+  hr = /* tag */typeof r === "number" || typeof r === "string" ? 0 : r.h;
   if (hl > (hr + 2 | 0)) {
-    if (l) {
-      const lr = l.r;
-      const lv = l.v;
-      const ll = l.l;
-      if (height$1(ll) >= height$1(lr)) {
-        return create$1(ll, lv, create$1(lr, v, r));
-      }
-      if (lr) {
-        return create$1(create$1(ll, lv, lr.l), lr.v, create$1(lr.r, v, r));
-      }
+    if (/* tag */typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
                 MEL_EXN_ID: "Invalid_argument",
                 _1: "Set.bal"
               });
+    }
+    const lr = l.r;
+    const lv = l.v;
+    const ll = l.l;
+    if (height$1(ll) >= height$1(lr)) {
+      return create$1(ll, lv, create$1(lr, v, r));
+    }
+    if (!/* tag */(typeof lr === "number" || typeof lr === "string")) {
+      return create$1(create$1(ll, lv, lr.l), lr.v, create$1(lr.r, v, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
@@ -545,27 +556,28 @@ function bal$1(l, v, r) {
             });
   }
   if (hr <= (hl + 2 | 0)) {
-    return /* Node */{
+    return {
+            TAG: /* Node */0,
             l: l,
             v: v,
             r: r,
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (r) {
-    const rr = r.r;
-    const rv = r.v;
-    const rl = r.l;
-    if (height$1(rr) >= height$1(rl)) {
-      return create$1(create$1(l, v, rl), rv, rr);
-    }
-    if (rl) {
-      return create$1(create$1(l, v, rl.l), rl.v, create$1(rl.r, rv, rr));
-    }
+  if (/* tag */typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
               _1: "Set.bal"
             });
+  }
+  const rr = r.r;
+  const rv = r.v;
+  const rl = r.l;
+  if (height$1(rr) >= height$1(rl)) {
+    return create$1(create$1(l, v, rl), rv, rr);
+  }
+  if (!/* tag */(typeof rl === "number" || typeof rl === "string")) {
+    return create$1(create$1(l, v, rl.l), rl.v, create$1(rl.r, rv, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             MEL_EXN_ID: "Invalid_argument",
@@ -574,8 +586,9 @@ function bal$1(l, v, r) {
 }
 
 function add$1(x, t) {
-  if (!t) {
-    return /* Node */{
+  if (/* tag */typeof t === "number" || typeof t === "string") {
+    return {
+            TAG: /* Node */0,
             l: /* Empty */0,
             v: x,
             r: /* Empty */0,
@@ -721,7 +734,7 @@ function seq$1(ids, kind, x, y) {
   const match = x.def;
   const match$1 = y.def;
   let exit = 0;
-  if (typeof match === "number") {
+  if (/* tag */typeof match === "number" || typeof match === "string") {
     return y;
   }
   if (match.TAG === /* Alt */1) {
@@ -733,7 +746,7 @@ function seq$1(ids, kind, x, y) {
     exit = 2;
   }
   if (exit === 2) {
-    if (typeof match$1 === "number") {
+    if (/* tag */typeof match$1 === "number" || typeof match$1 === "string") {
       if (kind === "First") {
         return x;
       }
@@ -753,7 +766,7 @@ function seq$1(ids, kind, x, y) {
 
 function is_eps(expr) {
   const match = expr.def;
-  if (typeof match === "number") {
+  if (/* tag */typeof match === "number" || typeof match === "string") {
     return true;
   } else {
     return false;
@@ -779,10 +792,10 @@ function erase(ids, m, m$p) {
 
 function rename(ids, x) {
   const l = x.def;
-  if (typeof l === "number") {
+  if (/* tag */typeof l === "number" || typeof l === "string") {
     return mk_expr(ids, x.def);
   }
-  switch (l.TAG | 0) {
+  switch (l.TAG) {
     case /* Alt */1 :
         return mk_expr(ids, {
                     TAG: /* Alt */1,
@@ -821,13 +834,13 @@ function equal(_l1, _l2) {
       }
     }
     const marks1 = l1.hd;
-    switch (marks1.TAG | 0) {
+    switch (marks1.TAG) {
       case /* TSeq */0 :
           if (!l2) {
             return false;
           }
           const match = l2.hd;
-          switch (match.TAG | 0) {
+          switch (match.TAG) {
             case /* TSeq */0 :
                 if (marks1._1.id !== match._1.id) {
                   return false;
@@ -848,7 +861,7 @@ function equal(_l1, _l2) {
             return false;
           }
           const match$1 = l2.hd;
-          switch (match$1.TAG | 0) {
+          switch (match$1.TAG) {
             case /* TExp */1 :
                 if (marks1._1.id !== match$1._1.id) {
                   return false;
@@ -869,7 +882,7 @@ function equal(_l1, _l2) {
             return false;
           }
           const marks2 = l2.hd;
-          switch (marks2.TAG | 0) {
+          switch (marks2.TAG) {
             case /* TSeq */0 :
             case /* TExp */1 :
                 return false;
@@ -895,7 +908,7 @@ function hash$1(_l, _accu) {
       return accu;
     }
     const marks = l.hd;
-    switch (marks.TAG | 0) {
+    switch (marks.TAG) {
       case /* TSeq */0 :
           _accu = hash_combine(388635598, hash_combine(marks._1.id, hash$1(marks._0, accu)));
           _l = l.tl;
@@ -918,9 +931,10 @@ function tseq(kind, x, y, rem) {
     return rem;
   }
   const match = x.hd;
-  switch (match.TAG | 0) {
+  switch (match.TAG) {
     case /* TExp */1 :
-        if (typeof match._1.def === "number" && !x.tl) {
+        let tmp = match._1.def;
+        if (/* tag */(typeof tmp === "number" || typeof tmp === "string") && !x.tl) {
           return {
                   hd: {
                     TAG: /* TExp */1,
@@ -1004,7 +1018,7 @@ function reset_table(a) {
 function mark_used_indices(tbl) {
   return function (param) {
     return Stdlib__List.iter((function (param) {
-                  switch (param.TAG | 0) {
+                  switch (param.TAG) {
                     case /* TSeq */0 :
                         return mark_used_indices(tbl)(param._0);
                     case /* TExp */1 :
@@ -1048,7 +1062,7 @@ function free_index(tbl_ref, l) {
 
 function remove_matches(param) {
   return Stdlib__List.filter((function (param) {
-                switch (param.TAG | 0) {
+                switch (param.TAG) {
                   case /* TSeq */0 :
                   case /* TExp */1 :
                       return true;
@@ -1065,7 +1079,7 @@ function split_at_match_rec(_l$p, _param) {
     const l$p = _l$p;
     if (param) {
       const x = param.hd;
-      switch (x.TAG | 0) {
+      switch (x.TAG) {
         case /* TSeq */0 :
         case /* TExp */1 :
             _param = param.tl;
@@ -1104,7 +1118,7 @@ function remove_duplicates(prev, _l, y) {
             ];
     }
     const x = l.hd;
-    switch (x.TAG | 0) {
+    switch (x.TAG) {
       case /* TSeq */0 :
           const x$1 = x._1;
           const match = remove_duplicates(prev, x._0, x$1);
@@ -1114,7 +1128,8 @@ function remove_duplicates(prev, _l, y) {
                   match$1[1]
                 ];
       case /* TExp */1 :
-          if (typeof x._1.def === "number") {
+          let tmp = x._1.def;
+          if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
             const r = l.tl;
             if (Stdlib__List.memq(y.id, prev)) {
               _l = r;
@@ -1167,7 +1182,7 @@ function set_idx(idx, param) {
     return /* [] */0;
   }
   const marks = param.hd;
-  switch (marks.TAG | 0) {
+  switch (marks.TAG) {
     case /* TSeq */0 :
         return {
                 hd: {
@@ -1215,7 +1230,7 @@ function filter_marks(b, e, marks) {
 
 function delta_1(marks, c, next_cat, prev_cat, x, rem) {
   const s = x.def;
-  if (typeof s === "number") {
+  if (/* tag */typeof s === "number" || typeof s === "string") {
     return {
             hd: {
               TAG: /* TMatch */2,
@@ -1224,7 +1239,7 @@ function delta_1(marks, c, next_cat, prev_cat, x, rem) {
             tl: rem
           };
   }
-  switch (s.TAG | 0) {
+  switch (s.TAG) {
     case /* Cst */0 :
         if (mem(c, s._0)) {
           return {
@@ -1247,7 +1262,7 @@ function delta_1(marks, c, next_cat, prev_cat, x, rem) {
         const kind = s._1;
         const y$p$1 = delta_1(marks, c, next_cat, prev_cat, s._2, /* [] */0);
         const marks$p = first((function (marks) {
-                switch (marks.TAG | 0) {
+                switch (marks.TAG) {
                   case /* TSeq */0 :
                   case /* TExp */1 :
                       return ;
@@ -1362,7 +1377,7 @@ function delta_2(marks, c, next_cat, prev_cat, l, rem) {
 
 function delta_seq(c, next_cat, prev_cat, kind, y, z, rem) {
   const marks = first((function (marks) {
-          switch (marks.TAG | 0) {
+          switch (marks.TAG) {
             case /* TSeq */0 :
             case /* TExp */1 :
                 return ;
@@ -1388,7 +1403,7 @@ function delta_4(c, next_cat, prev_cat, l, rem) {
   if (l) {
     let x = l.hd;
     let rem$1 = delta_4(c, next_cat, prev_cat, l.tl, rem);
-    switch (x.TAG | 0) {
+    switch (x.TAG) {
       case /* TSeq */0 :
           const y$p = delta_4(c, next_cat, prev_cat, x._0, /* [] */0);
           return delta_seq(c, next_cat, prev_cat, x._2, y$p, x._1, rem$1);
@@ -1435,14 +1450,15 @@ function status(s) {
   let st$1;
   if (match) {
     const m = match.hd;
-    switch (m.TAG | 0) {
+    switch (m.TAG) {
       case /* TSeq */0 :
       case /* TExp */1 :
           st$1 = /* Running */1;
           break;
       case /* TMatch */2 :
           const m$1 = m._0;
-          st$1 = /* Match */{
+          st$1 = {
+            TAG: /* Match */0,
             _0: flatten_match(m$1.marks),
             _1: m$1.pmarks
           };
@@ -1508,7 +1524,8 @@ const unknown_state = {
 
 function mk_state(ncol, desc) {
   const match = status(desc);
-  const break_state = typeof match === "number" && match ? false : true;
+  let break_state;
+  break_state = /* tag */(typeof match === "number" || typeof match === "string") && match !== /* Failed */0 ? false : true;
   return {
           idx: break_state ? -3 : desc.idx,
           real_idx: desc.idx,
@@ -1748,10 +1765,10 @@ function trans_set(cache, cm, s) {
 function is_charset(_param) {
   while(true) {
     const param = _param;
-    if (typeof param === "number") {
+    if (/* tag */typeof param === "number" || typeof param === "string") {
       return false;
     }
-    switch (param.TAG | 0) {
+    switch (param.TAG) {
       case /* Set */0 :
           return true;
       case /* Sem */4 :
@@ -1837,7 +1854,7 @@ function colorize(c, regexp) {
   const colorize$1 = function (_regexp) {
     while(true) {
       const regexp = _regexp;
-      if (typeof regexp === "number") {
+      if (/* tag */typeof regexp === "number" || typeof regexp === "string") {
         switch (regexp) {
           case /* Beg_of_line */0 :
           case /* End_of_line */1 :
@@ -1863,7 +1880,7 @@ function colorize(c, regexp) {
           
         }
       } else {
-        switch (regexp.TAG | 0) {
+        switch (regexp.TAG) {
           case /* Set */0 :
               return split(regexp._0, c);
           case /* Sequence */1 :
@@ -1921,60 +1938,92 @@ function equal$2(_x1, _x2) {
   while(true) {
     const x2 = _x2;
     const x1 = _x1;
-    if (typeof x1 === "number") {
+    if (/* tag */typeof x1 === "number" || typeof x1 === "string") {
       switch (x1) {
         case /* Beg_of_line */0 :
-            if (typeof x2 === "number" && !x2) {
+            if (/* tag */(typeof x2 === "number" || typeof x2 === "string") && x2 === /* Beg_of_line */0) {
               return true;
             } else {
               return false;
             }
         case /* End_of_line */1 :
-            return x2 === 1;
+            if (/* tag */(typeof x2 === "number" || typeof x2 === "string") && x2 === /* End_of_line */1) {
+              return true;
+            } else {
+              return false;
+            }
         case /* Beg_of_word */2 :
-            return x2 === 2;
+            if (/* tag */(typeof x2 === "number" || typeof x2 === "string") && x2 === /* Beg_of_word */2) {
+              return true;
+            } else {
+              return false;
+            }
         case /* End_of_word */3 :
-            return x2 === 3;
+            if (/* tag */(typeof x2 === "number" || typeof x2 === "string") && x2 === /* End_of_word */3) {
+              return true;
+            } else {
+              return false;
+            }
         case /* Not_bound */4 :
-            return x2 === 4;
+            if (/* tag */(typeof x2 === "number" || typeof x2 === "string") && x2 === /* Not_bound */4) {
+              return true;
+            } else {
+              return false;
+            }
         case /* Beg_of_str */5 :
-            return x2 === 5;
+            if (/* tag */(typeof x2 === "number" || typeof x2 === "string") && x2 === /* Beg_of_str */5) {
+              return true;
+            } else {
+              return false;
+            }
         case /* End_of_str */6 :
-            return x2 === 6;
+            if (/* tag */(typeof x2 === "number" || typeof x2 === "string") && x2 === /* End_of_str */6) {
+              return true;
+            } else {
+              return false;
+            }
         case /* Last_end_of_line */7 :
-            return x2 === 7;
+            if (/* tag */(typeof x2 === "number" || typeof x2 === "string") && x2 === /* Last_end_of_line */7) {
+              return true;
+            } else {
+              return false;
+            }
         case /* Start */8 :
-            return x2 === 8;
+            if (/* tag */(typeof x2 === "number" || typeof x2 === "string") && x2 === /* Start */8) {
+              return true;
+            } else {
+              return false;
+            }
         case /* Stop */9 :
-            if (typeof x2 === "number") {
-              return x2 >= 9;
+            if (/* tag */(typeof x2 === "number" || typeof x2 === "string") && x2 === /* Stop */9) {
+              return true;
             } else {
               return false;
             }
         
       }
     } else {
-      switch (x1.TAG | 0) {
+      switch (x1.TAG) {
         case /* Set */0 :
-            if (typeof x2 === "number" || x2.TAG !== /* Set */0) {
+            if (/* tag */typeof x2 === "number" || typeof x2 === "string" || x2.TAG !== /* Set */0) {
               return false;
             } else {
               return Caml_obj.caml_equal(x1._0, x2._0);
             }
         case /* Sequence */1 :
-            if (typeof x2 === "number" || x2.TAG !== /* Sequence */1) {
+            if (/* tag */typeof x2 === "number" || typeof x2 === "string" || x2.TAG !== /* Sequence */1) {
               return false;
             } else {
               return eq_list(x1._0, x2._0);
             }
         case /* Alternative */2 :
-            if (typeof x2 === "number" || x2.TAG !== /* Alternative */2) {
+            if (/* tag */typeof x2 === "number" || typeof x2 === "string" || x2.TAG !== /* Alternative */2) {
               return false;
             } else {
               return eq_list(x1._0, x2._0);
             }
         case /* Repeat */3 :
-            if (typeof x2 === "number") {
+            if (/* tag */typeof x2 === "number" || typeof x2 === "string") {
               return false;
             }
             if (x2.TAG !== /* Repeat */3) {
@@ -1990,7 +2039,7 @@ function equal$2(_x1, _x2) {
             _x1 = x1._0;
             continue ;
         case /* Sem */4 :
-            if (typeof x2 === "number") {
+            if (/* tag */typeof x2 === "number" || typeof x2 === "string") {
               return false;
             }
             if (x2.TAG !== /* Sem */4) {
@@ -2003,7 +2052,7 @@ function equal$2(_x1, _x2) {
             _x1 = x1._1;
             continue ;
         case /* Sem_greedy */5 :
-            if (typeof x2 === "number") {
+            if (/* tag */typeof x2 === "number" || typeof x2 === "string") {
               return false;
             }
             if (x2.TAG !== /* Sem_greedy */5) {
@@ -2018,7 +2067,7 @@ function equal$2(_x1, _x2) {
         case /* Group */6 :
             return false;
         case /* No_group */7 :
-            if (typeof x2 === "number") {
+            if (/* tag */typeof x2 === "number" || typeof x2 === "string") {
               return false;
             }
             if (x2.TAG !== /* No_group */7) {
@@ -2028,7 +2077,7 @@ function equal$2(_x1, _x2) {
             _x1 = x1._0;
             continue ;
         case /* Nest */8 :
-            if (typeof x2 === "number") {
+            if (/* tag */typeof x2 === "number" || typeof x2 === "string") {
               return false;
             }
             if (x2.TAG !== /* Nest */8) {
@@ -2038,7 +2087,7 @@ function equal$2(_x1, _x2) {
             _x1 = x1._0;
             continue ;
         case /* Case */9 :
-            if (typeof x2 === "number") {
+            if (/* tag */typeof x2 === "number" || typeof x2 === "string") {
               return false;
             }
             if (x2.TAG !== /* Case */9) {
@@ -2048,7 +2097,7 @@ function equal$2(_x1, _x2) {
             _x1 = x1._0;
             continue ;
         case /* No_case */10 :
-            if (typeof x2 === "number") {
+            if (/* tag */typeof x2 === "number" || typeof x2 === "string") {
               return false;
             }
             if (x2.TAG !== /* No_case */10) {
@@ -2058,19 +2107,19 @@ function equal$2(_x1, _x2) {
             _x1 = x1._0;
             continue ;
         case /* Intersection */11 :
-            if (typeof x2 === "number" || x2.TAG !== /* Intersection */11) {
+            if (/* tag */typeof x2 === "number" || typeof x2 === "string" || x2.TAG !== /* Intersection */11) {
               return false;
             } else {
               return eq_list(x1._0, x2._0);
             }
         case /* Complement */12 :
-            if (typeof x2 === "number" || x2.TAG !== /* Complement */12) {
+            if (/* tag */typeof x2 === "number" || typeof x2 === "string" || x2.TAG !== /* Complement */12) {
               return false;
             } else {
               return eq_list(x1._0, x2._0);
             }
         case /* Difference */13 :
-            if (typeof x2 === "number") {
+            if (/* tag */typeof x2 === "number" || typeof x2 === "string") {
               return false;
             }
             if (x2.TAG !== /* Difference */13) {
@@ -2083,7 +2132,7 @@ function equal$2(_x1, _x2) {
             _x1 = x1._1;
             continue ;
         case /* Pmark */14 :
-            if (typeof x2 === "number") {
+            if (/* tag */typeof x2 === "number" || typeof x2 === "string") {
               return false;
             }
             if (x2.TAG !== /* Pmark */14) {
@@ -2142,8 +2191,8 @@ function merge_sequences(_param) {
       return /* [] */0;
     }
     const l$p = param.hd;
-    if (typeof l$p !== "number") {
-      switch (l$p.TAG | 0) {
+    if (!/* tag */(typeof l$p === "number" || typeof l$p === "string")) {
+      switch (l$p.TAG) {
         case /* Sequence */1 :
             const match = l$p._0;
             if (match) {
@@ -2153,7 +2202,7 @@ function merge_sequences(_param) {
               let exit = 0;
               if (r$p) {
                 const match$1 = r$p.hd;
-                if (typeof match$1 === "number" || match$1.TAG !== /* Sequence */1) {
+                if (/* tag */typeof match$1 === "number" || typeof match$1 === "string" || match$1.TAG !== /* Sequence */1) {
                   exit = 2;
                 } else {
                   const match$2 = match$1._0;
@@ -2232,7 +2281,7 @@ function translate(ids, kind, _ign_group, ign_case, _greedy, pos, cache, c, _s) 
     const s = _s;
     const greedy = _greedy;
     const ign_group = _ign_group;
-    if (typeof s === "number") {
+    if (/* tag */typeof s === "number" || typeof s === "string") {
       switch (s) {
         case /* Beg_of_line */0 :
             const c$1 = Curry._2(Re_automata_Category.$plus$plus, Re_automata_Category.inexistant, Re_automata_Category.newline);
@@ -2345,7 +2394,7 @@ function translate(ids, kind, _ign_group, ign_case, _greedy, pos, cache, c, _s) 
         
       }
     } else {
-      switch (s.TAG | 0) {
+      switch (s.TAG) {
         case /* Set */0 :
             return [
                     cst(ids, trans_set(cache, c, s._0)),
@@ -2507,7 +2556,7 @@ function case_insens(s) {
 }
 
 function as_set(s) {
-  if (typeof s === "number") {
+  if (/* tag */typeof s === "number" || typeof s === "string") {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -2534,10 +2583,10 @@ function handle_case(_ign_case, _s) {
   while(true) {
     const s = _s;
     const ign_case = _ign_case;
-    if (typeof s === "number") {
+    if (/* tag */typeof s === "number" || typeof s === "string") {
       return s;
     }
-    switch (s.TAG | 0) {
+    switch (s.TAG) {
       case /* Set */0 :
           const s$1 = s._0;
           return {
@@ -2672,7 +2721,7 @@ function handle_case(_ign_case, _s) {
 function anchored(_l) {
   while(true) {
     const l = _l;
-    if (typeof l === "number") {
+    if (/* tag */typeof l === "number" || typeof l === "string") {
       switch (l) {
         case /* Beg_of_str */5 :
         case /* Start */8 :
@@ -2681,7 +2730,7 @@ function anchored(_l) {
           return false;
       }
     } else {
-      switch (l.TAG | 0) {
+      switch (l.TAG) {
         case /* Sequence */1 :
             return Stdlib__List.exists(anchored, l._0);
         case /* Alternative */2 :
@@ -3178,14 +3227,15 @@ function exec_internal(name, posOpt, lenOpt, groups, re, s) {
     }
     res = match[1];
   }
-  if (typeof res === "number") {
-    if (res) {
-      return /* Running */1;
-    } else {
+  if (/* tag */typeof res === "number" || typeof res === "string") {
+    if (res === /* Failed */0) {
       return /* Failed */0;
+    } else {
+      return /* Running */1;
     }
   } else {
-    return /* Match */{
+    return {
+            TAG: /* Match */0,
             _0: {
               s: s,
               marks: res._0,
@@ -4102,12 +4152,17 @@ function re(flagsOpt, pat) {
 function exec(rex, pos, s) {
   let len;
   const substr = exec_internal("Re.exec", pos, len, true, rex, s);
-  if (typeof substr === "number") {
+  if (!/* tag */(typeof substr === "number" || typeof substr === "string")) {
+    return substr._0;
+  }
+  if (substr === /* Failed */0) {
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
               MEL_EXN_ID: Stdlib.Not_found
             });
   }
-  return substr._0;
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+            MEL_EXN_ID: Stdlib.Not_found
+          });
 }
 
 const s = Caml_bytes.bytes_to_string(Stdlib__Bytes.make(1048575, /* 'a' */97)) + "b";

@@ -58,7 +58,8 @@ eq("File \"jscomp/test/large_record_duplication_test.ml\", line 74, characters 6
           y: ""
         }), false);
 
-const v1 = /* A0 */{
+const v1 = {
+  TAG: /* A0 */0,
   x0: 9,
   x1: 9,
   x2: 9,
@@ -85,14 +86,15 @@ const v1 = /* A0 */{
 };
 
 function get_x0(x) {
-  if (x) {
+  if (/* tag */typeof x === "number" || typeof x === "string") {
+    return ;
+  } else {
     return x.x0;
   }
-  
 }
 
 function f1(x) {
-  if (!x) {
+  if (/* tag */typeof x === "number" || typeof x === "string") {
     return /* A1 */0;
   }
   const newrecord = Caml_obj.caml_obj_dup(x);

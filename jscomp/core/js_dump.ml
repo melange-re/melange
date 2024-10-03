@@ -790,18 +790,22 @@ and expression_desc cxt ~(level : int) x : cxt =
             (if !Js_config.debug then [ (name_symbol, E.str p.name) ] else [])
             (fun i -> Js_op.Lit i)
         in
-        if p.num_nonconst = 1 then tails
-        else
-          ( Js_op.Lit L.tag,
-            if !Js_config.debug then tag else { tag with comment = Some p.name }
-          )
-          :: tails
+        let as_value =
+          Lam_constant_convert.modifier ~name:p.name p.attributes
+        in
+        ( Js_op.Lit L.tag,
+          {
+            (match as_value.as_modifier with
+            | Some modifier -> E.as_value modifier
+            | None -> tag)
+            with
+            comment = Some as_value.name;
+          } )
+        :: tails
       in
-      if p.num_nonconst = 1 && not !Js_config.debug then
-        pp_comment_option cxt (Some p.name);
       expression_desc cxt ~level (Object objs)
   | Caml_block (el, _, tag, Blk_constructor p) ->
-      let not_is_cons = not (Js_op_util.is_cons p.name) in
+      let is_cons = Js_op_util.is_cons p.name in
       let objs =
         let tails =
           List.mapi
@@ -809,19 +813,25 @@ and expression_desc cxt ~(level : int) x : cxt =
               (Js_op.Lit (E.variant_pos ~constr:p.name (Int32.of_int i)), e))
             el
           @
-          if !Js_config.debug && not_is_cons then
+          if !Js_config.debug && not is_cons then
             [ (name_symbol, E.str p.name) ]
           else []
         in
-        if p.num_nonconst = 1 then tails
+        if is_cons && p.num_nonconst = 1 then tails
         else
+          let as_value =
+            Lam_constant_convert.modifier ~name:p.name p.attributes
+          in
           ( Js_op.Lit L.tag,
-            if !Js_config.debug then tag else { tag with comment = Some p.name }
-          )
+            {
+              (match as_value.as_modifier with
+              | Some modifier -> E.as_value modifier
+              | None -> tag)
+              with
+              comment = Some as_value.name;
+            } )
           :: tails
       in
-      if p.num_nonconst = 1 && (not !Js_config.debug) && not_is_cons then
-        pp_comment_option cxt (Some p.name);
       expression_desc cxt ~level (Object objs)
   | Caml_block (_, _, _, (Blk_module_export | Blk_na _)) -> assert false
   | Caml_block (el, mutable_flag, _tag, (Blk_tuple | Blk_class | Blk_array)) ->
@@ -1188,7 +1198,9 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       brace_vgroup cxt 1 (fun _ ->
           let cxt =
             loop_case_clauses cxt
-              (fun cxt s -> Js_dump_string.pp_string cxt.pp s)
+              (fun cxt as_value ->
+                let e = E.as_value as_value in
+                ignore @@ expression_desc cxt ~level:0 e.expression_desc)
               cc
           in
           match def with

@@ -181,7 +181,8 @@ const suites = {
         }
       }, Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                       return [
-                              Curry._1(Stdlib__Format.asprintf(/* Format */{
+                              Curry._1(Stdlib__Format.asprintf({
+                                        TAG: /* Format */0,
                                         _0: {
                                           TAG: /* String_literal */11,
                                           _0: "shift_right_logical_cases ",
@@ -205,7 +206,8 @@ const suites = {
                             ];
                     }), shift_right_logical_tests_0, shift_right_logical_tests_1)), Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                           return [
-                                  Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                  Curry._1(Stdlib__Format.asprintf({
+                                            TAG: /* Format */0,
                                             _0: {
                                               TAG: /* String_literal */11,
                                               _0: "shift_right_cases ",
@@ -229,7 +231,8 @@ const suites = {
                                 ];
                         }), shift_right_tests_0, shift_right_tests_1)), Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                           return [
-                                  Curry._1(Stdlib__Format.asprintf(/* Format */{
+                                  Curry._1(Stdlib__Format.asprintf({
+                                            TAG: /* Format */0,
                                             _0: {
                                               TAG: /* String_literal */11,
                                               _0: "shift_left_cases ",

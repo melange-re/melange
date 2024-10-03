@@ -314,7 +314,8 @@ function from_pairs(prefix, pairs) {
                     const a = param[1];
                     const result = param[0];
                     return [
-                            Curry._2(Stdlib__Printf.sprintf(/* Format */{
+                            Curry._2(Stdlib__Printf.sprintf({
+                                      TAG: /* Format */0,
                                       _0: {
                                         TAG: /* String */2,
                                         _0: /* No_padding */0,
@@ -1535,7 +1536,8 @@ function from(xs) {
                 const b = param[1];
                 const a = param[0];
                 return [
-                        Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                        Curry._1(Stdlib__Printf.sprintf({
+                                  TAG: /* Format */0,
                                   _0: {
                                     TAG: /* String_literal */11,
                                     _0: "small_divs ",
@@ -1602,7 +1604,8 @@ function from_compare(xs) {
                 const b = param[1];
                 const a = param[0];
                 return [
-                        Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                        Curry._1(Stdlib__Printf.sprintf({
+                                  TAG: /* Format */0,
                                   _0: {
                                     TAG: /* String_literal */11,
                                     _0: "int64_compare ",
@@ -1630,7 +1633,8 @@ function from_to_string(xs) {
                 const str_a = param[1];
                 const a = param[0];
                 return [
-                        Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                        Curry._1(Stdlib__Printf.sprintf({
+                                  TAG: /* Format */0,
                                   _0: {
                                     TAG: /* String_literal */11,
                                     _0: "to_string ",
@@ -1657,7 +1661,8 @@ Mt.from_pair_suites("Int64_mul_div_test", Stdlib.$at(from_pairs("random", pairs)
                         const f = param[1];
                         const i64 = param[0];
                         return [
-                                Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                                Curry._1(Stdlib__Printf.sprintf({
+                                          TAG: /* Format */0,
                                           _0: {
                                             TAG: /* String_literal */11,
                                             _0: "to_float_",
@@ -1683,7 +1688,8 @@ Mt.from_pair_suites("Int64_mul_div_test", Stdlib.$at(from_pairs("random", pairs)
                             const i64 = param[1];
                             const f = param[0];
                             return [
-                                    Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                                    Curry._1(Stdlib__Printf.sprintf({
+                                              TAG: /* Format */0,
                                               _0: {
                                                 TAG: /* String_literal */11,
                                                 _0: "of_float_",

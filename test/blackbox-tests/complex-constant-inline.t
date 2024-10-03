@@ -43,7 +43,7 @@
     message = "b";
   } else {
     let tmp = 12345;
-    message = typeof tmp === "number" || tmp.TAG === /* Vacations */0 ? "a" : "b";
+    message = /* tag */typeof tmp === "number" || typeof tmp === "string" || tmp.TAG === /* Vacations */0 ? "a" : "b";
   }
   
   const Test1 = {

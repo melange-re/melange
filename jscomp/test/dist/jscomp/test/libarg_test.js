@@ -26,7 +26,8 @@ function record(fmt) {
 }
 
 function f_unit(param) {
-  record(/* Format */{
+  record({
+        TAG: /* Format */0,
         _0: {
           TAG: /* String_literal */11,
           _0: "unit()",
@@ -37,7 +38,8 @@ function f_unit(param) {
 }
 
 function f_bool(b) {
-  Curry._1(record(/* Format */{
+  Curry._1(record({
+            TAG: /* Format */0,
             _0: {
               TAG: /* String_literal */11,
               _0: "bool(",
@@ -64,7 +66,8 @@ const r_clear = {
 };
 
 function f_string(s) {
-  Curry._1(record(/* Format */{
+  Curry._1(record({
+            TAG: /* Format */0,
             _0: {
               TAG: /* String_literal */11,
               _0: "string(",
@@ -87,7 +90,8 @@ const r_string = {
 };
 
 function f_int(i) {
-  Curry._1(record(/* Format */{
+  Curry._1(record({
+            TAG: /* Format */0,
             _0: {
               TAG: /* String_literal */11,
               _0: "int(",
@@ -112,7 +116,8 @@ const r_int = {
 };
 
 function f_float(f) {
-  Curry._1(record(/* Format */{
+  Curry._1(record({
+            TAG: /* Format */0,
             _0: {
               TAG: /* String_literal */11,
               _0: "float(",
@@ -140,7 +145,8 @@ const r_float = {
 };
 
 function f_symbol(s) {
-  Curry._1(record(/* Format */{
+  Curry._1(record({
+            TAG: /* Format */0,
             _0: {
               TAG: /* String_literal */11,
               _0: "symbol(",
@@ -159,7 +165,8 @@ function f_symbol(s) {
 }
 
 function f_rest(s) {
-  Curry._1(record(/* Format */{
+  Curry._1(record({
+            TAG: /* Format */0,
             _0: {
               TAG: /* String_literal */11,
               _0: "rest(",
@@ -178,7 +185,8 @@ function f_rest(s) {
 }
 
 function f_anon(s) {
-  Curry._1(record(/* Format */{
+  Curry._1(record({
+            TAG: /* Format */0,
             _0: {
               TAG: /* String_literal */11,
               _0: "anon(",
@@ -421,7 +429,8 @@ const args2 = [
 ];
 
 function error(s) {
-  Curry._1(Stdlib__Printf.printf(/* Format */{
+  Curry._1(Stdlib__Printf.printf({
+            TAG: /* Format */0,
             _0: {
               TAG: /* String_literal */11,
               _0: "error (",
@@ -504,7 +513,8 @@ function test(argv) {
   };
   if (Caml_obj.caml_notequal(result, reference)) {
     const f = function (x, y) {
-      Curry._3(Stdlib__Printf.printf(/* Format */{
+      Curry._3(Stdlib__Printf.printf({
+                TAG: /* Format */0,
                 _0: {
                   TAG: /* String */2,
                   _0: {

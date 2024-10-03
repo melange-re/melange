@@ -129,7 +129,8 @@ function from_pairs(ps) {
                     const b = param[1];
                     const a = param[0];
                     return [
-                            Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                            Curry._1(Stdlib__Printf.sprintf({
+                                      TAG: /* Format */0,
                                       _0: {
                                         TAG: /* String_literal */11,
                                         _0: "pair ",

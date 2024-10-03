@@ -12,7 +12,7 @@ function from_pair_suites(name, suites) {
   Stdlib__List.iter((function (param) {
           const name = param[0];
           const fn = Curry._1(param[1], undefined);
-          switch (fn.TAG | 0) {
+          switch (fn.TAG) {
             case /* Eq */0 :
                 console.log([
                       name,

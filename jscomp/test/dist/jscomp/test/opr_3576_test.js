@@ -23,13 +23,15 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-const object_tables = /* Cons */{
+const object_tables = {
+  TAG: /* Cons */0,
   key: undefined,
   data: undefined,
   next: undefined
 };
 
-const object_tables$1 = /* Cons */{
+const object_tables$1 = {
+  TAG: /* Cons */0,
   key: undefined,
   data: undefined,
   next: undefined

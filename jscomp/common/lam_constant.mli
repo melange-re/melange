@@ -22,18 +22,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 type pointer_info =
   | None
-  | Pt_constructor of {
-      name : string;
-      const : int;
-      non_const : int;
-      attributes : Parsetree.attributes;
-    }
+  | Pt_constructor of { name : Lambda.cstr_name; const : int; non_const : int }
   | Pt_assertfalse
   | Some of string
 
-val string_of_pointer_info : pointer_info -> string option
+val modifier_of_pointer_info : pointer_info -> Lambda.as_modifier option
+val comment_of_pointer_info : pointer_info -> string option
 
 type t =
   | Const_js_null

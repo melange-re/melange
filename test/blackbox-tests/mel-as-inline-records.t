@@ -42,7 +42,8 @@ Test `@mel.as` in inline records / record extensions
     renamed: "Corentin"
   };
   
-  const user2 = /* User */{
+  const user2 = {
+    TAG: /* User */0,
     renamed: "Corentin"
   };
   

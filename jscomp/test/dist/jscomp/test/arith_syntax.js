@@ -4,7 +4,7 @@
 const Stdlib = require("melange/stdlib.js");
 
 function str(e) {
-  switch (e.TAG | 0) {
+  switch (e.TAG) {
     case /* Numeral */0 :
         return Stdlib.string_of_float(e._0);
     case /* Plus */1 :

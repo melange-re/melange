@@ -958,7 +958,8 @@ if ((d8 & 16777215) !== Stdlib__Uchar.of_int(65)) {
           });
 }
 
-Stdlib__Printf.printf(/* Format */{
+Stdlib__Printf.printf({
+      TAG: /* Format */0,
       _0: {
         TAG: /* String_literal */11,
         _0: "All UTF tests passed!\n",

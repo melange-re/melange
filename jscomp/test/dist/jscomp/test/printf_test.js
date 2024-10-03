@@ -7,7 +7,8 @@ const Stdlib__Format = require("melange/format.js");
 const Stdlib__Printf = require("melange/printf.js");
 
 function print_pair(fmt, param) {
-  Curry._2(Stdlib__Format.fprintf(fmt)(/* Format */{
+  Curry._2(Stdlib__Format.fprintf(fmt)({
+            TAG: /* Format */0,
             _0: {
               TAG: /* Char_literal */12,
               _0: /* '(' */40,
@@ -43,7 +44,8 @@ const suites_0 = [
       return {
               TAG: /* Eq */0,
               _0: "3232",
-              _1: Curry._2(Stdlib__Printf.sprintf(/* Format */{
+              _1: Curry._2(Stdlib__Printf.sprintf({
+                        TAG: /* Format */0,
                         _0: {
                           TAG: /* String */2,
                           _0: /* No_padding */0,
@@ -68,7 +70,8 @@ const suites_1 = {
         return {
                 TAG: /* Eq */0,
                 _0: "xx",
-                _1: Stdlib__Format.asprintf(/* Format */{
+                _1: Stdlib__Format.asprintf({
+                      TAG: /* Format */0,
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "xx",
@@ -86,7 +89,8 @@ const suites_1 = {
           return {
                   TAG: /* Eq */0,
                   _0: "(1,2)",
-                  _1: Curry._2(Stdlib__Format.asprintf(/* Format */{
+                  _1: Curry._2(Stdlib__Format.asprintf({
+                            TAG: /* Format */0,
                             _0: {
                               TAG: /* Alpha */15,
                               _0: /* End_of_format */0
@@ -108,7 +112,8 @@ const suites = {
   tl: suites_1
 };
 
-const v = Stdlib__Format.asprintf(/* Format */{
+const v = Stdlib__Format.asprintf({
+      TAG: /* Format */0,
       _0: {
         TAG: /* String_literal */11,
         _0: "xx",

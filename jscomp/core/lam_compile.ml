@@ -26,6 +26,19 @@ open Import
 module E = Js_exp_make
 module S = Js_stmt_make
 
+module AsValue = struct
+  type t = Lambda.as_modifier = String of string | Int of int
+
+  let compare a b =
+    match (a, b) with
+    | String s1, String s2 -> String.compare s1 s2
+    | Int i1, Int i2 -> Int.compare i1 i2
+    | Int _, String _ -> -1
+    | String _, Int _ -> 1
+end
+
+module AsValueMap = Map.Make (AsValue)
+
 let args_either_function_or_const (args : Lam.t list) =
   List.for_all
     ~f:(fun (x : Lam.t) ->
@@ -505,7 +518,7 @@ and compile_recursive_lets cxt id_args : Js_output.t =
 
 and compile_general_cases :
       'a.
-      ('a -> string option) ->
+      get_cstr_name:('a -> Lambda.cstr_name option) ->
       ('a -> J.expression) ->
       (J.expression -> J.expression -> J.expression) ->
       Lam_compile_context.t ->
@@ -518,7 +531,8 @@ and compile_general_cases :
       ('a * Lam.t) list ->
       default_case ->
       J.block =
- fun (make_comment : _ -> string option) (make_exp : _ -> J.expression)
+ fun ~(get_cstr_name : _ -> Lambda.cstr_name option)
+     (make_exp : _ -> J.expression)
      (eq_exp : J.expression -> J.expression -> J.expression)
      (cxt : Lam_compile_context.t)
      (switch :
@@ -555,7 +569,7 @@ and compile_general_cases :
               (eq_exp switch_exp (make_exp id))
               then_block ~else_:else_block;
           ])
-  | _, _ ->
+  | _ :: _, _ ->
       (* TODO: this is not relevant to switch case
            however, in a subset of switch-case if we can analysis
            its branch are the same, we can propogate which
@@ -581,6 +595,11 @@ and compile_general_cases :
             | NonComplete -> None
             | Default lam ->
                 Some (Js_output.output_as_block (compile_lambda cxt lam))
+          in
+          let make_comment i =
+            match get_cstr_name i with
+            | None -> None
+            | Some { name; _ } -> Some name
           in
           let body =
             group_apply cases (fun last (switch_case, lam) ->
@@ -618,13 +637,42 @@ and compile_general_cases :
 
           [ switch ?default ?declaration switch_exp body ])
 
-and compile_cases cxt (switch_exp : E.t) table default get_name =
-  compile_general_cases get_name
-    (fun i -> { (E.small_int i) with comment = get_name i })
-    E.int_equal cxt
-    (fun ?default ?declaration e clauses ->
-      S.int_switch ?default ?declaration e clauses)
-    switch_exp table default
+and all_cases_as_value =
+  let exception Local in
+  fun table ~get_cstr_name ->
+    match
+      List.fold_right
+        ~f:(fun (i, lam) (acc, map) ->
+          match get_cstr_name i with
+          | Some ({ Lambda.as_modifier = Some as_value; _ } as cstr_name) ->
+              ((as_value, lam) :: acc, AsValueMap.add as_value cstr_name map)
+          | Some ({ as_modifier = None; _ } as cstr_name) ->
+              let as_value = Lambda.Int i in
+              ((as_value, lam) :: acc, AsValueMap.add as_value cstr_name map)
+          | None -> raise Local)
+        table ~init:([], AsValueMap.empty)
+    with
+    | table -> Some table
+    | exception Local -> None
+
+and compile_cases cxt (switch_exp : E.t) table default ~get_cstr_name =
+  match all_cases_as_value table ~get_cstr_name with
+  | Some (modifier_table, as_value_map) ->
+      let get_cstr_name as_value = AsValueMap.find_opt as_value as_value_map in
+      compile_string_cases ~get_cstr_name cxt switch_exp modifier_table default
+  | None ->
+      compile_general_cases ~get_cstr_name
+        (fun i ->
+          match get_cstr_name i with
+          | Some { name; as_modifier = Some modifier } ->
+              E.as_value ~comment:name modifier
+          | Some { name; as_modifier = None } ->
+              { (E.small_int i) with comment = Some name }
+          | None -> E.small_int i)
+        E.int_equal cxt
+        (fun ?default ?declaration e clauses ->
+          S.int_switch ?default ?declaration e clauses)
+        switch_exp table default
 
 and compile_switch (switch_arg : Lam.t) (sw : Lam.lambda_switch)
     (lambda_cxt : Lam_compile_context.t) =
@@ -661,18 +709,21 @@ and compile_switch (switch_arg : Lam.t) (sw : Lam.lambda_switch)
         block
         @
         if sw_consts_full && sw_consts = [] then
-          compile_cases cxt (E.tag e) sw_blocks sw_blocks_default get_block_name
+          compile_cases cxt (E.tag e) sw_blocks sw_blocks_default
+            ~get_cstr_name:get_block_name
         else if sw_blocks_full && sw_blocks = [] then
-          compile_cases cxt e sw_consts sw_num_default get_const_name
+          compile_cases cxt e sw_consts sw_num_default
+            ~get_cstr_name:get_const_name
         else
           (* [e] will be used twice  *)
           let dispatch e =
-            S.if_ (E.is_type_number e)
-              (compile_cases cxt e sw_consts sw_num_default get_const_name)
+            S.if_ (E.is_tag e)
+              (compile_cases cxt e sw_consts sw_num_default
+                 ~get_cstr_name:get_const_name)
               (* default still needed, could simplified*)
               ~else_:
                 (compile_cases cxt (E.tag e) sw_blocks sw_blocks_default
-                   get_block_name)
+                   ~get_cstr_name:get_block_name)
           in
           match e.expression_desc with
           | J.Var _ -> [ dispatch e ]
@@ -699,10 +750,14 @@ and compile_switch (switch_arg : Lam.t) (sw : Lam.lambda_switch)
         :: compile_whole { lambda_cxt with continuation = Assign id })
   | EffectCall _ | Assign _ -> Js_output.make (compile_whole lambda_cxt)
 
-and compile_string_cases cxt switch_exp table default =
-  compile_general_cases
-    (fun _ -> None)
-    E.str E.string_equal cxt
+and compile_string_cases ~get_cstr_name cxt switch_exp table default =
+  compile_general_cases ~get_cstr_name
+    (fun as_value ->
+      let comment =
+        get_cstr_name as_value |> Option.map (fun x -> x.Lambda.name)
+      in
+      E.as_value ?comment as_value)
+    E.string_equal cxt
     (fun ?default ?declaration e clauses ->
       S.string_switch ?default ?declaration e clauses)
     switch_exp table default
@@ -724,20 +779,22 @@ and compile_stringswitch l cases default (lambda_cxt : Lam_compile_context.t) =
       let default =
         match default with Some x -> Default x | None -> Complete
       in
+      let cases = List.map ~f:(fun (s, l) -> (Lambda.String s, l)) cases in
       match lambda_cxt.continuation with
       (* TODO: can be avoided when cases are less than 3 *)
       | NeedValue _ ->
           let v = Ident.create_tmp () in
           Js_output.make
             (List.append block
-               (compile_string_cases
+               (compile_string_cases ~get_cstr_name:(Fun.const None)
                   { lambda_cxt with continuation = Declare (Variable, v) }
                   e cases default))
             ~value:(E.var v)
       | _ ->
           Js_output.make
             (List.append block
-               (compile_string_cases lambda_cxt e cases default)))
+               (compile_string_cases ~get_cstr_name:(Fun.const None) lambda_cxt
+                  e cases default)))
 (*
          This should be optimized in lambda layer
          (let (match/1038 = (apply g/1027 x/1028))
@@ -859,7 +916,7 @@ and compile_staticcatch (lam : Lam.t) (lambda_cxt : Lam_compile_context.t) =
             (Js_output.append_output lbody
                (Js_output.make
                   (compile_cases new_cxt exit_expr handlers NonComplete
-                     (fun _ -> None))
+                     ~get_cstr_name:(Fun.const None))
                   ~value:(E.var v)))
       | Declare (kind, id) (* declare first this we will do branching*) ->
           let declares = S.declare_variable ~kind id :: declares in
@@ -871,7 +928,7 @@ and compile_staticcatch (lam : Lam.t) (lambda_cxt : Lam_compile_context.t) =
             (Js_output.append_output lbody
                (Js_output.make
                   (compile_cases new_cxt exit_expr handlers NonComplete
-                     (fun _ -> None))))
+                     ~get_cstr_name:(Fun.const None))))
           (* place holder -- tell the compiler that
              we don't know if it's complete
           *)
@@ -887,7 +944,7 @@ and compile_staticcatch (lam : Lam.t) (lambda_cxt : Lam_compile_context.t) =
             (Js_output.append_output lbody
                (Js_output.make
                   (compile_cases new_cxt exit_expr handlers NonComplete
-                     (fun _ -> None))))
+                     ~get_cstr_name:(Fun.const None))))
       | Assign _ ->
           let new_cxt = { lambda_cxt with jmp_table } in
           let lbody = compile_lambda new_cxt body in
@@ -895,7 +952,7 @@ and compile_staticcatch (lam : Lam.t) (lambda_cxt : Lam_compile_context.t) =
             (Js_output.append_output lbody
                (Js_output.make
                   (compile_cases new_cxt exit_expr handlers NonComplete
-                     (fun _ -> None)))))
+                     ~get_cstr_name:(Fun.const None)))))
 
 and compile_sequand (l : Lam.t) (r : Lam.t) (lambda_cxt : Lam_compile_context.t)
     =

@@ -10,7 +10,8 @@ const U = {
   f: f
 };
 
-const v = /* H */{
+const v = {
+  TAG: /* H */0,
   _0: /* OT */0
 };
 

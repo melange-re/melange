@@ -300,6 +300,20 @@ let small_int i : t =
   | 248 -> obj_int_tag_literal
   | i -> int (Int32.of_int i)
 
+(* var (Jident.create_js "true") *)
+let true_ : t = make_expression (Bool true)
+let false_ : t = make_expression (Bool false)
+let bool v = if v then true_ else false_
+
+let as_value ?comment modifier =
+  {
+    (match modifier with
+    | Lambda.String s -> str s (* ~delim:DStarJ *)
+    | Int i -> small_int i)
+    with
+    comment;
+  }
+
 let array_index ?loc ?comment (e0 : t) (e1 : t) : t =
   match (e0.expression_desc, e1.expression_desc) with
   | Array (l, _), Number (Int { i; _ })
@@ -508,13 +522,6 @@ let obj ?loc ?comment properties : t =
 
 (* currently only in method call, no dependency introduced
 *)
-
-(* Static_index .....................*)
-
-(* var (Jident.create_js "true") *)
-let true_ : t = make_expression (Bool true)
-let false_ : t = make_expression (Bool false)
-let bool v = if v then true_ else false_
 
 (** Arith operators *)
 (* Static_index .....................**)
@@ -747,6 +754,13 @@ let string_equal ?loc ?comment (e0 : t) (e1 : t) : t =
 let is_type_number ?loc ?comment (e : t) : t =
   string_equal ?loc ?comment (typeof e) (str "number")
 
+(* XXX(anmonteiro): this needs to change if we ever allow `[@mel.as ..]`
+   payloads to have types other than string or number *)
+let is_tag (e : t) : t =
+  or_ ~comment:"tag"
+    (string_equal (typeof e) (str "number"))
+    (string_equal (typeof e) (str "string"))
+
 let is_type_string ?loc ?comment (e : t) : t =
   string_equal ?loc ?comment (typeof e) (str "string")
 
@@ -755,10 +769,7 @@ let is_type_string ?loc ?comment (e : t) : t =
    call plain [dot]
 *)
 
-let tag ?loc ?comment e : t =
-  make_expression
-    (Bin
-       (Bor, make_expression ?loc ?comment (Caml_block_tag e), zero_int_literal))
+let tag ?loc ?comment e : t = make_expression ?loc ?comment (Caml_block_tag e)
 
 (* according to the compiler, [Btype.hash_variant],
    it's reduced to 31 bits for hash

@@ -175,6 +175,7 @@ val assign_by_int : ?loc:Location.t -> ?comment:string -> t -> int32 -> t -> t
 
 val assign_by_exp : t -> t -> t -> t
 val assign : ?loc:Location.t -> ?comment:string -> t -> t -> t
+val as_value : ?comment:string -> Import.Lambda.as_modifier -> t
 val triple_equal : ?loc:Location.t -> ?comment:string -> t -> t -> t
 (* TODO: reduce [triple_equal] use *)
 
@@ -189,6 +190,7 @@ val neq_null_undefined_boolean :
   ?loc:Location.t -> ?comment:string -> t -> t -> t
 
 val is_type_number : ?loc:Location.t -> ?comment:string -> t -> t
+val is_tag : t -> t
 val is_type_string : ?loc:Location.t -> ?comment:string -> t -> t
 val typeof : ?loc:Location.t -> ?comment:string -> t -> t
 val to_int32 : ?loc:Location.t -> ?comment:string -> t -> t

@@ -106,41 +106,11 @@ let buildMap (row_fields : row_field list) =
   in
   (data, revData, !has_mel_as)
 
-let ( <=~ ) a b =
-  let loc = noloc in
-  [%expr [%e a] <= [%e b]]
-
-let ( -~ ) a b =
-  let loc = noloc in
-  [%expr Stdlib.( - ) [%e a] [%e b]]
-
-let ( +~ ) a b =
-  let loc = noloc in
-  [%expr Stdlib.( + ) [%e a] [%e b]]
-
-let ( &&~ ) a b =
-  let loc = noloc in
-  [%expr Stdlib.( && ) [%e a] [%e b]]
-
 let ( ->~ ) a b =
   let loc = noloc in
   [%type: [%t a] -> [%t b]]
 
 let jsMapperRt = Longident.Lident "Js__Js_mapper_runtime"
-
-let fromInt len array exp =
-  let loc = noloc in
-  [%expr
-    [%e Exp.ident { loc = noloc; txt = Longident.Ldot (jsMapperRt, "fromInt") }]
-      [%e len] [%e array] [%e exp]]
-
-let fromIntAssert len array exp =
-  let loc = noloc in
-  [%expr
-    [%e
-      Exp.ident
-        { loc = noloc; txt = Longident.Ldot (jsMapperRt, "fromIntAssert") }]
-      [%e len] [%e array] [%e exp]]
 
 let raiseWhenNotFound x =
   let loc = noloc in
@@ -151,7 +121,6 @@ let raiseWhenNotFound x =
       [%e x]]
 
 let derivingName = "jsConverter"
-let assertExp e = Exp.assert_ e
 
 let single_non_rec_value name exp =
   Str.value Nonrecursive [ Vb.mk (Pat.var name) exp ]
@@ -162,7 +131,6 @@ let derive_structure =
     let name = tdcl.ptype_name.txt in
     let toJs = name ^ "ToJs" in
     let fromJs = name ^ "FromJs" in
-    let constantArray = "jsMapperConstantArray" in
     let loc = tdcl.ptype_loc in
     let patToJs = { Asttypes.loc; txt = toJs } in
     let patFromJs = { Asttypes.loc; txt = fromJs } in
@@ -271,109 +239,15 @@ let derive_structure =
                   Exp.constant
                     (Pconst_string (U.notApplicable derivingName, loc, None))]]];
             ])
-    | Ptype_variant ctors ->
-        if Ast_polyvar.is_enum_constructors ctors then
-          let xs = Ast_polyvar.map_constructor_declarations_into_ints ctors in
-          match xs with
-          | `New xs ->
-              let constantArrayExp =
-                Exp.ident { loc; txt = Lident constantArray }
-              in
-              let exp_len =
-                Exp.constant
-                  (Pconst_integer (string_of_int (List.length ctors), None))
-              in
-              let v =
-                [
-                  unsafeIndexGet;
-                  eraseTypeStr;
-                  single_non_rec_value
-                    { loc; txt = constantArray }
-                    (Ast_helper.Exp.array
-                       (List.map
-                          ~f:(fun x ->
-                            Exp.constant
-                              (Pconst_integer (string_of_int x, None)))
-                          xs));
-                  toJsBody
-                    [%expr
-                      [%e unsafeIndexGetExp] [%e constantArrayExp]
-                        [%e exp_param]];
-                  single_non_rec_value patFromJs
-                    (Exp.fun_ Nolabel None (Pat.var pat_param)
-                       (if createType then
-                          fromIntAssert exp_len constantArrayExp
-                            (exp_param +: newType)
-                          +> core_type
-                        else
-                          fromInt exp_len constantArrayExp exp_param
-                          +> Ast_core_type.lift_option_type core_type));
-                ]
-              in
-              if createType then newTypeStr :: v else v
-          | `Offset offset ->
-              let v =
-                [
-                  eraseTypeStr;
-                  toJsBody
-                    (coerceResultToNewType
-                       (eraseType exp_param
-                       +~ Exp.constant
-                            (Pconst_integer (string_of_int offset, None))));
-                  (let len = List.length ctors in
-                   let range_low =
-                     Exp.constant
-                       (Pconst_integer (string_of_int (offset + 0), None))
-                   in
-                   let range_upper =
-                     Exp.constant
-                       (Pconst_integer (string_of_int (offset + len - 1), None))
-                   in
-
-                   single_non_rec_value { loc; txt = fromJs }
-                     (Exp.fun_ Nolabel None (Pat.var pat_param)
-                        (if createType then
-                           Exp.let_ Nonrecursive
-                             [
-                               Vb.mk (Pat.var pat_param) (exp_param +: newType);
-                             ]
-                             (Exp.sequence
-                                (assertExp
-                                   (exp_param <=~ range_upper
-                                  &&~ (range_low <=~ exp_param)))
-                                (exp_param
-                                -~ Exp.constant
-                                     (Pconst_integer (string_of_int offset, None))
-                                ))
-                           +> core_type
-                         else
-                           Exp.ifthenelse
-                             (exp_param <=~ range_upper
-                            &&~ (range_low <=~ exp_param))
-                             (Exp.construct
-                                { loc; txt = Ast_literal.predef_some }
-                                (Some
-                                   (exp_param
-                                   -~ Exp.constant
-                                        (Pconst_integer
-                                           (string_of_int offset, None)))))
-                             (Some
-                                (Exp.construct
-                                   { loc; txt = Ast_literal.predef_none }
-                                   None))
-                           +> Ast_core_type.lift_option_type core_type)));
-                ]
-              in
-              if createType then newTypeStr :: v else v
-        else
-          let loc = tdcl.ptype_loc in
-          [
-            [%stri
-              [%%ocaml.error
-              [%e
-                Exp.constant
-                  (Pconst_string (U.notApplicable derivingName, loc, None))]]];
-          ]
+    | Ptype_variant _ctors ->
+        let loc = tdcl.ptype_loc in
+        [
+          [%stri
+            [%%ocaml.error
+            [%e
+              Exp.constant
+                (Pconst_string (U.notApplicable derivingName, loc, None))]]];
+        ]
     | Ptype_open ->
         let loc = tdcl.ptype_loc in
         [
@@ -440,24 +314,15 @@ let derive_signature =
                   Exp.constant
                     (Pconst_string (U.notApplicable derivingName, loc, None))]]];
             ])
-    | Ptype_variant ctors ->
-        if Ast_polyvar.is_enum_constructors ctors then
-          let ty1 = if createType then newType else [%type: int] in
-          let ty2 =
-            if createType then core_type
-            else Ast_core_type.lift_option_type core_type
-          in
-          newTypeStr
-          +? [ toJsType ty1; Sig.value (Val.mk patFromJs (ty1 ->~ ty2)) ]
-        else
-          let loc = tdcl.ptype_loc in
-          [
-            [%sigi:
-              [%%ocaml.error
-              [%e
-                Exp.constant
-                  (Pconst_string (U.notApplicable derivingName, loc, None))]]];
-          ]
+    | Ptype_variant _ ->
+        let loc = tdcl.ptype_loc in
+        [
+          [%sigi:
+            [%%ocaml.error
+            [%e
+              Exp.constant
+                (Pconst_string (U.notApplicable derivingName, loc, None))]]];
+        ]
     | Ptype_open ->
         let loc = tdcl.ptype_loc in
         [

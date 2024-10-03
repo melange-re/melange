@@ -51,7 +51,7 @@ function close_enough(thresholdOpt, a, b) {
 }
 
 function handleCode(spec) {
-  switch (spec.TAG | 0) {
+  switch (spec.TAG) {
     case /* Eq */0 :
         Assert.deepEqual(spec._0, spec._1);
         return ;
@@ -117,7 +117,7 @@ function from_pair_suites(name, suites) {
       return Stdlib__List.iter((function (param) {
                     const name = param[0];
                     const _fn = Curry._1(param[1], undefined);
-                    switch (_fn.TAG | 0) {
+                    switch (_fn.TAG) {
                       case /* Eq */0 :
                           console.log([
                                 name,

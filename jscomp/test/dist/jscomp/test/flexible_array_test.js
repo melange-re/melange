@@ -13,130 +13,140 @@ function sub(_tr, _k) {
   while(true) {
     const k = _k;
     const tr = _tr;
-    if (tr) {
-      if (k === 1) {
-        return tr._0;
-      }
-      if (k % 2 === 0) {
-        _k = k / 2 | 0;
-        _tr = tr._1;
-        continue ;
-      }
+    if (/* tag */typeof tr === "number" || typeof tr === "string") {
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                MEL_EXN_ID: Stdlib.Not_found
+              });
+    }
+    if (k === 1) {
+      return tr._0;
+    }
+    if (k % 2 === 0) {
       _k = k / 2 | 0;
-      _tr = tr._2;
+      _tr = tr._1;
       continue ;
     }
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              MEL_EXN_ID: Stdlib.Not_found
-            });
+    _k = k / 2 | 0;
+    _tr = tr._2;
+    continue ;
   };
 }
 
 function update(tr, k, w) {
-  if (tr) {
-    const r = tr._2;
-    const l = tr._1;
+  if (/* tag */typeof tr === "number" || typeof tr === "string") {
     if (k === 1) {
-      return /* Br */{
+      return {
+              TAG: /* Br */0,
               _0: w,
-              _1: l,
-              _2: r
+              _1: /* Lf */0,
+              _2: /* Lf */0
             };
     }
-    const v = tr._0;
-    if (k % 2 === 0) {
-      return /* Br */{
-              _0: v,
-              _1: update(l, k / 2 | 0, w),
-              _2: r
-            };
-    } else {
-      return /* Br */{
-              _0: v,
-              _1: l,
-              _2: update(r, k / 2 | 0, w)
-            };
-    }
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
+            });
   }
+  const r = tr._2;
+  const l = tr._1;
   if (k === 1) {
-    return /* Br */{
+    return {
+            TAG: /* Br */0,
             _0: w,
-            _1: /* Lf */0,
-            _2: /* Lf */0
+            _1: l,
+            _2: r
           };
   }
-  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+  const v = tr._0;
+  if (k % 2 === 0) {
+    return {
+            TAG: /* Br */0,
+            _0: v,
+            _1: update(l, k / 2 | 0, w),
+            _2: r
+          };
+  } else {
+    return {
+            TAG: /* Br */0,
+            _0: v,
+            _1: l,
+            _2: update(r, k / 2 | 0, w)
+          };
+  }
 }
 
 function $$delete(tr, n) {
-  if (tr) {
-    if (n === 1) {
-      return /* Lf */0;
-    }
-    const r = tr._2;
-    const l = tr._1;
-    const v = tr._0;
-    if (n % 2 === 0) {
-      return /* Br */{
-              _0: v,
-              _1: $$delete(l, n / 2 | 0),
-              _2: r
-            };
-    } else {
-      return /* Br */{
-              _0: v,
-              _1: l,
-              _2: $$delete(r, n / 2 | 0)
-            };
-    }
+  if (/* tag */typeof tr === "number" || typeof tr === "string") {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
+            });
   }
-  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+  if (n === 1) {
+    return /* Lf */0;
+  }
+  const r = tr._2;
+  const l = tr._1;
+  const v = tr._0;
+  if (n % 2 === 0) {
+    return {
+            TAG: /* Br */0,
+            _0: v,
+            _1: $$delete(l, n / 2 | 0),
+            _2: r
+          };
+  } else {
+    return {
+            TAG: /* Br */0,
+            _0: v,
+            _1: l,
+            _2: $$delete(r, n / 2 | 0)
+          };
+  }
 }
 
 function loext(tr, w) {
-  if (tr) {
-    return /* Br */{
-            _0: w,
-            _1: loext(tr._2, tr._0),
-            _2: tr._1
-          };
-  } else {
-    return /* Br */{
+  if (/* tag */typeof tr === "number" || typeof tr === "string") {
+    return {
+            TAG: /* Br */0,
             _0: w,
             _1: /* Lf */0,
             _2: /* Lf */0
+          };
+  } else {
+    return {
+            TAG: /* Br */0,
+            _0: w,
+            _1: loext(tr._2, tr._0),
+            _2: tr._1
           };
   }
 }
 
 function lorem(tr) {
-  if (tr) {
-    const l = tr._1;
-    if (l) {
-      return /* Br */{
-              _0: l._0,
-              _1: tr._2,
-              _2: lorem(l)
-            };
-    }
-    if (!tr._2) {
-      return /* Lf */0;
-    }
-    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/flexible_array_test.ml",
-                66,
-                9
-              ]
+  if (/* tag */typeof tr === "number" || typeof tr === "string") {
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+              MEL_EXN_ID: Stdlib.Not_found
             });
   }
-  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
+  const l = tr._1;
+  if (!/* tag */(typeof l === "number" || typeof l === "string")) {
+    return {
+            TAG: /* Br */0,
+            _0: l._0,
+            _1: tr._2,
+            _2: lorem(l)
+          };
+  }
+  let tmp = tr._2;
+  if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
+    return /* Lf */0;
+  }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/flexible_array_test.ml",
+              66,
+              9
+            ]
           });
 }
 
@@ -222,7 +232,8 @@ function pp(fmt, s) {
     v = v + (", " + String(get(s, i)));
   }
   v = v + "]";
-  Curry._1(Stdlib__Format.fprintf(fmt)(/* Format */{
+  Curry._1(Stdlib__Format.fprintf(fmt)({
+            TAG: /* Format */0,
             _0: {
               TAG: /* String */2,
               _0: /* No_padding */0,
