@@ -47,7 +47,13 @@ let find_mel_as_name =
               };
             ] -> (
             namespace_error ~loc txt;
-            match const with
+            match
+#if OCAML_VERSION >= (5, 3, 0)
+            const.pconst_desc
+#else
+            const
+#endif
+            with
             | Pconst_string (s, _, _) -> Some (Lambda.String s)
             | Pconst_integer (s, None) -> Some (Int (int_of_string s))
             | _ -> None)
@@ -76,7 +82,16 @@ let find_name_with_loc (attr : Parsetree.attribute) : string Asttypes.loc option
          {
            pstr_desc =
              Pstr_eval
-               ({ pexp_desc = Pexp_constant (Pconst_string (s, _, _)); _ }, _);
+               ( {
+                   pexp_desc =
+#if OCAML_VERSION >= (5, 3, 0)
+                     Pexp_constant { pconst_desc = Pconst_string (s, _, _); _ };
+#else
+                     Pexp_constant (Pconst_string (s, _, _));
+#endif
+                   _;
+                 },
+                 _ );
            _;
          };
        ];

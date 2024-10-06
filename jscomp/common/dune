@@ -8,3 +8,16 @@
  (deps oprint_mel_primitive_name.dev.ml oprint_mel_primitive_name.release.ml)
  (action
   (copy# oprint_mel_primitive_name.%{profile}.ml %{target})))
+
+(rule
+ (targets utf8_string.ml)
+ (deps utf8_string.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
