@@ -28,16 +28,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1728245578,
-        "narHash": "sha256-YBCAm25OW1q3+LSMAYxnnvXfAYCL1zzaBLJ5OdUCGVY=",
+        "lastModified": 1728189430,
+        "narHash": "sha256-uf5rHgvoWekml5HSquY2YtqQCC56oo7ML/HIuBrDHak=",
         "owner": "melange-re",
         "repo": "melange-compiler-libs",
-        "rev": "5450a6219ab5a1e0d9c5c31302d12397888dee64",
+        "rev": "5548a064ea3cfe7593676a22013fd81df7ee970f",
         "type": "github"
       },
       "original": {
         "owner": "melange-re",
-        "ref": "anmonteiro/merge-5.3",
         "repo": "melange-compiler-libs",
         "type": "github"
       }
