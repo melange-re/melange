@@ -13,6 +13,8 @@ Unreleased
   ([#1164](https://github.com/melange-re/melange/pull/1164))
 - Fix code generation of custom `true` / `false` constructors
   ([#1175](https://github.com/melange-re/melange/pull/1175))
+- Fix code generation of OCaml objects that refers to an init variable in scope
+  ([#1183](https://github.com/melange-re/melange/pull/1183))
 
 4.0.1 2024-06-07
 ---------------
