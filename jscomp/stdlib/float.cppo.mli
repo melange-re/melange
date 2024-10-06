@@ -435,7 +435,7 @@ external erfc : float -> float = "caml_erfc_float" "caml_erfc"
   [@@unboxed] [@@noalloc]
 (** Complementary error function ([erfc x = 1 - erf x]).
     The argument ranges over the entire real line.
-    The result is always within [[-1.0, 1.0]].
+    The result is always within [[0.0, 2.0]].
 
     @since 4.13
 *)
@@ -621,8 +621,10 @@ module Array : sig
   (** [make_matrix dimx dimy e] returns a two-dimensional array
       (an array of arrays) with first dimension [dimx] and
       second dimension [dimy], where all elements are initialized with [e].
+
       @raise Invalid_argument if [dimx] or [dimy] is negative or
       greater than {!Sys.max_floatarray_length}.
+
       @since 5.2 *)
 
   val init_matrix : int -> int -> (int -> int -> float) -> t array
@@ -630,8 +632,10 @@ module Array : sig
       (an array of arrays)
       with first dimension [dimx] and second dimension [dimy],
       where the element at index ([x,y]) is initialized with [f x y].
+
       @raise Invalid_argument if [dimx] or [dimy] is negative or
       greater than {!Sys.max_floatarray_length}.
+
       @since 5.2 *)
 
   val append : t -> t -> t
@@ -807,7 +811,7 @@ module Array : sig
 
       When [sort] returns, [a] contains the same elements as before,
       reordered in such a way that for all i and j valid indices of [a] :
-  -      [cmp a.(i) a.(j)] >= 0 if and only if i >= j
+  -      [cmp a.(i) a.(j)] >= 0 if i >= j
   *)
 
   val stable_sort : (float -> float -> int) -> t -> unit
@@ -827,10 +831,12 @@ module Array : sig
     rand: (* thwart tools/sync_stdlib_docs *) (int -> int) -> t -> unit
   (** [shuffle rand a] randomly permutes [a]'s elements using [rand]
       for randomness. The distribution of permutations is uniform.
+
       [rand] must be such that a call to [rand n] returns a uniformly
       distributed random number in the range \[[0];[n-1]\].
       {!Random.int} can be used for this (do not forget to
       {{!Random.self_init}initialize} the generator).
+
       @since 5.2 *)
 
   (** {1 Float arrays and Sequences} *)
@@ -984,8 +990,10 @@ module ArrayLabels : sig
   (** [make_matrix ~dimx ~dimy e] returns a two-dimensional array
       (an array of arrays) with first dimension [dimx] and
       second dimension [dimy], where all elements are initialized with [e].
+
       @raise Invalid_argument if [dimx] or [dimy] is negative or
       greater than {!Sys.max_floatarray_length}.
+
       @since 5.2 *)
 
   val init_matrix : dimx:int -> dimy:int -> f:(int -> int -> float) -> t array
@@ -993,8 +1001,10 @@ module ArrayLabels : sig
       (an array of arrays)
       with first dimension [dimx] and second dimension [dimy],
       where the element at index ([x,y]) is initialized with [f x y].
+
       @raise Invalid_argument if [dimx] or [dimy] is negative or
       greater than {!Sys.max_floatarray_length}.
+
       @since 5.2 *)
 
   val append : t -> t -> t
@@ -1170,7 +1180,7 @@ module ArrayLabels : sig
 
       When [sort] returns, [a] contains the same elements as before,
       reordered in such a way that for all i and j valid indices of [a] :
-  -      [cmp a.(i) a.(j)] >= 0 if and only if i >= j
+  -      [cmp a.(i) a.(j)] >= 0 if i >= j
   *)
 
   val stable_sort : cmp:(float -> float -> int) -> t -> unit
@@ -1190,10 +1200,12 @@ module ArrayLabels : sig
     rand: (* thwart tools/sync_stdlib_docs *) (int -> int) -> t -> unit
   (** [shuffle ~rand a] randomly permutes [a]'s elements using [rand]
       for randomness. The distribution of permutations is uniform.
+
       [rand] must be such that a call to [rand n] returns a uniformly
       distributed random number in the range \[[0];[n-1]\].
       {!Random.int} can be used for this (do not forget to
       {{!Random.self_init}initialize} the generator).
+
       @since 5.2 *)
 
   (** {1 Float arrays and Sequences} *)

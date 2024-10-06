@@ -23,8 +23,8 @@ external get: 'a array -> int -> 'a = "%array_safe_get"
 external set: 'a array -> int -> 'a -> unit = "%array_safe_set"
 external unsafe_get: 'a array -> int -> 'a = "%array_unsafe_get"
 external unsafe_set: 'a array -> int -> 'a -> unit = "%array_unsafe_set"
-external make: int -> 'a -> 'a array = "caml_make_vect"
-external create: int -> 'a -> 'a array = "caml_make_vect"
+external make: int -> 'a -> 'a array = "caml_array_make"
+external create: int -> 'a -> 'a array = "caml_array_make"
 external unsafe_sub : 'a array -> int -> int -> 'a array = "caml_array_sub"
 #ifdef BS
 external append_prim : 'a array -> 'a array -> 'a array = "concat"
@@ -37,7 +37,7 @@ external unsafe_blit :
   'a array -> int -> 'a array -> int -> int -> unit = "caml_array_blit"
 (* external unsafe_fill : *)
   (* 'a array -> int -> int -> 'a -> unit = "caml_array_fill" *)
-external create_float: int -> float array = "caml_make_float_vect"
+external create_float: int -> float array = "caml_array_create_float"
 
 module Floatarray = struct
   external create : int -> floatarray = "caml_floatarray_create"
@@ -106,7 +106,11 @@ let sub a ofs len =
 let fill a ofs len v =
   if ofs < 0 || len < 0 || ofs > length a - len
   then invalid_arg "Array.fill"
+#ifdef BS
   else for i = ofs to ofs + len - 1 do unsafe_set a i v done
+#else
+  else unsafe_fill a ofs len v
+#endif
 
 let blit a1 ofs1 a2 ofs2 len =
   if len < 0 || ofs1 < 0 || ofs1 > length a1 - len
@@ -444,11 +448,21 @@ let stable_sort cmp a =
 
 let fast_sort = stable_sort
 
+let shuffle_contract_violation i j =
+  let int = string_of_int in
+  String.concat "" [
+    "Array.shuffle: 'rand "; int (i + 1);
+    "' returned "; int j;
+    ", out of expected range [0; "; int i; "]"
+  ]
+  |> invalid_arg
+
 let shuffle ~rand a = (* Fisher-Yates *)
   for i = length a - 1 downto 1 do
     let j = rand (i + 1) in
+    if not (0 <= j && j <= i) then shuffle_contract_violation i j;
     let v = unsafe_get a i in
-    unsafe_set a i (get a j);
+    unsafe_set a i (unsafe_get a j);
     unsafe_set a j v
   done
 

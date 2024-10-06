@@ -42,7 +42,7 @@ type stat =
 
     heap_chunks : int;
     (** Number of contiguous pieces of memory that make up the major heap.
-        This metrics is currently not available in OCaml 5: the field value is
+        This metric is currently not available in OCaml 5: the field value is
         always [0]. *)
 
     live_words : int;
@@ -71,12 +71,12 @@ type stat =
 
     free_blocks : int;
     (** Number of blocks in the free list.
-        This metrics is currently not available in OCaml 5: the field value is
+        This metric is currently not available in OCaml 5: the field value is
         always [0]. *)
 
     largest_free : int;
     (** Size (in words) of the largest block in the free list.
-        This metrics is currently not available in OCaml 5: the field value
+        This metric is currently not available in OCaml 5: the field value
         is always [0]. *)
 
     fragments : int;
@@ -92,7 +92,7 @@ type stat =
 
     stack_size: int;
     (** Current size of the stack, in words.
-        This metrics is currently not available in OCaml 5: the field value is
+        This metric is currently not available in OCaml 5: the field value is
         always [0].
         @since 3.12 *)
 
@@ -122,7 +122,10 @@ type control =
         number is less than or equal to 1000, it is a percentage of
         the current heap size (i.e. setting it to 100 will double the heap
         size at each increase). If it is more than 1000, it is a fixed
-        number of words that will be added to the heap. Default: 15. *)
+        number of words that will be added to the heap.
+
+        This field is currently not available in OCaml 5: the field value is
+        always [0]. *)
 
     space_overhead : int;
     (** The major GC speed is computed from this parameter.
@@ -157,16 +160,19 @@ type control =
        compaction is triggered at the end of each major GC cycle
        (this setting is intended for testing purposes only).
        If [max_overhead >= 1000000], compaction is never triggered.
-       Default: 500. *)
+
+       This field is currently not available in OCaml 5: the field value is
+       always [0]. *)
 
     stack_limit : int;
     (** The maximum size of the fiber stacks (in words).
-       Default: 1024k. *)
+       Default: 128M. *)
 
     allocation_policy : int;
     (** The policy used for allocating in the major heap.
 
-        This option is ignored in OCaml 5.x.
+        This field is currently not available in OCaml 5: the field value is
+        always [0].
 
         Prior to OCaml 5.0, possible values were 0, 1 and 2.
 
@@ -182,8 +188,10 @@ type control =
     (** The size of the window used by the major GC for smoothing
         out variations in its workload. This is an integer between
         1 and 50.
-        Default: 1.
-        @since 4.03 *)
+        @since 4.03
+
+        This field is currently not available in OCaml 5: the field value is
+        always [0]. *)
 
     custom_major_ratio : int;
     (** Target ratio of floating garbage to major heap size for
@@ -224,16 +232,19 @@ type control =
 
 external stat : unit -> stat = "caml_gc_stat"
 (** Return the current values of the memory management counters in a
-   [stat] record that represent the program's total memory stats.
-   This function causes a full major collection. *)
+    [stat] record that represents the program's total memory stats.
+    The [heap_chunks], [free_blocks], [largest_free], and [stack_size] metrics
+    are currently not available in OCaml 5: their returned field values are
+    therefore [0].
+    This function causes a full major collection. *)
 
 external quick_stat : unit -> stat = "caml_gc_quick_stat"
-(** Same as [stat] except that [live_words], [live_blocks], [free_words],
-    [free_blocks], [largest_free], and [fragments] are set to 0. Due to
-    per-domain buffers it may only represent the state of the program's
-    total memory usage since the last minor collection or major cycle.
-    This function is much faster than [stat] because it does not need to
-    trigger a full major collection. *)
+(** Returns a record with the current values of the memory management counters
+    like [stat]. Unlike [stat], [quick_stat] does not perform a full major
+    collection, and hence, is much faster. However, [quick_stat] reports the
+    counters sampled at the last minor collection or at the end of the last
+    major collection cycle (whichever is the latest). Hence, the memory stats
+    returned by [quick_stat] are not instantaneously accurate. *)
 
 external counters : unit -> float * float * float = "caml_gc_counters"
 (** Return [(minor_words, promoted_words, major_words)] for the current
@@ -254,14 +265,22 @@ external get : unit -> control = "caml_gc_get"
 [@@alert unsynchronized_access
     "GC parameters are a mutable global state."
 ]
-(** Return the current values of the GC parameters in a [control] record. *)
+(** Return the current values of the GC parameters in a [control] record.
+
+    The [major_heap_increment], [max_overhead], [allocation_policy], and
+    [window_size] fields are currently not available in OCaml 5: their returned
+    field values are therefore [0]. *)
 
 external set : control -> unit = "caml_gc_set"
 [@@alert unsynchronized_access
     "GC parameters are a mutable global state."
 ]
- (** [set r] changes the GC parameters according to the [control] record [r].
-   The normal usage is: [Gc.set { (Gc.get()) with Gc.verbose = 0x00d }] *)
+(** [set r] changes the GC parameters according to the [control] record [r].
+    The normal usage is: [Gc.set { (Gc.get()) with Gc.verbose = 0x00d }]
+
+    The [major_heap_increment], [max_overhead], [allocation_policy], and
+    [window_size] fields are currently not available in OCaml 5: setting them
+    therefore has no effect. *)
 
 external minor : unit -> unit = "caml_gc_minor"
 (** Trigger a minor collection. *)
@@ -462,8 +481,7 @@ module Memprof :
         (** The size of the block, in words, excluding the header. *)
 
         source : allocation_source;
-        (** The cause of the allocation; [Marshal] cannot be produced
-          since OCaml 5. *)
+        (** The cause of the allocation. *)
 
         callstack : Printexc.raw_backtrace
         (** The callstack for the allocation. *)
@@ -507,7 +525,7 @@ module Memprof :
        the sampling rate in samples per word (including headers).
        Usually, with cheap callbacks, a rate of 1e-4 has no visible
        effect on performance, and 1e-3 causes the program to run a few
-       percent slower.
+       percent slower. 0.0 <= sampling_rate <= 1.0.
 
        The parameter [callstack_size] is the length of the callstack
        recorded at every sample. Its default is [max_int].
@@ -515,12 +533,12 @@ module Memprof :
        The parameter [tracker] determines how to track sampled blocks
        over their lifetime in the minor and major heap.
 
-       Sampling is temporarily disabled on the current thread when
-       calling a callback, so callbacks do not need to be re-entrant
-       if the program is single-threaded and single-domain. However,
-       if threads or multiple domains are used, it is possible that
-       several callbacks will run in parallel. In this case, callback
-       functions must be re-entrant.
+       Sampling and running callbacks are temporarily disabled on the
+       current thread when calling a callback, so callbacks do not
+       need to be re-entrant if the program is single-threaded and
+       single-domain. However, if threads or multiple domains are
+       used, it is possible that several callbacks will run in
+       parallel. In this case, callback functions must be re-entrant.
 
        Note that a callback may be postponed slightly after the actual
        event. The callstack passed to an allocation callback always
@@ -528,30 +546,32 @@ module Memprof :
        have evolved between the allocation and the call to the
        callback.
 
-       If a new thread or domain is created when profiling is active,
-       the child thread or domain joins that profile (using the same
-       [sampling_rate], [callstack_size], and [tracker] callbacks).
+       If a new thread or domain is created when the current domain is
+       sampling for a profile, the child thread or domain joins that
+       profile (using the same [sampling_rate], [callstack_size], and
+       [tracker] callbacks).
 
-       An allocation callback is generally run by the thread which
+       An allocation callback is always run by the thread which
        allocated the block. If the thread exits or the profile is
+       stopped before the callback is called, the allocation callback
+       is not called and the block is not tracked.
+
+       Each subsequent callback is generally run by the domain which
+       allocated the block. If the domain terminates or the profile is
        stopped before the callback is called, the callback may be run
-       by a different thread.
+       by a different domain.
 
-       Each callback is generally run by the domain which allocated
-       the block. If the domain terminates or the profile is stopped
-       before the callback is called, the callback may be run by a
-       different domain.
-
-       Different domains may run different profiles simultaneously.
-       *)
+       Different domains may sample for different profiles
+       simultaneously.  *)
 
     val stop : unit -> unit
     (** Stop sampling for the current profile. Fails if no profile is
        sampling in the current domain. Stops sampling in all threads
        and domains sharing the profile.
 
-       Callbacks from a profile may run after [stop] is called, until
-       [discard] is applied to the profile.
+       Promotion and deallocation callbacks from a profile may run
+       after [stop] is called, until [discard] is applied to the
+       profile.
 
        A profile is implicitly stopped (but not discarded) if all
        domains and threads sampling for it are terminated.

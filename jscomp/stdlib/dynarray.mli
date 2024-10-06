@@ -23,7 +23,7 @@
 
     This is typically used to accumulate elements whose number is not
     known in advance or changes during computation, while also
-    providing fast access to elements at arbitrary positions.
+    providing fast access to elements at arbitrary indices.
 
 {[
     let dynarray_of_list li =
@@ -38,10 +38,6 @@
 
     The {!Stack} module provides a last-in first-out data structure
     that can be easily implemented on top of dynamic arrays.
-
-    {b Warning.} In their current implementation, the memory layout
-    of dynamic arrays differs from the one of {!Array}s. See the
-    {{!section:memory_layout} Memory Layout} section for more information.
 
     @since 5.2
 *)
@@ -185,6 +181,23 @@ val append_iter :
     [1], [2], and then [3] at the end of [a].
     [append_iter a Queue.iter q] adds elements from the queue [q]. *)
 
+val blit : src:'a t -> src_pos:int -> dst:'a t -> dst_pos:int -> len:int -> unit
+(** [blit ~src ~src_pos ~dst ~dst_pos ~len] copies [len] elements from
+    a source dynarray [src], starting at index [src_pos], to
+    a destination dynarray [dst], starting at index [dst_pos]. It
+    works correctly even if [src] and [dst] are the same array, and
+    the source and destination chunks overlap.
+
+    Unlike {!Array.blit}, {!Dynarray.blit} can extend the destination
+    array with new elements: it is valid to call [blit] even when
+    [dst_pos + len] is larger than [length dst]. The only requirement
+    is that [dst_pos] must be at most [length dst] (included), so that
+    there is no gap between the current elements and the blit
+    region.
+
+    @raise Invalid_argument if [src_pos] and [len] do not designate
+    a valid subarray of [src], or if [dst_pos] is strictly below [0]
+    or strictly above [length dst]. *)
 
 (** {1:removing Removing elements} *)
 
@@ -274,21 +287,6 @@ val fold_right : ('a -> 'acc -> 'acc) -> 'a t -> 'acc -> 'acc
     where [x0], [x1], ..., [xn] are the elements of [a].
 *)
 
-val exists : ('a -> bool) -> 'a t -> bool
-(** [exists f a] is [true] if some element of [a] satisfies [f].
-
-    For example, if the elements of [a] are [x0], [x1], [x2], then
-    [exists f a] is [f x0 || f x1 || f x2].
-*)
-
-val for_all : ('a -> bool) -> 'a t -> bool
-(** [for_all f a] is [true] if all elements of [a] satisfy [f].
-    This includes the case where [a] is empty.
-
-    For example, if the elements of [a] are [x0], [x1], then
-    [exists f a] is [f x0 && f x1 && f x2].
-*)
-
 val filter : ('a -> bool) -> 'a t -> 'a t
 (** [filter f a] is a new array of all the elements of [a] that satisfy [f].
     In other words, it is an array [b] such that, for each element [x]
@@ -311,6 +309,97 @@ val filter_map : ('a -> 'b option) -> 'a t -> 'b t
     a new array of integers read from the strings in [inputs],
     ignoring strings that cannot be converted to integers.
 *)
+
+(** {1:dynarray_scanning Dynarray scanning } *)
+
+val exists : ('a -> bool) -> 'a t -> bool
+(** [exists f a] is [true] if some element of [a] satisfies [f].
+
+    For example, if the elements of [a] are [x0], [x1], [x2], then
+    [exists f a] is [f x0 || f x1 || f x2].
+*)
+
+val for_all : ('a -> bool) -> 'a t -> bool
+(** [for_all f a] is [true] if all elements of [a] satisfy [f].
+    This includes the case where [a] is empty.
+
+    For example, if the elements of [a] are [x0], [x1], then
+    [exists f a] is [f x0 && f x1 && f x2].
+*)
+
+val mem : 'a -> 'a t -> bool
+(** [mem a set] is true if and only if [a] is structurally equal
+    to an element of [set] (i.e. there is an [x] in [set] such that
+    [compare a x = 0]).
+
+    @since 5.3
+*)
+
+val memq : 'a -> 'a t -> bool
+(** Same as {!mem}, but uses physical equality
+    instead of structural equality to compare array elements.
+
+    @since 5.3
+ *)
+
+val find_opt : ('a -> bool) -> 'a t -> 'a option
+(** [find_opt f a] returns the first element of the array [a] that satisfies
+    the predicate [f], or [None] if there is no value that satisfies [f] in the
+    array [a].
+
+    @since 5.3
+*)
+
+val find_index : ('a -> bool) -> 'a t -> int option
+(** [find_index f a] returns [Some i], where [i] is the index of the first
+    element of the array [a] that satisfies [f x], if there is such an
+    element.
+
+    It returns [None] if there is no such element.
+
+    @since 5.3
+*)
+
+val find_map : ('a -> 'b option) -> 'a t -> 'b option
+(** [find_map f a] applies [f] to the elements of [a] in order, and returns the
+    first result of the form [Some v], or [None] if none exist.
+
+    @since 5.3
+*)
+
+val find_mapi : (int -> 'a -> 'b option) -> 'a t -> 'b option
+(** Same as [find_map], but the predicate is applied to the index of
+   the element as first argument (counting from 0), and the element
+   itself as second argument.
+
+   @since 5.3
+ *)
+
+(** {1:comparison Comparison functions}
+
+    Comparison functions iterate over their arguments; it is
+    a programming error to change their length during the iteration,
+    see the {{!section:iteration} Iteration} section above.
+ *)
+
+val equal : ('a -> 'a -> bool) -> 'a t -> 'a t -> bool
+(** [equal eq a b] holds when [a] and [b] have the same length,
+    and for all indices [i] we have [eq (get a i) (get b i)].
+
+    @since 5.3
+*)
+
+val compare : ('a -> 'a -> int) -> 'a t -> 'a t -> int
+(** Provided the function [cmp] defines a preorder on elements,
+    [compare cmp a b] compares first [a] and [b] by their length,
+    and then, if equal, by their elements according to
+    the lexicographic preorder.
+
+    For more details on comparison functions, see {!Array.sort}.
+
+    @since 5.3
+*)
+
 
 (** {1:conversions Conversions to other data structures}
 
@@ -489,38 +578,10 @@ val reset : 'a t -> unit
 (** {2:noleaks No leaks: preservation of memory liveness}
 
     The user-provided values reachable from a dynamic array [a] are
-    exactly the elements in the positions [0] to [length a - 1]. In
+    exactly the elements in the indices [0] to [length a - 1]. In
     particular, no user-provided values are "leaked" by being present
-    in the backing array in position [length a] or later.
+    in the backing array at index [length a] or later.
 *)
-
-(** {2:memory_layout Memory layout of dynarrays}
-
-    In the current implementation, the backing array of an
-    ['a Dynarray.t] is not an ['a array], but something with the same
-    representation as an ['a option array] or ['a ref array].
-    Each element is in a "box", allocated when the element is first
-    added to the array -- see the implementation for more details.
-
-    Using an ['a array] would be delicate, as there is no obvious
-    type-correct way to represent the empty space at the end of the
-    backing array -- using user-provided values would either
-    complicate the API or violate the {{!section:noleaks}no leaks}
-    guarantee. The constraint of remaining memory-safe under
-    unsynchronized concurrent usage makes it even more
-    difficult. Various unsafe ways to do this have been discussed,
-    with no consensus on a standard implementation so far.
-
-    On a realistic automated-theorem-proving program that relies
-    heavily on dynamic arrays, we measured the overhead of this extra
-    "boxing" as at most 25%. We believe that the overhead for most
-    uses of dynarray is much smaller, negligible in many cases, but
-    you may still prefer to use your own specialized implementation
-    for performance. (If you know that you do not need the
-    {{:noleaks}no leaks} guarantee, you can also speed up deleting
-    elements.)
-*)
-
 
 
 (** {1:examples Code examples}
@@ -606,7 +667,7 @@ end = struct
       let last = Dynarray.length h - 1 in
       swap h 0 last;
       (* At this point [pop_last] returns the 'best' value,
-         and leaves a heap with one misplaced element at position 0. *)
+         and leaves a heap with one misplaced element at index [0]. *)
       let best = Dynarray.pop_last h in
       (* Restore the heap ordering -- does nothing if the heap is empty. *)
       heap_down h ~len:last 0;

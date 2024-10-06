@@ -100,6 +100,7 @@ external length : string -> int = "%string_length"
 external get : string -> int -> char = "%string_safe_get"
 (** [get s i] is the character at index [i] in [s]. This is the same
     as writing [s.[i]].
+
     @raise Invalid_argument if [i] not an index of [s]. *)
 
 val of_bytes : bytes -> string
@@ -480,6 +481,20 @@ val get_int32_ne : string -> int -> int32
     @since 4.13
 *)
 
+val hash : t -> int
+(** An unseeded hash function for strings, with the same output value as
+    {!Hashtbl.hash}. This function allows this module to be passed as argument
+    to the functor {!Hashtbl.Make}.
+
+    @since 5.0 *)
+
+val seeded_hash : int -> t -> int
+(** A seeded hash function for strings, with the same output value as
+    {!Hashtbl.seeded_hash}. This function allows this module to be passed as
+    argument to the functor {!Hashtbl.MakeSeeded}.
+
+    @since 5.0 *)
+
 val get_int32_be : string -> int -> int32
 (** [get_int32_be b i] is [b]'s big-endian 32-bit integer
     starting at character index [i].
@@ -514,21 +529,6 @@ val get_int64_le : string -> int -> int64
 
     @since 4.13
 *)
-
-val hash : t -> int
-(** An unseeded hash function for strings, with the same output value as
-    {!Hashtbl.hash}. This function allows this module to be passed as argument
-    to the functor {!Hashtbl.Make}.
-
-    @since 5.0 *)
-
-val seeded_hash : int -> t -> int
-(** A seeded hash function for strings, with the same output value as
-    {!Hashtbl.seeded_hash}. This function allows this module to be passed as
-    argument to the functor {!Hashtbl.MakeSeeded}.
-
-    @since 5.0 *)
-
 
 (**/**)
 

@@ -208,6 +208,13 @@ external runtime_parameters : unit -> string = "caml_runtime_parameters"
     as the contents of the [OCAMLRUNPARAM] environment variable.
     @since 4.03 *)
 
+#ifdef BS
+#else
+external poll_actions : unit -> unit = "%poll"
+(** Run any pending runtime actions, such as minor collections, major
+    GC slices, signal handlers, finalizers, or memprof callbacks. *)
+#endif
+
 
 (** {1 Signal handling} *)
 
@@ -347,6 +354,7 @@ val catch_break : bool -> unit
    signal masks from [Thread.sigmask] to direct the interrupt towards a
    specific thread. *)
 
+
 val ocaml_version : string
 (** [ocaml_version] is the version of OCaml.
     It is a string of the form
@@ -406,7 +414,9 @@ external opaque_identity : 'a -> 'a = "%opaque"
 (** For the purposes of optimization, [opaque_identity] behaves like an
     unknown (and thus possibly side-effecting) function.
 
-    At runtime, [opaque_identity] disappears altogether.
+    At runtime, [opaque_identity] disappears altogether.  However, it does
+    prevent the argument from being garbage collected until the location
+    where the call would have occurred.
 
     A typical use of this function is to prevent pure computations from being
     optimized away in benchmarking loops.  For example:
