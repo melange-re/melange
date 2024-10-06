@@ -31,6 +31,7 @@ val make : 'a -> 'a t
 
 (** Create an atomic reference that is alone on a cache line. It occupies 4-16x
     the memory of one allocated with [make v].
+
     The primary purpose is to prevent false-sharing and the resulting
     performance degradation. When a CPU performs an atomic operation, it
     temporarily takes ownership of an entire cache line that contains the

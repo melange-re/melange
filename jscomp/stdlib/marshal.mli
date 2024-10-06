@@ -56,6 +56,7 @@ type extern_flags =
     No_sharing                          (** Don't preserve sharing *)
   | Closures                            (** Send function closures *)
   | Compat_32                           (** Ensure 32-bit compatibility *)
+
 (** The flags to the [Marshal.to_*] functions below. *)
 
 val to_channel : out_channel -> 'a -> extern_flags list -> unit
@@ -186,9 +187,10 @@ val total_size : bytes -> int -> int
 (** See {!Marshal.header_size}.*)
 
 (** {1:marshal_concurrency Marshal and domain safety}
+
     Care must be taken when marshaling a mutable value that may be modified by
     a different domain. Mutating a value that is being marshaled (i.e., turned
     into a sequence of bytes) is a programming error and might result in
-    suprising values (when unmarshaling) due to tearing, since marshaling
+    surprising values (when unmarshaling) due to tearing, since marshaling
     involves byte-per-byte copy.
 *)
