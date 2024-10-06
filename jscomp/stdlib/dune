@@ -71,7 +71,15 @@
  (deps camlinternalMod.cppo.ml)
  (target camlinternalMod.ml)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run
+   cppo
+   -D=BS
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{target})))
 
 (rule
  (deps camlinternalMod.cppo.mli)
@@ -83,13 +91,29 @@
  (deps camlinternalOO.cppo.ml)
  (target camlinternalOO.ml)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run
+   cppo
+   -D=BS
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{target})))
 
 (rule
  (deps camlinternalOO.cppo.mli)
  (target camlinternalOO.mli)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run
+   cppo
+   -D=BS
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{target})))
 
 (rule
  (deps float.cppo.ml)

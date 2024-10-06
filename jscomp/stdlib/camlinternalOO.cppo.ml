@@ -329,7 +329,12 @@ let init_class table =
   table.initializers <- List.rev table.initializers;
   resize table (3 + Obj.magic table.methods.(1) * 16 / Sys.word_size)
 
+
+#if OCAML_VERSION >= (5, 3, 0)
 let inherits cla vals virt_meths concr_meths (_, super, env) top =
+#else
+let inherits cla vals virt_meths concr_meths (_, super, _, env) top =
+#endif
   narrow cla vals virt_meths concr_meths;
   let init =
     if top then super cla env else Obj.repr (super cla) in
@@ -345,7 +350,11 @@ let make_class pub_meths class_init =
   let table = create_table pub_meths in
   let env_init = class_init table in
   init_class table;
+#if OCAML_VERSION >= (5, 3, 0)
   (env_init (Obj.repr 0), class_init, Obj.repr 0)
+#else
+  (env_init (Obj.repr 0), class_init, env_init, Obj.repr 0)
+#endif
 
 type init_table = { mutable env_init: t; mutable class_init: table -> t }
 [@@warning "-unused-field"]

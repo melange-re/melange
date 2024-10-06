@@ -71,9 +71,17 @@ let rec update_mod_field modu i shape n =
   | Value _ ->
      () (* the value is already there *)
   | Class ->
+#if OCAML_VERSION >= (5, 3, 0)
      assert (Obj.tag n = 0 && Obj.size n = 3);
+#else
+     assert (Obj.tag n = 0 && Obj.size n = 4);
+#endif
      let cl = Obj.field modu i in
+#if OCAML_VERSION >= (5, 3, 0)
      for j = 0 to 2 do
+#else
+     for j = 0 to 3 do
+#endif
        Obj.set_field cl j (Obj.field n j)
      done
   | Module comps ->
