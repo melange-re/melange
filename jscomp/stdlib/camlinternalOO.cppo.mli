@@ -46,10 +46,10 @@ val create_table : string array -> table
 val init_class : table -> unit
 val inherits :
     table -> string array -> string array -> string array ->
-    (t * (table -> obj -> Obj.t) * t * obj) -> bool -> Obj.t array
+    (t * (table -> obj -> Obj.t) * obj) -> bool -> Obj.t array
 val make_class :
     string array -> (table -> Obj.t -> t) ->
-    (t * (table -> Obj.t -> t) * (Obj.t -> t) * Obj.t)
+    (t * (table -> Obj.t -> t) * Obj.t)
 type init_table
 val make_class_store :
     string array -> (table -> t) -> init_table -> unit
@@ -57,7 +57,7 @@ val make_class_store :
 #else
 val dummy_class :
     string * int * int ->
-    (t * (table -> Obj.t -> t) * (Obj.t -> t) * Obj.t)
+    (t * (table -> Obj.t -> t) * Obj.t)
 #endif
 
 (** {1 Objects} *)

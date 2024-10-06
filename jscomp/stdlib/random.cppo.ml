@@ -3,6 +3,7 @@
 (*                                 OCaml                                  *)
 (*                                                                        *)
 (*               Damien Doligez, projet Para, INRIA Rocquencourt          *)
+(*          Xavier Leroy, projet Cambium, College de France and Inria     *)
 (*                                                                        *)
 (*   Copyright 1996 Institut National de Recherche en Informatique et     *)
 (*     en Automatique.                                                    *)

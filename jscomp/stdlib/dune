@@ -168,3 +168,9 @@
  (target sys.ml)
  (action
   (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps sys.cppo.mli)
+ (target sys.mli)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))

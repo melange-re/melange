@@ -528,7 +528,6 @@ val get_int64_le : string -> int -> int64
     starting at character index [i].
 
     @since 4.13
-    @since 4.13.0
 *)
 
 (**/**)

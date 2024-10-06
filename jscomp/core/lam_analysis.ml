@@ -52,9 +52,10 @@ let rec no_side_effects (lam : Lam.t) : bool =
               (* non-observable side effect *)
               | "caml_sys_get_config" | "caml_sys_argv" (* should be fine *)
               | "caml_sys_executable_name" | "caml_string_repeat"
-              | "caml_make_vect" | "caml_create_bytes" | "caml_obj_dup"
-              | "caml_array_dup" | "nativeint_add" | "nativeint_div"
-              | "nativeint_mod" | "nativeint_lsr" | "nativeint_mul" ),
+              | "caml_make_vect" | "caml_array_make" | "caml_create_bytes"
+              | "caml_obj_dup" | "caml_array_dup" | "nativeint_add"
+              | "nativeint_div" | "nativeint_mod" | "nativeint_lsr"
+              | "nativeint_mul" ),
               _ ) ->
               true
           | "caml_ml_open_descriptor_in", [ Lconst (Const_int { i = 0l; _ }) ]
