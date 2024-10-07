@@ -70,7 +70,7 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
   | Const_base (Const_float i, _) -> Const_float i
   | Const_base (Const_int32 i, _) -> Const_int { i; comment = None }
   | Const_base (Const_int64 i, _) -> Const_int64 i
-  | Const_base (Const_nativeint _, _) -> assert false
+  | Const_base (Const_nativeint i, _) -> Const_nativeint i
   | Const_float_array s -> Const_float_array s
   | Const_immstring s -> Const_string { s; unicode = false }
   | Const_block (i, t, xs) -> (

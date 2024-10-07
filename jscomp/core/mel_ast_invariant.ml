@@ -43,10 +43,12 @@ let check_constant ~loc kind (const : Parsetree.constant) =
       *)
       try ignore (Int32.of_string s)
       with _ -> Location.prerr_warning loc Mel_integer_literal_overflow)
-  | Pconst_integer (_, Some 'n') ->
-      Location.raise_errorf ~loc
-        "`nativeint' is not currently supported in Melange. The `n' suffix \
-         cannot be used."
+  | Pconst_integer (s, Some 'n') -> (
+      (* Location.prerr_warning loc pf
+           "`nativeint' is not fully supported in Melange. The `n' suffix \
+            should be avoided."; *)
+      try ignore (Nativeint.of_string s)
+      with _ -> Location.prerr_warning loc Mel_integer_literal_overflow)
   | _ -> ()
 
 module Core_type = struct
