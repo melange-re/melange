@@ -108,7 +108,11 @@ let warning_error_to_js (error : Location.report) : Js.t =
     | Report_alert_as_error w ->
         (Printf.sprintf "Error: (alert %s)" w, "alert_as_error")
   in
+#if OCAML_VERSION >= (5,3,0)
+  let txt = Format.asprintf "@[%a@]" Format_doc.Doc.format error.main.txt in
+#else
   let txt = Format.asprintf "@[%t@]" error.main.txt in
+#endif
   let loc = error.main.loc in
   let _file, line, startchar = Location.get_pos_info loc.Location.loc_start in
   let _file, endline, endchar = Location.get_pos_info loc.Location.loc_end in

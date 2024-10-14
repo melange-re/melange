@@ -9,6 +9,19 @@
   reason))
 
 (rule
+ (targets toolchain.ml)
+ (deps toolchain.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
  (targets mel_playground.ml)
  (deps mel_playground.cppo.ml)
  (action
