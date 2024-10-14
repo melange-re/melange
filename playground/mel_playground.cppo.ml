@@ -43,22 +43,29 @@ let warnings_collected : Location.report list ref = ref []
 module From_ppxlib =
   Ppxlib_ast.Convert (Ppxlib_ast.Selected_ast) (Melange_OCaml_version)
 
+
+#if OCAML_VERSION >= (5,3,0)
+module Printtyp = Out_type
+#else
+module Format_doc = Format
+#endif
+
 (* Collects the type information from the typed_tree, so we can use that data
    to display types on hover etc. *)
 let collect_type_hints =
   let module Printer = struct
     let print_expr typ =
       Printtyp.reset ();
-      Format.asprintf "%a" !Oprint.out_type (Printtyp.tree_of_typexp Type typ)
+      Format_doc.asprintf "%a" !Oprint.out_type (Printtyp.tree_of_typexp Type typ)
 
     let print_pattern pat =
       Printtyp.reset ();
-      Format.asprintf "%a" !Oprint.out_type
+      Format_doc.asprintf "%a" !Oprint.out_type
         (Printtyp.tree_of_typexp Type pat.Typedtree.pat_type)
 
     let print_decl ~recStatus name decl =
       Printtyp.reset ();
-      Format.asprintf "%a" !Oprint.out_sig_item
+      Format_doc.asprintf "%a" !Oprint.out_sig_item
         (Printtyp.tree_of_type_declaration (Ident.create_local name) decl
            recStatus)
   end in
@@ -197,7 +204,10 @@ let compile =
       in
       let typed_tree =
         let { Typedtree.structure; coercion; shape = _; signature } =
-#if OCAML_VERSION >= (5,2,0)
+#if OCAML_VERSION >= (5,3,0)
+          let unit_info = Unit_info.make ~source_file:modulename Unit_info.Impl modulename in
+          Typemod.type_implementation unit_info env ast
+#elif OCAML_VERSION >= (5,2,0)
           let unit_info = Unit_info.make ~source_file:modulename modulename in
           Typemod.type_implementation unit_info env ast
 #else
@@ -276,17 +286,38 @@ let () =
       match f w with
       | `Inactive -> None
       | `Active { Warnings.id; message; is_error; sub_locs } ->
-          let msg_of_str str ppf = Format.pp_print_string ppf str in
+          let _msg_of_str str ppf = Format.pp_print_string ppf str in
           let kind = mk ~is_error id in
-          let main = { Location.loc; txt = msg_of_str message } in
+          let main = {
+            Location.loc
+            ; txt =
+#if OCAML_VERSION >= (5,3,0)
+              Format_doc.Doc.msg "%s" message
+#else
+              _msg_of_str message
+#endif
+          }
+          in
           let sub =
             List.map
               ~f:(fun (loc, sub_message) ->
-                { Location.loc; txt = msg_of_str sub_message })
+                { Location.loc
+                ; txt =
+#if OCAML_VERSION >= (5,3,0)
+              Format_doc.Doc.msg "%s" sub_message
+#else
+              _msg_of_str sub_message
+#endif
+              })
               sub_locs
           in
           warnings_collected :=
-            { Location.kind; main; sub } :: !warnings_collected;
+            { Location.kind; main; sub;
+#if OCAML_VERSION >= (5,3,0)
+              footnote = None
+#endif
+
+                } :: !warnings_collected;
           None
     in
     let playground_warning_reporter =
