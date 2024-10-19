@@ -7,11 +7,11 @@
   $ node input.js
   {
     js_warning_error_msg: 'Line 1, 10:\n' +
-      '  Error This expression has type string but an expression was expected of type int',
+      '  Error This constant has type string but an expression was expected of type int',
     row: 0,
     column: 10,
     endRow: 0,
     endColumn: 12,
-    text: 'This expression has type string but an expression was expected of type int',
+    text: 'This constant has type string but an expression was expected of type int',
     type: 'error'
   }
