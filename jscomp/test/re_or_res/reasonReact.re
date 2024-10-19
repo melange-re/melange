@@ -203,11 +203,14 @@ let createClass =
        * TODO: Avoid allocating this every time we need it. Should be doable.
        */
       pub self = (state, retainedProps) => {
-        handle: Obj.magic(this##handleMethod),
-        send: Obj.magic(this##sendMethod),
-        state,
-        retainedProps,
-        onUnmount: Obj.magic(this##onUnmountMethod),
+        let _x = Obj.magic(this##handleMethod);
+        {
+          handle: _x,
+          send: Obj.magic(this##sendMethod),
+          state,
+          retainedProps,
+          onUnmount: Obj.magic(this##onUnmountMethod),
+        };
       };
       pub getInitialState = (): totalState('state, 'retainedProps, 'action) => {
         let thisJs:
@@ -285,7 +288,10 @@ let createClass =
               state: prevReasonState,
               retainedProps: oldComponent.retainedProps,
             });
-          newComponent.didUpdate({oldSelf, newSelf});
+          newComponent.didUpdate({
+            oldSelf,
+            newSelf,
+          });
         };
       };
       /* pub componentWillMount .. TODO (or not?) */
@@ -362,7 +368,10 @@ let createClass =
               state: curReasonState,
               retainedProps: oldComponent.retainedProps,
             });
-          newComponent.willUpdate({oldSelf, newSelf});
+          newComponent.willUpdate({
+            oldSelf,
+            newSelf,
+          });
         };
       };
       /***
@@ -478,7 +487,10 @@ let createClass =
               state: curReasonState,
               retainedProps: oldComponent.retainedProps,
             });
-          newComponent.shouldUpdate({oldSelf, newSelf});
+          newComponent.shouldUpdate({
+            oldSelf,
+            newSelf,
+          });
         } else {
           true;
         };
@@ -679,7 +691,11 @@ let element =
   | None =>
     createElement(
       component.reactClassInternal,
-      ~props={"key": key, "ref": ref, "reasonProps": element},
+      ~props={
+        "key": key,
+        "ref": ref,
+        "reasonProps": element,
+      },
       [||],
     )
   };
@@ -716,7 +732,10 @@ module WrapProps = {
     let props =
       Js.Obj.assign(
         Js.Obj.assign(Js.Obj.empty(), Obj.magic(props)),
-        {"ref": ref, "key": key},
+        {
+          "ref": ref,
+          "key": key,
+        },
       );
     let varargs =
       [|Obj.magic(reactClass), Obj.magic(props)|]
@@ -729,7 +748,10 @@ module WrapProps = {
       (~reactClass, ~props, children)
       : component(stateless, noRetainedProps, _) => {
     let jsElementWrapped = Some(wrapProps(~reactClass, ~props, children));
-    {...dummyInteropComponent, jsElementWrapped};
+    {
+      ...dummyInteropComponent,
+      jsElementWrapped,
+    };
   };
 };
 
