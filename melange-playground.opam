@@ -30,3 +30,7 @@ build: [
   ]
 ]
 dev-repo: "git+https://github.com/melange-re/melange.git"
+pin-depends: [
+  [ "js_of_ocaml-compiler.dev" "git+https://github.com/ocsigen/js_of_ocaml.git#4cd7df45183ca6f590240eeb6f48c984fb925067" ]
+  [ "js_of_ocaml.dev" "git+https://github.com/ocsigen/js_of_ocaml.git#4cd7df45183ca6f590240eeb6f48c984fb925067" ]
+]
