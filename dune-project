@@ -39,9 +39,7 @@
   (cppo :build)
   (ounit :with-test)
   (reason
-   (and
-    :with-test
-    (>= "3.9.0")))
+   (and :dev :with-test))
   (ppxlib
    (>= "0.30.0"))
   (menhir
