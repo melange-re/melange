@@ -1,5 +1,5 @@
 pin-depends: [
   [ "reason.dev" "git+https://github.com/reasonml/reason.git#anmonteiro/ocaml-5.3" ]
-  [ "merlin-extend.dev" "git+https://github.com/anmonteiro/httpun.git#anmonteiro/ocaml-5.3" ]
+  [ "merlin-extend.dev" "git+https://github.com/anmonteiro/merlin-extend.git#anmonteiro/ocaml-5.3" ]
   [ "utop.dev" "git+https://github.com/anmonteiro/utop.git#anmonteiro/ocaml-5.3" ]
 ]
