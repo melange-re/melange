@@ -287,6 +287,6 @@ Skip over the temporary file name printed in the error trace
   File "x.ml", line 5, characters 9-12:
   5 |   push a "3" |. ignore
                ^^^
-  Error: This expression has type string but an expression was expected of type
+  Error: This constant has type string but an expression was expected of type
            int
   [2]

@@ -29,7 +29,7 @@ Showcase how to use `[@mel.meth]`
   File "main.ml", line 9, characters 8-18:
   9 | let x = props##foo 123 "abc"
               ^^^^^^^^^^
-  Error: This expression has type int -> string -> unit
+  Error: This method call has type int -> string -> unit
          but an expression was expected of type ('a [@mel.meth])
   [1]
 

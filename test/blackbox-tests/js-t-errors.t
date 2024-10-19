@@ -8,6 +8,6 @@
   File "x.ml", line 2, characters 16-19:
   2 | let _: string = obj
                       ^^^
-  Error: This expression has type < .. > Js.t
+  Error: The value obj has type < .. > Js.t
          but an expression was expected of type string
   [2]
