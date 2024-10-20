@@ -46,10 +46,18 @@ val create_table : string array -> table
 val init_class : table -> unit
 val inherits :
     table -> string array -> string array -> string array ->
+#if OCAML_VERSION >= (5, 3, 0)
+    (t * (table -> obj -> Obj.t) * obj) -> bool -> Obj.t array
+#else
     (t * (table -> obj -> Obj.t) * t * obj) -> bool -> Obj.t array
+#endif
 val make_class :
     string array -> (table -> Obj.t -> t) ->
+#if OCAML_VERSION >= (5, 3, 0)
+    (t * (table -> Obj.t -> t) * Obj.t)
+#else
     (t * (table -> Obj.t -> t) * (Obj.t -> t) * Obj.t)
+#endif
 type init_table
 val make_class_store :
     string array -> (table -> t) -> init_table -> unit
@@ -57,7 +65,7 @@ val make_class_store :
 #else
 val dummy_class :
     string * int * int ->
-    (t * (table -> Obj.t -> t) * (Obj.t -> t) * Obj.t)
+    (t * (table -> Obj.t -> t) * Obj.t)
 #endif
 
 (** {1 Objects} *)

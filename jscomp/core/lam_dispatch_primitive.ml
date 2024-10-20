@@ -253,7 +253,7 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
   | "caml_lex_engine" | "caml_new_lex_engine" -> call Js_runtime_modules.lexer
   | "caml_parse_engine" | "caml_set_parser_trace" ->
       call Js_runtime_modules.parser
-  | "caml_make_float_vect"
+  | "caml_make_float_vect" | "caml_array_create_float"
   | "caml_floatarray_create" (* TODO: compile float array into TypedArray*) ->
       E.runtime_call ~module_name:Js_runtime_modules.array ~fn_name:"make_float"
         args
@@ -266,7 +266,7 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
      Not good for inline *)
   | "caml_array_blit" ->
       E.runtime_call ~module_name:Js_runtime_modules.array ~fn_name:"blit" args
-  | "caml_make_vect" ->
+  | "caml_make_vect" | "caml_array_make" ->
       E.runtime_call ~module_name:Js_runtime_modules.array ~fn_name:"make" args
   | "caml_ml_flush" | "caml_ml_out_channels_list" | "caml_ml_output_char"
   | "caml_ml_output" ->
@@ -329,7 +329,7 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
       match args with
       | [ num; behavior ] -> E.seq num behavior (*TODO:*)
       | _ -> assert false)
-  | "caml_md5_string" -> call Js_runtime_modules.md5
+  | "caml_md5_string" | "caml_md5_bytes" -> call Js_runtime_modules.md5
   | "caml_hash_mix_string" | "caml_hash_mix_int" | "caml_hash_final_mix" ->
       call Js_runtime_modules.hash_primitive
   | "caml_hash" -> call Js_runtime_modules.hash

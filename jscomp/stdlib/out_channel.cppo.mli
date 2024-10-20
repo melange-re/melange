@@ -171,6 +171,7 @@ val set_binary_mode : t -> bool -> unit
 val is_binary_mode : t -> bool
 (** [is_binary_mode oc] returns whether the channel [oc] is in binary mode
     (see {!set_binary_mode}).
+
     @since 5.2 *)
 
 val set_buffered : t -> bool -> unit

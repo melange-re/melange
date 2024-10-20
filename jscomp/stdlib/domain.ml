@@ -93,6 +93,8 @@ let first_domain = 0
 let is_main_domain () =
   self () = first_domain
 
+let self_index () = self ()
+
 let recommended_domain_count () = 1
 
 module DLS = struct

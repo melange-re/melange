@@ -29,6 +29,7 @@ val const : 'a -> (_ -> 'a)
 val compose : ('b -> 'c) -> ('a -> 'b) -> 'a -> 'c
 (** [compose f g] is a function composition of applying [g] then [f].
     For any arguments [f], [g], and [x], [compose f g x] is [f (g x)].
+
     @since 5.2 *)
 
 val flip : ('a -> 'b -> 'c) -> ('b -> 'a -> 'c)
