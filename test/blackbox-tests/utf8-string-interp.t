@@ -42,6 +42,5 @@ Test edge cases on unicode string interpolation
   File "x.ml", line 3, characters 15-16:
   3 |   {j| Hello, $(y)|j}
                      ^
-  Error: This expression has type int but an expression was expected of type
-           string
+  Error: The value y has type int but an expression was expected of type string
   [2]

@@ -25,7 +25,13 @@
 open Import
 
 let check_constant ~loc kind (const : Parsetree.constant) =
-  match const with
+  match
+#if OCAML_VERSION >= (5, 3, 0)
+    const.pconst_desc
+#else
+    const
+#endif
+  with
   | Pconst_string (_, _, Some s) -> (
       match kind with
       | `expr ->

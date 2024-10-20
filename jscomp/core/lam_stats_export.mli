@@ -30,7 +30,7 @@ val get_dependent_module_effect :
 val export_to_cmj :
   case:Js_packages_info.file_case ->
   Lam_stats.t ->
-  Js_cmj_format.effect ->
+  effect_:string option ->
   Lam.t Ident.Map.t ->
   (* FIXME: this is a leaky abstraction *)
   delayed_program:J.deps_program ->

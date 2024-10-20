@@ -64,7 +64,7 @@ let compile_group
         meta
       }
       id_lams
-  | Nop lam -> (* TODO: Side effect callls, log and see statistics *)
+  | Nop lam -> (* TODO: Side effect calls, log and see statistics *)
     Lam_compile.compile_lambda {continuation = EffectCall Not_tail;
                                 jmp_table = Lam_compile_context.empty_handler_map;
                                 meta
@@ -298,12 +298,12 @@ js
         module_ids
     in
     Warnings.check_fatal();
-    let effect =
+    let effect_ =
       Lam_stats_export.get_dependent_module_effect
         maybe_pure external_module_ids in
     let delayed_program = {
       J.program = program ;
-      side_effect = effect ;
+      side_effect = effect_ ;
       preamble = !Js_config.preamble;
       modules = external_module_ids
     }
@@ -318,7 +318,7 @@ js
         ~case
         ~delayed_program
         meta
-        effect
+        ~effect_
         coerced_input.export_map
     in
     (if not !Clflags.dont_write_files then

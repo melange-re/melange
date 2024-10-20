@@ -16,7 +16,7 @@
   > type (_, _) x =
   >   | [] : ('a, 'a) x
   >   | ( :: ) : 'a * ('ty, 'v) x -> ('a -> 'ty, 'v) x
-  > let rec f : type a b. (a, string ref) x -> string =
+  > let rec f : type a. (a, string ref) x -> string =
   >  fun x -> match x with [] -> "empty" | _ :: xs -> f xs
   > EOF
 
@@ -47,7 +47,7 @@
   > 
   > let x : _ x = []
   > 
-  > let rec f : type a b. (a, string ref) x -> string =
+  > let rec f : type a. (a, string ref) x -> string =
   >  fun x -> match x with [] -> "empty" | _ :: xs -> f xs
   > EOF
 
@@ -82,7 +82,7 @@
   > let x : _ x = []
   > let y : _ x = [ 2 ]
   > 
-  > let rec f : type a b. (a, string ref) x -> string =
+  > let rec f : type a. (a, string ref) x -> string =
   >  fun x -> match x with [] -> "empty" | _ :: xs -> f xs
   > EOF
 

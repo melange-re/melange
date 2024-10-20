@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         ocaml-version:
-          - 5_2
+          - 5_3
 
     runs-on: ubuntu-latest
     steps:
@@ -41,7 +41,7 @@ jobs:
           - macos-13
           - macos-14
         ocaml-version:
-          - 5_2
+          - 5_3
 
     runs-on: ${{ matrix.os }}
     steps:
