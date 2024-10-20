@@ -21,6 +21,8 @@ Unreleased
   ([#884](https://github.com/melange-re/melange/pull/884)). Use `[@mel.as
   "string here"]` instead.
 - Support OCaml 5.3 ([#1168](https://github.com/melange-re/melange/pull/1168))
+- Upgrade Stdlib to the OCaml 5.3 Stdlib
+  ([#1182](https://github.com/melange-re/melange/pull/1182))
 
 4.0.1 2024-06-07
 ---------------
