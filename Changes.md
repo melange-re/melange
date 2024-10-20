@@ -15,6 +15,12 @@ Unreleased
   ([#1175](https://github.com/melange-re/melange/pull/1175))
 - Fix code generation of OCaml objects that refers to an init variable in scope
   ([#1183](https://github.com/melange-re/melange/pull/1183))
+- Support `[@mel.as "string"]` in variant definitions
+  ([#884](https://github.com/melange-re/melange/pull/884))
+- BREAKING: remove `[@@deriving jsConverter]` for variant definitions
+  ([#884](https://github.com/melange-re/melange/pull/884)). Use `[@mel.as
+  "string here"]` instead.
+- Support OCaml 5.3 ([#1168](https://github.com/melange-re/melange/pull/1168))
 
 4.0.1 2024-06-07
 ---------------
