@@ -295,7 +295,9 @@ val unit : t
 (** [unit] in ocaml will be compiled into [0]  in js *)
 
 val undefined : t
-val tag : ?loc:Location.t -> ?comment:string -> J.expression -> t
+
+val tag :
+  ?loc:Location.t -> ?comment:string -> ?name:string -> J.expression -> t
 
 (** Note that this is coupled with how we encode block, if we use the
     `Object.defineProperty(..)` since the array already hold the length,

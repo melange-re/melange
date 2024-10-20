@@ -33,6 +33,11 @@ let names_from_construct_pattern
     let get_cstr_name (cstr: Types.constructor_declaration) =
       Lam_constant_convert.modifier ~name:(Ident.name cstr.cd_id) cstr.cd_attributes
     in
+    let get_block (cstr: Types.constructor_declaration) =
+      { Lambda.cstr_name = get_cstr_name cstr
+      ; tag_name = Record_attributes_check.process_tag_name cstr.cd_attributes
+      }
+    in
     let consts, blocks =
       List.fold_left
         ~f:(fun (consts, blocks)
@@ -40,7 +45,7 @@ let names_from_construct_pattern
           if is_nullary_variant cstr.cd_args then
             (get_cstr_name cstr :: consts , blocks)
           else
-            (consts , get_cstr_name cstr :: blocks))
+            (consts , get_block cstr :: blocks))
         ~init:([], []) cstrs
     in
     Some

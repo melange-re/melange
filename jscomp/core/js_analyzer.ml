@@ -109,7 +109,7 @@ let rec no_side_effect_expression_desc (x : J.expression_desc) =
   | Length { expr = e; _ }
   | Char_of_int e
   | Char_to_int e
-  | Caml_block_tag e
+  | Caml_block_tag (e, _)
   | Typeof e ->
       no_side_effect e
   | Bin { op; expr1 = a; expr2 = b } ->

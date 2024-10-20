@@ -847,7 +847,8 @@ let is_type_string ?loc ?comment (e : t) : t =
    call plain [dot]
 *)
 
-let tag ?loc ?comment e : t = make_expression ?loc ?comment (Caml_block_tag e)
+let tag ?loc ?comment ?(name = Js_dump_lit.tag) e : t =
+  make_expression ?loc ?comment (Caml_block_tag (e, name))
 
 (* according to the compiler, [Btype.hash_variant],
    it's reduced to 31 bits for hash

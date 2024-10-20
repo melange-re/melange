@@ -355,7 +355,7 @@ let lambda ppf v =
               fprintf ppf "@[<hv 1>case tag %i %S:@ %a@]" n
                 (match sw.sw_names with
                 | None -> ""
-                | Some x -> x.blocks.(n).name)
+                | Some x -> x.blocks.(n).cstr_name.name)
                 lam l)
             sw.sw_blocks;
           match sw.sw_failaction with

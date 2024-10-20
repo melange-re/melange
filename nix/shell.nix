@@ -12,6 +12,7 @@
 , nodePackages
 , pkgs
 , release-mode ? false
+, pkgs
 }:
 
 let
