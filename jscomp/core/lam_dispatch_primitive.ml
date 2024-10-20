@@ -329,7 +329,7 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
       match args with
       | [ num; behavior ] -> E.seq num behavior (*TODO:*)
       | _ -> assert false)
-  | "caml_md5_string" -> call Js_runtime_modules.md5
+  | "caml_md5_string" | "caml_md5_bytes" -> call Js_runtime_modules.md5
   | "caml_hash_mix_string" | "caml_hash_mix_int" | "caml_hash_final_mix" ->
       call Js_runtime_modules.hash_primitive
   | "caml_hash" -> call Js_runtime_modules.hash

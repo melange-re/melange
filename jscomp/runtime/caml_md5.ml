@@ -255,3 +255,6 @@ let caml_md5_string (s : string) start len =
       state.(3) >>~ 16 &~ 0xffl;
       state.(3) >>~ 24 &~ 0xffl;
     |]
+
+let caml_md5_bytes (s : bytes) start len =
+  caml_md5_string (Caml_bytes.bytes_to_string s) start len
