@@ -93,7 +93,7 @@ let rec no_side_effect_expression_desc (x : J.expression_desc) =
     ->
       no_side_effect a && no_side_effect b
   | Is_null_or_undefined b -> no_side_effect b
-  | Str { pure = b; _ } -> b
+  | Str _ -> true
   | Array { items = xs; mutable_flag = _mutable_flag }
   | Caml_block { fields = xs; mutable_flag = _mutable_flag; _ } ->
       (* create [immutable] block,
@@ -194,10 +194,7 @@ let rec eq_expression ({ expression_desc = x0; _ } : J.expression)
       | Bin { op = op1; expr1 = a1; expr2 = b1 } ->
           op0 = op1 && eq_expression a0 a1 && eq_expression b0 b1
       | _ -> false)
-  | Str { pure = a0; string = b0 } -> (
-      match y0 with
-      | Str { pure = a1; string = b1 } -> a0 = a1 && b0 = b1
-      | _ -> false)
+  | Str a0 -> ( match y0 with Str a1 -> a0 = a1 | _ -> false)
   | Unicode s0 -> ( match y0 with Unicode s1 -> s0 = s1 | _ -> false)
   | Module { id = id0; dynamic_import = d0; _ } -> (
       match y0 with

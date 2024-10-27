@@ -33,7 +33,7 @@ let eval (arg : J.expression) (dispatches : (string * string) list) : E.t =
   if arg == E.undefined then E.undefined
   else
     match arg.expression_desc with
-    | Str { string = s; _ } -> E.str (List.assoc s dispatches)
+    | Str s -> E.str (List.assoc s dispatches)
     | _ ->
         E.of_block
           [
@@ -58,7 +58,7 @@ let eval_as_event (arg : J.expression)
   match arg.expression_desc with
   | Caml_block
       {
-        fields = [ { expression_desc = Str { string = s; _ }; _ }; cb ];
+        fields = [ { expression_desc = Str s; _ }; cb ];
         tag_info = Blk_poly_var;
         _;
       }
@@ -108,7 +108,7 @@ let eval_as_int (arg : J.expression) (dispatches : (string * int) list) : E.t =
   if arg == E.undefined then E.undefined
   else
     match arg.expression_desc with
-    | Str { string = i; _ } -> E.int (Int32.of_int (List.assoc i dispatches))
+    | Str i -> E.int (Int32.of_int (List.assoc i dispatches))
     | _ ->
         E.of_block
           [
