@@ -309,7 +309,11 @@ and statement_desc =
       default : block option;
     }
   | Throw of expression
-  | Try of block * (exception_ident * block) option * block option
+  | Try of {
+      body : block;
+      catch : (exception_ident * block) option;
+      finally : block option;
+    }
   | Debugger
 
 and expression = {

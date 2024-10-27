@@ -383,7 +383,7 @@ let for_ ?comment for_ident_expression finish_ident_expression id direction
   }
 
 let try_ ?comment ?with_ ?finally body : t =
-  { statement_desc = Try (body, with_, finally); comment }
+  { statement_desc = Try { body; catch = with_; finally }; comment }
 
 (* TODO:
     actually, only loops can be labelled
