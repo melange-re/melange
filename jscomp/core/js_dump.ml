@@ -1182,7 +1182,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
               let cxt = expression ~level:0 cxt e in
               semi cxt;
               cxt))
-  | Int_switch (e, cc, def) ->
+  | Int_switch { expr = e; clauses = cc; default = def } ->
       string cxt L.switch;
       space cxt;
       let cxt = paren_group cxt 1 (fun _ -> expression ~level:0 cxt e) in
@@ -1199,7 +1199,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
                   string cxt L.colon;
                   newline cxt;
                   statements ~top:false cxt def))
-  | String_switch (e, cc, def) ->
+  | String_switch { expr = e; clauses = cc; default = def } ->
       string cxt L.switch;
       space cxt;
       let cxt = paren_group cxt 1 (fun _ -> expression ~level:0 cxt e) in

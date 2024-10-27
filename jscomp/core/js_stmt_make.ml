@@ -124,10 +124,16 @@ let int_switch ?(comment : string option)
           block
             [
               declare_variable ?comment ~kind did;
-              { statement_desc = J.Int_switch (e, clauses, default); comment };
+              {
+                statement_desc = J.Int_switch { expr = e; clauses; default };
+                comment;
+              };
             ]
-      | None -> { statement_desc = J.Int_switch (e, clauses, default); comment }
-      )
+      | None ->
+          {
+            statement_desc = J.Int_switch { expr = e; clauses; default };
+            comment;
+          })
 
 let string_switch ?(comment : string option)
     ?(declaration : (J.property * Ident.t) option) ?(default : J.block option)
@@ -171,10 +177,16 @@ let string_switch ?(comment : string option)
           block
             [
               declare_variable ?comment ~kind did;
-              { statement_desc = String_switch (e, clauses, default); comment };
+              {
+                statement_desc = String_switch { expr = e; clauses; default };
+                comment;
+              };
             ]
       | None ->
-          { statement_desc = String_switch (e, clauses, default); comment })
+          {
+            statement_desc = String_switch { expr = e; clauses; default };
+            comment;
+          })
 
 let rec block_last_is_return_throw_or_continue (x : J.block) =
   match x with
