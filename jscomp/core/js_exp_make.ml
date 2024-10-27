@@ -144,10 +144,7 @@ let pure_runtime_call ~module_name ~fn_name args =
     args
 
 let runtime_ref module_name fn_name = runtime_var_dot module_name fn_name
-
-let str ?(pure = true) ?loc ?comment s : t =
-  make_expression ?loc ?comment (Str { pure; string = s })
-
+let str ?loc ?comment s : t = make_expression ?loc ?comment (Str s)
 let unicode ?loc ?comment s : t = make_expression ?loc ?comment (Unicode s)
 let module_ ?loc ?comment id : t = make_expression ?loc ?comment (Module id)
 
@@ -428,7 +425,7 @@ let extension_access (e : t) ?name (pos : int32) : t =
 
 let string_index ?loc ?comment (e0 : t) (e1 : t) : t =
   match (e0.expression_desc, e1.expression_desc) with
-  | Str { string = s; _ }, Number (Int { i; _ }) ->
+  | Str s, Number (Int { i; _ }) ->
       (* Don't optimize {j||j} *)
       let i = Int32.to_int i in
       if i >= 0 && i < String.length s then
@@ -512,7 +509,7 @@ let array_length ?loc ?comment (e : t) : t =
 
 let string_length ?loc ?comment (e : t) : t =
   match e.expression_desc with
-  | Str { string = v; _ } -> int ?comment (Int32.of_int (String.length v))
+  | Str v -> int ?comment (Int32.of_int (String.length v))
   (* No optimization for {j||j}*)
   | _ ->
       make_expression ?loc ?comment
@@ -548,7 +545,7 @@ let function_length ?loc ?comment (e : t) : t =
 
 let char_to_int ?loc ?comment (v : t) : t =
   match v.expression_desc with
-  | Str { string = x; _ } ->
+  | Str x ->
       (* No optimization for .. *)
       assert (String.length x = 1);
       int ~comment:(Printf.sprintf "%S" x) (Int32.of_int @@ Char.code x.[0])
@@ -557,22 +554,16 @@ let char_to_int ?loc ?comment (v : t) : t =
 
 let rec string_append ?loc ?comment (e : t) (el : t) : t =
   match (e.expression_desc, el.expression_desc) with
-  | ( Str { string = a; _ },
-      String_append
-        { prefix = { expression_desc = Str { string = b; _ }; _ }; suffix = c }
-    ) ->
+  | Str a, String_append { prefix = { expression_desc = Str b; _ }; suffix = c }
+    ->
       string_append ?comment (str (a ^ b)) c
-  | ( String_append
-        { prefix = c; suffix = { expression_desc = Str { string = b; _ }; _ } },
-      Str { string = a; _ } ) ->
+  | String_append { prefix = c; suffix = { expression_desc = Str b; _ } }, Str a
+    ->
       string_append ?comment c (str (b ^ a))
-  | ( String_append
-        { prefix = a; suffix = { expression_desc = Str { string = b; _ }; _ } },
-      String_append
-        { prefix = { expression_desc = Str { string = c; _ }; _ }; suffix = d }
-    ) ->
+  | ( String_append { prefix = a; suffix = { expression_desc = Str b; _ } },
+      String_append { prefix = { expression_desc = Str c; _ }; suffix = d } ) ->
       string_append ?comment (string_append a (str (b ^ c))) d
-  | Str { string = a; _ }, Str { string = b; _ } -> str ?comment (a ^ b)
+  | Str a, Str b -> str ?comment (a ^ b)
   | _, _ ->
       make_expression ?loc ?comment (String_append { prefix = e; suffix = el })
 
@@ -595,8 +586,7 @@ let float_mod ?loc ?comment e1 e2 : J.expression =
 
 let str_equal (str0 : J.expression_desc) (str1 : J.expression_desc) =
   match (str0, str1) with
-  | Str { string = txt0; _ }, Str { string = txt1; _ }
-  | Unicode txt0, Unicode txt1 ->
+  | Str txt0, Str txt1 | Unicode txt0, Unicode txt1 ->
       if String.equal txt0 txt1 then Some true
       else if
         Melange_ffi.Utf8_string.simple_comparison txt0

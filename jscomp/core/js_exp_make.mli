@@ -86,7 +86,7 @@ val runtime_call : module_name:string -> fn_name:string -> t list -> t
 val pure_runtime_call : module_name:string -> fn_name:string -> t list -> t
 val runtime_ref : string -> string -> t
 val public_method_call : string -> t -> t -> Int32.t -> t list -> t
-val str : ?pure:bool -> ?loc:Location.t -> ?comment:string -> string -> t
+val str : ?loc:Location.t -> ?comment:string -> string -> t
 val unicode : ?loc:Location.t -> ?comment:string -> string -> t
 val module_ : ?loc:Location.t -> ?comment:string -> J.module_id -> t
 

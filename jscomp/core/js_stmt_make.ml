@@ -144,7 +144,7 @@ let string_switch ?(comment : string option)
     ?(declaration : (J.property * Ident.t) option) ?(default : J.block option)
     (e : J.expression) (clauses : J.string_clause list) : t =
   match e.expression_desc with
-  | Str { string = txt; _ } | Unicode txt -> (
+  | Str txt | Unicode txt -> (
       let continuation =
         match
           List.find_map

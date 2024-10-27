@@ -144,7 +144,7 @@ and expression_desc =
      it will be true when it's a method
      Last param represents whether the function returns unit.
   *)
-  | Str of { pure : bool; string : string }
+  | Str of string
   (* A string is UTF-8 encoded, the string may contain
      escape sequences.
      The first argument is used to mark it is non-pure, please

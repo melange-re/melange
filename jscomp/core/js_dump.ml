@@ -645,7 +645,7 @@ and expression_desc cxt ~(level : int) x : cxt =
       string cxt s;
       string cxt "\"";
       cxt
-  | Str { string = s; _ } ->
+  | Str s ->
       (*TODO --
          when utf8-> it will not escape '\\' which is definitely not we want
       *)
@@ -787,7 +787,7 @@ and expression_desc cxt ~(level : int) x : cxt =
           (Object (List.map_combine_array fields el (fun i -> Js_op.Lit i)))
   | Caml_block { fields = el; tag_info = Blk_poly_var; _ } -> (
       match el with
-      | [ { expression_desc = Str { string = name; _ }; _ }; value ] ->
+      | [ { expression_desc = Str name; _ }; value ] ->
           expression_desc cxt ~level
             (Object
                [
