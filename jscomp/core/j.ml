@@ -298,8 +298,16 @@ and statement_desc =
      A more robust signature would be
      {[ goto : label option ; ]}
   *)
-  | Int_switch of expression * int_clause list * block option
-  | String_switch of expression * string_clause list * block option
+  | Int_switch of {
+      expr : expression;
+      clauses : int_clause list;
+      default : block option;
+    }
+  | String_switch of {
+      expr : expression;
+      clauses : string_clause list;
+      default : block option;
+    }
   | Throw of expression
   | Try of block * (exception_ident * block) option * block option
   | Debugger
