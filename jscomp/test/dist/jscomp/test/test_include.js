@@ -117,6 +117,14 @@ const find_all = Stdlib__List.find_all;
 
 const filteri = Stdlib__List.filteri;
 
+const take = Stdlib__List.take;
+
+const drop = Stdlib__List.drop;
+
+const take_while = Stdlib__List.take_while;
+
+const drop_while = Stdlib__List.drop_while;
+
 const partition = Stdlib__List.partition;
 
 const partition_map = Stdlib__List.partition_map;
@@ -205,6 +213,10 @@ exports.find_mapi = find_mapi;
 exports.filter = filter;
 exports.find_all = find_all;
 exports.filteri = filteri;
+exports.take = take;
+exports.drop = drop;
+exports.take_while = take_while;
+exports.drop_while = drop_while;
 exports.partition = partition;
 exports.partition_map = partition_map;
 exports.assoc = assoc;

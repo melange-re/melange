@@ -27,6 +27,7 @@ const Q = {
   peek: Stdlib__Queue.peek,
   peek_opt: Stdlib__Queue.peek_opt,
   top: Stdlib__Queue.top,
+  drop: Stdlib__Queue.drop,
   clear: Stdlib__Queue.clear,
   copy: Stdlib__Queue.copy,
   is_empty: Stdlib__Queue.is_empty,

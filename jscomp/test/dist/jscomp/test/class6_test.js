@@ -177,7 +177,6 @@ const d_0 = Curry._1(env_init, undefined);
 const d = [
   d_0,
   d_init,
-  env_init,
   undefined
 ];
 
@@ -191,7 +190,6 @@ function c2$p_1($$class) {
 const c2$p = [
   undefined,
   c2$p_1,
-  undefined,
   undefined
 ];
 
@@ -268,7 +266,6 @@ const bad_functional_point_0 = Curry._1(env_init$1, undefined);
 const bad_functional_point = [
   bad_functional_point_0,
   bad_functional_point_init,
-  env_init$1,
   undefined
 ];
 

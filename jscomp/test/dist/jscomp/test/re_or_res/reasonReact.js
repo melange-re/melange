@@ -63,8 +63,9 @@ function createClass(debugName) {
               subscriptions: null,
               self: (function (state, retainedProps) {
                   let $$this = this;
+                  const _x = $$this.handleMethod;
                   return {
-                          handle: $$this.handleMethod,
+                          handle: _x,
                           state: state,
                           retainedProps: retainedProps,
                           send: $$this.sendMethod,

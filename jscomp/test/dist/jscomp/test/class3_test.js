@@ -182,13 +182,10 @@ function adjusted_point2_1(table) {
 
 const adjusted_point2_2 = point[2];
 
-const adjusted_point2_3 = point[3];
-
 const adjusted_point2 = [
   adjusted_point2_0,
   adjusted_point2_1,
-  adjusted_point2_2,
-  adjusted_point2_3
+  adjusted_point2_2
 ];
 
 const tmp$1 = Curry._2(adjusted_point2_0, undefined, 31);
@@ -334,7 +331,6 @@ function abstract_point_1($$class) {
 const abstract_point = [
   undefined,
   abstract_point_1,
-  undefined,
   undefined
 ];
 
@@ -388,7 +384,6 @@ function abstract_point2_1($$class) {
 const abstract_point2 = [
   undefined,
   abstract_point2_1,
-  undefined,
   undefined
 ];
 

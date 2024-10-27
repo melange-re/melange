@@ -119,7 +119,6 @@ function abstract_point_1($$class) {
 const abstract_point = [
   undefined,
   abstract_point_1,
-  undefined,
   undefined
 ];
 
