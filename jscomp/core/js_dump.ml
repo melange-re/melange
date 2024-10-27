@@ -1244,7 +1244,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
           cxt)
   (* There must be a space between the return and its
      argument. A line return would not work *)
-  | Try (b, ctch, fin) ->
+  | Try { body = b; catch = ctch; finally = fin } ->
       vgroup cxt 0 (fun _ ->
           string cxt L.try_;
           space cxt;
