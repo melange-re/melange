@@ -30,7 +30,7 @@ let check_additional_id =
   fun (x : J.expression) : Ident.t option ->
     match x.expression_desc with
     | Optional_block (_, false) -> option_id
-    | Call (_, _, { arity = NA; _ }) -> curry_id
+    | Call { info = { arity = NA; _ }; _ } -> curry_id
     | _ -> None
 
 let check_additional_statement_id =

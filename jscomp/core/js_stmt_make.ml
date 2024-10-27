@@ -107,7 +107,12 @@ let int_switch ?(comment : string option)
                 Exp
                   {
                     expression_desc =
-                      Bin (Eq, { expression_desc = Var (Id id); _ }, e0);
+                      Bin
+                        {
+                          op = Eq;
+                          expr1 = { expression_desc = Var (Id id); _ };
+                          expr2 = e0;
+                        };
                     _;
                   };
               _;
@@ -139,7 +144,7 @@ let string_switch ?(comment : string option)
     ?(declaration : (J.property * Ident.t) option) ?(default : J.block option)
     (e : J.expression) (clauses : J.string_clause list) : t =
   match e.expression_desc with
-  | Str (_, txt) | Unicode txt -> (
+  | Str { string = txt; _ } | Unicode txt -> (
       let continuation =
         match
           List.find_map
@@ -160,7 +165,12 @@ let string_switch ?(comment : string option)
                 Exp
                   {
                     expression_desc =
-                      Bin (Eq, { expression_desc = Var (Id id); _ }, e0);
+                      Bin
+                        {
+                          op = Eq;
+                          expr1 = { expression_desc = Var (Id id); _ };
+                          expr2 = e0;
+                        };
                     _;
                   };
               _;
@@ -256,14 +266,14 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
             block
               ({
                  statement_desc =
-                   If { cond = E.not e; then_ = ifnot; else_ = [] };
+                   If { pred = E.not e; then_ = ifnot; else_ = [] };
                  comment;
                }
               :: ifso)
         | _, _ when block_last_is_return_throw_or_continue ifso ->
             block
               ({
-                 statement_desc = If { cond = e; then_ = ifso; else_ = [] };
+                 statement_desc = If { pred = e; then_ = ifso; else_ = [] };
                  comment;
                }
               :: ifnot)
@@ -274,10 +284,13 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
                     {
                       expression_desc =
                         Bin
-                          ( Eq,
-                            ({ expression_desc = Var (Id var_ifso); _ } as
-                             lhs_ifso),
-                            rhs_ifso );
+                          {
+                            op = Eq;
+                            expr1 =
+                              { expression_desc = Var (Id var_ifso); _ } as
+                              lhs_ifso;
+                            expr2 = rhs_ifso;
+                          };
                       _;
                     };
                 _;
@@ -290,9 +303,11 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
                     {
                       expression_desc =
                         Bin
-                          ( Eq,
-                            { expression_desc = Var (Id var_ifnot); _ },
-                            lhs_ifnot );
+                          {
+                            op = Eq;
+                            expr1 = { expression_desc = Var (Id var_ifnot); _ };
+                            expr2 = lhs_ifnot;
+                          };
                       _;
                     };
                 _;
@@ -310,7 +325,7 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
         | ( [
               {
                 statement_desc =
-                  If { cond = pred1; then_ = ifso1; else_ = ifnot1 };
+                  If { pred = pred1; then_ = ifso1; else_ = ifnot1 };
                 _;
               };
             ],
@@ -320,7 +335,7 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
         | ( [
               {
                 statement_desc =
-                  If { cond = pred1; then_ = ifso1; else_ = ifnot1 };
+                  If { pred = pred1; then_ = ifso1; else_ = ifnot1 };
                 _;
               };
             ],
@@ -329,7 +344,7 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
             aux ?comment (E.and_ e (E.not pred1)) ifnot1 ifso1
         | ( _,
             [
-              { statement_desc = If { cond = pred1; then_ = ifso1; else_ }; _ };
+              { statement_desc = If { pred = pred1; then_ = ifso1; else_ }; _ };
             ] )
           when Js_analyzer.eq_block ifso ifso1 ->
             aux ?comment (E.or_ e pred1) ifso else_
@@ -337,7 +352,7 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
             [
               {
                 statement_desc =
-                  If { cond = pred1; then_ = ifso1; else_ = ifnot1 };
+                  If { pred = pred1; then_ = ifso1; else_ = ifnot1 };
                 _;
               };
             ] )
@@ -353,7 +368,7 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
             aux ?comment e ifso_rest ifnot_rest
         | _ ->
             {
-              statement_desc = If { cond = e; then_ = ifso; else_ = ifnot };
+              statement_desc = If { pred = e; then_ = ifso; else_ = ifnot };
               comment;
             })
   in

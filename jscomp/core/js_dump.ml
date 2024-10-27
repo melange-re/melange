@@ -198,7 +198,7 @@ let raw_snippet_exp_simple_enough (s : string) =
 let exp_need_paren (e : J.expression) =
   match e.expression_desc with
   (* | Caml_uninitialized_obj _  *)
-  | Call ({ expression_desc = Fun _ | Raw_js_code _; _ }, _, _) -> true
+  | Call { expr = { expression_desc = Fun _ | Raw_js_code _; _ }; _ } -> true
   | Raw_js_code { code_info = Exp _; _ }
   | Fun _
   | Caml_block
@@ -374,13 +374,16 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
          {
            expression_desc =
              Call
-               ( ({ expression_desc = Var v; _ } as function_id),
-                 ls,
-                 {
-                   arity = (Full | NA) as arity (* see #234*);
-                   (* TODO: need a case to justify it*)
-                   call_info = Call_builtin_runtime | Call_ml;
-                 } );
+               {
+                 expr = { expression_desc = Var v; _ } as function_id;
+                 args = ls;
+                 info =
+                   {
+                     arity = (Full | NA) as arity (* see #234*);
+                     (* TODO: need a case to justify it*)
+                     call_info = Call_builtin_runtime | Call_ml;
+                   };
+               };
            _;
          };
      _;
@@ -559,7 +562,7 @@ and expression_desc cxt ~(level : int) x : cxt =
           let cxt = expression ~level:0 cxt e1 in
           comma_sp cxt;
           expression ~level:0 cxt e2)
-  | Fun (is_method, l, b, env, return_unit) ->
+  | Fun { method_ = is_method; params = l; body = b; env; return_unit } ->
       (* TODO: dump for comments *)
       pp_function ~return_unit ~is_method cxt ~fn_state:default_fn_exp_state l b
         env
@@ -572,7 +575,7 @@ and expression_desc cxt ~(level : int) x : cxt =
            when List.length_equal el i
          ]}
       *)
-  | Call (e, el, info) ->
+  | Call { expr = e; args = el; info } ->
       cond_paren_group cxt (level > 15) 1 (fun _ ->
           group cxt 1 (fun _ ->
               match (info, el) with
@@ -583,7 +586,14 @@ and expression_desc cxt ~(level : int) x : cxt =
                       | [
                        {
                          expression_desc =
-                           Fun (is_method, l, b, env, return_unit);
+                           Fun
+                             {
+                               method_ = is_method;
+                               params = l;
+                               body = b;
+                               env;
+                               return_unit;
+                             };
                          _;
                        };
                       ] ->
@@ -600,7 +610,7 @@ and expression_desc cxt ~(level : int) x : cxt =
                     Curry_gen.pp_app_any cxt;
                     paren_group cxt 1 (fun _ ->
                         arguments cxt [ e; E.array Mutable el ]))))
-  | FlatCall (e, el) ->
+  | FlatCall { expr = e; args = el } ->
       group cxt 1 (fun _ ->
           let cxt = expression ~level:15 cxt e in
           string cxt L.dot;
@@ -611,7 +621,7 @@ and expression_desc cxt ~(level : int) x : cxt =
               expression ~level:1 cxt el))
   | Char_to_int e -> (
       match e.expression_desc with
-      | String_index (a, b) ->
+      | String_index { expr = a; index = b } ->
           group cxt 1 (fun _ ->
               let cxt = expression ~level:15 cxt a in
               string cxt L.dot;
@@ -635,7 +645,7 @@ and expression_desc cxt ~(level : int) x : cxt =
       string cxt s;
       string cxt "\"";
       cxt
-  | Str (_, s) ->
+  | Str { string = s; _ } ->
       (*TODO --
          when utf8-> it will not escape '\\' which is definitely not we want
       *)
@@ -709,13 +719,16 @@ and expression_desc cxt ~(level : int) x : cxt =
       space cxt;
       expression ~level:13 cxt e
   | Bin
-      ( Minus,
-        {
-          expression_desc =
-            Number ((Int { i = 0l; _ } | Float { f = "0." }) as desc);
-          _;
-        },
-        e )
+      {
+        op = Minus;
+        expr1 =
+          {
+            expression_desc =
+              Number ((Int { i = 0l; _ } | Float { f = "0." }) as desc);
+            _;
+          };
+        expr2 = e;
+      }
   (* TODO:
      Handle multiple cases like
      {[ 0. - x ]}
@@ -725,7 +738,7 @@ and expression_desc cxt ~(level : int) x : cxt =
       cond_paren_group cxt (level > 13) 1 (fun _ ->
           string cxt (match desc with Float _ -> "- " | _ -> "-");
           expression ~level:13 cxt e)
-  | Bin (op, e1, e2) ->
+  | Bin { op; expr1 = e1; expr2 = e2 } ->
       let out, lft, rght = Js_op_util.op_prec op in
       let need_paren =
         level > out || match op with Lsl | Lsr | Asr -> true | _ -> false
@@ -738,7 +751,7 @@ and expression_desc cxt ~(level : int) x : cxt =
           string cxt (Js_op_util.op_str op);
           space cxt;
           expression ~level:rght cxt e2)
-  | String_append (e1, e2) ->
+  | String_append { prefix = e1; suffix = e2 } ->
       let op : Js_op.binop = Plus in
       let out, lft, rght = Js_op_util.op_prec op in
       let need_paren =
@@ -750,7 +763,7 @@ and expression_desc cxt ~(level : int) x : cxt =
           string cxt "+";
           space cxt;
           expression ~level:rght cxt e2)
-  | Array (el, _) -> (
+  | Array { items = el; _ } -> (
       (* TODO: simplify for singleton list *)
       match el with
       | [] | [ _ ] -> bracket_group cxt 1 (fun _ -> array_element_list cxt el)
@@ -768,13 +781,13 @@ and expression_desc cxt ~(level : int) x : cxt =
   (*name convention of Record is slight different from modules*)
   | Caml_block { fields = el; mutable_flag; tag_info = Blk_record fields; _ } ->
       if block_has_all_int_fields fields then
-        expression_desc cxt ~level (Array (el, mutable_flag))
+        expression_desc cxt ~level (Array { items = el; mutable_flag })
       else
         expression_desc cxt ~level
           (Object (List.map_combine_array fields el (fun i -> Js_op.Lit i)))
   | Caml_block { fields = el; tag_info = Blk_poly_var; _ } -> (
       match el with
-      | [ { expression_desc = Str (_, name); _ }; value ] ->
+      | [ { expression_desc = Str { string = name; _ }; _ }; value ] ->
           expression_desc cxt ~level
             (Object
                [
@@ -844,19 +857,20 @@ and expression_desc cxt ~(level : int) x : cxt =
         tag_info = Blk_tuple | Blk_class | Blk_array;
         _;
       } ->
-      expression_desc cxt ~level (Array (el, mutable_flag))
+      expression_desc cxt ~level (Array { items = el; mutable_flag })
   | Caml_block_tag e ->
       group cxt 1 (fun _ ->
           let cxt = expression ~level:15 cxt e in
           string cxt L.dot;
           string cxt L.tag;
           cxt)
-  | Array_index (e, p) | String_index (e, p) ->
+  | Array_index { expr = e; index = p } | String_index { expr = e; index = p }
+    ->
       cond_paren_group cxt (level > 15) 1 (fun _ ->
           group cxt 1 (fun _ ->
               let cxt = expression ~level:15 cxt e in
               bracket_group cxt 1 (fun _ -> expression ~level:0 cxt p)))
-  | Static_index (e, s, _) ->
+  | Static_index { expr = e; field = s; _ } ->
       cond_paren_group cxt (level > 15) 1 (fun _ ->
           let cxt = expression ~level:15 cxt e in
           Js_dump_property.property_access cxt.pp s;
@@ -865,14 +879,14 @@ and expression_desc cxt ~(level : int) x : cxt =
              refer and export
           *)
           cxt)
-  | Length (e, _) ->
+  | Length { expr = e; _ } ->
       (* Todo: check parens *)
       cond_paren_group cxt (level > 15) 1 (fun _ ->
           let cxt = expression ~level:15 cxt e in
           string cxt L.dot;
           string cxt L.length;
           cxt)
-  | New (e, el) ->
+  | New { expr = e; args = el } ->
       cond_paren_group cxt (level > 15) 1 (fun _ ->
           group cxt 1 (fun _ ->
               string cxt L.new_;
@@ -880,7 +894,7 @@ and expression_desc cxt ~(level : int) x : cxt =
               let cxt = expression ~level:16 cxt e in
               paren_group cxt 1 (fun _ ->
                   match el with Some el -> arguments cxt el | None -> cxt)))
-  | Cond (e, e1, e2) ->
+  | Cond { pred = e; then_ = e1; else_ = e2 } ->
       let action () =
         let cxt = expression ~level:3 cxt e in
         space cxt;
@@ -959,7 +973,7 @@ and variable_declaration top cxt (variable : J.variable_declaration) : cxt =
           statement_desc top cxt (J.Exp e)
       | _ -> (
           match e.expression_desc with
-          | Fun (is_method, params, b, env, return_unit) ->
+          | Fun { method_ = is_method; params; body = b; env; return_unit } ->
               pp_function ~return_unit ~is_method cxt
                 ~fn_state:(if top then Name_top name else Name_non_top name)
                 params b env
@@ -1030,7 +1044,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       ipp_comment cxt L.end_block;
       cxt
   | Variable l -> variable_declaration top cxt l
-  | If { cond = e; then_ = s1; else_ = s2 } -> (
+  | If { pred = e; then_ = s1; else_ = s2 } -> (
       (* TODO: always brace those statements *)
       string cxt L.if_;
       space cxt;
@@ -1172,7 +1186,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       cxt
   | Return e -> (
       match e.expression_desc with
-      | Fun (is_method, l, b, env, return_unit) ->
+      | Fun { method_ = is_method; params = l; body = b; env; return_unit } ->
           let cxt =
             pp_function ~return_unit ~is_method cxt ~fn_state:Is_return l b env
           in
@@ -1281,7 +1295,7 @@ and function_body (cxt : cxt) ~return_unit (b : J.block) : unit =
       match s.statement_desc with
       | If
           {
-            cond = bool;
+            pred = bool;
             then_;
             else_ =
               [
@@ -1293,7 +1307,7 @@ and function_body (cxt : cxt) ~return_unit (b : J.block) : unit =
           } ->
           ignore
             (statement ~top:false cxt
-               { s with statement_desc = If { cond = bool; then_; else_ = [] } }
+               { s with statement_desc = If { pred = bool; then_; else_ = [] } }
               : cxt)
       | Return { expression_desc = Undefined; _ } -> ()
       | Return exp when return_unit ->

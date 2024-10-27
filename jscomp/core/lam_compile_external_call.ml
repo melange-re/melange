@@ -205,7 +205,7 @@ let assemble_args_has_splice (arg_types : specs) (args : exprs) :
     | { arg_label; arg_type } :: labels, arg :: args -> (
         let accs, eff = aux labels args in
         match (args, (arg : E.t)) with
-        | [], { expression_desc = Array (ls, _mutable_flag); _ } ->
+        | [], { expression_desc = Array { items = ls; _ }; _ } ->
             (List.append ls accs, eff)
         | _ ->
             if args = [] then dynamic := true;
