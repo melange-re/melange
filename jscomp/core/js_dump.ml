@@ -892,8 +892,7 @@ and expression_desc cxt ~(level : int) x : cxt =
               string cxt L.new_;
               space cxt;
               let cxt = expression ~level:16 cxt e in
-              paren_group cxt 1 (fun () ->
-                  match el with Some el -> arguments cxt el | None -> cxt)))
+              paren_group cxt 1 (fun () -> arguments cxt el)))
   | Cond { pred = e; then_ = e1; else_ = e2 } ->
       let action () =
         let cxt = expression ~level:3 cxt e in
