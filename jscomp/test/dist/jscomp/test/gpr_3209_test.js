@@ -4,22 +4,20 @@
 
 function f9(param) {
   if (/* tag */typeof param === "number" || typeof param === "string") {
-    switch (param) {
-      case /* T60 */0 :
-      case /* T61 */1 :
-      case /* T62 */2 :
-          return 1;
-      default:
-        return 3;
+    if (param === /* T63 */3) {
+      return 3;
+    } else {
+      return 1;
     }
-  } else {
-    switch (param.TAG) {
-      case /* T64 */0 :
-      case /* T65 */1 :
-          return 2;
-      default:
+  }
+  switch (param.TAG) {
+    case /* T64 */0 :
+    case /* T65 */1 :
+        return 2;
+    case /* T66 */2 :
+    case /* T68 */3 :
         return 3;
-    }
+    
   }
 }
 

@@ -37,7 +37,6 @@ function comparable_1($$class) {
 const comparable = [
   undefined,
   comparable_1,
-  undefined,
   undefined
 ];
 
