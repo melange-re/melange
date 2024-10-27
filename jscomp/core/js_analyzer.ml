@@ -55,7 +55,7 @@ let free_variables (stats : idents_stats) =
     expression =
       (fun self exp ->
         match exp.expression_desc with
-        | Fun (_, _, _, env, _)
+        | Fun { env; _ }
         (* a optimization to avoid walking into function again
             if it's already comuted
         *) ->
@@ -86,13 +86,15 @@ let rec no_side_effect_expression_desc (x : J.expression_desc) =
   | Undefined | Null | Bool _ | Var _ | Unicode _ | Module _ -> true
   | Fun _ -> true
   | Number _ -> true (* Can be refined later *)
-  | Static_index (obj, (_name : string), (_pos : int32 option)) ->
+  | Static_index
+      { expr = obj; field = (_name : string); pos = (_pos : int32 option) } ->
       no_side_effect obj
-  | String_index (a, b) | Array_index (a, b) ->
+  | String_index { expr = a; index = b } | Array_index { expr = a; index = b }
+    ->
       no_side_effect a && no_side_effect b
   | Is_null_or_undefined b -> no_side_effect b
-  | Str (b, _) -> b
-  | Array (xs, _mutable_flag)
+  | Str { pure = b; _ } -> b
+  | Array { items = xs; mutable_flag = _mutable_flag }
   | Caml_block { fields = xs; mutable_flag = _mutable_flag; _ } ->
       (* create [immutable] block,
           does not really mean that this opreation itself is [pure].
@@ -102,11 +104,16 @@ let rec no_side_effect_expression_desc (x : J.expression_desc) =
       List.for_all ~f:no_side_effect xs
   | Optional_block (x, _) -> no_side_effect x
   | Object kvs -> List.for_all ~f:(fun (_, x) -> no_side_effect x) kvs
-  | String_append (a, b) | Seq (a, b) -> no_side_effect a && no_side_effect b
-  | Length (e, _) | Char_of_int e | Char_to_int e | Caml_block_tag e | Typeof e
-    ->
+  | String_append { prefix = a; suffix = b } | Seq (a, b) ->
+      no_side_effect a && no_side_effect b
+  | Length { expr = e; _ }
+  | Char_of_int e
+  | Char_to_int e
+  | Caml_block_tag e
+  | Typeof e ->
       no_side_effect e
-  | Bin (op, a, b) -> op <> Eq && no_side_effect a && no_side_effect b
+  | Bin { op; expr1 = a; expr2 = b } ->
+      op <> Eq && no_side_effect a && no_side_effect b
   | Js_not _ | Cond _ | FlatCall _ | Call _ | New _ | Raw_js_code _
   (* | Caml_block_set_tag _  *)
   (* actually true? *) ->
@@ -166,36 +173,40 @@ let rec eq_expression ({ expression_desc = x0; _ } : J.expression)
              false (* conservative *)
            | _ -> false
          end *)
-  | String_index (a0, a1) -> (
+  | String_index { expr = a0; index = a1 } -> (
       match y0 with
-      | String_index (b0, b1) -> eq_expression a0 b0 && eq_expression a1 b1
+      | String_index { expr = b0; index = b1 } ->
+          eq_expression a0 b0 && eq_expression a1 b1
       | _ -> false)
-  | Array_index (a0, a1) -> (
+  | Array_index { expr = a0; index = a1 } -> (
       match y0 with
-      | Array_index (b0, b1) -> eq_expression a0 b0 && eq_expression a1 b1
+      | Array_index { expr = b0; index = b1 } ->
+          eq_expression a0 b0 && eq_expression a1 b1
       | _ -> false)
-  | Call (a0, args00, _) -> (
+  | Call { expr = a0; args = args00; _ } -> (
       match y0 with
-      | Call (b0, args10, _) ->
+      | Call { expr = b0; args = args10; _ } ->
           eq_expression a0 b0 && eq_expression_list args00 args10
       | _ -> false)
   | Var x -> ( match y0 with Var y -> Js_op_util.same_vident x y | _ -> false)
-  | Bin (op0, a0, b0) -> (
+  | Bin { op = op0; expr1 = a0; expr2 = b0 } -> (
       match y0 with
-      | Bin (op1, a1, b1) ->
+      | Bin { op = op1; expr1 = a1; expr2 = b1 } ->
           op0 = op1 && eq_expression a0 a1 && eq_expression b0 b1
       | _ -> false)
-  | Str (a0, b0) -> (
-      match y0 with Str (a1, b1) -> a0 = a1 && b0 = b1 | _ -> false)
+  | Str { pure = a0; string = b0 } -> (
+      match y0 with
+      | Str { pure = a1; string = b1 } -> a0 = a1 && b0 = b1
+      | _ -> false)
   | Unicode s0 -> ( match y0 with Unicode s1 -> s0 = s1 | _ -> false)
   | Module { id = id0; dynamic_import = d0; _ } -> (
       match y0 with
       | Module { id = id1; dynamic_import = d1; _ } ->
           Ident.same id0 id1 && d0 = d1
       | _ -> false)
-  | Static_index (e0, p0, off0) -> (
+  | Static_index { expr = e0; field = p0; pos = off0 } -> (
       match y0 with
-      | Static_index (e1, p1, off1) ->
+      | Static_index { expr = e1; field = p1; pos = off1 } ->
           p0 = p1 && eq_expression e0 e1 && off0 = off1 (* could be relaxed *)
       | _ -> false)
   | Seq (a0, b0) -> (
@@ -281,5 +292,5 @@ let rev_toplevel_flatten block =
 let rec is_okay_to_duplicate (e : J.expression) =
   match e.expression_desc with
   | Var _ | Bool _ | Str _ | Unicode _ | Number _ -> true
-  | Static_index (e, _s, _off) -> is_okay_to_duplicate e
+  | Static_index { expr = e; _ } -> is_okay_to_duplicate e
   | _ -> false

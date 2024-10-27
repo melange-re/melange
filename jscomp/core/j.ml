@@ -81,11 +81,11 @@ and property_map = (property_name * expression) list
 and length_object = Js_op.length_object
 
 and expression_desc =
-  | Length of expression * length_object
+  | Length of { expr : expression; length_object : length_object }
   | Char_of_int of expression
   | Char_to_int of expression
   | Is_null_or_undefined of expression  (** where we use a trick [== null ] *)
-  | String_append of expression * expression
+  | String_append of { prefix : expression; suffix : expression }
   | Bool of bool (* js true/false*)
   (* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
      [typeof] is an operator
@@ -94,32 +94,32 @@ and expression_desc =
   | Js_not of expression (* !v *)
   (* TODO: Add some primitives so that [js inliner] can do a better job *)
   | Seq of expression * expression
-  | Cond of expression * expression * expression
-  | Bin of binop * expression * expression
+  | Cond of { pred : expression; then_ : expression; else_ : expression }
+  | Bin of { op : binop; expr1 : expression; expr2 : expression }
   (* [int_op] will guarantee return [int32] bits
      https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators *)
   (* | Int32_bin of int_op * expression * expression *)
-  | FlatCall of expression * expression
+  | FlatCall of { expr : expression; args : expression }
   (* f.apply(null,args) -- Fully applied guaranteed
      TODO: once we know args's shape --
      if it's know at compile time, we can turn it into
      f(args[0], args[1], ... )
   *)
-  | Call of expression * expression list * Js_call_info.t
+  | Call of { expr : expression; args : expression list; info : Js_call_info.t }
   (* Analysze over J expression is hard since,
       some primitive  call is translated
       into a plain call, it's better to keep them
   *)
-  | String_index of expression * expression
+  | String_index of { expr : expression; index : expression }
   (* str.[i])*)
-  | Array_index of expression * expression
+  | Array_index of { expr : expression; index : expression }
   (* arr.(i)
      Invariant:
      The second argument has to be type of [int],
      This can be constructed either in a static way [E.array_index_by_int] or a dynamic way
      [E.array_index]
   *)
-  | Static_index of expression * string * int32 option
+  | Static_index of { expr : expression; field : string; pos : int32 option }
   (* The third argument bool indicates whether we should
      print it as
      a["idd"] -- false
@@ -130,14 +130,21 @@ and expression_desc =
         All exported declarations have to be OCaml identifiers
      2. Javascript dot (need to be preserved/or using quote)
   *)
-  | New of expression * expression list option (* TODO: option remove *)
+  | New of { expr : expression; args : expression list option }
+    (* TODO: option remove *)
   | Var of vident
-  | Fun of bool * ident list * block * Js_fun_env.t * bool
+  | Fun of {
+      method_ : bool;
+      params : ident list;
+      body : block;
+      env : Js_fun_env.t;
+      return_unit : bool;
+    }
   (* The first parameter by default is false,
      it will be true when it's a method
      Last param represents whether the function returns unit.
   *)
-  | Str of bool * string
+  | Str of { pure : bool; string : string }
   (* A string is UTF-8 encoded, the string may contain
      escape sequences.
      The first argument is used to mark it is non-pure, please
@@ -151,7 +158,7 @@ and expression_desc =
   | Raw_js_code of Melange_ffi.Js_raw_info.t
   (* literally raw JS code
   *)
-  | Array of expression list * mutable_flag
+  | Array of { items : expression list; mutable_flag : mutable_flag }
   | Optional_block of expression * bool
   (* [true] means [identity] *)
   | Caml_block of {
@@ -274,7 +281,7 @@ and statement_desc =
   | Variable of variable_declaration
   (* Function declaration and Variable declaration  *)
   | Exp of expression
-  | If of { cond : expression; then_ : block; else_ : block }
+  | If of { pred : expression; then_ : block; else_ : block }
   | While of { label : label option; cond : expression; body : block }
     (* check if it contains loop mutable values, happens in nested loop *)
   | ForRange of {

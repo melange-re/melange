@@ -183,7 +183,8 @@ let subst (export_set : Ident.Set.t)
               Return
                 {
                   expression_desc =
-                    Call ({ expression_desc = Var (Id id); _ }, args, _info);
+                    Call
+                      { expr = { expression_desc = Var (Id id); _ }; args; _ };
                   _;
                 };
             _;
@@ -196,7 +197,7 @@ let subst (export_set : Ident.Set.t)
                      Some
                        {
                          expression_desc =
-                           Fun (false, params, block, env, _return_unit);
+                           Fun { method_ = false; params; body = block; env; _ };
                          comment = _;
                          _;
                        };
@@ -230,13 +231,17 @@ let subst (export_set : Ident.Set.t)
                {
                  expression_desc =
                    Call
-                     ( {
-                         expression_desc =
-                           Fun (false, params, block, env, _return_unit);
-                         _;
-                       },
-                       args,
-                       _info );
+                     {
+                       expr =
+                         {
+                           expression_desc =
+                             Fun
+                               { method_ = false; params; body = block; env; _ };
+                           _;
+                         };
+                       args;
+                       _;
+                     };
                  _;
                };
            _;

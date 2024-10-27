@@ -1796,12 +1796,14 @@ and compile_prim (prim_info : Lam.prim_info)
             let module_id, module_value =
               match args_expr.expression_desc with
               | J.Call
-                  ( {
-                      expression_desc = J.Var (J.Qualified (module_id, value));
-                      _;
-                    },
-                    _,
-                    _ ) ->
+                  {
+                    expr =
+                      {
+                        expression_desc = J.Var (J.Qualified (module_id, value));
+                        _;
+                      };
+                    _;
+                  } ->
                   (module_id, value)
               | _ ->
                   Location.raise_errorf ~loc

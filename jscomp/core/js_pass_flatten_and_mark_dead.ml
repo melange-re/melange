@@ -269,9 +269,13 @@ let subst_map (substitution : J.expression Ident.Hash.t) =
       (fun self x ->
         match x.expression_desc with
         | Array_index
-            ( { expression_desc = Var (Id id); _ },
-              { expression_desc = Number (Int { i; _ }); _ } )
-        | Static_index ({ expression_desc = Var (Id id); _ }, _, Some i) -> (
+            {
+              expr = { expression_desc = Var (Id id); _ };
+              index = { expression_desc = Number (Int { i; _ }); _ };
+            }
+        | Static_index
+            { expr = { expression_desc = Var (Id id); _ }; pos = Some i; _ }
+          -> (
             match Ident.Hash.find_opt substitution id with
             | Some
                 {

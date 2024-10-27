@@ -50,12 +50,17 @@ let flatten_map =
         | Exp { expression_desc = Caml_block { fields = args; _ }; _ } ->
             S.block
               (List.map ~f:(fun arg -> self.statement self (S.exp arg)) args)
-        | Exp { expression_desc = Cond (a, b, c); comment; _ } ->
+        | Exp
+            {
+              expression_desc = Cond { pred = a; then_ = b; else_ = c };
+              comment;
+              _;
+            } ->
             {
               statement_desc =
                 If
                   {
-                    cond = a;
+                    pred = a;
                     then_ = [ self.statement self (S.exp b) ];
                     else_ = [ self.statement self (S.exp c) ];
                   };
@@ -64,7 +69,12 @@ let flatten_map =
         | Exp
             {
               expression_desc =
-                Bin (Eq, a, ({ expression_desc = Seq _; _ } as v));
+                Bin
+                  {
+                    op = Eq;
+                    expr1 = a;
+                    expr2 = { expression_desc = Seq _; _ } as v;
+                  };
               _;
             } -> (
             let block = Js_analyzer.rev_flatten_seq v in
@@ -78,12 +88,17 @@ let flatten_map =
                 (* super#statement *)
                 (*   (S.block (List.rev_append rest_rev [S.exp (E.assign a  last_one)])) *)
             | _ -> assert false)
-        | Return { expression_desc = Cond (a, b, c); comment; _ } ->
+        | Return
+            {
+              expression_desc = Cond { pred = a; then_ = b; else_ = c };
+              comment;
+              _;
+            } ->
             {
               statement_desc =
                 If
                   {
-                    cond = a;
+                    pred = a;
                     then_ = [ self.statement self (S.return_stmt b) ];
                     else_ = [ self.statement self (S.return_stmt c) ];
                   };
