@@ -205,7 +205,7 @@ let typeof ?loc ?comment (e : t) : t =
   | _ -> make_expression ?loc ?comment (Typeof e)
 
 let new_ ?loc ?comment e0 args : t =
-  make_expression ?loc ?comment (New { expr = e0; args = Some args })
+  make_expression ?loc ?comment (New { expr = e0; args })
 
 let unit : t = make_expression Undefined
 
