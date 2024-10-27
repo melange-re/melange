@@ -275,14 +275,15 @@ and statement_desc =
   (* Function declaration and Variable declaration  *)
   | Exp of expression
   | If of { cond : expression; then_ : block; else_ : block }
-  | While of label option * expression * block
+  | While of { label : label option; cond : expression; body : block }
     (* check if it contains loop mutable values, happens in nested loop *)
-  | ForRange of
-      for_ident_expression option
-      * finish_ident_expression
-      * for_ident
-      * for_direction
-      * block
+  | ForRange of {
+      for_ident_expr : for_ident_expression option;
+      finish_expr : finish_ident_expression;
+      for_ident : for_ident;
+      direction : for_direction;
+      body : block;
+    }
   | Continue of label
   | Break (* only used when inline a fucntion *)
   | Return of expression
