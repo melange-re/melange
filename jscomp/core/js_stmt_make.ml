@@ -372,13 +372,20 @@ let assign ?comment id e : t =
   { statement_desc = J.Exp (E.assign (E.var id) e); comment }
 
 let while_ ?comment ?label (e : E.t) (st : J.block) : t =
-  { statement_desc = While (label, e, st); comment }
+  { statement_desc = While { label; cond = e; body = st }; comment }
 
 let for_ ?comment for_ident_expression finish_ident_expression id direction
     (b : J.block) : t =
   {
     statement_desc =
-      ForRange (for_ident_expression, finish_ident_expression, id, direction, b);
+      ForRange
+        {
+          for_ident_expr = for_ident_expression;
+          finish_expr = finish_ident_expression;
+          for_ident = id;
+          direction;
+          body = b;
+        };
     comment;
   }
 

@@ -1060,7 +1060,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
           string cxt L.else_;
           space cxt;
           brace_block cxt s2)
-  | While (label, e, s) ->
+  | While { label; cond = e; body = s } ->
       (*  FIXME: print scope as well *)
       (match label with
       | Some i ->
@@ -1086,7 +1086,14 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       let cxt = brace_block cxt s in
       semi cxt;
       cxt
-  | ForRange (for_ident_expression, finish, id, direction, s) ->
+  | ForRange
+      {
+        for_ident_expr = for_ident_expression;
+        finish_expr = finish;
+        for_ident = id;
+        direction;
+        body = s;
+      } ->
       let action cxt =
         vgroup cxt 0 (fun _ ->
             let cxt =
