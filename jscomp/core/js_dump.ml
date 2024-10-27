@@ -202,11 +202,12 @@ let exp_need_paren (e : J.expression) =
   | Raw_js_code { code_info = Exp _; _ }
   | Fun _
   | Caml_block
-      ( _,
-        _,
-        _,
-        ( Blk_record _ | Blk_module _ | Blk_poly_var | Blk_extension
-        | Blk_record_ext _ | Blk_record_inlined _ | Blk_constructor _ ) )
+      {
+        tag_info =
+          ( Blk_record _ | Blk_module _ | Blk_poly_var | Blk_extension
+          | Blk_record_ext _ | Blk_record_inlined _ | Blk_constructor _ );
+        _;
+      }
   | Object _ ->
       true
   | Raw_js_code { code_info = Stmt _; _ }
@@ -760,18 +761,18 @@ and expression_desc cxt ~(level : int) x : cxt =
          else
            E.runtime_call ~module_name:Js_runtime_modules.option ~fn_name:"some"
              [ e ])
-  | Caml_block (el, _, _, Blk_module fields) ->
+  | Caml_block { fields = el; tag_info = Blk_module fields; _ } ->
       expression_desc cxt ~level
         (Object
            (List.map_combine fields el (fun x -> Js_op.Lit (Ident.convert x))))
   (*name convention of Record is slight different from modules*)
-  | Caml_block (el, mutable_flag, _, Blk_record fields) ->
+  | Caml_block { fields = el; mutable_flag; tag_info = Blk_record fields; _ } ->
       if block_has_all_int_fields fields then
         expression_desc cxt ~level (Array (el, mutable_flag))
       else
         expression_desc cxt ~level
           (Object (List.map_combine_array fields el (fun i -> Js_op.Lit i)))
-  | Caml_block (el, _, _, Blk_poly_var) -> (
+  | Caml_block { fields = el; tag_info = Blk_poly_var; _ } -> (
       match el with
       | [ { expression_desc = Str (_, name); _ }; value ] ->
           expression_desc cxt ~level
@@ -781,9 +782,11 @@ and expression_desc cxt ~(level : int) x : cxt =
                  (Lit L.polyvar_value, value);
                ])
       | _ -> assert false)
-  | Caml_block (el, _, _, ((Blk_extension | Blk_record_ext _) as ext)) ->
+  | Caml_block
+      { fields = el; tag_info = (Blk_extension | Blk_record_ext _) as ext; _ }
+    ->
       expression cxt ~level (exn_block_as_obj ~stack:false el ext)
-  | Caml_block (el, _, tag, Blk_record_inlined p) ->
+  | Caml_block { fields = el; tag; tag_info = Blk_record_inlined p; _ } ->
       let objs =
         let tails =
           List.map_combine_array_append p.fields el
@@ -804,7 +807,7 @@ and expression_desc cxt ~(level : int) x : cxt =
         :: tails
       in
       expression_desc cxt ~level (Object objs)
-  | Caml_block (el, _, tag, Blk_constructor p) ->
+  | Caml_block { fields = el; tag; tag_info = Blk_constructor p; _ } ->
       let is_cons = Js_op_util.is_cons p.name in
       let objs =
         let tails =
@@ -833,8 +836,14 @@ and expression_desc cxt ~(level : int) x : cxt =
           :: tails
       in
       expression_desc cxt ~level (Object objs)
-  | Caml_block (_, _, _, (Blk_module_export | Blk_na _)) -> assert false
-  | Caml_block (el, mutable_flag, _tag, (Blk_tuple | Blk_class | Blk_array)) ->
+  | Caml_block { tag_info = Blk_module_export | Blk_na _; _ } -> assert false
+  | Caml_block
+      {
+        fields = el;
+        mutable_flag;
+        tag_info = Blk_tuple | Blk_class | Blk_array;
+        _;
+      } ->
       expression_desc cxt ~level (Array (el, mutable_flag))
   | Caml_block_tag e ->
       group cxt 1 (fun _ ->
@@ -1214,7 +1223,12 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
   | Throw e ->
       let e =
         match e.expression_desc with
-        | Caml_block (el, _, _, ((Blk_extension | Blk_record_ext _) as ext)) ->
+        | Caml_block
+            {
+              fields = el;
+              tag_info = (Blk_extension | Blk_record_ext _) as ext;
+              _;
+            } ->
             {
               e with
               expression_desc =

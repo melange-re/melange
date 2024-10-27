@@ -183,15 +183,16 @@ let dot ?loc ?comment (e0 : t) (e1 : string) : t =
 let module_access (e : t) (name : string) (pos : int32) =
   let name = Ident.convert name in
   match e.expression_desc with
-  | Caml_block (l, _, _, _) when no_side_effect e -> (
+  | Caml_block { fields = l; _ } when no_side_effect e -> (
       match List.nth_opt l (Int32.to_int pos) with
       | Some x -> x
       | None -> make_expression (Static_index (e, name, Some pos)))
   | _ -> make_expression (Static_index (e, name, Some pos))
 
-let make_block ?loc ?comment (tag : t) (tag_info : J.tag_info) (es : t list)
+let make_block ?loc ?comment (tag : t) (tag_info : J.tag_info) (fields : t list)
     (mutable_flag : J.mutable_flag) : t =
-  make_expression ?loc ?comment (Caml_block (es, mutable_flag, tag, tag_info))
+  make_expression ?loc ?comment
+    (Caml_block { fields; mutable_flag; tag; tag_info })
 
 (* ATTENTION: this is relevant to how we encode string, boolean *)
 let typeof ?loc ?comment (e : t) : t =
@@ -327,7 +328,7 @@ let array_index ?loc ?comment (e0 : t) (e1 : t) : t =
 let array_index_by_int ?loc ?comment (e : t) (pos : int32) : t =
   match e.expression_desc with
   | Array (l, _) (* Float i -- should not appear here *)
-  | Caml_block (l, _, _, _)
+  | Caml_block { fields = l; _ }
     when no_side_effect e -> (
       match List.nth_opt l (Int32.to_int pos) with
       | Some x -> x
@@ -337,7 +338,7 @@ let array_index_by_int ?loc ?comment (e : t) (pos : int32) : t =
 let record_access (e : t) (name : string) (pos : int32) =
   match e.expression_desc with
   | Array (l, _) (* Float i -- should not appear here *)
-  | Caml_block (l, _, _, _)
+  | Caml_block { fields = l; _ }
     when no_side_effect e -> (
       match List.nth_opt l (Int32.to_int pos) with
       | Some x -> x
@@ -364,20 +365,20 @@ let cons_access (e : t) (pos : int32) =
 
 let poly_var_tag_access (e : t) =
   match e.expression_desc with
-  | Caml_block (l, _, _, _) when no_side_effect e -> (
+  | Caml_block { fields = l; _ } when no_side_effect e -> (
       match l with x :: _ -> x | [] -> assert false)
   | _ -> make_expression (Static_index (e, Js_dump_lit.polyvar_hash, Some 0l))
 
 let poly_var_value_access (e : t) =
   match e.expression_desc with
-  | Caml_block (l, _, _, _) when no_side_effect e -> (
+  | Caml_block { fields = l; _ } when no_side_effect e -> (
       match l with _ :: v :: _ -> v | _ -> assert false)
   | _ -> make_expression (Static_index (e, Js_dump_lit.polyvar_value, Some 1l))
 
 let extension_access (e : t) ?name (pos : int32) : t =
   match e.expression_desc with
   | Array (l, _) (* Float i -- should not appear here *)
-  | Caml_block (l, _, _, _)
+  | Caml_block { fields = l; _ }
     when no_side_effect e -> (
       match List.nth_opt l (Int32.to_int pos) with
       | Some x -> x
@@ -461,7 +462,7 @@ let extension_assign (e : t) (pos : int32) name (value : t) =
 let array_length ?loc ?comment (e : t) : t =
   match e.expression_desc with
   (* TODO: use array instead? *)
-  | (Array (l, _) | Caml_block (l, _, _, _)) when no_side_effect e ->
+  | (Array (l, _) | Caml_block { fields = l; _ }) when no_side_effect e ->
       int ?comment (Int32.of_int (List.length l))
   | _ -> make_expression ?loc ?comment (Length (e, Array))
 

@@ -92,7 +92,8 @@ let rec no_side_effect_expression_desc (x : J.expression_desc) =
       no_side_effect a && no_side_effect b
   | Is_null_or_undefined b -> no_side_effect b
   | Str (b, _) -> b
-  | Array (xs, _mutable_flag) | Caml_block (xs, _mutable_flag, _, _) ->
+  | Array (xs, _mutable_flag)
+  | Caml_block { fields = xs; mutable_flag = _mutable_flag; _ } ->
       (* create [immutable] block,
           does not really mean that this opreation itself is [pure].
 
@@ -206,9 +207,9 @@ let rec eq_expression ({ expression_desc = x0; _ } : J.expression)
       match y0 with
       | Optional_block (a1, b1) -> b0 = b1 && eq_expression a0 a1
       | _ -> false)
-  | Caml_block (ls0, flag0, tag0, _) -> (
+  | Caml_block { fields = ls0; mutable_flag = flag0; tag = tag0; _ } -> (
       match y0 with
-      | Caml_block (ls1, flag1, tag1, _) ->
+      | Caml_block { fields = ls1; mutable_flag = flag1; tag = tag1; _ } ->
           eq_expression_list ls0 ls1 && flag0 = flag1 && eq_expression tag0 tag1
       | _ -> false)
   | Length _ | Char_of_int _ | Char_to_int _ | Is_null_or_undefined _

@@ -185,7 +185,12 @@ let subst_map (substitution : J.expression Ident.Hash.t) =
                    ({
                       expression_desc =
                         Caml_block
-                          ((_ :: _ :: _ as ls), Immutable, tag, tag_info);
+                          {
+                            fields = _ :: _ :: _ as ls;
+                            mutable_flag = Immutable;
+                            tag;
+                            tag_info;
+                          };
                       _;
                     } as block);
                _;
@@ -232,7 +237,13 @@ let subst_map (substitution : J.expression Ident.Hash.t) =
               {
                 block with
                 expression_desc =
-                  Caml_block (List.rev e, Immutable, tag, tag_info);
+                  Caml_block
+                    {
+                      fields = List.rev e;
+                      mutable_flag = Immutable;
+                      tag;
+                      tag_info;
+                    };
               }
             in
             let () = add_substitue substitution ident e in
@@ -262,8 +273,12 @@ let subst_map (substitution : J.expression Ident.Hash.t) =
               { expression_desc = Number (Int { i; _ }); _ } )
         | Static_index ({ expression_desc = Var (Id id); _ }, _, Some i) -> (
             match Ident.Hash.find_opt substitution id with
-            | Some { expression_desc = Caml_block (ls, Immutable, _, _); _ }
-              -> (
+            | Some
+                {
+                  expression_desc =
+                    Caml_block { fields = ls; mutable_flag = Immutable; _ };
+                  _;
+                } -> (
                 (* user program can be wrong, we should not
                    turn a runtime crash into compile time crash : )
                 *)
