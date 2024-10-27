@@ -54,9 +54,11 @@ let flatten_map =
             {
               statement_desc =
                 If
-                  ( a,
-                    [ self.statement self (S.exp b) ],
-                    [ self.statement self (S.exp c) ] );
+                  {
+                    cond = a;
+                    then_ = [ self.statement self (S.exp b) ];
+                    else_ = [ self.statement self (S.exp c) ];
+                  };
               comment;
             }
         | Exp
@@ -80,9 +82,11 @@ let flatten_map =
             {
               statement_desc =
                 If
-                  ( a,
-                    [ self.statement self (S.return_stmt b) ],
-                    [ self.statement self (S.return_stmt c) ] );
+                  {
+                    cond = a;
+                    then_ = [ self.statement self (S.return_stmt b) ];
+                    else_ = [ self.statement self (S.return_stmt c) ];
+                  };
               comment;
             }
         | Return ({ expression_desc = Seq _; _ } as v) -> (

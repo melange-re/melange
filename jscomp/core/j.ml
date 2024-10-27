@@ -57,7 +57,6 @@ and ident = Ident.t
 
 and module_id = { id : ident; kind : Js_op.kind; dynamic_import : bool }
 
-and required_modules = module_id list
 and vident = Id of ident | Qualified of module_id * string option
 (* Since camldot is only available for toplevel module accessors,
    we don't need print  `A.length$2`
@@ -275,7 +274,7 @@ and statement_desc =
   | Variable of variable_declaration
   (* Function declaration and Variable declaration  *)
   | Exp of expression
-  | If of expression * block * block
+  | If of { cond : expression; then_ : block; else_ : block }
   | While of label option * expression * block
     (* check if it contains loop mutable values, happens in nested loop *)
   | ForRange of
@@ -328,7 +327,7 @@ and program = { block : block; exports : exports; export_set : Ident.Set.t }
 
 and deps_program = {
   program : program;
-  modules : required_modules;
+  modules : module_id list;
   side_effect : string option; (* None: no, Some reason  *)
   preamble : string option;
 }
@@ -339,7 +338,6 @@ and deps_program = {
         deps_program;
         int_clause;
         string_clause;
-        for_direction;
         (* exception_ident; *)
         for_direction;
         expression_desc;
@@ -350,7 +348,6 @@ and deps_program = {
         property_map;
         length_object;
         (* for_ident; *)
-        required_modules;
         case_clause;
       |];
   }]

@@ -241,9 +241,20 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
             [ { statement_desc = Return ret_ifnot; _ } ] ) ->
             return_stmt (E.econd e ret_ifso ret_ifnot)
         | _, [ { statement_desc = Return _; _ } ] ->
-            block ({ statement_desc = If (E.not e, ifnot, []); comment } :: ifso)
+            block
+              ({
+                 statement_desc =
+                   If { cond = E.not e; then_ = ifnot; else_ = [] };
+                 comment;
+               }
+              :: ifso)
         | _, _ when block_last_is_return_throw_or_continue ifso ->
-            block ({ statement_desc = If (e, ifso, []); comment } :: ifnot)
+            block
+              ({
+                 statement_desc = If { cond = e; then_ = ifso; else_ = [] };
+                 comment;
+               }
+              :: ifnot)
         | ( [
               {
                 statement_desc =
@@ -284,16 +295,40 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
         | ( [ { statement_desc = Exp exp_ifso; _ } ],
             [ { statement_desc = Exp exp_ifnot; _ } ] ) ->
             exp (E.econd e exp_ifso exp_ifnot)
-        | [ { statement_desc = If (pred1, ifso1, ifnot1); _ } ], _
+        | ( [
+              {
+                statement_desc =
+                  If { cond = pred1; then_ = ifso1; else_ = ifnot1 };
+                _;
+              };
+            ],
+            _ )
           when Js_analyzer.eq_block ifnot1 ifnot ->
             aux ?comment (E.and_ e pred1) ifso1 ifnot1
-        | [ { statement_desc = If (pred1, ifso1, ifnot1); _ } ], _
+        | ( [
+              {
+                statement_desc =
+                  If { cond = pred1; then_ = ifso1; else_ = ifnot1 };
+                _;
+              };
+            ],
+            _ )
           when Js_analyzer.eq_block ifso1 ifnot ->
             aux ?comment (E.and_ e (E.not pred1)) ifnot1 ifso1
-        | _, [ { statement_desc = If (pred1, ifso1, else_); _ } ]
+        | ( _,
+            [
+              { statement_desc = If { cond = pred1; then_ = ifso1; else_ }; _ };
+            ] )
           when Js_analyzer.eq_block ifso ifso1 ->
             aux ?comment (E.or_ e pred1) ifso else_
-        | _, [ { statement_desc = If (pred1, ifso1, ifnot1); _ } ]
+        | ( _,
+            [
+              {
+                statement_desc =
+                  If { cond = pred1; then_ = ifso1; else_ = ifnot1 };
+                _;
+              };
+            ] )
           when Js_analyzer.eq_block ifso ifnot1 ->
             aux ?comment (E.or_ e (E.not pred1)) ifso ifso1
         | ifso1 :: ifso_rest, ifnot1 :: ifnot_rest
@@ -304,7 +339,11 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
             *)
             add_prefix ifso1;
             aux ?comment e ifso_rest ifnot_rest
-        | _ -> { statement_desc = If (e, ifso, ifnot); comment })
+        | _ ->
+            {
+              statement_desc = If { cond = e; then_ = ifso; else_ = ifnot };
+              comment;
+            })
   in
   let if_block =
     aux ?comment e then_ (match else_ with None -> [] | Some v -> v)

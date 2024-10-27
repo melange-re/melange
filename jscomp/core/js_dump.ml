@@ -1030,7 +1030,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       ipp_comment cxt L.end_block;
       cxt
   | Variable l -> variable_declaration top cxt l
-  | If (e, s1, s2) -> (
+  | If { cond = e; then_ = s1; else_ = s2 } -> (
       (* TODO: always brace those statements *)
       string cxt L.if_;
       space cxt;
@@ -1273,14 +1273,20 @@ and function_body (cxt : cxt) ~return_unit (b : J.block) : unit =
   | [ s ] -> (
       match s.statement_desc with
       | If
-          ( bool,
-            then_,
-            [
-              { statement_desc = Return { expression_desc = Undefined; _ }; _ };
-            ] ) ->
+          {
+            cond = bool;
+            then_;
+            else_ =
+              [
+                {
+                  statement_desc = Return { expression_desc = Undefined; _ };
+                  _;
+                };
+              ];
+          } ->
           ignore
             (statement ~top:false cxt
-               { s with statement_desc = If (bool, then_, []) }
+               { s with statement_desc = If { cond = bool; then_; else_ = [] } }
               : cxt)
       | Return { expression_desc = Undefined; _ } -> ()
       | Return exp when return_unit ->
