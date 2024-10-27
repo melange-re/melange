@@ -56,7 +56,12 @@ let eval (arg : J.expression) (dispatches : (string * string) list) : E.t =
 let eval_as_event (arg : J.expression)
     (dispatches : (string * string) list option) =
   match arg.expression_desc with
-  | Caml_block ([ { expression_desc = Str (_, s); _ }; cb ], _, _, Blk_poly_var)
+  | Caml_block
+      {
+        fields = [ { expression_desc = Str (_, s); _ }; cb ];
+        tag_info = Blk_poly_var;
+        _;
+      }
     when Js_analyzer.no_side_effect_expression cb ->
       let v =
         match dispatches with
@@ -124,5 +129,5 @@ let eval_as_int (arg : J.expression) (dispatches : (string * int) list) : E.t =
 
 let eval_as_unwrap (arg : J.expression) : E.t =
   match arg.expression_desc with
-  | Caml_block ([ { expression_desc = Number _; _ }; cb ], _, _, _) -> cb
+  | Caml_block { fields = [ { expression_desc = Number _; _ }; cb ]; _ } -> cb
   | _ -> E.poly_var_value_access arg
