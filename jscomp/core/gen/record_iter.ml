@@ -125,9 +125,36 @@ let mkBranch (branch : Ast.constructor_declaration) allNames =
                      (Some (Ast_helper.Pat.any ())))
                   (Exp.construct { txt = Lident "()"; loc } None))
           | Some body -> Ast_helper.(Exp.case pat_exp body)))
-  | Pcstr_record _ ->
-      (*  TODO: add inline record support *)
-      assert false
+  | Pcstr_record lbdcls -> (
+      let len = List.length lbdcls in
+      let args = Array.init len ~f:(fun i -> "_x" ^ string_of_int i) in
+      let pat_exp =
+        Ast_helper.(
+          Pat.construct
+            { txt = Lident branch.pcd_name.txt; loc }
+            (Some
+               (Ast_helper.Pat.record
+                  (List.mapi
+                     ~f:(fun idx { Ast.pld_name; _ } ->
+                       let { Asttypes.txt = name; loc } = pld_name in
+                       ( { pld_name with txt = Longident.Lident name },
+                         Ast_helper.Pat.var { txt = args.(idx); loc } ))
+                     lbdcls)
+                  Closed)))
+      in
+      match
+        mkBodyApply
+          (List.map ~f:(fun { Ast.pld_type = ty; _ } -> ty) lbdcls)
+          allNames args
+      with
+      | None ->
+          Ast_helper.(
+            Exp.case
+              (Pat.construct
+                 { txt = Lident branch.pcd_name.txt; loc }
+                 (Some (Ast_helper.Pat.any ())))
+              (Exp.construct { txt = Lident "()"; loc } None))
+      | Some body -> Ast_helper.(Exp.case pat_exp body))
 
 let mkBody (tdcl : Ast.type_declaration) allNames =
   match tdcl.ptype_kind with
