@@ -787,6 +787,12 @@ module Mapper = struct
                 match tdcl.ptype_kind with
                 | Ptype_variant cstrs ->
                     List.iter
+                      ~f:(function
+                          | ({ attr_name= { txt = "mel.tag"; _ }; _ } as attr) ->
+                            Mel_ast_invariant.mark_used_mel_attribute attr
+                          | _ -> ())
+                    tdcl.ptype_attributes;
+                    List.iter
                       ~f:(fun
                           ({ pcd_attributes; _ } : constructor_declaration) ->
                         List.iter
