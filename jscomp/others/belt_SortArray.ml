@@ -249,10 +249,9 @@ let rec binarySearchAux arr lo hi key cmp =
     if hi = mid then
       if (cmp (A.getUnsafe arr lo) key [@u]) = 0 then lo else -(hi + 1)
     else binarySearchAux arr lo mid key cmp
-  else if
-    (*  a[lo] =< a[mid] < key <= a[hi] *)
-    lo = mid
-  then if (cmp (A.getUnsafe arr hi) key [@u]) = 0 then hi else -(hi + 1)
+  else if (*  a[lo] =< a[mid] < key <= a[hi] *)
+          lo = mid then
+    if (cmp (A.getUnsafe arr hi) key [@u]) = 0 then hi else -(hi + 1)
   else binarySearchAux arr mid hi key cmp
 
 let binarySearchByU sorted key cmp : int =

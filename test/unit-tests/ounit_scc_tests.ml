@@ -320,8 +320,7 @@ let suites =
               {[
               [d ; e ; [b;c] [a] ]
               ]}
-           *)
-         );
+           *) );
          ( __LOC__ >:: fun _ ->
            OUnit.assert_equal
              (test

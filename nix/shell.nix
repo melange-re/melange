@@ -10,6 +10,7 @@
 , git
 , python3
 , nodePackages
+, pkgs
 , release-mode ? false
 }:
 
@@ -20,7 +21,7 @@ in
 mkShell {
   inputsFrom = lib.attrValues derivations;
   nativeBuildInputs = with ocamlPackages; [
-    ocamlformat
+    pkgs.ocaml-ng.ocamlPackages_5_2.ocamlformat
     utop
     ocaml-lsp
     merlin
