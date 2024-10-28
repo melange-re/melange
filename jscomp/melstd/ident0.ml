@@ -172,8 +172,7 @@ module Mangled = struct
   type t = Reserved of string | Mangled of string
 
   let of_ident (id : Ident.t) : t =
-    if is_js id then
-      (* reserved by compiler *)
+    if is_js id then (* reserved by compiler *)
       Reserved (Ident.name id)
     else
       let id_name = Ident.name id in
