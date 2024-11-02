@@ -25,7 +25,8 @@ jobs:
           - ubuntu-latest
           # - windows-latest # for some reason windows build is not picking dune 3.5
         ocaml-compiler:
-          - ocaml-base-compiler.5.3.0~beta1
+          - ocaml-variants.5.3.0+trunk
+          # - ocaml-base-compiler.5.3.0~beta1
 
     runs-on: ${{ matrix.os }}
 
