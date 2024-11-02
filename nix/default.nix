@@ -6,7 +6,7 @@
 , tree
 , makeWrapper
 , nix-filter
-, nodejs_latest
+, nodejs
 , melange-compiler-libs-vendor-dir
 , doCheck ? true
 }:
@@ -49,7 +49,7 @@ buildDunePackage {
     # for some reason `-Wtrigraphs` was enabled in nixpkgs recently for
     # x86_64-darwin?
     !(stdenv.isDarwin && stdenv.isx86_64);
-  nativeCheckInputs = [ tree nodejs_latest reason jq merlin ];
+  nativeCheckInputs = [ tree nodejs reason jq merlin ];
   checkInputs = [ ounit2 ];
   DUNE_CACHE = "disabled";
 
