@@ -23,6 +23,11 @@ Unreleased
 - Support OCaml 5.3 ([#1168](https://github.com/melange-re/melange/pull/1168))
 - Upgrade Stdlib to the OCaml 5.3 Stdlib
   ([#1182](https://github.com/melange-re/melange/pull/1182))
+- Support `[@mel.tag "the_tag"]` in variant definitions
+  ([#1189](https://github.com/melange-re/melange/pull/1189))
+  - combined with `[@mel.as ..]` in variant definitions and inline record
+    payloads, Melange can now express types for discriminated union object
+    shapes.
 
 4.0.1 2024-06-07
 ---------------
