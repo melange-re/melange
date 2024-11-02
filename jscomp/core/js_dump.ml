@@ -867,11 +867,11 @@ and expression_desc cxt ~(level : int) x : cxt =
         _;
       } ->
       expression_desc cxt ~level (Array { items = el; mutable_flag })
-  | Caml_block_tag (e, tag) ->
+  | Caml_block_tag { expr = e; name } ->
       group cxt 1 (fun () ->
           let cxt = expression ~level:15 cxt e in
           string cxt L.dot;
-          string cxt tag;
+          string cxt name;
           cxt)
   | Array_index { expr = e; index = p } | String_index { expr = e; index = p }
     ->
