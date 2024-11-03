@@ -34,6 +34,41 @@ let namespace_error ~loc txt =
          `[@mel.*]' attributes. Use `[@mel.as]' instead."
   | _ -> ()
 
+
+let process_tag_name attrs =
+  let st = ref None in
+  List.iter attrs
+    ~f:(fun { Parsetree.attr_name = { txt; loc }; attr_payload; _ } ->
+      match txt with
+      | "mel.tag" ->
+          if !st = None then (
+            (match attr_payload with
+            | PStr
+                [
+                  {
+                    pstr_desc =
+                      Pstr_eval ({ pexp_desc = Pexp_constant const; _ }, _);
+                    _;
+                  };
+                ] -> (
+                namespace_error ~loc txt;
+                match const.pconst_desc with
+                | Pconst_string (s, _, _) -> st := Some s
+                | _ -> ())
+            | _ -> ());
+            if !st = None
+            then
+              Location.raise_errorf
+                ~loc
+                 "Variant tag annotation (`[@mel.tag \"..\"]') must be a string")
+          else
+            Location.raise_errorf
+              ~loc
+               "Duplicate `[@mel.tag \"..\"]' annotation"
+      | _ -> ());
+  !st
+
+
 let find_mel_as_name =
   let find_mel_as_name (attr : Parsetree.attribute) =
     match attr.attr_name with

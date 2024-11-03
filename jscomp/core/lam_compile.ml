@@ -163,8 +163,18 @@ let default_action ~saturated failaction =
 let get_const_name i (sw_names : Lambda.switch_names option) =
   match sw_names with None -> None | Some { consts; _ } -> Some consts.(i)
 
-let get_block_name i (sw_names : Lambda.switch_names option) =
+let get_block i (sw_names : Lambda.switch_names option) =
   match sw_names with None -> None | Some { blocks; _ } -> Some blocks.(i)
+
+let get_tag_name (sw_names : Lambda.switch_names option) =
+  match sw_names with
+  | None -> Js_dump_lit.tag
+  | Some { blocks; _ } -> (
+      match
+        Array.find_map ~f:(fun { Lambda.tag_name; _ } -> tag_name) blocks
+      with
+      | Some s -> s
+      | None -> Js_dump_lit.tag)
 
 let no_effects_const = lazy true
 (* let has_effects_const = lazy false *)
@@ -699,7 +709,13 @@ and compile_switch (switch_arg : Lam.t) (sw : Lam.lambda_switch)
     default_action ~saturated:sw_blocks_full sw_failaction
   in
   let get_const_name i = get_const_name i sw_names in
-  let get_block_name i = get_block_name i sw_names in
+  let get_block i = get_block i sw_names in
+  let get_block_name i =
+    match get_block i with
+    | Some { cstr_name; _ } -> Some cstr_name
+    | None -> None
+  in
+  let tag_name = get_tag_name sw_names in
   let compile_whole (cxt : Lam_compile_context.t) =
     match
       compile_lambda { cxt with continuation = NeedValue Not_tail } switch_arg
@@ -709,7 +725,7 @@ and compile_switch (switch_arg : Lam.t) (sw : Lam.lambda_switch)
         block
         @
         if sw_consts_full && sw_consts = [] then
-          compile_cases cxt (E.tag e) sw_blocks sw_blocks_default
+          compile_cases cxt (E.tag ~name:tag_name e) sw_blocks sw_blocks_default
             ~get_cstr_name:get_block_name
         else if sw_blocks_full && sw_blocks = [] then
           compile_cases cxt e sw_consts sw_num_default
@@ -722,8 +738,8 @@ and compile_switch (switch_arg : Lam.t) (sw : Lam.lambda_switch)
                  ~get_cstr_name:get_const_name)
               (* default still needed, could simplified*)
               ~else_:
-                (compile_cases cxt (E.tag e) sw_blocks sw_blocks_default
-                   ~get_cstr_name:get_block_name)
+                (compile_cases cxt (E.tag ~name:tag_name e) sw_blocks
+                   sw_blocks_default ~get_cstr_name:get_block_name)
           in
           match e.expression_desc with
           | J.Var _ -> [ dispatch e ]

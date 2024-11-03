@@ -50,8 +50,6 @@ open Import
 
 *)
 
-let name_symbol = Js_op.Symbol_name
-
 module E = Js_exp_make
 module S = Js_stmt_make
 module L = Js_dump_lit
@@ -803,13 +801,19 @@ and expression_desc cxt ~(level : int) x : cxt =
       let objs =
         let tails =
           List.map_combine_array_append p.fields el
-            (if !Js_config.debug then [ (name_symbol, E.str p.name) ] else [])
+            (if !Js_config.debug then [ (Js_op.Symbol_name, E.str p.name) ]
+             else [])
             (fun i -> Js_op.Lit i)
         in
         let as_value =
           Lam_constant_convert.modifier ~name:p.name p.attributes
         in
-        ( Js_op.Lit L.tag,
+        let tag_name =
+          match Record_attributes_check.process_tag_name p.attributes with
+          | None -> L.tag
+          | Some s -> s
+        in
+        ( Js_op.Lit tag_name,
           {
             (match as_value.as_modifier with
             | Some modifier -> E.as_value modifier
@@ -830,7 +834,7 @@ and expression_desc cxt ~(level : int) x : cxt =
             el
           @
           if !Js_config.debug && not is_cons then
-            [ (name_symbol, E.str p.name) ]
+            [ (Symbol_name, E.str p.name) ]
           else []
         in
         if is_cons && p.num_nonconst = 1 then tails
@@ -838,7 +842,12 @@ and expression_desc cxt ~(level : int) x : cxt =
           let as_value =
             Lam_constant_convert.modifier ~name:p.name p.attributes
           in
-          ( Js_op.Lit L.tag,
+          let tag_name =
+            match Record_attributes_check.process_tag_name p.attributes with
+            | None -> L.tag
+            | Some s -> s
+          in
+          ( Js_op.Lit tag_name,
             {
               (match as_value.as_modifier with
               | Some modifier -> E.as_value modifier
@@ -858,11 +867,11 @@ and expression_desc cxt ~(level : int) x : cxt =
         _;
       } ->
       expression_desc cxt ~level (Array { items = el; mutable_flag })
-  | Caml_block_tag e ->
+  | Caml_block_tag { expr = e; name } ->
       group cxt 1 (fun () ->
           let cxt = expression ~level:15 cxt e in
           string cxt L.dot;
-          string cxt L.tag;
+          string cxt name;
           cxt)
   | Array_index { expr = e; index = p } | String_index { expr = e; index = p }
     ->
