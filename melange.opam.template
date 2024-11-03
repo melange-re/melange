@@ -1,4 +1,3 @@
 pin-depends: [
   [ "reason.dev" "git+https://github.com/reasonml/reason.git" ]
-  [ "utop.dev" "git+https://github.com/ocaml-community/utop.git" ]
 ]
