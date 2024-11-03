@@ -8,7 +8,7 @@ homepage: "https://github.com/melange-re/melange"
 bug-reports: "https://github.com/melange-re/melange/issues"
 depends: [
   "dune" {>= "3.13"}
-  "ocaml" {>= "5.2"}
+  "ocaml" {>= "5.3"}
   "cmdliner" {>= "1.1.0"}
   "dune-build-info"
   "cppo" {build}
@@ -36,7 +36,5 @@ build: [
 ]
 dev-repo: "git+https://github.com/melange-re/melange.git"
 pin-depends: [
-  [ "reason.dev" "git+https://github.com/reasonml/reason.git#anmonteiro/ocaml-5.3" ]
-  [ "merlin-extend.dev" "git+https://github.com/anmonteiro/merlin-extend.git#anmonteiro/ocaml-5.3" ]
-  [ "utop.dev" "git+https://github.com/anmonteiro/utop.git#anmonteiro/ocaml-5.3" ]
+  [ "reason.dev" "git+https://github.com/reasonml/reason.git" ]
 ]
