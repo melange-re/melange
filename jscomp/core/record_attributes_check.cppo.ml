@@ -52,7 +52,13 @@ let process_tag_name attrs =
                   };
                 ] -> (
                 namespace_error ~loc txt;
-                match const.pconst_desc with
+                match
+#if OCAML_VERSION >= (5, 3, 0)
+                  const.pconst_desc
+#else
+                  const
+#endif
+                with
                 | Pconst_string (s, _, _) -> st := Some s
                 | _ -> ())
             | _ -> ());

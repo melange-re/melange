@@ -279,8 +279,12 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       (* The OCaml compiler expects include_dirs in reverse CLI order, but
          cmdliner returns it in CLI order. *)
       List.rev_append include_dirs !Clflags.include_dirs;
+#if OCAML_VERSION >= (5,2,0)
     Clflags.hidden_include_dirs :=
       List.rev_append hidden_include_dirs !Clflags.hidden_include_dirs;
+#else
+    let _hidden_include_dirs = hidden_include_dirs in
+#endif
 
     List.iter ~f:Warnings.parse_alert_option alerts;
 
