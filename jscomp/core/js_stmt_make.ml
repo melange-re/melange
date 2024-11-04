@@ -421,8 +421,8 @@ let debugger_block : t list = [ { statement_desc = Debugger; comment = None } ]
 
 let named_expression (e : J.expression) : (J.statement * Ident.t) option =
   match Js_analyzer.is_okay_to_duplicate e with
-  | false -> None
-  | true ->
+  | true -> None
+  | false ->
       let obj = Ident.create_tmp () in
       let obj_code = define_variable ~kind:Strict obj e in
       Some (obj_code, obj)
