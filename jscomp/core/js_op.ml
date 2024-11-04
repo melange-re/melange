@@ -28,7 +28,7 @@ open Import
 
 type binop =
   | Eq
-    (* acutally assignment ..
+    (* actually assignment ..
        TODO: move it into statement, so that all expressions
        are side efffect free (except function calls)
     *)
@@ -179,6 +179,103 @@ type tag_info = Lam.Tag_info.t
 type length_object = Array | String | Bytes | Function | Caml_block
 
 (** TODO: define constant - for better constant folding  *)
+
 (* type constant =  *)
 (*   | Const_int of int *)
 (*   | Const_ *)
+
+(* Refer https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
+   for precedence
+*)
+
+(* val op_prec : Js_op.binop -> int * int * int
+val op_str : Js_op.binop -> string
+val op_int_prec : Js_op.int_op -> int * int * int
+val op_int_str : Js_op.int_op -> string
+val str_of_used_stats : Js_op.used_stats -> string
+val update_used_stats : J.ident_info -> Js_op.used_stats -> unit
+val of_lam_mutable_flag : Asttypes.mutable_flag -> Js_op.mutable_flag
+val is_cons : string -> bool
+*)
+let op_prec (op : binop) =
+  match op with
+  | Eq -> (1, 13, 1)
+  | Or -> (3, 3, 3)
+  | And -> (4, 4, 4)
+  | EqEqEq | NotEqEq -> (8, 8, 9)
+  | Gt | Ge | Lt | Le (* | InstanceOf *) -> (9, 9, 10)
+  | Bor -> (5, 5, 5)
+  | Bxor -> (6, 6, 6)
+  | Band -> (7, 7, 7)
+  | Lsl | Lsr | Asr -> (10, 10, 11)
+  | Plus | Minus -> (11, 11, 12)
+  | Mul | Div | Mod -> (12, 12, 13)
+
+let op_int_prec (op : int_op) =
+  match op with
+  | Bor -> (5, 5, 5)
+  | Bxor -> (6, 6, 6)
+  | Band -> (7, 7, 7)
+  | Lsl | Lsr | Asr -> (10, 10, 11)
+  | Plus | Minus -> (11, 11, 12)
+  | Mul | Div | Mod -> (12, 12, 13)
+
+let op_str (op : binop) =
+  match op with
+  | Bor -> "|"
+  | Bxor -> "^"
+  | Band -> "&"
+  | Lsl -> "<<"
+  | Lsr -> ">>>"
+  | Asr -> ">>"
+  | Plus -> "+"
+  | Minus -> "-"
+  | Mul -> "*"
+  | Div -> "/"
+  | Mod -> "%"
+  | Eq -> "="
+  | Or -> "||"
+  | And -> "&&"
+  | EqEqEq -> "==="
+  | NotEqEq -> "!=="
+  | Lt -> "<"
+  | Le -> "<="
+  | Gt -> ">"
+  | Ge -> ">="
+(* | InstanceOf -> "instanceof" *)
+
+let op_int_str (op : int_op) =
+  match op with
+  | Bor -> "|"
+  | Bxor -> "^"
+  | Band -> "&"
+  | Lsl -> "<<"
+  | Lsr -> ">>>"
+  | Asr -> ">>"
+  | Plus -> "+"
+  | Minus -> "-"
+  | Mul -> "*"
+  | Div -> "/"
+  | Mod -> "%"
+
+let str_of_used_stats x =
+  match (x : used_stats) with
+  | Dead_pure -> "Dead_pure"
+  | Dead_non_pure -> "Dead_non_pure"
+  | Exported -> "Exported"
+  | Once_pure -> "Once_pure"
+  | Used -> "Used"
+  | Scanning_pure -> "Scanning_pure"
+  | Scanning_non_pure -> "Scanning_non_pure"
+  | NA -> "NA"
+
+let update_used_stats (ident_info : ident_info) used_stats =
+  match ident_info.used_stats with
+  | Dead_pure | Dead_non_pure | Exported -> ()
+  | Scanning_pure | Scanning_non_pure | Used | Once_pure | NA ->
+      ident_info.used_stats <- used_stats
+
+let of_lam_mutable_flag (x : Asttypes.mutable_flag) : mutable_flag =
+  match x with Immutable -> Immutable | Mutable -> Mutable
+
+let is_cons = function "::" -> true | _ -> false

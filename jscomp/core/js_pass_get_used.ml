@@ -30,7 +30,7 @@ let post_process_stats my_export_set
     (defined_idents : J.variable_declaration Ident.Hash.t) stats =
   Ident.Hash.iter defined_idents (fun ident v ->
       if Ident.Set.mem my_export_set ident then
-        Js_op_util.update_used_stats v.ident_info Exported
+        Js_op.update_used_stats v.ident_info Exported
       else
         let pure =
           match v.value with
@@ -39,11 +39,11 @@ let post_process_stats my_export_set
         in
         match Ident.Hash.find_opt stats ident with
         | None ->
-            Js_op_util.update_used_stats v.ident_info
+            Js_op.update_used_stats v.ident_info
               (if pure then Dead_pure else Dead_non_pure)
         | Some num ->
             if num = 1 then
-              Js_op_util.update_used_stats v.ident_info
+              Js_op.update_used_stats v.ident_info
                 (if pure then Once_pure else Used));
   defined_idents
 

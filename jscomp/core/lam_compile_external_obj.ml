@@ -122,7 +122,7 @@ let assemble_obj_args
                    (* Need make sure whether assignment is effectful or not
                       to avoid code duplication
                    *)
-                   match Js_ast_util.named_expression arg with
+                   match S.named_expression arg with
                    | None -> (
                        let acc, new_eff =
                          Lam_compile_external_call.ocaml_to_js_eff

@@ -110,7 +110,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   | Pmakeblock (tag, tag_info, mutable_flag) ->
       (* RUNTIME *)
       Js_of_lam_block.make_block
-        (Js_op_util.of_lam_mutable_flag mutable_flag)
+        (Js_op.of_lam_mutable_flag mutable_flag)
         tag_info (E.small_int tag) args
   | Pval_from_option -> Js_of_lam_option.val_from_option (List.hd args)
   | Pval_from_option_not_nest -> List.hd args
@@ -186,7 +186,9 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       (* Global Builtin Exception is an int, like
          [Not_found] or [Invalid_argument] ?
       *)
-      match args with [ e1; e2 ] -> E.int_comp cmp e1 e2 | _ -> assert false)
+      match args with
+      | [ e1; e2 ] -> E.int_comp cmp e1 e2
+      | _ -> assert false)
   (* List --> stamp = 0
      Assert_false --> stamp = 26
   *)
@@ -203,10 +205,14 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       E.seq (E.assign v (E.offset v n)) E.unit
   | Psequand -> (
       (* TODO: rhs is possibly a tail call *)
-      match args with [ e1; e2 ] -> E.and_ e1 e2 | _ -> assert false)
+      match args with
+      | [ e1; e2 ] -> E.and_ e1 e2
+      | _ -> assert false)
   | Psequor -> (
       (* TODO: rhs is possibly a tail call *)
-      match args with [ e1; e2 ] -> E.or_ e1 e2 | _ -> assert false)
+      match args with
+      | [ e1; e2 ] -> E.or_ e1 e2
+      | _ -> assert false)
   | Pisout off -> (
       match args with
       (* predicate: [x > range  or x < 0 ]
@@ -373,7 +379,8 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   (* let parm = Ident.create "prim" in
          Lfunction(Curried, [parm],
                    Matching.inline_lazy_force (Lvar parm) Location.none)
-     It is inlined, this should not appear here *) ->
+     It is inlined, this should not appear here *)
+    ->
       (*we dont use [throw] here, since [throw] is an statement  *)
       let s = Lam_print.primitive_to_string prim in
       Location.prerr_warning loc (Mel_unimplemented_primitive s);

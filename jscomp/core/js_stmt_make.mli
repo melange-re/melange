@@ -166,3 +166,4 @@ val return_stmt : ?comment:string -> J.expression -> t
 
 val continue_ : t
 val debugger_block : t list
+val named_expression : J.expression -> (J.statement * Ident.t) option

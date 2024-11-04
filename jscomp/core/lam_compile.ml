@@ -527,20 +527,20 @@ and compile_recursive_lets cxt id_args : Js_output.t =
             ~init:acc rest)
 
 and compile_general_cases :
-      'a.
-      get_cstr_name:('a -> Lambda.cstr_name option) ->
-      ('a -> J.expression) ->
-      (J.expression -> J.expression -> J.expression) ->
-      Lam_compile_context.t ->
-      (?default:J.block ->
-      ?declaration:Lam_group.let_kind * Ident.t ->
-      _ ->
-      ('a * J.case_clause) list ->
-      J.statement) ->
-      _ ->
-      ('a * Lam.t) list ->
-      default_case ->
-      J.block =
+    'a.
+    get_cstr_name:('a -> Lambda.cstr_name option) ->
+    ('a -> J.expression) ->
+    (J.expression -> J.expression -> J.expression) ->
+    Lam_compile_context.t ->
+    (?default:J.block ->
+    ?declaration:Lam_group.let_kind * Ident.t ->
+    _ ->
+    ('a * J.case_clause) list ->
+    J.statement) ->
+    _ ->
+    ('a * Lam.t) list ->
+    default_case ->
+    J.block =
  fun ~(get_cstr_name : _ -> Lambda.cstr_name option)
      (make_exp : _ -> J.expression)
      (eq_exp : J.expression -> J.expression -> J.expression)
@@ -1257,7 +1257,7 @@ and compile_send (meth_kind : Lam_compat.meth_kind) (met : Lam.t) (obj : Lam.t)
   | _, ([] | [ _ ]) -> assert false
   | args_code, label :: nobj :: args -> (
       let cont3 nobj k =
-        match Js_ast_util.named_expression nobj with
+        match S.named_expression nobj with
         | None ->
             let cont =
               Js_output.output_of_block_and_expression lambda_cxt.continuation
@@ -1619,7 +1619,7 @@ and compile_prim (prim_info : Lam.prim_info)
           let blocks, ret =
             if block = [] then ([], E.dot b property)
             else
-              match Js_ast_util.named_expression b with
+              match S.named_expression b with
               | None -> (block, E.dot b property)
               | Some (x, b) -> (block @ [ x ], E.dot (E.var b) property)
           in
@@ -1655,7 +1655,7 @@ and compile_prim (prim_info : Lam.prim_info)
       | { value = None; _ }, _ | _, { value = None; _ } -> assert false
       | ( { block = obj_block; value = Some obj; _ },
           { block = arg_block; value = Some value; _ } ) -> (
-          match Js_ast_util.named_expression obj with
+          match S.named_expression obj with
           | None ->
               cont obj_block arg_block None
                 (E.seq (E.assign (E.dot obj property) value) E.unit)
