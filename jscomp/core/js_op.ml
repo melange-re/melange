@@ -188,15 +188,6 @@ type length_object = Array | String | Bytes | Function | Caml_block
    for precedence
 *)
 
-(* val op_prec : Js_op.binop -> int * int * int
-val op_str : Js_op.binop -> string
-val op_int_prec : Js_op.int_op -> int * int * int
-val op_int_str : Js_op.int_op -> string
-val str_of_used_stats : Js_op.used_stats -> string
-val update_used_stats : J.ident_info -> Js_op.used_stats -> unit
-val of_lam_mutable_flag : Asttypes.mutable_flag -> Js_op.mutable_flag
-val is_cons : string -> bool
-*)
 let op_prec (op : binop) =
   match op with
   | Eq -> (1, 13, 1)
