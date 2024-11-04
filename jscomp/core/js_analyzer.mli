@@ -69,3 +69,4 @@ val rev_toplevel_flatten : J.block -> J.block
 *)
 
 val is_okay_to_duplicate : J.expression -> bool
+val same_vident : J.vident -> J.vident -> bool

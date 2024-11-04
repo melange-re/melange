@@ -376,7 +376,7 @@ let cons_pos pos =
   match pos with 0l -> L.hd | 1l -> L.tl | _ -> noncons_pos pos
 
 let variant_pos ~constr pos =
-  match Js_op_util.is_cons constr with
+  match Js_op.is_cons constr with
   | true -> cons_pos pos
   | false -> noncons_pos pos
 
@@ -664,13 +664,13 @@ let bin ?loc ?comment (op : J.binop) (e0 : t) (e1 : t) : t =
 
 let and_ ?loc ?comment (e1 : t) (e2 : t) : t =
   match (e1.expression_desc, e2.expression_desc) with
-  | Var i, Var j when Js_op_util.same_vident i j -> e1
+  | Var i, Var j when Js_analyzer.same_vident i j -> e1
   | Var i, Bin { op = And; expr1 = { expression_desc = Var j; _ }; _ }
-    when Js_op_util.same_vident i j ->
+    when Js_analyzer.same_vident i j ->
       e2
   | ( Var i,
       Bin { op = And; expr1 = l; expr2 = { expression_desc = Var j; _ } as r } )
-    when Js_op_util.same_vident i j ->
+    when Js_analyzer.same_vident i j ->
       { e2 with expression_desc = Bin { op = And; expr1 = r; expr2 = l } }
   | ( Bin
         {
@@ -684,20 +684,20 @@ let and_ ?loc ?comment (e1 : t) (e2 : t) : t =
           expr1 = { expression_desc = Var j; _ };
           expr2 = { expression_desc = Str _ | Number _ | Unicode _; _ };
         } )
-    when Js_op_util.same_vident i j ->
+    when Js_analyzer.same_vident i j ->
       e2
   | _, _ ->
       make_expression ?loc ?comment (Bin { op = And; expr1 = e1; expr2 = e2 })
 
 let or_ ?loc ?comment (e1 : t) (e2 : t) =
   match (e1.expression_desc, e2.expression_desc) with
-  | Var i, Var j when Js_op_util.same_vident i j -> e1
+  | Var i, Var j when Js_analyzer.same_vident i j -> e1
   | Var i, Bin { op = Or; expr1 = { expression_desc = Var j; _ }; _ }
-    when Js_op_util.same_vident i j ->
+    when Js_analyzer.same_vident i j ->
       e2
   | ( Var i,
       Bin { op = Or; expr1 = l; expr2 = { expression_desc = Var j; _ } as r } )
-    when Js_op_util.same_vident i j ->
+    when Js_analyzer.same_vident i j ->
       { e2 with expression_desc = Bin { op = Or; expr1 = r; expr2 = l } }
   | _, _ ->
       make_expression ?loc ?comment (Bin { op = Or; expr1 = e1; expr2 = e2 })
@@ -1003,7 +1003,8 @@ let rec int_comp (cmp : Lam_compat.integer_comparison) ?loc ?comment (e0 : t)
               expression_desc =
                 Var
                   (Qualified
-                    (({ id = _; kind = Runtime; _ } as iid), Some "caml_compare"));
+                     ( ({ id = _; kind = Runtime; _ } as iid),
+                       Some "caml_compare" ));
               _;
             } as fn;
           args = [ _; _ ] as args;

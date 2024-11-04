@@ -24,6 +24,21 @@
 
 open Import
 
+let same_vident (x : J.vident) (y : J.vident) =
+  match (x, y) with
+  | Id x0, Id y0 -> Ident.same x0 y0
+  | Qualified (x, str_opt0), Qualified (y, str_opt1) ->
+      let same_kind (x : Js_op.kind) (y : Js_op.kind) =
+        match (x, y) with
+        | Ml, Ml | Runtime, Runtime -> true
+        | External { name = u; _ }, External { name = v; _ } ->
+            u = v (* not comparing Default since we will do it later *)
+        | _, _ -> false
+      in
+      Ident.same x.id y.id && same_kind x.kind y.kind
+      && Option.equal String.equal str_opt0 str_opt1
+  | Id _, Qualified _ | Qualified _, Id _ -> false
+
 type idents_stats = {
   mutable used_idents : Ident.Set.t;
   mutable defined_idents : Ident.Set.t;
@@ -58,7 +73,8 @@ let free_variables (stats : idents_stats) =
         | Fun { env; _ }
         (* a optimization to avoid walking into function again
             if it's already comuted
-        *) ->
+        *)
+          ->
             stats.used_idents <-
               Ident.Set.union (Js_fun_env.get_unbounded env) stats.used_idents
         | _ -> super.expression self exp);
@@ -188,7 +204,7 @@ let rec eq_expression ({ expression_desc = x0; _ } : J.expression)
       | Call { expr = b0; args = args10; _ } ->
           eq_expression a0 b0 && eq_expression_list args00 args10
       | _ -> false)
-  | Var x -> ( match y0 with Var y -> Js_op_util.same_vident x y | _ -> false)
+  | Var x -> ( match y0 with Var y -> same_vident x y | _ -> false)
   | Bin { op = op0; expr1 = a0; expr2 = b0 } -> (
       match y0 with
       | Bin { op = op1; expr1 = a1; expr2 = b1 } ->

@@ -209,7 +209,7 @@ let subst (export_set : Ident.Set.t)
                    ident = _;
                  } as v)
               when List.same_length params args ->
-                Js_op_util.update_used_stats v.ident_info Dead_pure;
+                Js_op.update_used_stats v.ident_info Dead_pure;
                 let no_tailcall = Js_fun_env.no_tailcall env in
                 let processed_blocks =
                   self.block self block

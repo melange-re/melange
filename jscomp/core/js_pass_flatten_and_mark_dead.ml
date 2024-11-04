@@ -43,7 +43,7 @@ let mark_dead_code (js : J.program) : J.program =
               Ident.Hash.add ident_use_stats ident Recursive
           (* recursive identifiers *)
           | Some Recursive -> ()
-          | Some (Info x) -> Js_op_util.update_used_stats x Used);
+          | Some (Info x) -> Js_op.update_used_stats x Used);
       variable_declaration =
         (fun self vd ->
           match vd.ident_info.used_stats with
@@ -65,11 +65,11 @@ let mark_dead_code (js : J.program) : J.program =
               in
               let () =
                 if Ident.Set.mem js.export_set ident then
-                  Js_op_util.update_used_stats ident_info Exported
+                  Js_op.update_used_stats ident_info Exported
               in
               match Ident.Hash.find_opt ident_use_stats ident with
               | Some Recursive ->
-                  Js_op_util.update_used_stats ident_info Used;
+                  Js_op.update_used_stats ident_info Used;
                   Ident.Hash.replace ident_use_stats ident (Info ident_info)
               | Some (Info _) ->
                   (* check [camlinternlFormat,box_type] inlined twice
@@ -80,7 +80,7 @@ let mark_dead_code (js : J.program) : J.program =
               | None ->
                   (* First time *)
                   Ident.Hash.add ident_use_stats ident (Info ident_info);
-                  Js_op_util.update_used_stats ident_info
+                  Js_op.update_used_stats ident_info
                     (if pure then Scanning_pure else Scanning_non_pure)));
     }
   in
@@ -88,9 +88,9 @@ let mark_dead_code (js : J.program) : J.program =
   Ident.Hash.iter ident_use_stats (fun _id (info : meta_info) ->
       match info with
       | Info ({ used_stats = Scanning_pure } as info) ->
-          Js_op_util.update_used_stats info Dead_pure
+          Js_op.update_used_stats info Dead_pure
       | Info ({ used_stats = Scanning_non_pure } as info) ->
-          Js_op_util.update_used_stats info Dead_non_pure
+          Js_op.update_used_stats info Dead_non_pure
       | _ -> ());
   js
 

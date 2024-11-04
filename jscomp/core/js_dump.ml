@@ -732,12 +732,13 @@ and expression_desc cxt ~(level : int) x : cxt =
      {[ 0. - x ]}
      {[ 0.00 - x ]}
      {[ 0.000 - x ]}
-  *) ->
+  *)
+    ->
       cond_paren_group cxt (level > 13) 1 (fun () ->
           string cxt (match desc with Float _ -> "- " | _ -> "-");
           expression ~level:13 cxt e)
   | Bin { op; expr1 = e1; expr2 = e2 } ->
-      let out, lft, rght = Js_op_util.op_prec op in
+      let out, lft, rght = Js_op.op_prec op in
       let need_paren =
         level > out || match op with Lsl | Lsr | Asr -> true | _ -> false
       in
@@ -746,12 +747,12 @@ and expression_desc cxt ~(level : int) x : cxt =
       cond_paren_group cxt need_paren 1 (fun () ->
           let cxt = expression ~level:lft cxt e1 in
           space cxt;
-          string cxt (Js_op_util.op_str op);
+          string cxt (Js_op.op_str op);
           space cxt;
           expression ~level:rght cxt e2)
   | String_append { prefix = e1; suffix = e2 } ->
       let op : Js_op.binop = Plus in
-      let out, lft, rght = Js_op_util.op_prec op in
+      let out, lft, rght = Js_op.op_prec op in
       let need_paren =
         level > out || match op with Lsl | Lsr | Asr -> true | _ -> false
       in
@@ -825,7 +826,7 @@ and expression_desc cxt ~(level : int) x : cxt =
       in
       expression_desc cxt ~level (Object objs)
   | Caml_block { fields = el; tag; tag_info = Blk_constructor p; _ } ->
-      let is_cons = Js_op_util.is_cons p.name in
+      let is_cons = Js_op.is_cons p.name in
       let objs =
         let tails =
           List.mapi
@@ -1156,15 +1157,15 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
                       let right_prec =
                         match direction with
                         | Upto ->
-                            let _, _, right = Js_op_util.op_prec Le in
+                            let _, _, right = Js_op.op_prec Le in
                             string cxt L.le;
                             right
                         | Up ->
-                            let _, _, right = Js_op_util.op_prec Lt in
+                            let _, _, right = Js_op.op_prec Lt in
                             string cxt L.lt;
                             right
                         | Downto ->
-                            let _, _, right = Js_op_util.op_prec Ge in
+                            let _, _, right = Js_op.op_prec Ge in
                             string cxt L.ge;
                             right
                       in
