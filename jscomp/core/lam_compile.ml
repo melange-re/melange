@@ -1257,21 +1257,14 @@ and compile_send (meth_kind : Lam_compat.meth_kind) (met : Lam.t) (obj : Lam.t)
   | _, ([] | [ _ ]) -> assert false
   | args_code, label :: nobj :: args -> (
       let cont3 nobj k =
-        match S.named_expression nobj with
-        | None ->
-            let cont =
-              Js_output.output_of_block_and_expression lambda_cxt.continuation
-                (List.concat args_code)
-            in
-            cont (k nobj)
-        | Some (obj_code, v) ->
-            let cont2 obj_code v =
-              Js_output.output_of_block_and_expression lambda_cxt.continuation
-                (List.concat args_code @ [ obj_code ])
-                v
-            in
-            let cobj = E.var v in
-            cont2 obj_code (k cobj)
+        let obj_code, cobj =
+          match S.named_expression nobj with
+          | None -> ([], nobj)
+          | Some (obj_code, v) -> ([ obj_code ], E.var v)
+        in
+        Js_output.output_of_block_and_expression lambda_cxt.continuation
+          (List.concat args_code @ obj_code)
+          (k cobj)
       in
       match meth_kind with
       | Self ->
@@ -1645,23 +1638,18 @@ and compile_prim (prim_info : Lam.prim_info)
       in
       let obj_output = compile_lambda need_value_no_return_cxt obj in
       let arg_output = compile_lambda need_value_no_return_cxt setter_val in
-      let cont obj_block arg_block obj_code =
-        Js_output.output_of_block_and_expression lambda_cxt.continuation
-          (match obj_code with
-          | None -> List.append obj_block arg_block
-          | Some obj_code -> List.append obj_block (obj_code :: arg_block))
-      in
       match (obj_output, arg_output) with
       | { value = None; _ }, _ | _, { value = None; _ } -> assert false
       | ( { block = obj_block; value = Some obj; _ },
-          { block = arg_block; value = Some value; _ } ) -> (
-          match S.named_expression obj with
-          | None ->
-              cont obj_block arg_block None
-                (E.seq (E.assign (E.dot obj property) value) E.unit)
-          | Some (obj_code, obj) ->
-              cont obj_block arg_block (Some obj_code)
-                (E.seq (E.assign (E.dot (E.var obj) property) value) E.unit)))
+          { block = arg_block; value = Some value; _ } ) ->
+          let obj_code, obj =
+            match S.named_expression obj with
+            | None -> ([], obj)
+            | Some (obj_code, obj) -> ([ obj_code ], E.var obj)
+          in
+          Js_output.output_of_block_and_expression lambda_cxt.continuation
+            (List.append obj_block (obj_code @ arg_block))
+            (E.seq (E.assign (E.dot obj property) value) E.unit))
   | {
    primitive = Pfull_apply;
    args =

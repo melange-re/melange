@@ -58,7 +58,7 @@ let is_not_none (e : J.expression) : J.expression =
 
   - avoid duplicate evlauation of [arg] when it
    is not a variable
-  {!Js_ast_util.named_expression} does not help
+  {!Js_stmt_make.named_expression} does not help
    since we need an expression here, it might be a statement
 *)
 let val_from_option (arg : J.expression) =
