@@ -1,5 +1,6 @@
 {
   "author": "Antonio Nuno Monteiro <anmonteiro@gmail.com>",
   "license": "LGPL-2.1 or later",
-  "description": "Toolchain to produce JS from Reason/OCaml"
+  "description": "Toolchain to produce JS from Reason/OCaml",
+  "type": "module"
 }
