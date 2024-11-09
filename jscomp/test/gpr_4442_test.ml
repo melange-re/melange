@@ -11,7 +11,8 @@ let u = [%raw{|function fib(n){
 }|}]
 
 
-;; eq __LOC__  (u 2) 2 
+[@@@ocaml.warning "-20"]
+;; eq __LOC__  (u 2) 2
 ;; eq __LOC__  (u 3) 3
 
 ;; Mt.from_pair_suites __FILE__ !suites
