@@ -42,3 +42,29 @@ warning go away
 
   $ dune build @melange
 
+Uncurried
+
+  $ cat > foo.ml <<EOF
+  > let addOne n = [%mel.raw {|
+  >   function (a) {
+  >     return a + 1;
+  >   }
+  > |}] n
+  > EOF
+
+  $ dune build @melange
+  File "foo.ml", line 5, characters 4-5:
+  5 | |}] n
+          ^
+  Error (warning 20 [ignored-extra-argument]): this argument will not be used by the function.
+  [1]
+
+  $ cat > foo.ml <<EOF
+  > let addOne n = ([%mel.raw {|
+  >   function (a) {
+  >     return a + 1;
+  >   }
+  > |}]: (_ -> _ [@u])) n [@u]
+  > EOF
+
+  $ dune build @melange
