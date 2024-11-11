@@ -28,6 +28,13 @@ Unreleased
   - combined with `[@mel.as ..]` in variant definitions and inline record
     payloads, Melange can now express types for discriminated union object
     shapes.
+- melange-ppx: don't silence warning 20 (`ignored-extra-argument`) for
+  `%mel.raw` application
+  ([#1166](https://github.com/melange-re/melange/pull/1166)).
+  - This change reverts the behavior introduced in
+    ([#915](https://github.com/melange-re/melange/pull/915)).
+  - The new recommendation is to annotate `%mel.raw` functions or disable
+    warning 20 at the project level.
 
 4.0.1 2024-06-07
 ---------------
