@@ -1,0 +1,56 @@
+(env
+ (_
+  (env-vars
+   (MELANGE_RUNTIME_VERSION 0.1.0))))
+
+(melange.emit
+ (target x)
+ (alias npm)
+ (modules)
+ (emit_stdlib false)
+ (module_systems
+  (es6 js))
+ (libraries melange.js melange melange.belt))
+
+(rule
+ (alias runtime-pkg)
+ (target
+  (dir packages))
+ (deps
+  (alias npm)
+  (:pkg_json_template package.json)
+  (:melange
+   (glob_files x/node_modules/melange/*.js))
+  (:melange_js
+   (glob_files x/node_modules/melange.js/*.js))
+  (:melange_belt
+   (glob_files x/node_modules/melange.belt/*.js)))
+ (action
+  (progn
+   (chdir
+    %{target}/melange.js
+    (progn
+     (run cp %{melange_js} .)
+     (run
+      ../../make-runtime-package.sh
+      melange.js
+      %{pkg_json_template}
+      package.json)))
+   (chdir
+    %{target}/melange.belt
+    (progn
+     (run cp %{melange_belt} .)
+     (run
+      ../../make-runtime-package.sh
+      melange.belt
+      %{pkg_json_template}
+      package.json)))
+   (chdir
+    %{target}/melange
+    (progn
+     (run cp %{melange} .)
+     (run
+      ../../make-runtime-package.sh
+      melange
+      %{pkg_json_template}
+      package.json))))))
