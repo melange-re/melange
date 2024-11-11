@@ -325,22 +325,15 @@ let app_exp_mapper e
           Location.raise_errorf ~loc
             "Js object ## expect syntax like obj##(paint (a,b)) "
       | Some { op; _ } -> Location.raise_errorf "invalid %s syntax" op
-      | None ->
-          let e =
-            match
-              exclude_with_val e.pexp_attributes Ast_attributes.is_uncurried
-            with
-            | None -> super e
-            | Some pexp_attributes ->
-                {
-                  e with
-                  pexp_desc =
-                    Ast_uncurry_apply.uncurry_fn_apply e.pexp_loc self fn args;
-                  pexp_attributes;
-                }
-          in
-          {
-            e with
-            pexp_attributes =
-              Ast_attributes.ignored_extra_argument :: e.pexp_attributes;
-          })
+      | None -> (
+          match
+            exclude_with_val e.pexp_attributes Ast_attributes.is_uncurried
+          with
+          | None -> super e
+          | Some pexp_attributes ->
+              {
+                e with
+                pexp_desc =
+                  Ast_uncurry_apply.uncurry_fn_apply e.pexp_loc self fn args;
+                pexp_attributes;
+              }))
