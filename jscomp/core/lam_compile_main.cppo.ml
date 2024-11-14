@@ -212,9 +212,10 @@ let compile
 #endif
   in
 
-  let ({Lam_coercion.groups = groups ; _} as coerced_input , meta) =
+  let (coerced_input, meta) =
     Lam_coercion.coerce_and_group_big_lambda  meta lam
   in
+  let groups = Lam_coercion.groups coerced_input in
 
 #ifndef BS_RELEASE_BUILD
 let () =
@@ -233,7 +234,7 @@ let () =
         (fun () ->
           let fmt = Format.formatter_of_out_channel chan in
           Format.pp_print_list ~pp_sep:Format.pp_print_newline
-            Lam_group.pp_group fmt (coerced_input.groups);
+            Lam_group.pp_group fmt groups;
           Format.pp_print_flush fmt ())
 
 in
@@ -319,7 +320,7 @@ js
         ~delayed_program
         meta
         ~effect_
-        coerced_input.export_map
+        (Lam_coercion.export_map coerced_input)
     in
     (if not !Clflags.dont_write_files then
        Js_cmj_format.to_file (Artifact_extension.append_extension output_prefix Cmj) cmj);
