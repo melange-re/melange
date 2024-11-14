@@ -286,7 +286,7 @@ and compile_external_field_apply ~dynamic_import (appinfo : Lam.apply)
         Lam_closure.is_closed_with_map Ident.Set.empty params body
       in
       compile_lambda lambda_cxt
-        (Lam_beta_reduce.propogate_beta_reduce_with_map lambda_cxt.meta
+        (Lam_beta_reduce.propagate_beta_reduce_with_map lambda_cxt.meta
            param_map params body ap_args)
   | Some _ | None ->
       let arity =
