@@ -154,7 +154,7 @@ let free_variables (export_idents : Ident.Set.t) (params : stats Ident.Map.t)
 (* let is_closed_by (set : Ident.Set.t) (lam : Lam.t) : bool =
    Ident.Map.is_empty (free_variables set (Ident.Map.empty ) lam   ) *)
 
-(** A bit consverative , it should be empty *)
+(** A bit conservative, it should be empty *)
 let is_closed lam =
   Ident.Map.for_all (free_variables Ident.Set.empty Ident.Map.empty lam)
     (fun k _ -> Ident.global k)
