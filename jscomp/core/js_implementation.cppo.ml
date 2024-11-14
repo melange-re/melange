@@ -52,7 +52,7 @@ let process_with_gentype filename =
   | None -> ()
   | Some cmd ->
       let comm =
-        cmd ^ " -bs-version " ^ Melange_version.version ^ " -cmt-add "
+        cmd ^ " -mel-version " ^ Melange_version.version ^ " -cmt-add "
         ^ filename ^ ":" ^ !Location.input_name
       in
       if !Clflags.verbose then (

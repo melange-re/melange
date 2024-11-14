@@ -81,6 +81,9 @@ type t = {
       (* all code to be compiled later = original code + rebound coercions *)
 }
 
+let export_map t = t.export_map
+let groups t = t.groups
+
 let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
     (reverse_input : Lam_group.t list) =
   let (original_exports : Ident.t list) = meta.exports in

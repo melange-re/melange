@@ -24,11 +24,8 @@
 
 open Import
 
-type t = {
-  export_list : Ident.t list;
-  export_set : Ident.Set.t;
-  export_map : Lam.t Ident.Map.t;
-  groups : Lam_group.t list;
-}
+type t
 
+val export_map : t -> Lam.t Ident.Map.t
+val groups : t -> Lam_group.t list
 val coerce_and_group_big_lambda : Lam_stats.t -> Lam.t -> t * Lam_stats.t
