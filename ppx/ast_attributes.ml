@@ -210,11 +210,6 @@ let internal_expansive =
     attr_loc = Location.none;
   }
 
-let has_internal_expansive attrs =
-  List.exists
-    ~f:(fun { attr_name = { txt; _ }; _ } -> txt = "internal.expansive")
-    attrs
-
 let mel_return_undefined =
   {
     attr_name = { txt = "mel.return"; loc = Location.none };
@@ -262,7 +257,7 @@ let iter_process_mel_string_or_int_as (attrs : attributes) =
                                 pexp_desc =
                                   Pexp_constant
                                     (Pconst_string
-                                      (s, _, ((None | Some "json") as dec)));
+                                       (s, _, ((None | Some "json") as dec)));
                                 pexp_loc;
                                 _;
                               },

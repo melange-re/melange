@@ -48,7 +48,6 @@ val mel_get_index : attribute
 val mel_get_arity : attribute
 val mel_set : attribute
 val internal_expansive : attribute
-val has_internal_expansive : attribute list -> bool
 val mel_return_undefined : attribute
 
 val iter_process_mel_string_int_unwrap_uncurry :
