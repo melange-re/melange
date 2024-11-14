@@ -1,6 +1,6 @@
 [@@@mel.config {
   flags = [|
-  "-bs-g"
+  "-mel-g"
   |]
 }]
 
