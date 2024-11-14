@@ -151,7 +151,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
                           | None -> true)
                       | _ -> true)
                     args ->
-            simpl (Lam_beta_reduce.propogate_beta_reduce meta params body args)
+            simpl (Lam_beta_reduce.propagate_beta_reduce meta params body args)
         | Some _ | None -> Lam.apply (simpl l1) (List.map ~f:simpl args) ap_info
         )
     (* Function inlining interact with other optimizations...
@@ -186,12 +186,11 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
                    if so, maybe not since in that case,
                    we are going to have two copy?
                 *)
-
                 (* Check: recursive applying may result in non-termination *)
 
                 (* Ext_log.dwarn __LOC__ "beta .. %s/%d" v.name v.stamp ; *)
                 simpl
-                  (Lam_beta_reduce.propogate_beta_reduce meta params body
+                  (Lam_beta_reduce.propagate_beta_reduce meta params body
                      ap_args)
               else if
                 (* Lam_analysis.size body < Lam_analysis.small_inline_size *)
@@ -211,7 +210,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
                 | false, (_, param_map) | true, (true, param_map) -> (
                     match rec_flag with
                     | Lam_rec ->
-                        Lam_beta_reduce.propogate_beta_reduce_with_map meta
+                        Lam_beta_reduce.propagate_beta_reduce_with_map meta
                           param_map params body ap_args
                     | Lam_self_rec -> normal ()
                     | Lam_non_rec ->
@@ -223,7 +222,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
                         then normal ()
                         else
                           simpl
-                            (Lam_beta_reduce.propogate_beta_reduce_with_map meta
+                            (Lam_beta_reduce.propagate_beta_reduce_with_map meta
                                param_map params body ap_args))
                 | _ -> normal ()
               else normal ()
@@ -231,14 +230,14 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         | Some _ | None -> normal ())
     | Lapply { ap_func = Lfunction { params; body; _ }; ap_args = args; _ }
       when List.same_length params args ->
-        simpl (Lam_beta_reduce.propogate_beta_reduce meta params body args)
+        simpl (Lam_beta_reduce.propagate_beta_reduce meta params body args)
         (* | Lapply{ fn = Lfunction{function_kind =  Tupled;  params; body};  *)
         (*          args = [Lprim {primitive = Pmakeblock _; args; _}]; _} *)
         (*   (\* TODO: keep track of this parameter in ocaml trunk, *)
         (*       can we switch to the tupled backend? *)
         (*   *\) *)
         (*   when  List.same_length params args -> *)
-        (*   simpl (Lam_beta_reduce.propogate_beta_reduce meta params body args) *)
+        (*   simpl (Lam_beta_reduce.propagate_beta_reduce meta params body args) *)
     | Lapply { ap_func = l1; ap_args = ll; ap_info } ->
         Lam.apply (simpl l1) (List.map ~f:simpl ll) ap_info
     | Lfunction { arity; params; body; attr } ->

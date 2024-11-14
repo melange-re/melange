@@ -44,10 +44,10 @@ val no_names_beta_reduce : Ident.t list -> Lam.t -> Lam.t list -> Lam.t
    the obvious example is parameter
  *)
 
-val propogate_beta_reduce :
+val propagate_beta_reduce :
   Lam_stats.t -> Ident.t list -> Lam.t -> Lam.t list -> Lam.t
 
-val propogate_beta_reduce_with_map :
+val propagate_beta_reduce_with_map :
   Lam_stats.t ->
   Lam_var_stats.stats Ident.Map.t ->
   Ident.t list ->
@@ -55,7 +55,7 @@ val propogate_beta_reduce_with_map :
   Lam.t list ->
   Lam.t
 (**
-   {[ Lam_beta_reduce.propogate_beta_reduce_with_map
+   {[ Lam_beta_reduce.propagate_beta_reduce_with_map
        meta param_map
        params body args]}
 
@@ -66,11 +66,11 @@ val propogate_beta_reduce_with_map :
        (Lam_analysis.param_map_of_list params) body]}
 
    TODO:
-   replace [propogate_beta_reduce] with such implementation
+   replace [propagate_beta_reduce] with such implementation
    {[
-     let propogate_beta_reduce meta params body args =
+     let propagate_beta_reduce meta params body args =
        let (_, param_map) =
          Lam_analysis.is_closed_with_map Set_ident.empty params body in
-       propogate_beta_reduce_with_map meta param_map params body args
+       propagate_beta_reduce_with_map meta param_map params body args
    ]}
 *)

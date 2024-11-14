@@ -31,12 +31,6 @@ type env_value =
     we never load runtime/*.cmj
 *)
 
-type ident_info = Js_cmj_format.keyed_cmj_value = {
-  name : string;
-  arity : Js_cmj_format.arity;
-  persistent_closed_lambda : Lam.t option;
-}
-
 (*
    refer: [Env.find_pers_struct]
    [ find_in_path_uncap !load_path (name ^ ".cmi")]
@@ -83,7 +77,7 @@ let add_js_module (hint_name : Melange_ffi.External_ffi_types.module_bind_name)
   | Some old_key -> old_key.id
 
 let query_external_id_info_exn ~dynamic_import (module_id : Ident.t)
-    (name : string) : ident_info =
+    (name : string) : Js_cmj_format.keyed_cmj_value =
   let oid = Lam_module_ident.of_ml ~dynamic_import module_id in
   let cmj_table =
     match Lam_module_ident.Hash.find_opt cached_tbl oid with
