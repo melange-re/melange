@@ -35,7 +35,7 @@ let names_from_construct_pattern
     in
     let get_block (cstr: Types.constructor_declaration) =
       { Lambda.cstr_name = get_cstr_name cstr
-      ; tag_name = Record_attributes_check.process_tag_name cstr.cd_attributes
+      ; tag_name = Lam_variant_tag.process_tag_name cstr.cd_attributes
       }
     in
     let consts, blocks =

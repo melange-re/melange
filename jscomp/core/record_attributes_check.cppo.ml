@@ -26,55 +26,6 @@ open Import
 
 type label = Types.label_description
 
-let namespace_error ~loc txt =
-  match txt with
-  | "bs.as" | "as" ->
-      Location.raise_errorf ~loc
-        "`[@bs.*]' and non-namespaced attributes have been removed in favor of \
-         `[@mel.*]' attributes. Use `[@mel.as]' instead."
-  | _ -> ()
-
-
-let process_tag_name attrs =
-  let st = ref None in
-  List.iter attrs
-    ~f:(fun { Parsetree.attr_name = { txt; loc }; attr_payload; _ } ->
-      match txt with
-      | "mel.tag" ->
-          if !st = None then (
-            (match attr_payload with
-            | PStr
-                [
-                  {
-                    pstr_desc =
-                      Pstr_eval ({ pexp_desc = Pexp_constant const; _ }, _);
-                    _;
-                  };
-                ] -> (
-                namespace_error ~loc txt;
-                match
-#if OCAML_VERSION >= (5, 3, 0)
-                  const.pconst_desc
-#else
-                  const
-#endif
-                with
-                | Pconst_string (s, _, _) -> st := Some s
-                | _ -> ())
-            | _ -> ());
-            if !st = None
-            then
-              Location.raise_errorf
-                ~loc
-                 "Variant tag annotation (`[@mel.tag \"..\"]') must be a string")
-          else
-            Location.raise_errorf
-              ~loc
-               "Duplicate `[@mel.tag \"..\"]' annotation"
-      | _ -> ());
-  !st
-
-
 let find_mel_as_name =
   let find_mel_as_name (attr : Parsetree.attribute) =
     match attr.attr_name with
@@ -87,7 +38,7 @@ let find_mel_as_name =
                 _;
               };
             ] -> (
-            namespace_error ~loc txt;
+            Lam_variant_tag.namespace_error ~loc txt;
             match
 #if OCAML_VERSION >= (5, 3, 0)
             const.pconst_desc
@@ -138,7 +89,7 @@ let find_name_with_loc (attr : Parsetree.attribute) : string Asttypes.loc option
        ];
    _;
   } ->
-      namespace_error ~loc txt;
+      Lam_variant_tag.namespace_error ~loc txt;
       Some { txt = s; loc }
   | _ -> None
 

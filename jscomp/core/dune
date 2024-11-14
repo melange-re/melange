@@ -133,6 +133,19 @@
    %{targets})))
 
 (rule
+ (targets lam_variant_tag.ml)
+ (deps lam_variant_tag.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
  (targets polyvar_pattern_match.ml)
  (deps polyvar_pattern_match.cppo.ml)
  (action

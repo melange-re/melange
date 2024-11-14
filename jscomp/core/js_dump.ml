@@ -810,7 +810,7 @@ and expression_desc cxt ~(level : int) x : cxt =
           Lam_constant_convert.modifier ~name:p.name p.attributes
         in
         let tag_name =
-          match Record_attributes_check.process_tag_name p.attributes with
+          match Lam_variant_tag.process_tag_name p.attributes with
           | None -> L.tag
           | Some s -> s
         in
@@ -844,7 +844,7 @@ and expression_desc cxt ~(level : int) x : cxt =
             Lam_constant_convert.modifier ~name:p.name p.attributes
           in
           let tag_name =
-            match Record_attributes_check.process_tag_name p.attributes with
+            match Lam_variant_tag.process_tag_name p.attributes with
             | None -> L.tag
             | Some s -> s
           in
