@@ -23,7 +23,19 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 include Ident0
-include Ident
+
+type t = Ident.t
+
+let name = Ident.name
+let same = Ident.same
+let create_local = Ident.create_local
+let create_persistent = Ident.create_persistent
+let rename = Ident.rename
+let print = Ident.print
+let is_predef = Ident.is_predef
+let reinit = Ident.reinit
+let global = Ident.global
+
 module Map = Map_ident
 module Set = Set_ident
 module Hash = Hash_ident
