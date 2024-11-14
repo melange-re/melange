@@ -1,6 +1,5 @@
-
 [@@@mel.config {flags= [|
-  (* "-bs-diagnose" *)
+  (* "-mel-diagnose" *)
   |]}]
 
 let suites :  Mt.pair_suites ref  = ref []

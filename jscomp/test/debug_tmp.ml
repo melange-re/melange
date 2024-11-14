@@ -4,7 +4,7 @@
   "@A" *)
   (* "-drawlambda"; *)
   (* "-dtypedtree"; *)
-  (* "-bs-diagnose"; *)
+  (* "-mel-diagnose"; *)
   (* "-dparsetree"; *)
   (* "-dsource"; *)
   |]
