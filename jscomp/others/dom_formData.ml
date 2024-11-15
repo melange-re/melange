@@ -1,5 +1,6 @@
 (* Provides a way to easily construct a set of key/value pairs representing form fields and their values, which can then be easily sent using the XMLHttpRequest.send() method. It uses the same format a form would use if the encoding type were set to "multipart/form-data". *)
 
+type t
 type file
 type blob
 type entryValue
