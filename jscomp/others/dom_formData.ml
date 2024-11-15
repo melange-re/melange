@@ -6,35 +6,42 @@ type entryValue
 
 external make : unit -> t = "FormData" [@@mel.new]
 
-type t
+external append : name:string -> value:string -> unit = "append"
+[@@mel.send.pipe: t]
 
-external make : unit -> t = "FormData" [@@mel.new]
-external append : string -> string -> unit = "append" [@@mel.send.pipe: t]
-external delete : string -> unit = "delete" [@@mel.send.pipe: t]
-external get : string -> entryValue option = "get" [@@mel.send.pipe: t]
-external getAll : string -> entryValue array = "getAll" [@@mel.send.pipe: t]
-external set : string -> string -> unit = "set" [@@mel.send.pipe: t]
-external has : string -> bool = "has" [@@mel.send.pipe: t]
+external delete : name:string -> unit = "delete" [@@mel.send.pipe: t]
+
+external get : name:string -> entryValue option = "get"
+[@@mel.send.pipe: t] [@@mel.return null_to_opt]
+
+external getAll : name:string -> entryValue array = "getAll"
+[@@mel.send.pipe: t]
+
+external set : name:string -> value:string -> unit = "set" [@@mel.send.pipe: t]
+external has : name:string -> bool = "has" [@@mel.send.pipe: t]
 external keys : t -> string Js.Iterator.t = "keys" [@@mel.send]
 external values : t -> entryValue Js.Iterator.t = "values" [@@mel.send]
 
-external appendObject : string -> < .. > Js.t -> ?filename:string -> unit
+external appendObject :
+  name:string -> value:< .. > Js.t -> ?filename:string -> unit = "append"
+[@@mel.send.pipe: t]
+
+external appendBlob : name:string -> value:blob -> ?filename:string -> unit
   = "append"
 [@@mel.send.pipe: t]
 
-external appendBlob : string -> blob -> ?filename:string -> unit = "append"
+external appendFile : name:string -> value:file -> ?filename:string -> unit
+  = "append"
 [@@mel.send.pipe: t]
 
-external appendFile : string -> file -> ?filename:string -> unit = "append"
+external setObject :
+  name:string -> value:< .. > Js.t -> ?filename:string -> unit = "set"
 [@@mel.send.pipe: t]
 
-external setObject : string -> < .. > Js.t -> ?filename:string -> unit = "set"
+external setBlob : name:string -> value:blob -> ?filename:string -> unit = "set"
 [@@mel.send.pipe: t]
 
-external setBlob : string -> blob -> ?filename:string -> unit = "set"
-[@@mel.send.pipe: t]
-
-external setFile : string -> file -> ?filename:string -> unit = "set"
+external setFile : name:string -> value:file -> ?filename:string -> unit = "set"
 [@@mel.send.pipe: t]
 
 external entries : t -> (string * entryValue) Js.Iterator.t = "entries"
