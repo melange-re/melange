@@ -4,10 +4,7 @@ type file
 type blob
 type entryValue
 
-let classify : entryValue -> [> `String of string | `File of file ] =
-  fun t ->
-  if Js.typeof t = "string" then `String (Obj.magic t)
-  else `File (Obj.magic t)
+external make : unit -> t = "FormData" [@@mel.new]
 
 type t
 
