@@ -101,41 +101,6 @@ let local_external_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
         (List.map ~f:(fun (l, a) -> (Asttypes.Labelled l, a)) args)
         ~loc )
 
-let local_extern_cont_to_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
-    ?(local_module_name = "J") ?(local_fun_name = "unsafe_expr")
-    (cb : expression -> 'a) : expression_desc =
-  Pexp_letmodule
-    ( { txt = Some local_module_name; loc },
-      {
-        pmod_desc =
-          Pmod_structure
-            [
-              {
-                pstr_desc =
-                  Pstr_primitive
-                    {
-                      pval_name = { txt = local_fun_name; loc };
-                      pval_type;
-                      pval_loc = loc;
-                      pval_prim;
-                      pval_attributes;
-                    };
-                pstr_loc = loc;
-              };
-            ];
-        pmod_loc = loc;
-        pmod_attributes = [];
-      },
-      cb
-        {
-          pexp_desc =
-            Pexp_ident
-              { txt = Ldot (Lident local_module_name, local_fun_name); loc };
-          pexp_attributes = [];
-          pexp_loc = loc;
-          pexp_loc_stack = [ loc ];
-        } )
-
 (* Note that OCaml type checker will not allow arbitrary
    name as type variables, for example:
    {[

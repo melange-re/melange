@@ -25,6 +25,41 @@
 open Import
 open Ast_helper
 
+let local_extern_cont_to_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
+    ?(local_module_name = "J") ?(local_fun_name = "unsafe_expr")
+    (cb : expression -> 'a) : expression_desc =
+  Pexp_letmodule
+    ( { txt = Some local_module_name; loc },
+      {
+        pmod_desc =
+          Pmod_structure
+            [
+              {
+                pstr_desc =
+                  Pstr_primitive
+                    {
+                      pval_name = { txt = local_fun_name; loc };
+                      pval_type;
+                      pval_loc = loc;
+                      pval_prim;
+                      pval_attributes;
+                    };
+                pstr_loc = loc;
+              };
+            ];
+        pmod_loc = loc;
+        pmod_attributes = [];
+      },
+      cb
+        {
+          pexp_desc =
+            Pexp_ident
+              { txt = Ldot (Lident local_module_name, local_fun_name); loc };
+          pexp_attributes = [];
+          pexp_loc = loc;
+          pexp_loc_stack = [ loc ];
+        } )
+
 let as_js_object loc (mapper : Ast_traverse.map) (self_pat : pattern)
     (clfs : class_field list) =
   (* Attention: we should avoid type variable conflict for each method
@@ -187,7 +222,7 @@ let as_js_object loc (mapper : Ast_traverse.map) (self_pat : pattern)
           label_type acc)
       labels label_types ~init:public_obj_type
   in
-  Ast_external_mk.local_extern_cont_to_obj loc
+  local_extern_cont_to_obj loc
     ~pval_prim:(Ast_external_mk.pval_prim_of_labels labels)
     (fun e ->
       Exp.apply ~loc e
