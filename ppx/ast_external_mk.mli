@@ -43,16 +43,6 @@ val local_external_apply :
   ]}
 *)
 
-val local_extern_cont_to_obj :
-  Location.t ->
-  ?pval_attributes:attributes ->
-  pval_prim:string list ->
-  pval_type:core_type ->
-  ?local_module_name:string ->
-  ?local_fun_name:string ->
-  (expression -> expression) ->
-  expression_desc
-
 val pval_prim_of_labels : string Asttypes.loc list -> string list
 (** [pval_prim_of_labels labels]
     return [pval_prims] for FFI, it is specialized for
