@@ -23,7 +23,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Import
-open External_ffi_types0
 
 module Literals = struct
   let setter_suffix = "#="
@@ -196,16 +195,24 @@ let check_ffi ~loc ffi : bool =
 
 let to_string (t : t) = Marshal.to_string t []
 
-let () =
-  Oprint.map_primitive_name := Oprint_mel_primitive_name.map_primitive_name
-
 external from_bytes_unsafe : bytes -> int -> 'a = "caml_input_value_from_bytes"
 
 (* TODO: better error message when version mismatch *)
-let from_string s : t =
-  match is_mel_primitive s with
-  | true -> from_bytes_unsafe (Bytes.unsafe_of_string s) 0
-  | false -> Ffi_normal
+let from_string =
+  (* \132\149\166\190
+   0x84 95 A6 BE Intext_magic_small intext.h
+   https://github.com/ocaml/merlin/commit/b094c937c3a360eb61054f7652081b88e4f3612f
+*)
+  let is_mel_primitive s =
+    (* TODO(anmonteiro): check this, header_size changed to 16 in 5.1 *)
+    String.length s >= 20
+    (* Marshal.header_size*) && String.unsafe_get s 0 = '\132'
+    && String.unsafe_get s 1 = '\149'
+  in
+  fun s : t ->
+    match is_mel_primitive s with
+    | true -> from_bytes_unsafe (Bytes.unsafe_of_string s) 0
+    | false -> Ffi_normal
 
 let inline_string_primitive (s : string) (op : string option) =
   let lam : Lam_constant.t =

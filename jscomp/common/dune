@@ -4,12 +4,6 @@
  (libraries melstd melange_compiler_libs js_parser))
 
 (rule
- (target oprint_mel_primitive_name.ml)
- (deps oprint_mel_primitive_name.dev.ml oprint_mel_primitive_name.release.ml)
- (action
-  (copy# oprint_mel_primitive_name.%{profile}.ml %{target})))
-
-(rule
  (targets utf8_string.ml)
  (deps utf8_string.cppo.ml)
  (action
