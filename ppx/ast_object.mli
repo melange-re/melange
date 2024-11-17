@@ -24,4 +24,5 @@
 
 open Import
 
-val js_property : Location.t -> expression -> string -> expression_desc
+val as_js_object :
+  location -> Ast_traverse.map -> pattern -> class_field list -> expression_desc
