@@ -42,7 +42,7 @@ let error_if_bs_or_non_namespaced ~loc txt =
   | other ->
       if
         String.starts_with ~prefix:"bs." other
-        || not (Mel_ast_invariant.is_mel_attribute txt)
+        || not (Melange_ffi.External_ffi_attributes.is_mel_attribute txt)
       then
         Location.raise_errorf ~loc
           "`[@bs.*]' and non-namespaced attributes have been removed in favor \
