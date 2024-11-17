@@ -329,7 +329,7 @@ module Obj = struct
             {
               e with
               pexp_desc =
-                Ast_external_mk.record_as_js_object ~loc:e.pexp_loc label_exprs;
+                Ast_object.record_as_js_object ~loc:e.pexp_loc label_exprs;
             }
         | _ -> Location.raise_errorf ~loc "%%mel.obj requires a record literal"
       in
@@ -450,7 +450,7 @@ module Mapper = struct
                 {
                   e with
                   pexp_desc =
-                    Ast_object.as_js_object e.pexp_loc self pcstr_self
+                    Ast_object.ocaml_object_as_js_object e.pexp_loc self pcstr_self
                       pcstr_fields;
                   pexp_attributes;
                 }
