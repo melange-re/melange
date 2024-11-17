@@ -268,7 +268,8 @@ let app_exp_mapper e
               sane_property_name_check pexp_loc name;
               {
                 e with
-                pexp_desc = Ast_util.js_property loc (self#expression obj) name;
+                pexp_desc =
+                  Ast_uncurry_apply.js_property loc (self#expression obj) name;
               }
           | _ ->
               [%expr
