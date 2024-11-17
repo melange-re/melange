@@ -24,5 +24,10 @@
 
 open Import
 
-val as_js_object :
+val ocaml_object_as_js_object :
   location -> Ast_traverse.map -> pattern -> class_field list -> expression_desc
+
+val record_as_js_object :
+  loc:Location.t ->
+  (Longident.t Asttypes.loc * expression) list ->
+  expression_desc

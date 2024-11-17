@@ -25,6 +25,44 @@
 open Import
 open Ast_helper
 
+let local_external_apply loc ~(pval_prim : string list) ~(pval_type : core_type)
+    ?(local_module_name = "J") ?(local_fun_name = "unsafe_expr")
+    (args : expression list) : expression_desc =
+  Pexp_letmodule
+    ( { txt = Some local_module_name; loc },
+      {
+        pmod_desc =
+          Pmod_structure
+            [
+              {
+                pstr_desc =
+                  Pstr_primitive
+                    {
+                      pval_name = { txt = local_fun_name; loc };
+                      pval_type;
+                      pval_loc = loc;
+                      pval_prim;
+                      pval_attributes = [];
+                    };
+                pstr_loc = loc;
+              };
+            ];
+        pmod_loc = loc;
+        pmod_attributes = [];
+      },
+      Exp.apply
+        ({
+           pexp_desc =
+             Pexp_ident
+               { txt = Ldot (Lident local_module_name, local_fun_name); loc };
+           pexp_attributes = [];
+           pexp_loc = loc;
+           pexp_loc_stack = [ loc ];
+         }
+          : expression)
+        (List.map ~f:(fun x -> (Asttypes.Nolabel, x)) args)
+        ~loc )
+
 (*
 {[
   Js.undefinedToOption
@@ -41,7 +79,7 @@ let handle_external loc (x : string) =
     {
       str_exp with
       pexp_desc =
-        Ast_external_mk.local_external_apply loc ~pval_prim:[ "#raw_expr" ]
+        local_external_apply loc ~pval_prim:[ "#raw_expr" ]
           ~pval_type:(Typ.arrow Nolabel (Typ.any ()) (Typ.any ()))
           [ str_exp ];
     }
@@ -64,7 +102,7 @@ let handle_external loc (x : string) =
 let handle_debugger loc payload =
   match payload with
   | PStr [] ->
-      Ast_external_mk.local_external_apply loc ~pval_prim:[ "#debugger" ]
+      local_external_apply loc ~pval_prim:[ "#debugger" ]
         ~pval_type:(Typ.arrow Nolabel (Typ.any ()) [%type: unit])
         [ [%expr ()] ]
   | _ -> Location.raise_errorf ~loc "`%%mel.debugger' doesn't take payload"
@@ -133,7 +171,7 @@ let handle_raw ~kind loc payload =
       {
         exp with
         pexp_desc =
-          Ast_external_mk.local_external_apply loc ~pval_prim:[ "#raw_expr" ]
+          local_external_apply loc ~pval_prim:[ "#raw_expr" ]
             ~pval_type:(Typ.arrow Nolabel (Typ.any ()) (Typ.any ()))
             [ exp ];
         pexp_attributes =
@@ -149,7 +187,7 @@ let handle_raw_structure loc payload =
         {
           exp with
           pexp_desc =
-            Ast_external_mk.local_external_apply loc ~pval_prim:[ "#raw_stmt" ]
+            local_external_apply loc ~pval_prim:[ "#raw_stmt" ]
               ~pval_type:(Typ.arrow Nolabel (Typ.any ()) (Typ.any ()))
               [ exp ];
         }

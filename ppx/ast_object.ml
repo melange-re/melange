@@ -25,6 +25,23 @@
 open Import
 open Ast_helper
 
+let pval_prim_of_labels (labels : string Asttypes.loc list) =
+  let arg_kinds =
+    List.fold_right
+      ~f:(fun p arg_kinds ->
+        let obj_arg_label =
+          Melange_ffi.External_arg_spec.obj_label
+            (Melange_ffi.Lam_methname.translate p.txt)
+        in
+        {
+          Melange_ffi.External_arg_spec.arg_type = Nothing;
+          arg_label = obj_arg_label;
+        }
+        :: arg_kinds)
+      labels ~init:[]
+  in
+  Melange_ffi.External_ffi_types.ffi_obj_as_prims arg_kinds
+
 let local_extern_cont_to_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
     ?(local_module_name = "J") ?(local_fun_name = "unsafe_expr")
     (cb : expression -> 'a) : expression_desc =
@@ -60,8 +77,8 @@ let local_extern_cont_to_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
           pexp_loc_stack = [ loc ];
         } )
 
-let as_js_object loc (mapper : Ast_traverse.map) (self_pat : pattern)
-    (clfs : class_field list) =
+let ocaml_object_as_js_object loc (mapper : Ast_traverse.map)
+    (self_pat : pattern) (clfs : class_field list) =
   (* Attention: we should avoid type variable conflict for each method
       Since the method name is unique, there would be no conflict
       OCaml does not allow duplicate instance variable and duplicate methods,
@@ -223,8 +240,102 @@ let as_js_object loc (mapper : Ast_traverse.map) (self_pat : pattern)
       labels label_types ~init:public_obj_type
   in
   local_extern_cont_to_obj loc
-    ~pval_prim:(Ast_external_mk.pval_prim_of_labels labels)
+    ~pval_prim:(pval_prim_of_labels labels)
     (fun e ->
       Exp.apply ~loc e
         (List.map2 ~f:(fun l expr -> (Labelled l.txt, expr)) labels exprs))
     ~pval_type
+
+val pval_prim_of_option_labels :
+  (bool * string Asttypes.loc) list -> bool -> string list
+
+val record_as_js_object :
+  loc:Location.t ->
+  (Longident.t Asttypes.loc * expression) list ->
+  expression_desc
+*)
+
+let local_external_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
+    ?(local_module_name = "J") ?(local_fun_name = "unsafe_expr") args :
+    expression_desc =
+  Pexp_letmodule
+    ( { txt = Some local_module_name; loc },
+      {
+        pmod_desc =
+          Pmod_structure
+            [
+              {
+                pstr_desc =
+                  Pstr_primitive
+                    {
+                      pval_name = { txt = local_fun_name; loc };
+                      pval_type;
+                      pval_loc = loc;
+                      pval_prim;
+                      pval_attributes;
+                    };
+                pstr_loc = loc;
+              };
+            ];
+        pmod_loc = loc;
+        pmod_attributes = [];
+      },
+      Exp.apply
+        ({
+           pexp_desc =
+             Pexp_ident
+               { txt = Ldot (Lident local_module_name, local_fun_name); loc };
+           pexp_attributes = [];
+           pexp_loc = loc;
+           pexp_loc_stack = [ loc ];
+         }
+          : expression)
+        (List.map ~f:(fun (l, a) -> (Asttypes.Labelled l, a)) args)
+        ~loc )
+
+(* Note that OCaml type checker will not allow arbitrary
+   name as type variables, for example:
+   {[
+     '_x'_
+   ]}
+   will be recognized as a invalid program
+*)
+let from_labels ~loc arity labels : core_type =
+  let tyvars =
+    List.init ~len:arity ~f:(fun i -> Typ.var ~loc ("a" ^ string_of_int i))
+  in
+  let result_type =
+    Ast_core_type.to_js_type ~loc
+      (Typ.object_ ~loc
+         (List.map2 ~f:(fun x y -> Of.tag x y) labels tyvars)
+         Closed)
+  in
+  List.fold_right2
+    ~f:(fun label (* {loc ; txt = label }*) tyvar acc ->
+      Typ.arrow ~loc:label.loc (Labelled label.txt) tyvar acc)
+    labels tyvars ~init:result_type
+
+let record_as_js_object ~loc
+    (label_exprs : (Longident.t Asttypes.loc * expression) list) :
+    expression_desc =
+  let labels, args, arity =
+    List.fold_right
+      ~f:(fun ({ txt; loc }, e) (labels, args, i) ->
+        match txt with
+        | Lident obj_label ->
+            let obj_label =
+              Ast_attributes.iter_process_mel_string_as e.pexp_attributes
+              |> Option.value ~default:obj_label
+            in
+            ( { Asttypes.loc; txt = obj_label } :: labels,
+              (obj_label, e) :: args,
+              i + 1 )
+        | Ldot _ | Lapply _ ->
+            Location.raise_errorf ~loc
+              "`%%mel.obj' literals only support simple labels")
+      label_exprs ~init:([], [], 0)
+  in
+  local_external_obj loc
+    ~pval_prim:(pval_prim_of_labels labels)
+    ~pval_type:(from_labels ~loc arity labels)
+    args
