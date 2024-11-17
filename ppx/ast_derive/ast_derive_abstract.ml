@@ -144,7 +144,7 @@ let derive_js_constructor =
                        Ast_attributes.mel_ffi myPrims;
                        Ast_attributes.unboxable_type_in_prim_decl;
                      ])
-                ~prim:[ ""; "" ] makeType;
+                ~prim:Ast_external.pval_prim_default makeType;
             ])
     | Ptype_abstract | Ptype_variant _ | Ptype_open ->
         (* Looks obvious that it does not make sense to warn *)
@@ -210,7 +210,8 @@ let derive_getters_setters =
                                   js_get_scopes = [];
                                 }))
                        :: get_attrs))
-                  ~prim:[ ""; "" ] [%type: [%t core_type] -> [%t pld_type]]
+                  ~prim:Ast_external.pval_prim_default
+                  [%type: [%t core_type] -> [%t pld_type]]
                 :: acc
             in
             match pld_mutable with

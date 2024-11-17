@@ -59,7 +59,7 @@ let ocaml_object_as_js_object =
                         pval_name = { txt = local_fun_name; loc };
                         pval_type;
                         pval_loc = loc;
-                        pval_prim = [ ""; "" ];
+                        pval_prim = Ast_external.pval_prim_default;
                         pval_attributes = [ Ast_attributes.mel_ffi ffi ];
                       };
                   pstr_loc = loc;
