@@ -31,7 +31,6 @@ module Warnings : sig
     | Redundant_mel_string
 end
 
-val is_mel_attribute : string -> bool
 val warn : loc:Location.t -> Warnings.t -> unit
 val mark_used_mel_attribute : attribute -> unit
 

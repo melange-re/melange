@@ -64,15 +64,6 @@ let warn =
         use = loc;
       }
 
-let is_mel_attribute txt =
-  let len = String.length txt in
-  (len = 1 && String.unsafe_get txt 0 = 'u')
-  || len >= 5
-     && String.unsafe_get txt 0 = 'm'
-     && String.unsafe_get txt 1 = 'e'
-     && String.unsafe_get txt 2 = 'l'
-     && String.unsafe_get txt 3 = '.'
-
 let used_attributes : string Asttypes.loc Polyvariant.Hash_set.t =
   Polyvariant.Hash_set.create 16
 
@@ -83,7 +74,8 @@ let mark_used_mel_attribute ({ attr_name = x; _ } : attribute) =
 let warn_unused_attribute ({ attr_name = { txt; loc } as sloc; _ } : attribute)
     : unit =
   if
-    is_mel_attribute txt && (not loc.loc_ghost)
+    Melange_ffi.External_ffi_attributes.is_mel_attribute txt
+    && (not loc.loc_ghost)
     && not (Polyvariant.Hash_set.mem used_attributes sloc)
   then warn ~loc (Unused_attribute txt)
 
