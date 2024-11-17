@@ -246,15 +246,6 @@ let ocaml_object_as_js_object loc (mapper : Ast_traverse.map)
         (List.map2 ~f:(fun l expr -> (Labelled l.txt, expr)) labels exprs))
     ~pval_type
 
-val pval_prim_of_option_labels :
-  (bool * string Asttypes.loc) list -> bool -> string list
-
-val record_as_js_object :
-  loc:Location.t ->
-  (Longident.t Asttypes.loc * expression) list ->
-  expression_desc
-*)
-
 let local_external_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
     ?(local_module_name = "J") ?(local_fun_name = "unsafe_expr") args :
     expression_desc =
