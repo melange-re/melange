@@ -25,6 +25,11 @@
 open Import
 open Ast_helper
 
+let js_property loc obj (name : string) =
+  Pexp_send
+    ( [%expr [%e Exp.ident { txt = Ast_literal.unsafe_downgrade; loc }] [%e obj]],
+      { loc; txt = name } )
+
 (* TODO:
    have a final checking for property arities
      [#=],
@@ -109,7 +114,7 @@ let method_apply loc (self : Ast_traverse.map) obj name args =
         (lbl, self#expression e))
       args
   in
-  let fn = Exp.mk ~loc (Ast_util.js_property loc obj name) in
+  let fn = Exp.mk ~loc (js_property loc obj name) in
   let args =
     match args with
     | [
@@ -150,4 +155,4 @@ let uncurry_fn_apply loc self fn args =
 
 let property_apply loc self obj name args =
   generic_apply loc self obj args (fun loc obj ->
-      Exp.mk ~loc (Ast_util.js_property loc obj name))
+      Exp.mk ~loc (js_property loc obj name))
