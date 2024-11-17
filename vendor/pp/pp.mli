@@ -55,8 +55,8 @@ val space : 'tag t
     this point. If the algorithm decides not to break the line, nothing is
     printed instead.
 
-    So for instance [verbatim "x" ++ space ++ verbatim "y"] might produce "xy"
-    or "x\n<indentation>y". *)
+    So for instance [verbatim "x" ++ cut ++ verbatim "y"] might produce "xy" or
+    "x\n<indentation>y". *)
 val cut : 'tag t
 
 (** [break] is a generalisation of [space] and [cut]. It also instructs the
