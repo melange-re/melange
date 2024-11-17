@@ -45,8 +45,9 @@ let external_attrs =
 let has_mel_attributes attrs =
   List.exists
     ~f:(fun txt ->
-      String.starts_with txt ~prefix:"mel."
-      || Array.exists ~f:(fun (x : string) -> txt = x) external_attrs)
+      match String.starts_with txt ~prefix:"mel." with
+      | true -> not (String.starts_with txt ~prefix:"mel.internal")
+      | false -> Array.exists ~f:(fun (x : string) -> txt = x) external_attrs)
     attrs
 
 let is_mel_attribute txt =

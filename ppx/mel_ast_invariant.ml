@@ -74,6 +74,9 @@ let mark_used_mel_attribute ({ attr_name = x; _ } : attribute) =
 let warn_unused_attribute ({ attr_name = { txt; loc } as sloc; _ } : attribute)
     : unit =
   if
+    (* XXX(anmonteiro): the `not loc.loc_ghost` expression is holding together
+     e.g. the fact that we don't emit unused attribute warnings for
+     `mel.internal.ffi` *)
     Melange_ffi.External_ffi_attributes.is_mel_attribute txt
     && (not loc.loc_ghost)
     && not (Polyvariant.Hash_set.mem used_attributes sloc)

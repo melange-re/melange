@@ -69,7 +69,7 @@ end
 let emit_external_warnings : Ast_iterator.iterator =
   let has_mel_attributes attrs =
     Melange_ffi.External_ffi_attributes.has_mel_attributes
-      (List.map ~f:(fun { Parsetree.attr_name = { txt; _ }; _ } -> txt) attrs)
+      (List.map ~f:(fun (attr: Parsetree.attribute) -> attr.attr_name.txt) attrs)
   in
   let print_unprocessed_alert ~loc =
     Location.prerr_alert loc

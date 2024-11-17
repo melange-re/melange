@@ -98,15 +98,15 @@ type t = private
 
 val check_ffi : loc:Location.t -> external_spec -> bool
 val to_string : t -> string
-
 val from_string : string -> t
+
 (** Note *)
 
-val inline_string_primitive : string -> string option -> string list
-val inline_bool_primitive : bool -> string list
-val inline_int_primitive : int32 -> string list
-val inline_int64_primitive : int64 -> string list
-val inline_float_primitive : string -> string list
+val inline_string_primitive : string -> string option -> t
+val inline_bool_primitive : bool -> t
+val inline_int_primitive : int32 -> t
+val inline_int64_primitive : int64 -> t
+val inline_float_primitive : string -> t
 
 val ffi_mel :
   External_arg_spec.Arg_label.t External_arg_spec.param list ->
@@ -118,10 +118,10 @@ val ffi_mel_as_prims :
   External_arg_spec.Arg_label.t External_arg_spec.param list ->
   return_wrapper ->
   external_spec ->
-  string list
+  t
 
 val ffi_obj_create :
   External_arg_spec.Obj_label.t External_arg_spec.param list -> t
 
 val ffi_obj_as_prims :
-  External_arg_spec.Obj_label.t External_arg_spec.param list -> string list
+  External_arg_spec.Obj_label.t External_arg_spec.param list -> t

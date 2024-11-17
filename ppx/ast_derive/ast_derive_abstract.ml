@@ -140,8 +140,11 @@ let derive_js_constructor =
                 { loc; txt = tdcl.ptype_name.txt }
                 ~attrs:
                   (with_deprecation ~is_deprecated
-                     [ Ast_attributes.unboxable_type_in_prim_decl ])
-                ~prim:myPrims makeType;
+                     [
+                       Ast_attributes.mel_ffi myPrims;
+                       Ast_attributes.unboxable_type_in_prim_decl;
+                     ])
+                ~prim:[ ""; "" ] makeType;
             ])
     | Ptype_abstract | Ptype_variant _ | Ptype_open ->
         (* Looks obvious that it does not make sense to warn *)
@@ -194,15 +197,20 @@ let derive_getters_setters =
                 Val.mk ~loc:pld_loc
                   (if light then pld_name
                    else { pld_name with txt = pld_name.txt ^ "Get" })
-                  ~attrs:(with_deprecation ~is_deprecated get_attrs)
-                  ~prim:
-                    ((* Not needed actually*)
-                     Melange_ffi.External_ffi_types.ffi_mel_as_prims
-                       [ Melange_ffi.External_arg_spec.dummy ]
-                       Return_identity
-                       (Js_get
-                          { js_get_name = prim_as_name; js_get_scopes = [] }))
-                  [%type: [%t core_type] -> [%t pld_type]]
+                  ~attrs:
+                    (with_deprecation ~is_deprecated
+                       (Ast_attributes.mel_ffi
+                          (* Not needed actually*)
+                          (Melange_ffi.External_ffi_types.ffi_mel_as_prims
+                             [ Melange_ffi.External_arg_spec.dummy ]
+                             Return_identity
+                             (Js_get
+                                {
+                                  js_get_name = prim_as_name;
+                                  js_get_scopes = [];
+                                }))
+                       :: get_attrs))
+                  ~prim:[ ""; "" ] [%type: [%t core_type] -> [%t pld_type]]
                 :: acc
             in
             match pld_mutable with

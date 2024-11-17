@@ -541,16 +541,56 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
   let alias_tbl = Ident.Hash.create 64 in
   let exit_map = Hash_int.create 0 in
   let may_depends = Lam_module_ident.Hash_set.create 0 in
-
+  let partition_by_mel_ffi_attribute attrs =
+    let st = ref None in
+    let _ffi, rest =
+      List.partition attrs ~f:(function
+        | {
+            Parsetree.attr_name = { txt = "mel.internal.ffi"; loc };
+            attr_payload;
+            _;
+          } -> (
+            match !st with
+            | Some _ ->
+                Location.raise_errorf ~loc
+                  "Duplicate `[@mel.internal.ffi \"..\"]' annotation"
+            | None -> (
+                match attr_payload with
+                | PStr
+                    [
+                      {
+                        pstr_desc =
+                          Pstr_eval ({ pexp_desc = Pexp_constant const; _ }, _);
+                        _;
+                      };
+                    ] -> (
+                    match
+  #if OCAML_VERSION >= (5, 3, 0)
+              const.pconst_desc
+  #else
+              const
+  #endif
+                    with
+                    | Pconst_string (s, _, _) ->
+                        st := Some s;
+                        true
+                    | _ -> false)
+                | _ ->
+                    Location.raise_errorf ~loc
+                      "`[@mel.internal.ffi \"..\"]' annotation must be a string"))
+        | _ -> false)
+    in
+    !st, rest
+  in
   let rec convert_ccall (a_prim : Primitive.description)
       (args : Lambda.lambda list) loc ~dynamic_import : Lam.t =
     let prim_name = a_prim.prim_name in
-    let prim_name_len = String.length prim_name in
-    match
-      Melange_ffi.External_ffi_types.from_string a_prim.prim_native_name
-    with
+    let ffi, _ =
+      partition_by_mel_ffi_attribute a_prim.prim_attrs
+    in
+    match Melange_ffi.External_ffi_types.from_string (Option.value ~default:"" ffi) with
     | Ffi_normal ->
-        if prim_name_len > 0 && String.unsafe_get prim_name 0 = '#' then
+        if String.length prim_name > 0 && String.unsafe_get prim_name 0 = '#' then
           convert_js_primitive a_prim args loc
         else
           let args = List.map ~f:convert_aux args in
