@@ -1,0 +1,204 @@
+(library
+ (modes melange)
+ (name belt)
+ (public_name melange.belt)
+ (preprocess
+  (pps melange.ppx -unsafe))
+ (libraries melange)
+ (melange.compile_flags
+  -mel-no-check-div-by-zero
+  -mel-cross-module-opt
+  -unsafe))
+
+(rule
+ (target belt_HashSetString.ml)
+ (deps hashset.cppo.ml)
+ (action
+  (run cppo -D TYPE_STRING %{deps} -o %{target})))
+
+(rule
+ (target belt_HashSetString.mli)
+ (deps hashset.cppo.mli)
+ (action
+  (run cppo -D TYPE_STRING %{deps} -o %{target})))
+
+(rule
+ (target belt_HashSetInt.ml)
+ (deps hashset.cppo.ml)
+ (action
+  (run cppo -D TYPE_INT %{deps} -o %{target})))
+
+(rule
+ (target belt_HashSetInt.mli)
+ (deps hashset.cppo.mli)
+ (action
+  (run cppo -D TYPE_INT %{deps} -o %{target})))
+
+(rule
+ (target belt_HashMapString.ml)
+ (deps hashmap.cppo.ml)
+ (action
+  (run cppo -D TYPE_STRING %{deps} -o %{target})))
+
+(rule
+ (target belt_HashMapString.mli)
+ (deps hashmap.cppo.mli)
+ (action
+  (run cppo -D TYPE_STRING %{deps} -o %{target})))
+
+(rule
+ (target belt_HashMapInt.ml)
+ (deps hashmap.cppo.ml)
+ (action
+  (run cppo -D TYPE_INT %{deps} -o %{target})))
+
+(rule
+ (target belt_HashMapInt.mli)
+ (deps hashmap.cppo.mli)
+ (action
+  (run cppo -D TYPE_INT %{deps} -o %{target})))
+
+(rule
+ (target belt_MapString.ml)
+ (deps map.cppo.ml)
+ (action
+  (run cppo -D TYPE_STRING %{deps} -o %{target})))
+
+(rule
+ (target belt_MapString.mli)
+ (deps map.cppo.mli)
+ (action
+  (run cppo -D TYPE_STRING %{deps} -o %{target})))
+
+(rule
+ (target belt_MapInt.ml)
+ (deps map.cppo.ml)
+ (action
+  (run cppo -D TYPE_INT %{deps} -o %{target})))
+
+(rule
+ (target belt_MapInt.mli)
+ (deps map.cppo.mli)
+ (action
+  (run cppo -D TYPE_INT %{deps} -o %{target})))
+
+(rule
+ (target belt_SetString.ml)
+ (deps belt_Set.cppo.ml)
+ (action
+  (run cppo -D TYPE_STRING %{deps} -o %{target})))
+
+(rule
+ (target belt_SetString.mli)
+ (deps belt_Set.cppo.mli)
+ (action
+  (run cppo -D TYPE_STRING %{deps} -o %{target})))
+
+(rule
+ (target belt_SetInt.ml)
+ (deps belt_Set.cppo.ml)
+ (action
+  (run cppo -D TYPE_INT %{deps} -o %{target})))
+
+(rule
+ (target belt_SetInt.mli)
+ (deps belt_Set.cppo.mli)
+ (action
+  (run cppo -D TYPE_INT %{deps} -o %{target})))
+
+(rule
+ (target belt_MutableMapString.ml)
+ (deps mapm.cppo.ml)
+ (action
+  (run cppo -D TYPE_STRING %{deps} -o %{target})))
+
+(rule
+ (target belt_MutableMapString.mli)
+ (deps mapm.cppo.mli)
+ (action
+  (run cppo -D TYPE_STRING %{deps} -o %{target})))
+
+(rule
+ (target belt_MutableMapInt.ml)
+ (deps mapm.cppo.ml)
+ (action
+  (run cppo -D TYPE_INT %{deps} -o %{target})))
+
+(rule
+ (target belt_MutableMapInt.mli)
+ (deps mapm.cppo.mli)
+ (action
+  (run cppo -D TYPE_INT %{deps} -o %{target})))
+
+(rule
+ (target belt_MutableSetString.ml)
+ (deps setm.cppo.ml)
+ (action
+  (run cppo -D TYPE_STRING %{deps} -o %{target})))
+
+(rule
+ (target belt_MutableSetString.mli)
+ (deps setm.cppo.mli)
+ (action
+  (run cppo -D TYPE_STRING %{deps} -o %{target})))
+
+(rule
+ (target belt_MutableSetInt.ml)
+ (deps setm.cppo.ml)
+ (action
+  (run cppo -D TYPE_INT %{deps} -o %{target})))
+
+(rule
+ (target belt_MutableSetInt.mli)
+ (deps setm.cppo.mli)
+ (action
+  (run cppo -D TYPE_INT %{deps} -o %{target})))
+
+(rule
+ (target belt_SortArrayString.ml)
+ (deps sort.cppo.ml)
+ (action
+  (run cppo -D TYPE_STRING %{deps} -o %{target})))
+
+(rule
+ (target belt_SortArrayString.mli)
+ (deps sort.cppo.mli)
+ (action
+  (run cppo -D TYPE_STRING %{deps} -o %{target})))
+
+(rule
+ (target belt_SortArrayInt.ml)
+ (deps sort.cppo.ml)
+ (action
+  (run cppo -D TYPE_INT %{deps} -o %{target})))
+
+(rule
+ (target belt_SortArrayInt.mli)
+ (deps sort.cppo.mli)
+ (action
+  (run cppo -D TYPE_INT %{deps} -o %{target})))
+
+(rule
+ (target belt_internalMapString.ml)
+ (deps internal_map.cppo.ml)
+ (action
+  (run cppo -D TYPE_STRING %{deps} -o %{target})))
+
+(rule
+ (target belt_internalMapInt.ml)
+ (deps internal_map.cppo.ml)
+ (action
+  (run cppo -D TYPE_INT %{deps} -o %{target})))
+
+(rule
+ (target belt_internalSetString.ml)
+ (deps internal_set.cppo.ml)
+ (action
+  (run cppo -D TYPE_STRING %{deps} -o %{target})))
+
+(rule
+ (target belt_internalSetInt.ml)
+ (deps internal_set.cppo.ml)
+ (action
+  (run cppo -D TYPE_INT %{deps} -o %{target})))
+
