@@ -27,12 +27,6 @@ type cst = private
   | Arg_string_lit of string
   | Arg_js_literal of string
 
-type label = private
-  | Obj_label of { name : string }
-  | Obj_empty
-  | Obj_optional of { name : string; for_sure_no_nested_option : bool }
-      (** it will be ignored , side effect will be recorded *)
-
 type attr =
   | Poly_var_string of { descr : (string * string) list }
   | Poly_var of { descr : (string * string) list option }
@@ -46,14 +40,26 @@ type attr =
   | Ignore
   | Unwrap
 
-type label_noname = Arg_label | Arg_empty | Arg_optional
+module Arg_label : sig
+  type t = Arg_label | Arg_empty | Arg_optional
+end
+
+module Obj_label : sig
+  type t = private
+    | Obj_label of { name : string }
+    | Obj_empty
+    | Obj_optional of { name : string; for_sure_no_nested_option : bool }
+        (** it will be ignored , side effect will be recorded *)
+
+  val empty : t
+  val obj : string -> t
+  val optional : for_sure_no_nested_option:bool -> string -> t
+end
+
 type 'a param = { arg_type : attr; arg_label : 'a }
 
 val cst_obj_literal : string -> cst
 val cst_int : int -> cst
 val cst_string : string -> cst
-val empty_label : label
-val obj_label : string -> label
-val optional : bool -> string -> label
-val empty_kind : attr -> label param
-val dummy : label_noname param
+val empty_kind : attr -> Obj_label.t param
+val dummy : Arg_label.t param

@@ -101,7 +101,7 @@ let append_list x xs =
 
      This would not work with [NonNullString]
 *)
-let ocaml_to_js_eff ~(arg_label : Melange_ffi.External_arg_spec.label_noname)
+let ocaml_to_js_eff ~(arg_label : Melange_ffi.External_arg_spec.Arg_label.t)
     ~(arg_type : Melange_ffi.External_arg_spec.attr) (raw_arg : E.t) :
     arg_expression * E.t list =
   let arg =
@@ -154,7 +154,7 @@ let empty_pair = ([], [])
 let add_eff eff e = match eff with None -> e | Some v -> E.seq v e
 
 type specs =
-  Melange_ffi.External_arg_spec.label_noname Melange_ffi.External_arg_spec.param
+  Melange_ffi.External_arg_spec.Arg_label.t Melange_ffi.External_arg_spec.param
   list
 
 type exprs = E.t list

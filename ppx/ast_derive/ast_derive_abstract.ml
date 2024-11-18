@@ -64,8 +64,9 @@ let derive_js_constructor =
           let label_name = Melange_ffi.Lam_methname.translate p.txt in
           let obj_arg_label =
             if is_option then
-              Melange_ffi.External_arg_spec.optional false label_name
-            else Melange_ffi.External_arg_spec.obj_label label_name
+              Melange_ffi.External_arg_spec.Obj_label.optional
+                ~for_sure_no_nested_option:false label_name
+            else Melange_ffi.External_arg_spec.Obj_label.obj label_name
           in
           {
             Melange_ffi.External_arg_spec.arg_type = Nothing;

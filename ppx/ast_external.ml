@@ -43,7 +43,7 @@ let handleExternalInSig (self : Ast_traverse.map) (prim : value_description)
         Ast_external_process.pval_type;
         pval_prim;
         pval_attributes;
-        no_inline_cross_module;
+        dont_inline_cross_module;
       } =
         Ast_external_process.handle_attributes_as_string loc pval_type
           pval_attributes prim.pval_name.txt v
@@ -56,7 +56,7 @@ let handleExternalInSig (self : Ast_traverse.map) (prim : value_description)
             {
               prim with
               pval_type;
-              pval_prim = (if no_inline_cross_module then [] else pval_prim);
+              pval_prim = (if dont_inline_cross_module then [] else pval_prim);
               pval_attributes =
                 Ast_attributes.unboxable_type_in_prim_decl :: pval_attributes;
             };
@@ -75,7 +75,7 @@ let handleExternalInStru (self : Ast_traverse.map) (prim : value_description)
         Ast_external_process.pval_type;
         pval_prim;
         pval_attributes;
-        no_inline_cross_module;
+        dont_inline_cross_module;
       } =
         Ast_external_process.handle_attributes_as_string loc pval_type
           pval_attributes prim.pval_name.txt v
@@ -94,7 +94,7 @@ let handleExternalInStru (self : Ast_traverse.map) (prim : value_description)
               };
         }
       in
-      if not no_inline_cross_module then external_result
+      if not dont_inline_cross_module then external_result
       else
         let open Ast_helper in
         Str.include_ ~loc

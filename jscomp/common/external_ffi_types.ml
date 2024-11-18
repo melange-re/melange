@@ -46,7 +46,7 @@ type arg_type = External_arg_spec.attr
    design a more compact representation so that it is also easy to seralize by
    hand *)
 
-type arg_label = External_arg_spec.label
+type arg_label = External_arg_spec.Obj_label.t
 
 type external_spec =
   | Js_var of {
@@ -94,7 +94,7 @@ type return_wrapper =
   | Return_replaced_with_unit
 
 type params =
-  | Params of External_arg_spec.label_noname External_arg_spec.param list
+  | Params of External_arg_spec.Arg_label.t External_arg_spec.param list
   | Param_number of int
 
 type t =
@@ -102,7 +102,7 @@ type t =
       (**  [Ffi_mel(args,return,attr) ]
        [return] means return value is unit or not,
         [true] means is [unit] *)
-  | Ffi_obj_create of External_arg_spec.label External_arg_spec.param list
+  | Ffi_obj_create of External_arg_spec.Obj_label.t External_arg_spec.param list
   | Ffi_inline_const of Lam_constant.t
   | Ffi_normal
 (* When it's normal, it is handled as normal c functional ffi call *)
@@ -241,7 +241,7 @@ let inline_float_primitive (i : string) : string list =
 
 let ffi_mel =
   let rec ffi_mel_aux acc
-      (params : External_arg_spec.label_noname External_arg_spec.param list) =
+      (params : External_arg_spec.Arg_label.t External_arg_spec.param list) =
     match params with
     | { arg_type = Nothing; arg_label = Arg_empty }
         (* same as External_arg_spec.dummy*)
@@ -250,7 +250,7 @@ let ffi_mel =
     | _ :: _ -> -1
     | [] -> acc
   in
-  fun (params : External_arg_spec.label_noname External_arg_spec.param list)
+  fun (params : External_arg_spec.Arg_label.t External_arg_spec.param list)
       return attr ->
     let n = ffi_mel_aux 0 params in
     if n < 0 then Ffi_mel (Params params, return, attr)

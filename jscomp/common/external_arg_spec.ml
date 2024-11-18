@@ -29,12 +29,22 @@ type cst =
   | Arg_string_lit of string
   | Arg_js_literal of string
 
-type label_noname = Arg_label | Arg_empty | Arg_optional
+module Arg_label = struct
+  type t = Arg_label | Arg_empty | Arg_optional
+end
 
-type label =
-  | Obj_label of { name : string }
-  | Obj_empty
-  | Obj_optional of { name : string; for_sure_no_nested_option : bool }
+module Obj_label = struct
+  type t =
+    | Obj_label of { name : string }
+    | Obj_empty
+    | Obj_optional of { name : string; for_sure_no_nested_option : bool }
+
+  let empty = Obj_empty
+  let obj name = Obj_label { name }
+
+  let optional ~for_sure_no_nested_option name =
+    Obj_optional { name; for_sure_no_nested_option }
+end
 
 (* it will be ignored , side effect will be recorded *)
 
@@ -67,13 +77,8 @@ type 'a param = { arg_type : attr; arg_label : 'a }
 let cst_obj_literal s = Arg_js_literal s
 let cst_int i = Arg_int_lit i
 let cst_string s = Arg_string_lit s
-let empty_label = Obj_empty
-let obj_label name = Obj_label { name }
-
-let optional for_sure_no_nested_option name =
-  Obj_optional { name; for_sure_no_nested_option }
 
 let empty_kind obj_arg_type =
-  { arg_label = empty_label; arg_type = obj_arg_type }
+  { arg_label = Obj_label.empty; arg_type = obj_arg_type }
 
-let dummy = { arg_type = Nothing; arg_label = Arg_empty }
+let dummy = { arg_type = Nothing; arg_label = Arg_label.Arg_empty }

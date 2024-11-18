@@ -51,14 +51,15 @@ type t =
       (* Location.t *  [loc] is passed down *)
       prim_name : string;
       arg_types :
-        Melange_ffi.External_arg_spec.label_noname
+        Melange_ffi.External_arg_spec.Arg_label.t
         Melange_ffi.External_arg_spec.param
         list;
       ffi : Melange_ffi.External_ffi_types.external_spec;
       dynamic_import : bool;
     }
   | Pjs_object_create of
-      Melange_ffi.External_arg_spec.label Melange_ffi.External_arg_spec.param
+      Melange_ffi.External_arg_spec.Obj_label.t
+      Melange_ffi.External_arg_spec.param
       list
   | Praise
   | Psequand

@@ -280,8 +280,7 @@ let ok_to_inline_fun_when_app (m : Lam.lfunction) (args : Lam.t list) =
           || (args_all_const args && s < 10 && no_side_effects body))
 
 (* TODO:  We can relax this a bit later,
-    but decide whether to inline it later in the call site
-*)
+    but decide whether to inline it later in the call site *)
 let safe_to_inline (lam : Lam.t) =
   match lam with
   | Lfunction _ -> true
