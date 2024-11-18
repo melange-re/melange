@@ -59,6 +59,4 @@
   js_of_ocaml
   (reason
    (>= "3.10.0"))
-  (melange
-   (= :version))
   reason-react-ppx))
