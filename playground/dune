@@ -45,7 +45,7 @@
   %{bin:js_of_ocaml}
   (:some-js-cmi %{lib:melange:js/melange/js.cmi})
   (:some-stdlib-cmi %{lib:melange:melange/stdlib.cmi})
-  (:some-belt-cmi %{lib:melange:belt/melange/belt.cmi})
+  (:some-belt-cmi %{lib:melange.belt:melange/belt.cmi})
   (:some-dom-cmi %{lib:melange:dom/melange/dom.cmi}))
  (target cmi-files.txt)
  (action
