@@ -29,8 +29,9 @@ opam-create-switch: ## Create opam switch
 
 .PHONY: opam-install-test
 opam-install-test: ## Install test dependencies
-	opam pin add melange.dev . --with-test -y
-	opam pin add melange-playground.dev . --with-test -y
+	opam pin add melange.dev . --with-test -y --no-action
+	opam pin add melange-playground.dev . --with-test -y --no-action
+	opam install melange.dev melange-playground.dev -t
 
 .PHONY: opam-install-dev
 opam-install-dev: opam-install-test ## Install development dependencies
