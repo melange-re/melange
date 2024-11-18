@@ -261,6 +261,4 @@ let ffi_mel =
     if n < 0 then Ffi_mel (Params params, return, attr)
     else Ffi_mel (Param_number n, return, attr)
 
-let ffi_mel_as_prims params return attr = ffi_mel params return attr
 let ffi_obj_create obj_params = Ffi_obj_create obj_params
-let ffi_obj_as_prims obj_params = Ffi_obj_create obj_params

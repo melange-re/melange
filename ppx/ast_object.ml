@@ -25,22 +25,16 @@
 open Import
 open Ast_helper
 
-let pval_prim_of_labels (labels : string Asttypes.loc list) =
-  let arg_kinds =
-    List.fold_right
-      ~f:(fun p arg_kinds ->
-        let obj_arg_label =
-          Melange_ffi.External_arg_spec.Obj_label.obj
-            (Melange_ffi.Lam_methname.translate p.txt)
-        in
-        {
-          Melange_ffi.External_arg_spec.arg_type = Nothing;
-          arg_label = obj_arg_label;
-        }
-        :: arg_kinds)
-      labels ~init:[]
-  in
-  Melange_ffi.External_ffi_types.ffi_obj_as_prims arg_kinds
+let ffi_of_labels labels =
+  Melange_ffi.External_ffi_types.ffi_obj_create
+    (List.fold_right labels ~init:[] ~f:(fun (p : string with_loc) arg_kinds ->
+         {
+           Melange_ffi.External_arg_spec.arg_type = Nothing;
+           arg_label =
+             Melange_ffi.External_arg_spec.Obj_label.obj
+               (Melange_ffi.Lam_methname.translate p.txt);
+         }
+         :: arg_kinds))
 
 let ocaml_object_as_js_object =
   let local_extern_cont_to_obj loc ~ffi ~pval_type ?(local_module_name = "J")
@@ -244,8 +238,7 @@ let ocaml_object_as_js_object =
             label_type acc)
         labels label_types ~init:public_obj_type
     in
-    local_extern_cont_to_obj loc
-      ~ffi:(pval_prim_of_labels labels)
+    local_extern_cont_to_obj loc ~ffi:(ffi_of_labels labels)
       (fun e ->
         Exp.apply ~loc e
           (List.map2 ~f:(fun l expr -> (Labelled l.txt, expr)) labels exprs))
@@ -330,7 +323,6 @@ let record_as_js_object =
                 "`%%mel.obj' literals only support simple labels")
         label_exprs ~init:([], [], 0)
     in
-    local_external_obj loc
-      ~ffi:(pval_prim_of_labels labels)
+    local_external_obj loc ~ffi:(ffi_of_labels labels)
       ~pval_type:(from_labels ~loc arity labels)
       args

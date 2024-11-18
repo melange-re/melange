@@ -114,14 +114,5 @@ val ffi_mel :
   external_spec ->
   t
 
-val ffi_mel_as_prims :
-  External_arg_spec.Arg_label.t External_arg_spec.param list ->
-  return_wrapper ->
-  external_spec ->
-  t
-
 val ffi_obj_create :
-  External_arg_spec.Obj_label.t External_arg_spec.param list -> t
-
-val ffi_obj_as_prims :
   External_arg_spec.Obj_label.t External_arg_spec.param list -> t
