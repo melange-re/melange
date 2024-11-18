@@ -50,6 +50,14 @@ jobs:
         uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
+          dune-cache: true
+
+      - name: Restore OPAM cache
+        id: opam-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.opam
+          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('**.opam') }}
 
       - name: Install dependencies
         working-directory: melange
@@ -78,3 +86,11 @@ jobs:
         working-directory: melange-opam-template
         run: |
           node ./_build/default/src/node/src/Hello.mjs
+
+      - name: Save OPAM cache
+        uses: actions/cache/save@v4
+        if: steps.opam-cache.outputs.cache-hit != 'true'
+        with:
+          path: ~/.opam
+          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('**.opam') }}
+
