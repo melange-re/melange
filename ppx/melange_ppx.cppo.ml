@@ -619,7 +619,7 @@ module Mapper = struct
                         ~pval_name
                         ~pval_type:[%type: string]
                         ~pval_loc:loc
-                        (Melange_ffi.External_ffi_types.inline_string_primitive s None));
+                        (Melange_ffi.External_ffi_types.inline_string_primitive s));
                 }
             | Some attr, Pexp_constant (Pconst_string (s, loc, Some dec)) -> (
                 match
@@ -654,7 +654,7 @@ module Mapper = struct
                             ~pval_name
                             ~pval_type:[%type: string]
                             ~pval_loc:pvb_loc
-                            (Melange_ffi.External_ffi_types.inline_string_primitive s dec)
+                            (Melange_ffi.External_ffi_types.inline_string_primitive s ?op:dec)
                    );
                     }
                 | _ -> str)
@@ -859,7 +859,7 @@ module Mapper = struct
                               pval_prim = Ast_external.pval_prim_default;
                               pval_attributes = [
                                 Ast_attributes.mel_ffi
-                                  (Melange_ffi.External_ffi_types.inline_string_primitive s None);
+                                  (Melange_ffi.External_ffi_types.inline_string_primitive s);
                               ]
                             };
                       }
@@ -897,7 +897,7 @@ module Mapper = struct
                                   value_desc with
                                   pval_attributes = [
                                     Ast_attributes.mel_ffi
-                                      (Melange_ffi.External_ffi_types .inline_string_primitive s dec)
+                                      (Melange_ffi.External_ffi_types.inline_string_primitive s ?op:dec)
                                   ];
                                   pval_prim = Ast_external.pval_prim_default;
                                 };

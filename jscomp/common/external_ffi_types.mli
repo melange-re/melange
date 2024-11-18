@@ -102,7 +102,7 @@ val from_string : string -> t
 
 (** Note *)
 
-val inline_string_primitive : string -> string option -> t
+val inline_string_primitive : ?op:string -> string -> t
 val inline_bool_primitive : bool -> t
 val inline_int_primitive : int32 -> t
 val inline_int64_primitive : int64 -> t

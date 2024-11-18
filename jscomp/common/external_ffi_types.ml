@@ -214,7 +214,7 @@ let from_string =
     | true -> from_bytes_unsafe (Bytes.unsafe_of_string s) 0
     | false -> Ffi_normal
 
-let inline_string_primitive (s : string) (op : string option) =
+let inline_string_primitive ?op s =
   let lam : Lam_constant.t =
     let unicode =
       match op with
@@ -232,17 +232,17 @@ let inline_string_primitive (s : string) (op : string option) =
     e.g, submodule
 *)
 let inline_bool_primitive b =
-  let lam : Lam_constant.t =
-    if b then Lam_constant.Const_js_true else Lam_constant.Const_js_false
-  in
-  Ffi_inline_const lam
+  Ffi_inline_const
+    (match b with
+    | true -> Lam_constant.Const_js_true
+    | false -> Lam_constant.Const_js_false)
 
-(* FIXME: check overflow ?*)
-let inline_int_primitive (i : int32) =
+let inline_int_primitive i =
+  (* FIXME: check overflow? *)
   Ffi_inline_const (Const_int { i; comment = None })
 
-let inline_int64_primitive (i : int64) = Ffi_inline_const (Const_int64 i)
-let inline_float_primitive (i : string) = Ffi_inline_const (Const_float i)
+let inline_int64_primitive i = Ffi_inline_const (Const_int64 i)
+let inline_float_primitive i = Ffi_inline_const (Const_float i)
 
 let ffi_mel =
   let rec ffi_mel_aux acc
