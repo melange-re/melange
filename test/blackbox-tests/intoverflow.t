@@ -26,7 +26,7 @@
 
   $ dune build @melange
   File "x.ml", line 2, characters 14-27:
-  2 | let v2: int = 2_147_483_648 (* overflow *)
+  2 | let v2: int = 2_147_483_647 (* overflow *)
                     ^^^^^^^^^^^^^
   Warning 107 [melange-literal-int-overflow]: Integer literal exceeds the range of representable integers of type int
   
