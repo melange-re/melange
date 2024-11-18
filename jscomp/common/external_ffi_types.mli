@@ -38,7 +38,7 @@ type external_module_name = {
 }
 
 type arg_type = External_arg_spec.attr
-type arg_label = External_arg_spec.label
+type arg_label = External_arg_spec.Obj_label.t
 
 type external_spec =
   | Js_var of {
@@ -86,17 +86,15 @@ type return_wrapper =
   | Return_replaced_with_unit
 
 type params =
-  | Params of External_arg_spec.label_noname External_arg_spec.param list
+  | Params of External_arg_spec.Arg_label.t External_arg_spec.param list
   | Param_number of int
 
 type t = private
   | Ffi_mel of params * return_wrapper * external_spec
-  | Ffi_obj_create of External_arg_spec.label External_arg_spec.param list
+  | Ffi_obj_create of External_arg_spec.Obj_label.t External_arg_spec.param list
   | Ffi_inline_const of Lam_constant.t
   | Ffi_normal
-(* When it's normal, it is handled as normal c functional ffi call *)
-
-(* val name_of_ffi : external_spec -> string *)
+(* Ffi_normal represents a C functional ffi call *)
 
 val check_ffi : loc:Location.t -> external_spec -> bool
 val to_string : t -> string
@@ -111,18 +109,19 @@ val inline_int64_primitive : int64 -> string list
 val inline_float_primitive : string -> string list
 
 val ffi_mel :
-  External_arg_spec.label_noname External_arg_spec.param list ->
+  External_arg_spec.Arg_label.t External_arg_spec.param list ->
   return_wrapper ->
   external_spec ->
   t
 
 val ffi_mel_as_prims :
-  External_arg_spec.label_noname External_arg_spec.param list ->
+  External_arg_spec.Arg_label.t External_arg_spec.param list ->
   return_wrapper ->
   external_spec ->
   string list
 
-val ffi_obj_create : External_arg_spec.label External_arg_spec.param list -> t
+val ffi_obj_create :
+  External_arg_spec.Obj_label.t External_arg_spec.param list -> t
 
 val ffi_obj_as_prims :
-  External_arg_spec.label External_arg_spec.param list -> string list
+  External_arg_spec.Obj_label.t External_arg_spec.param list -> string list

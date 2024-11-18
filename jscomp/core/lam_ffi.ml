@@ -31,7 +31,7 @@
 *)
 let rec no_auto_uncurried_arg_types
     (xs :
-      Melange_ffi.External_arg_spec.label_noname
+      Melange_ffi.External_arg_spec.Arg_label.t
       Melange_ffi.External_arg_spec.param
       list) =
   match xs with
@@ -41,7 +41,7 @@ let rec no_auto_uncurried_arg_types
 
 let rec transform_uncurried_arg_type loc
     (arg_types :
-      Melange_ffi.External_arg_spec.label_noname
+      Melange_ffi.External_arg_spec.Arg_label.t
       Melange_ffi.External_arg_spec.param
       list) (args : Lam.t list) =
   match (arg_types, args) with
@@ -74,7 +74,7 @@ let handle_mel_non_obj_ffi =
     | Return_unset | Return_identity -> result
   in
   fun (arg_types :
-        Melange_ffi.External_arg_spec.label_noname
+        Melange_ffi.External_arg_spec.Arg_label.t
         Melange_ffi.External_arg_spec.param
         list) (result_type : Melange_ffi.External_ffi_types.return_wrapper) ffi
       args loc prim_name ~dynamic_import ->

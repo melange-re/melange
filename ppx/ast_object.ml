@@ -30,7 +30,7 @@ let pval_prim_of_labels (labels : string Asttypes.loc list) =
     List.fold_right
       ~f:(fun p arg_kinds ->
         let obj_arg_label =
-          Melange_ffi.External_arg_spec.obj_label
+          Melange_ffi.External_arg_spec.Obj_label.obj
             (Melange_ffi.Lam_methname.translate p.txt)
         in
         {

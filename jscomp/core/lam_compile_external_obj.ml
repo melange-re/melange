@@ -40,11 +40,13 @@ module S = Js_stmt_make
 (* TODO: check stackoverflow *)
 let assemble_obj_args
     (labels :
-      Melange_ffi.External_arg_spec.label Melange_ffi.External_arg_spec.param
+      Melange_ffi.External_arg_spec.Obj_label.t
+      Melange_ffi.External_arg_spec.param
       list) (args : J.expression list) : J.block * J.expression =
   let rec aux
       (labels :
-        Melange_ffi.External_arg_spec.label Melange_ffi.External_arg_spec.param
+        Melange_ffi.External_arg_spec.Obj_label.t
+        Melange_ffi.External_arg_spec.param
         list) args : (Js_op.property_name * E.t) list * J.expression list * _ =
     match (labels, args) with
     | [], [] -> ([], [], [])
@@ -109,7 +111,7 @@ let assemble_obj_args
         :: List.concat_map
              ~f:(fun
                  ( (xlabel :
-                     Melange_ffi.External_arg_spec.label
+                     Melange_ffi.External_arg_spec.Obj_label.t
                      Melange_ffi.External_arg_spec.param),
                    (arg : J.expression) )
                ->

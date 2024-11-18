@@ -31,7 +31,8 @@
  *)
 
 val assemble_obj_args :
-  Melange_ffi.External_arg_spec.label Melange_ffi.External_arg_spec.param list ->
+  Melange_ffi.External_arg_spec.Obj_label.t Melange_ffi.External_arg_spec.param
+  list ->
   J.expression list ->
   J.block * J.expression
 (* It returns a block in cases we need set the property dynamically: we need
