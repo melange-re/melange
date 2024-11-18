@@ -19,13 +19,15 @@ buildDunePackage {
   src = with nix-filter; filter {
     root = ./..;
     include = [
+      "belt"
+      "bin"
       "dune-project"
       "dune"
-      "melange-playground.opam"
-      "bin"
       "jscomp"
-      "vendor"
+      "melange-playground.opam"
+      "playground"
       "test/blackbox-tests/melange-playground"
+      "vendor"
     ];
   };
   postPatch = ''

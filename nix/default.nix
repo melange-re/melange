@@ -21,6 +21,7 @@ buildDunePackage {
   src = with nix-filter; filter {
     root = ./..;
     include = [
+      "belt"
       "bin"
       "dune-project"
       "dune"
@@ -28,8 +29,8 @@ buildDunePackage {
       "lib"
       "melange.opam"
       "ppx"
-      "test"
       "scripts"
+      "test"
       "vendor"
     ];
     exclude = [ "jscomp/test" ];
