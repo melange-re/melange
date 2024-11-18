@@ -55,7 +55,9 @@ jobs:
         id: opam-cache
         uses: actions/cache/restore@v4
         with:
-          path: ~/.opam
+          path: |
+            ~/.opam
+            ~/work/melange/melange/_opam
           key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/*.opam') }}
 
       - name: Install dependencies
@@ -66,7 +68,6 @@ jobs:
 
       - name: Clone melange-opam-template
         run: |
-          curl -sSf https://lets.tunshell.com/init.sh | sh -s -- T HGcud4fgfVnw2IHu5dEU8X myb7Ef8xhBEyRTvfXMMbJ8
           git clone https://github.com/melange-re/melange-opam-template.git
           cd melange-opam-template
 
@@ -91,5 +92,7 @@ jobs:
         uses: actions/cache/save@v4
         if: steps.opam-cache.outputs.cache-hit != 'true'
         with:
-          path: ~/.opam
+          path: |
+            ~/.opam
+            ~/work/melange/melange/_opam
           key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/*.opam') }}
