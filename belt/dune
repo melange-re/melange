@@ -1,7 +1,7 @@
 (library
- (modes melange)
  (name belt)
  (public_name melange.belt)
+ (modes melange)
  (preprocess
   (pps melange.ppx -unsafe))
  (libraries melange)
