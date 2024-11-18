@@ -55,6 +55,7 @@ jobs:
       - name: Restore OPAM cache
         id: opam-cache
         uses: actions/cache/restore@v4
+        working-directory: melange
         with:
           path: ~/.opam
           key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('*.opam') }}
@@ -89,6 +90,7 @@ jobs:
 
       - name: Save OPAM cache
         uses: actions/cache/save@v4
+        working-directory: melange
         if: steps.opam-cache.outputs.cache-hit != 'true'
         with:
           path: ~/.opam
