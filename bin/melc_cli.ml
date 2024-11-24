@@ -36,7 +36,6 @@ type t = {
   bs_package_output : string list;
   mel_module_system : Module_system.t option;
   bs_syntax_only : bool;
-  bs_g : bool;
   bs_package_name : string option;
   bs_module_name : string option;
   as_ppx : bool;
@@ -147,10 +146,6 @@ let open_modules =
 let bs_syntax_only =
   let doc = "Only check syntax" in
   Arg.(value & flag & info [ "bs-syntax-only"; "mel-syntax-only" ] ~doc)
-
-let bs_g =
-  let doc = "Debug mode" in
-  Arg.(value & flag & info [ "bs-g"; "mel-g" ] ~doc)
 
 let bs_package_name =
   let doc = "Set package name, useful when you want to produce npm packages" in
@@ -477,7 +472,7 @@ module Compat = struct
 end
 
 let parse help include_dirs hidden_include_dirs alerts warnings output_name ppx
-    open_modules bs_package_output mel_module_system bs_syntax_only bs_g
+    open_modules bs_package_output mel_module_system bs_syntax_only
     bs_package_name bs_module_name as_ppx as_pp no_alias_deps bs_gentype
     unboxed_types bs_unsafe_empty_array nostdlib color bs_eval bs_cmi_only
     bs_no_version_header bs_cross_module_opt bs_diagnose where verbose keep_locs
@@ -498,7 +493,6 @@ let parse help include_dirs hidden_include_dirs alerts warnings output_name ppx
     bs_package_output;
     mel_module_system;
     bs_syntax_only;
-    bs_g;
     bs_package_name;
     bs_module_name;
     as_ppx;
@@ -557,7 +551,7 @@ let cmd =
   Term.(
     const parse $ help $ include_dirs $ hidden_include_dirs $ alerts $ warnings
     $ output_name $ ppx $ open_modules $ Internal.bs_package_output
-    $ Internal.mel_module_system $ bs_syntax_only $ bs_g $ bs_package_name
+    $ Internal.mel_module_system $ bs_syntax_only $ bs_package_name
     $ bs_module_name $ Internal.as_ppx $ Internal.as_pp $ Internal.no_alias_deps
     $ Internal.bs_gentype $ unboxed_types $ Internal.bs_unsafe_empty_array
     $ Internal.nostdlib $ color $ Internal.bs_eval $ Internal.bs_cmi_only
