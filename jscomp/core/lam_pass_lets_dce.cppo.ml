@@ -171,7 +171,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
         Lam.function_ ~arity ~params ~body:(simplif body) ~attr
     | Lconst _ -> lam
     | Lletrec (bindings, body) ->
-        Lam.letrec (List.map_snd bindings simplif) (simplif body)
+        Lam.letrec (List.map_snd bindings ~f:simplif) (simplif body)
     | Lprim { primitive = Pstringadd; args = [ l; r ]; loc } -> (
         let l' = simplif l in
         let r' = simplif r in
@@ -224,8 +224,8 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
         Lam.prim ~primitive ~args:(List.map ~f:simplif args) loc
     | Lswitch (l, sw) ->
         let new_l = simplif l
-        and new_consts = List.map_snd sw.sw_consts simplif
-        and new_blocks = List.map_snd sw.sw_blocks simplif
+        and new_consts = List.map_snd sw.sw_consts ~f:simplif
+        and new_blocks = List.map_snd sw.sw_blocks ~f:simplif
         and new_fail = Option.map simplif sw.sw_failaction in
         Lam.switch new_l
           {
@@ -235,7 +235,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
             sw_failaction = new_fail;
           }
     | Lstringswitch (l, sw, d) ->
-        Lam.stringswitch (simplif l) (List.map_snd sw simplif)
+        Lam.stringswitch (simplif l) (List.map_snd sw ~f:simplif)
           (Option.map simplif d)
     | Lstaticraise (i, ls) -> Lam.staticraise i (List.map ~f:simplif ls)
     | Lstaticcatch (l1, (i, args), l2) ->

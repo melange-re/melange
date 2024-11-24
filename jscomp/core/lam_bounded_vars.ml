@@ -129,8 +129,8 @@ let rewrite (map : _ Ident.Hash.t) (lam : Lam.t) : Lam.t =
         let l = aux l in
         Lam.switch l
           {
-            sw_consts = List.map_snd sw_consts aux;
-            sw_blocks = List.map_snd sw_blocks aux;
+            sw_consts = List.map_snd sw_consts ~f:aux;
+            sw_blocks = List.map_snd sw_blocks ~f:aux;
             sw_consts_full;
             sw_blocks_full;
             sw_failaction = option_map sw_failaction;
@@ -138,7 +138,7 @@ let rewrite (map : _ Ident.Hash.t) (lam : Lam.t) : Lam.t =
           }
     | Lstringswitch (l, sw, d) ->
         let l = aux l in
-        Lam.stringswitch l (List.map_snd sw aux) (option_map d)
+        Lam.stringswitch l (List.map_snd sw ~f:aux) (option_map d)
     | Lstaticraise (i, ls) -> Lam.staticraise i (List.map ~f:aux ls)
     | Ltrywith (l1, v, l2) ->
         let l1 = aux l1 in

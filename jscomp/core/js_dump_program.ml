@@ -129,7 +129,7 @@ let pp_deps_program =
       (* This is empty module, it won't be referred anywhere *)
     else
       let comments, program = extract_file_comments program in
-      List.rev_iter comments (fun comment ->
+      List.rev_iter comments ~f:(fun comment ->
           P.string f comment;
           P.newline f);
       let output_dir = Filename.dirname output_prefix in

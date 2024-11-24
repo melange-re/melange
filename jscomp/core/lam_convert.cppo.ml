@@ -761,7 +761,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
     | Lswitch (e, s, _loc) -> convert_switch e s
     | Lstringswitch (e, cases, default, _) ->
         Lam.stringswitch (convert_aux e)
-          (List.map_snd cases convert_aux)
+          (List.map_snd cases ~f:convert_aux)
           (Option.map convert_aux default)
     | Lstaticraise (id, []) ->
         Lam.staticraise (Hash_int.find_default exit_map id id) []
@@ -914,7 +914,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
           ap_args = args;
           _;
         }
-      when List.for_all2_no_exn inner_args params lam_is_var
+      when List.for_all2_no_exn inner_args params ~f:lam_is_var
            && List.length_larger_than_n inner_args args 1 ->
         Lam.prim ~primitive ~args:(args @ [ x ])
           (Debuginfo.Scoped_location.to_location outer_loc)
@@ -944,7 +944,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
      sw_names;
      _;
     } -> (
-        let sw_consts = List.map_snd sw_consts convert_aux in
+        let sw_consts = List.map_snd sw_consts ~f:convert_aux in
         match happens_to_be_diff sw_consts sw_names with
         | Some 0l -> e
         | Some i ->
@@ -965,9 +965,9 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         Lam.switch e
           {
             sw_consts_full = List.length_ge s.sw_consts s.sw_numconsts;
-            sw_consts = List.map_snd s.sw_consts convert_aux;
+            sw_consts = List.map_snd s.sw_consts ~f:convert_aux;
             sw_blocks_full = List.length_ge s.sw_blocks s.sw_numblocks;
-            sw_blocks = List.map_snd s.sw_blocks convert_aux;
+            sw_blocks = List.map_snd s.sw_blocks ~f:convert_aux;
             sw_failaction = Option.map convert_aux s.sw_failaction;
             sw_names = s.sw_names;
           }

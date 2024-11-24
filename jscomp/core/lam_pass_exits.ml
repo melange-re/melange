@@ -210,15 +210,15 @@ let subst_helper ~try_depth (subst : subst_tbl)
     | Llet (kind, v, l1, l2) -> Lam.let_ kind v (simplif l1) (simplif l2)
     | Lmutlet (v, l1, l2) -> Lam.mutlet v (simplif l1) (simplif l2)
     | Lletrec (bindings, body) ->
-        Lam.letrec (List.map_snd bindings simplif) (simplif body)
+        Lam.letrec (List.map_snd bindings ~f:simplif) (simplif body)
     | Lglobal_module _ -> lam
     | Lprim { primitive; args; loc } ->
         let args = List.map ~f:simplif args in
         Lam.prim ~primitive ~args loc
     | Lswitch (l, sw) ->
         let new_l = simplif l in
-        let new_consts = List.map_snd sw.sw_consts simplif in
-        let new_blocks = List.map_snd sw.sw_blocks simplif in
+        let new_consts = List.map_snd sw.sw_consts ~f:simplif in
+        let new_blocks = List.map_snd sw.sw_blocks ~f:simplif in
         let new_fail = Option.map simplif sw.sw_failaction in
         Lam.switch new_l
           {
@@ -228,7 +228,8 @@ let subst_helper ~try_depth (subst : subst_tbl)
             sw_failaction = new_fail;
           }
     | Lstringswitch (l, sw, d) ->
-        Lam.stringswitch (simplif l) (List.map_snd sw simplif)
+        Lam.stringswitch (simplif l)
+          (List.map_snd sw ~f:simplif)
           (Option.map simplif d)
     | Ltrywith (l1, v, l2) ->
         incr try_depth;

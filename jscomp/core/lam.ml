@@ -191,7 +191,7 @@ let inner_map (l : t) (f : t -> X.t) : X.t =
       Lmutlet (id, arg, body)
   | Lletrec (decl, body) ->
       let body = f body in
-      let decl = List.map_snd decl f in
+      let decl = List.map_snd decl ~f in
       Lletrec (decl, body)
   | Lglobal_module _ -> (l : X.t)
   | Lprim { args; primitive; loc } ->
@@ -208,8 +208,8 @@ let inner_map (l : t) (f : t -> X.t) : X.t =
           sw_names;
         } ) ->
       let arg = f arg in
-      let sw_consts = List.map_snd sw_consts f in
-      let sw_blocks = List.map_snd sw_blocks f in
+      let sw_consts = List.map_snd sw_consts ~f in
+      let sw_blocks = List.map_snd sw_blocks ~f in
       let sw_failaction = Option.map f sw_failaction in
       Lswitch
         ( arg,
@@ -223,7 +223,7 @@ let inner_map (l : t) (f : t -> X.t) : X.t =
           } )
   | Lstringswitch (arg, cases, default) ->
       let arg = f arg in
-      let cases = List.map_snd cases f in
+      let cases = List.map_snd cases ~f in
       let default = Option.map f default in
       Lstringswitch (arg, cases, default)
   | Lstaticraise (id, args) ->
@@ -413,7 +413,7 @@ let rec eq_approx (l1 : t) (l2 : t) =
       | Lstringswitch (arg2, patterns2, default2) ->
           eq_approx arg arg2 && eq_option default default2
           && List.for_all2_no_exn patterns patterns2
-               (fun ((k : string), v) (k2, v2) -> k = k2 && eq_approx v v2)
+               ~f:(fun ((k : string), v) (k2, v2) -> k = k2 && eq_approx v v2)
       | _ -> false)
   | Lfunction _
   | Llet (_, _, _, _)
@@ -432,7 +432,7 @@ and eq_option l1 l2 =
   | None -> l2 = None
   | Some l1 -> ( match l2 with Some l2 -> eq_approx l1 l2 | None -> false)
 
-and eq_approx_list ls ls1 = List.for_all2_no_exn ls ls1 eq_approx
+and eq_approx_list ls ls1 = List.for_all2_no_exn ls ls1 ~f:eq_approx
 
 let switch lam (lam_switch : lambda_switch) : t =
   match lam with

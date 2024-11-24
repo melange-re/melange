@@ -207,7 +207,8 @@ let deep_flatten =
             match eliminate_tuple id body Map_int.empty with
             | Some (tuple_mapping, body) ->
                 flatten
-                  (List.fold_left_with_offset args accux 0 (fun arg acc i ->
+                  (List.fold_left_with_offset args ~init:accux ~off:0
+                     ~f:(fun arg acc i ->
                        match Map_int.find_opt tuple_mapping i with
                        | None -> Lam_group.nop_cons arg acc
                        | Some key -> Lam_group.single kind key arg :: acc))
@@ -215,7 +216,7 @@ let deep_flatten =
             | None -> flatten (Single (kind, id, res) :: accux) body)
         | _ -> flatten (Single (kind, id, res) :: accux) body)
     | Lletrec (bind_args, body) ->
-        flatten (Recursive (List.map_snd bind_args aux) :: acc) body
+        flatten (Recursive (List.map_snd bind_args ~f:aux) :: acc) body
     | Lsequence (l, r) ->
         let res, l = flatten acc l in
         flatten (Lam_group.nop_cons res l) r
@@ -303,15 +304,15 @@ let deep_flatten =
           } ) ->
         Lam.switch (aux l)
           {
-            sw_consts = List.map_snd sw_consts aux;
-            sw_blocks = List.map_snd sw_blocks aux;
+            sw_consts = List.map_snd sw_consts ~f:aux;
+            sw_blocks = List.map_snd sw_blocks ~f:aux;
             sw_consts_full;
             sw_blocks_full;
             sw_failaction = Option.map aux sw_failaction;
             sw_names;
           }
     | Lstringswitch (l, sw, d) ->
-        Lam.stringswitch (aux l) (List.map_snd sw aux) (Option.map aux d)
+        Lam.stringswitch (aux l) (List.map_snd sw ~f:aux) (Option.map aux d)
     | Lstaticraise (i, ls) -> Lam.staticraise i (List.map ~f:aux ls)
     | Lstaticcatch (l1, ids, l2) -> Lam.staticcatch (aux l1) ids (aux l2)
     | Ltrywith (l1, v, l2) -> Lam.try_ (aux l1) v (aux l2)

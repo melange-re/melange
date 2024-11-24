@@ -392,7 +392,7 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
             it can be optimized in to either [u] or [Curry.__n(u)]
          *)
          (not is_method)
-         && List.for_all2_no_exn ls l is_var
+         && List.for_all2_no_exn ls l ~f:is_var
          &&
          match v with
          (* This check is needed to avoid some edge cases
@@ -776,14 +776,14 @@ and expression_desc cxt ~(level : int) x : cxt =
   | Caml_block { fields = el; tag_info = Blk_module fields; _ } ->
       expression_desc cxt ~level
         (Object
-           (List.map_combine fields el (fun x -> Js_op.Lit (Ident.convert x))))
+           (List.map_combine fields el ~f:(fun x -> Js_op.Lit (Ident.convert x))))
   (*name convention of Record is slight different from modules*)
   | Caml_block { fields = el; mutable_flag; tag_info = Blk_record fields; _ } ->
       if block_has_all_int_fields fields then
         expression_desc cxt ~level (Array { items = el; mutable_flag })
       else
         expression_desc cxt ~level
-          (Object (List.map_combine_array fields el (fun i -> Js_op.Lit i)))
+          (Object (List.map_combine_array fields el ~f:(fun i -> Js_op.Lit i)))
   | Caml_block { fields = el; tag_info = Blk_poly_var; _ } -> (
       match el with
       | [ { expression_desc = Str name; _ }; value ] ->
@@ -802,9 +802,9 @@ and expression_desc cxt ~(level : int) x : cxt =
       let objs =
         let tails =
           List.map_combine_array_append p.fields el
-            (if !Js_config.debug then [ (Js_op.Symbol_name, E.str p.name) ]
+            ~init:(if !Js_config.debug then [ (Js_op.Symbol_name, E.str p.name) ]
              else [])
-            (fun i -> Js_op.Lit i)
+            ~f:(fun i -> Js_op.Lit i)
         in
         let as_value =
           Lam_constant_convert.modifier ~name:p.name p.attributes

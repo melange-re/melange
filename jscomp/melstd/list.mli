@@ -26,21 +26,21 @@ include module type of struct
   include StdLabels.List
 end
 
-val map_combine : 'a list -> 'b list -> ('a -> 'c) -> ('c * 'b) list
-val map_combine_array : 'a array -> 'b list -> ('a -> 'c) -> ('c * 'b) list
+val map_combine : 'a list -> 'b list -> f:('a -> 'c) -> ('c * 'b) list
+val map_combine_array : 'a array -> 'b list -> f:('a -> 'c) -> ('c * 'b) list
 
 val map_combine_array_append :
-  'a array -> 'b list -> ('c * 'b) list -> ('a -> 'c) -> ('c * 'b) list
+  'a array -> 'b list -> init:('c * 'b) list -> f:('a -> 'c) -> ('c * 'b) list
 
-val map_snd : ('a * 'b) list -> ('b -> 'c) -> ('a * 'c) list
+val map_snd : ('a * 'b) list -> f:('b -> 'c) -> ('a * 'c) list
 
-val map_last : 'a list -> (bool -> 'a -> 'b) -> 'b list
+val map_last : 'a list -> f:(bool -> 'a -> 'b) -> 'b list
 (** [map_last f xs ]
     will pass [true] to [f] for the last element, [false] otherwise.
     For empty list, it returns empty *)
 
 val fold_left_with_offset :
-  'a list -> 'acc -> int -> ('a -> 'acc -> int -> 'acc) -> 'acc
+  'a list -> init:'acc -> off:int -> f:('a -> 'acc -> int -> 'acc) -> 'acc
 
 val same_length : 'a list -> 'b list -> bool
 
@@ -60,7 +60,7 @@ val length_ge : 'a list -> int -> bool
 
 val length_larger_than_n : 'a list -> 'a list -> int -> bool
 
-val stable_group : 'a list -> ('a -> 'a -> bool) -> 'a list list
+val stable_group : 'a list -> equal:('a -> 'a -> bool) -> 'a list list
 (**
     [stable_group eq lst]
     Example:
@@ -75,11 +75,11 @@ val stable_group : 'a list -> ('a -> 'a -> bool) -> 'a list list
     TODO: this is O(n^2) behavior
     which could be improved later *)
 
-val rev_iter : 'a list -> ('a -> unit) -> unit
+val rev_iter : 'a list -> f:('a -> unit) -> unit
 
-val for_all2_no_exn : 'a list -> 'b list -> ('a -> 'b -> bool) -> bool
+val for_all2_no_exn : 'a list -> 'b list -> f:('a -> 'b -> bool) -> bool
 (** [for_all2_no_exn p xs ys] returns [true] if all predicates satisfied,
     [false] otherwise or when the list lengths are not equal. *)
 
-val split_map : 'a list -> ('a -> 'b * 'c) -> 'b list * 'c list
+val split_map : 'a list -> f:('a -> 'b * 'c) -> 'b list * 'c list
 (** [f] is applied follow the list order *)

@@ -93,9 +93,9 @@ let no_static_raise_in_handler (x : handler) : bool =
 let add_jmps (m : jmp_table) (exit_id : Ident.t) (code_table : handler list) :
     jmp_table * (int * Lam.t) list =
   let map, handlers =
-    List.fold_left_with_offset code_table (m, [])
-      (HandlerMap.cardinal m + 1)
-      (fun { label; handler; bindings } (acc, handlers) order_id ->
+    List.fold_left_with_offset code_table ~init:(m, [])
+      ~off:(HandlerMap.cardinal m + 1)
+      ~f:(fun { label; handler; bindings } (acc, handlers) order_id ->
         ( HandlerMap.add acc label { exit_id; bindings; order_id },
           (order_id, handler) :: handlers ))
   in

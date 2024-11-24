@@ -84,11 +84,11 @@ let rec eq_approx (x : t) (y : t) =
   | Const_block (ix, _, ixs) -> (
       match y with
       | Const_block (iy, _, iys) ->
-          ix = iy && List.for_all2_no_exn ixs iys eq_approx
+          ix = iy && List.for_all2_no_exn ixs iys ~f:eq_approx
       | _ -> false)
   | Const_float_array ixs -> (
       match y with
-      | Const_float_array iys -> List.for_all2_no_exn ixs iys String.equal
+      | Const_float_array iys -> List.for_all2_no_exn ixs iys ~f:String.equal
       | _ -> false)
   | Const_some ix -> (
       match y with Const_some iy -> eq_approx ix iy | _ -> false)

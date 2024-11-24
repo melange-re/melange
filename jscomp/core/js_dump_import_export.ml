@@ -35,7 +35,7 @@ let rev_iter_inter lst f inter =
   | [] -> ()
   | [ a ] -> f a
   | a :: rest ->
-      List.rev_iter rest (fun x ->
+      List.rev_iter rest ~f:(fun x ->
           f x;
           inter ());
       f a
@@ -113,7 +113,7 @@ let requires cxt f modules =
       ~init:(cxt, []) modules
   in
   P.at_least_two_lines f;
-  List.rev_iter reversed_list (fun (s, file, default) ->
+  List.rev_iter reversed_list ~f:(fun (s, file, default) ->
       P.string f L.const;
       P.space f;
       P.string f s;
@@ -140,7 +140,7 @@ let imports cxt f modules =
       ~init:(cxt, []) modules
   in
   P.at_least_two_lines f;
-  List.rev_iter reversed_list (fun (s, file, default) ->
+  List.rev_iter reversed_list ~f:(fun (s, file, default) ->
       P.string f L.import;
       P.space f;
       if default then (
