@@ -145,8 +145,9 @@ let morph_declare_to_assign (cxt : Lam_compile_context.t) k =
 
 let group_apply cases callback =
   List.concat_map
-    ~f:(fun group -> List.map_last group callback)
-    (List.stable_group cases (fun (_, lam) (_, lam1) -> Lam.eq_approx lam lam1))
+    ~f:(fun group -> List.map_last group ~f:callback)
+    (List.stable_group cases ~equal:(fun (_, lam) (_, lam1) ->
+         Lam.eq_approx lam lam1))
 (* TODO:
     for expression generation,
     name, should_return  is not needed,
@@ -1244,7 +1245,7 @@ and compile_send (meth_kind : Lam_compat.meth_kind) (met : Lam.t) (obj : Lam.t)
     (args : Lam.t list) (lambda_cxt : Lam_compile_context.t) =
   let new_cxt = { lambda_cxt with continuation = NeedValue Not_tail } in
   match
-    List.split_map (met :: obj :: args) (fun x ->
+    List.split_map (met :: obj :: args) ~f:(fun x ->
         match x with
         | Lprim { primitive = Pccall { prim_name; _ }; args = []; _ }
         (* nullary external call*) ->
@@ -1743,7 +1744,7 @@ and compile_prim (prim_info : Lam.prim_info)
         if args = [] then ([], [])
         else
           let new_cxt = { lambda_cxt with continuation = NeedValue Not_tail } in
-          List.split_map args (fun x ->
+          List.split_map args ~f:(fun x ->
               match compile_lambda new_cxt x with
               | { block; value = Some b; _ } -> (block, b)
               | { value = None; _ } -> assert false)
@@ -1836,7 +1837,7 @@ and compile_prim (prim_info : Lam.prim_info)
         if args = [] then ([], [])
         else
           let new_cxt = { lambda_cxt with continuation = NeedValue Not_tail } in
-          List.split_map args (fun x ->
+          List.split_map args ~f:(fun x ->
               match compile_lambda new_cxt x with
               | { block; value = Some b; _ } -> (block, b)
               | { value = None; _ } -> assert false)

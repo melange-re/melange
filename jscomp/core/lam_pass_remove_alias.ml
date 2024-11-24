@@ -110,7 +110,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
     | Llet (str, v, l1, l2) -> Lam.let_ str v (simpl l1) (simpl l2)
     | Lmutlet (v, l1, l2) -> Lam.mutlet v (simpl l1) (simpl l2)
     | Lletrec (bindings, body) ->
-        let bindings = List.map_snd bindings simpl in
+        let bindings = List.map_snd bindings ~f:simpl in
         Lam.letrec bindings (simpl body)
     (* complicated
            1. inline this function
@@ -169,14 +169,14 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         match Ident.Hash.find_opt meta.ident_tbl v with
         | Some
             (FunctionId
-              {
-                lambda =
-                  Some
-                    ( Lfunction
-                        ({ params; body; attr = { is_a_functor; _ }; _ } as m),
-                      rec_flag );
-                _;
-              }) ->
+               {
+                 lambda =
+                   Some
+                     ( Lfunction
+                         ({ params; body; attr = { is_a_functor; _ }; _ } as m),
+                       rec_flag );
+                 _;
+               }) ->
             if List.same_length ap_args params (* && false *) then
               if
                 is_a_functor
@@ -254,8 +254,8 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
           } ) ->
         Lam.switch (simpl l)
           {
-            sw_consts = List.map_snd sw_consts simpl;
-            sw_blocks = List.map_snd sw_blocks simpl;
+            sw_consts = List.map_snd sw_consts ~f:simpl;
+            sw_blocks = List.map_snd sw_blocks ~f:simpl;
             sw_consts_full;
             sw_blocks_full;
             sw_failaction = Option.map simpl sw_failaction;
@@ -270,7 +270,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
               | Some _ | None -> simpl l)
           | _ -> simpl l
         in
-        Lam.stringswitch l (List.map_snd sw simpl) (Option.map simpl d)
+        Lam.stringswitch l (List.map_snd sw ~f:simpl) (Option.map simpl d)
     | Lstaticraise (i, ls) -> Lam.staticraise i (List.map ~f:simpl ls)
     | Lstaticcatch (l1, ids, l2) -> Lam.staticcatch (simpl l1) ids (simpl l2)
     | Ltrywith (l1, v, l2) -> Lam.try_ (simpl l1) v (simpl l2)

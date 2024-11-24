@@ -146,7 +146,7 @@ let anonymous =
       else
         begin
             if !Js_config.syntax_only then begin
-              List.rev_iter rev_args (fun filename ->
+              List.rev_iter rev_args ~f:(fun filename ->
                   begin
                     (* Clflags.reset_dump_state (); *)
                     (* Warnings.reset (); *)

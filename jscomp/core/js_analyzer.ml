@@ -242,10 +242,10 @@ let rec eq_expression ({ expression_desc = x0; _ } : J.expression)
   | Number (Uint _) ->
       false
 
-and eq_expression_list xs ys = List.for_all2_no_exn xs ys eq_expression
+and eq_expression_list xs ys = List.for_all2_no_exn xs ys ~f:eq_expression
 
 and eq_block (xs : J.block) (ys : J.block) =
-  List.for_all2_no_exn xs ys eq_statement
+  List.for_all2_no_exn xs ys ~f:eq_statement
 
 and eq_statement ({ statement_desc = x0; _ } : J.statement)
     ({ statement_desc = y0; _ } : J.statement) =
