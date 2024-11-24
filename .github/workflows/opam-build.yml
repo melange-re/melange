@@ -43,6 +43,11 @@ jobs:
         run: |
           env HOMEBREW_NO_AUTO_UPDATE=1 brew install tree
 
+      - name: Use OCaml ${{ matrix.ocaml-compiler }}
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: ${{ matrix.ocaml-compiler }}
+
       - name: Restore OPAM cache
         id: opam-cache
         uses: actions/cache/restore@v4
@@ -51,11 +56,6 @@ jobs:
             ~/.opam
             ~/work/melange/melange/_opam
           key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/*.opam') }}
-
-      - name: Use OCaml ${{ matrix.ocaml-compiler }}
-        uses: ocaml/setup-ocaml@v3
-        with:
-          ocaml-compiler: ${{ matrix.ocaml-compiler }}
 
       - name: Install dependencies
         working-directory: melange
