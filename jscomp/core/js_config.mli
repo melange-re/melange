@@ -38,7 +38,6 @@ val check_div_by_zero : bool ref
 
 val tool_name : string
 val syntax_only : bool ref
-val debug : bool ref
 
 val cmi_only : bool ref
 (** stop after generating cmi *)

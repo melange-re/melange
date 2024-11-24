@@ -801,10 +801,8 @@ and expression_desc cxt ~(level : int) x : cxt =
   | Caml_block { fields = el; tag; tag_info = Blk_record_inlined p; _ } ->
       let objs =
         let tails =
-          List.map_combine_array_append p.fields el
-            ~init:(if !Js_config.debug then [ (Js_op.Symbol_name, E.str p.name) ]
-             else [])
-            ~f:(fun i -> Js_op.Lit i)
+          List.map_combine_array_append p.fields el ~init:[] ~f:(fun i ->
+              Js_op.Lit i)
         in
         let as_value =
           Lam_constant_convert.modifier ~name:p.name p.attributes
@@ -833,10 +831,6 @@ and expression_desc cxt ~(level : int) x : cxt =
             ~f:(fun i e ->
               (Js_op.Lit (E.variant_pos ~constr:p.name (Int32.of_int i)), e))
             el
-          @
-          if !Js_config.debug && not is_cons then
-            [ (Symbol_name, E.str p.name) ]
-          else []
         in
         if is_cons && p.num_nonconst = 1 then tails
         else
