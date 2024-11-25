@@ -28,16 +28,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1731829298,
-        "narHash": "sha256-PTRXd7mDIzc9a2AucDLgKG2st+b7gJR/8rzOAZO5Z7A=",
+        "lastModified": 1732515780,
+        "narHash": "sha256-YcK9fsQLh5Hb91bguy4ATXO4IomuqUGpYF1uzpeeD4I=",
         "owner": "melange-re",
         "repo": "melange-compiler-libs",
-        "rev": "fbd8fc7f85e84e84470927a8817a1c1d5df8b1c8",
+        "rev": "7eda8e25f2ee27bd048226e6d09c85c5eb1c3b4a",
         "type": "github"
       },
       "original": {
         "owner": "melange-re",
-        "ref": "anmonteiro/pval-prim",
         "repo": "melange-compiler-libs",
         "type": "github"
       }
