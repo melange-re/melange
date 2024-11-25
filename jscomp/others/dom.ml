@@ -318,4 +318,3 @@ type eventPointerId
 type messageChannel
 
 module Storage = Dom_storage
-module FormData = Dom_formData

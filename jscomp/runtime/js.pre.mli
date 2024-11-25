@@ -237,3 +237,6 @@ module Iterator = Js_iterator
 module OO = Js_OO
 
 (**/**)
+
+module FormData = Js_formData
+(** Bindings to FormData *)
