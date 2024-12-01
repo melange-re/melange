@@ -342,6 +342,15 @@ end
 
 module Mapper = struct
   let mapper =
+    let pval_ffi ~pval_name ~pval_type ~pval_loc ffi =
+      {
+        pval_name;
+        pval_type;
+        pval_loc;
+        pval_prim = Ast_external.pval_prim_default;
+        pval_attributes = [ Ast_attributes.mel_ffi ffi ];
+      };
+    in
     let succeed attr attrs =
       match attrs with
       | [ _ ] -> ()
@@ -606,15 +615,11 @@ module Mapper = struct
                   str with
                   pstr_desc =
                     Pstr_primitive
-                      {
-                        pval_name;
-                        pval_type = [%type: string];
-                        pval_loc = loc;
-                        pval_attributes = [];
-                        pval_prim =
-                          Melange_ffi.External_ffi_types.inline_string_primitive
-                            s None;
-                      };
+                      (pval_ffi
+                        ~pval_name
+                        ~pval_type:[%type: string]
+                        ~pval_loc:loc
+                        (Melange_ffi.External_ffi_types.inline_string_primitive s));
                 }
             | Some attr, Pexp_constant (Pconst_string (s, loc, Some dec)) -> (
                 match
@@ -645,15 +650,12 @@ module Mapper = struct
                       str with
                       pstr_desc =
                         Pstr_primitive
-                          {
-                            pval_name;
-                            pval_type = [%type: string];
-                            pval_loc = pvb_loc;
-                            pval_attributes = [];
-                            pval_prim =
-                              Melange_ffi.External_ffi_types
-                              .inline_string_primitive s dec;
-                          };
+                          (pval_ffi
+                            ~pval_name
+                            ~pval_type:[%type: string]
+                            ~pval_loc:pvb_loc
+                            (Melange_ffi.External_ffi_types.inline_string_primitive s ?op:dec)
+                   );
                     }
                 | _ -> str)
             | Some attr, Pexp_constant (Pconst_integer (s, None)) ->
@@ -664,14 +666,11 @@ module Mapper = struct
                   str with
                   pstr_desc =
                     Pstr_primitive
-                      {
-                        pval_name;
-                        pval_type = [%type: int];
-                        pval_loc = loc;
-                        pval_attributes = [];
-                        pval_prim =
-                          Melange_ffi.External_ffi_types.inline_int_primitive s;
-                      };
+                      (pval_ffi
+                       ~pval_name
+                       ~pval_type:[%type: int]
+                       ~pval_loc:loc
+                       (Melange_ffi.External_ffi_types.inline_int_primitive s))
                 }
             | Some attr, Pexp_constant (Pconst_integer (s, Some 'L')) ->
                 let s = Int64.of_string s in
@@ -681,15 +680,11 @@ module Mapper = struct
                   str with
                   pstr_desc =
                     Pstr_primitive
-                      {
-                        pval_name;
-                        pval_type = [%type: int64];
-                        pval_loc = loc;
-                        pval_attributes = [];
-                        pval_prim =
-                          Melange_ffi.External_ffi_types.inline_int64_primitive
-                            s;
-                      };
+                      (pval_ffi
+                        ~pval_name
+                        ~pval_type:[%type: int64]
+                        ~pval_loc:loc
+                        (Melange_ffi.External_ffi_types.inline_int64_primitive s))
                 }
             | Some attr, Pexp_constant (Pconst_float (s, None)) ->
                 succeed attr pvb_attributes;
@@ -698,15 +693,11 @@ module Mapper = struct
                   str with
                   pstr_desc =
                     Pstr_primitive
-                      {
-                        pval_name;
-                        pval_type = [%type: float];
-                        pval_loc = loc;
-                        pval_attributes = [];
-                        pval_prim =
-                          Melange_ffi.External_ffi_types.inline_float_primitive
-                            s;
-                      };
+                      (pval_ffi
+                        ~pval_name
+                        ~pval_type:[%type: float]
+                        ~pval_loc:loc
+                        (Melange_ffi.External_ffi_types.inline_float_primitive s));
                 }
             | ( Some attr,
                 Pexp_construct
@@ -717,15 +708,11 @@ module Mapper = struct
                   str with
                   pstr_desc =
                     Pstr_primitive
-                      {
-                        pval_name;
-                        pval_type = [%type: bool];
-                        pval_loc = loc;
-                        pval_attributes = [];
-                        pval_prim =
-                          Melange_ffi.External_ffi_types.inline_bool_primitive
-                            (bool = "true");
-                      };
+                      (pval_ffi
+                        ~pval_name
+                        ~pval_type:[%type: bool]
+                        ~pval_loc:loc
+                        (Melange_ffi.External_ffi_types.inline_bool_primitive (bool = "true")));
                 }
             | _ ->
                 {
@@ -869,10 +856,11 @@ module Mapper = struct
                           Psig_value
                             {
                               value_desc with
-                              pval_prim =
-                                Melange_ffi.External_ffi_types
-                                .inline_string_primitive s None;
-                              pval_attributes = [];
+                              pval_prim = Ast_external.pval_prim_default;
+                              pval_attributes = [
+                                Ast_attributes.mel_ffi
+                                  (Melange_ffi.External_ffi_types.inline_string_primitive s);
+                              ]
                             };
                       }
                   | Pexp_constant (Pconst_string (s, loc, Some dec)) -> (
@@ -907,10 +895,11 @@ module Mapper = struct
                               Psig_value
                                 {
                                   value_desc with
-                                  pval_prim =
-                                    Melange_ffi.External_ffi_types
-                                    .inline_string_primitive s dec;
-                                  pval_attributes = [];
+                                  pval_attributes = [
+                                    Ast_attributes.mel_ffi
+                                      (Melange_ffi.External_ffi_types.inline_string_primitive s ?op:dec)
+                                  ];
+                                  pval_prim = Ast_external.pval_prim_default;
                                 };
                           }
                       | _ -> sigi)
@@ -923,10 +912,11 @@ module Mapper = struct
                           Psig_value
                             {
                               value_desc with
-                              pval_prim =
-                                Melange_ffi.External_ffi_types
-                                .inline_int_primitive s;
-                              pval_attributes = [];
+                              pval_attributes = [
+                                Ast_attributes.mel_ffi
+                                  (Melange_ffi.External_ffi_types.inline_int_primitive s)
+                              ];
+                              pval_prim = Ast_external.pval_prim_default;
                             };
                       }
                   | Pexp_constant (Pconst_integer (s, Some 'L')) ->
@@ -938,10 +928,11 @@ module Mapper = struct
                           Psig_value
                             {
                               value_desc with
-                              pval_prim =
-                                Melange_ffi.External_ffi_types
-                                .inline_int64_primitive s;
-                              pval_attributes = [];
+                              pval_attributes = [
+                                Ast_attributes.mel_ffi
+                                  (Melange_ffi.External_ffi_types.inline_int64_primitive s)
+                              ];
+                              pval_prim = Ast_external.pval_prim_default;
                             };
                       }
                   | Pexp_constant (Pconst_float (s, None)) ->
@@ -952,10 +943,11 @@ module Mapper = struct
                           Psig_value
                             {
                               value_desc with
-                              pval_prim =
-                                Melange_ffi.External_ffi_types
-                                .inline_float_primitive s;
-                              pval_attributes = [];
+                              pval_attributes = [
+                                  Ast_attributes.mel_ffi
+                                    (Melange_ffi.External_ffi_types.inline_float_primitive s)
+                              ];
+                              pval_prim = Ast_external.pval_prim_default;
                             };
                       }
                   | Pexp_construct
@@ -967,10 +959,11 @@ module Mapper = struct
                           Psig_value
                             {
                               value_desc with
-                              pval_prim =
-                                Melange_ffi.External_ffi_types
-                                .inline_bool_primitive (txt = "true");
-                              pval_attributes = [];
+                              pval_attributes = [
+                                Ast_attributes.mel_ffi
+                                  (Melange_ffi.External_ffi_types.inline_bool_primitive
+                                    (txt = "true"))];
+                              pval_prim = Ast_external.pval_prim_default;
                             };
                       }
                   | _ ->

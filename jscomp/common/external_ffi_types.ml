@@ -23,7 +23,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Import
-open External_ffi_types0
 
 module Literals = struct
   let setter_suffix = "#="
@@ -196,17 +195,26 @@ let check_ffi ~loc ffi : bool =
 
 let to_string (t : t) = Marshal.to_string t []
 
-let () =
-  Oprint.map_primitive_name := Oprint_mel_primitive_name.map_primitive_name
-
 external from_bytes_unsafe : bytes -> int -> 'a = "caml_input_value_from_bytes"
 
 (* TODO: better error message when version mismatch *)
-let from_string s : t =
-  if is_mel_primitive s then from_bytes_unsafe (Bytes.unsafe_of_string s) 0
-  else Ffi_normal
+let from_string =
+  (* \132\149\166\190
+   0x84 95 A6 BE Intext_magic_small intext.h
+   https://github.com/ocaml/merlin/commit/b094c937c3a360eb61054f7652081b88e4f3612f
+*)
+  let is_mel_primitive s =
+    (* TODO(anmonteiro): check this, header_size changed to 16 in 5.1 *)
+    String.length s >= 20
+    (* Marshal.header_size*) && String.unsafe_get s 0 = '\132'
+    && String.unsafe_get s 1 = '\149'
+  in
+  fun s : t ->
+    match is_mel_primitive s with
+    | true -> from_bytes_unsafe (Bytes.unsafe_of_string s) 0
+    | false -> Ffi_normal
 
-let inline_string_primitive (s : string) (op : string option) : string list =
+let inline_string_primitive ?op s =
   let lam : Lam_constant.t =
     let unicode =
       match op with
@@ -215,7 +223,7 @@ let inline_string_primitive (s : string) (op : string option) : string list =
     in
     Const_string { s; unicode }
   in
-  [ ""; to_string (Ffi_inline_const lam) ]
+  Ffi_inline_const lam
 
 (* Let's only do it for string ATM
     for boolean, and ints, a good optimizer should
@@ -223,21 +231,18 @@ let inline_string_primitive (s : string) (op : string option) : string list =
     But it may not work after layers of indirection
     e.g, submodule
 *)
-let inline_bool_primitive b : string list =
-  let lam : Lam_constant.t =
-    if b then Lam_constant.Const_js_true else Lam_constant.Const_js_false
-  in
-  [ ""; to_string (Ffi_inline_const lam) ]
+let inline_bool_primitive b =
+  Ffi_inline_const
+    (match b with
+    | true -> Lam_constant.Const_js_true
+    | false -> Lam_constant.Const_js_false)
 
-(* FIXME: check overflow ?*)
-let inline_int_primitive (i : int32) : string list =
-  [ ""; to_string (Ffi_inline_const (Const_int { i; comment = None })) ]
+let inline_int_primitive i =
+  (* FIXME: check overflow? *)
+  Ffi_inline_const (Const_int { i; comment = None })
 
-let inline_int64_primitive (i : int64) : string list =
-  [ ""; to_string (Ffi_inline_const (Const_int64 i)) ]
-
-let inline_float_primitive (i : string) : string list =
-  [ ""; to_string (Ffi_inline_const (Const_float i)) ]
+let inline_int64_primitive i = Ffi_inline_const (Const_int64 i)
+let inline_float_primitive i = Ffi_inline_const (Const_float i)
 
 let ffi_mel =
   let rec ffi_mel_aux acc
@@ -256,8 +261,4 @@ let ffi_mel =
     if n < 0 then Ffi_mel (Params params, return, attr)
     else Ffi_mel (Param_number n, return, attr)
 
-let ffi_mel_as_prims params return attr =
-  [ ""; to_string (ffi_mel params return attr) ]
-
 let ffi_obj_create obj_params = Ffi_obj_create obj_params
-let ffi_obj_as_prims obj_params = [ ""; to_string (Ffi_obj_create obj_params) ]

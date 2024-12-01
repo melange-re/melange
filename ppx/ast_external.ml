@@ -24,6 +24,8 @@
 
 open Import
 
+let pval_prim_default = [ ""; "" ]
+
 let single_string_payload_error ~loc =
   Ast_helper.Exp.constant
     (Pconst_string

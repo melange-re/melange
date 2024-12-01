@@ -361,6 +361,41 @@ let prims_to_be_encoded (attrs : string list) =
   | _ :: x :: _ when first_marshal_char x -> false
   | _ -> true
 
+let partition_by_mel_ffi_attribute attrs =
+  let st = ref None in
+  let _ffi, rest =
+    List.partition attrs ~f:(function
+      | {
+          Parsetree.attr_name = { txt = "mel.internal.ffi"; loc };
+          attr_payload;
+          _;
+        } -> (
+          match !st with
+          | Some _ ->
+              Location.raise_errorf ~loc
+                "Duplicate `[@mel.internal.ffi \"..\"]' annotation"
+          | None -> (
+              match attr_payload with
+              | PStr
+                  [
+                    {
+                      pstr_desc =
+                        Pstr_eval ({ pexp_desc = Pexp_constant const; _ }, _);
+                      _;
+                    };
+                  ] -> (
+                  match const with
+                  | Pconst_string (s, _, _) ->
+                      st := Some s;
+                      true
+                  | _ -> false)
+              | _ ->
+                  Location.raise_errorf ~loc
+                    "`[@mel.internal.ffi \"..\"]' annotation must be a string"))
+      | _ -> false)
+  in
+  (!st, rest)
+
 (**
 
    [@@inline]
@@ -371,18 +406,22 @@ let prims_to_be_encoded (attrs : string list) =
 
    They are not considered externals, they are part of the language
 *)
-
 let rs_externals attrs pval_prim =
-  match (attrs, pval_prim) with
-  | _, [] -> false
-  (* This is  val *)
-  | [], _ ->
-      (* No attributes found *)
-      prims_to_be_encoded pval_prim
-  | _, _ ->
-      Melange_ffi.External_ffi_attributes.has_mel_attributes
-        (List.map ~f:(fun { attr_name = { txt; _ }; _ } -> txt) attrs)
-      || prims_to_be_encoded pval_prim
+  match pval_prim with
+  | [] ->
+      (* This is  val *)
+      false
+  | _ :: _ -> (
+      let mel_ffi, attrs = partition_by_mel_ffi_attribute attrs in
+      match mel_ffi with
+      | Some _ -> false
+      | None -> (
+          match attrs with
+          | [] -> prims_to_be_encoded pval_prim
+          | _ :: _ ->
+              Melange_ffi.External_ffi_attributes.has_mel_attributes
+                (List.map ~f:(fun { attr_name = { txt; _ }; _ } -> txt) attrs)
+              || prims_to_be_encoded pval_prim))
 
 let iter_process_mel_int_as attrs =
   let st = ref None in
@@ -458,3 +497,18 @@ let ocaml_warning w =
    runtime *)
 let unboxable_type_in_prim_decl = ocaml_warning "-unboxable-type-in-prim-decl"
 let ignored_extra_argument = ocaml_warning "-ignored-extra-argument"
+
+let mel_ffi =
+ fun (t : Melange_ffi.External_ffi_types.t) ->
+  {
+    Parsetree.attr_name = { txt = "mel.internal.ffi"; loc = Location.none };
+    attr_loc = Location.none;
+    attr_payload =
+      PStr
+        [
+          Ast_helper.(
+            Str.eval
+              (Exp.constant
+                 (Const.string (Melange_ffi.External_ffi_types.to_string t))));
+        ];
+  }

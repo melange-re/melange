@@ -1184,13 +1184,14 @@ let handle_attributes_as_string (pval_loc : Location.t) (typ : core_type)
       } =
         From_attributes.parse ~loc:pval_loc fn_type attrs ~pval_name ~prim_name
       in
+
       {
         pval_type =
           Ast_helper.Typ.constr
             { txt = Ldot (Ast_literal.js_fn, arity); loc }
             [ pval_type ];
-        pval_prim = [ prim_name; External_ffi_types.to_string ffi ];
-        pval_attributes;
+        pval_prim = [ prim_name; prim_name ];
+        pval_attributes = Ast_attributes.mel_ffi ffi :: pval_attributes;
         dont_inline_cross_module;
       }
   | _ ->
@@ -1204,7 +1205,7 @@ let handle_attributes_as_string (pval_loc : Location.t) (typ : core_type)
       in
       {
         pval_type;
-        pval_prim = [ prim_name; External_ffi_types.to_string ffi ];
-        pval_attributes;
+        pval_prim = [ prim_name; prim_name ];
+        pval_attributes = Ast_attributes.mel_ffi ffi :: pval_attributes;
         dont_inline_cross_module;
       }

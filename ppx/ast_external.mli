@@ -24,6 +24,8 @@
 
 open Import
 
+val pval_prim_default : string list
+
 val handleExternalInSig :
   Ast_traverse.map -> value_description -> signature_item -> signature_item
 
