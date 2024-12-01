@@ -1,17 +1,35 @@
+Attempt to repro bug that appeared in https://github.com/melange-community/melange-json/pull/32/commits/c669c0790de9a3d80d8403d92fb60f11338362b2
+
+`inner` would be `melange-json` lib, `outer` would be the melange-json ppx and runtime
 
   $ . ./setup.sh
 
-  $ cat > json.ml <<\EOF
-  > module Decode = struct
-  >   type error = Json_error of string | Unexpected_variant of string
-  >   let error_to_string = function
-  >     | Json_error msg -> msg
-  >     | Unexpected_variant tag -> "unexpected variant: " ^ tag
-  >   
-  >   exception DecodeError of error
-  > end
+  $ mkdir inner outer
 
-  $ cat > ppx_deriving_json_runtime.ml <<\EOF
+  $ touch json.opam
+
+  $ cat > inner/json_decode.ml <<\EOF
+  > type error = Json_error of string | Unexpected_variant of string
+  > let error_to_string = function
+  >   | Json_error msg -> msg
+  >   | Unexpected_variant tag -> "unexpected variant: " ^ tag
+  > 
+  > exception DecodeError of error
+  > EOF
+  $ cat > inner/inner.ml <<\EOF
+  > module Decode = Json_decode
+  > EOF
+  $ cat > inner/inner.mli <<\EOF
+  > module Decode = Json_decode
+  > EOF
+  $ cat > inner/dune <<EOF
+  > (library
+  >  (name inner)
+  >  (public_name json.inner)
+  >  (modes melange))
+  > EOF
+
+  $ cat > outer/outer.ml <<\EOF
   > type t = Js.Json.t
   > 
   > let to_json t = t
@@ -34,11 +52,11 @@
   >     in
   >     raise (Of_string_error msg)
   > 
-  > type error = Json.Decode.error =
+  > type error = Inner.Decode.error =
   >   | Json_error of string
   >   | Unexpected_variant of string
   > 
-  > exception Of_json_error = Json.Decode.DecodeError
+  > exception Of_json_error = Inner.Decode.DecodeError
   > 
   > let of_json_error msg = raise (Of_json_error (Json_error msg))
   > 
@@ -167,9 +185,34 @@
   >             `Assoc (Array.to_list xs)
   >       | typ -> failwith ("unknown JSON value type: " ^ typ)
   > end
+  > EOF
+
+  $ cat > outer/dummy_ppx.ml <<EOF
+  > let () =
+  >   Ppxlib.Driver.register_transformation
+  >     "dummy2"
+  >     ~impl:(fun s -> s)
+  > EOF
+
+  $ cat > outer/dune <<EOF
+  > (library
+  >  (name outer)
+  >  (public_name json.outer)
+  >  (libraries json.inner)
+  >  (modules outer)
+  >  (wrapped false)
+  >  (modes melange))
+  > (library
+  >  (name dummy_ppx)
+  >  (public_name json.ppx)
+  >  (kind ppx_rewriter)
+  >  (modules dummy_ppx)
+  >  (libraries ppxlib)
+  >  (ppx_runtime_libraries json.outer))
+  > EOF
 
   $ cat > x.ml <<\EOF
-  > type t = [ `A  | `B ][@@deriving json]
+  > type t = [ `A  | `B ]
   > include
   >   struct
   >     let _ = fun (_ : t) -> ()
@@ -190,7 +233,7 @@
   >                   then
   >                     (if Stdlib.(<>) len 1
   >                      then
-  >                        Ppx_deriving_json_runtime.of_json_error
+  >                        Outer.of_json_error
   >                          "expected a JSON array of length 1";
   >                      `A)
   >                   else
@@ -198,22 +241,22 @@
   >                     then
   >                       (if Stdlib.(<>) len 1
   >                        then
-  >                          Ppx_deriving_json_runtime.of_json_error
+  >                          Outer.of_json_error
   >                            "expected a JSON array of length 1";
   >                        `B)
   >                     else
   >                       raise
-  >                         (Ppx_deriving_json_runtime.Of_json_error
-  >                            (Ppx_deriving_json_runtime.Unexpected_variant
+  >                         (Outer.Of_json_error
+  >                            (Outer.Unexpected_variant
   >                               "unexpected variant")))
   >                else
-  >                  Ppx_deriving_json_runtime.of_json_error
+  >                  Outer.of_json_error
   >                    "expected a non empty JSON array with element being a string")
   >             else
-  >               Ppx_deriving_json_runtime.of_json_error
+  >               Outer.of_json_error
   >                 "expected a non empty JSON array")
   >          else
-  >            Ppx_deriving_json_runtime.of_json_error
+  >            Outer.of_json_error
   >              "expected a non empty JSON array" : Js.Json.t -> t)
   >     let _ = of_json
   >     [@@@ocaml.warning "-39-11-27"]
@@ -225,7 +268,7 @@
   >                                                                     Js.Json.t)
   >     let _ = to_json
   >   end[@@ocaml.doc "@inline"][@@merlin.hide ]
-  > type u = t[@@deriving json]
+  > type u = t
   > include
   >   struct
   >     let _ = fun (_ : u) -> ()
@@ -236,48 +279,65 @@
   >     let rec u_to_json = (fun x -> to_json x : u -> Js.Json.t)
   >     let _ = u_to_json
   >   end[@@ocaml.doc "@inline"][@@merlin.hide ]
-  > let () = print_endline (Ppx_deriving_json_runtime.to_string (u_to_json `A))
+  > let () = print_endline (Outer.to_string (u_to_json `A))
   > let () =
-  >   assert ((u_of_json (Ppx_deriving_json_runtime.of_string {|["B"]|})) = `B)
+  >   assert ((u_of_json (Outer.of_string {|["B"]|})) = `B)
   > EOF
 
-  $ melc -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -37-69 -g -bin-annot -bin-annot-occurrences --bs-stop-after-cmj --bs-package-output . --bs-module-name json -no-alias-deps -opaque -o json.cmj -c -impl json.ml
-
-  $ melc -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -37-69 -g -bin-annot -bin-annot-occurrences --bs-stop-after-cmj -I . --bs-package-output . --bs-module-name ppx_deriving_json_runtime -no-alias-deps -opaque -o ppx_deriving_json_runtime.cmj -c -impl ppx_deriving_json_runtime.ml
-
-  $ melc -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -37-69 -g -bin-annot -bin-annot-occurrences -open Ppx_deriving_json_runtime.Primitives -I . x.ml
+  $ cat > dune-project <<EOF
+  > (lang dune 3.11)
+  > (using melange 0.1)
+  > (implicit_transitive_deps false)
+  > EOF
+  $ cat > dune <<EOF
+  > (library
+  >  (name lib)
+  >  (modules x)
+  >  (flags :standard -w -37-69 -open Outer.Primitives)
+  >  (wrapped false)
+  >  (preprocess (pps json.ppx))
+  >  (modes melange))
+  > (melange.emit
+  >  (alias melange)
+  >  (target out)
+  >  (modules)
+  >  (libraries lib)
+  >  (module_systems commonjs))
+  > EOF
+  $ dune build
+  $ cat _build/default/out/x.js
   // Generated by Melange
   'use strict';
   
   const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
-  const Ppx_deriving_json_runtime = require("ppx_deriving_json_runtime.js");
+  const Outer = require("json.outer/outer.js");
   
   function of_json(x) {
     if (!Array.isArray(x)) {
-      return Ppx_deriving_json_runtime.of_json_error("expected a non empty JSON array");
+      return Outer.of_json_error("expected a non empty JSON array");
     }
     const len = x.length;
     if (len <= 0) {
-      return Ppx_deriving_json_runtime.of_json_error("expected a non empty JSON array");
+      return Outer.of_json_error("expected a non empty JSON array");
     }
     const tag = x[0];
     if (typeof tag !== "string") {
-      return Ppx_deriving_json_runtime.of_json_error("expected a non empty JSON array with element being a string");
+      return Outer.of_json_error("expected a non empty JSON array with element being a string");
     }
     if (tag === "A") {
       if (len !== 1) {
-        Ppx_deriving_json_runtime.of_json_error("expected a JSON array of length 1");
+        Outer.of_json_error("expected a JSON array of length 1");
       }
       return "A";
     }
     if (tag === "B") {
       if (len !== 1) {
-        Ppx_deriving_json_runtime.of_json_error("expected a JSON array of length 1");
+        Outer.of_json_error("expected a JSON array of length 1");
       }
       return "B";
     }
-    throw new Caml_js_exceptions.MelangeError(Ppx_deriving_json_runtime.Of_json_error, {
-              MEL_EXN_ID: Ppx_deriving_json_runtime.Of_json_error,
+    throw new Caml_js_exceptions.MelangeError(Outer.Of_json_error, {
+              MEL_EXN_ID: Outer.Of_json_error,
               _1: {
                 TAG: /* Unexpected_variant */1,
                 _0: "unexpected variant"
@@ -297,9 +357,9 @@
   
   const u_to_json = to_json;
   
-  console.log(Ppx_deriving_json_runtime.to_string(["A"]));
+  console.log(Outer.to_string(["A"]));
   
-  if (of_json(Ppx_deriving_json_runtime.of_string("[\"B\"]")) !== "B") {
+  if (of_json(Outer.of_string("[\"B\"]")) !== "B") {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
               _1: [
