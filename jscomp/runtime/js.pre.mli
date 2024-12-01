@@ -232,11 +232,11 @@ module WeakMap = Js_weakmap
 module Iterator = Js_iterator
 (** Bindings to functions on [Iterator] *)
 
+module FormData = Js_formData
+(** Bindings to FormData *)
+
 (**/**)
 
 module OO = Js_OO
 
 (**/**)
-
-module FormData = Js_formData
-(** Bindings to FormData *)
