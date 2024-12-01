@@ -35,6 +35,9 @@ Unreleased
     ([#915](https://github.com/melange-re/melange/pull/915)).
   - The new recommendation is to annotate `%mel.raw` functions or disable
     warning 20 at the project level.
+- ppx,core: propagate internal FFI information via attributes instead of adding
+  marshalled data in the native primitive name
+  ([#1222](https://github.com/melange-re/melange/pull/1222))
 
 4.0.1 2024-06-07
 ---------------
