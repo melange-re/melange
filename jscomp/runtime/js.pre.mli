@@ -252,6 +252,3 @@ module FormData = Js_formData
 module OO = Js_OO
 
 (**/**)
-
-module FormData = Js_formData
-(** Bindings to FormData *)
