@@ -157,3 +157,5 @@ module Iterator = Js_iterator
 module FormData = Js_formData
 module OO = Js_OO
 module FormData = Js_formData
+module File = Js_file
+module Blob = Js_blob

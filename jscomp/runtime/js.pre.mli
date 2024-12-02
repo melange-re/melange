@@ -244,6 +244,12 @@ module WeakMap = Js_weakmap
 module Iterator = Js_iterator
 (** Bindings to functions on [Iterator] *)
 
+module Blob = Js_blob
+(** Bindings to Blob *)
+
+module File = Js_file
+(** Bindings to File *)
+
 module FormData = Js_formData
 (** Bindings to FormData *)
 
