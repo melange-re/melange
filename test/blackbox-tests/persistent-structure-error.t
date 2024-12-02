@@ -19,12 +19,6 @@ The issue seems to happen due to a combination of two things:
   > EOF
 
   $ cat > outer/outer.ml <<\EOF
-  > type t = Js.Json.t
-  > 
-  > let to_json t = t
-  > let of_json t = t
-  > let to_string t = Js.Json.stringify t
-  > 
   > exception Of_string_error of string
   > 
   > type error = Inner.error =
@@ -32,12 +26,6 @@ The issue seems to happen due to a combination of two things:
   >   | Unexpected_variant of string
   > 
   > exception Of_json_error = Inner.DecodeError
-  > 
-  > let of_json_error msg = raise (Of_json_error (Json_error msg))
-  > 
-  > let unexpected_variant_error tag =
-  >   raise (Of_json_error (Unexpected_variant tag))
-  > 
   > EOF
 
   $ cat > outer/dummy_ppx.ml <<EOF
