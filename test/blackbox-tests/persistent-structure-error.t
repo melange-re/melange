@@ -8,19 +8,9 @@ The issue seems to happen due to a combination of two things:
 
   $ mkdir inner outer
 
-  $ cat > inner/json_decode.ml <<\EOF
-  > type error = Json_error of string | Unexpected_variant of string
-  > let error_to_string = function
-  >   | Json_error msg -> msg
-  >   | Unexpected_variant tag -> "unexpected variant: " ^ tag
-  > 
-  > exception DecodeError of error
-  > EOF
   $ cat > inner/inner.ml <<\EOF
-  > module Decode = Json_decode
-  > EOF
-  $ cat > inner/inner.mli <<\EOF
-  > module Decode = Json_decode
+  > type error = Json_error of string | Unexpected_variant of string
+  > exception DecodeError of error
   > EOF
   $ cat > inner/dune <<EOF
   > (library
@@ -37,11 +27,11 @@ The issue seems to happen due to a combination of two things:
   > 
   > exception Of_string_error of string
   > 
-  > type error = Inner.Decode.error =
+  > type error = Inner.error =
   >   | Json_error of string
   >   | Unexpected_variant of string
   > 
-  > exception Of_json_error = Inner.Decode.DecodeError
+  > exception Of_json_error = Inner.DecodeError
   > 
   > let of_json_error msg = raise (Of_json_error (Json_error msg))
   > 
