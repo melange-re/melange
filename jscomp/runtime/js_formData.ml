@@ -30,7 +30,11 @@
 type t
 type file
 type blob
+
 type entryValue
+(** The values returned by the `get{,All}` and iteration functions is either a
+    string or a Blob. Melange uses an abstract type and defers to users of the
+    API to handle it according to their application needs. *)
 
 external make : unit -> t = "FormData" [@@mel.new]
 
@@ -94,3 +98,5 @@ external values : entryValue Js.iterator = "values"
 
 external entries : (string * entryValue) Js.iterator = "entries"
 [@@mel.send.pipe: t]
+(** [entries t] returns an iterator which iterates through all key/value pairs
+    contained in the FormData. *)
