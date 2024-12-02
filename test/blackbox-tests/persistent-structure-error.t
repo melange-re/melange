@@ -8,8 +8,6 @@ The issue seems to happen due to a combination of two things:
 
   $ mkdir inner outer
 
-  $ touch json.opam
-
   $ cat > inner/json_decode.ml <<\EOF
   > type error = Json_error of string | Unexpected_variant of string
   > let error_to_string = function
@@ -27,11 +25,10 @@ The issue seems to happen due to a combination of two things:
   $ cat > inner/dune <<EOF
   > (library
   >  (name inner)
-  >  (public_name json.inner)
   >  (modes melange))
   > EOF
 
-  $ cat > outer/ppx_deriving_json_runtime.ml <<\EOF
+  $ cat > outer/outer.ml <<\EOF
   > type t = Js.Json.t
   > 
   > let to_json t = t
@@ -62,19 +59,17 @@ The issue seems to happen due to a combination of two things:
 
   $ cat > outer/dune <<EOF
   > (library
-  >  (name ppx_deriving_json_runtime)
-  >  (public_name json.outer)
-  >  (libraries json.inner)
-  >  (modules ppx_deriving_json_runtime)
+  >  (name outer)
+  >  (libraries inner)
+  >  (modules outer)
   >  (wrapped false)
   >  (modes melange))
   > (library
   >  (name dummy_ppx)
-  >  (public_name json.ppx)
   >  (kind ppx_rewriter)
   >  (modules dummy_ppx)
   >  (libraries ppxlib)
-  >  (ppx_runtime_libraries json.outer))
+  >  (ppx_runtime_libraries outer))
   > EOF
 
   $ cat > dune-project <<\EOF
@@ -88,7 +83,7 @@ The issue seems to happen due to a combination of two things:
   >  (modules main)
   >  (flags :standard -w -37-69)
   >  (wrapped false)
-  >  (preprocess (pps json.ppx))
+  >  (preprocess (pps dummy_ppx))
   >  (modes melange))
   > (melange.emit
   >  (alias melange)
@@ -102,11 +97,11 @@ The issue seems to happen due to a combination of two things:
   >   (fun x ->
   >     match x with
   >     | e -> e
-  >     | exception Ppx_deriving_json_runtime.Of_json_error
-  >         (Ppx_deriving_json_runtime.Unexpected_variant _) ->
+  >     | exception Outer.Of_json_error
+  >         (Outer.Unexpected_variant _) ->
   >          raise
-  >            (Ppx_deriving_json_runtime.Of_json_error
-  >               (Ppx_deriving_json_runtime.Unexpected_variant
+  >            (Outer.Of_json_error
+  >               (Outer.Unexpected_variant
   >                  "unexpected variant")))
   > EOF
   $ dune build @melange
