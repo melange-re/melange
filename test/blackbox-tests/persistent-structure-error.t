@@ -1,7 +1,7 @@
 Repro a bug that surfaced in https://github.com/melange-community/melange-json/pull/32/commits/c669c0790de9a3d80d8403d92fb60f11338362b2.
 The `inner` lib represents `melange-json` lib, `outer` represents `melange-json.ppx` and the runtime.
 The issue seems to happen due to a combination of two things:
-- `outer` depends on `inner` but this is not reflected on the `ppx_runtime_libraries` 
+- `outer` depends on `inner` but the main library `lib` only depends on `outer`
 - Usage of `(implicit_transitive_deps false)`, using `true` makes the issue go away
 
   $ . ./setup.sh
@@ -19,20 +19,11 @@ The issue seems to happen due to a combination of two things:
   > EOF
 
   $ cat > outer/outer.ml <<\EOF
-  > exception Of_string_error of string
-  > 
   > type error = Inner.error =
   >   | Json_error of string
   >   | Unexpected_variant of string
   > 
   > exception Of_json_error = Inner.DecodeError
-  > EOF
-
-  $ cat > outer/dummy_ppx.ml <<EOF
-  > let () =
-  >   Ppxlib.Driver.register_transformation
-  >     "dummy"
-  >     ~impl:(fun s -> s)
   > EOF
 
   $ cat > outer/dune <<EOF
@@ -42,12 +33,6 @@ The issue seems to happen due to a combination of two things:
   >  (modules outer)
   >  (wrapped false)
   >  (modes melange))
-  > (library
-  >  (name dummy_ppx)
-  >  (kind ppx_rewriter)
-  >  (modules dummy_ppx)
-  >  (libraries ppxlib)
-  >  (ppx_runtime_libraries outer))
   > EOF
 
   $ cat > dune-project <<\EOF
@@ -59,16 +44,14 @@ The issue seems to happen due to a combination of two things:
   > (library
   >  (name lib)
   >  (modules main)
-  >  (flags :standard -w -37-69)
   >  (wrapped false)
-  >  (preprocess (pps dummy_ppx))
+  >  (libraries outer)
   >  (modes melange))
   > (melange.emit
   >  (alias melange)
   >  (target out)
   >  (modules)
-  >  (libraries lib)
-  >  (module_systems commonjs))
+  >  (libraries lib))
   > EOF
   $ cat > main.ml <<\EOF
   > let u_of_json =
