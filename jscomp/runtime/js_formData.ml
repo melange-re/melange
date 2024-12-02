@@ -41,17 +41,24 @@ external make : unit -> t = "FormData" [@@mel.new]
 external append :
   name:string ->
   value:
-    ([ `String of string
-     | `Blob of blob
-     | `File of file
-     | `Object of < .. > Js.t
-     | `Dict of _ Js.dict ]
+    ([ `String of string | `Object of < .. > Js.t | `Dict of _ Js.dict ]
     [@mel.unwrap]) ->
   ?filename:string ->
   unit = "append"
 [@@mel.send.pipe: t]
 (** [append t ~name ~value] appends a new value onto an existing key inside a
     FormData object, or adds the key if it does not already exist. *)
+
+external appendBlob :
+  name:string ->
+  value:([ `Blob of blob | `File of file ][@mel.unwrap]) ->
+  ?filename:string ->
+  unit = "append"
+[@@mel.send.pipe: t]
+(** [appendBlob t ~name ~value] appends a new value onto an existing key inside
+    a FormData object, or adds the key if it does not already exist. This
+    method differs from [append] in that instances in the Blob hierarchy can
+    pass a third filename argument. *)
 
 external delete : name:string -> unit = "delete"
 [@@mel.send.pipe: t]
@@ -70,17 +77,23 @@ external getAll : name:string -> entryValue array = "getAll"
 
 external set :
   name:string ->
-  ([ `String of string
-   | `Blob of blob
-   | `File of file
-   | `Object of < .. > Js.t
-   | `Dict of _ Js.dict ]
+  ([ `String of string | `Object of < .. > Js.t | `Dict of _ Js.dict ]
   [@mel.unwrap]) ->
-  ?filename:string ->
   unit = "set"
 [@@mel.send.pipe: t]
 (** [set t ~name ~value] sets a new value for an existing key inside a FormData
     object, or adds the key/value if it does not already exist. *)
+
+external setBlob :
+  name:string ->
+  ([ `Blob of blob | `File of file ][@mel.unwrap]) ->
+  ?filename:string ->
+  unit = "set"
+[@@mel.send.pipe: t]
+(** [setBlob t ~name ~value ?filename] sets a new value for an existing key
+    inside a FormData object, or adds the key/value if it does not already
+    exist. This method differs from [append] in that instances in the Blob
+    hierarchy can pass a third filename argument. *)
 
 external has : name:string -> bool = "has"
 [@@mel.send.pipe: t]
