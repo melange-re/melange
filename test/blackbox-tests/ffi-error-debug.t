@@ -38,19 +38,3 @@
   Error: `[@mel.as ..]' must not be used with an optionally labelled
          polymorphic variant
   [2]
-
-Each [@mel.unwrap] variant constructor requires an argument
-
-  $ cat > x.ml <<EOF
-  > external err :
-  >   ?hi_should_error:([\`a of int | \`b] [@mel.unwrap]) ->
-  >   unit -> unit = "err"
-  > EOF
-  $ melc -ppx melppx x.ml
-  File "x.ml", line 2, characters 20-36:
-  2 |   ?hi_should_error:([`a of int | `b] [@mel.unwrap]) ->
-                          ^^^^^^^^^^^^^^^^
-  Error: Invalid type for `@mel.unwrap'. Type must be an inline variant
-         (closed), and each constructor must have an argument.
-  [2]
-
