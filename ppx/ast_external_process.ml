@@ -530,7 +530,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                           arg_types,
                           (* ignored in [arg_types], reserved in [result_types] *)
                           result_types )
-                    | Nothing | Unwrap ->
+                    | Nothing | Unwrap _ ->
                         let s = Melange_ffi.Lam_methname.translate name in
                         ( {
                             arg_label = External_arg_spec.Obj_label.obj s;
@@ -578,7 +578,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                         ( External_arg_spec.empty_kind obj_arg_type,
                           param_type :: arg_types,
                           result_types )
-                    | Nothing | Unwrap ->
+                    | Nothing | Unwrap _ ->
                         let s = Melange_ffi.Lam_methname.translate name in
                         (* XXX(anmonteiro): it's unsafe to just read the type
                              of the labelled argument declaration, since it
