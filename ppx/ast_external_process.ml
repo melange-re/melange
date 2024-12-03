@@ -28,17 +28,20 @@ module External_ffi_types = Melange_ffi.External_ffi_types
 
 (* record pattern match complete checker *)
 
-let rec variant_can_unwrap_aux (row_fields : row_field list) : bool =
-  match row_fields with
-  | [] -> true
-  | { prf_desc = Rtag (_, false, [ _ ]); _ } :: rest ->
-      variant_can_unwrap_aux rest
-  | _ :: _ -> false
-
-let variant_unwrap (row_fields : row_field list) : bool =
-  match row_fields with
-  | [] -> false (* impossible syntax *)
-  | xs -> variant_can_unwrap_aux xs
+let variant_unwrap =
+  let rec variant_can_unwrap_aux (row_fields : row_field list) : bool =
+    match row_fields with
+    | [] -> true
+    | { prf_desc = Rtag (_, true, []); _ } :: rest ->
+        variant_can_unwrap_aux rest
+    | { prf_desc = Rtag (_, false, [ _ ]); _ } :: rest ->
+        variant_can_unwrap_aux rest
+    | _ :: _ -> false
+  in
+  fun (row_fields : row_field list) : bool ->
+    match row_fields with
+    | [] -> false (* impossible syntax *)
+    | xs -> variant_can_unwrap_aux xs
 
 (*
   TODO: [nolabel] is only used once turn Nothing into Unit, refactor later
