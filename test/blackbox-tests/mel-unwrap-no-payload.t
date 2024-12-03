@@ -29,3 +29,12 @@ Test `@mel.unwrap` + polyvariants with no payload
   someFnCall("bar");
   
   /*  Not a pure module */
+
+  $ cat > x.ml <<EOF
+  > external foo : ([ \`foo | \`int of int [@mel.as "bar"]][@mel.unwrap]) -> unit = "someFnCall"
+  > let () = foo (\`int 42)
+  > EOF
+  $ melc -ppx melppx x.ml
+  File "x.ml", line 1:
+  Error: `[@mel.as ..]' can only be used with `[@mel.unwrap]' variants without a payload.
+  [2]
