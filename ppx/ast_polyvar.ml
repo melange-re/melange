@@ -43,7 +43,7 @@ let map_row_fields_into_ints ptyp_loc (row_fields : row_field list) =
     List.fold_left
       ~f:(fun (i, acc) rtag ->
         match rtag.prf_desc with
-        | Rtag ({ txt; _ }, true, []) ->
+        | Rtag ({ txt; _ }, _, _) ->
             let i =
               match
                 Ast_attributes.iter_process_mel_int_as rtag.prf_attributes
@@ -66,7 +66,7 @@ let map_row_fields_into_strings ptyp_loc (row_fields : row_field list) :
     List.fold_right
       ~f:(fun tag (nullary, acc) ->
         match (nullary, tag.prf_desc) with
-        | (`Nothing | `Null), Rtag ({ txt; _ }, true, []) ->
+        | _, Rtag ({ txt; _ }, true, []) ->
             let name =
               match
                 Ast_attributes.iter_process_mel_string_as tag.prf_attributes
@@ -88,7 +88,7 @@ let map_row_fields_into_strings ptyp_loc (row_fields : row_field list) :
               | None -> txt
             in
             (`NonNull, (txt, name) :: acc)
-        | _ -> Error.err ~loc:ptyp_loc Invalid_mel_string_type)
+        | _, _x -> Error.err ~loc:ptyp_loc Invalid_mel_string_type)
       row_fields ~init:(`Nothing, [])
   in
   match case with

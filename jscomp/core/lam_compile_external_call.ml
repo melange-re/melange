@@ -133,7 +133,7 @@ let rec ocaml_to_js_eff ~(arg_label : Melange_ffi.External_arg_spec.Arg_label.t)
       (Splice1 (Js_of_lam_variant.eval_as_int arg dispatches), [])
   | Unwrap polyvar -> (
       match (polyvar, raw_arg.expression_desc) with
-      | (Poly_var_string _ | Poly_var _), (Str _ | Unicode _) ->
+      | (Poly_var_string _ | Poly_var _ | Int _), (Str _ | Unicode _) ->
           ocaml_to_js_eff ~arg_label ~arg_type:polyvar raw_arg
       | Nothing, (Str _ | Unicode _ | Caml_block _) ->
           let single_arg =
@@ -152,7 +152,7 @@ let rec ocaml_to_js_eff ~(arg_label : Melange_ffi.External_arg_spec.Arg_label.t)
             | _ -> Js_of_lam_variant.eval_as_unwrap raw_arg
           in
           (Splice1 single_arg, [])
-      | (Poly_var_string _ | Poly_var _), Caml_block _ ->
+      | (Poly_var_string _ | Poly_var _ | Int _), Caml_block _ ->
           Location.raise_errorf ?loc:raw_arg.loc
             "`[@mel.as ..]' can only be used with `[@mel.unwrap]' variants \
              without a payload."
