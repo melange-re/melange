@@ -30,5 +30,11 @@ val map_row_fields_into_ints :
   Location.t -> row_field list -> (string * int) list
 (** side effect: it will mark used attributes `mel.as`  *)
 
+val map_row_fields_into_ints' :
+  Location.t -> row_field list -> (string * int) list
+
 val map_row_fields_into_strings :
+  Location.t -> row_field list -> Melange_ffi.External_arg_spec.attr
+
+val map_row_fields_into_strings' :
   Location.t -> row_field list -> Melange_ffi.External_arg_spec.attr

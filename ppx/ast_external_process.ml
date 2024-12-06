@@ -100,10 +100,12 @@ let spec_of_ptyp ~(nolabel : bool) (ptyp : core_type) : External_arg_spec.attr =
             match mel_as_type with
             | `Nothing -> External_arg_spec.Nothing
             | `String ->
-                Ast_polyvar.map_row_fields_into_strings ptyp.ptyp_loc row_fields
+                Ast_polyvar.map_row_fields_into_strings' ptyp.ptyp_loc
+                  row_fields
             | `Int ->
                 Int
-                  (Ast_polyvar.map_row_fields_into_ints ptyp.ptyp_loc row_fields)
+                  (Ast_polyvar.map_row_fields_into_ints' ptyp.ptyp_loc
+                     row_fields)
           in
           Unwrap x
           (* Unwrap attribute can only be attached to things like `[a of a0 | b of b0]` *)
