@@ -27,7 +27,7 @@
 type symbol
 (**Js symbol type only available in ES6 *)
 
-type bigint_val = Js.bigint
+type bigint_val
 (** Js bigint type only available in ES2020 *)
 
 type obj_val
