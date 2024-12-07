@@ -135,7 +135,7 @@ let rec ocaml_to_js_eff ~(arg_label : Melange_ffi.External_arg_spec.Arg_label.t)
       match (polyvar, raw_arg.expression_desc) with
       | (Poly_var_string _ | Poly_var _ | Int _), (Str _ | Unicode _) ->
           ocaml_to_js_eff ~arg_label ~arg_type:polyvar raw_arg
-      | Nothing, (Str _ | Unicode _ | Caml_block _) ->
+      | Nothing, _ ->
           let single_arg =
             match arg_label with
             | Arg_optional ->
