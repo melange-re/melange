@@ -27,13 +27,13 @@ function eq2(x, param) {
   return Caml_obj.caml_equal(x.contents, y);
 }
 
-eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 15, characters 7-14", false, eq({
+eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 14, characters 7-14", false, eq({
           contents: 1
         }, {
           contents: 2
         }));
 
-eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 16, characters 7-14", true, eq({
+eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 15, characters 7-14", true, eq({
           contents: 2
         }, {
           contents: 2
@@ -53,7 +53,7 @@ const h = u.hi({
       contents: 2
     });
 
-eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 26, characters 7-14", h, false);
+eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 25, characters 7-14", h, false);
 
 function ut3(param, param$1, param$2) {
   const x0 = param.contents;
@@ -159,7 +159,7 @@ function nested1(param, param$1, param$2) {
   };
 }
 
-eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 56, characters 9-16", ut3({
+eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 55, characters 9-16", ut3({
           contents: 1
         }, {
           contents: 2
@@ -171,7 +171,7 @@ eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 56, characters 9-16", ut
       3
     ]);
 
-eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 57, characters 7-14", t3({
+eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 56, characters 7-14", t3({
           contents: 1
         }, {
           contents: 2
@@ -183,7 +183,7 @@ eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 57, characters 7-14", t3
       3
     ]);
 
-eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 59, characters 7-14", ut5({
+eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 58, characters 7-14", ut5({
           contents: 1
         }, {
           contents: 2
