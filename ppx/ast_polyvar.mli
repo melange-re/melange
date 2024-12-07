@@ -24,9 +24,6 @@
 
 open Import
 
-val map_constructor_declarations_into_ints :
-  constructor_declaration list -> [ `Offset of int | `New of int list ]
-
 val is_enum_polyvar : type_declaration -> row_field list option
 
 val map_row_fields_into_ints :

@@ -24,40 +24,19 @@
 
 open Import
 
-(** Note this is okay with enums, for variants,
-    the underlying representation may change due to
-    unbox *)
-let map_constructor_declarations_into_ints
-    (row_fields : constructor_declaration list) =
-  let mark = ref `nothing in
-  let _, acc =
-    List.fold_left
-      ~f:(fun (i, acc) rtag ->
-        let attrs = rtag.pcd_attributes in
-        match Ast_attributes.iter_process_mel_int_as attrs with
-        | Some j ->
-            if j <> i then if i = 0 then mark := `offset j else mark := `complex;
-            (j + 1, j :: acc)
-        | None -> (i + 1, i :: acc))
-      ~init:(0, []) row_fields
+let is_enum_polyvar =
+  let is_enum row_fields =
+    List.for_all
+      ~f:(fun (x : row_field) ->
+        match x.prf_desc with Rtag (_label, true, []) -> true | _ -> false)
+      row_fields
   in
-  match !mark with
-  | `nothing -> `Offset 0
-  | `offset j -> `Offset j
-  | `complex -> `New (List.rev acc)
-
-let is_enum row_fields =
-  List.for_all
-    ~f:(fun (x : row_field) ->
-      match x.prf_desc with Rtag (_label, true, []) -> true | _ -> false)
-    row_fields
-
-let is_enum_polyvar (ty : type_declaration) =
-  match ty.ptype_manifest with
-  | Some { ptyp_desc = Ptyp_variant (row_fields, Closed, None); _ }
-    when is_enum row_fields ->
-      Some row_fields
-  | _ -> None
+  fun (ty : type_declaration) ->
+    match ty.ptype_manifest with
+    | Some { ptyp_desc = Ptyp_variant (row_fields, Closed, None); _ }
+      when is_enum row_fields ->
+        Some row_fields
+    | _ -> None
 
 let map_row_fields_into_ints ptyp_loc (row_fields : row_field list) =
   let _, acc =
