@@ -92,7 +92,7 @@ external setBlob :
 [@@mel.send.pipe: t]
 (** [setBlob t ~name ~value ?filename] sets a new value for an existing key
     inside a FormData object, or adds the key/value if it does not already
-    exist. This method differs from [append] in that instances in the Blob
+    exist. This method differs from [set] in that instances in the Blob
     hierarchy can pass a third filename argument. *)
 
 external has : name:string -> bool = "has"
