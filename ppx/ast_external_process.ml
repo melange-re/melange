@@ -28,21 +28,54 @@ module External_ffi_types = Melange_ffi.External_ffi_types
 
 (* record pattern match complete checker *)
 
-let rec variant_can_unwrap_aux (row_fields : row_field list) : bool =
-  match row_fields with
-  | [] -> true
-  | { prf_desc = Rtag (_, false, [ _ ]); _ } :: rest ->
-      variant_can_unwrap_aux rest
-  | _ :: _ -> false
+let variant_unwrap =
+  let rec variant_can_unwrap_aux (row_fields : row_field list) : bool =
+    match row_fields with
+    | [] -> true
+    | { prf_desc = Rtag (_, true, []); _ } :: rest ->
+        variant_can_unwrap_aux rest
+    | { prf_desc = Rtag (_, false, [ _ ]); _ } :: rest ->
+        variant_can_unwrap_aux rest
+    | _ :: _ -> false
+  in
+  fun (row_fields : row_field list) : bool ->
+    match row_fields with
+    | [] -> false (* impossible syntax *)
+    | xs -> variant_can_unwrap_aux xs
 
-let variant_unwrap (row_fields : row_field list) : bool =
-  match row_fields with
-  | [] -> false (* impossible syntax *)
-  | xs -> variant_can_unwrap_aux xs
+let infer_mel_as ~loc row_fields ~allow_no_payload =
+  let mel_as_type =
+    (* No `@mel.string` / `@mel.int` present. Try to infer `@mel.as`, if
+       present, in polyvariants.
 
-(*
-  TODO: [nolabel] is only used once turn Nothing into Unit, refactor later
-*)
+       https://github.com/melange-re/melange/issues/578 *)
+    List.fold_left
+      ~f:(fun mel_as_type { prf_attributes; prf_loc; _ } ->
+        match List.filter ~f:Ast_attributes.is_mel_as prf_attributes with
+        | [] -> mel_as_type
+        | [ { attr_payload; attr_loc = loc; _ } ] -> (
+            match
+              ( mel_as_type,
+                Ast_payload.is_single_string attr_payload,
+                Ast_payload.is_single_int attr_payload )
+            with
+            | (`Nothing | `String), Some _, None -> `String
+            | (`Nothing | `Int), None, Some _ -> `Int
+            | (`Nothing | `String | `Int), None, None -> `Nothing
+            | `String, None, Some _ -> Error.err ~loc Expect_string_literal
+            | `Int, Some _, None -> Error.err ~loc Expect_int_literal
+            | _, Some _, Some _ -> assert false)
+        | _ :: _ -> Error.err ~loc:prf_loc Duplicated_mel_as)
+      ~init:`Nothing row_fields
+  in
+  match mel_as_type with
+  | `Nothing -> External_arg_spec.Nothing
+  | `String ->
+      Ast_polyvar.map_row_fields_into_strings row_fields ~loc ~allow_no_payload
+  | `Int ->
+      Ast_polyvar.map_row_fields_into_ints row_fields ~loc ~allow_no_payload
+
+(* TODO: [nolabel] is only used once turn Nothing into Unit, refactor later *)
 let spec_of_ptyp ~(nolabel : bool) (ptyp : core_type) : External_arg_spec.attr =
   let ptyp_desc = ptyp.ptyp_desc in
   match
@@ -52,22 +85,23 @@ let spec_of_ptyp ~(nolabel : bool) (ptyp : core_type) : External_arg_spec.attr =
   | `String -> (
       match ptyp_desc with
       | Ptyp_variant (row_fields, Closed, None) ->
-          Ast_polyvar.map_row_fields_into_strings ptyp.ptyp_loc row_fields
+          Ast_polyvar.map_row_fields_into_strings row_fields ~loc:ptyp.ptyp_loc
+            ~allow_no_payload:false
       | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_mel_string_type)
   | `Ignore -> Ignore
   | `Int -> (
       match ptyp_desc with
       | Ptyp_variant (row_fields, Closed, None) ->
-          let int_lists =
-            Ast_polyvar.map_row_fields_into_ints ptyp.ptyp_loc row_fields
-          in
-          Int int_lists
+          Ast_polyvar.map_row_fields_into_ints row_fields ~loc:ptyp.ptyp_loc
+            ~allow_no_payload:false
       | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_mel_int_type)
   | `Unwrap -> (
       match ptyp_desc with
       | Ptyp_variant (row_fields, Closed, _) when variant_unwrap row_fields ->
+          (* Unwrap attribute can only be attached to things like
+             `[a of a0 | b of b0]` *)
           Unwrap
-          (* Unwrap attribute can only be attached to things like `[a of a0 | b of b0]` *)
+            (infer_mel_as ~loc:ptyp.ptyp_loc row_fields ~allow_no_payload:true)
       | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_mel_unwrap_type)
   | `Uncurry opt_arity -> (
       let real_arity = Ast_core_type.get_uncurry_arity ptyp in
@@ -84,41 +118,8 @@ let spec_of_ptyp ~(nolabel : bool) (ptyp : core_type) : External_arg_spec.attr =
       match ptyp_desc with
       | Ptyp_constr ({ txt = Lident "unit"; _ }, []) ->
           if nolabel then Extern_unit else Nothing
-      | Ptyp_variant (row_fields, Closed, None) -> (
-          (* No `@mel.string` / `@mel.int` present. Try to infer `@mel.as`, if
-             present, in polyvariants.
-
-             https://github.com/melange-re/melange/issues/578 *)
-          let mel_as_type =
-            List.fold_left
-              ~f:(fun mel_as_type { prf_attributes; prf_loc; _ } ->
-                match
-                  List.filter ~f:Ast_attributes.is_mel_as prf_attributes
-                with
-                | [] -> mel_as_type
-                | [ { attr_payload; attr_loc = loc; _ } ] -> (
-                    match
-                      ( mel_as_type,
-                        Ast_payload.is_single_string attr_payload,
-                        Ast_payload.is_single_int attr_payload )
-                    with
-                    | (`Nothing | `String), Some _, None -> `String
-                    | (`Nothing | `Int), None, Some _ -> `Int
-                    | (`Nothing | `String | `Int), None, None -> `Nothing
-                    | `String, None, Some _ ->
-                        Error.err ~loc Expect_string_literal
-                    | `Int, Some _, None -> Error.err ~loc Expect_int_literal
-                    | _, Some _, Some _ -> assert false)
-                | _ :: _ -> Error.err ~loc:prf_loc Duplicated_mel_as)
-              ~init:`Nothing row_fields
-          in
-          match mel_as_type with
-          | `Nothing -> Nothing
-          | `String ->
-              Ast_polyvar.map_row_fields_into_strings ptyp.ptyp_loc row_fields
-          | `Int ->
-              Int
-                (Ast_polyvar.map_row_fields_into_ints ptyp.ptyp_loc row_fields))
+      | Ptyp_variant (row_fields, Closed, None) ->
+          infer_mel_as ~loc:ptyp.ptyp_loc row_fields ~allow_no_payload:false
       | _ -> Nothing)
 
 let const_payload_cst = function
@@ -527,7 +528,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                           arg_types,
                           (* ignored in [arg_types], reserved in [result_types] *)
                           result_types )
-                    | Nothing | Unwrap ->
+                    | Nothing | Unwrap _ ->
                         let s = Melange_ffi.Lam_methname.translate name in
                         ( {
                             arg_label = External_arg_spec.Obj_label.obj s;
@@ -575,7 +576,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                         ( External_arg_spec.empty_kind obj_arg_type,
                           param_type :: arg_types,
                           result_types )
-                    | Nothing | Unwrap ->
+                    | Nothing | Unwrap _ ->
                         let s = Melange_ffi.Lam_methname.translate name in
                         (* XXX(anmonteiro): it's unsafe to just read the type
                              of the labelled argument declaration, since it

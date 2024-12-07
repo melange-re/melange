@@ -38,7 +38,7 @@ type attr =
   | Extern_unit
   | Nothing
   | Ignore
-  | Unwrap
+  | Unwrap of attr
 
 module Arg_label : sig
   type t = Arg_label | Arg_empty | Arg_optional

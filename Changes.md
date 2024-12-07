@@ -38,6 +38,8 @@ Unreleased
 - ppx,core: propagate internal FFI information via attributes instead of adding
   marshalled data in the native primitive name
   ([#1222](https://github.com/melange-re/melange/pull/1222))
+- melange-ppx: allow `@mel.unwrap` polyvariants not to have a payload
+  ([#1239](https://github.com/melange-re/melange/pull/1239))
 
 4.0.1 2024-06-07
 ---------------

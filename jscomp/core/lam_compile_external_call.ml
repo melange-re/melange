@@ -101,7 +101,7 @@ let append_list x xs =
 
      This would not work with [NonNullString]
 *)
-let ocaml_to_js_eff ~(arg_label : Melange_ffi.External_arg_spec.Arg_label.t)
+let rec ocaml_to_js_eff ~(arg_label : Melange_ffi.External_arg_spec.Arg_label.t)
     ~(arg_type : Melange_ffi.External_arg_spec.attr) (raw_arg : E.t) :
     arg_expression * E.t list =
   let arg =
@@ -131,11 +131,19 @@ let ocaml_to_js_eff ~(arg_label : Melange_ffi.External_arg_spec.Arg_label.t)
       *)
   | Int dispatches ->
       (Splice1 (Js_of_lam_variant.eval_as_int arg dispatches), [])
-  | Unwrap ->
-      let single_arg =
-        match arg_label with
-        | Arg_optional ->
-            (*
+  | Unwrap polyvar -> (
+      match (polyvar, raw_arg.expression_desc) with
+      | (Poly_var_string _ | Poly_var _ | Int _), Caml_block _ ->
+          Location.raise_errorf ?loc:raw_arg.loc
+            "`[@mel.as ..]' can only be used with `[@mel.unwrap]' variants \
+             without a payload."
+      | (Poly_var_string _ | Poly_var _ | Int _), _ ->
+          ocaml_to_js_eff ~arg_label ~arg_type:polyvar raw_arg
+      | Nothing, _ ->
+          let single_arg =
+            match arg_label with
+            | Arg_optional ->
+                (*
            If this is an optional arg (like `?arg`), we have to potentially do
            2 levels of unwrapping:
            - if ocaml arg is `None`, let js arg be `undefined` (no unwrapping)
@@ -144,10 +152,11 @@ let ocaml_to_js_eff ~(arg_label : Melange_ffi.External_arg_spec.Arg_label.t)
            - Here `Some x` is `x` due to the current encoding
            Lets inline here since it depends on the runtime encoding
         *)
-            Js_of_lam_option.option_unwrap raw_arg
-        | _ -> Js_of_lam_variant.eval_as_unwrap raw_arg
-      in
-      (Splice1 single_arg, [])
+                Js_of_lam_option.option_unwrap raw_arg
+            | _ -> Js_of_lam_variant.eval_as_unwrap raw_arg
+          in
+          (Splice1 single_arg, [])
+      | _, _ -> assert false)
   | Nothing -> (Splice1 arg, [])
 
 let empty_pair = ([], [])

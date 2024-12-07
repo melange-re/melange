@@ -130,4 +130,5 @@ let eval_as_int (arg : J.expression) (dispatches : (string * int) list) : E.t =
 let eval_as_unwrap (arg : J.expression) : E.t =
   match arg.expression_desc with
   | Caml_block { fields = [ { expression_desc = Number _; _ }; cb ]; _ } -> cb
+  | Str _ | Unicode _ -> arg
   | _ -> E.poly_var_value_access arg

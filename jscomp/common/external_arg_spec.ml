@@ -70,7 +70,7 @@ type attr =
   | Extern_unit
   | Nothing
   | Ignore
-  | Unwrap
+  | Unwrap of attr
 
 type 'a param = { arg_type : attr; arg_label : 'a }
 
