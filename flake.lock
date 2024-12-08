@@ -20,21 +20,6 @@
         "type": "github"
       }
     },
-    "nix-filter": {
-      "locked": {
-        "lastModified": 1731533336,
-        "narHash": "sha256-oRam5PS1vcrr5UPgALW0eo1m/5/pls27Z/pabHNy2Ms=",
-        "owner": "numtide",
-        "repo": "nix-filter",
-        "rev": "f7653272fd234696ae94229839a99b73c9ab7de0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "nix-filter",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "inputs": {
         "nixpkgs": "nixpkgs_2"
@@ -72,7 +57,6 @@
     "root": {
       "inputs": {
         "melange-compiler-libs": "melange-compiler-libs",
-        "nix-filter": "nix-filter",
         "nixpkgs": "nixpkgs"
       }
     }

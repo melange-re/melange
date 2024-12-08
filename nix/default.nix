@@ -5,7 +5,6 @@
 , git
 , tree
 , makeWrapper
-, nix-filter
 , nodejs
 , melange-compiler-libs-vendor-dir
 , doCheck ? true
@@ -18,23 +17,24 @@ buildDunePackage {
   version = "dev";
   duneVersion = "3";
 
-  src = with nix-filter; filter {
-    root = ./..;
-    include = [
-      "belt"
-      "bin"
-      "dune-project"
-      "dune"
-      "jscomp"
-      "lib"
-      "melange.opam"
-      "ppx"
-      "scripts"
-      "test"
-      "vendor"
-    ];
-    exclude = [ "jscomp/test" ];
-  };
+  src =
+    let fs = lib.fileset; in
+    fs.toSource {
+      root = ./..;
+      fileset = fs.unions [
+        ../belt
+        ../bin
+        ../dune-project
+        ../dune
+        (fs.difference ../jscomp ../jscomp/test)
+        ../melange.opam
+        ../ppx
+        ../scripts
+        ../test
+        ../vendor
+      ];
+    };
+
   postPatch = ''
     rm -rf vendor/melange-compiler-libs
     mkdir -p ./vendor
