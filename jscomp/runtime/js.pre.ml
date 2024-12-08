@@ -35,10 +35,9 @@
     It contains all bindings into [Js] namespace.
 
     {[
-      [| 1;2;3;4|]
-      |. Js.Array2.map (fun x -> x + 1 )
-      |. Js.Array2.reduce (+) 0
-      |. Js.log
+      [| 1; 2; 3; 4 |]
+      |> Js.Array.map ~f:(fun x -> x + 1)
+      |> Js.Array.reduce ~f:( + ) ~init:0
     ]}
 *)
 
@@ -143,4 +142,5 @@ module WeakSet = Js_weakset
 module Map = Js_map
 module WeakMap = Js_weakmap
 module Iterator = Js_iterator
+module FormData = Js_formData
 module OO = Js_OO

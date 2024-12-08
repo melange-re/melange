@@ -45,6 +45,9 @@ Unreleased
   ([#1246](https://github.com/melange-re/melange/pull/1246))
 - `melange.node`: bind to all supported Node.js `Buffer` encodings in
   `Node.Buffer` ([#1246](https://github.com/melange-re/melange/pull/1246))
+- `melange.js`: Add `Js.FormData` with bindings to the
+  [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) API
+  ([#1153](https://github.com/melange-re/melange/pull/1153))
 
 4.0.1 2024-06-07
 ---------------
