@@ -36,7 +36,9 @@ type entryValue
     string or a Blob. Melange uses an abstract type and defers to users of the
     API to handle it according to their application needs. *)
 
-external make : unit -> t = "FormData" [@@mel.new]
+external make : unit -> t = "FormData"
+[@@mel.new]
+(** [make ()] creates a new [FormData] object, initially empty. *)
 
 external append :
   name:string ->
