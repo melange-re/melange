@@ -2,7 +2,6 @@
   description = "Melange Nix Flake";
 
   inputs = {
-    nix-filter.url = "github:numtide/nix-filter";
     nixpkgs.url = "github:nix-ocaml/nix-overlays";
     melange-compiler-libs = {
       # this changes rarely, and it's better than having to rely on nix's poor
@@ -12,7 +11,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, nix-filter, melange-compiler-libs }:
+  outputs = { self, nixpkgs, melange-compiler-libs }:
     let
       forAllSystems = f: nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (system:
         let
@@ -24,14 +23,12 @@
     in
     {
       overlays.default = import ./nix/overlay.nix {
-        nix-filter = nix-filter.lib;
         melange-compiler-libs-vendor-dir = melange-compiler-libs;
       };
 
       packages = forAllSystems (pkgs:
         let
           melange = pkgs.callPackage ./nix {
-            nix-filter = nix-filter.lib;
             melange-compiler-libs-vendor-dir = melange-compiler-libs;
           };
         in
@@ -40,7 +37,6 @@
           default = melange;
           melange-playground = pkgs.ocamlPackages.callPackage ./nix/melange-playground.nix {
             inherit melange;
-            nix-filter = nix-filter.lib;
             melange-compiler-libs-vendor-dir = melange-compiler-libs;
           };
         }
