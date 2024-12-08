@@ -55,6 +55,14 @@ type bigint
 type +'a promise
 (** The type for JavaScript Promise *)
 
+type blob
+(** The type for JavaScript
+    {{:https://developer.mozilla.org/en-US/docs/Web/API/Blob}Blob} *)
+
+type file
+(** The type for JavaScript
+    {{:https://developer.mozilla.org/en-US/docs/Web/API/File}File} *)
+
 external toOption : 'a nullable -> 'a option = "#nullable_to_opt"
 external undefinedToOption : 'a undefined -> 'a option = "#undefined_to_opt"
 external nullToOption : 'a null -> 'a option = "#null_to_opt"

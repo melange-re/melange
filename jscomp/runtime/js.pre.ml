@@ -79,6 +79,7 @@ module Internal = struct
   external opaque : 'a -> 'a = "%opaque"
 end
 
+(* Types that represent objects in the JS runtime *)
 type +'a null
 type +'a undefined
 type +'a nullable
@@ -88,6 +89,10 @@ type 'a iterator
 type 'a array_like
 type bigint
 type +'a promise
+
+(* Blob / File / FormData *)
+type blob
+type file
 
 external toOption : 'a nullable -> 'a option = "#nullable_to_opt"
 external undefinedToOption : 'a undefined -> 'a option = "#undefined_to_opt"

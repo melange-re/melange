@@ -27,7 +27,7 @@
 
 (* https://developer.mozilla.org/en-US/docs/Web/API/File *)
 
-type t
+type t = Js.file
 
 external make : string Js.iterator -> filename:string -> t = "File"
 [@@mel.new]
@@ -51,21 +51,34 @@ external name : t -> string = "name"
     excluded from this property. *)
 
 (* Since File is a subclass of Blob, it has all the properties and methods of Blob. *)
+external size : t -> float = "size"
+[@@mel.get]
+(** [size t] returns the size of the Blob or File in bytes *)
+
+external type_ : t -> string = "type"
+[@@mel.get]
+(** [type_ t] returns the MIME type of the file. *)
 
 external arrayBuffer : t -> Js.Typed_array.ArrayBuffer.t Js.promise
   = "arrayBuffer"
 [@@mel.send]
+(** [arrayBuffer t] returns a Promise that resolves with the contents of the
+    blob as binary data contained in a [Js.arrayBuffer]. *)
 
 external bytes : t -> Js.Typed_array.Uint8Array.t Js.promise = "bytes"
 [@@mel.send]
-
-external size : t -> float = "size" [@@mel.get]
+(** [bytes t] returns a Promise that resolves with a [Js.uint8Array] containing
+    the contents of the blob as an array of bytes. *)
 
 external slice : ?start:int -> ?end_:int -> ?contentType:string -> t = "slice"
 [@@mel.send.pipe: t]
+(** [slice ?start ?end_ ?contentType t] creates and returns a new Blob object
+    which contains data from a subset of the blob on which it's called. *)
 
-external text : t -> string Js.promise = "text" [@@mel.send]
-external type_ : t -> string = "type" [@@mel.get]
+external text : t -> string Js.promise = "text"
+[@@mel.send]
+(** [text t] returns a Promise that resolves with a string containing the
+    contents of the blob, interpreted as UTF-8. *)
 
 (* XXX: stream can't be bound until we have some bindings to ReadableStream *)
 (* https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream *)
