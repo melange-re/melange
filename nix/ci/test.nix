@@ -1,8 +1,6 @@
-{ ocamlVersion }:
+{ pkgs, packages }:
 
 let
-  src = import ./sources.nix { inherit ocamlVersion; };
-  inherit (src) pkgs packages;
   inputString =
     builtins.substring
       11 32
@@ -31,7 +29,7 @@ stdenv.mkDerivation {
     dune
     git
     nodePackages.mocha
-    ocamlPackages.reason
+    reason
     tree
     nodejs
     yarn

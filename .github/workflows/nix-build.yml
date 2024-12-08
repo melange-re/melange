@@ -11,54 +11,25 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  ubuntu-tests:
+  nix-build-test:
     name: Build and test (Ubuntu)
 
     strategy:
       matrix:
-        ocaml-version:
-          - 5_3
-
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: "recursive"
-      - uses: cachix/install-nix-action@v30
-        with:
-          extra_nix_config: |
-            extra-substituters = https://anmonteiro.nix-cache.workers.dev
-            extra-trusted-public-keys = ocaml.nix-cache.com-1:/xI2h2+56rwFfKyyFVbkJSeGqSIYMC/Je+7XXqGKDIY=
-
-      - name: "Build / install dependencies"
-        run: nix-shell ./nix/ci/prewarm.nix --argstr ocamlVersion ${{ matrix.ocaml-version }} --run 'echo done'
-      - name: "Run nix-build"
-        run: nix-build ./nix/ci/test.nix --argstr ocamlVersion ${{ matrix.ocaml-version }}
-
-  macos-tests:
-    name: Build and test (${{ matrix.os }})
-
-    strategy:
-      matrix:
         os:
+          - ubuntu-latest
           - macos-13
           - macos-14
-        ocaml-version:
-          - 5_3
 
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: "recursive"
-
       - uses: cachix/install-nix-action@v30
         with:
           extra_nix_config: |
             extra-substituters = https://anmonteiro.nix-cache.workers.dev
             extra-trusted-public-keys = ocaml.nix-cache.com-1:/xI2h2+56rwFfKyyFVbkJSeGqSIYMC/Je+7XXqGKDIY=
-
-      # - name: "Build / install dependencies"
-        # run: nix-shell ./nix/ci/prewarm.nix --argstr ocamlVersion ${{ matrix.ocaml-version }} --run 'echo done'
       - name: "Run nix-build"
-        run: nix-build ./nix/ci/test.nix --argstr ocamlVersion ${{ matrix.ocaml-version }}
+        run: nix flake check
