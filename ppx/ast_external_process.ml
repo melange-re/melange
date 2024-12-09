@@ -683,8 +683,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    return_wrapper = _;
    mk_obj = _;
   } ->
-      if arg_type_specs_length = 3 then
-        Js_set_index { js_set_index_scopes = scopes }
+      if arg_type_specs_length = 3 then Js_set_index { scopes }
       else
         Location.raise_errorf ~loc
           "`%@mel.set_index' requires a function of 3 arguments: `'t -> 'key \
@@ -709,8 +708,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    mk_obj = _;
    return_wrapper = _;
   } ->
-      if arg_type_specs_length = 2 then
-        Js_get_index { js_get_index_scopes = scopes }
+      if arg_type_specs_length = 2 then Js_get_index { scopes }
       else
         Location.raise_errorf ~loc
           "`%@mel.get_index' requires a function of 2 arguments: `'t -> 'key \
@@ -861,23 +859,9 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
           Location.raise_errorf ~loc
             "`%@mel.new' doesn't expect an attribute payload"
       | _ :: _, `Nm_na ->
-          Js_send
-            {
-              variadic;
-              name;
-              js_send_scopes = scopes;
-              pipe = false;
-              new_ = false;
-            }
+          Js_send { variadic; name; scopes; pipe = false; new_ = false }
       | _ :: _, `Nm_external _ ->
-          Js_send
-            {
-              variadic;
-              name;
-              js_send_scopes = scopes;
-              pipe = false;
-              new_ = true;
-            })
+          Js_send { variadic; name; scopes; pipe = false; new_ = true })
   | { val_send = #bundle_source; _ } ->
       Location.raise_errorf ~loc
         "Found an attribute that can't be used with `%@mel.send'"
@@ -908,7 +892,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
             {
               variadic;
               name = string_of_bundle_source prim_name_or_pval_prim;
-              js_send_scopes = scopes;
+              scopes;
               pipe = true;
               new_ = false;
             }
@@ -917,7 +901,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
             {
               variadic;
               name = string_of_bundle_source prim_name_or_pval_prim;
-              js_send_scopes = scopes;
+              scopes;
               pipe = true;
               new_ = true;
             })
@@ -961,8 +945,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    return_wrapper = _;
    scopes;
   } ->
-      if arg_type_specs_length = 2 then
-        Js_set { js_set_scopes = scopes; js_set_name = name }
+      if arg_type_specs_length = 2 then Js_set { name; scopes }
       else
         Location.raise_errorf ~loc
           "`%@mel.set' requires a function of two arguments"
@@ -985,8 +968,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    return_wrapper = _;
    scopes;
   } ->
-      if arg_type_specs_length = 1 then
-        Js_get { js_get_name = name; js_get_scopes = scopes }
+      if arg_type_specs_length = 1 then Js_get { name; scopes }
       else
         Location.raise_errorf ~loc
           "`%@mel.get' requires a function of only one argument"

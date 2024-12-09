@@ -200,11 +200,7 @@ let derive_getters_setters =
                           (Melange_ffi.External_ffi_types.ffi_mel
                              [ Melange_ffi.External_arg_spec.dummy ]
                              Return_identity
-                             (Js_get
-                                {
-                                  js_get_name = prim_as_name;
-                                  js_get_scopes = [];
-                                }))
+                             (Js_get { name = prim_as_name; scopes = [] }))
                        :: get_attrs))
                   ~prim:Ast_external.pval_prim_default
                   [%type: [%t core_type] -> [%t pld_type]]
