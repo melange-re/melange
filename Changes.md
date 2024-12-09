@@ -48,6 +48,8 @@ Unreleased
 - `melange.js`: Add `Js.FormData` with bindings to the
   [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) API
   ([#1153](https://github.com/melange-re/melange/pull/1153))
+- `melange.js`: add `TypedArray` types at the toplevel in the `Js` module
+  ([#1248](https://github.com/melange-re/melange/pull/1248))
 
 4.0.1 2024-06-07
 ---------------
