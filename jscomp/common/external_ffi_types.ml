@@ -70,7 +70,7 @@ type external_spec =
       variadic : bool;
       pipe : bool;
       new_ : bool;
-      js_send_scopes : string list;
+      scopes : string list;
     }
     (* we know it is a js send, but what will happen if you pass an ocaml object *)
   | Js_new of {
@@ -79,10 +79,10 @@ type external_spec =
       variadic : bool;
       scopes : string list;
     }
-  | Js_set of { js_set_name : string; js_set_scopes : string list }
-  | Js_get of { js_get_name : string; js_get_scopes : string list }
-  | Js_get_index of { js_get_index_scopes : string list }
-  | Js_set_index of { js_set_index_scopes : string list }
+  | Js_set of { name : string; scopes : string list }
+  | Js_get of { name : string; scopes : string list }
+  | Js_get_index of { scopes : string list }
+  | Js_set_index of { scopes : string list }
 
 type return_wrapper =
   | Return_unset

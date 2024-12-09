@@ -355,7 +355,7 @@ let translate_ffi =
             (* cxt.continuation <- Assign (Ext_ident.make_js_object id) *)
             (* | EffectCall _ | NeedValue _ -> ()); *)
             (E.new_ fn args)
-    | Js_send { variadic; name; pipe; js_send_scopes; new_ } -> (
+    | Js_send { variadic; name; pipe; scopes; new_ } -> (
         if pipe then
           (* variadic should not happen *)
           (* assert (js_splice = false) ;  *)
@@ -364,7 +364,7 @@ let translate_ffi =
             let arg_types, _ = List.split_at_last arg_types in
             let args, eff, dynamic = assemble_args_has_splice arg_types args in
             add_eff eff
-              (let self = translate_scoped_access js_send_scopes self in
+              (let self = translate_scoped_access scopes self in
                if dynamic then splice_obj_fn_apply self name args
                else process_send ~new_ self name args)
           else
@@ -372,7 +372,7 @@ let translate_ffi =
             let arg_types, _ = List.split_at_last arg_types in
             let args, eff = assemble_args_no_splice arg_types args in
             add_eff eff
-              (let self = translate_scoped_access js_send_scopes self in
+              (let self = translate_scoped_access scopes self in
                process_send ~new_ self name args)
         else
           match args with
@@ -387,7 +387,7 @@ let translate_ffi =
                   assemble_args_has_splice arg_types args
                 in
                 add_eff eff
-                  (let self = translate_scoped_access js_send_scopes self in
+                  (let self = translate_scoped_access scopes self in
                    if dynamic then
                      match new_ with
                      | true -> splice_fn_new_apply (E.dot self name) args
@@ -396,7 +396,7 @@ let translate_ffi =
               else
                 let args, eff = assemble_args_no_splice arg_types args in
                 add_eff eff
-                  (let self = translate_scoped_access js_send_scopes self in
+                  (let self = translate_scoped_access scopes self in
                    process_send ~new_ self name args)
           | _ -> assert false)
     | Js_module_as_var module_name -> external_var ~dynamic_import module_name
@@ -419,7 +419,7 @@ let translate_ffi =
            | Assign id -> cxt.continuation <- Assign (Ident.make_js_object id)
            | EffectCall _ | NeedValue _ -> ());
            E.new_ fn args)
-    | Js_get { js_get_name = name; js_get_scopes = scopes } -> (
+    | Js_get { name; scopes } -> (
         let args, cur_eff = assemble_args_no_splice arg_types args in
         add_eff cur_eff
         @@
@@ -428,7 +428,7 @@ let translate_ffi =
             let obj = translate_scoped_access scopes obj in
             E.dot obj name
         | _ -> assert false (* Note these assertion happens in call site *))
-    | Js_set { js_set_name = name; js_set_scopes = scopes } -> (
+    | Js_set { name; scopes } -> (
         (* assert (js_splice = false) ;  *)
         let args, cur_eff = assemble_args_no_splice arg_types args in
         add_eff cur_eff
@@ -438,14 +438,14 @@ let translate_ffi =
             let obj = translate_scoped_access scopes obj in
             E.assign (E.dot obj name) v
         | _ -> assert false)
-    | Js_get_index { js_get_index_scopes = scopes } -> (
+    | Js_get_index { scopes } -> (
         let args, cur_eff = assemble_args_no_splice arg_types args in
         add_eff cur_eff
         @@
         match args with
         | [ obj; v ] -> E.array_index (translate_scoped_access scopes obj) v
         | _ -> assert false)
-    | Js_set_index { js_set_index_scopes = scopes } -> (
+    | Js_set_index { scopes } -> (
         let args, cur_eff = assemble_args_no_splice arg_types args in
         add_eff cur_eff
         @@
