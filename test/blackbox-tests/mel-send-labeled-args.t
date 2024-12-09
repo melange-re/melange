@@ -20,7 +20,7 @@ Test `@mel.send` + labeled / optional arguments
     2
   ];
   
-  const x = undefined.push(arr);
+  const x = arr.push(undefined);
   
   exports.x = x;
   /* x Not a pure module */
