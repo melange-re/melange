@@ -683,8 +683,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    return_wrapper = _;
    mk_obj = _;
   } ->
-      if arg_type_specs_length = 3 then
-        Js_set_index { js_set_index_scopes = scopes }
+      if arg_type_specs_length = 3 then Js_set_index { scopes }
       else
         Location.raise_errorf ~loc
           "`%@mel.set_index' requires a function of 3 arguments: `'t -> 'key \
