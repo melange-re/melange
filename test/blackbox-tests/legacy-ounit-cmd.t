@@ -17,7 +17,7 @@
   5 |   = ""
   6 |   [@@mel.send.pipe:int]
   7 |   [@@mel.variadic]
-  Error: `@mel.variadic' expects its last argument to be an array
+  Error: `[@mel.variadic]' expects its last argument to be an array
   [2]
 
   $ cat > x.ml <<EOF
@@ -36,7 +36,7 @@
   4 |   = ""
   5 |   [@@mel.send.pipe:int]
   6 |   [@@mel.variadic]
-  Error: `@mel.variadic' cannot be applied to an optionally labelled argument
+  Error: `[@mel.variadic]' cannot be applied to an optionally labelled argument
   [2]
 
 Skip over the temporary file name printed in the error trace
@@ -81,7 +81,7 @@ Skip over the temporary file name printed in the error trace
   1 | external ff :
   2 |     resp -> (_ [@mel.as "x"]) -> int -> unit =
   3 |     "x" [@@mel.set]
-  Error: `@mel.set' requires a function of two arguments
+  Error: `[@mel.set]' requires a function of two arguments
   [2]
 
   $ cat > x.ml <<EOF
@@ -106,7 +106,7 @@ Skip over the temporary file name printed in the error trace
   File "x.ml", line 1, characters 0-53:
   1 | external v4 : (int -> int -> int [@mel.uncurry]) = ""
       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  Error: `@mel.uncurry' must not be applied to the entire annotation
+  Error: `[@mel.uncurry]' must not be applied to the entire annotation
   [2]
 
   $ melc -ppx melppx -bs-eval '{js| \uFFF|js}' 2>&1 | grep -v File
@@ -228,7 +228,7 @@ Skip over the temporary file name printed in the error trace
   3 |  string ->
   4 |  string = "bar"
   5 |  [@@mel.send]
-  Error: `@mel.send`'s first argument must not be a constant
+  Error: `[@mel.send]`'s first argument must not be a constant
   [2]
 
   $ melc -ppx melppx -bs-eval 'let bla4 foo x y = foo##(method1 x y [@u])' 2>&1 | grep -v File

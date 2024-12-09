@@ -472,7 +472,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
   } ->
       if String.length prim_name > 0 then
         Location.raise_errorf ~loc
-          "`%@mel.obj requires its `external' payload to be the empty string"
+          "`[%@mel.obj]' requires its `external' payload to be the empty string"
       else
         let arg_kinds, new_arg_types_ty, (result_types : object_field list) =
           List.fold_right
@@ -566,7 +566,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                     | Poly_var _ ->
                         raise
                           (Location.raise_errorf ~loc
-                             "`%@mel.obj' must not be used with labelled \
+                             "`[%@mel.obj]' must not be used with labelled \
                               polymorphic variants carrying payloads"
                              name))
                 | Optional name -> (
@@ -629,7 +629,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                           :: result_types )
                     | Arg_cst _ ->
                         Location.raise_errorf ~loc
-                          "`%@mel.as' is not supported within optionally \
+                          "`[%@mel.as ..]' is not supported within optionally \
                            labelled arguments yet"
                     | Fn_uncurry_arity _ ->
                         Location.raise_errorf ~loc
@@ -637,7 +637,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                     | Extern_unit -> assert false
                     | Poly_var _ ->
                         Location.raise_errorf ~loc
-                          "`%@mel.obj' must not be used with optionally \
+                          "`[%@mel.obj]' must not be used with optionally \
                            labelled polymorphic variants carrying payloads"
                           name)
               in
@@ -658,7 +658,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
           External_ffi_types.ffi_obj_create arg_kinds )
   | _ ->
       Location.raise_errorf ~loc
-        "Found an attribute that conflicts with `%@mel.obj'"
+        "Found an attribute that conflicts with `[%@mel.obj]'"
 
 let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
     (prim_name_or_pval_prim : bundle_source) (arg_type_specs_length : int)
@@ -686,12 +686,12 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       if arg_type_specs_length = 3 then Js_set_index { scopes }
       else
         Location.raise_errorf ~loc
-          "`%@mel.set_index' requires a function of 3 arguments: `'t -> 'key \
+          "`[%@mel.set_index]' requires a function of 3 arguments: `'t -> 'key \
            -> 'value -> unit'"
   | { set_index = true; _ } ->
       Error.err ~loc
         (Conflict_ffi_attribute
-           "Found an attribute that conflicts with `@mel.set_index'")
+           "Found an attribute that conflicts with `[@mel.set_index]'")
   | {
    get_index = true;
    external_module_name = None;
@@ -711,7 +711,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       if arg_type_specs_length = 2 then Js_get_index { scopes }
       else
         Location.raise_errorf ~loc
-          "`%@mel.get_index' requires a function of 2 arguments: `'t -> 'key \
+          "`[%@mel.get_index]' requires a function of 2 arguments: `'t -> 'key \
            -> 'value'"
   | { get_index = true; _ } ->
       Error.err ~loc
@@ -740,7 +740,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       | _, `Nm_external _ -> Js_module_as_class external_module_name
       | _, `Nm_payload _ ->
           Location.raise_errorf ~loc
-            "`%@mel.new' doesn't expect an attribute payload")
+            "`[%@mel.new]' doesn't expect an attribute payload")
   | { module_as_val = Some _; get_index; val_send; _ } ->
       let reason =
         match (get_index, val_send) with
@@ -851,20 +851,20 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       match (arg_type_specs, new_name) with
       | [], _ ->
           Location.raise_errorf ~loc
-            "`%@mel.send` requires a function with at least one argument"
+            "`[%@mel.send]` requires a function with at least one argument"
       | { arg_type = Arg_cst _; arg_label = _ } :: _, _ ->
           Location.raise_errorf ~loc
-            "`%@mel.send`'s first argument must not be a constant"
+            "`[%@mel.send]`'s first argument must not be a constant"
       | _, `Nm_payload _ ->
           Location.raise_errorf ~loc
-            "`%@mel.new' doesn't expect an attribute payload"
+            "`[%@mel.send]' doesn't expect an attribute payload"
       | _ :: _, `Nm_na ->
           Js_send { variadic; name; scopes; pipe = false; new_ = false }
       | _ :: _, `Nm_external _ ->
           Js_send { variadic; name; scopes; pipe = false; new_ = true })
   | { val_send = #bundle_source; _ } ->
       Location.raise_errorf ~loc
-        "Found an attribute that can't be used with `%@mel.send'"
+        "Found an attribute that can't be used with `[%@mel.send]'"
   | {
    val_send_pipe = Some _;
    (* variadic = (false as variadic); *)
@@ -885,7 +885,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       match new_name with
       | `Nm_payload _ ->
           Location.raise_errorf ~loc
-            "`%@mel.new' doesn't expect an attribute payload"
+            "`[%@mel.new]' doesn't expect an attribute payload"
       | `Nm_na ->
           (* can be one argument *)
           Js_send
@@ -907,7 +907,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
             })
   | { val_send_pipe = Some _; _ } ->
       Location.raise_errorf ~loc
-        "Found an attribute that can't be used with `%@mel.send.pipe'"
+        "Found an attribute that can't be used with `[%@mel.send.pipe]'"
   | {
    new_name = `Nm_external (lazy name);
    external_module_name;
@@ -948,10 +948,10 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       if arg_type_specs_length = 2 then Js_set { name; scopes }
       else
         Location.raise_errorf ~loc
-          "`%@mel.set' requires a function of two arguments"
+          "`[%@mel.set]' requires a function of two arguments"
   | { set_name = #bundle_source; _ } ->
       Location.raise_errorf ~loc
-        "Found an attribute that can't be used with `%@mel.set'"
+        "Found an attribute that can't be used with `[%@mel.set]'"
   | {
    get_name = `Nm_external (lazy name) | `Nm_payload name;
    call_name = `Nm_na;
@@ -971,10 +971,10 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       if arg_type_specs_length = 1 then Js_get { name; scopes }
       else
         Location.raise_errorf ~loc
-          "`%@mel.get' requires a function of only one argument"
+          "`[%@mel.get]' requires a function of only one argument"
   | { get_name = #bundle_source; _ } ->
       Location.raise_errorf ~loc
-        "Found an attribute that conflicts with %@mel.get"
+        "Found an attribute that conflicts with `[%@mel.get]'"
 
 let list_of_arrow (ty : core_type) : core_type * param_type list =
   let rec aux (ty : core_type) acc =
@@ -1008,7 +1008,7 @@ module From_attributes = struct
       It does not make sense *)
     if has_mel_uncurry type_annotation.ptyp_attributes then
       Location.raise_errorf ~loc
-        "`%@mel.uncurry' must not be applied to the entire annotation"
+        "`[%@mel.uncurry]' must not be applied to the entire annotation"
     else
       let prim_name_or_pval_name =
         if String.length prim_name = 0 then
@@ -1025,7 +1025,7 @@ module From_attributes = struct
       in
       if has_mel_uncurry result_type.ptyp_attributes then
         Location.raise_errorf ~loc
-          "`%@mel.uncurry' cannot be applied to the return type"
+          "`[%@mel.uncurry]' cannot be applied to the return type"
       else
         let unused_attrs, external_desc =
           parse_external_attributes prim_name prim_name_or_pval_name
@@ -1054,8 +1054,8 @@ module From_attributes = struct
                   match refine_arg_type ~nolabel:true obj with
                   | Arg_cst _ ->
                       Location.raise_errorf ~loc
-                        "`%@mel.as' must not be used in the payload for \
-                         `[@mel.send.pipe]'"
+                        "`[%@mel.as ..]' must not be used in the payload for \
+                         `[%@mel.send.pipe]'"
                   | arg_type ->
                       (* more error checking *)
                       ( [ { External_arg_spec.arg_label = Arg_empty; arg_type } ],
@@ -1078,12 +1078,12 @@ module From_attributes = struct
                    match arg_label with
                    | Optional _ ->
                        Location.raise_errorf ~loc
-                         "`%@mel.variadic' cannot be applied to an optionally \
-                          labelled argument"
+                         "`[%@mel.variadic]' cannot be applied to an \
+                          optionally labelled argument"
                    | Labelled _ | Nolabel -> (
                        if ty.ptyp_desc = Ptyp_any then
                          Location.raise_errorf
-                           "`%@mel.variadic' expects its last argument to be \
+                           "`[%@mel.variadic]' expects its last argument to be \
                             an array"
                        else
                          match spec_of_ptyp ~nolabel:true ty with
@@ -1094,12 +1094,12 @@ module From_attributes = struct
                                  ()
                              | _ ->
                                  Location.raise_errorf ~loc
-                                   "`%@mel.variadic' expects its last argument \
-                                    to be an array")
+                                   "`[%@mel.variadic]' expects its last \
+                                    argument to be an array")
                          | _ ->
                              Location.raise_errorf ~loc
-                               "`%@mel.variadic' expects its last argument to \
-                                be an array"));
+                               "`[%@mel.variadic]' expects its last argument \
+                                to be an array"));
                 let ( (arg_label : External_arg_spec.Arg_label.t),
                       arg_type,
                       new_arg_types ) =

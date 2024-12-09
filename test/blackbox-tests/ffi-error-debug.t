@@ -9,7 +9,7 @@
   File "x.ml", lines 2-3, characters 2-11:
   2 | ..hi_should_error:([`a of int | `b of string ] [@mel.string]) ->
   3 |   unit -> _.................
-  Error: `@mel.obj' must not be used with labelled polymorphic variants
+  Error: `[@mel.obj]' must not be used with labelled polymorphic variants
          carrying payloads
   [2]
 
@@ -22,7 +22,7 @@
   File "x.ml", lines 2-3, characters 2-11:
   2 | ..?hi_should_error:([`a of int | `b of string ] [@mel.string]) ->
   3 |   unit -> _.................
-  Error: `@mel.obj' must not be used with optionally labelled polymorphic
+  Error: `[@mel.obj]' must not be used with optionally labelled polymorphic
          variants carrying payloads
   [2]
 
