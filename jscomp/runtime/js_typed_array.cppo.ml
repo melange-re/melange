@@ -23,32 +23,27 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 (** JavaScript Typed Array API
-
-@see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray> MDN
-*)
-
-type array_buffer
+    @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray> MDN *)
 
 module ArrayBuffer = struct
   (** The underlying buffer that the typed arrays provide views of
 
-    @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer> MDN
-  *)
+    @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer> MDN *)
 
-  type t = array_buffer
+  type t = Js.arrayBuffer
 
   external make : int -> t = "ArrayBuffer" [@@mel.new]
   (** takes length. initializes elements to 0 *)
 
   (* ArrayBuffer.isView: seems pointless with a type system *)
   (* experimental
-  external transfer : array_buffer -> t = "ArrayBuffer.transfer"
-  external transferWithLength : array_buffer -> int -> t = "ArrayBuffer.transfer"
+  external transfer : Js.arrayBuffer -> t = "ArrayBuffer.transfer"
+  external transferWithLength : Js.arrayBuffer -> int -> t = "ArrayBuffer.transfer"
   *)
 
   external byteLength : t -> int = "byteLength" [@@mel.get]
 
-  external slice : ?start:int -> ?end_:int  -> array_buffer = "slice"
+  external slice : ?start:int -> ?end_:int  -> Js.arrayBuffer = "slice"
   [@@mel.send.pipe: t]
 end
 
@@ -61,7 +56,7 @@ end
   external unsafe_get : t -> int -> elt  = "" [@@mel.get_index]\
   external unsafe_set : t -> int -> elt -> unit = "" [@@mel.set_index]\
   \
-  external buffer : t -> array_buffer = "buffer" [@@mel.get]\
+  external buffer : t -> Js.arrayBuffer = "buffer" [@@mel.get]\
   external byteLength : t -> int = "byteLength" [@@mel.get]\
   external byteOffset : t -> int = "byteOffset" [@@mel.get]\
   \
@@ -139,7 +134,7 @@ end
   external _BYTES_PER_ELEMENT: int = STRINGIFY(moduleName.BYTES_PER_ELEMENT) \
   \
   external make : elt array -> t = STRINGIFY(moduleName) [@@mel.new]\
-  external fromBuffer : array_buffer -> ?off:int -> ?len:int -> unit -> t = STRINGIFY(moduleName) [@@mel.new]\
+  external fromBuffer : Js.arrayBuffer -> ?off:int -> ?len:int -> unit -> t = STRINGIFY(moduleName) [@@mel.new]\
   (** @raise Js.Exn.Error raises Js exception
       @param offset is in bytes, length in elements *)\
   \
@@ -191,19 +186,18 @@ end
 
 
 (** The DataView view provides a low-level interface for reading and writing
-      multiple number types in an ArrayBuffer irrespective of the platform's endianness.
+    multiple number types in an ArrayBuffer irrespective of the platform's endianness.
 
-    @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView> MDN
-*)
+    @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView> MDN *)
 module DataView = struct
 
 
   type t
 
-  external make : array_buffer -> t = "DataView" [@@mel.new]
-  external fromBuffer : array_buffer -> ?off:int -> ?len:int -> unit -> t = "DataView" [@@mel.new]
+  external make : Js.arrayBuffer -> t = "DataView" [@@mel.new]
+  external fromBuffer : Js.arrayBuffer -> ?off:int -> ?len:int -> unit -> t = "DataView" [@@mel.new]
 
-  external buffer : t -> array_buffer = "buffer" [@@mel.get]
+  external buffer : t -> Js.arrayBuffer = "buffer" [@@mel.get]
   external byteLength : t -> int = "byteLength" [@@mel.get]
   external byteOffset : t -> int = "byteOffset" [@@mel.get]
 

@@ -89,6 +89,18 @@ type 'a array_like
 type bigint
 type +'a promise
 
+(* Typed Arrays *)
+type arrayBuffer
+type int8Array
+type uint8Array
+type uint8ClampedArray
+type int16Array
+type uint16Array
+type int32Array
+type uint32Array
+type float32Array
+type float64Array
+
 external toOption : 'a nullable -> 'a option = "#nullable_to_opt"
 external undefinedToOption : 'a undefined -> 'a option = "#undefined_to_opt"
 external nullToOption : 'a null -> 'a option = "#null_to_opt"
