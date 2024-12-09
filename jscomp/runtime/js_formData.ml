@@ -28,8 +28,6 @@
    encoding type were set to "multipart/form-data". *)
 
 type t
-type file
-type blob
 
 type entryValue
 (** The values returned by the `get{,All}` and iteration functions is either a
@@ -53,7 +51,7 @@ external append :
 
 external appendBlob :
   name:string ->
-  value:([ `Blob of blob | `File of file ][@mel.unwrap]) ->
+  value:([ `Blob of Js.blob | `File of Js.file ][@mel.unwrap]) ->
   ?filename:string ->
   unit = "append"
 [@@mel.send.pipe: t]
@@ -88,7 +86,7 @@ external set :
 
 external setBlob :
   name:string ->
-  ([ `Blob of blob | `File of file ][@mel.unwrap]) ->
+  ([ `Blob of Js.blob | `File of Js.file ][@mel.unwrap]) ->
   ?filename:string ->
   unit = "set"
 [@@mel.send.pipe: t]

@@ -79,6 +79,7 @@ module Internal = struct
   external opaque : 'a -> 'a = "%opaque"
 end
 
+(* Types that represent objects in the JS runtime *)
 type +'a null
 type +'a undefined
 type +'a nullable
@@ -88,6 +89,10 @@ type 'a iterator
 type 'a array_like
 type bigint
 type +'a promise
+
+(* Blob / File / FormData *)
+type blob
+type file
 
 (* Typed Arrays *)
 type arrayBuffer
@@ -154,5 +159,7 @@ module WeakSet = Js_weakset
 module Map = Js_map
 module WeakMap = Js_weakmap
 module Iterator = Js_iterator
+module Blob = Js_blob
+module File = Js_file
 module FormData = Js_formData
 module OO = Js_OO

@@ -55,6 +55,14 @@ type bigint
 type +'a promise
 (** The type for JavaScript Promise *)
 
+type blob
+(** The type for JavaScript
+    {{:https://developer.mozilla.org/en-US/docs/Web/API/Blob}Blob} *)
+
+type file
+(** The type for JavaScript
+    {{:https://developer.mozilla.org/en-US/docs/Web/API/File}File} *)
+
 (* Typed Arrays *)
 type arrayBuffer
 type int8Array
@@ -243,6 +251,12 @@ module WeakMap = Js_weakmap
 
 module Iterator = Js_iterator
 (** Bindings to functions on [Iterator] *)
+
+module Blob = Js_blob
+(** Bindings to Blob *)
+
+module File = Js_file
+(** Bindings to File *)
 
 module FormData = Js_formData
 (** Bindings to FormData *)
