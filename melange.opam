@@ -35,6 +35,3 @@ build: [
   ]
 ]
 dev-repo: "git+https://github.com/melange-re/melange.git"
-pin-depends: [
-  [ "reason.dev" "git+https://github.com/reasonml/reason.git" ]
-]
