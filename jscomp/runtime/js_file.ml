@@ -59,13 +59,12 @@ external type_ : t -> string = "type"
 [@@mel.get]
 (** [type_ t] returns the MIME type of the file. *)
 
-external arrayBuffer : t -> Js.Typed_array.ArrayBuffer.t Js.promise
-  = "arrayBuffer"
+external arrayBuffer : t -> Js.arrayBuffer Js.promise = "arrayBuffer"
 [@@mel.send]
 (** [arrayBuffer t] returns a Promise that resolves with the contents of the
     blob as binary data contained in a [Js.arrayBuffer]. *)
 
-external bytes : t -> Js.Typed_array.Uint8Array.t Js.promise = "bytes"
+external bytes : t -> Js.uint8Array Js.promise = "bytes"
 [@@mel.send]
 (** [bytes t] returns a Promise that resolves with a [Js.uint8Array] containing
     the contents of the blob as an array of bytes. *)
