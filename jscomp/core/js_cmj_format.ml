@@ -29,7 +29,7 @@ type arity = Single of Lam_arity.t | Submodule of Lam_arity.t array
 (* TODO: add a magic number *)
 type cmj_value = {
   arity : arity;
-  persistent_closed_lambda : Lam.t option;
+  persistent_closed_lambda : (Lam.t * Lam_var_stats.stats Ident.Map.t) option;
       (** Either constant or closed functor *)
 }
 
@@ -38,7 +38,7 @@ let single_na = Single Lam_arity.na
 type keyed_cmj_value = {
   name : string;
   arity : arity;
-  persistent_closed_lambda : Lam.t option;
+  persistent_closed_lambda : (Lam.t * Lam_var_stats.stats Ident.Map.t) option;
 }
 
 type keyed_cmj_values = keyed_cmj_value array
@@ -114,8 +114,9 @@ let not_found key =
 let get_result midVal =
   match midVal.persistent_closed_lambda with
   | Some
-      (Lconst
-        (Const_js_null | Const_js_undefined | Const_js_true | Const_js_false))
+      ( Lconst
+          (Const_js_null | Const_js_undefined | Const_js_true | Const_js_false),
+        _ )
   | None ->
       midVal
   | Some _ ->
