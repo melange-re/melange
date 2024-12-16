@@ -157,7 +157,7 @@ let exn_block_as_obj ~(stack : bool) (el : J.expression list) (ext : J.tag_info)
   let cause =
     {
       J.expression_desc =
-        Object (List.mapi ~f:(fun i e -> (Js_op.Lit (field_name i), e)) el);
+        Object (List.mapi ~f:(fun i e -> (field_name i, e)) el);
       comment = None;
       loc = None;
     }
@@ -775,24 +775,19 @@ and expression_desc cxt ~(level : int) x : cxt =
              [ e ])
   | Caml_block { fields = el; tag_info = Blk_module fields; _ } ->
       expression_desc cxt ~level
-        (Object
-           (List.map_combine fields el ~f:(fun x -> Js_op.Lit (Ident.convert x))))
+        (Object (List.map_combine fields el ~f:(fun x -> Ident.convert x)))
   (*name convention of Record is slight different from modules*)
   | Caml_block { fields = el; mutable_flag; tag_info = Blk_record fields; _ } ->
       if block_has_all_int_fields fields then
         expression_desc cxt ~level (Array { items = el; mutable_flag })
       else
         expression_desc cxt ~level
-          (Object (List.map_combine_array fields el ~f:(fun i -> Js_op.Lit i)))
+          (Object (List.combine (Array.to_list fields) el))
   | Caml_block { fields = el; tag_info = Blk_poly_var; _ } -> (
       match el with
       | [ { expression_desc = Str name; _ }; value ] ->
           expression_desc cxt ~level
-            (Object
-               [
-                 (Js_op.Lit L.polyvar_hash, E.str name);
-                 (Lit L.polyvar_value, value);
-               ])
+            (Object [ (L.polyvar_hash, E.str name); (L.polyvar_value, value) ])
       | _ -> assert false)
   | Caml_block
       { fields = el; tag_info = (Blk_extension | Blk_record_ext _) as ext; _ }
@@ -800,10 +795,7 @@ and expression_desc cxt ~(level : int) x : cxt =
       expression cxt ~level (exn_block_as_obj ~stack:false el ext)
   | Caml_block { fields = el; tag; tag_info = Blk_record_inlined p; _ } ->
       let objs =
-        let tails =
-          List.map_combine_array_append p.fields el ~init:[] ~f:(fun i ->
-              Js_op.Lit i)
-        in
+        let tails = List.combine (Array.to_list p.fields) el in
         let as_value =
           Lam_constant_convert.modifier ~name:p.name p.attributes
         in
@@ -812,7 +804,7 @@ and expression_desc cxt ~(level : int) x : cxt =
           | None -> L.tag
           | Some s -> s
         in
-        ( Js_op.Lit tag_name,
+        ( tag_name,
           {
             (match as_value.as_modifier with
             | Some modifier -> E.as_value modifier
@@ -828,8 +820,7 @@ and expression_desc cxt ~(level : int) x : cxt =
       let objs =
         let tails =
           List.mapi
-            ~f:(fun i e ->
-              (Js_op.Lit (E.variant_pos ~constr:p.name (Int32.of_int i)), e))
+            ~f:(fun i e -> (E.variant_pos ~constr:p.name (Int32.of_int i), e))
             el
         in
         if is_cons && p.num_nonconst = 1 then tails
@@ -842,7 +833,7 @@ and expression_desc cxt ~(level : int) x : cxt =
             | None -> L.tag
             | Some s -> s
           in
-          ( Js_op.Lit tag_name,
+          ( tag_name,
             {
               (match as_value.as_modifier with
               | Some modifier -> E.as_value modifier
