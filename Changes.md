@@ -54,6 +54,8 @@ Unreleased
   ([#1218](https://github.com/melange-re/melange/pull/1218))
 - `melange.js`: add `TypedArray` types at the toplevel in the `Js` module
   ([#1248](https://github.com/melange-re/melange/pull/1248))
+- BREAKING: remove `--mel-g`
+  ([#1234](https://github.com/melange-re/melange/pull/1234))
 
 4.0.1 2024-06-07
 ---------------
