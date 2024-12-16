@@ -65,7 +65,6 @@ let diagnose = ref false
 let tool_name = "Melange"
 let check_div_by_zero = ref true
 let syntax_only = ref false
-let debug = ref false
 let cmi_only = ref false
 let cmj_only = ref false
 let js_stdout = ref true

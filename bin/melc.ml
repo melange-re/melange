@@ -217,7 +217,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       bs_package_output;
       mel_module_system;
       bs_syntax_only;
-      bs_g;
       bs_package_name;
       bs_module_name;
       as_ppx;
@@ -301,8 +300,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
         Js_config.cross_module_inline := bs_cross_module_opt)
       bs_cross_module_opt ;
     if bs_syntax_only then Js_config.syntax_only := bs_syntax_only;
-
-    if bs_g then Js_config.debug := bs_g;
 
     Option.iter Js_packages_state.set_package_name bs_package_name;
     begin match mel_module_system, bs_package_output with
