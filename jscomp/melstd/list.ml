@@ -24,29 +24,11 @@
 
 include StdLabels.List
 
-external ( .!() ) : 'a array -> int -> 'a = "%array_unsafe_get"
-
 let rec map_combine l1 l2 ~f =
   match (l1, l2) with
   | [], [] -> []
   | a1 :: l1, a2 :: l2 -> (f a1, a2) :: map_combine l1 l2 ~f
   | _, _ -> invalid_arg "List.map_combine"
-
-let rec arr_list_combine_unsafe arr l i j ~init:acc ~f =
-  if i = j then acc
-  else
-    match l with
-    | [] -> invalid_arg "List.combine"
-    | h :: tl ->
-        (f arr.!(i), h) :: arr_list_combine_unsafe arr tl (i + 1) j ~init:acc ~f
-
-let map_combine_array_append arr l ~init ~f =
-  let len = Stdlib.Array.length arr in
-  arr_list_combine_unsafe arr l 0 len ~init ~f
-
-let map_combine_array arr l ~f =
-  let len = Stdlib.Array.length arr in
-  arr_list_combine_unsafe arr l 0 len ~init:[] ~f
 
 let rec map_snd l ~f =
   match l with

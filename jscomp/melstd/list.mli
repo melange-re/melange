@@ -27,11 +27,6 @@ include module type of struct
 end
 
 val map_combine : 'a list -> 'b list -> f:('a -> 'c) -> ('c * 'b) list
-val map_combine_array : 'a array -> 'b list -> f:('a -> 'c) -> ('c * 'b) list
-
-val map_combine_array_append :
-  'a array -> 'b list -> init:('c * 'b) list -> f:('a -> 'c) -> ('c * 'b) list
-
 val map_snd : ('a * 'b) list -> f:('b -> 'c) -> ('a * 'c) list
 
 val map_last : 'a list -> f:(bool -> 'a -> 'b) -> 'b list
