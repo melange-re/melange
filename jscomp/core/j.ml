@@ -42,7 +42,7 @@ type number = Js_op.number
 type ident_info = Js_op.ident_info
 type exports = Js_op.exports
 type tag_info = Js_op.tag_info
-type property_name = Js_op.property_name
+type property_name = string
 
 [@@@ocaml.warning "-duplicate-definitions"]
 

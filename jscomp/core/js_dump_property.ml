@@ -83,8 +83,4 @@ let property_access f s =
         | exception _ -> Js_dump_string.pp_string f s)
 
 let property_key (s : J.property_name) : string =
-  match s with
-  | Lit s ->
-      if obj_property_no_need_quot s then s
-      else Js_dump_string.escape_to_string s
-  | Symbol_name -> {|[Symbol.for("name")]|}
+  if obj_property_no_need_quot s then s else Js_dump_string.escape_to_string s

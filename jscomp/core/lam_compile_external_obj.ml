@@ -47,16 +47,14 @@ let assemble_obj_args
       (labels :
         Melange_ffi.External_arg_spec.Obj_label.t
         Melange_ffi.External_arg_spec.param
-        list) args : (Js_op.property_name * E.t) list * J.expression list * _ =
+        list) args : (string * E.t) list * J.expression list * _ =
     match (labels, args) with
     | [], [] -> ([], [], [])
     | ( { arg_label = Obj_label { name = label }; arg_type = Arg_cst cst }
         :: labels,
         args ) ->
         let accs, eff, assign = aux labels args in
-        ( (Js_op.Lit label, Lam_compile_const.translate_arg_cst cst) :: accs,
-          eff,
-          assign )
+        ((label, Lam_compile_const.translate_arg_cst cst) :: accs, eff, assign)
     (* | {obj_arg_label = EmptyCst _ } :: rest  , args -> assert false  *)
     | { arg_label = Obj_empty; _ } :: labels, arg :: args ->
         (* unit type*)
@@ -72,8 +70,7 @@ let assemble_obj_args
         in
         match acc with
         | Splice2 _ | Splice0 -> assert false
-        | Splice1 x ->
-            ((Js_op.Lit label, x) :: accs, List.append new_eff eff, assign)
+        | Splice1 x -> ((label, x) :: accs, List.append new_eff eff, assign)
         (* evaluation order is undefined *))
     | ( ({ arg_label = Obj_optional { name = label; _ }; arg_type } as arg_kind)
         :: labels,
@@ -87,8 +84,7 @@ let assemble_obj_args
             in
             match acc with
             | Splice2 _ | Splice0 -> assert false
-            | Splice1 x ->
-                ((Js_op.Lit label, x) :: accs, List.append new_eff eff, assign))
+            | Splice1 x -> ((label, x) :: accs, List.append new_eff eff, assign))
           ~not_sure:(fun _ -> (accs, eff, (arg_kind, arg) :: assign))
     | { arg_label = Obj_empty | Obj_label _ | Obj_optional _; _ } :: _, [] ->
         assert false
