@@ -999,6 +999,101 @@ module From_attributes = struct
     dont_inline_cross_module : bool;
   }
 
+  let check_ffi =
+    let valid_js_char =
+      let a =
+        Array.init 256 ~f:(fun i ->
+            let c = Char.chr i in
+            (c >= 'a' && c <= 'z')
+            || (c >= 'A' && c <= 'Z')
+            || (c >= '0' && c <= '9')
+            || c = '_' || c = '$')
+      in
+      fun c -> Array.unsafe_get a (Char.code c)
+    in
+    let valid_first_js_char =
+      let a =
+        Array.init 256 ~f:(fun i ->
+            let c = Char.chr i in
+            (c >= 'a' && c <= 'z')
+            || (c >= 'A' && c <= 'Z')
+            || c = '_' || c = '$')
+      in
+      fun c -> Array.unsafe_get a (Char.code c)
+    in
+    (* Approximation could be improved *)
+    let valid_ident (s : string) =
+      let len = String.length s in
+      len > 0
+      && valid_js_char s.[0]
+      && valid_first_js_char s.[0]
+      &&
+      let module E = struct
+        exception E
+      end in
+      try
+        for i = 1 to len - 1 do
+          if not (valid_js_char (String.unsafe_get s i)) then raise E.E
+        done;
+        true
+      with E.E -> false
+    in
+    let check_external_module_name ~loc x =
+      match x with
+      | { External_ffi_types.bundle = ""; _ }
+      | { module_bind_name = Phint_name ""; _ } ->
+          Location.raise_errorf ~loc "`@mel.module' name cannot be empty"
+      | _ -> ()
+    in
+    let is_package_relative_path (x : string) =
+      String.starts_with x ~prefix:"./" || String.starts_with x ~prefix:"../"
+    in
+    let valid_global_name ~loc txt =
+      if not (valid_ident txt) then
+        let v = String.split_by ~keep_empty:true (fun x -> x = '.') txt in
+        List.iter
+          ~f:(fun s ->
+            if not (valid_ident s) then
+              Location.raise_errorf ~loc
+                "%S isn't a valid JavaScript identifier" txt)
+          v
+    in
+    fun ~loc ffi
+        (arg_type_specs :
+          External_arg_spec.Arg_label.t External_arg_spec.param list) : bool ->
+      let xrelative = ref false in
+      let upgrade bool = if not !xrelative then xrelative := bool in
+      (match ffi with
+      | External_ffi_types.Js_var { name; external_module_name; _ } ->
+          upgrade (is_package_relative_path name);
+          Option.iter
+            (fun (name : External_ffi_types.external_module_name) ->
+              upgrade (is_package_relative_path name.bundle))
+            external_module_name;
+          valid_global_name ~loc name
+      | Js_send _ | Js_set _ | Js_get _ ->
+          (* see https://github.com/rescript-lang/rescript-compiler/issues/2583 *)
+          ()
+      | Js_get_index _ (* TODO: check scopes *) | Js_set_index _ -> ()
+      | Js_module_as_var external_module_name
+      | Js_module_as_fn { external_module_name; variadic = _ }
+      | Js_module_as_class external_module_name ->
+          upgrade (is_package_relative_path external_module_name.bundle);
+          check_external_module_name ~loc external_module_name
+      | Js_new { external_module_name; name; _ }
+      | Js_call { external_module_name; name; variadic = _; scopes = _ } ->
+          Option.iter
+            (fun (external_module_name :
+                   External_ffi_types.external_module_name) ->
+              upgrade (is_package_relative_path external_module_name.bundle))
+            external_module_name;
+          Option.iter
+            (fun name -> check_external_module_name ~loc name)
+            external_module_name;
+
+          valid_global_name ~loc name);
+      !xrelative
+
   (* Note that the passed [type_annotation] is already processed by visitor pattern before*)
   let parse ~(loc : Location.t) (type_annotation : core_type)
       (prim_attributes : attribute list) ~(pval_name : string)
@@ -1133,11 +1228,11 @@ module From_attributes = struct
                   if arg_type = Ignore then i else i + 1 ))
               arg_types_ty ~init
           in
-          let ffi : External_ffi_types.external_spec =
+          let ffi =
             external_desc_of_non_obj loc external_desc prim_name_or_pval_name
               arg_type_specs_length arg_types_ty arg_type_specs
           in
-          let relative = External_ffi_types.check_ffi ~loc ffi in
+          let relative = check_ffi ~loc ffi arg_type_specs in
           (* result type can not be labeled *)
           (* currently we don't process attributes of
            return type, in the future we may *)
