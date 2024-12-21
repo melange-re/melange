@@ -96,7 +96,6 @@ type t = private
   | Ffi_normal
 (* Ffi_normal represents a C functional ffi call *)
 
-val check_ffi : loc:Location.t -> external_spec -> bool
 val to_string : t -> string
 val from_string : string -> t
 
