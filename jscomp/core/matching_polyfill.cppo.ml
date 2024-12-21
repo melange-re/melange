@@ -56,6 +56,7 @@ let names_from_construct_pattern
   in
   let rec resolve_path n path =
     match Env.find_type path pat.pat_env with
+    | exception Not_found -> None
     | { type_kind = Type_variant (cstrs, _repr); _ } ->
         names_from_type_variant cstrs
     | { type_kind =
