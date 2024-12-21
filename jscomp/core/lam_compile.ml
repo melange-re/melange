@@ -237,7 +237,7 @@ let rec compile_external_field ~dynamic_import
     (* Like [List.empty] *) (lamba_cxt : Lam_compile_context.t) (id : Ident.t)
     name : Js_output.t =
   match Lam_compile_env.query_external_id_info ~dynamic_import id name with
-  | Some { persistent_closed_lambda = Some lam; _ }
+  | Some { persistent_closed_lambda = Some (lam, _); _ }
     when Lam_util.not_function lam ->
       compile_lambda lamba_cxt lam
   | Some _ | None ->
@@ -280,12 +280,13 @@ and compile_external_field_apply ~dynamic_import (appinfo : Lam.apply)
   in
   let ap_args = appinfo.ap_args in
   match ident_info with
-  | Some { persistent_closed_lambda = Some (Lfunction { params; body; _ }); _ }
+  | Some
+      {
+        persistent_closed_lambda =
+          Some (Lfunction { params; body; _ }, param_map);
+        _;
+      }
     when List.same_length params ap_args ->
-      (* TODO: serialize it when exporting to save compile time *)
-      let _, param_map =
-        Lam_closure.is_closed_with_map Ident.Set.empty params body
-      in
       compile_lambda lambda_cxt
         (Lam_beta_reduce.propagate_beta_reduce_with_map lambda_cxt.meta
            param_map params body ap_args)
