@@ -29,6 +29,7 @@ module Warnings : sig
     | Unused_attribute of string
     | Fragile_external of string
     | Redundant_mel_string
+    | Mel_send_self_param
 end
 
 val warn : loc:Location.t -> Warnings.t -> unit

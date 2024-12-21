@@ -1071,7 +1071,18 @@ module From_attributes = struct
               upgrade (is_package_relative_path name.bundle))
             external_module_name;
           valid_global_name ~loc name
-      | Js_send _ | Js_set _ | Js_get _ ->
+      | Js_send { pipe; _ } -> (
+          if not pipe then
+            match arg_type_specs with
+            | [] -> assert false
+            | { arg_label = Arg_label | Arg_optional; _ } :: _ ->
+                (* we started treating the `@mel.send` "self" arg as the first
+           non-labeled argument so that we can be more expressive in the FFI.
+           But we still need to warn in case the first argument is
+           optional/labelled. *)
+                Mel_ast_invariant.warn ~loc Mel_send_self_param
+            | { arg_label = Arg_empty; _ } :: _ -> ())
+      | Js_set _ | Js_get _ ->
           (* see https://github.com/rescript-lang/rescript-compiler/issues/2583 *)
           ()
       | Js_get_index _ (* TODO: check scopes *) | Js_set_index _ -> ()

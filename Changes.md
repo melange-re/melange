@@ -56,6 +56,15 @@ Unreleased
   ([#1248](https://github.com/melange-re/melange/pull/1248))
 - BREAKING: remove `--mel-g`
   ([#1234](https://github.com/melange-re/melange/pull/1234))
+- BREAKING: find `[@mel.send]` self arg as the first non-labeled param
+  ([#1252](https://github.com/melange-re/melange/pull/1252))
+  - This improvement to the FFI allows expressing more FFI constructs via
+    labeled and optionally labeled arguments, e.g.
+    `external foo: value:string -> t -> unit = "foo" [@@mel.send]` will now
+    produce `t.foo(value)` instead of `value.foo(t)`.
+  - A new alert `melsend` has been added to the PPX (which warns by default)
+    and can be turned into an error with `melange.ppx -alert ++melsend` once
+    [ocaml/dune#11234](https://github.com/ocaml/dune/pull/11234) lands.
 
 4.0.1 2024-06-07
 ---------------
