@@ -1,7 +1,7 @@
 open Melstd
 
 let ( >:: ), ( >::: ) = OUnit.(( >:: ), ( >::: ))
-let normalize = Path.normalize_absolute_path
+let normalize = Paths.normalize_absolute_path
 
 let os_adapt s =
   let regexp = Str.regexp "\\(/\\)" in
@@ -51,18 +51,18 @@ let suites =
            =~ os_adapt "/a/b/c" );
          ( __LOC__ >:: fun _ ->
            let aux a b result =
-             Path.rel_normalized_absolute_path ~from:a b =~ result;
+             Paths.rel_normalized_absolute_path ~from:a b =~ result;
 
-             Path.rel_normalized_absolute_path
+             Paths.rel_normalized_absolute_path
                ~from:(String.sub a ~pos:0 ~len:(String.length a - 1))
                b
              =~ result;
 
-             Path.rel_normalized_absolute_path ~from:a
+             Paths.rel_normalized_absolute_path ~from:a
                (String.sub b ~pos:0 ~len:(String.length b - 1))
              =~ result;
 
-             Path.rel_normalized_absolute_path
+             Paths.rel_normalized_absolute_path
                ~from:(String.sub a ~pos:0 ~len:(String.length a - 1))
                (String.sub b ~pos:0 ~len:(String.length b - 1))
              =~ result
@@ -76,45 +76,48 @@ let suites =
          (* This is still correct just not optimal depends
             on user's perspective *)
          ( __LOC__ >:: fun _ ->
-           Path.rel_normalized_absolute_path ~from:"/a/b/c/d" "/x/y"
+           Paths.rel_normalized_absolute_path ~from:"/a/b/c/d" "/x/y"
            =~ os_adapt "../../../../x/y";
 
-           Path.rel_normalized_absolute_path
+           Paths.rel_normalized_absolute_path
              ~from:"/a/b/c/d/e/./src/bindings/Navigation" "/a/b/c/d/e"
            =~ os_adapt "../../..";
 
-           Path.rel_normalized_absolute_path ~from:"/a/b/c/./d" "/a/b/c" =~ "..";
+           Paths.rel_normalized_absolute_path ~from:"/a/b/c/./d" "/a/b/c"
+           =~ "..";
 
-           Path.rel_normalized_absolute_path ~from:"/a/b/c/./src" "/a/b/d/./src"
+           Paths.rel_normalized_absolute_path ~from:"/a/b/c/./src"
+             "/a/b/d/./src"
            =~ os_adapt "../../d/src" );
          (* used in module system: [es6-global] and [amdjs-global] *)
          ( __LOC__ >:: fun _ ->
-           Path.rel_normalized_absolute_path
+           Paths.rel_normalized_absolute_path
              ~from:"/usr/local/lib/node_modules/" "//"
            =~ os_adapt "../../../..";
-           Path.rel_normalized_absolute_path
+           Paths.rel_normalized_absolute_path
              ~from:"/usr/local/lib/node_modules/" "/"
            =~ os_adapt "../../../..";
-           Path.rel_normalized_absolute_path ~from:"./"
+           Paths.rel_normalized_absolute_path ~from:"./"
              "./node_modules/xx/./xx.js"
            =~ os_adapt "./node_modules/xx/xx.js";
-           Path.rel_normalized_absolute_path ~from:"././"
+           Paths.rel_normalized_absolute_path ~from:"././"
              "./node_modules/xx/./xx.js"
            =~ os_adapt "./node_modules/xx/xx.js" );
          ( __LOC__ >:: fun _ ->
-           Path.node_rebase_file ~to_:"lib/js/src/a" ~from:"lib/js/src" "b"
+           Paths.node_rebase_file ~to_:"lib/js/src/a" ~from:"lib/js/src" "b"
            =~ "./a/b";
-           Path.node_rebase_file ~to_:"lib/js/src/" ~from:"lib/js/src" "b"
+           Paths.node_rebase_file ~to_:"lib/js/src/" ~from:"lib/js/src" "b"
            =~ "./b";
-           Path.node_rebase_file ~to_:"lib/js/src" ~from:"lib/js/src/a" "b"
+           Paths.node_rebase_file ~to_:"lib/js/src" ~from:"lib/js/src/a" "b"
            =~ "../b";
-           Path.node_rebase_file ~to_:"lib/js/src/a" ~from:"lib/js/" "b"
+           Paths.node_rebase_file ~to_:"lib/js/src/a" ~from:"lib/js/" "b"
            =~ "./src/a/b";
-           Path.node_rebase_file ~to_:"lib/js/./src/a" ~from:"lib/js/src/a/" "b"
+           Paths.node_rebase_file ~to_:"lib/js/./src/a" ~from:"lib/js/src/a/"
+             "b"
            =~ "./b";
 
-           Path.node_rebase_file ~to_:"lib/js/src/a" ~from:"lib/js/src/a/" "b"
+           Paths.node_rebase_file ~to_:"lib/js/src/a" ~from:"lib/js/src/a/" "b"
            =~ "./b";
-           Path.node_rebase_file ~to_:"lib/js/src/a/" ~from:"lib/js/src/a/" "b"
+           Paths.node_rebase_file ~to_:"lib/js/src/a/" ~from:"lib/js/src/a/" "b"
            =~ "./b" );
        ]

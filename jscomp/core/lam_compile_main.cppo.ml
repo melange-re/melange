@@ -341,7 +341,7 @@ let write_to_file ~package_info ~output_info ~output_prefix lambda_output file  
         oc)
 
 let lambda_as_module =
-  let (//) = Path.(//) in
+  let (//) = Paths.(//) in
   fun ~package_info (lambda_output : J.deps_program) (output_prefix : string) ->
     let make_basename suffix =
       (Filename.basename output_prefix) ^ (Js_suffix.to_string suffix)

@@ -35,7 +35,7 @@ let compatible ~dep t =
 (* As a dependency Leaf Node, it is the same either [global] or [not] *)
 
 let runtime_package_path =
-  let ( // ) = Path.( // ) in
+  let ( // ) = Paths.( // ) in
   let melange_js = "melange.js" in
   fun js_file -> melange_js // js_file
 
