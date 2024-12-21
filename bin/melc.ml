@@ -37,7 +37,7 @@ let print_backtrace () =
 let set_abs_input_name sourcefile =
   let sourcefile =
     if !Clflags.absname && Filename.is_relative  sourcefile then
-      Path.absolute_cwd_path sourcefile
+      Paths.absolute_cwd_path sourcefile
     else sourcefile in
   Location.set_input_name sourcefile;
   sourcefile

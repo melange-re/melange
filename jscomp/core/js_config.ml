@@ -25,16 +25,16 @@
 open Import
 
 let executable_name =
-  lazy (Unix.realpath (Path.normalize_absolute_path Sys.executable_name))
+  lazy (Unix.realpath (Paths.normalize_absolute_path Sys.executable_name))
 
 let stdlib_paths =
-  let ( // ) = Path.( // ) in
+  let ( // ) = Paths.( // ) in
   let package_name = "melange" in
   lazy
     (match Sys.getenv "MELANGELIB" with
     | value -> (
         let dirs =
-          String.split_on_char ~sep:Path.path_sep value
+          String.split_on_char ~sep:Paths.path_sep value
           |> List.filter_map ~f:(function
                | "" -> None
                | dir ->
