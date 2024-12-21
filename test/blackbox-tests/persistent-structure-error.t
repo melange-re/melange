@@ -36,7 +36,3 @@ The issue seems to happen due to a combination of two things:
   $ melc -o inner/inner.cmj -c inner/inner.ml
   $ melc -I inner -o outer/outer.cmj -c outer/outer.ml
   $ melc -I outer -o main.cmj -c main.ml
-  melc: internal error, uncaught exception:
-        Not_found
-        
-  [125]
