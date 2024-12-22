@@ -9,34 +9,25 @@ The issue seems to happen due to a combination of two things:
   $ mkdir inner outer
 
   $ cat > inner/inner.ml <<\EOF
-  > type error = Json_error of string | Unexpected_variant of string
-  > exception DecodeError of error
+  > type error = A
   > EOF
 
   $ cat > outer/outer.ml <<\EOF
-  > type error = Inner.error =
-  >   | Json_error of string
-  >   | Unexpected_variant of string
-  > 
-  > exception Of_json_error = Inner.DecodeError
+  > type error = Inner.error = | A
+  > exception Exn of Inner.error
   > EOF
 
   $ cat > main.ml <<\EOF
-  > let u_of_json =
-  >   (fun x ->
-  >     match x with
-  >     | e -> e
-  >     | exception Outer.Of_json_error
-  >         (Outer.Unexpected_variant _) ->
-  >          raise
-  >            (Outer.Of_json_error
-  >               (Outer.Unexpected_variant
-  >                  "unexpected variant")))
+  > let f x =
+  >   match x with
+  >   | e -> e
+  >   | exception Outer.Exn Outer.A -> ()
   > EOF
-  $ melc -o inner/inner.cmj -c inner/inner.ml
-  $ melc -I inner -o outer/outer.cmj -c outer/outer.ml
-  $ melc -I outer -o main.cmj -c main.ml
+  $ melc --bs-package-output inner -o inner/inner.cmj -c inner/inner.ml
+  $ melc -I inner --bs-package-output outer -o outer/outer.cmj -c outer/outer.ml --bs-stop-after-cmj
+  $ melc -I outer --bs-package-output . -o main.cmj -c main.ml --bs-stop-after-cmj
   melc: internal error, uncaught exception:
         Not_found
         
   [125]
+
