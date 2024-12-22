@@ -65,6 +65,9 @@ Unreleased
   - A new alert `melsend` has been added to the PPX (which warns by default)
     and can be turned into an error with `melange.ppx -alert ++melsend` once
     [ocaml/dune#11234](https://github.com/ocaml/dune/pull/11234) lands.
+- core: fix a crash related to finding constructor names in pattern matching triggered by dune's earlier implementation of `(implicit_transitive_deps false)`
+  ([#1238](https://github.com/melange-re/melange/pull/1238),
+  [#1262](https://github.com/melange-re/melange/pull/1262))
 
 4.0.1 2024-06-07
 ---------------
