@@ -26,8 +26,3 @@ The issue seems to happen due to a combination of two things:
   $ melc --bs-package-output inner -o inner/inner.cmj -c inner/inner.ml
   $ melc -I inner --bs-package-output outer -o outer/outer.cmj -c outer/outer.ml --bs-stop-after-cmj
   $ melc -I outer --bs-package-output . -o main.cmj -c main.ml --bs-stop-after-cmj
-  melc: internal error, uncaught exception:
-        Not_found
-        
-  [125]
-
