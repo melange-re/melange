@@ -137,7 +137,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         with
         | Some
             {
-              persistent_closed_lambda = Some (Lfunction { params; body; _ });
+              persistent_closed_lambda = Some (Lfunction { params; body; _ }, _);
               _;
             }
         (* be more cautious when do cross module inlining *)
