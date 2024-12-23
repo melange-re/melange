@@ -68,6 +68,9 @@ Unreleased
 - core: fix a crash related to finding constructor names in pattern matching triggered by dune's earlier implementation of `(implicit_transitive_deps false)`
   ([#1238](https://github.com/melange-re/melange/pull/1238),
   [#1262](https://github.com/melange-re/melange/pull/1262))
+- core: pre-compute the closure param map for functions inlined with
+  `--mel-cross-module-opt`
+  ([#1219](https://github.com/melange-re/melange/pull/1219))
 
 4.0.1 2024-06-07
 ---------------
