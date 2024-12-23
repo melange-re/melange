@@ -49,8 +49,9 @@ external asUintN : precision:int -> t -> t = "asUintN"
 type toLocaleStringOptions = { style : string; currency : string }
 
 external toLocaleString :
-  locale:string -> ?options:toLocaleStringOptions -> string = "toLocaleString"
-[@@mel.send.pipe: t]
+  locale:string -> ?options:toLocaleStringOptions -> t -> string
+  = "toLocaleString"
+[@@mel.send]
 (**
   [toLocaleString bigint] returns a string with a language-sensitive
   representation of this BigInt. *)
