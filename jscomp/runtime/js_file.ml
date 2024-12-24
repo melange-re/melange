@@ -69,8 +69,9 @@ external bytes : t -> Js.uint8Array Js.promise = "bytes"
 (** [bytes t] returns a Promise that resolves with a [Js.uint8Array] containing
     the contents of the blob as an array of bytes. *)
 
-external slice : ?start:int -> ?end_:int -> ?contentType:string -> t = "slice"
-[@@mel.send.pipe: t]
+external slice : ?start:int -> ?end_:int -> ?contentType:string -> t -> t
+  = "slice"
+[@@mel.send]
 (** [slice ?start ?end_ ?contentType t] creates and returns a new Blob object
     which contains data from a subset of the blob on which it's called. *)
 

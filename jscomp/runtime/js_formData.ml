@@ -44,8 +44,9 @@ external append :
     ([ `String of string | `Object of < .. > Js.t | `Dict of _ Js.dict ]
     [@mel.unwrap]) ->
   ?filename:string ->
+  t ->
   unit = "append"
-[@@mel.send.pipe: t]
+[@@mel.send]
 (** [append t ~name ~value] appends a new value onto an existing key inside a
     FormData object, or adds the key if it does not already exist. *)
 
@@ -53,25 +54,26 @@ external appendBlob :
   name:string ->
   value:([ `Blob of Js.blob | `File of Js.file ][@mel.unwrap]) ->
   ?filename:string ->
+  t ->
   unit = "append"
-[@@mel.send.pipe: t]
+[@@mel.send]
 (** [appendBlob t ~name ~value] appends a new value onto an existing key inside
     a FormData object, or adds the key if it does not already exist. This
     method differs from [append] in that instances in the Blob hierarchy can
     pass a third filename argument. *)
 
-external delete : name:string -> unit = "delete"
-[@@mel.send.pipe: t]
+external delete : name:string -> t -> unit = "delete"
+[@@mel.send]
 (** [delete t ~name] deletes a key and its value(s) from a FormData object. *)
 
-external get : name:string -> entryValue option = "get"
-[@@mel.send.pipe: t] [@@mel.return null_to_opt]
+external get : name:string -> t -> entryValue option = "get"
+[@@mel.send] [@@mel.return null_to_opt]
 (** [get t ~name] returns the first value associated with a given key from
     within a FormData object. If you expect multiple values and want all of
     them, use {!getAll} instead. *)
 
-external getAll : name:string -> entryValue array = "getAll"
-[@@mel.send.pipe: t]
+external getAll : name:string -> t -> entryValue array = "getAll"
+[@@mel.send]
 (** [getAll ~name] returns all the values associated with a given key from
     within a FormData object. *)
 
@@ -79,8 +81,9 @@ external set :
   name:string ->
   ([ `String of string | `Object of < .. > Js.t | `Dict of _ Js.dict ]
   [@mel.unwrap]) ->
+  t ->
   unit = "set"
-[@@mel.send.pipe: t]
+[@@mel.send]
 (** [set t ~name ~value] sets a new value for an existing key inside a FormData
     object, or adds the key/value if it does not already exist. *)
 
@@ -88,28 +91,29 @@ external setBlob :
   name:string ->
   ([ `Blob of Js.blob | `File of Js.file ][@mel.unwrap]) ->
   ?filename:string ->
+  t ->
   unit = "set"
-[@@mel.send.pipe: t]
+[@@mel.send]
 (** [setBlob t ~name ~value ?filename] sets a new value for an existing key
     inside a FormData object, or adds the key/value if it does not already
     exist. This method differs from [set] in that instances in the Blob
     hierarchy can pass a third filename argument. *)
 
-external has : name:string -> bool = "has"
-[@@mel.send.pipe: t]
+external has : name:string -> t -> bool = "has"
+[@@mel.send]
 (** [has ~name] returns whether a FormData object contains a certain key. *)
 
-external keys : string Js.iterator = "keys"
-[@@mel.send.pipe: t]
+external keys : t -> string Js.iterator = "keys"
+[@@mel.send]
 (** [keys t] returns an iterator which iterates through all keys contained in
     the FormData. The keys are strings. *)
 
-external values : entryValue Js.iterator = "values"
-[@@mel.send.pipe: t]
+external values : t -> entryValue Js.iterator = "values"
+[@@mel.send]
 (** [values t] returns an iterator which iterates through all values contained
     in the FormData. The values are strings or Blob objects. *)
 
-external entries : (string * entryValue) Js.iterator = "entries"
-[@@mel.send.pipe: t]
+external entries : t -> (string * entryValue) Js.iterator = "entries"
+[@@mel.send]
 (** [entries t] returns an iterator which iterates through all key/value pairs
     contained in the FormData. *)
