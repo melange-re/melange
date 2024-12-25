@@ -196,13 +196,13 @@ let suites = Mt.[
 
     "setDate", (fun _ ->
       let d = date () in
-      let _ = N.setDate 12. d in
+      let _ = N.setDate ~date:12. d in
 
       Eq(12., N.getDate d)
     );
     "setFullYear", (fun _ ->
       let d = date () in
-      let _ = N.setFullYear 1986. d in
+      let _ = N.setFullYear ~year:1986. d in
 
       Eq(1986., N.getFullYear d)
     );
@@ -223,7 +223,7 @@ let suites = Mt.[
     );
     "setHours", (fun _ ->
       let d = date () in
-      let _ = N.setHours 22. d in
+      let _ = N.setHours ~hours:22. d in
 
       Eq(22., N.getHours d)
     );
@@ -244,13 +244,13 @@ let suites = Mt.[
     );
     "setMilliseconds", (fun _ ->
       let d = date () in
-      let _ = N.setMilliseconds 543. d in
+      let _ = N.setMilliseconds ~milliseconds:543. d in
 
       Eq(543., N.getMilliseconds d)
     );
     "setMinutes", (fun _ ->
       let d = date () in
-      let _ = N.setMinutes 18. d in
+      let _ = N.setMinutes ~minutes:18. d in
 
       Eq(18., N.getMinutes d)
     );
@@ -271,7 +271,7 @@ let suites = Mt.[
     );
     "setMonth", (fun _ ->
       let d = date () in
-      let _ = N.setMonth 10. d in
+      let _ = N.setMonth ~month:10. d in
 
       Eq(10., N.getMonth d)
     );
@@ -284,7 +284,7 @@ let suites = Mt.[
     );
     "setSeconds", (fun _ ->
       let d = date () in
-      let _ = N.setSeconds 36. d in
+      let _ = N.setSeconds ~seconds:36. d in
 
       Eq(36., N.getSeconds d)
     );
@@ -297,13 +297,13 @@ let suites = Mt.[
     );
     "setUTCDate", (fun _ ->
       let d = date () in
-      let _ = N.setUTCDate 12. d in
+      let _ = N.setUTCDate ~date:12. d in
 
       Eq(12., N.getUTCDate d)
     );
     "setUTCFullYear", (fun _ ->
       let d = date () in
-      let _ = N.setUTCFullYear 1986. d in
+      let _ = N.setUTCFullYear ~year:1986. d in
 
       Eq(1986., N.getUTCFullYear d)
     );
@@ -324,7 +324,7 @@ let suites = Mt.[
     );
     "setUTCHours", (fun _ ->
       let d = date () in
-      let _ = N.setUTCHours 22. d in
+      let _ = N.setUTCHours ~hours:22. d in
 
       Eq(22., N.getUTCHours d)
     );
@@ -345,13 +345,13 @@ let suites = Mt.[
     );
     "setUTCMilliseconds", (fun _ ->
       let d = date () in
-      let _ = N.setUTCMilliseconds 543. d in
+      let _ = N.setUTCMilliseconds ~milliseconds:543. d in
 
       Eq(543., N.getUTCMilliseconds d)
     );
     "setUTCMinutes", (fun _ ->
       let d = date () in
-      let _ = N.setUTCMinutes 18. d in
+      let _ = N.setUTCMinutes ~minutes:18. d in
 
       Eq(18., N.getUTCMinutes d)
     );
@@ -374,7 +374,7 @@ let suites = Mt.[
     );
     "setUTCMonth", (fun _ ->
       let d = date () in
-      let _ = N.setUTCMonth 10. d in
+      let _ = N.setUTCMonth ~month:10. d in
 
       Eq(10., N.getUTCMonth d)
     );
@@ -387,7 +387,7 @@ let suites = Mt.[
     );
     "setUTCSeconds", (fun _ ->
       let d = date () in
-      let _ = N.setUTCSeconds 36. d in
+      let _ = N.setUTCSeconds ~seconds:36. d in
 
       Eq(36., N.getUTCSeconds d)
     );
