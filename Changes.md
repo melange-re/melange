@@ -77,6 +77,9 @@ Unreleased
 - core: pre-compute the closure param map for functions inlined with
   `--mel-cross-module-opt`
   ([#1219](https://github.com/melange-re/melange/pull/1219))
+- BREAKING: ppx: print the `deprecated` alert for `@@deriving abstract` at the
+  declaration site rather than at (all) usages
+  ([#1269](https://github.com/melange-re/melange/pull/1269))
 
 4.0.1 2024-06-07
 ---------------
