@@ -73,7 +73,7 @@ external get : name:string -> t -> entryValue option = "get"
 
 external getAll : name:string -> t -> entryValue array = "getAll"
 [@@mel.send]
-(** [getAll ~name] returns all the values associated with a given key from
+(** [getAll t ~name] returns all the values associated with a given key from
     within a FormData object. *)
 
 external set :
@@ -100,7 +100,7 @@ external setBlob :
 
 external has : name:string -> t -> bool = "has"
 [@@mel.send]
-(** [has ~name] returns whether a FormData object contains a certain key. *)
+(** [has ~name t] returns whether a FormData object contains a certain key. *)
 
 external keys : t -> string Js.iterator = "keys"
 [@@mel.send]
