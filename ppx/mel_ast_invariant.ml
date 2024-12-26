@@ -60,16 +60,14 @@ module Warnings = struct
            this FFI definition accordingly."
 end
 
-let warn =
+let warn_raw =
   let module Location = Ocaml_common.Location in
-  fun ~loc t ->
+  fun ~loc ~kind message ->
     Location.prerr_alert loc
-      {
-        Ocaml_common.Warnings.kind = Warnings.kind t;
-        message = Format.asprintf "%a" Warnings.pp t;
-        def = Location.none;
-        use = loc;
-      }
+      { Ocaml_common.Warnings.kind; message; def = Location.none; use = loc }
+
+let warn ~loc t =
+  warn_raw ~loc ~kind:(Warnings.kind t) (Format.asprintf "%a" Warnings.pp t)
 
 let used_attributes : string Asttypes.loc Polyvariant.Hash_set.t =
   Polyvariant.Hash_set.create 16

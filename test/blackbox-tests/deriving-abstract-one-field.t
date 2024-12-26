@@ -11,40 +11,32 @@ Showcase an error with deriving abstract when the record has one field
   > (library
   >  (modes melange)
   >  (name x)
-  >  (preprocess
-  >   (pps melange.ppx)))
+  >  (preprocess (pps melange.ppx)))
   > EOF
 
 Record with two fields works fine
 
   $ cat > x.ml <<EOF
-  > type chartDataItemType = { height: int; foo: string } [@@deriving abstract]
+  > type chartDataItemType = { height: int; foo: string } [@@deriving jsProperties]
   > EOF
-
   $ dune build ./.x.objs/melange/x.cmj
 
-Record with one field crashes
+Record with one field also works fine
 
-  $ dune clean
   $ cat > x.ml <<EOF
-  > type chartDataItemType = { height: int; } [@@deriving abstract]
+  > type chartDataItemType = { height: int; } [@@deriving jsProperties]
   > EOF
-
   $ dune build ./.x.objs/melange/x.cmj
 
-  $ dune clean
   $ cat > x.ml <<EOF
   > type 'a t = { x : 'a }
   > external x : 'a t -> 'a = "%identity"
   > EOF
-
   $ dune build ./.x.objs/melange/x.cmj
 
   $ cat > x.mli <<EOF
   > type 'a t = { x : 'a }
   > external x : 'a t -> 'a = "%identity"
   > EOF
-
-  $ dune clean
   $ dune build ./.x.objs/melange/x.cmi
 

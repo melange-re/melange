@@ -5,7 +5,7 @@ Test showing unused record fields error with bs.deriving abstract
   >   { leading : bool
   >   ; trailing : bool
   >   }
-  > [@@deriving abstract]
+  > [@@deriving jsProperties]
   > type t
   > external foo: config -> t = "foo"
   > EOF
