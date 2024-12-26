@@ -32,6 +32,7 @@ module Warnings : sig
     | Mel_send_self_param
 end
 
+val warn_raw : loc:location -> kind:label -> label -> unit
 val warn : loc:Location.t -> Warnings.t -> unit
 val mark_used_mel_attribute : attribute -> unit
 
