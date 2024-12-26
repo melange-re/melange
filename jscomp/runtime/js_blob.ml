@@ -25,7 +25,18 @@
 (* https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob *)
 
 type t = Js.blob
-type options = { type_ : string; endings : [ `transparent | `native ] }
+
+type options = {
+  type_ : string option; [@mel.as "type"] [@mel.optional]
+      (** A string representing the MIME type of the content that will be put
+          into the file. Defaults to a value of "". *)
+  endings : [ `transparent | `native ] option; [@mel.optional]
+      (** How to interpret newline characters (\n) within the contents, if the
+          data is text. The default value, transparent, copies newline
+          characters into the blob without changing them. To convert newlines
+          to the host system's native convention, specify the value native. *)
+}
+[@@deriving jsProperties]
 
 external make : string Js.iterator -> ?options:options -> unit -> t = "Blob"
 [@@mel.new]

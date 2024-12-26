@@ -41,7 +41,7 @@ function form_data_append_blob(param) {
 
 function form_data_append_file(param) {
   const fd = new FormData();
-  const file = new File(["hello"].values(), "foo.txt");
+  const file = new File(["hello"].values(), "foo.txt", undefined);
   fd.append("b", file, "foo.txt");
   const got_file = Stdlib__Option.get(Caml_option.null_to_opt(fd.get("b")));
   return got_file.text().then(function (x) {
