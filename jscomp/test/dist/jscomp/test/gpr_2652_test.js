@@ -6,7 +6,7 @@ const Stdlib__Buffer = require("melange/buffer.js");
 const foo = Stdlib__Buffer.contents;
 
 function bar(str) {
-  return Buffer.from(undefined, str);
+  return Buffer.from(str);
 }
 
 exports.foo = foo;
