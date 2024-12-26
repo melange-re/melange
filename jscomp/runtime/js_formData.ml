@@ -43,7 +43,6 @@ external append :
   value:
     ([ `String of string | `Object of < .. > Js.t | `Dict of _ Js.dict ]
     [@mel.unwrap]) ->
-  ?filename:string ->
   t ->
   unit = "append"
 [@@mel.send]

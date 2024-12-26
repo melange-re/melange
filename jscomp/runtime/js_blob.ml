@@ -25,14 +25,15 @@
 (* https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob *)
 
 type t = Js.blob
+type options = { type_ : string; endings : [ `transparent | `native ] }
 
-external make : string Js.iterator -> filename:string -> t = "Blob"
+external make : string Js.iterator -> ?options:options -> unit -> t = "Blob"
 [@@mel.new]
-(** [make contents_array ~filename] creates a new file from an iterable object
-  such as an Array, having ArrayBuffers, TypedArrays, DataViews, Blobs,
-  strings, or a mix of any of such elements, that will be put inside the File.
-  Note that strings here are encoded as UTF-8, unlike the usual JavaScript
-  UTF-16 strings. *)
+(** [make (Js.Array.values contents_array)] creates a new file from an iterable
+    object such as an Array, having ArrayBuffers, TypedArrays, DataViews,
+    Blobs, strings, or a mix of any of such elements, that will be put inside
+    the File. Note that strings here are encoded as UTF-8, unlike the usual
+    JavaScript UTF-16 strings. *)
 
 external size : t -> float = "size"
 [@@mel.get]
