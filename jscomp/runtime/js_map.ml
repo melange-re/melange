@@ -41,9 +41,10 @@ external set : ('k, 'v) t -> key:'k -> value:'v -> ('k, 'v) t = "set"
 external clear : ('k, 'v) t -> unit = "clear" [@@mel.send]
 external delete : ('k, 'v) t -> key:'k -> bool = "delete" [@@mel.send]
 
-external forEach : f:(('v -> 'k -> ('k, 'v) t -> unit)[@mel.uncurry]) -> unit
+external forEach :
+  f:(('v -> 'k -> ('k, 'v) t -> unit)[@mel.uncurry]) -> ('k, 'v) t -> unit
   = "forEach"
-[@@mel.send.pipe: ('k, 'v) t]
+[@@mel.send]
 
 external keys : ('k, 'v) t -> 'k Js.iterator = "keys" [@@mel.send]
 external values : ('k, 'v) t -> 'v Js.iterator = "values" [@@mel.send]
