@@ -33,8 +33,8 @@ type t = int
   *)
 (* + conversion*)
 
-external toExponential : ?digits:t -> string = "toExponential"
-[@@mel.send.pipe: t]
+external toExponential : ?digits:t -> t -> string = "toExponential"
+[@@mel.send]
 (** Formats an [int] using exponential (scientific) notation
 
 {b digits} specifies how many digits should appear after the decimal point. The
@@ -55,8 +55,8 @@ The output will be rounded or padded with zeroes if necessary.
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential> MDN
 *)
 
-external toPrecision : ?digits:t -> string = "toPrecision"
-[@@mel.send.pipe: t]
+external toPrecision : ?digits:t -> t -> string = "toPrecision"
+[@@mel.send]
 (** Formats an [int] using some fairly arbitrary rules
 
 {b digits} specifies how many digits should appear in total. The value must
@@ -83,8 +83,8 @@ point.
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toPrecision> MDN
 *)
 
-external toString : ?radix:t -> string = "toString"
-[@@mel.send.pipe: t]
+external toString : ?radix:t -> t -> string = "toString"
+[@@mel.send]
 (** Formats an [int] as a string
 
 {b radix} specifies the radix base to use for the formatted number. The
