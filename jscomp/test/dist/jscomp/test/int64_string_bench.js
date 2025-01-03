@@ -12,7 +12,7 @@ const u = Caml_int64.sub(Stdlib__Int64.max_int, [
       200000
     ]);
 
-for(let _i = 0; _i <= 100000; ++_i){
+for (let _i = 0; _i <= 100000; ++_i) {
   Caml_format.caml_int64_format("%d", u);
 }
 
@@ -27,7 +27,7 @@ const u$1 = [
   30000000
 ];
 
-for(let _i$1 = 0; _i$1 <= 100000; ++_i$1){
+for (let _i$1 = 0; _i$1 <= 100000; ++_i$1) {
   Caml_format.caml_int64_format("%d", u$1);
 }
 
@@ -42,7 +42,7 @@ const u$2 = Caml_int64.add(Stdlib__Int64.min_int, [
       100
     ]);
 
-for(let _i$2 = 0; _i$2 <= 100000; ++_i$2){
+for (let _i$2 = 0; _i$2 <= 100000; ++_i$2) {
   Caml_format.caml_int64_format("%d", u$2);
 }
 

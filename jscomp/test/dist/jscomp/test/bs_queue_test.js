@@ -412,7 +412,7 @@ const q$3 = {
   last: undefined
 };
 
-for(let i = 1; i <= 10; ++i){
+for (let i = 1; i <= 10; ++i) {
   Belt__Belt_MutableQueue.add(q$3, i);
 }
 
@@ -474,7 +474,7 @@ const q1 = {
   last: undefined
 };
 
-for(let i$1 = 1; i$1 <= 10; ++i$1){
+for (let i$1 = 1; i$1 <= 10; ++i$1) {
   Belt__Belt_MutableQueue.add(q1, i$1);
 }
 
@@ -546,7 +546,7 @@ if (q2.length !== 10) {
           });
 }
 
-for(let i$2 = 1; i$2 <= 10; ++i$2){
+for (let i$2 = 1; i$2 <= 10; ++i$2) {
   if (Belt__Belt_MutableQueue.popExn(q1) !== i$2) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
@@ -560,7 +560,7 @@ for(let i$2 = 1; i$2 <= 10; ++i$2){
   
 }
 
-for(let i$3 = 1; i$3 <= 10; ++i$3){
+for (let i$3 = 1; i$3 <= 10; ++i$3) {
   if (Belt__Belt_MutableQueue.popExn(q2) !== i$3) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
@@ -591,7 +591,7 @@ if (q$4.length !== 0) {
           });
 }
 
-for(let i$4 = 1; i$4 <= 10; ++i$4){
+for (let i$4 = 1; i$4 <= 10; ++i$4) {
   Belt__Belt_MutableQueue.add(q$4, i$4);
   if (q$4.length !== i$4) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -616,7 +616,7 @@ for(let i$4 = 1; i$4 <= 10; ++i$4){
   
 }
 
-for(let i$5 = 10; i$5 >= 1; --i$5){
+for (let i$5 = 10; i$5 >= 1; --i$5) {
   if (q$4.length !== i$5) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
@@ -668,7 +668,7 @@ const q$5 = {
   last: undefined
 };
 
-for(let i$6 = 1; i$6 <= 10; ++i$6){
+for (let i$6 = 1; i$6 <= 10; ++i$6) {
   Belt__Belt_MutableQueue.add(q$5, i$6);
 }
 
@@ -804,7 +804,7 @@ const q2$2 = {
   last: undefined
 };
 
-for(let i$8 = 1; i$8 <= 4; ++i$8){
+for (let i$8 = 1; i$8 <= 4; ++i$8) {
   Belt__Belt_MutableQueue.add(q1$2, i$8);
 }
 
@@ -920,7 +920,7 @@ const q2$3 = {
   last: undefined
 };
 
-for(let i$9 = 5; i$9 <= 8; ++i$9){
+for (let i$9 = 5; i$9 <= 8; ++i$9) {
   Belt__Belt_MutableQueue.add(q2$3, i$9);
 }
 
@@ -1036,11 +1036,11 @@ const q2$4 = {
   last: undefined
 };
 
-for(let i$10 = 1; i$10 <= 4; ++i$10){
+for (let i$10 = 1; i$10 <= 4; ++i$10) {
   Belt__Belt_MutableQueue.add(q1$4, i$10);
 }
 
-for(let i$11 = 5; i$11 <= 8; ++i$11){
+for (let i$11 = 5; i$11 <= 8; ++i$11) {
   Belt__Belt_MutableQueue.add(q2$4, i$11);
 }
 

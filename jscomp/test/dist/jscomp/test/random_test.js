@@ -41,7 +41,7 @@ Stdlib__Random.init(0);
 
 const v = Caml_array.make(10, false);
 
-for(let i = 0; i <= 9; ++i){
+for (let i = 0; i <= 9; ++i) {
   Caml_array.set(v, i, Stdlib__Random.bool(undefined));
 }
 

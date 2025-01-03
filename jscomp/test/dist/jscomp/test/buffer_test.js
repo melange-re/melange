@@ -49,7 +49,7 @@ const suites_1 = {
       "buffer",
       (function (param) {
           const v = Stdlib__Buffer.create(30);
-          for(let i = 0; i <= 10; ++i){
+          for (let i = 0; i <= 10; ++i) {
             Stdlib__Buffer.add_string(v, String(i));
           }
           return {

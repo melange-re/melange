@@ -96,7 +96,7 @@ function resize(newSize) {
       }
     };
   };
-  for(let n = 0 ,n_finish = sz_1.contents; n <= n_finish; ++n){
+  for (let n = 0 ,n_finish = sz_1.contents; n <= n_finish; ++n) {
     copyBucket(Caml_array.get(arr, n));
   }
   htab.contents = newArr;
@@ -357,7 +357,7 @@ function random(param) {
 
 function random_vars(n) {
   const vars = Caml_array.make(n, false);
-  for(let i = 0; i < n; ++i){
+  for (let i = 0; i < n; ++i) {
     Caml_array.set(vars, i, random(undefined));
   }
   return vars;
@@ -379,7 +379,7 @@ function bool_equal(a, b) {
 
 function test_hwb(bdd, vars) {
   let ntrue = 0;
-  for(let i = 0 ,i_finish = vars.length; i < i_finish; ++i){
+  for (let i = 0 ,i_finish = vars.length; i < i_finish; ++i) {
     if (Caml_array.get(vars, i)) {
       ntrue = ntrue + 1 | 0;
     }
@@ -391,7 +391,7 @@ function test_hwb(bdd, vars) {
 function main(param) {
   const bdd = hwb(22);
   let succeeded = true;
-  for(let _i = 1; _i <= 100; ++_i){
+  for (let _i = 1; _i <= 100; ++_i) {
     succeeded = succeeded && test_hwb(bdd, random_vars(22));
   }
   if (succeeded) {

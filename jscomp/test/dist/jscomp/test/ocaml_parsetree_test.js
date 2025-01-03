@@ -792,7 +792,7 @@ function parse_opt(error, active, flags, s) {
               });
     }
     const match$1 = get_range(i);
-    for(let n = match$1[1] ,n_finish = Caml.caml_int_min(match$1[2], 104); n <= n_finish; ++n){
+    for (let n = match$1[1] ,n_finish = Caml.caml_int_min(match$1[2], 104); n <= n_finish; ++n) {
       Curry._1(myset, n);
     }
     loop(match$1[0]);
@@ -1332,7 +1332,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
             });
   }
   let lines = num_loc_lines.contents;
-  for(let i = pos0 ,i_finish = lb.lex_buffer_len; i < i_finish; ++i){
+  for (let i = pos0 ,i_finish = lb.lex_buffer_len; i < i_finish; ++i) {
     if (Caml_bytes.get(lb.lex_buffer, i) === /* '\n' */10) {
       lines = lines + 1 | 0;
     }
@@ -1347,7 +1347,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
   Caml_external_polyfill.resolve("caml_terminfo_backup")(lines);
   let bol = false;
   Stdlib.print_string("# ");
-  for(let pos = 0 ,pos_finish = lb.lex_buffer_len - pos0 | 0; pos < pos_finish; ++pos){
+  for (let pos = 0 ,pos_finish = lb.lex_buffer_len - pos0 | 0; pos < pos_finish; ++pos) {
     if (bol) {
       Stdlib.print_string("  ");
       bol = false;
@@ -1381,7 +1381,7 @@ function highlight_dumb(ppf, lb, loc) {
   const end_pos = (lb.lex_buffer_len - pos0 | 0) - 1 | 0;
   let line_start = 0;
   let line_end = 0;
-  for(let pos = 0; pos <= end_pos; ++pos){
+  for (let pos = 0; pos <= end_pos; ++pos) {
     if (Caml_bytes.get(lb.lex_buffer, pos + pos0 | 0) === /* '\n' */10) {
       if (loc.loc_start.pos_cnum > pos) {
         line_start = line_start + 1 | 0;
@@ -1429,7 +1429,7 @@ function highlight_dumb(ppf, lb, loc) {
   Stdlib__Format.pp_print_string(ppf, "  ");
   let line = 0;
   let pos_at_bol = 0;
-  for(let pos$1 = 0; pos$1 <= end_pos; ++pos$1){
+  for (let pos$1 = 0; pos$1 <= end_pos; ++pos$1) {
     const c = Caml_bytes.get(lb.lex_buffer, pos$1 + pos0 | 0);
     if (c !== 10) {
       if (c !== 13) {
@@ -1468,10 +1468,10 @@ function highlight_dumb(ppf, lb, loc) {
               },
               _1: "@.  "
             });
-        for(let _i = pos_at_bol ,_i_finish = loc.loc_start.pos_cnum; _i < _i_finish; ++_i){
+        for (let _i = pos_at_bol ,_i_finish = loc.loc_start.pos_cnum; _i < _i_finish; ++_i) {
           Stdlib__Format.pp_print_char(ppf, /* ' ' */32);
         }
-        for(let _i$1 = loc.loc_start.pos_cnum ,_i_finish$1 = loc.loc_end.pos_cnum; _i$1 < _i_finish$1; ++_i$1){
+        for (let _i$1 = loc.loc_start.pos_cnum ,_i_finish$1 = loc.loc_end.pos_cnum; _i$1 < _i_finish$1; ++_i$1) {
           Stdlib__Format.pp_print_char(ppf, /* '^' */94);
         }
       }
@@ -11846,7 +11846,7 @@ function store_string_char(c) {
 }
 
 function store_string(s) {
-  for(let i = 0 ,i_finish = s.length; i < i_finish; ++i){
+  for (let i = 0 ,i_finish = s.length; i < i_finish; ++i) {
     store_string_char(Caml_string.get(s, i));
   }
 }

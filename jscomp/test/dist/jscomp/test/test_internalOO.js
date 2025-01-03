@@ -32,7 +32,7 @@ const step = Stdlib__Sys.word_size / 16 | 0;
 
 function public_method_label(s) {
   let accu = 0;
-  for(let i = 0 ,i_finish = s.length; i < i_finish; ++i){
+  for (let i = 0 ,i_finish = s.length; i < i_finish; ++i) {
     accu = Math.imul(223, accu) + Caml_string.get(s, i) | 0;
   }
   accu = accu & 2147483647;
@@ -3504,7 +3504,7 @@ function new_table(pub_labels) {
   const methods = Caml_array.make((len << 1) + 2 | 0, /* DummyA */0);
   Caml_array.set(methods, 0, len);
   Caml_array.set(methods, 1, (Math.imul(fit_size(len), Stdlib__Sys.word_size) / 8 | 0) - 1 | 0);
-  for(let i = 0; i < len; ++i){
+  for (let i = 0; i < len; ++i) {
     Caml_array.set(methods, (i << 1) + 3 | 0, Caml_array.get(pub_labels, i));
   }
   return {
@@ -3732,10 +3732,10 @@ function new_methods_variables(table, meths, vals) {
   const nmeths = meths$1.length;
   const nvals = vals.length;
   const res = Caml_array.make(nmeths + nvals | 0, 0);
-  for(let i = 0; i < nmeths; ++i){
+  for (let i = 0; i < nmeths; ++i) {
     Caml_array.set(res, i, get_method_label(table, Caml_array.get(meths$1, i)));
   }
-  for(let i$1 = 0; i$1 < nvals; ++i$1){
+  for (let i$1 = 0; i$1 < nvals; ++i$1) {
     Caml_array.set(res, i$1 + nmeths | 0, new_variable(table, Caml_array.get(vals, i$1)));
   }
   return res;
@@ -3888,7 +3888,7 @@ function build_path(n, keys, tables) {
     next: /* Empty */0
   };
   let r = res;
-  for(let i = 0; i <= n; ++i){
+  for (let i = 0; i <= n; ++i) {
     r = {
       TAG: /* Cons */0,
       _0: Caml_array.get(keys, i),

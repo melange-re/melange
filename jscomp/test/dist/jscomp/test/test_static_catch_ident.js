@@ -14,7 +14,7 @@ function scanf_bad_input(ib, x) {
   } else {
     throw new Caml_js_exceptions.MelangeError(x.MEL_EXN_ID, x);
   }
-  for(let _i = 0; _i <= 100; ++_i){
+  for (let _i = 0; _i <= 100; ++_i) {
     console.log(s);
     console.log("don't inlinie");
   }

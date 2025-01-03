@@ -51,7 +51,7 @@ Test cases for stdlib Array
   
   const fl = Caml_array.make_float(3);
   
-  for(let i = 0; i <= 2; ++i){
+  for (let i = 0; i <= 2; ++i) {
     fl[i] = 42;
   }
   

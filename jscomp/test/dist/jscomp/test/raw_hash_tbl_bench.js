@@ -6,10 +6,10 @@ const Stdlib__Hashtbl = require("melange/hashtbl.js");
 
 function bench(param) {
   const table = Stdlib__Hashtbl.create(undefined, 1000000);
-  for(let i = 0; i <= 1000000; ++i){
+  for (let i = 0; i <= 1000000; ++i) {
     Stdlib__Hashtbl.add(table, i, i);
   }
-  for(let i$1 = 0; i$1 <= 1000000; ++i$1){
+  for (let i$1 = 0; i$1 <= 1000000; ++i$1) {
     if (!Stdlib__Hashtbl.mem(table, i$1)) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
@@ -22,7 +22,7 @@ function bench(param) {
     }
     
   }
-  for(let i$2 = 0; i$2 <= 1000000; ++i$2){
+  for (let i$2 = 0; i$2 <= 1000000; ++i$2) {
     Stdlib__Hashtbl.remove(table, i$2);
   }
 }

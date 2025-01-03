@@ -84,13 +84,13 @@ Belt__Belt_HashMap.mergeMany(v$1, Belt__Belt_Array.zip(u$1, u$1));
 
 eqx("File \"jscomp/test/bs_hashmap_test.ml\", line 48, characters 6-13", v$1.size, 100001);
 
-for(let i = 0; i <= 1000; ++i){
+for (let i = 0; i <= 1000; ++i) {
   Belt__Belt_HashMap.remove(v$1, i);
 }
 
 eqx("File \"jscomp/test/bs_hashmap_test.ml\", line 52, characters 6-13", v$1.size, 99000);
 
-for(let i$1 = 0; i$1 <= 2000; ++i$1){
+for (let i$1 = 0; i$1 <= 2000; ++i$1) {
   Belt__Belt_HashMap.remove(v$1, i$1);
 }
 

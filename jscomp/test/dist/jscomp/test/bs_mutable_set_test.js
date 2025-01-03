@@ -51,7 +51,7 @@ b("File \"jscomp/test/bs_mutable_set_test.ml\", line 27, characters 4-11", 1 ===
 
 Belt__Belt_MutableSetInt.add(u, 3);
 
-for(let i = 0 ,i_finish = r.length; i < i_finish; ++i){
+for (let i = 0 ,i_finish = r.length; i < i_finish; ++i) {
   Belt__Belt_MutableSetInt.remove(u, r[i]);
 }
 
@@ -69,7 +69,7 @@ eq("File \"jscomp/test/bs_mutable_set_test.ml\", line 37, characters 5-12", Belt
 
 b("File \"jscomp/test/bs_mutable_set_test.ml\", line 38, characters 4-11", !Belt__Belt_MutableSetInt.isEmpty(u));
 
-for(let i$1 = 0; i$1 <= 3; ++i$1){
+for (let i$1 = 0; i$1 <= 3; ++i$1) {
   Belt__Belt_MutableSetInt.remove(u, i$1);
 }
 
@@ -421,7 +421,7 @@ const v$1 = {
   data: undefined
 };
 
-for(let i$2 = 0; i$2 <= 100000; ++i$2){
+for (let i$2 = 0; i$2 <= 100000; ++i$2) {
   Belt__Belt_MutableSetInt.add(v$1, i$2);
 }
 
@@ -455,7 +455,7 @@ eq("File \"jscomp/test/bs_mutable_set_test.ml\", line 193, characters 5-12", Bel
 
 const u$3 = Array_data_util.randomRange(50000, 80000);
 
-for(let i$3 = 0 ,i_finish$1 = u$3.length; i$3 < i_finish$1; ++i$3){
+for (let i$3 = 0 ,i_finish$1 = u$3.length; i$3 < i_finish$1; ++i$3) {
   Belt__Belt_MutableSetInt.remove(v$3, i$3);
 }
 
@@ -463,7 +463,7 @@ eq("File \"jscomp/test/bs_mutable_set_test.ml\", line 200, characters 5-12", Bel
 
 const vv = Array_data_util.randomRange(0, 100000);
 
-for(let i$4 = 0 ,i_finish$2 = vv.length; i$4 < i_finish$2; ++i$4){
+for (let i$4 = 0 ,i_finish$2 = vv.length; i$4 < i_finish$2; ++i$4) {
   Belt__Belt_MutableSetInt.remove(v$3, Caml_array.get(vv, i$4));
 }
 
@@ -493,7 +493,7 @@ eq("File \"jscomp/test/bs_mutable_set_test.ml\", line 216, characters 5-12", Bel
 
 const vv$1 = Array_data_util.randomRange(1, 28);
 
-for(let i$5 = 0 ,i_finish$3 = vv$1.length; i$5 < i_finish$3; ++i$5){
+for (let i$5 = 0 ,i_finish$3 = vv$1.length; i$5 < i_finish$3; ++i$5) {
   Belt__Belt_MutableSetInt.remove(v$4, Caml_array.get(vv$1, i$5));
 }
 
@@ -610,7 +610,7 @@ const cc$1 = Belt__Belt_MutableSetInt.keep(v$5, (function (x) {
         return x % 8 !== 0;
       }));
 
-for(let i$6 = 0; i$6 <= 200; ++i$6){
+for (let i$6 = 0; i$6 <= 200; ++i$6) {
   Belt__Belt_MutableSetInt.remove(v$5, i$6);
 }
 

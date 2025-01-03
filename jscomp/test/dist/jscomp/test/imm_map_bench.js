@@ -11,7 +11,7 @@ const empty = new Immutable.OrderedMap();
 
 function fromArray(kvs) {
   let v = empty;
-  for(let i = 0 ,i_finish = kvs.length; i < i_finish; ++i){
+  for (let i = 0 ,i_finish = kvs.length; i < i_finish; ++i) {
     const match = kvs[i];
     v = v.set(match[0], match[1]);
   }
@@ -34,14 +34,14 @@ const shuffledDataAdd = Belt__Belt_Array.makeByAndShuffle(1000001, (function (i)
 
 function test(param) {
   const v = fromArray(shuffledDataAdd);
-  for(let j = 0; j <= 1000000; ++j){
+  for (let j = 0; j <= 1000000; ++j) {
     should(v.has(j));
   }
 }
 
 function test2(param) {
   const v = Belt__Belt_MapInt.fromArray(shuffledDataAdd);
-  for(let j = 0; j <= 1000000; ++j){
+  for (let j = 0; j <= 1000000; ++j) {
     should(Belt__Belt_MapInt.has(v, j));
   }
 }

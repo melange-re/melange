@@ -971,7 +971,7 @@ function verify_read(c) {
 }
 
 function verify_scan_Chars(param) {
-  for(let i = 0; i <= 255; ++i){
+  for (let i = 0; i <= 255; ++i) {
     verify_read(Stdlib.char_of_int(i));
   }
 }

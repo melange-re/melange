@@ -24,7 +24,7 @@ function eq(loc, x, y) {
 
 function escaped(s) {
   let n = 0;
-  for(let i = 0 ,i_finish = s.length; i < i_finish; ++i){
+  for (let i = 0 ,i_finish = s.length; i < i_finish; ++i) {
     const match = s[i];
     n = n + (
       match >= 32 ? (
@@ -47,7 +47,7 @@ function escaped(s) {
   }
   const s$p = Caml_bytes.caml_create_bytes(n);
   n = 0;
-  for(let i$1 = 0 ,i_finish$1 = s.length; i$1 < i_finish$1; ++i$1){
+  for (let i$1 = 0 ,i_finish$1 = s.length; i$1 < i_finish$1; ++i$1) {
     const c = s[i$1];
     let exit = 0;
     if (c >= 35) {
@@ -135,7 +135,7 @@ function starts_with(xs, prefix, p) {
     return false;
   }
   try {
-    for(let i = 0; i < len2; ++i){
+    for (let i = 0; i < len2; ++i) {
       if (!Curry._2(p, Caml_bytes.get(xs, i), Caml_bytes.get(prefix, i))) {
         throw new Caml_js_exceptions.MelangeError(H, {
                   MEL_EXN_ID: H

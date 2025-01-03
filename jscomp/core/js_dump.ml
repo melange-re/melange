@@ -1108,6 +1108,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
               group cxt 0 (fun () ->
                   (* The only place that [semi] may have semantics here *)
                   string cxt L.for_;
+                  space cxt;
                   paren_group cxt 1 (fun () ->
                       let cxt, new_id =
                         match
@@ -1166,6 +1167,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
                       pp_direction cxt direction;
                       ident cxt id))
             in
+            space cxt;
             brace_block cxt s)
       in
       action cxt
