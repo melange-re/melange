@@ -59,7 +59,7 @@ b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 25, characters 4-11", 
 
 Belt__Belt_MutableSet.add(u, 3);
 
-for(let i = 0 ,i_finish = r.length; i < i_finish; ++i){
+for (let i = 0 ,i_finish = r.length; i < i_finish; ++i) {
   Belt__Belt_MutableSet.remove(u, r[i]);
 }
 
@@ -77,7 +77,7 @@ eq("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 35, characters 5-12",
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 36, characters 4-11", !Belt__Belt_MutableSet.isEmpty(u));
 
-for(let i$1 = 0; i$1 <= 3; ++i$1){
+for (let i$1 = 0; i$1 <= 3; ++i$1) {
   Belt__Belt_MutableSet.remove(u, i$1);
 }
 

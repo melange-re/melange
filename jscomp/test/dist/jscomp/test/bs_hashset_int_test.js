@@ -61,13 +61,13 @@ Belt__Belt_HashSetInt.mergeMany(v$1, u$1);
 
 eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 30, characters 5-12", v$1.size, 100001);
 
-for(let i = 0; i <= 1000; ++i){
+for (let i = 0; i <= 1000; ++i) {
   Belt__Belt_HashSetInt.remove(v$1, i);
 }
 
 eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 34, characters 5-12", v$1.size, 99000);
 
-for(let i$1 = 0; i$1 <= 2000; ++i$1){
+for (let i$1 = 0; i$1 <= 2000; ++i$1) {
   Belt__Belt_HashSetInt.remove(v$1, i$1);
 }
 
@@ -79,11 +79,11 @@ const u1 = Belt__Belt_HashSetInt.copy(u0);
 
 eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 46, characters 5-12", Belt__Belt_HashSetInt.toArray(u0), Belt__Belt_HashSetInt.toArray(u1));
 
-for(let i$2 = 0; i$2 <= 2000; ++i$2){
+for (let i$2 = 0; i$2 <= 2000; ++i$2) {
   Belt__Belt_HashSetInt.remove(u1, i$2);
 }
 
-for(let i$3 = 0; i$3 <= 1000; ++i$3){
+for (let i$3 = 0; i$3 <= 1000; ++i$3) {
   Belt__Belt_HashSetInt.remove(u0, i$3);
 }
 

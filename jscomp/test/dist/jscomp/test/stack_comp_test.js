@@ -222,7 +222,7 @@ const s$3 = {
   len: 0
 };
 
-for(let i = 1; i <= 10; ++i){
+for (let i = 1; i <= 10; ++i) {
   Stdlib__Stack.push(i, s$3);
 }
 
@@ -246,7 +246,7 @@ const s1 = {
   len: 0
 };
 
-for(let i$1 = 1; i$1 <= 10; ++i$1){
+for (let i$1 = 1; i$1 <= 10; ++i$1) {
   Stdlib__Stack.push(i$1, s1);
 }
 
@@ -320,11 +320,11 @@ assert_("File \"jscomp/test/stack_comp_test.ml\", line 81, characters 10-17", s1
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 82, characters 10-17", s2.len === 10);
 
-for(let i$2 = 10; i$2 >= 1; --i$2){
+for (let i$2 = 10; i$2 >= 1; --i$2) {
   assert_("File \"jscomp/test/stack_comp_test.ml\", line 84, characters 12-19", Stdlib__Stack.pop(s1) === i$2);
 }
 
-for(let i$3 = 10; i$3 >= 1; --i$3){
+for (let i$3 = 10; i$3 >= 1; --i$3) {
   assert_("File \"jscomp/test/stack_comp_test.ml\", line 87, characters 12-19", Stdlib__Stack.pop(s2) === i$3);
 }
 
@@ -335,13 +335,13 @@ const s$4 = {
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 93, characters 10-17", Caml_obj.caml_equal(s$4.c, /* [] */0));
 
-for(let i$4 = 1; i$4 <= 10; ++i$4){
+for (let i$4 = 1; i$4 <= 10; ++i$4) {
   Stdlib__Stack.push(i$4, s$4);
   assert_("File \"jscomp/test/stack_comp_test.ml\", line 96, characters 12-19", s$4.len === i$4);
   assert_("File \"jscomp/test/stack_comp_test.ml\", line 97, characters 12-19", !Caml_obj.caml_equal(s$4.c, /* [] */0));
 }
 
-for(let i$5 = 10; i$5 >= 1; --i$5){
+for (let i$5 = 10; i$5 >= 1; --i$5) {
   assert_("File \"jscomp/test/stack_comp_test.ml\", line 100, characters 12-19", s$4.len === i$5);
   assert_("File \"jscomp/test/stack_comp_test.ml\", line 101, characters 12-19", !Caml_obj.caml_equal(s$4.c, /* [] */0));
   Stdlib__Stack.pop(s$4);
@@ -356,7 +356,7 @@ const s$5 = {
   len: 0
 };
 
-for(let i$6 = 10; i$6 >= 1; --i$6){
+for (let i$6 = 10; i$6 >= 1; --i$6) {
   Stdlib__Stack.push(i$6, s$5);
 }
 
@@ -393,7 +393,7 @@ const s1$2 = {
   len: 0
 };
 
-for(let i$8 = 1; i$8 <= 4; ++i$8){
+for (let i$8 = 1; i$8 <= 4; ++i$8) {
   Stdlib__Stack.push(i$8, s1$2);
 }
 

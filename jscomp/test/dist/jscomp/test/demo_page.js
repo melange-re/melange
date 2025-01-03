@@ -15,7 +15,7 @@ function fib(n) {
 
 function sum(n) {
   let v = 0;
-  for(let i = 0; i <= n; ++i){
+  for (let i = 0; i <= n; ++i) {
     v = v + i | 0;
   }
   return v;

@@ -6,7 +6,7 @@ const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 function caml_array_sub(x, offset, len) {
   const result = new Array(len);
-  for(let j = 0; j < len; ++j){
+  for (let j = 0; j < len; ++j) {
     Caml_array.set(result, j, Caml_array.get(x, offset + j | 0));
   }
   return result;
@@ -34,7 +34,7 @@ function caml_array_get(xs, index) {
 
 function caml_make_vect(len, init) {
   const b = new Array(len);
-  for(let i = 0; i < len; ++i){
+  for (let i = 0; i < len; ++i) {
     Caml_array.set(b, i, init);
   }
   return b;

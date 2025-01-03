@@ -48,10 +48,10 @@ const Int = Belt__Belt_Id.hashable(Stdlib__Hashtbl.hash, (function (x, y) {
 const empty = Belt__Belt_internalBucketsType.make(Int.hash, Int.eq, 500000);
 
 function bench(param) {
-  for(let i = 0; i <= 1000000; ++i){
+  for (let i = 0; i <= 1000000; ++i) {
     Belt__Belt_HashMap.set(empty, i, i);
   }
-  for(let i$1 = 0; i$1 <= 1000000; ++i$1){
+  for (let i$1 = 0; i$1 <= 1000000; ++i$1) {
     if (!Belt__Belt_HashMap.has(empty, i$1)) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
@@ -69,10 +69,10 @@ function bench(param) {
 
 function bench2(m) {
   const empty = Belt__Belt_internalBucketsType.make(m.hash, m.eq, 1000000);
-  for(let i = 0; i <= 1000000; ++i){
+  for (let i = 0; i <= 1000000; ++i) {
     Belt__Belt_HashMap.set(empty, String(i), i);
   }
-  for(let i$1 = 0; i$1 <= 1000000; ++i$1){
+  for (let i$1 = 0; i$1 <= 1000000; ++i$1) {
     if (!Belt__Belt_HashMap.has(empty, String(i$1))) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
@@ -85,7 +85,7 @@ function bench2(m) {
     }
     
   }
-  for(let i$2 = 0; i$2 <= 1000000; ++i$2){
+  for (let i$2 = 0; i$2 <= 1000000; ++i$2) {
     Belt__Belt_HashMap.remove(empty, String(i$2));
   }
   if (empty.size === 0) {
@@ -105,10 +105,10 @@ function bench3(m) {
   const empty_cmp = m.cmp;
   const cmp = m.cmp;
   let table = undefined;
-  for(let i = 0; i <= 1000000; ++i){
+  for (let i = 0; i <= 1000000; ++i) {
     table = Belt__Belt_MapDict.set(table, String(i), i, cmp);
   }
-  for(let i$1 = 0; i$1 <= 1000000; ++i$1){
+  for (let i$1 = 0; i$1 <= 1000000; ++i$1) {
     if (!Belt__Belt_MapDict.has(table, String(i$1), cmp)) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
@@ -121,7 +121,7 @@ function bench3(m) {
     }
     
   }
-  for(let i$2 = 0; i$2 <= 1000000; ++i$2){
+  for (let i$2 = 0; i$2 <= 1000000; ++i$2) {
     table = Belt__Belt_MapDict.remove(table, String(i$2), cmp);
   }
   if (Belt__Belt_MapDict.size(table) === 0) {
@@ -141,10 +141,10 @@ const Sx = Belt__Belt_Id.comparable(Caml.caml_string_compare);
 
 function bench4(param) {
   const table = Belt__Belt_internalBucketsType.make(undefined, undefined, 1000000);
-  for(let i = 0; i <= 1000000; ++i){
+  for (let i = 0; i <= 1000000; ++i) {
     Belt__Belt_HashMapString.set(table, String(i), i);
   }
-  for(let i$1 = 0; i$1 <= 1000000; ++i$1){
+  for (let i$1 = 0; i$1 <= 1000000; ++i$1) {
     if (!Belt__Belt_HashMapString.has(table, String(i$1))) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
@@ -157,7 +157,7 @@ function bench4(param) {
     }
     
   }
-  for(let i$2 = 0; i$2 <= 1000000; ++i$2){
+  for (let i$2 = 0; i$2 <= 1000000; ++i$2) {
     Belt__Belt_HashMapString.remove(table, String(i$2));
   }
   if (Belt__Belt_HashMapString.isEmpty(table)) {
@@ -176,12 +176,12 @@ function bench4(param) {
 function bench5(param) {
   const table = Belt__Belt_internalBucketsType.make(Int.hash, Int.eq, 1000000);
   console.time("bs_hashtbl_string_test.ml 133");
-  for(let i = 0; i <= 1000000; ++i){
+  for (let i = 0; i <= 1000000; ++i) {
     Belt__Belt_HashMap.set(table, i, i);
   }
   console.timeEnd("bs_hashtbl_string_test.ml 133");
   console.time("bs_hashtbl_string_test.ml 137");
-  for(let i$1 = 0; i$1 <= 1000000; ++i$1){
+  for (let i$1 = 0; i$1 <= 1000000; ++i$1) {
     if (!Belt__Belt_HashMap.has(table, i$1)) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
@@ -196,7 +196,7 @@ function bench5(param) {
   }
   console.timeEnd("bs_hashtbl_string_test.ml 137");
   console.time("bs_hashtbl_string_test.ml 141");
-  for(let i$2 = 0; i$2 <= 1000000; ++i$2){
+  for (let i$2 = 0; i$2 <= 1000000; ++i$2) {
     Belt__Belt_HashMap.remove(table, i$2);
   }
   console.timeEnd("bs_hashtbl_string_test.ml 141");
@@ -215,10 +215,10 @@ function bench5(param) {
 
 function bench6(param) {
   const table = Belt__Belt_internalBucketsType.make(undefined, undefined, 1000000);
-  for(let i = 0; i <= 1000000; ++i){
+  for (let i = 0; i <= 1000000; ++i) {
     Belt__Belt_HashMapInt.set(table, i, i);
   }
-  for(let i$1 = 0; i$1 <= 1000000; ++i$1){
+  for (let i$1 = 0; i$1 <= 1000000; ++i$1) {
     if (!Belt__Belt_HashMapInt.has(table, i$1)) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
@@ -231,7 +231,7 @@ function bench6(param) {
     }
     
   }
-  for(let i$2 = 0; i$2 <= 1000000; ++i$2){
+  for (let i$2 = 0; i$2 <= 1000000; ++i$2) {
     Belt__Belt_HashMapInt.remove(table, i$2);
   }
   if (table.size === 0) {
@@ -249,10 +249,10 @@ function bench6(param) {
 
 function bench7(param) {
   const table = Belt__Belt_internalBucketsType.make(undefined, undefined, 2000000);
-  for(let i = 0; i <= 1000000; ++i){
+  for (let i = 0; i <= 1000000; ++i) {
     Belt__Belt_HashSetInt.add(table, i);
   }
-  for(let i$1 = 0; i$1 <= 1000000; ++i$1){
+  for (let i$1 = 0; i$1 <= 1000000; ++i$1) {
     if (!Belt__Belt_HashSetInt.has(table, i$1)) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
@@ -265,7 +265,7 @@ function bench7(param) {
     }
     
   }
-  for(let i$2 = 0; i$2 <= 1000000; ++i$2){
+  for (let i$2 = 0; i$2 <= 1000000; ++i$2) {
     Belt__Belt_HashSetInt.remove(table, i$2);
   }
   if (table.size === 0) {

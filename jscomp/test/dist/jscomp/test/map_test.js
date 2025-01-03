@@ -514,11 +514,11 @@ const int_map_suites_1 = {
         "iteration",
         (function (param) {
             let m = /* Empty */0;
-            for(let i = 0; i <= 10000; ++i){
+            for (let i = 0; i <= 10000; ++i) {
               m = Curry._3(add$1, String(i), String(i), m);
             }
             let v = -1;
-            for(let i$1 = 0; i$1 <= 10000; ++i$1){
+            for (let i$1 = 0; i$1 <= 10000; ++i$1) {
               if (Curry._2(find, String(i$1), m) !== String(i$1)) {
                 v = i$1;
               }

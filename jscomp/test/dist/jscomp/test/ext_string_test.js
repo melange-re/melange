@@ -237,7 +237,7 @@ function is_empty(s) {
 function repeat(n, s) {
   const len = s.length;
   const res = Caml_bytes.caml_create_bytes(Math.imul(n, len));
-  for(let i = 0; i < n; ++i){
+  for (let i = 0; i < n; ++i) {
     Stdlib__String.blit(s, 0, res, Math.imul(i, len), len);
   }
   return Stdlib__Bytes.to_string(res);
@@ -623,7 +623,7 @@ function concat_array(sep, s) {
   }
   const sep_len = sep.length;
   let len = 0;
-  for(let i = 0; i < s_len; ++i){
+  for (let i = 0; i < s_len; ++i) {
     len = len + s[i].length | 0;
   }
   const target = Caml_bytes.caml_create_bytes(len + Math.imul(s_len - 1 | 0, sep_len) | 0);
@@ -631,7 +631,7 @@ function concat_array(sep, s) {
   const hd_len = hd.length;
   Caml_bytes.caml_blit_string(hd, 0, target, 0, hd_len);
   let current_offset = hd_len;
-  for(let i$1 = 1; i$1 < s_len; ++i$1){
+  for (let i$1 = 1; i$1 < s_len; ++i$1) {
     Caml_bytes.caml_blit_string(sep, 0, target, current_offset, sep_len);
     const cur = s[i$1];
     const cur_len = cur.length;

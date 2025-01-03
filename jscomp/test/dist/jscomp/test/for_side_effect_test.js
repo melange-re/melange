@@ -4,7 +4,7 @@
 const Mt = require("./mt.js");
 
 function tst(param) {
-  for(let _i = (console.log("hi"), 0) ,_i_finish = (console.log("hello"), 3); _i <= _i_finish; ++_i){
+  for (let _i = (console.log("hi"), 0) ,_i_finish = (console.log("hello"), 3); _i <= _i_finish; ++_i) {
     
   }
 }
@@ -13,7 +13,7 @@ function test2(param) {
   let v = 0;
   v = 3;
   v = 10;
-  for(let _i = 0; _i <= 1; ++_i){
+  for (let _i = 0; _i <= 1; ++_i) {
     
   }
   return v;

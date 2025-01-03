@@ -343,14 +343,14 @@ function edit_distance(a, b, cutoff) {
   }
   const m = Stdlib__Array.make_matrix(la + 1 | 0, lb + 1 | 0, cutoff$1 + 1 | 0);
   Caml_array.set(Caml_array.get(m, 0), 0, 0);
-  for(let i = 1; i <= la; ++i){
+  for (let i = 1; i <= la; ++i) {
     Caml_array.set(Caml_array.get(m, i), 0, i);
   }
-  for(let j = 1; j <= lb; ++j){
+  for (let j = 1; j <= lb; ++j) {
     Caml_array.set(Caml_array.get(m, 0), j, j);
   }
-  for(let i$1 = 1; i$1 <= la; ++i$1){
-    for(let j$1 = Caml.caml_int_max(1, (i$1 - cutoff$1 | 0) - 1 | 0) ,j_finish = Caml.caml_int_min(lb, (i$1 + cutoff$1 | 0) + 1 | 0); j$1 <= j_finish; ++j$1){
+  for (let i$1 = 1; i$1 <= la; ++i$1) {
+    for (let j$1 = Caml.caml_int_max(1, (i$1 - cutoff$1 | 0) - 1 | 0) ,j_finish = Caml.caml_int_min(lb, (i$1 + cutoff$1 | 0) + 1 | 0); j$1 <= j_finish; ++j$1) {
       const cost = Caml_string.get(a, i$1 - 1 | 0) === Caml_string.get(b, j$1 - 1 | 0) ? 0 : 1;
       const best = Caml.caml_int_min(1 + Caml.caml_int_min(Caml_array.get(Caml_array.get(m, i$1 - 1 | 0), j$1), Caml_array.get(Caml_array.get(m, i$1), j$1 - 1 | 0)) | 0, Caml_array.get(Caml_array.get(m, i$1 - 1 | 0), j$1 - 1 | 0) + cost | 0);
       const best$1 = i$1 > 1 && j$1 > 1 && Caml_string.get(a, i$1 - 1 | 0) === Caml_string.get(b, j$1 - 2 | 0) && Caml_string.get(a, i$1 - 2 | 0) === Caml_string.get(b, j$1 - 1 | 0) ? Caml.caml_int_min(best, Caml_array.get(Caml_array.get(m, i$1 - 2 | 0), j$1 - 2 | 0) + cost | 0) : best;
@@ -1071,7 +1071,7 @@ function parse_opt(error, active, flags, s) {
               });
     }
     const match$1 = get_range(i);
-    for(let n = match$1[1] ,n_finish = Caml.caml_int_min(match$1[2], 104); n <= n_finish; ++n){
+    for (let n = match$1[1] ,n_finish = Caml.caml_int_min(match$1[2], 104); n <= n_finish; ++n) {
       Curry._1(myset, n);
     }
     loop(match$1[0]);
@@ -1611,7 +1611,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
             });
   }
   let lines = num_loc_lines.contents;
-  for(let i = pos0 ,i_finish = lb.lex_buffer_len; i < i_finish; ++i){
+  for (let i = pos0 ,i_finish = lb.lex_buffer_len; i < i_finish; ++i) {
     if (Caml_bytes.get(lb.lex_buffer, i) === /* '\n' */10) {
       lines = lines + 1 | 0;
     }
@@ -1626,7 +1626,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
   Caml_external_polyfill.resolve("caml_terminfo_backup")(lines);
   let bol = false;
   Stdlib.print_string("# ");
-  for(let pos = 0 ,pos_finish = lb.lex_buffer_len - pos0 | 0; pos < pos_finish; ++pos){
+  for (let pos = 0 ,pos_finish = lb.lex_buffer_len - pos0 | 0; pos < pos_finish; ++pos) {
     if (bol) {
       Stdlib.print_string("  ");
       bol = false;
@@ -1660,7 +1660,7 @@ function highlight_dumb(ppf, lb, loc) {
   const end_pos = (lb.lex_buffer_len - pos0 | 0) - 1 | 0;
   let line_start = 0;
   let line_end = 0;
-  for(let pos = 0; pos <= end_pos; ++pos){
+  for (let pos = 0; pos <= end_pos; ++pos) {
     if (Caml_bytes.get(lb.lex_buffer, pos + pos0 | 0) === /* '\n' */10) {
       if (loc.loc_start.pos_cnum > pos) {
         line_start = line_start + 1 | 0;
@@ -1708,7 +1708,7 @@ function highlight_dumb(ppf, lb, loc) {
   Stdlib__Format.pp_print_string(ppf, "  ");
   let line = 0;
   let pos_at_bol = 0;
-  for(let pos$1 = 0; pos$1 <= end_pos; ++pos$1){
+  for (let pos$1 = 0; pos$1 <= end_pos; ++pos$1) {
     const c = Caml_bytes.get(lb.lex_buffer, pos$1 + pos0 | 0);
     if (c !== 10) {
       if (c !== 13) {
@@ -1747,10 +1747,10 @@ function highlight_dumb(ppf, lb, loc) {
               },
               _1: "@.  "
             });
-        for(let _i = pos_at_bol ,_i_finish = loc.loc_start.pos_cnum; _i < _i_finish; ++_i){
+        for (let _i = pos_at_bol ,_i_finish = loc.loc_start.pos_cnum; _i < _i_finish; ++_i) {
           Stdlib__Format.pp_print_char(ppf, /* ' ' */32);
         }
-        for(let _i$1 = loc.loc_start.pos_cnum ,_i_finish$1 = loc.loc_end.pos_cnum; _i$1 < _i_finish$1; ++_i$1){
+        for (let _i$1 = loc.loc_start.pos_cnum ,_i_finish$1 = loc.loc_end.pos_cnum; _i$1 < _i_finish$1; ++_i$1) {
           Stdlib__Format.pp_print_char(ppf, /* '^' */94);
         }
       }
@@ -5438,7 +5438,7 @@ function static_row(row) {
 
 function hash_variant(s) {
   let accu = 0;
-  for(let i = 0 ,i_finish = s.length; i < i_finish; ++i){
+  for (let i = 0 ,i_finish = s.length; i < i_finish; ++i) {
     accu = Math.imul(223, accu) + Caml_string.get(s, i) | 0;
   }
   accu = accu & 2147483647;
@@ -13966,7 +13966,7 @@ function check_value_name(name, loc) {
   if (!(name.length !== 0 && Caml_string.get(name, 0) === /* '#' */35)) {
     return ;
   }
-  for(let i = 1 ,i_finish = name.length; i < i_finish; ++i){
+  for (let i = 1 ,i_finish = name.length; i < i_finish; ++i) {
     if (Caml_string.get(name, i) === /* '#' */35) {
       throw new Caml_js_exceptions.MelangeError($$Error$2, {
                 MEL_EXN_ID: $$Error$2,
@@ -23986,7 +23986,7 @@ function store_string_char(c) {
 }
 
 function store_string(s) {
-  for(let i = 0 ,i_finish = s.length; i < i_finish; ++i){
+  for (let i = 0 ,i_finish = s.length; i < i_finish; ++i) {
     store_string_char(Caml_string.get(s, i));
   }
 }
@@ -57202,7 +57202,7 @@ function complete_tags(nconsts, nconstrs, tags) {
           }
         }), tags);
   let r = /* [] */0;
-  for(let i = 0; i < nconsts; ++i){
+  for (let i = 0; i < nconsts; ++i) {
     if (!Caml_array.get(seen_const, i)) {
       r = {
         hd: {
@@ -57214,7 +57214,7 @@ function complete_tags(nconsts, nconstrs, tags) {
     }
     
   }
-  for(let i$1 = 0; i$1 < nconstrs; ++i$1){
+  for (let i$1 = 0; i$1 < nconstrs; ++i$1) {
     if (!Caml_array.get(seen_constr, i$1)) {
       r = {
         hd: {
@@ -64554,7 +64554,7 @@ function check_recordpat_labels(loc, lbl_pat_list, closed) {
     return ;
   }
   let $$undefined = /* [] */0;
-  for(let i = 0 ,i_finish = all.length; i < i_finish; ++i){
+  for (let i = 0 ,i_finish = all.length; i < i_finish; ++i) {
     if (!Caml_array.get(defined, i)) {
       $$undefined = {
         hd: Caml_array.get(all, i).lbl_name,
@@ -79813,7 +79813,7 @@ function approx_description(ct) {
 
 function temp_abbrev(loc, env, id, arity) {
   let params = /* [] */0;
-  for(let _i = 1; _i <= arity; ++_i){
+  for (let _i = 1; _i <= arity; ++_i) {
     params = {
       hd: newvar(undefined, undefined),
       tl: params
