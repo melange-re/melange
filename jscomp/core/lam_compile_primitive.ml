@@ -367,6 +367,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   | Pbbswap Pint32 ->
       E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:"bswap32"
         args
+  | Popaque -> List.hd args
   | Pbbswap Pint64 ->
       E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:"bswap64"
         args
