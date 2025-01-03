@@ -1634,9 +1634,17 @@ and compile_prim (prim_info : Lam.prim_info)
      [
        Lprim
          {
-           primitive =
-             Pjs_unsafe_downgrade { name = property; setter = true; _ };
-           args = [ obj ];
+           primitive = Popaque;
+           args =
+             [
+               Lprim
+                 {
+                   primitive =
+                     Pjs_unsafe_downgrade { name = property; setter = true; _ };
+                   args = [ obj ];
+                   _;
+                 };
+             ];
            _;
          };
        setter_val;
@@ -1663,7 +1671,16 @@ and compile_prim (prim_info : Lam.prim_info)
   | {
    primitive = Pfull_apply;
    args =
-     Lprim { primitive = Pjs_unsafe_downgrade { setter = true; _ }; _ } :: _;
+     Lprim
+       {
+         primitive = Popaque;
+         args =
+           [
+             Lprim { primitive = Pjs_unsafe_downgrade { setter = true; _ }; _ };
+           ];
+         _;
+       }
+     :: _;
    _;
   } ->
       assert false

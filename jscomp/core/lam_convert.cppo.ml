@@ -433,7 +433,7 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
       | Pnativeint | Pint32 -> Lam.prim ~primitive:(Pintcomp b) ~args loc
       | Pint64 -> Lam.prim ~primitive:(Pint64comp b) ~args loc)
   | Pfield_computed -> Lam.prim ~primitive:Pfield_computed ~args loc
-  | Popaque -> List.hd args
+  | Popaque -> Lam.prim ~primitive:Popaque ~args loc
   | Psetfield_computed _ -> Lam.prim ~primitive:Psetfield_computed ~args loc
   | Pbbswap i -> Lam.prim ~primitive:(Pbbswap i) ~args loc
   | Pbswap16 -> Lam.prim ~primitive:Pbswap16 ~args loc

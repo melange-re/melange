@@ -51,11 +51,11 @@ const suites_1 = {
       return {
         TAG: /* Eq */ 0,
         _0: 34,
-        _1: ({
+        _1: f_js({
           say: (function (x) {
             return x + 2 | 0;
           })
-        }).say(32)
+        })
       };
     })
   ],

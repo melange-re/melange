@@ -190,6 +190,7 @@ let primitive ppf (prim : Lam_primitive.t) =
   | Pbbswap Pnativeint -> fprintf ppf "bswap_nativeint"
   | Pbbswap Pint32 -> fprintf ppf "bswap32"
   | Pbbswap Pint64 -> fprintf ppf "bswap64"
+  | Popaque -> fprintf ppf "opaque"
   | Pisint -> fprintf ppf "isint"
   | Pis_poly_var_const -> fprintf ppf "#is_poly_var_const"
   | Pisout i -> fprintf ppf "isout %d" i

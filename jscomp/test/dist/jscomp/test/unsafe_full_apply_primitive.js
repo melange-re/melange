@@ -3,9 +3,7 @@
 
 
 function f(a) {
-  while (true) {
-    continue;
-  };
+  return f(a);
 }
 
 module.exports = {
