@@ -57,6 +57,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
               (fun _ -> Lam.prim ~primitive ~args:[ l ] loc)
               v i info meta.ident_tbl
         | l -> Lam.prim ~primitive ~args:[ l ] loc)
+    | Lprim { primitive = Popaque; _ } -> lam
     | Lprim
         {
           primitive = (Pval_from_option | Pval_from_option_not_nest) as p;
