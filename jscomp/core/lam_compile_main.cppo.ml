@@ -72,7 +72,7 @@ let compile_group
 
 ;;
 
-(* Also need analyze its depenency is pure or not *)
+(* Also need analyze its dependency is pure or not *)
 let no_side_effects (rest : Lam_group.t list) : string option =
   List.find_map ~f:(function
     | Lam_group.Single(kind,id,body) ->
@@ -115,14 +115,13 @@ let _d  = fun  s lam ->
 let compile
     ~package_info
     (output_prefix : string)
-    (lam : Lambda.lambda)   =
+    (lam : Lambda.lambda) =
   let _j =
     Js_pass_debug.dump
       ~output_dir:(Filename.dirname output_prefix)
       ~package_info
       ~output_info:(Js_packages_state.get_output_info () |> List.hd)
   in
-
 
   let export_idents = Translmod.get_export_identifiers() in
   let export_ident_sets = Ident.Set.of_list export_idents in
@@ -139,7 +138,6 @@ let compile
     Lam_compile_env.reset () ;
   in
   let lam, may_required_modules = Lam_convert.convert export_ident_sets lam in
-
 
   let lam = _d "initial"  lam in
   let lam  = Lam_pass_deep_flatten.deep_flatten lam in
@@ -218,114 +216,114 @@ let compile
   let groups = Lam_coercion.groups coerced_input in
 
 #ifndef BS_RELEASE_BUILD
-let () =
-  Log.warn ~loc:(Loc.of_pos __POS__)
-    (Pp.concat
-      [ Pp.verbatim "After coercion: "
-      ; Lam_stats.print meta
-      ; Pp.newline
-      ]);
-  if !Js_config.diagnose then
-    let f =
-      Filename.new_extension !Location.input_name  ".lambda" in
-      let chan = open_out_bin f in
-      Fun.protect
-        ~finally:(fun () -> close_out chan)
-        (fun () ->
-          let fmt = Format.formatter_of_out_channel chan in
-          Format.pp_print_list ~pp_sep:Format.pp_print_newline
-            Lam_group.pp_group fmt groups;
-          Format.pp_print_flush fmt ())
+  let () =
+    Log.warn ~loc:(Loc.of_pos __POS__)
+      (Pp.concat
+        [ Pp.verbatim "After coercion: "
+        ; Lam_stats.print meta
+        ; Pp.newline
+        ]);
+    if !Js_config.diagnose then
+      let f =
+        Filename.new_extension !Location.input_name  ".lambda" in
+        let chan = open_out_bin f in
+        Fun.protect
+          ~finally:(fun () -> close_out chan)
+          (fun () ->
+            let fmt = Format.formatter_of_out_channel chan in
+            Format.pp_print_list ~pp_sep:Format.pp_print_newline
+              Lam_group.pp_group fmt groups;
+            Format.pp_print_flush fmt ())
 
-in
+  in
 #endif
-let maybe_pure = no_side_effects groups in
+  let maybe_pure = no_side_effects groups in
 #ifndef BS_RELEASE_BUILD
-let () =
-  Log.warn ~loc:(Loc.of_pos __POS__)
-    (Pp.textf "[TIME:] Pre-compile: %f" (Sys.time () *. 1000.))
-in
+  let () =
+    Log.warn ~loc:(Loc.of_pos __POS__)
+      (Pp.textf "[TIME:] Pre-compile: %f" (Sys.time () *. 1000.))
+  in
 #endif
-let body  =
-  groups
-  |> List.map ~f:(fun group -> compile_group meta group)
-  |> Js_output.concat
-  |> Js_output.output_as_block
-in
+  let body  =
+    groups
+    |> List.map ~f:(fun group -> compile_group meta group)
+    |> Js_output.concat
+    |> Js_output.output_as_block
+  in
 #ifndef BS_RELEASE_BUILD
-let () =
-  Log.warn ~loc:(Loc.of_pos __POS__)
-    (Pp.textf "[TIME:]Post-compile: %f"  (Sys.time () *. 1000.))
-in
+  let () =
+    Log.warn ~loc:(Loc.of_pos __POS__)
+      (Pp.textf "[TIME:]Post-compile: %f"  (Sys.time () *. 1000.))
+  in
 #endif
-let meta_exports = meta.exports in
-let export_set = Ident.Set.of_list meta_exports in
-let js : J.program =
-  {
-    exports = meta_exports ;
-    export_set;
-    block = body}
-in
-js
-|> _j "initial"
-|> Js_pass_flatten.program
-|> _j "flatten"
-|> Js_pass_tailcall_inline.tailcall_inline
-|> _j "inline_and_shake"
-|> Js_pass_flatten_and_mark_dead.program
-|> _j "flatten_and_mark_dead"
-|> Js_pass_scope.program
-|> Js_shake.shake_program
-|> _j "shake"
-|> ( fun (program:  J.program) ->
-    let external_module_ids : Lam_module_ident.t list =
-      if !Js_config.all_module_aliases then []
-      else
-        let hard_deps =
-          Js_fold_basic.calculate_hard_dependencies program.block
-        in
-        Lam_compile_env.populate_required_modules may_required_modules hard_deps;
-        let module_ids =
-          let arr =
-            Lam_module_ident.Hash_set.to_list hard_deps
-            |> Array.of_list
+  let meta_exports = meta.exports in
+  let export_set = Ident.Set.of_list meta_exports in
+  let js : J.program =
+    {
+      exports = meta_exports ;
+      export_set;
+      block = body}
+  in
+  js
+  |> _j "initial"
+  |> Js_pass_flatten.program
+  |> _j "flatten"
+  |> Js_pass_tailcall_inline.tailcall_inline
+  |> _j "inline_and_shake"
+  |> Js_pass_flatten_and_mark_dead.program
+  |> _j "flatten_and_mark_dead"
+  |> Js_pass_scope.program
+  |> Js_shake.shake_program
+  |> _j "shake"
+  |> ( fun (program:  J.program) ->
+      let external_module_ids : Lam_module_ident.t list =
+        if !Js_config.all_module_aliases then []
+        else
+          let hard_deps =
+            Js_fold_basic.calculate_hard_dependencies program.block
           in
-          Array.sort
-            ~cmp:(fun id1 id2 ->
-              String.compare (Lam_module_ident.name id1) (Lam_module_ident.name id2))
-            arr;
-          Array.to_list arr
-        in
-        module_ids
-    in
-    Warnings.check_fatal();
-    let effect_ =
-      Lam_stats_export.get_dependent_module_effect
-        maybe_pure external_module_ids in
-    let delayed_program = {
-      J.program = program ;
-      side_effect = effect_ ;
-      preamble = !Js_config.preamble;
-      modules = external_module_ids
-    }
-    in
-    let case =
-      Js_packages_info.module_case
-        ~output_prefix
-        package_info
-    in
-    let cmj : Js_cmj_format.t =
-      Lam_stats_export.export_to_cmj
-        ~case
-        ~delayed_program
-        meta
-        ~effect_
-        (Lam_coercion.export_map coerced_input)
-    in
-    (if not !Clflags.dont_write_files then
-       Js_cmj_format.to_file (Artifact_extension.append_extension output_prefix Cmj) cmj);
-    delayed_program
-  )
+          Lam_compile_env.populate_required_modules may_required_modules hard_deps;
+          let module_ids =
+            let arr =
+              Lam_module_ident.Hash_set.to_list hard_deps
+              |> Array.of_list
+            in
+            Array.sort
+              ~cmp:(fun id1 id2 ->
+                String.compare (Lam_module_ident.name id1) (Lam_module_ident.name id2))
+              arr;
+            Array.to_list arr
+          in
+          module_ids
+      in
+      Warnings.check_fatal();
+      let effect_ =
+        Lam_stats_export.get_dependent_module_effect
+          maybe_pure external_module_ids in
+      let delayed_program = {
+        J.program = program ;
+        side_effect = effect_ ;
+        preamble = !Js_config.preamble;
+        modules = external_module_ids
+      }
+      in
+      let case =
+        Js_packages_info.module_case
+          ~output_prefix
+          package_info
+      in
+      let cmj : Js_cmj_format.t =
+        Lam_stats_export.export_to_cmj
+          ~case
+          ~delayed_program
+          meta
+          ~effect_
+          (Lam_coercion.export_map coerced_input)
+      in
+      (if not !Clflags.dont_write_files then
+         Js_cmj_format.to_file (Artifact_extension.append_extension output_prefix Cmj) cmj);
+      delayed_program
+    )
 ;;
 
 let write_to_file ~package_info ~output_info ~output_prefix lambda_output file  =
