@@ -26,13 +26,25 @@
 
 type t = Js.blob
 
-external make : string Js.iterator -> filename:string -> t = "Blob"
+type options = {
+  type_ : string option; [@mel.as "type"] [@mel.optional]
+      (** A string representing the MIME type of the content that will be put
+          into the file. Defaults to a value of "". *)
+  endings : [ `transparent | `native ] option; [@mel.optional]
+      (** How to interpret newline characters (\n) within the contents, if the
+          data is text. The default value, transparent, copies newline
+          characters into the blob without changing them. To convert newlines
+          to the host system's native convention, specify the value native. *)
+}
+[@@deriving jsProperties]
+
+external make : string Js.iterator -> ?options:options -> unit -> t = "Blob"
 [@@mel.new]
-(** [make contents_array ~filename] creates a new file from an iterable object
-  such as an Array, having ArrayBuffers, TypedArrays, DataViews, Blobs,
-  strings, or a mix of any of such elements, that will be put inside the File.
-  Note that strings here are encoded as UTF-8, unlike the usual JavaScript
-  UTF-16 strings. *)
+(** [make (Js.Array.values contents_array)] creates a new file from an iterable
+    object such as an Array, having ArrayBuffers, TypedArrays, DataViews,
+    Blobs, strings, or a mix of any of such elements, that will be put inside
+    the File. Note that strings here are encoded as UTF-8, unlike the usual
+    JavaScript UTF-16 strings. *)
 
 external size : t -> float = "size"
 [@@mel.get]
