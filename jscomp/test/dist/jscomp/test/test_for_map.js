@@ -1155,10 +1155,10 @@ const IntMap = {
 
 function assertion_test(param) {
   let m = /* Empty */0;
-  for(let i = 0; i <= 1000000; ++i){
+  for (let i = 0; i <= 1000000; ++i) {
     m = Curry._3(add, i, i, m);
   }
-  for(let i$1 = 0; i$1 <= 1000000; ++i$1){
+  for (let i$1 = 0; i$1 <= 1000000; ++i$1) {
     Curry._2(find, i$1, m);
   }
 }

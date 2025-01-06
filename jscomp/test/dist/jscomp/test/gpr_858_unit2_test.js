@@ -10,7 +10,7 @@ const delayed = {
     })
 };
 
-for(let i = 1; i <= 2; ++i){
+for (let i = 1; i <= 2; ++i) {
   const f = function (n, j) {
     if (j !== 0) {
       const prev = delayed.contents;

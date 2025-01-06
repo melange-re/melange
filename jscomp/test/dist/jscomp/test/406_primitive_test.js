@@ -32,7 +32,7 @@ eq("File \"jscomp/test/406_primitive_test.ml\", line 24, characters 6-13", backe
 function f(param) {
   const A = /* @__PURE__ */Caml_exceptions.create("A");
   try {
-    for(let i = 0; i <= 200; ++i){
+    for (let i = 0; i <= 200; ++i) {
       if (i === 10) {
         throw new Caml_js_exceptions.MelangeError(A, {
                   MEL_EXN_ID: A,

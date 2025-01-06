@@ -80,6 +80,8 @@ Unreleased
 - BREAKING: ppx: print the `deprecated` alert for `@@deriving abstract` at the
   declaration site rather than at (all) usages
   ([#1269](https://github.com/melange-re/melange/pull/1269))
+- core: prettify melange code generation for `for` loops
+  ([#1275](https://github.com/melange-re/melange/pull/1275))
 
 4.0.1 2024-06-07
 ---------------

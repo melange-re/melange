@@ -1305,7 +1305,7 @@ function for4(param) {
 function create(str_size) {
   const tbl_size = Caml_int32.div(str_size, Stdlib__Sys.max_string_length) + 1 | 0;
   const tbl = Caml_array.make(tbl_size, Stdlib__Bytes.empty);
-  for(let i = 0 ,i_finish = tbl_size - 2 | 0; i <= i_finish; ++i){
+  for (let i = 0 ,i_finish = tbl_size - 2 | 0; i <= i_finish; ++i) {
     Caml_array.set(tbl, i, Caml_bytes.caml_create_bytes(Stdlib__Sys.max_string_length));
   }
   Caml_array.set(tbl, tbl_size - 1 | 0, Caml_bytes.caml_create_bytes(Caml_int32.mod_(str_size, Stdlib__Sys.max_string_length)));
@@ -1326,19 +1326,19 @@ function set(tbl, ind, c) {
 }
 
 function blit(src, srcoff, dst, dstoff, len) {
-  for(let i = 0; i < len; ++i){
+  for (let i = 0; i < len; ++i) {
     set(dst, dstoff + i | 0, get(src, srcoff + i | 0));
   }
 }
 
 function output(oc, tbl, pos, len) {
-  for(let i = pos ,i_finish = pos + len | 0; i < i_finish; ++i){
+  for (let i = pos ,i_finish = pos + len | 0; i < i_finish; ++i) {
     Caml_io.caml_ml_output_char(oc, get(tbl, i));
   }
 }
 
 function unsafe_blit_to_bytes(src, srcoff, dst, dstoff, len) {
-  for(let i = 0; i < len; ++i){
+  for (let i = 0; i < len; ++i) {
     dst[dstoff + i | 0] = get(src, srcoff + i | 0);
   }
 }
@@ -1371,14 +1371,14 @@ function edit_distance(a, b, cutoff) {
   }
   const m = Stdlib__Array.make_matrix(la + 1 | 0, lb + 1 | 0, cutoff$1 + 1 | 0);
   Caml_array.set(Caml_array.get(m, 0), 0, 0);
-  for(let i = 1; i <= la; ++i){
+  for (let i = 1; i <= la; ++i) {
     Caml_array.set(Caml_array.get(m, i), 0, i);
   }
-  for(let j = 1; j <= lb; ++j){
+  for (let j = 1; j <= lb; ++j) {
     Caml_array.set(Caml_array.get(m, 0), j, j);
   }
-  for(let i$1 = 1; i$1 <= la; ++i$1){
-    for(let j$1 = Caml.caml_int_max(1, (i$1 - cutoff$1 | 0) - 1 | 0) ,j_finish = Caml.caml_int_min(lb, (i$1 + cutoff$1 | 0) + 1 | 0); j$1 <= j_finish; ++j$1){
+  for (let i$1 = 1; i$1 <= la; ++i$1) {
+    for (let j$1 = Caml.caml_int_max(1, (i$1 - cutoff$1 | 0) - 1 | 0) ,j_finish = Caml.caml_int_min(lb, (i$1 + cutoff$1 | 0) + 1 | 0); j$1 <= j_finish; ++j$1) {
       const cost = Caml_string.get(a, i$1 - 1 | 0) === Caml_string.get(b, j$1 - 1 | 0) ? 0 : 1;
       const best = Caml.caml_int_min(1 + Caml.caml_int_min(Caml_array.get(Caml_array.get(m, i$1 - 1 | 0), j$1), Caml_array.get(Caml_array.get(m, i$1), j$1 - 1 | 0)) | 0, Caml_array.get(Caml_array.get(m, i$1 - 1 | 0), j$1 - 1 | 0) + cost | 0);
       const best$1 = i$1 > 1 && j$1 > 1 && Caml_string.get(a, i$1 - 1 | 0) === Caml_string.get(b, j$1 - 2 | 0) && Caml_string.get(a, i$1 - 2 | 0) === Caml_string.get(b, j$1 - 1 | 0) ? Caml.caml_int_min(best, Caml_array.get(Caml_array.get(m, i$1 - 2 | 0), j$1 - 2 | 0) + cost | 0) : best;
@@ -2216,7 +2216,7 @@ function parse_opt(error, active, flags, s) {
               });
     }
     const match$1 = get_range(i);
-    for(let n = match$1[1] ,n_finish = Caml.caml_int_min(match$1[2], 104); n <= n_finish; ++n){
+    for (let n = match$1[1] ,n_finish = Caml.caml_int_min(match$1[2], 104); n <= n_finish; ++n) {
       Curry._1(myset, n);
     }
     loop(match$1[0]);
@@ -3053,7 +3053,7 @@ function help_warnings(param) {
         }
       });
   console.log("  A all warnings");
-  for(let i = /* 'b' */98; i <= /* 'z' */122; ++i){
+  for (let i = /* 'b' */98; i <= /* 'z' */122; ++i) {
     const c = Stdlib__Char.chr(i);
     const l = letter(c);
     if (l) {
@@ -3255,7 +3255,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
             });
   }
   let lines = num_loc_lines.contents;
-  for(let i = pos0 ,i_finish = lb.lex_buffer_len; i < i_finish; ++i){
+  for (let i = pos0 ,i_finish = lb.lex_buffer_len; i < i_finish; ++i) {
     if (Caml_bytes.get(lb.lex_buffer, i) === /* '\n' */10) {
       lines = lines + 1 | 0;
     }
@@ -3270,7 +3270,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
   Caml_external_polyfill.resolve("caml_terminfo_backup")(lines);
   let bol = false;
   Stdlib.print_string("# ");
-  for(let pos = 0 ,pos_finish = lb.lex_buffer_len - pos0 | 0; pos < pos_finish; ++pos){
+  for (let pos = 0 ,pos_finish = lb.lex_buffer_len - pos0 | 0; pos < pos_finish; ++pos) {
     if (bol) {
       Stdlib.print_string("  ");
       bol = false;
@@ -3304,7 +3304,7 @@ function highlight_dumb(ppf, lb, loc) {
   const end_pos = (lb.lex_buffer_len - pos0 | 0) - 1 | 0;
   let line_start = 0;
   let line_end = 0;
-  for(let pos = 0; pos <= end_pos; ++pos){
+  for (let pos = 0; pos <= end_pos; ++pos) {
     if (Caml_bytes.get(lb.lex_buffer, pos + pos0 | 0) === /* '\n' */10) {
       if (loc.loc_start.pos_cnum > pos) {
         line_start = line_start + 1 | 0;
@@ -3352,7 +3352,7 @@ function highlight_dumb(ppf, lb, loc) {
   Stdlib__Format.pp_print_string(ppf, "  ");
   let line = 0;
   let pos_at_bol = 0;
-  for(let pos$1 = 0; pos$1 <= end_pos; ++pos$1){
+  for (let pos$1 = 0; pos$1 <= end_pos; ++pos$1) {
     const c = Caml_bytes.get(lb.lex_buffer, pos$1 + pos0 | 0);
     if (c !== 10) {
       if (c !== 13) {
@@ -3391,10 +3391,10 @@ function highlight_dumb(ppf, lb, loc) {
               },
               _1: "@.  "
             });
-        for(let _i = pos_at_bol ,_i_finish = loc.loc_start.pos_cnum; _i < _i_finish; ++_i){
+        for (let _i = pos_at_bol ,_i_finish = loc.loc_start.pos_cnum; _i < _i_finish; ++_i) {
           Stdlib__Format.pp_print_char(ppf, /* ' ' */32);
         }
-        for(let _i$1 = loc.loc_start.pos_cnum ,_i_finish$1 = loc.loc_end.pos_cnum; _i$1 < _i_finish$1; ++_i$1){
+        for (let _i$1 = loc.loc_start.pos_cnum ,_i_finish$1 = loc.loc_end.pos_cnum; _i$1 < _i_finish$1; ++_i$1) {
           Stdlib__Format.pp_print_char(ppf, /* '^' */94);
         }
       }
@@ -15077,7 +15077,7 @@ function store_string_char(c) {
 }
 
 function store_string(s) {
-  for(let i = 0 ,i_finish = s.length; i < i_finish; ++i){
+  for (let i = 0 ,i_finish = s.length; i < i_finish; ++i) {
     store_string_char(Caml_string.get(s, i));
   }
 }
