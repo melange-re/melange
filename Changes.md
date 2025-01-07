@@ -48,7 +48,8 @@ Unreleased
 - `melange.js`: Add `Js.FormData` with bindings to the
   [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) API
   ([#1153](https://github.com/melange-re/melange/pull/1153),
-  [#1270](https://github.com/melange-re/melange/pull/1270))
+  [#1270](https://github.com/melange-re/melange/pull/1270),
+  [#1281](https://github.com/melange-re/melange/pull/1281)
 - `melange.js`: Add `Js.Blob` and `Js.File` with bindings to the
   [Blob](https://developer.mozilla.org/en-US/docs/Web/API/Blob) and
   [File](https://developer.mozilla.org/en-US/docs/Web/API/File) APIs
