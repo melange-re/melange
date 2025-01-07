@@ -43,8 +43,8 @@ module ArrayBuffer = struct
 
   external byteLength : t -> int = "byteLength" [@@mel.get]
 
-  external slice : ?start:int -> ?end_:int  -> Js.arrayBuffer = "slice"
-  [@@mel.send.pipe: t]
+  external slice : ?start:int -> ?end_:int -> t -> Js.arrayBuffer = "slice"
+  [@@mel.send]
 end
 
 #define COMMON_EXTERNALS(moduleName, eltType, jsTypeAlias)\
@@ -68,31 +68,31 @@ end
   external length : t -> int = "length" [@@mel.get]\
   \
   (* Mutator functions *)\
-  external copyWithin : to_:int -> ?start:int -> ?end_:int -> t = "copyWithin" [@@mel.send.pipe: t]\
+  external copyWithin : to_:int -> ?start:int -> ?end_:int -> t -> t = "copyWithin" [@@mel.send]\
   \
   external fill : elt -> ?start:int -> ?end_:int -> t = "fill" [@@mel.send.pipe: t]\
   \
   external reverseInPlace : t -> t = "reverse" [@@mel.send]\
   \
   external sortInPlace : t -> t = "sort" [@@mel.send]\
-  external sortInPlaceWith : f:(elt -> elt -> int [@mel.uncurry]) -> t = "sort" [@@mel.send.pipe: t]\
+  external sortInPlaceWith : f:(elt -> elt -> int [@mel.uncurry]) -> t -> t = "sort" [@@mel.send]\
   \
   (* Accessor functions *)\
-  external includes : value:elt -> bool = "includes" [@@mel.send.pipe: t] (* ES2016 *)\
+  external includes : value:elt -> t -> bool = "includes" [@@mel.send] (* ES2016 *)\
   \
-  external indexOf : value:elt -> ?start:int -> int = "indexOf" [@@mel.send.pipe: t]\
+  external indexOf : value:elt -> ?start:int -> t -> int = "indexOf" [@@mel.send]\
   \
-  external join : ?sep:string -> string = "join" [@@mel.send.pipe: t]\
+  external join : ?sep:string -> t -> string = "join" [@@mel.send]\
   \
-  external lastIndexOf : value:elt -> int = "lastIndexOf" [@@mel.send.pipe: t]\
-  external lastIndexOfFrom : value:elt -> from:int -> int = "lastIndexOf" [@@mel.send.pipe: t]\
+  external lastIndexOf : value:elt -> t -> int = "lastIndexOf" [@@mel.send]\
+  external lastIndexOfFrom : value:elt -> from:int -> t -> int = "lastIndexOf" [@@mel.send]\
   \
-  external slice : ?start:int -> ?end_:int -> t = "slice" [@@mel.send.pipe: t]\
+  external slice : ?start:int -> ?end_:int -> t -> t = "slice" [@@mel.send]\
   (** [start] is inclusive, [end_] exclusive *)\
   \
   external copy : t -> t = "slice" [@@mel.send]\
   \
-  external subarray : ?start:int -> ?end_:int -> t = "subarray" [@@mel.send.pipe: t]\
+  external subarray : ?start:int -> ?end_:int -> t -> t = "subarray" [@@mel.send]\
   (** [start] is inclusive, [end_] exclusive *)\
   \
   external toString : t -> string = "toString" [@@mel.send]\
@@ -101,35 +101,35 @@ end
   (* Iteration functions *)\
   external entries : t -> (int * elt) Js.iterator = "entries" [@@mel.send]\
   \
-  external every : f:(elt  -> bool [@mel.uncurry]) -> bool = "every" [@@mel.send.pipe: t]\
-  external everyi : f:(elt -> int -> bool [@mel.uncurry]) -> bool = "every" [@@mel.send.pipe: t]\
+  external every : f:(elt  -> bool [@mel.uncurry]) -> t -> bool = "every" [@@mel.send]\
+  external everyi : f:(elt -> int -> bool [@mel.uncurry]) -> t -> bool = "every" [@@mel.send]\
   \
   \
-  external filter : f:(elt -> bool [@mel.uncurry]) -> t = "filter" [@@mel.send.pipe: t]\
-  external filteri : f:(elt -> int  -> bool [@mel.uncurry]) -> t = "filter" [@@mel.send.pipe: t]\
+  external filter : f:(elt -> bool [@mel.uncurry]) -> t -> t = "filter" [@@mel.send]\
+  external filteri : f:(elt -> int  -> bool [@mel.uncurry]) -> t -> t = "filter" [@@mel.send]\
   \
-  external find : f:(elt -> bool [@mel.uncurry]) -> elt Js.undefined = "find" [@@mel.send.pipe: t]\
-  external findi : f:(elt -> int -> bool [@mel.uncurry]) -> elt Js.undefined  = "find" [@@mel.send.pipe: t]\
+  external find : f:(elt -> bool [@mel.uncurry]) -> t -> elt Js.undefined = "find" [@@mel.send]\
+  external findi : f:(elt -> int -> bool [@mel.uncurry]) -> t -> elt Js.undefined  = "find" [@@mel.send]\
   \
-  external findIndex : f:(elt -> bool [@mel.uncurry]) -> int = "findIndex" [@@mel.send.pipe: t]\
-  external findIndexi : f:(elt -> int -> bool [@mel.uncurry]) -> int = "findIndex" [@@mel.send.pipe: t]\
+  external findIndex : f:(elt -> bool [@mel.uncurry]) -> t -> int = "findIndex" [@@mel.send]\
+  external findIndexi : f:(elt -> int -> bool [@mel.uncurry]) -> t -> int = "findIndex" [@@mel.send]\
   \
-  external forEach : f:(elt -> unit [@mel.uncurry]) -> unit = "forEach" [@@mel.send.pipe: t]\
-  external forEachi : f:(elt -> int -> unit [@mel.uncurry]) -> unit  = "forEach" [@@mel.send.pipe: t]\
+  external forEach : f:(elt -> unit [@mel.uncurry]) -> t -> unit = "forEach" [@@mel.send]\
+  external forEachi : f:(elt -> int -> unit [@mel.uncurry]) -> t -> unit  = "forEach" [@@mel.send]\
   \
   external keys : t -> int Js.iterator = "keys" [@@mel.send]\
   \
-  external map : f:(elt  -> 'b [@mel.uncurry]) -> 'b typed_array = "map" [@@mel.send.pipe: t]\
-  external mapi : f:(elt -> int ->  'b [@mel.uncurry]) -> 'b typed_array = "map" [@@mel.send.pipe: t]\
+  external map : f:(elt  -> 'b [@mel.uncurry]) -> t -> 'b typed_array = "map" [@@mel.send]\
+  external mapi : f:(elt -> int ->  'b [@mel.uncurry]) -> t -> 'b typed_array = "map" [@@mel.send]\
   \
-  external reduce : f:('b -> elt  -> 'b [@mel.uncurry]) -> init:'b -> 'b = "reduce" [@@mel.send.pipe: t]\
-  external reducei : f:('b -> elt -> int -> 'b [@mel.uncurry]) -> init:'b -> 'b = "reduce" [@@mel.send.pipe: t]\
+  external reduce : f:('b -> elt  -> 'b [@mel.uncurry]) -> init:'b -> t -> 'b = "reduce" [@@mel.send]\
+  external reducei : f:('b -> elt -> int -> 'b [@mel.uncurry]) -> init:'b -> t -> 'b = "reduce" [@@mel.send]\
   \
-  external reduceRight : f:('b -> elt  -> 'b [@mel.uncurry]) -> init:'b -> 'b = "reduceRight" [@@mel.send.pipe: t]\
-  external reduceRighti : f:('b -> elt -> int -> 'b [@mel.uncurry]) -> init:'b -> 'b = "reduceRight" [@@mel.send.pipe: t]\
+  external reduceRight : f:('b -> elt  -> 'b [@mel.uncurry]) -> init:'b -> t -> 'b = "reduceRight" [@@mel.send]\
+  external reduceRighti : f:('b -> elt -> int -> 'b [@mel.uncurry]) -> init:'b -> t -> 'b = "reduceRight" [@@mel.send]\
   \
-  external some : f:(elt  -> bool [@mel.uncurry]) -> bool = "some" [@@mel.send.pipe: t]\
-  external somei : f:(elt  -> int -> bool [@mel.uncurry]) -> bool = "some" [@@mel.send.pipe: t]\
+  external some : f:(elt  -> bool [@mel.uncurry]) -> t -> bool = "some" [@@mel.send]\
+  external somei : f:(elt  -> int -> bool [@mel.uncurry]) -> t -> bool = "some" [@@mel.send]\
   \
   external _BYTES_PER_ELEMENT: int = STRINGIFY(moduleName.BYTES_PER_ELEMENT) \
   \
