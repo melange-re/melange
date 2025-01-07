@@ -154,8 +154,8 @@ external unicode : t -> bool = "unicode"
 [@@mel.get]
 (** returns a bool indicating whether the [unicode] flag is set *)
 
-external exec : str:string -> result option = "exec"
-[@@mel.send.pipe: t] [@@mel.return null_to_opt]
+external exec : str:string -> t -> result option = "exec"
+[@@mel.send] [@@mel.return null_to_opt]
 (** executes a search on a given string using the given RegExp object
 
 {b returns} [Some] {! result} if a match is found, [None] otherwise
@@ -173,8 +173,8 @@ let result = re |. Js.Re.exec ~str:"The Quick Brown Fox Jumps Over The Lazy Dog"
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec> MDN
 *)
 
-external test : str:string -> bool = "test"
-[@@mel.send.pipe: t]
+external test : str:string -> t -> bool = "test"
+[@@mel.send]
 (** tests whether the given RegExp object will match a given string
 
 {b returns} [true] if a match is found, [false] otherwise

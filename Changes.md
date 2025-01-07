@@ -71,7 +71,8 @@ Unreleased
   [#1264](https://github.com/melange-re/melange/pull/1264),
   [#1265](https://github.com/melange-re/melange/pull/1265),
   [#1266](https://github.com/melange-re/melange/pull/1266),
-  [#1280](https://github.com/melange-re/melange/pull/1280))
+  [#1280](https://github.com/melange-re/melange/pull/1280),
+  [#1278](https://github.com/melange-re/melange/pull/1278))
 - core: fix a crash related to finding constructor names in pattern matching triggered by dune's earlier implementation of `(implicit_transitive_deps false)`
   ([#1238](https://github.com/melange-re/melange/pull/1238),
   [#1262](https://github.com/melange-re/melange/pull/1262))
