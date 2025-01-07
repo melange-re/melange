@@ -48,7 +48,7 @@ external make : string Js.iterator -> ?options:options -> unit -> t = "Blob"
 
 external size : t -> float = "size"
 [@@mel.get]
-(** [size t] returns the size of the Blob or File in bytes *)
+(** [size t] returns the size of the Blob in bytes *)
 
 external type_ : t -> string = "type"
 [@@mel.get]

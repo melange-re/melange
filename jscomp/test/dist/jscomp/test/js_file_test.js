@@ -14,13 +14,45 @@ function make_with_options(param) {
         };
 }
 
+function file_size(param) {
+  const file = new File(["hello"].values(), "foo.txt", undefined);
+  return {
+          TAG: /* Eq */0,
+          _0: file.size,
+          _1: 5
+        };
+}
+
+function file_type(param) {
+  const file = new File(["hello"].values(), "foo.txt", undefined);
+  return {
+          TAG: /* Eq */0,
+          _0: file.type,
+          _1: ""
+        };
+}
+
 Mt.from_pair_suites("Js_file_test", {
       hd: [
         "make with options",
         make_with_options
       ],
-      tl: /* [] */0
+      tl: {
+        hd: [
+          "file type",
+          file_size
+        ],
+        tl: {
+          hd: [
+            "file size",
+            file_type
+          ],
+          tl: /* [] */0
+        }
+      }
     });
 
 exports.make_with_options = make_with_options;
+exports.file_size = file_size;
+exports.file_type = file_type;
 /*  Not a pure module */
