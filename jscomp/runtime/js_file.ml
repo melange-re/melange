@@ -29,7 +29,25 @@
 
 type t = Js.file
 
-external make : string Js.iterator -> filename:string -> t = "File"
+type options = {
+  type_ : string option; [@mel.as "type"] [@mel.optional]
+      (** A string representing the MIME type of the content that will be put
+          into the file. Defaults to a value of "". *)
+  endings : [ `transparent | `native ] option; [@mel.optional]
+      (** How to interpret newline characters (\n) within the contents, if the
+          data is text. The default value, transparent, copies newline
+          characters into the blob without changing them. To convert newlines
+          to the host system's native convention, specify the value native. *)
+  lastModified : float option; [@mel.optional]
+      (** A number representing the number of milliseconds between the Unix
+          time epoch and when the file was last modified. Defaults to a value
+          of Date.now(). *)
+}
+[@@deriving jsProperties]
+
+external make :
+  string Js.iterator -> filename:string -> ?options:options -> unit -> t
+  = "File"
 [@@mel.new]
 (** [make contents_array ~filename] creates a new file from an iterable object
   such as an Array, having ArrayBuffers, TypedArrays, DataViews, Blobs,
