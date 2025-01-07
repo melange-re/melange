@@ -33,8 +33,29 @@ let make_with_options () =
   Mt.Eq (Js.File.lastModified file, 0.)
 ;;
 
+let file_size () =
+  let file =
+    Js.File.make
+      (Js.Array.values [|"hello"|])
+      ~filename:"foo.txt"
+      ()
+  in
+  Mt.Eq (Js.File.size file, 5.)
+;;
+
+let file_type () =
+  let file =
+    Js.File.make
+      (Js.Array.values [|"hello"|])
+      ~filename:"foo.txt"
+      ()
+  in
+  Mt.Eq (Js.File.type_ file, "")
+;;
+
 ;; Mt.from_pair_suites __MODULE__ [
     "make with options", make_with_options;
+    "file type", file_size;
+    "file size", file_type;
 ]
-
 

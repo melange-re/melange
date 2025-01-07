@@ -38,7 +38,7 @@ let f2 = fun [@u] x y -> let a = x in fun z -> a + y +  z
 let f3 = fun x -> let a = x in fun [@u] y z -> a + y + z
 (* be careful! When you start optimize functions of [@u], its call site invariant
    (Ml_app) will not hold any more.
-   So the best is never shrink functons which could change arity
+   So the best is never shrink functions which could change arity
 *)
 let () =
   begin

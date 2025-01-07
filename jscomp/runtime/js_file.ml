@@ -36,7 +36,7 @@ type options = {
   endings : [ `transparent | `native ] option; [@mel.optional]
       (** How to interpret newline characters (\n) within the contents, if the
           data is text. The default value, transparent, copies newline
-          characters into the blob without changing them. To convert newlines
+          characters into the file without changing them. To convert newlines
           to the host system's native convention, specify the value native. *)
   lastModified : float option; [@mel.optional]
       (** A number representing the number of milliseconds between the Unix
@@ -71,7 +71,7 @@ external name : t -> string = "name"
 (* Since File is a subclass of Blob, it has all the properties and methods of Blob. *)
 external size : t -> float = "size"
 [@@mel.get]
-(** [size t] returns the size of the Blob or File in bytes *)
+(** [size t] returns the size of the File in bytes *)
 
 external type_ : t -> string = "type"
 [@@mel.get]
@@ -85,18 +85,18 @@ external arrayBuffer : t -> Js.arrayBuffer Js.promise = "arrayBuffer"
 external bytes : t -> Js.uint8Array Js.promise = "bytes"
 [@@mel.send]
 (** [bytes t] returns a Promise that resolves with a [Js.uint8Array] containing
-    the contents of the blob as an array of bytes. *)
+    the contents of the file as an array of bytes. *)
 
 external slice : ?start:int -> ?end_:int -> ?contentType:string -> t -> t
   = "slice"
 [@@mel.send]
-(** [slice ?start ?end_ ?contentType t] creates and returns a new Blob object
-    which contains data from a subset of the blob on which it's called. *)
+(** [slice ?start ?end_ ?contentType t] creates and returns a new File object
+    which contains data from a subset of the file on which it's called. *)
 
 external text : t -> string Js.promise = "text"
 [@@mel.send]
 (** [text t] returns a Promise that resolves with a string containing the
-    contents of the blob, interpreted as UTF-8. *)
+    contents of the file, interpreted as UTF-8. *)
 
 (* XXX: stream can't be bound until we have some bindings to ReadableStream *)
 (* https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream *)

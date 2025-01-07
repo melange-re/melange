@@ -32,8 +32,37 @@ let make_with_options () =
   Mt.Eq (Js.Blob.type_ blob, "application/json")
 ;;
 
-;; Mt.from_pair_suites __MODULE__ [
-    "make with options", make_with_options;
-]
+let blob_bytes =
+  let module TextDecoder = struct
+    type t
+    external make : string -> t = "TextDecoder" [@@mel.new]
+    external decode : t -> Js.uint8Array -> string = "decode" [@@mel.send]
+    let make_utf8 () = make "utf-8"
+  end
+  in
+  let decodeUint8Array: Js.uint8Array -> string = fun b ->
+    let decoder = TextDecoder.make_utf8 () in
+    TextDecoder.decode decoder b
+  in
+  fun () ->
+    let file =
+      Js.File.make
+        (Js.Array.values [|"hello"|])
+        ~filename:"foo.txt"
+        ()
+    in
+    Js.File.bytes file
+    |> Js.Promise.then_ (fun b ->
+        Js.Promise.resolve (Mt.Eq (decodeUint8Array b, "hello")))
 
+;;
+
+Mt.from_pair_suites __MODULE__ [
+    "make with options", make_with_options;
+] ;;
+
+Mt.from_promise_suites __MODULE__
+  [
+    ("blob bytes", blob_bytes ());
+  ]
 
