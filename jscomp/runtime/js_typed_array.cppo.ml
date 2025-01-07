@@ -47,10 +47,10 @@ module ArrayBuffer = struct
   [@@mel.send.pipe: t]
 end
 
-#define COMMON_EXTERNALS(moduleName, eltType)\
+#define COMMON_EXTERNALS(moduleName, eltType, jsTypeAlias)\
   (** *)\
   type elt = eltType\
-  type 'a typed_array\
+  type 'a typed_array = jsTypeAlias\
   type t = elt typed_array\
   \
   external unsafe_get : t -> int -> elt  = "" [@@mel.get_index]\
@@ -145,43 +145,43 @@ end
   external values : t -> elt Js.iterator = "values" [@@mel.send]
 
 module Int8Array = struct
-  COMMON_EXTERNALS(Int8Array,int)
+  COMMON_EXTERNALS(Int8Array,int,int8Array)
 end
 
 
 module Uint8Array = struct
-  COMMON_EXTERNALS(Uint8Array,int)
+  COMMON_EXTERNALS(Uint8Array,int,uint8Array)
 end
 
 module Uint8ClampedArray = struct
-  COMMON_EXTERNALS(Uint8ClampedArray,int)
+  COMMON_EXTERNALS(Uint8ClampedArray,int,uint8ClampedArray)
 end
 
 module Int16Array = struct
-  COMMON_EXTERNALS(Int16Array,int)
+  COMMON_EXTERNALS(Int16Array,int,int16Array)
 end
 
 module Uint16Array = struct
-  COMMON_EXTERNALS(Uint16Array,int)
+  COMMON_EXTERNALS(Uint16Array,int,uint16Array)
 end
 
 module Int32Array = struct
-  COMMON_EXTERNALS(Int32Array,int32)
+  COMMON_EXTERNALS(Int32Array,int32,int32Array)
 end
 
 module Uint32Array = struct
-  COMMON_EXTERNALS(Uint32Array,int)
+  COMMON_EXTERNALS(Uint32Array,int,uint32Array)
 end
 
 (*
  it still return number, [float] in this case
 *)
 module Float32Array = struct
-  COMMON_EXTERNALS(Float32Array,float)
+  COMMON_EXTERNALS(Float32Array,float,float32Array)
 end
 
 module Float64Array = struct
-  COMMON_EXTERNALS(Float64Array,float)
+  COMMON_EXTERNALS(Float64Array,float,float64Array)
 end
 
 
