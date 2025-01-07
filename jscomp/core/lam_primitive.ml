@@ -149,6 +149,9 @@ type t =
       Lam_compat.compile_time_constant (* Integer to external pointer *)
   | Pbswap16
   | Pbbswap of Lam_compat.boxed_integer
+  (* Inhibition of optimisation *)
+  | Popaque
+  (* JS specific *)
   | Pdebugger
   | Pjs_unsafe_downgrade of { name : string; setter : bool; loc : Location.t }
   | Pinit_mod
@@ -372,6 +375,7 @@ let eq_primitive_approx (lhs : t) (rhs : t) =
       | _ -> false)
   | Pbswap16 -> rhs = Pbswap16
   | Pbbswap i1 -> ( match rhs with Pbbswap i2 -> i1 = i2 | _ -> false)
+  | Popaque -> ( match rhs with Popaque -> true | _ -> false)
   | Pjs_unsafe_downgrade { name; loc = _; setter } -> (
       match rhs with
       | Pjs_unsafe_downgrade rhs -> name = rhs.name && setter = rhs.setter

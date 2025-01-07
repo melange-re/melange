@@ -141,6 +141,8 @@ type t =
   | Pctconst of Lam_compat.compile_time_constant
   | Pbswap16
   | Pbbswap of Lam_compat.boxed_integer
+  (* Inhibition of optimisation *)
+  | Popaque
   (* Integer to external pointer *)
   | Pdebugger
   | Pjs_unsafe_downgrade of { name : string; setter : bool; loc : Location.t }
