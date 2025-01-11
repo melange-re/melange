@@ -58,6 +58,17 @@ Unreleased
   ([#1248](https://github.com/melange-re/melange/pull/1248))
 - BREAKING: remove `--mel-g`
   ([#1234](https://github.com/melange-re/melange/pull/1234))
+- core: fix a crash related to finding constructor names in pattern matching triggered by dune's earlier implementation of `(implicit_transitive_deps false)`
+  ([#1238](https://github.com/melange-re/melange/pull/1238),
+  [#1262](https://github.com/melange-re/melange/pull/1262))
+- core: pre-compute the closure param map for functions inlined with
+  `--mel-cross-module-opt`
+  ([#1219](https://github.com/melange-re/melange/pull/1219))
+- BREAKING: ppx: print the `deprecated` alert for `@@deriving abstract` at the
+  declaration site rather than at (all) usages
+  ([#1269](https://github.com/melange-re/melange/pull/1269))
+- core: prettify melange code generation for `for` loops
+  ([#1275](https://github.com/melange-re/melange/pull/1275))
 - BREAKING: find `[@mel.send]` self arg as the first non-labeled param
   ([#1252](https://github.com/melange-re/melange/pull/1252))
   - This improvement to the FFI allows expressing more FFI constructs via

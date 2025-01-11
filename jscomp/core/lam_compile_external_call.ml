@@ -266,38 +266,12 @@ let translate_scoped_module_val
           let start = E.js_global x in
           List.fold_left ~f:E.dot ~init:start (rest @ [ fn ]))
 
-let js_send_self_and_args =
-  let rec inner args arg_types (acc_args, acc_arg_types) =
-    match (args, arg_types) with
-    | [], [] -> assert false
-    | ( self :: args,
-        {
-          (* The "self" arg in `[@mel.send]` is the first non-labelled argument
-             that we find, e.g. `t` in `external foo: ?a:int -> t -> unit`.
-             This allows to write expressive bindings to JS that are applied
-             via dot-notation and still model the "self" arg after those in OCaml
-             such that those labels can be applied optionally. *)
-          External_arg_spec.arg_label = External_arg_spec.Arg_label.Arg_empty;
-          _;
-        }
-        :: arg_types ) ->
-        ( self,
-          List.rev_append acc_args args,
-          List.rev_append acc_arg_types arg_types )
-    | ( arg :: rest,
-        ({ arg_label = Arg_label | Arg_optional; _ } as arg_type) :: types_rest
-      ) ->
-        inner rest types_rest (arg :: acc_args, arg_type :: acc_arg_types)
-    | [], _ :: _ | _ :: _, [] -> assert false
-  in
-  fun args arg_types -> inner args arg_types ([], [])
+let translate_scoped_access scopes obj =
+  match scopes with
+  | [] -> obj
+  | x :: xs -> List.fold_left ~f:E.dot ~init:(E.dot obj x) xs
 
 let translate_ffi =
-  let translate_scoped_access scopes obj =
-    match scopes with
-    | [] -> obj
-    | x :: xs -> List.fold_left ~f:E.dot ~init:(E.dot obj x) xs
-  in
   let process_send ~new_ self name args =
     match new_ with
     | true -> E.new_ (E.dot self name) args
@@ -381,10 +355,10 @@ let translate_ffi =
             (* | EffectCall _ | NeedValue _ -> ()); *)
             (E.new_ fn args)
     | Js_send { variadic; name; pipe; scopes; new_ } -> (
-        match (pipe, variadic) with
-        (* variadic should not happen *)
-        (* assert (js_splice = false) ;  *)
-        | true, true ->
+        if pipe then
+          (* variadic should not happen *)
+          (* assert (js_splice = false) ;  *)
+          if variadic then
             let args, self = List.split_at_last args in
             let arg_types, _ = List.split_at_last arg_types in
             let args, eff, dynamic = assemble_args_has_splice arg_types args in
@@ -392,31 +366,38 @@ let translate_ffi =
               (let self = translate_scoped_access scopes self in
                if dynamic then splice_obj_fn_apply self name args
                else process_send ~new_ self name args)
-        | true, false ->
+          else
             let args, self = List.split_at_last args in
             let arg_types, _ = List.split_at_last arg_types in
             let args, eff = assemble_args_no_splice arg_types args in
             add_eff eff
               (let self = translate_scoped_access scopes self in
                process_send ~new_ self name args)
-        | false, true ->
-            let self, args, arg_types = js_send_self_and_args args arg_types in
-            let args, eff, dynamic = assemble_args_has_splice arg_types args in
-            add_eff eff
-              (let self = translate_scoped_access scopes self in
-               if dynamic then
-                 match new_ with
-                 | true -> splice_fn_new_apply (E.dot self name) args
-                 | false -> splice_obj_fn_apply self name args
-               else process_send ~new_ self name args)
-        | false, false ->
-            let self, args, arg_types = js_send_self_and_args args arg_types in
-            (* PR2162 [self_type] more checks in syntax:
-                - should not be [@mel.as] *)
-            let args, eff = assemble_args_no_splice arg_types args in
-            add_eff eff
-              (let self = translate_scoped_access scopes self in
-               process_send ~new_ self name args))
+        else
+          match args with
+          | self :: args ->
+              (* PR2162 [self_type] more checks in syntax:
+                 - should not be [@as] *)
+              let[@ocaml.warning "-partial-match"] (_self_type :: arg_types) =
+                arg_types
+              in
+              if variadic then
+                let args, eff, dynamic =
+                  assemble_args_has_splice arg_types args
+                in
+                add_eff eff
+                  (let self = translate_scoped_access scopes self in
+                   if dynamic then
+                     match new_ with
+                     | true -> splice_fn_new_apply (E.dot self name) args
+                     | false -> splice_obj_fn_apply self name args
+                   else process_send ~new_ self name args)
+              else
+                let args, eff = assemble_args_no_splice arg_types args in
+                add_eff eff
+                  (let self = translate_scoped_access scopes self in
+                   process_send ~new_ self name args)
+          | _ -> assert false)
     | Js_module_as_var module_name -> external_var ~dynamic_import module_name
     | Js_var { name; external_module_name; scopes } ->
         (* TODO #11

@@ -29,13 +29,11 @@ module Warnings = struct
     | Unused_attribute of string
     | Fragile_external of string
     | Redundant_mel_string
-    | Mel_send_self_param
 
   let kind = function
     | Unused_attribute _ -> "unused"
     | Fragile_external _ -> "fragile"
     | Redundant_mel_string -> "redundant"
-    | Mel_send_self_param -> "melsend"
 
   let pp fmt t =
     match t with
@@ -53,11 +51,6 @@ module Warnings = struct
     | Redundant_mel_string ->
         Format.fprintf fmt
           "[@mel.string] is redundant here, you can safely remove it"
-    | Mel_send_self_param ->
-        Format.fprintf fmt
-          "[@mel.send] \"self\" param changed in Melange 5.x. It is now the \
-           first non-labeled parameter in the `external' declaration. Check \
-           this FFI definition accordingly."
 end
 
 let warn_raw =
