@@ -39,6 +39,7 @@ type external_module_name = {
 
 type arg_type = External_arg_spec.attr
 type arg_label = External_arg_spec.Obj_label.t
+type js_send_kind = Send | Invoke | Pipe
 
 type external_spec =
   | Js_var of {
@@ -61,7 +62,7 @@ type external_spec =
   | Js_send of {
       name : string;
       variadic : bool;
-      pipe : bool;
+      kind : js_send_kind;
       new_ : bool;
       scopes : string list;
     }
