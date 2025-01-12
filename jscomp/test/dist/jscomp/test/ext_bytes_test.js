@@ -138,8 +138,8 @@ function starts_with(xs, prefix, p) {
     for (let i = 0; i < len2; ++i) {
       if (!Curry._2(p, Caml_bytes.get(xs, i), Caml_bytes.get(prefix, i))) {
         throw new Caml_js_exceptions.MelangeError(H, {
-                  MEL_EXN_ID: H
-                });
+              MEL_EXN_ID: H
+            });
       }
       
     }
@@ -190,22 +190,22 @@ eq("File \"jscomp/test/ext_bytes_test.ml\", line 115, characters 7-14", s, s2);
 
 function f$1(a, b) {
   return [
-          Caml_bytes.caml_bytes_greaterthan(a, b),
-          Caml_bytes.caml_bytes_greaterequal(a, b),
-          Caml_bytes.caml_bytes_lessthan(a, b),
-          Caml_bytes.caml_bytes_lessequal(a, b),
-          Caml_bytes.caml_bytes_equal(a, b)
-        ];
+    Caml_bytes.caml_bytes_greaterthan(a, b),
+    Caml_bytes.caml_bytes_greaterequal(a, b),
+    Caml_bytes.caml_bytes_lessthan(a, b),
+    Caml_bytes.caml_bytes_lessequal(a, b),
+    Caml_bytes.caml_bytes_equal(a, b)
+  ];
 }
 
 function f_0(a, b) {
   return [
-          Caml.i64_gt(a, b),
-          Caml.i64_ge(a, b),
-          Caml.i64_lt(a, b),
-          Caml.i64_le(a, b),
-          Caml.i64_eq(a, b)
-        ];
+    Caml.i64_gt(a, b),
+    Caml.i64_ge(a, b),
+    Caml.i64_lt(a, b),
+    Caml.i64_le(a, b),
+    Caml.i64_eq(a, b)
+  ];
 }
 
 Mt.from_pair_suites("Ext_bytes_test", suites.contents);

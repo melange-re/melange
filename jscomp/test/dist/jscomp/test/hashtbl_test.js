@@ -11,14 +11,14 @@ const Stdlib__MoreLabels = require("melange/moreLabels.js");
 
 function to_list(tbl) {
   return Stdlib__Hashtbl.fold((function (k, v, acc) {
-                return {
-                        hd: [
-                          k,
-                          v
-                        ],
-                        tl: acc
-                      };
-              }), tbl, /* [] */0);
+          return {
+            hd: [
+              k,
+              v
+            ],
+            tl: acc
+          };
+        }), tbl, /* [] */0);
 }
 
 function f(param) {
@@ -26,8 +26,8 @@ function f(param) {
   Stdlib__Hashtbl.add(tbl, 1, /* '1' */49);
   Stdlib__Hashtbl.add(tbl, 2, /* '2' */50);
   return Stdlib__List.sort((function (param, param$1) {
-                return Caml.caml_int_compare(param[0], param$1[0]);
-              }), to_list(tbl));
+          return Caml.caml_int_compare(param[0], param$1[0]);
+        }), to_list(tbl));
 }
 
 function g(count) {
@@ -40,30 +40,30 @@ function g(count) {
   }
   const v = to_list(tbl);
   return Stdlib__Array.of_list(Stdlib__List.sort((function (param, param$1) {
-                    return Caml.caml_int_compare(param[0], param$1[0]);
-                  }), v));
+              return Caml.caml_int_compare(param[0], param$1[0]);
+            }), v));
 }
 
 const suites_0 = [
   "simple",
   (function (param) {
       return {
-              TAG: /* Eq */0,
-              _0: {
-                hd: [
-                  1,
-                  /* '1' */49
-                ],
-                tl: {
-                  hd: [
-                    2,
-                    /* '2' */50
-                  ],
-                  tl: /* [] */0
-                }
-              },
-              _1: f(undefined)
-            };
+        TAG: /* Eq */0,
+        _0: {
+          hd: [
+            1,
+            /* '1' */49
+          ],
+          tl: {
+            hd: [
+              2,
+              /* '2' */50
+            ],
+            tl: /* [] */0
+          }
+        },
+        _1: f(undefined)
+      };
     })
 ];
 
@@ -72,15 +72,15 @@ const suites_1 = {
     "more_iterations",
     (function (param) {
         return {
-                TAG: /* Eq */0,
-                _0: Stdlib__Array.init(1001, (function (i) {
-                        return [
-                                (i << 1),
-                                String(i)
-                              ];
-                      })),
-                _1: g(1000)
-              };
+          TAG: /* Eq */0,
+          _0: Stdlib__Array.init(1001, (function (i) {
+                  return [
+                    (i << 1),
+                    String(i)
+                  ];
+                })),
+          _1: g(1000)
+        };
       })
   ],
   tl: {
@@ -90,10 +90,10 @@ const suites_1 = {
           const tbl = Curry._2(Stdlib__MoreLabels.Hashtbl.create, undefined, 30);
           Stdlib__Hashtbl.add(tbl, 3, 3);
           return {
-                  TAG: /* Eq */0,
-                  _0: tbl.size,
-                  _1: 1
-                };
+            TAG: /* Eq */0,
+            _0: tbl.size,
+            _1: 1
+          };
         })
     ],
     tl: /* [] */0

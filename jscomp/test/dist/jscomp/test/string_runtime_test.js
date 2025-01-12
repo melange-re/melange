@@ -11,10 +11,10 @@ const suites_0 = [
   "caml_is_printable",
   (function (param) {
       return {
-              TAG: /* Eq */0,
-              _0: Test_char.caml_is_printable(/* 'a' */97),
-              _1: true
-            };
+        TAG: /* Eq */0,
+        _0: Test_char.caml_is_printable(/* 'a' */97),
+        _1: true
+      };
     })
 ];
 
@@ -26,11 +26,11 @@ const suites_1 = {
                     const b = Caml_bytes.caml_create_bytes(x);
                     Stdlib__Bytes.fill(b, 0, x, /* 'c' */99);
                     return [
-                            Stdlib__Bytes.to_string(b),
-                            Caml_bytes.bytes_to_string(Stdlib__Bytes.init(x, (function (param) {
-                                        return /* 'c' */99;
-                                      })))
-                          ];
+                      Stdlib__Bytes.to_string(b),
+                      Caml_bytes.bytes_to_string(Stdlib__Bytes.init(x, (function (param) {
+                                  return /* 'c' */99;
+                                })))
+                    ];
                   }), {
                   hd: 1000,
                   tl: {
@@ -54,10 +54,10 @@ const suites_1 = {
                   }
                 }));
         return {
-                TAG: /* Eq */0,
-                _0: match[0],
-                _1: match[1]
-              };
+          TAG: /* Eq */0,
+          _0: match[0],
+          _1: match[1]
+        };
       })
   ],
   tl: /* [] */0

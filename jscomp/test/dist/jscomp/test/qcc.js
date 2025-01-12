@@ -31,29 +31,29 @@ function bufferize(f) {
     contents: undefined
   };
   return [
-          (function (param) {
-              const x = buf.contents;
-              if (x !== undefined) {
-                buf.contents = undefined;
-                return Caml_option.valFromOption(x);
-              } else {
-                return Curry._1(f, undefined);
-              }
-            }),
-          (function (x) {
-              if (buf.contents !== undefined) {
-                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                          MEL_EXN_ID: "Assert_failure",
-                          _1: [
-                            "jscomp/test/qcc.ml",
-                            17,
-                            4
-                          ]
-                        });
-              }
-              buf.contents = Caml_option.some(x);
-            })
-        ];
+    (function (param) {
+        const x = buf.contents;
+        if (x !== undefined) {
+          buf.contents = undefined;
+          return Caml_option.valFromOption(x);
+        } else {
+          return Curry._1(f, undefined);
+        }
+      }),
+    (function (x) {
+        if (buf.contents !== undefined) {
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/qcc.ml",
+                  17,
+                  4
+                ]
+              });
+        }
+        buf.contents = Caml_option.some(x);
+      })
+  ];
 }
 
 const match = bufferize(function (param) {
@@ -100,13 +100,13 @@ function addsym(s) {
 function symstr(n) {
   if (n >= syms.contents) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/qcc.ml",
-                40,
-                4
-              ]
-            });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/qcc.ml",
+            40,
+            4
+          ]
+        });
   }
   return Caml_array.get(symtab, n);
 }
@@ -199,9 +199,9 @@ function next(param) {
   }
   if (c === undefined) {
     return {
-            TAG: /* Op */0,
-            _0: "EOF!"
-          };
+      TAG: /* Op */0,
+      _0: "EOF!"
+    };
   }
   if (c === 34) {
     let b = gpos.contents;
@@ -217,10 +217,10 @@ function next(param) {
       Curry._1(getch, undefined);
       gpos.contents = e + 8 & -8;
       return {
-              TAG: /* SLit */2,
-              _0: (b + 232 | 0) + 4194304 | 0,
-              _1: Stdlib__Bytes.to_string(Stdlib__Bytes.sub(glo, b, e - b | 0))
-            };
+        TAG: /* SLit */2,
+        _0: (b + 232 | 0) + 4194304 | 0,
+        _1: Stdlib__Bytes.to_string(Stdlib__Bytes.sub(glo, b, e - b | 0))
+      };
     };
   }
   if (c >= 48) {
@@ -231,9 +231,9 @@ function next(param) {
         const match$1 = peekch(undefined);
         if (match$1 > 57 || match$1 < 48) {
           return {
-                  TAG: /* ILit */1,
-                  _0: n
-                };
+            TAG: /* ILit */1,
+            _0: n
+          };
         }
         _n = (Math.imul(10, n) + Curry._1(getch, undefined) | 0) - 48 | 0;
         continue ;
@@ -245,14 +245,14 @@ function next(param) {
     const qt = Curry._1(getch, undefined);
     if (qt !== /* '\'' */39) {
       throw new Caml_js_exceptions.MelangeError("Failure", {
-                MEL_EXN_ID: "Failure",
-                _1: "syntax error"
-              });
+            MEL_EXN_ID: "Failure",
+            _1: "syntax error"
+          });
     }
     return {
-            TAG: /* ILit */1,
-            _0: ch
-          };
+      TAG: /* ILit */1,
+      _0: ch
+    };
   }
   if (isid(c)) {
     let _n$1 = 0;
@@ -263,9 +263,9 @@ function next(param) {
       Caml_bytes.set(s, n$1, ch$1);
       if (!isid(peekch(undefined))) {
         return {
-                TAG: /* Sym */3,
-                _0: addsym(Stdlib__Bytes.to_string(Stdlib__Bytes.sub(s, 0, n$1 + 1 | 0)))
-              };
+          TAG: /* Sym */3,
+          _0: addsym(Stdlib__Bytes.to_string(Stdlib__Bytes.sub(s, 0, n$1 + 1 | 0)))
+        };
       }
       _ch = Curry._1(getch, undefined);
       _n$1 = n$1 + 1 | 0;
@@ -307,17 +307,17 @@ function next(param) {
       const param$1 = _param;
       if (!param$1) {
         return {
-                TAG: /* Op */0,
-                _0: Caml_bytes.bytes_to_string(Stdlib__Bytes.make(1, c))
-              };
+          TAG: /* Op */0,
+          _0: Caml_bytes.bytes_to_string(Stdlib__Bytes.make(1, c))
+        };
       }
       const lop = param$1.hd;
       if (Caml_string.get(lop, 0) === c && Caml_string.get(lop, 1) === peekch(undefined)) {
         Curry._1(getch, undefined);
         return {
-                TAG: /* Op */0,
-                _0: lop
-              };
+          TAG: /* Op */0,
+          _0: lop
+        };
       }
       _param = param$1.tl;
       continue ;
@@ -368,13 +368,13 @@ function get32(l) {
 function patch(rel, loc, n) {
   if (n >= 0) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/qcc.ml",
-                157,
-                2
-              ]
-            });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/qcc.ml",
+            157,
+            2
+          ]
+        });
   }
   if (loc === 0) {
     return ;
@@ -962,9 +962,9 @@ function unary(stk) {
                 ];
               } else {
                 throw new Caml_js_exceptions.MelangeError("Failure", {
-                          MEL_EXN_ID: "Failure",
-                          _1: "[cast] expected"
-                        });
+                      MEL_EXN_ID: "Failure",
+                      _1: "[cast] expected"
+                    });
               }
               for (let _k = 1 ,_k_finish = match[1]; _k <= _k_finish; ++_k) {
                 Curry._1(next$1, undefined);
@@ -1013,9 +1013,9 @@ function unary(stk) {
                         _1: "unknown operator %s"
                       }), o);
               throw new Caml_js_exceptions.MelangeError("Failure", {
-                        MEL_EXN_ID: "Failure",
-                        _1: s
-                      });
+                    MEL_EXN_ID: "Failure",
+                    _1: s
+                  });
             }
             out(Stdlib__List.assoc(o, unops));
             if (o === "!") {
@@ -1035,13 +1035,13 @@ function unary(stk) {
           const l = Stdlib__List.assoc(i$1, stk);
           if (l <= -256) {
             throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/qcc.ml",
-                        295,
-                        6
-                      ]
-                    });
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/qcc.ml",
+                    295,
+                    6
+                  ]
+                });
           }
           out(4754245);
           out(l & 255);
@@ -1233,9 +1233,9 @@ function decl(g, _n, _stk) {
                   _0: ";"
                 })) {
             return [
-                    n,
-                    stk
-                  ];
+              n,
+              stk
+            ];
           }
           const s = Curry._1(next$1, undefined);
           if (s.TAG === /* Sym */3) {
@@ -1246,9 +1246,9 @@ function decl(g, _n, _stk) {
               const glo = Caml_array.get(globs, s$1);
               if (glo.va >= 0) {
                 throw new Caml_js_exceptions.MelangeError("Failure", {
-                          MEL_EXN_ID: "Failure",
-                          _1: "symbol defined twice"
-                        });
+                      MEL_EXN_ID: "Failure",
+                      _1: "symbol defined twice"
+                    });
               }
               const va = (gpos.contents + 232 | 0) + 4194304 | 0;
               Caml_array.set(globs, s$1, {
@@ -1271,9 +1271,9 @@ function decl(g, _n, _stk) {
                     _0: ","
                   })) {
               return [
-                      n$p,
-                      stk$p
-                    ];
+                n$p,
+                stk$p
+              ];
             }
             Curry._1(next$1, undefined);
             _stk = stk$p;
@@ -1281,9 +1281,9 @@ function decl(g, _n, _stk) {
             continue ;
           }
           throw new Caml_js_exceptions.MelangeError("Failure", {
-                    MEL_EXN_ID: "Failure",
-                    _1: "[var] expected in [decl]"
-                  });
+                MEL_EXN_ID: "Failure",
+                _1: "[var] expected in [decl]"
+              });
         };
       };
       const match = vars(0, stk);
@@ -1317,13 +1317,13 @@ function decl(g, _n, _stk) {
     if (!g && n !== 0) {
       if ((n << 3) >= 256) {
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/qcc.ml",
-                    436,
-                    6
-                  ]
-                });
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/qcc.ml",
+                436,
+                6
+              ]
+            });
       }
       out(4752364);
       out((n << 3));
@@ -1333,9 +1333,9 @@ function decl(g, _n, _stk) {
       console.error("end of blk decls");
     }
     return [
-            n,
-            stk
-          ];
+      n,
+      stk
+    ];
   };
 }
 
@@ -1444,13 +1444,13 @@ function stmt(brk, stk) {
     const n = align.contents - brk[1] | 0;
     if (n < 0) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/qcc.ml",
-                  515,
-                  4
-                ]
-              });
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/qcc.ml",
+              515,
+              4
+            ]
+          });
     }
     if (n !== 0) {
       out(4752324);
@@ -1516,9 +1516,9 @@ function top(_param) {
       const g = Caml_array.get(globs, f$1);
       if (g.va >= 0) {
         throw new Caml_js_exceptions.MelangeError("Failure", {
-                  MEL_EXN_ID: "Failure",
-                  _1: "symbol defined twice"
-                });
+              MEL_EXN_ID: "Failure",
+              _1: "symbol defined twice"
+            });
       }
       Caml_array.set(globs, f$1, {
             loc: g.loc,
@@ -1536,15 +1536,15 @@ function top(_param) {
                   return stk;
                 }
                 throw new Caml_js_exceptions.MelangeError("Failure", {
-                          MEL_EXN_ID: "Failure",
-                          _1: "[var] or ) expected"
-                        });
+                      MEL_EXN_ID: "Failure",
+                      _1: "[var] or ) expected"
+                    });
             case /* ILit */1 :
             case /* SLit */2 :
                 throw new Caml_js_exceptions.MelangeError("Failure", {
-                          MEL_EXN_ID: "Failure",
-                          _1: "[var] or ) expected"
-                        });
+                      MEL_EXN_ID: "Failure",
+                      _1: "[var] or ) expected"
+                    });
             case /* Sym */3 :
                 const r = Stdlib__List.hd(regs);
                 push(r);
@@ -1631,9 +1631,9 @@ function top(_param) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError("Failure", {
-              MEL_EXN_ID: "Failure",
-              _1: "[decl] or [fun] expected"
-            });
+          MEL_EXN_ID: "Failure",
+          _1: "[decl] or [fun] expected"
+        });
   };
 }
 
@@ -1857,13 +1857,13 @@ function elfgen(outf) {
   elfphdr(2, dyn + off | 0, tend - dyn | 0, 8);
   if (opos.contents !== 232) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/qcc.ml",
-                698,
-                2
-              ]
-            });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/qcc.ml",
+            698,
+            2
+          ]
+        });
   }
   patch(false, 24, va(entry));
   Stdlib.output_bytes(outf, Stdlib__Bytes.sub(obuf, 0, tend + off | 0));
@@ -1874,89 +1874,89 @@ function main(param) {
     switch (s.TAG) {
       case /* Op */0 :
           return Curry._1(Stdlib__Printf.printf({
-                          TAG: /* Format */0,
-                          _0: {
-                            TAG: /* String_literal */11,
-                            _0: "Operator '",
-                            _1: {
-                              TAG: /* String */2,
-                              _0: /* No_padding */0,
-                              _1: {
-                                TAG: /* String_literal */11,
-                                _0: "'\n",
-                                _1: /* End_of_format */0
-                              }
-                            }
-                          },
-                          _1: "Operator '%s'\n"
-                        }), s._0);
+                    TAG: /* Format */0,
+                    _0: {
+                      TAG: /* String_literal */11,
+                      _0: "Operator '",
+                      _1: {
+                        TAG: /* String */2,
+                        _0: /* No_padding */0,
+                        _1: {
+                          TAG: /* String_literal */11,
+                          _0: "'\n",
+                          _1: /* End_of_format */0
+                        }
+                      }
+                    },
+                    _1: "Operator '%s'\n"
+                  }), s._0);
       case /* ILit */1 :
           return Curry._1(Stdlib__Printf.printf({
-                          TAG: /* Format */0,
-                          _0: {
-                            TAG: /* String_literal */11,
-                            _0: "Int literal ",
-                            _1: {
-                              TAG: /* Int */4,
-                              _0: /* Int_d */0,
-                              _1: /* No_padding */0,
-                              _2: /* No_precision */0,
-                              _3: {
-                                TAG: /* Char_literal */12,
-                                _0: /* '\n' */10,
-                                _1: /* End_of_format */0
-                              }
-                            }
-                          },
-                          _1: "Int literal %d\n"
-                        }), s._0);
+                    TAG: /* Format */0,
+                    _0: {
+                      TAG: /* String_literal */11,
+                      _0: "Int literal ",
+                      _1: {
+                        TAG: /* Int */4,
+                        _0: /* Int_d */0,
+                        _1: /* No_padding */0,
+                        _2: /* No_precision */0,
+                        _3: {
+                          TAG: /* Char_literal */12,
+                          _0: /* '\n' */10,
+                          _1: /* End_of_format */0
+                        }
+                      }
+                    },
+                    _1: "Int literal %d\n"
+                  }), s._0);
       case /* SLit */2 :
           return Curry._1(Stdlib__Printf.printf({
-                          TAG: /* Format */0,
-                          _0: {
-                            TAG: /* String_literal */11,
-                            _0: "Str literal ",
-                            _1: {
-                              TAG: /* Caml_string */3,
-                              _0: /* No_padding */0,
-                              _1: {
-                                TAG: /* Char_literal */12,
-                                _0: /* '\n' */10,
-                                _1: /* End_of_format */0
-                              }
-                            }
-                          },
-                          _1: "Str literal %S\n"
-                        }), s._1);
+                    TAG: /* Format */0,
+                    _0: {
+                      TAG: /* String_literal */11,
+                      _0: "Str literal ",
+                      _1: {
+                        TAG: /* Caml_string */3,
+                        _0: /* No_padding */0,
+                        _1: {
+                          TAG: /* Char_literal */12,
+                          _0: /* '\n' */10,
+                          _1: /* End_of_format */0
+                        }
+                      }
+                    },
+                    _1: "Str literal %S\n"
+                  }), s._1);
       case /* Sym */3 :
           const i = s._0;
           return Curry._2(Stdlib__Printf.printf({
-                          TAG: /* Format */0,
-                          _0: {
-                            TAG: /* String_literal */11,
-                            _0: "Symbol '",
-                            _1: {
-                              TAG: /* String */2,
-                              _0: /* No_padding */0,
-                              _1: {
-                                TAG: /* String_literal */11,
-                                _0: "' (",
-                                _1: {
-                                  TAG: /* Int */4,
-                                  _0: /* Int_d */0,
-                                  _1: /* No_padding */0,
-                                  _2: /* No_precision */0,
-                                  _3: {
-                                    TAG: /* String_literal */11,
-                                    _0: ")\n",
-                                    _1: /* End_of_format */0
-                                  }
-                                }
-                              }
+                    TAG: /* Format */0,
+                    _0: {
+                      TAG: /* String_literal */11,
+                      _0: "Symbol '",
+                      _1: {
+                        TAG: /* String */2,
+                        _0: /* No_padding */0,
+                        _1: {
+                          TAG: /* String_literal */11,
+                          _0: "' (",
+                          _1: {
+                            TAG: /* Int */4,
+                            _0: /* Int_d */0,
+                            _1: /* No_padding */0,
+                            _2: /* No_precision */0,
+                            _3: {
+                              TAG: /* String_literal */11,
+                              _0: ")\n",
+                              _1: /* End_of_format */0
                             }
-                          },
-                          _1: "Symbol '%s' (%d)\n"
-                        }), symstr(i), i);
+                          }
+                        }
+                      }
+                    },
+                    _1: "Symbol '%s' (%d)\n"
+                  }), symstr(i), i);
       
     }
   };
@@ -1984,14 +1984,14 @@ function main(param) {
           if (tok.TAG === /* Op */0) {
             if (tok._0 === "EOF!") {
               return Stdlib__Printf.printf({
-                          TAG: /* Format */0,
-                          _0: {
-                            TAG: /* String_literal */11,
-                            _0: "End of input stream\n",
-                            _1: /* End_of_format */0
-                          },
-                          _1: "End of input stream\n"
-                        });
+                    TAG: /* Format */0,
+                    _0: {
+                      TAG: /* String_literal */11,
+                      _0: "End of input stream\n",
+                      _1: /* End_of_format */0
+                    },
+                    _1: "End of input stream\n"
+                  });
             }
             ppsym(tok);
             _param = undefined;

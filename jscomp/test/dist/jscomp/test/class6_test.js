@@ -34,10 +34,10 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
           return {
-                  TAG: /* Eq */0,
-                  _0: x,
-                  _1: y
-                };
+            TAG: /* Eq */0,
+            _0: x,
+            _1: y
+          };
         })
     ],
     tl: suites.contents
@@ -118,8 +118,8 @@ function lookup_obj(obj, _param) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              MEL_EXN_ID: Stdlib.Not_found
-            });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
   };
 }
 

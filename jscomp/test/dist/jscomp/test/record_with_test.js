@@ -27,24 +27,24 @@ const u_v = {
 function f(g, h) {
   const init = Curry._1(g, h);
   return {
-          syntax: init.syntax,
-          imports: 0,
-          file_options: init.file_options,
-          package: init.package,
-          messages: init.messages,
-          enums: init.enums,
-          extends: init.extends
-        };
+    syntax: init.syntax,
+    imports: 0,
+    file_options: init.file_options,
+    package: init.package,
+    messages: init.messages,
+    enums: init.enums,
+    extends: init.extends
+  };
 }
 
 const suites_0 = [
   "eq_with",
   (function (param) {
       return {
-              TAG: /* Eq */0,
-              _0: v,
-              _1: u_v
-            };
+        TAG: /* Eq */0,
+        _0: v,
+        _1: u_v
+      };
     })
 ];
 

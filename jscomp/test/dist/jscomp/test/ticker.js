@@ -32,9 +32,9 @@ function split(delim, s) {
         const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
           return {
-                  hd: Stdlib__String.sub(s, 0, i),
-                  tl: l
-                };
+            hd: Stdlib__String.sub(s, 0, i),
+            tl: l
+          };
         }
         throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
@@ -44,9 +44,9 @@ function split(delim, s) {
         tl: l
       };
       const l$2 = i$p === 0 ? ({
-            hd: "",
-            tl: l$1
-          }) : l$1;
+          hd: "",
+          tl: l$1
+        }) : l$1;
       _i = i$p;
       _l = l$2;
       continue ;
@@ -78,31 +78,31 @@ function string_of_rank(i) {
     }
   } else {
     return Curry._1(Stdlib__Printf.sprintf({
-                    TAG: /* Format */0,
-                    _0: {
-                      TAG: /* String_literal */11,
-                      _0: "Ranked(",
-                      _1: {
-                        TAG: /* Int */4,
-                        _0: /* Int_i */3,
-                        _1: /* No_padding */0,
-                        _2: /* No_precision */0,
-                        _3: {
-                          TAG: /* Char_literal */12,
-                          _0: /* ')' */41,
-                          _1: /* End_of_format */0
-                        }
-                      }
-                    },
-                    _1: "Ranked(%i)"
-                  }), i._0);
+              TAG: /* Format */0,
+              _0: {
+                TAG: /* String_literal */11,
+                _0: "Ranked(",
+                _1: {
+                  TAG: /* Int */4,
+                  _0: /* Int_i */3,
+                  _1: /* No_padding */0,
+                  _2: /* No_precision */0,
+                  _3: {
+                    TAG: /* Char_literal */12,
+                    _0: /* ')' */41,
+                    _1: /* End_of_format */0
+                  }
+                }
+              },
+              _1: "Ranked(%i)"
+            }), i._0);
   }
 }
 
 function find_ticker_by_name(all_tickers, ticker) {
   return Stdlib__List.find((function (param) {
-                return param.ticker_name === ticker;
-              }), all_tickers);
+          return param.ticker_name === ticker;
+        }), all_tickers);
 }
 
 function print_all_composite(all_tickers) {
@@ -133,24 +133,24 @@ function create(l, x, d, r) {
   const hl = height(l);
   const hr = height(r);
   return {
-          TAG: /* Node */0,
-          l: l,
-          v: x,
-          d: d,
-          r: r,
-          h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
-        };
+    TAG: /* Node */0,
+    l: l,
+    v: x,
+    d: d,
+    r: r,
+    h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+  };
 }
 
 function singleton(x, d) {
   return {
-          TAG: /* Node */0,
-          l: /* Empty */0,
-          v: x,
-          d: d,
-          r: /* Empty */0,
-          h: 1
-        };
+    TAG: /* Node */0,
+    l: /* Empty */0,
+    v: x,
+    d: d,
+    r: /* Empty */0,
+    h: 1
+  };
 }
 
 function bal(l, x, d, r) {
@@ -161,9 +161,9 @@ function bal(l, x, d, r) {
   if (hl > (hr + 2 | 0)) {
     if (/* tag */typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Map.bal"
-              });
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Map.bal"
+          });
     }
     const lr = l.r;
     const ld = l.d;
@@ -176,25 +176,25 @@ function bal(l, x, d, r) {
       return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Map.bal"
-            });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "Map.bal"
+        });
   }
   if (hr <= (hl + 2 | 0)) {
     return {
-            TAG: /* Node */0,
-            l: l,
-            v: x,
-            d: d,
-            r: r,
-            h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
-          };
+      TAG: /* Node */0,
+      l: l,
+      v: x,
+      d: d,
+      r: r,
+      h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+    };
   }
   if (/* tag */typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Map.bal"
-            });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "Map.bal"
+        });
   }
   const rr = r.r;
   const rd = r.d;
@@ -207,9 +207,9 @@ function bal(l, x, d, r) {
     return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Map.bal"
-          });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Map.bal"
+      });
 }
 
 function is_empty(param) {
@@ -223,13 +223,13 @@ function is_empty(param) {
 function add(x, data, m) {
   if (/* tag */typeof m === "number" || typeof m === "string") {
     return {
-            TAG: /* Node */0,
-            l: /* Empty */0,
-            v: x,
-            d: data,
-            r: /* Empty */0,
-            h: 1
-          };
+      TAG: /* Node */0,
+      l: /* Empty */0,
+      v: x,
+      d: data,
+      r: /* Empty */0,
+      h: 1
+    };
   }
   const r = m.r;
   const d = m.d;
@@ -241,13 +241,13 @@ function add(x, data, m) {
       return m;
     } else {
       return {
-              TAG: /* Node */0,
-              l: l,
-              v: x,
-              d: data,
-              r: r,
-              h: m.h
-            };
+        TAG: /* Node */0,
+        l: l,
+        v: x,
+        d: data,
+        r: r,
+        h: m.h
+      };
     }
   }
   if (c < 0) {
@@ -271,8 +271,8 @@ function find(x, _param) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                MEL_EXN_ID: Stdlib.Not_found
-              });
+            MEL_EXN_ID: Stdlib.Not_found
+          });
     }
     const c = Curry._2(funarg.compare, x, param.v);
     if (c === 0) {
@@ -288,8 +288,8 @@ function find_first(f, _param) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                MEL_EXN_ID: Stdlib.Not_found
-              });
+            MEL_EXN_ID: Stdlib.Not_found
+          });
     }
     const v = param.v;
     if (Curry._1(f, v)) {
@@ -302,9 +302,9 @@ function find_first(f, _param) {
         const v0 = _v0;
         if (/* tag */typeof param$1 === "number" || typeof param$1 === "string") {
           return [
-                  v0,
-                  d0
-                ];
+            v0,
+            d0
+          ];
         }
         const v$1 = param$1.v;
         if (Curry._1(f, v$1)) {
@@ -339,9 +339,9 @@ function find_first_opt(f, _param) {
         const v0 = _v0;
         if (/* tag */typeof param$1 === "number" || typeof param$1 === "string") {
           return [
-                  v0,
-                  d0
-                ];
+            v0,
+            d0
+          ];
         }
         const v$1 = param$1.v;
         if (Curry._1(f, v$1)) {
@@ -364,8 +364,8 @@ function find_last(f, _param) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                MEL_EXN_ID: Stdlib.Not_found
-              });
+            MEL_EXN_ID: Stdlib.Not_found
+          });
     }
     const v = param.v;
     if (Curry._1(f, v)) {
@@ -378,9 +378,9 @@ function find_last(f, _param) {
         const v0 = _v0;
         if (/* tag */typeof param$1 === "number" || typeof param$1 === "string") {
           return [
-                  v0,
-                  d0
-                ];
+            v0,
+            d0
+          ];
         }
         const v$1 = param$1.v;
         if (Curry._1(f, v$1)) {
@@ -415,9 +415,9 @@ function find_last_opt(f, _param) {
         const v0 = _v0;
         if (/* tag */typeof param$1 === "number" || typeof param$1 === "string") {
           return [
-                  v0,
-                  d0
-                ];
+            v0,
+            d0
+          ];
         }
         const v$1 = param$1.v;
         if (Curry._1(f, v$1)) {
@@ -470,15 +470,15 @@ function min_binding(_param) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                MEL_EXN_ID: Stdlib.Not_found
-              });
+            MEL_EXN_ID: Stdlib.Not_found
+          });
     }
     const l = param.l;
     if (/* tag */typeof l === "number" || typeof l === "string") {
       return [
-              param.v,
-              param.d
-            ];
+        param.v,
+        param.d
+      ];
     }
     _param = l;
     continue ;
@@ -494,9 +494,9 @@ function min_binding_opt(_param) {
     const l = param.l;
     if (/* tag */typeof l === "number" || typeof l === "string") {
       return [
-              param.v,
-              param.d
-            ];
+        param.v,
+        param.d
+      ];
     }
     _param = l;
     continue ;
@@ -508,15 +508,15 @@ function max_binding(_param) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                MEL_EXN_ID: Stdlib.Not_found
-              });
+            MEL_EXN_ID: Stdlib.Not_found
+          });
     }
     let tmp = param.r;
     if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
       return [
-              param.v,
-              param.d
-            ];
+        param.v,
+        param.d
+      ];
     }
     _param = param.r;
     continue ;
@@ -532,9 +532,9 @@ function max_binding_opt(_param) {
     let tmp = param.r;
     if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
       return [
-              param.v,
-              param.d
-            ];
+        param.v,
+        param.d
+      ];
     }
     _param = param.r;
     continue ;
@@ -544,9 +544,9 @@ function max_binding_opt(_param) {
 function remove_min_binding(param) {
   if (/* tag */typeof param === "number" || typeof param === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Map.remove_min_elt"
-            });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "Map.remove_min_elt"
+        });
   }
   const l = param.l;
   if (/* tag */typeof l === "number" || typeof l === "string") {
@@ -600,13 +600,13 @@ function update(x, f, m) {
     const data = Curry._1(f, undefined);
     if (data !== undefined) {
       return {
-              TAG: /* Node */0,
-              l: /* Empty */0,
-              v: x,
-              d: Caml_option.valFromOption(data),
-              r: /* Empty */0,
-              h: 1
-            };
+        TAG: /* Node */0,
+        l: /* Empty */0,
+        v: x,
+        d: Caml_option.valFromOption(data),
+        r: /* Empty */0,
+        h: 1
+      };
     } else {
       return /* Empty */0;
     }
@@ -626,13 +626,13 @@ function update(x, f, m) {
       return m;
     } else {
       return {
-              TAG: /* Node */0,
-              l: l,
-              v: x,
-              d: data$2,
-              r: r,
-              h: m.h
-            };
+        TAG: /* Node */0,
+        l: l,
+        v: x,
+        d: data$2,
+        r: r,
+        h: m.h
+      };
     }
   }
   if (c < 0) {
@@ -655,14 +655,14 @@ function add_to_list(x, data, m) {
   const add = function (l) {
     if (l !== undefined) {
       return {
-              hd: data,
-              tl: l
-            };
+        hd: data,
+        tl: l
+      };
     } else {
       return {
-              hd: data,
-              tl: /* [] */0
-            };
+        hd: data,
+        tl: /* [] */0
+      };
     }
   };
   return update(x, add, m);
@@ -689,13 +689,13 @@ function map(f, param) {
   const d$p = Curry._1(f, param.d);
   const r$p = map(f, param.r);
   return {
-          TAG: /* Node */0,
-          l: l$p,
-          v: param.v,
-          d: d$p,
-          r: r$p,
-          h: param.h
-        };
+    TAG: /* Node */0,
+    l: l$p,
+    v: param.v,
+    d: d$p,
+    r: r$p,
+    h: param.h
+  };
 }
 
 function mapi(f, param) {
@@ -707,13 +707,13 @@ function mapi(f, param) {
   const d$p = Curry._2(f, v, param.d);
   const r$p = mapi(f, param.r);
   return {
-          TAG: /* Node */0,
-          l: l$p,
-          v: v,
-          d: d$p,
-          r: r$p,
-          h: param.h
-        };
+    TAG: /* Node */0,
+    l: l$p,
+    v: v,
+    d: d$p,
+    r: r$p,
+    h: param.h
+  };
 }
 
 function fold(f, _m, _accu) {
@@ -819,10 +819,10 @@ function concat_or_join(t1, v, d, t2) {
 function split$1(x, param) {
   if (/* tag */typeof param === "number" || typeof param === "string") {
     return [
-            /* Empty */0,
-            undefined,
-            /* Empty */0
-          ];
+      /* Empty */0,
+      undefined,
+      /* Empty */0
+    ];
   }
   const r = param.r;
   const d = param.d;
@@ -831,25 +831,25 @@ function split$1(x, param) {
   const c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     return [
-            l,
-            Caml_option.some(d),
-            r
-          ];
+      l,
+      Caml_option.some(d),
+      r
+    ];
   }
   if (c < 0) {
     const match = split$1(x, l);
     return [
-            match[0],
-            match[1],
-            join(match[2], v, d, r)
-          ];
+      match[0],
+      match[1],
+      join(match[2], v, d, r)
+    ];
   }
   const match$1 = split$1(x, r);
   return [
-          join(l, v, d, match$1[0]),
-          match$1[1],
-          match$1[2]
-        ];
+    join(l, v, d, match$1[0]),
+    match$1[1],
+    match$1[2]
+  ];
 }
 
 function merge$1(f, s1, s2) {
@@ -868,13 +868,13 @@ function merge$1(f, s1, s2) {
   }
   if (/* tag */typeof s2 === "number" || typeof s2 === "string") {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/stdlib/map.ml",
-                408,
-                10
-              ]
-            });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/stdlib/map.ml",
+            408,
+            10
+          ]
+        });
   }
   const v2 = s2.v;
   const match$1 = split$1(v2, s1);
@@ -954,9 +954,9 @@ function filter_map(f, param) {
 function partition(p, param) {
   if (/* tag */typeof param === "number" || typeof param === "string") {
     return [
-            /* Empty */0,
-            /* Empty */0
-          ];
+      /* Empty */0,
+      /* Empty */0
+    ];
   }
   const d = param.d;
   const v = param.v;
@@ -969,14 +969,14 @@ function partition(p, param) {
   const rt = match$1[0];
   if (pvd) {
     return [
-            join(lt, v, d, rt),
-            concat(lf, rf)
-          ];
+      join(lt, v, d, rt),
+      concat(lf, rf)
+    ];
   } else {
     return [
-            concat(lt, rt),
-            join(lf, v, d, rf)
-          ];
+      concat(lt, rt),
+      join(lf, v, d, rf)
+    ];
   }
 }
 
@@ -1090,14 +1090,14 @@ function bindings(s) {
 
 function of_list(bs) {
   return Stdlib__List.fold_left((function (m, param) {
-                return add(param[0], param[1], m);
-              }), /* Empty */0, bs);
+          return add(param[0], param[1], m);
+        }), /* Empty */0, bs);
 }
 
 function add_seq(i, m) {
   return Stdlib__Seq.fold_left((function (m, param) {
-                return add(param[0], param[1], m);
-              }), m, i);
+          return add(param[0], param[1], m);
+        }), m, i);
 }
 
 function of_seq(i) {
@@ -1110,15 +1110,15 @@ function seq_of_enum_(c, param) {
   }
   const partial_arg = cons_enum(c._2, c._3);
   return {
-          TAG: /* Cons */0,
-          _0: [
-            c._0,
-            c._1
-          ],
-          _1: (function (param) {
-              return seq_of_enum_(partial_arg, param);
-            })
-        };
+    TAG: /* Cons */0,
+    _0: [
+      c._0,
+      c._1
+    ],
+    _1: (function (param) {
+        return seq_of_enum_(partial_arg, param);
+      })
+  };
 }
 
 function to_seq(m) {
@@ -1153,15 +1153,15 @@ function rev_seq_of_enum_(c, param) {
   }
   const partial_arg = snoc_enum(c._2, c._3);
   return {
-          TAG: /* Cons */0,
-          _0: [
-            c._0,
-            c._1
-          ],
-          _1: (function (param) {
-              return rev_seq_of_enum_(partial_arg, param);
-            })
-        };
+    TAG: /* Cons */0,
+    _0: [
+      c._0,
+      c._1
+    ],
+    _1: (function (param) {
+        return rev_seq_of_enum_(partial_arg, param);
+      })
+  };
 }
 
 function to_rev_seq(c) {
@@ -1185,12 +1185,12 @@ function to_seq_from(low, m) {
       const n = Curry._2(funarg.compare, v, low);
       if (n === 0) {
         return {
-                TAG: /* More */0,
-                _0: v,
-                _1: d,
-                _2: r,
-                _3: c
-              };
+          TAG: /* More */0,
+          _0: v,
+          _1: d,
+          _2: r,
+          _3: c
+        };
       }
       if (n < 0) {
         _m = r;
@@ -1295,9 +1295,9 @@ function compute_update_sequences(all_tickers) {
           let tmp = ticker.type_;
           if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
             return Curry._3(add, ticker.ticker_name, {
-                        hd: ticker,
-                        tl: /* [] */0
-                      }, map);
+                  hd: ticker,
+                  tl: /* [] */0
+                }, map);
           }
           const loop = function (_up, _map, _ticker) {
             while(true) {
@@ -1327,38 +1327,38 @@ function compute_update_sequences(all_tickers) {
           return loop(/* [] */0, map, ticker);
         }), /* Empty */0, Stdlib__List.rev(all_tickers));
   return Curry._3(fold, (function (k, l, map) {
-                const l$1 = Stdlib__List.sort_uniq((function (lhs, rhs) {
-                        const x = lhs.rank;
-                        if (/* tag */typeof x === "number" || typeof x === "string") {
-                          if (x === /* Uninitialized */0) {
-                            throw new Caml_js_exceptions.MelangeError("Failure", {
-                                      MEL_EXN_ID: "Failure",
-                                      _1: "All nodes should be ranked"
-                                    });
-                          }
-                          throw new Caml_js_exceptions.MelangeError("Failure", {
-                                    MEL_EXN_ID: "Failure",
-                                    _1: "All nodes should be ranked"
-                                  });
-                        } else {
-                          const y = rhs.rank;
-                          if (!/* tag */(typeof y === "number" || typeof y === "string")) {
-                            return Caml.caml_int_compare(x._0, y._0);
-                          }
-                          if (y === /* Uninitialized */0) {
-                            throw new Caml_js_exceptions.MelangeError("Failure", {
-                                      MEL_EXN_ID: "Failure",
-                                      _1: "All nodes should be ranked"
-                                    });
-                          }
-                          throw new Caml_js_exceptions.MelangeError("Failure", {
-                                    MEL_EXN_ID: "Failure",
-                                    _1: "All nodes should be ranked"
-                                  });
-                        }
-                      }), l);
-                return Curry._3(add, k, l$1, map);
-              }), map, map);
+          const l$1 = Stdlib__List.sort_uniq((function (lhs, rhs) {
+                  const x = lhs.rank;
+                  if (/* tag */typeof x === "number" || typeof x === "string") {
+                    if (x === /* Uninitialized */0) {
+                      throw new Caml_js_exceptions.MelangeError("Failure", {
+                            MEL_EXN_ID: "Failure",
+                            _1: "All nodes should be ranked"
+                          });
+                    }
+                    throw new Caml_js_exceptions.MelangeError("Failure", {
+                          MEL_EXN_ID: "Failure",
+                          _1: "All nodes should be ranked"
+                        });
+                  } else {
+                    const y = rhs.rank;
+                    if (!/* tag */(typeof y === "number" || typeof y === "string")) {
+                      return Caml.caml_int_compare(x._0, y._0);
+                    }
+                    if (y === /* Uninitialized */0) {
+                      throw new Caml_js_exceptions.MelangeError("Failure", {
+                            MEL_EXN_ID: "Failure",
+                            _1: "All nodes should be ranked"
+                          });
+                    }
+                    throw new Caml_js_exceptions.MelangeError("Failure", {
+                          MEL_EXN_ID: "Failure",
+                          _1: "All nodes should be ranked"
+                        });
+                  }
+                }), l);
+          return Curry._3(add, k, l$1, map);
+        }), map, map);
 }
 
 function process_quote(ticker_map, new_ticker, new_value) {
@@ -1371,9 +1371,9 @@ function process_quote(ticker_map, new_ticker, new_value) {
               return ;
             }
             throw new Caml_js_exceptions.MelangeError("Failure", {
-                      MEL_EXN_ID: "Failure",
-                      _1: "Only single Market ticker should be udpated upon a new quote"
-                    });
+                  MEL_EXN_ID: "Failure",
+                  _1: "Only single Market ticker should be udpated upon a new quote"
+                });
           }
           const match$1 = match._0;
           const match$2 = match$1.lhs.value;
@@ -1390,18 +1390,18 @@ function process_input_line(ticker_map, all_tickers, line) {
     const lhs$1 = find_ticker_by_name(all_tickers, lhs);
     const rhs$1 = find_ticker_by_name(all_tickers, rhs);
     return {
-            value: undefined,
-            rank: /* Uninitialized */0,
-            ticker_name: ticker_name,
-            type_: {
-              TAG: /* Binary_op */0,
-              _0: {
-                op: op,
-                rhs: rhs$1,
-                lhs: lhs$1
-              }
-            }
-          };
+      value: undefined,
+      rank: /* Uninitialized */0,
+      ticker_name: ticker_name,
+      type_: {
+        TAG: /* Binary_op */0,
+        _0: {
+          op: op,
+          rhs: rhs$1,
+          lhs: lhs$1
+        }
+      }
+    };
   };
   const tokens = split(/* '|' */124, line);
   if (tokens) {
@@ -1413,27 +1413,27 @@ function process_input_line(ticker_map, all_tickers, line) {
             if (match$1) {
               if (match$1.tl) {
                 throw new Caml_js_exceptions.MelangeError("Failure", {
-                          MEL_EXN_ID: "Failure",
-                          _1: "Invalid input line"
-                        });
+                      MEL_EXN_ID: "Failure",
+                      _1: "Invalid input line"
+                    });
               }
               const ticker_map$1 = ticker_map !== undefined ? Caml_option.valFromOption(ticker_map) : compute_update_sequences(all_tickers);
               const value = Caml_format.caml_float_of_string(match$1.hd);
               process_quote(ticker_map$1, match.hd, value);
               return [
-                      all_tickers,
-                      Caml_option.some(ticker_map$1)
-                    ];
+                all_tickers,
+                Caml_option.some(ticker_map$1)
+              ];
             }
             throw new Caml_js_exceptions.MelangeError("Failure", {
-                      MEL_EXN_ID: "Failure",
-                      _1: "Invalid input line"
-                    });
+                  MEL_EXN_ID: "Failure",
+                  _1: "Invalid input line"
+                });
           }
           throw new Caml_js_exceptions.MelangeError("Failure", {
-                    MEL_EXN_ID: "Failure",
-                    _1: "Invalid input line"
-                  });
+                MEL_EXN_ID: "Failure",
+                _1: "Invalid input line"
+              });
       case "R" :
           const match$2 = tokens.tl;
           if (match$2) {
@@ -1448,27 +1448,27 @@ function process_input_line(ticker_map, all_tickers, line) {
                       if (match$5) {
                         if (match$5.tl) {
                           throw new Caml_js_exceptions.MelangeError("Failure", {
-                                    MEL_EXN_ID: "Failure",
-                                    _1: "Invalid input line"
-                                  });
-                        }
-                        return [
-                                {
-                                  hd: make_binary_op(ticker_name, match$4.hd, match$5.hd, /* PLUS */0),
-                                  tl: all_tickers
-                                },
-                                ticker_map
-                              ];
-                      }
-                      throw new Caml_js_exceptions.MelangeError("Failure", {
                                 MEL_EXN_ID: "Failure",
                                 _1: "Invalid input line"
                               });
+                        }
+                        return [
+                          {
+                            hd: make_binary_op(ticker_name, match$4.hd, match$5.hd, /* PLUS */0),
+                            tl: all_tickers
+                          },
+                          ticker_map
+                        ];
+                      }
+                      throw new Caml_js_exceptions.MelangeError("Failure", {
+                            MEL_EXN_ID: "Failure",
+                            _1: "Invalid input line"
+                          });
                     }
                     throw new Caml_js_exceptions.MelangeError("Failure", {
-                              MEL_EXN_ID: "Failure",
-                              _1: "Invalid input line"
-                            });
+                          MEL_EXN_ID: "Failure",
+                          _1: "Invalid input line"
+                        });
                 case "-" :
                     const match$6 = match$3.tl;
                     if (match$6) {
@@ -1476,75 +1476,75 @@ function process_input_line(ticker_map, all_tickers, line) {
                       if (match$7) {
                         if (match$7.tl) {
                           throw new Caml_js_exceptions.MelangeError("Failure", {
-                                    MEL_EXN_ID: "Failure",
-                                    _1: "Invalid input line"
-                                  });
+                                MEL_EXN_ID: "Failure",
+                                _1: "Invalid input line"
+                              });
                         }
                         return [
-                                {
-                                  hd: make_binary_op(ticker_name, match$6.hd, match$7.hd, /* MINUS */1),
-                                  tl: all_tickers
-                                },
-                                ticker_map
-                              ];
+                          {
+                            hd: make_binary_op(ticker_name, match$6.hd, match$7.hd, /* MINUS */1),
+                            tl: all_tickers
+                          },
+                          ticker_map
+                        ];
                       }
                       throw new Caml_js_exceptions.MelangeError("Failure", {
-                                MEL_EXN_ID: "Failure",
-                                _1: "Invalid input line"
-                              });
-                    }
-                    throw new Caml_js_exceptions.MelangeError("Failure", {
-                              MEL_EXN_ID: "Failure",
-                              _1: "Invalid input line"
-                            });
-                case "S" :
-                    if (match$3.tl) {
-                      throw new Caml_js_exceptions.MelangeError("Failure", {
-                                MEL_EXN_ID: "Failure",
-                                _1: "Invalid input line"
-                              });
-                    }
-                    return [
-                            {
-                              hd: {
-                                value: undefined,
-                                rank: /* Uninitialized */0,
-                                ticker_name: ticker_name,
-                                type_: /* Market */0
-                              },
-                              tl: all_tickers
-                            },
-                            ticker_map
-                          ];
-                default:
-                  throw new Caml_js_exceptions.MelangeError("Failure", {
                             MEL_EXN_ID: "Failure",
                             _1: "Invalid input line"
                           });
-              }
-            } else {
-              throw new Caml_js_exceptions.MelangeError("Failure", {
+                    }
+                    throw new Caml_js_exceptions.MelangeError("Failure", {
+                          MEL_EXN_ID: "Failure",
+                          _1: "Invalid input line"
+                        });
+                case "S" :
+                    if (match$3.tl) {
+                      throw new Caml_js_exceptions.MelangeError("Failure", {
+                            MEL_EXN_ID: "Failure",
+                            _1: "Invalid input line"
+                          });
+                    }
+                    return [
+                      {
+                        hd: {
+                          value: undefined,
+                          rank: /* Uninitialized */0,
+                          ticker_name: ticker_name,
+                          type_: /* Market */0
+                        },
+                        tl: all_tickers
+                      },
+                      ticker_map
+                    ];
+                default:
+                  throw new Caml_js_exceptions.MelangeError("Failure", {
                         MEL_EXN_ID: "Failure",
                         _1: "Invalid input line"
                       });
+              }
+            } else {
+              throw new Caml_js_exceptions.MelangeError("Failure", {
+                    MEL_EXN_ID: "Failure",
+                    _1: "Invalid input line"
+                  });
             }
           } else {
             throw new Caml_js_exceptions.MelangeError("Failure", {
-                      MEL_EXN_ID: "Failure",
-                      _1: "Invalid input line"
-                    });
-          }
-      default:
-        throw new Caml_js_exceptions.MelangeError("Failure", {
                   MEL_EXN_ID: "Failure",
                   _1: "Invalid input line"
                 });
-    }
-  } else {
-    throw new Caml_js_exceptions.MelangeError("Failure", {
+          }
+      default:
+        throw new Caml_js_exceptions.MelangeError("Failure", {
               MEL_EXN_ID: "Failure",
               _1: "Invalid input line"
             });
+    }
+  } else {
+    throw new Caml_js_exceptions.MelangeError("Failure", {
+          MEL_EXN_ID: "Failure",
+          _1: "Invalid input line"
+        });
   }
 }
 

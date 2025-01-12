@@ -20,13 +20,13 @@ const match = [1];
 
 if (match.length !== 1) {
   throw new Caml_js_exceptions.MelangeError("Match_failure", {
-            MEL_EXN_ID: "Match_failure",
-            _1: [
-              "jscomp/test/gpr_3595_test.ml",
-              9,
-              4
-            ]
-          });
+        MEL_EXN_ID: "Match_failure",
+        _1: [
+          "jscomp/test/gpr_3595_test.ml",
+          9,
+          4
+        ]
+      });
 }
 
 const a = match[0];

@@ -39,9 +39,9 @@ function setOfArray(x) {
 
 function emptyMap(param) {
   return {
-          cmp: Icmp.cmp,
-          data: undefined
-        };
+    cmp: Icmp.cmp,
+    data: undefined
+  };
 }
 
 function mergeInter(s1, s2) {
@@ -76,11 +76,11 @@ function mergeDiff(s1, s2) {
 
 function randomRange(i, j) {
   return Belt__Belt_Array.map(Array_data_util.randomRange(i, j), (function (x) {
-                return [
-                        x,
-                        x
-                      ];
-              }));
+          return [
+            x,
+            x
+          ];
+        }));
 }
 
 const u0 = Belt__Belt_Map.fromArray(randomRange(0, 100), Icmp);
@@ -169,14 +169,14 @@ eq("File \"jscomp/test/bs_poly_map_test.ml\", line 91, characters 5-12", Belt__B
 
 function acc(m, is) {
   return Belt__Belt_Array.reduce(is, m, (function (a, i) {
-                return Belt__Belt_Map.update(a, i, (function (n) {
-                              if (n !== undefined) {
-                                return n + 1 | 0;
-                              } else {
-                                return 1;
-                              }
-                            }));
-              }));
+          return Belt__Belt_Map.update(a, i, (function (n) {
+                  if (n !== undefined) {
+                    return n + 1 | 0;
+                  } else {
+                    return 1;
+                  }
+                }));
+        }));
 }
 
 const m_cmp = Icmp.cmp;
@@ -190,9 +190,9 @@ const m1 = acc(m, Belt__Belt_Array.concat(Array_data_util.randomRange(0, 20), Ar
 
 b("File \"jscomp/test/bs_poly_map_test.ml\", line 103, characters 4-11", Belt__Belt_Map.eq(m1, Belt__Belt_Map.fromArray(Belt__Belt_Array.makeBy(31, (function (i) {
                     return [
-                            i,
-                            i >= 10 && i <= 20 ? 2 : 1
-                          ];
+                      i,
+                      i >= 10 && i <= 20 ? 2 : 1
+                    ];
                   })), Icmp), (function (x, y) {
             return x === y;
           })));
@@ -206,16 +206,16 @@ const v0 = {
 
 const v1 = Belt__Belt_Map.mergeMany(v0, Belt__Belt_Array.map(Array_data_util.randomRange(0, 10000), (function (x) {
             return [
-                    x,
-                    x
-                  ];
+              x,
+              x
+            ];
           })));
 
 const v2 = Belt__Belt_Map.fromArray(Belt__Belt_Array.map(Array_data_util.randomRange(0, 10000), (function (x) {
             return [
-                    x,
-                    x
-                  ];
+              x,
+              x
+            ];
           })), Icmp);
 
 b("File \"jscomp/test/bs_poly_map_test.ml\", line 117, characters 4-11", Belt__Belt_Map.eq(v1, v2, (function (x, y) {

@@ -5,9 +5,9 @@ const Stdlib__List = require("melange/list.js");
 
 function v(x) {
   return [
-          Stdlib__List.length(x),
-          Stdlib__List.length(x)
-        ];
+    Stdlib__List.length(x),
+    Stdlib__List.length(x)
+  ];
 }
 
 exports.v = v;

@@ -8,10 +8,10 @@ const suites_0 = [
   "isArray_array",
   (function (param) {
       return {
-              TAG: /* Eq */0,
-              _0: true,
-              _1: Array.isArray([])
-            };
+        TAG: /* Eq */0,
+        _0: true,
+        _1: Array.isArray([])
+      };
     })
 ];
 
@@ -20,10 +20,10 @@ const suites_1 = {
     "isArray_int",
     (function (param) {
         return {
-                TAG: /* Eq */0,
-                _0: false,
-                _1: Array.isArray(34)
-              };
+          TAG: /* Eq */0,
+          _0: false,
+          _1: Array.isArray(34)
+        };
       })
   ],
   tl: {
@@ -31,14 +31,14 @@ const suites_1 = {
       "length",
       (function (param) {
           return {
-                  TAG: /* Eq */0,
-                  _0: 3,
-                  _1: [
-                    1,
-                    2,
-                    3
-                  ].length
-                };
+            TAG: /* Eq */0,
+            _0: 3,
+            _1: [
+              1,
+              2,
+              3
+            ].length
+          };
         })
     ],
     tl: {
@@ -46,22 +46,22 @@ const suites_1 = {
         "copyWithin",
         (function (param) {
             return {
-                    TAG: /* Eq */0,
-                    _0: [
-                      1,
-                      2,
-                      3,
-                      1,
-                      2
-                    ],
-                    _1: [
-                        1,
-                        2,
-                        3,
-                        4,
-                        5
-                      ].copyWithin(-2, undefined, undefined)
-                  };
+              TAG: /* Eq */0,
+              _0: [
+                1,
+                2,
+                3,
+                1,
+                2
+              ],
+              _1: [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ].copyWithin(-2, undefined, undefined)
+            };
           })
       ],
       tl: {
@@ -69,22 +69,22 @@ const suites_1 = {
           "copyWithinFrom",
           (function (param) {
               return {
-                      TAG: /* Eq */0,
-                      _0: [
-                        4,
-                        5,
-                        3,
-                        4,
-                        5
-                      ],
-                      _1: [
-                          1,
-                          2,
-                          3,
-                          4,
-                          5
-                        ].copyWithin(0, 3, undefined)
-                    };
+                TAG: /* Eq */0,
+                _0: [
+                  4,
+                  5,
+                  3,
+                  4,
+                  5
+                ],
+                _1: [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                  ].copyWithin(0, 3, undefined)
+              };
             })
         ],
         tl: {
@@ -92,22 +92,22 @@ const suites_1 = {
             "copyWithinFromRange",
             (function (param) {
                 return {
-                        TAG: /* Eq */0,
-                        _0: [
-                          4,
-                          2,
-                          3,
-                          4,
-                          5
-                        ],
-                        _1: [
-                            1,
-                            2,
-                            3,
-                            4,
-                            5
-                          ].copyWithin(0, 3, 4)
-                      };
+                  TAG: /* Eq */0,
+                  _0: [
+                    4,
+                    2,
+                    3,
+                    4,
+                    5
+                  ],
+                  _1: [
+                      1,
+                      2,
+                      3,
+                      4,
+                      5
+                    ].copyWithin(0, 3, 4)
+                };
               })
           ],
           tl: {
@@ -115,18 +115,18 @@ const suites_1 = {
               "fillInPlace",
               (function (param) {
                   return {
-                          TAG: /* Eq */0,
-                          _0: [
-                            4,
-                            4,
-                            4
-                          ],
-                          _1: [
-                              1,
-                              2,
-                              3
-                            ].fill(4, undefined, undefined)
-                        };
+                    TAG: /* Eq */0,
+                    _0: [
+                      4,
+                      4,
+                      4
+                    ],
+                    _1: [
+                        1,
+                        2,
+                        3
+                      ].fill(4, undefined, undefined)
+                  };
                 })
             ],
             tl: {
@@ -134,18 +134,18 @@ const suites_1 = {
                 "fillFromInPlace",
                 (function (param) {
                     return {
-                            TAG: /* Eq */0,
-                            _0: [
-                              1,
-                              4,
-                              4
-                            ],
-                            _1: [
-                                1,
-                                2,
-                                3
-                              ].fill(4, 1, undefined)
-                          };
+                      TAG: /* Eq */0,
+                      _0: [
+                        1,
+                        4,
+                        4
+                      ],
+                      _1: [
+                          1,
+                          2,
+                          3
+                        ].fill(4, 1, undefined)
+                    };
                   })
               ],
               tl: {
@@ -153,18 +153,18 @@ const suites_1 = {
                   "fillRangeInPlace",
                   (function (param) {
                       return {
-                              TAG: /* Eq */0,
-                              _0: [
-                                1,
-                                4,
-                                3
-                              ],
-                              _1: [
-                                  1,
-                                  2,
-                                  3
-                                ].fill(4, 1, 2)
-                            };
+                        TAG: /* Eq */0,
+                        _0: [
+                          1,
+                          4,
+                          3
+                        ],
+                        _1: [
+                            1,
+                            2,
+                            3
+                          ].fill(4, 1, 2)
+                      };
                     })
                 ],
                 tl: {
@@ -172,14 +172,14 @@ const suites_1 = {
                     "pop",
                     (function (param) {
                         return {
-                                TAG: /* Eq */0,
-                                _0: 3,
-                                _1: Caml_option.undefined_to_opt([
-                                        1,
-                                        2,
-                                        3
-                                      ].pop())
-                              };
+                          TAG: /* Eq */0,
+                          _0: 3,
+                          _1: Caml_option.undefined_to_opt([
+                                  1,
+                                  2,
+                                  3
+                                ].pop())
+                        };
                       })
                   ],
                   tl: {
@@ -187,10 +187,10 @@ const suites_1 = {
                       "pop - empty array",
                       (function (param) {
                           return {
-                                  TAG: /* Eq */0,
-                                  _0: undefined,
-                                  _1: Caml_option.undefined_to_opt([].pop())
-                                };
+                            TAG: /* Eq */0,
+                            _0: undefined,
+                            _1: Caml_option.undefined_to_opt([].pop())
+                          };
                         })
                     ],
                     tl: {
@@ -198,14 +198,14 @@ const suites_1 = {
                         "push",
                         (function (param) {
                             return {
-                                    TAG: /* Eq */0,
-                                    _0: 4,
-                                    _1: [
-                                        1,
-                                        2,
-                                        3
-                                      ].push(4)
-                                  };
+                              TAG: /* Eq */0,
+                              _0: 4,
+                              _1: [
+                                  1,
+                                  2,
+                                  3
+                                ].push(4)
+                            };
                           })
                       ],
                       tl: {
@@ -213,14 +213,14 @@ const suites_1 = {
                           "pushMany",
                           (function (param) {
                               return {
-                                      TAG: /* Eq */0,
-                                      _0: 5,
-                                      _1: [
-                                          1,
-                                          2,
-                                          3
-                                        ].push(4, 5)
-                                    };
+                                TAG: /* Eq */0,
+                                _0: 5,
+                                _1: [
+                                    1,
+                                    2,
+                                    3
+                                  ].push(4, 5)
+                              };
                             })
                         ],
                         tl: {
@@ -228,18 +228,18 @@ const suites_1 = {
                             "reverseInPlace",
                             (function (param) {
                                 return {
-                                        TAG: /* Eq */0,
-                                        _0: [
-                                          3,
-                                          2,
-                                          1
-                                        ],
-                                        _1: [
-                                            1,
-                                            2,
-                                            3
-                                          ].reverse()
-                                      };
+                                  TAG: /* Eq */0,
+                                  _0: [
+                                    3,
+                                    2,
+                                    1
+                                  ],
+                                  _1: [
+                                      1,
+                                      2,
+                                      3
+                                    ].reverse()
+                                };
                               })
                           ],
                           tl: {
@@ -247,14 +247,14 @@ const suites_1 = {
                               "shift",
                               (function (param) {
                                   return {
-                                          TAG: /* Eq */0,
-                                          _0: 1,
-                                          _1: Caml_option.undefined_to_opt([
-                                                  1,
-                                                  2,
-                                                  3
-                                                ].shift())
-                                        };
+                                    TAG: /* Eq */0,
+                                    _0: 1,
+                                    _1: Caml_option.undefined_to_opt([
+                                            1,
+                                            2,
+                                            3
+                                          ].shift())
+                                  };
                                 })
                             ],
                             tl: {
@@ -262,10 +262,10 @@ const suites_1 = {
                                 "shift - empty array",
                                 (function (param) {
                                     return {
-                                            TAG: /* Eq */0,
-                                            _0: undefined,
-                                            _1: Caml_option.undefined_to_opt([].shift())
-                                          };
+                                      TAG: /* Eq */0,
+                                      _0: undefined,
+                                      _1: Caml_option.undefined_to_opt([].shift())
+                                    };
                                   })
                               ],
                               tl: {
@@ -273,18 +273,18 @@ const suites_1 = {
                                   "sortInPlace",
                                   (function (param) {
                                       return {
-                                              TAG: /* Eq */0,
-                                              _0: [
-                                                1,
-                                                2,
-                                                3
-                                              ],
-                                              _1: [
-                                                  3,
-                                                  1,
-                                                  2
-                                                ].sort()
-                                            };
+                                        TAG: /* Eq */0,
+                                        _0: [
+                                          1,
+                                          2,
+                                          3
+                                        ],
+                                        _1: [
+                                            3,
+                                            1,
+                                            2
+                                          ].sort()
+                                      };
                                     })
                                 ],
                                 tl: {
@@ -292,20 +292,20 @@ const suites_1 = {
                                     "sortInPlaceWith",
                                     (function (param) {
                                         return {
-                                                TAG: /* Eq */0,
-                                                _0: [
-                                                  3,
-                                                  2,
-                                                  1
-                                                ],
-                                                _1: [
-                                                    3,
-                                                    1,
-                                                    2
-                                                  ].sort(function (a, b) {
-                                                      return b - a | 0;
-                                                    })
-                                              };
+                                          TAG: /* Eq */0,
+                                          _0: [
+                                            3,
+                                            2,
+                                            1
+                                          ],
+                                          _1: [
+                                              3,
+                                              1,
+                                              2
+                                            ].sort(function (a, b) {
+                                                return b - a | 0;
+                                              })
+                                        };
                                       })
                                   ],
                                   tl: {
@@ -320,22 +320,22 @@ const suites_1 = {
                                           ];
                                           const removed = arr.splice(2, 0, 5);
                                           return {
-                                                  TAG: /* Eq */0,
-                                                  _0: [
-                                                    [
-                                                      1,
-                                                      2,
-                                                      5,
-                                                      3,
-                                                      4
-                                                    ],
-                                                    []
-                                                  ],
-                                                  _1: [
-                                                    arr,
-                                                    removed
-                                                  ]
-                                                };
+                                            TAG: /* Eq */0,
+                                            _0: [
+                                              [
+                                                1,
+                                                2,
+                                                5,
+                                                3,
+                                                4
+                                              ],
+                                              []
+                                            ],
+                                            _1: [
+                                              arr,
+                                              removed
+                                            ]
+                                          };
                                         })
                                     ],
                                     tl: {
@@ -350,22 +350,22 @@ const suites_1 = {
                                             ];
                                             const removed = arr.splice(2);
                                             return {
-                                                    TAG: /* Eq */0,
-                                                    _0: [
-                                                      [
-                                                        1,
-                                                        2
-                                                      ],
-                                                      [
-                                                        3,
-                                                        4
-                                                      ]
-                                                    ],
-                                                    _1: [
-                                                      arr,
-                                                      removed
-                                                    ]
-                                                  };
+                                              TAG: /* Eq */0,
+                                              _0: [
+                                                [
+                                                  1,
+                                                  2
+                                                ],
+                                                [
+                                                  3,
+                                                  4
+                                                ]
+                                              ],
+                                              _1: [
+                                                arr,
+                                                removed
+                                              ]
+                                            };
                                           })
                                       ],
                                       tl: {
@@ -380,20 +380,20 @@ const suites_1 = {
                                               ];
                                               const removed = arr.splice(2, 1);
                                               return {
-                                                      TAG: /* Eq */0,
-                                                      _0: [
-                                                        [
-                                                          1,
-                                                          2,
-                                                          4
-                                                        ],
-                                                        [3]
-                                                      ],
-                                                      _1: [
-                                                        arr,
-                                                        removed
-                                                      ]
-                                                    };
+                                                TAG: /* Eq */0,
+                                                _0: [
+                                                  [
+                                                    1,
+                                                    2,
+                                                    4
+                                                  ],
+                                                  [3]
+                                                ],
+                                                _1: [
+                                                  arr,
+                                                  removed
+                                                ]
+                                              };
                                             })
                                         ],
                                         tl: {
@@ -401,14 +401,14 @@ const suites_1 = {
                                             "unshift",
                                             (function (param) {
                                                 return {
-                                                        TAG: /* Eq */0,
-                                                        _0: 4,
-                                                        _1: [
-                                                            1,
-                                                            2,
-                                                            3
-                                                          ].unshift(4)
-                                                      };
+                                                  TAG: /* Eq */0,
+                                                  _0: 4,
+                                                  _1: [
+                                                      1,
+                                                      2,
+                                                      3
+                                                    ].unshift(4)
+                                                };
                                               })
                                           ],
                                           tl: {
@@ -416,14 +416,14 @@ const suites_1 = {
                                               "unshiftMany",
                                               (function (param) {
                                                   return {
-                                                          TAG: /* Eq */0,
-                                                          _0: 5,
-                                                          _1: [
-                                                              1,
-                                                              2,
-                                                              3
-                                                            ].unshift(4, 5)
-                                                        };
+                                                    TAG: /* Eq */0,
+                                                    _0: 5,
+                                                    _1: [
+                                                        1,
+                                                        2,
+                                                        3
+                                                      ].unshift(4, 5)
+                                                  };
                                                 })
                                             ],
                                             tl: {
@@ -431,19 +431,19 @@ const suites_1 = {
                                                 "append",
                                                 (function (param) {
                                                     return {
-                                                            TAG: /* Eq */0,
-                                                            _0: [
-                                                              1,
-                                                              2,
-                                                              3,
-                                                              4
-                                                            ],
-                                                            _1: [
-                                                                1,
-                                                                2,
-                                                                3
-                                                              ].concat([4])
-                                                          };
+                                                      TAG: /* Eq */0,
+                                                      _0: [
+                                                        1,
+                                                        2,
+                                                        3,
+                                                        4
+                                                      ],
+                                                      _1: [
+                                                          1,
+                                                          2,
+                                                          3
+                                                        ].concat([4])
+                                                    };
                                                   })
                                               ],
                                               tl: {
@@ -451,23 +451,23 @@ const suites_1 = {
                                                   "concat",
                                                   (function (param) {
                                                       return {
-                                                              TAG: /* Eq */0,
-                                                              _0: [
-                                                                1,
-                                                                2,
-                                                                3,
-                                                                4,
-                                                                5
-                                                              ],
-                                                              _1: [
-                                                                  1,
-                                                                  2,
-                                                                  3
-                                                                ].concat([
-                                                                    4,
-                                                                    5
-                                                                  ])
-                                                            };
+                                                        TAG: /* Eq */0,
+                                                        _0: [
+                                                          1,
+                                                          2,
+                                                          3,
+                                                          4,
+                                                          5
+                                                        ],
+                                                        _1: [
+                                                            1,
+                                                            2,
+                                                            3
+                                                          ].concat([
+                                                              4,
+                                                              5
+                                                            ])
+                                                      };
                                                     })
                                                 ],
                                                 tl: {
@@ -475,28 +475,28 @@ const suites_1 = {
                                                     "concatMany",
                                                     (function (param) {
                                                         return {
-                                                                TAG: /* Eq */0,
-                                                                _0: [
-                                                                  1,
-                                                                  2,
-                                                                  3,
-                                                                  4,
-                                                                  5,
-                                                                  6,
-                                                                  7
-                                                                ],
-                                                                _1: [
-                                                                    1,
-                                                                    2,
-                                                                    3
-                                                                  ].concat([
-                                                                      4,
-                                                                      5
-                                                                    ], [
-                                                                      6,
-                                                                      7
-                                                                    ])
-                                                              };
+                                                          TAG: /* Eq */0,
+                                                          _0: [
+                                                            1,
+                                                            2,
+                                                            3,
+                                                            4,
+                                                            5,
+                                                            6,
+                                                            7
+                                                          ],
+                                                          _1: [
+                                                              1,
+                                                              2,
+                                                              3
+                                                            ].concat([
+                                                                4,
+                                                                5
+                                                              ], [
+                                                                6,
+                                                                7
+                                                              ])
+                                                        };
                                                       })
                                                   ],
                                                   tl: {
@@ -504,14 +504,14 @@ const suites_1 = {
                                                       "includes",
                                                       (function (param) {
                                                           return {
-                                                                  TAG: /* Eq */0,
-                                                                  _0: true,
-                                                                  _1: [
-                                                                      1,
-                                                                      2,
-                                                                      3
-                                                                    ].includes(3)
-                                                                };
+                                                            TAG: /* Eq */0,
+                                                            _0: true,
+                                                            _1: [
+                                                                1,
+                                                                2,
+                                                                3
+                                                              ].includes(3)
+                                                          };
                                                         })
                                                     ],
                                                     tl: {
@@ -519,14 +519,14 @@ const suites_1 = {
                                                         "indexOf",
                                                         (function (param) {
                                                             return {
-                                                                    TAG: /* Eq */0,
-                                                                    _0: 1,
-                                                                    _1: [
-                                                                        1,
-                                                                        2,
-                                                                        3
-                                                                      ].indexOf(2, undefined)
-                                                                  };
+                                                              TAG: /* Eq */0,
+                                                              _0: 1,
+                                                              _1: [
+                                                                  1,
+                                                                  2,
+                                                                  3
+                                                                ].indexOf(2, undefined)
+                                                            };
                                                           })
                                                       ],
                                                       tl: {
@@ -534,15 +534,15 @@ const suites_1 = {
                                                           "indexOfFrom",
                                                           (function (param) {
                                                               return {
-                                                                      TAG: /* Eq */0,
-                                                                      _0: 3,
-                                                                      _1: [
-                                                                          1,
-                                                                          2,
-                                                                          3,
-                                                                          2
-                                                                        ].indexOf(2, 2)
-                                                                    };
+                                                                TAG: /* Eq */0,
+                                                                _0: 3,
+                                                                _1: [
+                                                                    1,
+                                                                    2,
+                                                                    3,
+                                                                    2
+                                                                  ].indexOf(2, 2)
+                                                              };
                                                             })
                                                         ],
                                                         tl: {
@@ -550,14 +550,14 @@ const suites_1 = {
                                                             "join",
                                                             (function (param) {
                                                                 return {
-                                                                        TAG: /* Eq */0,
-                                                                        _0: "1,2,3",
-                                                                        _1: [
-                                                                            1,
-                                                                            2,
-                                                                            3
-                                                                          ].join(",")
-                                                                      };
+                                                                  TAG: /* Eq */0,
+                                                                  _0: "1,2,3",
+                                                                  _1: [
+                                                                      1,
+                                                                      2,
+                                                                      3
+                                                                    ].join(",")
+                                                                };
                                                               })
                                                           ],
                                                           tl: {
@@ -565,14 +565,14 @@ const suites_1 = {
                                                               "joinWith",
                                                               (function (param) {
                                                                   return {
-                                                                          TAG: /* Eq */0,
-                                                                          _0: "1;2;3",
-                                                                          _1: [
-                                                                              1,
-                                                                              2,
-                                                                              3
-                                                                            ].join(";")
-                                                                        };
+                                                                    TAG: /* Eq */0,
+                                                                    _0: "1;2;3",
+                                                                    _1: [
+                                                                        1,
+                                                                        2,
+                                                                        3
+                                                                      ].join(";")
+                                                                  };
                                                                 })
                                                             ],
                                                             tl: {
@@ -580,14 +580,14 @@ const suites_1 = {
                                                                 "lastIndexOf",
                                                                 (function (param) {
                                                                     return {
-                                                                            TAG: /* Eq */0,
-                                                                            _0: 1,
-                                                                            _1: [
-                                                                                1,
-                                                                                2,
-                                                                                3
-                                                                              ].lastIndexOf(2)
-                                                                          };
+                                                                      TAG: /* Eq */0,
+                                                                      _0: 1,
+                                                                      _1: [
+                                                                          1,
+                                                                          2,
+                                                                          3
+                                                                        ].lastIndexOf(2)
+                                                                    };
                                                                   })
                                                               ],
                                                               tl: {
@@ -595,15 +595,15 @@ const suites_1 = {
                                                                   "lastIndexOfFrom",
                                                                   (function (param) {
                                                                       return {
-                                                                              TAG: /* Eq */0,
-                                                                              _0: 1,
-                                                                              _1: [
-                                                                                  1,
-                                                                                  2,
-                                                                                  3,
-                                                                                  2
-                                                                                ].lastIndexOf(2, 2)
-                                                                            };
+                                                                        TAG: /* Eq */0,
+                                                                        _0: 1,
+                                                                        _1: [
+                                                                            1,
+                                                                            2,
+                                                                            3,
+                                                                            2
+                                                                          ].lastIndexOf(2, 2)
+                                                                      };
                                                                     })
                                                                 ],
                                                                 tl: {
@@ -611,19 +611,19 @@ const suites_1 = {
                                                                     "slice",
                                                                     (function (param) {
                                                                         return {
-                                                                                TAG: /* Eq */0,
-                                                                                _0: [
-                                                                                  2,
-                                                                                  3
-                                                                                ],
-                                                                                _1: [
-                                                                                    1,
-                                                                                    2,
-                                                                                    3,
-                                                                                    4,
-                                                                                    5
-                                                                                  ].slice(1, 3)
-                                                                              };
+                                                                          TAG: /* Eq */0,
+                                                                          _0: [
+                                                                            2,
+                                                                            3
+                                                                          ],
+                                                                          _1: [
+                                                                              1,
+                                                                              2,
+                                                                              3,
+                                                                              4,
+                                                                              5
+                                                                            ].slice(1, 3)
+                                                                        };
                                                                       })
                                                                   ],
                                                                   tl: {
@@ -631,22 +631,22 @@ const suites_1 = {
                                                                       "copy",
                                                                       (function (param) {
                                                                           return {
-                                                                                  TAG: /* Eq */0,
-                                                                                  _0: [
-                                                                                    1,
-                                                                                    2,
-                                                                                    3,
-                                                                                    4,
-                                                                                    5
-                                                                                  ],
-                                                                                  _1: [
-                                                                                      1,
-                                                                                      2,
-                                                                                      3,
-                                                                                      4,
-                                                                                      5
-                                                                                    ].slice()
-                                                                                };
+                                                                            TAG: /* Eq */0,
+                                                                            _0: [
+                                                                              1,
+                                                                              2,
+                                                                              3,
+                                                                              4,
+                                                                              5
+                                                                            ],
+                                                                            _1: [
+                                                                                1,
+                                                                                2,
+                                                                                3,
+                                                                                4,
+                                                                                5
+                                                                              ].slice()
+                                                                          };
                                                                         })
                                                                     ],
                                                                     tl: {
@@ -654,20 +654,20 @@ const suites_1 = {
                                                                         "sliceFrom",
                                                                         (function (param) {
                                                                             return {
-                                                                                    TAG: /* Eq */0,
-                                                                                    _0: [
-                                                                                      3,
-                                                                                      4,
-                                                                                      5
-                                                                                    ],
-                                                                                    _1: [
-                                                                                        1,
-                                                                                        2,
-                                                                                        3,
-                                                                                        4,
-                                                                                        5
-                                                                                      ].slice(2, undefined)
-                                                                                  };
+                                                                              TAG: /* Eq */0,
+                                                                              _0: [
+                                                                                3,
+                                                                                4,
+                                                                                5
+                                                                              ],
+                                                                              _1: [
+                                                                                  1,
+                                                                                  2,
+                                                                                  3,
+                                                                                  4,
+                                                                                  5
+                                                                                ].slice(2, undefined)
+                                                                            };
                                                                           })
                                                                       ],
                                                                       tl: {
@@ -675,14 +675,14 @@ const suites_1 = {
                                                                           "toString",
                                                                           (function (param) {
                                                                               return {
-                                                                                      TAG: /* Eq */0,
-                                                                                      _0: "1,2,3",
-                                                                                      _1: [
-                                                                                          1,
-                                                                                          2,
-                                                                                          3
-                                                                                        ].toString()
-                                                                                    };
+                                                                                TAG: /* Eq */0,
+                                                                                _0: "1,2,3",
+                                                                                _1: [
+                                                                                    1,
+                                                                                    2,
+                                                                                    3
+                                                                                  ].toString()
+                                                                              };
                                                                             })
                                                                         ],
                                                                         tl: {
@@ -690,14 +690,14 @@ const suites_1 = {
                                                                             "toLocaleString",
                                                                             (function (param) {
                                                                                 return {
-                                                                                        TAG: /* Eq */0,
-                                                                                        _0: "1,2,3",
-                                                                                        _1: [
-                                                                                            1,
-                                                                                            2,
-                                                                                            3
-                                                                                          ].toLocaleString()
-                                                                                      };
+                                                                                  TAG: /* Eq */0,
+                                                                                  _0: "1,2,3",
+                                                                                  _1: [
+                                                                                      1,
+                                                                                      2,
+                                                                                      3
+                                                                                    ].toLocaleString()
+                                                                                };
                                                                               })
                                                                           ],
                                                                           tl: {
@@ -705,16 +705,16 @@ const suites_1 = {
                                                                               "every",
                                                                               (function (param) {
                                                                                   return {
-                                                                                          TAG: /* Eq */0,
-                                                                                          _0: true,
-                                                                                          _1: [
-                                                                                              1,
-                                                                                              2,
-                                                                                              3
-                                                                                            ].every(function (n) {
-                                                                                                return n > 0;
-                                                                                              })
-                                                                                        };
+                                                                                    TAG: /* Eq */0,
+                                                                                    _0: true,
+                                                                                    _1: [
+                                                                                        1,
+                                                                                        2,
+                                                                                        3
+                                                                                      ].every(function (n) {
+                                                                                          return n > 0;
+                                                                                        })
+                                                                                  };
                                                                                 })
                                                                             ],
                                                                             tl: {
@@ -722,16 +722,16 @@ const suites_1 = {
                                                                                 "everyi",
                                                                                 (function (param) {
                                                                                     return {
-                                                                                            TAG: /* Eq */0,
-                                                                                            _0: false,
-                                                                                            _1: [
-                                                                                                1,
-                                                                                                2,
-                                                                                                3
-                                                                                              ].every(function (param, i) {
-                                                                                                  return i > 0;
-                                                                                                })
-                                                                                          };
+                                                                                      TAG: /* Eq */0,
+                                                                                      _0: false,
+                                                                                      _1: [
+                                                                                          1,
+                                                                                          2,
+                                                                                          3
+                                                                                        ].every(function (param, i) {
+                                                                                            return i > 0;
+                                                                                          })
+                                                                                    };
                                                                                   })
                                                                               ],
                                                                               tl: {
@@ -739,20 +739,20 @@ const suites_1 = {
                                                                                   "filter",
                                                                                   (function (param) {
                                                                                       return {
-                                                                                              TAG: /* Eq */0,
-                                                                                              _0: [
-                                                                                                2,
-                                                                                                4
-                                                                                              ],
-                                                                                              _1: [
-                                                                                                  1,
-                                                                                                  2,
-                                                                                                  3,
-                                                                                                  4
-                                                                                                ].filter(function (n) {
-                                                                                                    return n % 2 === 0;
-                                                                                                  })
-                                                                                            };
+                                                                                        TAG: /* Eq */0,
+                                                                                        _0: [
+                                                                                          2,
+                                                                                          4
+                                                                                        ],
+                                                                                        _1: [
+                                                                                            1,
+                                                                                            2,
+                                                                                            3,
+                                                                                            4
+                                                                                          ].filter(function (n) {
+                                                                                              return n % 2 === 0;
+                                                                                            })
+                                                                                      };
                                                                                     })
                                                                                 ],
                                                                                 tl: {
@@ -760,20 +760,20 @@ const suites_1 = {
                                                                                     "filteri",
                                                                                     (function (param) {
                                                                                         return {
-                                                                                                TAG: /* Eq */0,
-                                                                                                _0: [
-                                                                                                  1,
-                                                                                                  3
-                                                                                                ],
-                                                                                                _1: [
-                                                                                                    1,
-                                                                                                    2,
-                                                                                                    3,
-                                                                                                    4
-                                                                                                  ].filter(function (param, i) {
-                                                                                                      return i % 2 === 0;
-                                                                                                    })
-                                                                                              };
+                                                                                          TAG: /* Eq */0,
+                                                                                          _0: [
+                                                                                            1,
+                                                                                            3
+                                                                                          ],
+                                                                                          _1: [
+                                                                                              1,
+                                                                                              2,
+                                                                                              3,
+                                                                                              4
+                                                                                            ].filter(function (param, i) {
+                                                                                                return i % 2 === 0;
+                                                                                              })
+                                                                                        };
                                                                                       })
                                                                                   ],
                                                                                   tl: {
@@ -781,17 +781,17 @@ const suites_1 = {
                                                                                       "find",
                                                                                       (function (param) {
                                                                                           return {
-                                                                                                  TAG: /* Eq */0,
-                                                                                                  _0: 2,
-                                                                                                  _1: Caml_option.undefined_to_opt([
-                                                                                                          1,
-                                                                                                          2,
-                                                                                                          3,
-                                                                                                          4
-                                                                                                        ].find(function (n) {
-                                                                                                            return n % 2 === 0;
-                                                                                                          }))
-                                                                                                };
+                                                                                            TAG: /* Eq */0,
+                                                                                            _0: 2,
+                                                                                            _1: Caml_option.undefined_to_opt([
+                                                                                                    1,
+                                                                                                    2,
+                                                                                                    3,
+                                                                                                    4
+                                                                                                  ].find(function (n) {
+                                                                                                      return n % 2 === 0;
+                                                                                                    }))
+                                                                                          };
                                                                                         })
                                                                                     ],
                                                                                     tl: {
@@ -799,17 +799,17 @@ const suites_1 = {
                                                                                         "find - no match",
                                                                                         (function (param) {
                                                                                             return {
-                                                                                                    TAG: /* Eq */0,
-                                                                                                    _0: undefined,
-                                                                                                    _1: Caml_option.undefined_to_opt([
-                                                                                                            1,
-                                                                                                            2,
-                                                                                                            3,
-                                                                                                            4
-                                                                                                          ].find(function (n) {
-                                                                                                              return n % 2 === 5;
-                                                                                                            }))
-                                                                                                  };
+                                                                                              TAG: /* Eq */0,
+                                                                                              _0: undefined,
+                                                                                              _1: Caml_option.undefined_to_opt([
+                                                                                                      1,
+                                                                                                      2,
+                                                                                                      3,
+                                                                                                      4
+                                                                                                    ].find(function (n) {
+                                                                                                        return n % 2 === 5;
+                                                                                                      }))
+                                                                                            };
                                                                                           })
                                                                                       ],
                                                                                       tl: {
@@ -817,17 +817,17 @@ const suites_1 = {
                                                                                           "findi",
                                                                                           (function (param) {
                                                                                               return {
-                                                                                                      TAG: /* Eq */0,
-                                                                                                      _0: 1,
-                                                                                                      _1: Caml_option.undefined_to_opt([
-                                                                                                              1,
-                                                                                                              2,
-                                                                                                              3,
-                                                                                                              4
-                                                                                                            ].find(function (param, i) {
-                                                                                                                return i % 2 === 0;
-                                                                                                              }))
-                                                                                                    };
+                                                                                                TAG: /* Eq */0,
+                                                                                                _0: 1,
+                                                                                                _1: Caml_option.undefined_to_opt([
+                                                                                                        1,
+                                                                                                        2,
+                                                                                                        3,
+                                                                                                        4
+                                                                                                      ].find(function (param, i) {
+                                                                                                          return i % 2 === 0;
+                                                                                                        }))
+                                                                                              };
                                                                                             })
                                                                                         ],
                                                                                         tl: {
@@ -835,17 +835,17 @@ const suites_1 = {
                                                                                             "findi - no match",
                                                                                             (function (param) {
                                                                                                 return {
-                                                                                                        TAG: /* Eq */0,
-                                                                                                        _0: undefined,
-                                                                                                        _1: Caml_option.undefined_to_opt([
-                                                                                                                1,
-                                                                                                                2,
-                                                                                                                3,
-                                                                                                                4
-                                                                                                              ].find(function (param, i) {
-                                                                                                                  return i % 2 === 5;
-                                                                                                                }))
-                                                                                                      };
+                                                                                                  TAG: /* Eq */0,
+                                                                                                  _0: undefined,
+                                                                                                  _1: Caml_option.undefined_to_opt([
+                                                                                                          1,
+                                                                                                          2,
+                                                                                                          3,
+                                                                                                          4
+                                                                                                        ].find(function (param, i) {
+                                                                                                            return i % 2 === 5;
+                                                                                                          }))
+                                                                                                };
                                                                                               })
                                                                                           ],
                                                                                           tl: {
@@ -853,17 +853,17 @@ const suites_1 = {
                                                                                               "findIndex",
                                                                                               (function (param) {
                                                                                                   return {
-                                                                                                          TAG: /* Eq */0,
-                                                                                                          _0: 1,
-                                                                                                          _1: [
-                                                                                                              1,
-                                                                                                              2,
-                                                                                                              3,
-                                                                                                              4
-                                                                                                            ].findIndex(function (n) {
-                                                                                                                return n % 2 === 0;
-                                                                                                              })
-                                                                                                        };
+                                                                                                    TAG: /* Eq */0,
+                                                                                                    _0: 1,
+                                                                                                    _1: [
+                                                                                                        1,
+                                                                                                        2,
+                                                                                                        3,
+                                                                                                        4
+                                                                                                      ].findIndex(function (n) {
+                                                                                                          return n % 2 === 0;
+                                                                                                        })
+                                                                                                  };
                                                                                                 })
                                                                                             ],
                                                                                             tl: {
@@ -871,17 +871,17 @@ const suites_1 = {
                                                                                                 "findIndexi",
                                                                                                 (function (param) {
                                                                                                     return {
-                                                                                                            TAG: /* Eq */0,
-                                                                                                            _0: 0,
-                                                                                                            _1: [
-                                                                                                                1,
-                                                                                                                2,
-                                                                                                                3,
-                                                                                                                4
-                                                                                                              ].findIndex(function (param, i) {
-                                                                                                                  return i % 2 === 0;
-                                                                                                                })
-                                                                                                          };
+                                                                                                      TAG: /* Eq */0,
+                                                                                                      _0: 0,
+                                                                                                      _1: [
+                                                                                                          1,
+                                                                                                          2,
+                                                                                                          3,
+                                                                                                          4
+                                                                                                        ].findIndex(function (param, i) {
+                                                                                                            return i % 2 === 0;
+                                                                                                          })
+                                                                                                    };
                                                                                                   })
                                                                                               ],
                                                                                               tl: {
@@ -899,10 +899,10 @@ const suites_1 = {
                                                                                                             sum.contents = sum.contents + n | 0;
                                                                                                           });
                                                                                                       return {
-                                                                                                              TAG: /* Eq */0,
-                                                                                                              _0: 6,
-                                                                                                              _1: sum.contents
-                                                                                                            };
+                                                                                                        TAG: /* Eq */0,
+                                                                                                        _0: 6,
+                                                                                                        _1: sum.contents
+                                                                                                      };
                                                                                                     })
                                                                                                 ],
                                                                                                 tl: {
@@ -920,10 +920,10 @@ const suites_1 = {
                                                                                                               sum.contents = sum.contents + i | 0;
                                                                                                             });
                                                                                                         return {
-                                                                                                                TAG: /* Eq */0,
-                                                                                                                _0: 3,
-                                                                                                                _1: sum.contents
-                                                                                                              };
+                                                                                                          TAG: /* Eq */0,
+                                                                                                          _0: 3,
+                                                                                                          _1: sum.contents
+                                                                                                        };
                                                                                                       })
                                                                                                   ],
                                                                                                   tl: {
@@ -931,22 +931,22 @@ const suites_1 = {
                                                                                                       "map",
                                                                                                       (function (param) {
                                                                                                           return {
-                                                                                                                  TAG: /* Eq */0,
-                                                                                                                  _0: [
-                                                                                                                    2,
-                                                                                                                    4,
-                                                                                                                    6,
-                                                                                                                    8
-                                                                                                                  ],
-                                                                                                                  _1: [
-                                                                                                                      1,
-                                                                                                                      2,
-                                                                                                                      3,
-                                                                                                                      4
-                                                                                                                    ].map(function (n) {
-                                                                                                                        return (n << 1);
-                                                                                                                      })
-                                                                                                                };
+                                                                                                            TAG: /* Eq */0,
+                                                                                                            _0: [
+                                                                                                              2,
+                                                                                                              4,
+                                                                                                              6,
+                                                                                                              8
+                                                                                                            ],
+                                                                                                            _1: [
+                                                                                                                1,
+                                                                                                                2,
+                                                                                                                3,
+                                                                                                                4
+                                                                                                              ].map(function (n) {
+                                                                                                                  return (n << 1);
+                                                                                                                })
+                                                                                                          };
                                                                                                         })
                                                                                                     ],
                                                                                                     tl: {
@@ -954,22 +954,22 @@ const suites_1 = {
                                                                                                         "map",
                                                                                                         (function (param) {
                                                                                                             return {
-                                                                                                                    TAG: /* Eq */0,
-                                                                                                                    _0: [
-                                                                                                                      0,
-                                                                                                                      2,
-                                                                                                                      4,
-                                                                                                                      6
-                                                                                                                    ],
-                                                                                                                    _1: [
-                                                                                                                        1,
-                                                                                                                        2,
-                                                                                                                        3,
-                                                                                                                        4
-                                                                                                                      ].map(function (param, i) {
-                                                                                                                          return (i << 1);
-                                                                                                                        })
-                                                                                                                  };
+                                                                                                              TAG: /* Eq */0,
+                                                                                                              _0: [
+                                                                                                                0,
+                                                                                                                2,
+                                                                                                                4,
+                                                                                                                6
+                                                                                                              ],
+                                                                                                              _1: [
+                                                                                                                  1,
+                                                                                                                  2,
+                                                                                                                  3,
+                                                                                                                  4
+                                                                                                                ].map(function (param, i) {
+                                                                                                                    return (i << 1);
+                                                                                                                  })
+                                                                                                            };
                                                                                                           })
                                                                                                       ],
                                                                                                       tl: {
@@ -977,17 +977,17 @@ const suites_1 = {
                                                                                                           "reduce",
                                                                                                           (function (param) {
                                                                                                               return {
-                                                                                                                      TAG: /* Eq */0,
-                                                                                                                      _0: -10,
-                                                                                                                      _1: [
-                                                                                                                          1,
-                                                                                                                          2,
-                                                                                                                          3,
-                                                                                                                          4
-                                                                                                                        ].reduce((function (acc, n) {
-                                                                                                                              return acc - n | 0;
-                                                                                                                            }), 0)
-                                                                                                                    };
+                                                                                                                TAG: /* Eq */0,
+                                                                                                                _0: -10,
+                                                                                                                _1: [
+                                                                                                                    1,
+                                                                                                                    2,
+                                                                                                                    3,
+                                                                                                                    4
+                                                                                                                  ].reduce((function (acc, n) {
+                                                                                                                        return acc - n | 0;
+                                                                                                                      }), 0)
+                                                                                                              };
                                                                                                             })
                                                                                                         ],
                                                                                                         tl: {
@@ -995,17 +995,17 @@ const suites_1 = {
                                                                                                             "reducei",
                                                                                                             (function (param) {
                                                                                                                 return {
-                                                                                                                        TAG: /* Eq */0,
-                                                                                                                        _0: -6,
-                                                                                                                        _1: [
-                                                                                                                            1,
-                                                                                                                            2,
-                                                                                                                            3,
-                                                                                                                            4
-                                                                                                                          ].reduce((function (acc, param, i) {
-                                                                                                                                return acc - i | 0;
-                                                                                                                              }), 0)
-                                                                                                                      };
+                                                                                                                  TAG: /* Eq */0,
+                                                                                                                  _0: -6,
+                                                                                                                  _1: [
+                                                                                                                      1,
+                                                                                                                      2,
+                                                                                                                      3,
+                                                                                                                      4
+                                                                                                                    ].reduce((function (acc, param, i) {
+                                                                                                                          return acc - i | 0;
+                                                                                                                        }), 0)
+                                                                                                                };
                                                                                                               })
                                                                                                           ],
                                                                                                           tl: {
@@ -1013,17 +1013,17 @@ const suites_1 = {
                                                                                                               "reduceRight",
                                                                                                               (function (param) {
                                                                                                                   return {
-                                                                                                                          TAG: /* Eq */0,
-                                                                                                                          _0: -10,
-                                                                                                                          _1: [
-                                                                                                                              1,
-                                                                                                                              2,
-                                                                                                                              3,
-                                                                                                                              4
-                                                                                                                            ].reduceRight((function (acc, n) {
-                                                                                                                                  return acc - n | 0;
-                                                                                                                                }), 0)
-                                                                                                                        };
+                                                                                                                    TAG: /* Eq */0,
+                                                                                                                    _0: -10,
+                                                                                                                    _1: [
+                                                                                                                        1,
+                                                                                                                        2,
+                                                                                                                        3,
+                                                                                                                        4
+                                                                                                                      ].reduceRight((function (acc, n) {
+                                                                                                                            return acc - n | 0;
+                                                                                                                          }), 0)
+                                                                                                                  };
                                                                                                                 })
                                                                                                             ],
                                                                                                             tl: {
@@ -1031,17 +1031,17 @@ const suites_1 = {
                                                                                                                 "reduceRighti",
                                                                                                                 (function (param) {
                                                                                                                     return {
-                                                                                                                            TAG: /* Eq */0,
-                                                                                                                            _0: -6,
-                                                                                                                            _1: [
-                                                                                                                                1,
-                                                                                                                                2,
-                                                                                                                                3,
-                                                                                                                                4
-                                                                                                                              ].reduceRight((function (acc, param, i) {
-                                                                                                                                    return acc - i | 0;
-                                                                                                                                  }), 0)
-                                                                                                                          };
+                                                                                                                      TAG: /* Eq */0,
+                                                                                                                      _0: -6,
+                                                                                                                      _1: [
+                                                                                                                          1,
+                                                                                                                          2,
+                                                                                                                          3,
+                                                                                                                          4
+                                                                                                                        ].reduceRight((function (acc, param, i) {
+                                                                                                                              return acc - i | 0;
+                                                                                                                            }), 0)
+                                                                                                                    };
                                                                                                                   })
                                                                                                               ],
                                                                                                               tl: {
@@ -1049,17 +1049,17 @@ const suites_1 = {
                                                                                                                   "some",
                                                                                                                   (function (param) {
                                                                                                                       return {
-                                                                                                                              TAG: /* Eq */0,
-                                                                                                                              _0: false,
-                                                                                                                              _1: [
-                                                                                                                                  1,
-                                                                                                                                  2,
-                                                                                                                                  3,
-                                                                                                                                  4
-                                                                                                                                ].some(function (n) {
-                                                                                                                                    return n <= 0;
-                                                                                                                                  })
-                                                                                                                            };
+                                                                                                                        TAG: /* Eq */0,
+                                                                                                                        _0: false,
+                                                                                                                        _1: [
+                                                                                                                            1,
+                                                                                                                            2,
+                                                                                                                            3,
+                                                                                                                            4
+                                                                                                                          ].some(function (n) {
+                                                                                                                              return n <= 0;
+                                                                                                                            })
+                                                                                                                      };
                                                                                                                     })
                                                                                                                 ],
                                                                                                                 tl: {
@@ -1067,17 +1067,17 @@ const suites_1 = {
                                                                                                                     "somei",
                                                                                                                     (function (param) {
                                                                                                                         return {
-                                                                                                                                TAG: /* Eq */0,
-                                                                                                                                _0: true,
-                                                                                                                                _1: [
-                                                                                                                                    1,
-                                                                                                                                    2,
-                                                                                                                                    3,
-                                                                                                                                    4
-                                                                                                                                  ].some(function (param, i) {
-                                                                                                                                      return i <= 0;
-                                                                                                                                    })
-                                                                                                                              };
+                                                                                                                          TAG: /* Eq */0,
+                                                                                                                          _0: true,
+                                                                                                                          _1: [
+                                                                                                                              1,
+                                                                                                                              2,
+                                                                                                                              3,
+                                                                                                                              4
+                                                                                                                            ].some(function (param, i) {
+                                                                                                                                return i <= 0;
+                                                                                                                              })
+                                                                                                                        };
                                                                                                                       })
                                                                                                                   ],
                                                                                                                   tl: /* [] */0

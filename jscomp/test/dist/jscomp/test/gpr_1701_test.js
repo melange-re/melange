@@ -11,8 +11,8 @@ const Foo = /* @__PURE__ */Caml_exceptions.create("Gpr_1701_test.Foo");
 function test(n) {
   if (n === 0) {
     throw new Caml_js_exceptions.MelangeError(Foo, {
-              MEL_EXN_ID: Foo
-            });
+          MEL_EXN_ID: Foo
+        });
   }
   try {
     return test(n - 1 | 0);
@@ -83,9 +83,9 @@ function read_lines3(inc) {
     try {
       const l = Stdlib.input_line(inc);
       return loop({
-                  hd: l,
-                  tl: acc
-                });
+            hd: l,
+            tl: acc
+          });
     }
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);

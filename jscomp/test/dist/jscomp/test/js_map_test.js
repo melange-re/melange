@@ -23,10 +23,10 @@ const suites_0 = [
       ];
       const map = new Map(array);
       return {
-              TAG: /* Eq */0,
-              _0: array,
-              _1: Array.from(map)
-            };
+        TAG: /* Eq */0,
+        _0: array,
+        _1: Array.from(map)
+      };
     })
 ];
 
@@ -36,10 +36,10 @@ const suites_1 = {
     (function (param) {
         const map = new Map();
         return {
-                TAG: /* Eq */0,
-                _0: 0,
-                _1: map.size
-              };
+          TAG: /* Eq */0,
+          _0: 0,
+          _1: map.size
+        };
       })
   ],
   tl: {
@@ -61,10 +61,10 @@ const suites_1 = {
                 ]
               ]);
           return {
-                  TAG: /* Eq */0,
-                  _0: 2,
-                  _1: map.size
-                };
+            TAG: /* Eq */0,
+            _0: 2,
+            _1: map.size
+          };
         })
     ],
     tl: {
@@ -82,10 +82,10 @@ const suites_1 = {
                   ]
                 ]);
             return {
-                    TAG: /* Eq */0,
-                    _0: 1,
-                    _1: map.size
-                  };
+              TAG: /* Eq */0,
+              _0: 1,
+              _1: map.size
+            };
           })
       ],
       tl: {
@@ -103,10 +103,10 @@ const suites_1 = {
                     ]
                   ]);
               return {
-                      TAG: /* Eq */0,
-                      _0: true,
-                      _1: map.has(1)
-                    };
+                TAG: /* Eq */0,
+                _0: true,
+                _1: map.has(1)
+              };
             })
         ],
         tl: {
@@ -124,10 +124,10 @@ const suites_1 = {
                       ]
                     ]);
                 return {
-                        TAG: /* Eq */0,
-                        _0: false,
-                        _1: map.has(3)
-                      };
+                  TAG: /* Eq */0,
+                  _0: false,
+                  _1: map.has(3)
+                };
               })
           ],
           tl: {
@@ -148,18 +148,18 @@ const suites_1 = {
                   const two = map.get(2);
                   const three = map.get(3);
                   return {
-                          TAG: /* Eq */0,
-                          _0: [
-                            "one",
-                            "two",
-                            undefined
-                          ],
-                          _1: [
-                            one === undefined ? undefined : Caml_option.some(one),
-                            two === undefined ? undefined : Caml_option.some(two),
-                            three === undefined ? undefined : Caml_option.some(three)
-                          ]
-                        };
+                    TAG: /* Eq */0,
+                    _0: [
+                      "one",
+                      "two",
+                      undefined
+                    ],
+                    _1: [
+                      one === undefined ? undefined : Caml_option.some(one),
+                      two === undefined ? undefined : Caml_option.some(two),
+                      three === undefined ? undefined : Caml_option.some(three)
+                    ]
+                  };
                 })
             ],
             tl: {
@@ -168,19 +168,19 @@ const suites_1 = {
                 (function (param) {
                     const map = new Map().set(1, "one").set(2, "two");
                     return {
-                            TAG: /* Eq */0,
-                            _0: [
-                              [
-                                1,
-                                "one"
-                              ],
-                              [
-                                2,
-                                "two"
-                              ]
-                            ],
-                            _1: Array.from(map)
-                          };
+                      TAG: /* Eq */0,
+                      _0: [
+                        [
+                          1,
+                          "one"
+                        ],
+                        [
+                          2,
+                          "two"
+                        ]
+                      ],
+                      _1: Array.from(map)
+                    };
                   })
               ],
               tl: {
@@ -199,16 +199,16 @@ const suites_1 = {
                           ]);
                       const deleted = map.delete(2);
                       return {
-                              TAG: /* Eq */0,
-                              _0: [
-                                true,
-                                false
-                              ],
-                              _1: [
-                                deleted,
-                                map.has(2)
-                              ]
-                            };
+                        TAG: /* Eq */0,
+                        _0: [
+                          true,
+                          false
+                        ],
+                        _1: [
+                          deleted,
+                          map.has(2)
+                        ]
+                      };
                     })
                 ],
                 tl: {
@@ -227,10 +227,10 @@ const suites_1 = {
                             ]);
                         map.clear();
                         return {
-                                TAG: /* Eq */0,
-                                _0: 0,
-                                _1: map.size
-                              };
+                          TAG: /* Eq */0,
+                          _0: 0,
+                          _1: map.size
+                        };
                       })
                   ],
                   tl: {
@@ -243,16 +243,16 @@ const suites_1 = {
                           const all_same_size = map_1.size === 2 && map_2.size === 2 && map_3.size === 2;
                           const all_same_ref = map_1 === map_2 && map_2 === map_3;
                           return {
-                                  TAG: /* Eq */0,
-                                  _0: [
-                                    true,
-                                    true
-                                  ],
-                                  _1: [
-                                    all_same_size,
-                                    all_same_ref
-                                  ]
-                                };
+                            TAG: /* Eq */0,
+                            _0: [
+                              true,
+                              true
+                            ],
+                            _1: [
+                              all_same_size,
+                              all_same_ref
+                            ]
+                          };
                         })
                     ],
                     tl: {
@@ -279,19 +279,19 @@ const suites_1 = {
                                       ]);
                                 });
                             return {
-                                    TAG: /* Eq */0,
-                                    _0: [
-                                      [
-                                        1,
-                                        "one"
-                                      ],
-                                      [
-                                        2,
-                                        "two"
-                                      ]
-                                    ],
-                                    _1: arr.contents
-                                  };
+                              TAG: /* Eq */0,
+                              _0: [
+                                [
+                                  1,
+                                  "one"
+                                ],
+                                [
+                                  2,
+                                  "two"
+                                ]
+                              ],
+                              _1: arr.contents
+                            };
                           })
                       ],
                       tl: {
@@ -309,13 +309,13 @@ const suites_1 = {
                                           ]
                                         ]).keys());
                               return {
-                                      TAG: /* Eq */0,
-                                      _0: [
-                                        1,
-                                        2
-                                      ],
-                                      _1: keys
-                                    };
+                                TAG: /* Eq */0,
+                                _0: [
+                                  1,
+                                  2
+                                ],
+                                _1: keys
+                              };
                             })
                         ],
                         tl: {
@@ -333,13 +333,13 @@ const suites_1 = {
                                             ]
                                           ]).values());
                                 return {
-                                        TAG: /* Eq */0,
-                                        _0: [
-                                          "one",
-                                          "two"
-                                        ],
-                                        _1: values
-                                      };
+                                  TAG: /* Eq */0,
+                                  _0: [
+                                    "one",
+                                    "two"
+                                  ],
+                                  _1: values
+                                };
                               })
                           ],
                           tl: {
@@ -358,10 +358,10 @@ const suites_1 = {
                                   ];
                                   const entries = Array.from(new Map(array).entries());
                                   return {
-                                          TAG: /* Eq */0,
-                                          _0: array,
-                                          _1: entries
-                                        };
+                                    TAG: /* Eq */0,
+                                    _0: array,
+                                    _1: entries
+                                  };
                                 })
                             ],
                             tl: /* [] */0

@@ -103,10 +103,10 @@ function inOrder2(v) {
 
 function n(l, r, a) {
   return {
-          value: a,
-          left: Js__Js_undefined.fromOption(l),
-          right: Js__Js_undefined.fromOption(r)
-        };
+    value: a,
+    left: Js__Js_undefined.fromOption(l),
+    right: Js__Js_undefined.fromOption(r)
+  };
 }
 
 const test1 = n(n(n(undefined, undefined, 4), n(undefined, undefined, 5), 2), n(undefined, undefined, 3), 1);

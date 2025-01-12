@@ -71,9 +71,9 @@ function c1_init($$class) {
                         object_tables$1.key = env_init;
                       }
                       return Curry._1(object_tables$1.key, [
-                                  env$1[0],
-                                  env$1[1]
-                                ]);
+                            env$1[0],
+                            env$1[1]
+                          ]);
                     }),
                   h,
                   (function (self$2) {
@@ -89,9 +89,9 @@ function c1_init($$class) {
             object_tables.key = env_init;
           }
           return Curry._1(object_tables.key, [
-                      b,
-                      self$1
-                    ]);
+                b,
+                self$1
+              ]);
         }));
   return function (env, self) {
     return CamlinternalOO.create_object_opt(self, $$class);

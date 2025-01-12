@@ -56,14 +56,14 @@ b("File \"jscomp/test/bs_set_int_test.ml\", line 23, characters 4-11", Belt__Bel
 
 function range(i, j) {
   return Stdlib__Array.init((j - i | 0) + 1 | 0, (function (k) {
-                return k + i | 0;
-              }));
+          return k + i | 0;
+        }));
 }
 
 function revRange(i, j) {
   return Stdlib__Array.of_list(Stdlib__List.rev(Stdlib__Array.to_list(Stdlib__Array.init((j - i | 0) + 1 | 0, (function (k) {
-                            return k + i | 0;
-                          })))));
+                      return k + i | 0;
+                    })))));
 }
 
 const v = Belt__Belt_SetInt.fromArray(Stdlib__Array.append(range(100, 1000), revRange(400, 1500)));

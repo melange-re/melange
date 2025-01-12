@@ -49,10 +49,10 @@ const suites_0 = [
   "translate",
   (function (param) {
       return {
-              TAG: /* Eq */0,
-              _0: __ocaml_lex_translate_rec(Stdlib__Lexing.from_string(undefined, "-- current_directory --"), 0),
-              _1: "-- . --"
-            };
+        TAG: /* Eq */0,
+        _0: __ocaml_lex_translate_rec(Stdlib__Lexing.from_string(undefined, "-- current_directory --"), 0),
+        _1: "-- . --"
+      };
     })
 ];
 

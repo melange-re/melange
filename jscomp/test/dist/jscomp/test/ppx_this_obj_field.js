@@ -20,10 +20,10 @@ function eq(loc, param) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
           return {
-                  TAG: /* Eq */0,
-                  _0: x,
-                  _1: y
-                };
+            TAG: /* Eq */0,
+            _0: x,
+            _1: y
+          };
         })
     ],
     tl: suites.contents
@@ -37,9 +37,9 @@ const v5 = {
       let self = this;
       self.y = 2;
       return [
-              self.y,
-              v
-            ];
+        self.y,
+        v
+      ];
     }),
   say: (function () {
       let self = this;

@@ -114,18 +114,18 @@ function $eq$tilde(a, b) {
 
 const u0 = f(Belt__Belt_Array.map(Array_data_util.randomRange(0, 39), (function (x) {
             return [
-                    x,
-                    x
-                  ];
+              x,
+              x
+            ];
           })));
 
 const u1 = Belt__Belt_Map.set(u0, 39, 120);
 
 b("File \"jscomp/test/bs_map_set_dict_test.ml\", line 80, characters 4-11", Belt__Belt_Array.every2(Belt__Belt_MapDict.toArray(u0.data), Belt__Belt_Array.map(Array_data_util.range(0, 39), (function (x) {
                 return [
-                        x,
-                        x
-                      ];
+                  x,
+                  x
+                ];
               })), (function (param, param$1) {
             if (param[0] === param$1[0]) {
               return param[1] === param$1[1];
@@ -136,9 +136,9 @@ b("File \"jscomp/test/bs_map_set_dict_test.ml\", line 80, characters 4-11", Belt
 
 b("File \"jscomp/test/bs_map_set_dict_test.ml\", line 85, characters 4-11", Belt__Belt_List.every2(Belt__Belt_MapDict.toList(u0.data), Belt__Belt_List.fromArray(Belt__Belt_Array.map(Array_data_util.range(0, 39), (function (x) {
                     return [
-                            x,
-                            x
-                          ];
+                      x,
+                      x
+                    ];
                   }))), (function (param, param$1) {
             if (param[0] === param$1[0]) {
               return param[1] === param$1[1];
@@ -153,16 +153,16 @@ eq("File \"jscomp/test/bs_map_set_dict_test.ml\", line 91, characters 5-12", Bel
 
 const u = f(Belt__Belt_Array.makeByAndShuffle(10000, (function (x) {
             return [
-                    x,
-                    x
-                  ];
+              x,
+              x
+            ];
           })));
 
 eq("File \"jscomp/test/bs_map_set_dict_test.ml\", line 97, characters 4-11", Belt__Belt_Array.makeBy(10000, (function (x) {
             return [
-                    x,
-                    x
-                  ];
+              x,
+              x
+            ];
           })), Belt__Belt_MapDict.toArray(u.data));
 
 Mt.from_pair_suites("Bs_map_set_dict_test", suites.contents);

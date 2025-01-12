@@ -8,28 +8,28 @@ function make_with_options(param) {
         lastModified: 0
       });
   return {
-          TAG: /* Eq */0,
-          _0: file.lastModified,
-          _1: 0
-        };
+    TAG: /* Eq */0,
+    _0: file.lastModified,
+    _1: 0
+  };
 }
 
 function file_size(param) {
   const file = new File(["hello"].values(), "foo.txt", undefined);
   return {
-          TAG: /* Eq */0,
-          _0: file.size,
-          _1: 5
-        };
+    TAG: /* Eq */0,
+    _0: file.size,
+    _1: 5
+  };
 }
 
 function file_type(param) {
   const file = new File(["hello"].values(), "foo.txt", undefined);
   return {
-          TAG: /* Eq */0,
-          _0: file.type,
-          _1: ""
-        };
+    TAG: /* Eq */0,
+    _0: file.type,
+    _1: ""
+  };
 }
 
 Mt.from_pair_suites("Js_file_test", {

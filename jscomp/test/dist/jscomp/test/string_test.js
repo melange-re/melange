@@ -67,17 +67,17 @@ function rev_split_by_char(c, s) {
       const i$p = Stdlib__String.index_from(s, i, c);
       const s$p = Stdlib__String.sub(s, i, i$p - i | 0);
       return loop(i$p + 1 | 0, s$p === "" ? l : ({
-                      hd: s$p,
-                      tl: l
-                    }));
+              hd: s$p,
+              tl: l
+            }));
     }
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return {
-                hd: Stdlib__String.sub(s, i, s.length - i | 0),
-                tl: l
-              };
+          hd: Stdlib__String.sub(s, i, s.length - i | 0),
+          tl: l
+        };
       }
       throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
@@ -104,9 +104,9 @@ function xsplit(delim, s) {
         const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
           return {
-                  hd: Stdlib__String.sub(s, 0, i),
-                  tl: l
-                };
+            hd: Stdlib__String.sub(s, 0, i),
+            tl: l
+          };
         }
         throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
@@ -116,9 +116,9 @@ function xsplit(delim, s) {
         tl: l
       };
       const l$2 = i$p === 0 ? ({
-            hd: "",
-            tl: l$1
-          }) : l$1;
+          hd: "",
+          tl: l$1
+        }) : l$1;
       _i = i$p;
       _l = l$2;
       continue ;
@@ -130,8 +130,8 @@ function xsplit(delim, s) {
 
 function string_of_chars(x) {
   return Stdlib__String.concat("", Stdlib__List.map((function (prim) {
-                    return String.fromCharCode(prim);
-                  }), x));
+              return String.fromCharCode(prim);
+            }), x));
 }
 
 Mt.from_pair_suites("String_test", {
@@ -139,10 +139,10 @@ Mt.from_pair_suites("String_test", {
         "mutliple switch",
         (function (param) {
             return {
-                    TAG: /* Eq */0,
-                    _0: 9,
-                    _1: ff("4")
-                  };
+              TAG: /* Eq */0,
+              _0: 9,
+              _1: ff("4")
+            };
           })
       ],
       tl: {
@@ -150,10 +150,10 @@ Mt.from_pair_suites("String_test", {
           "int switch",
           (function (param) {
               return {
-                      TAG: /* Eq */0,
-                      _0: 9,
-                      _1: gg(4)
-                    };
+                TAG: /* Eq */0,
+                _0: 9,
+                _1: gg(4)
+              };
             })
         ],
         tl: {
@@ -161,10 +161,10 @@ Mt.from_pair_suites("String_test", {
             "escape_normal",
             (function (param) {
                 return {
-                        TAG: /* Eq */0,
-                        _0: "haha",
-                        _1: Stdlib__String.escaped("haha")
-                      };
+                  TAG: /* Eq */0,
+                  _0: "haha",
+                  _1: Stdlib__String.escaped("haha")
+                };
               })
           ],
           tl: {
@@ -172,10 +172,10 @@ Mt.from_pair_suites("String_test", {
               "escape_bytes",
               (function (param) {
                   return {
-                          TAG: /* Eq */0,
-                          _0: Stdlib__Bytes.of_string("haha"),
-                          _1: Stdlib__Bytes.escaped(Stdlib__Bytes.of_string("haha"))
-                        };
+                    TAG: /* Eq */0,
+                    _0: Stdlib__Bytes.of_string("haha"),
+                    _1: Stdlib__Bytes.escaped(Stdlib__Bytes.of_string("haha"))
+                  };
                 })
             ],
             tl: {
@@ -183,10 +183,10 @@ Mt.from_pair_suites("String_test", {
                 "escape_quote",
                 (function (param) {
                     return {
-                            TAG: /* Eq */0,
-                            _0: "\\\"\\\"",
-                            _1: Stdlib__String.escaped("\"\"")
-                          };
+                      TAG: /* Eq */0,
+                      _0: "\\\"\\\"",
+                      _1: Stdlib__String.escaped("\"\"")
+                    };
                   })
               ],
               tl: {
@@ -194,19 +194,19 @@ Mt.from_pair_suites("String_test", {
                   "rev_split_by_char",
                   (function (param) {
                       return {
-                              TAG: /* Eq */0,
-                              _0: {
-                                hd: "",
-                                tl: {
-                                  hd: "bbbb",
-                                  tl: {
-                                    hd: "bbbb",
-                                    tl: /* [] */0
-                                  }
-                                }
-                              },
-                              _1: rev_split_by_char(/* 'a' */97, "bbbbabbbba")
-                            };
+                        TAG: /* Eq */0,
+                        _0: {
+                          hd: "",
+                          tl: {
+                            hd: "bbbb",
+                            tl: {
+                              hd: "bbbb",
+                              tl: /* [] */0
+                            }
+                          }
+                        },
+                        _1: rev_split_by_char(/* 'a' */97, "bbbbabbbba")
+                      };
                     })
                 ],
                 tl: {
@@ -214,13 +214,13 @@ Mt.from_pair_suites("String_test", {
                     "File \"jscomp/test/string_test.ml\", line 74, characters 2-9",
                     (function (param) {
                         return {
-                                TAG: /* Eq */0,
-                                _0: {
-                                  hd: "aaaa",
-                                  tl: /* [] */0
-                                },
-                                _1: rev_split_by_char(/* ',' */44, "aaaa")
-                              };
+                          TAG: /* Eq */0,
+                          _0: {
+                            hd: "aaaa",
+                            tl: /* [] */0
+                          },
+                          _1: rev_split_by_char(/* ',' */44, "aaaa")
+                        };
                       })
                   ],
                   tl: {
@@ -228,19 +228,19 @@ Mt.from_pair_suites("String_test", {
                       "xsplit",
                       (function (param) {
                           return {
-                                  TAG: /* Eq */0,
-                                  _0: {
-                                    hd: "a",
-                                    tl: {
-                                      hd: "b",
-                                      tl: {
-                                        hd: "c",
-                                        tl: /* [] */0
-                                      }
-                                    }
-                                  },
-                                  _1: xsplit(/* '.' */46, "a.b.c")
-                                };
+                            TAG: /* Eq */0,
+                            _0: {
+                              hd: "a",
+                              tl: {
+                                hd: "b",
+                                tl: {
+                                  hd: "c",
+                                  tl: /* [] */0
+                                }
+                              }
+                            },
+                            _1: xsplit(/* '.' */46, "a.b.c")
+                          };
                         })
                     ],
                     tl: {
@@ -248,10 +248,10 @@ Mt.from_pair_suites("String_test", {
                         "split_empty",
                         (function (param) {
                             return {
-                                    TAG: /* Eq */0,
-                                    _0: /* [] */0,
-                                    _1: Ext_string_test.split(undefined, "", /* '_' */95)
-                                  };
+                              TAG: /* Eq */0,
+                              _0: /* [] */0,
+                              _1: Ext_string_test.split(undefined, "", /* '_' */95)
+                            };
                           })
                       ],
                       tl: {
@@ -259,13 +259,13 @@ Mt.from_pair_suites("String_test", {
                           "split_empty2",
                           (function (param) {
                               return {
-                                      TAG: /* Eq */0,
-                                      _0: {
-                                        hd: "test_unsafe_obj_ffi_ppx.cmi",
-                                        tl: /* [] */0
-                                      },
-                                      _1: Ext_string_test.split(false, " test_unsafe_obj_ffi_ppx.cmi", /* ' ' */32)
-                                    };
+                                TAG: /* Eq */0,
+                                _0: {
+                                  hd: "test_unsafe_obj_ffi_ppx.cmi",
+                                  tl: /* [] */0
+                                },
+                                _1: Ext_string_test.split(false, " test_unsafe_obj_ffi_ppx.cmi", /* ' ' */32)
+                              };
                             })
                         ],
                         tl: {
@@ -273,10 +273,10 @@ Mt.from_pair_suites("String_test", {
                             "rfind",
                             (function (param) {
                                 return {
-                                        TAG: /* Eq */0,
-                                        _0: 7,
-                                        _1: Ext_string_test.rfind("__", "__index__js")
-                                      };
+                                  TAG: /* Eq */0,
+                                  _0: 7,
+                                  _1: Ext_string_test.rfind("__", "__index__js")
+                                };
                               })
                           ],
                           tl: {
@@ -284,10 +284,10 @@ Mt.from_pair_suites("String_test", {
                               "rfind_2",
                               (function (param) {
                                   return {
-                                          TAG: /* Eq */0,
-                                          _0: 0,
-                                          _1: Ext_string_test.rfind("__", "__index_js")
-                                        };
+                                    TAG: /* Eq */0,
+                                    _0: 0,
+                                    _1: Ext_string_test.rfind("__", "__index_js")
+                                  };
                                 })
                             ],
                             tl: {
@@ -295,10 +295,10 @@ Mt.from_pair_suites("String_test", {
                                 "rfind_3",
                                 (function (param) {
                                     return {
-                                            TAG: /* Eq */0,
-                                            _0: -1,
-                                            _1: Ext_string_test.rfind("__", "_index_js")
-                                          };
+                                      TAG: /* Eq */0,
+                                      _0: -1,
+                                      _1: Ext_string_test.rfind("__", "_index_js")
+                                    };
                                   })
                               ],
                               tl: {
@@ -306,10 +306,10 @@ Mt.from_pair_suites("String_test", {
                                   "find",
                                   (function (param) {
                                       return {
-                                              TAG: /* Eq */0,
-                                              _0: 0,
-                                              _1: Ext_string_test.find(undefined, "__", "__index__js")
-                                            };
+                                        TAG: /* Eq */0,
+                                        _0: 0,
+                                        _1: Ext_string_test.find(undefined, "__", "__index__js")
+                                      };
                                     })
                                 ],
                                 tl: {
@@ -317,10 +317,10 @@ Mt.from_pair_suites("String_test", {
                                     "find_2",
                                     (function (param) {
                                         return {
-                                                TAG: /* Eq */0,
-                                                _0: 6,
-                                                _1: Ext_string_test.find(undefined, "__", "_index__js")
-                                              };
+                                          TAG: /* Eq */0,
+                                          _0: 6,
+                                          _1: Ext_string_test.find(undefined, "__", "_index__js")
+                                        };
                                       })
                                   ],
                                   tl: {
@@ -328,10 +328,10 @@ Mt.from_pair_suites("String_test", {
                                       "find_3",
                                       (function (param) {
                                           return {
-                                                  TAG: /* Eq */0,
-                                                  _0: -1,
-                                                  _1: Ext_string_test.find(undefined, "__", "_index_js")
-                                                };
+                                            TAG: /* Eq */0,
+                                            _0: -1,
+                                            _1: Ext_string_test.find(undefined, "__", "_index_js")
+                                          };
                                         })
                                     ],
                                     tl: {
@@ -339,10 +339,10 @@ Mt.from_pair_suites("String_test", {
                                         "of_char",
                                         (function (param) {
                                             return {
-                                                    TAG: /* Eq */0,
-                                                    _0: String.fromCharCode(/* '0' */48),
-                                                    _1: Caml_bytes.bytes_to_string(Stdlib__Bytes.make(1, /* '0' */48))
-                                                  };
+                                              TAG: /* Eq */0,
+                                              _0: String.fromCharCode(/* '0' */48),
+                                              _1: Caml_bytes.bytes_to_string(Stdlib__Bytes.make(1, /* '0' */48))
+                                            };
                                           })
                                       ],
                                       tl: {
@@ -350,19 +350,19 @@ Mt.from_pair_suites("String_test", {
                                           "of_chars",
                                           (function (param) {
                                               return {
-                                                      TAG: /* Eq */0,
-                                                      _0: string_of_chars({
-                                                            hd: /* '0' */48,
-                                                            tl: {
-                                                              hd: /* '1' */49,
-                                                              tl: {
-                                                                hd: /* '2' */50,
-                                                                tl: /* [] */0
-                                                              }
-                                                            }
-                                                          }),
-                                                      _1: "012"
-                                                    };
+                                                TAG: /* Eq */0,
+                                                _0: string_of_chars({
+                                                      hd: /* '0' */48,
+                                                      tl: {
+                                                        hd: /* '1' */49,
+                                                        tl: {
+                                                          hd: /* '2' */50,
+                                                          tl: /* [] */0
+                                                        }
+                                                      }
+                                                    }),
+                                                _1: "012"
+                                              };
                                             })
                                         ],
                                         tl: /* [] */0

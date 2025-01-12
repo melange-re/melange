@@ -126,33 +126,33 @@ const results = Stdlib__Array.append([
 
 function from_pairs(ps) {
   return Stdlib__Array.to_list(Stdlib__Array.mapi((function (i, param) {
-                    const b = param[1];
-                    const a = param[0];
-                    return [
-                            Curry._1(Stdlib__Printf.sprintf({
-                                      TAG: /* Format */0,
-                                      _0: {
-                                        TAG: /* String_literal */11,
-                                        _0: "pair ",
-                                        _1: {
-                                          TAG: /* Int */4,
-                                          _0: /* Int_d */0,
-                                          _1: /* No_padding */0,
-                                          _2: /* No_precision */0,
-                                          _3: /* End_of_format */0
-                                        }
-                                      },
-                                      _1: "pair %d"
-                                    }), i),
-                            (function (param) {
-                                return {
-                                        TAG: /* Approx */5,
-                                        _0: a,
-                                        _1: b
-                                      };
-                              })
-                          ];
-                  }), ps));
+              const b = param[1];
+              const a = param[0];
+              return [
+                Curry._1(Stdlib__Printf.sprintf({
+                          TAG: /* Format */0,
+                          _0: {
+                            TAG: /* String_literal */11,
+                            _0: "pair ",
+                            _1: {
+                              TAG: /* Int */4,
+                              _0: /* Int_d */0,
+                              _1: /* No_padding */0,
+                              _2: /* No_precision */0,
+                              _3: /* End_of_format */0
+                            }
+                          },
+                          _1: "pair %d"
+                        }), i),
+                (function (param) {
+                    return {
+                      TAG: /* Approx */5,
+                      _0: a,
+                      _1: b
+                    };
+                  })
+              ];
+            }), ps));
 }
 
 const float_compare = Caml.caml_float_compare;
@@ -352,10 +352,10 @@ Mt.from_pair_suites("Float_test", Stdlib.$at({
             "mod_float",
             (function (param) {
                 return {
-                        TAG: /* Approx */5,
-                        _0: 3.2 % 0.5,
-                        _1: 0.200000000000000178
-                      };
+                  TAG: /* Approx */5,
+                  _0: 3.2 % 0.5,
+                  _1: 0.200000000000000178
+                };
               })
           ],
           tl: {
@@ -363,10 +363,10 @@ Mt.from_pair_suites("Float_test", Stdlib.$at({
               "modf_float1",
               (function (param) {
                   return {
-                          TAG: /* Approx */5,
-                          _0: a,
-                          _1: 0.299999999999997158
-                        };
+                    TAG: /* Approx */5,
+                    _0: a,
+                    _1: 0.299999999999997158
+                  };
                 })
             ],
             tl: {
@@ -374,10 +374,10 @@ Mt.from_pair_suites("Float_test", Stdlib.$at({
                 "modf_float2",
                 (function (param) {
                     return {
-                            TAG: /* Approx */5,
-                            _0: b,
-                            _1: 32
-                          };
+                      TAG: /* Approx */5,
+                      _0: b,
+                      _1: 32
+                    };
                   })
               ],
               tl: {
@@ -385,10 +385,10 @@ Mt.from_pair_suites("Float_test", Stdlib.$at({
                   "int_of_float",
                   (function (param) {
                       return {
-                              TAG: /* Eq */0,
-                              _0: 3,
-                              _1: 3
-                            };
+                        TAG: /* Eq */0,
+                        _0: 3,
+                        _1: 3
+                      };
                     })
                 ],
                 tl: /* [] */0

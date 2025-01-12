@@ -39,8 +39,8 @@ function min_elt(_param) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                MEL_EXN_ID: Stdlib.Not_found
-              });
+            MEL_EXN_ID: Stdlib.Not_found
+          });
     }
     const l = param._0;
     if (/* tag */typeof l === "number" || typeof l === "string") {
@@ -56,8 +56,8 @@ function max_elt(_param) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                MEL_EXN_ID: Stdlib.Not_found
-              });
+            MEL_EXN_ID: Stdlib.Not_found
+          });
     }
     let tmp = param._2;
     if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
@@ -208,14 +208,14 @@ function check_height_and_diff(param) {
   const hr = check_height_and_diff(param._2);
   if (h !== (max_int_2(hl, hr) + 1 | 0)) {
     throw new Caml_js_exceptions.MelangeError(Height_invariant_broken, {
-              MEL_EXN_ID: Height_invariant_broken
-            });
+          MEL_EXN_ID: Height_invariant_broken
+        });
   }
   const diff = Stdlib.abs(hl - hr | 0);
   if (diff > 2) {
     throw new Caml_js_exceptions.MelangeError(Height_diff_borken, {
-              MEL_EXN_ID: Height_diff_borken
-            });
+          MEL_EXN_ID: Height_diff_borken
+        });
   }
   return h;
 }
@@ -230,12 +230,12 @@ function create(l, v, r) {
   let hr;
   hr = /* tag */typeof r === "number" || typeof r === "string" ? 0 : r._3;
   return {
-          TAG: /* Node */0,
-          _0: l,
-          _1: v,
-          _2: r,
-          _3: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
-        };
+    TAG: /* Node */0,
+    _0: l,
+    _1: v,
+    _2: r,
+    _3: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+  };
 }
 
 function internal_bal(l, v, r) {
@@ -246,13 +246,13 @@ function internal_bal(l, v, r) {
   if (hl > (hr + 2 | 0)) {
     if (/* tag */typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/set_gen.ml",
-                  225,
-                  15
-                ]
-              });
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/set_gen.ml",
+              225,
+              15
+            ]
+          });
     }
     const lr = l._2;
     const lv = l._1;
@@ -264,32 +264,32 @@ function internal_bal(l, v, r) {
       return create(create(ll, lv, lr._0), lr._1, create(lr._2, v, r));
     }
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/set_gen.ml",
-                235,
-                19
-              ]
-            });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/set_gen.ml",
+            235,
+            19
+          ]
+        });
   }
   if (hr <= (hl + 2 | 0)) {
     return {
-            TAG: /* Node */0,
-            _0: l,
-            _1: v,
-            _2: r,
-            _3: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
-          };
+      TAG: /* Node */0,
+      _0: l,
+      _1: v,
+      _2: r,
+      _3: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+    };
   }
   if (/* tag */typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/set_gen.ml",
-                245,
-                15
-              ]
-            });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/set_gen.ml",
+            245,
+            15
+          ]
+        });
   }
   const rr = r._2;
   const rv = r._1;
@@ -301,21 +301,21 @@ function internal_bal(l, v, r) {
     return create(create(l, v, rl._0), rl._1, create(rl._2, rv, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/set_gen.ml",
-              251,
-              19
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/set_gen.ml",
+          251,
+          19
+        ]
+      });
 }
 
 function remove_min_elt(param) {
   if (/* tag */typeof param === "number" || typeof param === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Set.remove_min_elt"
-            });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "Set.remove_min_elt"
+        });
   }
   const l = param._0;
   if (/* tag */typeof l === "number" || typeof l === "string") {
@@ -327,12 +327,12 @@ function remove_min_elt(param) {
 
 function singleton(x) {
   return {
-          TAG: /* Node */0,
-          _0: /* Empty */0,
-          _1: x,
-          _2: /* Empty */0,
-          _3: 1
-        };
+    TAG: /* Node */0,
+    _0: /* Empty */0,
+    _1: x,
+    _2: /* Empty */0,
+    _3: 1
+  };
 }
 
 function internal_merge(l, r) {
@@ -407,9 +407,9 @@ function filter(p, param) {
 function partition(p, param) {
   if (/* tag */typeof param === "number" || typeof param === "string") {
     return [
-            /* Empty */0,
-            /* Empty */0
-          ];
+      /* Empty */0,
+      /* Empty */0
+    ];
   }
   const v = param._1;
   const match = partition(p, param._0);
@@ -421,14 +421,14 @@ function partition(p, param) {
   const rt = match$1[0];
   if (pv) {
     return [
-            internal_join(lt, v, rt),
-            internal_concat(lf, rf)
-          ];
+      internal_join(lt, v, rt),
+      internal_concat(lf, rf)
+    ];
   } else {
     return [
-            internal_concat(lt, rt),
-            internal_join(lf, v, rf)
-          ];
+      internal_concat(lt, rt),
+      internal_join(lf, v, rf)
+    ];
   }
 }
 
@@ -437,21 +437,21 @@ function of_sorted_list(l) {
     switch (n) {
       case 0 :
           return [
-                  /* Empty */0,
-                  l
-                ];
+            /* Empty */0,
+            l
+          ];
       case 1 :
           if (l) {
             return [
-                    {
-                      TAG: /* Node */0,
-                      _0: /* Empty */0,
-                      _1: l.hd,
-                      _2: /* Empty */0,
-                      _3: 1
-                    },
-                    l.tl
-                  ];
+              {
+                TAG: /* Node */0,
+                _0: /* Empty */0,
+                _1: l.hd,
+                _2: /* Empty */0,
+                _3: 1
+              },
+              l.tl
+            ];
           }
           break;
       case 2 :
@@ -459,21 +459,21 @@ function of_sorted_list(l) {
             const match = l.tl;
             if (match) {
               return [
-                      {
-                        TAG: /* Node */0,
-                        _0: {
-                          TAG: /* Node */0,
-                          _0: /* Empty */0,
-                          _1: l.hd,
-                          _2: /* Empty */0,
-                          _3: 1
-                        },
-                        _1: match.hd,
-                        _2: /* Empty */0,
-                        _3: 2
-                      },
-                      match.tl
-                    ];
+                {
+                  TAG: /* Node */0,
+                  _0: {
+                    TAG: /* Node */0,
+                    _0: /* Empty */0,
+                    _1: l.hd,
+                    _2: /* Empty */0,
+                    _3: 1
+                  },
+                  _1: match.hd,
+                  _2: /* Empty */0,
+                  _3: 2
+                },
+                match.tl
+              ];
             }
             
           }
@@ -485,27 +485,27 @@ function of_sorted_list(l) {
               const match$2 = match$1.tl;
               if (match$2) {
                 return [
-                        {
-                          TAG: /* Node */0,
-                          _0: {
-                            TAG: /* Node */0,
-                            _0: /* Empty */0,
-                            _1: l.hd,
-                            _2: /* Empty */0,
-                            _3: 1
-                          },
-                          _1: match$1.hd,
-                          _2: {
-                            TAG: /* Node */0,
-                            _0: /* Empty */0,
-                            _1: match$2.hd,
-                            _2: /* Empty */0,
-                            _3: 1
-                          },
-                          _3: 2
-                        },
-                        match$2.tl
-                      ];
+                  {
+                    TAG: /* Node */0,
+                    _0: {
+                      TAG: /* Node */0,
+                      _0: /* Empty */0,
+                      _1: l.hd,
+                      _2: /* Empty */0,
+                      _3: 1
+                    },
+                    _1: match$1.hd,
+                    _2: {
+                      TAG: /* Node */0,
+                      _0: /* Empty */0,
+                      _1: match$2.hd,
+                      _2: /* Empty */0,
+                      _3: 1
+                    },
+                    _3: 2
+                  },
+                  match$2.tl
+                ];
               }
               
             }
@@ -521,18 +521,18 @@ function of_sorted_list(l) {
     if (l$1) {
       const match$4 = sub((n - nl | 0) - 1 | 0, l$1.tl);
       return [
-              create(match$3[0], l$1.hd, match$4[0]),
-              match$4[1]
-            ];
+        create(match$3[0], l$1.hd, match$4[0]),
+        match$4[1]
+      ];
     }
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/set_gen.ml",
-                361,
-                14
-              ]
-            });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/set_gen.ml",
+            361,
+            14
+          ]
+        });
   };
   return sub(Stdlib__List.length(l), l)[0];
 }
@@ -545,53 +545,53 @@ function of_sorted_array(l) {
     if (n === 1) {
       const x0 = l[start];
       return {
-              TAG: /* Node */0,
-              _0: /* Empty */0,
-              _1: x0,
-              _2: /* Empty */0,
-              _3: 1
-            };
+        TAG: /* Node */0,
+        _0: /* Empty */0,
+        _1: x0,
+        _2: /* Empty */0,
+        _3: 1
+      };
     }
     if (n === 2) {
       const x0$1 = l[start];
       const x1 = l[start + 1 | 0];
       return {
-              TAG: /* Node */0,
-              _0: {
-                TAG: /* Node */0,
-                _0: /* Empty */0,
-                _1: x0$1,
-                _2: /* Empty */0,
-                _3: 1
-              },
-              _1: x1,
-              _2: /* Empty */0,
-              _3: 2
-            };
+        TAG: /* Node */0,
+        _0: {
+          TAG: /* Node */0,
+          _0: /* Empty */0,
+          _1: x0$1,
+          _2: /* Empty */0,
+          _3: 1
+        },
+        _1: x1,
+        _2: /* Empty */0,
+        _3: 2
+      };
     }
     if (n === 3) {
       const x0$2 = l[start];
       const x1$1 = l[start + 1 | 0];
       const x2 = l[start + 2 | 0];
       return {
-              TAG: /* Node */0,
-              _0: {
-                TAG: /* Node */0,
-                _0: /* Empty */0,
-                _1: x0$2,
-                _2: /* Empty */0,
-                _3: 1
-              },
-              _1: x1$1,
-              _2: {
-                TAG: /* Node */0,
-                _0: /* Empty */0,
-                _1: x2,
-                _2: /* Empty */0,
-                _3: 1
-              },
-              _3: 2
-            };
+        TAG: /* Node */0,
+        _0: {
+          TAG: /* Node */0,
+          _0: /* Empty */0,
+          _1: x0$2,
+          _2: /* Empty */0,
+          _3: 1
+        },
+        _1: x1$1,
+        _2: {
+          TAG: /* Node */0,
+          _0: /* Empty */0,
+          _1: x2,
+          _2: /* Empty */0,
+          _3: 1
+        },
+        _3: 2
+      };
     }
     const nl = n / 2 | 0;
     const left = sub(start, nl, l);
@@ -619,12 +619,12 @@ function is_ordered(cmp, tree) {
       if (typeof match$1 === "string") {
         if (match$1 === "Empty") {
           return {
-                  NAME: "V",
-                  VAL: [
-                    v,
-                    v
-                  ]
-                };
+            NAME: "V",
+            VAL: [
+              v,
+              v
+            ]
+          };
         } else {
           return "No";
         }
@@ -632,12 +632,12 @@ function is_ordered(cmp, tree) {
       const match$2 = match$1.VAL;
       if (Curry._2(cmp, v, match$2[0]) < 0) {
         return {
-                NAME: "V",
-                VAL: [
-                  v,
-                  match$2[1]
-                ]
-              };
+          NAME: "V",
+          VAL: [
+            v,
+            match$2[1]
+          ]
+        };
       } else {
         return "No";
       }
@@ -649,12 +649,12 @@ function is_ordered(cmp, tree) {
     if (typeof match$4 === "string") {
       if (match$4 === "Empty" && Curry._2(cmp, max_v, v) < 0) {
         return {
-                NAME: "V",
-                VAL: [
-                  min_v,
-                  v
-                ]
-              };
+          NAME: "V",
+          VAL: [
+            min_v,
+            v
+          ]
+        };
       } else {
         return "No";
       }
@@ -662,12 +662,12 @@ function is_ordered(cmp, tree) {
     const match$5 = match$4.VAL;
     if (Curry._2(cmp, max_v, match$5[0]) < 0) {
       return {
-              NAME: "V",
-              VAL: [
-                min_v,
-                match$5[1]
-              ]
-            };
+        NAME: "V",
+        VAL: [
+          min_v,
+          match$5[1]
+        ]
+      };
     } else {
       return "No";
     }

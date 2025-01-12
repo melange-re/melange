@@ -72,30 +72,30 @@ function chop_extension(locOpt, name) {
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
       return Curry._2(Stdlib__Format.ksprintf(Stdlib.invalid_arg, {
-                      TAG: /* Format */0,
-                      _0: {
-                        TAG: /* String_literal */11,
-                        _0: "Filename.chop_extension ( ",
+                TAG: /* Format */0,
+                _0: {
+                  TAG: /* String_literal */11,
+                  _0: "Filename.chop_extension ( ",
+                  _1: {
+                    TAG: /* String */2,
+                    _0: /* No_padding */0,
+                    _1: {
+                      TAG: /* String_literal */11,
+                      _0: " : ",
+                      _1: {
+                        TAG: /* String */2,
+                        _0: /* No_padding */0,
                         _1: {
-                          TAG: /* String */2,
-                          _0: /* No_padding */0,
-                          _1: {
-                            TAG: /* String_literal */11,
-                            _0: " : ",
-                            _1: {
-                              TAG: /* String */2,
-                              _0: /* No_padding */0,
-                              _1: {
-                                TAG: /* String_literal */11,
-                                _0: " )",
-                                _1: /* End_of_format */0
-                              }
-                            }
-                          }
+                          TAG: /* String_literal */11,
+                          _0: " )",
+                          _1: /* End_of_format */0
                         }
-                      },
-                      _1: "Filename.chop_extension ( %s : %s )"
-                    }), loc, name);
+                      }
+                    }
+                  }
+                },
+                _1: "Filename.chop_extension ( %s : %s )"
+              }), loc, name);
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
@@ -131,8 +131,8 @@ function relative_path(file_or_dir_1, file_or_dir_2) {
         continue ;
       }
       return Stdlib.$at(Stdlib__List.map((function (param) {
-                        return node_parent;
-                      }), dir2), dir1);
+                  return node_parent;
+                }), dir2), dir1);
     };
   };
   const ys = go(dir1, dir2);
@@ -140,9 +140,9 @@ function relative_path(file_or_dir_1, file_or_dir_2) {
     return Stdlib__String.concat(node_sep, ys);
   } else {
     return Stdlib__String.concat(node_sep, {
-                hd: node_current,
-                tl: ys
-              });
+          hd: node_current,
+          tl: ys
+        });
   }
 }
 
@@ -152,36 +152,36 @@ function node_relative_path(node_modules_shorten, file1, dep_file) {
   const len = file2.length;
   if (!(node_modules_shorten && v >= 0)) {
     return relative_path(dep_file.NAME === "File" ? ({
-                    NAME: "File",
-                    VAL: absolute_path(dep_file.VAL)
-                  }) : ({
-                    NAME: "Dir",
-                    VAL: absolute_path(dep_file.VAL)
-                  }), file1.NAME === "File" ? ({
-                    NAME: "File",
-                    VAL: absolute_path(file1.VAL)
-                  }) : ({
-                    NAME: "Dir",
-                    VAL: absolute_path(file1.VAL)
-                  })) + (node_sep + Curry._1(Stdlib__Filename.basename, file2));
+            NAME: "File",
+            VAL: absolute_path(dep_file.VAL)
+          }) : ({
+            NAME: "Dir",
+            VAL: absolute_path(dep_file.VAL)
+          }), file1.NAME === "File" ? ({
+            NAME: "File",
+            VAL: absolute_path(file1.VAL)
+          }) : ({
+            NAME: "Dir",
+            VAL: absolute_path(file1.VAL)
+          })) + (node_sep + Curry._1(Stdlib__Filename.basename, file2));
   }
   const skip = function (_i) {
     while(true) {
       const i = _i;
       if (i >= len) {
         return Curry._1(Ext_pervasives_test.failwithf("File \"jscomp/test/ext_filename_test.ml\", line 162, characters 43-50", {
-                        TAG: /* Format */0,
-                        _0: {
-                          TAG: /* String_literal */11,
-                          _0: "invalid path: ",
-                          _1: {
-                            TAG: /* String */2,
-                            _0: /* No_padding */0,
-                            _1: /* End_of_format */0
-                          }
-                        },
-                        _1: "invalid path: %s"
-                      }), file2);
+                  TAG: /* Format */0,
+                  _0: {
+                    TAG: /* String_literal */11,
+                    _0: "invalid path: ",
+                    _1: {
+                      TAG: /* String */2,
+                      _0: /* No_padding */0,
+                      _1: /* End_of_format */0
+                    }
+                  },
+                  _1: "invalid path: %s"
+                }), file2);
       }
       const curr_char = file2.charCodeAt(i);
       if (!(curr_char === os_path_separator_char || curr_char === /* '.' */46)) {
@@ -203,22 +203,22 @@ function find_root_filename(_cwd, filename) {
     const cwd$p = Curry._1(Stdlib__Filename.dirname, cwd);
     if (cwd$p.length >= cwd.length) {
       return Curry._2(Ext_pervasives_test.failwithf("File \"jscomp/test/ext_filename_test.ml\", line 205, characters 13-20", {
-                      TAG: /* Format */0,
-                      _0: {
-                        TAG: /* String */2,
-                        _0: /* No_padding */0,
-                        _1: {
-                          TAG: /* String_literal */11,
-                          _0: " not found from ",
-                          _1: {
-                            TAG: /* String */2,
-                            _0: /* No_padding */0,
-                            _1: /* End_of_format */0
-                          }
-                        }
-                      },
-                      _1: "%s not found from %s"
-                    }), filename, cwd);
+                TAG: /* Format */0,
+                _0: {
+                  TAG: /* String */2,
+                  _0: /* No_padding */0,
+                  _1: {
+                    TAG: /* String_literal */11,
+                    _0: " not found from ",
+                    _1: {
+                      TAG: /* String */2,
+                      _0: /* No_padding */0,
+                      _1: /* End_of_format */0
+                    }
+                  }
+                },
+                _1: "%s not found from %s"
+              }), filename, cwd);
     }
     _cwd = cwd$p;
     continue ;
@@ -268,9 +268,9 @@ function split_aux(p) {
     const dir = Curry._1(Stdlib__Filename.dirname, p$1);
     if (dir === p$1) {
       return [
-              dir,
-              acc
-            ];
+        dir,
+        acc
+      ];
     }
     const new_path = Curry._1(Stdlib__Filename.basename, p$1);
     if (new_path === Stdlib__Filename.dir_sep) {
@@ -308,8 +308,8 @@ function rel_normalized_absolute_path(from, to_) {
     const xs = xss.tl;
     if (!yss) {
       return Stdlib__List.fold_left((function (acc, param) {
-                    return Stdlib__Filename.concat(acc, Ext_string_test.parent_dir_lit);
-                  }), Ext_string_test.parent_dir_lit, xs);
+              return Stdlib__Filename.concat(acc, Ext_string_test.parent_dir_lit);
+            }), Ext_string_test.parent_dir_lit, xs);
     }
     if (xss.hd === yss.hd) {
       _yss = yss.tl;
@@ -398,9 +398,9 @@ if (Stdlib__Sys.unix) {
 } else {
   const s = "Unknown OS : " + Stdlib__Sys.os_type;
   throw new Caml_js_exceptions.MelangeError("Failure", {
-            MEL_EXN_ID: "Failure",
-            _1: s
-          });
+        MEL_EXN_ID: "Failure",
+        _1: s
+      });
 }
 
 const $slash$slash = Stdlib__Filename.concat;

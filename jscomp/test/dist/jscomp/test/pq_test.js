@@ -7,12 +7,12 @@ const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 function insert(queue, prio, elt) {
   if (/* tag */typeof queue === "number" || typeof queue === "string") {
     return {
-            TAG: /* Node */0,
-            _0: prio,
-            _1: elt,
-            _2: /* Empty */0,
-            _3: /* Empty */0
-          };
+      TAG: /* Node */0,
+      _0: prio,
+      _1: elt,
+      _2: /* Empty */0,
+      _3: /* Empty */0
+    };
   }
   const right = queue._3;
   const left = queue._2;
@@ -20,20 +20,20 @@ function insert(queue, prio, elt) {
   const p = queue._0;
   if (prio <= p) {
     return {
-            TAG: /* Node */0,
-            _0: prio,
-            _1: elt,
-            _2: insert(right, p, e),
-            _3: left
-          };
+      TAG: /* Node */0,
+      _0: prio,
+      _1: elt,
+      _2: insert(right, p, e),
+      _3: left
+    };
   } else {
     return {
-            TAG: /* Node */0,
-            _0: p,
-            _1: e,
-            _2: insert(right, prio, elt),
-            _3: left
-          };
+      TAG: /* Node */0,
+      _0: p,
+      _1: e,
+      _2: insert(right, prio, elt),
+      _3: left
+    };
   }
 }
 
@@ -42,8 +42,8 @@ const Queue_is_empty = /* @__PURE__ */Caml_exceptions.create("Pq_test.PrioQueue.
 function remove_top(param) {
   if (/* tag */typeof param === "number" || typeof param === "string") {
     throw new Caml_js_exceptions.MelangeError(Queue_is_empty, {
-              MEL_EXN_ID: Queue_is_empty
-            });
+          MEL_EXN_ID: Queue_is_empty
+        });
   }
   const left = param._2;
   let tmp = param._3;
@@ -58,34 +58,34 @@ function remove_top(param) {
   const lprio = left._0;
   if (lprio <= rprio) {
     return {
-            TAG: /* Node */0,
-            _0: lprio,
-            _1: left._1,
-            _2: remove_top(left),
-            _3: right
-          };
+      TAG: /* Node */0,
+      _0: lprio,
+      _1: left._1,
+      _2: remove_top(left),
+      _3: right
+    };
   } else {
     return {
-            TAG: /* Node */0,
-            _0: rprio,
-            _1: right._1,
-            _2: left,
-            _3: remove_top(right)
-          };
+      TAG: /* Node */0,
+      _0: rprio,
+      _1: right._1,
+      _2: left,
+      _3: remove_top(right)
+    };
   }
 }
 
 function extract(queue) {
   if (!/* tag */(typeof queue === "number" || typeof queue === "string")) {
     return [
-            queue._0,
-            queue._1,
-            remove_top(queue)
-          ];
+      queue._0,
+      queue._1,
+      remove_top(queue)
+    ];
   }
   throw new Caml_js_exceptions.MelangeError(Queue_is_empty, {
-            MEL_EXN_ID: Queue_is_empty
-          });
+        MEL_EXN_ID: Queue_is_empty
+      });
 }
 
 const PrioQueue = {

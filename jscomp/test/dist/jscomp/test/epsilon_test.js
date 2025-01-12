@@ -11,10 +11,10 @@ const suites_0 = [
   "epsilon",
   (function (param) {
       return {
-              TAG: /* Eq */0,
-              _0: Stdlib.epsilon_float,
-              _1: v
-            };
+        TAG: /* Eq */0,
+        _0: Stdlib.epsilon_float,
+        _1: v
+      };
     })
 ];
 
@@ -23,10 +23,10 @@ const suites_1 = {
     "raw_epsilon",
     (function (param) {
         return {
-                TAG: /* Eq */0,
-                _0: 2.220446049250313e-16,
-                _1: v
-              };
+          TAG: /* Eq */0,
+          _0: 2.220446049250313e-16,
+          _1: v
+        };
       })
   ],
   tl: /* [] */0

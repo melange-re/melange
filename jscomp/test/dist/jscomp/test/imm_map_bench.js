@@ -27,9 +27,9 @@ function should(b) {
 
 const shuffledDataAdd = Belt__Belt_Array.makeByAndShuffle(1000001, (function (i) {
         return [
-                i,
-                i
-              ];
+          i,
+          i
+        ];
       }));
 
 function test(param) {

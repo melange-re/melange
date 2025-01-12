@@ -24,10 +24,10 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
           return {
-                  TAG: /* Eq */0,
-                  _0: x,
-                  _1: y
-                };
+            TAG: /* Eq */0,
+            _0: x,
+            _1: y
+          };
         })
     ],
     tl: suites.contents
@@ -39,36 +39,36 @@ function assert_bool(b) {
     return ;
   }
   throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
-            MEL_EXN_ID: Stdlib.Invalid_argument,
-            _1: "Assertion Failure."
-          });
+        MEL_EXN_ID: Stdlib.Invalid_argument,
+        _1: "Assertion Failure."
+      });
 }
 
 function fail(param) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/js_promise_basic_test.ml",
-              17,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/js_promise_basic_test.ml",
+          17,
+          2
+        ]
+      });
 }
 
 function thenTest(param) {
   const p = Promise.resolve(4);
   return p.then(function (x) {
-              return Promise.resolve(assert_bool(x === 4));
-            });
+        return Promise.resolve(assert_bool(x === 4));
+      });
 }
 
 function andThenTest(param) {
   const p = Promise.resolve(6);
   return p.then(function (param) {
-                return Promise.resolve(12);
-              }).then(function (y) {
-              return Promise.resolve(assert_bool(y === 12));
-            });
+          return Promise.resolve(12);
+        }).then(function (y) {
+        return Promise.resolve(assert_bool(y === 12));
+      });
 }
 
 const h = Promise.resolve(undefined);
@@ -79,13 +79,13 @@ function assertIsNotFound(x) {
     return h;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/js_promise_basic_test.ml",
-              34,
-              9
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/js_promise_basic_test.ml",
+          34,
+          9
+        ]
+      });
 }
 
 function catchTest(param) {
@@ -98,10 +98,10 @@ function catchTest(param) {
 function orResolvedTest(param) {
   const p = Promise.resolve(42);
   return p.catch(function (param) {
-                  return Promise.resolve(22);
-                }).then(function (value) {
-                return Promise.resolve(assert_bool(value === 42));
-              }).catch(fail);
+            return Promise.resolve(22);
+          }).then(function (value) {
+          return Promise.resolve(assert_bool(value === 42));
+        }).catch(fail);
 }
 
 function orRejectedTest(param) {
@@ -109,19 +109,19 @@ function orRejectedTest(param) {
         MEL_EXN_ID: Stdlib.Not_found
       });
   return p.catch(function (param) {
-                  return Promise.resolve(22);
-                }).then(function (value) {
-                return Promise.resolve(assert_bool(value === 22));
-              }).catch(fail);
+            return Promise.resolve(22);
+          }).then(function (value) {
+          return Promise.resolve(assert_bool(value === 22));
+        }).catch(fail);
 }
 
 function orElseResolvedTest(param) {
   const p = Promise.resolve(42);
   return p.catch(function (param) {
-                  return Promise.resolve(22);
-                }).then(function (value) {
-                return Promise.resolve(assert_bool(value === 42));
-              }).catch(fail);
+            return Promise.resolve(22);
+          }).then(function (value) {
+          return Promise.resolve(assert_bool(value === 42));
+        }).catch(fail);
 }
 
 function orElseRejectedResolveTest(param) {
@@ -129,10 +129,10 @@ function orElseRejectedResolveTest(param) {
         MEL_EXN_ID: Stdlib.Not_found
       });
   return p.catch(function (param) {
-                  return Promise.resolve(22);
-                }).then(function (value) {
-                return Promise.resolve(assert_bool(value === 22));
-              }).catch(fail);
+            return Promise.resolve(22);
+          }).then(function (value) {
+          return Promise.resolve(assert_bool(value === 22));
+        }).catch(fail);
 }
 
 function orElseRejectedRejectTest(param) {
@@ -140,30 +140,30 @@ function orElseRejectedRejectTest(param) {
         MEL_EXN_ID: Stdlib.Not_found
       });
   return p.catch(function (param) {
-                  return Promise.reject({
-                              MEL_EXN_ID: Stdlib.Stack_overflow
-                            });
-                }).then(fail).catch(function (error) {
-              const match = Caml_exceptions.caml_is_extension(error) && error.MEL_EXN_ID === Stdlib.Stack_overflow ? 0 : undefined;
-              if (match !== undefined) {
-                return h;
-              }
-              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                        MEL_EXN_ID: "Assert_failure",
-                        _1: [
-                          "jscomp/test/js_promise_basic_test.ml",
-                          76,
-                          19
-                        ]
-                      });
+            return Promise.reject({
+                  MEL_EXN_ID: Stdlib.Stack_overflow
+                });
+          }).then(fail).catch(function (error) {
+        const match = Caml_exceptions.caml_is_extension(error) && error.MEL_EXN_ID === Stdlib.Stack_overflow ? 0 : undefined;
+        if (match !== undefined) {
+          return h;
+        }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/js_promise_basic_test.ml",
+                76,
+                19
+              ]
             });
+      });
 }
 
 function resolveTest(param) {
   const p1 = Promise.resolve(10);
   return p1.then(function (x) {
-              return Promise.resolve(assert_bool(x === 10));
-            });
+        return Promise.resolve(assert_bool(x === 10));
+      });
 }
 
 function rejectTest(param) {
@@ -176,8 +176,8 @@ function rejectTest(param) {
 function thenCatchChainResolvedTest(param) {
   const p = Promise.resolve(20);
   return p.then(function (value) {
-                return Promise.resolve(assert_bool(value === 20));
-              }).catch(fail);
+          return Promise.resolve(assert_bool(value === 20));
+        }).catch(fail);
 }
 
 function thenCatchChainRejectedTest(param) {
@@ -197,11 +197,11 @@ function allResolvedTest(param) {
     p3
   ];
   return Promise.all(promises).then(function (resolved) {
-              assert_bool(Caml_array.get(resolved, 0) === 1);
-              assert_bool(Caml_array.get(resolved, 1) === 2);
-              assert_bool(Caml_array.get(resolved, 2) === 3);
-              return h;
-            });
+        assert_bool(Caml_array.get(resolved, 0) === 1);
+        assert_bool(Caml_array.get(resolved, 1) === 2);
+        assert_bool(Caml_array.get(resolved, 2) === 3);
+        return h;
+      });
 }
 
 function is_not_found(error) {
@@ -220,9 +220,9 @@ function allRejectTest(param) {
     p3
   ];
   return Promise.all(promises).then(fail).catch(function (error) {
-              assert_bool(error.MEL_EXN_ID === Stdlib.Not_found);
-              return h;
-            });
+        assert_bool(error.MEL_EXN_ID === Stdlib.Not_found);
+        return h;
+      });
 }
 
 function raceTest(param) {
@@ -235,28 +235,28 @@ function raceTest(param) {
     p3
   ];
   return Promise.race(promises).then(function (resolved) {
-                return h;
-              }).catch(fail);
+          return h;
+        }).catch(fail);
 }
 
 function createPromiseRejectTest(param) {
   return new Promise((function (resolve, reject) {
-                  reject({
-                        MEL_EXN_ID: Stdlib.Not_found
-                      });
-                })).catch(function (error) {
-              assert_bool(error.MEL_EXN_ID === Stdlib.Not_found);
-              return h;
-            });
+            reject({
+                  MEL_EXN_ID: Stdlib.Not_found
+                });
+          })).catch(function (error) {
+        assert_bool(error.MEL_EXN_ID === Stdlib.Not_found);
+        return h;
+      });
 }
 
 function createPromiseFulfillTest(param) {
   return new Promise((function (resolve, param) {
-                    resolve("success");
-                  })).then(function (resolved) {
-                assert_bool(resolved === "success");
-                return h;
-              }).catch(fail);
+              resolve("success");
+            })).then(function (resolved) {
+          assert_bool(resolved === "success");
+          return h;
+        }).catch(fail);
 }
 
 thenTest(undefined);
@@ -324,10 +324,10 @@ Mt.from_promise_suites("Js_promise_basic_test", {
         "File \"jscomp/test/js_promise_basic_test.ml\", line 188, characters 5-12",
         twop.then(function (x) {
               return Promise.resolve({
-                          TAG: /* Eq */0,
-                          _0: x,
-                          _1: 2
-                        });
+                    TAG: /* Eq */0,
+                    _0: x,
+                    _1: 2
+                  });
             })
       ],
       tl: {
@@ -335,10 +335,10 @@ Mt.from_promise_suites("Js_promise_basic_test", {
           "File \"jscomp/test/js_promise_basic_test.ml\", line 189, characters 5-12",
           twop.then(function (x) {
                 return Promise.resolve({
-                            TAG: /* Neq */1,
-                            _0: x,
-                            _1: 3
-                          });
+                      TAG: /* Neq */1,
+                      _0: x,
+                      _1: 3
+                    });
               })
         ],
         tl: /* [] */0

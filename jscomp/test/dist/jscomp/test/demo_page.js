@@ -26,10 +26,10 @@ function map(f, param) {
     return /* Nil */0;
   } else {
     return {
-            TAG: /* Cons */0,
-            _0: Curry._1(f, param._0),
-            _1: map(f, param._1)
-          };
+      TAG: /* Cons */0,
+      _0: Curry._1(f, param._0),
+      _1: map(f, param._1)
+    };
   }
 }
 
@@ -44,8 +44,8 @@ function f(param) {
 ReactDom.render(React.createClass({
           render: (function (param) {
               return React.DOM.div({
-                          alt: "pic"
-                        }, React.DOM.h1(undefined, "hello react"), React.DOM.h2(undefined, "type safe!"));
+                    alt: "pic"
+                  }, React.DOM.h1(undefined, "hello react"), React.DOM.h2(undefined, "type safe!"));
             })
         }), document.getElementById("hi"));
 

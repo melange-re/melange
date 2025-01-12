@@ -93,20 +93,20 @@ Mt.from_pair_suites("Pr_regression_test", {
         "partial",
         (function (param) {
             return {
-                    TAG: /* Eq */0,
-                    _0: [
-                      5,
-                      5,
-                      5,
-                      5
-                    ],
-                    _1: [
-                      a,
-                      b,
-                      c,
-                      d
-                    ]
-                  };
+              TAG: /* Eq */0,
+              _0: [
+                5,
+                5,
+                5,
+                5
+              ],
+              _1: [
+                a,
+                b,
+                c,
+                d
+              ]
+            };
           })
       ],
       tl: /* [] */0

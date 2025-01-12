@@ -12,10 +12,10 @@ const Stdlib__String = require("melange/string.js");
 function split(x, tree) {
   if (/* tag */typeof tree === "number" || typeof tree === "string") {
     return [
-            /* Empty */0,
-            false,
-            /* Empty */0
-          ];
+      /* Empty */0,
+      false,
+      /* Empty */0
+    ];
   }
   const r = tree._2;
   const v = tree._1;
@@ -23,36 +23,36 @@ function split(x, tree) {
   const c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     return [
-            l,
-            true,
-            r
-          ];
+      l,
+      true,
+      r
+    ];
   }
   if (c < 0) {
     const match = split(x, l);
     return [
-            match[0],
-            match[1],
-            Set_gen.internal_join(match[2], v, r)
-          ];
+      match[0],
+      match[1],
+      Set_gen.internal_join(match[2], v, r)
+    ];
   }
   const match$1 = split(x, r);
   return [
-          Set_gen.internal_join(l, v, match$1[0]),
-          match$1[1],
-          match$1[2]
-        ];
+    Set_gen.internal_join(l, v, match$1[0]),
+    match$1[1],
+    match$1[2]
+  ];
 }
 
 function add(x, tree) {
   if (/* tag */typeof tree === "number" || typeof tree === "string") {
     return {
-            TAG: /* Node */0,
-            _0: /* Empty */0,
-            _1: x,
-            _2: /* Empty */0,
-            _3: 1
-          };
+      TAG: /* Node */0,
+      _0: /* Empty */0,
+      _1: x,
+      _2: /* Empty */0,
+      _3: 1
+    };
   }
   const r = tree._2;
   const v = tree._1;
@@ -226,8 +226,8 @@ function find(x, _tree) {
     const tree = _tree;
     if (/* tag */typeof tree === "number" || typeof tree === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                MEL_EXN_ID: Stdlib.Not_found
-              });
+            MEL_EXN_ID: Stdlib.Not_found
+          });
     }
     const v = tree._1;
     const c = Caml.caml_string_compare(x, v);
@@ -273,8 +273,8 @@ function of_list(l) {
 
 function of_array(l) {
   return Stdlib__Array.fold_left((function (acc, x) {
-                return add(x, acc);
-              }), /* Empty */0, l);
+          return add(x, acc);
+        }), /* Empty */0, l);
 }
 
 function invariant(t) {

@@ -19,10 +19,10 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
           return {
-                  TAG: /* Eq */0,
-                  _0: x,
-                  _1: y
-                };
+            TAG: /* Eq */0,
+            _0: x,
+            _1: y
+          };
         })
     ],
     tl: suites.contents
@@ -36,9 +36,9 @@ function ok(loc, x) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
           return {
-                  TAG: /* Ok */4,
-                  _0: x
-                };
+            TAG: /* Ok */4,
+            _0: x
+          };
         })
     ],
     tl: suites.contents

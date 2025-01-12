@@ -37,10 +37,10 @@ const sumdown = v$1;
 
 function cons(x, y) {
   return {
-          TAG: /* Cons */0,
-          _0: x,
-          _1: y
-        };
+    TAG: /* Cons */0,
+    _0: x,
+    _1: y
+  };
 }
 
 function length(x) {
@@ -56,10 +56,10 @@ function map(f, x) {
     return /* Nil */0;
   } else {
     return {
-            TAG: /* Cons */0,
-            _0: Curry._1(f, x._0),
-            _1: map(f, x._1)
-          };
+      TAG: /* Cons */0,
+      _0: Curry._1(f, x._0),
+      _1: map(f, x._1)
+    };
   }
 }
 

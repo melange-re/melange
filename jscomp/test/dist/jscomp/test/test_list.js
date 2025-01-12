@@ -29,9 +29,9 @@ function hd(param) {
     return param.hd;
   }
   throw new Caml_js_exceptions.MelangeError("Failure", {
-            MEL_EXN_ID: "Failure",
-            _1: "hd"
-          });
+        MEL_EXN_ID: "Failure",
+        _1: "hd"
+      });
 }
 
 function tl(param) {
@@ -39,17 +39,17 @@ function tl(param) {
     return param.tl;
   }
   throw new Caml_js_exceptions.MelangeError("Failure", {
-            MEL_EXN_ID: "Failure",
-            _1: "tl"
-          });
+        MEL_EXN_ID: "Failure",
+        _1: "tl"
+      });
 }
 
 function nth(l, n) {
   if (n < 0) {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "List.nth"
-            });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "List.nth"
+        });
   }
   let _l = l;
   let _n = n;
@@ -65,9 +65,9 @@ function nth(l, n) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError("Failure", {
-              MEL_EXN_ID: "Failure",
-              _1: "nth"
-            });
+          MEL_EXN_ID: "Failure",
+          _1: "nth"
+        });
   };
 }
 
@@ -105,9 +105,9 @@ function map(f, param) {
   }
   const r = Curry._1(f, param.hd);
   return {
-          hd: r,
-          tl: map(f, param.tl)
-        };
+    hd: r,
+    tl: map(f, param.tl)
+  };
 }
 
 function mapi(i, f, param) {
@@ -116,9 +116,9 @@ function mapi(i, f, param) {
   }
   const r = Curry._2(f, i, param.hd);
   return {
-          hd: r,
-          tl: mapi(i + 1 | 0, f, param.tl)
-        };
+    hd: r,
+    tl: mapi(i + 1 | 0, f, param.tl)
+  };
 }
 
 function mapi$1(f, l) {
@@ -197,22 +197,22 @@ function map2(f, l1, l2) {
     if (l2) {
       const r = Curry._2(f, l1.hd, l2.hd);
       return {
-              hd: r,
-              tl: map2(f, l1.tl, l2.tl)
-            };
+        hd: r,
+        tl: map2(f, l1.tl, l2.tl)
+      };
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "List.map2"
-            });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "List.map2"
+        });
   }
   if (!l2) {
     return /* [] */0;
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "List.map2"
-          });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "List.map2"
+      });
 }
 
 function rev_map2(f, l1, l2) {
@@ -234,15 +234,15 @@ function rev_map2(f, l1, l2) {
         continue ;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "List.rev_map2"
-              });
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "List.rev_map2"
+          });
     }
     if (l2$1) {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "List.rev_map2"
-              });
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "List.rev_map2"
+          });
     }
     return accu;
   };
@@ -260,17 +260,17 @@ function iter2(f, _l1, _l2) {
         continue ;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "List.iter2"
-              });
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "List.iter2"
+          });
     }
     if (!l2) {
       return ;
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "List.iter2"
-            });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "List.iter2"
+        });
   };
 }
 
@@ -287,15 +287,15 @@ function fold_left2(f, _accu, _l1, _l2) {
         continue ;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "List.fold_left2"
-              });
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "List.fold_left2"
+          });
     }
     if (l2) {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "List.fold_left2"
-              });
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "List.fold_left2"
+          });
     }
     return accu;
   };
@@ -307,15 +307,15 @@ function fold_right2(f, l1, l2, accu) {
       return Curry._3(f, l1.hd, l2.hd, fold_right2(f, l1.tl, l2.tl, accu));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "List.fold_right2"
-            });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "List.fold_right2"
+        });
   }
   if (l2) {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "List.fold_right2"
-            });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "List.fold_right2"
+        });
   }
   return accu;
 }
@@ -362,17 +362,17 @@ function for_all2(p, _l1, _l2) {
         continue ;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "List.for_all2"
-              });
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "List.for_all2"
+          });
     }
     if (!l2) {
       return true;
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "List.for_all2"
-            });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "List.for_all2"
+        });
   };
 }
 
@@ -390,17 +390,17 @@ function exists2(p, _l1, _l2) {
         continue ;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "List.exists2"
-              });
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "List.exists2"
+          });
     }
     if (!l2) {
       return false;
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "List.exists2"
-            });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "List.exists2"
+        });
   };
 }
 
@@ -444,8 +444,8 @@ function assoc(x, _param) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              MEL_EXN_ID: Stdlib.Not_found
-            });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
   };
 }
 
@@ -461,8 +461,8 @@ function assq(x, _param) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              MEL_EXN_ID: Stdlib.Not_found
-            });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
   };
 }
 
@@ -504,9 +504,9 @@ function remove_assoc(x, param) {
     return l;
   } else {
     return {
-            hd: pair,
-            tl: remove_assoc(x, l)
-          };
+      hd: pair,
+      tl: remove_assoc(x, l)
+    };
   }
 }
 
@@ -520,9 +520,9 @@ function remove_assq(x, param) {
     return l;
   } else {
     return {
-            hd: pair,
-            tl: remove_assq(x, l)
-          };
+      hd: pair,
+      tl: remove_assq(x, l)
+    };
   }
 }
 
@@ -538,8 +538,8 @@ function find(p, _param) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              MEL_EXN_ID: Stdlib.Not_found
-            });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
   };
 }
 
@@ -579,9 +579,9 @@ function partition(p, l) {
     const yes = _yes;
     if (!param) {
       return [
-              rev_append(yes, /* [] */0),
-              rev_append(no, /* [] */0)
-            ];
+        rev_append(yes, /* [] */0),
+        rev_append(no, /* [] */0)
+      ];
     }
     const l$1 = param.tl;
     const x = param.hd;
@@ -605,47 +605,47 @@ function partition(p, l) {
 function split(param) {
   if (!param) {
     return [
-            /* [] */0,
-            /* [] */0
-          ];
+      /* [] */0,
+      /* [] */0
+    ];
   }
   const match = param.hd;
   const match$1 = split(param.tl);
   return [
-          {
-            hd: match[0],
-            tl: match$1[0]
-          },
-          {
-            hd: match[1],
-            tl: match$1[1]
-          }
-        ];
+    {
+      hd: match[0],
+      tl: match$1[0]
+    },
+    {
+      hd: match[1],
+      tl: match$1[1]
+    }
+  ];
 }
 
 function combine(l1, l2) {
   if (l1) {
     if (l2) {
       return {
-              hd: [
-                l1.hd,
-                l2.hd
-              ],
-              tl: combine(l1.tl, l2.tl)
-            };
+        hd: [
+          l1.hd,
+          l2.hd
+        ],
+        tl: combine(l1.tl, l2.tl)
+      };
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "List.combine"
-            });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "List.combine"
+        });
   }
   if (!l2) {
     return /* [] */0;
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "List.combine"
-          });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "List.combine"
+      });
 }
 
 function merge(cmp, l1, l2) {
@@ -659,14 +659,14 @@ function merge(cmp, l1, l2) {
   const h1 = l1.hd;
   if (Curry._2(cmp, h1, h2) <= 0) {
     return {
-            hd: h1,
-            tl: merge(cmp, l1.tl, l2)
-          };
+      hd: h1,
+      tl: merge(cmp, l1.tl, l2)
+    };
   } else {
     return {
-            hd: h2,
-            tl: merge(cmp, l1, l2.tl)
-          };
+      hd: h2,
+      tl: merge(cmp, l1, l2.tl)
+    };
   }
 }
 
@@ -683,13 +683,13 @@ function chop(_k, _l) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/test_list.ml",
-                224,
-                11
-              ]
-            });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/test_list.ml",
+            224,
+            11
+          ]
+        });
   };
 }
 
@@ -707,71 +707,71 @@ function stable_sort(cmp, l) {
             if (Curry._2(cmp, x1, x2) <= 0) {
               if (Curry._2(cmp, x2, x3) <= 0) {
                 return {
-                        hd: x1,
-                        tl: {
-                          hd: x2,
-                          tl: {
-                            hd: x3,
-                            tl: /* [] */0
-                          }
-                        }
-                      };
+                  hd: x1,
+                  tl: {
+                    hd: x2,
+                    tl: {
+                      hd: x3,
+                      tl: /* [] */0
+                    }
+                  }
+                };
               } else if (Curry._2(cmp, x1, x3) <= 0) {
                 return {
-                        hd: x1,
-                        tl: {
-                          hd: x3,
-                          tl: {
-                            hd: x2,
-                            tl: /* [] */0
-                          }
-                        }
-                      };
+                  hd: x1,
+                  tl: {
+                    hd: x3,
+                    tl: {
+                      hd: x2,
+                      tl: /* [] */0
+                    }
+                  }
+                };
               } else {
                 return {
-                        hd: x3,
-                        tl: {
-                          hd: x1,
-                          tl: {
-                            hd: x2,
-                            tl: /* [] */0
-                          }
-                        }
-                      };
+                  hd: x3,
+                  tl: {
+                    hd: x1,
+                    tl: {
+                      hd: x2,
+                      tl: /* [] */0
+                    }
+                  }
+                };
               }
             } else if (Curry._2(cmp, x1, x3) <= 0) {
               return {
-                      hd: x2,
-                      tl: {
-                        hd: x1,
-                        tl: {
-                          hd: x3,
-                          tl: /* [] */0
-                        }
-                      }
-                    };
+                hd: x2,
+                tl: {
+                  hd: x1,
+                  tl: {
+                    hd: x3,
+                    tl: /* [] */0
+                  }
+                }
+              };
             } else if (Curry._2(cmp, x2, x3) <= 0) {
               return {
-                      hd: x2,
-                      tl: {
-                        hd: x3,
-                        tl: {
-                          hd: x1,
-                          tl: /* [] */0
-                        }
-                      }
-                    };
+                hd: x2,
+                tl: {
+                  hd: x3,
+                  tl: {
+                    hd: x1,
+                    tl: /* [] */0
+                  }
+                }
+              };
             } else {
               return {
-                      hd: x3,
-                      tl: {
-                        hd: x2,
-                        tl: {
-                          hd: x1,
-                          tl: /* [] */0
-                        }
-                      }
-                    };
+                hd: x3,
+                tl: {
+                  hd: x2,
+                  tl: {
+                    hd: x1,
+                    tl: /* [] */0
+                  }
+                }
+              };
             }
           }
           
@@ -786,20 +786,20 @@ function stable_sort(cmp, l) {
         const x1$1 = l.hd;
         if (Curry._2(cmp, x1$1, x2$1) <= 0) {
           return {
-                  hd: x1$1,
-                  tl: {
-                    hd: x2$1,
-                    tl: /* [] */0
-                  }
-                };
+            hd: x1$1,
+            tl: {
+              hd: x2$1,
+              tl: /* [] */0
+            }
+          };
         } else {
           return {
-                  hd: x2$1,
-                  tl: {
-                    hd: x1$1,
-                    tl: /* [] */0
-                  }
-                };
+            hd: x2$1,
+            tl: {
+              hd: x1$1,
+              tl: /* [] */0
+            }
+          };
         }
       }
       
@@ -853,71 +853,71 @@ function stable_sort(cmp, l) {
             if (Curry._2(cmp, x1, x2) > 0) {
               if (Curry._2(cmp, x2, x3) > 0) {
                 return {
-                        hd: x1,
-                        tl: {
-                          hd: x2,
-                          tl: {
-                            hd: x3,
-                            tl: /* [] */0
-                          }
-                        }
-                      };
+                  hd: x1,
+                  tl: {
+                    hd: x2,
+                    tl: {
+                      hd: x3,
+                      tl: /* [] */0
+                    }
+                  }
+                };
               } else if (Curry._2(cmp, x1, x3) > 0) {
                 return {
-                        hd: x1,
-                        tl: {
-                          hd: x3,
-                          tl: {
-                            hd: x2,
-                            tl: /* [] */0
-                          }
-                        }
-                      };
+                  hd: x1,
+                  tl: {
+                    hd: x3,
+                    tl: {
+                      hd: x2,
+                      tl: /* [] */0
+                    }
+                  }
+                };
               } else {
                 return {
-                        hd: x3,
-                        tl: {
-                          hd: x1,
-                          tl: {
-                            hd: x2,
-                            tl: /* [] */0
-                          }
-                        }
-                      };
+                  hd: x3,
+                  tl: {
+                    hd: x1,
+                    tl: {
+                      hd: x2,
+                      tl: /* [] */0
+                    }
+                  }
+                };
               }
             } else if (Curry._2(cmp, x1, x3) > 0) {
               return {
-                      hd: x2,
-                      tl: {
-                        hd: x1,
-                        tl: {
-                          hd: x3,
-                          tl: /* [] */0
-                        }
-                      }
-                    };
+                hd: x2,
+                tl: {
+                  hd: x1,
+                  tl: {
+                    hd: x3,
+                    tl: /* [] */0
+                  }
+                }
+              };
             } else if (Curry._2(cmp, x2, x3) > 0) {
               return {
-                      hd: x2,
-                      tl: {
-                        hd: x3,
-                        tl: {
-                          hd: x1,
-                          tl: /* [] */0
-                        }
-                      }
-                    };
+                hd: x2,
+                tl: {
+                  hd: x3,
+                  tl: {
+                    hd: x1,
+                    tl: /* [] */0
+                  }
+                }
+              };
             } else {
               return {
-                      hd: x3,
-                      tl: {
-                        hd: x2,
-                        tl: {
-                          hd: x1,
-                          tl: /* [] */0
-                        }
-                      }
-                    };
+                hd: x3,
+                tl: {
+                  hd: x2,
+                  tl: {
+                    hd: x1,
+                    tl: /* [] */0
+                  }
+                }
+              };
             }
           }
           
@@ -932,20 +932,20 @@ function stable_sort(cmp, l) {
         const x1$1 = l.hd;
         if (Curry._2(cmp, x1$1, x2$1) > 0) {
           return {
-                  hd: x1$1,
-                  tl: {
-                    hd: x2$1,
-                    tl: /* [] */0
-                  }
-                };
+            hd: x1$1,
+            tl: {
+              hd: x2$1,
+              tl: /* [] */0
+            }
+          };
         } else {
           return {
-                  hd: x2$1,
-                  tl: {
-                    hd: x1$1,
-                    tl: /* [] */0
-                  }
-                };
+            hd: x2$1,
+            tl: {
+              hd: x1$1,
+              tl: /* [] */0
+            }
+          };
         }
       }
       
@@ -1010,136 +1010,136 @@ function sort_uniq(cmp, l) {
               const c$1 = Curry._2(cmp, x2, x3);
               if (c$1 === 0) {
                 return {
-                        hd: x2,
-                        tl: /* [] */0
-                      };
+                  hd: x2,
+                  tl: /* [] */0
+                };
               } else if (c$1 < 0) {
                 return {
-                        hd: x2,
-                        tl: {
-                          hd: x3,
-                          tl: /* [] */0
-                        }
-                      };
+                  hd: x2,
+                  tl: {
+                    hd: x3,
+                    tl: /* [] */0
+                  }
+                };
               } else {
                 return {
-                        hd: x3,
-                        tl: {
-                          hd: x2,
-                          tl: /* [] */0
-                        }
-                      };
+                  hd: x3,
+                  tl: {
+                    hd: x2,
+                    tl: /* [] */0
+                  }
+                };
               }
             }
             if (c < 0) {
               const c$2 = Curry._2(cmp, x2, x3);
               if (c$2 === 0) {
                 return {
-                        hd: x1,
-                        tl: {
-                          hd: x2,
-                          tl: /* [] */0
-                        }
-                      };
+                  hd: x1,
+                  tl: {
+                    hd: x2,
+                    tl: /* [] */0
+                  }
+                };
               }
               if (c$2 < 0) {
                 return {
-                        hd: x1,
-                        tl: {
-                          hd: x2,
-                          tl: {
-                            hd: x3,
-                            tl: /* [] */0
-                          }
-                        }
-                      };
+                  hd: x1,
+                  tl: {
+                    hd: x2,
+                    tl: {
+                      hd: x3,
+                      tl: /* [] */0
+                    }
+                  }
+                };
               }
               const c$3 = Curry._2(cmp, x1, x3);
               if (c$3 === 0) {
                 return {
-                        hd: x1,
-                        tl: {
-                          hd: x2,
-                          tl: /* [] */0
-                        }
-                      };
+                  hd: x1,
+                  tl: {
+                    hd: x2,
+                    tl: /* [] */0
+                  }
+                };
               } else if (c$3 < 0) {
                 return {
-                        hd: x1,
-                        tl: {
-                          hd: x3,
-                          tl: {
-                            hd: x2,
-                            tl: /* [] */0
-                          }
-                        }
-                      };
+                  hd: x1,
+                  tl: {
+                    hd: x3,
+                    tl: {
+                      hd: x2,
+                      tl: /* [] */0
+                    }
+                  }
+                };
               } else {
                 return {
-                        hd: x3,
-                        tl: {
-                          hd: x1,
-                          tl: {
-                            hd: x2,
-                            tl: /* [] */0
-                          }
-                        }
-                      };
+                  hd: x3,
+                  tl: {
+                    hd: x1,
+                    tl: {
+                      hd: x2,
+                      tl: /* [] */0
+                    }
+                  }
+                };
               }
             }
             const c$4 = Curry._2(cmp, x1, x3);
             if (c$4 === 0) {
               return {
-                      hd: x2,
-                      tl: {
-                        hd: x1,
-                        tl: /* [] */0
-                      }
-                    };
+                hd: x2,
+                tl: {
+                  hd: x1,
+                  tl: /* [] */0
+                }
+              };
             }
             if (c$4 < 0) {
               return {
-                      hd: x2,
-                      tl: {
-                        hd: x1,
-                        tl: {
-                          hd: x3,
-                          tl: /* [] */0
-                        }
-                      }
-                    };
+                hd: x2,
+                tl: {
+                  hd: x1,
+                  tl: {
+                    hd: x3,
+                    tl: /* [] */0
+                  }
+                }
+              };
             }
             const c$5 = Curry._2(cmp, x2, x3);
             if (c$5 === 0) {
               return {
-                      hd: x2,
-                      tl: {
-                        hd: x1,
-                        tl: /* [] */0
-                      }
-                    };
+                hd: x2,
+                tl: {
+                  hd: x1,
+                  tl: /* [] */0
+                }
+              };
             } else if (c$5 < 0) {
               return {
-                      hd: x2,
-                      tl: {
-                        hd: x3,
-                        tl: {
-                          hd: x1,
-                          tl: /* [] */0
-                        }
-                      }
-                    };
+                hd: x2,
+                tl: {
+                  hd: x3,
+                  tl: {
+                    hd: x1,
+                    tl: /* [] */0
+                  }
+                }
+              };
             } else {
               return {
-                      hd: x3,
-                      tl: {
-                        hd: x2,
-                        tl: {
-                          hd: x1,
-                          tl: /* [] */0
-                        }
-                      }
-                    };
+                hd: x3,
+                tl: {
+                  hd: x2,
+                  tl: {
+                    hd: x1,
+                    tl: /* [] */0
+                  }
+                }
+              };
             }
           }
           
@@ -1155,25 +1155,25 @@ function sort_uniq(cmp, l) {
         const c$6 = Curry._2(cmp, x1$1, x2$1);
         if (c$6 === 0) {
           return {
-                  hd: x1$1,
-                  tl: /* [] */0
-                };
+            hd: x1$1,
+            tl: /* [] */0
+          };
         } else if (c$6 < 0) {
           return {
-                  hd: x1$1,
-                  tl: {
-                    hd: x2$1,
-                    tl: /* [] */0
-                  }
-                };
+            hd: x1$1,
+            tl: {
+              hd: x2$1,
+              tl: /* [] */0
+            }
+          };
         } else {
           return {
-                  hd: x2$1,
-                  tl: {
-                    hd: x1$1,
-                    tl: /* [] */0
-                  }
-                };
+            hd: x2$1,
+            tl: {
+              hd: x1$1,
+              tl: /* [] */0
+            }
+          };
         }
       }
       
@@ -1241,136 +1241,136 @@ function sort_uniq(cmp, l) {
               const c$1 = Curry._2(cmp, x2, x3);
               if (c$1 === 0) {
                 return {
-                        hd: x2,
-                        tl: /* [] */0
-                      };
+                  hd: x2,
+                  tl: /* [] */0
+                };
               } else if (c$1 > 0) {
                 return {
-                        hd: x2,
-                        tl: {
-                          hd: x3,
-                          tl: /* [] */0
-                        }
-                      };
+                  hd: x2,
+                  tl: {
+                    hd: x3,
+                    tl: /* [] */0
+                  }
+                };
               } else {
                 return {
-                        hd: x3,
-                        tl: {
-                          hd: x2,
-                          tl: /* [] */0
-                        }
-                      };
+                  hd: x3,
+                  tl: {
+                    hd: x2,
+                    tl: /* [] */0
+                  }
+                };
               }
             }
             if (c > 0) {
               const c$2 = Curry._2(cmp, x2, x3);
               if (c$2 === 0) {
                 return {
-                        hd: x1,
-                        tl: {
-                          hd: x2,
-                          tl: /* [] */0
-                        }
-                      };
+                  hd: x1,
+                  tl: {
+                    hd: x2,
+                    tl: /* [] */0
+                  }
+                };
               }
               if (c$2 > 0) {
                 return {
-                        hd: x1,
-                        tl: {
-                          hd: x2,
-                          tl: {
-                            hd: x3,
-                            tl: /* [] */0
-                          }
-                        }
-                      };
+                  hd: x1,
+                  tl: {
+                    hd: x2,
+                    tl: {
+                      hd: x3,
+                      tl: /* [] */0
+                    }
+                  }
+                };
               }
               const c$3 = Curry._2(cmp, x1, x3);
               if (c$3 === 0) {
                 return {
-                        hd: x1,
-                        tl: {
-                          hd: x2,
-                          tl: /* [] */0
-                        }
-                      };
+                  hd: x1,
+                  tl: {
+                    hd: x2,
+                    tl: /* [] */0
+                  }
+                };
               } else if (c$3 > 0) {
                 return {
-                        hd: x1,
-                        tl: {
-                          hd: x3,
-                          tl: {
-                            hd: x2,
-                            tl: /* [] */0
-                          }
-                        }
-                      };
+                  hd: x1,
+                  tl: {
+                    hd: x3,
+                    tl: {
+                      hd: x2,
+                      tl: /* [] */0
+                    }
+                  }
+                };
               } else {
                 return {
-                        hd: x3,
-                        tl: {
-                          hd: x1,
-                          tl: {
-                            hd: x2,
-                            tl: /* [] */0
-                          }
-                        }
-                      };
+                  hd: x3,
+                  tl: {
+                    hd: x1,
+                    tl: {
+                      hd: x2,
+                      tl: /* [] */0
+                    }
+                  }
+                };
               }
             }
             const c$4 = Curry._2(cmp, x1, x3);
             if (c$4 === 0) {
               return {
-                      hd: x2,
-                      tl: {
-                        hd: x1,
-                        tl: /* [] */0
-                      }
-                    };
+                hd: x2,
+                tl: {
+                  hd: x1,
+                  tl: /* [] */0
+                }
+              };
             }
             if (c$4 > 0) {
               return {
-                      hd: x2,
-                      tl: {
-                        hd: x1,
-                        tl: {
-                          hd: x3,
-                          tl: /* [] */0
-                        }
-                      }
-                    };
+                hd: x2,
+                tl: {
+                  hd: x1,
+                  tl: {
+                    hd: x3,
+                    tl: /* [] */0
+                  }
+                }
+              };
             }
             const c$5 = Curry._2(cmp, x2, x3);
             if (c$5 === 0) {
               return {
-                      hd: x2,
-                      tl: {
-                        hd: x1,
-                        tl: /* [] */0
-                      }
-                    };
+                hd: x2,
+                tl: {
+                  hd: x1,
+                  tl: /* [] */0
+                }
+              };
             } else if (c$5 > 0) {
               return {
-                      hd: x2,
-                      tl: {
-                        hd: x3,
-                        tl: {
-                          hd: x1,
-                          tl: /* [] */0
-                        }
-                      }
-                    };
+                hd: x2,
+                tl: {
+                  hd: x3,
+                  tl: {
+                    hd: x1,
+                    tl: /* [] */0
+                  }
+                }
+              };
             } else {
               return {
-                      hd: x3,
-                      tl: {
-                        hd: x2,
-                        tl: {
-                          hd: x1,
-                          tl: /* [] */0
-                        }
-                      }
-                    };
+                hd: x3,
+                tl: {
+                  hd: x2,
+                  tl: {
+                    hd: x1,
+                    tl: /* [] */0
+                  }
+                }
+              };
             }
           }
           
@@ -1386,25 +1386,25 @@ function sort_uniq(cmp, l) {
         const c$6 = Curry._2(cmp, x1$1, x2$1);
         if (c$6 === 0) {
           return {
-                  hd: x1$1,
-                  tl: /* [] */0
-                };
+            hd: x1$1,
+            tl: /* [] */0
+          };
         } else if (c$6 > 0) {
           return {
-                  hd: x1$1,
-                  tl: {
-                    hd: x2$1,
-                    tl: /* [] */0
-                  }
-                };
+            hd: x1$1,
+            tl: {
+              hd: x2$1,
+              tl: /* [] */0
+            }
+          };
         } else {
           return {
-                  hd: x2$1,
-                  tl: {
-                    hd: x1$1,
-                    tl: /* [] */0
-                  }
-                };
+            hd: x2$1,
+            tl: {
+              hd: x1$1,
+              tl: /* [] */0
+            }
+          };
         }
       }
       

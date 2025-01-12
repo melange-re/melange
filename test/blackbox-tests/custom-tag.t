@@ -19,15 +19,15 @@ Test `@@mel.tag` attribute for discriminated unions
   function s(param) {
     if (param.lol !== /* Foo */0) {
       return [
-              param.c,
-              param.d
-            ];
+        param.c,
+        param.d
+      ];
     }
     const match = param._0;
     return [
-            match.a,
-            match.b
-          ];
+      match.a,
+      match.b
+    ];
   }
   
   const x = {
@@ -71,15 +71,15 @@ Test `@@mel.tag` attribute for discriminated unions
   function s(param) {
     if (param.lol !== /* Foo */0) {
       return [
-              param.c,
-              param.d
-            ];
+        param.c,
+        param.d
+      ];
     }
     const match = param._0;
     return [
-            match.a,
-            match.b
-          ];
+      match.a,
+      match.b
+    ];
   }
   
   const x = {

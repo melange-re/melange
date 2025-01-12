@@ -15,9 +15,9 @@ function caml_array_sub(x, offset, len) {
 function caml_array_set(xs, index, newval) {
   if (index < 0 || index >= xs.length) {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "index out of bounds"
-            });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "index out of bounds"
+        });
   }
   Caml_array.set(xs, index, newval);
 }
@@ -25,9 +25,9 @@ function caml_array_set(xs, index, newval) {
 function caml_array_get(xs, index) {
   if (index < 0 || index >= xs.length) {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "index out of bounds"
-            });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "index out of bounds"
+        });
   }
   return Caml_array.get(xs, index);
 }

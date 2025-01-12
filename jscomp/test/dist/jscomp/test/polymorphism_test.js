@@ -8,9 +8,9 @@ function map(f, param) {
   }
   const r = f(param.hd);
   return {
-          hd: r,
-          tl: map(f, param.tl)
-        };
+    hd: r,
+    tl: map(f, param.tl)
+  };
 }
 
 exports.map = map;

@@ -129,10 +129,10 @@ function urlNotEqual(a, b) {
 
 function url(param) {
   return {
-          path: path(undefined),
-          hash: hash(undefined),
-          search: search(undefined)
-        };
+    path: path(undefined),
+    hash: hash(undefined),
+    search: search(undefined)
+  };
 }
 
 function watchUrl(callback) {
@@ -181,8 +181,8 @@ function useUrl(serverUrl, param) {
                   }));
           }
           return (function (param) {
-                    unwatchUrl(watcherId);
-                  });
+              unwatchUrl(watcherId);
+            });
         }), []);
   return url$1;
 }

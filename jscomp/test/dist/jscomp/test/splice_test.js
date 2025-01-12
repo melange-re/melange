@@ -150,9 +150,9 @@ const Pipe = {
 
 function f1(c) {
   return Caml_splice_call.spliceApply(Math.max, [
-              1,
-              c
-            ]);
+        1,
+        c
+      ]);
 }
 
 eq("File \"jscomp/test/splice_test.ml\", line 85, characters 6-13", Math.max(1, 2, 3), 3);

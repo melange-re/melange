@@ -69,22 +69,22 @@ function resize(newSize) {
       if (/* tag */typeof n === "number" || typeof n === "string") {
         if (n === /* One */0) {
           throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/bdd.ml",
-                      54,
-                      27
-                    ]
-                  });
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/bdd.ml",
+                  54,
+                  27
+                ]
+              });
         }
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/bdd.ml",
-                    54,
-                    27
-                  ]
-                });
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/bdd.ml",
+                54,
+                27
+              ]
+            });
       } else {
         const ind = hashVal(getId(n._0), getId(n._3), n._1) & newSz_1;
         Caml_array.set(newArr, ind, {
@@ -143,22 +143,22 @@ function mkNode(low, v, high) {
       if (/* tag */typeof n === "number" || typeof n === "string") {
         if (n === /* One */0) {
           throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/bdd.ml",
-                      99,
-                      31
-                    ]
-                  });
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/bdd.ml",
+                  99,
+                  31
+                ]
+              });
         }
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/bdd.ml",
-                    99,
-                    31
-                  ]
-                });
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/bdd.ml",
+                99,
+                31
+              ]
+            });
       } else {
         if (v === n._1 && idl === getId(n._0) && idh === getId(n._3)) {
           return n;
@@ -398,13 +398,13 @@ function main(param) {
     return ;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/bdd.ml",
-              233,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/bdd.ml",
+          233,
+          2
+        ]
+      });
 }
 
 main(undefined);

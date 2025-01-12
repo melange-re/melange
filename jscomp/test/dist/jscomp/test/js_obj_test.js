@@ -37,10 +37,10 @@ const suites_0 = [
         object_tables.key = env_init;
       }
       return {
-              TAG: /* Eq */0,
-              _0: 33,
-              _1: f(Curry._1(object_tables.key, undefined))
-            };
+        TAG: /* Eq */0,
+        _0: 33,
+        _1: f(Curry._1(object_tables.key, undefined))
+      };
     })
 ];
 
@@ -49,14 +49,14 @@ const suites_1 = {
     "js_obj",
     (function (param) {
         return {
-                TAG: /* Eq */0,
-                _0: 34,
-                _1: ({
-                      say: (function (x) {
-                          return x + 2 | 0;
-                        })
-                    }).say(32)
-              };
+          TAG: /* Eq */0,
+          _0: 34,
+          _1: ({
+              say: (function (x) {
+                  return x + 2 | 0;
+                })
+            }).say(32)
+        };
       })
   ],
   tl: {
@@ -64,14 +64,14 @@ const suites_1 = {
       "js_obj2",
       (function (param) {
           return {
-                  TAG: /* Eq */0,
-                  _0: 34,
-                  _1: ({
-                        say: (function (x) {
-                            return x + 2 | 0;
-                          })
-                      }).say(32)
-                };
+            TAG: /* Eq */0,
+            _0: 34,
+            _1: ({
+                say: (function (x) {
+                    return x + 2 | 0;
+                  })
+              }).say(32)
+          };
         })
     ],
     tl: {
@@ -79,10 +79,10 @@ const suites_1 = {
         "empty",
         (function (param) {
             return {
-                    TAG: /* Eq */0,
-                    _0: 0,
-                    _1: Object.keys({}).length
-                  };
+              TAG: /* Eq */0,
+              _0: 0,
+              _1: Object.keys({}).length
+            };
           })
       ],
       tl: {
@@ -90,14 +90,14 @@ const suites_1 = {
           "assign",
           (function (param) {
               return {
-                      TAG: /* Eq */0,
-                      _0: {
-                        a: 1
-                      },
-                      _1: Object.assign({}, {
-                            a: 1
-                          })
-                    };
+                TAG: /* Eq */0,
+                _0: {
+                  a: 1
+                },
+                _1: Object.assign({}, {
+                      a: 1
+                    })
+              };
             })
         ],
         tl: {
@@ -108,14 +108,14 @@ const suites_1 = {
                   a: 1
                 };
                 return {
-                        TAG: /* Eq */0,
-                        _0: {
-                          a: 2
-                        },
-                        _1: Object.assign({}, original, {
-                              a: 2
-                            })
-                      };
+                  TAG: /* Eq */0,
+                  _0: {
+                    a: 2
+                  },
+                  _1: Object.assign({}, original, {
+                        a: 2
+                      })
+                };
               })
           ],
           tl: {
@@ -129,12 +129,12 @@ const suites_1 = {
                         a: 2
                       });
                   return {
-                          TAG: /* Eq */0,
-                          _0: {
-                            a: 1
-                          },
-                          _1: original
-                        };
+                    TAG: /* Eq */0,
+                    _0: {
+                      a: 1
+                    },
+                    _1: original
+                  };
                 })
             ],
             tl: /* [] */0

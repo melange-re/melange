@@ -16,8 +16,8 @@ function act(func) {
 
 function actAsync(func) {
   return TestUtils.act(function () {
-              return Curry._1(func, undefined);
-            });
+        return Curry._1(func, undefined);
+      });
 }
 
 function changeWithValue(element, value) {
@@ -53,15 +53,15 @@ function findByAllSelector(element, selector) {
 
 function findBySelectorAndTextContent(element, selector, content) {
   return Belt__Belt_Array.getBy(Array.from(element.querySelectorAll(selector)), (function (node) {
-                return node.textContent === content;
-              }));
+          return node.textContent === content;
+        }));
 }
 
 function findBySelectorAndPartialTextContent(element, selector, content) {
   return Belt__Belt_Array.getBy(Array.from(element.querySelectorAll(selector)), (function (node) {
-                const arg = node.textContent;
-                return arg.includes(content, undefined);
-              }));
+          const arg = node.textContent;
+          return arg.includes(content, undefined);
+        }));
 }
 
 const DOM = {

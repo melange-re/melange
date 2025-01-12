@@ -8,13 +8,13 @@ function f(x) {
     return /* 'a' */97;
   }
   throw new Caml_js_exceptions.MelangeError("Match_failure", {
-            MEL_EXN_ID: "Match_failure",
-            _1: [
-              "jscomp/test/test_incomplete.ml",
-              3,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Match_failure",
+        _1: [
+          "jscomp/test/test_incomplete.ml",
+          3,
+          2
+        ]
+      });
 }
 
 function f2(x) {

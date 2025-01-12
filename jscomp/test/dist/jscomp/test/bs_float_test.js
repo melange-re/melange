@@ -31,10 +31,10 @@ function neq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
           return {
-                  TAG: /* Neq */1,
-                  _0: x,
-                  _1: y
-                };
+            TAG: /* Neq */1,
+            _0: x,
+            _1: y
+          };
         })
     ],
     tl: suites.contents

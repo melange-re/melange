@@ -36,10 +36,10 @@ function neq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
           return {
-                  TAG: /* Neq */1,
-                  _0: x,
-                  _1: y
-                };
+            TAG: /* Neq */1,
+            _0: x,
+            _1: y
+          };
         })
     ],
     tl: suites.contents
@@ -139,13 +139,13 @@ const v$1 = [
 
 if (!Belt__Belt_Array.set(v$1, 0, 0)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/bs_array_test.ml",
-              38,
-              33
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/bs_array_test.ml",
+          38,
+          33
+        ]
+      });
 }
 
 b("File \"jscomp/test/bs_array_test.ml\", line 38, characters 4-11", Belt__Belt_Array.getExn(v$1, 0) === 0);
@@ -157,13 +157,13 @@ const v$2 = [
 
 if (!Belt__Belt_Array.set(v$2, 1, 0)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/bs_array_test.ml",
-              39,
-              32
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/bs_array_test.ml",
+          39,
+          32
+        ]
+      });
 }
 
 b("File \"jscomp/test/bs_array_test.ml\", line 39, characters 4-11", Belt__Belt_Array.getExn(v$2, 1) === 0);
@@ -279,13 +279,13 @@ function addone(x) {
 function makeMatrixExn(sx, sy, init) {
   if (!(sx >= 0 && sy >= 0)) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/bs_array_test.ml",
-                80,
-                2
-              ]
-            });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/bs_array_test.ml",
+            80,
+            2
+          ]
+        });
   }
   const res = new Array(sx);
   for (let x = 0; x < sx; ++x) {

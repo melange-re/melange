@@ -35,9 +35,9 @@ function f(param) {
     for (let i = 0; i <= 200; ++i) {
       if (i === 10) {
         throw new Caml_js_exceptions.MelangeError(A, {
-                  MEL_EXN_ID: A,
-                  _1: 0
-                });
+              MEL_EXN_ID: A,
+              _1: 0
+            });
       }
       
     }

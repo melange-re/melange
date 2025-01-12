@@ -28,62 +28,62 @@ const int32_pairs = [
 
 function from_pairs(pair) {
   return Stdlib__List.concat(Stdlib__Array.to_list(Stdlib__Array.mapi((function (i, param) {
-                        const f = param[1];
-                        const i32 = param[0];
-                        return {
-                                hd: [
-                                  Curry._1(Stdlib__Printf.sprintf({
-                                            TAG: /* Format */0,
-                                            _0: {
-                                              TAG: /* String_literal */11,
-                                              _0: "int32_float_of_bits ",
-                                              _1: {
-                                                TAG: /* Int */4,
-                                                _0: /* Int_d */0,
-                                                _1: /* No_padding */0,
-                                                _2: /* No_precision */0,
-                                                _3: /* End_of_format */0
-                                              }
-                                            },
-                                            _1: "int32_float_of_bits %d"
-                                          }), i),
-                                  (function (param) {
-                                      return {
-                                              TAG: /* Eq */0,
-                                              _0: Caml_float.caml_int32_float_of_bits(i32),
-                                              _1: f
-                                            };
-                                    })
-                                ],
-                                tl: {
-                                  hd: [
-                                    Curry._1(Stdlib__Printf.sprintf({
-                                              TAG: /* Format */0,
-                                              _0: {
-                                                TAG: /* String_literal */11,
-                                                _0: "int32_bits_of_float ",
-                                                _1: {
-                                                  TAG: /* Int */4,
-                                                  _0: /* Int_d */0,
-                                                  _1: /* No_padding */0,
-                                                  _2: /* No_precision */0,
-                                                  _3: /* End_of_format */0
-                                                }
-                                              },
-                                              _1: "int32_bits_of_float %d"
-                                            }), i),
-                                    (function (param) {
-                                        return {
-                                                TAG: /* Eq */0,
-                                                _0: Caml_float.caml_int32_bits_of_float(f),
-                                                _1: i32
-                                              };
-                                      })
-                                  ],
-                                  tl: /* [] */0
-                                }
-                              };
-                      }), int32_pairs)));
+                  const f = param[1];
+                  const i32 = param[0];
+                  return {
+                    hd: [
+                      Curry._1(Stdlib__Printf.sprintf({
+                                TAG: /* Format */0,
+                                _0: {
+                                  TAG: /* String_literal */11,
+                                  _0: "int32_float_of_bits ",
+                                  _1: {
+                                    TAG: /* Int */4,
+                                    _0: /* Int_d */0,
+                                    _1: /* No_padding */0,
+                                    _2: /* No_precision */0,
+                                    _3: /* End_of_format */0
+                                  }
+                                },
+                                _1: "int32_float_of_bits %d"
+                              }), i),
+                      (function (param) {
+                          return {
+                            TAG: /* Eq */0,
+                            _0: Caml_float.caml_int32_float_of_bits(i32),
+                            _1: f
+                          };
+                        })
+                    ],
+                    tl: {
+                      hd: [
+                        Curry._1(Stdlib__Printf.sprintf({
+                                  TAG: /* Format */0,
+                                  _0: {
+                                    TAG: /* String_literal */11,
+                                    _0: "int32_bits_of_float ",
+                                    _1: {
+                                      TAG: /* Int */4,
+                                      _0: /* Int_d */0,
+                                      _1: /* No_padding */0,
+                                      _2: /* No_precision */0,
+                                      _3: /* End_of_format */0
+                                    }
+                                  },
+                                  _1: "int32_bits_of_float %d"
+                                }), i),
+                        (function (param) {
+                            return {
+                              TAG: /* Eq */0,
+                              _0: Caml_float.caml_int32_bits_of_float(f),
+                              _1: i32
+                            };
+                          })
+                      ],
+                      tl: /* [] */0
+                    }
+                  };
+                }), int32_pairs)));
 }
 
 const suites = Stdlib.$at({
@@ -91,10 +91,10 @@ const suites = Stdlib.$at({
         "one",
         (function (param) {
             return {
-                    TAG: /* Eq */0,
-                    _0: Caml_int64.bits_of_float(1.0),
-                    _1: one_float
-                  };
+              TAG: /* Eq */0,
+              _0: Caml_int64.bits_of_float(1.0),
+              _1: one_float
+            };
           })
       ],
       tl: {
@@ -102,10 +102,10 @@ const suites = Stdlib.$at({
           "two",
           (function (param) {
               return {
-                      TAG: /* Eq */0,
-                      _0: Caml_int64.float_of_bits(one_float),
-                      _1: 1.0
-                    };
+                TAG: /* Eq */0,
+                _0: Caml_int64.float_of_bits(one_float),
+                _1: 1.0
+              };
             })
         ],
         tl: /* [] */0
