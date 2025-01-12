@@ -87,8 +87,9 @@ Unreleased
 - core: prettify melange code generation for `for` loops
   ([#1275](https://github.com/melange-re/melange/pull/1275))
 - core: improve generated code formatting for `throw` and `return` statements,
-  JS objects ([#1286](https://github.com/melange-re/melange/pull/1286),
-  [#1288](https://github.com/melange-re/melange/pull/1288))
+  JS objects ([#1286](https://github.com/melange-re/melange/pull/1286))
+- core: improve generated code formatting for empty return and continue
+  statements ([#1288](https://github.com/melange-re/melange/pull/1288))
 
 4.0.1 2024-06-07
 ---------------
