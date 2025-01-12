@@ -4359,9 +4359,9 @@ function docs_attr(ds) {
 function add_docs_attrs(docs, attrs) {
   const ds = docs.docs_pre;
   const attrs$1 = ds !== undefined ? ({
-        hd: docs_attr(ds),
-        tl: attrs
-      }) : attrs;
+      hd: docs_attr(ds),
+      tl: attrs
+    }) : attrs;
   const ds$1 = docs.docs_post;
   if (ds$1 !== undefined) {
     return Stdlib.$at(attrs$1, {

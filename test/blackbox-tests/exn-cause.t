@@ -45,13 +45,13 @@
       a0 = x._1;
     } else {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "x.ml",
-                  7,
-                  11
-                ]
-              });
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "x.ml",
+              7,
+              11
+            ]
+          });
     }
   }
   
@@ -103,13 +103,13 @@ Raise `null` / `undefined`
       a0 = x._1;
     } else {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "x.ml",
-                  7,
-                  11
-                ]
-              });
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "x.ml",
+              7,
+              11
+            ]
+          });
     }
   }
   
@@ -125,13 +125,13 @@ Raise `null` / `undefined`
       a1 = x$1._1;
     } else {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "x.ml",
-                  12,
-                  11
-                ]
-              });
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "x.ml",
+              12,
+              11
+            ]
+          });
     }
   }
   

@@ -182,12 +182,12 @@ function diff(_l, _l$p) {
       continue ;
     }
     const r$p$p = c2$p < c2 ? ({
-          hd: [
-            c2$p + 1 | 0,
-            c2
-          ],
-          tl: r
-        }) : r;
+        hd: [
+          c2$p + 1 | 0,
+          c2
+        ],
+        tl: r
+      }) : r;
     if (c1 < c1$p) {
       return {
         hd: [
@@ -3125,9 +3125,9 @@ const xdigit = alt$1({
 
 function compile(r) {
   let regexp = anchored(r) ? ({
-        TAG: /* Group */6,
-        _0: r
-      }) : seq$2({
+      TAG: /* Group */6,
+      _0: r
+    }) : seq$2({
           hd: {
             TAG: /* Sem */4,
             _0: "Shortest",

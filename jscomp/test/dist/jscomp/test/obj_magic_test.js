@@ -26,9 +26,9 @@ const suites_1 = {
           TAG: /* Eq */0,
           _0: true,
           _1: typeof ({
-              hd: 3,
-              tl: /* [] */0
-            }) !== "number"
+            hd: 3,
+            tl: /* [] */0
+          }) !== "number"
         };
       })
   ],

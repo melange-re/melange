@@ -61,9 +61,9 @@ const message_counter = {
 
 function extension_range_range(from, to_) {
   const to_$1 = typeof to_ === "string" ? /* To_max */0 : ({
-        TAG: /* To_number */0,
-        _0: to_.VAL
-      });
+      TAG: /* To_number */0,
+      _0: to_.VAL
+    });
   return {
     TAG: /* Extension_range */1,
     _0: from,
@@ -98,80 +98,80 @@ function extend(extend_name, extend_body) {
 
 function proto(syntax, file_option, $$package, $$import, message, $$enum, proto$1, extend, param) {
   const proto$2 = proto$1 !== undefined ? proto$1 : ({
-        syntax: syntax,
-        imports: /* [] */0,
-        file_options: /* [] */0,
-        package: undefined,
-        messages: /* [] */0,
-        enums: /* [] */0,
-        extends: /* [] */0
-      });
+      syntax: syntax,
+      imports: /* [] */0,
+      file_options: /* [] */0,
+      package: undefined,
+      messages: /* [] */0,
+      enums: /* [] */0,
+      extends: /* [] */0
+    });
   const proto$3 = syntax !== undefined ? ({
-        syntax: syntax,
-        imports: proto$2.imports,
-        file_options: proto$2.file_options,
-        package: proto$2.package,
-        messages: proto$2.messages,
-        enums: proto$2.enums,
-        extends: proto$2.extends
-      }) : proto$2;
+      syntax: syntax,
+      imports: proto$2.imports,
+      file_options: proto$2.file_options,
+      package: proto$2.package,
+      messages: proto$2.messages,
+      enums: proto$2.enums,
+      extends: proto$2.extends
+    }) : proto$2;
   const proto$4 = $$package !== undefined ? ({
-        syntax: proto$3.syntax,
-        imports: proto$3.imports,
-        file_options: proto$3.file_options,
-        package: $$package,
-        messages: proto$3.messages,
-        enums: proto$3.enums,
-        extends: proto$3.extends
-      }) : proto$3;
+      syntax: proto$3.syntax,
+      imports: proto$3.imports,
+      file_options: proto$3.file_options,
+      package: $$package,
+      messages: proto$3.messages,
+      enums: proto$3.enums,
+      extends: proto$3.extends
+    }) : proto$3;
   const proto$5 = message !== undefined ? ({
-        syntax: proto$4.syntax,
-        imports: proto$4.imports,
-        file_options: proto$4.file_options,
-        package: proto$4.package,
-        messages: {
-          hd: message,
-          tl: proto$2.messages
-        },
-        enums: proto$4.enums,
-        extends: proto$4.extends
-      }) : proto$4;
+      syntax: proto$4.syntax,
+      imports: proto$4.imports,
+      file_options: proto$4.file_options,
+      package: proto$4.package,
+      messages: {
+        hd: message,
+        tl: proto$2.messages
+      },
+      enums: proto$4.enums,
+      extends: proto$4.extends
+    }) : proto$4;
   const proto$6 = $$enum !== undefined ? ({
-        syntax: proto$5.syntax,
-        imports: proto$5.imports,
-        file_options: proto$5.file_options,
-        package: proto$5.package,
-        messages: proto$5.messages,
-        enums: {
-          hd: $$enum,
-          tl: proto$2.enums
-        },
-        extends: proto$5.extends
-      }) : proto$5;
+      syntax: proto$5.syntax,
+      imports: proto$5.imports,
+      file_options: proto$5.file_options,
+      package: proto$5.package,
+      messages: proto$5.messages,
+      enums: {
+        hd: $$enum,
+        tl: proto$2.enums
+      },
+      extends: proto$5.extends
+    }) : proto$5;
   const proto$7 = $$import !== undefined ? ({
-        syntax: proto$6.syntax,
-        imports: {
-          hd: $$import,
-          tl: proto$2.imports
-        },
-        file_options: proto$6.file_options,
-        package: proto$6.package,
-        messages: proto$6.messages,
-        enums: proto$6.enums,
-        extends: proto$6.extends
-      }) : proto$6;
+      syntax: proto$6.syntax,
+      imports: {
+        hd: $$import,
+        tl: proto$2.imports
+      },
+      file_options: proto$6.file_options,
+      package: proto$6.package,
+      messages: proto$6.messages,
+      enums: proto$6.enums,
+      extends: proto$6.extends
+    }) : proto$6;
   const proto$8 = file_option !== undefined ? ({
-        syntax: proto$7.syntax,
-        imports: proto$7.imports,
-        file_options: {
-          hd: file_option,
-          tl: proto$2.file_options
-        },
-        package: proto$7.package,
-        messages: proto$7.messages,
-        enums: proto$7.enums,
-        extends: proto$7.extends
-      }) : proto$7;
+      syntax: proto$7.syntax,
+      imports: proto$7.imports,
+      file_options: {
+        hd: file_option,
+        tl: proto$2.file_options
+      },
+      package: proto$7.package,
+      messages: proto$7.messages,
+      enums: proto$7.enums,
+      extends: proto$7.extends
+    }) : proto$7;
   if (extend !== undefined) {
     return {
       syntax: proto$8.syntax,
@@ -211,9 +211,9 @@ function rev_split_by_char(c, s) {
       const i$p = Stdlib__String.index_from(s, i, c);
       const s$p = Stdlib__String.sub(s, i, i$p - i | 0);
       return loop(i$p + 1 | 0, s$p === "" ? l : ({
-                hd: s$p,
-                tl: l
-              }));
+              hd: s$p,
+              tl: l
+            }));
     }
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -7298,20 +7298,20 @@ function compile_field_type(field_name, all_types, file_options, field_options, 
   const ocaml_type = match !== undefined && match.TAG === /* Constant_litteral */4 && match._0 === "int_t" ? "Int_t" : "None";
   const match$1 = file_option(file_options, "int32_type");
   const int32_type = match$1 !== undefined && match$1.TAG === /* Constant_litteral */4 && match$1._0 === "int_t" ? ({
-        TAG: /* Ft_basic_type */0,
-        _0: /* Bt_int */2
-      }) : ({
-        TAG: /* Ft_basic_type */0,
-        _0: /* Bt_int32 */3
-      });
+      TAG: /* Ft_basic_type */0,
+      _0: /* Bt_int */2
+    }) : ({
+      TAG: /* Ft_basic_type */0,
+      _0: /* Bt_int32 */3
+    });
   const match$2 = file_option(file_options, "int64_type");
   const int64_type = match$2 !== undefined && match$2.TAG === /* Constant_litteral */4 && match$2._0 === "int_t" ? ({
-        TAG: /* Ft_basic_type */0,
-        _0: /* Bt_int */2
-      }) : ({
-        TAG: /* Ft_basic_type */0,
-        _0: /* Bt_int64 */4
-      });
+      TAG: /* Ft_basic_type */0,
+      _0: /* Bt_int */2
+    }) : ({
+      TAG: /* Ft_basic_type */0,
+      _0: /* Bt_int64 */4
+    });
   if (!/* tag */(typeof field_type === "number" || typeof field_type === "string")) {
     let i = field_type._0;
     const module_ = module_of_file_name(file_name);
@@ -7447,9 +7447,9 @@ function variant_of_oneof(include_oneof_name, outer_message_names, all_types, fi
           const vc_constructor = constructor_name(field_name(field));
           let tmp;
           tmp = /* tag */typeof field_type$1 === "number" || typeof field_type$1 === "string" ? /* Vct_nullary */0 : ({
-                TAG: /* Vct_non_nullary_constructor */0,
-                _0: field_type$1
-              });
+              TAG: /* Vct_non_nullary_constructor */0,
+              _0: field_type$1
+            });
           return {
             vc_constructor: vc_constructor,
             vc_field_type: tmp,

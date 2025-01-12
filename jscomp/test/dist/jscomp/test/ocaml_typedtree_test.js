@@ -2897,17 +2897,17 @@ function description_list(p) {
     tl: /* [] */0
   };
   const list$1 = p.prim_alloc ? list : ({
-        hd: "noalloc",
-        tl: list
-      });
+      hd: "noalloc",
+      tl: list
+    });
   const list$2 = p.prim_native_name !== "" ? ({
-        hd: p.prim_native_name,
-        tl: list$1
-      }) : list$1;
+      hd: p.prim_native_name,
+      tl: list$1
+    }) : list$1;
   return Stdlib__List.rev(p.prim_native_float ? ({
-            hd: "float",
-            tl: list$2
-          }) : list$2);
+          hd: "float",
+          tl: list$2
+        }) : list$2);
 }
 
 function compare(t1, t2) {
@@ -5335,9 +5335,9 @@ function row_repr_aux(_ll, _row) {
       const f = row.row_fields;
       _row = row$p._0;
       _ll = Caml_obj.caml_equal(f, /* [] */0) ? ll : ({
-            hd: f,
-            tl: ll
-          });
+          hd: f,
+          tl: ll
+        });
       continue ;
     }
     if (Caml_obj.caml_equal(ll, /* [] */0)) {
@@ -5825,13 +5825,13 @@ function copy_row(f, fixed, row, keep, more) {
           } else if (match.TAG === /* Rpresent */0) {
             const ty = match._0;
             tmp = ty !== undefined ? ({
-                  TAG: /* Rpresent */0,
-                  _0: Curry._1(f, ty)
-                }) : fi;
+                TAG: /* Rpresent */0,
+                _0: Curry._1(f, ty)
+              }) : fi;
           } else {
             const e = keep ? match._3 : ({
-                  contents: undefined
-                });
+                contents: undefined
+              });
             const m = row.row_fixed ? fixed : match._2;
             const tl = Stdlib__List.map(f, match._1);
             tmp = {
@@ -7654,9 +7654,9 @@ function docs_attr(ds) {
 function add_docs_attrs(docs, attrs) {
   const ds = docs.docs_pre;
   const attrs$1 = ds !== undefined ? ({
-        hd: docs_attr(ds),
-        tl: attrs
-      }) : attrs;
+      hd: docs_attr(ds),
+      tl: attrs
+    }) : attrs;
   const ds$1 = docs.docs_post;
   if (ds$1 !== undefined) {
     return Stdlib.$at(attrs$1, {
@@ -10787,22 +10787,22 @@ function typexp(s, ty) {
                         }), true, row, !dup, more$p);
                   const match$6 = row$1.row_name;
                   tmp = match$6 !== undefined ? ({
-                        TAG: /* Tvariant */8,
-                        _0: {
-                          row_fields: row$1.row_fields,
-                          row_more: row$1.row_more,
-                          row_bound: row$1.row_bound,
-                          row_closed: row$1.row_closed,
-                          row_fixed: row$1.row_fixed,
-                          row_name: [
-                            type_path(s, match$6[0]),
-                            match$6[1]
-                          ]
-                        }
-                      }) : ({
-                        TAG: /* Tvariant */8,
-                        _0: row$1
-                      });
+                      TAG: /* Tvariant */8,
+                      _0: {
+                        row_fields: row$1.row_fields,
+                        row_more: row$1.row_more,
+                        row_bound: row$1.row_bound,
+                        row_closed: row$1.row_closed,
+                        row_fixed: row$1.row_fixed,
+                        row_name: [
+                          type_path(s, match$6[0]),
+                          match$6[1]
+                        ]
+                      }
+                    }) : ({
+                      TAG: /* Tvariant */8,
+                      _0: row$1
+                    });
                 }
                 break;
             case /* Tpackage */11 :
@@ -10854,33 +10854,33 @@ function type_declaration(s, decl) {
       cstrs === /* Type_abstract */0 ? /* Type_abstract */0 : /* Type_open */1
     ) : (
       cstrs.TAG === /* Type_record */0 ? ({
-            TAG: /* Type_record */0,
-            _0: Stdlib__List.map((function (l) {
-                    return {
-                      ld_id: l.ld_id,
-                      ld_mutable: l.ld_mutable,
-                      ld_type: typexp(s, l.ld_type),
-                      ld_loc: loc(s, l.ld_loc),
-                      ld_attributes: attrs(s, l.ld_attributes)
-                    };
-                  }), cstrs._0),
-            _1: cstrs._1
-          }) : ({
-            TAG: /* Type_variant */1,
-            _0: Stdlib__List.map((function (c) {
-                    return {
-                      cd_id: c.cd_id,
-                      cd_args: Stdlib__List.map((function (param) {
-                              return typexp(s, param);
-                            }), c.cd_args),
-                      cd_res: may_map((function (param) {
-                              return typexp(s, param);
-                            }), c.cd_res),
-                      cd_loc: loc(s, c.cd_loc),
-                      cd_attributes: attrs(s, c.cd_attributes)
-                    };
-                  }), cstrs._0)
-          })
+          TAG: /* Type_record */0,
+          _0: Stdlib__List.map((function (l) {
+                  return {
+                    ld_id: l.ld_id,
+                    ld_mutable: l.ld_mutable,
+                    ld_type: typexp(s, l.ld_type),
+                    ld_loc: loc(s, l.ld_loc),
+                    ld_attributes: attrs(s, l.ld_attributes)
+                  };
+                }), cstrs._0),
+          _1: cstrs._1
+        }) : ({
+          TAG: /* Type_variant */1,
+          _0: Stdlib__List.map((function (c) {
+                  return {
+                    cd_id: c.cd_id,
+                    cd_args: Stdlib__List.map((function (param) {
+                            return typexp(s, param);
+                          }), c.cd_args),
+                    cd_res: may_map((function (param) {
+                            return typexp(s, param);
+                          }), c.cd_res),
+                    cd_loc: loc(s, c.cd_loc),
+                    cd_attributes: attrs(s, c.cd_attributes)
+                  };
+                }), cstrs._0)
+        })
     );
   const ty = decl.type_manifest;
   const decl_type_params = Stdlib__List.map((function (param) {
@@ -14825,9 +14825,9 @@ function save_signature(sg, modname, filename) {
   const oc = Stdlib.open_out_bin(filename);
   try {
     const cmi_cmi_flags = recursive_types.contents ? ({
-          hd: /* Rectypes */0,
-          tl: /* [] */0
-        }) : /* [] */0;
+        hd: /* Rectypes */0,
+        tl: /* [] */0
+      }) : /* [] */0;
     const cmi = {
       cmi_name: modname,
       cmi_sign: sg$1,
@@ -26565,21 +26565,21 @@ function TypedtreeMap_MakeMap(funarg) {
           const mod_type = st._1;
           const mexpr$2 = st._0;
           mod_desc = /* tag */typeof mtype === "number" || typeof mtype === "string" ? ({
-                TAG: /* Tmod_constraint */4,
-                _0: map_module_expr(mexpr$2),
-                _1: mod_type,
-                _2: /* Tmodtype_implicit */0,
-                _3: st._3
-              }) : ({
-                TAG: /* Tmod_constraint */4,
-                _0: map_module_expr(mexpr$2),
-                _1: mod_type,
-                _2: {
-                  TAG: /* Tmodtype_explicit */0,
-                  _0: map_module_type(mtype._0)
-                },
-                _3: st._3
-              });
+              TAG: /* Tmod_constraint */4,
+              _0: map_module_expr(mexpr$2),
+              _1: mod_type,
+              _2: /* Tmodtype_implicit */0,
+              _3: st._3
+            }) : ({
+              TAG: /* Tmod_constraint */4,
+              _0: map_module_expr(mexpr$2),
+              _1: mod_type,
+              _2: {
+                TAG: /* Tmodtype_explicit */0,
+                _0: map_module_type(mtype._0)
+              },
+              _3: st._3
+            });
           break;
       case /* Tmod_unpack */5 :
           mod_desc = {
@@ -27060,20 +27060,20 @@ function TypedtreeMap_MakeMap(funarg) {
           const clty = clstr._1;
           const cl = clstr._0;
           cl_desc = clty !== undefined ? ({
-                TAG: /* Tcl_constraint */5,
-                _0: map_class_expr(cl),
-                _1: map_class_type(clty),
-                _2: clstr._2,
-                _3: clstr._3,
-                _4: clstr._4
-              }) : ({
-                TAG: /* Tcl_constraint */5,
-                _0: map_class_expr(cl),
-                _1: undefined,
-                _2: clstr._2,
-                _3: clstr._3,
-                _4: clstr._4
-              });
+              TAG: /* Tcl_constraint */5,
+              _0: map_class_expr(cl),
+              _1: map_class_type(clty),
+              _2: clstr._2,
+              _3: clstr._3,
+              _4: clstr._4
+            }) : ({
+              TAG: /* Tcl_constraint */5,
+              _0: map_class_expr(cl),
+              _1: undefined,
+              _2: clstr._2,
+              _3: clstr._3,
+              _4: clstr._4
+            });
           break;
       
     }
@@ -27150,50 +27150,50 @@ function TypedtreeMap_MakeMap(funarg) {
           const mut = exp._1;
           const lab = exp._0;
           cf_desc = cty.TAG === /* Tcfk_virtual */0 ? ({
-                TAG: /* Tcf_val */1,
-                _0: lab,
-                _1: mut,
-                _2: ident,
-                _3: {
-                  TAG: /* Tcfk_virtual */0,
-                  _0: map_core_type(cty._0)
-                },
-                _4: exp._4
-              }) : ({
-                TAG: /* Tcf_val */1,
-                _0: lab,
-                _1: mut,
-                _2: ident,
-                _3: {
-                  TAG: /* Tcfk_concrete */1,
-                  _0: cty._0,
-                  _1: map_expression(cty._1)
-                },
-                _4: exp._4
-              });
+              TAG: /* Tcf_val */1,
+              _0: lab,
+              _1: mut,
+              _2: ident,
+              _3: {
+                TAG: /* Tcfk_virtual */0,
+                _0: map_core_type(cty._0)
+              },
+              _4: exp._4
+            }) : ({
+              TAG: /* Tcf_val */1,
+              _0: lab,
+              _1: mut,
+              _2: ident,
+              _3: {
+                TAG: /* Tcfk_concrete */1,
+                _0: cty._0,
+                _1: map_expression(cty._1)
+              },
+              _4: exp._4
+            });
           break;
       case /* Tcf_method */2 :
           const cty$1 = exp._2;
           const priv = exp._1;
           const lab$1 = exp._0;
           cf_desc = cty$1.TAG === /* Tcfk_virtual */0 ? ({
-                TAG: /* Tcf_method */2,
-                _0: lab$1,
-                _1: priv,
-                _2: {
-                  TAG: /* Tcfk_virtual */0,
-                  _0: map_core_type(cty$1._0)
-                }
-              }) : ({
-                TAG: /* Tcf_method */2,
-                _0: lab$1,
-                _1: priv,
-                _2: {
-                  TAG: /* Tcfk_concrete */1,
-                  _0: cty$1._0,
-                  _1: map_expression(cty$1._1)
-                }
-              });
+              TAG: /* Tcf_method */2,
+              _0: lab$1,
+              _1: priv,
+              _2: {
+                TAG: /* Tcfk_virtual */0,
+                _0: map_core_type(cty$1._0)
+              }
+            }) : ({
+              TAG: /* Tcf_method */2,
+              _0: lab$1,
+              _1: priv,
+              _2: {
+                TAG: /* Tcfk_concrete */1,
+                _0: cty$1._0,
+                _1: map_expression(cty$1._1)
+              }
+            });
           break;
       case /* Tcf_constraint */3 :
           cf_desc = {
@@ -27833,9 +27833,9 @@ function save_cmt(filename, modname, binary_annots, sourcefile, initial_env, sg)
     let this_crc;
     if (sg !== undefined) {
       const cmi_cmi_flags = recursive_types.contents ? ({
-            hd: /* Rectypes */0,
-            tl: /* [] */0
-          }) : /* [] */0;
+          hd: /* Rectypes */0,
+          tl: /* [] */0
+        }) : /* [] */0;
       const cmi = {
         cmi_name: modname,
         cmi_sign: sg,
@@ -29785,9 +29785,9 @@ function copy(env, partial, keep_names, ty) {
               const abbrev = abbreviations.contents.contents;
               let tmp$1;
               tmp$1 = /* tag */typeof abbrev === "number" || typeof abbrev === "string" || abbrev.TAG !== /* Mcons */0 ? abbrev : ({
-                    TAG: /* Mlink */1,
-                    _0: abbreviations.contents
-                  });
+                  TAG: /* Mlink */1,
+                  _0: abbreviations.contents
+                });
               tmp = {
                 TAG: /* Tconstr */3,
                 _0: p,
@@ -29800,20 +29800,20 @@ function copy(env, partial, keep_names, ty) {
             break;
         case /* Tobject */4 :
             tmp = partial !== undefined ? ({
-                  TAG: /* Tobject */4,
-                  _0: copy$1(desc._0),
-                  _1: {
-                    contents: undefined
-                  }
-                }) : copy_type_desc(keep_names, copy$1, desc);
+                TAG: /* Tobject */4,
+                _0: copy$1(desc._0),
+                _1: {
+                  contents: undefined
+                }
+              }) : copy_type_desc(keep_names, copy$1, desc);
             break;
         case /* Tfield */5 :
             const r = field_kind_repr(desc._1);
             if (/* tag */typeof r === "number" || typeof r === "string") {
               tmp = r === /* Fpresent */0 ? copy_type_desc(undefined, copy$1, desc) : ({
-                    TAG: /* Tlink */6,
-                    _0: copy$1(desc._3)
-                  });
+                  TAG: /* Tlink */6,
+                  _0: copy$1(desc._3)
+                });
             } else {
               dup_kind(r._0);
               tmp = copy_type_desc(undefined, copy$1, desc);
@@ -29899,13 +29899,13 @@ function copy(env, partial, keep_names, ty) {
               const match$5 = match$4.desc;
               let row$1;
               row$1 = /* tag */typeof match$5 === "number" || typeof match$5 === "string" || !(match$5.TAG === /* Tconstr */3 && !row.row_fixed) ? row : ({
-                    row_fields: row.row_fields,
-                    row_more: row.row_more,
-                    row_bound: row.row_bound,
-                    row_closed: row.row_closed,
-                    row_fixed: true,
-                    row_name: row.row_name
-                  });
+                  row_fields: row.row_fields,
+                  row_more: row.row_more,
+                  row_bound: row.row_bound,
+                  row_closed: row.row_closed,
+                  row_fixed: true,
+                  row_name: row.row_name
+                });
               let match$6;
               if (partial !== undefined && !partial[1]) {
                 let more$p$1;
@@ -30140,29 +30140,29 @@ function instance_declaration(decl) {
       cl === /* Type_abstract */0 ? /* Type_abstract */0 : /* Type_open */1
     ) : (
       cl.TAG === /* Type_record */0 ? ({
-            TAG: /* Type_record */0,
-            _0: Stdlib__List.map((function (l) {
-                    return {
-                      ld_id: l.ld_id,
-                      ld_mutable: l.ld_mutable,
-                      ld_type: copy(undefined, undefined, undefined, l.ld_type),
-                      ld_loc: l.ld_loc,
-                      ld_attributes: l.ld_attributes
-                    };
-                  }), cl._0),
-            _1: cl._1
-          }) : ({
-            TAG: /* Type_variant */1,
-            _0: Stdlib__List.map((function (c) {
-                    return {
-                      cd_id: c.cd_id,
-                      cd_args: Stdlib__List.map(simple_copy, c.cd_args),
-                      cd_res: may_map(simple_copy, c.cd_res),
-                      cd_loc: c.cd_loc,
-                      cd_attributes: c.cd_attributes
-                    };
-                  }), cl._0)
-          })
+          TAG: /* Type_record */0,
+          _0: Stdlib__List.map((function (l) {
+                  return {
+                    ld_id: l.ld_id,
+                    ld_mutable: l.ld_mutable,
+                    ld_type: copy(undefined, undefined, undefined, l.ld_type),
+                    ld_loc: l.ld_loc,
+                    ld_attributes: l.ld_attributes
+                  };
+                }), cl._0),
+          _1: cl._1
+        }) : ({
+          TAG: /* Type_variant */1,
+          _0: Stdlib__List.map((function (c) {
+                  return {
+                    cd_id: c.cd_id,
+                    cd_args: Stdlib__List.map(simple_copy, c.cd_args),
+                    cd_res: may_map(simple_copy, c.cd_res),
+                    cd_loc: c.cd_loc,
+                    cd_attributes: c.cd_attributes
+                  };
+                }), cl._0)
+        })
     );
   const decl_type_params = Stdlib__List.map(simple_copy, decl.type_params);
   const decl_type_arity = decl.type_arity;
@@ -31141,13 +31141,13 @@ function occur(env, ty0, ty) {
     merge$2(type_changed, old);
     throw new Caml_js_exceptions.MelangeError((
           exn.MEL_EXN_ID === Occur ? ({
-                MEL_EXN_ID: Unify,
-                _1: /* [] */0
-              }) : exn
-        ).MEL_EXN_ID, exn.MEL_EXN_ID === Occur ? ({
               MEL_EXN_ID: Unify,
               _1: /* [] */0
-            }) : exn);
+            }) : exn
+        ).MEL_EXN_ID, exn.MEL_EXN_ID === Occur ? ({
+            MEL_EXN_ID: Unify,
+            _1: /* [] */0
+          }) : exn);
   }
 }
 
@@ -34617,11 +34617,11 @@ function filter_method_field(env, name, priv, _ty) {
               });
           let tmp;
           tmp = priv === /* Private */0 ? ({
-                TAG: /* Fvar */0,
-                _0: {
-                  contents: undefined
-                }
-              }) : /* Fpresent */0;
+              TAG: /* Fvar */0,
+              _0: {
+                contents: undefined
+              }
+            }) : /* Fpresent */0;
           const ty$p = newty2(level, {
                 TAG: /* Tfield */5,
                 _0: name,
@@ -36730,14 +36730,14 @@ function equal_clty(trace, type_pairs, subst, env, cty1, cty2) {
           throw new Caml_js_exceptions.MelangeError(Failure, {
                 MEL_EXN_ID: Failure,
                 _1: trace ? /* [] */0 : ({
-                      hd: {
-                        TAG: /* CM_Class_type_mismatch */2,
-                        _0: env,
-                        _1: cty1,
-                        _2: cty2
-                      },
-                      tl: /* [] */0
-                    })
+                    hd: {
+                      TAG: /* CM_Class_type_mismatch */2,
+                      _0: env,
+                      _1: cty1,
+                      _2: cty2
+                    },
+                    tl: /* [] */0
+                  })
               });
       
     }
@@ -36786,12 +36786,12 @@ function match_class_declarations(env, patt_params, patt_type, subj_params, subj
           const k = field_kind_repr(param[1]);
           let err$1;
           err$1 = /* tag */typeof k === "number" || typeof k === "string" ? ({
-                hd: {
-                  TAG: /* CM_Hide_public */10,
-                  _0: lab
-                },
-                tl: err
-              }) : err;
+              hd: {
+                TAG: /* CM_Hide_public */10,
+                _0: lab
+              },
+              tl: err
+            }) : err;
           if (Curry._2(mem$2, lab, sign1.csig_concr)) {
             return err$1;
           } else {
@@ -37549,20 +37549,20 @@ function build_subtype(env, visited, loops, posi, level, t) {
                   const match$1 = build_subtype(env, visited$5, loops, posi, level$p$2, t);
                   const t$p = match$1[0];
                   const f = posi && level > 0 ? ({
-                        TAG: /* Reither */1,
-                        _0: false,
-                        _1: {
-                          hd: t$p,
-                          tl: /* [] */0
-                        },
-                        _2: false,
-                        _3: {
-                          contents: undefined
-                        }
-                      }) : ({
-                        TAG: /* Rpresent */0,
-                        _0: t$p
-                      });
+                      TAG: /* Reither */1,
+                      _0: false,
+                      _1: {
+                        hd: t$p,
+                        tl: /* [] */0
+                      },
+                      _2: false,
+                      _3: {
+                        contents: undefined
+                      }
+                    }) : ({
+                      TAG: /* Rpresent */0,
+                      _0: t$p
+                    });
                   return [
                     [
                       l,
@@ -37828,24 +37828,24 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                       ],
                                       tl: trace
                                     }, rest1, rest2, cstrs) : ({
-                                    hd: [
-                                      trace,
-                                      build_fields(repr(f1).level)(miss1, rest1),
-                                      rest2,
-                                      univar_pairs.contents
-                                    ],
-                                    tl: cstrs
-                                  })
+                                  hd: [
+                                    trace,
+                                    build_fields(repr(f1).level)(miss1, rest1),
+                                    rest2,
+                                    univar_pairs.contents
+                                  ],
+                                  tl: cstrs
+                                })
                             );
                           const cstrs$3 = Caml_obj.caml_equal(miss2, /* [] */0) ? cstrs$2 : ({
-                                hd: [
-                                  trace,
-                                  rest1,
-                                  build_fields(repr(f2).level)(miss2, newvar(undefined, undefined)),
-                                  univar_pairs.contents
-                                ],
-                                tl: cstrs$2
-                              });
+                              hd: [
+                                trace,
+                                rest1,
+                                build_fields(repr(f2).level)(miss2, newvar(undefined, undefined)),
+                                univar_pairs.contents
+                              ],
+                              tl: cstrs$2
+                            });
                           return Stdlib__List.fold_left((function (cstrs, param) {
                                   const t2 = param[4];
                                   const t1 = param[2];
@@ -38770,12 +38770,12 @@ function normalize_type_rec(env, visited, ty) {
                               tl: /* [] */0
                             }, tyl);
                         tmp = f !== f0 || Stdlib__List.length(tyl$p) < Stdlib__List.length(tyl) ? ({
-                              TAG: /* Reither */1,
-                              _0: f._0,
-                              _1: Stdlib__List.rev(tyl$p),
-                              _2: f._2,
-                              _3: f._3
-                            }) : f;
+                            TAG: /* Reither */1,
+                            _0: f._0,
+                            _1: Stdlib__List.rev(tyl$p),
+                            _2: f._2,
+                            _3: f._3
+                          }) : f;
                       } else {
                         tmp = f;
                       }
@@ -38943,19 +38943,19 @@ function nondep_type_rec(env, id, _ty) {
                             }), true, row$1, true, more$p);
                       const match$1 = row$2.row_name;
                       tmp = match$1 !== undefined && isfree(id, match$1[0]) ? ({
-                            TAG: /* Tvariant */8,
-                            _0: {
-                              row_fields: row$2.row_fields,
-                              row_more: row$2.row_more,
-                              row_bound: row$2.row_bound,
-                              row_closed: row$2.row_closed,
-                              row_fixed: row$2.row_fixed,
-                              row_name: undefined
-                            }
-                          }) : ({
-                            TAG: /* Tvariant */8,
-                            _0: row$2
-                          });
+                          TAG: /* Tvariant */8,
+                          _0: {
+                            row_fields: row$2.row_fields,
+                            row_more: row$2.row_more,
+                            row_bound: row$2.row_bound,
+                            row_closed: row$2.row_closed,
+                            row_fixed: row$2.row_fixed,
+                            row_name: undefined
+                          }
+                        }) : ({
+                          TAG: /* Tvariant */8,
+                          _0: row$2
+                        });
                     } else {
                       throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
                     }
@@ -39058,33 +39058,33 @@ function nondep_type_decl(env, mid, id, is_covariant, decl) {
           cstrs === /* Type_abstract */0 ? /* Type_abstract */0 : /* Type_open */1
         ) : (
           cstrs.TAG === /* Type_record */0 ? ({
-                TAG: /* Type_record */0,
-                _0: Stdlib__List.map((function (l) {
-                        return {
-                          ld_id: l.ld_id,
-                          ld_mutable: l.ld_mutable,
-                          ld_type: nondep_type_rec(env, mid, l.ld_type),
-                          ld_loc: l.ld_loc,
-                          ld_attributes: l.ld_attributes
-                        };
-                      }), cstrs._0),
-                _1: cstrs._1
-              }) : ({
-                TAG: /* Type_variant */1,
-                _0: Stdlib__List.map((function (c) {
-                        return {
-                          cd_id: c.cd_id,
-                          cd_args: Stdlib__List.map((function (param) {
-                                  return nondep_type_rec(env, mid, param);
-                                }), c.cd_args),
-                          cd_res: may_map((function (param) {
-                                  return nondep_type_rec(env, mid, param);
-                                }), c.cd_res),
-                          cd_loc: c.cd_loc,
-                          cd_attributes: c.cd_attributes
-                        };
-                      }), cstrs._0)
-              })
+              TAG: /* Type_record */0,
+              _0: Stdlib__List.map((function (l) {
+                      return {
+                        ld_id: l.ld_id,
+                        ld_mutable: l.ld_mutable,
+                        ld_type: nondep_type_rec(env, mid, l.ld_type),
+                        ld_loc: l.ld_loc,
+                        ld_attributes: l.ld_attributes
+                      };
+                    }), cstrs._0),
+              _1: cstrs._1
+            }) : ({
+              TAG: /* Type_variant */1,
+              _0: Stdlib__List.map((function (c) {
+                      return {
+                        cd_id: c.cd_id,
+                        cd_args: Stdlib__List.map((function (param) {
+                                return nondep_type_rec(env, mid, param);
+                              }), c.cd_args),
+                        cd_res: may_map((function (param) {
+                                return nondep_type_rec(env, mid, param);
+                              }), c.cd_res),
+                        cd_loc: c.cd_loc,
+                        cd_attributes: c.cd_attributes
+                      };
+                    }), cstrs._0)
+            })
         );
     }
     catch (raw_exn){
@@ -45997,9 +45997,9 @@ function tree_of_typexp(sch, ty) {
             } else {
               const match$1 = match._1;
               t1 = match$1 && !(match$1.tl || !same(match._0, path_option)) ? tree_of_typexp(sch, match$1.hd) : ({
-                    TAG: /* Otyp_stuff */7,
-                    _0: "<hidden>"
-                  });
+                  TAG: /* Otyp_stuff */7,
+                  _0: "<hidden>"
+                });
             }
           } else {
             t1 = tree_of_typexp(sch, ty1);
@@ -46813,10 +46813,10 @@ function tree_of_class_type(sch, params, _sign) {
           const sign$1 = sign._0;
           const sty$1 = repr(sign$1.csig_self);
           const self_ty = is_aliased(sty$1) ? ({
-                TAG: /* Otyp_var */10,
-                _0: false,
-                _1: name_of_type(proxy(sty$1))
-              }) : undefined;
+              TAG: /* Otyp_var */10,
+              _0: false,
+              _1: name_of_type(proxy(sty$1))
+            }) : undefined;
           const match = flatten_fields(object_fields(sign$1.csig_self));
           const csil = Stdlib__List.fold_left((function (csil, param) {
                   return {
@@ -50456,9 +50456,9 @@ function type_declarations$1(equalityOpt, env, name, decl1, id, decl2) {
   if (exit === 1) {
     if (/* tag */typeof match === "number" || typeof match === "string") {
       err = match === /* Type_abstract */0 || !/* tag */(typeof match$1 === "number" || typeof match$1 === "string") ? ({
-            hd: /* Kind */2,
-            tl: /* [] */0
-          }) : /* [] */0;
+          hd: /* Kind */2,
+          tl: /* [] */0
+        }) : /* [] */0;
     } else if (match.TAG === /* Type_record */0) {
       if (/* tag */typeof match$1 === "number" || typeof match$1 === "string" || match$1.TAG !== /* Type_record */0) {
         err = {
@@ -50469,12 +50469,12 @@ function type_declarations$1(equalityOpt, env, name, decl1, id, decl2) {
         const rep2 = match$1._1;
         const err$1 = compare_records(env, decl1, decl2, 1, match._0, match$1._0);
         err = Caml_obj.caml_notequal(err$1, /* [] */0) || match._1 === rep2 ? err$1 : ({
-              hd: {
-                TAG: /* Record_representation */5,
-                _0: rep2 === /* Record_float */1
-              },
-              tl: /* [] */0
-            });
+            hd: {
+              TAG: /* Record_representation */5,
+              _0: rep2 === /* Record_float */1
+            },
+            tl: /* [] */0
+          });
       }
     } else {
       const cstrs1 = match._0;
@@ -50508,9 +50508,9 @@ function type_declarations$1(equalityOpt, env, name, decl1, id, decl2) {
   if (match$3 !== undefined) {
     if (match$2 !== undefined) {
       err$2 = type_manifest(env, match$2, decl1.type_params, match$3, decl2.type_params, decl2.type_private) ? /* [] */0 : ({
-            hd: /* Manifest */4,
-            tl: /* [] */0
-          });
+          hd: /* Manifest */4,
+          tl: /* [] */0
+        });
     } else {
       const ty1 = newty2(100000000, {
             TAG: /* Tconstr */3,
@@ -50531,19 +50531,19 @@ function type_declarations$1(equalityOpt, env, name, decl1, id, decl2) {
                 hd: match$3,
                 tl: /* [] */0
               }) ? /* [] */0 : ({
-                hd: /* Manifest */4,
-                tl: /* [] */0
-              })
+              hd: /* Manifest */4,
+              tl: /* [] */0
+            })
         ) : ({
-            hd: /* Constraint */3,
-            tl: /* [] */0
-          });
-    }
-  } else {
-    err$2 = equal$5(env, true, decl1.type_params, decl2.type_params) ? /* [] */0 : ({
           hd: /* Constraint */3,
           tl: /* [] */0
         });
+    }
+  } else {
+    err$2 = equal$5(env, true, decl1.type_params, decl2.type_params) ? /* [] */0 : ({
+        hd: /* Constraint */3,
+        tl: /* [] */0
+      });
   }
   if (Caml_obj.caml_notequal(err$2, /* [] */0)) {
     return err$2;
@@ -50742,26 +50742,26 @@ function strengthen_sig(env, sg, p) {
                 }
               });
           newdecl = Caml_obj.caml_equal(decl.type_kind, /* Type_abstract */0) ? ({
-                type_params: decl.type_params,
-                type_arity: decl.type_arity,
-                type_kind: decl.type_kind,
-                type_private: /* Public */1,
-                type_manifest: manif,
-                type_variance: decl.type_variance,
-                type_newtype_level: decl.type_newtype_level,
-                type_loc: decl.type_loc,
-                type_attributes: decl.type_attributes
-              }) : ({
-                type_params: decl.type_params,
-                type_arity: decl.type_arity,
-                type_kind: decl.type_kind,
-                type_private: decl.type_private,
-                type_manifest: manif,
-                type_variance: decl.type_variance,
-                type_newtype_level: decl.type_newtype_level,
-                type_loc: decl.type_loc,
-                type_attributes: decl.type_attributes
-              });
+              type_params: decl.type_params,
+              type_arity: decl.type_arity,
+              type_kind: decl.type_kind,
+              type_private: /* Public */1,
+              type_manifest: manif,
+              type_variance: decl.type_variance,
+              type_newtype_level: decl.type_newtype_level,
+              type_loc: decl.type_loc,
+              type_attributes: decl.type_attributes
+            }) : ({
+              type_params: decl.type_params,
+              type_arity: decl.type_arity,
+              type_kind: decl.type_kind,
+              type_private: decl.type_private,
+              type_manifest: manif,
+              type_variance: decl.type_variance,
+              type_newtype_level: decl.type_newtype_level,
+              type_loc: decl.type_loc,
+              type_attributes: decl.type_attributes
+            });
         }
         return {
           hd: {
@@ -50795,18 +50795,18 @@ function strengthen_sig(env, sg, p) {
         const id$2 = sigelt._0;
         const match$3 = decl$1.mtd_type;
         const newdecl$1 = match$3 !== undefined ? decl$1 : ({
-              mtd_type: {
-                TAG: /* Mty_ident */0,
-                _0: {
-                  TAG: /* Pdot */1,
-                  _0: p,
-                  _1: id$2.name,
-                  _2: -1
-                }
-              },
-              mtd_attributes: decl$1.mtd_attributes,
-              mtd_loc: decl$1.mtd_loc
-            });
+            mtd_type: {
+              TAG: /* Mty_ident */0,
+              _0: {
+                TAG: /* Pdot */1,
+                _0: p,
+                _1: id$2.name,
+                _2: -1
+              }
+            },
+            mtd_attributes: decl$1.mtd_attributes,
+            mtd_loc: decl$1.mtd_loc
+          });
         return {
           hd: {
             TAG: /* Sig_modtype */4,
@@ -50873,9 +50873,9 @@ function nondep_supertype(env, mid, mty) {
                       return nondep_mty(env, var_inv, param);
                     }), arg),
               _2: nondep_mty(add_module$1(true, param, arg !== undefined ? arg : ({
-                            TAG: /* Mty_signature */1,
-                            _0: /* [] */0
-                          }), env), va, mty._2)
+                          TAG: /* Mty_signature */1,
+                          _0: /* [] */0
+                        }), env), va, mty._2)
             };
         case /* Mty_alias */3 :
             const p$1 = mty._0;
@@ -52864,18 +52864,18 @@ function signatures(env, cxt, subst, sig1, sig2) {
           const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             const unpaired$1 = match$1[1] ? ({
-                  hd: [
-                    cxt,
-                    env,
-                    {
-                      TAG: /* Missing_field */0,
-                      _0: id2,
-                      _1: match[1],
-                      _2: kind_of_field_desc(name2$1)
-                    }
-                  ],
-                  tl: unpaired
-                }) : unpaired;
+                hd: [
+                  cxt,
+                  env,
+                  {
+                    TAG: /* Missing_field */0,
+                    _0: id2,
+                    _1: match[1],
+                    _2: kind_of_field_desc(name2$1)
+                  }
+                ],
+                tl: unpaired
+              }) : unpaired;
             _param = rem;
             _unpaired = unpaired$1;
             continue ;
@@ -58725,9 +58725,9 @@ function every_both(pss, qs, q1, q2) {
   };
   const r1 = every_satisfiables(pss, qs1);
   const r2 = every_satisfiables(compat(q1, q2) ? ({
-            hd: qs1,
-            tl: pss
-          }) : pss, qs2);
+          hd: qs1,
+          tl: pss
+        }) : pss, qs2);
   if (/* tag */typeof r1 === "number" || typeof r1 === "string") {
     if (r1 === /* Used */0) {
       if (/* tag */(typeof r2 === "number" || typeof r2 === "string") && r2 !== /* Used */0) {
@@ -60822,25 +60822,25 @@ function transl_type(env, policy, styp) {
                       } else {
                         const ty = match._0;
                         tmp = ty !== undefined ? ({
-                              TAG: /* Reither */1,
-                              _0: false,
-                              _1: {
-                                hd: ty,
-                                tl: /* [] */0
-                              },
-                              _2: false,
-                              _3: {
-                                contents: undefined
-                              }
-                            }) : ({
-                              TAG: /* Reither */1,
-                              _0: true,
-                              _1: /* [] */0,
-                              _2: false,
-                              _3: {
-                                contents: undefined
-                              }
-                            });
+                            TAG: /* Reither */1,
+                            _0: false,
+                            _1: {
+                              hd: ty,
+                              tl: /* [] */0
+                            },
+                            _2: false,
+                            _3: {
+                              contents: undefined
+                            }
+                          }) : ({
+                            TAG: /* Reither */1,
+                            _0: true,
+                            _1: /* [] */0,
+                            _2: false,
+                            _3: {
+                              contents: undefined
+                            }
+                          });
                       }
                       return [
                         param[0],
@@ -60862,21 +60862,21 @@ function transl_type(env, policy, styp) {
               };
               const $$static = static_row(row$2);
               const row$3 = $$static ? ({
-                    row_fields: fields$1,
-                    row_more: newty2(current_level.contents, /* Tnil */0),
-                    row_bound: undefined,
-                    row_closed: true,
-                    row_fixed: false,
-                    row_name: row_row_name
-                  }) : (
+                  row_fields: fields$1,
+                  row_more: newty2(current_level.contents, /* Tnil */0),
+                  row_bound: undefined,
+                  row_closed: true,
+                  row_fixed: false,
+                  row_name: row_row_name
+                }) : (
                   policy !== /* Univars */2 ? row$2 : ({
-                        row_fields: fields$1,
-                        row_more: new_pre_univar(undefined, undefined),
-                        row_bound: undefined,
-                        row_closed: true,
-                        row_fixed: false,
-                        row_name: row_row_name
-                      })
+                      row_fields: fields$1,
+                      row_more: new_pre_univar(undefined, undefined),
+                      row_bound: undefined,
+                      row_closed: true,
+                      row_fixed: false,
+                      row_name: row_row_name
+                    })
                 );
               ty$7 = newty2(current_level.contents, {
                     TAG: /* Tvariant */8,
@@ -61146,12 +61146,12 @@ function transl_type(env, policy, styp) {
                     });
               }
               f = tl ? ({
-                    TAG: /* Rpresent */0,
-                    _0: tl.hd.ctyp_type
-                  }) : ({
-                    TAG: /* Rpresent */0,
-                    _0: undefined
-                  });
+                  TAG: /* Rpresent */0,
+                  _0: tl.hd.ctyp_type
+                }) : ({
+                  TAG: /* Rpresent */0,
+                  _0: undefined
+                });
             }
             add_typed_field(styp.ptyp_loc, l, f);
             return {
@@ -61251,25 +61251,25 @@ function transl_type(env, policy, styp) {
                     if (f.TAG === /* Rpresent */0) {
                       const ty = f._0;
                       f$1 = ty !== undefined ? ({
-                            TAG: /* Reither */1,
-                            _0: false,
-                            _1: {
-                              hd: ty,
-                              tl: /* [] */0
-                            },
-                            _2: false,
-                            _3: {
-                              contents: undefined
-                            }
-                          }) : ({
-                            TAG: /* Reither */1,
-                            _0: true,
-                            _1: /* [] */0,
-                            _2: false,
-                            _3: {
-                              contents: undefined
-                            }
-                          });
+                          TAG: /* Reither */1,
+                          _0: false,
+                          _1: {
+                            hd: ty,
+                            tl: /* [] */0
+                          },
+                          _2: false,
+                          _3: {
+                            contents: undefined
+                          }
+                        }) : ({
+                          TAG: /* Reither */1,
+                          _0: true,
+                          _1: /* [] */0,
+                          _2: false,
+                          _3: {
+                            contents: undefined
+                          }
+                        });
                     } else {
                       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                             MEL_EXN_ID: "Assert_failure",
@@ -61327,21 +61327,21 @@ function transl_type(env, policy, styp) {
         };
         const $$static$1 = static_row(row$4);
         const row$5 = $$static$1 ? ({
-              row_fields: row_row_fields,
-              row_more: newty2(current_level.contents, /* Tnil */0),
-              row_bound: undefined,
-              row_closed: row_row_closed,
-              row_fixed: false,
-              row_name: row_row_name$1
-            }) : (
+            row_fields: row_row_fields,
+            row_more: newty2(current_level.contents, /* Tnil */0),
+            row_bound: undefined,
+            row_closed: row_row_closed,
+            row_fixed: false,
+            row_name: row_row_name$1
+          }) : (
             policy !== /* Univars */2 ? row$4 : ({
-                  row_fields: row_row_fields,
-                  row_more: new_pre_univar(undefined, undefined),
-                  row_bound: undefined,
-                  row_closed: row_row_closed,
-                  row_fixed: false,
-                  row_name: row_row_name$1
-                })
+                row_fields: row_row_fields,
+                row_more: new_pre_univar(undefined, undefined),
+                row_bound: undefined,
+                row_closed: row_row_closed,
+                row_fixed: false,
+                row_name: row_row_name$1
+              })
           );
         const ty$10 = newty2(current_level.contents, {
               TAG: /* Tvariant */8,
@@ -61739,13 +61739,13 @@ function spellcheck(ppf, fold, env, lid) {
       ];
     }
     const choice = dist < best_dist ? ({
-          hd: head,
-          tl: /* [] */0
-        }) : (
+        hd: head,
+        tl: /* [] */0
+      }) : (
         dist === best_dist ? ({
-              hd: head,
-              tl: best_choice
-            }) : best_choice
+            hd: head,
+            tl: best_choice
+          }) : best_choice
       );
     return [
       choice,
@@ -65124,9 +65124,9 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
             }
           } else {
             sargs = spl$1.TAG === /* Ppat_tuple */4 && (constr.cstr_arity > 1 || explicit_arity(sp.ppat_attributes)) ? spl$1._0 : ({
-                  hd: sarg,
-                  tl: /* [] */0
-                });
+                hd: sarg,
+                tl: /* [] */0
+              });
           }
         } else {
           sargs = /* [] */0;
@@ -65174,9 +65174,9 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
         const sarg$1 = name._1;
         const l = name._0;
         const arg_type = sarg$1 !== undefined ? ({
-              hd: newvar(undefined, undefined),
-              tl: /* [] */0
-            }) : /* [] */0;
+            hd: newvar(undefined, undefined),
+            tl: /* [] */0
+          }) : /* [] */0;
         const row_row_fields = {
           hd: [
             l,
@@ -66643,9 +66643,9 @@ function check_absent_variant(env) {
               return ;
             }
             const ty_arg = arg !== undefined ? ({
-                  hd: type_expr(identity, arg.pat_type),
-                  tl: /* [] */0
-                }) : /* [] */0;
+                hd: type_expr(identity, arg.pat_type),
+                tl: /* [] */0
+              }) : /* [] */0;
             const row$p_row_fields = {
               hd: [
                 s,
@@ -66767,9 +66767,9 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         if (annotations.contents) {
           const dloc = desc.val_loc;
           const annot = dloc.loc_ghost ? /* Iref_external */0 : ({
-                TAG: /* Iref_internal */0,
-                _0: dloc
-              });
+              TAG: /* Iref_internal */0,
+              _0: dloc
+            });
           const name$1 = name(parenthesized_ident, path);
           record$2({
                 TAG: /* An_ident */5,
@@ -66973,12 +66973,12 @@ function type_expect_(in_function, env, sexp, ty_expected) {
           }
           if (exit$1 === 2) {
             scp = rec_flag === /* Nonrecursive */0 ? ({
-                  TAG: /* Idef */1,
-                  _0: sbody.pexp_loc
-                }) : ({
-                  TAG: /* Idef */1,
-                  _0: loc
-                });
+                TAG: /* Idef */1,
+                _0: sbody.pexp_loc
+              }) : ({
+                TAG: /* Idef */1,
+                _0: loc
+              });
           }
           const match$8 = type_let(undefined, undefined, env, rec_flag, lid._1, scp, true);
           const body = type_expect(undefined, match$8[1], wrap_unpacks(sbody, match$8[2]), ty_expected);
@@ -67316,9 +67316,9 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         if (sarg !== undefined) {
           const sel = sarg.pexp_desc;
           sargs$1 = sel.TAG === /* Pexp_tuple */8 && (constr.cstr_arity > 1 || explicit_arity(attrs)) ? sel._0 : ({
-                hd: sarg,
-                tl: /* [] */0
-              });
+              hd: sarg,
+              tl: /* [] */0
+            });
         } else {
           sargs$1 = /* [] */0;
         }
@@ -69842,13 +69842,13 @@ function type_application(env, funct, sargs) {
             const arg = match$4[2];
             const sargs$1 = match$4[0];
             const omitted$1 = arg === undefined ? ({
-                  hd: [
-                    l,
-                    ty,
-                    lv
-                  ],
-                  tl: omitted
-                }) : omitted;
+                hd: [
+                  l,
+                  ty,
+                  lv
+                ],
+                tl: omitted
+              }) : omitted;
             const ty_old$1 = Caml_obj.caml_equal(sargs$1, /* [] */0) ? ty_fun$1 : ty_old;
             _more_sargs = match$4[1];
             _sargs = sargs$1;
@@ -70471,13 +70471,13 @@ function type_let(checkOpt, check_strictOpt, env, rec_flag, spat_sexp_list, scop
             const match = pat.pat_type.desc;
             let pat$1;
             pat$1 = /* tag */typeof match === "number" || typeof match === "string" || match.TAG !== /* Tpoly */10 ? pat : ({
-                  pat_desc: pat.pat_desc,
-                  pat_loc: pat.pat_loc,
-                  pat_extra: pat.pat_extra,
-                  pat_type: instance_poly(true, false, match._1, match._0)[1],
-                  pat_env: pat.pat_env,
-                  pat_attributes: pat.pat_attributes
-                });
+                pat_desc: pat.pat_desc,
+                pat_loc: pat.pat_loc,
+                pat_extra: pat.pat_extra,
+                pat_type: instance_poly(true, false, match._1, match._0)[1],
+                pat_env: pat.pat_env,
+                pat_attributes: pat.pat_attributes
+              });
             unify_pat(env, pat$1, type_approx(env, binding.pvb_expr));
           }), pat_list, spat_sexp_list);
   }
@@ -73406,13 +73406,13 @@ function check_coherence(env, loc, id, decl) {
     try {
       const decl$p = find_type_full(path, env)[0];
       const err = Stdlib__List.length(args) !== Stdlib__List.length(decl.type_params) ? ({
-            hd: /* Arity */0,
-            tl: /* [] */0
-          }) : (
+          hd: /* Arity */0,
+          tl: /* [] */0
+        }) : (
           equal$5(env, false, args, decl.type_params) ? type_declarations$1(true, env, last(path), decl$p, id, type_declaration(add_type(id, path, identity), decl)) : ({
-                hd: /* Constraint */3,
-                tl: /* [] */0
-              })
+              hd: /* Constraint */3,
+              tl: /* [] */0
+            })
         );
       if (!Caml_obj.caml_notequal(err, /* [] */0)) {
         return ;
@@ -74143,12 +74143,12 @@ function compute_variance_decl(env, check, decl, rloc) {
   }
   const ty = decl.type_manifest;
   const mn = ty !== undefined ? ({
-        hd: [
-          false,
-          ty
-        ],
-        tl: /* [] */0
-      }) : /* [] */0;
+      hd: [
+        false,
+        ty
+      ],
+      tl: /* [] */0
+    }) : /* [] */0;
   const tll = decl.type_kind;
   if (/* tag */typeof tll === "number" || typeof tll === "string") {
     return compute_variance_type(env, check, rloc, decl, mn);
@@ -75394,9 +75394,9 @@ function transl_type_extension(check_open, env, loc, styext) {
           ];
         }), type_decl.type_variance);
   const err = type_decl.type_arity !== Stdlib__List.length(styext.ptyext_params) ? ({
-        hd: /* Arity */0,
-        tl: /* [] */0
-      }) : (
+      hd: /* Arity */0,
+      tl: /* [] */0
+    }) : (
       Stdlib__List.for_all2((function (param, param$1) {
               if (!param$1[0] || param[0]) {
                 if (param$1[1]) {
@@ -75410,9 +75410,9 @@ function transl_type_extension(check_open, env, loc, styext) {
             }), type_variance, add_injectivity(Stdlib__List.map((function (prim) {
                       return prim[1];
                     }), styext.ptyext_params))) ? /* [] */0 : ({
-            hd: /* Variance */5,
-            tl: /* [] */0
-          })
+          hd: /* Variance */5,
+          tl: /* [] */0
+        })
     );
   if (Caml_obj.caml_notequal(err, /* [] */0)) {
     throw new Caml_js_exceptions.MelangeError($$Error$8, {
@@ -79069,11 +79069,11 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
         });
   }
   const sign$1 = $$final ? sign : ({
-        csig_self: expand_head(val_env$1, public_self),
-        csig_vars: sign_csig_vars,
-        csig_concr: concr_meths,
-        csig_inher: inher
-      });
+      csig_self: expand_head(val_env$1, public_self),
+      csig_vars: sign_csig_vars,
+      csig_concr: concr_meths,
+      csig_inher: inher
+    });
   return [
     {
       cstr_self: pat,
@@ -79527,12 +79527,12 @@ function class_expr(cl_num, val_env, met_env, _scl) {
                             }
                             const arg$1 = match[2];
                             const omitted$1 = arg$1 === undefined ? ({
-                                  hd: [
-                                    l,
-                                    ty0
-                                  ],
-                                  tl: omitted
-                                }) : omitted;
+                                hd: [
+                                  l,
+                                  ty0
+                                ],
+                                tl: omitted
+                              }) : omitted;
                             _more_sargs = match[1];
                             _sargs = match[0];
                             _ty_fun0 = ty_fun0._2;
@@ -82964,9 +82964,9 @@ function approx_modtype(env, _smty) {
                   return approx_modtype(env, param);
                 }), lid._1);
           const match$1 = enter_module(true, lid._0.txt, arg !== undefined ? arg : ({
-                    TAG: /* Mty_signature */1,
-                    _0: /* [] */0
-                  }), env);
+                  TAG: /* Mty_signature */1,
+                  _0: /* [] */0
+                }), env);
           const res = approx_modtype(match$1[1], lid._2);
           return {
             TAG: /* Mty_functor */2,
@@ -83503,9 +83503,9 @@ function transl_modtype$1(env, smty) {
                 return m.mty_type;
               }), arg);
         const match = enter_module(true, param.txt, ty_arg !== undefined ? ty_arg : ({
-                  TAG: /* Mty_signature */1,
-                  _0: /* [] */0
-                }), env);
+                TAG: /* Mty_signature */1,
+                _0: /* [] */0
+              }), env);
         const id = match[0];
         init_def(currentstamp.contents);
         const res = transl_modtype$1(match[1], lid._2);
@@ -83613,13 +83613,13 @@ function transl_signature(env, sg) {
             Stdlib__List.exists((function (param) {
                     return equal(partial_arg, param);
                   }), get_values(rem)) ? rem : ({
-                  hd: {
-                    TAG: /* Sig_value */0,
-                    _0: tdesc.val_id,
-                    _1: tdesc.val_val
-                  },
-                  tl: rem
-                }),
+                hd: {
+                  TAG: /* Sig_value */0,
+                  _0: tdesc.val_id,
+                  _1: tdesc.val_val
+                },
+                tl: rem
+              }),
             match$1[2]
           ];
       case /* Psig_type */1 :
@@ -83696,14 +83696,14 @@ function transl_signature(env, sg) {
               tl: match$7[0]
             },
             shadowed ? rem$2 : ({
-                  hd: {
-                    TAG: /* Sig_typext */2,
-                    _0: ext.ext_id,
-                    _1: ext.ext_type,
-                    _2: /* Text_exception */2
-                  },
-                  tl: rem$2
-                }),
+                hd: {
+                  TAG: /* Sig_typext */2,
+                  _0: ext.ext_id,
+                  _1: ext.ext_type,
+                  _2: /* Text_exception */2
+                },
+                tl: rem$2
+              }),
             match$7[2]
           ];
       case /* Psig_module */4 :
@@ -84768,9 +84768,9 @@ function type_module$1(aliasOpt, sttn, funct_body, anchor, env, smod) {
           const param = mty_functor._0;
           const generative = mty_param === undefined;
           const mty_param$1 = mty_param !== undefined ? mty_param : ({
-                TAG: /* Mty_signature */1,
-                _0: /* [] */0
-              });
+              TAG: /* Mty_signature */1,
+              _0: /* [] */0
+            });
           if (generative) {
             if (Caml_obj.caml_notequal(sarg.pmod_desc, {
                     TAG: /* Pmod_structure */1,

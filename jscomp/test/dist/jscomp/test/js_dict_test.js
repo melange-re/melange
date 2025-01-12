@@ -58,9 +58,9 @@ const suites_1 = {
               TAG: /* Eq */0,
               _0: 43,
               _1: ({
-                    foo: 43,
-                    bar: 86
-                  })["foo"]
+                  foo: 43,
+                  bar: 86
+                })["foo"]
             };
           })
       ],

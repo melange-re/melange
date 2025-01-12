@@ -52,12 +52,12 @@ function f4(h, x, y) {
 }
 
 eq("File \"jscomp/test/chain_code_test.ml\", line 28, characters 5-12", 32, ({
-        x: {
-          y: {
-            z: 32
-          }
+      x: {
+        y: {
+          z: 32
         }
-      }).x.y.z);
+      }
+    }).x.y.z);
 
 Mt.from_pair_suites("Chain_code_test", suites.contents);
 

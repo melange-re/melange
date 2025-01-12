@@ -67,9 +67,9 @@ function rev_split_by_char(c, s) {
       const i$p = Stdlib__String.index_from(s, i, c);
       const s$p = Stdlib__String.sub(s, i, i$p - i | 0);
       return loop(i$p + 1 | 0, s$p === "" ? l : ({
-                hd: s$p,
-                tl: l
-              }));
+              hd: s$p,
+              tl: l
+            }));
     }
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -116,9 +116,9 @@ function xsplit(delim, s) {
         tl: l
       };
       const l$2 = i$p === 0 ? ({
-            hd: "",
-            tl: l$1
-          }) : l$1;
+          hd: "",
+          tl: l$1
+        }) : l$1;
       _i = i$p;
       _l = l$2;
       continue ;

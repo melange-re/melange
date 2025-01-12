@@ -140,9 +140,9 @@ function tolist_aux(a, f, _i, _res) {
     const v = a[i];
     const v$1 = Curry._1(f, v);
     _res = v$1 !== undefined ? ({
-          hd: Caml_option.valFromOption(v$1),
-          tl: res
-        }) : res;
+        hd: Caml_option.valFromOption(v$1),
+        tl: res
+      }) : res;
     _i = i - 1 | 0;
     continue ;
   };

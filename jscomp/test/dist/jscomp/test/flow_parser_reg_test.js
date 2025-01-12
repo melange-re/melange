@@ -1974,12 +1974,12 @@ function new_lex_env(lex_source, lex_lb, enable_types_in_comments) {
 function get_and_clear_state(env) {
   const state = env.lex_state;
   const env$1 = state !== empty_lex_state ? ({
-        lex_source: env.lex_source,
-        lex_lb: env.lex_lb,
-        lex_in_comment_syntax: env.lex_in_comment_syntax,
-        lex_enable_comment_syntax: env.lex_enable_comment_syntax,
-        lex_state: empty_lex_state
-      }) : env;
+      lex_source: env.lex_source,
+      lex_lb: env.lex_lb,
+      lex_in_comment_syntax: env.lex_in_comment_syntax,
+      lex_enable_comment_syntax: env.lex_enable_comment_syntax,
+      lex_state: empty_lex_state
+    }) : env;
   return [
     env$1,
     state
@@ -2349,12 +2349,12 @@ function save_comment(env, start, _end, buf, multiline) {
   const loc = btwn(start, _end);
   const s = Stdlib__Buffer.contents(buf);
   const c = multiline ? ({
-        TAG: /* Block */0,
-        _0: s
-      }) : ({
-        TAG: /* Line */1,
-        _0: s
-      });
+      TAG: /* Block */0,
+      _0: s
+    }) : ({
+      TAG: /* Line */1,
+      _0: s
+    });
   const lex_comments_acc_0 = [
     loc,
     c
@@ -11685,9 +11685,9 @@ function declare(in_moduleOpt, env) {
               ];
               const loc$3 = btwn(start_loc, body_loc);
               const kind = module_kind !== undefined ? module_kind : ({
-                    TAG: /* CommonJS */0,
-                    _0: loc$3
-                  });
+                  TAG: /* CommonJS */0,
+                  _0: loc$3
+                });
               return [
                 loc$3,
                 {
@@ -11809,9 +11809,9 @@ function export_specifiers_and_errs(env, _specifiers, _errs) {
       token$4(env, /* T_COMMA */8);
     }
     const errs$1 = err !== undefined ? ({
-          hd: err,
-          tl: errs
-        }) : errs;
+        hd: err,
+        tl: errs
+      }) : errs;
     _errs = errs$1;
     _specifiers = {
       hd: specifier,
@@ -14653,12 +14653,12 @@ function statement(env) {
                     let left;
                     if (init !== undefined) {
                       left = init.TAG === /* InitDeclaration */0 ? ({
-                            TAG: /* LeftDeclaration */0,
-                            _0: init._0
-                          }) : ({
-                            TAG: /* LeftExpression */1,
-                            _0: init._0
-                          });
+                          TAG: /* LeftDeclaration */0,
+                          _0: init._0
+                        }) : ({
+                          TAG: /* LeftExpression */1,
+                          _0: init._0
+                        });
                     } else {
                       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                             MEL_EXN_ID: "Assert_failure",
@@ -14690,12 +14690,12 @@ function statement(env) {
                     let left$1;
                     if (init !== undefined) {
                       left$1 = init.TAG === /* InitDeclaration */0 ? ({
-                            TAG: /* LeftDeclaration */0,
-                            _0: init._0
-                          }) : ({
-                            TAG: /* LeftExpression */1,
-                            _0: init._0
-                          });
+                          TAG: /* LeftDeclaration */0,
+                          _0: init._0
+                        }) : ({
+                          TAG: /* LeftExpression */1,
+                          _0: init._0
+                        });
                     } else {
                       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                             MEL_EXN_ID: "Assert_failure",

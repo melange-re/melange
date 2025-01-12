@@ -52,10 +52,10 @@ const suites_1 = {
           TAG: /* Eq */0,
           _0: 34,
           _1: ({
-                say: (function (x) {
-                    return x + 2 | 0;
-                  })
-              }).say(32)
+              say: (function (x) {
+                  return x + 2 | 0;
+                })
+            }).say(32)
         };
       })
   ],
@@ -67,10 +67,10 @@ const suites_1 = {
             TAG: /* Eq */0,
             _0: 34,
             _1: ({
-                  say: (function (x) {
-                      return x + 2 | 0;
-                    })
-                }).say(32)
+                say: (function (x) {
+                    return x + 2 | 0;
+                  })
+              }).say(32)
           };
         })
     ],

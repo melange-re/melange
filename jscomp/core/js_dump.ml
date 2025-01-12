@@ -912,7 +912,7 @@ and expression_desc cxt ~(level : int) x : cxt =
            var f = { x : 2 , y : 2}
          ]}
       *)
-      cond_paren_group cxt (level > 1) 1 (fun () ->
+      cond_paren_group cxt (level > 1) 0 (fun () ->
           if lst = [] then (
             string cxt "{}";
             cxt)
