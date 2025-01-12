@@ -12,359 +12,359 @@ function f1(a0) {
 
 function f2(a0, a1) {
   return [
-          a0,
-          a1
-        ];
+    a0,
+    a1
+  ];
 }
 
 function f3(a0, a1, a2) {
   return [
-          a0,
-          a1,
-          a2
-        ];
+    a0,
+    a1,
+    a2
+  ];
 }
 
 function f4(a0, a1, a2, a3) {
   return [
-          a0,
-          a1,
-          a2,
-          a3
-        ];
+    a0,
+    a1,
+    a2,
+    a3
+  ];
 }
 
 function f5(a0, a1, a2, a3, a4) {
   return [
-          a0,
-          a1,
-          a2,
-          a3,
-          a4
-        ];
+    a0,
+    a1,
+    a2,
+    a3,
+    a4
+  ];
 }
 
 function f6(a0, a1, a2, a3, a4, a5) {
   return [
-          a0,
-          a1,
-          a2,
-          a3,
-          a4,
-          a5
-        ];
+    a0,
+    a1,
+    a2,
+    a3,
+    a4,
+    a5
+  ];
 }
 
 function f7(a0, a1, a2, a3, a4, a5, a6) {
   return [
-          a0,
-          a1,
-          a2,
-          a3,
-          a4,
-          a5,
-          a6
-        ];
+    a0,
+    a1,
+    a2,
+    a3,
+    a4,
+    a5,
+    a6
+  ];
 }
 
 function f8(a0, a1, a2, a3, a4, a5, a6, a7) {
   return [
-          a0,
-          a1,
-          a2,
-          a3,
-          a4,
-          a5,
-          a6,
-          a7
-        ];
+    a0,
+    a1,
+    a2,
+    a3,
+    a4,
+    a5,
+    a6,
+    a7
+  ];
 }
 
 function f9(a0, a1, a2, a3, a4, a5, a6, a7, a8) {
   return [
-          a0,
-          a1,
-          a2,
-          a3,
-          a4,
-          a5,
-          a6,
-          a7,
-          a8
-        ];
+    a0,
+    a1,
+    a2,
+    a3,
+    a4,
+    a5,
+    a6,
+    a7,
+    a8
+  ];
 }
 
 function f10(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9) {
   return [
-          a0,
-          a1,
-          a2,
-          a3,
-          a4,
-          a5,
-          a6,
-          a7,
-          a8,
-          a9
-        ];
+    a0,
+    a1,
+    a2,
+    a3,
+    a4,
+    a5,
+    a6,
+    a7,
+    a8,
+    a9
+  ];
 }
 
 function f11(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10) {
   return [
-          a0,
-          a1,
-          a2,
-          a3,
-          a4,
-          a5,
-          a6,
-          a7,
-          a8,
-          a9,
-          a10
-        ];
+    a0,
+    a1,
+    a2,
+    a3,
+    a4,
+    a5,
+    a6,
+    a7,
+    a8,
+    a9,
+    a10
+  ];
 }
 
 function f12(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11) {
   return [
-          a0,
-          a1,
-          a2,
-          a3,
-          a4,
-          a5,
-          a6,
-          a7,
-          a8,
-          a9,
-          a10,
-          a11
-        ];
+    a0,
+    a1,
+    a2,
+    a3,
+    a4,
+    a5,
+    a6,
+    a7,
+    a8,
+    a9,
+    a10,
+    a11
+  ];
 }
 
 function f13(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12) {
   return [
-          a0,
-          a1,
-          a2,
-          a3,
-          a4,
-          a5,
-          a6,
-          a7,
-          a8,
-          a9,
-          a10,
-          a11,
-          a12
-        ];
+    a0,
+    a1,
+    a2,
+    a3,
+    a4,
+    a5,
+    a6,
+    a7,
+    a8,
+    a9,
+    a10,
+    a11,
+    a12
+  ];
 }
 
 function f14(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13) {
   return [
-          a0,
-          a1,
-          a2,
-          a3,
-          a4,
-          a5,
-          a6,
-          a7,
-          a8,
-          a9,
-          a10,
-          a11,
-          a12,
-          a13
-        ];
+    a0,
+    a1,
+    a2,
+    a3,
+    a4,
+    a5,
+    a6,
+    a7,
+    a8,
+    a9,
+    a10,
+    a11,
+    a12,
+    a13
+  ];
 }
 
 function f15(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14) {
   return [
-          a0,
-          a1,
-          a2,
-          a3,
-          a4,
-          a5,
-          a6,
-          a7,
-          a8,
-          a9,
-          a10,
-          a11,
-          a12,
-          a13,
-          a14
-        ];
+    a0,
+    a1,
+    a2,
+    a3,
+    a4,
+    a5,
+    a6,
+    a7,
+    a8,
+    a9,
+    a10,
+    a11,
+    a12,
+    a13,
+    a14
+  ];
 }
 
 function f16(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15) {
   return [
-          a0,
-          a1,
-          a2,
-          a3,
-          a4,
-          a5,
-          a6,
-          a7,
-          a8,
-          a9,
-          a10,
-          a11,
-          a12,
-          a13,
-          a14,
-          a15
-        ];
+    a0,
+    a1,
+    a2,
+    a3,
+    a4,
+    a5,
+    a6,
+    a7,
+    a8,
+    a9,
+    a10,
+    a11,
+    a12,
+    a13,
+    a14,
+    a15
+  ];
 }
 
 function f17(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16) {
   return [
-          a0,
-          a1,
-          a2,
-          a3,
-          a4,
-          a5,
-          a6,
-          a7,
-          a8,
-          a9,
-          a10,
-          a11,
-          a12,
-          a13,
-          a14,
-          a15,
-          a16
-        ];
+    a0,
+    a1,
+    a2,
+    a3,
+    a4,
+    a5,
+    a6,
+    a7,
+    a8,
+    a9,
+    a10,
+    a11,
+    a12,
+    a13,
+    a14,
+    a15,
+    a16
+  ];
 }
 
 function f18(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17) {
   return [
-          a0,
-          a1,
-          a2,
-          a3,
-          a4,
-          a5,
-          a6,
-          a7,
-          a8,
-          a9,
-          a10,
-          a11,
-          a12,
-          a13,
-          a14,
-          a15,
-          a16,
-          a17
-        ];
+    a0,
+    a1,
+    a2,
+    a3,
+    a4,
+    a5,
+    a6,
+    a7,
+    a8,
+    a9,
+    a10,
+    a11,
+    a12,
+    a13,
+    a14,
+    a15,
+    a16,
+    a17
+  ];
 }
 
 function f19(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18) {
   return [
-          a0,
-          a1,
-          a2,
-          a3,
-          a4,
-          a5,
-          a6,
-          a7,
-          a8,
-          a9,
-          a10,
-          a11,
-          a12,
-          a13,
-          a14,
-          a15,
-          a16,
-          a17,
-          a18
-        ];
+    a0,
+    a1,
+    a2,
+    a3,
+    a4,
+    a5,
+    a6,
+    a7,
+    a8,
+    a9,
+    a10,
+    a11,
+    a12,
+    a13,
+    a14,
+    a15,
+    a16,
+    a17,
+    a18
+  ];
 }
 
 function f20(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19) {
   return [
-          a0,
-          a1,
-          a2,
-          a3,
-          a4,
-          a5,
-          a6,
-          a7,
-          a8,
-          a9,
-          a10,
-          a11,
-          a12,
-          a13,
-          a14,
-          a15,
-          a16,
-          a17,
-          a18,
-          a19
-        ];
+    a0,
+    a1,
+    a2,
+    a3,
+    a4,
+    a5,
+    a6,
+    a7,
+    a8,
+    a9,
+    a10,
+    a11,
+    a12,
+    a13,
+    a14,
+    a15,
+    a16,
+    a17,
+    a18,
+    a19
+  ];
 }
 
 function f21(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19, a20) {
   return [
-          a0,
-          a1,
-          a2,
-          a3,
-          a4,
-          a5,
-          a6,
-          a7,
-          a8,
-          a9,
-          a10,
-          a11,
-          a12,
-          a13,
-          a14,
-          a15,
-          a16,
-          a17,
-          a18,
-          a19,
-          a20
-        ];
+    a0,
+    a1,
+    a2,
+    a3,
+    a4,
+    a5,
+    a6,
+    a7,
+    a8,
+    a9,
+    a10,
+    a11,
+    a12,
+    a13,
+    a14,
+    a15,
+    a16,
+    a17,
+    a18,
+    a19,
+    a20
+  ];
 }
 
 function f22(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19, a20, a21) {
   return [
-          a0,
-          a1,
-          a2,
-          a3,
-          a4,
-          a5,
-          a6,
-          a7,
-          a8,
-          a9,
-          a10,
-          a11,
-          a12,
-          a13,
-          a14,
-          a15,
-          a16,
-          a17,
-          a18,
-          a19,
-          a20,
-          a21
-        ];
+    a0,
+    a1,
+    a2,
+    a3,
+    a4,
+    a5,
+    a6,
+    a7,
+    a8,
+    a9,
+    a10,
+    a11,
+    a12,
+    a13,
+    a14,
+    a15,
+    a16,
+    a17,
+    a18,
+    a19,
+    a20,
+    a21
+  ];
 }
 
 console.log(f0());

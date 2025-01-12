@@ -7,267 +7,80 @@ const Stdlib = require("melange/stdlib.js");
 
 function isLessThan(title, small, big) {
   return {
+    hd: [
+      "compare: " + title,
+      (function (param) {
+          return {
+            TAG: /* Eq */0,
+            _0: true,
+            _1: Caml_obj.caml_compare(big, small) > 0
+          };
+        })
+    ],
+    tl: {
+      hd: [
+        "compare: " + title,
+        (function (param) {
+            return {
+              TAG: /* Eq */0,
+              _0: true,
+              _1: Caml_obj.caml_compare(small, big) < 0
+            };
+          })
+      ],
+      tl: {
+        hd: [
+          "< operator: " + title,
+          (function (param) {
+              return {
+                TAG: /* Eq */0,
+                _0: true,
+                _1: Caml_obj.caml_lessthan(small, big)
+              };
+            })
+        ],
+        tl: {
           hd: [
-            "compare: " + title,
+            "<= operator: " + title,
             (function (param) {
                 return {
-                        TAG: /* Eq */0,
-                        _0: true,
-                        _1: Caml_obj.caml_compare(big, small) > 0
-                      };
+                  TAG: /* Eq */0,
+                  _0: true,
+                  _1: Caml_obj.caml_lessequal(small, big)
+                };
               })
           ],
           tl: {
             hd: [
-              "compare: " + title,
+              "> operator: " + title,
               (function (param) {
                   return {
-                          TAG: /* Eq */0,
-                          _0: true,
-                          _1: Caml_obj.caml_compare(small, big) < 0
-                        };
+                    TAG: /* Eq */0,
+                    _0: true,
+                    _1: Caml_obj.caml_greaterthan(big, small)
+                  };
                 })
             ],
             tl: {
               hd: [
-                "< operator: " + title,
+                ">= operator: " + title,
                 (function (param) {
                     return {
-                            TAG: /* Eq */0,
-                            _0: true,
-                            _1: Caml_obj.caml_lessthan(small, big)
-                          };
+                      TAG: /* Eq */0,
+                      _0: true,
+                      _1: Caml_obj.caml_greaterequal(big, small)
+                    };
                   })
               ],
               tl: {
                 hd: [
-                  "<= operator: " + title,
+                  "min: " + title,
                   (function (param) {
                       return {
-                              TAG: /* Eq */0,
-                              _0: true,
-                              _1: Caml_obj.caml_lessequal(small, big)
-                            };
-                    })
-                ],
-                tl: {
-                  hd: [
-                    "> operator: " + title,
-                    (function (param) {
-                        return {
-                                TAG: /* Eq */0,
-                                _0: true,
-                                _1: Caml_obj.caml_greaterthan(big, small)
-                              };
-                      })
-                  ],
-                  tl: {
-                    hd: [
-                      ">= operator: " + title,
-                      (function (param) {
-                          return {
-                                  TAG: /* Eq */0,
-                                  _0: true,
-                                  _1: Caml_obj.caml_greaterequal(big, small)
-                                };
-                        })
-                    ],
-                    tl: {
-                      hd: [
-                        "min: " + title,
-                        (function (param) {
-                            return {
-                                    TAG: /* Eq */0,
-                                    _0: small,
-                                    _1: Caml_obj.caml_min(big, small)
-                                  };
-                          })
-                      ],
-                      tl: {
-                        hd: [
-                          "min: " + title,
-                          (function (param) {
-                              return {
-                                      TAG: /* Eq */0,
-                                      _0: small,
-                                      _1: Caml_obj.caml_min(small, big)
-                                    };
-                            })
-                        ],
-                        tl: {
-                          hd: [
-                            "max: " + title,
-                            (function (param) {
-                                return {
-                                        TAG: /* Eq */0,
-                                        _0: big,
-                                        _1: Caml_obj.caml_max(big, small)
-                                      };
-                              })
-                          ],
-                          tl: {
-                            hd: [
-                              "max: " + title,
-                              (function (param) {
-                                  return {
-                                          TAG: /* Eq */0,
-                                          _0: big,
-                                          _1: Caml_obj.caml_max(small, big)
-                                        };
-                                })
-                            ],
-                            tl: {
-                              hd: [
-                                "!= operator: " + title,
-                                (function (param) {
-                                    return {
-                                            TAG: /* Eq */0,
-                                            _0: true,
-                                            _1: big !== small
-                                          };
-                                  })
-                              ],
-                              tl: {
-                                hd: [
-                                  "!= operator: " + title,
-                                  (function (param) {
-                                      return {
-                                              TAG: /* Eq */0,
-                                              _0: true,
-                                              _1: small !== big
-                                            };
-                                    })
-                                ],
-                                tl: {
-                                  hd: [
-                                    "<> operator: " + title,
-                                    (function (param) {
-                                        return {
-                                                TAG: /* Eq */0,
-                                                _0: true,
-                                                _1: Caml_obj.caml_notequal(big, small)
-                                              };
-                                      })
-                                  ],
-                                  tl: {
-                                    hd: [
-                                      "<> operator: " + title,
-                                      (function (param) {
-                                          return {
-                                                  TAG: /* Eq */0,
-                                                  _0: true,
-                                                  _1: Caml_obj.caml_notequal(small, big)
-                                                };
-                                        })
-                                    ],
-                                    tl: {
-                                      hd: [
-                                        "= operator: " + title,
-                                        (function (param) {
-                                            return {
-                                                    TAG: /* Eq */0,
-                                                    _0: false,
-                                                    _1: Caml_obj.caml_equal(big, small)
-                                                  };
-                                          })
-                                      ],
-                                      tl: {
-                                        hd: [
-                                          "= operator: " + title,
-                                          (function (param) {
-                                              return {
-                                                      TAG: /* Eq */0,
-                                                      _0: false,
-                                                      _1: Caml_obj.caml_equal(small, big)
-                                                    };
-                                            })
-                                        ],
-                                        tl: {
-                                          hd: [
-                                            "== operator: " + title,
-                                            (function (param) {
-                                                return {
-                                                        TAG: /* Eq */0,
-                                                        _0: false,
-                                                        _1: big === small
-                                                      };
-                                              })
-                                          ],
-                                          tl: {
-                                            hd: [
-                                              "== operator: " + title,
-                                              (function (param) {
-                                                  return {
-                                                          TAG: /* Eq */0,
-                                                          _0: false,
-                                                          _1: small === big
-                                                        };
-                                                })
-                                            ],
-                                            tl: /* [] */0
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        };
-}
-
-function isEqual(title, num1, num2) {
-  return {
-          hd: [
-            "< operator: " + title,
-            (function (param) {
-                return {
                         TAG: /* Eq */0,
-                        _0: false,
-                        _1: Caml_obj.caml_lessthan(num2, num1)
+                        _0: small,
+                        _1: Caml_obj.caml_min(big, small)
                       };
-              })
-          ],
-          tl: {
-            hd: [
-              "<= operator: " + title,
-              (function (param) {
-                  return {
-                          TAG: /* Eq */0,
-                          _0: true,
-                          _1: Caml_obj.caml_lessequal(num2, num1)
-                        };
-                })
-            ],
-            tl: {
-              hd: [
-                "> operator: " + title,
-                (function (param) {
-                    return {
-                            TAG: /* Eq */0,
-                            _0: false,
-                            _1: Caml_obj.caml_greaterthan(num1, num2)
-                          };
-                  })
-              ],
-              tl: {
-                hd: [
-                  ">= operator: " + title,
-                  (function (param) {
-                      return {
-                              TAG: /* Eq */0,
-                              _0: true,
-                              _1: Caml_obj.caml_greaterequal(num1, num2)
-                            };
                     })
                 ],
                 tl: {
@@ -275,10 +88,10 @@ function isEqual(title, num1, num2) {
                     "min: " + title,
                     (function (param) {
                         return {
-                                TAG: /* Eq */0,
-                                _0: num1,
-                                _1: Caml_obj.caml_min(num1, num2)
-                              };
+                          TAG: /* Eq */0,
+                          _0: small,
+                          _1: Caml_obj.caml_min(small, big)
+                        };
                       })
                   ],
                   tl: {
@@ -286,32 +99,32 @@ function isEqual(title, num1, num2) {
                       "max: " + title,
                       (function (param) {
                           return {
-                                  TAG: /* Eq */0,
-                                  _0: num1,
-                                  _1: Caml_obj.caml_max(num1, num2)
-                                };
+                            TAG: /* Eq */0,
+                            _0: big,
+                            _1: Caml_obj.caml_max(big, small)
+                          };
                         })
                     ],
                     tl: {
                       hd: [
-                        "compare: " + title,
+                        "max: " + title,
                         (function (param) {
                             return {
-                                    TAG: /* Eq */0,
-                                    _0: 0,
-                                    _1: Caml_obj.caml_compare(num1, num2)
-                                  };
+                              TAG: /* Eq */0,
+                              _0: big,
+                              _1: Caml_obj.caml_max(small, big)
+                            };
                           })
                       ],
                       tl: {
                         hd: [
-                          "compare: " + title,
+                          "!= operator: " + title,
                           (function (param) {
                               return {
-                                      TAG: /* Eq */0,
-                                      _0: 0,
-                                      _1: Caml_obj.caml_compare(num2, num1)
-                                    };
+                                TAG: /* Eq */0,
+                                _0: true,
+                                _1: big !== small
+                              };
                             })
                         ],
                         tl: {
@@ -319,21 +132,21 @@ function isEqual(title, num1, num2) {
                             "!= operator: " + title,
                             (function (param) {
                                 return {
-                                        TAG: /* Eq */0,
-                                        _0: false,
-                                        _1: num1 !== num2
-                                      };
+                                  TAG: /* Eq */0,
+                                  _0: true,
+                                  _1: small !== big
+                                };
                               })
                           ],
                           tl: {
                             hd: [
-                              "!= operator: " + title,
+                              "<> operator: " + title,
                               (function (param) {
                                   return {
-                                          TAG: /* Eq */0,
-                                          _0: false,
-                                          _1: num2 !== num1
-                                        };
+                                    TAG: /* Eq */0,
+                                    _0: true,
+                                    _1: Caml_obj.caml_notequal(big, small)
+                                  };
                                 })
                             ],
                             tl: {
@@ -341,21 +154,21 @@ function isEqual(title, num1, num2) {
                                 "<> operator: " + title,
                                 (function (param) {
                                     return {
-                                            TAG: /* Eq */0,
-                                            _0: false,
-                                            _1: Caml_obj.caml_notequal(num1, num2)
-                                          };
+                                      TAG: /* Eq */0,
+                                      _0: true,
+                                      _1: Caml_obj.caml_notequal(small, big)
+                                    };
                                   })
                               ],
                               tl: {
                                 hd: [
-                                  "<> operator: " + title,
+                                  "= operator: " + title,
                                   (function (param) {
                                       return {
-                                              TAG: /* Eq */0,
-                                              _0: false,
-                                              _1: Caml_obj.caml_notequal(num2, num1)
-                                            };
+                                        TAG: /* Eq */0,
+                                        _0: false,
+                                        _1: Caml_obj.caml_equal(big, small)
+                                      };
                                     })
                                 ],
                                 tl: {
@@ -363,21 +176,21 @@ function isEqual(title, num1, num2) {
                                     "= operator: " + title,
                                     (function (param) {
                                         return {
-                                                TAG: /* Eq */0,
-                                                _0: true,
-                                                _1: Caml_obj.caml_equal(num1, num2)
-                                              };
+                                          TAG: /* Eq */0,
+                                          _0: false,
+                                          _1: Caml_obj.caml_equal(small, big)
+                                        };
                                       })
                                   ],
                                   tl: {
                                     hd: [
-                                      "= operator: " + title,
+                                      "== operator: " + title,
                                       (function (param) {
                                           return {
-                                                  TAG: /* Eq */0,
-                                                  _0: true,
-                                                  _1: Caml_obj.caml_equal(num2, num1)
-                                                };
+                                            TAG: /* Eq */0,
+                                            _0: false,
+                                            _1: big === small
+                                          };
                                         })
                                     ],
                                     tl: {
@@ -385,25 +198,13 @@ function isEqual(title, num1, num2) {
                                         "== operator: " + title,
                                         (function (param) {
                                             return {
-                                                    TAG: /* Eq */0,
-                                                    _0: true,
-                                                    _1: num1 === num2
-                                                  };
+                                              TAG: /* Eq */0,
+                                              _0: false,
+                                              _1: small === big
+                                            };
                                           })
                                       ],
-                                      tl: {
-                                        hd: [
-                                          "== operator: " + title,
-                                          (function (param) {
-                                              return {
-                                                      TAG: /* Eq */0,
-                                                      _0: true,
-                                                      _1: num2 === num1
-                                                    };
-                                            })
-                                        ],
-                                        tl: /* [] */0
-                                      }
+                                      tl: /* [] */0
                                     }
                                   }
                                 }
@@ -418,7 +219,206 @@ function isEqual(title, num1, num2) {
               }
             }
           }
-        };
+        }
+      }
+    }
+  };
+}
+
+function isEqual(title, num1, num2) {
+  return {
+    hd: [
+      "< operator: " + title,
+      (function (param) {
+          return {
+            TAG: /* Eq */0,
+            _0: false,
+            _1: Caml_obj.caml_lessthan(num2, num1)
+          };
+        })
+    ],
+    tl: {
+      hd: [
+        "<= operator: " + title,
+        (function (param) {
+            return {
+              TAG: /* Eq */0,
+              _0: true,
+              _1: Caml_obj.caml_lessequal(num2, num1)
+            };
+          })
+      ],
+      tl: {
+        hd: [
+          "> operator: " + title,
+          (function (param) {
+              return {
+                TAG: /* Eq */0,
+                _0: false,
+                _1: Caml_obj.caml_greaterthan(num1, num2)
+              };
+            })
+        ],
+        tl: {
+          hd: [
+            ">= operator: " + title,
+            (function (param) {
+                return {
+                  TAG: /* Eq */0,
+                  _0: true,
+                  _1: Caml_obj.caml_greaterequal(num1, num2)
+                };
+              })
+          ],
+          tl: {
+            hd: [
+              "min: " + title,
+              (function (param) {
+                  return {
+                    TAG: /* Eq */0,
+                    _0: num1,
+                    _1: Caml_obj.caml_min(num1, num2)
+                  };
+                })
+            ],
+            tl: {
+              hd: [
+                "max: " + title,
+                (function (param) {
+                    return {
+                      TAG: /* Eq */0,
+                      _0: num1,
+                      _1: Caml_obj.caml_max(num1, num2)
+                    };
+                  })
+              ],
+              tl: {
+                hd: [
+                  "compare: " + title,
+                  (function (param) {
+                      return {
+                        TAG: /* Eq */0,
+                        _0: 0,
+                        _1: Caml_obj.caml_compare(num1, num2)
+                      };
+                    })
+                ],
+                tl: {
+                  hd: [
+                    "compare: " + title,
+                    (function (param) {
+                        return {
+                          TAG: /* Eq */0,
+                          _0: 0,
+                          _1: Caml_obj.caml_compare(num2, num1)
+                        };
+                      })
+                  ],
+                  tl: {
+                    hd: [
+                      "!= operator: " + title,
+                      (function (param) {
+                          return {
+                            TAG: /* Eq */0,
+                            _0: false,
+                            _1: num1 !== num2
+                          };
+                        })
+                    ],
+                    tl: {
+                      hd: [
+                        "!= operator: " + title,
+                        (function (param) {
+                            return {
+                              TAG: /* Eq */0,
+                              _0: false,
+                              _1: num2 !== num1
+                            };
+                          })
+                      ],
+                      tl: {
+                        hd: [
+                          "<> operator: " + title,
+                          (function (param) {
+                              return {
+                                TAG: /* Eq */0,
+                                _0: false,
+                                _1: Caml_obj.caml_notequal(num1, num2)
+                              };
+                            })
+                        ],
+                        tl: {
+                          hd: [
+                            "<> operator: " + title,
+                            (function (param) {
+                                return {
+                                  TAG: /* Eq */0,
+                                  _0: false,
+                                  _1: Caml_obj.caml_notequal(num2, num1)
+                                };
+                              })
+                          ],
+                          tl: {
+                            hd: [
+                              "= operator: " + title,
+                              (function (param) {
+                                  return {
+                                    TAG: /* Eq */0,
+                                    _0: true,
+                                    _1: Caml_obj.caml_equal(num1, num2)
+                                  };
+                                })
+                            ],
+                            tl: {
+                              hd: [
+                                "= operator: " + title,
+                                (function (param) {
+                                    return {
+                                      TAG: /* Eq */0,
+                                      _0: true,
+                                      _1: Caml_obj.caml_equal(num2, num1)
+                                    };
+                                  })
+                              ],
+                              tl: {
+                                hd: [
+                                  "== operator: " + title,
+                                  (function (param) {
+                                      return {
+                                        TAG: /* Eq */0,
+                                        _0: true,
+                                        _1: num1 === num2
+                                      };
+                                    })
+                                ],
+                                tl: {
+                                  hd: [
+                                    "== operator: " + title,
+                                    (function (param) {
+                                        return {
+                                          TAG: /* Eq */0,
+                                          _0: true,
+                                          _1: num2 === num1
+                                        };
+                                      })
+                                  ],
+                                  tl: /* [] */0
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  };
 }
 
 const five = BigInt("5");

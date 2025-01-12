@@ -9,10 +9,10 @@ const suites_0 = [
       const key = {};
       const weakmap = new WeakMap().set(key, "value");
       return {
-              TAG: /* Eq */0,
-              _0: true,
-              _1: weakmap.has(key)
-            };
+        TAG: /* Eq */0,
+        _0: true,
+        _1: weakmap.has(key)
+      };
     })
 ];
 
@@ -24,16 +24,16 @@ const suites_1 = {
         const weakmap = new WeakMap().set(key, "value");
         const deleted = weakmap.delete(key);
         return {
-                TAG: /* Eq */0,
-                _0: [
-                  true,
-                  false
-                ],
-                _1: [
-                  deleted,
-                  weakmap.has(key)
-                ]
-              };
+          TAG: /* Eq */0,
+          _0: [
+            true,
+            false
+          ],
+          _1: [
+            deleted,
+            weakmap.has(key)
+          ]
+        };
       })
   ],
   tl: {
@@ -44,10 +44,10 @@ const suites_1 = {
           const weakmap = new WeakMap().set(key, "value");
           const deleted = weakmap.delete({});
           return {
-                  TAG: /* Eq */0,
-                  _0: false,
-                  _1: deleted
-                };
+            TAG: /* Eq */0,
+            _0: false,
+            _1: deleted
+          };
         })
     ],
     tl: {
@@ -60,16 +60,16 @@ const suites_1 = {
             const a = weakmap.get(key_a);
             const b = weakmap.get(key_b);
             return {
-                    TAG: /* Eq */0,
-                    _0: [
-                      "value_a",
-                      undefined
-                    ],
-                    _1: [
-                      a,
-                      b
-                    ]
-                  };
+              TAG: /* Eq */0,
+              _0: [
+                "value_a",
+                undefined
+              ],
+              _1: [
+                a,
+                b
+              ]
+            };
           })
       ],
       tl: {
@@ -83,16 +83,16 @@ const suites_1 = {
               weakmap.delete(key_b);
               const has_b_after = weakmap.has(key_b);
               return {
-                      TAG: /* Eq */0,
-                      _0: [
-                        has_b_before,
-                        has_b_after
-                      ],
-                      _1: [
-                        true,
-                        false
-                      ]
-                    };
+                TAG: /* Eq */0,
+                _0: [
+                  has_b_before,
+                  has_b_after
+                ],
+                _1: [
+                  true,
+                  false
+                ]
+              };
             })
         ],
         tl: {
@@ -107,16 +107,16 @@ const suites_1 = {
                 const all_has_b = weakmap_1.has(key_b) === true && weakmap_2.has(key_b) && weakmap_3.has(key_b);
                 const all_same_ref = weakmap_1 === weakmap_2 && weakmap_2 === weakmap_3;
                 return {
-                        TAG: /* Eq */0,
-                        _0: [
-                          true,
-                          true
-                        ],
-                        _1: [
-                          all_has_b,
-                          all_same_ref
-                        ]
-                      };
+                  TAG: /* Eq */0,
+                  _0: [
+                    true,
+                    true
+                  ],
+                  _1: [
+                    all_has_b,
+                    all_same_ref
+                  ]
+                };
               })
           ],
           tl: /* [] */0

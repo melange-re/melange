@@ -29,14 +29,14 @@ const Small = /* @__PURE__ */Caml_exceptions.create("Large_record_duplication_te
 function f_small(u) {
   if (u.MEL_EXN_ID === Small) {
     return {
-            MEL_EXN_ID: Small,
-            x: 2,
-            y: u.y
-          };
+      MEL_EXN_ID: Small,
+      x: 2,
+      y: u.y
+    };
   } else {
     return {
-            MEL_EXN_ID: Stdlib.Not_found
-          };
+      MEL_EXN_ID: Stdlib.Not_found
+    };
   }
 }
 

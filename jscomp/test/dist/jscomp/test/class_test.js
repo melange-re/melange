@@ -95,10 +95,10 @@ Mt.from_pair_suites("Class_test", {
         "File \"jscomp/test/class_test.ml\", line 38, characters 4-11",
         (function (param) {
             return {
-                    TAG: /* Eq */0,
-                    _0: zero,
-                    _1: 0
-                  };
+              TAG: /* Eq */0,
+              _0: zero,
+              _1: 0
+            };
           })
       ],
       tl: {
@@ -106,10 +106,10 @@ Mt.from_pair_suites("Class_test", {
           "File \"jscomp/test/class_test.ml\", line 39, characters 4-11",
           (function (param) {
               return {
-                      TAG: /* Eq */0,
-                      _0: three,
-                      _1: 3
-                    };
+                TAG: /* Eq */0,
+                _0: three,
+                _1: 3
+              };
             })
         ],
         tl: {
@@ -117,10 +117,10 @@ Mt.from_pair_suites("Class_test", {
             "File \"jscomp/test/class_test.ml\", line 40, characters 4-11",
             (function (param) {
                 return {
-                        TAG: /* Eq */0,
-                        _0: one,
-                        _1: 1
-                      };
+                  TAG: /* Eq */0,
+                  _0: one,
+                  _1: 1
+                };
               })
           ],
           tl: {
@@ -128,10 +128,10 @@ Mt.from_pair_suites("Class_test", {
               "File \"jscomp/test/class_test.ml\", line 41, characters 4-11",
               (function (param) {
                   return {
-                          TAG: /* Eq */0,
-                          _0: two,
-                          _1: 2
-                        };
+                    TAG: /* Eq */0,
+                    _0: two,
+                    _1: 2
+                  };
                 })
             ],
             tl: /* [] */0

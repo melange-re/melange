@@ -8,28 +8,28 @@ const Stdlib = require("melange/stdlib.js");
 
 function a4(prim) {
   return [
-          "File \"jscomp/test/test_primitive.ml\", line 29, characters 9-19",
-          prim
-        ];
+    "File \"jscomp/test/test_primitive.ml\", line 29, characters 9-19",
+    prim
+  ];
 }
 
 function a5(prim) {
   return [
-          30,
-          prim
-        ];
+    30,
+    prim
+  ];
 }
 
 function a6(prim) {
   return [
-          [
-            "jscomp/test/test_primitive.ml",
-            31,
-            9,
-            19
-          ],
-          prim
-        ];
+    [
+      "jscomp/test/test_primitive.ml",
+      31,
+      9,
+      19
+    ],
+    prim
+  ];
 }
 
 const test_float = 3;

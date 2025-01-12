@@ -18,10 +18,10 @@ const suites_0 = [
   "getMonth",
   (function (param) {
       return {
-              TAG: /* Eq */0,
-              _0: 2,
-              _1: d.getMonth()
-            };
+        TAG: /* Eq */0,
+        _0: 2,
+        _1: d.getMonth()
+      };
     })
 ];
 
@@ -30,18 +30,18 @@ const suites_1 = {
     "getYear",
     (function (param) {
         return {
-                TAG: /* Eq */0,
-                _0: [
-                  2016,
-                  2,
-                  1
-                ],
-                _1: [
-                  d3.getFullYear(),
-                  d3.getMonth(),
-                  d3.getDate()
-                ]
-              };
+          TAG: /* Eq */0,
+          _0: [
+            2016,
+            2,
+            1
+          ],
+          _1: [
+            d3.getFullYear(),
+            d3.getMonth(),
+            d3.getDate()
+          ]
+        };
       })
   ],
   tl: /* [] */0

@@ -23,9 +23,9 @@ function lazy_test(param) {
   CamlinternalLazy.force(v);
   const g = u.contents;
   return [
-          h,
-          g
-        ];
+    h,
+    g
+  ];
 }
 
 function f(param) {
@@ -40,13 +40,13 @@ function f(param) {
     return 1;
   }
   throw new Caml_js_exceptions.MelangeError("Match_failure", {
-            MEL_EXN_ID: "Match_failure",
-            _1: [
-              "jscomp/test/lazy_test.ml",
-              9,
-              8
-            ]
-          });
+        MEL_EXN_ID: "Match_failure",
+        _1: [
+          "jscomp/test/lazy_test.ml",
+          9,
+          8
+        ]
+      });
 }
 
 const s = {
@@ -134,8 +134,8 @@ const f007 = {
   LAZY_DONE: false,
   VAL: (function () {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                MEL_EXN_ID: Stdlib.Not_found
-              });
+            MEL_EXN_ID: Stdlib.Not_found
+          });
     })
 };
 
@@ -144,16 +144,16 @@ const f008 = {
   VAL: (function () {
       console.log("hi");
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                MEL_EXN_ID: Stdlib.Not_found
-              });
+            MEL_EXN_ID: Stdlib.Not_found
+          });
     })
 };
 
 function a2(x) {
   return {
-          LAZY_DONE: true,
-          VAL: x
-        };
+    LAZY_DONE: true,
+    VAL: x
+  };
 }
 
 const a3 = {
@@ -185,13 +185,13 @@ Mt.from_pair_suites("Lazy_test", {
         "simple",
         (function (param) {
             return {
-                    TAG: /* Eq */0,
-                    _0: lazy_test(undefined),
-                    _1: [
-                      3,
-                      32
-                    ]
-                  };
+              TAG: /* Eq */0,
+              _0: lazy_test(undefined),
+              _1: [
+                3,
+                32
+              ]
+            };
           })
       ],
       tl: {
@@ -199,10 +199,10 @@ Mt.from_pair_suites("Lazy_test", {
           "lazy_match",
           (function (param) {
               return {
-                      TAG: /* Eq */0,
-                      _0: h,
-                      _1: 2
-                    };
+                TAG: /* Eq */0,
+                _0: h,
+                _1: 2
+              };
             })
         ],
         tl: {
@@ -210,10 +210,10 @@ Mt.from_pair_suites("Lazy_test", {
             "lazy_force",
             (function (param) {
                 return {
-                        TAG: /* Eq */0,
-                        _0: u_v.contents,
-                        _1: 2
-                      };
+                  TAG: /* Eq */0,
+                  _0: u_v.contents,
+                  _1: 2
+                };
               })
           ],
           tl: {
@@ -221,10 +221,10 @@ Mt.from_pair_suites("Lazy_test", {
               "lazy_from_fun",
               (function (param) {
                   return {
-                          TAG: /* Eq */0,
-                          _0: CamlinternalLazy.force(l_from_fun),
-                          _1: 3
-                        };
+                    TAG: /* Eq */0,
+                    _0: CamlinternalLazy.force(l_from_fun),
+                    _1: 3
+                  };
                 })
             ],
             tl: {
@@ -232,13 +232,13 @@ Mt.from_pair_suites("Lazy_test", {
                 "lazy_from_val",
                 (function (param) {
                     return {
-                            TAG: /* Eq */0,
-                            _0: CamlinternalLazy.force({
-                                  LAZY_DONE: true,
-                                  VAL: 3
-                                }),
-                            _1: 3
-                          };
+                      TAG: /* Eq */0,
+                      _0: CamlinternalLazy.force({
+                            LAZY_DONE: true,
+                            VAL: 3
+                          }),
+                      _1: 3
+                    };
                   })
               ],
               tl: {
@@ -246,16 +246,16 @@ Mt.from_pair_suites("Lazy_test", {
                   "lazy_from_val2",
                   (function (param) {
                       return {
-                              TAG: /* Eq */0,
-                              _0: CamlinternalLazy.force(CamlinternalLazy.force({
-                                        LAZY_DONE: true,
-                                        VAL: {
-                                          LAZY_DONE: true,
-                                          VAL: 3
-                                        }
-                                      })),
-                              _1: 3
-                            };
+                        TAG: /* Eq */0,
+                        _0: CamlinternalLazy.force(CamlinternalLazy.force({
+                                  LAZY_DONE: true,
+                                  VAL: {
+                                    LAZY_DONE: true,
+                                    VAL: 3
+                                  }
+                                })),
+                        _1: 3
+                      };
                     })
                 ],
                 tl: {
@@ -264,13 +264,13 @@ Mt.from_pair_suites("Lazy_test", {
                     (function (param) {
                         debugger;
                         return {
-                                TAG: /* Eq */0,
-                                _0: CamlinternalLazy.force(CamlinternalLazy.force({
-                                          LAZY_DONE: true,
-                                          VAL: forward_test
-                                        })),
-                                _1: 4
-                              };
+                          TAG: /* Eq */0,
+                          _0: CamlinternalLazy.force(CamlinternalLazy.force({
+                                    LAZY_DONE: true,
+                                    VAL: forward_test
+                                  })),
+                          _1: 4
+                        };
                       })
                   ],
                   tl: {
@@ -278,10 +278,10 @@ Mt.from_pair_suites("Lazy_test", {
                       "jscomp/test/lazy_test.ml",
                       (function (param) {
                           return {
-                                  TAG: /* Eq */0,
-                                  _0: a3,
-                                  _1: a4
-                                };
+                            TAG: /* Eq */0,
+                            _0: a3,
+                            _1: a4
+                          };
                         })
                     ],
                     tl: {
@@ -289,10 +289,10 @@ Mt.from_pair_suites("Lazy_test", {
                         "jscomp/test/lazy_test.ml",
                         (function (param) {
                             return {
-                                    TAG: /* Eq */0,
-                                    _0: a7,
-                                    _1: undefined
-                                  };
+                              TAG: /* Eq */0,
+                              _0: a7,
+                              _1: undefined
+                            };
                           })
                       ],
                       tl: {
@@ -300,10 +300,10 @@ Mt.from_pair_suites("Lazy_test", {
                           "jscomp/test/lazy_test.ml",
                           (function (param) {
                               return {
-                                      TAG: /* Eq */0,
-                                      _0: a8,
-                                      _1: undefined
-                                    };
+                                TAG: /* Eq */0,
+                                _0: a8,
+                                _1: undefined
+                              };
                             })
                         ],
                         tl: {
@@ -311,12 +311,12 @@ Mt.from_pair_suites("Lazy_test", {
                             "File \"jscomp/test/lazy_test.ml\", line 76, characters 0-7",
                             (function (param) {
                                 return {
-                                        TAG: /* Ok */4,
-                                        _0: Stdlib__Lazy.is_val({
-                                              LAZY_DONE: true,
-                                              VAL: 3
-                                            })
-                                      };
+                                  TAG: /* Ok */4,
+                                  _0: Stdlib__Lazy.is_val({
+                                        LAZY_DONE: true,
+                                        VAL: 3
+                                      })
+                                };
                               })
                           ],
                           tl: {
@@ -324,16 +324,16 @@ Mt.from_pair_suites("Lazy_test", {
                               "File \"jscomp/test/lazy_test.ml\", line 77, characters 0-7",
                               (function (param) {
                                   return {
-                                          TAG: /* Ok */4,
-                                          _0: !Stdlib__Lazy.is_val({
-                                                LAZY_DONE: false,
-                                                VAL: (function () {
-                                                    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                                                              MEL_EXN_ID: Stdlib.Not_found
-                                                            });
-                                                  })
-                                              })
-                                        };
+                                    TAG: /* Ok */4,
+                                    _0: !Stdlib__Lazy.is_val({
+                                          LAZY_DONE: false,
+                                          VAL: (function () {
+                                              throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                                                    MEL_EXN_ID: Stdlib.Not_found
+                                                  });
+                                            })
+                                        })
+                                  };
                                 })
                             ],
                             tl: /* [] */0

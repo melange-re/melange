@@ -114,15 +114,15 @@ const length_10_id = Belt__Belt_List.makeBy(10, (function (x) {
 
 function f13$1(param) {
   return Caml_obj.caml_equal(Belt__Belt_List.take(length_10_id, 8), {
-              hd: 1,
-              tl: {
-                hd: 2,
-                tl: {
-                  hd: 3,
-                  tl: /* [] */0
-                }
-              }
-            });
+        hd: 1,
+        tl: {
+          hd: 2,
+          tl: {
+            hd: 3,
+            tl: /* [] */0
+          }
+        }
+      });
 }
 
 b("File \"jscomp/test/option_repr_test.ml\", line 94, characters 4-11", Caml_obj.caml_lessthan(undefined, null));
@@ -171,8 +171,8 @@ function neqx(a, b) {
 
 function all_true(xs) {
   return Belt__Belt_List.every(xs, (function (x) {
-                return x;
-              }));
+          return x;
+        }));
 }
 
 const xs_0 = gtx(Caml_option.some(null), Caml_option.some(undefined));

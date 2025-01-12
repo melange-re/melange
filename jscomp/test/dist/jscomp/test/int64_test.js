@@ -28,16 +28,16 @@ const a = [
 
 function commutative_add(result, a, b) {
   return {
-          TAG: /* Eq */0,
-          _0: [
-            result,
-            result
-          ],
-          _1: [
-            Caml_int64.add(a, b),
-            Caml_int64.add(b, a)
-          ]
-        };
+    TAG: /* Eq */0,
+    _0: [
+      result,
+      result
+    ],
+    _1: [
+      Caml_int64.add(a, b),
+      Caml_int64.add(b, a)
+    ]
+  };
 }
 
 const generic_compare = Caml_obj.caml_compare;
@@ -861,13 +861,13 @@ const suites = Stdlib.$at({
         "add_one",
         (function (param) {
             return {
-                    TAG: /* Eq */0,
-                    _0: v,
-                    _1: [
-                      0,
-                      2147483648
-                    ]
-                  };
+              TAG: /* Eq */0,
+              _0: v,
+              _1: [
+                0,
+                2147483648
+              ]
+            };
           })
       ],
       tl: {
@@ -875,13 +875,13 @@ const suites = Stdlib.$at({
           "add_2",
           (function (param) {
               return {
-                      TAG: /* Eq */0,
-                      _0: [
-                        0,
-                        4294967294
-                      ],
-                      _1: Caml_int64.add(a, a)
-                    };
+                TAG: /* Eq */0,
+                _0: [
+                  0,
+                  4294967294
+                ],
+                _1: Caml_int64.add(a, a)
+              };
             })
         ],
         tl: {
@@ -889,10 +889,10 @@ const suites = Stdlib.$at({
             "add_3",
             (function (param) {
                 return {
-                        TAG: /* Eq */0,
-                        _0: Caml_int64.zero,
-                        _1: Caml_int64.zero
-                      };
+                  TAG: /* Eq */0,
+                  _0: Caml_int64.zero,
+                  _1: Caml_int64.zero
+                };
               })
           ],
           tl: {
@@ -900,12 +900,12 @@ const suites = Stdlib.$at({
               "add_4",
               (function (param) {
                   return commutative_add([
-                              -1,
-                              4294967294
-                            ], [
-                              -1,
-                              4294967293
-                            ], Caml_int64.one);
+                        -1,
+                        4294967294
+                      ], [
+                        -1,
+                        4294967293
+                      ], Caml_int64.one);
                 })
             ],
             tl: {
@@ -913,12 +913,12 @@ const suites = Stdlib.$at({
                 "add_5",
                 (function (param) {
                     return commutative_add([
-                                -1,
-                                4294967293
-                              ], [
-                                -1,
-                                4294967293
-                              ], Caml_int64.zero);
+                          -1,
+                          4294967293
+                        ], [
+                          -1,
+                          4294967293
+                        ], Caml_int64.zero);
                   })
               ],
               tl: {
@@ -926,15 +926,15 @@ const suites = Stdlib.$at({
                   "add_6",
                   (function (param) {
                       return commutative_add([
-                                  0,
-                                  4
-                                ], [
-                                  -1,
-                                  4294967293
-                                ], [
-                                  0,
-                                  7
-                                ]);
+                            0,
+                            4
+                          ], [
+                            -1,
+                            4294967293
+                          ], [
+                            0,
+                            7
+                          ]);
                     })
                 ],
                 tl: {
@@ -942,15 +942,15 @@ const suites = Stdlib.$at({
                     "add_7",
                     (function (param) {
                         return commutative_add([
-                                    1,
-                                    0
-                                  ], [
-                                    0,
-                                    2147483648
-                                  ], [
-                                    0,
-                                    2147483648
-                                  ]);
+                              1,
+                              0
+                            ], [
+                              0,
+                              2147483648
+                            ], [
+                              0,
+                              2147483648
+                            ]);
                       })
                   ],
                   tl: {
@@ -958,12 +958,12 @@ const suites = Stdlib.$at({
                       "add_8",
                       (function (param) {
                           return commutative_add([
-                                      1,
-                                      0
-                                    ], [
-                                      0,
-                                      4294967295
-                                    ], Caml_int64.one);
+                                1,
+                                0
+                              ], [
+                                0,
+                                4294967295
+                              ], Caml_int64.one);
                         })
                     ],
                     tl: {
@@ -971,15 +971,15 @@ const suites = Stdlib.$at({
                         "add_9",
                         (function (param) {
                             return commutative_add([
-                                        0,
-                                        4294967295
-                                      ], [
-                                        0,
-                                        2147483648
-                                      ], [
-                                        0,
-                                        2147483647
-                                      ]);
+                                  0,
+                                  4294967295
+                                ], [
+                                  0,
+                                  2147483648
+                                ], [
+                                  0,
+                                  2147483647
+                                ]);
                           })
                       ],
                       tl: {
@@ -987,12 +987,12 @@ const suites = Stdlib.$at({
                           "add_10",
                           (function (param) {
                               return commutative_add([
-                                          0,
-                                          2147483648
-                                        ], [
-                                          0,
-                                          2147483648
-                                        ], Caml_int64.zero);
+                                    0,
+                                    2147483648
+                                  ], [
+                                    0,
+                                    2147483648
+                                  ], Caml_int64.zero);
                             })
                         ],
                         tl: {
@@ -1000,12 +1000,12 @@ const suites = Stdlib.$at({
                             "add_11",
                             (function (param) {
                                 return commutative_add([
-                                            0,
-                                            4294967295
-                                          ], [
-                                            0,
-                                            4294967295
-                                          ], Caml_int64.zero);
+                                      0,
+                                      4294967295
+                                    ], [
+                                      0,
+                                      4294967295
+                                    ], Caml_int64.zero);
                               })
                           ],
                           tl: {
@@ -1013,13 +1013,13 @@ const suites = Stdlib.$at({
                               "to_int32",
                               (function (param) {
                                   return {
-                                          TAG: /* Eq */0,
-                                          _0: 3,
-                                          _1: Caml_int64.to_int32([
-                                                0,
-                                                3
-                                              ])
-                                        };
+                                    TAG: /* Eq */0,
+                                    _0: 3,
+                                    _1: Caml_int64.to_int32([
+                                          0,
+                                          3
+                                        ])
+                                  };
                                 })
                             ],
                             tl: {
@@ -1027,13 +1027,13 @@ const suites = Stdlib.$at({
                                 "to_int",
                                 (function (param) {
                                     return {
-                                            TAG: /* Eq */0,
-                                            _0: 3,
-                                            _1: Caml_int64.to_int32([
-                                                  0,
-                                                  3
-                                                ])
-                                          };
+                                      TAG: /* Eq */0,
+                                      _0: 3,
+                                      _1: Caml_int64.to_int32([
+                                            0,
+                                            3
+                                          ])
+                                    };
                                   })
                               ],
                               tl: {
@@ -1041,16 +1041,16 @@ const suites = Stdlib.$at({
                                   "of_int",
                                   (function (param) {
                                       return {
-                                              TAG: /* Eq */0,
-                                              _0: [
-                                                0,
-                                                3
-                                              ],
-                                              _1: [
-                                                0,
-                                                3
-                                              ]
-                                            };
+                                        TAG: /* Eq */0,
+                                        _0: [
+                                          0,
+                                          3
+                                        ],
+                                        _1: [
+                                          0,
+                                          3
+                                        ]
+                                      };
                                     })
                                 ],
                                 tl: {
@@ -1058,16 +1058,16 @@ const suites = Stdlib.$at({
                                     "lognot",
                                     (function (param) {
                                         return {
-                                                TAG: /* Eq */0,
-                                                _0: [
-                                                  -1,
-                                                  4294967293
-                                                ],
-                                                _1: [
-                                                  -1,
-                                                  4294967293
-                                                ]
-                                              };
+                                          TAG: /* Eq */0,
+                                          _0: [
+                                            -1,
+                                            4294967293
+                                          ],
+                                          _1: [
+                                            -1,
+                                            4294967293
+                                          ]
+                                        };
                                       })
                                   ],
                                   tl: {
@@ -1075,16 +1075,16 @@ const suites = Stdlib.$at({
                                       "neg",
                                       (function (param) {
                                           return {
-                                                  TAG: /* Eq */0,
-                                                  _0: [
-                                                    -1,
-                                                    4294967294
-                                                  ],
-                                                  _1: [
-                                                    -1,
-                                                    4294967294
-                                                  ]
-                                                };
+                                            TAG: /* Eq */0,
+                                            _0: [
+                                              -1,
+                                              4294967294
+                                            ],
+                                            _1: [
+                                              -1,
+                                              4294967294
+                                            ]
+                                          };
                                         })
                                     ],
                                     tl: {
@@ -1092,10 +1092,10 @@ const suites = Stdlib.$at({
                                         "File \"jscomp/test/int64_test.ml\", line 80, characters 4-11",
                                         (function (param) {
                                             return {
-                                                    TAG: /* Eq */0,
-                                                    _0: Stdlib__Int64.min_int,
-                                                    _1: Caml_int64.neg(Stdlib__Int64.min_int)
-                                                  };
+                                              TAG: /* Eq */0,
+                                              _0: Stdlib__Int64.min_int,
+                                              _1: Caml_int64.neg(Stdlib__Int64.min_int)
+                                            };
                                           })
                                       ],
                                       tl: {
@@ -1103,10 +1103,10 @@ const suites = Stdlib.$at({
                                           "File \"jscomp/test/int64_test.ml\", line 81, characters 4-11",
                                           (function (param) {
                                               return {
-                                                      TAG: /* Eq */0,
-                                                      _0: Stdlib__Int64.max_int,
-                                                      _1: Caml_int64.neg(Caml_int64.add(Stdlib__Int64.min_int, Caml_int64.one))
-                                                    };
+                                                TAG: /* Eq */0,
+                                                _0: Stdlib__Int64.max_int,
+                                                _1: Caml_int64.neg(Caml_int64.add(Stdlib__Int64.min_int, Caml_int64.one))
+                                              };
                                             })
                                         ],
                                         tl: {
@@ -1114,16 +1114,16 @@ const suites = Stdlib.$at({
                                             "sub1",
                                             (function (param) {
                                                 return {
-                                                        TAG: /* Eq */0,
-                                                        _0: [
-                                                          0,
-                                                          2
-                                                        ],
-                                                        _1: [
-                                                          0,
-                                                          2
-                                                        ]
-                                                      };
+                                                  TAG: /* Eq */0,
+                                                  _0: [
+                                                    0,
+                                                    2
+                                                  ],
+                                                  _1: [
+                                                    0,
+                                                    2
+                                                  ]
+                                                };
                                               })
                                           ],
                                           tl: {
@@ -1131,28 +1131,28 @@ const suites = Stdlib.$at({
                                               "xor1",
                                               (function (param) {
                                                   return {
-                                                          TAG: /* Eq */0,
-                                                          _0: [
-                                                            [
-                                                              0,
-                                                              286331153
-                                                            ],
-                                                            Caml_int64.xor(a, [
-                                                                  0,
-                                                                  4009750271
-                                                                ])
-                                                          ],
-                                                          _1: [
-                                                            [
-                                                              0,
-                                                              286331153
-                                                            ],
-                                                            [
-                                                              0,
-                                                              2432700672
-                                                            ]
-                                                          ]
-                                                        };
+                                                    TAG: /* Eq */0,
+                                                    _0: [
+                                                      [
+                                                        0,
+                                                        286331153
+                                                      ],
+                                                      Caml_int64.xor(a, [
+                                                            0,
+                                                            4009750271
+                                                          ])
+                                                    ],
+                                                    _1: [
+                                                      [
+                                                        0,
+                                                        286331153
+                                                      ],
+                                                      [
+                                                        0,
+                                                        2432700672
+                                                      ]
+                                                    ]
+                                                  };
                                                 })
                                             ],
                                             tl: {
@@ -1160,16 +1160,16 @@ const suites = Stdlib.$at({
                                                 "or",
                                                 (function (param) {
                                                     return {
-                                                            TAG: /* Eq */0,
-                                                            _0: [
-                                                              0,
-                                                              4294967295
-                                                            ],
-                                                            _1: [
-                                                              0,
-                                                              4294967295
-                                                            ]
-                                                          };
+                                                      TAG: /* Eq */0,
+                                                      _0: [
+                                                        0,
+                                                        4294967295
+                                                      ],
+                                                      _1: [
+                                                        0,
+                                                        4294967295
+                                                      ]
+                                                    };
                                                   })
                                               ],
                                               tl: {
@@ -1177,16 +1177,16 @@ const suites = Stdlib.$at({
                                                   "and",
                                                   (function (param) {
                                                       return {
-                                                              TAG: /* Eq */0,
-                                                              _0: [
-                                                                0,
-                                                                4008636142
-                                                              ],
-                                                              _1: [
-                                                                0,
-                                                                4008636142
-                                                              ]
-                                                            };
+                                                        TAG: /* Eq */0,
+                                                        _0: [
+                                                          0,
+                                                          4008636142
+                                                        ],
+                                                        _1: [
+                                                          0,
+                                                          4008636142
+                                                        ]
+                                                      };
                                                     })
                                                 ],
                                                 tl: {
@@ -1194,265 +1194,265 @@ const suites = Stdlib.$at({
                                                     "lsl",
                                                     (function (param) {
                                                         return {
-                                                                TAG: /* Eq */0,
-                                                                _0: Stdlib__Array.map((function (x) {
-                                                                        return Caml_int64.lsl_(Caml_int64.one, x);
-                                                                      }), Stdlib__Array.init(64, (function (i) {
-                                                                            return i;
-                                                                          }))),
-                                                                _1: [
-                                                                  Caml_int64.one,
-                                                                  [
-                                                                    0,
-                                                                    2
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    4
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    8
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    16
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    32
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    64
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    128
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    256
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    512
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    1024
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    2048
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    4096
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    8192
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    16384
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    32768
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    65536
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    131072
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    262144
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    524288
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    1048576
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    2097152
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    4194304
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    8388608
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    16777216
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    33554432
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    67108864
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    134217728
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    268435456
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    536870912
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    1073741824
-                                                                  ],
-                                                                  [
-                                                                    0,
-                                                                    2147483648
-                                                                  ],
-                                                                  [
-                                                                    1,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    2,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    4,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    8,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    16,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    32,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    64,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    128,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    256,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    512,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    1024,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    2048,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    4096,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    8192,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    16384,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    32768,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    65536,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    131072,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    262144,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    524288,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    1048576,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    2097152,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    4194304,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    8388608,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    16777216,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    33554432,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    67108864,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    134217728,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    268435456,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    536870912,
-                                                                    0
-                                                                  ],
-                                                                  [
-                                                                    1073741824,
-                                                                    0
-                                                                  ],
-                                                                  Caml_int64.min_int
-                                                                ]
-                                                              };
+                                                          TAG: /* Eq */0,
+                                                          _0: Stdlib__Array.map((function (x) {
+                                                                  return Caml_int64.lsl_(Caml_int64.one, x);
+                                                                }), Stdlib__Array.init(64, (function (i) {
+                                                                      return i;
+                                                                    }))),
+                                                          _1: [
+                                                            Caml_int64.one,
+                                                            [
+                                                              0,
+                                                              2
+                                                            ],
+                                                            [
+                                                              0,
+                                                              4
+                                                            ],
+                                                            [
+                                                              0,
+                                                              8
+                                                            ],
+                                                            [
+                                                              0,
+                                                              16
+                                                            ],
+                                                            [
+                                                              0,
+                                                              32
+                                                            ],
+                                                            [
+                                                              0,
+                                                              64
+                                                            ],
+                                                            [
+                                                              0,
+                                                              128
+                                                            ],
+                                                            [
+                                                              0,
+                                                              256
+                                                            ],
+                                                            [
+                                                              0,
+                                                              512
+                                                            ],
+                                                            [
+                                                              0,
+                                                              1024
+                                                            ],
+                                                            [
+                                                              0,
+                                                              2048
+                                                            ],
+                                                            [
+                                                              0,
+                                                              4096
+                                                            ],
+                                                            [
+                                                              0,
+                                                              8192
+                                                            ],
+                                                            [
+                                                              0,
+                                                              16384
+                                                            ],
+                                                            [
+                                                              0,
+                                                              32768
+                                                            ],
+                                                            [
+                                                              0,
+                                                              65536
+                                                            ],
+                                                            [
+                                                              0,
+                                                              131072
+                                                            ],
+                                                            [
+                                                              0,
+                                                              262144
+                                                            ],
+                                                            [
+                                                              0,
+                                                              524288
+                                                            ],
+                                                            [
+                                                              0,
+                                                              1048576
+                                                            ],
+                                                            [
+                                                              0,
+                                                              2097152
+                                                            ],
+                                                            [
+                                                              0,
+                                                              4194304
+                                                            ],
+                                                            [
+                                                              0,
+                                                              8388608
+                                                            ],
+                                                            [
+                                                              0,
+                                                              16777216
+                                                            ],
+                                                            [
+                                                              0,
+                                                              33554432
+                                                            ],
+                                                            [
+                                                              0,
+                                                              67108864
+                                                            ],
+                                                            [
+                                                              0,
+                                                              134217728
+                                                            ],
+                                                            [
+                                                              0,
+                                                              268435456
+                                                            ],
+                                                            [
+                                                              0,
+                                                              536870912
+                                                            ],
+                                                            [
+                                                              0,
+                                                              1073741824
+                                                            ],
+                                                            [
+                                                              0,
+                                                              2147483648
+                                                            ],
+                                                            [
+                                                              1,
+                                                              0
+                                                            ],
+                                                            [
+                                                              2,
+                                                              0
+                                                            ],
+                                                            [
+                                                              4,
+                                                              0
+                                                            ],
+                                                            [
+                                                              8,
+                                                              0
+                                                            ],
+                                                            [
+                                                              16,
+                                                              0
+                                                            ],
+                                                            [
+                                                              32,
+                                                              0
+                                                            ],
+                                                            [
+                                                              64,
+                                                              0
+                                                            ],
+                                                            [
+                                                              128,
+                                                              0
+                                                            ],
+                                                            [
+                                                              256,
+                                                              0
+                                                            ],
+                                                            [
+                                                              512,
+                                                              0
+                                                            ],
+                                                            [
+                                                              1024,
+                                                              0
+                                                            ],
+                                                            [
+                                                              2048,
+                                                              0
+                                                            ],
+                                                            [
+                                                              4096,
+                                                              0
+                                                            ],
+                                                            [
+                                                              8192,
+                                                              0
+                                                            ],
+                                                            [
+                                                              16384,
+                                                              0
+                                                            ],
+                                                            [
+                                                              32768,
+                                                              0
+                                                            ],
+                                                            [
+                                                              65536,
+                                                              0
+                                                            ],
+                                                            [
+                                                              131072,
+                                                              0
+                                                            ],
+                                                            [
+                                                              262144,
+                                                              0
+                                                            ],
+                                                            [
+                                                              524288,
+                                                              0
+                                                            ],
+                                                            [
+                                                              1048576,
+                                                              0
+                                                            ],
+                                                            [
+                                                              2097152,
+                                                              0
+                                                            ],
+                                                            [
+                                                              4194304,
+                                                              0
+                                                            ],
+                                                            [
+                                                              8388608,
+                                                              0
+                                                            ],
+                                                            [
+                                                              16777216,
+                                                              0
+                                                            ],
+                                                            [
+                                                              33554432,
+                                                              0
+                                                            ],
+                                                            [
+                                                              67108864,
+                                                              0
+                                                            ],
+                                                            [
+                                                              134217728,
+                                                              0
+                                                            ],
+                                                            [
+                                                              268435456,
+                                                              0
+                                                            ],
+                                                            [
+                                                              536870912,
+                                                              0
+                                                            ],
+                                                            [
+                                                              1073741824,
+                                                              0
+                                                            ],
+                                                            Caml_int64.min_int
+                                                          ]
+                                                        };
                                                       })
                                                   ],
                                                   tl: {
@@ -1460,262 +1460,262 @@ const suites = Stdlib.$at({
                                                       "lsr",
                                                       (function (param) {
                                                           return {
-                                                                  TAG: /* Eq */0,
-                                                                  _0: Stdlib__Array.map((function (x) {
-                                                                          return Caml_int64.lsr_(Caml_int64.neg_one, x);
-                                                                        }), Stdlib__Array.init(64, (function (i) {
-                                                                              return i;
-                                                                            }))),
-                                                                  _1: [
-                                                                    Caml_int64.neg_one,
-                                                                    Caml_int64.max_int,
-                                                                    [
-                                                                      1073741823,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      536870911,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      268435455,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      134217727,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      67108863,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      33554431,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      16777215,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      8388607,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      4194303,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      2097151,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      1048575,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      524287,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      262143,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      131071,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      65535,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      32767,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      16383,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      8191,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      4095,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      2047,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      1023,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      511,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      255,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      127,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      63,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      31,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      15,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      7,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      3,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      1,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      4294967295
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      2147483647
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      1073741823
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      536870911
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      268435455
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      134217727
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      67108863
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      33554431
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      16777215
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      8388607
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      4194303
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      2097151
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      1048575
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      524287
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      262143
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      131071
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      65535
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      32767
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      16383
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      8191
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      4095
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      2047
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      1023
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      511
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      255
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      127
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      63
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      31
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      15
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      7
-                                                                    ],
-                                                                    [
-                                                                      0,
-                                                                      3
-                                                                    ],
-                                                                    Caml_int64.one
-                                                                  ]
-                                                                };
+                                                            TAG: /* Eq */0,
+                                                            _0: Stdlib__Array.map((function (x) {
+                                                                    return Caml_int64.lsr_(Caml_int64.neg_one, x);
+                                                                  }), Stdlib__Array.init(64, (function (i) {
+                                                                        return i;
+                                                                      }))),
+                                                            _1: [
+                                                              Caml_int64.neg_one,
+                                                              Caml_int64.max_int,
+                                                              [
+                                                                1073741823,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                536870911,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                268435455,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                134217727,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                67108863,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                33554431,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                16777215,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                8388607,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                4194303,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                2097151,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                1048575,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                524287,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                262143,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                131071,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                65535,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                32767,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                16383,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                8191,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                4095,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                2047,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                1023,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                511,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                255,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                127,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                63,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                31,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                15,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                7,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                3,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                1,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                0,
+                                                                4294967295
+                                                              ],
+                                                              [
+                                                                0,
+                                                                2147483647
+                                                              ],
+                                                              [
+                                                                0,
+                                                                1073741823
+                                                              ],
+                                                              [
+                                                                0,
+                                                                536870911
+                                                              ],
+                                                              [
+                                                                0,
+                                                                268435455
+                                                              ],
+                                                              [
+                                                                0,
+                                                                134217727
+                                                              ],
+                                                              [
+                                                                0,
+                                                                67108863
+                                                              ],
+                                                              [
+                                                                0,
+                                                                33554431
+                                                              ],
+                                                              [
+                                                                0,
+                                                                16777215
+                                                              ],
+                                                              [
+                                                                0,
+                                                                8388607
+                                                              ],
+                                                              [
+                                                                0,
+                                                                4194303
+                                                              ],
+                                                              [
+                                                                0,
+                                                                2097151
+                                                              ],
+                                                              [
+                                                                0,
+                                                                1048575
+                                                              ],
+                                                              [
+                                                                0,
+                                                                524287
+                                                              ],
+                                                              [
+                                                                0,
+                                                                262143
+                                                              ],
+                                                              [
+                                                                0,
+                                                                131071
+                                                              ],
+                                                              [
+                                                                0,
+                                                                65535
+                                                              ],
+                                                              [
+                                                                0,
+                                                                32767
+                                                              ],
+                                                              [
+                                                                0,
+                                                                16383
+                                                              ],
+                                                              [
+                                                                0,
+                                                                8191
+                                                              ],
+                                                              [
+                                                                0,
+                                                                4095
+                                                              ],
+                                                              [
+                                                                0,
+                                                                2047
+                                                              ],
+                                                              [
+                                                                0,
+                                                                1023
+                                                              ],
+                                                              [
+                                                                0,
+                                                                511
+                                                              ],
+                                                              [
+                                                                0,
+                                                                255
+                                                              ],
+                                                              [
+                                                                0,
+                                                                127
+                                                              ],
+                                                              [
+                                                                0,
+                                                                63
+                                                              ],
+                                                              [
+                                                                0,
+                                                                31
+                                                              ],
+                                                              [
+                                                                0,
+                                                                15
+                                                              ],
+                                                              [
+                                                                0,
+                                                                7
+                                                              ],
+                                                              [
+                                                                0,
+                                                                3
+                                                              ],
+                                                              Caml_int64.one
+                                                            ]
+                                                          };
                                                         })
                                                     ],
                                                     tl: {
@@ -1723,79 +1723,79 @@ const suites = Stdlib.$at({
                                                         "asr",
                                                         (function (param) {
                                                             return {
-                                                                    TAG: /* Eq */0,
-                                                                    _0: Stdlib__Array.map((function (x) {
-                                                                            return Caml_int64.asr_(Caml_int64.neg_one, x);
-                                                                          }), Stdlib__Array.init(64, (function (i) {
-                                                                                return i;
-                                                                              }))),
-                                                                    _1: [
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one,
-                                                                      Caml_int64.neg_one
-                                                                    ]
-                                                                  };
+                                                              TAG: /* Eq */0,
+                                                              _0: Stdlib__Array.map((function (x) {
+                                                                      return Caml_int64.asr_(Caml_int64.neg_one, x);
+                                                                    }), Stdlib__Array.init(64, (function (i) {
+                                                                          return i;
+                                                                        }))),
+                                                              _1: [
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one,
+                                                                Caml_int64.neg_one
+                                                              ]
+                                                            };
                                                           })
                                                       ],
                                                       tl: {
@@ -1803,16 +1803,16 @@ const suites = Stdlib.$at({
                                                           "mul simple",
                                                           (function (param) {
                                                               return {
-                                                                      TAG: /* Eq */0,
-                                                                      _0: [
-                                                                        0,
-                                                                        6
-                                                                      ],
-                                                                      _1: [
-                                                                        0,
-                                                                        6
-                                                                      ]
-                                                                    };
+                                                                TAG: /* Eq */0,
+                                                                _0: [
+                                                                  0,
+                                                                  6
+                                                                ],
+                                                                _1: [
+                                                                  0,
+                                                                  6
+                                                                ]
+                                                              };
                                                             })
                                                         ],
                                                         tl: {
@@ -1820,19 +1820,19 @@ const suites = Stdlib.$at({
                                                             "of_int32",
                                                             (function (param) {
                                                                 return {
-                                                                        TAG: /* Eq */0,
-                                                                        _0: Stdlib__Array.map(Caml_int64.of_int32, [
-                                                                              0,
-                                                                              -2147483648
-                                                                            ]),
-                                                                        _1: [
-                                                                          Caml_int64.zero,
-                                                                          [
-                                                                            -1,
-                                                                            2147483648
-                                                                          ]
-                                                                        ]
-                                                                      };
+                                                                  TAG: /* Eq */0,
+                                                                  _0: Stdlib__Array.map(Caml_int64.of_int32, [
+                                                                        0,
+                                                                        -2147483648
+                                                                      ]),
+                                                                  _1: [
+                                                                    Caml_int64.zero,
+                                                                    [
+                                                                      -1,
+                                                                      2147483648
+                                                                    ]
+                                                                  ]
+                                                                };
                                                               })
                                                           ],
                                                           tl: {
@@ -1840,16 +1840,16 @@ const suites = Stdlib.$at({
                                                               "of_int32_singleton",
                                                               (function (param) {
                                                                   return {
-                                                                          TAG: /* Eq */0,
-                                                                          _0: [
-                                                                            -1,
-                                                                            4294967293
-                                                                          ],
-                                                                          _1: [
-                                                                            -1,
-                                                                            4294967293
-                                                                          ]
-                                                                        };
+                                                                    TAG: /* Eq */0,
+                                                                    _0: [
+                                                                      -1,
+                                                                      4294967293
+                                                                    ],
+                                                                    _1: [
+                                                                      -1,
+                                                                      4294967293
+                                                                    ]
+                                                                  };
                                                                 })
                                                             ],
                                                             tl: {
@@ -1857,16 +1857,16 @@ const suites = Stdlib.$at({
                                                                 "File \"jscomp/test/int64_test.ml\", line 134, characters 4-11",
                                                                 (function (param) {
                                                                     return {
-                                                                            TAG: /* Eq */0,
-                                                                            _0: [
-                                                                              0,
-                                                                              3
-                                                                            ],
-                                                                            _1: [
-                                                                              0,
-                                                                              3
-                                                                            ]
-                                                                          };
+                                                                      TAG: /* Eq */0,
+                                                                      _0: [
+                                                                        0,
+                                                                        3
+                                                                      ],
+                                                                      _1: [
+                                                                        0,
+                                                                        3
+                                                                      ]
+                                                                    };
                                                                   })
                                                               ],
                                                               tl: {
@@ -1874,19 +1874,19 @@ const suites = Stdlib.$at({
                                                                   "to_int32",
                                                                   (function (param) {
                                                                       return {
-                                                                              TAG: /* Eq */0,
-                                                                              _0: Stdlib__Array.map(Caml_int64.to_int32, [
-                                                                                    Caml_int64.zero,
-                                                                                    [
-                                                                                      0,
-                                                                                      2147483648
-                                                                                    ]
-                                                                                  ]),
-                                                                              _1: [
+                                                                        TAG: /* Eq */0,
+                                                                        _0: Stdlib__Array.map(Caml_int64.to_int32, [
+                                                                              Caml_int64.zero,
+                                                                              [
                                                                                 0,
-                                                                                -2147483648
+                                                                                2147483648
                                                                               ]
-                                                                            };
+                                                                            ]),
+                                                                        _1: [
+                                                                          0,
+                                                                          -2147483648
+                                                                        ]
+                                                                      };
                                                                     })
                                                                 ],
                                                                 tl: {
@@ -1894,10 +1894,10 @@ const suites = Stdlib.$at({
                                                                     "discard_sign",
                                                                     (function (param) {
                                                                         return {
-                                                                                TAG: /* Eq */0,
-                                                                                _0: Caml_int64.discard_sign(Caml_int64.neg_one),
-                                                                                _1: Caml_int64.max_int
-                                                                              };
+                                                                          TAG: /* Eq */0,
+                                                                          _0: Caml_int64.discard_sign(Caml_int64.neg_one),
+                                                                          _1: Caml_int64.max_int
+                                                                        };
                                                                       })
                                                                   ],
                                                                   tl: {
@@ -1905,22 +1905,22 @@ const suites = Stdlib.$at({
                                                                       "div_mod",
                                                                       (function (param) {
                                                                           return {
-                                                                                  TAG: /* Eq */0,
-                                                                                  _0: Caml_int64.div_mod([
-                                                                                        0,
-                                                                                        7
-                                                                                      ], [
-                                                                                        0,
-                                                                                        3
-                                                                                      ]),
-                                                                                  _1: [
-                                                                                    [
-                                                                                      0,
-                                                                                      2
-                                                                                    ],
-                                                                                    Caml_int64.one
-                                                                                  ]
-                                                                                };
+                                                                            TAG: /* Eq */0,
+                                                                            _0: Caml_int64.div_mod([
+                                                                                  0,
+                                                                                  7
+                                                                                ], [
+                                                                                  0,
+                                                                                  3
+                                                                                ]),
+                                                                            _1: [
+                                                                              [
+                                                                                0,
+                                                                                2
+                                                                              ],
+                                                                              Caml_int64.one
+                                                                            ]
+                                                                          };
                                                                         })
                                                                     ],
                                                                     tl: {
@@ -1928,10 +1928,10 @@ const suites = Stdlib.$at({
                                                                         "to_hex",
                                                                         (function (param) {
                                                                             return {
-                                                                                    TAG: /* Eq */0,
-                                                                                    _0: Caml_int64.to_hex(Caml_int64.neg_one),
-                                                                                    _1: "ffffffffffffffff"
-                                                                                  };
+                                                                              TAG: /* Eq */0,
+                                                                              _0: Caml_int64.to_hex(Caml_int64.neg_one),
+                                                                              _1: "ffffffffffffffff"
+                                                                            };
                                                                           })
                                                                       ],
                                                                       tl: {
@@ -1939,13 +1939,13 @@ const suites = Stdlib.$at({
                                                                           "generic_compare",
                                                                           (function (param) {
                                                                               return {
-                                                                                      TAG: /* Eq */0,
-                                                                                      _0: Caml_obj.caml_compare([
-                                                                                            1,
-                                                                                            0
-                                                                                          ], Caml_int64.one) > 0,
-                                                                                      _1: true
-                                                                                    };
+                                                                                TAG: /* Eq */0,
+                                                                                _0: Caml_obj.caml_compare([
+                                                                                      1,
+                                                                                      0
+                                                                                    ], Caml_int64.one) > 0,
+                                                                                _1: true
+                                                                              };
                                                                             })
                                                                         ],
                                                                         tl: {
@@ -1953,16 +1953,16 @@ const suites = Stdlib.$at({
                                                                             "test_compier_literal",
                                                                             (function (param) {
                                                                                 return {
-                                                                                        TAG: /* Eq */0,
-                                                                                        _0: [
-                                                                                          0,
-                                                                                          4294967295
-                                                                                        ],
-                                                                                        _1: [
-                                                                                          0,
-                                                                                          4294967295
-                                                                                        ]
-                                                                                      };
+                                                                                  TAG: /* Eq */0,
+                                                                                  _0: [
+                                                                                    0,
+                                                                                    4294967295
+                                                                                  ],
+                                                                                  _1: [
+                                                                                    0,
+                                                                                    4294967295
+                                                                                  ]
+                                                                                };
                                                                               })
                                                                           ],
                                                                           tl: {
@@ -1970,13 +1970,13 @@ const suites = Stdlib.$at({
                                                                               "generic_compare2",
                                                                               (function (param) {
                                                                                   return {
-                                                                                          TAG: /* Eq */0,
-                                                                                          _0: Caml_obj.caml_compare([
-                                                                                                0,
-                                                                                                2147483648
-                                                                                              ], Caml_int64.one) > 0,
-                                                                                          _1: true
-                                                                                        };
+                                                                                    TAG: /* Eq */0,
+                                                                                    _0: Caml_obj.caml_compare([
+                                                                                          0,
+                                                                                          2147483648
+                                                                                        ], Caml_int64.one) > 0,
+                                                                                    _1: true
+                                                                                  };
                                                                                 })
                                                                             ],
                                                                             tl: {
@@ -1984,16 +1984,16 @@ const suites = Stdlib.$at({
                                                                                 "shift_left",
                                                                                 (function (param) {
                                                                                     return {
-                                                                                            TAG: /* Eq */0,
-                                                                                            _0: [
-                                                                                              0,
-                                                                                              4294967040
-                                                                                            ],
-                                                                                            _1: [
-                                                                                              0,
-                                                                                              4294967040
-                                                                                            ]
-                                                                                          };
+                                                                                      TAG: /* Eq */0,
+                                                                                      _0: [
+                                                                                        0,
+                                                                                        4294967040
+                                                                                      ],
+                                                                                      _1: [
+                                                                                        0,
+                                                                                        4294967040
+                                                                                      ]
+                                                                                    };
                                                                                   })
                                                                               ],
                                                                               tl: {
@@ -2001,16 +2001,16 @@ const suites = Stdlib.$at({
                                                                                   "fib_int64",
                                                                                   (function (param) {
                                                                                       return {
-                                                                                              TAG: /* Eq */0,
-                                                                                              _0: fib(1000, Caml_int64.one, [
-                                                                                                    0,
-                                                                                                    2
-                                                                                                  ]),
-                                                                                              _1: [
-                                                                                                -1990564327,
-                                                                                                2874523960
-                                                                                              ]
-                                                                                            };
+                                                                                        TAG: /* Eq */0,
+                                                                                        _0: fib(1000, Caml_int64.one, [
+                                                                                              0,
+                                                                                              2
+                                                                                            ]),
+                                                                                        _1: [
+                                                                                          -1990564327,
+                                                                                          2874523960
+                                                                                        ]
+                                                                                      };
                                                                                     })
                                                                                 ],
                                                                                 tl: {
@@ -2018,13 +2018,13 @@ const suites = Stdlib.$at({
                                                                                     "fac_int64",
                                                                                     (function (param) {
                                                                                         return {
-                                                                                                TAG: /* Eq */0,
-                                                                                                _0: fac(30, Caml_int64.one),
-                                                                                                _1: [
-                                                                                                  -2040662563,
-                                                                                                  1409286144
-                                                                                                ]
-                                                                                              };
+                                                                                          TAG: /* Eq */0,
+                                                                                          _0: fac(30, Caml_int64.one),
+                                                                                          _1: [
+                                                                                            -2040662563,
+                                                                                            1409286144
+                                                                                          ]
+                                                                                        };
                                                                                       })
                                                                                   ],
                                                                                   tl: {
@@ -2032,13 +2032,13 @@ const suites = Stdlib.$at({
                                                                                       "File \"jscomp/test/int64_test.ml\", line 163, characters 6-13",
                                                                                       (function (param) {
                                                                                           return {
-                                                                                                  TAG: /* Eq */0,
-                                                                                                  _0: Caml_int64.add(Stdlib__Int64.max_int, Stdlib__Int64.max_int),
-                                                                                                  _1: [
-                                                                                                    -1,
-                                                                                                    4294967294
-                                                                                                  ]
-                                                                                                };
+                                                                                            TAG: /* Eq */0,
+                                                                                            _0: Caml_int64.add(Stdlib__Int64.max_int, Stdlib__Int64.max_int),
+                                                                                            _1: [
+                                                                                              -1,
+                                                                                              4294967294
+                                                                                            ]
+                                                                                          };
                                                                                         })
                                                                                     ],
                                                                                     tl: {
@@ -2046,10 +2046,10 @@ const suites = Stdlib.$at({
                                                                                         "File \"jscomp/test/int64_test.ml\", line 166, characters 6-13",
                                                                                         (function (param) {
                                                                                             return {
-                                                                                                    TAG: /* Eq */0,
-                                                                                                    _0: Caml_int64.add(Stdlib__Int64.min_int, Stdlib__Int64.min_int),
-                                                                                                    _1: Caml_int64.zero
-                                                                                                  };
+                                                                                              TAG: /* Eq */0,
+                                                                                              _0: Caml_int64.add(Stdlib__Int64.min_int, Stdlib__Int64.min_int),
+                                                                                              _1: Caml_int64.zero
+                                                                                            };
                                                                                           })
                                                                                       ],
                                                                                       tl: {
@@ -2057,10 +2057,10 @@ const suites = Stdlib.$at({
                                                                                           "File \"jscomp/test/int64_test.ml\", line 170, characters 6-13",
                                                                                           (function (param) {
                                                                                               return {
-                                                                                                      TAG: /* Eq */0,
-                                                                                                      _0: Caml_int64.neg_one,
-                                                                                                      _1: Caml_int64.neg_one
-                                                                                                    };
+                                                                                                TAG: /* Eq */0,
+                                                                                                _0: Caml_int64.neg_one,
+                                                                                                _1: Caml_int64.neg_one
+                                                                                              };
                                                                                             })
                                                                                         ],
                                                                                         tl: /* [] */0
@@ -2107,79 +2107,79 @@ const suites = Stdlib.$at({
       }
     }, Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                     return [
-                            Curry._1(Stdlib__Format.asprintf({
-                                      TAG: /* Format */0,
-                                      _0: {
-                                        TAG: /* String_literal */11,
-                                        _0: "shift_left_cases ",
-                                        _1: {
-                                          TAG: /* Int */4,
-                                          _0: /* Int_d */0,
-                                          _1: /* No_padding */0,
-                                          _2: /* No_precision */0,
-                                          _3: /* End_of_format */0
-                                        }
-                                      },
-                                      _1: "shift_left_cases %d"
-                                    }), i),
-                            (function (param) {
-                                return {
-                                        TAG: /* Eq */0,
-                                        _0: a,
-                                        _1: b
-                                      };
-                              })
-                          ];
+                      Curry._1(Stdlib__Format.asprintf({
+                                TAG: /* Format */0,
+                                _0: {
+                                  TAG: /* String_literal */11,
+                                  _0: "shift_left_cases ",
+                                  _1: {
+                                    TAG: /* Int */4,
+                                    _0: /* Int_d */0,
+                                    _1: /* No_padding */0,
+                                    _2: /* No_precision */0,
+                                    _3: /* End_of_format */0
+                                  }
+                                },
+                                _1: "shift_left_cases %d"
+                              }), i),
+                      (function (param) {
+                          return {
+                            TAG: /* Eq */0,
+                            _0: a,
+                            _1: b
+                          };
+                        })
+                    ];
                   }), shift_left_tests_0, shift_left_tests_1)), Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                         return [
-                                Curry._1(Stdlib__Format.asprintf({
-                                          TAG: /* Format */0,
-                                          _0: {
-                                            TAG: /* String_literal */11,
-                                            _0: "shift_right_cases ",
-                                            _1: {
-                                              TAG: /* Int */4,
-                                              _0: /* Int_d */0,
-                                              _1: /* No_padding */0,
-                                              _2: /* No_precision */0,
-                                              _3: /* End_of_format */0
-                                            }
-                                          },
-                                          _1: "shift_right_cases %d"
-                                        }), i),
-                                (function (param) {
-                                    return {
-                                            TAG: /* Eq */0,
-                                            _0: a,
-                                            _1: b
-                                          };
-                                  })
-                              ];
+                          Curry._1(Stdlib__Format.asprintf({
+                                    TAG: /* Format */0,
+                                    _0: {
+                                      TAG: /* String_literal */11,
+                                      _0: "shift_right_cases ",
+                                      _1: {
+                                        TAG: /* Int */4,
+                                        _0: /* Int_d */0,
+                                        _1: /* No_padding */0,
+                                        _2: /* No_precision */0,
+                                        _3: /* End_of_format */0
+                                      }
+                                    },
+                                    _1: "shift_right_cases %d"
+                                  }), i),
+                          (function (param) {
+                              return {
+                                TAG: /* Eq */0,
+                                _0: a,
+                                _1: b
+                              };
+                            })
+                        ];
                       }), shift_right_tests_0, shift_right_tests_1)), Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                         return [
-                                Curry._1(Stdlib__Format.asprintf({
-                                          TAG: /* Format */0,
-                                          _0: {
-                                            TAG: /* String_literal */11,
-                                            _0: "shift_right_logical_cases ",
-                                            _1: {
-                                              TAG: /* Int */4,
-                                              _0: /* Int_d */0,
-                                              _1: /* No_padding */0,
-                                              _2: /* No_precision */0,
-                                              _3: /* End_of_format */0
-                                            }
-                                          },
-                                          _1: "shift_right_logical_cases %d"
-                                        }), i),
-                                (function (param) {
-                                    return {
-                                            TAG: /* Eq */0,
-                                            _0: a,
-                                            _1: b
-                                          };
-                                  })
-                              ];
+                          Curry._1(Stdlib__Format.asprintf({
+                                    TAG: /* Format */0,
+                                    _0: {
+                                      TAG: /* String_literal */11,
+                                      _0: "shift_right_logical_cases ",
+                                      _1: {
+                                        TAG: /* Int */4,
+                                        _0: /* Int_d */0,
+                                        _1: /* No_padding */0,
+                                        _2: /* No_precision */0,
+                                        _3: /* End_of_format */0
+                                      }
+                                    },
+                                    _1: "shift_right_logical_cases %d"
+                                  }), i),
+                          (function (param) {
+                              return {
+                                TAG: /* Eq */0,
+                                _0: a,
+                                _1: b
+                              };
+                            })
+                        ];
                       }), shift_right_logical_suites_0, shift_right_logical_suites_1)))));
 
 const suites$1 = {

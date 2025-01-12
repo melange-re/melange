@@ -30,14 +30,14 @@ function __ocaml_lex_lexeme_rec(lexbuf, ___ocaml_lex_state) {
           continue ;
       case 1 :
           return {
-                  TAG: /* NUMERAL */0,
-                  _0: Caml_format.caml_int_of_string(Stdlib__Lexing.lexeme(lexbuf))
-                };
+            TAG: /* NUMERAL */0,
+            _0: Caml_format.caml_int_of_string(Stdlib__Lexing.lexeme(lexbuf))
+          };
       case 2 :
           return {
-                  TAG: /* IDENT */1,
-                  _0: Stdlib__Lexing.lexeme(lexbuf)
-                };
+            TAG: /* IDENT */1,
+            _0: Stdlib__Lexing.lexeme(lexbuf)
+          };
       case 3 :
           return /* PLUS */0;
       case 4 :

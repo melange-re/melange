@@ -26,8 +26,8 @@ function ui_layout(compile, lookup, appContext) {
   const computeFunction = {
     contents: (function (env) {
         return Curry._1(init, (function (key) {
-                      return Curry._2(lookup, env, key);
-                    }));
+                return Curry._2(lookup, env, key);
+              }));
       })
   };
   const hw1 = new BUI.HostedWindow();
@@ -49,10 +49,10 @@ function ui_layout(compile, lookup, appContext) {
   stackPanel.addChild(button);
   const mk_titleRow = function (text) {
     return {
-            label: {
-              text: text
-            }
-          };
+      label: {
+        text: text
+      }
+    };
   };
   const u = {
     width: 200
@@ -95,8 +95,8 @@ function ui_layout(compile, lookup, appContext) {
             const hot_function = Curry._1(compile, inputCode.text);
             computeFunction.contents = (function (env) {
                 return Curry._1(hot_function, (function (key) {
-                              return Curry._2(lookup, env, key);
-                            }));
+                        return Curry._2(lookup, env, key);
+                      }));
               });
             return ;
           }
@@ -114,11 +114,11 @@ function ui_layout(compile, lookup, appContext) {
                         ask: ask
                       });
                   return [
-                          mk_titleRow(param.ticker),
-                          mk_titleRow(bid.toFixed(2)),
-                          mk_titleRow(ask.toFixed(2)),
-                          mk_titleRow(result.toFixed(2))
-                        ];
+                    mk_titleRow(param.ticker),
+                    mk_titleRow(bid.toFixed(2)),
+                    mk_titleRow(ask.toFixed(2)),
+                    mk_titleRow(result.toFixed(2))
+                  ];
                 }));
         }), 100);
   return hw1;

@@ -20,10 +20,10 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
           return {
-                  TAG: /* Eq */0,
-                  _0: x,
-                  _1: y
-                };
+            TAG: /* Eq */0,
+            _0: x,
+            _1: y
+          };
         })
     ],
     tl: suites.contents
@@ -89,18 +89,18 @@ eq("File \"jscomp/test/global_module_alias_test.ml\", line 57, characters 5-12",
 
 function g(param) {
   return Stdlib__List.length({
-              hd: 1,
-              tl: {
-                hd: 2,
-                tl: {
-                  hd: 3,
-                  tl: {
-                    hd: 4,
-                    tl: /* [] */0
-                  }
-                }
-              }
-            });
+        hd: 1,
+        tl: {
+          hd: 2,
+          tl: {
+            hd: 3,
+            tl: {
+              hd: 4,
+              tl: /* [] */0
+            }
+          }
+        }
+      });
 }
 
 function xx(param) {

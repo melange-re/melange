@@ -5,16 +5,16 @@ const Export_keyword = require("./export_keyword.js");
 
 function test2(v) {
   return {
-          open: v.open,
-          window: v.window
-        };
+    open: v.open,
+    window: v.window
+  };
 }
 
 function test(p) {
   return [
-          p.catch,
-          p.then
-        ];
+    p.catch,
+    p.then
+  ];
 }
 
 const $$case = Export_keyword.$$case;

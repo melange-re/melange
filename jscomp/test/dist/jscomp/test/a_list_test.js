@@ -8,19 +8,19 @@ const suites_0 = [
   "drop",
   (function (param) {
       return {
-              TAG: /* Eq */0,
-              _0: Ext_list_test.drop(3, {
-                    hd: 0,
-                    tl: {
-                      hd: 1,
-                      tl: {
-                        hd: 2,
-                        tl: /* [] */0
-                      }
-                    }
-                  }),
-              _1: /* [] */0
-            };
+        TAG: /* Eq */0,
+        _0: Ext_list_test.drop(3, {
+              hd: 0,
+              tl: {
+                hd: 1,
+                tl: {
+                  hd: 2,
+                  tl: /* [] */0
+                }
+              }
+            }),
+        _1: /* [] */0
+      };
     })
 ];
 
@@ -29,22 +29,22 @@ const suites_1 = {
     "drop1",
     (function (param) {
         return {
-                TAG: /* Eq */0,
-                _0: Ext_list_test.drop(2, {
-                      hd: 0,
-                      tl: {
-                        hd: 1,
-                        tl: {
-                          hd: 2,
-                          tl: /* [] */0
-                        }
-                      }
-                    }),
-                _1: {
-                  hd: 2,
-                  tl: /* [] */0
+          TAG: /* Eq */0,
+          _0: Ext_list_test.drop(2, {
+                hd: 0,
+                tl: {
+                  hd: 1,
+                  tl: {
+                    hd: 2,
+                    tl: /* [] */0
+                  }
                 }
-              };
+              }),
+          _1: {
+            hd: 2,
+            tl: /* [] */0
+          }
+        };
       })
   ],
   tl: {
@@ -52,52 +52,52 @@ const suites_1 = {
       "flat_map",
       (function (param) {
           return {
-                  TAG: /* Eq */0,
-                  _0: {
-                    hd: 0,
+            TAG: /* Eq */0,
+            _0: {
+              hd: 0,
+              tl: {
+                hd: 0,
+                tl: {
+                  hd: 1,
+                  tl: {
+                    hd: 1,
                     tl: {
                       hd: 0,
-                      tl: {
+                      tl: /* [] */0
+                    }
+                  }
+                }
+              }
+            },
+            _1: Ext_list_test.flat_map((function (x) {
+                    if (x % 2 === 0) {
+                      return {
+                        hd: 0,
+                        tl: /* [] */0
+                      };
+                    } else {
+                      return {
                         hd: 1,
                         tl: {
                           hd: 1,
-                          tl: {
-                            hd: 0,
-                            tl: /* [] */0
-                          }
+                          tl: /* [] */0
                         }
+                      };
+                    }
+                  }), {
+                  hd: 0,
+                  tl: {
+                    hd: 0,
+                    tl: {
+                      hd: 3,
+                      tl: {
+                        hd: 0,
+                        tl: /* [] */0
                       }
                     }
-                  },
-                  _1: Ext_list_test.flat_map((function (x) {
-                          if (x % 2 === 0) {
-                            return {
-                                    hd: 0,
-                                    tl: /* [] */0
-                                  };
-                          } else {
-                            return {
-                                    hd: 1,
-                                    tl: {
-                                      hd: 1,
-                                      tl: /* [] */0
-                                    }
-                                  };
-                          }
-                        }), {
-                        hd: 0,
-                        tl: {
-                          hd: 0,
-                          tl: {
-                            hd: 3,
-                            tl: {
-                              hd: 0,
-                              tl: /* [] */0
-                            }
-                          }
-                        }
-                      })
-                };
+                  }
+                })
+          };
         })
     ],
     tl: /* [] */0

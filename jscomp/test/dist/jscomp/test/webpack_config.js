@@ -39,19 +39,19 @@ const B = {};
 
 function f(param) {
   return [
-          (function (prim) {
-              List$2.ff();
-            }),
-          (function (prim) {
-              List$2.ff2();
-            }),
-          (function (prim) {
-              List$1.ff();
-            }),
-          (function (prim) {
-              List$1.ff2();
-            })
-        ];
+    (function (prim) {
+        List$2.ff();
+      }),
+    (function (prim) {
+        List$2.ff2();
+      }),
+    (function (prim) {
+        List$1.ff();
+      }),
+    (function (prim) {
+        List$1.ff2();
+      })
+  ];
 }
 
 List.xx();

@@ -19,9 +19,9 @@ function $$throw(loc, x) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
           return {
-                  TAG: /* ThrowAny */7,
-                  _0: x
-                };
+            TAG: /* ThrowAny */7,
+            _0: x
+          };
         })
     ],
     tl: suites.contents

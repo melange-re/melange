@@ -28,14 +28,14 @@ function createRootWithClassName(className) {
   const elements = document.getElementsByClassName(className);
   if (elements.length) {
     return {
-            TAG: /* Ok */0,
-            _0: ReactDom.createRoot(elements[0])
-          };
+      TAG: /* Ok */0,
+      _0: ReactDom.createRoot(elements[0])
+    };
   } else {
     return {
-            TAG: /* Error */1,
-            _0: "ReactDOMRe.Unstable.createRootWithClassName: no element of class " + (className + " found in the HTML.")
-          };
+      TAG: /* Error */1,
+      _0: "ReactDOMRe.Unstable.createRootWithClassName: no element of class " + (className + " found in the HTML.")
+    };
   }
 }
 
@@ -43,14 +43,14 @@ function createRootWithId(id) {
   const element = document.getElementById(id);
   if (element == null) {
     return {
-            TAG: /* Error */1,
-            _0: "ReactDOMRe.Unstable.createRootWithId: no element of id " + (id + " found in the HTML.")
-          };
+      TAG: /* Error */1,
+      _0: "ReactDOMRe.Unstable.createRootWithId: no element of id " + (id + " found in the HTML.")
+    };
   } else {
     return {
-            TAG: /* Ok */0,
-            _0: ReactDom.createRoot(element)
-          };
+      TAG: /* Ok */0,
+      _0: ReactDom.createRoot(element)
+    };
   }
 }
 
@@ -72,9 +72,9 @@ function hydrateToElementWithId(reactElement, id) {
   const element = document.getElementById(id);
   if (element == null) {
     throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
-              MEL_EXN_ID: Stdlib.Invalid_argument,
-              _1: "ReactDOMRe.hydrateToElementWithId : no element of id " + (id + " found in the HTML.")
-            });
+          MEL_EXN_ID: Stdlib.Invalid_argument,
+          _1: "ReactDOMRe.hydrateToElementWithId : no element of id " + (id + " found in the HTML.")
+        });
   }
   ReactDom.hydrate(reactElement, element);
 }

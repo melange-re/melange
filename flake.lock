@@ -25,11 +25,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1736572565,
-        "narHash": "sha256-4u5B2Dp2C+KzuZbgYlxb4O1l3U3WWG25pZltrH6k7c8=",
+        "lastModified": 1736635142,
+        "narHash": "sha256-VzMopEyjwS/Sazvw/l8Ds8jaC9+hVbJHnMAdOSPn+60=",
         "owner": "nix-ocaml",
         "repo": "nix-overlays",
-        "rev": "3bae9a36cce8bb8d08d55c7f53d5bb9f2ee24dbb",
+        "rev": "71e214d2fbed045c5164216b71058afb37ce6bce",
         "type": "github"
       },
       "original": {
@@ -40,17 +40,17 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1736560554,
-        "narHash": "sha256-+JU6o3GAOWtFfmbf1yfHI7Tu8E+sn8Uo6/0argLzsB4=",
+        "lastModified": 1736603572,
+        "narHash": "sha256-yOZxepSF/z6ZDAOlJ3VZRIGOKfroa6CmOm2x6ud8S3s=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "cef47c71b16e96b15ef2ee88be39d030f1961437",
+        "rev": "376250fab39653e93864b4dfd9ab161751fbe430",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "cef47c71b16e96b15ef2ee88be39d030f1961437",
+        "rev": "376250fab39653e93864b4dfd9ab161751fbe430",
         "type": "github"
       }
     },

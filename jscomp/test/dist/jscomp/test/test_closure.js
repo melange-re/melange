@@ -30,13 +30,13 @@ Stdlib__Array.iter((function (x) {
 
 if (v.contents !== 45) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/test_closure.ml",
-              53,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/test_closure.ml",
+          53,
+          2
+        ]
+      });
 }
 
 exports.v = v;

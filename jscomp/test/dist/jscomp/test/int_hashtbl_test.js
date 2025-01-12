@@ -13,16 +13,16 @@ function f(H) {
   Curry._3(H.add, tbl, 1, /* '1' */49);
   Curry._3(H.add, tbl, 2, /* '2' */50);
   return Stdlib__List.sort((function (param, param$1) {
-                return Caml.caml_int_compare(param[0], param$1[0]);
-              }), Curry._3(H.fold, (function (k, v, acc) {
-                    return {
-                            hd: [
-                              k,
-                              v
-                            ],
-                            tl: acc
-                          };
-                  }), tbl, /* [] */0));
+          return Caml.caml_int_compare(param[0], param$1[0]);
+        }), Curry._3(H.fold, (function (k, v, acc) {
+              return {
+                hd: [
+                  k,
+                  v
+                ],
+                tl: acc
+              };
+            }), tbl, /* [] */0));
 }
 
 function g(H, count) {
@@ -35,16 +35,16 @@ function g(H, count) {
   }
   const v = Curry._3(H.fold, (function (k, v, acc) {
           return {
-                  hd: [
-                    k,
-                    v
-                  ],
-                  tl: acc
-                };
+            hd: [
+              k,
+              v
+            ],
+            tl: acc
+          };
         }), tbl, /* [] */0);
   return Stdlib__Array.of_list(Stdlib__List.sort((function (param, param$1) {
-                    return Caml.caml_int_compare(param[0], param$1[0]);
-                  }), v));
+              return Caml.caml_int_compare(param[0], param$1[0]);
+            }), v));
 }
 
 const hash = Stdlib__Hashtbl.hash;
@@ -62,22 +62,22 @@ const suites_0 = [
   "simple",
   (function (param) {
       return {
-              TAG: /* Eq */0,
-              _0: {
-                hd: [
-                  1,
-                  /* '1' */49
-                ],
-                tl: {
-                  hd: [
-                    2,
-                    /* '2' */50
-                  ],
-                  tl: /* [] */0
-                }
-              },
-              _1: f(Int_hash)
-            };
+        TAG: /* Eq */0,
+        _0: {
+          hd: [
+            1,
+            /* '1' */49
+          ],
+          tl: {
+            hd: [
+              2,
+              /* '2' */50
+            ],
+            tl: /* [] */0
+          }
+        },
+        _1: f(Int_hash)
+      };
     })
 ];
 
@@ -86,15 +86,15 @@ const suites_1 = {
     "more_iterations",
     (function (param) {
         return {
-                TAG: /* Eq */0,
-                _0: Stdlib__Array.init(1001, (function (i) {
-                        return [
-                                (i << 1),
-                                String(i)
-                              ];
-                      })),
-                _1: g(Int_hash, 1000)
-              };
+          TAG: /* Eq */0,
+          _0: Stdlib__Array.init(1001, (function (i) {
+                  return [
+                    (i << 1),
+                    String(i)
+                  ];
+                })),
+          _1: g(Int_hash, 1000)
+        };
       })
   ],
   tl: /* [] */0

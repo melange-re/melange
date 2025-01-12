@@ -9,10 +9,10 @@ const suites_0 = [
   "toOption - null",
   (function (param) {
       return {
-              TAG: /* Eq */0,
-              _0: undefined,
-              _1: undefined
-            };
+        TAG: /* Eq */0,
+        _0: undefined,
+        _1: undefined
+      };
     })
 ];
 
@@ -21,10 +21,10 @@ const suites_1 = {
     "toOption - undefined",
     (function (param) {
         return {
-                TAG: /* Eq */0,
-                _0: undefined,
-                _1: undefined
-              };
+          TAG: /* Eq */0,
+          _0: undefined,
+          _1: undefined
+        };
       })
   ],
   tl: {
@@ -32,10 +32,10 @@ const suites_1 = {
       "toOption - empty",
       (function (param) {
           return {
-                  TAG: /* Eq */0,
-                  _0: undefined,
-                  _1: undefined
-                };
+            TAG: /* Eq */0,
+            _0: undefined,
+            _1: undefined
+          };
         })
     ],
     tl: {
@@ -43,10 +43,10 @@ const suites_1 = {
         "File \"jscomp/test/js_null_undefined_test.ml\", line 7, characters 2-9",
         (function (param) {
             return {
-                    TAG: /* Eq */0,
-                    _0: "foo",
-                    _1: Caml_option.nullable_to_opt("foo")
-                  };
+              TAG: /* Eq */0,
+              _0: "foo",
+              _1: Caml_option.nullable_to_opt("foo")
+            };
           })
       ],
       tl: {
@@ -54,10 +54,10 @@ const suites_1 = {
           "return",
           (function (param) {
               return {
-                      TAG: /* Eq */0,
-                      _0: "something",
-                      _1: Caml_option.nullable_to_opt("something")
-                    };
+                TAG: /* Eq */0,
+                _0: "something",
+                _1: Caml_option.nullable_to_opt("something")
+              };
             })
         ],
         tl: {
@@ -65,10 +65,10 @@ const suites_1 = {
             "test - null",
             (function (param) {
                 return {
-                        TAG: /* Eq */0,
-                        _0: true,
-                        _1: true
-                      };
+                  TAG: /* Eq */0,
+                  _0: true,
+                  _1: true
+                };
               })
           ],
           tl: {
@@ -76,10 +76,10 @@ const suites_1 = {
               "test - undefined",
               (function (param) {
                   return {
-                          TAG: /* Eq */0,
-                          _0: true,
-                          _1: true
-                        };
+                    TAG: /* Eq */0,
+                    _0: true,
+                    _1: true
+                  };
                 })
             ],
             tl: {
@@ -87,10 +87,10 @@ const suites_1 = {
                 "test - empty",
                 (function (param) {
                     return {
-                            TAG: /* Eq */0,
-                            _0: true,
-                            _1: true
-                          };
+                      TAG: /* Eq */0,
+                      _0: true,
+                      _1: true
+                    };
                   })
               ],
               tl: {
@@ -98,10 +98,10 @@ const suites_1 = {
                   "File \"jscomp/test/js_null_undefined_test.ml\", line 12, characters 2-9",
                   (function (param) {
                       return {
-                              TAG: /* Eq */0,
-                              _0: true,
-                              _1: true
-                            };
+                        TAG: /* Eq */0,
+                        _0: true,
+                        _1: true
+                      };
                     })
                 ],
                 tl: {
@@ -109,12 +109,12 @@ const suites_1 = {
                     "map - null",
                     (function (param) {
                         return {
-                                TAG: /* StrictEq */2,
-                                _0: null,
-                                _1: Js__Js_nullable.map((function (v) {
-                                        return v;
-                                      }), null)
-                              };
+                          TAG: /* StrictEq */2,
+                          _0: null,
+                          _1: Js__Js_nullable.map((function (v) {
+                                  return v;
+                                }), null)
+                        };
                       })
                   ],
                   tl: {
@@ -122,12 +122,12 @@ const suites_1 = {
                       "map - undefined",
                       (function (param) {
                           return {
-                                  TAG: /* StrictEq */2,
-                                  _0: undefined,
-                                  _1: Js__Js_nullable.map((function (v) {
-                                          return v;
-                                        }), undefined)
-                                };
+                            TAG: /* StrictEq */2,
+                            _0: undefined,
+                            _1: Js__Js_nullable.map((function (v) {
+                                    return v;
+                                  }), undefined)
+                          };
                         })
                     ],
                     tl: {
@@ -135,12 +135,12 @@ const suites_1 = {
                         "map - empty",
                         (function (param) {
                             return {
-                                    TAG: /* StrictEq */2,
-                                    _0: undefined,
-                                    _1: Js__Js_nullable.map((function (v) {
-                                            return v;
-                                          }), undefined)
-                                  };
+                              TAG: /* StrictEq */2,
+                              _0: undefined,
+                              _1: Js__Js_nullable.map((function (v) {
+                                      return v;
+                                    }), undefined)
+                            };
                           })
                       ],
                       tl: {
@@ -148,12 +148,12 @@ const suites_1 = {
                           "map - 'a",
                           (function (param) {
                               return {
-                                      TAG: /* Eq */0,
-                                      _0: 4,
-                                      _1: Js__Js_nullable.map((function (n) {
-                                              return (n << 1);
-                                            }), 2)
-                                    };
+                                TAG: /* Eq */0,
+                                _0: 4,
+                                _1: Js__Js_nullable.map((function (n) {
+                                        return (n << 1);
+                                      }), 2)
+                              };
                             })
                         ],
                         tl: {
@@ -167,10 +167,10 @@ const suites_1 = {
                                         hit.contents = true;
                                       }), null);
                                 return {
-                                        TAG: /* Eq */0,
-                                        _0: false,
-                                        _1: hit.contents
-                                      };
+                                  TAG: /* Eq */0,
+                                  _0: false,
+                                  _1: hit.contents
+                                };
                               })
                           ],
                           tl: {
@@ -184,10 +184,10 @@ const suites_1 = {
                                           hit.contents = true;
                                         }), undefined);
                                   return {
-                                          TAG: /* Eq */0,
-                                          _0: false,
-                                          _1: hit.contents
-                                        };
+                                    TAG: /* Eq */0,
+                                    _0: false,
+                                    _1: hit.contents
+                                  };
                                 })
                             ],
                             tl: {
@@ -201,10 +201,10 @@ const suites_1 = {
                                             hit.contents = true;
                                           }), undefined);
                                     return {
-                                            TAG: /* Eq */0,
-                                            _0: false,
-                                            _1: hit.contents
-                                          };
+                                      TAG: /* Eq */0,
+                                      _0: false,
+                                      _1: hit.contents
+                                    };
                                   })
                               ],
                               tl: {
@@ -218,10 +218,10 @@ const suites_1 = {
                                               hit.contents = v;
                                             }), 2);
                                       return {
-                                              TAG: /* Eq */0,
-                                              _0: 2,
-                                              _1: hit.contents
-                                            };
+                                        TAG: /* Eq */0,
+                                        _0: 2,
+                                        _1: hit.contents
+                                      };
                                     })
                                 ],
                                 tl: {
@@ -229,10 +229,10 @@ const suites_1 = {
                                     "fromOption - None",
                                     (function (param) {
                                         return {
-                                                TAG: /* Eq */0,
-                                                _0: undefined,
-                                                _1: Js__Js_nullable.fromOption(undefined)
-                                              };
+                                          TAG: /* Eq */0,
+                                          _0: undefined,
+                                          _1: Js__Js_nullable.fromOption(undefined)
+                                        };
                                       })
                                   ],
                                   tl: {
@@ -240,10 +240,10 @@ const suites_1 = {
                                       "fromOption - Some",
                                       (function (param) {
                                           return {
-                                                  TAG: /* Eq */0,
-                                                  _0: 2,
-                                                  _1: Js__Js_nullable.fromOption(2)
-                                                };
+                                            TAG: /* Eq */0,
+                                            _0: 2,
+                                            _1: Js__Js_nullable.fromOption(2)
+                                          };
                                         })
                                     ],
                                     tl: {
@@ -251,9 +251,9 @@ const suites_1 = {
                                         "null <> undefined",
                                         (function (param) {
                                             return {
-                                                    TAG: /* Ok */4,
-                                                    _0: true
-                                                  };
+                                              TAG: /* Ok */4,
+                                              _0: true
+                                            };
                                           })
                                       ],
                                       tl: {
@@ -261,9 +261,9 @@ const suites_1 = {
                                           "null <> empty",
                                           (function (param) {
                                               return {
-                                                      TAG: /* Ok */4,
-                                                      _0: true
-                                                    };
+                                                TAG: /* Ok */4,
+                                                _0: true
+                                              };
                                             })
                                         ],
                                         tl: {
@@ -271,9 +271,9 @@ const suites_1 = {
                                             "undefined = empty",
                                             (function (param) {
                                                 return {
-                                                        TAG: /* Ok */4,
-                                                        _0: true
-                                                      };
+                                                  TAG: /* Ok */4,
+                                                  _0: true
+                                                };
                                               })
                                           ],
                                           tl: {
@@ -281,9 +281,9 @@ const suites_1 = {
                                               "File \"jscomp/test/js_null_undefined_test.ml\", line 42, characters 2-9",
                                               (function (param) {
                                                   return {
-                                                          TAG: /* Ok */4,
-                                                          _0: true
-                                                        };
+                                                    TAG: /* Ok */4,
+                                                    _0: true
+                                                  };
                                                 })
                                             ],
                                             tl: /* [] */0

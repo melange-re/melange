@@ -4,9 +4,9 @@
 
 function t_error3(param_0) {
   return {
-          TAG: /* T_error3 */0,
-          _0: param_0
-        };
+    TAG: /* T_error3 */0,
+    _0: param_0
+  };
 }
 
 const t_error = /* T_error */0;

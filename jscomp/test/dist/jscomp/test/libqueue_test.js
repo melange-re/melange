@@ -9,11 +9,11 @@ const Stdlib__Queue = require("melange/queue.js");
 
 function to_list(q) {
   return Stdlib__List.rev(Stdlib__Queue.fold((function (l, x) {
-                    return {
-                            hd: x,
-                            tl: l
-                          };
-                  }), /* [] */0, q));
+              return {
+                hd: x,
+                tl: l
+              };
+            }), /* [] */0, q));
 }
 
 const Q = {
@@ -63,13 +63,13 @@ const q = {
 
 if (!(Caml_obj.caml_equal(to_list(q), /* [] */0) && q.length === 0)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              28,
-              25
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          28,
+          25
+        ]
+      });
 }
 
 Stdlib__Queue.add(1, q);
@@ -79,13 +79,13 @@ if (!(Caml_obj.caml_equal(to_list(q), {
           tl: /* [] */0
         }) && q.length === 1)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              29,
-              25
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          29,
+          25
+        ]
+      });
 }
 
 Stdlib__Queue.add(2, q);
@@ -98,13 +98,13 @@ if (!(Caml_obj.caml_equal(to_list(q), {
           }
         }) && q.length === 2)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              30,
-              25
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          30,
+          25
+        ]
+      });
 }
 
 Stdlib__Queue.add(3, q);
@@ -120,13 +120,13 @@ if (!(Caml_obj.caml_equal(to_list(q), {
           }
         }) && q.length === 3)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              31,
-              25
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          31,
+          25
+        ]
+      });
 }
 
 Stdlib__Queue.add(4, q);
@@ -145,24 +145,24 @@ if (!(Caml_obj.caml_equal(to_list(q), {
           }
         }) && q.length === 4)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              32,
-              25
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          32,
+          25
+        ]
+      });
 }
 
 if (Stdlib__Queue.take(q) !== 1) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              33,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          33,
+          2
+        ]
+      });
 }
 
 if (!(Caml_obj.caml_equal(to_list(q), {
@@ -176,24 +176,24 @@ if (!(Caml_obj.caml_equal(to_list(q), {
           }
         }) && q.length === 3)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              33,
-              25
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          33,
+          25
+        ]
+      });
 }
 
 if (Stdlib__Queue.take(q) !== 2) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              34,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          34,
+          2
+        ]
+      });
 }
 
 if (!(Caml_obj.caml_equal(to_list(q), {
@@ -204,24 +204,24 @@ if (!(Caml_obj.caml_equal(to_list(q), {
           }
         }) && q.length === 2)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              34,
-              25
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          34,
+          25
+        ]
+      });
 }
 
 if (Stdlib__Queue.take(q) !== 3) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              35,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          35,
+          2
+        ]
+      });
 }
 
 if (!(Caml_obj.caml_equal(to_list(q), {
@@ -229,46 +229,46 @@ if (!(Caml_obj.caml_equal(to_list(q), {
           tl: /* [] */0
         }) && q.length === 1)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              35,
-              25
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          35,
+          25
+        ]
+      });
 }
 
 if (Stdlib__Queue.take(q) !== 4) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              36,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          36,
+          2
+        ]
+      });
 }
 
 if (!(Caml_obj.caml_equal(to_list(q), /* [] */0) && q.length === 0)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              36,
-              25
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          36,
+          25
+        ]
+      });
 }
 
 if (!does_raise(Stdlib__Queue.take, q)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              37,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          37,
+          2
+        ]
+      });
 }
 
 const q$1 = {
@@ -281,59 +281,59 @@ Stdlib__Queue.add(1, q$1);
 
 if (Stdlib__Queue.take(q$1) !== 1) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              42,
-              13
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          42,
+          13
+        ]
+      });
 }
 
 if (!does_raise(Stdlib__Queue.take, q$1)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              42,
-              36
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          42,
+          36
+        ]
+      });
 }
 
 Stdlib__Queue.add(2, q$1);
 
 if (Stdlib__Queue.take(q$1) !== 2) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              43,
-              13
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          43,
+          13
+        ]
+      });
 }
 
 if (!does_raise(Stdlib__Queue.take, q$1)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              43,
-              36
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          43,
+          36
+        ]
+      });
 }
 
 if (q$1.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              44,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          44,
+          2
+        ]
+      });
 }
 
 const q$2 = {
@@ -346,127 +346,127 @@ Stdlib__Queue.add(1, q$2);
 
 if (Stdlib__Queue.peek(q$2) !== 1) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              49,
-              13
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          49,
+          13
+        ]
+      });
 }
 
 Stdlib__Queue.add(2, q$2);
 
 if (Stdlib__Queue.peek(q$2) !== 1) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              50,
-              13
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          50,
+          13
+        ]
+      });
 }
 
 Stdlib__Queue.add(3, q$2);
 
 if (Stdlib__Queue.peek(q$2) !== 1) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              51,
-              13
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          51,
+          13
+        ]
+      });
 }
 
 if (Stdlib__Queue.peek(q$2) !== 1) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              52,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          52,
+          2
+        ]
+      });
 }
 
 if (Stdlib__Queue.take(q$2) !== 1) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              52,
-              25
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          52,
+          25
+        ]
+      });
 }
 
 if (Stdlib__Queue.peek(q$2) !== 2) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              53,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          53,
+          2
+        ]
+      });
 }
 
 if (Stdlib__Queue.take(q$2) !== 2) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              53,
-              25
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          53,
+          25
+        ]
+      });
 }
 
 if (Stdlib__Queue.peek(q$2) !== 3) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              54,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          54,
+          2
+        ]
+      });
 }
 
 if (Stdlib__Queue.take(q$2) !== 3) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              54,
-              25
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          54,
+          25
+        ]
+      });
 }
 
 if (!does_raise(Stdlib__Queue.peek, q$2)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              55,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          55,
+          2
+        ]
+      });
 }
 
 if (!does_raise(Stdlib__Queue.peek, q$2)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              56,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          56,
+          2
+        ]
+      });
 }
 
 const q$3 = {
@@ -483,24 +483,24 @@ Stdlib__Queue.clear(q$3);
 
 if (q$3.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              63,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          63,
+          2
+        ]
+      });
 }
 
 if (!does_raise(Stdlib__Queue.take, q$3)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              64,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          64,
+          2
+        ]
+      });
 }
 
 if (!Caml_obj.caml_equal(q$3, {
@@ -509,26 +509,26 @@ if (!Caml_obj.caml_equal(q$3, {
         last: /* Nil */0
       })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              65,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          65,
+          2
+        ]
+      });
 }
 
 Stdlib__Queue.add(42, q$3);
 
 if (Stdlib__Queue.take(q$3) !== 42) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              67,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          67,
+          2
+        ]
+      });
 }
 
 const q1 = {
@@ -575,13 +575,13 @@ if (!Caml_obj.caml_equal(to_list(q1), {
         }
       })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              74,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          74,
+          2
+        ]
+      });
 }
 
 if (!Caml_obj.caml_equal(to_list(q2), {
@@ -616,47 +616,47 @@ if (!Caml_obj.caml_equal(to_list(q2), {
         }
       })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              75,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          75,
+          2
+        ]
+      });
 }
 
 if (q1.length !== 10) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              76,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          76,
+          2
+        ]
+      });
 }
 
 if (q2.length !== 10) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              77,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          77,
+          2
+        ]
+      });
 }
 
 for (let i$2 = 1; i$2 <= 10; ++i$2) {
   if (Stdlib__Queue.take(q1) !== i$2) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/libqueue_test.ml",
-                79,
-                4
-              ]
-            });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/libqueue_test.ml",
+            79,
+            4
+          ]
+        });
   }
   
 }
@@ -664,13 +664,13 @@ for (let i$2 = 1; i$2 <= 10; ++i$2) {
 for (let i$3 = 1; i$3 <= 10; ++i$3) {
   if (Stdlib__Queue.take(q2) !== i$3) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/libqueue_test.ml",
-                82,
-                4
-              ]
-            });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/libqueue_test.ml",
+            82,
+            4
+          ]
+        });
   }
   
 }
@@ -683,36 +683,36 @@ const q$4 = {
 
 if (q$4.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              88,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          88,
+          2
+        ]
+      });
 }
 
 for (let i$4 = 1; i$4 <= 10; ++i$4) {
   Stdlib__Queue.add(i$4, q$4);
   if (q$4.length !== i$4) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/libqueue_test.ml",
-                91,
-                4
-              ]
-            });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/libqueue_test.ml",
+            91,
+            4
+          ]
+        });
   }
   if (q$4.length === 0) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/libqueue_test.ml",
-                92,
-                4
-              ]
-            });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/libqueue_test.ml",
+            92,
+            4
+          ]
+        });
   }
   
 }
@@ -720,47 +720,47 @@ for (let i$4 = 1; i$4 <= 10; ++i$4) {
 for (let i$5 = 10; i$5 >= 1; --i$5) {
   if (q$4.length !== i$5) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/libqueue_test.ml",
-                95,
-                4
-              ]
-            });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/libqueue_test.ml",
+            95,
+            4
+          ]
+        });
   }
   if (q$4.length === 0) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/libqueue_test.ml",
-                96,
-                4
-              ]
-            });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/libqueue_test.ml",
+            96,
+            4
+          ]
+        });
   }
   Stdlib__Queue.take(q$4);
 }
 
 if (q$4.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              99,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          99,
+          2
+        ]
+      });
 }
 
 if (q$4.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              100,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          100,
+          2
+        ]
+      });
 }
 
 const q$5 = {
@@ -780,13 +780,13 @@ const i$7 = {
 Stdlib__Queue.iter((function (j) {
         if (i$7.contents !== j) {
           throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/libqueue_test.ml",
-                      107,
-                      19
-                    ]
-                  });
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/libqueue_test.ml",
+                  107,
+                  19
+                ]
+              });
         }
         i$7.contents = i$7.contents + 1 | 0;
       }), q$5);
@@ -805,92 +805,92 @@ const q2$1 = {
 
 if (q1$1.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              112,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          112,
+          2
+        ]
+      });
 }
 
 if (!Caml_obj.caml_equal(to_list(q1$1), /* [] */0)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              112,
-              28
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          112,
+          28
+        ]
+      });
 }
 
 if (q2$1.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              113,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          113,
+          2
+        ]
+      });
 }
 
 if (!Caml_obj.caml_equal(to_list(q2$1), /* [] */0)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              113,
-              28
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          113,
+          28
+        ]
+      });
 }
 
 Stdlib__Queue.transfer(q1$1, q2$1);
 
 if (q1$1.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              115,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          115,
+          2
+        ]
+      });
 }
 
 if (!Caml_obj.caml_equal(to_list(q1$1), /* [] */0)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              115,
-              28
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          115,
+          28
+        ]
+      });
 }
 
 if (q2$1.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              116,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          116,
+          2
+        ]
+      });
 }
 
 if (!Caml_obj.caml_equal(to_list(q2$1), /* [] */0)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              116,
-              28
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          116,
+          28
+        ]
+      });
 }
 
 const q1$2 = {
@@ -911,13 +911,13 @@ for (let i$8 = 1; i$8 <= 4; ++i$8) {
 
 if (q1$2.length !== 4) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              122,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          122,
+          2
+        ]
+      });
 }
 
 if (!Caml_obj.caml_equal(to_list(q1$2), {
@@ -934,70 +934,70 @@ if (!Caml_obj.caml_equal(to_list(q1$2), {
         }
       })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              122,
-              28
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          122,
+          28
+        ]
+      });
 }
 
 if (q2$2.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              123,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          123,
+          2
+        ]
+      });
 }
 
 if (!Caml_obj.caml_equal(to_list(q2$2), /* [] */0)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              123,
-              28
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          123,
+          28
+        ]
+      });
 }
 
 Stdlib__Queue.transfer(q1$2, q2$2);
 
 if (q1$2.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              125,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          125,
+          2
+        ]
+      });
 }
 
 if (!Caml_obj.caml_equal(to_list(q1$2), /* [] */0)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              125,
-              28
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          125,
+          28
+        ]
+      });
 }
 
 if (q2$2.length !== 4) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              126,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          126,
+          2
+        ]
+      });
 }
 
 if (!Caml_obj.caml_equal(to_list(q2$2), {
@@ -1014,13 +1014,13 @@ if (!Caml_obj.caml_equal(to_list(q2$2), {
         }
       })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              126,
-              28
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          126,
+          28
+        ]
+      });
 }
 
 const q1$3 = {
@@ -1041,35 +1041,35 @@ for (let i$9 = 5; i$9 <= 8; ++i$9) {
 
 if (q1$3.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              132,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          132,
+          2
+        ]
+      });
 }
 
 if (!Caml_obj.caml_equal(to_list(q1$3), /* [] */0)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              132,
-              28
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          132,
+          28
+        ]
+      });
 }
 
 if (q2$3.length !== 4) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              133,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          133,
+          2
+        ]
+      });
 }
 
 if (!Caml_obj.caml_equal(to_list(q2$3), {
@@ -1086,48 +1086,48 @@ if (!Caml_obj.caml_equal(to_list(q2$3), {
         }
       })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              133,
-              28
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          133,
+          28
+        ]
+      });
 }
 
 Stdlib__Queue.transfer(q1$3, q2$3);
 
 if (q1$3.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              135,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          135,
+          2
+        ]
+      });
 }
 
 if (!Caml_obj.caml_equal(to_list(q1$3), /* [] */0)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              135,
-              28
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          135,
+          28
+        ]
+      });
 }
 
 if (q2$3.length !== 4) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              136,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          136,
+          2
+        ]
+      });
 }
 
 if (!Caml_obj.caml_equal(to_list(q2$3), {
@@ -1144,13 +1144,13 @@ if (!Caml_obj.caml_equal(to_list(q2$3), {
         }
       })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              136,
-              28
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          136,
+          28
+        ]
+      });
 }
 
 const q1$4 = {
@@ -1175,13 +1175,13 @@ for (let i$11 = 5; i$11 <= 8; ++i$11) {
 
 if (q1$4.length !== 4) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              143,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          143,
+          2
+        ]
+      });
 }
 
 if (!Caml_obj.caml_equal(to_list(q1$4), {
@@ -1198,24 +1198,24 @@ if (!Caml_obj.caml_equal(to_list(q1$4), {
         }
       })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              143,
-              28
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          143,
+          28
+        ]
+      });
 }
 
 if (q2$4.length !== 4) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              144,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          144,
+          2
+        ]
+      });
 }
 
 if (!Caml_obj.caml_equal(to_list(q2$4), {
@@ -1232,48 +1232,48 @@ if (!Caml_obj.caml_equal(to_list(q2$4), {
         }
       })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              144,
-              28
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          144,
+          28
+        ]
+      });
 }
 
 Stdlib__Queue.transfer(q1$4, q2$4);
 
 if (q1$4.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              146,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          146,
+          2
+        ]
+      });
 }
 
 if (!Caml_obj.caml_equal(to_list(q1$4), /* [] */0)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              146,
-              28
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          146,
+          28
+        ]
+      });
 }
 
 if (q2$4.length !== 8) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              147,
-              2
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          147,
+          2
+        ]
+      });
 }
 
 if (!Caml_obj.caml_equal(to_list(q2$4), {
@@ -1302,13 +1302,13 @@ if (!Caml_obj.caml_equal(to_list(q2$4), {
         }
       })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/libqueue_test.ml",
-              147,
-              28
-            ]
-          });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/libqueue_test.ml",
+          147,
+          28
+        ]
+      });
 }
 
 console.log("OK");

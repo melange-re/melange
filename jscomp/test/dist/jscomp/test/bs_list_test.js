@@ -1587,12 +1587,12 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 224, characters 5-12", Belt__Belt
           }
         }, (function (i) {
             return Belt__Belt_List.getExn({
-                        hd: 0,
-                        tl: {
-                          hd: 1,
-                          tl: /* [] */0
-                        }
-                      }, i);
+                  hd: 0,
+                  tl: {
+                    hd: 1,
+                    tl: /* [] */0
+                  }
+                }, i);
           })), {
       hd: 0,
       tl: {

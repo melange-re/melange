@@ -12,16 +12,16 @@ const suites_0 = [
   "equal",
   (function (param) {
       return {
-              TAG: /* Eq */0,
-              _0: [
-                Caml_bytes.get(Stdlib__Bytes.make(3, /* 'a' */97), 0),
-                Stdlib__Bytes.make(3, /* 'a' */97)[0]
-              ],
-              _1: [
-                /* 'a' */97,
-                /* 'a' */97
-              ]
-            };
+        TAG: /* Eq */0,
+        _0: [
+          Caml_bytes.get(Stdlib__Bytes.make(3, /* 'a' */97), 0),
+          Stdlib__Bytes.make(3, /* 'a' */97)[0]
+        ],
+        _1: [
+          /* 'a' */97,
+          /* 'a' */97
+        ]
+      };
     })
 ];
 
@@ -32,16 +32,16 @@ const suites_1 = {
         const u = Stdlib__Bytes.make(3, /* 'a' */97);
         u[0] = /* 'b' */98;
         return {
-                TAG: /* Eq */0,
-                _0: [
-                  u[0],
-                  /* 'g' */103
-                ],
-                _1: [
-                  /* 'b' */98,
-                  /* 'g' */103
-                ]
-              };
+          TAG: /* Eq */0,
+          _0: [
+            u[0],
+            /* 'g' */103
+          ],
+          _1: [
+            /* 'b' */98,
+            /* 'g' */103
+          ]
+        };
       })
   ],
   tl: {
@@ -53,10 +53,10 @@ const suites_1 = {
             Stdlib__Buffer.add_string(v, String(i));
           }
           return {
-                  TAG: /* Eq */0,
-                  _0: Stdlib__Buffer.contents(v),
-                  _1: "012345678910"
-                };
+            TAG: /* Eq */0,
+            _0: Stdlib__Buffer.contents(v),
+            _1: "012345678910"
+          };
         })
     ],
     tl: /* [] */0

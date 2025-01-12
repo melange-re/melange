@@ -12,10 +12,10 @@ Mt.from_pair_suites("String_literal_print_test", {
         "test_string_print",
         (function (param) {
             return {
-                    TAG: /* Eq */0,
-                    _0: js_zero_to_255,
-                    _1: zero_to_255
-                  };
+              TAG: /* Eq */0,
+              _0: js_zero_to_255,
+              _1: zero_to_255
+            };
           })
       ],
       tl: /* [] */0

@@ -29,9 +29,9 @@ function _with_in(filename, f) {
     const e = Caml_js_exceptions.internalToOCamlException(raw_e);
     Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
     return {
-            NAME: "Error",
-            VAL: Stdlib__Printexc.to_string(e)
-          };
+      NAME: "Error",
+      VAL: Stdlib__Printexc.to_string(e)
+    };
   }
 }
 
@@ -46,13 +46,13 @@ function _must_escape(s) {
             exit = 1;
           } else {
             throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-                      MEL_EXN_ID: Stdlib.Exit
-                    });
+                  MEL_EXN_ID: Stdlib.Exit
+                });
           }
         } else {
           throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-                    MEL_EXN_ID: Stdlib.Exit
-                  });
+                MEL_EXN_ID: Stdlib.Exit
+              });
         }
       } else if (c >= 11) {
         if (c >= 32) {
@@ -70,8 +70,8 @@ function _must_escape(s) {
             case 40 :
             case 41 :
                 throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-                          MEL_EXN_ID: Stdlib.Exit
-                        });
+                      MEL_EXN_ID: Stdlib.Exit
+                    });
             
           }
         } else {
@@ -80,15 +80,15 @@ function _must_escape(s) {
       } else {
         if (c >= 9) {
           throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-                    MEL_EXN_ID: Stdlib.Exit
-                  });
+                MEL_EXN_ID: Stdlib.Exit
+              });
         }
         exit = 1;
       }
       if (exit === 1 && c > 127) {
         throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-                  MEL_EXN_ID: Stdlib.Exit
-                });
+              MEL_EXN_ID: Stdlib.Exit
+            });
       }
       
     }
@@ -118,21 +118,21 @@ function to_buf(b, t) {
         return Stdlib__Buffer.add_char(b, /* ')' */41);
       } else {
         return Curry._2(Stdlib__Printf.bprintf(b, {
-                        TAG: /* Format */0,
-                        _0: {
-                          TAG: /* Char_literal */12,
-                          _0: /* '(' */40,
-                          _1: {
-                            TAG: /* Alpha */15,
-                            _0: {
-                              TAG: /* Char_literal */12,
-                              _0: /* ')' */41,
-                              _1: /* End_of_format */0
-                            }
-                          }
-                        },
-                        _1: "(%a)"
-                      }), to_buf, l.hd);
+                  TAG: /* Format */0,
+                  _0: {
+                    TAG: /* Char_literal */12,
+                    _0: /* '(' */40,
+                    _1: {
+                      TAG: /* Alpha */15,
+                      _0: {
+                        TAG: /* Char_literal */12,
+                        _0: /* ')' */41,
+                        _1: /* End_of_format */0
+                      }
+                    }
+                  },
+                  _1: "(%a)"
+                }), to_buf, l.hd);
       }
     } else {
       return Stdlib__Buffer.add_string(b, "()");
@@ -141,22 +141,22 @@ function to_buf(b, t) {
   const s = t.VAL;
   if (_must_escape(s)) {
     return Curry._1(Stdlib__Printf.bprintf(b, {
-                    TAG: /* Format */0,
-                    _0: {
-                      TAG: /* Char_literal */12,
-                      _0: /* '"' */34,
-                      _1: {
-                        TAG: /* String */2,
-                        _0: /* No_padding */0,
-                        _1: {
-                          TAG: /* Char_literal */12,
-                          _0: /* '"' */34,
-                          _1: /* End_of_format */0
-                        }
-                      }
-                    },
-                    _1: "\"%s\""
-                  }), Stdlib__String.escaped(s));
+              TAG: /* Format */0,
+              _0: {
+                TAG: /* Char_literal */12,
+                _0: /* '"' */34,
+                _1: {
+                  TAG: /* String */2,
+                  _0: /* No_padding */0,
+                  _1: {
+                    TAG: /* Char_literal */12,
+                    _0: /* '"' */34,
+                    _1: /* End_of_format */0
+                  }
+                }
+              },
+              _1: "\"%s\""
+            }), Stdlib__String.escaped(s));
   } else {
     return Stdlib__Buffer.add_string(b, s);
   }
@@ -217,54 +217,54 @@ function print(fmt, t) {
                 print(fmt, t$p);
               }), l);
         return Stdlib__Format.fprintf(fmt)({
-                    TAG: /* Format */0,
-                    _0: {
-                      TAG: /* Char_literal */12,
-                      _0: /* ')' */41,
-                      _1: {
-                        TAG: /* Formatting_lit */17,
-                        _0: /* Close_box */0,
-                        _1: /* End_of_format */0
-                      }
-                    },
-                    _1: ")@]"
-                  });
+              TAG: /* Format */0,
+              _0: {
+                TAG: /* Char_literal */12,
+                _0: /* ')' */41,
+                _1: {
+                  TAG: /* Formatting_lit */17,
+                  _0: /* Close_box */0,
+                  _1: /* End_of_format */0
+                }
+              },
+              _1: ")@]"
+            });
       } else {
         return Curry._2(Stdlib__Format.fprintf(fmt)({
+                  TAG: /* Format */0,
+                  _0: {
+                    TAG: /* Formatting_gen */18,
+                    _0: {
+                      TAG: /* Open_box */1,
+                      _0: {
                         TAG: /* Format */0,
                         _0: {
-                          TAG: /* Formatting_gen */18,
-                          _0: {
-                            TAG: /* Open_box */1,
-                            _0: {
-                              TAG: /* Format */0,
-                              _0: {
-                                TAG: /* String_literal */11,
-                                _0: "<hov2>",
-                                _1: /* End_of_format */0
-                              },
-                              _1: "<hov2>"
-                            }
-                          },
-                          _1: {
-                            TAG: /* Char_literal */12,
-                            _0: /* '(' */40,
-                            _1: {
-                              TAG: /* Alpha */15,
-                              _0: {
-                                TAG: /* Char_literal */12,
-                                _0: /* ')' */41,
-                                _1: {
-                                  TAG: /* Formatting_lit */17,
-                                  _0: /* Close_box */0,
-                                  _1: /* End_of_format */0
-                                }
-                              }
-                            }
-                          }
+                          TAG: /* String_literal */11,
+                          _0: "<hov2>",
+                          _1: /* End_of_format */0
                         },
-                        _1: "@[<hov2>(%a)@]"
-                      }), print, l.hd);
+                        _1: "<hov2>"
+                      }
+                    },
+                    _1: {
+                      TAG: /* Char_literal */12,
+                      _0: /* '(' */40,
+                      _1: {
+                        TAG: /* Alpha */15,
+                        _0: {
+                          TAG: /* Char_literal */12,
+                          _0: /* ')' */41,
+                          _1: {
+                            TAG: /* Formatting_lit */17,
+                            _0: /* Close_box */0,
+                            _1: /* End_of_format */0
+                          }
+                        }
+                      }
+                    }
+                  },
+                  _1: "@[<hov2>(%a)@]"
+                }), print, l.hd);
       }
     } else {
       return Stdlib__Format.pp_print_string(fmt, "()");
@@ -273,22 +273,22 @@ function print(fmt, t) {
   const s = t.VAL;
   if (_must_escape(s)) {
     return Curry._1(Stdlib__Format.fprintf(fmt)({
-                    TAG: /* Format */0,
-                    _0: {
-                      TAG: /* Char_literal */12,
-                      _0: /* '"' */34,
-                      _1: {
-                        TAG: /* String */2,
-                        _0: /* No_padding */0,
-                        _1: {
-                          TAG: /* Char_literal */12,
-                          _0: /* '"' */34,
-                          _1: /* End_of_format */0
-                        }
-                      }
-                    },
-                    _1: "\"%s\""
-                  }), Stdlib__String.escaped(s));
+              TAG: /* Format */0,
+              _0: {
+                TAG: /* Char_literal */12,
+                _0: /* '"' */34,
+                _1: {
+                  TAG: /* String */2,
+                  _0: /* No_padding */0,
+                  _1: {
+                    TAG: /* Char_literal */12,
+                    _0: /* '"' */34,
+                    _1: /* End_of_format */0
+                  }
+                }
+              },
+              _1: "\"%s\""
+            }), Stdlib__String.escaped(s));
   } else {
     return Stdlib__Format.pp_print_string(fmt, s);
   }
@@ -309,21 +309,21 @@ function print_noindent(fmt, t) {
         return Stdlib__Format.pp_print_char(fmt, /* ')' */41);
       } else {
         return Curry._2(Stdlib__Format.fprintf(fmt)({
-                        TAG: /* Format */0,
-                        _0: {
-                          TAG: /* Char_literal */12,
-                          _0: /* '(' */40,
-                          _1: {
-                            TAG: /* Alpha */15,
-                            _0: {
-                              TAG: /* Char_literal */12,
-                              _0: /* ')' */41,
-                              _1: /* End_of_format */0
-                            }
-                          }
-                        },
-                        _1: "(%a)"
-                      }), print_noindent, l.hd);
+                  TAG: /* Format */0,
+                  _0: {
+                    TAG: /* Char_literal */12,
+                    _0: /* '(' */40,
+                    _1: {
+                      TAG: /* Alpha */15,
+                      _0: {
+                        TAG: /* Char_literal */12,
+                        _0: /* ')' */41,
+                        _1: /* End_of_format */0
+                      }
+                    }
+                  },
+                  _1: "(%a)"
+                }), print_noindent, l.hd);
       }
     } else {
       return Stdlib__Format.pp_print_string(fmt, "()");
@@ -332,22 +332,22 @@ function print_noindent(fmt, t) {
   const s = t.VAL;
   if (_must_escape(s)) {
     return Curry._1(Stdlib__Format.fprintf(fmt)({
-                    TAG: /* Format */0,
-                    _0: {
-                      TAG: /* Char_literal */12,
-                      _0: /* '"' */34,
-                      _1: {
-                        TAG: /* String */2,
-                        _0: /* No_padding */0,
-                        _1: {
-                          TAG: /* Char_literal */12,
-                          _0: /* '"' */34,
-                          _1: /* End_of_format */0
-                        }
-                      }
-                    },
-                    _1: "\"%s\""
-                  }), Stdlib__String.escaped(s));
+              TAG: /* Format */0,
+              _0: {
+                TAG: /* Char_literal */12,
+                _0: /* '"' */34,
+                _1: {
+                  TAG: /* String */2,
+                  _0: /* No_padding */0,
+                  _1: {
+                    TAG: /* Char_literal */12,
+                    _0: /* '"' */34,
+                    _1: /* End_of_format */0
+                  }
+                }
+              },
+              _1: "\"%s\""
+            }), Stdlib__String.escaped(s));
   } else {
     return Stdlib__Format.pp_print_string(fmt, s);
   }
@@ -362,9 +362,9 @@ function to_chan(oc, t) {
 function to_file_seq(filename, seq) {
   const f = function (oc) {
     return Curry._1(seq, (function (t) {
-                  to_chan(oc, t);
-                  Caml_io.caml_ml_output_char(oc, /* '\n' */10);
-                }));
+            to_chan(oc, t);
+            Caml_io.caml_ml_output_char(oc, /* '\n' */10);
+          }));
   };
   const oc = Stdlib.open_out(filename);
   try {
@@ -403,14 +403,14 @@ function make(bufsizeOpt, refill) {
   const bufsize = bufsizeOpt !== undefined ? bufsizeOpt : 1024;
   const bufsize$1 = Caml.caml_int_min(bufsize > 16 ? bufsize : 16, Stdlib__Sys.max_string_length);
   return {
-          buf: Caml_bytes.caml_create_bytes(bufsize$1),
-          refill: refill,
-          atom: Stdlib__Buffer.create(32),
-          i: 0,
-          len: 0,
-          line: 1,
-          col: 1
-        };
+    buf: Caml_bytes.caml_create_bytes(bufsize$1),
+    refill: refill,
+    atom: Stdlib__Buffer.create(32),
+    i: 0,
+    len: 0,
+    line: 1,
+    col: 1
+  };
 }
 
 function _is_digit(c) {
@@ -435,13 +435,13 @@ function _refill(t, k_succ, k_fail) {
 function _get(t) {
   if (t.i >= t.len) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/sexpm.ml",
-                152,
-                4
-              ]
-            });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/sexpm.ml",
+            152,
+            4
+          ]
+        });
   }
   const c = Caml_bytes.get(t.buf, t.i);
   t.i = t.i + 1 | 0;
@@ -486,32 +486,32 @@ function _error(t, msg) {
             _1: "at %d, %d: "
           }), t.line, t.col);
   return Stdlib__Printf.kbprintf((function (b) {
-                const msg$p = Stdlib__Buffer.contents(b);
-                return {
-                        NAME: "Error",
-                        VAL: msg$p
-                      };
-              }), b, msg);
+          const msg$p = Stdlib__Buffer.contents(b);
+          return {
+            NAME: "Error",
+            VAL: msg$p
+          };
+        }), b, msg);
 }
 
 function _error_eof(t) {
   return _error(t, {
-              TAG: /* Format */0,
-              _0: {
-                TAG: /* String_literal */11,
-                _0: "unexpected end of input",
-                _1: /* End_of_format */0
-              },
-              _1: "unexpected end of input"
-            });
+        TAG: /* Format */0,
+        _0: {
+          TAG: /* String_literal */11,
+          _0: "unexpected end of input",
+          _1: /* End_of_format */0
+        },
+        _1: "unexpected end of input"
+      });
 }
 
 function expr(k, t) {
   while(true) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
-                    return expr(k, param);
-                  }), _error_eof);
+              return expr(k, param);
+            }), _error_eof);
     }
     const c = _get(t);
     if (c >= 11) {
@@ -531,19 +531,19 @@ function expr_starting_with(c, k, t) {
   if (c >= 42) {
     if (c === 59) {
       return skip_comment((function (param, param$1) {
-                    return expr(k, t);
-                  }), t);
+              return expr(k, t);
+            }), t);
     }
     if (c === 92) {
       return _error(t, {
-                  TAG: /* Format */0,
-                  _0: {
-                    TAG: /* String_literal */11,
-                    _0: "unexpected '\\'",
-                    _1: /* End_of_format */0
-                  },
-                  _1: "unexpected '\\'"
-                });
+            TAG: /* Format */0,
+            _0: {
+              TAG: /* String_literal */11,
+              _0: "unexpected '\\'",
+              _1: /* End_of_format */0
+            },
+            _1: "unexpected '\\'"
+          });
     }
     
   } else if (c >= 11) {
@@ -551,13 +551,13 @@ function expr_starting_with(c, k, t) {
       switch (c) {
         case 32 :
             throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/sexpm.ml",
-                        183,
-                        27
-                      ]
-                    });
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/sexpm.ml",
+                    183,
+                    27
+                  ]
+                });
         case 34 :
             return quoted(k, t);
         case 33 :
@@ -571,27 +571,27 @@ function expr_starting_with(c, k, t) {
             return expr_list(/* [] */0, k, t);
         case 41 :
             return _error(t, {
-                        TAG: /* Format */0,
-                        _0: {
-                          TAG: /* String_literal */11,
-                          _0: "unexpected ')'",
-                          _1: /* End_of_format */0
-                        },
-                        _1: "unexpected ')'"
-                      });
+                  TAG: /* Format */0,
+                  _0: {
+                    TAG: /* String_literal */11,
+                    _0: "unexpected ')'",
+                    _1: /* End_of_format */0
+                  },
+                  _1: "unexpected ')'"
+                });
         
       }
     }
     
   } else if (c >= 9) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/sexpm.ml",
-                183,
-                27
-              ]
-            });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/sexpm.ml",
+            183,
+            27
+          ]
+        });
   }
   Stdlib__Buffer.add_char(t.atom, c);
   return atom(k, t);
@@ -601,53 +601,53 @@ function expr_list(acc, k, t) {
   while(true) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
-                    return expr_list(acc, k, param);
-                  }), _error_eof);
+              return expr_list(acc, k, param);
+            }), _error_eof);
     }
     const c = _get(t);
     if (c > 32 || c < 9) {
       if (c === 41) {
         return Curry._2(k, undefined, {
-                    NAME: "List",
-                    VAL: Stdlib__List.rev(acc)
-                  });
+              NAME: "List",
+              VAL: Stdlib__List.rev(acc)
+            });
       }
       
     } else if (c > 31 || c < 11) {
       continue ;
     }
     return expr_starting_with(c, (function (last, e) {
-                  if (last !== undefined) {
-                    if (last !== 40) {
-                      if (last !== 41) {
+            if (last !== undefined) {
+              if (last !== 40) {
+                if (last !== 41) {
+                  return expr_list({
+                        hd: e,
+                        tl: acc
+                      }, k, t);
+                } else {
+                  return Curry._2(k, undefined, {
+                        NAME: "List",
+                        VAL: Stdlib__List.rev({
+                              hd: e,
+                              tl: acc
+                            })
+                      });
+                }
+              } else {
+                return expr_list(/* [] */0, (function (param, l) {
                         return expr_list({
-                                    hd: e,
-                                    tl: acc
-                                  }, k, t);
-                      } else {
-                        return Curry._2(k, undefined, {
-                                    NAME: "List",
-                                    VAL: Stdlib__List.rev({
-                                          hd: e,
-                                          tl: acc
-                                        })
-                                  });
-                      }
-                    } else {
-                      return expr_list(/* [] */0, (function (param, l) {
-                                    return expr_list({
-                                                hd: l,
-                                                tl: acc
-                                              }, k, t);
-                                  }), t);
-                    }
-                  } else {
-                    return expr_list({
-                                hd: e,
-                                tl: acc
-                              }, k, t);
-                  }
-                }), t);
+                              hd: l,
+                              tl: acc
+                            }, k, t);
+                      }), t);
+              }
+            } else {
+              return expr_list({
+                    hd: e,
+                    tl: acc
+                  }, k, t);
+            }
+          }), t);
   };
 }
 
@@ -655,19 +655,19 @@ function _return_atom(last, k, t) {
   const s = Stdlib__Buffer.contents(t.atom);
   t.atom.position = 0;
   return Curry._2(k, last, {
-              NAME: "Atom",
-              VAL: s
-            });
+        NAME: "Atom",
+        VAL: s
+      });
 }
 
 function atom(k, t) {
   while(true) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
-                    return atom(k, param);
-                  }), (function (param) {
-                    return _return_atom(undefined, k, param);
-                  }));
+              return atom(k, param);
+            }), (function (param) {
+              return _return_atom(undefined, k, param);
+            }));
     }
     const c = _get(t);
     let exit = 0;
@@ -675,14 +675,14 @@ function atom(k, t) {
       if (c >= 42) {
         if (c === 92) {
           return _error(t, {
-                      TAG: /* Format */0,
-                      _0: {
-                        TAG: /* String_literal */11,
-                        _0: "unexpected '\\' in non-quoted string",
-                        _1: /* End_of_format */0
-                      },
-                      _1: "unexpected '\\' in non-quoted string"
-                    });
+                TAG: /* Format */0,
+                _0: {
+                  TAG: /* String_literal */11,
+                  _0: "unexpected '\\' in non-quoted string",
+                  _1: /* End_of_format */0
+                },
+                _1: "unexpected '\\' in non-quoted string"
+              });
         }
         exit = 1;
       } else {
@@ -699,14 +699,14 @@ function atom(k, t) {
               break;
           case 34 :
               return _error(t, {
-                          TAG: /* Format */0,
-                          _0: {
-                            TAG: /* String_literal */11,
-                            _0: "unexpected '\"' in the middle of an atom",
-                            _1: /* End_of_format */0
-                          },
-                          _1: "unexpected '\"' in the middle of an atom"
-                        });
+                    TAG: /* Format */0,
+                    _0: {
+                      TAG: /* String_literal */11,
+                      _0: "unexpected '\"' in the middle of an atom",
+                      _1: /* End_of_format */0
+                    },
+                    _1: "unexpected '\"' in the middle of an atom"
+                  });
           
         }
       } else {
@@ -730,8 +730,8 @@ function quoted(k, t) {
   while(true) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
-                    return quoted(k, param);
-                  }), _error_eof);
+              return quoted(k, param);
+            }), _error_eof);
     }
     const c = _get(t);
     if (c === 34) {
@@ -739,9 +739,9 @@ function quoted(k, t) {
     }
     if (c === 92) {
       return escaped((function (c) {
-                    Stdlib__Buffer.add_char(t.atom, c);
-                    return quoted(k, t);
-                  }), t);
+              Stdlib__Buffer.add_char(t.atom, c);
+              return quoted(k, t);
+            }), t);
     }
     Stdlib__Buffer.add_char(t.atom, c);
     continue ;
@@ -751,8 +751,8 @@ function quoted(k, t) {
 function escaped(k, t) {
   if (t.i === t.len) {
     return _refill(t, (function (param) {
-                  return escaped(k, param);
-                }), _error_eof);
+            return escaped(k, param);
+          }), _error_eof);
   }
   const c = _get(t);
   if (c >= 92) {
@@ -798,83 +798,83 @@ function escaped(k, t) {
   }
   if (_is_digit(c)) {
     return read2int(c - /* '0' */48 | 0, (function (n) {
-                  return Curry._1(k, Stdlib__Char.chr(n));
-                }), t);
+            return Curry._1(k, Stdlib__Char.chr(n));
+          }), t);
   } else {
     return Curry._1(_error(t, {
-                    TAG: /* Format */0,
-                    _0: {
-                      TAG: /* String_literal */11,
-                      _0: "unexpected escaped char '",
-                      _1: {
-                        TAG: /* Char */0,
-                        _0: {
-                          TAG: /* Char_literal */12,
-                          _0: /* '\'' */39,
-                          _1: /* End_of_format */0
-                        }
-                      }
-                    },
-                    _1: "unexpected escaped char '%c'"
-                  }), c);
+              TAG: /* Format */0,
+              _0: {
+                TAG: /* String_literal */11,
+                _0: "unexpected escaped char '",
+                _1: {
+                  TAG: /* Char */0,
+                  _0: {
+                    TAG: /* Char_literal */12,
+                    _0: /* '\'' */39,
+                    _1: /* End_of_format */0
+                  }
+                }
+              },
+              _1: "unexpected escaped char '%c'"
+            }), c);
   }
 }
 
 function read2int(i, k, t) {
   if (t.i === t.len) {
     return _refill(t, (function (param) {
-                  return read2int(i, k, param);
-                }), _error_eof);
+            return read2int(i, k, param);
+          }), _error_eof);
   }
   const c = _get(t);
   if (_is_digit(c)) {
     return read1int(Math.imul(10, i) + (c - /* '0' */48 | 0) | 0, k, t);
   } else {
     return Curry._1(_error(t, {
-                    TAG: /* Format */0,
-                    _0: {
-                      TAG: /* String_literal */11,
-                      _0: "unexpected char '",
-                      _1: {
-                        TAG: /* Char */0,
-                        _0: {
-                          TAG: /* String_literal */11,
-                          _0: "' when reading byte",
-                          _1: /* End_of_format */0
-                        }
-                      }
-                    },
-                    _1: "unexpected char '%c' when reading byte"
-                  }), c);
+              TAG: /* Format */0,
+              _0: {
+                TAG: /* String_literal */11,
+                _0: "unexpected char '",
+                _1: {
+                  TAG: /* Char */0,
+                  _0: {
+                    TAG: /* String_literal */11,
+                    _0: "' when reading byte",
+                    _1: /* End_of_format */0
+                  }
+                }
+              },
+              _1: "unexpected char '%c' when reading byte"
+            }), c);
   }
 }
 
 function read1int(i, k, t) {
   if (t.i === t.len) {
     return _refill(t, (function (param) {
-                  return read1int(i, k, param);
-                }), _error_eof);
+            return read1int(i, k, param);
+          }), _error_eof);
   }
   const c = _get(t);
   if (_is_digit(c)) {
     return Curry._1(k, Math.imul(10, i) + (c - /* '0' */48 | 0) | 0);
   } else {
     return Curry._1(_error(t, {
-                    TAG: /* Format */0,
-                    _0: {
-                      TAG: /* String_literal */11,
-                      _0: "unexpected char '",
-                      _1: {
-                        TAG: /* Char */0,
-                        _0: {
-                          TAG: /* String_literal */11,
-                          _0: "' when reading byte",
-                          _1: /* End_of_format */0
-                        }
-                      }
-                    },
-                    _1: "unexpected char '%c' when reading byte"
-                  }), c);
+              TAG: /* Format */0,
+              _0: {
+                TAG: /* String_literal */11,
+                _0: "unexpected char '",
+                _1: {
+                  TAG: /* Char */0,
+                  _0: {
+                    TAG: /* String_literal */11,
+                    _0: "' when reading byte",
+                    _1: /* End_of_format */0
+                  }
+                }
+              },
+              _1: "unexpected char '%c' when reading byte"
+            }), c);
   }
 }
 
@@ -882,8 +882,8 @@ function skip_comment(k, t) {
   while(true) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
-                    return skip_comment(k, param);
-                  }), _error_eof);
+              return skip_comment(k, param);
+            }), _error_eof);
     }
     const match = _get(t);
     if (match === 10) {
@@ -897,10 +897,10 @@ function expr_or_end(k, t) {
   while(true) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
-                    return expr_or_end(k, param);
-                  }), (function (param) {
-                    return "End";
-                  }));
+              return expr_or_end(k, param);
+            }), (function (param) {
+              return "End";
+            }));
     }
     const c = _get(t);
     if (c >= 11) {
@@ -918,11 +918,11 @@ function expr_or_end(k, t) {
 
 function next(t) {
   return expr_or_end((function (param, x) {
-                return {
-                        NAME: "Ok",
-                        VAL: x
-                      };
-              }), t);
+          return {
+            NAME: "Ok",
+            VAL: x
+          };
+        }), t);
 }
 
 function parse_string(s) {
@@ -943,9 +943,9 @@ function parse_string(s) {
   const res = next(d);
   if (typeof res === "string") {
     return {
-            NAME: "Error",
-            VAL: "unexpected end of file"
-          };
+      NAME: "Error",
+      VAL: "unexpected end of file"
+    };
   } else {
     return res;
   }
@@ -958,9 +958,9 @@ function parse_chan(bufsize, ic) {
   const res = next(d);
   if (typeof res === "string") {
     return {
-            NAME: "Error",
-            VAL: "unexpected end of file"
-          };
+      NAME: "Error",
+      VAL: "unexpected end of file"
+    };
   } else {
     return res;
   }
@@ -990,9 +990,9 @@ function parse_chan_list(bufsize, ic) {
     const e = next(d);
     if (typeof e === "string") {
       return {
-              NAME: "Ok",
-              VAL: Stdlib__List.rev(acc)
-            };
+        NAME: "Ok",
+        VAL: Stdlib__List.rev(acc)
+      };
     }
     if (e.NAME === "Error") {
       return e;
@@ -1007,14 +1007,14 @@ function parse_chan_list(bufsize, ic) {
 
 function parse_file(filename) {
   return _with_in(filename, (function (ic) {
-                return parse_chan(undefined, ic);
-              }));
+          return parse_chan(undefined, ic);
+        }));
 }
 
 function parse_file_list(filename) {
   return _with_in(filename, (function (ic) {
-                return parse_chan_list(undefined, ic);
-              }));
+          return parse_chan_list(undefined, ic);
+        }));
 }
 
 function MakeDecode(funarg) {
@@ -1023,14 +1023,14 @@ function MakeDecode(funarg) {
     const bufsize = bufsizeOpt !== undefined ? bufsizeOpt : 1024;
     const bufsize$1 = Caml.caml_int_min(bufsize > 16 ? bufsize : 16, Stdlib__Sys.max_string_length);
     return {
-            buf: Caml_bytes.caml_create_bytes(bufsize$1),
-            refill: refill,
-            atom: Stdlib__Buffer.create(32),
-            i: 0,
-            len: 0,
-            line: 1,
-            col: 1
-          };
+      buf: Caml_bytes.caml_create_bytes(bufsize$1),
+      refill: refill,
+      atom: Stdlib__Buffer.create(32),
+      i: 0,
+      len: 0,
+      line: 1,
+      col: 1
+    };
   };
   const _is_digit = function (c) {
     if (/* '0' */48 <= c) {
@@ -1041,25 +1041,25 @@ function MakeDecode(funarg) {
   };
   const _refill = function (t, k_succ, k_fail) {
     return Curry._2($great$great$eq, Curry._3(t.refill, t.buf, 0, t.buf.length), (function (n) {
-                  t.i = 0;
-                  t.len = n;
-                  if (n === 0) {
-                    return Curry._1(k_fail, t);
-                  } else {
-                    return Curry._1(k_succ, t);
-                  }
-                }));
+            t.i = 0;
+            t.len = n;
+            if (n === 0) {
+              return Curry._1(k_fail, t);
+            } else {
+              return Curry._1(k_succ, t);
+            }
+          }));
   };
   const _get = function (t) {
     if (t.i >= t.len) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/sexpm.ml",
-                  152,
-                  4
-                ]
-              });
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/sexpm.ml",
+              152,
+              4
+            ]
+          });
     }
     const c = Caml_bytes.get(t.buf, t.i);
     t.i = t.i + 1 | 0;
@@ -1103,30 +1103,30 @@ function MakeDecode(funarg) {
               _1: "at %d, %d: "
             }), t.line, t.col);
     return Stdlib__Printf.kbprintf((function (b) {
-                  const msg$p = Stdlib__Buffer.contents(b);
-                  return Curry._1(funarg.$$return, {
-                              NAME: "Error",
-                              VAL: msg$p
-                            });
-                }), b, msg);
+            const msg$p = Stdlib__Buffer.contents(b);
+            return Curry._1(funarg.$$return, {
+                  NAME: "Error",
+                  VAL: msg$p
+                });
+          }), b, msg);
   };
   const _error_eof = function (t) {
     return _error(t, {
-                TAG: /* Format */0,
-                _0: {
-                  TAG: /* String_literal */11,
-                  _0: "unexpected end of input",
-                  _1: /* End_of_format */0
-                },
-                _1: "unexpected end of input"
-              });
+          TAG: /* Format */0,
+          _0: {
+            TAG: /* String_literal */11,
+            _0: "unexpected end of input",
+            _1: /* End_of_format */0
+          },
+          _1: "unexpected end of input"
+        });
   };
   const expr = function (k, t) {
     while(true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
-                      return expr(k, param);
-                    }), _error_eof);
+                return expr(k, param);
+              }), _error_eof);
       }
       const c = _get(t);
       if (c >= 11) {
@@ -1145,19 +1145,19 @@ function MakeDecode(funarg) {
     if (c >= 42) {
       if (c === 59) {
         return skip_comment((function (param, param$1) {
-                      return expr(k, t);
-                    }), t);
+                return expr(k, t);
+              }), t);
       }
       if (c === 92) {
         return _error(t, {
-                    TAG: /* Format */0,
-                    _0: {
-                      TAG: /* String_literal */11,
-                      _0: "unexpected '\\'",
-                      _1: /* End_of_format */0
-                    },
-                    _1: "unexpected '\\'"
-                  });
+              TAG: /* Format */0,
+              _0: {
+                TAG: /* String_literal */11,
+                _0: "unexpected '\\'",
+                _1: /* End_of_format */0
+              },
+              _1: "unexpected '\\'"
+            });
       }
       
     } else if (c >= 11) {
@@ -1165,13 +1165,13 @@ function MakeDecode(funarg) {
         switch (c) {
           case 32 :
               throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                        MEL_EXN_ID: "Assert_failure",
-                        _1: [
-                          "jscomp/test/sexpm.ml",
-                          183,
-                          27
-                        ]
-                      });
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "jscomp/test/sexpm.ml",
+                      183,
+                      27
+                    ]
+                  });
           case 34 :
               return quoted(k, t);
           case 33 :
@@ -1185,27 +1185,27 @@ function MakeDecode(funarg) {
               return expr_list(/* [] */0, k, t);
           case 41 :
               return _error(t, {
-                          TAG: /* Format */0,
-                          _0: {
-                            TAG: /* String_literal */11,
-                            _0: "unexpected ')'",
-                            _1: /* End_of_format */0
-                          },
-                          _1: "unexpected ')'"
-                        });
+                    TAG: /* Format */0,
+                    _0: {
+                      TAG: /* String_literal */11,
+                      _0: "unexpected ')'",
+                      _1: /* End_of_format */0
+                    },
+                    _1: "unexpected ')'"
+                  });
           
         }
       }
       
     } else if (c >= 9) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/sexpm.ml",
-                  183,
-                  27
-                ]
-              });
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/test/sexpm.ml",
+              183,
+              27
+            ]
+          });
     }
     Stdlib__Buffer.add_char(t.atom, c);
     return atom(k, t);
@@ -1214,71 +1214,71 @@ function MakeDecode(funarg) {
     while(true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
-                      return expr_list(acc, k, param);
-                    }), _error_eof);
+                return expr_list(acc, k, param);
+              }), _error_eof);
       }
       const c = _get(t);
       if (c > 32 || c < 9) {
         if (c === 41) {
           return Curry._2(k, undefined, {
-                      NAME: "List",
-                      VAL: Stdlib__List.rev(acc)
-                    });
+                NAME: "List",
+                VAL: Stdlib__List.rev(acc)
+              });
         }
         
       } else if (c > 31 || c < 11) {
         continue ;
       }
       return expr_starting_with(c, (function (last, e) {
-                    if (last !== undefined) {
-                      if (last !== 40) {
-                        if (last !== 41) {
+              if (last !== undefined) {
+                if (last !== 40) {
+                  if (last !== 41) {
+                    return expr_list({
+                          hd: e,
+                          tl: acc
+                        }, k, t);
+                  } else {
+                    return Curry._2(k, undefined, {
+                          NAME: "List",
+                          VAL: Stdlib__List.rev({
+                                hd: e,
+                                tl: acc
+                              })
+                        });
+                  }
+                } else {
+                  return expr_list(/* [] */0, (function (param, l) {
                           return expr_list({
-                                      hd: e,
-                                      tl: acc
-                                    }, k, t);
-                        } else {
-                          return Curry._2(k, undefined, {
-                                      NAME: "List",
-                                      VAL: Stdlib__List.rev({
-                                            hd: e,
-                                            tl: acc
-                                          })
-                                    });
-                        }
-                      } else {
-                        return expr_list(/* [] */0, (function (param, l) {
-                                      return expr_list({
-                                                  hd: l,
-                                                  tl: acc
-                                                }, k, t);
-                                    }), t);
-                      }
-                    } else {
-                      return expr_list({
-                                  hd: e,
-                                  tl: acc
-                                }, k, t);
-                    }
-                  }), t);
+                                hd: l,
+                                tl: acc
+                              }, k, t);
+                        }), t);
+                }
+              } else {
+                return expr_list({
+                      hd: e,
+                      tl: acc
+                    }, k, t);
+              }
+            }), t);
     };
   };
   const _return_atom = function (last, k, t) {
     const s = Stdlib__Buffer.contents(t.atom);
     t.atom.position = 0;
     return Curry._2(k, last, {
-                NAME: "Atom",
-                VAL: s
-              });
+          NAME: "Atom",
+          VAL: s
+        });
   };
   const atom = function (k, t) {
     while(true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
-                      return atom(k, param);
-                    }), (function (param) {
-                      return _return_atom(undefined, k, param);
-                    }));
+                return atom(k, param);
+              }), (function (param) {
+                return _return_atom(undefined, k, param);
+              }));
       }
       const c = _get(t);
       let exit = 0;
@@ -1286,14 +1286,14 @@ function MakeDecode(funarg) {
         if (c >= 42) {
           if (c === 92) {
             return _error(t, {
-                        TAG: /* Format */0,
-                        _0: {
-                          TAG: /* String_literal */11,
-                          _0: "unexpected '\\' in non-quoted string",
-                          _1: /* End_of_format */0
-                        },
-                        _1: "unexpected '\\' in non-quoted string"
-                      });
+                  TAG: /* Format */0,
+                  _0: {
+                    TAG: /* String_literal */11,
+                    _0: "unexpected '\\' in non-quoted string",
+                    _1: /* End_of_format */0
+                  },
+                  _1: "unexpected '\\' in non-quoted string"
+                });
           }
           exit = 1;
         } else {
@@ -1310,14 +1310,14 @@ function MakeDecode(funarg) {
                 break;
             case 34 :
                 return _error(t, {
-                            TAG: /* Format */0,
-                            _0: {
-                              TAG: /* String_literal */11,
-                              _0: "unexpected '\"' in the middle of an atom",
-                              _1: /* End_of_format */0
-                            },
-                            _1: "unexpected '\"' in the middle of an atom"
-                          });
+                      TAG: /* Format */0,
+                      _0: {
+                        TAG: /* String_literal */11,
+                        _0: "unexpected '\"' in the middle of an atom",
+                        _1: /* End_of_format */0
+                      },
+                      _1: "unexpected '\"' in the middle of an atom"
+                    });
             
           }
         } else {
@@ -1340,8 +1340,8 @@ function MakeDecode(funarg) {
     while(true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
-                      return quoted(k, param);
-                    }), _error_eof);
+                return quoted(k, param);
+              }), _error_eof);
       }
       const c = _get(t);
       if (c === 34) {
@@ -1349,9 +1349,9 @@ function MakeDecode(funarg) {
       }
       if (c === 92) {
         return escaped((function (c) {
-                      Stdlib__Buffer.add_char(t.atom, c);
-                      return quoted(k, t);
-                    }), t);
+                Stdlib__Buffer.add_char(t.atom, c);
+                return quoted(k, t);
+              }), t);
       }
       Stdlib__Buffer.add_char(t.atom, c);
       continue ;
@@ -1360,8 +1360,8 @@ function MakeDecode(funarg) {
   const escaped = function (k, t) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
-                    return escaped(k, param);
-                  }), _error_eof);
+              return escaped(k, param);
+            }), _error_eof);
     }
     const c = _get(t);
     if (c >= 92) {
@@ -1407,89 +1407,89 @@ function MakeDecode(funarg) {
     }
     if (_is_digit(c)) {
       return read2int(c - /* '0' */48 | 0, (function (n) {
-                    return Curry._1(k, Stdlib__Char.chr(n));
-                  }), t);
+              return Curry._1(k, Stdlib__Char.chr(n));
+            }), t);
     } else {
       return Curry._1(_error(t, {
-                      TAG: /* Format */0,
-                      _0: {
-                        TAG: /* String_literal */11,
-                        _0: "unexpected escaped char '",
-                        _1: {
-                          TAG: /* Char */0,
-                          _0: {
-                            TAG: /* Char_literal */12,
-                            _0: /* '\'' */39,
-                            _1: /* End_of_format */0
-                          }
-                        }
-                      },
-                      _1: "unexpected escaped char '%c'"
-                    }), c);
+                TAG: /* Format */0,
+                _0: {
+                  TAG: /* String_literal */11,
+                  _0: "unexpected escaped char '",
+                  _1: {
+                    TAG: /* Char */0,
+                    _0: {
+                      TAG: /* Char_literal */12,
+                      _0: /* '\'' */39,
+                      _1: /* End_of_format */0
+                    }
+                  }
+                },
+                _1: "unexpected escaped char '%c'"
+              }), c);
     }
   };
   const read2int = function (i, k, t) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
-                    return read2int(i, k, param);
-                  }), _error_eof);
+              return read2int(i, k, param);
+            }), _error_eof);
     }
     const c = _get(t);
     if (_is_digit(c)) {
       return read1int(Math.imul(10, i) + (c - /* '0' */48 | 0) | 0, k, t);
     } else {
       return Curry._1(_error(t, {
-                      TAG: /* Format */0,
-                      _0: {
-                        TAG: /* String_literal */11,
-                        _0: "unexpected char '",
-                        _1: {
-                          TAG: /* Char */0,
-                          _0: {
-                            TAG: /* String_literal */11,
-                            _0: "' when reading byte",
-                            _1: /* End_of_format */0
-                          }
-                        }
-                      },
-                      _1: "unexpected char '%c' when reading byte"
-                    }), c);
+                TAG: /* Format */0,
+                _0: {
+                  TAG: /* String_literal */11,
+                  _0: "unexpected char '",
+                  _1: {
+                    TAG: /* Char */0,
+                    _0: {
+                      TAG: /* String_literal */11,
+                      _0: "' when reading byte",
+                      _1: /* End_of_format */0
+                    }
+                  }
+                },
+                _1: "unexpected char '%c' when reading byte"
+              }), c);
     }
   };
   const read1int = function (i, k, t) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
-                    return read1int(i, k, param);
-                  }), _error_eof);
+              return read1int(i, k, param);
+            }), _error_eof);
     }
     const c = _get(t);
     if (_is_digit(c)) {
       return Curry._1(k, Math.imul(10, i) + (c - /* '0' */48 | 0) | 0);
     } else {
       return Curry._1(_error(t, {
-                      TAG: /* Format */0,
-                      _0: {
-                        TAG: /* String_literal */11,
-                        _0: "unexpected char '",
-                        _1: {
-                          TAG: /* Char */0,
-                          _0: {
-                            TAG: /* String_literal */11,
-                            _0: "' when reading byte",
-                            _1: /* End_of_format */0
-                          }
-                        }
-                      },
-                      _1: "unexpected char '%c' when reading byte"
-                    }), c);
+                TAG: /* Format */0,
+                _0: {
+                  TAG: /* String_literal */11,
+                  _0: "unexpected char '",
+                  _1: {
+                    TAG: /* Char */0,
+                    _0: {
+                      TAG: /* String_literal */11,
+                      _0: "' when reading byte",
+                      _1: /* End_of_format */0
+                    }
+                  }
+                },
+                _1: "unexpected char '%c' when reading byte"
+              }), c);
     }
   };
   const skip_comment = function (k, t) {
     while(true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
-                      return skip_comment(k, param);
-                    }), _error_eof);
+                return skip_comment(k, param);
+              }), _error_eof);
       }
       const match = _get(t);
       if (match === 10) {
@@ -1502,10 +1502,10 @@ function MakeDecode(funarg) {
     while(true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
-                      return expr_or_end(k, param);
-                    }), (function (param) {
-                      return Curry._1(funarg.$$return, "End");
-                    }));
+                return expr_or_end(k, param);
+              }), (function (param) {
+                return Curry._1(funarg.$$return, "End");
+              }));
       }
       const c = _get(t);
       if (c >= 11) {
@@ -1522,16 +1522,16 @@ function MakeDecode(funarg) {
   };
   const next = function (t) {
     return expr_or_end((function (param, x) {
-                  return Curry._1(funarg.$$return, {
-                              NAME: "Ok",
-                              VAL: x
-                            });
-                }), t);
+            return Curry._1(funarg.$$return, {
+                  NAME: "Ok",
+                  VAL: x
+                });
+          }), t);
   };
   return {
-          make: make,
-          next: next
-        };
+    make: make,
+    next: next
+  };
 }
 
 const D = {

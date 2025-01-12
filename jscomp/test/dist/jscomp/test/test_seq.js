@@ -25,19 +25,19 @@ function assoc3(x, _l) {
       continue ;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-              MEL_EXN_ID: Stdlib.Not_found
-            });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
   };
 }
 
 function help_action(param) {
   throw new Caml_js_exceptions.MelangeError(Stop, {
-            MEL_EXN_ID: Stop,
-            _1: {
-              TAG: /* Unknown */0,
-              _0: "-help"
-            }
-          });
+        MEL_EXN_ID: Stop,
+        _1: {
+          TAG: /* Unknown */0,
+          _0: "-help"
+        }
+      });
 }
 
 function v(speclist) {

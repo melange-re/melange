@@ -14,10 +14,10 @@ const suites_0 = [
   "valueOf",
   (function (param) {
       return {
-              TAG: /* Eq */0,
-              _0: 195131516789,
-              _1: new Date("1976-03-08T12:34:56.789+01:23").valueOf()
-            };
+        TAG: /* Eq */0,
+        _0: 195131516789,
+        _1: new Date("1976-03-08T12:34:56.789+01:23").valueOf()
+      };
     })
 ];
 
@@ -26,9 +26,9 @@ const suites_1 = {
     "make",
     (function (param) {
         return {
-                TAG: /* Ok */4,
-                _0: new Date().getTime() > 1487223505382
-              };
+          TAG: /* Ok */4,
+          _0: new Date().getTime() > 1487223505382
+        };
       })
   ],
   tl: {
@@ -36,10 +36,10 @@ const suites_1 = {
       "parseAsFloat",
       (function (param) {
           return {
-                  TAG: /* Eq */0,
-                  _0: Date.parse("1976-03-08T12:34:56.789+01:23"),
-                  _1: 195131516789
-                };
+            TAG: /* Eq */0,
+            _0: Date.parse("1976-03-08T12:34:56.789+01:23"),
+            _1: 195131516789
+          };
         })
     ],
     tl: {
@@ -47,9 +47,9 @@ const suites_1 = {
         "parseAsFloat_invalid",
         (function (param) {
             return {
-                    TAG: /* Ok */4,
-                    _0: Number.isNaN(Date.parse("gibberish"))
-                  };
+              TAG: /* Ok */4,
+              _0: Number.isNaN(Date.parse("gibberish"))
+            };
           })
       ],
       tl: {
@@ -57,10 +57,10 @@ const suites_1 = {
           "fromFloat",
           (function (param) {
               return {
-                      TAG: /* Eq */0,
-                      _0: "1976-03-08T11:11:56.789Z",
-                      _1: new Date(195131516789).toISOString()
-                    };
+                TAG: /* Eq */0,
+                _0: "1976-03-08T11:11:56.789Z",
+                _1: new Date(195131516789).toISOString()
+              };
             })
         ],
         tl: {
@@ -68,10 +68,10 @@ const suites_1 = {
             "fromString_valid",
             (function (param) {
                 return {
-                        TAG: /* Eq */0,
-                        _0: 195131516789,
-                        _1: new Date("1976-03-08T12:34:56.789+01:23").getTime()
-                      };
+                  TAG: /* Eq */0,
+                  _0: 195131516789,
+                  _1: new Date("1976-03-08T12:34:56.789+01:23").getTime()
+                };
               })
           ],
           tl: {
@@ -79,9 +79,9 @@ const suites_1 = {
               "fromString_invalid",
               (function (param) {
                   return {
-                          TAG: /* Ok */4,
-                          _0: Number.isNaN(new Date("gibberish").getTime())
-                        };
+                    TAG: /* Ok */4,
+                    _0: Number.isNaN(new Date("gibberish").getTime())
+                  };
                 })
             ],
             tl: {
@@ -90,16 +90,16 @@ const suites_1 = {
                 (function (param) {
                     const d = new Date(1984, 4);
                     return {
-                            TAG: /* Eq */0,
-                            _0: [
-                              1984,
-                              4
-                            ],
-                            _1: [
-                              d.getFullYear(),
-                              d.getMonth()
-                            ]
-                          };
+                      TAG: /* Eq */0,
+                      _0: [
+                        1984,
+                        4
+                      ],
+                      _1: [
+                        d.getFullYear(),
+                        d.getMonth()
+                      ]
+                    };
                   })
               ],
               tl: {
@@ -108,18 +108,18 @@ const suites_1 = {
                   (function (param) {
                       const d = new Date(1984, 4, 6);
                       return {
-                              TAG: /* Eq */0,
-                              _0: [
-                                1984,
-                                4,
-                                6
-                              ],
-                              _1: [
-                                d.getFullYear(),
-                                d.getMonth(),
-                                d.getDate()
-                              ]
-                            };
+                        TAG: /* Eq */0,
+                        _0: [
+                          1984,
+                          4,
+                          6
+                        ],
+                        _1: [
+                          d.getFullYear(),
+                          d.getMonth(),
+                          d.getDate()
+                        ]
+                      };
                     })
                 ],
                 tl: {
@@ -128,20 +128,20 @@ const suites_1 = {
                     (function (param) {
                         const d = new Date(1984, 4, 6, 3);
                         return {
-                                TAG: /* Eq */0,
-                                _0: [
-                                  1984,
-                                  4,
-                                  6,
-                                  3
-                                ],
-                                _1: [
-                                  d.getFullYear(),
-                                  d.getMonth(),
-                                  d.getDate(),
-                                  d.getHours()
-                                ]
-                              };
+                          TAG: /* Eq */0,
+                          _0: [
+                            1984,
+                            4,
+                            6,
+                            3
+                          ],
+                          _1: [
+                            d.getFullYear(),
+                            d.getMonth(),
+                            d.getDate(),
+                            d.getHours()
+                          ]
+                        };
                       })
                   ],
                   tl: {
@@ -150,22 +150,22 @@ const suites_1 = {
                       (function (param) {
                           const d = new Date(1984, 4, 6, 3, 59);
                           return {
-                                  TAG: /* Eq */0,
-                                  _0: [
-                                    1984,
-                                    4,
-                                    6,
-                                    3,
-                                    59
-                                  ],
-                                  _1: [
-                                    d.getFullYear(),
-                                    d.getMonth(),
-                                    d.getDate(),
-                                    d.getHours(),
-                                    d.getMinutes()
-                                  ]
-                                };
+                            TAG: /* Eq */0,
+                            _0: [
+                              1984,
+                              4,
+                              6,
+                              3,
+                              59
+                            ],
+                            _1: [
+                              d.getFullYear(),
+                              d.getMonth(),
+                              d.getDate(),
+                              d.getHours(),
+                              d.getMinutes()
+                            ]
+                          };
                         })
                     ],
                     tl: {
@@ -174,24 +174,24 @@ const suites_1 = {
                         (function (param) {
                             const d = new Date(1984, 4, 6, 3, 59, 27);
                             return {
-                                    TAG: /* Eq */0,
-                                    _0: [
-                                      1984,
-                                      4,
-                                      6,
-                                      3,
-                                      59,
-                                      27
-                                    ],
-                                    _1: [
-                                      d.getFullYear(),
-                                      d.getMonth(),
-                                      d.getDate(),
-                                      d.getHours(),
-                                      d.getMinutes(),
-                                      d.getSeconds()
-                                    ]
-                                  };
+                              TAG: /* Eq */0,
+                              _0: [
+                                1984,
+                                4,
+                                6,
+                                3,
+                                59,
+                                27
+                              ],
+                              _1: [
+                                d.getFullYear(),
+                                d.getMonth(),
+                                d.getDate(),
+                                d.getHours(),
+                                d.getMinutes(),
+                                d.getSeconds()
+                              ]
+                            };
                           })
                       ],
                       tl: {
@@ -201,16 +201,16 @@ const suites_1 = {
                               const d = Date.UTC(1984, 4);
                               const d$1 = new Date(d);
                               return {
-                                      TAG: /* Eq */0,
-                                      _0: [
-                                        1984,
-                                        4
-                                      ],
-                                      _1: [
-                                        d$1.getUTCFullYear(),
-                                        d$1.getUTCMonth()
-                                      ]
-                                    };
+                                TAG: /* Eq */0,
+                                _0: [
+                                  1984,
+                                  4
+                                ],
+                                _1: [
+                                  d$1.getUTCFullYear(),
+                                  d$1.getUTCMonth()
+                                ]
+                              };
                             })
                         ],
                         tl: {
@@ -220,18 +220,18 @@ const suites_1 = {
                                 const d = Date.UTC(1984, 4, 6);
                                 const d$1 = new Date(d);
                                 return {
-                                        TAG: /* Eq */0,
-                                        _0: [
-                                          1984,
-                                          4,
-                                          6
-                                        ],
-                                        _1: [
-                                          d$1.getUTCFullYear(),
-                                          d$1.getUTCMonth(),
-                                          d$1.getUTCDate()
-                                        ]
-                                      };
+                                  TAG: /* Eq */0,
+                                  _0: [
+                                    1984,
+                                    4,
+                                    6
+                                  ],
+                                  _1: [
+                                    d$1.getUTCFullYear(),
+                                    d$1.getUTCMonth(),
+                                    d$1.getUTCDate()
+                                  ]
+                                };
                               })
                           ],
                           tl: {
@@ -241,20 +241,20 @@ const suites_1 = {
                                   const d = Date.UTC(1984, 4, 6, 3);
                                   const d$1 = new Date(d);
                                   return {
-                                          TAG: /* Eq */0,
-                                          _0: [
-                                            1984,
-                                            4,
-                                            6,
-                                            3
-                                          ],
-                                          _1: [
-                                            d$1.getUTCFullYear(),
-                                            d$1.getUTCMonth(),
-                                            d$1.getUTCDate(),
-                                            d$1.getUTCHours()
-                                          ]
-                                        };
+                                    TAG: /* Eq */0,
+                                    _0: [
+                                      1984,
+                                      4,
+                                      6,
+                                      3
+                                    ],
+                                    _1: [
+                                      d$1.getUTCFullYear(),
+                                      d$1.getUTCMonth(),
+                                      d$1.getUTCDate(),
+                                      d$1.getUTCHours()
+                                    ]
+                                  };
                                 })
                             ],
                             tl: {
@@ -264,22 +264,22 @@ const suites_1 = {
                                     const d = Date.UTC(1984, 4, 6, 3, 59);
                                     const d$1 = new Date(d);
                                     return {
-                                            TAG: /* Eq */0,
-                                            _0: [
-                                              1984,
-                                              4,
-                                              6,
-                                              3,
-                                              59
-                                            ],
-                                            _1: [
-                                              d$1.getUTCFullYear(),
-                                              d$1.getUTCMonth(),
-                                              d$1.getUTCDate(),
-                                              d$1.getUTCHours(),
-                                              d$1.getUTCMinutes()
-                                            ]
-                                          };
+                                      TAG: /* Eq */0,
+                                      _0: [
+                                        1984,
+                                        4,
+                                        6,
+                                        3,
+                                        59
+                                      ],
+                                      _1: [
+                                        d$1.getUTCFullYear(),
+                                        d$1.getUTCMonth(),
+                                        d$1.getUTCDate(),
+                                        d$1.getUTCHours(),
+                                        d$1.getUTCMinutes()
+                                      ]
+                                    };
                                   })
                               ],
                               tl: {
@@ -289,24 +289,24 @@ const suites_1 = {
                                       const d = Date.UTC(1984, 4, 6, 3, 59, 27);
                                       const d$1 = new Date(d);
                                       return {
-                                              TAG: /* Eq */0,
-                                              _0: [
-                                                1984,
-                                                4,
-                                                6,
-                                                3,
-                                                59,
-                                                27
-                                              ],
-                                              _1: [
-                                                d$1.getUTCFullYear(),
-                                                d$1.getUTCMonth(),
-                                                d$1.getUTCDate(),
-                                                d$1.getUTCHours(),
-                                                d$1.getUTCMinutes(),
-                                                d$1.getUTCSeconds()
-                                              ]
-                                            };
+                                        TAG: /* Eq */0,
+                                        _0: [
+                                          1984,
+                                          4,
+                                          6,
+                                          3,
+                                          59,
+                                          27
+                                        ],
+                                        _1: [
+                                          d$1.getUTCFullYear(),
+                                          d$1.getUTCMonth(),
+                                          d$1.getUTCDate(),
+                                          d$1.getUTCHours(),
+                                          d$1.getUTCMinutes(),
+                                          d$1.getUTCSeconds()
+                                        ]
+                                      };
                                     })
                                 ],
                                 tl: {
@@ -314,10 +314,10 @@ const suites_1 = {
                                     "getFullYear",
                                     (function (param) {
                                         return {
-                                                TAG: /* Eq */0,
-                                                _0: 1976,
-                                                _1: new Date("1976-03-08T12:34:56.789+01:23").getFullYear()
-                                              };
+                                          TAG: /* Eq */0,
+                                          _0: 1976,
+                                          _1: new Date("1976-03-08T12:34:56.789+01:23").getFullYear()
+                                        };
                                       })
                                   ],
                                   tl: {
@@ -325,10 +325,10 @@ const suites_1 = {
                                       "getMilliseconds",
                                       (function (param) {
                                           return {
-                                                  TAG: /* Eq */0,
-                                                  _0: 789,
-                                                  _1: new Date("1976-03-08T12:34:56.789+01:23").getMilliseconds()
-                                                };
+                                            TAG: /* Eq */0,
+                                            _0: 789,
+                                            _1: new Date("1976-03-08T12:34:56.789+01:23").getMilliseconds()
+                                          };
                                         })
                                     ],
                                     tl: {
@@ -336,10 +336,10 @@ const suites_1 = {
                                         "getSeconds",
                                         (function (param) {
                                             return {
-                                                    TAG: /* Eq */0,
-                                                    _0: 56,
-                                                    _1: new Date("1976-03-08T12:34:56.789+01:23").getSeconds()
-                                                  };
+                                              TAG: /* Eq */0,
+                                              _0: 56,
+                                              _1: new Date("1976-03-08T12:34:56.789+01:23").getSeconds()
+                                            };
                                           })
                                       ],
                                       tl: {
@@ -347,10 +347,10 @@ const suites_1 = {
                                           "getTime",
                                           (function (param) {
                                               return {
-                                                      TAG: /* Eq */0,
-                                                      _0: 195131516789,
-                                                      _1: new Date("1976-03-08T12:34:56.789+01:23").getTime()
-                                                    };
+                                                TAG: /* Eq */0,
+                                                _0: 195131516789,
+                                                _1: new Date("1976-03-08T12:34:56.789+01:23").getTime()
+                                              };
                                             })
                                         ],
                                         tl: {
@@ -358,10 +358,10 @@ const suites_1 = {
                                             "getUTCDate",
                                             (function (param) {
                                                 return {
-                                                        TAG: /* Eq */0,
-                                                        _0: 8,
-                                                        _1: new Date("1976-03-08T12:34:56.789+01:23").getUTCDate()
-                                                      };
+                                                  TAG: /* Eq */0,
+                                                  _0: 8,
+                                                  _1: new Date("1976-03-08T12:34:56.789+01:23").getUTCDate()
+                                                };
                                               })
                                           ],
                                           tl: {
@@ -369,10 +369,10 @@ const suites_1 = {
                                               "getUTCDay",
                                               (function (param) {
                                                   return {
-                                                          TAG: /* Eq */0,
-                                                          _0: 1,
-                                                          _1: new Date("1976-03-08T12:34:56.789+01:23").getUTCDay()
-                                                        };
+                                                    TAG: /* Eq */0,
+                                                    _0: 1,
+                                                    _1: new Date("1976-03-08T12:34:56.789+01:23").getUTCDay()
+                                                  };
                                                 })
                                             ],
                                             tl: {
@@ -380,10 +380,10 @@ const suites_1 = {
                                                 "getUTCFUllYear",
                                                 (function (param) {
                                                     return {
-                                                            TAG: /* Eq */0,
-                                                            _0: 1976,
-                                                            _1: new Date("1976-03-08T12:34:56.789+01:23").getUTCFullYear()
-                                                          };
+                                                      TAG: /* Eq */0,
+                                                      _0: 1976,
+                                                      _1: new Date("1976-03-08T12:34:56.789+01:23").getUTCFullYear()
+                                                    };
                                                   })
                                               ],
                                               tl: {
@@ -391,10 +391,10 @@ const suites_1 = {
                                                   "getUTCHours",
                                                   (function (param) {
                                                       return {
-                                                              TAG: /* Eq */0,
-                                                              _0: 11,
-                                                              _1: new Date("1976-03-08T12:34:56.789+01:23").getUTCHours()
-                                                            };
+                                                        TAG: /* Eq */0,
+                                                        _0: 11,
+                                                        _1: new Date("1976-03-08T12:34:56.789+01:23").getUTCHours()
+                                                      };
                                                     })
                                                 ],
                                                 tl: {
@@ -402,10 +402,10 @@ const suites_1 = {
                                                     "getUTCMilliseconds",
                                                     (function (param) {
                                                         return {
-                                                                TAG: /* Eq */0,
-                                                                _0: 789,
-                                                                _1: new Date("1976-03-08T12:34:56.789+01:23").getUTCMilliseconds()
-                                                              };
+                                                          TAG: /* Eq */0,
+                                                          _0: 789,
+                                                          _1: new Date("1976-03-08T12:34:56.789+01:23").getUTCMilliseconds()
+                                                        };
                                                       })
                                                   ],
                                                   tl: {
@@ -413,10 +413,10 @@ const suites_1 = {
                                                       "getUTCMinutes",
                                                       (function (param) {
                                                           return {
-                                                                  TAG: /* Eq */0,
-                                                                  _0: 11,
-                                                                  _1: new Date("1976-03-08T12:34:56.789+01:23").getUTCMinutes()
-                                                                };
+                                                            TAG: /* Eq */0,
+                                                            _0: 11,
+                                                            _1: new Date("1976-03-08T12:34:56.789+01:23").getUTCMinutes()
+                                                          };
                                                         })
                                                     ],
                                                     tl: {
@@ -424,10 +424,10 @@ const suites_1 = {
                                                         "getUTCMonth",
                                                         (function (param) {
                                                             return {
-                                                                    TAG: /* Eq */0,
-                                                                    _0: 2,
-                                                                    _1: new Date("1976-03-08T12:34:56.789+01:23").getUTCMonth()
-                                                                  };
+                                                              TAG: /* Eq */0,
+                                                              _0: 2,
+                                                              _1: new Date("1976-03-08T12:34:56.789+01:23").getUTCMonth()
+                                                            };
                                                           })
                                                       ],
                                                       tl: {
@@ -435,10 +435,10 @@ const suites_1 = {
                                                           "getUTCSeconds",
                                                           (function (param) {
                                                               return {
-                                                                      TAG: /* Eq */0,
-                                                                      _0: 56,
-                                                                      _1: new Date("1976-03-08T12:34:56.789+01:23").getUTCSeconds()
-                                                                    };
+                                                                TAG: /* Eq */0,
+                                                                _0: 56,
+                                                                _1: new Date("1976-03-08T12:34:56.789+01:23").getUTCSeconds()
+                                                              };
                                                             })
                                                         ],
                                                         tl: {
@@ -446,10 +446,10 @@ const suites_1 = {
                                                             "getYear",
                                                             (function (param) {
                                                                 return {
-                                                                        TAG: /* Eq */0,
-                                                                        _0: 1976,
-                                                                        _1: new Date("1976-03-08T12:34:56.789+01:23").getFullYear()
-                                                                      };
+                                                                  TAG: /* Eq */0,
+                                                                  _0: 1976,
+                                                                  _1: new Date("1976-03-08T12:34:56.789+01:23").getFullYear()
+                                                                };
                                                               })
                                                           ],
                                                           tl: {
@@ -459,10 +459,10 @@ const suites_1 = {
                                                                   const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                   d.setDate(12);
                                                                   return {
-                                                                          TAG: /* Eq */0,
-                                                                          _0: 12,
-                                                                          _1: d.getDate()
-                                                                        };
+                                                                    TAG: /* Eq */0,
+                                                                    _0: 12,
+                                                                    _1: d.getDate()
+                                                                  };
                                                                 })
                                                             ],
                                                             tl: {
@@ -472,10 +472,10 @@ const suites_1 = {
                                                                     const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                     d.setFullYear(1986);
                                                                     return {
-                                                                            TAG: /* Eq */0,
-                                                                            _0: 1986,
-                                                                            _1: d.getFullYear()
-                                                                          };
+                                                                      TAG: /* Eq */0,
+                                                                      _0: 1986,
+                                                                      _1: d.getFullYear()
+                                                                    };
                                                                   })
                                                               ],
                                                               tl: {
@@ -485,16 +485,16 @@ const suites_1 = {
                                                                       const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                       d.setFullYear(1986, 7);
                                                                       return {
-                                                                              TAG: /* Eq */0,
-                                                                              _0: [
-                                                                                1986,
-                                                                                7
-                                                                              ],
-                                                                              _1: [
-                                                                                d.getFullYear(),
-                                                                                d.getMonth()
-                                                                              ]
-                                                                            };
+                                                                        TAG: /* Eq */0,
+                                                                        _0: [
+                                                                          1986,
+                                                                          7
+                                                                        ],
+                                                                        _1: [
+                                                                          d.getFullYear(),
+                                                                          d.getMonth()
+                                                                        ]
+                                                                      };
                                                                     })
                                                                 ],
                                                                 tl: {
@@ -504,18 +504,18 @@ const suites_1 = {
                                                                         const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                         d.setFullYear(1986, 7, 23);
                                                                         return {
-                                                                                TAG: /* Eq */0,
-                                                                                _0: [
-                                                                                  1986,
-                                                                                  7,
-                                                                                  23
-                                                                                ],
-                                                                                _1: [
-                                                                                  d.getFullYear(),
-                                                                                  d.getMonth(),
-                                                                                  d.getDate()
-                                                                                ]
-                                                                              };
+                                                                          TAG: /* Eq */0,
+                                                                          _0: [
+                                                                            1986,
+                                                                            7,
+                                                                            23
+                                                                          ],
+                                                                          _1: [
+                                                                            d.getFullYear(),
+                                                                            d.getMonth(),
+                                                                            d.getDate()
+                                                                          ]
+                                                                        };
                                                                       })
                                                                   ],
                                                                   tl: {
@@ -525,10 +525,10 @@ const suites_1 = {
                                                                           const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                           d.setHours(22);
                                                                           return {
-                                                                                  TAG: /* Eq */0,
-                                                                                  _0: 22,
-                                                                                  _1: d.getHours()
-                                                                                };
+                                                                            TAG: /* Eq */0,
+                                                                            _0: 22,
+                                                                            _1: d.getHours()
+                                                                          };
                                                                         })
                                                                     ],
                                                                     tl: {
@@ -538,16 +538,16 @@ const suites_1 = {
                                                                             const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                             d.setHours(22, 48);
                                                                             return {
-                                                                                    TAG: /* Eq */0,
-                                                                                    _0: [
-                                                                                      22,
-                                                                                      48
-                                                                                    ],
-                                                                                    _1: [
-                                                                                      d.getHours(),
-                                                                                      d.getMinutes()
-                                                                                    ]
-                                                                                  };
+                                                                              TAG: /* Eq */0,
+                                                                              _0: [
+                                                                                22,
+                                                                                48
+                                                                              ],
+                                                                              _1: [
+                                                                                d.getHours(),
+                                                                                d.getMinutes()
+                                                                              ]
+                                                                            };
                                                                           })
                                                                       ],
                                                                       tl: {
@@ -557,18 +557,18 @@ const suites_1 = {
                                                                               const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                               d.setHours(22, 48, 54);
                                                                               return {
-                                                                                      TAG: /* Eq */0,
-                                                                                      _0: [
-                                                                                        22,
-                                                                                        48,
-                                                                                        54
-                                                                                      ],
-                                                                                      _1: [
-                                                                                        d.getHours(),
-                                                                                        d.getMinutes(),
-                                                                                        d.getSeconds()
-                                                                                      ]
-                                                                                    };
+                                                                                TAG: /* Eq */0,
+                                                                                _0: [
+                                                                                  22,
+                                                                                  48,
+                                                                                  54
+                                                                                ],
+                                                                                _1: [
+                                                                                  d.getHours(),
+                                                                                  d.getMinutes(),
+                                                                                  d.getSeconds()
+                                                                                ]
+                                                                              };
                                                                             })
                                                                         ],
                                                                         tl: {
@@ -578,10 +578,10 @@ const suites_1 = {
                                                                                 const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                 d.setMilliseconds(543);
                                                                                 return {
-                                                                                        TAG: /* Eq */0,
-                                                                                        _0: 543,
-                                                                                        _1: d.getMilliseconds()
-                                                                                      };
+                                                                                  TAG: /* Eq */0,
+                                                                                  _0: 543,
+                                                                                  _1: d.getMilliseconds()
+                                                                                };
                                                                               })
                                                                           ],
                                                                           tl: {
@@ -591,10 +591,10 @@ const suites_1 = {
                                                                                   const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                   d.setMinutes(18);
                                                                                   return {
-                                                                                          TAG: /* Eq */0,
-                                                                                          _0: 18,
-                                                                                          _1: d.getMinutes()
-                                                                                        };
+                                                                                    TAG: /* Eq */0,
+                                                                                    _0: 18,
+                                                                                    _1: d.getMinutes()
+                                                                                  };
                                                                                 })
                                                                             ],
                                                                             tl: {
@@ -604,16 +604,16 @@ const suites_1 = {
                                                                                     const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                     d.setMinutes(18, 42);
                                                                                     return {
-                                                                                            TAG: /* Eq */0,
-                                                                                            _0: [
-                                                                                              18,
-                                                                                              42
-                                                                                            ],
-                                                                                            _1: [
-                                                                                              d.getMinutes(),
-                                                                                              d.getSeconds()
-                                                                                            ]
-                                                                                          };
+                                                                                      TAG: /* Eq */0,
+                                                                                      _0: [
+                                                                                        18,
+                                                                                        42
+                                                                                      ],
+                                                                                      _1: [
+                                                                                        d.getMinutes(),
+                                                                                        d.getSeconds()
+                                                                                      ]
+                                                                                    };
                                                                                   })
                                                                               ],
                                                                               tl: {
@@ -623,18 +623,18 @@ const suites_1 = {
                                                                                       const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                       d.setMinutes(18, 42, 311);
                                                                                       return {
-                                                                                              TAG: /* Eq */0,
-                                                                                              _0: [
-                                                                                                18,
-                                                                                                42,
-                                                                                                311
-                                                                                              ],
-                                                                                              _1: [
-                                                                                                d.getMinutes(),
-                                                                                                d.getSeconds(),
-                                                                                                d.getMilliseconds()
-                                                                                              ]
-                                                                                            };
+                                                                                        TAG: /* Eq */0,
+                                                                                        _0: [
+                                                                                          18,
+                                                                                          42,
+                                                                                          311
+                                                                                        ],
+                                                                                        _1: [
+                                                                                          d.getMinutes(),
+                                                                                          d.getSeconds(),
+                                                                                          d.getMilliseconds()
+                                                                                        ]
+                                                                                      };
                                                                                     })
                                                                                 ],
                                                                                 tl: {
@@ -644,10 +644,10 @@ const suites_1 = {
                                                                                         const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                         d.setMonth(10);
                                                                                         return {
-                                                                                                TAG: /* Eq */0,
-                                                                                                _0: 10,
-                                                                                                _1: d.getMonth()
-                                                                                              };
+                                                                                          TAG: /* Eq */0,
+                                                                                          _0: 10,
+                                                                                          _1: d.getMonth()
+                                                                                        };
                                                                                       })
                                                                                   ],
                                                                                   tl: {
@@ -657,16 +657,16 @@ const suites_1 = {
                                                                                           const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                           d.setMonth(10, 14);
                                                                                           return {
-                                                                                                  TAG: /* Eq */0,
-                                                                                                  _0: [
-                                                                                                    10,
-                                                                                                    14
-                                                                                                  ],
-                                                                                                  _1: [
-                                                                                                    d.getMonth(),
-                                                                                                    d.getDate()
-                                                                                                  ]
-                                                                                                };
+                                                                                            TAG: /* Eq */0,
+                                                                                            _0: [
+                                                                                              10,
+                                                                                              14
+                                                                                            ],
+                                                                                            _1: [
+                                                                                              d.getMonth(),
+                                                                                              d.getDate()
+                                                                                            ]
+                                                                                          };
                                                                                         })
                                                                                     ],
                                                                                     tl: {
@@ -676,10 +676,10 @@ const suites_1 = {
                                                                                             const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                             d.setSeconds(36);
                                                                                             return {
-                                                                                                    TAG: /* Eq */0,
-                                                                                                    _0: 36,
-                                                                                                    _1: d.getSeconds()
-                                                                                                  };
+                                                                                              TAG: /* Eq */0,
+                                                                                              _0: 36,
+                                                                                              _1: d.getSeconds()
+                                                                                            };
                                                                                           })
                                                                                       ],
                                                                                       tl: {
@@ -689,16 +689,16 @@ const suites_1 = {
                                                                                               const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                               d.setSeconds(36, 420);
                                                                                               return {
-                                                                                                      TAG: /* Eq */0,
-                                                                                                      _0: [
-                                                                                                        36,
-                                                                                                        420
-                                                                                                      ],
-                                                                                                      _1: [
-                                                                                                        d.getSeconds(),
-                                                                                                        d.getMilliseconds()
-                                                                                                      ]
-                                                                                                    };
+                                                                                                TAG: /* Eq */0,
+                                                                                                _0: [
+                                                                                                  36,
+                                                                                                  420
+                                                                                                ],
+                                                                                                _1: [
+                                                                                                  d.getSeconds(),
+                                                                                                  d.getMilliseconds()
+                                                                                                ]
+                                                                                              };
                                                                                             })
                                                                                         ],
                                                                                         tl: {
@@ -708,10 +708,10 @@ const suites_1 = {
                                                                                                 const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                                 d.setUTCDate(12);
                                                                                                 return {
-                                                                                                        TAG: /* Eq */0,
-                                                                                                        _0: 12,
-                                                                                                        _1: d.getUTCDate()
-                                                                                                      };
+                                                                                                  TAG: /* Eq */0,
+                                                                                                  _0: 12,
+                                                                                                  _1: d.getUTCDate()
+                                                                                                };
                                                                                               })
                                                                                           ],
                                                                                           tl: {
@@ -721,10 +721,10 @@ const suites_1 = {
                                                                                                   const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                                   d.setUTCFullYear(1986);
                                                                                                   return {
-                                                                                                          TAG: /* Eq */0,
-                                                                                                          _0: 1986,
-                                                                                                          _1: d.getUTCFullYear()
-                                                                                                        };
+                                                                                                    TAG: /* Eq */0,
+                                                                                                    _0: 1986,
+                                                                                                    _1: d.getUTCFullYear()
+                                                                                                  };
                                                                                                 })
                                                                                             ],
                                                                                             tl: {
@@ -734,16 +734,16 @@ const suites_1 = {
                                                                                                     const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                                     d.setUTCFullYear(1986, 7);
                                                                                                     return {
-                                                                                                            TAG: /* Eq */0,
-                                                                                                            _0: [
-                                                                                                              1986,
-                                                                                                              7
-                                                                                                            ],
-                                                                                                            _1: [
-                                                                                                              d.getUTCFullYear(),
-                                                                                                              d.getUTCMonth()
-                                                                                                            ]
-                                                                                                          };
+                                                                                                      TAG: /* Eq */0,
+                                                                                                      _0: [
+                                                                                                        1986,
+                                                                                                        7
+                                                                                                      ],
+                                                                                                      _1: [
+                                                                                                        d.getUTCFullYear(),
+                                                                                                        d.getUTCMonth()
+                                                                                                      ]
+                                                                                                    };
                                                                                                   })
                                                                                               ],
                                                                                               tl: {
@@ -753,18 +753,18 @@ const suites_1 = {
                                                                                                       const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                                       d.setUTCFullYear(1986, 7, 23);
                                                                                                       return {
-                                                                                                              TAG: /* Eq */0,
-                                                                                                              _0: [
-                                                                                                                1986,
-                                                                                                                7,
-                                                                                                                23
-                                                                                                              ],
-                                                                                                              _1: [
-                                                                                                                d.getUTCFullYear(),
-                                                                                                                d.getUTCMonth(),
-                                                                                                                d.getUTCDate()
-                                                                                                              ]
-                                                                                                            };
+                                                                                                        TAG: /* Eq */0,
+                                                                                                        _0: [
+                                                                                                          1986,
+                                                                                                          7,
+                                                                                                          23
+                                                                                                        ],
+                                                                                                        _1: [
+                                                                                                          d.getUTCFullYear(),
+                                                                                                          d.getUTCMonth(),
+                                                                                                          d.getUTCDate()
+                                                                                                        ]
+                                                                                                      };
                                                                                                     })
                                                                                                 ],
                                                                                                 tl: {
@@ -774,10 +774,10 @@ const suites_1 = {
                                                                                                         const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                                         d.setUTCHours(22);
                                                                                                         return {
-                                                                                                                TAG: /* Eq */0,
-                                                                                                                _0: 22,
-                                                                                                                _1: d.getUTCHours()
-                                                                                                              };
+                                                                                                          TAG: /* Eq */0,
+                                                                                                          _0: 22,
+                                                                                                          _1: d.getUTCHours()
+                                                                                                        };
                                                                                                       })
                                                                                                   ],
                                                                                                   tl: {
@@ -787,16 +787,16 @@ const suites_1 = {
                                                                                                           const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                                           d.setUTCHours(22, 48);
                                                                                                           return {
-                                                                                                                  TAG: /* Eq */0,
-                                                                                                                  _0: [
-                                                                                                                    22,
-                                                                                                                    48
-                                                                                                                  ],
-                                                                                                                  _1: [
-                                                                                                                    d.getUTCHours(),
-                                                                                                                    d.getUTCMinutes()
-                                                                                                                  ]
-                                                                                                                };
+                                                                                                            TAG: /* Eq */0,
+                                                                                                            _0: [
+                                                                                                              22,
+                                                                                                              48
+                                                                                                            ],
+                                                                                                            _1: [
+                                                                                                              d.getUTCHours(),
+                                                                                                              d.getUTCMinutes()
+                                                                                                            ]
+                                                                                                          };
                                                                                                         })
                                                                                                     ],
                                                                                                     tl: {
@@ -806,18 +806,18 @@ const suites_1 = {
                                                                                                             const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                                             d.setUTCHours(22, 48, 54);
                                                                                                             return {
-                                                                                                                    TAG: /* Eq */0,
-                                                                                                                    _0: [
-                                                                                                                      22,
-                                                                                                                      48,
-                                                                                                                      54
-                                                                                                                    ],
-                                                                                                                    _1: [
-                                                                                                                      d.getUTCHours(),
-                                                                                                                      d.getUTCMinutes(),
-                                                                                                                      d.getUTCSeconds()
-                                                                                                                    ]
-                                                                                                                  };
+                                                                                                              TAG: /* Eq */0,
+                                                                                                              _0: [
+                                                                                                                22,
+                                                                                                                48,
+                                                                                                                54
+                                                                                                              ],
+                                                                                                              _1: [
+                                                                                                                d.getUTCHours(),
+                                                                                                                d.getUTCMinutes(),
+                                                                                                                d.getUTCSeconds()
+                                                                                                              ]
+                                                                                                            };
                                                                                                           })
                                                                                                       ],
                                                                                                       tl: {
@@ -827,10 +827,10 @@ const suites_1 = {
                                                                                                               const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                                               d.setUTCMilliseconds(543);
                                                                                                               return {
-                                                                                                                      TAG: /* Eq */0,
-                                                                                                                      _0: 543,
-                                                                                                                      _1: d.getUTCMilliseconds()
-                                                                                                                    };
+                                                                                                                TAG: /* Eq */0,
+                                                                                                                _0: 543,
+                                                                                                                _1: d.getUTCMilliseconds()
+                                                                                                              };
                                                                                                             })
                                                                                                         ],
                                                                                                         tl: {
@@ -840,10 +840,10 @@ const suites_1 = {
                                                                                                                 const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                                                 d.setUTCMinutes(18);
                                                                                                                 return {
-                                                                                                                        TAG: /* Eq */0,
-                                                                                                                        _0: 18,
-                                                                                                                        _1: d.getUTCMinutes()
-                                                                                                                      };
+                                                                                                                  TAG: /* Eq */0,
+                                                                                                                  _0: 18,
+                                                                                                                  _1: d.getUTCMinutes()
+                                                                                                                };
                                                                                                               })
                                                                                                           ],
                                                                                                           tl: {
@@ -853,16 +853,16 @@ const suites_1 = {
                                                                                                                   const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                                                   d.setUTCMinutes(18, 42);
                                                                                                                   return {
-                                                                                                                          TAG: /* Eq */0,
-                                                                                                                          _0: [
-                                                                                                                            18,
-                                                                                                                            42
-                                                                                                                          ],
-                                                                                                                          _1: [
-                                                                                                                            d.getUTCMinutes(),
-                                                                                                                            d.getUTCSeconds()
-                                                                                                                          ]
-                                                                                                                        };
+                                                                                                                    TAG: /* Eq */0,
+                                                                                                                    _0: [
+                                                                                                                      18,
+                                                                                                                      42
+                                                                                                                    ],
+                                                                                                                    _1: [
+                                                                                                                      d.getUTCMinutes(),
+                                                                                                                      d.getUTCSeconds()
+                                                                                                                    ]
+                                                                                                                  };
                                                                                                                 })
                                                                                                             ],
                                                                                                             tl: {
@@ -872,18 +872,18 @@ const suites_1 = {
                                                                                                                     const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                                                     d.setUTCMinutes(18, 42, 311);
                                                                                                                     return {
-                                                                                                                            TAG: /* Eq */0,
-                                                                                                                            _0: [
-                                                                                                                              18,
-                                                                                                                              42,
-                                                                                                                              311
-                                                                                                                            ],
-                                                                                                                            _1: [
-                                                                                                                              d.getUTCMinutes(),
-                                                                                                                              d.getUTCSeconds(),
-                                                                                                                              d.getUTCMilliseconds()
-                                                                                                                            ]
-                                                                                                                          };
+                                                                                                                      TAG: /* Eq */0,
+                                                                                                                      _0: [
+                                                                                                                        18,
+                                                                                                                        42,
+                                                                                                                        311
+                                                                                                                      ],
+                                                                                                                      _1: [
+                                                                                                                        d.getUTCMinutes(),
+                                                                                                                        d.getUTCSeconds(),
+                                                                                                                        d.getUTCMilliseconds()
+                                                                                                                      ]
+                                                                                                                    };
                                                                                                                   })
                                                                                                               ],
                                                                                                               tl: {
@@ -893,10 +893,10 @@ const suites_1 = {
                                                                                                                       const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                                                       d.setUTCMonth(10);
                                                                                                                       return {
-                                                                                                                              TAG: /* Eq */0,
-                                                                                                                              _0: 10,
-                                                                                                                              _1: d.getUTCMonth()
-                                                                                                                            };
+                                                                                                                        TAG: /* Eq */0,
+                                                                                                                        _0: 10,
+                                                                                                                        _1: d.getUTCMonth()
+                                                                                                                      };
                                                                                                                     })
                                                                                                                 ],
                                                                                                                 tl: {
@@ -906,16 +906,16 @@ const suites_1 = {
                                                                                                                         const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                                                         d.setUTCMonth(10, 14);
                                                                                                                         return {
-                                                                                                                                TAG: /* Eq */0,
-                                                                                                                                _0: [
-                                                                                                                                  10,
-                                                                                                                                  14
-                                                                                                                                ],
-                                                                                                                                _1: [
-                                                                                                                                  d.getUTCMonth(),
-                                                                                                                                  d.getUTCDate()
-                                                                                                                                ]
-                                                                                                                              };
+                                                                                                                          TAG: /* Eq */0,
+                                                                                                                          _0: [
+                                                                                                                            10,
+                                                                                                                            14
+                                                                                                                          ],
+                                                                                                                          _1: [
+                                                                                                                            d.getUTCMonth(),
+                                                                                                                            d.getUTCDate()
+                                                                                                                          ]
+                                                                                                                        };
                                                                                                                       })
                                                                                                                   ],
                                                                                                                   tl: {
@@ -925,10 +925,10 @@ const suites_1 = {
                                                                                                                           const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                                                           d.setUTCSeconds(36);
                                                                                                                           return {
-                                                                                                                                  TAG: /* Eq */0,
-                                                                                                                                  _0: 36,
-                                                                                                                                  _1: d.getUTCSeconds()
-                                                                                                                                };
+                                                                                                                            TAG: /* Eq */0,
+                                                                                                                            _0: 36,
+                                                                                                                            _1: d.getUTCSeconds()
+                                                                                                                          };
                                                                                                                         })
                                                                                                                     ],
                                                                                                                     tl: {
@@ -938,16 +938,16 @@ const suites_1 = {
                                                                                                                             const d = new Date("1976-03-08T12:34:56.789+01:23");
                                                                                                                             d.setUTCSeconds(36, 420);
                                                                                                                             return {
-                                                                                                                                    TAG: /* Eq */0,
-                                                                                                                                    _0: [
-                                                                                                                                      36,
-                                                                                                                                      420
-                                                                                                                                    ],
-                                                                                                                                    _1: [
-                                                                                                                                      d.getUTCSeconds(),
-                                                                                                                                      d.getUTCMilliseconds()
-                                                                                                                                    ]
-                                                                                                                                  };
+                                                                                                                              TAG: /* Eq */0,
+                                                                                                                              _0: [
+                                                                                                                                36,
+                                                                                                                                420
+                                                                                                                              ],
+                                                                                                                              _1: [
+                                                                                                                                d.getUTCSeconds(),
+                                                                                                                                d.getUTCMilliseconds()
+                                                                                                                              ]
+                                                                                                                            };
                                                                                                                           })
                                                                                                                       ],
                                                                                                                       tl: {
@@ -955,10 +955,10 @@ const suites_1 = {
                                                                                                                           "toDateString",
                                                                                                                           (function (param) {
                                                                                                                               return {
-                                                                                                                                      TAG: /* Eq */0,
-                                                                                                                                      _0: "Mon Mar 08 1976",
-                                                                                                                                      _1: new Date("1976-03-08T12:34:56.789+01:23").toDateString()
-                                                                                                                                    };
+                                                                                                                                TAG: /* Eq */0,
+                                                                                                                                _0: "Mon Mar 08 1976",
+                                                                                                                                _1: new Date("1976-03-08T12:34:56.789+01:23").toDateString()
+                                                                                                                              };
                                                                                                                             })
                                                                                                                         ],
                                                                                                                         tl: {
@@ -966,10 +966,10 @@ const suites_1 = {
                                                                                                                             "toGMTString",
                                                                                                                             (function (param) {
                                                                                                                                 return {
-                                                                                                                                        TAG: /* Eq */0,
-                                                                                                                                        _0: "Mon, 08 Mar 1976 11:11:56 GMT",
-                                                                                                                                        _1: new Date("1976-03-08T12:34:56.789+01:23").toUTCString()
-                                                                                                                                      };
+                                                                                                                                  TAG: /* Eq */0,
+                                                                                                                                  _0: "Mon, 08 Mar 1976 11:11:56 GMT",
+                                                                                                                                  _1: new Date("1976-03-08T12:34:56.789+01:23").toUTCString()
+                                                                                                                                };
                                                                                                                               })
                                                                                                                           ],
                                                                                                                           tl: {
@@ -977,10 +977,10 @@ const suites_1 = {
                                                                                                                               "toISOString",
                                                                                                                               (function (param) {
                                                                                                                                   return {
-                                                                                                                                          TAG: /* Eq */0,
-                                                                                                                                          _0: "1976-03-08T11:11:56.789Z",
-                                                                                                                                          _1: new Date("1976-03-08T12:34:56.789+01:23").toISOString()
-                                                                                                                                        };
+                                                                                                                                    TAG: /* Eq */0,
+                                                                                                                                    _0: "1976-03-08T11:11:56.789Z",
+                                                                                                                                    _1: new Date("1976-03-08T12:34:56.789+01:23").toISOString()
+                                                                                                                                  };
                                                                                                                                 })
                                                                                                                             ],
                                                                                                                             tl: {
@@ -988,10 +988,10 @@ const suites_1 = {
                                                                                                                                 "toJSON",
                                                                                                                                 (function (param) {
                                                                                                                                     return {
-                                                                                                                                            TAG: /* Eq */0,
-                                                                                                                                            _0: "1976-03-08T11:11:56.789Z",
-                                                                                                                                            _1: Stdlib__Option.get(Caml_option.undefined_to_opt(new Date("1976-03-08T12:34:56.789+01:23").toJSON()))
-                                                                                                                                          };
+                                                                                                                                      TAG: /* Eq */0,
+                                                                                                                                      _0: "1976-03-08T11:11:56.789Z",
+                                                                                                                                      _1: Stdlib__Option.get(Caml_option.undefined_to_opt(new Date("1976-03-08T12:34:56.789+01:23").toJSON()))
+                                                                                                                                    };
                                                                                                                                   })
                                                                                                                               ],
                                                                                                                               tl: {
@@ -999,10 +999,10 @@ const suites_1 = {
                                                                                                                                   "toJSONUnsafe",
                                                                                                                                   (function (param) {
                                                                                                                                       return {
-                                                                                                                                              TAG: /* Eq */0,
-                                                                                                                                              _0: "1976-03-08T11:11:56.789Z",
-                                                                                                                                              _1: new Date("1976-03-08T12:34:56.789+01:23").toJSON()
-                                                                                                                                            };
+                                                                                                                                        TAG: /* Eq */0,
+                                                                                                                                        _0: "1976-03-08T11:11:56.789Z",
+                                                                                                                                        _1: new Date("1976-03-08T12:34:56.789+01:23").toJSON()
+                                                                                                                                      };
                                                                                                                                     })
                                                                                                                                 ],
                                                                                                                                 tl: {
@@ -1010,10 +1010,10 @@ const suites_1 = {
                                                                                                                                     "toUTCString",
                                                                                                                                     (function (param) {
                                                                                                                                         return {
-                                                                                                                                                TAG: /* Eq */0,
-                                                                                                                                                _0: "Mon, 08 Mar 1976 11:11:56 GMT",
-                                                                                                                                                _1: new Date("1976-03-08T12:34:56.789+01:23").toUTCString()
-                                                                                                                                              };
+                                                                                                                                          TAG: /* Eq */0,
+                                                                                                                                          _0: "Mon, 08 Mar 1976 11:11:56 GMT",
+                                                                                                                                          _1: new Date("1976-03-08T12:34:56.789+01:23").toUTCString()
+                                                                                                                                        };
                                                                                                                                       })
                                                                                                                                   ],
                                                                                                                                   tl: {
@@ -1024,9 +1024,9 @@ const suites_1 = {
                                                                                                                                           const b = new Date("2013-03-01T01:10:00");
                                                                                                                                           const c = new Date("2013-03-01T01:10:01");
                                                                                                                                           return {
-                                                                                                                                                  TAG: /* Ok */4,
-                                                                                                                                                  _0: Caml_obj.caml_equal(a, b) && Caml_obj.caml_notequal(b, c) && Caml_obj.caml_greaterthan(c, b)
-                                                                                                                                                };
+                                                                                                                                            TAG: /* Ok */4,
+                                                                                                                                            _0: Caml_obj.caml_equal(a, b) && Caml_obj.caml_notequal(b, c) && Caml_obj.caml_greaterthan(c, b)
+                                                                                                                                          };
                                                                                                                                         })
                                                                                                                                     ],
                                                                                                                                     tl: /* [] */0

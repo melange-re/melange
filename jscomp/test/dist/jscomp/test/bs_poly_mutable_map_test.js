@@ -38,11 +38,11 @@ function ff(x) {
 
 function randomRange(i, j) {
   return Belt__Belt_Array.map(Array_data_util.randomRange(i, j), (function (x) {
-                return [
-                        x,
-                        x
-                      ];
-              }));
+          return [
+            x,
+            x
+          ];
+        }));
 }
 
 const a0 = Belt__Belt_MutableMap.fromArray(randomRange(0, 10), Icmp);

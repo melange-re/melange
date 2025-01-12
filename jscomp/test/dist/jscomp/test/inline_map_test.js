@@ -19,13 +19,13 @@ function create(l, x, d, r) {
   const hl = height(l);
   const hr = height(r);
   return {
-          TAG: /* Node */0,
-          _0: l,
-          _1: x,
-          _2: d,
-          _3: r,
-          _4: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
-        };
+    TAG: /* Node */0,
+    _0: l,
+    _1: x,
+    _2: d,
+    _3: r,
+    _4: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+  };
 }
 
 function bal(l, x, d, r) {
@@ -36,9 +36,9 @@ function bal(l, x, d, r) {
   if (hl > (hr + 2 | 0)) {
     if (/* tag */typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "Map.bal"
-              });
+            MEL_EXN_ID: "Invalid_argument",
+            _1: "Map.bal"
+          });
     }
     const lr = l._3;
     const ld = l._2;
@@ -51,25 +51,25 @@ function bal(l, x, d, r) {
       return create(create(ll, lv, ld, lr._0), lr._1, lr._2, create(lr._3, x, d, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Map.bal"
-            });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "Map.bal"
+        });
   }
   if (hr <= (hl + 2 | 0)) {
     return {
-            TAG: /* Node */0,
-            _0: l,
-            _1: x,
-            _2: d,
-            _3: r,
-            _4: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
-          };
+      TAG: /* Node */0,
+      _0: l,
+      _1: x,
+      _2: d,
+      _3: r,
+      _4: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+    };
   }
   if (/* tag */typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-              MEL_EXN_ID: "Invalid_argument",
-              _1: "Map.bal"
-            });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "Map.bal"
+        });
   }
   const rr = r._3;
   const rd = r._2;
@@ -82,21 +82,21 @@ function bal(l, x, d, r) {
     return create(create(l, x, d, rl._0), rl._1, rl._2, create(rl._3, rv, rd, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Map.bal"
-          });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Map.bal"
+      });
 }
 
 function add(x, data, param) {
   if (/* tag */typeof param === "number" || typeof param === "string") {
     return {
-            TAG: /* Node */0,
-            _0: /* Empty */0,
-            _1: x,
-            _2: data,
-            _3: /* Empty */0,
-            _4: 1
-          };
+      TAG: /* Node */0,
+      _0: /* Empty */0,
+      _1: x,
+      _2: data,
+      _3: /* Empty */0,
+      _4: 1
+    };
   }
   const r = param._3;
   const d = param._2;
@@ -105,13 +105,13 @@ function add(x, data, param) {
   const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     return {
-            TAG: /* Node */0,
-            _0: l,
-            _1: x,
-            _2: data,
-            _3: r,
-            _4: param._4
-          };
+      TAG: /* Node */0,
+      _0: l,
+      _1: x,
+      _2: data,
+      _3: r,
+      _4: param._4
+    };
   } else if (c < 0) {
     return bal(add(x, data, l), v, d, r);
   } else {
@@ -124,8 +124,8 @@ function find(x, _param) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                MEL_EXN_ID: Stdlib.Not_found
-              });
+            MEL_EXN_ID: Stdlib.Not_found
+          });
     }
     const c = Caml.caml_int_compare(x, param._1);
     if (c === 0) {
@@ -169,10 +169,10 @@ Mt.from_pair_suites("Inline_map_test", {
         "find",
         (function (param) {
             return {
-                    TAG: /* Eq */0,
-                    _0: find(10, m),
-                    _1: /* 'a' */97
-                  };
+              TAG: /* Eq */0,
+              _0: find(10, m),
+              _1: /* 'a' */97
+            };
           })
       ],
       tl: /* [] */0

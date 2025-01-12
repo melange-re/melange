@@ -10,9 +10,9 @@ let f;
 
 try {
   throw new Caml_js_exceptions.MelangeError(A, {
-            MEL_EXN_ID: A,
-            _1: 3
-          });
+        MEL_EXN_ID: A,
+        _1: 3
+      });
 }
 catch (exn){
   f = 3;

@@ -5,8 +5,8 @@
 function M(U) {
   const v = U.f(100, "x");
   return {
-          v: v
-        };
+    v: v
+  };
 }
 
 function f() {

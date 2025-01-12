@@ -106,11 +106,11 @@ function for_6(x, u) {
           Curry._1(x, undefined);
         }), arr);
   return [
-          v.contents,
-          v4.contents,
-          v5.contents,
-          inspect_3
-        ];
+    v.contents,
+    v4.contents,
+    v5.contents,
+    inspect_3
+  ];
 }
 
 function for_7(param) {
@@ -200,20 +200,20 @@ function for_9(param) {
           Curry._1(f, undefined);
         }), arr2);
   return [[
-            vv.contents,
-            Stdlib__Array.of_list(Stdlib__List.rev(v.contents)),
-            vv2.contents
-          ]];
+      vv.contents,
+      Stdlib__Array.of_list(Stdlib__List.rev(v.contents)),
+      vv2.contents
+    ]];
 }
 
 const suites_0 = [
   "for_loop_test_3",
   (function (param) {
       return {
-              TAG: /* Eq */0,
-              _0: 90,
-              _1: for_3(Caml_array.make(10, 2))
-            };
+        TAG: /* Eq */0,
+        _0: 90,
+        _1: for_3(Caml_array.make(10, 2))
+      };
     })
 ];
 
@@ -222,10 +222,10 @@ const suites_1 = {
     "for_loop_test_4",
     (function (param) {
         return {
-                TAG: /* Eq */0,
-                _0: 180,
-                _1: for_4(Caml_array.make(10, 2))
-              };
+          TAG: /* Eq */0,
+          _0: 180,
+          _1: for_4(Caml_array.make(10, 2))
+        };
       })
   ],
   tl: {
@@ -233,10 +233,10 @@ const suites_1 = {
       "for_loop_test_5",
       (function (param) {
           return {
-                  TAG: /* Eq */0,
-                  _0: 2420,
-                  _1: for_5(Caml_array.make(10, 2), 11)
-                };
+            TAG: /* Eq */0,
+            _0: 2420,
+            _1: for_5(Caml_array.make(10, 2), 11)
+          };
         })
     ],
     tl: {
@@ -244,15 +244,15 @@ const suites_1 = {
         "for_loop_test_6",
         (function (param) {
             return {
-                    TAG: /* Eq */0,
-                    _0: [
-                      30,
-                      1,
-                      2,
-                      3
-                    ],
-                    _1: for_6(Caml_array.make(3, 0), 0)
-                  };
+              TAG: /* Eq */0,
+              _0: [
+                30,
+                1,
+                2,
+                3
+              ],
+              _1: for_6(Caml_array.make(3, 0), 0)
+            };
           })
       ],
       tl: {
@@ -260,10 +260,10 @@ const suites_1 = {
           "for_loop_test_7",
           (function (param) {
               return {
-                      TAG: /* Eq */0,
-                      _0: 84,
-                      _1: for_7(undefined)
-                    };
+                TAG: /* Eq */0,
+                _0: 84,
+                _1: for_7(undefined)
+              };
             })
         ],
         tl: {
@@ -271,10 +271,10 @@ const suites_1 = {
             "for_loop_test_8",
             (function (param) {
                 return {
-                        TAG: /* Eq */0,
-                        _0: 294,
-                        _1: for_8(undefined)
-                      };
+                  TAG: /* Eq */0,
+                  _0: 294,
+                  _1: for_8(undefined)
+                };
               })
           ],
           tl: {
@@ -282,19 +282,19 @@ const suites_1 = {
               "for_loop_test_9",
               (function (param) {
                   return {
-                          TAG: /* Eq */0,
-                          _0: [[
-                              10,
-                              [
-                                1,
-                                2,
-                                2,
-                                3
-                              ],
-                              5
-                            ]],
-                          _1: for_9(undefined)
-                        };
+                    TAG: /* Eq */0,
+                    _0: [[
+                        10,
+                        [
+                          1,
+                          2,
+                          2,
+                          3
+                        ],
+                        5
+                      ]],
+                    _1: for_9(undefined)
+                  };
                 })
             ],
             tl: /* [] */0

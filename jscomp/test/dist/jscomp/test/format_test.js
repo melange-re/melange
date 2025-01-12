@@ -26,10 +26,10 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
           return {
-                  TAG: /* Eq */0,
-                  _0: x,
-                  _1: y
-                };
+            TAG: /* Eq */0,
+            _0: x,
+            _1: y
+          };
         })
     ],
     tl: suites.contents
@@ -44,34 +44,34 @@ function eq3(loc, a, b, c) {
 
 function $caret$caret(param, param$1) {
   return {
-          TAG: /* Format */0,
-          _0: CamlinternalFormatBasics.concat_fmt(param._0, param$1._0),
-          _1: param._1 + ("%," + param$1._1)
-        };
+    TAG: /* Format */0,
+    _0: CamlinternalFormatBasics.concat_fmt(param._0, param$1._0),
+    _1: param._1 + ("%," + param$1._1)
+  };
 }
 
 function u(param) {
   return $caret$caret({
-              TAG: /* Format */0,
-              _0: {
-                TAG: /* String_literal */11,
-                _0: "xx ",
-                _1: {
-                  TAG: /* String */2,
-                  _0: /* No_padding */0,
-                  _1: /* End_of_format */0
-                }
-              },
-              _1: "xx %s"
-            }, {
-              TAG: /* Format */0,
-              _0: {
-                TAG: /* String_literal */11,
-                _0: "yy",
-                _1: /* End_of_format */0
-              },
-              _1: "yy"
-            });
+        TAG: /* Format */0,
+        _0: {
+          TAG: /* String_literal */11,
+          _0: "xx ",
+          _1: {
+            TAG: /* String */2,
+            _0: /* No_padding */0,
+            _1: /* End_of_format */0
+          }
+        },
+        _1: "xx %s"
+      }, {
+        TAG: /* Format */0,
+        _0: {
+          TAG: /* String_literal */11,
+          _0: "yy",
+          _1: /* End_of_format */0
+        },
+        _1: "yy"
+      });
 }
 
 const M = {};
@@ -166,19 +166,19 @@ f("File \"jscomp/test/format_test.ml\", line 82, characters 6-13", {
 
 function sl(f) {
   return Curry._1(Stdlib__Printf.sprintf({
-                  TAG: /* Format */0,
-                  _0: {
-                    TAG: /* Float */8,
-                    _0: [
-                      /* Float_flag_ */0,
-                      /* Float_h */6
-                    ],
-                    _1: /* No_padding */0,
-                    _2: /* No_precision */0,
-                    _3: /* End_of_format */0
-                  },
-                  _1: "%h"
-                }), f);
+            TAG: /* Format */0,
+            _0: {
+              TAG: /* Float */8,
+              _0: [
+                /* Float_flag_ */0,
+                /* Float_h */6
+              ],
+              _1: /* No_padding */0,
+              _2: /* No_precision */0,
+              _3: /* End_of_format */0
+            },
+            _1: "%h"
+          }), f);
 }
 
 function aux_list(loc, ls) {

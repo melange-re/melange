@@ -5,18 +5,18 @@ const Js__Js_mapper_runtime = require("melange.js/js_mapper_runtime.js");
 
 function tToJs(param) {
   return {
-          xx: param.xx,
-          yy: param.yy,
-          zz: param.zz
-        };
+    xx: param.xx,
+    yy: param.yy,
+    zz: param.zz
+  };
 }
 
 function tFromJs(param) {
   return {
-          xx: param.xx,
-          yy: param.yy,
-          zz: param.zz
-        };
+    xx: param.xx,
+    yy: param.yy,
+    zz: param.zz
+  };
 }
 
 const u = tToJs({

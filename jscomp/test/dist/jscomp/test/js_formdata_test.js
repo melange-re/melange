@@ -10,19 +10,19 @@ function form_data_append(param) {
   fd.append("a", "foo");
   fd.append("b", "bar");
   return {
-          TAG: /* Eq */0,
-          _0: Stdlib__Option.get(Caml_option.null_to_opt(fd.get("a"))),
-          _1: "foo"
-        };
+    TAG: /* Eq */0,
+    _0: Stdlib__Option.get(Caml_option.null_to_opt(fd.get("a"))),
+    _1: "foo"
+  };
 }
 
 function form_data_not_found(param) {
   const fd = new FormData();
   return {
-          TAG: /* Eq */0,
-          _0: Caml_option.null_to_opt(fd.get("doesn't exist")),
-          _1: undefined
-        };
+    TAG: /* Eq */0,
+    _0: Caml_option.null_to_opt(fd.get("doesn't exist")),
+    _1: undefined
+  };
 }
 
 function form_data_append_blob(param) {
@@ -31,12 +31,12 @@ function form_data_append_blob(param) {
   fd.append("b", blob, "foo.txt");
   const got_blob = Stdlib__Option.get(Caml_option.null_to_opt(fd.get("b")));
   return got_blob.text().then(function (x) {
-              return Promise.resolve({
-                          TAG: /* Eq */0,
-                          _0: x,
-                          _1: "hello"
-                        });
+        return Promise.resolve({
+              TAG: /* Eq */0,
+              _0: x,
+              _1: "hello"
             });
+      });
 }
 
 function form_data_append_file(param) {
@@ -45,12 +45,12 @@ function form_data_append_file(param) {
   fd.append("b", file, "foo.txt");
   const got_file = Stdlib__Option.get(Caml_option.null_to_opt(fd.get("b")));
   return got_file.text().then(function (x) {
-              return Promise.resolve({
-                          TAG: /* Eq */0,
-                          _0: x,
-                          _1: "hello"
-                        });
+        return Promise.resolve({
+              TAG: /* Eq */0,
+              _0: x,
+              _1: "hello"
             });
+      });
 }
 
 Mt.from_pair_suites("Js_formdata_test", {

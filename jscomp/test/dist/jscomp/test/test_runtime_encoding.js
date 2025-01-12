@@ -5,23 +5,23 @@ const Caml_array = require("melange.js/caml_array.js");
 
 function g(x) {
   return [
-          3,
-          x
-        ];
+    3,
+    x
+  ];
 }
 
 function ff(v, u) {
   return {
-          v: v,
-          u: u
-        };
+    v: v,
+    u: u
+  };
 }
 
 function fff(vv, uu) {
   return {
-          vv: vv,
-          uu: uu
-        };
+    vv: vv,
+    uu: uu
+  };
 }
 
 function a(x) {

@@ -8,12 +8,12 @@ function fff(x) {
 
 function ff(x, z) {
   return {
-          hd: x.height,
-          tl: {
-            hd: z.height,
-            tl: /* [] */0
-          }
-        };
+    hd: x.height,
+    tl: {
+      hd: z.height,
+      tl: /* [] */0
+    }
+  };
 }
 
 exports.fff = fff;

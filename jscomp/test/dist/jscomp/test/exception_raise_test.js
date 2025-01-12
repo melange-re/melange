@@ -106,13 +106,13 @@ catch (raw_x$3){
     a0 = x$3._1;
   } else {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/exception_raise_test.ml",
-                102,
-                9
-              ]
-            });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/exception_raise_test.ml",
+            102,
+            9
+          ]
+        });
   }
 }
 
@@ -142,20 +142,20 @@ const suites = {
       "File \"jscomp/test/exception_raise_test.ml\", line 114, characters 4-11",
       (function (param) {
           return {
-                  TAG: /* Eq */0,
-                  _0: [
-                    f,
-                    ff,
-                    fff,
-                    a0
-                  ],
-                  _1: [
-                    2,
-                    2,
-                    2,
-                    2
-                  ]
-                };
+            TAG: /* Eq */0,
+            _0: [
+              f,
+              ff,
+              fff,
+              a0
+            ],
+            _1: [
+              2,
+              2,
+              2,
+              2
+            ]
+          };
         })
     ],
     tl: {
@@ -164,19 +164,19 @@ const suites = {
         (function (param) {
             if (a1.MEL_EXN_ID === Js__Js_exn.$$Error) {
               return {
-                      TAG: /* Eq */0,
-                      _0: a1._1,
-                      _1: 2
-                    };
+                TAG: /* Eq */0,
+                _0: a1._1,
+                _1: 2
+              };
             }
             throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/exception_raise_test.ml",
-                        119,
-                        15
-                      ]
-                    });
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/exception_raise_test.ml",
+                    119,
+                    15
+                  ]
+                });
           })
       ],
       tl: /* [] */0
@@ -203,8 +203,8 @@ catch (raw_e$2){
 
 try {
   throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+        MEL_EXN_ID: Stdlib.Not_found
+      });
 }
 catch (raw_e$3){
   const e$1 = Caml_js_exceptions.internalToOCamlException(raw_e$3);

@@ -133,8 +133,6 @@ module Curry_gen = struct
     string cxt (Printf.sprintf "%d" len)
 end
 
-let return_indent = String.length L.return / Js_pp.indent_length
-let throw_indent = String.length L.throw / Js_pp.indent_length
 let semi cxt = string cxt L.semi
 let comma cxt = string cxt L.comma
 
@@ -1195,7 +1193,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       | _ ->
           return_sp cxt;
           (* string cxt "return ";(\* ASI -- when there is a comment*\) *)
-          group cxt return_indent (fun () ->
+          group cxt 0 (fun () ->
               let cxt = expression ~level:0 cxt e in
               semi cxt;
               cxt))
@@ -1255,7 +1253,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       in
       string cxt L.throw;
       space cxt;
-      group cxt throw_indent (fun () ->
+      group cxt 0 (fun () ->
           let cxt = expression ~level:0 cxt e in
           semi cxt;
           cxt)

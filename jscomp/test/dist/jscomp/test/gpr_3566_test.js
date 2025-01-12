@@ -25,11 +25,11 @@ function Test($star) {
         _0: 3
       }, u);
   return {
-          u: u,
-          Block: Block,
-          y: 32,
-          b: b
-        };
+    u: u,
+    Block: Block,
+    y: 32,
+    b: b
+  };
 }
 
 function Test2($star) {
@@ -43,10 +43,10 @@ function Test2($star) {
         _0: 3
       });
   return {
-          Block: Block,
-          y: 32,
-          b: b
-        };
+    Block: Block,
+    y: 32,
+    b: b
+  };
 }
 
 function f(i, y) {
@@ -61,18 +61,18 @@ function Test3($star) {
   const f = Caml_obj.caml_equal;
   const Caml_obj$1 = {};
   return {
-          f: f,
-          Caml_obj: Caml_obj$1
-        };
+    f: f,
+    Caml_obj: Caml_obj$1
+  };
 }
 
 function Test4($star) {
   const Caml_obj$1 = {};
   const f = Caml_obj.caml_equal;
   return {
-          Caml_obj: Caml_obj$1,
-          f: f
-        };
+    Caml_obj: Caml_obj$1,
+    f: f
+  };
 }
 
 function Test5($star) {
@@ -81,9 +81,9 @@ function Test5($star) {
   };
   const Caml_option$1 = {};
   return {
-          f: f,
-          Caml_option: Caml_option$1
-        };
+    f: f,
+    Caml_option: Caml_option$1
+  };
 }
 
 function Test6($star) {
@@ -92,16 +92,16 @@ function Test6($star) {
     return Caml_option.some(x);
   };
   return {
-          Caml_option: Caml_option$1,
-          f: f
-        };
+    Caml_option: Caml_option$1,
+    f: f
+  };
 }
 
 function Test7($star) {
   const Caml_option = {};
   return {
-          Caml_option: Caml_option
-        };
+    Caml_option: Caml_option
+  };
 }
 
 function Test8($star) {
@@ -110,9 +110,9 @@ function Test8($star) {
     return Curry._1(x, 1);
   };
   return {
-          Curry: Curry$1,
-          f: f
-        };
+    Curry: Curry$1,
+    f: f
+  };
 }
 
 function Test9($star) {
@@ -121,16 +121,16 @@ function Test9($star) {
   };
   const Curry$1 = {};
   return {
-          f: f,
-          Curry: Curry$1
-        };
+    f: f,
+    Curry: Curry$1
+  };
 }
 
 function Test10($star) {
   const Curry = {};
   return {
-          Curry: Curry
-        };
+    Curry: Curry
+  };
 }
 
 const x = 3;

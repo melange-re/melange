@@ -24,13 +24,13 @@ for (let i = 1; i <= 2; ++i) {
       return ;
     }
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/gpr_858_unit2_test.ml",
-                6,
-                13
-              ]
-            });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/gpr_858_unit2_test.ml",
+            6,
+            13
+          ]
+        });
   };
   f(0, i);
 }

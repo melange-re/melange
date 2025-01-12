@@ -19,11 +19,11 @@ const xbs = Array.prototype.map.call([
 
 function f(cb) {
   return Array.prototype.map.call([
-              1,
-              2,
-              3,
-              4
-            ], Curry.__1(cb));
+        1,
+        2,
+        3,
+        4
+      ], Curry.__1(cb));
 }
 
 const xs = Array.prototype.map.call([
@@ -38,27 +38,27 @@ const xs = Array.prototype.map.call([
 
 function f_0(param) {
   return hi(function () {
-              
-            });
+        
+      });
 }
 
 function f_01(param) {
   return hi(function () {
-              console.log("x");
-            });
+        console.log("x");
+      });
 }
 
 function f_02(xs) {
   return hi(function () {
-              xs.contents = undefined;
-              console.log("x");
-            });
+        xs.contents = undefined;
+        console.log("x");
+      });
 }
 
 function f_03(xs, u) {
   return hi(function () {
-              return Curry._1(u, undefined);
-            });
+        return Curry._1(u, undefined);
+      });
 }
 
 function fishy(x, y, z) {
@@ -80,26 +80,26 @@ function add3(x, y, z) {
 
 function h2(x) {
   return ff(x, (function (prim0, prim1) {
-                return prim0 + prim1 | 0;
-              }));
+          return prim0 + prim1 | 0;
+        }));
 }
 
 function h3(x) {
   return ff(x, (function (param, param$1) {
-                return add3(1, param, param$1);
-              }));
+          return add3(1, param, param$1);
+        }));
 }
 
 function h4(x) {
   return ff1(x, 3, (function (param, param$1) {
-                return add3(1, param, param$1);
-              }));
+          return add3(1, param, param$1);
+        }));
 }
 
 function h5(x) {
   return ff2(x, "3", (function (param, param$1) {
-                return add3(2, param, param$1);
-              }));
+          return add3(2, param, param$1);
+        }));
 }
 
 function add(x, y) {

@@ -12,14 +12,14 @@ const suites_0 = [
             3
           ]);
       return {
-              TAG: /* Eq */0,
-              _0: [
-                1,
-                2,
-                3
-              ],
-              _1: Array.from(set)
-            };
+        TAG: /* Eq */0,
+        _0: [
+          1,
+          2,
+          3
+        ],
+        _1: Array.from(set)
+      };
     })
 ];
 
@@ -29,10 +29,10 @@ const suites_1 = {
     (function (param) {
         const set = new Set();
         return {
-                TAG: /* Eq */0,
-                _0: 0,
-                _1: set.size
-              };
+          TAG: /* Eq */0,
+          _0: 0,
+          _1: set.size
+        };
       })
   ],
   tl: {
@@ -45,10 +45,10 @@ const suites_1 = {
                 "two"
               ]);
           return {
-                  TAG: /* Eq */0,
-                  _0: 2,
-                  _1: set.size
-                };
+            TAG: /* Eq */0,
+            _0: 2,
+            _1: set.size
+          };
         })
     ],
     tl: {
@@ -60,10 +60,10 @@ const suites_1 = {
                   "one"
                 ]);
             return {
-                    TAG: /* Eq */0,
-                    _0: 1,
-                    _1: set.size
-                  };
+              TAG: /* Eq */0,
+              _0: 1,
+              _1: set.size
+            };
           })
       ],
       tl: {
@@ -75,10 +75,10 @@ const suites_1 = {
                     "two"
                   ]);
               return {
-                      TAG: /* Eq */0,
-                      _0: true,
-                      _1: set.has("two")
-                    };
+                TAG: /* Eq */0,
+                _0: true,
+                _1: set.has("two")
+              };
             })
         ],
         tl: {
@@ -90,10 +90,10 @@ const suites_1 = {
                       "two"
                     ]);
                 return {
-                        TAG: /* Eq */0,
-                        _0: false,
-                        _1: set.has("three")
-                      };
+                  TAG: /* Eq */0,
+                  _0: false,
+                  _1: set.has("three")
+                };
               })
           ],
           tl: {
@@ -106,16 +106,16 @@ const suites_1 = {
                       ]);
                   const deleted = set.delete("two");
                   return {
-                          TAG: /* Eq */0,
-                          _0: [
-                            true,
-                            false
-                          ],
-                          _1: [
-                            deleted,
-                            set.has("two")
-                          ]
-                        };
+                    TAG: /* Eq */0,
+                    _0: [
+                      true,
+                      false
+                    ],
+                    _1: [
+                      deleted,
+                      set.has("two")
+                    ]
+                  };
                 })
             ],
             tl: {
@@ -124,13 +124,13 @@ const suites_1 = {
                 (function (param) {
                     const set = new Set().add("one").add("two");
                     return {
-                            TAG: /* Eq */0,
-                            _0: [
-                              "one",
-                              "two"
-                            ],
-                            _1: Array.from(set)
-                          };
+                      TAG: /* Eq */0,
+                      _0: [
+                        "one",
+                        "two"
+                      ],
+                      _1: Array.from(set)
+                    };
                   })
               ],
               tl: {
@@ -143,10 +143,10 @@ const suites_1 = {
                           ]);
                       set.clear();
                       return {
-                              TAG: /* Eq */0,
-                              _0: 0,
-                              _1: set.size
-                            };
+                        TAG: /* Eq */0,
+                        _0: 0,
+                        _1: set.size
+                      };
                     })
                 ],
                 tl: {
@@ -159,16 +159,16 @@ const suites_1 = {
                         const all_same_size = set_1.size === 2 && set_2.size === 2 && set_3.size === 2;
                         const all_same_ref = set_1 === set_2 && set_2 === set_3;
                         return {
-                                TAG: /* Eq */0,
-                                _0: [
-                                  true,
-                                  true
-                                ],
-                                _1: [
-                                  all_same_size,
-                                  all_same_ref
-                                ]
-                              };
+                          TAG: /* Eq */0,
+                          _0: [
+                            true,
+                            true
+                          ],
+                          _1: [
+                            all_same_size,
+                            all_same_ref
+                          ]
+                        };
                       })
                   ],
                   tl: {
@@ -186,13 +186,13 @@ const suites_1 = {
                                 arr.contents.push(value);
                               });
                           return {
-                                  TAG: /* Eq */0,
-                                  _0: [
-                                    "one",
-                                    "two"
-                                  ],
-                                  _1: arr.contents
-                                };
+                            TAG: /* Eq */0,
+                            _0: [
+                              "one",
+                              "two"
+                            ],
+                            _1: arr.contents
+                          };
                         })
                     ],
                     tl: {
@@ -204,13 +204,13 @@ const suites_1 = {
                                         "two"
                                       ]).values());
                             return {
-                                    TAG: /* Eq */0,
-                                    _0: [
-                                      "one",
-                                      "two"
-                                    ],
-                                    _1: values
-                                  };
+                              TAG: /* Eq */0,
+                              _0: [
+                                "one",
+                                "two"
+                              ],
+                              _1: values
+                            };
                           })
                       ],
                       tl: {
@@ -222,19 +222,19 @@ const suites_1 = {
                                           "two"
                                         ]).entries());
                               return {
-                                      TAG: /* Eq */0,
-                                      _0: [
-                                        [
-                                          "one",
-                                          "one"
-                                        ],
-                                        [
-                                          "two",
-                                          "two"
-                                        ]
-                                      ],
-                                      _1: entries
-                                    };
+                                TAG: /* Eq */0,
+                                _0: [
+                                  [
+                                    "one",
+                                    "one"
+                                  ],
+                                  [
+                                    "two",
+                                    "two"
+                                  ]
+                                ],
+                                _1: entries
+                              };
                             })
                         ],
                         tl: {
@@ -249,36 +249,36 @@ const suites_1 = {
                                 const n2 = iterator.next();
                                 const n3 = iterator.next();
                                 return {
-                                        TAG: /* Eq */0,
-                                        _0: [
-                                          [
-                                            n1.done,
-                                            n1.value
-                                          ],
-                                          [
-                                            n2.done,
-                                            n2.value
-                                          ],
-                                          [
-                                            n3.done,
-                                            n3.value
-                                          ]
-                                        ],
-                                        _1: [
-                                          [
-                                            false,
-                                            "one"
-                                          ],
-                                          [
-                                            false,
-                                            "two"
-                                          ],
-                                          [
-                                            true,
-                                            undefined
-                                          ]
-                                        ]
-                                      };
+                                  TAG: /* Eq */0,
+                                  _0: [
+                                    [
+                                      n1.done,
+                                      n1.value
+                                    ],
+                                    [
+                                      n2.done,
+                                      n2.value
+                                    ],
+                                    [
+                                      n3.done,
+                                      n3.value
+                                    ]
+                                  ],
+                                  _1: [
+                                    [
+                                      false,
+                                      "one"
+                                    ],
+                                    [
+                                      false,
+                                      "two"
+                                    ],
+                                    [
+                                      true,
+                                      undefined
+                                    ]
+                                  ]
+                                };
                               })
                           ],
                           tl: /* [] */0
