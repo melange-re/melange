@@ -340,6 +340,8 @@ let parse_external_attributes (prim_name_check : string)
         | "mel.send" | "bs.send" | "send" ->
             Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
             { st with val_send = name_from_payload_or_prim ~loc payload }
+        | "mel.invoke" ->
+            { st with val_invoke = name_from_payload_or_prim ~loc payload }
         | "mel.send.pipe" | "bs.send.pipe" | "send.pipe" ->
             Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
             {
@@ -902,9 +904,9 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
           Location.raise_errorf ~loc
             "`[%@mel.send]' doesn't expect an attribute payload"
       | _ :: _, `Nm_na ->
-          Js_send { variadic; name; scopes; kind = Send; new_ = false }
+          Js_send { variadic; name; scopes; kind = Invoke; new_ = false }
       | _ :: _, `Nm_external _ ->
-          Js_send { variadic; name; scopes; kind = Send; new_ = true })
+          Js_send { variadic; name; scopes; kind = Invoke; new_ = true })
   | { val_send = #bundle_source; _ } ->
       Location.raise_errorf ~loc
         "Found an attribute that can't be used with `[%@mel.send]'"
