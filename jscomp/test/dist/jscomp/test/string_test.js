@@ -121,7 +121,7 @@ function xsplit(delim, s) {
         }) : l$1;
       _i = i$p;
       _l = l$2;
-      continue ;
+      continue;
     };
   } else {
     return /* [] */0;

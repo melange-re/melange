@@ -41,14 +41,14 @@ function split_by(keep_emptyOpt, is_delim, str) {
           hd: v,
           tl: acc
         };
-        continue ;
+        continue;
       }
       _pos = pos - 1 | 0;
       _last_pos = pos;
-      continue ;
+      continue;
     }
     _pos = pos - 1 | 0;
-    continue ;
+    continue;
   };
 }
 
@@ -131,7 +131,7 @@ function ends_with_index(s, end_) {
     }
     _k = k - 1 | 0;
     _j = j - 1 | 0;
-    continue ;
+    continue;
   };
 }
 
@@ -165,7 +165,7 @@ function check_any_suffix_case_then_chop(s, suffixes) {
       return Stdlib__String.sub(s, 0, id);
     }
     _suffixes = suffixes$1.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -185,13 +185,13 @@ function escaped(s) {
           return true;
         }
         _i = i + 1 | 0;
-        continue ;
+        continue;
       }
       if (match > 91 || match < 35) {
         return true;
       }
       _i = i + 1 | 0;
-      continue ;
+      continue;
     };
   };
   if (needs_escape(0)) {
@@ -211,7 +211,7 @@ function unsafe_for_all_range(s, _start, finish, p) {
       return false;
     }
     _start = start + 1 | 0;
-    continue ;
+    continue;
   };
 }
 
@@ -255,7 +255,7 @@ function unsafe_is_sub(sub, i, s, j, len) {
         return false;
       }
       _k = k + 1 | 0;
-      continue ;
+      continue;
     };
   } else {
     return false;
@@ -312,7 +312,7 @@ function non_overlap_count(sub, s) {
     }
     _off = i + sub_len | 0;
     _acc = acc + 1 | 0;
-    continue ;
+    continue;
   };
 }
 
@@ -362,7 +362,7 @@ function digits_of_str(s, offset, x) {
     }
     _acc = (Math.imul(10, acc) + Caml_string.get(s, offset + i | 0) | 0) - 48 | 0;
     _i = i + 1 | 0;
-    continue ;
+    continue;
   };
 }
 
@@ -420,7 +420,7 @@ function rindex_rec(s, _i, c) {
       return i;
     }
     _i = i - 1 | 0;
-    continue ;
+    continue;
   };
 }
 
@@ -434,7 +434,7 @@ function rindex_rec_opt(s, _i, c) {
       return i;
     }
     _i = i - 1 | 0;
-    continue ;
+    continue;
   };
 }
 
@@ -542,7 +542,7 @@ function unsafe_no_char(x, ch, _i, last_idx) {
       return false;
     }
     _i = i + 1 | 0;
-    continue ;
+    continue;
   };
 }
 
@@ -556,7 +556,7 @@ function unsafe_no_char_idx(x, ch, _i, last_idx) {
       return i;
     }
     _i = i + 1 | 0;
-    continue ;
+    continue;
   };
 }
 

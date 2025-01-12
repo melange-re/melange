@@ -15,7 +15,7 @@ function is_number(_expr) {
           }
       case /* Neg */1 :
           _expr = expr._0;
-          continue ;
+          continue;
       case /* Sum */2 :
       case /* Pow */3 :
       case /* Frac */4 :
@@ -67,7 +67,7 @@ function compare(context, state, _a, _b) {
           break;
       case /* Neg */1 :
           _a = a._0;
-          continue ;
+          continue;
       case /* Sum */2 :
       case /* Pow */3 :
           exit$3 = 5;
@@ -127,7 +127,7 @@ function compare(context, state, _a, _b) {
     if (exit$3 === 5) {
       if (b.TAG === /* Neg */1) {
         _b = b._0;
-        continue ;
+        continue;
       }
       if (a.TAG === /* Sum */2) {
         if (is_number(b)) {
@@ -179,7 +179,7 @@ function compare(context, state, _a, _b) {
           }
           _b = nb;
           _a = na;
-          continue ;
+          continue;
       
     }
   };

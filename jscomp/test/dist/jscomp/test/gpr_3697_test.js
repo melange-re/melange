@@ -19,7 +19,7 @@ function unfixLeak(_f) {
   while(true) {
     const f = _f;
     _f = CamlinternalLazy.force(f._0);
-    continue ;
+    continue;
   };
 }
 

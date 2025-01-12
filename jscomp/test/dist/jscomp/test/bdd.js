@@ -16,10 +16,10 @@ function $$eval(_bdd, vars) {
     }
     if (Caml_array.get(vars, bdd._1)) {
       _bdd = bdd._3;
-      continue ;
+      continue;
     }
     _bdd = bdd._0;
-    continue ;
+    continue;
   };
 }
 
@@ -92,7 +92,7 @@ function resize(newSize) {
               tl: Caml_array.get(newArr, ind)
             });
         _bucket = bucket.tl;
-        continue ;
+        continue;
       }
     };
   };
@@ -164,7 +164,7 @@ function mkNode(low, v, high) {
           return n;
         }
         _b = b.tl;
-        continue ;
+        continue;
       }
     } else {
       const n_2 = (nodeC.contents = nodeC.contents + 1 | 0, nodeC.contents);

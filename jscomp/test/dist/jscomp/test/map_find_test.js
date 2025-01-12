@@ -153,7 +153,7 @@ function find(x, _param) {
       return param.d;
     }
     _param = c < 0 ? param.l : param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -330,7 +330,7 @@ function find$1(x, _param) {
       return param.d;
     }
     _param = c < 0 ? param.l : param.r;
-    continue ;
+    continue;
   };
 }
 

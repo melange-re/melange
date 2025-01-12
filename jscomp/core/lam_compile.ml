@@ -337,7 +337,6 @@ and compile_recursive_let ~all_bindings (cxt : Lam_compile_context.t)
     (id : Ident.t) (arg : Lam.t) : Js_output.t * initialization =
   match arg with
   | Lfunction { params; body; attr = { return_unit; _ }; _ } ->
-      let continue_label = Lam_util.generate_label ~name:(Ident.name id) () in
       (* TODO: Think about recursive value
          {[
            let rec v = ref (fun _ ...
@@ -348,7 +347,6 @@ and compile_recursive_let ~all_bindings (cxt : Lam_compile_context.t)
       let ret : Lam_compile_context.return_label =
         {
           id;
-          label = continue_label;
           params;
           immutable_mask = Array.make (List.length params) true;
           new_params = Ident.Map.empty;
@@ -381,8 +379,7 @@ and compile_recursive_let ~all_bindings (cxt : Lam_compile_context.t)
                ~f:(fun x -> Ident.Map.find_default ret.new_params x x)
                params)
             [
-              S.while_ (* ~label:continue_label *)
-                E.true_
+              S.while_ E.true_
                 (Ident.Map.fold ret.new_params body_block
                    (fun old new_param acc ->
                      S.define_variable ~kind:Alias old (E.var new_param) :: acc));

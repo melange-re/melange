@@ -160,7 +160,7 @@ function even2(_n) {
       return true;
     }
     _n = n - 1 | 0;
-    continue ;
+    continue;
   };
 }
 
@@ -180,7 +180,7 @@ function sum(_acc, _n) {
     }
     _n = n - 1 | 0;
     _acc = acc + n | 0;
-    continue ;
+    continue;
   };
 }
 

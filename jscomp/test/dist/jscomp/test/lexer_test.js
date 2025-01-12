@@ -26,7 +26,7 @@ function get_tokens(lex, str) {
       hd: v,
       tl: acc
     };
-    continue ;
+    continue;
   };
 }
 

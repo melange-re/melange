@@ -33,7 +33,7 @@ function $plus$colon(_f, _g) {
       case /* Add */2 :
           _g = g._1;
           _f = $plus$colon(f, g._0);
-          continue ;
+          continue;
       case /* Var */1 :
       case /* Mul */3 :
           return {
@@ -107,7 +107,7 @@ function $star$colon(_f, _g) {
       case /* Mul */3 :
           _g = g._1;
           _f = $star$colon(f, g._0);
-          continue ;
+          continue;
       
     }
   };

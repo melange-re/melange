@@ -190,7 +190,7 @@ function get(_p, _n) {
     }
     _n = n - 1 | 0;
     _p = Caml_oo_curry.js1(-357537970, 7, p);
-    continue ;
+    continue;
   };
 }
 

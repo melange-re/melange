@@ -16,7 +16,7 @@ function length_aux(_len, _param) {
     }
     _param = param.tl;
     _len = len + 1 | 0;
-    continue ;
+    continue;
   };
 }
 
@@ -62,7 +62,7 @@ function nth(l, n) {
       }
       _n = n$1 - 1 | 0;
       _l = l$1.tl;
-      continue ;
+      continue;
     }
     throw new Caml_js_exceptions.MelangeError("Failure", {
           MEL_EXN_ID: "Failure",
@@ -83,7 +83,7 @@ function rev_append(_l1, _l2) {
       tl: l2
     };
     _l1 = l1.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -139,7 +139,7 @@ function rev_map(f, l) {
       hd: Curry._1(f, param.hd),
       tl: accu
     };
-    continue ;
+    continue;
   };
 }
 
@@ -151,7 +151,7 @@ function iter(f, _param) {
     }
     Curry._1(f, param.hd);
     _param = param.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -167,7 +167,7 @@ function iteri(f, l) {
     Curry._2(f, i, param.hd);
     _param = param.tl;
     _i = i + 1 | 0;
-    continue ;
+    continue;
   };
 }
 
@@ -180,7 +180,7 @@ function fold_left(f, _accu, _l) {
     }
     _l = l.tl;
     _accu = Curry._2(f, accu, l.hd);
-    continue ;
+    continue;
   };
 }
 
@@ -231,7 +231,7 @@ function rev_map2(f, l1, l2) {
           hd: Curry._2(f, l1$1.hd, l2$1.hd),
           tl: accu
         };
-        continue ;
+        continue;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             MEL_EXN_ID: "Invalid_argument",
@@ -257,7 +257,7 @@ function iter2(f, _l1, _l2) {
         Curry._2(f, l1.hd, l2.hd);
         _l2 = l2.tl;
         _l1 = l1.tl;
-        continue ;
+        continue;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             MEL_EXN_ID: "Invalid_argument",
@@ -284,7 +284,7 @@ function fold_left2(f, _accu, _l1, _l2) {
         _l2 = l2.tl;
         _l1 = l1.tl;
         _accu = Curry._3(f, accu, l1.hd, l2.hd);
-        continue ;
+        continue;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             MEL_EXN_ID: "Invalid_argument",
@@ -330,7 +330,7 @@ function for_all(p, _param) {
       return false;
     }
     _param = param.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -344,7 +344,7 @@ function exists(p, _param) {
       return true;
     }
     _param = param.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -359,7 +359,7 @@ function for_all2(p, _l1, _l2) {
         }
         _l2 = l2.tl;
         _l1 = l1.tl;
-        continue ;
+        continue;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             MEL_EXN_ID: "Invalid_argument",
@@ -387,7 +387,7 @@ function exists2(p, _l1, _l2) {
         }
         _l2 = l2.tl;
         _l1 = l1.tl;
-        continue ;
+        continue;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             MEL_EXN_ID: "Invalid_argument",
@@ -414,7 +414,7 @@ function mem(x, _param) {
       return true;
     }
     _param = param.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -428,7 +428,7 @@ function memq(x, _param) {
       return true;
     }
     _param = param.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -441,7 +441,7 @@ function assoc(x, _param) {
         return match[1];
       }
       _param = param.tl;
-      continue ;
+      continue;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found
@@ -458,7 +458,7 @@ function assq(x, _param) {
         return match[1];
       }
       _param = param.tl;
-      continue ;
+      continue;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found
@@ -476,7 +476,7 @@ function mem_assoc(x, _param) {
       return true;
     }
     _param = param.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -490,7 +490,7 @@ function mem_assq(x, _param) {
       return true;
     }
     _param = param.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -535,7 +535,7 @@ function find(p, _param) {
         return x;
       }
       _param = param.tl;
-      continue ;
+      continue;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found
@@ -561,10 +561,10 @@ function find_all(p) {
           hd: x,
           tl: accu
         };
-        continue ;
+        continue;
       }
       _param = l;
-      continue ;
+      continue;
     };
   };
 }
@@ -591,14 +591,14 @@ function partition(p, l) {
         hd: x,
         tl: yes
       };
-      continue ;
+      continue;
     }
     _param = l$1;
     _no = {
       hd: x,
       tl: no
     };
-    continue ;
+    continue;
   };
 }
 
@@ -680,7 +680,7 @@ function chop(_k, _l) {
     if (l) {
       _l = l.tl;
       _k = k - 1 | 0;
-      continue ;
+      continue;
     }
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
           MEL_EXN_ID: "Assert_failure",
@@ -830,14 +830,14 @@ function stable_sort(cmp, l) {
           tl: accu
         };
         _l1 = l1.tl;
-        continue ;
+        continue;
       }
       _accu = {
         hd: h2,
         tl: accu
       };
       _l2 = l2$1.tl;
-      continue ;
+      continue;
     };
   };
   const rev_sort = function (n, l) {
@@ -976,14 +976,14 @@ function stable_sort(cmp, l) {
           tl: accu
         };
         _l1 = l1.tl;
-        continue ;
+        continue;
       }
       _accu = {
         hd: h2,
         tl: accu
       };
       _l2 = l2$1.tl;
-      continue ;
+      continue;
     };
   };
   const len = length_aux(0, l);
@@ -1208,7 +1208,7 @@ function sort_uniq(cmp, l) {
         };
         _l2 = t2;
         _l1 = t1;
-        continue ;
+        continue;
       }
       if (c$7 > 0) {
         _accu = {
@@ -1216,14 +1216,14 @@ function sort_uniq(cmp, l) {
           tl: accu
         };
         _l1 = t1;
-        continue ;
+        continue;
       }
       _accu = {
         hd: h2,
         tl: accu
       };
       _l2 = t2;
-      continue ;
+      continue;
     };
   };
   const rev_sort = function (n, l) {
@@ -1439,7 +1439,7 @@ function sort_uniq(cmp, l) {
         };
         _l2 = t2;
         _l1 = t1;
-        continue ;
+        continue;
       }
       if (c$7 < 0) {
         _accu = {
@@ -1447,14 +1447,14 @@ function sort_uniq(cmp, l) {
           tl: accu
         };
         _l1 = t1;
-        continue ;
+        continue;
       }
       _accu = {
         hd: h2,
         tl: accu
       };
       _l2 = t2;
-      continue ;
+      continue;
     };
   };
   const len = length_aux(0, l);

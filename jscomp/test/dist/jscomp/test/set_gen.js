@@ -22,7 +22,7 @@ function cons_enum(_s, _e) {
       _2: e
     };
     _s = s._0;
-    continue ;
+    continue;
   };
 }
 
@@ -47,7 +47,7 @@ function min_elt(_param) {
       return param._1;
     }
     _param = l;
-    continue ;
+    continue;
   };
 }
 
@@ -64,7 +64,7 @@ function max_elt(_param) {
       return param._1;
     }
     _param = param._2;
-    continue ;
+    continue;
   };
 }
 
@@ -85,7 +85,7 @@ function cardinal_aux(_acc, _param) {
     }
     _param = param._0;
     _acc = cardinal_aux(acc + 1 | 0, param._2);
-    continue ;
+    continue;
   };
 }
 
@@ -105,7 +105,7 @@ function elements_aux(_accu, _param) {
       hd: param._1,
       tl: elements_aux(accu, param._2)
     };
-    continue ;
+    continue;
   };
 }
 
@@ -122,7 +122,7 @@ function iter(f, _param) {
     iter(f, param._0);
     Curry._1(f, param._1);
     _param = param._2;
-    continue ;
+    continue;
   };
 }
 
@@ -135,7 +135,7 @@ function fold(f, _s, _accu) {
     }
     _accu = Curry._2(f, s._1, fold(f, s._0, accu));
     _s = s._2;
-    continue ;
+    continue;
   };
 }
 
@@ -152,7 +152,7 @@ function for_all(p, _param) {
       return false;
     }
     _param = param._2;
-    continue ;
+    continue;
   };
 }
 
@@ -169,7 +169,7 @@ function exists(p, _param) {
       return true;
     }
     _param = param._2;
-    continue ;
+    continue;
   };
 }
 
@@ -700,7 +700,7 @@ function compare_aux(cmp, _e1, _e2) {
     }
     _e2 = cons_enum(e2._1, e2._2);
     _e1 = cons_enum(e1._1, e1._2);
-    continue ;
+    continue;
   };
 }
 

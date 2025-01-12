@@ -207,7 +207,7 @@ function find(x, _param) {
       return param.d;
     }
     _param = c < 0 ? param.l : param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -239,14 +239,14 @@ function find_first(f, _param) {
           _param$1 = param$1.l;
           _d0 = param$1.d;
           _v0 = v$1;
-          continue ;
+          continue;
         }
         _param$1 = param$1.r;
-        continue ;
+        continue;
       };
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -276,14 +276,14 @@ function find_first_opt(f, _param) {
           _param$1 = param$1.l;
           _d0 = param$1.d;
           _v0 = v$1;
-          continue ;
+          continue;
         }
         _param$1 = param$1.r;
-        continue ;
+        continue;
       };
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -315,14 +315,14 @@ function find_last(f, _param) {
           _param$1 = param$1.r;
           _d0 = param$1.d;
           _v0 = v$1;
-          continue ;
+          continue;
         }
         _param$1 = param$1.l;
-        continue ;
+        continue;
       };
     }
     _param = param.l;
-    continue ;
+    continue;
   };
 }
 
@@ -352,14 +352,14 @@ function find_last_opt(f, _param) {
           _param$1 = param$1.r;
           _d0 = param$1.d;
           _v0 = v$1;
-          continue ;
+          continue;
         }
         _param$1 = param$1.l;
-        continue ;
+        continue;
       };
     }
     _param = param.l;
-    continue ;
+    continue;
   };
 }
 
@@ -374,7 +374,7 @@ function find_opt(x, _param) {
       return Caml_option.some(param.d);
     }
     _param = c < 0 ? param.l : param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -389,7 +389,7 @@ function mem(x, _param) {
       return true;
     }
     _param = c < 0 ? param.l : param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -409,7 +409,7 @@ function min_binding(_param) {
       ];
     }
     _param = l;
-    continue ;
+    continue;
   };
 }
 
@@ -427,7 +427,7 @@ function min_binding_opt(_param) {
       ];
     }
     _param = l;
-    continue ;
+    continue;
   };
 }
 
@@ -447,7 +447,7 @@ function max_binding(_param) {
       ];
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -465,7 +465,7 @@ function max_binding_opt(_param) {
       ];
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -605,7 +605,7 @@ function iter(f, _param) {
     iter(f, param.l);
     Curry._2(f, param.v, param.d);
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -653,7 +653,7 @@ function fold(f, _m, _accu) {
     }
     _accu = Curry._3(f, m.v, m.d, fold(f, m.l, accu));
     _m = m.r;
-    continue ;
+    continue;
   };
 }
 
@@ -670,7 +670,7 @@ function for_all(p, _param) {
       return false;
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -687,7 +687,7 @@ function exists(p, _param) {
       return true;
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -923,7 +923,7 @@ function cons_enum(_m, _e) {
       _3: e
     };
     _m = m.l;
-    continue ;
+    continue;
   };
 }
 
@@ -953,7 +953,7 @@ function compare$1(cmp, m1, m2) {
     }
     _e2 = cons_enum(e2._2, e2._3);
     _e1 = cons_enum(e1._2, e1._3);
-    continue ;
+    continue;
   };
 }
 
@@ -981,7 +981,7 @@ function equal(cmp, m1, m2) {
     }
     _e2 = cons_enum(e2._2, e2._3);
     _e1 = cons_enum(e1._2, e1._3);
-    continue ;
+    continue;
   };
 }
 
@@ -1008,7 +1008,7 @@ function bindings_aux(_accu, _param) {
       ],
       tl: bindings_aux(accu, param.r)
     };
-    continue ;
+    continue;
   };
 }
 
@@ -1071,7 +1071,7 @@ function snoc_enum(_s, _e) {
       _3: e
     };
     _s = s.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1122,7 +1122,7 @@ function to_seq_from(low, m) {
       }
       if (n < 0) {
         _m = r;
-        continue ;
+        continue;
       }
       _c = {
         TAG: /* More */0,
@@ -1132,7 +1132,7 @@ function to_seq_from(low, m) {
         _3: c
       };
       _m = m.l;
-      continue ;
+      continue;
     };
   };
   const partial_arg = aux(low, m, /* End */0);
@@ -1351,7 +1351,7 @@ function find$1(x, _param) {
       return param.d;
     }
     _param = c < 0 ? param.l : param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1383,14 +1383,14 @@ function find_first$1(f, _param) {
           _param$1 = param$1.l;
           _d0 = param$1.d;
           _v0 = v$1;
-          continue ;
+          continue;
         }
         _param$1 = param$1.r;
-        continue ;
+        continue;
       };
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1420,14 +1420,14 @@ function find_first_opt$1(f, _param) {
           _param$1 = param$1.l;
           _d0 = param$1.d;
           _v0 = v$1;
-          continue ;
+          continue;
         }
         _param$1 = param$1.r;
-        continue ;
+        continue;
       };
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1459,14 +1459,14 @@ function find_last$1(f, _param) {
           _param$1 = param$1.r;
           _d0 = param$1.d;
           _v0 = v$1;
-          continue ;
+          continue;
         }
         _param$1 = param$1.l;
-        continue ;
+        continue;
       };
     }
     _param = param.l;
-    continue ;
+    continue;
   };
 }
 
@@ -1496,14 +1496,14 @@ function find_last_opt$1(f, _param) {
           _param$1 = param$1.r;
           _d0 = param$1.d;
           _v0 = v$1;
-          continue ;
+          continue;
         }
         _param$1 = param$1.l;
-        continue ;
+        continue;
       };
     }
     _param = param.l;
-    continue ;
+    continue;
   };
 }
 
@@ -1518,7 +1518,7 @@ function find_opt$1(x, _param) {
       return Caml_option.some(param.d);
     }
     _param = c < 0 ? param.l : param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1533,7 +1533,7 @@ function mem$1(x, _param) {
       return true;
     }
     _param = c < 0 ? param.l : param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1553,7 +1553,7 @@ function min_binding$1(_param) {
       ];
     }
     _param = l;
-    continue ;
+    continue;
   };
 }
 
@@ -1571,7 +1571,7 @@ function min_binding_opt$1(_param) {
       ];
     }
     _param = l;
-    continue ;
+    continue;
   };
 }
 
@@ -1591,7 +1591,7 @@ function max_binding$1(_param) {
       ];
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1609,7 +1609,7 @@ function max_binding_opt$1(_param) {
       ];
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1749,7 +1749,7 @@ function iter$1(f, _param) {
     iter$1(f, param.l);
     Curry._2(f, param.v, param.d);
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1797,7 +1797,7 @@ function fold$1(f, _m, _accu) {
     }
     _accu = Curry._3(f, m.v, m.d, fold$1(f, m.l, accu));
     _m = m.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1814,7 +1814,7 @@ function for_all$1(p, _param) {
       return false;
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1831,7 +1831,7 @@ function exists$1(p, _param) {
       return true;
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -2067,7 +2067,7 @@ function cons_enum$1(_m, _e) {
       _3: e
     };
     _m = m.l;
-    continue ;
+    continue;
   };
 }
 
@@ -2097,7 +2097,7 @@ function compare$3(cmp, m1, m2) {
     }
     _e2 = cons_enum$1(e2._2, e2._3);
     _e1 = cons_enum$1(e1._2, e1._3);
-    continue ;
+    continue;
   };
 }
 
@@ -2125,7 +2125,7 @@ function equal$1(cmp, m1, m2) {
     }
     _e2 = cons_enum$1(e2._2, e2._3);
     _e1 = cons_enum$1(e1._2, e1._3);
-    continue ;
+    continue;
   };
 }
 
@@ -2152,7 +2152,7 @@ function bindings_aux$1(_accu, _param) {
       ],
       tl: bindings_aux$1(accu, param.r)
     };
-    continue ;
+    continue;
   };
 }
 
@@ -2215,7 +2215,7 @@ function snoc_enum$1(_s, _e) {
       _3: e
     };
     _s = s.r;
-    continue ;
+    continue;
   };
 }
 
@@ -2266,7 +2266,7 @@ function to_seq_from$1(low, m) {
       }
       if (n < 0) {
         _m = r;
-        continue ;
+        continue;
       }
       _c = {
         TAG: /* More */0,
@@ -2276,7 +2276,7 @@ function to_seq_from$1(low, m) {
         _3: c
       };
       _m = m.l;
-      continue ;
+      continue;
     };
   };
   const partial_arg = aux(low, m, /* End */0);
@@ -2495,7 +2495,7 @@ function find$2(x, _param) {
       return param.d;
     }
     _param = c < 0 ? param.l : param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -2527,14 +2527,14 @@ function find_first$2(f, _param) {
           _param$1 = param$1.l;
           _d0 = param$1.d;
           _v0 = v$1;
-          continue ;
+          continue;
         }
         _param$1 = param$1.r;
-        continue ;
+        continue;
       };
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -2564,14 +2564,14 @@ function find_first_opt$2(f, _param) {
           _param$1 = param$1.l;
           _d0 = param$1.d;
           _v0 = v$1;
-          continue ;
+          continue;
         }
         _param$1 = param$1.r;
-        continue ;
+        continue;
       };
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -2603,14 +2603,14 @@ function find_last$2(f, _param) {
           _param$1 = param$1.r;
           _d0 = param$1.d;
           _v0 = v$1;
-          continue ;
+          continue;
         }
         _param$1 = param$1.l;
-        continue ;
+        continue;
       };
     }
     _param = param.l;
-    continue ;
+    continue;
   };
 }
 
@@ -2640,14 +2640,14 @@ function find_last_opt$2(f, _param) {
           _param$1 = param$1.r;
           _d0 = param$1.d;
           _v0 = v$1;
-          continue ;
+          continue;
         }
         _param$1 = param$1.l;
-        continue ;
+        continue;
       };
     }
     _param = param.l;
-    continue ;
+    continue;
   };
 }
 
@@ -2662,7 +2662,7 @@ function find_opt$2(x, _param) {
       return Caml_option.some(param.d);
     }
     _param = c < 0 ? param.l : param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -2677,7 +2677,7 @@ function mem$2(x, _param) {
       return true;
     }
     _param = c < 0 ? param.l : param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -2697,7 +2697,7 @@ function min_binding$2(_param) {
       ];
     }
     _param = l;
-    continue ;
+    continue;
   };
 }
 
@@ -2715,7 +2715,7 @@ function min_binding_opt$2(_param) {
       ];
     }
     _param = l;
-    continue ;
+    continue;
   };
 }
 
@@ -2735,7 +2735,7 @@ function max_binding$2(_param) {
       ];
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -2753,7 +2753,7 @@ function max_binding_opt$2(_param) {
       ];
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -2893,7 +2893,7 @@ function iter$2(f, _param) {
     iter$2(f, param.l);
     Curry._2(f, param.v, param.d);
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -2941,7 +2941,7 @@ function fold$2(f, _m, _accu) {
     }
     _accu = Curry._3(f, m.v, m.d, fold$2(f, m.l, accu));
     _m = m.r;
-    continue ;
+    continue;
   };
 }
 
@@ -2958,7 +2958,7 @@ function for_all$2(p, _param) {
       return false;
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -2975,7 +2975,7 @@ function exists$2(p, _param) {
       return true;
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -3211,7 +3211,7 @@ function cons_enum$2(_m, _e) {
       _3: e
     };
     _m = m.l;
-    continue ;
+    continue;
   };
 }
 
@@ -3241,7 +3241,7 @@ function compare$5(cmp, m1, m2) {
     }
     _e2 = cons_enum$2(e2._2, e2._3);
     _e1 = cons_enum$2(e1._2, e1._3);
-    continue ;
+    continue;
   };
 }
 
@@ -3269,7 +3269,7 @@ function equal$2(cmp, m1, m2) {
     }
     _e2 = cons_enum$2(e2._2, e2._3);
     _e1 = cons_enum$2(e1._2, e1._3);
-    continue ;
+    continue;
   };
 }
 
@@ -3296,7 +3296,7 @@ function bindings_aux$2(_accu, _param) {
       ],
       tl: bindings_aux$2(accu, param.r)
     };
-    continue ;
+    continue;
   };
 }
 
@@ -3359,7 +3359,7 @@ function snoc_enum$2(_s, _e) {
       _3: e
     };
     _s = s.r;
-    continue ;
+    continue;
   };
 }
 
@@ -3410,7 +3410,7 @@ function to_seq_from$2(low, m) {
       }
       if (n < 0) {
         _m = r;
-        continue ;
+        continue;
       }
       _c = {
         TAG: /* More */0,
@@ -3420,7 +3420,7 @@ function to_seq_from$2(low, m) {
         _3: c
       };
       _m = m.l;
-      continue ;
+      continue;
     };
   };
   const partial_arg = aux(low, m, /* End */0);
@@ -3858,7 +3858,7 @@ function iter_f(obj, _param) {
     }
     Curry._1(param.hd, obj);
     _param = param.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -3913,7 +3913,7 @@ function lookup_keys(i, keys, tables) {
     }
     if (Caml_obj.caml_notequal(tables$1.next, /* Empty */0)) {
       _tables = tables$1.next;
-      continue ;
+      continue;
     }
     const next = {
       TAG: /* Cons */0,

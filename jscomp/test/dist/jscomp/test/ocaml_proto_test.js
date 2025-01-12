@@ -257,7 +257,7 @@ function apply_until(f, _param) {
       return x;
     }
     _param = param.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -293,7 +293,7 @@ function string_fold_lefti(f, e0, s) {
     }
     _i = i + 1 | 0;
     _acc = Curry._3(f, acc, i, s.charCodeAt(i));
-    continue ;
+    continue;
   };
 }
 
@@ -1601,7 +1601,7 @@ function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
       case 0 :
           update_loc(lexbuf);
           ___ocaml_lex_state = 47;
-          continue ;
+          continue;
       case 1 :
           Stdlib__Lexing.lexeme(lexbuf);
           return {
@@ -1614,13 +1614,13 @@ function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
             hd: Stdlib__Lexing.lexeme(lexbuf),
             tl: l
           };
-          continue ;
+          continue;
       case 3 :
           return /* Comment_eof */0;
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -1638,7 +1638,7 @@ function __ocaml_lex_string_rec(_l, lexbuf, ___ocaml_lex_state) {
             hd: Stdlib__Char.escaped(c),
             tl: l
           };
-          continue ;
+          continue;
       case 1 :
           return {
             TAG: /* String_value */0,
@@ -1650,13 +1650,13 @@ function __ocaml_lex_string_rec(_l, lexbuf, ___ocaml_lex_state) {
             hd: Stdlib__Lexing.lexeme(lexbuf),
             tl: l
           };
-          continue ;
+          continue;
       case 3 :
           return /* String_eof */0;
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -1679,13 +1679,13 @@ function __ocaml_lex_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
             hd: Stdlib__Lexing.lexeme(lexbuf),
             tl: l
           };
-          continue ;
+          continue;
       case 2 :
           return /* Comment_eof */0;
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -1724,14 +1724,14 @@ function lexer(lexbuf) {
             return /* EOF */25;
           }
           ___ocaml_lex_state = 0;
-          continue ;
+          continue;
       case 12 :
           const match$1 = __ocaml_lex_multi_line_comment_rec(/* [] */0, lexbuf, 47);
           if (/* tag */typeof match$1 === "number" || typeof match$1 === "string") {
             return /* EOF */25;
           }
           ___ocaml_lex_state = 0;
-          continue ;
+          continue;
       case 13 :
           const s = __ocaml_lex_string_rec(/* [] */0, lexbuf, 55);
           if (/* tag */typeof s === "number" || typeof s === "string") {
@@ -1760,10 +1760,10 @@ function lexer(lexbuf) {
       case 17 :
           update_loc(lexbuf);
           ___ocaml_lex_state = 0;
-          continue ;
+          continue;
       case 18 :
           ___ocaml_lex_state = 0;
-          continue ;
+          continue;
       case 19 :
           let loc = from_lexbuf(lexbuf);
           let ident = Stdlib__Lexing.lexeme(lexbuf);
@@ -1838,7 +1838,7 @@ function lexer(lexbuf) {
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -2111,13 +2111,13 @@ function print(scope) {
           hd: indentation_prefix(i) + s._0,
           tl: acc
         };
-        continue ;
+        continue;
       }
       const items = s._0.items;
       const sub = loop(/* [] */0, i + 1 | 0, items);
       _param = param.tl;
       _acc = Stdlib.$at(sub, acc);
-      continue ;
+      continue;
     };
   };
   return Stdlib__String.concat("\n", loop(/* [] */0, 0, scope.items));
@@ -4032,7 +4032,7 @@ function find(x, _param) {
       return param.d;
     }
     _param = c < 0 ? param.l : param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -4062,7 +4062,7 @@ function fold(f, _m, _accu) {
     }
     _accu = Curry._3(f, m.v, m.d, fold(f, m.l, accu));
     _m = m.r;
-    continue ;
+    continue;
   };
 }
 
@@ -4700,7 +4700,7 @@ function list_assoc2(x, _param) {
         return match[0];
       }
       _param = param.tl;
-      continue ;
+      continue;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found
@@ -4945,7 +4945,7 @@ function compile_message_p2(types, param, message) {
           hd: Stdlib.$at(l, field_scope),
           tl: scopes
         };
-        continue ;
+        continue;
       };
     };
     return Stdlib__List.rev(loop(/* [] */0, message_scope));

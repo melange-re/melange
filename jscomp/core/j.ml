@@ -46,8 +46,7 @@ type property_name = string
 
 [@@@ocaml.warning "-duplicate-definitions"]
 
-type label = string
-and ident = Ident.t
+type ident = Ident.t
 (* we override `method ident` *)
 
 (** object literal, if key is ident, in this case, it might be renamed by
@@ -281,7 +280,7 @@ and statement_desc =
   (* Function declaration and Variable declaration  *)
   | Exp of expression
   | If of { pred : expression; then_ : block; else_ : block }
-  | While of { label : label option; cond : expression; body : block }
+  | While of { cond : expression; body : block }
     (* check if it contains loop mutable values, happens in nested loop *)
   | ForRange of {
       for_ident_expr : for_ident_expression option;
@@ -290,7 +289,7 @@ and statement_desc =
       direction : for_direction;
       body : block;
     }
-  | Continue of label
+  | Continue
   | Break (* only used when inline a fucntion *)
   | Return of expression
   (* Here we need track back a bit ?, move Return to Function ...
@@ -362,7 +361,6 @@ and deps_program = {
         expression_desc;
         statement_desc;
         for_ident_expression;
-        label;
         finish_ident_expression;
         property_map;
         length_object;

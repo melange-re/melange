@@ -21,7 +21,7 @@ function find_package_json(_dir) {
           });
     }
     _dir = new_dir;
-    continue ;
+    continue;
   };
 }
 

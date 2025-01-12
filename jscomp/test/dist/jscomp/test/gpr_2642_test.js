@@ -10,13 +10,13 @@ function isfree(id, _id$p) {
           return id === id$p._0;
       case /* Pdot */1 :
           _id$p = id$p._0;
-          continue ;
+          continue;
       case /* Papply */2 :
           if (isfree(id, id$p._0)) {
             return true;
           }
           _id$p = id$p._1;
-          continue ;
+          continue;
       
     }
   };
