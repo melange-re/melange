@@ -109,7 +109,7 @@ function print_all_composite(all_tickers) {
   Stdlib__List.iter((function (param) {
           let tmp = param.type_;
           if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
-            return ;
+            return;
           }
           console.log(param.ticker_name);
         }), all_tickers);
@@ -326,7 +326,7 @@ function find_first_opt(f, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const v = param.v;
     if (Curry._1(f, v)) {
@@ -402,7 +402,7 @@ function find_last_opt(f, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const v = param.v;
     if (Curry._1(f, v)) {
@@ -439,7 +439,7 @@ function find_opt(x, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const c = Curry._2(funarg.compare, x, param.v);
     if (c === 0) {
@@ -489,7 +489,7 @@ function min_binding_opt(_param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const l = param.l;
     if (/* tag */typeof l === "number" || typeof l === "string") {
@@ -527,7 +527,7 @@ function max_binding_opt(_param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     let tmp = param.r;
     if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
@@ -672,7 +672,7 @@ function iter(f, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     iter(f, param.l);
     Curry._2(f, param.v, param.d);
@@ -1368,7 +1368,7 @@ function process_quote(ticker_map, new_ticker, new_value) {
           if (/* tag */typeof match === "number" || typeof match === "string") {
             if (ticker.ticker_name === new_ticker) {
               ticker.value = new_value;
-              return ;
+              return;
             }
             throw new Caml_js_exceptions.MelangeError("Failure", {
                   MEL_EXN_ID: "Failure",

@@ -973,7 +973,7 @@ function parse_chan_gen(bufsize, ic) {
   return function (param) {
     const e = next(d);
     if (typeof e === "string") {
-      return ;
+      return;
     } else {
       return e;
     }

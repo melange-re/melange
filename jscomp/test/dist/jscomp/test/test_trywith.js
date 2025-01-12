@@ -102,7 +102,7 @@ function ff(g, x) {
   catch (raw_exn$9){
     const exn$9 = Caml_js_exceptions.internalToOCamlException(raw_exn$9);
     if (exn$9.MEL_EXN_ID === Stdlib.Undefined_recursive_module) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(exn$9.MEL_EXN_ID, exn$9);
   }

@@ -958,7 +958,7 @@ function verify_read(c) {
               },
               _1: "%C"
             }), id) === c) {
-    return ;
+    return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",

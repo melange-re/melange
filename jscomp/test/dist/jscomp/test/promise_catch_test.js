@@ -59,7 +59,7 @@ function myHandler(match) {
     } else if (match.MEL_EXN_ID === Js__Js_exn.$$Error) {
       return 2;
     } else {
-      return ;
+      return;
     }
   }
   

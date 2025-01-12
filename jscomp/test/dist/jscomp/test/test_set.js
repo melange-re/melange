@@ -439,7 +439,7 @@ function Make(Ord) {
     while(true) {
       const param = _param;
       if (/* tag */typeof param === "number" || typeof param === "string") {
-        return ;
+        return;
       }
       iter(f, param._0);
       Curry._1(f, param._1);

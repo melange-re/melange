@@ -20,7 +20,7 @@ function fromArray(kvs) {
 
 function should(b) {
   if (b) {
-    return ;
+    return;
   }
   throw new Caml_js_exceptions.MelangeError(new Error("impossible").MEL_EXN_ID, new Error("impossible"));
 }

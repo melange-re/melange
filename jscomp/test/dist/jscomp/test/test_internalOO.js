@@ -254,7 +254,7 @@ function find_first_opt(f, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const v = param.v;
     if (Curry._1(f, v)) {
@@ -330,7 +330,7 @@ function find_last_opt(f, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const v = param.v;
     if (Curry._1(f, v)) {
@@ -367,7 +367,7 @@ function find_opt(x, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const c = Curry._2(funarg.compare, x, param.v);
     if (c === 0) {
@@ -417,7 +417,7 @@ function min_binding_opt(_param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const l = param.l;
     if (/* tag */typeof l === "number" || typeof l === "string") {
@@ -455,7 +455,7 @@ function max_binding_opt(_param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     let tmp = param.r;
     if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
@@ -600,7 +600,7 @@ function iter(f, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     iter(f, param.l);
     Curry._2(f, param.v, param.d);
@@ -1398,7 +1398,7 @@ function find_first_opt$1(f, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const v = param.v;
     if (Curry._1(f, v)) {
@@ -1474,7 +1474,7 @@ function find_last_opt$1(f, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const v = param.v;
     if (Curry._1(f, v)) {
@@ -1511,7 +1511,7 @@ function find_opt$1(x, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const c = Curry._2(funarg$1.compare, x, param.v);
     if (c === 0) {
@@ -1561,7 +1561,7 @@ function min_binding_opt$1(_param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const l = param.l;
     if (/* tag */typeof l === "number" || typeof l === "string") {
@@ -1599,7 +1599,7 @@ function max_binding_opt$1(_param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     let tmp = param.r;
     if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
@@ -1744,7 +1744,7 @@ function iter$1(f, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     iter$1(f, param.l);
     Curry._2(f, param.v, param.d);
@@ -2542,7 +2542,7 @@ function find_first_opt$2(f, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const v = param.v;
     if (Curry._1(f, v)) {
@@ -2618,7 +2618,7 @@ function find_last_opt$2(f, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const v = param.v;
     if (Curry._1(f, v)) {
@@ -2655,7 +2655,7 @@ function find_opt$2(x, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const c = Curry._2(funarg$2.compare, x, param.v);
     if (c === 0) {
@@ -2705,7 +2705,7 @@ function min_binding_opt$2(_param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const l = param.l;
     if (/* tag */typeof l === "number" || typeof l === "string") {
@@ -2743,7 +2743,7 @@ function max_binding_opt$2(_param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     let tmp = param.r;
     if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
@@ -2888,7 +2888,7 @@ function iter$2(f, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     iter$2(f, param.l);
     Curry._2(f, param.v, param.d);
@@ -3522,7 +3522,7 @@ function new_table(pub_labels) {
 function resize(array, new_size) {
   const old_size = array.methods.length;
   if (new_size <= old_size) {
-    return ;
+    return;
   }
   const new_buck = Caml_array.make(new_size, /* DummyA */0);
   Stdlib__Array.blit(array.methods, 0, new_buck, 0, old_size);
@@ -3582,7 +3582,7 @@ function set_method(table, label, element) {
       ],
       tl: table.hidden_meths
     };
-    return ;
+    return;
   }
 }
 
@@ -3854,7 +3854,7 @@ function iter_f(obj, _param) {
   while(true) {
     const param = _param;
     if (!param) {
-      return ;
+      return;
     }
     Curry._1(param.hd, obj);
     _param = param.tl;

@@ -14,7 +14,7 @@ function test_js_error(param) {
     const err = Caml_js_exceptions.internalToOCamlException(raw_err);
     if (err.MEL_EXN_ID === Js__Js_exn.$$Error) {
       console.log(err._1.stack);
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
   }
@@ -44,7 +44,7 @@ function example1(param) {
     const err = Caml_js_exceptions.internalToOCamlException(raw_err);
     if (err.MEL_EXN_ID === Js__Js_exn.$$Error) {
       console.log(err._1.stack);
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
   }
@@ -58,7 +58,7 @@ function example2(param) {
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Js__Js_exn.$$Error) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }

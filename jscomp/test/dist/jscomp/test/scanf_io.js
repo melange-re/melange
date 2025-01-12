@@ -187,12 +187,12 @@ function add_digest_ib(ob, ib) {
     while(true) {
       scan_line(ib, output_line_digest);
     };
-    return ;
+    return;
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }

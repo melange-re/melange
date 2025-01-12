@@ -16,7 +16,7 @@ function f(match) {
     } else if (match.MEL_EXN_ID === Stdlib.Sys_error) {
       return 2;
     } else {
-      return ;
+      return;
     }
   }
   
@@ -35,7 +35,7 @@ function g(match) {
     } else if (match.MEL_EXN_ID === A || match.MEL_EXN_ID === B) {
       return match._1;
     } else {
-      return ;
+      return;
     }
   }
   

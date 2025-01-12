@@ -29,7 +29,7 @@ function foo3(x) {
 
 function foo4(x, h) {
   if (typeof x === "string" || !(x.NAME === "Foo" && x.VAL === 3)) {
-    return ;
+    return;
   } else {
     return Curry._1(h, undefined);
   }

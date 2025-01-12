@@ -675,13 +675,13 @@ function update_animation(spr) {
     spr.ticks.contents = 0;
     if (spr.params.loop) {
       spr.frame.contents = Caml_int32.mod_(spr.frame.contents + 1 | 0, spr.params.max_frames);
-      return ;
+      return;
     } else {
-      return ;
+      return;
     }
   } else {
     spr.ticks.contents = curr_ticks + 1 | 0;
-    return ;
+    return;
   }
 }
 
@@ -967,9 +967,9 @@ function update_player(player, keys, context) {
                     player.vel.x = player.vel.x - (0.4 - lr_acc);
                   }
                   player.dir = /* Left */0;
-                  return ;
+                  return;
                 } else {
-                  return ;
+                  return;
                 }
             case /* CRight */1 :
                 if (!player.crouch) {
@@ -977,25 +977,25 @@ function update_player(player, keys, context) {
                     player.vel.x = player.vel.x + (0.4 + lr_acc);
                   }
                   player.dir = /* Right */1;
-                  return ;
+                  return;
                 } else {
-                  return ;
+                  return;
                 }
             case /* CUp */2 :
                 if (!player.jumping && player.grounded) {
                   player.jumping = true;
                   player.grounded = false;
                   player.vel.y = Caml.caml_float_max(player.vel.y - (5.7 + Math.abs(player.vel.x) * 0.25), -6);
-                  return ;
+                  return;
                 } else {
-                  return ;
+                  return;
                 }
             case /* CDown */3 :
                 if (!player.jumping && player.grounded) {
                   player.crouch = true;
-                  return ;
+                  return;
                 } else {
-                  return ;
+                  return;
                 }
             
           }
@@ -1050,19 +1050,19 @@ function update_player(player, keys, context) {
           }, player.dir, context)
     ];
   } else {
-    return ;
+    return;
   }
 }
 
 function update_vel$1(obj) {
   if (obj.grounded) {
     obj.vel.y = 0;
-    return ;
+    return;
   } else if (obj.params.has_gravity) {
     obj.vel.y = Caml.caml_float_min(obj.vel.y + 0.2 + Math.abs(obj.vel.y) * 0.01, 4.5);
-    return ;
+    return;
   } else {
-    return ;
+    return;
   }
 }
 
@@ -1070,7 +1070,7 @@ function update_pos(obj) {
   obj.pos.x = obj.vel.x + obj.pos.x;
   if (obj.params.has_gravity) {
     obj.pos.y = obj.vel.y + obj.pos.y;
-    return ;
+    return;
   }
   
 }
@@ -1080,7 +1080,7 @@ function process_obj(obj, mapy) {
   update_pos(obj);
   if (obj.pos.y > mapy) {
     obj.kill = true;
-    return ;
+    return;
   }
   
 }
@@ -1098,12 +1098,12 @@ function collide_block(check_xOpt, dir, obj) {
   switch (dir) {
     case /* North */0 :
         obj.vel.y = -0.001;
-        return ;
+        return;
     case /* South */1 :
         obj.vel.y = 0;
         obj.grounded = true;
         obj.jumping = false;
-        return ;
+        return;
     case /* East */2 :
     case /* West */3 :
         break;
@@ -1111,7 +1111,7 @@ function collide_block(check_xOpt, dir, obj) {
   }
   if (check_x) {
     obj.vel.x = 0;
-    return ;
+    return;
   }
   
 }
@@ -1133,7 +1133,7 @@ function evolve_enemy(player_dir, typ, spr, obj, context) {
   switch (typ) {
     case /* Goomba */0 :
         obj.kill = true;
-        return ;
+        return;
     case /* GKoopa */1 :
         const match = make$2(undefined, obj.dir, {
               TAG: /* SEnemy */1,
@@ -1192,12 +1192,12 @@ function dec_health(obj) {
   const health = obj.health - 1 | 0;
   if (health === 0) {
     obj.kill = true;
-    return ;
+    return;
   } else if (obj.invuln === 0) {
     obj.health = health;
-    return ;
+    return;
   } else {
-    return ;
+    return;
   }
 }
 
@@ -1295,14 +1295,14 @@ function check_collision(c1, c2) {
   const b2 = get_aabb(c2);
   const o1 = c1._2;
   if (col_bypass(c1, c2)) {
-    return ;
+    return;
   }
   const vx = b1.center.x - b2.center.x;
   const vy = b1.center.y - b2.center.y;
   const hwidths = b1.half.x + b2.half.x;
   const hheights = b1.half.y + b2.half.y;
   if (!(Math.abs(vx) < hwidths && Math.abs(vy) < hheights)) {
-    return ;
+    return;
   }
   const ox = hwidths - Math.abs(vx);
   const oy = hheights - Math.abs(vy);
@@ -2334,7 +2334,7 @@ function update_loop(canvas, param, map_dim) {
                 hd: part,
                 tl: particles.contents
               };
-              return ;
+              return;
             }
             
           }), parts);

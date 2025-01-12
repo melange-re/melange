@@ -348,7 +348,7 @@ function out(x) {
     out(x / 256 | 0);
     Caml_bytes.set(obuf, opos.contents, Stdlib__Char.chr(x & 255));
     opos.contents = opos.contents + 1 | 0;
-    return ;
+    return;
   }
   
 }
@@ -377,7 +377,7 @@ function patch(rel, loc, n) {
         });
   }
   if (loc === 0) {
-    return ;
+    return;
   }
   const i = opos.contents;
   const loc$p = get32(loc);
@@ -485,7 +485,7 @@ function patchlval(param) {
     return Caml_bytes.set(obuf, opos.contents - n._0 | 0, /* '\141' */141);
   } else {
     opos.contents = opos.contents - n._0 | 0;
-    return ;
+    return;
   }
 }
 
@@ -500,7 +500,7 @@ function read(param) {
       },
       /* Int */0
     ];
-    return ;
+    return;
   }
   out(4722614);
   le(8, 0);
@@ -1021,7 +1021,7 @@ function unary(stk) {
             if (o === "!") {
               return cmp(2);
             } else {
-              return ;
+              return;
             }
         }
     case /* ILit */1 :
@@ -1132,7 +1132,7 @@ function postfix(stk) {
         if (align.contents % 2 !== 0) {
           return out(1216594952);
         } else {
-          return ;
+          return;
         }
     case "++" :
     case "--" :
@@ -1436,7 +1436,7 @@ function stmt(brk, stk) {
     const loc$3 = opos.contents;
     le(32, retl.contents);
     retl.contents = loc$3;
-    return ;
+    return;
   }
   if (Caml_obj.caml_equal(t, tokbreak)) {
     Curry._1(next$1, undefined);
@@ -1460,12 +1460,12 @@ function stmt(brk, stk) {
     const loc$4 = opos.contents;
     le(32, brkl.contents);
     brkl.contents = loc$4;
-    return ;
+    return;
   }
   if (t.TAG === /* Op */0) {
     switch (t._0) {
       case ";" :
-          return ;
+          return;
       case "{" :
           return block(brk, stk);
       default:
@@ -1492,7 +1492,7 @@ function block(brk, stk) {
     out(4752324);
     out((n << 3));
     align.contents = align.contents - n | 0;
-    return ;
+    return;
   }
   
 }
@@ -1503,7 +1503,7 @@ function top(_param) {
             TAG: /* Op */0,
             _0: "EOF!"
           })) {
-      return ;
+      return;
     }
     if (nextis(tokint)) {
       decl(true, 0, /* [] */0);
@@ -1731,7 +1731,7 @@ function elfgen(outf) {
     } else if (g.va >= 0) {
       return patch(false, g.loc, g.va);
     } else {
-      return ;
+      return;
     }
   };
   symitr(patchloc);
@@ -1765,7 +1765,7 @@ function elfgen(outf) {
           while(true) {
             const l = _l;
             if (l === 0) {
-              return ;
+              return;
             }
             le(64, va(l));
             le(64, 1 + (n$1.contents << 32) | 0);

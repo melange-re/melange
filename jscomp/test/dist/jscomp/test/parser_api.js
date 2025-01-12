@@ -667,7 +667,7 @@ function parse_color_setting(param) {
     case "never" :
         return /* Never */2;
     default:
-      return ;
+      return;
   }
 }
 
@@ -1024,7 +1024,7 @@ function remove_file(filename) {
   catch (raw_msg){
     const msg = Caml_js_exceptions.internalToOCamlException(raw_msg);
     if (msg.MEL_EXN_ID === Stdlib.Sys_error) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(msg.MEL_EXN_ID, msg);
   }
@@ -1052,7 +1052,7 @@ function copy_file(ic, oc) {
   while(true) {
     const n = Stdlib.input(ic, buff, 0, 4096);
     if (n === 0) {
-      return ;
+      return;
     }
     Stdlib.output(oc, buff, 0, n);
     _param = undefined;
@@ -1066,7 +1066,7 @@ function copy_file_chunk(ic, oc, len) {
   while(true) {
     const n = _n;
     if (n <= 0) {
-      return ;
+      return;
     }
     const r = Stdlib.input(ic, buff, 0, n < 4096 ? n : 4096);
     if (r === 0) {
@@ -1367,7 +1367,7 @@ function edit_distance(a, b, cutoff) {
   const lb = b.length;
   const cutoff$1 = Caml.caml_int_min(la > lb ? la : lb, cutoff);
   if (Stdlib.abs(la - lb | 0) > cutoff$1) {
-    return ;
+    return;
   }
   const m = Stdlib__Array.make_matrix(la + 1 | 0, lb + 1 | 0, cutoff$1 + 1 | 0);
   Caml_array.set(Caml_array.get(m, 0), 0, 0);
@@ -1387,7 +1387,7 @@ function edit_distance(a, b, cutoff) {
   }
   const result = Caml_array.get(Caml_array.get(m, la), lb);
   if (result > cutoff$1) {
-    return ;
+    return;
   } else {
     return result;
   }
@@ -2126,7 +2126,7 @@ function parse_opt(error, active, flags, s) {
     while(true) {
       const i = _i;
       if (i >= s.length) {
-        return ;
+        return;
       }
       const c = Caml_string.get(s, i);
       if (c >= 65) {
@@ -2676,7 +2676,7 @@ function print(ppf, w) {
   Stdlib__Format.pp_print_flush(ppf, undefined);
   if (Caml_array.get(current.contents.error, num)) {
     nerrors.contents = nerrors.contents + 1 | 0;
-    return ;
+    return;
   }
   
 }
@@ -2696,7 +2696,7 @@ function super_print(message, ppf, w) {
   Stdlib__Format.pp_print_flush(ppf, undefined);
   if (Caml_array.get(current.contents.error, num)) {
     nerrors.contents = nerrors.contents + 1 | 0;
-    return ;
+    return;
   }
   
 }
@@ -2705,7 +2705,7 @@ const Errors = /* @__PURE__ */Caml_exceptions.create("Parser_api.Warnings.Errors
 
 function check_fatal(param) {
   if (nerrors.contents <= 0) {
-    return ;
+    return;
   }
   const e_1 = nerrors.contents;
   const e = {
@@ -3546,7 +3546,7 @@ function print_loc(ppf, loc) {
             hd: loc,
             tl: /* [] */0
           })) {
-      return ;
+      return;
     } else {
       return Curry._2(Stdlib__Format.fprintf(ppf)({
                 TAG: /* Format */0,
@@ -3657,7 +3657,7 @@ function print$1(ppf, loc) {
           hd: loc,
           tl: /* [] */0
         })) {
-    return ;
+    return;
   } else {
     return Curry._3(Stdlib__Format.fprintf(ppf)({
               TAG: /* Format */0,
@@ -3885,7 +3885,7 @@ function error_of_exn$1(exn) {
   while(true) {
     const param = _param;
     if (!param) {
-      return ;
+      return;
     }
     const r = Curry._1(param.hd, exn);
     if (r !== undefined) {
@@ -4030,7 +4030,7 @@ register_error_of_exn(function (msg) {
                   _1: "Some fatal warnings were triggered (%d occurrences)"
                 }), msg._1);
       } else {
-        return ;
+        return;
       }
     });
 
@@ -4266,13 +4266,13 @@ function warn_bad_docstrings(param) {
                         _0: true
                       });
               case /* Info */1 :
-                  return ;
+                  return;
               case /* Docs */2 :
                   const match$1 = ds.ds_associated;
                   switch (match$1) {
                     case /* Zero */0 :
                     case /* One */1 :
-                        return ;
+                        return;
                     case /* Many */2 :
                         return prerr_warning(ds.ds_loc, {
                               TAG: /* Bad_docstring */33,
@@ -4435,7 +4435,7 @@ function get_docstring(info, dsl) {
   while(true) {
     const param = _param;
     if (!param) {
-      return ;
+      return;
     }
     const ds = param.hd;
     const match = ds.ds_attached;
@@ -4489,11 +4489,11 @@ function associate_docstrings(dsl) {
           switch (match) {
             case /* Zero */0 :
                 ds.ds_associated = /* One */1;
-                return ;
+                return;
             case /* One */1 :
             case /* Many */2 :
                 ds.ds_associated = /* Many */2;
-                return ;
+                return;
             
           }
         }), dsl);
@@ -4517,7 +4517,7 @@ function get_pre_docs(pos) {
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
@@ -4530,7 +4530,7 @@ function mark_pre_docs(pos) {
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
@@ -4554,7 +4554,7 @@ function get_post_docs(pos) {
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
@@ -4567,7 +4567,7 @@ function mark_post_docs(pos) {
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
@@ -4581,7 +4581,7 @@ function get_info(pos) {
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
@@ -7233,7 +7233,7 @@ function pat_of_label(lbl, pos) {
 
 function check_variable(vl, loc, v) {
   if (!Stdlib__List.mem(v, vl)) {
-    return ;
+    return;
   }
   throw new Caml_js_exceptions.MelangeError($$Error$1, {
         MEL_EXN_ID: $$Error$1,
@@ -16047,7 +16047,7 @@ function string(lexbuf) {
     const __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-          return ;
+          return;
       case 1 :
           const space = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
           update_loc(lexbuf, undefined, 1, false, space.length);
@@ -16298,7 +16298,7 @@ function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
           const edelim = Stdlib__Lexing.lexeme(lexbuf);
           const edelim$1 = Stdlib__String.sub(edelim, 1, edelim.length - 2 | 0);
           if (delim === edelim$1) {
-            return ;
+            return;
           }
           store_string(Stdlib__Lexing.lexeme(lexbuf));
           ___ocaml_lex_state = 183;
@@ -16330,7 +16330,7 @@ function skip_sharp_bang(lexbuf) {
       case 1 :
           return update_loc(lexbuf, undefined, 1, false, 0);
       case 2 :
-          return ;
+          return;
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -16528,7 +16528,7 @@ function token$1(lexbuf) {
   const post_pos = lexbuf.lex_curr_p;
   const attach = function (lines, docs, pre_pos) {
     if (/* tag */typeof docs === "number" || typeof docs === "string") {
-      return ;
+      return;
     }
     if (docs.TAG === /* After */0) {
       const a = docs._0;
@@ -16820,7 +16820,7 @@ function skip_phrase(lexbuf) {
       switch (match) {
         case /* EOF */25 :
         case /* SEMISEMI */83 :
-            return ;
+            return;
         default:
           return skip_phrase(lexbuf);
       }
@@ -16853,7 +16853,7 @@ function skip_phrase(lexbuf) {
 
 function maybe_skip_phrase(lexbuf) {
   if (Stdlib__Parsing.is_current_lookahead(/* SEMISEMI */83) || Stdlib__Parsing.is_current_lookahead(/* EOF */25)) {
-    return ;
+    return;
   } else {
     return skip_phrase(lexbuf);
   }

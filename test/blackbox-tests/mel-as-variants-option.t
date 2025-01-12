@@ -30,7 +30,7 @@
   function f(x) {
     if (x !== undefined) {
       console.log("some", Caml_option.valFromOption(x));
-      return ;
+      return;
     }
     
   }
@@ -61,7 +61,7 @@
   function f(x) {
     if (x !== undefined) {
       console.log("some", Caml_option.valFromOption(x));
-      return ;
+      return;
     }
     
   }

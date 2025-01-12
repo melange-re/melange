@@ -32,7 +32,7 @@ function bench(param) {
   }
   console.timeEnd("bs_rbset_int_bench.ml 14");
   if (Rbset.cardinal(data) === 0) {
-    return ;
+    return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",

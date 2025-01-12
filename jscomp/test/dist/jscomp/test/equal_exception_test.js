@@ -56,7 +56,7 @@ function is_exception(param) {
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
@@ -75,7 +75,7 @@ function is_normal_exception(_x) {
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === A) {
       if (exn._1 === 3) {
-        return ;
+        return;
       }
       throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
@@ -91,7 +91,7 @@ function is_arbitrary_exception(param) {
         });
   }
   catch (exn){
-    return ;
+    return;
   }
 }
 

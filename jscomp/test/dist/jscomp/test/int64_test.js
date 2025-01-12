@@ -2198,7 +2198,7 @@ function id(loc, x) {
   const float_value = Caml_int64.float_of_bits(x);
   const match = Stdlib.classify_float(float_value);
   if (match === /* FP_nan */4) {
-    return ;
+    return;
   } else {
     return eq(loc, Caml_int64.bits_of_float(float_value), x);
   }

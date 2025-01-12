@@ -87,7 +87,7 @@ const v1 = {
 
 function get_x0(x) {
   if (/* tag */typeof x === "number" || typeof x === "string") {
-    return ;
+    return;
   } else {
     return x.x0;
   }

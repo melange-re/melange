@@ -5620,7 +5620,7 @@ function next_power_of_two(n) {
 
 function grow(t, n) {
   if (t.la_results.length >= n) {
-    return ;
+    return;
   }
   const new_size = next_power_of_two(n);
   const filler = function (i) {
@@ -5801,7 +5801,7 @@ function record_export(env, param) {
         ]);
   } else {
     env.exports.contents = Curry._2(add, export_name, env.exports.contents);
-    return ;
+    return;
   }
 }
 
@@ -6294,7 +6294,7 @@ function save_state(env) {
 
 function reset_token_sink(flush, env, token_buffer_info) {
   if (token_buffer_info === undefined) {
-    return ;
+    return;
   }
   const orig_token_sink = token_buffer_info[0];
   env.token_sink.contents = orig_token_sink;
@@ -7321,7 +7321,7 @@ function primary(env) {
 
 function primitive(param) {
   if (!/* tag */(typeof param === "number" || typeof param === "string")) {
-    return ;
+    return;
   }
   switch (param) {
     case /* T_NULL */27 :
@@ -7337,7 +7337,7 @@ function primitive(param) {
     case /* T_VOID_TYPE */111 :
         return /* Void */1;
     default:
-      return ;
+      return;
   }
 }
 
@@ -7581,7 +7581,7 @@ function params(env, _acc) {
 function type_parameter_instantiation(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LESS_THAN */89)) {
-    return ;
+    return;
   }
   token$4(env, /* T_LESS_THAN */89);
   const params$1 = params(env, /* [] */0);
@@ -7689,7 +7689,7 @@ function params$1(env, allow_default, _require_default, _acc) {
 function type_parameter_declaration(allow_default, env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LESS_THAN */89)) {
-    return ;
+    return;
   }
   if (!env.parse_options.types) {
     error$1(env, /* UnexpectedTypeAnnotation */6);
@@ -7828,7 +7828,7 @@ function semicolon$1(env) {
   }
   switch (match) {
     case /* T_RCURLY */2 :
-        return ;
+        return;
     case /* T_SEMICOLON */7 :
     case /* T_COMMA */8 :
         return token$3(env);
@@ -8152,7 +8152,7 @@ function identifier_no_dupe_check(param, param$1) {
 
 function strict_post_check(env, strict, simple, id, params) {
   if (!(strict || !simple)) {
-    return ;
+    return;
   }
   const env$1 = strict ? with_strict(!env.in_strict_mode, env) : env;
   if (id !== undefined) {
@@ -8656,7 +8656,7 @@ function conditional(env) {
 function peek_unary_op(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (!/* tag */(typeof match === "number" || typeof match === "string")) {
-    return ;
+    return;
   }
   switch (match) {
     case /* T_DELETE */43 :
@@ -8669,7 +8669,7 @@ function peek_unary_op(env) {
         if (env.allow_await) {
           return /* Await */7;
         } else {
-          return ;
+          return;
         }
     case /* T_PLUS */94 :
         return /* Plus */1;
@@ -8680,7 +8680,7 @@ function peek_unary_op(env) {
     case /* T_BIT_NOT */101 :
         return /* BitNot */3;
     default:
-      return ;
+      return;
   }
 }
 
@@ -9244,20 +9244,20 @@ function primary$1(env) {
           Stdlib__String.iter((function (c) {
                   if (c >= 110) {
                     if (c !== 121) {
-                      return ;
+                      return;
                     } else {
                       return Stdlib__Buffer.add_char(filtered_flags, c);
                     }
                   }
                   if (c < 103) {
-                    return ;
+                    return;
                   }
                   switch (c) {
                     case 104 :
                     case 106 :
                     case 107 :
                     case 108 :
-                        return ;
+                        return;
                     case 103 :
                     case 105 :
                     case 109 :
@@ -10378,7 +10378,7 @@ function error_callback$1(param) {
         case /* StrictParamName */28 :
         case /* NewlineBeforeArrow */44 :
         case /* ParameterAfterRestParameter */47 :
-            return ;
+            return;
         default:
           throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
                 MEL_EXN_ID: Parser_env_Try.Rollback
@@ -12472,7 +12472,7 @@ function assert_can_be_forin_or_forof(env, err) {
       const match = param._0;
       const declarations = match[1].declarations;
       if (declarations && declarations.hd[1].init === undefined && !declarations.tl) {
-        return ;
+        return;
       }
       return error_at(env, [
             match[0],
@@ -12727,7 +12727,7 @@ function named_or_namespace_specifier(env) {
 function element(env) {
   return function (param) {
     if (param === undefined) {
-      return ;
+      return;
     }
     if (param.TAG === /* Expression */0) {
       const match = param._0;
@@ -12959,7 +12959,7 @@ function _object$2(restricted_error) {
       }
     }
     if (prop === undefined) {
-      return ;
+      return;
     }
     const pattern$3 = prop[0];
     const match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
@@ -14982,7 +14982,7 @@ function directives(env, term_fn, item_fn) {
                     /* StrictOctalLiteral */31
                   ]);
             } else {
-              return ;
+              return;
             }
           }
           const s = "Nooo: " + (token_to_string(token) + "\n");
@@ -15213,7 +15213,7 @@ function function_block_body(env) {
 function predicate(env) {
   const checks_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   if (!(Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_IDENTIFIER */0) && Curry._2(Parser_env_Peek.value, undefined, env) === "checks")) {
-    return ;
+    return;
   }
   token$4(env, /* T_IDENTIFIER */0);
   if (!maybe(env, /* T_LPAREN */3)) {

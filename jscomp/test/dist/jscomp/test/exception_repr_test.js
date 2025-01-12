@@ -63,7 +63,7 @@ Stdlib__Printexc.register_printer(function (s) {
                   _1: "A(%d)"
                 }), s._1);
       } else {
-        return ;
+        return;
       }
     });
 

@@ -20,7 +20,7 @@ function from_pair_suites(name, suites) {
                       "eq?",
                       fn._1
                     ]);
-                return ;
+                return;
             case /* Neq */1 :
                 console.log([
                       name,
@@ -28,7 +28,7 @@ function from_pair_suites(name, suites) {
                       "neq?",
                       fn._1
                     ]);
-                return ;
+                return;
             case /* StrictEq */2 :
                 console.log([
                       name,
@@ -36,7 +36,7 @@ function from_pair_suites(name, suites) {
                       "strict_eq?",
                       fn._1
                     ]);
-                return ;
+                return;
             case /* StrictNeq */3 :
                 console.log([
                       name,
@@ -44,14 +44,14 @@ function from_pair_suites(name, suites) {
                       "strict_neq?",
                       fn._1
                     ]);
-                return ;
+                return;
             case /* Ok */4 :
                 console.log([
                       name,
                       fn._0,
                       "ok?"
                     ]);
-                return ;
+                return;
             case /* Approx */5 :
                 console.log([
                       name,
@@ -59,7 +59,7 @@ function from_pair_suites(name, suites) {
                       "~",
                       fn._1
                     ]);
-                return ;
+                return;
             case /* ApproxThreshold */6 :
                 console.log([
                       name,
@@ -70,15 +70,15 @@ function from_pair_suites(name, suites) {
                       fn._0,
                       ")"
                     ]);
-                return ;
+                return;
             case /* ThrowAny */7 :
-                return ;
+                return;
             case /* Fail */8 :
                 console.log("failed");
-                return ;
+                return;
             case /* FailWith */9 :
                 console.log("failed: " + fn._0);
-                return ;
+                return;
             
           }
         }), suites);

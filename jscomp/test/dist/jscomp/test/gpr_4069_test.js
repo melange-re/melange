@@ -5,7 +5,7 @@ const Curry = require("melange.js/curry.js");
 
 function f(value) {
   if (value == null) {
-    return ;
+    return;
   } else {
     return value;
   }
