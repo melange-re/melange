@@ -2253,7 +2253,7 @@ function parse_body(_f) {
         
       } else {
         _f = eat(f);
-        continue ;
+        continue;
       }
     } else if (c !== 46) {
       if (c >= 80) {
@@ -2270,7 +2270,7 @@ function parse_body(_f) {
           decimal_exponent: 0,
           todo: init.todo
         };
-        continue ;
+        continue;
       }
       throw new Caml_js_exceptions.MelangeError(No_good, {
             MEL_EXN_ID: No_good
@@ -2300,7 +2300,7 @@ function parse_body(_f) {
       decimal_exponent: decimal_exponent,
       todo: init$1.todo
     };
-    continue ;
+    continue;
   };
 }
 
@@ -2389,7 +2389,7 @@ function unicode_fix_cols(lb) {
       const acc$1 = (c & 192) === 128 ? acc + 1 | 0 : acc;
       _acc = acc$1;
       _start = start + 1 | 0;
-      continue ;
+      continue;
     };
   };
   const bytes = count(lb.lex_start_pos, lb.lex_curr_pos, 0);
@@ -3382,7 +3382,7 @@ function token(env, lexbuf) {
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
     const w$3 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
     return illegal_number(env, lexbuf, w$3, {
@@ -4252,7 +4252,7 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -4271,11 +4271,11 @@ function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
       case 1 :
           Stdlib__Lexing.new_line(lexbuf);
           ___ocaml_lex_state = 333;
-          continue ;
+          continue;
       case 2 :
           unicode_fix_cols(lexbuf);
           ___ocaml_lex_state = 333;
-          continue ;
+          continue;
       case 3 :
           const start = from_lb(env.lex_source, lexbuf);
           const buf = Stdlib__Buffer.create(127);
@@ -4283,7 +4283,7 @@ function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
           const env$1 = save_comment(match[0], start, match[1], buf, true);
           ___ocaml_lex_state = 333;
           _env = env$1;
-          continue ;
+          continue;
       case 4 :
           const start$1 = from_lb(env.lex_source, lexbuf);
           const buf$1 = Stdlib__Buffer.create(127);
@@ -4291,7 +4291,7 @@ function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
           const env$2 = save_comment(match$1[0], start$1, match$1[1], buf$1, true);
           ___ocaml_lex_state = 333;
           _env = env$2;
-          continue ;
+          continue;
       case 5 :
           return [
             env,
@@ -4363,7 +4363,7 @@ function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -4429,7 +4429,7 @@ function template_part(env, start, cooked, raw, literal, lexbuf) {
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -4477,7 +4477,7 @@ function comment(env, buf, lexbuf) {
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -4491,11 +4491,11 @@ function __ocaml_lex_template_tail_rec(_env, lexbuf, ___ocaml_lex_state) {
       case 0 :
           Stdlib__Lexing.new_line(lexbuf);
           ___ocaml_lex_state = 393;
-          continue ;
+          continue;
       case 1 :
           unicode_fix_cols(lexbuf);
           ___ocaml_lex_state = 393;
-          continue ;
+          continue;
       case 2 :
           const start = from_lb(env.lex_source, lexbuf);
           const buf = Stdlib__Buffer.create(127);
@@ -4503,7 +4503,7 @@ function __ocaml_lex_template_tail_rec(_env, lexbuf, ___ocaml_lex_state) {
           const env$1 = save_comment(match[0], start, match[1], buf, true);
           ___ocaml_lex_state = 393;
           _env = env$1;
-          continue ;
+          continue;
       case 3 :
           const start$1 = from_lb(env.lex_source, lexbuf);
           const buf$1 = Stdlib__Buffer.create(127);
@@ -4511,7 +4511,7 @@ function __ocaml_lex_template_tail_rec(_env, lexbuf, ___ocaml_lex_state) {
           const env$2 = save_comment(match$1[0], start$1, match$1[1], buf$1, true);
           ___ocaml_lex_state = 393;
           _env = env$2;
-          continue ;
+          continue;
       case 4 :
           const start$2 = from_lb(env.lex_source, lexbuf);
           const cooked = Stdlib__Buffer.create(127);
@@ -4557,7 +4557,7 @@ function __ocaml_lex_template_tail_rec(_env, lexbuf, ___ocaml_lex_state) {
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -4600,7 +4600,7 @@ function line_comment(env, buf, lexbuf) {
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -4627,7 +4627,7 @@ function regexp_class(env, buf, lexbuf) {
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
     const s = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_start_pos + 2 | 0);
     Stdlib__Buffer.add_string(buf, s);
@@ -4682,7 +4682,7 @@ function string_quote(env, q, buf, raw, octal, lexbuf) {
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -4852,7 +4852,7 @@ function string_escape(env, buf, lexbuf) {
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -5220,7 +5220,7 @@ function type_token(env, lexbuf) {
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -5239,11 +5239,11 @@ function __ocaml_lex_regexp_rec(_env, lexbuf, ___ocaml_lex_state) {
       case 1 :
           Stdlib__Lexing.new_line(lexbuf);
           ___ocaml_lex_state = 291;
-          continue ;
+          continue;
       case 2 :
           unicode_fix_cols(lexbuf);
           ___ocaml_lex_state = 291;
-          continue ;
+          continue;
       case 3 :
           const start = from_lb(env.lex_source, lexbuf);
           const buf = Stdlib__Buffer.create(127);
@@ -5251,7 +5251,7 @@ function __ocaml_lex_regexp_rec(_env, lexbuf, ___ocaml_lex_state) {
           const env$1 = save_comment(match[0], start, match[1], buf, true);
           ___ocaml_lex_state = 291;
           _env = env$1;
-          continue ;
+          continue;
       case 4 :
           const start$1 = from_lb(env.lex_source, lexbuf);
           const buf$1 = Stdlib__Buffer.create(127);
@@ -5259,7 +5259,7 @@ function __ocaml_lex_regexp_rec(_env, lexbuf, ___ocaml_lex_state) {
           const env$2 = save_comment(match$1[0], start$1, match$1[1], buf$1, true);
           ___ocaml_lex_state = 291;
           _env = env$2;
-          continue ;
+          continue;
       case 5 :
           const start$2 = from_lb(env.lex_source, lexbuf);
           const buf$2 = Stdlib__Buffer.create(127);
@@ -5290,7 +5290,7 @@ function __ocaml_lex_regexp_rec(_env, lexbuf, ___ocaml_lex_state) {
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -5349,7 +5349,7 @@ function regexp_body(env, buf, lexbuf) {
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -5415,7 +5415,7 @@ function jsx_child(env, start, buf, raw, lexbuf) {
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -5577,7 +5577,7 @@ function mem(x, _param) {
       return true;
     }
     _param = c < 0 ? param.l : param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -5614,7 +5614,7 @@ function next_power_of_two(n) {
       return i;
     }
     _i = (i << 1);
-    continue ;
+    continue;
   };
 }
 
@@ -6475,7 +6475,7 @@ function mem$1(x, _param) {
       return true;
     }
     _param = c < 0 ? param.l : param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -6622,7 +6622,7 @@ function find(x, _param) {
       return param.d;
     }
     _param = c < 0 ? param.l : param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -6761,7 +6761,7 @@ function mem$2(x, _param) {
       return true;
     }
     _param = c < 0 ? param.l : param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -7008,7 +7008,7 @@ function postfix_with(env, _t) {
       t_1
     ];
     _t = t$1;
-    continue ;
+    continue;
   };
 }
 
@@ -7401,7 +7401,7 @@ function union_with(env, left) {
           hd: intersection(env),
           tl: acc
         };
-        continue ;
+        continue;
       }
       const match$1 = rev_nonempty_acc(acc);
       return [
@@ -7432,7 +7432,7 @@ function intersection_with(env, left) {
           hd: prefix(env),
           tl: acc
         };
-        continue ;
+        continue;
       }
       const match$1 = rev_nonempty_acc(acc);
       return [
@@ -7484,7 +7484,7 @@ function function_param_list_without_parens(env) {
               token$4(env, /* T_COMMA */8);
             }
             _acc = acc$1;
-            continue ;
+            continue;
         case 2 :
             const rest = Caml_obj.caml_equal(t, /* T_ELLIPSIS */11) ? (token$4(env, /* T_ELLIPSIS */11), param(env)) : undefined;
             return [
@@ -7525,7 +7525,7 @@ function identifier(env, _param) {
       loc,
       qualification$1
     ];
-    continue ;
+    continue;
   };
 }
 
@@ -7574,7 +7574,7 @@ function params(env, _acc) {
       token$4(env, /* T_COMMA */8);
     }
     _acc = acc$1;
-    continue ;
+    continue;
   };
 }
 
@@ -7682,7 +7682,7 @@ function params$1(env, allow_default, _require_default, _acc) {
     }
     _acc = acc$1;
     _require_default = match$3[1];
-    continue ;
+    continue;
   };
 }
 
@@ -7728,7 +7728,7 @@ function types(env, _acc) {
       token$4(env, /* T_COMMA */8);
     }
     _acc = acc$1;
-    continue ;
+    continue;
   };
 }
 
@@ -7860,7 +7860,7 @@ function properties(allow_static, env, _param) {
               },
               callProperties
             ];
-            continue ;
+            continue;
         case /* T_LPAREN */3 :
         case /* T_LESS_THAN */89 :
             exit = 3;
@@ -7941,7 +7941,7 @@ function properties(allow_static, env, _param) {
             indexers,
             callProperties
           ];
-          continue ;
+          continue;
       case 2 :
           return [
             Stdlib__List.rev(acc),
@@ -7959,7 +7959,7 @@ function properties(allow_static, env, _param) {
               tl: callProperties
             }
           ];
-          continue ;
+          continue;
       
     }
   };
@@ -8061,7 +8061,7 @@ function pattern(check_env, _param) {
           return Stdlib__List.fold_left(array_element, check_env, arr.elements);
       case /* Assignment */2 :
           _param = p._0.left;
-          continue ;
+          continue;
       case /* Identifier */3 :
           let id = p._0;
           const name = id[1].name;
@@ -8234,7 +8234,7 @@ function param_list(env, _param) {
             },
             has_default$1
           ];
-          continue ;
+          continue;
       case 2 :
           const rest = Caml_obj.caml_equal(t, /* T_ELLIPSIS */11) ? (token$4(env, /* T_ELLIPSIS */11), Curry._2(Parse.identifier_with_type, env, /* StrictParamName */28)) : undefined;
           if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RPAREN */4)) {
@@ -8439,7 +8439,7 @@ function helper(env, _decls, _errs) {
       token$4(env, /* T_COMMA */8);
       _errs = errs$1;
       _decls = decls$1;
-      continue ;
+      continue;
     }
     const end_loc = decl[0];
     const declarations = Stdlib__List.rev(decls$1);
@@ -8864,7 +8864,7 @@ function call(env, _left) {
               }
             }
           ];
-          continue ;
+          continue;
       case /* T_LBRACKET */5 :
           token$4(env, /* T_LBRACKET */5);
           const expr = Curry._1(Parse.expression, env);
@@ -8885,7 +8885,7 @@ function call(env, _left) {
               }
             }
           ];
-          continue ;
+          continue;
       case /* T_PERIOD */9 :
           token$4(env, /* T_PERIOD */9);
           const match$1 = identifier_or_reserved_keyword(env);
@@ -8904,7 +8904,7 @@ function call(env, _left) {
               }
             }
           ];
-          continue ;
+          continue;
       default:
         return left;
     }
@@ -8941,7 +8941,7 @@ function _new(env, _finish_fn) {
         return Curry._2(finish_fn, callee$p, undefined);
       };
       _finish_fn = finish_fn$p;
-      continue ;
+      continue;
     }
     Curry._2(Parser_env_Peek.token, undefined, env);
     const expr = Curry._2(Parser_env_Peek.is_function, undefined, env) ? _function$1(env) : primary$1(env);
@@ -9427,7 +9427,7 @@ function sequence(env, _acc) {
         hd: expr,
         tl: acc
       };
-      continue ;
+      continue;
     }
     const last_loc = acc ? acc.hd[0] : none;
     const expressions = Stdlib__List.rev(acc);
@@ -9744,7 +9744,7 @@ function logical_and(env, _left, _lloc) {
     const loc = btwn(lloc, match$1[0]);
     _lloc = loc;
     _left = make_logical(left, match$1[1], /* And */1, loc);
-    continue ;
+    continue;
   };
 }
 
@@ -9771,7 +9771,7 @@ function logical_or(env, _left, _lloc) {
     const loc = btwn(lloc, match$2[0]);
     _lloc = loc;
     _left = make_logical(left, match$2[1], /* Or */0, loc);
-    continue ;
+    continue;
   };
 }
 
@@ -10031,7 +10031,7 @@ function add_to_stack(_right, _param, _rloc, _stack) {
           rpri
         ];
         _right = right$1;
-        continue ;
+        continue;
       }
       
     }
@@ -10083,7 +10083,7 @@ function binary(env) {
         _param = param.tl;
         _rloc = loc$1;
         _right = make_binary(match$1[0], right$1, match$1[1][0], loc$1);
-        continue ;
+        continue;
       };
     }
     const rop = match[0];
@@ -10097,7 +10097,7 @@ function binary(env) {
           rop,
           match[1]
         ], right_loc, stack);
-    continue ;
+    continue;
   };
 }
 
@@ -10152,7 +10152,7 @@ function arguments$p(env, _acc) {
       token$4(env, /* T_COMMA */8);
     }
     _acc = acc$1;
-    continue ;
+    continue;
   };
 }
 
@@ -10237,7 +10237,7 @@ function template_parts(env, _quasis, _expressions) {
       }
       _expressions = expressions$1;
       _quasis = quasis$1;
-      continue ;
+      continue;
     }
     error_unexpected(env);
     const imaginary_quasi_0 = expr[0];
@@ -10315,7 +10315,7 @@ function elements(env, _acc) {
               hd: undefined,
               tl: acc
             };
-            continue ;
+            continue;
         case /* T_ELLIPSIS */11 :
             const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
             token$4(env, /* T_ELLIPSIS */11);
@@ -10334,7 +10334,7 @@ function elements(env, _acc) {
               hd: elem,
               tl: acc
             };
-            continue ;
+            continue;
         case /* T_RBRACKET */6 :
         case /* T_EOF */105 :
             return Stdlib__List.rev(acc);
@@ -10353,7 +10353,7 @@ function elements(env, _acc) {
       hd: elem$1,
       tl: acc
     };
-    continue ;
+    continue;
   };
 }
 
@@ -10501,7 +10501,7 @@ function decorator_list_helper(env, _decorators) {
       hd: left_hand_side(env),
       tl: decorators
     };
-    continue ;
+    continue;
   };
 }
 
@@ -11099,7 +11099,7 @@ function properties$1(env, _param) {
         tl: acc
       }
     ];
-    continue ;
+    continue;
   };
 }
 
@@ -11147,7 +11147,7 @@ function class_implements(env, _acc) {
     }
     token$4(env, /* T_COMMA */8);
     _acc = acc$1;
-    continue ;
+    continue;
   };
 }
 
@@ -11365,7 +11365,7 @@ function elements$1(env, _acc) {
       switch (match) {
         case /* T_SEMICOLON */7 :
             token$4(env, /* T_SEMICOLON */7);
-            continue ;
+            continue;
         case /* T_RCURLY */2 :
         case /* T_EOF */105 :
             return Stdlib__List.rev(acc);
@@ -11374,14 +11374,14 @@ function elements$1(env, _acc) {
             hd: Curry._1(class_element, env),
             tl: acc
           };
-          continue ;
+          continue;
       }
     } else {
       _acc = {
         hd: Curry._1(class_element, env),
         tl: acc
       };
-      continue ;
+      continue;
     }
   };
 }
@@ -11817,7 +11817,7 @@ function export_specifiers_and_errs(env, _specifiers, _errs) {
       hd: specifier,
       tl: specifiers
     };
-    continue ;
+    continue;
   };
 }
 
@@ -12249,7 +12249,7 @@ function supers(env, _acc) {
     }
     token$4(env, /* T_COMMA */8);
     _acc = acc$1;
-    continue ;
+    continue;
   };
 }
 
@@ -12293,7 +12293,7 @@ function supers$1(env, _acc) {
     }
     token$4(env, /* T_COMMA */8);
     _acc = acc$1;
-    continue ;
+    continue;
   };
 }
 
@@ -12414,7 +12414,7 @@ function module_items(env, _module_kind, _acc) {
       tl: acc
     };
     _module_kind = module_kind$1;
-    continue ;
+    continue;
   };
 }
 
@@ -12579,7 +12579,7 @@ function case_list(env, _param) {
       seen_default$1,
       acc$1
     ];
-    continue ;
+    continue;
   };
 }
 
@@ -12696,7 +12696,7 @@ function specifier_list(env, _acc) {
       hd: specifier,
       tl: acc
     };
-    continue ;
+    continue;
   };
 }
 
@@ -13016,9 +13016,9 @@ function _object$2(restricted_error) {
           hd: prop,
           tl: acc
         };
-        continue ;
+        continue;
       }
-      continue ;
+      continue;
     };
   };
   return function (env) {
@@ -13066,7 +13066,7 @@ function _array(restricted_error) {
                 hd: undefined,
                 tl: acc
               };
-              continue ;
+              continue;
           case /* T_ELLIPSIS */11 :
               const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
               token$4(env, /* T_ELLIPSIS */11);
@@ -13085,7 +13085,7 @@ function _array(restricted_error) {
                 hd: element,
                 tl: acc
               };
-              continue ;
+              continue;
           case /* T_RBRACKET */6 :
           case /* T_EOF */105 :
               return Stdlib__List.rev(acc);
@@ -13124,7 +13124,7 @@ function _array(restricted_error) {
         hd: element$1,
         tl: acc
       };
-      continue ;
+      continue;
     };
   };
   return function (env) {
@@ -13264,7 +13264,7 @@ function member_expression(env, _member) {
       member_1
     ];
     _member = member$1;
-    continue ;
+    continue;
   };
 }
 
@@ -13446,7 +13446,7 @@ function attributes(env, _acc) {
               hd: attribute$1,
               tl: acc
             };
-            continue ;
+            continue;
         case /* T_GREATER_THAN */90 :
         case /* T_DIV */96 :
         case /* T_EOF */105 :
@@ -13463,7 +13463,7 @@ function attributes(env, _acc) {
       hd: attribute$2,
       tl: acc
     };
-    continue ;
+    continue;
   };
 }
 
@@ -13600,7 +13600,7 @@ function children_and_closing(env, _acc) {
               hd: element$1,
               tl: acc
             };
-            continue ;
+            continue;
         case /* T_EOF */105 :
             error_unexpected(env);
             return [
@@ -13612,14 +13612,14 @@ function children_and_closing(env, _acc) {
             hd: child(env),
             tl: acc
           };
-          continue ;
+          continue;
       }
     } else {
       _acc = {
         hd: child(env),
         tl: acc
       };
-      continue ;
+      continue;
     }
   };
 }
@@ -14850,7 +14850,7 @@ function statement(env) {
     }
     error_unexpected(env);
     token$3(env);
-    continue ;
+    continue;
   };
 }
 
@@ -14869,7 +14869,7 @@ function module_body(term_fn, env) {
       hd: module_item(env),
       tl: acc
     };
-    continue ;
+    continue;
   };
 }
 
@@ -14963,7 +14963,7 @@ function statement_list(_env, term_fn, item_fn, _param) {
       stmts$1
     ];
     _env = with_strict(strict, env);
-    continue ;
+    continue;
   };
 }
 
@@ -15012,7 +15012,7 @@ function statement_list$1(term_fn, env) {
       hd: statement_list_item(undefined, env),
       tl: acc
     };
-    continue ;
+    continue;
   };
 }
 

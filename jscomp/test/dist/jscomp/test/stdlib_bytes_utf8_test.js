@@ -24,7 +24,7 @@ function fold_uchars(f, acc) {
     }
     _u = Stdlib__Uchar.succ(u);
     _acc = acc$2;
-    continue ;
+    continue;
   };
 }
 

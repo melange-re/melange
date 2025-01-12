@@ -24,7 +24,7 @@ function filter_map(f, _xs) {
       };
     }
     _xs = ys;
-    continue ;
+    continue;
   };
 }
 
@@ -44,14 +44,14 @@ function excludes(p, l) {
       if (Curry._1(p, x)) {
         excluded.contents = true;
         _param = l;
-        continue ;
+        continue;
       }
       _param = l;
       _accu = {
         hd: x,
         tl: accu
       };
-      continue ;
+      continue;
     };
   };
   const v = aux(/* [] */0, l);
@@ -84,14 +84,14 @@ function exclude_with_fact(p, l) {
       if (Curry._1(p, x)) {
         excluded.contents = Caml_option.some(x);
         _param = l;
-        continue ;
+        continue;
       }
       _param = l;
       _accu = {
         hd: x,
         tl: accu
       };
-      continue ;
+      continue;
     };
   };
   const v = aux(/* [] */0, l);
@@ -120,19 +120,19 @@ function exclude_with_fact2(p1, p2, l) {
       if (Curry._1(p1, x)) {
         excluded1.contents = Caml_option.some(x);
         _param = l;
-        continue ;
+        continue;
       }
       if (Curry._1(p2, x)) {
         excluded2.contents = Caml_option.some(x);
         _param = l;
-        continue ;
+        continue;
       }
       _param = l;
       _accu = {
         hd: x,
         tl: accu
       };
-      continue ;
+      continue;
     };
   };
   const v = aux(/* [] */0, l);
@@ -159,7 +159,7 @@ function same_length(_xs, _ys) {
     }
     _ys = ys.tl;
     _xs = xs.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -181,7 +181,7 @@ function filter_mapi(f, xs) {
       }
       _xs = ys;
       _i = i + 1 | 0;
-      continue ;
+      continue;
     };
   };
   return aux(0, xs);
@@ -204,7 +204,7 @@ function filter_map2(f, _xs, _ys) {
         }
         _ys = vs;
         _xs = us;
-        continue ;
+        continue;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             MEL_EXN_ID: "Invalid_argument",
@@ -241,7 +241,7 @@ function filter_map2i(f, xs, ys) {
           _ys = vs;
           _xs = us;
           _i = i + 1 | 0;
-          continue ;
+          continue;
         }
         throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
               MEL_EXN_ID: "Invalid_argument",
@@ -272,7 +272,7 @@ function rev_map_append(f, _l1, _l2) {
       tl: l2
     };
     _l1 = l1.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -289,7 +289,7 @@ function flat_map2(f, lx, ly) {
         _ly = ly$1.tl;
         _lx = lx$1.tl;
         _acc = Stdlib__List.rev_append(Curry._2(f, lx$1.hd, ly$1.hd), acc);
-        continue ;
+        continue;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             MEL_EXN_ID: "Invalid_argument",
@@ -315,7 +315,7 @@ function flat_map_aux(f, _acc, append, _lx) {
     }
     _lx = lx.tl;
     _acc = Stdlib__List.rev_append(Curry._1(f, lx.hd), acc);
-    continue ;
+    continue;
   };
 }
 
@@ -473,7 +473,7 @@ function length_compare(_l, _n) {
     }
     _n = n - 1 | 0;
     _l = l.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -489,7 +489,7 @@ function length_larger_than_n(n, _xs, _ys) {
     }
     _ys = ys.tl;
     _xs = xs.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -512,7 +512,7 @@ function exclude_tail(x) {
         hd: x$2,
         tl: acc
       };
-      continue ;
+      continue;
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
@@ -582,7 +582,7 @@ function drop(_n, _h) {
     }
     _h = Stdlib__List.tl(h);
     _n = n - 1 | 0;
-    continue ;
+    continue;
   };
 }
 
@@ -597,7 +597,7 @@ function find_first_not(p, _param) {
       return Caml_option.some(a);
     }
     _param = param.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -612,7 +612,7 @@ function for_all_opt(p, _param) {
       return v;
     }
     _param = param.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -636,7 +636,7 @@ function rev_map_acc(acc, f, l) {
       hd: Curry._1(f, param.hd),
       tl: accu
     };
-    continue ;
+    continue;
   };
 }
 
@@ -678,7 +678,7 @@ function for_all2_no_exn(p, _l1, _l2) {
     }
     _l2 = l2.tl;
     _l1 = l1.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -693,7 +693,7 @@ function find_no_exn(p, _param) {
       return Caml_option.some(x);
     }
     _param = param.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -708,7 +708,7 @@ function find_opt(p, _param) {
       return v;
     }
     _param = param.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -736,7 +736,7 @@ function split_map(f, xs) {
       hd: match[0],
       tl: bs
     };
-    continue ;
+    continue;
   };
 }
 
@@ -827,7 +827,7 @@ function rev_except_last(xs) {
         hd: x,
         tl: acc
       };
-      continue ;
+      continue;
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
@@ -850,7 +850,7 @@ function last(_xs) {
         return xs.hd;
       }
       _xs = xs.tl;
-      continue ;
+      continue;
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
@@ -868,7 +868,7 @@ function assoc_by_string(def, k, _lst) {
         return match[1];
       }
       _lst = lst.tl;
-      continue ;
+      continue;
     }
     if (def !== undefined) {
       return Caml_option.valFromOption(def);
@@ -893,7 +893,7 @@ function assoc_by_int(def, k, _lst) {
         return match[1];
       }
       _lst = lst.tl;
-      continue ;
+      continue;
     }
     if (def !== undefined) {
       return Caml_option.valFromOption(def);

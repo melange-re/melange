@@ -85,7 +85,7 @@ function dfs1(_nodes, graph, _visited) {
     const x = nodes.hd;
     if (Stdlib__List.mem(x, visited)) {
       _nodes = xs;
-      continue ;
+      continue;
     }
     console.log(x);
     _visited = {
@@ -93,7 +93,7 @@ function dfs1(_nodes, graph, _visited) {
       tl: visited
     };
     _nodes = Stdlib.$at(nexts(x, graph), xs);
-    continue ;
+    continue;
   };
 }
 
@@ -181,14 +181,14 @@ function dfs2(nodes, graph, visited) {
       const x = nodes.hd;
       if (Stdlib__List.mem(x, visited)) {
         _nodes = xs;
-        continue ;
+        continue;
       }
       _visited = aux(nexts(x, graph), graph, {
             hd: x,
             tl: visited
           });
       _nodes = xs;
-      continue ;
+      continue;
     };
   };
   return Stdlib__List.rev(aux(nodes, graph, visited));
@@ -616,7 +616,7 @@ function min_elt(_param) {
       return param.v;
     }
     _param = l;
-    continue ;
+    continue;
   };
 }
 
@@ -631,7 +631,7 @@ function min_elt_opt(_param) {
       return Caml_option.some(param.v);
     }
     _param = l;
-    continue ;
+    continue;
   };
 }
 
@@ -648,7 +648,7 @@ function max_elt(_param) {
       return param.v;
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -663,7 +663,7 @@ function max_elt_opt(_param) {
       return Caml_option.some(param.v);
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -746,7 +746,7 @@ function mem(x, _param) {
       return true;
     }
     _param = c < 0 ? param.l : param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -892,7 +892,7 @@ function disjoint(_s1, _s2) {
     }
     _s2 = Curry._1(match._1, undefined);
     _s1 = s1.r;
-    continue ;
+    continue;
   };
 }
 
@@ -929,7 +929,7 @@ function cons_enum(_s, _e) {
       _2: e
     };
     _s = s.l;
-    continue ;
+    continue;
   };
 }
 
@@ -955,7 +955,7 @@ function compare(s1, s2) {
     }
     _e2 = cons_enum(e2._1, e2._2);
     _e1 = cons_enum(e1._1, e1._2);
-    continue ;
+    continue;
   };
 }
 
@@ -985,7 +985,7 @@ function subset(_s1, _s2) {
       }
       _s2 = r2;
       _s1 = r1;
-      continue ;
+      continue;
     }
     if (c < 0) {
       if (!subset({
@@ -998,7 +998,7 @@ function subset(_s1, _s2) {
         return false;
       }
       _s1 = r1;
-      continue ;
+      continue;
     }
     if (!subset({
             TAG: /* Node */0,
@@ -1010,7 +1010,7 @@ function subset(_s1, _s2) {
       return false;
     }
     _s1 = l1;
-    continue ;
+    continue;
   };
 }
 
@@ -1023,7 +1023,7 @@ function iter(f, _param) {
     iter(f, param.l);
     Curry._1(f, param.v);
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1036,7 +1036,7 @@ function fold(f, _s, _accu) {
     }
     _accu = Curry._2(f, s.v, fold(f, s.l, accu));
     _s = s.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1053,7 +1053,7 @@ function for_all(p, _param) {
       return false;
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1070,7 +1070,7 @@ function exists(p, _param) {
       return true;
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1143,7 +1143,7 @@ function elements_aux(_accu, _param) {
       hd: param.v,
       tl: elements_aux(accu, param.r)
     };
-    continue ;
+    continue;
   };
 }
 
@@ -1165,7 +1165,7 @@ function find(x, _param) {
       return v;
     }
     _param = c < 0 ? param.l : param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1191,14 +1191,14 @@ function find_first(f, _param) {
         if (Curry._1(f, v$1)) {
           _param$1 = param$1.l;
           _v0 = v$1;
-          continue ;
+          continue;
         }
         _param$1 = param$1.r;
-        continue ;
+        continue;
       };
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1222,14 +1222,14 @@ function find_first_opt(f, _param) {
         if (Curry._1(f, v$1)) {
           _param$1 = param$1.l;
           _v0 = v$1;
-          continue ;
+          continue;
         }
         _param$1 = param$1.r;
-        continue ;
+        continue;
       };
     }
     _param = param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1255,14 +1255,14 @@ function find_last(f, _param) {
         if (Curry._1(f, v$1)) {
           _param$1 = param$1.r;
           _v0 = v$1;
-          continue ;
+          continue;
         }
         _param$1 = param$1.l;
-        continue ;
+        continue;
       };
     }
     _param = param.l;
-    continue ;
+    continue;
   };
 }
 
@@ -1286,14 +1286,14 @@ function find_last_opt(f, _param) {
         if (Curry._1(f, v$1)) {
           _param$1 = param$1.r;
           _v0 = v$1;
-          continue ;
+          continue;
         }
         _param$1 = param$1.l;
-        continue ;
+        continue;
       };
     }
     _param = param.l;
-    continue ;
+    continue;
   };
 }
 
@@ -1309,7 +1309,7 @@ function find_opt(x, _param) {
       return Caml_option.some(v);
     }
     _param = c < 0 ? param.l : param.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1544,7 +1544,7 @@ function snoc_enum(_s, _e) {
       _2: e
     };
     _s = s.r;
-    continue ;
+    continue;
   };
 }
 
@@ -1590,7 +1590,7 @@ function to_seq_from(low, s) {
       }
       if (n < 0) {
         _s = r;
-        continue ;
+        continue;
       }
       _c = {
         TAG: /* More */0,
@@ -1599,7 +1599,7 @@ function to_seq_from(low, s) {
         _2: c
       };
       _s = s.l;
-      continue ;
+      continue;
     };
   };
   const partial_arg = aux(low, s, /* End */0);

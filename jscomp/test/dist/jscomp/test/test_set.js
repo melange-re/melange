@@ -157,7 +157,7 @@ function Make(Ord) {
         return param._1;
       }
       _param = l;
-      continue ;
+      continue;
     };
   };
   const max_elt = function (_param) {
@@ -173,7 +173,7 @@ function Make(Ord) {
         return param._1;
       }
       _param = param._2;
-      continue ;
+      continue;
     };
   };
   const remove_min_elt = function (param) {
@@ -260,7 +260,7 @@ function Make(Ord) {
         return true;
       }
       _param = c < 0 ? param._0 : param._2;
-      continue ;
+      continue;
     };
   };
   const remove = function (x, param) {
@@ -353,7 +353,7 @@ function Make(Ord) {
         _2: e
       };
       _s = s._0;
-      continue ;
+      continue;
     };
   };
   const compare_aux = function (_e1, _e2) {
@@ -376,7 +376,7 @@ function Make(Ord) {
       }
       _e2 = cons_enum(e2._1, e2._2);
       _e1 = cons_enum(e1._1, e1._2);
-      continue ;
+      continue;
     };
   };
   const compare = function (s1, s2) {
@@ -407,7 +407,7 @@ function Make(Ord) {
         }
         _s2 = r2;
         _s1 = r1;
-        continue ;
+        continue;
       }
       if (c < 0) {
         if (!subset({
@@ -420,7 +420,7 @@ function Make(Ord) {
           return false;
         }
         _s1 = r1;
-        continue ;
+        continue;
       }
       if (!subset({
               TAG: /* Node */0,
@@ -432,7 +432,7 @@ function Make(Ord) {
         return false;
       }
       _s1 = l1;
-      continue ;
+      continue;
     };
   };
   const iter = function (f, _param) {
@@ -444,7 +444,7 @@ function Make(Ord) {
       iter(f, param._0);
       Curry._1(f, param._1);
       _param = param._2;
-      continue ;
+      continue;
     };
   };
   const fold = function (f, _s, _accu) {
@@ -456,7 +456,7 @@ function Make(Ord) {
       }
       _accu = Curry._2(f, s._1, fold(f, s._0, accu));
       _s = s._2;
-      continue ;
+      continue;
     };
   };
   const for_all = function (p, _param) {
@@ -472,7 +472,7 @@ function Make(Ord) {
         return false;
       }
       _param = param._2;
-      continue ;
+      continue;
     };
   };
   const exists = function (p, _param) {
@@ -488,7 +488,7 @@ function Make(Ord) {
         return true;
       }
       _param = param._2;
-      continue ;
+      continue;
     };
   };
   const filter = function (p, param) {
@@ -551,7 +551,7 @@ function Make(Ord) {
         hd: param._1,
         tl: elements_aux(accu, param._2)
       };
-      continue ;
+      continue;
     };
   };
   const elements = function (s) {
@@ -571,7 +571,7 @@ function Make(Ord) {
         return v;
       }
       _param = c < 0 ? param._0 : param._2;
-      continue ;
+      continue;
     };
   };
   const of_sorted_list = function (l) {

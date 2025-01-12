@@ -43,10 +43,10 @@ function mem(x, _param) {
     }
     if (x < y) {
       _param = param._1;
-      continue ;
+      continue;
     }
     _param = param._3;
-    continue ;
+    continue;
   };
 }
 

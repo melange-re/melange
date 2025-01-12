@@ -35,7 +35,6 @@ type value = { exit_id : Ident.t; bindings : Ident.t list; order_id : int }
 *)
 type return_label = {
   id : Ident.t;
-  label : J.label;
   params : Ident.t list;
   immutable_mask : bool array;
   mutable new_params : Ident.t Ident.Map.t;

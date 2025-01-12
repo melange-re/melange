@@ -200,7 +200,7 @@ function iter_interval(f, _l, _param) {
       stop - 1 | 0
     ];
     _l = match._1;
-    continue ;
+    continue;
   };
 }
 

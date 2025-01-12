@@ -49,7 +49,7 @@ function searchForSureExists(xs, k) {
       return match[1];
     }
     _i = i + 1 | 0;
-    continue ;
+    continue;
   };
 }
 

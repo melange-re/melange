@@ -132,7 +132,7 @@ function find(x, _param) {
       return param._2;
     }
     _param = c < 0 ? param._0 : param._3;
-    continue ;
+    continue;
   };
 }
 

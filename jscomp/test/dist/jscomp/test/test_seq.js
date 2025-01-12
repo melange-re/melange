@@ -22,7 +22,7 @@ function assoc3(x, _l) {
         return match[1];
       }
       _l = l.tl;
-      continue ;
+      continue;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found

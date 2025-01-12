@@ -52,7 +52,7 @@ function is_pos_pow(n) {
       if ((n$1 & 1) === 0) {
         _n = (n$1 >> 1);
         _c = c + 1 | 0;
-        continue ;
+        continue;
       }
       throw new Caml_js_exceptions.MelangeError(E, {
             MEL_EXN_ID: E

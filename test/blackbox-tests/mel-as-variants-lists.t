@@ -33,7 +33,7 @@
         return "empty";
       }
       _x = x.tl;
-      continue ;
+      continue;
     };
   }
   
@@ -64,7 +64,7 @@
         return "empty";
       }
       _x = x.tl;
-      continue ;
+      continue;
     };
   }
   
@@ -99,7 +99,7 @@
         return "empty";
       }
       _x = x.tl;
-      continue ;
+      continue;
     };
   }
   

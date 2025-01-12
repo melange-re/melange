@@ -87,7 +87,7 @@ function find(s, _n) {
       return n;
     }
     _n = n + 1 | 0;
-    continue ;
+    continue;
   };
 }
 
@@ -156,31 +156,31 @@ function skip(_param) {
             const match = Curry._1(getch, undefined);
             if (match !== 42) {
               _param$1 = undefined;
-              continue ;
+              continue;
             }
             if (peekch(undefined) === /* '/' */47) {
               return skip((Curry._1(getch, undefined), undefined));
             }
             _param$1 = undefined;
-            continue ;
+            continue;
           };
         }
       }
       _param = undefined;
-      continue ;
+      continue;
     }
     if (ch >= 11) {
       if (ch < 13) {
         return ch;
       }
       _param = undefined;
-      continue ;
+      continue;
     }
     if (ch < 9) {
       return ch;
     }
     _param = undefined;
-    continue ;
+    continue;
   };
 }
 
@@ -212,7 +212,7 @@ function next(param) {
       if (match !== 34) {
         Caml_bytes.set(glo, e, getq(undefined));
         _e = e + 1 | 0;
-        continue ;
+        continue;
       }
       Curry._1(getch, undefined);
       gpos.contents = e + 8 & -8;
@@ -236,7 +236,7 @@ function next(param) {
           };
         }
         _n = (Math.imul(10, n) + Curry._1(getch, undefined) | 0) - 48 | 0;
-        continue ;
+        continue;
       };
     }
     
@@ -269,7 +269,7 @@ function next(param) {
       }
       _ch = Curry._1(getch, undefined);
       _n$1 = n$1 + 1 | 0;
-      continue ;
+      continue;
     };
   } else {
     let _param = {
@@ -320,7 +320,7 @@ function next(param) {
         };
       }
       _param = param$1.tl;
-      continue ;
+      continue;
     };
   }
 }
@@ -888,7 +888,7 @@ function binary(stk, lvl) {
           const loc$p = test(lvl - 8 | 0, loc);
           binary(stk, lvl - 1 | 0);
           _loc = loc$p;
-          continue ;
+          continue;
         }
         Curry._1(unnext, o);
         return loc;
@@ -920,7 +920,7 @@ function binary(stk, lvl) {
         cmp(ops._0);
       }
       _param = undefined;
-      continue ;
+      continue;
     };
   }
   const loc = foldtst(0);
@@ -1100,7 +1100,7 @@ function postfix(stk) {
               hd: Stdlib__List.hd(rl),
               tl: l
             };
-            continue ;
+            continue;
           };
         };
         patchlval(undefined);
@@ -1207,7 +1207,7 @@ function expr(stk) {
       out(34817);
     }
     _param = undefined;
-    continue ;
+    continue;
   };
 }
 
@@ -1278,7 +1278,7 @@ function decl(g, _n, _stk) {
             Curry._1(next$1, undefined);
             _stk = stk$p;
             _n = n$p;
-            continue ;
+            continue;
           }
           throw new Caml_js_exceptions.MelangeError("Failure", {
                 MEL_EXN_ID: "Failure",
@@ -1311,7 +1311,7 @@ function decl(g, _n, _stk) {
       }
       _stk = match[1];
       _n = n + match[0] | 0;
-      continue ;
+      continue;
     }
     Curry._1(unnext, t);
     if (!g && n !== 0) {
@@ -1508,7 +1508,7 @@ function top(_param) {
     if (nextis(tokint)) {
       decl(true, 0, /* [] */0);
       _param = undefined;
-      continue ;
+      continue;
     }
     const f = Curry._1(next$1, undefined);
     if (f.TAG === /* Sym */3) {
@@ -1565,7 +1565,7 @@ function top(_param) {
                 _stk = stk$p;
                 _n = n + 1 | 0;
                 _regs = Stdlib__List.tl(regs);
-                continue ;
+                continue;
             
           }
         };
@@ -1628,7 +1628,7 @@ function top(_param) {
                 }), symstr(f$1));
       }
       _param = undefined;
-      continue ;
+      continue;
     }
     throw new Caml_js_exceptions.MelangeError("Failure", {
           MEL_EXN_ID: "Failure",
@@ -1771,7 +1771,7 @@ function elfgen(outf) {
             le(64, 1 + (n$1.contents << 32) | 0);
             le(64, 0);
             _l = get32(l);
-            continue ;
+            continue;
           };
         };
         genrel(l);
@@ -1995,11 +1995,11 @@ function main(param) {
             }
             ppsym(tok);
             _param = undefined;
-            continue ;
+            continue;
           }
           ppsym(tok);
           _param = undefined;
-          continue ;
+          continue;
         };
     default:
       const oc = Stdlib.open_out("a.out");

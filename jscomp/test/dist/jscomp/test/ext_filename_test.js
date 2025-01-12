@@ -57,7 +57,7 @@ function absolute_path(s) {
         }
       }
       _s = dir;
-      continue ;
+      continue;
     };
   };
   return aux(s$1);
@@ -128,7 +128,7 @@ function relative_path(file_or_dir_1, file_or_dir_2) {
       if (dir1 && dir2 && dir1.hd === dir2.hd) {
         _dir2 = dir2.tl;
         _dir1 = dir1.tl;
-        continue ;
+        continue;
       }
       return Stdlib.$at(Stdlib__List.map((function (param) {
                   return node_parent;
@@ -188,7 +188,7 @@ function node_relative_path(node_modules_shorten, file1, dep_file) {
         return i;
       }
       _i = i + 1 | 0;
-      continue ;
+      continue;
     };
   };
   return Ext_string_test.tail_from(file2, skip(v + Test_literals.node_modules_length | 0));
@@ -221,7 +221,7 @@ function find_root_filename(_cwd, filename) {
               }), filename, cwd);
     }
     _cwd = cwd$p;
-    continue ;
+    continue;
   };
 }
 
@@ -275,14 +275,14 @@ function split_aux(p) {
     const new_path = Curry._1(Stdlib__Filename.basename, p$1);
     if (new_path === Stdlib__Filename.dir_sep) {
       _p = dir;
-      continue ;
+      continue;
     }
     _acc = {
       hd: new_path,
       tl: acc
     };
     _p = dir;
-    continue ;
+    continue;
   };
 }
 
@@ -314,7 +314,7 @@ function rel_normalized_absolute_path(from, to_) {
     if (xss.hd === yss.hd) {
       _yss = yss.tl;
       _xss = xs;
-      continue ;
+      continue;
     }
     const start = Stdlib__List.fold_left((function (acc, param) {
             return Stdlib__Filename.concat(acc, Ext_string_test.parent_dir_lit);
@@ -342,19 +342,19 @@ function normalize_absolute_path(x) {
       const x = paths.hd;
       if (x === Ext_string_test.current_dir_lit) {
         _paths = xs;
-        continue ;
+        continue;
       }
       if (x === Ext_string_test.parent_dir_lit) {
         _paths = xs;
         _acc = drop_if_exist(acc);
-        continue ;
+        continue;
       }
       _paths = xs;
       _acc = {
         hd: x,
         tl: acc
       };
-      continue ;
+      continue;
     };
   };
   const match = split_aux(x);
@@ -371,7 +371,7 @@ function normalize_absolute_path(x) {
       }
       _rev_paths = rev_paths$1.tl;
       _acc = Stdlib__Filename.concat(rev_paths$1.hd, acc);
-      continue ;
+      continue;
     };
   } else {
     return root;

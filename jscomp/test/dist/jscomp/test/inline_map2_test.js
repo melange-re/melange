@@ -148,7 +148,7 @@ function Make(Ord) {
         return param._2;
       }
       _param = c < 0 ? param._0 : param._3;
-      continue ;
+      continue;
     };
   };
   const mem = function (x, _param) {
@@ -162,7 +162,7 @@ function Make(Ord) {
         return true;
       }
       _param = c < 0 ? param._0 : param._3;
-      continue ;
+      continue;
     };
   };
   const min_binding = function (_param) {
@@ -181,7 +181,7 @@ function Make(Ord) {
         ];
       }
       _param = l;
-      continue ;
+      continue;
     };
   };
   const max_binding = function (_param) {
@@ -200,7 +200,7 @@ function Make(Ord) {
         ];
       }
       _param = param._3;
-      continue ;
+      continue;
     };
   };
   const remove_min_binding = function (param) {
@@ -250,7 +250,7 @@ function Make(Ord) {
       iter(f, param._0);
       Curry._2(f, param._1, param._2);
       _param = param._3;
-      continue ;
+      continue;
     };
   };
   const map = function (f, param) {
@@ -295,7 +295,7 @@ function Make(Ord) {
       }
       _accu = Curry._3(f, m._1, m._2, fold(f, m._0, accu));
       _m = m._3;
-      continue ;
+      continue;
     };
   };
   const for_all = function (p, _param) {
@@ -311,7 +311,7 @@ function Make(Ord) {
         return false;
       }
       _param = param._3;
-      continue ;
+      continue;
     };
   };
   const exists = function (p, _param) {
@@ -327,7 +327,7 @@ function Make(Ord) {
         return true;
       }
       _param = param._3;
-      continue ;
+      continue;
     };
   };
   const add_min_binding = function (k, v, param) {
@@ -499,7 +499,7 @@ function Make(Ord) {
         _3: e
       };
       _m = m._0;
-      continue ;
+      continue;
     };
   };
   const compare = function (cmp, m1, m2) {
@@ -528,7 +528,7 @@ function Make(Ord) {
       }
       _e2 = cons_enum(e2._2, e2._3);
       _e1 = cons_enum(e1._2, e1._3);
-      continue ;
+      continue;
     };
   };
   const equal = function (cmp, m1, m2) {
@@ -555,7 +555,7 @@ function Make(Ord) {
       }
       _e2 = cons_enum(e2._2, e2._3);
       _e1 = cons_enum(e1._2, e1._3);
-      continue ;
+      continue;
     };
   };
   const cardinal = function (param) {
@@ -580,7 +580,7 @@ function Make(Ord) {
         ],
         tl: bindings_aux(accu, param._3)
       };
-      continue ;
+      continue;
     };
   };
   const bindings = function (s) {
@@ -769,7 +769,7 @@ function find(x, _param) {
       return param._2;
     }
     _param = c < 0 ? param._0 : param._3;
-    continue ;
+    continue;
   };
 }
 
@@ -784,7 +784,7 @@ function mem(x, _param) {
       return true;
     }
     _param = c < 0 ? param._0 : param._3;
-    continue ;
+    continue;
   };
 }
 
@@ -804,7 +804,7 @@ function min_binding(_param) {
       ];
     }
     _param = l;
-    continue ;
+    continue;
   };
 }
 
@@ -824,7 +824,7 @@ function max_binding(_param) {
       ];
     }
     _param = param._3;
-    continue ;
+    continue;
   };
 }
 
@@ -877,7 +877,7 @@ function iter(f, _param) {
     iter(f, param._0);
     Curry._2(f, param._1, param._2);
     _param = param._3;
-    continue ;
+    continue;
   };
 }
 
@@ -925,7 +925,7 @@ function fold(f, _m, _accu) {
     }
     _accu = Curry._3(f, m._1, m._2, fold(f, m._0, accu));
     _m = m._3;
-    continue ;
+    continue;
   };
 }
 
@@ -942,7 +942,7 @@ function for_all(p, _param) {
       return false;
     }
     _param = param._3;
-    continue ;
+    continue;
   };
 }
 
@@ -959,7 +959,7 @@ function exists(p, _param) {
       return true;
     }
     _param = param._3;
-    continue ;
+    continue;
   };
 }
 
@@ -1141,7 +1141,7 @@ function cons_enum(_m, _e) {
       _3: e
     };
     _m = m._0;
-    continue ;
+    continue;
   };
 }
 
@@ -1171,7 +1171,7 @@ function compare(cmp, m1, m2) {
     }
     _e2 = cons_enum(e2._2, e2._3);
     _e1 = cons_enum(e1._2, e1._3);
-    continue ;
+    continue;
   };
 }
 
@@ -1199,7 +1199,7 @@ function equal(cmp, m1, m2) {
     }
     _e2 = cons_enum(e2._2, e2._3);
     _e1 = cons_enum(e1._2, e1._3);
-    continue ;
+    continue;
   };
 }
 
@@ -1226,7 +1226,7 @@ function bindings_aux(_accu, _param) {
       ],
       tl: bindings_aux(accu, param._3)
     };
-    continue ;
+    continue;
   };
 }
 
@@ -1444,7 +1444,7 @@ function find$1(x, _param) {
       return param._2;
     }
     _param = c < 0 ? param._0 : param._3;
-    continue ;
+    continue;
   };
 }
 
@@ -1459,7 +1459,7 @@ function mem$1(x, _param) {
       return true;
     }
     _param = c < 0 ? param._0 : param._3;
-    continue ;
+    continue;
   };
 }
 
@@ -1479,7 +1479,7 @@ function min_binding$1(_param) {
       ];
     }
     _param = l;
-    continue ;
+    continue;
   };
 }
 
@@ -1499,7 +1499,7 @@ function max_binding$1(_param) {
       ];
     }
     _param = param._3;
-    continue ;
+    continue;
   };
 }
 
@@ -1552,7 +1552,7 @@ function iter$1(f, _param) {
     iter$1(f, param._0);
     Curry._2(f, param._1, param._2);
     _param = param._3;
-    continue ;
+    continue;
   };
 }
 
@@ -1600,7 +1600,7 @@ function fold$1(f, _m, _accu) {
     }
     _accu = Curry._3(f, m._1, m._2, fold$1(f, m._0, accu));
     _m = m._3;
-    continue ;
+    continue;
   };
 }
 
@@ -1617,7 +1617,7 @@ function for_all$1(p, _param) {
       return false;
     }
     _param = param._3;
-    continue ;
+    continue;
   };
 }
 
@@ -1634,7 +1634,7 @@ function exists$1(p, _param) {
       return true;
     }
     _param = param._3;
-    continue ;
+    continue;
   };
 }
 
@@ -1816,7 +1816,7 @@ function cons_enum$1(_m, _e) {
       _3: e
     };
     _m = m._0;
-    continue ;
+    continue;
   };
 }
 
@@ -1846,7 +1846,7 @@ function compare$1(cmp, m1, m2) {
     }
     _e2 = cons_enum$1(e2._2, e2._3);
     _e1 = cons_enum$1(e1._2, e1._3);
-    continue ;
+    continue;
   };
 }
 
@@ -1874,7 +1874,7 @@ function equal$1(cmp, m1, m2) {
     }
     _e2 = cons_enum$1(e2._2, e2._3);
     _e1 = cons_enum$1(e1._2, e1._3);
-    continue ;
+    continue;
   };
 }
 
@@ -1901,7 +1901,7 @@ function bindings_aux$1(_accu, _param) {
       ],
       tl: bindings_aux$1(accu, param._3)
     };
-    continue ;
+    continue;
   };
 }
 

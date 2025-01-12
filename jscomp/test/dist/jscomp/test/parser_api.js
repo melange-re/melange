@@ -838,7 +838,7 @@ function for_all2(pred, _l1, _l2) {
     }
     _l2 = l2.tl;
     _l1 = l1.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -916,7 +916,7 @@ function samelist(pred, _l1, _l2) {
     }
     _l2 = l2.tl;
     _l1 = l1.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -945,7 +945,7 @@ function find_in_path(path, name) {
           return fullname;
         }
         _param = param.tl;
-        continue ;
+        continue;
       }
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
             MEL_EXN_ID: Stdlib.Not_found
@@ -973,7 +973,7 @@ function find_in_path_rel(path, name) {
         return Stdlib__Filename.concat(simplify(dir), base);
       }
       _s = dir;
-      continue ;
+      continue;
     };
   };
   let _param = path;
@@ -985,7 +985,7 @@ function find_in_path_rel(path, name) {
         return fullname;
       }
       _param = param.tl;
-      continue ;
+      continue;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found
@@ -1009,7 +1009,7 @@ function find_in_path_uncap(path, name) {
         return fullname;
       }
       _param = param.tl;
-      continue ;
+      continue;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found
@@ -1056,7 +1056,7 @@ function copy_file(ic, oc) {
     }
     Stdlib.output(oc, buff, 0, n);
     _param = undefined;
-    continue ;
+    continue;
   };
 }
 
@@ -1076,7 +1076,7 @@ function copy_file_chunk(ic, oc, len) {
     }
     Stdlib.output(oc, buff, 0, r);
     _n = n - r | 0;
-    continue ;
+    continue;
   };
 }
 
@@ -1091,7 +1091,7 @@ function string_of_file(ic) {
     }
     Stdlib__Buffer.add_subbytes(b, buff, 0, n);
     _param = undefined;
-    continue ;
+    continue;
   };
 }
 
@@ -1177,11 +1177,11 @@ function search_substring(pat, str, start) {
     }
     if (Caml_string.get(str, i + j | 0) === Caml_string.get(pat, j)) {
       _j = j + 1 | 0;
-      continue ;
+      continue;
     }
     _j = 0;
     _i = i + 1 | 0;
-    continue ;
+    continue;
   };
 }
 
@@ -1211,7 +1211,7 @@ function replace_substring(before, after, str) {
         hd: prefix,
         tl: acc
       };
-      continue ;
+      continue;
     };
   };
   return Stdlib__String.concat(after, search(/* [] */0, 0));
@@ -1230,13 +1230,13 @@ function rev_split_words(s) {
           return split2(res, i, i + 1 | 0);
         }
         _i = i + 1 | 0;
-        continue ;
+        continue;
       }
       if (match === 12 || match === 11) {
         return split2(res, i, i + 1 | 0);
       }
       _i = i + 1 | 0;
-      continue ;
+      continue;
     };
   };
   const split2 = function (res, i, _j) {
@@ -1252,12 +1252,12 @@ function rev_split_words(s) {
       if (match > 13 || match < 9) {
         if (match !== 32) {
           _j = j + 1 | 0;
-          continue ;
+          continue;
         }
         
       } else if (match === 12 || match === 11) {
         _j = j + 1 | 0;
-        continue ;
+        continue;
       }
       return split1({
             hd: Stdlib__String.sub(s, i, j - i | 0),
@@ -1430,14 +1430,14 @@ function split(s, c) {
         tl: to_rev
       };
       _pos = pos + 1 | 0;
-      continue ;
+      continue;
     }
     _to_rev = {
       hd: Stdlib__String.sub(s, pos, pos2 - pos | 0),
       tl: to_rev
     };
     _pos = pos2 + 1 | 0;
-    continue ;
+    continue;
   };
 }
 
@@ -2094,7 +2094,7 @@ function parse_opt(error, active, flags, s) {
       }
       _i = i + 1 | 0;
       _n = (Math.imul(10, n) + Caml_string.get(s, i) | 0) - /* '0' */48 | 0;
-      continue ;
+      continue;
     };
   };
   const get_range = function (i) {
@@ -2139,7 +2139,7 @@ function parse_opt(error, active, flags, s) {
           }
           Stdlib__List.iter(clear, letter(Caml_string.get(s, i)));
           _i = i + 1 | 0;
-          continue ;
+          continue;
         }
         if (c >= 91) {
           throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
@@ -2149,7 +2149,7 @@ function parse_opt(error, active, flags, s) {
         }
         Stdlib__List.iter(set, letter(Stdlib__Char.lowercase_ascii(Caml_string.get(s, i))));
         _i = i + 1 | 0;
-        continue ;
+        continue;
       }
       if (c >= 46) {
         if (c >= 64) {
@@ -3225,10 +3225,10 @@ function print_updating_num_loc_lines(ppf, f, arg) {
         if (Caml_string.get(str, i) === /* '\n' */10) {
           _c = c + 1 | 0;
           _i = i + 1 | 0;
-          continue ;
+          continue;
         }
         _i = i + 1 | 0;
-        continue ;
+        continue;
       };
     };
     num_loc_lines.contents = num_loc_lines.contents + count(start, 0) | 0;
@@ -3425,7 +3425,7 @@ function highlight_locations(ppf, locs) {
     if (/* tag */typeof num_lines === "number" || typeof num_lines === "string") {
       if (num_lines === /* Uninitialised */0) {
         status.contents = Caml_external_polyfill.resolve("caml_terminfo_setup")(Stdlib.stdout);
-        continue ;
+        continue;
       }
       const lb = input_lexbuf.contents;
       if (lb === undefined) {
@@ -3496,7 +3496,7 @@ function absolute_path(s) {
         }
       }
       _s = dir;
-      continue ;
+      continue;
     };
   };
   return aux(s$1);
@@ -3892,7 +3892,7 @@ function error_of_exn$1(exn) {
       return r;
     }
     _param = param.tl;
-    continue ;
+    continue;
   };
 }
 
@@ -4078,7 +4078,7 @@ function report_exception(ppf, exn) {
       if (n > 0) {
         _exn = exn$2;
         _n = n - 1 | 0;
-        continue ;
+        continue;
       }
       throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
     }
@@ -4179,7 +4179,7 @@ function flatten(lid) {
             hd: s._1,
             tl: accu
           };
-          continue ;
+          continue;
       case /* Lapply */2 :
           return fatal_error("Longident.flat");
       
@@ -4442,7 +4442,7 @@ function get_docstring(info, dsl) {
     switch (match) {
       case /* Info */1 :
           _param = param.tl;
-          continue ;
+          continue;
       case /* Unattached */0 :
       case /* Docs */2 :
           break;
@@ -4467,7 +4467,7 @@ function get_docstrings(dsl) {
     switch (match) {
       case /* Info */1 :
           _param = param.tl;
-          continue ;
+          continue;
       case /* Unattached */0 :
       case /* Docs */2 :
           break;
@@ -4479,7 +4479,7 @@ function get_docstrings(dsl) {
       hd: ds,
       tl: acc
     };
-    continue ;
+    continue;
   };
 }
 
@@ -13930,7 +13930,7 @@ function semantic_version_parse(str, start, last_index) {
       }
       _acc = Math.imul(acc, 10) + v | 0;
       _start = start + 1 | 0;
-      continue ;
+      continue;
     };
   };
   const match = aux(start, 0, last_index);
@@ -14332,7 +14332,7 @@ function directive_parse(token_with_comments, lexbuf) {
                   });
           case /* EOL */100 :
               _param = undefined;
-              continue ;
+              continue;
           default:
             return t;
         }
@@ -14341,7 +14341,7 @@ function directive_parse(token_with_comments, lexbuf) {
           case /* COMMENT */18 :
           case /* DOCSTRING */19 :
               _param = undefined;
-              continue ;
+              continue;
           default:
             return t;
         }
@@ -15244,10 +15244,10 @@ function remove_underscores(s) {
       Caml_bytes.set(b, dst, c);
       _dst = dst + 1 | 0;
       _src = src + 1 | 0;
-      continue ;
+      continue;
     }
     _src = src + 1 | 0;
-    continue ;
+    continue;
   };
 }
 
@@ -16034,7 +16034,7 @@ function token(lexbuf) {
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -16090,7 +16090,7 @@ function string(lexbuf) {
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -16107,7 +16107,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           };
           store_string(Stdlib__Lexing.lexeme(lexbuf));
           ___ocaml_lex_state = 132;
-          continue ;
+          continue;
       case 1 :
           const match = comment_start_loc.contents;
           if (match) {
@@ -16115,7 +16115,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
               comment_start_loc.contents = match.tl;
               store_string(Stdlib__Lexing.lexeme(lexbuf));
               ___ocaml_lex_state = 132;
-              continue ;
+              continue;
             }
             comment_start_loc.contents = /* [] */0;
             return curr(lexbuf);
@@ -16175,7 +16175,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           is_in_string.contents = false;
           store_string_char(/* '"' */34);
           ___ocaml_lex_state = 132;
-          continue ;
+          continue;
       case 3 :
           const delim = Stdlib__Lexing.lexeme(lexbuf);
           const delim$1 = Stdlib__String.sub(delim, 1, delim.length - 2 | 0);
@@ -16227,12 +16227,12 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           store_string(delim$1);
           store_string_char(/* '}' */125);
           ___ocaml_lex_state = 132;
-          continue ;
+          continue;
       case 5 :
           update_loc(lexbuf, undefined, 1, false, 1);
           store_string(Stdlib__Lexing.lexeme(lexbuf));
           ___ocaml_lex_state = 132;
-          continue ;
+          continue;
       case 10 :
           const match$3 = comment_start_loc.contents;
           if (match$3) {
@@ -16259,7 +16259,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           update_loc(lexbuf, undefined, 1, false, 0);
           store_string(Stdlib__Lexing.lexeme(lexbuf));
           ___ocaml_lex_state = 132;
-          continue ;
+          continue;
       case 4 :
       case 6 :
       case 7 :
@@ -16268,11 +16268,11 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
       case 12 :
           store_string(Stdlib__Lexing.lexeme(lexbuf));
           ___ocaml_lex_state = 132;
-          continue ;
+          continue;
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -16286,7 +16286,7 @@ function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
           update_loc(lexbuf, undefined, 1, false, 0);
           store_string(Stdlib__Lexing.lexeme(lexbuf));
           ___ocaml_lex_state = 183;
-          continue ;
+          continue;
       case 1 :
           is_in_string.contents = false;
           throw new Caml_js_exceptions.MelangeError($$Error$2, {
@@ -16302,15 +16302,15 @@ function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
           }
           store_string(Stdlib__Lexing.lexeme(lexbuf));
           ___ocaml_lex_state = 183;
-          continue ;
+          continue;
       case 3 :
           store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
           ___ocaml_lex_state = 183;
-          continue ;
+          continue;
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -16334,7 +16334,7 @@ function skip_sharp_bang(lexbuf) {
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
+        continue;
     }
   };
 }
@@ -16435,10 +16435,10 @@ function interpret_directive(lexbuf, cont, look_ahead) {
                         return Curry._1(cont, lexbuf);
                       }
                       _param = undefined;
-                      continue ;
+                      continue;
                     }
                     _param = undefined;
-                    continue ;
+                    continue;
                   };
                 }
             
@@ -16492,7 +16492,7 @@ function interpret_directive(lexbuf, cont, look_ahead) {
                           });
                     }
                     _else_seen = true;
-                    continue ;
+                    continue;
                 case /* END */24 :
                     if_then_else.contents = /* Dir_out */2;
                     return Curry._1(cont, lexbuf);
@@ -16513,9 +16513,9 @@ function interpret_directive(lexbuf, cont, look_ahead) {
                     _2: curr(lexbuf)
                   });
             }
-            continue ;
+            continue;
           }
-          continue ;
+          continue;
         };
     case /* Dir_if_false */1 :
     case /* Dir_out */2 :
@@ -16594,7 +16594,7 @@ function token$1(lexbuf) {
                 
               }
               _lines = lines$p;
-              continue ;
+              continue;
           default:
             
         }
@@ -16618,7 +16618,7 @@ function token$1(lexbuf) {
                 
               }
               _lines = lines$p$1;
-              continue ;
+              continue;
           case /* DOCSTRING */19 :
               const doc$1 = doc._0;
               add_docstring_comment(doc$1);
@@ -16707,7 +16707,7 @@ function token$1(lexbuf) {
               }
               _docs = docs$p;
               _lines = /* NoLine */0;
-              continue ;
+              continue;
           default:
             
         }
@@ -16766,12 +16766,12 @@ function filter_directive(pos, acc, lexbuf) {
                       return filter_directive(pos, acc, lexbuf);
                     }));
             }
-            continue ;
+            continue;
         default:
-          continue ;
+          continue;
       }
     } else {
-      continue ;
+      continue;
     }
   };
 }
@@ -16831,7 +16831,7 @@ function skip_phrase(lexbuf) {
         let tmp = exn._1;
         if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
           if (tmp === /* Unterminated_string */0) {
-            continue ;
+            continue;
           }
           throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
         } else {
@@ -16839,7 +16839,7 @@ function skip_phrase(lexbuf) {
             case /* Illegal_character */0 :
             case /* Unterminated_comment */2 :
             case /* Unterminated_string_in_comment */3 :
-                continue ;
+                continue;
             default:
               throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
