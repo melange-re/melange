@@ -266,11 +266,11 @@ function throw_suites(test_id, suites, loc, x) {
 }
 
 export {
-  from_suites ,
-  from_pair_suites ,
-  from_promise_suites ,
-  eq_suites ,
-  bool_suites ,
-  throw_suites ,
+  from_suites,
+  from_pair_suites,
+  from_promise_suites,
+  eq_suites,
+  bool_suites,
+  throw_suites,
 }
 /* val_unit Not a pure module */
