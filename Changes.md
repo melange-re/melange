@@ -90,6 +90,8 @@ Unreleased
   JS objects ([#1286](https://github.com/melange-re/melange/pull/1286))
 - core: improve generated code formatting for empty return and continue
   statements ([#1288](https://github.com/melange-re/melange/pull/1288))
+- core: in generated code, remove trailing spaces before commas in `export`
+  ([#1287](https://github.com/melange-re/melange/pull/1287))
 
 4.0.1 2024-06-07
 ---------------
