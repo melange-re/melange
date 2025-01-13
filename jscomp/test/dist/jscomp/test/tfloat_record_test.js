@@ -16,11 +16,11 @@ const fmt = Stdlib__Format.formatter_of_buffer(buf);
 
 function print_float(f) {
   Curry._1(Stdlib__Format.fprintf(fmt)({
-            TAG: /* Format */0,
+            TAG: /* Format */ 0,
             _0: {
-              TAG: /* String */2,
-              _0: /* No_padding */0,
-              _1: /* End_of_format */0
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: /* End_of_format */ 0
             },
             _1: "%s"
           }), Stdlib.string_of_float(f));
@@ -28,11 +28,11 @@ function print_float(f) {
 
 function print_newline(param) {
   Stdlib__Format.fprintf(fmt)({
-        TAG: /* Format */0,
+        TAG: /* Format */ 0,
         _0: {
-          TAG: /* Char_literal */12,
+          TAG: /* Char_literal */ 12,
           _0: /* '\n' */10,
-          _1: /* End_of_format */0
+          _1: /* End_of_format */ 0
         },
         _1: "\n"
       });
@@ -63,7 +63,7 @@ print_array(b[0]);
 print_array(c[0]);
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {

@@ -10,7 +10,7 @@ const Stdlib = require("melange/stdlib.js");
 const Stdlib__List = require("melange/list.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -24,7 +24,7 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: x,
           _1: y
         };
@@ -324,7 +324,7 @@ Mt.from_promise_suites("Js_promise_basic_test", {
         "File \"jscomp/test/js_promise_basic_test.ml\", line 188, characters 5-12",
         twop.then(function (x) {
               return Promise.resolve({
-                    TAG: /* Eq */0,
+                    TAG: /* Eq */ 0,
                     _0: x,
                     _1: 2
                   });
@@ -335,13 +335,13 @@ Mt.from_promise_suites("Js_promise_basic_test", {
           "File \"jscomp/test/js_promise_basic_test.ml\", line 189, characters 5-12",
           twop.then(function (x) {
                 return Promise.resolve({
-                      TAG: /* Neq */1,
+                      TAG: /* Neq */ 1,
                       _0: x,
                       _1: 3
                     });
               })
         ],
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 

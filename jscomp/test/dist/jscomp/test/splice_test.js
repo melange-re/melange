@@ -6,7 +6,7 @@ const Caml_splice_call = require("melange.js/caml_splice_call.js");
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -46,7 +46,7 @@ function dynamic(arr) {
             hd: [1],
             tl: {
               hd: arr,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }));
 }
@@ -87,7 +87,7 @@ function dynamicNew(arr) {
             ],
             tl: {
               hd: arr,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }));
 }
@@ -125,7 +125,7 @@ function dynamic$1(arr) {
             hd: [1],
             tl: {
               hd: arr,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }));
 }

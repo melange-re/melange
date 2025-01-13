@@ -9,7 +9,7 @@ Mt.from_pair_suites("Closure", {
         "partial",
         (function (param) {
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: [
               Test_google_closure.a,
               Test_google_closure.b,
@@ -26,7 +26,7 @@ Mt.from_pair_suites("Closure", {
           };
         })
       ],
-      tl: /* [] */0
+      tl: /* [] */ 0
     });
 
 /*  Not a pure module */

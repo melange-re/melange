@@ -25,7 +25,7 @@ const suites_0 = [
   "sum",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: 55,
       _1: f(undefined)
     };
@@ -34,7 +34,7 @@ const suites_0 = [
 
 const suites = {
   hd: suites_0,
-  tl: /* [] */0
+  tl: /* [] */ 0
 };
 
 Mt.from_pair_suites("Loop_regression_test", suites);

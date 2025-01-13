@@ -65,7 +65,7 @@ function of_pair(param) {
       hd: param[0],
       tl: {
         hd: param[1],
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     }
   };
@@ -80,7 +80,7 @@ function of_triple(param) {
         hd: param[1],
         tl: {
           hd: param[2],
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     }
@@ -98,7 +98,7 @@ function of_quad(param) {
           hd: param[2],
           tl: {
             hd: param[3],
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }
       }
@@ -129,7 +129,7 @@ function of_field(name, t) {
       },
       tl: {
         hd: t,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     }
   };
@@ -163,7 +163,7 @@ function $great$great$eq(e, f) {
 }
 
 function map_opt(f, l) {
-  let _acc = /* [] */0;
+  let _acc = /* [] */ 0;
   let _l = l;
   while(true) {
     const l$1 = _l;
@@ -205,7 +205,7 @@ function list_any(f, e) {
 
 function list_all(f, e) {
   if (e.NAME === "List") {
-    let _acc = /* [] */0;
+    let _acc = /* [] */ 0;
     let _l = e.VAL;
     while(true) {
       const l = _l;
@@ -227,7 +227,7 @@ function list_all(f, e) {
       continue;
     };
   } else {
-    return /* [] */0;
+    return /* [] */ 0;
   }
 }
 
@@ -469,7 +469,7 @@ function _get_variant(s, args, _l) {
 
 function get_variant(l, e) {
   if (e.NAME !== "List") {
-    return _get_variant(e.VAL, /* [] */0, l);
+    return _get_variant(e.VAL, /* [] */ 0, l);
   }
   const match = e.VAL;
   if (!match) {
@@ -495,7 +495,7 @@ function get_exn(e) {
 
 const of_unit = {
   NAME: "List",
-  VAL: /* [] */0
+  VAL: /* [] */ 0
 };
 
 const Traverse = {

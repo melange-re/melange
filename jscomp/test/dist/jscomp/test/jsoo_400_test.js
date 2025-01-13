@@ -20,14 +20,14 @@ Mt.from_pair_suites("Jsoo_400_test", {
         "File \"jscomp/test/jsoo_400_test.ml\", line 8, characters 3-10",
         (function (param) {
           return {
-            TAG: /* ThrowAny */7,
+            TAG: /* ThrowAny */ 7,
             _0: (function (param) {
               u(undefined);
             })
           };
         })
       ],
-      tl: /* [] */0
+      tl: /* [] */ 0
     });
 
 exports.u = u;

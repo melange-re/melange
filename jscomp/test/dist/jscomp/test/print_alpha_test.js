@@ -14,7 +14,7 @@ Mt.from_pair_suites("Print_alpha_test", {
         "File \"jscomp/test/print_alpha_test.ml\", line 15, characters 4-11",
         (function (param) {
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: f((function (prim0, prim1) {
                     return prim0 + prim1 | 0;
                   }), undefined)(1, 2),
@@ -22,7 +22,7 @@ Mt.from_pair_suites("Print_alpha_test", {
           };
         })
       ],
-      tl: /* [] */0
+      tl: /* [] */ 0
     });
 
 exports.f = f;

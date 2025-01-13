@@ -48,7 +48,7 @@ function compilerBug(a, b, c, f) {
 }
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {

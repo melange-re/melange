@@ -8,7 +8,7 @@ const suites_0 = [
   "string_of_float_1",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: "10.",
       _1: Stdlib.string_of_float(10)
     };
@@ -20,7 +20,7 @@ const suites_1 = {
     "string_of_int",
     (function (param) {
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: "10",
         _1: String(10)
       };
@@ -31,13 +31,13 @@ const suites_1 = {
       "valid_float_lexem",
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: "10.",
           _1: Stdlib.valid_float_lexem("10")
         };
       })
     ],
-    tl: /* [] */0
+    tl: /* [] */ 0
   }
 };
 

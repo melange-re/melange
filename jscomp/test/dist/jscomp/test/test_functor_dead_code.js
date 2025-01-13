@@ -4,14 +4,14 @@
 const Curry = require("melange.js/curry.js");
 
 function is_empty(param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     return true;
   } else {
     return false;
   }
 }
 
-const v = Curry._1(is_empty, /* Empty */0);
+const v = Curry._1(is_empty, /* Empty */ 0);
 
 exports.v = v;
 /* M Not a pure module */

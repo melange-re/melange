@@ -157,7 +157,7 @@ function for_8(param) {
 
 function for_9(param) {
   const v = {
-    contents: /* [] */0
+    contents: /* [] */ 0
   };
   const collect = function (x) {
     v.contents = {
@@ -210,7 +210,7 @@ const suites_0 = [
   "for_loop_test_3",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: 90,
       _1: for_3(Caml_array.make(10, 2))
     };
@@ -222,7 +222,7 @@ const suites_1 = {
     "for_loop_test_4",
     (function (param) {
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: 180,
         _1: for_4(Caml_array.make(10, 2))
       };
@@ -233,7 +233,7 @@ const suites_1 = {
       "for_loop_test_5",
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: 2420,
           _1: for_5(Caml_array.make(10, 2), 11)
         };
@@ -244,7 +244,7 @@ const suites_1 = {
         "for_loop_test_6",
         (function (param) {
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: [
               30,
               1,
@@ -260,7 +260,7 @@ const suites_1 = {
           "for_loop_test_7",
           (function (param) {
             return {
-              TAG: /* Eq */0,
+              TAG: /* Eq */ 0,
               _0: 84,
               _1: for_7(undefined)
             };
@@ -271,7 +271,7 @@ const suites_1 = {
             "for_loop_test_8",
             (function (param) {
               return {
-                TAG: /* Eq */0,
+                TAG: /* Eq */ 0,
                 _0: 294,
                 _1: for_8(undefined)
               };
@@ -282,7 +282,7 @@ const suites_1 = {
               "for_loop_test_9",
               (function (param) {
                 return {
-                  TAG: /* Eq */0,
+                  TAG: /* Eq */ 0,
                   _0: [[
                       10,
                       [
@@ -297,7 +297,7 @@ const suites_1 = {
                 };
               })
             ],
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }
       }

@@ -4,7 +4,7 @@
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -41,7 +41,7 @@ function fn(authState, route) {
       if (route === "SignUp" || route === "SignIn" || route === "Invite" || route === "PasswordReset") {
         div({
               hd: string("LoggedOut"),
-              tl: /* [] */0
+              tl: /* [] */ 0
             }, undefined);
         return 1;
       }
@@ -54,7 +54,7 @@ function fn(authState, route) {
     if (exit === 2) {
       div({
             hd: string("Redirect"),
-            tl: /* [] */0
+            tl: /* [] */ 0
           }, undefined);
       return 3;
     }
@@ -70,7 +70,7 @@ function fn(authState, route) {
       console.log(authState.VAL);
       div({
             hd: string("VerifyEmail"),
-            tl: /* [] */0
+            tl: /* [] */ 0
           }, undefined);
       return 2;
     }
@@ -79,7 +79,7 @@ function fn(authState, route) {
   console.log(onboardingRoute);
   div({
         hd: string("Onboarding"),
-        tl: /* [] */0
+        tl: /* [] */ 0
       }, undefined);
   return 0;
 }

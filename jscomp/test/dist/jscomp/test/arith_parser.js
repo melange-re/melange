@@ -57,14 +57,14 @@ const yyact = [
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     return {
-      TAG: /* Numeral */0,
+      TAG: /* Numeral */ 0,
       _0: _1
     };
   }),
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     return {
-      TAG: /* Variable */6,
+      TAG: /* Variable */ 6,
       _0: _1
     };
   }),
@@ -72,7 +72,7 @@ const yyact = [
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     return {
-      TAG: /* Plus */1,
+      TAG: /* Plus */ 1,
       _0: _1,
       _1: _3
     };
@@ -81,7 +81,7 @@ const yyact = [
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     return {
-      TAG: /* Minus */2,
+      TAG: /* Minus */ 2,
       _0: _1,
       _1: _3
     };
@@ -90,7 +90,7 @@ const yyact = [
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     return {
-      TAG: /* Times */3,
+      TAG: /* Times */ 3,
       _0: _1,
       _1: _3
     };
@@ -99,7 +99,7 @@ const yyact = [
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     return {
-      TAG: /* Divide */4,
+      TAG: /* Divide */ 4,
       _0: _1,
       _1: _3
     };
@@ -107,7 +107,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     return {
-      TAG: /* Negate */5,
+      TAG: /* Negate */ 5,
       _0: _2
     };
   }),

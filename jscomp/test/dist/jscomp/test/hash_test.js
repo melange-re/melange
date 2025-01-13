@@ -10,7 +10,7 @@ const Stdlib__Char = require("melange/char.js");
 const Stdlib__Hashtbl = require("melange/hashtbl.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {

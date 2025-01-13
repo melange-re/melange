@@ -12,14 +12,14 @@ const suites_0 = [
     const result = re.exec("3-");
     if (result === null) {
       return {
-        TAG: /* Fail */8,
+        TAG: /* Fail */ 8,
         _0: undefined
       };
     }
     const defined = Caml_array.get(result, 1);
     const $$undefined = Caml_array.get(result, 2);
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: [
         "3",
         null
@@ -44,7 +44,7 @@ const suites_1 = {
         
       };
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: contentOf("div", "<div>Hi</div>"),
         _1: "Hi"
       };
@@ -57,13 +57,13 @@ const suites_1 = {
         const res = /[^.]+/.exec("http://xxx.domain.com");
         if (res !== null) {
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: "http://xxx",
             _1: Caml_array.get(res, 0)
           };
         } else {
           return {
-            TAG: /* FailWith */9,
+            TAG: /* FailWith */ 9,
             _0: "regex should match"
           };
         }
@@ -76,12 +76,12 @@ const suites_1 = {
           const match = /https:\/\/(.*)/.exec("http://xxx.domain.com");
           if (match !== null) {
             return {
-              TAG: /* FailWith */9,
+              TAG: /* FailWith */ 9,
               _0: "regex should not match"
             };
           } else {
             return {
-              TAG: /* Ok */4,
+              TAG: /* Ok */ 4,
               _0: true
             };
           }
@@ -93,7 +93,7 @@ const suites_1 = {
           (function (param) {
             const res = new RegExp("foo").test("#foo#");
             return {
-              TAG: /* Eq */0,
+              TAG: /* Eq */ 0,
               _0: true,
               _1: res
             };
@@ -105,7 +105,7 @@ const suites_1 = {
             (function (param) {
               const res = new RegExp("foo", "g");
               return {
-                TAG: /* Eq */0,
+                TAG: /* Eq */ 0,
                 _0: true,
                 _1: res.global
               };
@@ -118,13 +118,13 @@ const suites_1 = {
                 const res = new RegExp("zbar").exec("foobarbazbar");
                 if (res !== null) {
                   return {
-                    TAG: /* Eq */0,
+                    TAG: /* Eq */ 0,
                     _0: 8,
                     _1: res.index
                   };
                 } else {
                   return {
-                    TAG: /* Fail */8,
+                    TAG: /* Fail */ 8,
                     _0: undefined
                   };
                 }
@@ -138,13 +138,13 @@ const suites_1 = {
                   const res = /foo/g.exec(input);
                   if (res !== null) {
                     return {
-                      TAG: /* Eq */0,
+                      TAG: /* Eq */ 0,
                       _0: input,
                       _1: res.input
                     };
                   } else {
                     return {
-                      TAG: /* Fail */8,
+                      TAG: /* Fail */ 8,
                       _0: undefined
                     };
                   }
@@ -155,7 +155,7 @@ const suites_1 = {
                   "t_flags",
                   (function (param) {
                     return {
-                      TAG: /* Eq */0,
+                      TAG: /* Eq */ 0,
                       _0: "gi",
                       _1: /./ig.flags
                     };
@@ -166,7 +166,7 @@ const suites_1 = {
                     "t_global",
                     (function (param) {
                       return {
-                        TAG: /* Eq */0,
+                        TAG: /* Eq */ 0,
                         _0: true,
                         _1: /./ig.global
                       };
@@ -177,7 +177,7 @@ const suites_1 = {
                       "t_ignoreCase",
                       (function (param) {
                         return {
-                          TAG: /* Eq */0,
+                          TAG: /* Eq */ 0,
                           _0: true,
                           _1: /./ig.ignoreCase
                         };
@@ -190,7 +190,7 @@ const suites_1 = {
                           const re = /na/g;
                           re.exec("banana");
                           return {
-                            TAG: /* Eq */0,
+                            TAG: /* Eq */ 0,
                             _0: 4,
                             _1: re.lastIndex
                           };
@@ -205,7 +205,7 @@ const suites_1 = {
                             re.lastIndex = 42;
                             const after = re.lastIndex;
                             return {
-                              TAG: /* Eq */0,
+                              TAG: /* Eq */ 0,
                               _0: [
                                 0,
                                 42
@@ -222,7 +222,7 @@ const suites_1 = {
                             "t_multiline",
                             (function (param) {
                               return {
-                                TAG: /* Eq */0,
+                                TAG: /* Eq */ 0,
                                 _0: false,
                                 _1: /./ig.multiline
                               };
@@ -233,7 +233,7 @@ const suites_1 = {
                               "t_source",
                               (function (param) {
                                 return {
-                                  TAG: /* Eq */0,
+                                  TAG: /* Eq */ 0,
                                   _0: "f.+o",
                                   _1: /f.+o/ig.source
                                 };
@@ -244,7 +244,7 @@ const suites_1 = {
                                 "t_sticky",
                                 (function (param) {
                                   return {
-                                    TAG: /* Eq */0,
+                                    TAG: /* Eq */ 0,
                                     _0: true,
                                     _1: /./yg.sticky
                                   };
@@ -255,13 +255,13 @@ const suites_1 = {
                                   "t_unicode",
                                   (function (param) {
                                     return {
-                                      TAG: /* Eq */0,
+                                      TAG: /* Eq */ 0,
                                       _0: false,
                                       _1: /./yg.unicode
                                     };
                                   })
                                 ],
-                                tl: /* [] */0
+                                tl: /* [] */ 0
                               }
                             }
                           }

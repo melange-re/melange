@@ -6,7 +6,7 @@ const Js__Js_dict = require("melange.js/js_dict.js");
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {

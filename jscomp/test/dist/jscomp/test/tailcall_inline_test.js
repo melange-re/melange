@@ -29,7 +29,7 @@ const suites_0 = [
   "acc",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: f(undefined),
       _1: [
         0,
@@ -52,14 +52,14 @@ const suites_1 = {
     "array_to_list",
     (function (param) {
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: {
           hd: 1,
           tl: {
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         },
@@ -71,7 +71,7 @@ const suites_1 = {
       };
     })
   ],
-  tl: /* [] */0
+  tl: /* [] */ 0
 };
 
 const suites = {

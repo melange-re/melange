@@ -5,7 +5,7 @@ const Mt = require("./mt.js");
 const Stdlib__Int32 = require("melange/int32.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -19,7 +19,7 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: x,
           _1: y
         };

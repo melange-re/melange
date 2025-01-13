@@ -23,7 +23,7 @@ const suites_0 = [
     ];
     const map = new Map(array);
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: array,
       _1: Array.from(map)
     };
@@ -36,7 +36,7 @@ const suites_1 = {
     (function (param) {
       const map = new Map();
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: 0,
         _1: map.size
       };
@@ -61,7 +61,7 @@ const suites_1 = {
               ]
             ]);
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: 2,
           _1: map.size
         };
@@ -82,7 +82,7 @@ const suites_1 = {
                 ]
               ]);
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: 1,
             _1: map.size
           };
@@ -103,7 +103,7 @@ const suites_1 = {
                   ]
                 ]);
             return {
-              TAG: /* Eq */0,
+              TAG: /* Eq */ 0,
               _0: true,
               _1: map.has(1)
             };
@@ -124,7 +124,7 @@ const suites_1 = {
                     ]
                   ]);
               return {
-                TAG: /* Eq */0,
+                TAG: /* Eq */ 0,
                 _0: false,
                 _1: map.has(3)
               };
@@ -148,7 +148,7 @@ const suites_1 = {
                 const two = map.get(2);
                 const three = map.get(3);
                 return {
-                  TAG: /* Eq */0,
+                  TAG: /* Eq */ 0,
                   _0: [
                     "one",
                     "two",
@@ -168,7 +168,7 @@ const suites_1 = {
                 (function (param) {
                   const map = new Map().set(1, "one").set(2, "two");
                   return {
-                    TAG: /* Eq */0,
+                    TAG: /* Eq */ 0,
                     _0: [
                       [
                         1,
@@ -199,7 +199,7 @@ const suites_1 = {
                         ]);
                     const deleted = map.delete(2);
                     return {
-                      TAG: /* Eq */0,
+                      TAG: /* Eq */ 0,
                       _0: [
                         true,
                         false
@@ -227,7 +227,7 @@ const suites_1 = {
                           ]);
                       map.clear();
                       return {
-                        TAG: /* Eq */0,
+                        TAG: /* Eq */ 0,
                         _0: 0,
                         _1: map.size
                       };
@@ -243,7 +243,7 @@ const suites_1 = {
                         const all_same_size = map_1.size === 2 && map_2.size === 2 && map_3.size === 2;
                         const all_same_ref = map_1 === map_2 && map_2 === map_3;
                         return {
-                          TAG: /* Eq */0,
+                          TAG: /* Eq */ 0,
                           _0: [
                             true,
                             true
@@ -279,7 +279,7 @@ const suites_1 = {
                                     ]);
                               });
                           return {
-                            TAG: /* Eq */0,
+                            TAG: /* Eq */ 0,
                             _0: [
                               [
                                 1,
@@ -309,7 +309,7 @@ const suites_1 = {
                                         ]
                                       ]).keys());
                             return {
-                              TAG: /* Eq */0,
+                              TAG: /* Eq */ 0,
                               _0: [
                                 1,
                                 2
@@ -333,7 +333,7 @@ const suites_1 = {
                                           ]
                                         ]).values());
                               return {
-                                TAG: /* Eq */0,
+                                TAG: /* Eq */ 0,
                                 _0: [
                                   "one",
                                   "two"
@@ -358,13 +358,13 @@ const suites_1 = {
                                 ];
                                 const entries = Array.from(new Map(array).entries());
                                 return {
-                                  TAG: /* Eq */0,
+                                  TAG: /* Eq */ 0,
                                   _0: array,
                                   _1: entries
                                 };
                               })
                             ],
-                            tl: /* [] */0
+                            tl: /* [] */ 0
                           }
                         }
                       }

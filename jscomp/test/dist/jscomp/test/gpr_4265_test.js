@@ -6,7 +6,7 @@ const Belt__Belt_internalMapInt = require("melange.belt/belt_internalMapInt.js")
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {

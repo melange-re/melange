@@ -13,7 +13,7 @@ const current = {
 };
 
 const accum = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 function record(fmt) {
@@ -27,11 +27,11 @@ function record(fmt) {
 
 function f_unit(param) {
   record({
-        TAG: /* Format */0,
+        TAG: /* Format */ 0,
         _0: {
-          TAG: /* String_literal */11,
+          TAG: /* String_literal */ 11,
           _0: "unit()",
-          _1: /* End_of_format */0
+          _1: /* End_of_format */ 0
         },
         _1: "unit()"
       });
@@ -39,17 +39,17 @@ function f_unit(param) {
 
 function f_bool(b) {
   Curry._1(record({
-            TAG: /* Format */0,
+            TAG: /* Format */ 0,
             _0: {
-              TAG: /* String_literal */11,
+              TAG: /* String_literal */ 11,
               _0: "bool(",
               _1: {
-                TAG: /* Bool */9,
-                _0: /* No_padding */0,
+                TAG: /* Bool */ 9,
+                _0: /* No_padding */ 0,
                 _1: {
-                  TAG: /* Char_literal */12,
+                  TAG: /* Char_literal */ 12,
                   _0: /* ')' */41,
-                  _1: /* End_of_format */0
+                  _1: /* End_of_format */ 0
                 }
               }
             },
@@ -67,17 +67,17 @@ const r_clear = {
 
 function f_string(s) {
   Curry._1(record({
-            TAG: /* Format */0,
+            TAG: /* Format */ 0,
             _0: {
-              TAG: /* String_literal */11,
+              TAG: /* String_literal */ 11,
               _0: "string(",
               _1: {
-                TAG: /* String */2,
-                _0: /* No_padding */0,
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
                 _1: {
-                  TAG: /* Char_literal */12,
+                  TAG: /* Char_literal */ 12,
                   _0: /* ')' */41,
-                  _1: /* End_of_format */0
+                  _1: /* End_of_format */ 0
                 }
               }
             },
@@ -91,19 +91,19 @@ const r_string = {
 
 function f_int(i) {
   Curry._1(record({
-            TAG: /* Format */0,
+            TAG: /* Format */ 0,
             _0: {
-              TAG: /* String_literal */11,
+              TAG: /* String_literal */ 11,
               _0: "int(",
               _1: {
-                TAG: /* Int */4,
-                _0: /* Int_d */0,
-                _1: /* No_padding */0,
-                _2: /* No_precision */0,
+                TAG: /* Int */ 4,
+                _0: /* Int_d */ 0,
+                _1: /* No_padding */ 0,
+                _2: /* No_precision */ 0,
                 _3: {
-                  TAG: /* Char_literal */12,
+                  TAG: /* Char_literal */ 12,
                   _0: /* ')' */41,
-                  _1: /* End_of_format */0
+                  _1: /* End_of_format */ 0
                 }
               }
             },
@@ -117,22 +117,22 @@ const r_int = {
 
 function f_float(f) {
   Curry._1(record({
-            TAG: /* Format */0,
+            TAG: /* Format */ 0,
             _0: {
-              TAG: /* String_literal */11,
+              TAG: /* String_literal */ 11,
               _0: "float(",
               _1: {
-                TAG: /* Float */8,
+                TAG: /* Float */ 8,
                 _0: [
-                  /* Float_flag_ */0,
-                  /* Float_g */3
+                  /* Float_flag_ */ 0,
+                  /* Float_g */ 3
                 ],
-                _1: /* No_padding */0,
-                _2: /* No_precision */0,
+                _1: /* No_padding */ 0,
+                _2: /* No_precision */ 0,
                 _3: {
-                  TAG: /* Char_literal */12,
+                  TAG: /* Char_literal */ 12,
                   _0: /* ')' */41,
-                  _1: /* End_of_format */0
+                  _1: /* End_of_format */ 0
                 }
               }
             },
@@ -146,17 +146,17 @@ const r_float = {
 
 function f_symbol(s) {
   Curry._1(record({
-            TAG: /* Format */0,
+            TAG: /* Format */ 0,
             _0: {
-              TAG: /* String_literal */11,
+              TAG: /* String_literal */ 11,
               _0: "symbol(",
               _1: {
-                TAG: /* String */2,
-                _0: /* No_padding */0,
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
                 _1: {
-                  TAG: /* Char_literal */12,
+                  TAG: /* Char_literal */ 12,
                   _0: /* ')' */41,
-                  _1: /* End_of_format */0
+                  _1: /* End_of_format */ 0
                 }
               }
             },
@@ -166,17 +166,17 @@ function f_symbol(s) {
 
 function f_rest(s) {
   Curry._1(record({
-            TAG: /* Format */0,
+            TAG: /* Format */ 0,
             _0: {
-              TAG: /* String_literal */11,
+              TAG: /* String_literal */ 11,
               _0: "rest(",
               _1: {
-                TAG: /* String */2,
-                _0: /* No_padding */0,
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
                 _1: {
-                  TAG: /* Char_literal */12,
+                  TAG: /* Char_literal */ 12,
                   _0: /* ')' */41,
-                  _1: /* End_of_format */0
+                  _1: /* End_of_format */ 0
                 }
               }
             },
@@ -186,17 +186,17 @@ function f_rest(s) {
 
 function f_anon(s) {
   Curry._1(record({
-            TAG: /* Format */0,
+            TAG: /* Format */ 0,
             _0: {
-              TAG: /* String_literal */11,
+              TAG: /* String_literal */ 11,
               _0: "anon(",
               _1: {
-                TAG: /* String */2,
-                _0: /* No_padding */0,
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
                 _1: {
-                  TAG: /* Char_literal */12,
+                  TAG: /* Char_literal */ 12,
                   _0: /* ')' */41,
-                  _1: /* End_of_format */0
+                  _1: /* End_of_format */ 0
                 }
               }
             },
@@ -207,7 +207,7 @@ function f_anon(s) {
 const spec_0 = [
   "-u",
   {
-    TAG: /* Unit */0,
+    TAG: /* Unit */ 0,
     _0: f_unit
   },
   "Unit (0)"
@@ -217,7 +217,7 @@ const spec_1 = {
   hd: [
     "-b",
     {
-      TAG: /* Bool */1,
+      TAG: /* Bool */ 1,
       _0: f_bool
     },
     "Bool (1)"
@@ -226,7 +226,7 @@ const spec_1 = {
     hd: [
       "-s",
       {
-        TAG: /* Set */2,
+        TAG: /* Set */ 2,
         _0: r_set
       },
       "Set (0)"
@@ -235,7 +235,7 @@ const spec_1 = {
       hd: [
         "-c",
         {
-          TAG: /* Clear */3,
+          TAG: /* Clear */ 3,
           _0: r_clear
         },
         "Clear (0)"
@@ -244,7 +244,7 @@ const spec_1 = {
         hd: [
           "-str",
           {
-            TAG: /* String */4,
+            TAG: /* String */ 4,
             _0: f_string
           },
           "String (1)"
@@ -253,7 +253,7 @@ const spec_1 = {
           hd: [
             "-sstr",
             {
-              TAG: /* Set_string */5,
+              TAG: /* Set_string */ 5,
               _0: r_string
             },
             "Set_string (1)"
@@ -262,7 +262,7 @@ const spec_1 = {
             hd: [
               "-i",
               {
-                TAG: /* Int */6,
+                TAG: /* Int */ 6,
                 _0: f_int
               },
               "Int (1)"
@@ -271,7 +271,7 @@ const spec_1 = {
               hd: [
                 "-si",
                 {
-                  TAG: /* Set_int */7,
+                  TAG: /* Set_int */ 7,
                   _0: r_int
                 },
                 "Set_int (1)"
@@ -280,7 +280,7 @@ const spec_1 = {
                 hd: [
                   "-f",
                   {
-                    TAG: /* Float */8,
+                    TAG: /* Float */ 8,
                     _0: f_float
                   },
                   "Float (1)"
@@ -289,7 +289,7 @@ const spec_1 = {
                   hd: [
                     "-sf",
                     {
-                      TAG: /* Set_float */9,
+                      TAG: /* Set_float */ 9,
                       _0: r_float
                     },
                     "Set_float (1)"
@@ -298,23 +298,23 @@ const spec_1 = {
                     hd: [
                       "-t",
                       {
-                        TAG: /* Tuple */10,
+                        TAG: /* Tuple */ 10,
                         _0: {
                           hd: {
-                            TAG: /* Bool */1,
+                            TAG: /* Bool */ 1,
                             _0: f_bool
                           },
                           tl: {
                             hd: {
-                              TAG: /* String */4,
+                              TAG: /* String */ 4,
                               _0: f_string
                             },
                             tl: {
                               hd: {
-                                TAG: /* Int */6,
+                                TAG: /* Int */ 6,
                                 _0: f_int
                               },
-                              tl: /* [] */0
+                              tl: /* [] */ 0
                             }
                           }
                         }
@@ -325,14 +325,14 @@ const spec_1 = {
                       hd: [
                         "-sym",
                         {
-                          TAG: /* Symbol */11,
+                          TAG: /* Symbol */ 11,
                           _0: {
                             hd: "a",
                             tl: {
                               hd: "b",
                               tl: {
                                 hd: "c",
-                                tl: /* [] */0
+                                tl: /* [] */ 0
                               }
                             }
                           },
@@ -344,12 +344,12 @@ const spec_1 = {
                         hd: [
                           "-rest",
                           {
-                            TAG: /* Rest */12,
+                            TAG: /* Rest */ 12,
                             _0: f_rest
                           },
                           "Rest (*)"
                         ],
-                        tl: /* [] */0
+                        tl: /* [] */ 0
                       }
                     }
                   }
@@ -430,17 +430,17 @@ const args2 = [
 
 function error(s) {
   Curry._1(Stdlib__Printf.printf({
-            TAG: /* Format */0,
+            TAG: /* Format */ 0,
             _0: {
-              TAG: /* String_literal */11,
+              TAG: /* String_literal */ 11,
               _0: "error (",
               _1: {
-                TAG: /* String */2,
-                _0: /* No_padding */0,
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
                 _1: {
-                  TAG: /* String_literal */11,
+                  TAG: /* String_literal */ 11,
                   _0: ")\n",
-                  _1: /* End_of_format */0
+                  _1: /* End_of_format */ 0
                 }
               }
             },
@@ -462,7 +462,7 @@ function test(argv) {
   r_string.contents = "";
   r_int.contents = 0;
   r_float.contents = 0.0;
-  accum.contents = /* [] */0;
+  accum.contents = /* [] */ 0;
   Stdlib__Arg.parse_argv(current, argv, spec, f_anon, "usage");
   const result = Stdlib__List.rev(accum.contents);
   const reference = {
@@ -495,7 +495,7 @@ function test(argv) {
                               hd: "rest(r1)",
                               tl: {
                                 hd: "rest(r2)",
-                                tl: /* [] */0
+                                tl: /* [] */ 0
                               }
                             }
                           }
@@ -514,35 +514,35 @@ function test(argv) {
   if (Caml_obj.caml_notequal(result, reference)) {
     const f = function (x, y) {
       Curry._3(Stdlib__Printf.printf({
-                TAG: /* Format */0,
+                TAG: /* Format */ 0,
                 _0: {
-                  TAG: /* String */2,
+                  TAG: /* String */ 2,
                   _0: {
-                    TAG: /* Lit_padding */0,
-                    _0: /* Right */1,
+                    TAG: /* Lit_padding */ 0,
+                    _0: /* Right */ 1,
                     _1: 20
                   },
                   _1: {
-                    TAG: /* Char_literal */12,
+                    TAG: /* Char_literal */ 12,
                     _0: /* ' ' */32,
                     _1: {
-                      TAG: /* Char */0,
+                      TAG: /* Char */ 0,
                       _0: {
-                        TAG: /* Char_literal */12,
+                        TAG: /* Char_literal */ 12,
                         _0: /* ' ' */32,
                         _1: {
-                          TAG: /* String */2,
+                          TAG: /* String */ 2,
                           _0: {
-                            TAG: /* Lit_padding */0,
-                            _0: /* Left */0,
+                            TAG: /* Lit_padding */ 0,
+                            _0: /* Left */ 0,
                             _1: 20
                           },
                           _1: {
-                            TAG: /* Char_literal */12,
+                            TAG: /* Char_literal */ 12,
                             _0: /* '\n' */10,
                             _1: {
-                              TAG: /* Flush */10,
-                              _0: /* End_of_format */0
+                              TAG: /* Flush */ 10,
+                              _0: /* End_of_format */ 0
                             }
                           }
                         }
@@ -566,9 +566,9 @@ test(args1);
 
 test(args2);
 
-Mt.from_pair_suites("Libarg_test", /* [] */0);
+Mt.from_pair_suites("Libarg_test", /* [] */ 0);
 
-const suites = /* [] */0;
+const suites = /* [] */ 0;
 
 exports.current = current;
 exports.accum = accum;

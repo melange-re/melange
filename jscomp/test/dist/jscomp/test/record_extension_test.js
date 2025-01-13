@@ -8,7 +8,7 @@ const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -19,7 +19,7 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-const Inline_record = /* @__PURE__ */Caml_exceptions.create("Record_extension_test.Inline_record");
+const Inline_record = /* @__PURE__ */ Caml_exceptions.create("Record_extension_test.Inline_record");
 
 function f(x) {
   if (x.MEL_EXN_ID === Inline_record) {
@@ -37,7 +37,7 @@ const v0 = {
 eq("File \"jscomp/test/record_extension_test.ml\", line 18, characters 6-13", f(v0), 7);
 
 function f2(x) {
-  if (/* tag */typeof x === "number" || typeof x === "string" || x.TAG !== /* C */0) {
+  if (/* tag */ typeof x === "number" || typeof x === "string" || x.TAG !== /* C */ 0) {
     return 0;
   } else {
     return x.x;
@@ -45,22 +45,22 @@ function f2(x) {
 }
 
 function f2_with(x) {
-  if (/* tag */typeof x === "number" || typeof x === "string" || x.TAG !== /* C */0) {
+  if (/* tag */ typeof x === "number" || typeof x === "string" || x.TAG !== /* C */ 0) {
     return x;
   } else {
     return {
-      TAG: /* C */0,
+      TAG: /* C */ 0,
       x: 0,
       y: x.y
     };
   }
 }
 
-const A = /* @__PURE__ */Caml_exceptions.create("Record_extension_test.A");
+const A = /* @__PURE__ */ Caml_exceptions.create("Record_extension_test.A");
 
-const B = /* @__PURE__ */Caml_exceptions.create("Record_extension_test.B");
+const B = /* @__PURE__ */ Caml_exceptions.create("Record_extension_test.B");
 
-const C = /* @__PURE__ */Caml_exceptions.create("Record_extension_test.C");
+const C = /* @__PURE__ */ Caml_exceptions.create("Record_extension_test.C");
 
 function u(f) {
   try {

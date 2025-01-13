@@ -96,21 +96,21 @@ function from_of_string(xs) {
             const a = param[0];
             return [
               Curry._1(Stdlib__Printf.sprintf({
-                        TAG: /* Format */0,
+                        TAG: /* Format */ 0,
                         _0: {
-                          TAG: /* String_literal */11,
+                          TAG: /* String_literal */ 11,
                           _0: "of_string ",
                           _1: {
-                            TAG: /* Scan_get_counter */21,
-                            _0: /* Token_counter */2,
-                            _1: /* End_of_format */0
+                            TAG: /* Scan_get_counter */ 21,
+                            _0: /* Token_counter */ 2,
+                            _1: /* End_of_format */ 0
                           }
                         },
                         _1: "of_string %L"
                       }), i),
               (function (param) {
                 return {
-                  TAG: /* Eq */0,
+                  TAG: /* Eq */ 0,
                   _0: Caml_format.caml_int_of_string(b),
                   _1: a
                 };
@@ -121,17 +121,17 @@ function from_of_string(xs) {
 
 function u(v) {
   return Curry._1(Stdlib__Printf.sprintf({
-            TAG: /* Format */0,
+            TAG: /* Format */ 0,
             _0: {
-              TAG: /* Int */4,
-              _0: /* Int_d */0,
+              TAG: /* Int */ 4,
+              _0: /* Int_d */ 0,
               _1: {
-                TAG: /* Lit_padding */0,
-                _0: /* Right */1,
+                TAG: /* Lit_padding */ 0,
+                _0: /* Right */ 1,
                 _1: 33
               },
-              _2: /* No_precision */0,
-              _3: /* End_of_format */0
+              _2: /* No_precision */ 0,
+              _3: /* End_of_format */ 0
             },
             _1: "%33d"
           }), v);
@@ -140,40 +140,40 @@ function u(v) {
 const to_str = Caml_format.caml_int_of_string;
 
 const v = Curry._1(Stdlib__Printf.sprintf({
-          TAG: /* Format */0,
+          TAG: /* Format */ 0,
           _0: {
-            TAG: /* Int */4,
-            _0: /* Int_d */0,
+            TAG: /* Int */ 4,
+            _0: /* Int_d */ 0,
             _1: {
-              TAG: /* Lit_padding */0,
-              _0: /* Right */1,
+              TAG: /* Lit_padding */ 0,
+              _0: /* Right */ 1,
               _1: 3
             },
-            _2: /* No_precision */0,
-            _3: /* End_of_format */0
+            _2: /* No_precision */ 0,
+            _3: /* End_of_format */ 0
           },
           _1: "%3d"
         }), 3333);
 
 const pairs = [
   [
-    /* FP_infinite */3,
+    /* FP_infinite */ 3,
     "infinity"
   ],
   [
-    /* FP_infinite */3,
+    /* FP_infinite */ 3,
     "+infinity"
   ],
   [
-    /* FP_infinite */3,
+    /* FP_infinite */ 3,
     "-infinity"
   ],
   [
-    /* FP_zero */2,
+    /* FP_zero */ 2,
     "0"
   ],
   [
-    /* FP_zero */2,
+    /* FP_zero */ 2,
     "0."
   ]
 ];
@@ -198,35 +198,35 @@ const suites = Stdlib.$at(from_of_string(of_string), Stdlib.$at({
             "isnan_of_string",
             (function (param) {
               return {
-                TAG: /* Eq */0,
+                TAG: /* Eq */ 0,
                 _0: true,
-                _1: Stdlib.classify_float(Caml_format.caml_float_of_string("nan")) === /* FP_nan */4
+                _1: Stdlib.classify_float(Caml_format.caml_float_of_string("nan")) === /* FP_nan */ 4
               };
             })
           ],
-          tl: /* [] */0
+          tl: /* [] */ 0
         }, Stdlib.$at(Stdlib__Array.to_list(Stdlib__Array.mapi((function (i, param) {
                       const b = param[1];
                       const a = param[0];
                       return [
                         Curry._1(Stdlib__Printf.sprintf({
-                                  TAG: /* Format */0,
+                                  TAG: /* Format */ 0,
                                   _0: {
-                                    TAG: /* String_literal */11,
+                                    TAG: /* String_literal */ 11,
                                     _0: "infinity_of_string ",
                                     _1: {
-                                      TAG: /* Int */4,
-                                      _0: /* Int_d */0,
-                                      _1: /* No_padding */0,
-                                      _2: /* No_precision */0,
-                                      _3: /* End_of_format */0
+                                      TAG: /* Int */ 4,
+                                      _0: /* Int_d */ 0,
+                                      _1: /* No_padding */ 0,
+                                      _2: /* No_precision */ 0,
+                                      _3: /* End_of_format */ 0
                                     }
                                   },
                                   _1: "infinity_of_string %d"
                                 }), i),
                         (function (param) {
                           return {
-                            TAG: /* Eq */0,
+                            TAG: /* Eq */ 0,
                             _0: a,
                             _1: Stdlib.classify_float(Caml_format.caml_float_of_string(b))
                           };
@@ -237,7 +237,7 @@ const suites = Stdlib.$at(from_of_string(of_string), Stdlib.$at({
                     "throw",
                     (function (param) {
                       return {
-                        TAG: /* ThrowAny */7,
+                        TAG: /* ThrowAny */ 7,
                         _0: (function (param) {
                           Caml_format.caml_float_of_string("");
                         })
@@ -249,36 +249,36 @@ const suites = Stdlib.$at(from_of_string(of_string), Stdlib.$at({
                       "format_int",
                       (function (param) {
                         return {
-                          TAG: /* Eq */0,
+                          TAG: /* Eq */ 0,
                           _0: "                              33",
                           _1: Caml_format.caml_format_int("%32d", 33)
                         };
                       })
                     ],
-                    tl: /* [] */0
+                    tl: /* [] */ 0
                   }
                 }, Stdlib__Array.to_list(Stdlib__Array.mapi((function (i, param) {
                           const b = param[1];
                           const a = param[0];
                           return [
                             Curry._1(Stdlib__Printf.sprintf({
-                                      TAG: /* Format */0,
+                                      TAG: /* Format */ 0,
                                       _0: {
-                                        TAG: /* String_literal */11,
+                                        TAG: /* String_literal */ 11,
                                         _0: "normal_float_of_string ",
                                         _1: {
-                                          TAG: /* Int */4,
-                                          _0: /* Int_d */0,
-                                          _1: /* No_padding */0,
-                                          _2: /* No_precision */0,
-                                          _3: /* End_of_format */0
+                                          TAG: /* Int */ 4,
+                                          _0: /* Int_d */ 0,
+                                          _1: /* No_padding */ 0,
+                                          _2: /* No_precision */ 0,
+                                          _3: /* End_of_format */ 0
                                         }
                                       },
                                       _1: "normal_float_of_string %d"
                                     }), i),
                             (function (param) {
                               return {
-                                TAG: /* Eq */0,
+                                TAG: /* Eq */ 0,
                                 _0: a,
                                 _1: Caml_format.caml_float_of_string(b)
                               };
@@ -288,7 +288,7 @@ const suites = Stdlib.$at(from_of_string(of_string), Stdlib.$at({
 
 function $caret$caret(param, param$1) {
   return {
-    TAG: /* Format */0,
+    TAG: /* Format */ 0,
     _0: CamlinternalFormatBasics.concat_fmt(param._0, param$1._0),
     _1: param._1 + ("%," + param$1._1)
   };
@@ -302,31 +302,31 @@ const formatter_suites_0 = [
   "fmt_concat",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: Curry._6(Stdlib__Format.asprintf($caret$caret({
-                    TAG: /* Format */0,
+                    TAG: /* Format */ 0,
                     _0: {
-                      TAG: /* String */2,
-                      _0: /* No_padding */0,
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* Char_literal */12,
+                        TAG: /* Char_literal */ 12,
                         _0: /* ' ' */32,
                         _1: {
-                          TAG: /* Int */4,
-                          _0: /* Int_d */0,
+                          TAG: /* Int */ 4,
+                          _0: /* Int_d */ 0,
                           _1: {
-                            TAG: /* Lit_padding */0,
-                            _0: /* Zeros */2,
+                            TAG: /* Lit_padding */ 0,
+                            _0: /* Zeros */ 2,
                             _1: 3
                           },
-                          _2: /* No_precision */0,
+                          _2: /* No_precision */ 0,
                           _3: {
-                            TAG: /* Char_literal */12,
+                            TAG: /* Char_literal */ 12,
                             _0: /* ' ' */32,
                             _1: {
-                              TAG: /* Scan_get_counter */21,
-                              _0: /* Token_counter */2,
-                              _1: /* End_of_format */0
+                              TAG: /* Scan_get_counter */ 21,
+                              _0: /* Token_counter */ 2,
+                              _1: /* End_of_format */ 0
                             }
                           }
                         }
@@ -334,29 +334,29 @@ const formatter_suites_0 = [
                     },
                     _1: "%s %03d %L"
                   }, {
-                    TAG: /* Format */0,
+                    TAG: /* Format */ 0,
                     _0: {
-                      TAG: /* Caml_string */3,
-                      _0: /* No_padding */0,
+                      TAG: /* Caml_string */ 3,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* Char_literal */12,
+                        TAG: /* Char_literal */ 12,
                         _0: /* ' ' */32,
                         _1: {
-                          TAG: /* Int */4,
-                          _0: /* Int_d */0,
+                          TAG: /* Int */ 4,
+                          _0: /* Int_d */ 0,
                           _1: {
-                            TAG: /* Lit_padding */0,
-                            _0: /* Zeros */2,
+                            TAG: /* Lit_padding */ 0,
+                            _0: /* Zeros */ 2,
                             _1: 3
                           },
-                          _2: /* No_precision */0,
+                          _2: /* No_precision */ 0,
                           _3: {
-                            TAG: /* Char_literal */12,
+                            TAG: /* Char_literal */ 12,
                             _0: /* ' ' */32,
                             _1: {
-                              TAG: /* Scan_get_counter */21,
-                              _0: /* Token_counter */2,
-                              _1: /* End_of_format */0
+                              TAG: /* Scan_get_counter */ 21,
+                              _0: /* Token_counter */ 2,
+                              _1: /* End_of_format */ 0
                             }
                           }
                         }
@@ -374,31 +374,31 @@ const formatter_suites_1 = {
     "fmt_gen",
     (function (param) {
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: Curry._8(Stdlib__Format.asprintf($caret$caret({
-                      TAG: /* Format */0,
+                      TAG: /* Format */ 0,
                       _0: {
-                        TAG: /* String */2,
-                        _0: /* No_padding */0,
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
                         _1: {
-                          TAG: /* Char_literal */12,
+                          TAG: /* Char_literal */ 12,
                           _0: /* ' ' */32,
                           _1: {
-                            TAG: /* Int */4,
-                            _0: /* Int_d */0,
+                            TAG: /* Int */ 4,
+                            _0: /* Int_d */ 0,
                             _1: {
-                              TAG: /* Lit_padding */0,
-                              _0: /* Zeros */2,
+                              TAG: /* Lit_padding */ 0,
+                              _0: /* Zeros */ 2,
                               _1: 3
                             },
-                            _2: /* No_precision */0,
+                            _2: /* No_precision */ 0,
                             _3: {
-                              TAG: /* Char_literal */12,
+                              TAG: /* Char_literal */ 12,
                               _0: /* ' ' */32,
                               _1: {
-                                TAG: /* Scan_get_counter */21,
-                                _0: /* Token_counter */2,
-                                _1: /* End_of_format */0
+                                TAG: /* Scan_get_counter */ 21,
+                                _0: /* Token_counter */ 2,
+                                _1: /* End_of_format */ 0
                               }
                             }
                           }
@@ -406,34 +406,34 @@ const formatter_suites_1 = {
                       },
                       _1: "%s %03d %L"
                     }, {
-                      TAG: /* Format */0,
+                      TAG: /* Format */ 0,
                       _0: {
-                        TAG: /* Caml_string */3,
-                        _0: /* No_padding */0,
+                        TAG: /* Caml_string */ 3,
+                        _0: /* No_padding */ 0,
                         _1: {
-                          TAG: /* Char_literal */12,
+                          TAG: /* Char_literal */ 12,
                           _0: /* ' ' */32,
                           _1: {
-                            TAG: /* Int */4,
-                            _0: /* Int_d */0,
+                            TAG: /* Int */ 4,
+                            _0: /* Int_d */ 0,
                             _1: {
-                              TAG: /* Lit_padding */0,
-                              _0: /* Zeros */2,
+                              TAG: /* Lit_padding */ 0,
+                              _0: /* Zeros */ 2,
                               _1: 3
                             },
-                            _2: /* No_precision */0,
+                            _2: /* No_precision */ 0,
                             _3: {
-                              TAG: /* Char_literal */12,
+                              TAG: /* Char_literal */ 12,
                               _0: /* ' ' */32,
                               _1: {
-                                TAG: /* Scan_get_counter */21,
-                                _0: /* Token_counter */2,
+                                TAG: /* Scan_get_counter */ 21,
+                                _0: /* Token_counter */ 2,
                                 _1: {
-                                  TAG: /* Char_literal */12,
+                                  TAG: /* Char_literal */ 12,
                                   _0: /* ' ' */32,
                                   _1: {
-                                    TAG: /* Alpha */15,
-                                    _0: /* End_of_format */0
+                                    TAG: /* Alpha */ 15,
+                                    _0: /* End_of_format */ 0
                                   }
                                 }
                               }
@@ -450,7 +450,7 @@ const formatter_suites_1 = {
                 hd: 2,
                 tl: {
                   hd: 3,
-                  tl: /* [] */0
+                  tl: /* [] */ 0
                 }
               }
             }),
@@ -463,278 +463,278 @@ const formatter_suites_1 = {
       "long_fmt",
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: Curry.app(Stdlib__Format.asprintf({
-                    TAG: /* Format */0,
+                    TAG: /* Format */ 0,
                     _0: {
-                      TAG: /* Int */4,
-                      _0: /* Int_d */0,
-                      _1: /* No_padding */0,
-                      _2: /* No_precision */0,
+                      TAG: /* Int */ 4,
+                      _0: /* Int_d */ 0,
+                      _1: /* No_padding */ 0,
+                      _2: /* No_precision */ 0,
                       _3: {
-                        TAG: /* Char_literal */12,
+                        TAG: /* Char_literal */ 12,
                         _0: /* ' ' */32,
                         _1: {
-                          TAG: /* Int */4,
-                          _0: /* Int_i */3,
-                          _1: /* No_padding */0,
-                          _2: /* No_precision */0,
+                          TAG: /* Int */ 4,
+                          _0: /* Int_i */ 3,
+                          _1: /* No_padding */ 0,
+                          _2: /* No_precision */ 0,
                           _3: {
-                            TAG: /* Char_literal */12,
+                            TAG: /* Char_literal */ 12,
                             _0: /* ' ' */32,
                             _1: {
-                              TAG: /* Int */4,
-                              _0: /* Int_u */12,
-                              _1: /* No_padding */0,
-                              _2: /* No_precision */0,
+                              TAG: /* Int */ 4,
+                              _0: /* Int_u */ 12,
+                              _1: /* No_padding */ 0,
+                              _2: /* No_precision */ 0,
                               _3: {
-                                TAG: /* Char_literal */12,
+                                TAG: /* Char_literal */ 12,
                                 _0: /* ' ' */32,
                                 _1: {
-                                  TAG: /* Scan_get_counter */21,
-                                  _0: /* Char_counter */1,
+                                  TAG: /* Scan_get_counter */ 21,
+                                  _0: /* Char_counter */ 1,
                                   _1: {
-                                    TAG: /* Char_literal */12,
+                                    TAG: /* Char_literal */ 12,
                                     _0: /* ' ' */32,
                                     _1: {
-                                      TAG: /* Scan_get_counter */21,
-                                      _0: /* Line_counter */0,
+                                      TAG: /* Scan_get_counter */ 21,
+                                      _0: /* Line_counter */ 0,
                                       _1: {
-                                        TAG: /* Char_literal */12,
+                                        TAG: /* Char_literal */ 12,
                                         _0: /* ' ' */32,
                                         _1: {
-                                          TAG: /* Scan_get_counter */21,
-                                          _0: /* Token_counter */2,
+                                          TAG: /* Scan_get_counter */ 21,
+                                          _0: /* Token_counter */ 2,
                                           _1: {
-                                            TAG: /* Char_literal */12,
+                                            TAG: /* Char_literal */ 12,
                                             _0: /* ' ' */32,
                                             _1: {
-                                              TAG: /* Scan_get_counter */21,
-                                              _0: /* Token_counter */2,
+                                              TAG: /* Scan_get_counter */ 21,
+                                              _0: /* Token_counter */ 2,
                                               _1: {
-                                                TAG: /* Char_literal */12,
+                                                TAG: /* Char_literal */ 12,
                                                 _0: /* ' ' */32,
                                                 _1: {
-                                                  TAG: /* Int */4,
-                                                  _0: /* Int_x */6,
-                                                  _1: /* No_padding */0,
-                                                  _2: /* No_precision */0,
+                                                  TAG: /* Int */ 4,
+                                                  _0: /* Int_x */ 6,
+                                                  _1: /* No_padding */ 0,
+                                                  _2: /* No_precision */ 0,
                                                   _3: {
-                                                    TAG: /* Char_literal */12,
+                                                    TAG: /* Char_literal */ 12,
                                                     _0: /* ' ' */32,
                                                     _1: {
-                                                      TAG: /* Int */4,
-                                                      _0: /* Int_X */8,
-                                                      _1: /* No_padding */0,
-                                                      _2: /* No_precision */0,
+                                                      TAG: /* Int */ 4,
+                                                      _0: /* Int_X */ 8,
+                                                      _1: /* No_padding */ 0,
+                                                      _2: /* No_precision */ 0,
                                                       _3: {
-                                                        TAG: /* Char_literal */12,
+                                                        TAG: /* Char_literal */ 12,
                                                         _0: /* ' ' */32,
                                                         _1: {
-                                                          TAG: /* Int */4,
-                                                          _0: /* Int_o */10,
-                                                          _1: /* No_padding */0,
-                                                          _2: /* No_precision */0,
+                                                          TAG: /* Int */ 4,
+                                                          _0: /* Int_o */ 10,
+                                                          _1: /* No_padding */ 0,
+                                                          _2: /* No_precision */ 0,
                                                           _3: {
-                                                            TAG: /* Char_literal */12,
+                                                            TAG: /* Char_literal */ 12,
                                                             _0: /* ' ' */32,
                                                             _1: {
-                                                              TAG: /* String */2,
-                                                              _0: /* No_padding */0,
+                                                              TAG: /* String */ 2,
+                                                              _0: /* No_padding */ 0,
                                                               _1: {
-                                                                TAG: /* Char_literal */12,
+                                                                TAG: /* Char_literal */ 12,
                                                                 _0: /* ' ' */32,
                                                                 _1: {
-                                                                  TAG: /* Caml_string */3,
-                                                                  _0: /* No_padding */0,
+                                                                  TAG: /* Caml_string */ 3,
+                                                                  _0: /* No_padding */ 0,
                                                                   _1: {
-                                                                    TAG: /* Char_literal */12,
+                                                                    TAG: /* Char_literal */ 12,
                                                                     _0: /* ' ' */32,
                                                                     _1: {
-                                                                      TAG: /* Char */0,
+                                                                      TAG: /* Char */ 0,
                                                                       _0: {
-                                                                        TAG: /* Char_literal */12,
+                                                                        TAG: /* Char_literal */ 12,
                                                                         _0: /* ' ' */32,
                                                                         _1: {
-                                                                          TAG: /* Caml_char */1,
+                                                                          TAG: /* Caml_char */ 1,
                                                                           _0: {
-                                                                            TAG: /* Char_literal */12,
+                                                                            TAG: /* Char_literal */ 12,
                                                                             _0: /* ' ' */32,
                                                                             _1: {
-                                                                              TAG: /* Float */8,
+                                                                              TAG: /* Float */ 8,
                                                                               _0: [
-                                                                                /* Float_flag_ */0,
-                                                                                /* Float_f */0
+                                                                                /* Float_flag_ */ 0,
+                                                                                /* Float_f */ 0
                                                                               ],
-                                                                              _1: /* No_padding */0,
-                                                                              _2: /* No_precision */0,
+                                                                              _1: /* No_padding */ 0,
+                                                                              _2: /* No_precision */ 0,
                                                                               _3: {
-                                                                                TAG: /* Char_literal */12,
+                                                                                TAG: /* Char_literal */ 12,
                                                                                 _0: /* ' ' */32,
                                                                                 _1: {
-                                                                                  TAG: /* Float */8,
+                                                                                  TAG: /* Float */ 8,
                                                                                   _0: [
-                                                                                    /* Float_flag_ */0,
-                                                                                    /* Float_F */5
+                                                                                    /* Float_flag_ */ 0,
+                                                                                    /* Float_F */ 5
                                                                                   ],
-                                                                                  _1: /* No_padding */0,
-                                                                                  _2: /* No_precision */0,
+                                                                                  _1: /* No_padding */ 0,
+                                                                                  _2: /* No_precision */ 0,
                                                                                   _3: {
-                                                                                    TAG: /* Char_literal */12,
+                                                                                    TAG: /* Char_literal */ 12,
                                                                                     _0: /* ' ' */32,
                                                                                     _1: {
-                                                                                      TAG: /* Float */8,
+                                                                                      TAG: /* Float */ 8,
                                                                                       _0: [
-                                                                                        /* Float_flag_ */0,
-                                                                                        /* Float_e */1
+                                                                                        /* Float_flag_ */ 0,
+                                                                                        /* Float_e */ 1
                                                                                       ],
-                                                                                      _1: /* No_padding */0,
-                                                                                      _2: /* No_precision */0,
+                                                                                      _1: /* No_padding */ 0,
+                                                                                      _2: /* No_precision */ 0,
                                                                                       _3: {
-                                                                                        TAG: /* Char_literal */12,
+                                                                                        TAG: /* Char_literal */ 12,
                                                                                         _0: /* ' ' */32,
                                                                                         _1: {
-                                                                                          TAG: /* Float */8,
+                                                                                          TAG: /* Float */ 8,
                                                                                           _0: [
-                                                                                            /* Float_flag_ */0,
-                                                                                            /* Float_E */2
+                                                                                            /* Float_flag_ */ 0,
+                                                                                            /* Float_E */ 2
                                                                                           ],
-                                                                                          _1: /* No_padding */0,
-                                                                                          _2: /* No_precision */0,
+                                                                                          _1: /* No_padding */ 0,
+                                                                                          _2: /* No_precision */ 0,
                                                                                           _3: {
-                                                                                            TAG: /* Char_literal */12,
+                                                                                            TAG: /* Char_literal */ 12,
                                                                                             _0: /* ' ' */32,
                                                                                             _1: {
-                                                                                              TAG: /* Float */8,
+                                                                                              TAG: /* Float */ 8,
                                                                                               _0: [
-                                                                                                /* Float_flag_ */0,
-                                                                                                /* Float_g */3
+                                                                                                /* Float_flag_ */ 0,
+                                                                                                /* Float_g */ 3
                                                                                               ],
-                                                                                              _1: /* No_padding */0,
-                                                                                              _2: /* No_precision */0,
+                                                                                              _1: /* No_padding */ 0,
+                                                                                              _2: /* No_precision */ 0,
                                                                                               _3: {
-                                                                                                TAG: /* Char_literal */12,
+                                                                                                TAG: /* Char_literal */ 12,
                                                                                                 _0: /* ' ' */32,
                                                                                                 _1: {
-                                                                                                  TAG: /* Float */8,
+                                                                                                  TAG: /* Float */ 8,
                                                                                                   _0: [
-                                                                                                    /* Float_flag_ */0,
-                                                                                                    /* Float_G */4
+                                                                                                    /* Float_flag_ */ 0,
+                                                                                                    /* Float_G */ 4
                                                                                                   ],
-                                                                                                  _1: /* No_padding */0,
-                                                                                                  _2: /* No_precision */0,
+                                                                                                  _1: /* No_padding */ 0,
+                                                                                                  _2: /* No_precision */ 0,
                                                                                                   _3: {
-                                                                                                    TAG: /* Char_literal */12,
+                                                                                                    TAG: /* Char_literal */ 12,
                                                                                                     _0: /* ' ' */32,
                                                                                                     _1: {
-                                                                                                      TAG: /* Bool */9,
-                                                                                                      _0: /* No_padding */0,
+                                                                                                      TAG: /* Bool */ 9,
+                                                                                                      _0: /* No_padding */ 0,
                                                                                                       _1: {
-                                                                                                        TAG: /* Char_literal */12,
+                                                                                                        TAG: /* Char_literal */ 12,
                                                                                                         _0: /* ' ' */32,
                                                                                                         _1: {
-                                                                                                          TAG: /* Bool */9,
-                                                                                                          _0: /* No_padding */0,
+                                                                                                          TAG: /* Bool */ 9,
+                                                                                                          _0: /* No_padding */ 0,
                                                                                                           _1: {
-                                                                                                            TAG: /* Char_literal */12,
+                                                                                                            TAG: /* Char_literal */ 12,
                                                                                                             _0: /* ' ' */32,
                                                                                                             _1: {
-                                                                                                              TAG: /* Int32 */5,
-                                                                                                              _0: /* Int_d */0,
-                                                                                                              _1: /* No_padding */0,
-                                                                                                              _2: /* No_precision */0,
+                                                                                                              TAG: /* Int32 */ 5,
+                                                                                                              _0: /* Int_d */ 0,
+                                                                                                              _1: /* No_padding */ 0,
+                                                                                                              _2: /* No_precision */ 0,
                                                                                                               _3: {
-                                                                                                                TAG: /* Char_literal */12,
+                                                                                                                TAG: /* Char_literal */ 12,
                                                                                                                 _0: /* ' ' */32,
                                                                                                                 _1: {
-                                                                                                                  TAG: /* Int32 */5,
-                                                                                                                  _0: /* Int_i */3,
-                                                                                                                  _1: /* No_padding */0,
-                                                                                                                  _2: /* No_precision */0,
+                                                                                                                  TAG: /* Int32 */ 5,
+                                                                                                                  _0: /* Int_i */ 3,
+                                                                                                                  _1: /* No_padding */ 0,
+                                                                                                                  _2: /* No_precision */ 0,
                                                                                                                   _3: {
-                                                                                                                    TAG: /* Char_literal */12,
+                                                                                                                    TAG: /* Char_literal */ 12,
                                                                                                                     _0: /* ' ' */32,
                                                                                                                     _1: {
-                                                                                                                      TAG: /* Int32 */5,
-                                                                                                                      _0: /* Int_u */12,
-                                                                                                                      _1: /* No_padding */0,
-                                                                                                                      _2: /* No_precision */0,
+                                                                                                                      TAG: /* Int32 */ 5,
+                                                                                                                      _0: /* Int_u */ 12,
+                                                                                                                      _1: /* No_padding */ 0,
+                                                                                                                      _2: /* No_precision */ 0,
                                                                                                                       _3: {
-                                                                                                                        TAG: /* Char_literal */12,
+                                                                                                                        TAG: /* Char_literal */ 12,
                                                                                                                         _0: /* ' ' */32,
                                                                                                                         _1: {
-                                                                                                                          TAG: /* Int32 */5,
-                                                                                                                          _0: /* Int_x */6,
-                                                                                                                          _1: /* No_padding */0,
-                                                                                                                          _2: /* No_precision */0,
+                                                                                                                          TAG: /* Int32 */ 5,
+                                                                                                                          _0: /* Int_x */ 6,
+                                                                                                                          _1: /* No_padding */ 0,
+                                                                                                                          _2: /* No_precision */ 0,
                                                                                                                           _3: {
-                                                                                                                            TAG: /* Char_literal */12,
+                                                                                                                            TAG: /* Char_literal */ 12,
                                                                                                                             _0: /* ' ' */32,
                                                                                                                             _1: {
-                                                                                                                              TAG: /* Int32 */5,
-                                                                                                                              _0: /* Int_X */8,
-                                                                                                                              _1: /* No_padding */0,
-                                                                                                                              _2: /* No_precision */0,
+                                                                                                                              TAG: /* Int32 */ 5,
+                                                                                                                              _0: /* Int_X */ 8,
+                                                                                                                              _1: /* No_padding */ 0,
+                                                                                                                              _2: /* No_precision */ 0,
                                                                                                                               _3: {
-                                                                                                                                TAG: /* Char_literal */12,
+                                                                                                                                TAG: /* Char_literal */ 12,
                                                                                                                                 _0: /* ' ' */32,
                                                                                                                                 _1: {
-                                                                                                                                  TAG: /* Int32 */5,
-                                                                                                                                  _0: /* Int_o */10,
-                                                                                                                                  _1: /* No_padding */0,
-                                                                                                                                  _2: /* No_precision */0,
+                                                                                                                                  TAG: /* Int32 */ 5,
+                                                                                                                                  _0: /* Int_o */ 10,
+                                                                                                                                  _1: /* No_padding */ 0,
+                                                                                                                                  _2: /* No_precision */ 0,
                                                                                                                                   _3: {
-                                                                                                                                    TAG: /* Char_literal */12,
+                                                                                                                                    TAG: /* Char_literal */ 12,
                                                                                                                                     _0: /* ' ' */32,
                                                                                                                                     _1: {
-                                                                                                                                      TAG: /* Int */4,
-                                                                                                                                      _0: /* Int_d */0,
-                                                                                                                                      _1: /* No_padding */0,
-                                                                                                                                      _2: /* No_precision */0,
+                                                                                                                                      TAG: /* Int */ 4,
+                                                                                                                                      _0: /* Int_d */ 0,
+                                                                                                                                      _1: /* No_padding */ 0,
+                                                                                                                                      _2: /* No_precision */ 0,
                                                                                                                                       _3: {
-                                                                                                                                        TAG: /* Char_literal */12,
+                                                                                                                                        TAG: /* Char_literal */ 12,
                                                                                                                                         _0: /* ' ' */32,
                                                                                                                                         _1: {
-                                                                                                                                          TAG: /* Int */4,
-                                                                                                                                          _0: /* Int_i */3,
-                                                                                                                                          _1: /* No_padding */0,
-                                                                                                                                          _2: /* No_precision */0,
+                                                                                                                                          TAG: /* Int */ 4,
+                                                                                                                                          _0: /* Int_i */ 3,
+                                                                                                                                          _1: /* No_padding */ 0,
+                                                                                                                                          _2: /* No_precision */ 0,
                                                                                                                                           _3: {
-                                                                                                                                            TAG: /* Char_literal */12,
+                                                                                                                                            TAG: /* Char_literal */ 12,
                                                                                                                                             _0: /* ' ' */32,
                                                                                                                                             _1: {
-                                                                                                                                              TAG: /* Int */4,
-                                                                                                                                              _0: /* Int_u */12,
-                                                                                                                                              _1: /* No_padding */0,
-                                                                                                                                              _2: /* No_precision */0,
+                                                                                                                                              TAG: /* Int */ 4,
+                                                                                                                                              _0: /* Int_u */ 12,
+                                                                                                                                              _1: /* No_padding */ 0,
+                                                                                                                                              _2: /* No_precision */ 0,
                                                                                                                                               _3: {
-                                                                                                                                                TAG: /* Char_literal */12,
+                                                                                                                                                TAG: /* Char_literal */ 12,
                                                                                                                                                 _0: /* ' ' */32,
                                                                                                                                                 _1: {
-                                                                                                                                                  TAG: /* Int */4,
-                                                                                                                                                  _0: /* Int_x */6,
-                                                                                                                                                  _1: /* No_padding */0,
-                                                                                                                                                  _2: /* No_precision */0,
+                                                                                                                                                  TAG: /* Int */ 4,
+                                                                                                                                                  _0: /* Int_x */ 6,
+                                                                                                                                                  _1: /* No_padding */ 0,
+                                                                                                                                                  _2: /* No_precision */ 0,
                                                                                                                                                   _3: {
-                                                                                                                                                    TAG: /* Char_literal */12,
+                                                                                                                                                    TAG: /* Char_literal */ 12,
                                                                                                                                                     _0: /* ' ' */32,
                                                                                                                                                     _1: {
-                                                                                                                                                      TAG: /* Int */4,
-                                                                                                                                                      _0: /* Int_x */6,
-                                                                                                                                                      _1: /* No_padding */0,
-                                                                                                                                                      _2: /* No_precision */0,
+                                                                                                                                                      TAG: /* Int */ 4,
+                                                                                                                                                      _0: /* Int_x */ 6,
+                                                                                                                                                      _1: /* No_padding */ 0,
+                                                                                                                                                      _2: /* No_precision */ 0,
                                                                                                                                                       _3: {
-                                                                                                                                                        TAG: /* Char_literal */12,
+                                                                                                                                                        TAG: /* Char_literal */ 12,
                                                                                                                                                         _0: /* ' ' */32,
                                                                                                                                                         _1: {
-                                                                                                                                                          TAG: /* Int */4,
-                                                                                                                                                          _0: /* Int_o */10,
-                                                                                                                                                          _1: /* No_padding */0,
-                                                                                                                                                          _2: /* No_precision */0,
+                                                                                                                                                          TAG: /* Int */ 4,
+                                                                                                                                                          _0: /* Int_o */ 10,
+                                                                                                                                                          _1: /* No_padding */ 0,
+                                                                                                                                                          _2: /* No_precision */ 0,
                                                                                                                                                           _3: {
-                                                                                                                                                            TAG: /* String_literal */11,
+                                                                                                                                                            TAG: /* String_literal */ 11,
                                                                                                                                                             _0: "  ",
-                                                                                                                                                            _1: /* End_of_format */0
+                                                                                                                                                            _1: /* End_of_format */ 0
                                                                                                                                                           }
                                                                                                                                                         }
                                                                                                                                                       }
@@ -849,331 +849,331 @@ const formatter_suites_1 = {
         "long_fmt_2",
         (function (param) {
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: Curry.app(Stdlib__Format.asprintf({
-                      TAG: /* Format */0,
+                      TAG: /* Format */ 0,
                       _0: {
-                        TAG: /* Formatting_gen */18,
+                        TAG: /* Formatting_gen */ 18,
                         _0: {
-                          TAG: /* Open_box */1,
+                          TAG: /* Open_box */ 1,
                           _0: {
-                            TAG: /* Format */0,
-                            _0: /* End_of_format */0,
+                            TAG: /* Format */ 0,
+                            _0: /* End_of_format */ 0,
                             _1: ""
                           }
                         },
                         _1: {
-                          TAG: /* Int */4,
-                          _0: /* Int_d */0,
+                          TAG: /* Int */ 4,
+                          _0: /* Int_d */ 0,
                           _1: {
-                            TAG: /* Lit_padding */0,
-                            _0: /* Right */1,
+                            TAG: /* Lit_padding */ 0,
+                            _0: /* Right */ 1,
                             _1: 23
                           },
-                          _2: /* No_precision */0,
+                          _2: /* No_precision */ 0,
                           _3: {
-                            TAG: /* Char_literal */12,
+                            TAG: /* Char_literal */ 12,
                             _0: /* ' ' */32,
                             _1: {
-                              TAG: /* Int */4,
-                              _0: /* Int_i */3,
+                              TAG: /* Int */ 4,
+                              _0: /* Int_i */ 3,
                               _1: {
-                                TAG: /* Lit_padding */0,
-                                _0: /* Right */1,
+                                TAG: /* Lit_padding */ 0,
+                                _0: /* Right */ 1,
                                 _1: 2
                               },
-                              _2: /* No_precision */0,
+                              _2: /* No_precision */ 0,
                               _3: {
-                                TAG: /* Char_literal */12,
+                                TAG: /* Char_literal */ 12,
                                 _0: /* ' ' */32,
                                 _1: {
-                                  TAG: /* Int */4,
-                                  _0: /* Int_u */12,
+                                  TAG: /* Int */ 4,
+                                  _0: /* Int_u */ 12,
                                   _1: {
-                                    TAG: /* Lit_padding */0,
-                                    _0: /* Right */1,
+                                    TAG: /* Lit_padding */ 0,
+                                    _0: /* Right */ 1,
                                     _1: 3
                                   },
-                                  _2: /* No_precision */0,
+                                  _2: /* No_precision */ 0,
                                   _3: {
-                                    TAG: /* Char_literal */12,
+                                    TAG: /* Char_literal */ 12,
                                     _0: /* ' ' */32,
                                     _1: {
-                                      TAG: /* Scan_get_counter */21,
-                                      _0: /* Char_counter */1,
+                                      TAG: /* Scan_get_counter */ 21,
+                                      _0: /* Char_counter */ 1,
                                       _1: {
-                                        TAG: /* Char_literal */12,
+                                        TAG: /* Char_literal */ 12,
                                         _0: /* ' ' */32,
                                         _1: {
-                                          TAG: /* Int */4,
-                                          _0: /* Int_x */6,
+                                          TAG: /* Int */ 4,
+                                          _0: /* Int_x */ 6,
                                           _1: {
-                                            TAG: /* Lit_padding */0,
-                                            _0: /* Right */1,
+                                            TAG: /* Lit_padding */ 0,
+                                            _0: /* Right */ 1,
                                             _1: 0
                                           },
-                                          _2: /* No_precision */0,
+                                          _2: /* No_precision */ 0,
                                           _3: {
-                                            TAG: /* String_literal */11,
+                                            TAG: /* String_literal */ 11,
                                             _0: "l ",
                                             _1: {
-                                              TAG: /* Int */4,
-                                              _0: /* Int_x */6,
+                                              TAG: /* Int */ 4,
+                                              _0: /* Int_x */ 6,
                                               _1: {
-                                                TAG: /* Lit_padding */0,
-                                                _0: /* Right */1,
+                                                TAG: /* Lit_padding */ 0,
+                                                _0: /* Right */ 1,
                                                 _1: 0
                                               },
-                                              _2: /* No_precision */0,
+                                              _2: /* No_precision */ 0,
                                               _3: {
-                                                TAG: /* String_literal */11,
+                                                TAG: /* String_literal */ 11,
                                                 _0: "L ",
                                                 _1: {
-                                                  TAG: /* Scan_get_counter */21,
-                                                  _0: /* Token_counter */2,
+                                                  TAG: /* Scan_get_counter */ 21,
+                                                  _0: /* Token_counter */ 2,
                                                   _1: {
-                                                    TAG: /* Char_literal */12,
+                                                    TAG: /* Char_literal */ 12,
                                                     _0: /* ' ' */32,
                                                     _1: {
-                                                      TAG: /* Int */4,
-                                                      _0: /* Int_x */6,
+                                                      TAG: /* Int */ 4,
+                                                      _0: /* Int_x */ 6,
                                                       _1: {
-                                                        TAG: /* Lit_padding */0,
-                                                        _0: /* Zeros */2,
+                                                        TAG: /* Lit_padding */ 0,
+                                                        _0: /* Zeros */ 2,
                                                         _1: 3
                                                       },
-                                                      _2: /* No_precision */0,
+                                                      _2: /* No_precision */ 0,
                                                       _3: {
-                                                        TAG: /* Char_literal */12,
+                                                        TAG: /* Char_literal */ 12,
                                                         _0: /* ' ' */32,
                                                         _1: {
-                                                          TAG: /* Int */4,
-                                                          _0: /* Int_X */8,
-                                                          _1: /* No_padding */0,
-                                                          _2: /* No_precision */0,
+                                                          TAG: /* Int */ 4,
+                                                          _0: /* Int_X */ 8,
+                                                          _1: /* No_padding */ 0,
+                                                          _2: /* No_precision */ 0,
                                                           _3: {
-                                                            TAG: /* Char_literal */12,
+                                                            TAG: /* Char_literal */ 12,
                                                             _0: /* ' ' */32,
                                                             _1: {
-                                                              TAG: /* Int */4,
-                                                              _0: /* Int_o */10,
-                                                              _1: /* No_padding */0,
-                                                              _2: /* No_precision */0,
+                                                              TAG: /* Int */ 4,
+                                                              _0: /* Int_o */ 10,
+                                                              _1: /* No_padding */ 0,
+                                                              _2: /* No_precision */ 0,
                                                               _3: {
-                                                                TAG: /* Char_literal */12,
+                                                                TAG: /* Char_literal */ 12,
                                                                 _0: /* ' ' */32,
                                                                 _1: {
-                                                                  TAG: /* String */2,
-                                                                  _0: /* No_padding */0,
+                                                                  TAG: /* String */ 2,
+                                                                  _0: /* No_padding */ 0,
                                                                   _1: {
-                                                                    TAG: /* Char_literal */12,
+                                                                    TAG: /* Char_literal */ 12,
                                                                     _0: /* ' ' */32,
                                                                     _1: {
-                                                                      TAG: /* Caml_string */3,
-                                                                      _0: /* No_padding */0,
+                                                                      TAG: /* Caml_string */ 3,
+                                                                      _0: /* No_padding */ 0,
                                                                       _1: {
-                                                                        TAG: /* Char_literal */12,
+                                                                        TAG: /* Char_literal */ 12,
                                                                         _0: /* ' ' */32,
                                                                         _1: {
-                                                                          TAG: /* Char */0,
+                                                                          TAG: /* Char */ 0,
                                                                           _0: {
-                                                                            TAG: /* Char_literal */12,
+                                                                            TAG: /* Char_literal */ 12,
                                                                             _0: /* ' ' */32,
                                                                             _1: {
-                                                                              TAG: /* Caml_char */1,
+                                                                              TAG: /* Caml_char */ 1,
                                                                               _0: {
-                                                                                TAG: /* Char_literal */12,
+                                                                                TAG: /* Char_literal */ 12,
                                                                                 _0: /* ' ' */32,
                                                                                 _1: {
-                                                                                  TAG: /* Float */8,
+                                                                                  TAG: /* Float */ 8,
                                                                                   _0: [
-                                                                                    /* Float_flag_ */0,
-                                                                                    /* Float_f */0
+                                                                                    /* Float_flag_ */ 0,
+                                                                                    /* Float_f */ 0
                                                                                   ],
                                                                                   _1: {
-                                                                                    TAG: /* Lit_padding */0,
-                                                                                    _0: /* Right */1,
+                                                                                    TAG: /* Lit_padding */ 0,
+                                                                                    _0: /* Right */ 1,
                                                                                     _1: 3
                                                                                   },
-                                                                                  _2: /* No_precision */0,
+                                                                                  _2: /* No_precision */ 0,
                                                                                   _3: {
-                                                                                    TAG: /* Char_literal */12,
+                                                                                    TAG: /* Char_literal */ 12,
                                                                                     _0: /* ' ' */32,
                                                                                     _1: {
-                                                                                      TAG: /* Float */8,
+                                                                                      TAG: /* Float */ 8,
                                                                                       _0: [
-                                                                                        /* Float_flag_ */0,
-                                                                                        /* Float_F */5
+                                                                                        /* Float_flag_ */ 0,
+                                                                                        /* Float_F */ 5
                                                                                       ],
                                                                                       _1: {
-                                                                                        TAG: /* Lit_padding */0,
-                                                                                        _0: /* Right */1,
+                                                                                        TAG: /* Lit_padding */ 0,
+                                                                                        _0: /* Right */ 1,
                                                                                         _1: 2
                                                                                       },
-                                                                                      _2: /* No_precision */0,
+                                                                                      _2: /* No_precision */ 0,
                                                                                       _3: {
-                                                                                        TAG: /* Char_literal */12,
+                                                                                        TAG: /* Char_literal */ 12,
                                                                                         _0: /* ' ' */32,
                                                                                         _1: {
-                                                                                          TAG: /* Float */8,
+                                                                                          TAG: /* Float */ 8,
                                                                                           _0: [
-                                                                                            /* Float_flag_ */0,
-                                                                                            /* Float_e */1
+                                                                                            /* Float_flag_ */ 0,
+                                                                                            /* Float_e */ 1
                                                                                           ],
                                                                                           _1: {
-                                                                                            TAG: /* Lit_padding */0,
-                                                                                            _0: /* Right */1,
+                                                                                            TAG: /* Lit_padding */ 0,
+                                                                                            _0: /* Right */ 1,
                                                                                             _1: 2
                                                                                           },
-                                                                                          _2: /* No_precision */0,
+                                                                                          _2: /* No_precision */ 0,
                                                                                           _3: {
-                                                                                            TAG: /* Char_literal */12,
+                                                                                            TAG: /* Char_literal */ 12,
                                                                                             _0: /* ' ' */32,
                                                                                             _1: {
-                                                                                              TAG: /* Float */8,
+                                                                                              TAG: /* Float */ 8,
                                                                                               _0: [
-                                                                                                /* Float_flag_ */0,
-                                                                                                /* Float_E */2
+                                                                                                /* Float_flag_ */ 0,
+                                                                                                /* Float_E */ 2
                                                                                               ],
-                                                                                              _1: /* No_padding */0,
-                                                                                              _2: /* No_precision */0,
+                                                                                              _1: /* No_padding */ 0,
+                                                                                              _2: /* No_precision */ 0,
                                                                                               _3: {
-                                                                                                TAG: /* Char_literal */12,
+                                                                                                TAG: /* Char_literal */ 12,
                                                                                                 _0: /* ' ' */32,
                                                                                                 _1: {
-                                                                                                  TAG: /* Float */8,
+                                                                                                  TAG: /* Float */ 8,
                                                                                                   _0: [
-                                                                                                    /* Float_flag_ */0,
-                                                                                                    /* Float_g */3
+                                                                                                    /* Float_flag_ */ 0,
+                                                                                                    /* Float_g */ 3
                                                                                                   ],
-                                                                                                  _1: /* No_padding */0,
-                                                                                                  _2: /* No_precision */0,
+                                                                                                  _1: /* No_padding */ 0,
+                                                                                                  _2: /* No_precision */ 0,
                                                                                                   _3: {
-                                                                                                    TAG: /* Char_literal */12,
+                                                                                                    TAG: /* Char_literal */ 12,
                                                                                                     _0: /* ' ' */32,
                                                                                                     _1: {
-                                                                                                      TAG: /* Float */8,
+                                                                                                      TAG: /* Float */ 8,
                                                                                                       _0: [
-                                                                                                        /* Float_flag_ */0,
-                                                                                                        /* Float_G */4
+                                                                                                        /* Float_flag_ */ 0,
+                                                                                                        /* Float_G */ 4
                                                                                                       ],
-                                                                                                      _1: /* No_padding */0,
-                                                                                                      _2: /* No_precision */0,
+                                                                                                      _1: /* No_padding */ 0,
+                                                                                                      _2: /* No_precision */ 0,
                                                                                                       _3: {
-                                                                                                        TAG: /* Char_literal */12,
+                                                                                                        TAG: /* Char_literal */ 12,
                                                                                                         _0: /* ' ' */32,
                                                                                                         _1: {
-                                                                                                          TAG: /* Bool */9,
-                                                                                                          _0: /* No_padding */0,
+                                                                                                          TAG: /* Bool */ 9,
+                                                                                                          _0: /* No_padding */ 0,
                                                                                                           _1: {
-                                                                                                            TAG: /* Char_literal */12,
+                                                                                                            TAG: /* Char_literal */ 12,
                                                                                                             _0: /* ' ' */32,
                                                                                                             _1: {
-                                                                                                              TAG: /* Bool */9,
-                                                                                                              _0: /* No_padding */0,
+                                                                                                              TAG: /* Bool */ 9,
+                                                                                                              _0: /* No_padding */ 0,
                                                                                                               _1: {
-                                                                                                                TAG: /* Char_literal */12,
+                                                                                                                TAG: /* Char_literal */ 12,
                                                                                                                 _0: /* ' ' */32,
                                                                                                                 _1: {
-                                                                                                                  TAG: /* Int32 */5,
-                                                                                                                  _0: /* Int_d */0,
-                                                                                                                  _1: /* No_padding */0,
-                                                                                                                  _2: /* No_precision */0,
+                                                                                                                  TAG: /* Int32 */ 5,
+                                                                                                                  _0: /* Int_d */ 0,
+                                                                                                                  _1: /* No_padding */ 0,
+                                                                                                                  _2: /* No_precision */ 0,
                                                                                                                   _3: {
-                                                                                                                    TAG: /* Char_literal */12,
+                                                                                                                    TAG: /* Char_literal */ 12,
                                                                                                                     _0: /* ' ' */32,
                                                                                                                     _1: {
-                                                                                                                      TAG: /* Int32 */5,
-                                                                                                                      _0: /* Int_i */3,
-                                                                                                                      _1: /* No_padding */0,
-                                                                                                                      _2: /* No_precision */0,
+                                                                                                                      TAG: /* Int32 */ 5,
+                                                                                                                      _0: /* Int_i */ 3,
+                                                                                                                      _1: /* No_padding */ 0,
+                                                                                                                      _2: /* No_precision */ 0,
                                                                                                                       _3: {
-                                                                                                                        TAG: /* Char_literal */12,
+                                                                                                                        TAG: /* Char_literal */ 12,
                                                                                                                         _0: /* ' ' */32,
                                                                                                                         _1: {
-                                                                                                                          TAG: /* Int32 */5,
-                                                                                                                          _0: /* Int_u */12,
-                                                                                                                          _1: /* No_padding */0,
-                                                                                                                          _2: /* No_precision */0,
+                                                                                                                          TAG: /* Int32 */ 5,
+                                                                                                                          _0: /* Int_u */ 12,
+                                                                                                                          _1: /* No_padding */ 0,
+                                                                                                                          _2: /* No_precision */ 0,
                                                                                                                           _3: {
-                                                                                                                            TAG: /* Char_literal */12,
+                                                                                                                            TAG: /* Char_literal */ 12,
                                                                                                                             _0: /* ' ' */32,
                                                                                                                             _1: {
-                                                                                                                              TAG: /* Int32 */5,
-                                                                                                                              _0: /* Int_x */6,
-                                                                                                                              _1: /* No_padding */0,
-                                                                                                                              _2: /* No_precision */0,
+                                                                                                                              TAG: /* Int32 */ 5,
+                                                                                                                              _0: /* Int_x */ 6,
+                                                                                                                              _1: /* No_padding */ 0,
+                                                                                                                              _2: /* No_precision */ 0,
                                                                                                                               _3: {
-                                                                                                                                TAG: /* Char_literal */12,
+                                                                                                                                TAG: /* Char_literal */ 12,
                                                                                                                                 _0: /* ' ' */32,
                                                                                                                                 _1: {
-                                                                                                                                  TAG: /* Int32 */5,
-                                                                                                                                  _0: /* Int_X */8,
-                                                                                                                                  _1: /* No_padding */0,
-                                                                                                                                  _2: /* No_precision */0,
+                                                                                                                                  TAG: /* Int32 */ 5,
+                                                                                                                                  _0: /* Int_X */ 8,
+                                                                                                                                  _1: /* No_padding */ 0,
+                                                                                                                                  _2: /* No_precision */ 0,
                                                                                                                                   _3: {
-                                                                                                                                    TAG: /* Char_literal */12,
+                                                                                                                                    TAG: /* Char_literal */ 12,
                                                                                                                                     _0: /* ' ' */32,
                                                                                                                                     _1: {
-                                                                                                                                      TAG: /* Int32 */5,
-                                                                                                                                      _0: /* Int_o */10,
-                                                                                                                                      _1: /* No_padding */0,
-                                                                                                                                      _2: /* No_precision */0,
+                                                                                                                                      TAG: /* Int32 */ 5,
+                                                                                                                                      _0: /* Int_o */ 10,
+                                                                                                                                      _1: /* No_padding */ 0,
+                                                                                                                                      _2: /* No_precision */ 0,
                                                                                                                                       _3: {
-                                                                                                                                        TAG: /* Char_literal */12,
+                                                                                                                                        TAG: /* Char_literal */ 12,
                                                                                                                                         _0: /* ' ' */32,
                                                                                                                                         _1: {
-                                                                                                                                          TAG: /* Int */4,
-                                                                                                                                          _0: /* Int_d */0,
-                                                                                                                                          _1: /* No_padding */0,
-                                                                                                                                          _2: /* No_precision */0,
+                                                                                                                                          TAG: /* Int */ 4,
+                                                                                                                                          _0: /* Int_d */ 0,
+                                                                                                                                          _1: /* No_padding */ 0,
+                                                                                                                                          _2: /* No_precision */ 0,
                                                                                                                                           _3: {
-                                                                                                                                            TAG: /* Char_literal */12,
+                                                                                                                                            TAG: /* Char_literal */ 12,
                                                                                                                                             _0: /* ' ' */32,
                                                                                                                                             _1: {
-                                                                                                                                              TAG: /* Int */4,
-                                                                                                                                              _0: /* Int_i */3,
-                                                                                                                                              _1: /* No_padding */0,
-                                                                                                                                              _2: /* No_precision */0,
+                                                                                                                                              TAG: /* Int */ 4,
+                                                                                                                                              _0: /* Int_i */ 3,
+                                                                                                                                              _1: /* No_padding */ 0,
+                                                                                                                                              _2: /* No_precision */ 0,
                                                                                                                                               _3: {
-                                                                                                                                                TAG: /* Char_literal */12,
+                                                                                                                                                TAG: /* Char_literal */ 12,
                                                                                                                                                 _0: /* ' ' */32,
                                                                                                                                                 _1: {
-                                                                                                                                                  TAG: /* Int */4,
-                                                                                                                                                  _0: /* Int_u */12,
-                                                                                                                                                  _1: /* No_padding */0,
-                                                                                                                                                  _2: /* No_precision */0,
+                                                                                                                                                  TAG: /* Int */ 4,
+                                                                                                                                                  _0: /* Int_u */ 12,
+                                                                                                                                                  _1: /* No_padding */ 0,
+                                                                                                                                                  _2: /* No_precision */ 0,
                                                                                                                                                   _3: {
-                                                                                                                                                    TAG: /* Char_literal */12,
+                                                                                                                                                    TAG: /* Char_literal */ 12,
                                                                                                                                                     _0: /* ' ' */32,
                                                                                                                                                     _1: {
-                                                                                                                                                      TAG: /* Int */4,
-                                                                                                                                                      _0: /* Int_x */6,
-                                                                                                                                                      _1: /* No_padding */0,
-                                                                                                                                                      _2: /* No_precision */0,
+                                                                                                                                                      TAG: /* Int */ 4,
+                                                                                                                                                      _0: /* Int_x */ 6,
+                                                                                                                                                      _1: /* No_padding */ 0,
+                                                                                                                                                      _2: /* No_precision */ 0,
                                                                                                                                                       _3: {
-                                                                                                                                                        TAG: /* Char_literal */12,
+                                                                                                                                                        TAG: /* Char_literal */ 12,
                                                                                                                                                         _0: /* ' ' */32,
                                                                                                                                                         _1: {
-                                                                                                                                                          TAG: /* Int */4,
-                                                                                                                                                          _0: /* Int_x */6,
-                                                                                                                                                          _1: /* No_padding */0,
-                                                                                                                                                          _2: /* No_precision */0,
+                                                                                                                                                          TAG: /* Int */ 4,
+                                                                                                                                                          _0: /* Int_x */ 6,
+                                                                                                                                                          _1: /* No_padding */ 0,
+                                                                                                                                                          _2: /* No_precision */ 0,
                                                                                                                                                           _3: {
-                                                                                                                                                            TAG: /* Char_literal */12,
+                                                                                                                                                            TAG: /* Char_literal */ 12,
                                                                                                                                                             _0: /* ' ' */32,
                                                                                                                                                             _1: {
-                                                                                                                                                              TAG: /* Int */4,
-                                                                                                                                                              _0: /* Int_o */10,
-                                                                                                                                                              _1: /* No_padding */0,
-                                                                                                                                                              _2: /* No_precision */0,
+                                                                                                                                                              TAG: /* Int */ 4,
+                                                                                                                                                              _0: /* Int_o */ 10,
+                                                                                                                                                              _1: /* No_padding */ 0,
+                                                                                                                                                              _2: /* No_precision */ 0,
                                                                                                                                                               _3: {
-                                                                                                                                                                TAG: /* String_literal */11,
+                                                                                                                                                                TAG: /* String_literal */ 11,
                                                                                                                                                                 _0: "  ",
                                                                                                                                                                 _1: {
-                                                                                                                                                                  TAG: /* Formatting_lit */17,
-                                                                                                                                                                  _0: /* Close_box */0,
-                                                                                                                                                                  _1: /* End_of_format */0
+                                                                                                                                                                  TAG: /* Formatting_lit */ 17,
+                                                                                                                                                                  _0: /* Close_box */ 0,
+                                                                                                                                                                  _1: /* End_of_format */ 0
                                                                                                                                                                 }
                                                                                                                                                               }
                                                                                                                                                             }
@@ -1290,19 +1290,19 @@ const formatter_suites_1 = {
           "width_1",
           (function (param) {
             return {
-              TAG: /* Eq */0,
+              TAG: /* Eq */ 0,
               _0: Curry._1(Stdlib__Format.asprintf({
-                        TAG: /* Format */0,
+                        TAG: /* Format */ 0,
                         _0: {
-                          TAG: /* Int */4,
-                          _0: /* Int_d */0,
+                          TAG: /* Int */ 4,
+                          _0: /* Int_d */ 0,
                           _1: {
-                            TAG: /* Lit_padding */0,
-                            _0: /* Zeros */2,
+                            TAG: /* Lit_padding */ 0,
+                            _0: /* Zeros */ 2,
                             _1: 14
                           },
-                          _2: /* No_precision */0,
-                          _3: /* End_of_format */0
+                          _2: /* No_precision */ 0,
+                          _3: /* End_of_format */ 0
                         },
                         _1: "%014d"
                       }), 32),
@@ -1315,25 +1315,25 @@ const formatter_suites_1 = {
             "width_2",
             (function (param) {
               return {
-                TAG: /* Eq */0,
+                TAG: /* Eq */ 0,
                 _0: Curry._1(Stdlib__Format.asprintf({
-                          TAG: /* Format */0,
+                          TAG: /* Format */ 0,
                           _0: {
-                            TAG: /* Float */8,
+                            TAG: /* Float */ 8,
                             _0: [
-                              /* Float_flag_ */0,
-                              /* Float_f */0
+                              /* Float_flag_ */ 0,
+                              /* Float_f */ 0
                             ],
                             _1: {
-                              TAG: /* Lit_padding */0,
-                              _0: /* Right */1,
+                              TAG: /* Lit_padding */ 0,
+                              _0: /* Right */ 1,
                               _1: 10
                             },
                             _2: {
-                              TAG: /* Lit_precision */0,
+                              TAG: /* Lit_precision */ 0,
                               _0: 3
                             },
-                            _3: /* End_of_format */0
+                            _3: /* End_of_format */ 0
                           },
                           _1: "%10.3f"
                         }), 32333.02),
@@ -1346,19 +1346,19 @@ const formatter_suites_1 = {
               "alternate_1",
               (function (param) {
                 return {
-                  TAG: /* Eq */0,
+                  TAG: /* Eq */ 0,
                   _0: Curry._1(Stdlib__Format.asprintf({
-                            TAG: /* Format */0,
+                            TAG: /* Format */ 0,
                             _0: {
-                              TAG: /* Int */4,
-                              _0: /* Int_x */6,
+                              TAG: /* Int */ 4,
+                              _0: /* Int_x */ 6,
                               _1: {
-                                TAG: /* Lit_padding */0,
-                                _0: /* Right */1,
+                                TAG: /* Lit_padding */ 0,
+                                _0: /* Right */ 1,
                                 _1: 0
                               },
-                              _2: /* No_precision */0,
-                              _3: /* End_of_format */0
+                              _2: /* No_precision */ 0,
+                              _3: /* End_of_format */ 0
                             },
                             _1: "%0x"
                           }), 32333),
@@ -1371,19 +1371,19 @@ const formatter_suites_1 = {
                 "alternate_2",
                 (function (param) {
                   return {
-                    TAG: /* Eq */0,
+                    TAG: /* Eq */ 0,
                     _0: Curry._1(Stdlib__Format.asprintf({
-                              TAG: /* Format */0,
+                              TAG: /* Format */ 0,
                               _0: {
-                                TAG: /* Int */4,
-                                _0: /* Int_Cx */7,
+                                TAG: /* Int */ 4,
+                                _0: /* Int_Cx */ 7,
                                 _1: {
-                                  TAG: /* Lit_padding */0,
-                                  _0: /* Right */1,
+                                  TAG: /* Lit_padding */ 0,
+                                  _0: /* Right */ 1,
                                   _1: 0
                                 },
-                                _2: /* No_precision */0,
-                                _3: /* End_of_format */0
+                                _2: /* No_precision */ 0,
+                                _3: /* End_of_format */ 0
                               },
                               _1: "%#0x"
                             }), 32333),
@@ -1396,27 +1396,27 @@ const formatter_suites_1 = {
                   "alternate_3",
                   (function (param) {
                     return {
-                      TAG: /* Eq */0,
+                      TAG: /* Eq */ 0,
                       _0: [
                         Curry._1(Stdlib__Format.asprintf({
-                                  TAG: /* Format */0,
+                                  TAG: /* Format */ 0,
                                   _0: {
-                                    TAG: /* Int */4,
-                                    _0: /* Int_Co */11,
-                                    _1: /* No_padding */0,
-                                    _2: /* No_precision */0,
-                                    _3: /* End_of_format */0
+                                    TAG: /* Int */ 4,
+                                    _0: /* Int_Co */ 11,
+                                    _1: /* No_padding */ 0,
+                                    _2: /* No_precision */ 0,
+                                    _3: /* End_of_format */ 0
                                   },
                                   _1: "%#o"
                                 }), 32),
                         Curry._1(Stdlib__Format.asprintf({
-                                  TAG: /* Format */0,
+                                  TAG: /* Format */ 0,
                                   _0: {
-                                    TAG: /* Int */4,
-                                    _0: /* Int_o */10,
-                                    _1: /* No_padding */0,
-                                    _2: /* No_precision */0,
-                                    _3: /* End_of_format */0
+                                    TAG: /* Int */ 4,
+                                    _0: /* Int_o */ 10,
+                                    _1: /* No_padding */ 0,
+                                    _2: /* No_precision */ 0,
+                                    _3: /* End_of_format */ 0
                                   },
                                   _1: "%o"
                                 }), 32)
@@ -1433,7 +1433,7 @@ const formatter_suites_1 = {
                     "justify_0",
                     (function (param) {
                       return {
-                        TAG: /* Eq */0,
+                        TAG: /* Eq */ 0,
                         _0: Caml_format.caml_format_int("%-8d", 32),
                         _1: "32      "
                       };
@@ -1444,19 +1444,19 @@ const formatter_suites_1 = {
                       "sign_p",
                       (function (param) {
                         return {
-                          TAG: /* Eq */0,
+                          TAG: /* Eq */ 0,
                           _0: Curry._1(Stdlib__Format.asprintf({
-                                    TAG: /* Format */0,
+                                    TAG: /* Format */ 0,
                                     _0: {
-                                      TAG: /* Int */4,
-                                      _0: /* Int_pd */1,
+                                      TAG: /* Int */ 4,
+                                      _0: /* Int_pd */ 1,
                                       _1: {
-                                        TAG: /* Lit_padding */0,
-                                        _0: /* Right */1,
+                                        TAG: /* Lit_padding */ 0,
+                                        _0: /* Right */ 1,
                                         _1: 4
                                       },
-                                      _2: /* No_precision */0,
-                                      _3: /* End_of_format */0
+                                      _2: /* No_precision */ 0,
+                                      _3: /* End_of_format */ 0
                                     },
                                     _1: "%+4d"
                                   }), 32),
@@ -1469,19 +1469,19 @@ const formatter_suites_1 = {
                         "sign_2p",
                         (function (param) {
                           return {
-                            TAG: /* Eq */0,
+                            TAG: /* Eq */ 0,
                             _0: Curry._1(Stdlib__Format.asprintf({
-                                      TAG: /* Format */0,
+                                      TAG: /* Format */ 0,
                                       _0: {
-                                        TAG: /* Int */4,
-                                        _0: /* Int_sd */2,
+                                        TAG: /* Int */ 4,
+                                        _0: /* Int_sd */ 2,
                                         _1: {
-                                          TAG: /* Lit_padding */0,
-                                          _0: /* Right */1,
+                                          TAG: /* Lit_padding */ 0,
+                                          _0: /* Right */ 1,
                                           _1: 4
                                         },
-                                        _2: /* No_precision */0,
-                                        _3: /* End_of_format */0
+                                        _2: /* No_precision */ 0,
+                                        _3: /* End_of_format */ 0
                                       },
                                       _1: "% 4d"
                                     }), 32),
@@ -1494,15 +1494,15 @@ const formatter_suites_1 = {
                           "sign_3p",
                           (function (param) {
                             return {
-                              TAG: /* Eq */0,
+                              TAG: /* Eq */ 0,
                               _0: Curry._1(Stdlib__Format.asprintf({
-                                        TAG: /* Format */0,
+                                        TAG: /* Format */ 0,
                                         _0: {
-                                          TAG: /* Int32 */5,
-                                          _0: /* Int_u */12,
-                                          _1: /* No_padding */0,
-                                          _2: /* No_precision */0,
-                                          _3: /* End_of_format */0
+                                          TAG: /* Int32 */ 5,
+                                          _0: /* Int_u */ 12,
+                                          _1: /* No_padding */ 0,
+                                          _2: /* No_precision */ 0,
+                                          _3: /* End_of_format */ 0
                                         },
                                         _1: "%lu"
                                       }), -1),
@@ -1515,15 +1515,15 @@ const formatter_suites_1 = {
                             "sign_4p",
                             (function (param) {
                               return {
-                                TAG: /* Eq */0,
+                                TAG: /* Eq */ 0,
                                 _0: Curry._1(Stdlib__Format.asprintf({
-                                          TAG: /* Format */0,
+                                          TAG: /* Format */ 0,
                                           _0: {
-                                            TAG: /* Int32 */5,
-                                            _0: /* Int_d */0,
-                                            _1: /* No_padding */0,
-                                            _2: /* No_precision */0,
-                                            _3: /* End_of_format */0
+                                            TAG: /* Int32 */ 5,
+                                            _0: /* Int_d */ 0,
+                                            _1: /* No_padding */ 0,
+                                            _2: /* No_precision */ 0,
+                                            _3: /* End_of_format */ 0
                                           },
                                           _1: "%ld"
                                         }), -1),
@@ -1536,7 +1536,7 @@ const formatter_suites_1 = {
                               "width_3",
                               (function (param) {
                                 return {
-                                  TAG: /* Eq */0,
+                                  TAG: /* Eq */ 0,
                                   _0: Caml_format.caml_format_int("%032d", 32),
                                   _1: "00000000000000000000000000000032"
                                 };
@@ -1547,18 +1547,18 @@ const formatter_suites_1 = {
                                 "prec_1",
                                 (function (param) {
                                   return {
-                                    TAG: /* Eq */0,
+                                    TAG: /* Eq */ 0,
                                     _0: Curry._1(Stdlib__Format.asprintf({
-                                              TAG: /* Format */0,
+                                              TAG: /* Format */ 0,
                                               _0: {
-                                                TAG: /* Int */4,
-                                                _0: /* Int_d */0,
-                                                _1: /* No_padding */0,
+                                                TAG: /* Int */ 4,
+                                                _0: /* Int_d */ 0,
+                                                _1: /* No_padding */ 0,
                                                 _2: {
-                                                  TAG: /* Lit_precision */0,
+                                                  TAG: /* Lit_precision */ 0,
                                                   _0: 10
                                                 },
-                                                _3: /* End_of_format */0
+                                                _3: /* End_of_format */ 0
                                               },
                                               _1: "%.10d"
                                             }), 32),
@@ -1571,7 +1571,7 @@ const formatter_suites_1 = {
                                   "prec_2",
                                   (function (param) {
                                     return {
-                                      TAG: /* Eq */0,
+                                      TAG: /* Eq */ 0,
                                       _0: Caml_format.caml_format_int("%.10d", 32),
                                       _1: "0000000032"
                                     };
@@ -1582,7 +1582,7 @@ const formatter_suites_1 = {
                                     "prec_3",
                                     (function (param) {
                                       return {
-                                        TAG: /* Eq */0,
+                                        TAG: /* Eq */ 0,
                                         _0: Caml_format.caml_format_int("%.d", 32),
                                         _1: "32"
                                       };
@@ -1593,13 +1593,13 @@ const formatter_suites_1 = {
                                       "prec_4",
                                       (function (param) {
                                         return {
-                                          TAG: /* Eq */0,
+                                          TAG: /* Eq */ 0,
                                           _0: Caml_format.caml_format_int("%.d", 32),
                                           _1: "32"
                                         };
                                       })
                                     ],
-                                    tl: /* [] */0
+                                    tl: /* [] */ 0
                                   }
                                 }
                               }
@@ -1734,11 +1734,11 @@ const float_data = [
 
 function ident(ppf, s) {
   Curry._1(Stdlib__Format.fprintf(ppf)({
-            TAG: /* Format */0,
+            TAG: /* Format */ 0,
             _0: {
-              TAG: /* String */2,
-              _0: /* No_padding */0,
-              _1: /* End_of_format */0
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: /* End_of_format */ 0
             },
             _1: "%s"
           }), s);
@@ -1746,11 +1746,11 @@ function ident(ppf, s) {
 
 function kwd(ppf, s) {
   Curry._1(Stdlib__Format.fprintf(ppf)({
-            TAG: /* Format */0,
+            TAG: /* Format */ 0,
             _0: {
-              TAG: /* String */2,
-              _0: /* No_padding */0,
-              _1: /* End_of_format */0
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: /* End_of_format */ 0
             },
             _1: "%s"
           }), s);
@@ -1758,48 +1758,48 @@ function kwd(ppf, s) {
 
 function pr_exp0(ppf, s) {
   switch (s.TAG) {
-    case /* Var */1 :
+    case /* Var */ 1 :
         return Curry._2(Stdlib__Format.fprintf(ppf)({
-                  TAG: /* Format */0,
+                  TAG: /* Format */ 0,
                   _0: {
-                    TAG: /* Alpha */15,
-                    _0: /* End_of_format */0
+                    TAG: /* Alpha */ 15,
+                    _0: /* End_of_format */ 0
                   },
                   _1: "%a"
                 }), ident, s._0);
-    case /* Lambda */0 :
-    case /* Apply */2 :
+    case /* Lambda */ 0 :
+    case /* Apply */ 2 :
         break;
     
   }
   Curry._2(Stdlib__Format.fprintf(ppf)({
-            TAG: /* Format */0,
+            TAG: /* Format */ 0,
             _0: {
-              TAG: /* Formatting_gen */18,
+              TAG: /* Formatting_gen */ 18,
               _0: {
-                TAG: /* Open_box */1,
+                TAG: /* Open_box */ 1,
                 _0: {
-                  TAG: /* Format */0,
+                  TAG: /* Format */ 0,
                   _0: {
-                    TAG: /* String_literal */11,
+                    TAG: /* String_literal */ 11,
                     _0: "<1>",
-                    _1: /* End_of_format */0
+                    _1: /* End_of_format */ 0
                   },
                   _1: "<1>"
                 }
               },
               _1: {
-                TAG: /* Char_literal */12,
+                TAG: /* Char_literal */ 12,
                 _0: /* '(' */40,
                 _1: {
-                  TAG: /* Alpha */15,
+                  TAG: /* Alpha */ 15,
                   _0: {
-                    TAG: /* Char_literal */12,
+                    TAG: /* Char_literal */ 12,
                     _0: /* ')' */41,
                     _1: {
-                      TAG: /* Formatting_lit */17,
-                      _0: /* Close_box */0,
-                      _1: /* End_of_format */0
+                      TAG: /* Formatting_lit */ 17,
+                      _0: /* Close_box */ 0,
+                      _1: /* End_of_format */ 0
                     }
                   }
                 }
@@ -1811,27 +1811,27 @@ function pr_exp0(ppf, s) {
 
 function pr_app(ppf, e) {
   Curry._2(Stdlib__Format.fprintf(ppf)({
-            TAG: /* Format */0,
+            TAG: /* Format */ 0,
             _0: {
-              TAG: /* Formatting_gen */18,
+              TAG: /* Formatting_gen */ 18,
               _0: {
-                TAG: /* Open_box */1,
+                TAG: /* Open_box */ 1,
                 _0: {
-                  TAG: /* Format */0,
+                  TAG: /* Format */ 0,
                   _0: {
-                    TAG: /* String_literal */11,
+                    TAG: /* String_literal */ 11,
                     _0: "<2>",
-                    _1: /* End_of_format */0
+                    _1: /* End_of_format */ 0
                   },
                   _1: "<2>"
                 }
               },
               _1: {
-                TAG: /* Alpha */15,
+                TAG: /* Alpha */ 15,
                 _0: {
-                  TAG: /* Formatting_lit */17,
-                  _0: /* Close_box */0,
-                  _1: /* End_of_format */0
+                  TAG: /* Formatting_lit */ 17,
+                  _0: /* Close_box */ 0,
+                  _1: /* End_of_format */ 0
                 }
               }
             },
@@ -1841,25 +1841,25 @@ function pr_app(ppf, e) {
 
 function pr_other_applications(ppf, f) {
   switch (f.TAG) {
-    case /* Lambda */0 :
-    case /* Var */1 :
+    case /* Lambda */ 0 :
+    case /* Var */ 1 :
         return pr_exp0(ppf, f);
-    case /* Apply */2 :
+    case /* Apply */ 2 :
         return Curry._4(Stdlib__Format.fprintf(ppf)({
-                  TAG: /* Format */0,
+                  TAG: /* Format */ 0,
                   _0: {
-                    TAG: /* Alpha */15,
+                    TAG: /* Alpha */ 15,
                     _0: {
-                      TAG: /* Formatting_lit */17,
+                      TAG: /* Formatting_lit */ 17,
                       _0: {
-                        TAG: /* Break */0,
+                        TAG: /* Break */ 0,
                         _0: "@ ",
                         _1: 1,
                         _2: 0
                       },
                       _1: {
-                        TAG: /* Alpha */15,
-                        _0: /* End_of_format */0
+                        TAG: /* Alpha */ 15,
+                        _0: /* End_of_format */ 0
                       }
                     }
                   },
@@ -1871,43 +1871,43 @@ function pr_other_applications(ppf, f) {
 
 function pr_lambda(ppf, e) {
   switch (e.TAG) {
-    case /* Lambda */0 :
+    case /* Lambda */ 0 :
         return Curry._8(Stdlib__Format.fprintf(ppf)({
-                  TAG: /* Format */0,
+                  TAG: /* Format */ 0,
                   _0: {
-                    TAG: /* Formatting_gen */18,
+                    TAG: /* Formatting_gen */ 18,
                     _0: {
-                      TAG: /* Open_box */1,
+                      TAG: /* Open_box */ 1,
                       _0: {
-                        TAG: /* Format */0,
+                        TAG: /* Format */ 0,
                         _0: {
-                          TAG: /* String_literal */11,
+                          TAG: /* String_literal */ 11,
                           _0: "<1>",
-                          _1: /* End_of_format */0
+                          _1: /* End_of_format */ 0
                         },
                         _1: "<1>"
                       }
                     },
                     _1: {
-                      TAG: /* Alpha */15,
+                      TAG: /* Alpha */ 15,
                       _0: {
-                        TAG: /* Alpha */15,
+                        TAG: /* Alpha */ 15,
                         _0: {
-                          TAG: /* Alpha */15,
+                          TAG: /* Alpha */ 15,
                           _0: {
-                            TAG: /* Formatting_lit */17,
+                            TAG: /* Formatting_lit */ 17,
                             _0: {
-                              TAG: /* Break */0,
+                              TAG: /* Break */ 0,
                               _0: "@ ",
                               _1: 1,
                               _2: 0
                             },
                             _1: {
-                              TAG: /* Alpha */15,
+                              TAG: /* Alpha */ 15,
                               _0: {
-                                TAG: /* Formatting_lit */17,
-                                _0: /* Close_box */0,
-                                _1: /* End_of_format */0
+                                TAG: /* Formatting_lit */ 17,
+                                _0: /* Close_box */ 0,
+                                _1: /* End_of_format */ 0
                               }
                             }
                           }
@@ -1917,18 +1917,18 @@ function pr_lambda(ppf, e) {
                   },
                   _1: "@[<1>%a%a%a@ %a@]"
                 }), kwd, "\\", ident, e._0, kwd, ".", pr_lambda, e._1);
-    case /* Var */1 :
-    case /* Apply */2 :
+    case /* Var */ 1 :
+    case /* Apply */ 2 :
         return pr_app(ppf, e);
     
   }
 }
 
 const string_of_lambda = Curry._1(Stdlib__Format.asprintf({
-          TAG: /* Format */0,
+          TAG: /* Format */ 0,
           _0: {
-            TAG: /* Alpha */15,
-            _0: /* End_of_format */0
+            TAG: /* Alpha */ 15,
+            _0: /* End_of_format */ 0
           },
           _1: "%a"
         }), pr_lambda);
@@ -1946,20 +1946,20 @@ const Lambda_suites = {
 const lambda_suites = [
   [
     {
-      TAG: /* Var */1,
+      TAG: /* Var */ 1,
       _0: "x"
     },
     "x"
   ],
   [
     {
-      TAG: /* Apply */2,
+      TAG: /* Apply */ 2,
       _0: {
-        TAG: /* Var */1,
+        TAG: /* Var */ 1,
         _0: "x"
       },
       _1: {
-        TAG: /* Var */1,
+        TAG: /* Var */ 1,
         _0: "y"
       }
     },
@@ -1967,16 +1967,16 @@ const lambda_suites = [
   ],
   [
     {
-      TAG: /* Lambda */0,
+      TAG: /* Lambda */ 0,
       _0: "z",
       _1: {
-        TAG: /* Apply */2,
+        TAG: /* Apply */ 2,
         _0: {
-          TAG: /* Var */1,
+          TAG: /* Var */ 1,
           _0: "x"
         },
         _1: {
-          TAG: /* Var */1,
+          TAG: /* Var */ 1,
           _0: "y"
         }
       }
@@ -1985,19 +1985,19 @@ const lambda_suites = [
   ],
   [
     {
-      TAG: /* Lambda */0,
+      TAG: /* Lambda */ 0,
       _0: "z",
       _1: {
-        TAG: /* Lambda */0,
+        TAG: /* Lambda */ 0,
         _0: "z",
         _1: {
-          TAG: /* Apply */2,
+          TAG: /* Apply */ 2,
           _0: {
-            TAG: /* Var */1,
+            TAG: /* Var */ 1,
             _0: "x"
           },
           _1: {
-            TAG: /* Var */1,
+            TAG: /* Var */ 1,
             _0: "y"
           }
         }
@@ -2013,23 +2013,23 @@ function from_lambda_pairs(p) {
             const a = param[0];
             return [
               Curry._1(Stdlib__Printf.sprintf({
-                        TAG: /* Format */0,
+                        TAG: /* Format */ 0,
                         _0: {
-                          TAG: /* String_literal */11,
+                          TAG: /* String_literal */ 11,
                           _0: "lambda_print ",
                           _1: {
-                            TAG: /* Int */4,
-                            _0: /* Int_d */0,
-                            _1: /* No_padding */0,
-                            _2: /* No_precision */0,
-                            _3: /* End_of_format */0
+                            TAG: /* Int */ 4,
+                            _0: /* Int_d */ 0,
+                            _1: /* No_padding */ 0,
+                            _2: /* No_precision */ 0,
+                            _3: /* End_of_format */ 0
                           }
                         },
                         _1: "lambda_print %d"
                       }), i),
               (function (param) {
                 return {
-                  TAG: /* Eq */0,
+                  TAG: /* Eq */ 0,
                   _0: Curry._1(string_of_lambda, a),
                   _1: b
                 };
@@ -2047,22 +2047,22 @@ const ksprintf_suites_0 = [
           }), fmt);
     };
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: Curry._2(f({
-                TAG: /* Format */0,
+                TAG: /* Format */ 0,
                 _0: {
-                  TAG: /* String */2,
-                  _0: /* No_padding */0,
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* Char_literal */12,
+                    TAG: /* Char_literal */ 12,
                     _0: /* ' ' */32,
                     _1: {
-                      TAG: /* String */2,
-                      _0: /* No_padding */0,
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* String_literal */11,
+                        TAG: /* String_literal */ 11,
                         _0: " a ",
-                        _1: /* End_of_format */0
+                        _1: /* End_of_format */ 0
                       }
                     }
                   }
@@ -2079,19 +2079,19 @@ const ksprintf_suites_1 = {
     "sprintf",
     (function (param) {
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: Curry._2(Stdlib__Format.sprintf({
-                  TAG: /* Format */0,
+                  TAG: /* Format */ 0,
                   _0: {
-                    TAG: /* String */2,
-                    _0: /* No_padding */0,
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* Char_literal */12,
+                      TAG: /* Char_literal */ 12,
                       _0: /* ' ' */32,
                       _1: {
-                        TAG: /* Caml_string */3,
-                        _0: /* No_padding */0,
-                        _1: /* End_of_format */0
+                        TAG: /* Caml_string */ 3,
+                        _0: /* No_padding */ 0,
+                        _1: /* End_of_format */ 0
                       }
                     }
                   },
@@ -2101,7 +2101,7 @@ const ksprintf_suites_1 = {
       };
     })
   ],
-  tl: /* [] */0
+  tl: /* [] */ 0
 };
 
 const ksprintf_suites = {
@@ -2113,15 +2113,15 @@ const int64_suites_0 = [
   "i32_simple",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: Curry._1(Stdlib__Format.asprintf({
-                TAG: /* Format */0,
+                TAG: /* Format */ 0,
                 _0: {
-                  TAG: /* Int */4,
-                  _0: /* Int_x */6,
-                  _1: /* No_padding */0,
-                  _2: /* No_precision */0,
-                  _3: /* End_of_format */0
+                  TAG: /* Int */ 4,
+                  _0: /* Int_x */ 6,
+                  _1: /* No_padding */ 0,
+                  _2: /* No_precision */ 0,
+                  _3: /* End_of_format */ 0
                 },
                 _1: "%x"
               }), -1),
@@ -2135,15 +2135,15 @@ const int64_suites_1 = {
     "i32_simple1",
     (function (param) {
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: Curry._1(Stdlib__Format.asprintf({
-                  TAG: /* Format */0,
+                  TAG: /* Format */ 0,
                   _0: {
-                    TAG: /* Int */4,
-                    _0: /* Int_o */10,
-                    _1: /* No_padding */0,
-                    _2: /* No_precision */0,
-                    _3: /* End_of_format */0
+                    TAG: /* Int */ 4,
+                    _0: /* Int_o */ 10,
+                    _1: /* No_padding */ 0,
+                    _2: /* No_precision */ 0,
+                    _3: /* End_of_format */ 0
                   },
                   _1: "%o"
                 }), -1),
@@ -2156,15 +2156,15 @@ const int64_suites_1 = {
       "i64_simple",
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: Curry._1(Stdlib__Format.asprintf({
-                    TAG: /* Format */0,
+                    TAG: /* Format */ 0,
                     _0: {
-                      TAG: /* Int64 */7,
-                      _0: /* Int_d */0,
-                      _1: /* No_padding */0,
-                      _2: /* No_precision */0,
-                      _3: /* End_of_format */0
+                      TAG: /* Int64 */ 7,
+                      _0: /* Int_d */ 0,
+                      _1: /* No_padding */ 0,
+                      _2: /* No_precision */ 0,
+                      _3: /* End_of_format */ 0
                     },
                     _1: "%Ld"
                   }), [
@@ -2180,15 +2180,15 @@ const int64_suites_1 = {
         "i64_simple2",
         (function (param) {
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: Curry._1(Stdlib__Format.asprintf({
-                      TAG: /* Format */0,
+                      TAG: /* Format */ 0,
                       _0: {
-                        TAG: /* Int64 */7,
-                        _0: /* Int_x */6,
-                        _1: /* No_padding */0,
-                        _2: /* No_precision */0,
-                        _3: /* End_of_format */0
+                        TAG: /* Int64 */ 7,
+                        _0: /* Int_x */ 6,
+                        _1: /* No_padding */ 0,
+                        _2: /* No_precision */ 0,
+                        _3: /* End_of_format */ 0
                       },
                       _1: "%Lx"
                     }), [
@@ -2204,15 +2204,15 @@ const int64_suites_1 = {
           "i64_simple3",
           (function (param) {
             return {
-              TAG: /* Eq */0,
+              TAG: /* Eq */ 0,
               _0: Curry._1(Stdlib__Format.asprintf({
-                        TAG: /* Format */0,
+                        TAG: /* Format */ 0,
                         _0: {
-                          TAG: /* Int64 */7,
-                          _0: /* Int_i */3,
-                          _1: /* No_padding */0,
-                          _2: /* No_precision */0,
-                          _3: /* End_of_format */0
+                          TAG: /* Int64 */ 7,
+                          _0: /* Int_i */ 3,
+                          _1: /* No_padding */ 0,
+                          _2: /* No_precision */ 0,
+                          _3: /* End_of_format */ 0
                         },
                         _1: "%Li"
                       }), [
@@ -2228,15 +2228,15 @@ const int64_suites_1 = {
             "i64_simple4",
             (function (param) {
               return {
-                TAG: /* Eq */0,
+                TAG: /* Eq */ 0,
                 _0: Curry._1(Stdlib__Format.asprintf({
-                          TAG: /* Format */0,
+                          TAG: /* Format */ 0,
                           _0: {
-                            TAG: /* Int64 */7,
-                            _0: /* Int_X */8,
-                            _1: /* No_padding */0,
-                            _2: /* No_precision */0,
-                            _3: /* End_of_format */0
+                            TAG: /* Int64 */ 7,
+                            _0: /* Int_X */ 8,
+                            _1: /* No_padding */ 0,
+                            _2: /* No_precision */ 0,
+                            _3: /* End_of_format */ 0
                           },
                           _1: "%LX"
                         }), [
@@ -2252,15 +2252,15 @@ const int64_suites_1 = {
               "i64_simple5",
               (function (param) {
                 return {
-                  TAG: /* Eq */0,
+                  TAG: /* Eq */ 0,
                   _0: Curry._1(Stdlib__Format.asprintf({
-                            TAG: /* Format */0,
+                            TAG: /* Format */ 0,
                             _0: {
-                              TAG: /* Int64 */7,
-                              _0: /* Int_x */6,
-                              _1: /* No_padding */0,
-                              _2: /* No_precision */0,
-                              _3: /* End_of_format */0
+                              TAG: /* Int64 */ 7,
+                              _0: /* Int_x */ 6,
+                              _1: /* No_padding */ 0,
+                              _2: /* No_precision */ 0,
+                              _3: /* End_of_format */ 0
                             },
                             _1: "%Lx"
                           }), [
@@ -2276,18 +2276,18 @@ const int64_suites_1 = {
                 "i64_simple6",
                 (function (param) {
                   return {
-                    TAG: /* Eq */0,
+                    TAG: /* Eq */ 0,
                     _0: Curry._2(Stdlib__Format.asprintf({
-                              TAG: /* Format */0,
+                              TAG: /* Format */ 0,
                               _0: {
-                                TAG: /* Int64 */7,
-                                _0: /* Int_x */6,
+                                TAG: /* Int64 */ 7,
+                                _0: /* Int_x */ 6,
                                 _1: {
-                                  TAG: /* Arg_padding */1,
-                                  _0: /* Right */1
+                                  TAG: /* Arg_padding */ 1,
+                                  _0: /* Right */ 1
                                 },
-                                _2: /* No_precision */0,
-                                _3: /* End_of_format */0
+                                _2: /* No_precision */ 0,
+                                _3: /* End_of_format */ 0
                               },
                               _1: "%*Lx"
                             }), 5, [
@@ -2303,7 +2303,7 @@ const int64_suites_1 = {
                   "i64_simple7",
                   (function (param) {
                     return {
-                      TAG: /* Eq */0,
+                      TAG: /* Eq */ 0,
                       _0: Caml_format.caml_int64_format("%d", [
                             0,
                             3333
@@ -2317,24 +2317,24 @@ const int64_suites_1 = {
                     "i64_simple8",
                     (function (param) {
                       return {
-                        TAG: /* Eq */0,
+                        TAG: /* Eq */ 0,
                         _0: Curry._2(Stdlib__Format.asprintf({
-                                  TAG: /* Format */0,
+                                  TAG: /* Format */ 0,
                                   _0: {
-                                    TAG: /* Int64 */7,
-                                    _0: /* Int_d */0,
-                                    _1: /* No_padding */0,
-                                    _2: /* No_precision */0,
+                                    TAG: /* Int64 */ 7,
+                                    _0: /* Int_d */ 0,
+                                    _1: /* No_padding */ 0,
+                                    _2: /* No_precision */ 0,
                                     _3: {
-                                      TAG: /* Int64 */7,
-                                      _0: /* Int_d */0,
+                                      TAG: /* Int64 */ 7,
+                                      _0: /* Int_d */ 0,
                                       _1: {
-                                        TAG: /* Lit_padding */0,
-                                        _0: /* Zeros */2,
+                                        TAG: /* Lit_padding */ 0,
+                                        _0: /* Zeros */ 2,
                                         _1: 18
                                       },
-                                      _2: /* No_precision */0,
-                                      _3: /* End_of_format */0
+                                      _2: /* No_precision */ 0,
+                                      _3: /* End_of_format */ 0
                                     }
                                   },
                                   _1: "%Ld%018Ld"
@@ -2354,24 +2354,24 @@ const int64_suites_1 = {
                       "i64_simple9",
                       (function (param) {
                         return {
-                          TAG: /* Eq */0,
+                          TAG: /* Eq */ 0,
                           _0: Curry._2(Stdlib__Format.asprintf({
-                                    TAG: /* Format */0,
+                                    TAG: /* Format */ 0,
                                     _0: {
-                                      TAG: /* Int64 */7,
-                                      _0: /* Int_d */0,
-                                      _1: /* No_padding */0,
-                                      _2: /* No_precision */0,
+                                      TAG: /* Int64 */ 7,
+                                      _0: /* Int_d */ 0,
+                                      _1: /* No_padding */ 0,
+                                      _2: /* No_precision */ 0,
                                       _3: {
-                                        TAG: /* Int64 */7,
-                                        _0: /* Int_d */0,
+                                        TAG: /* Int64 */ 7,
+                                        _0: /* Int_d */ 0,
                                         _1: {
-                                          TAG: /* Lit_padding */0,
-                                          _0: /* Zeros */2,
+                                          TAG: /* Lit_padding */ 0,
+                                          _0: /* Zeros */ 2,
                                           _1: 18
                                         },
-                                        _2: /* No_precision */0,
-                                        _3: /* End_of_format */0
+                                        _2: /* No_precision */ 0,
+                                        _3: /* End_of_format */ 0
                                       }
                                     },
                                     _1: "%Ld%018Ld"
@@ -2388,15 +2388,15 @@ const int64_suites_1 = {
                         "i64_simple10",
                         (function (param) {
                           return {
-                            TAG: /* Eq */0,
+                            TAG: /* Eq */ 0,
                             _0: Curry._1(Stdlib__Format.asprintf({
-                                      TAG: /* Format */0,
+                                      TAG: /* Format */ 0,
                                       _0: {
-                                        TAG: /* Int64 */7,
-                                        _0: /* Int_x */6,
-                                        _1: /* No_padding */0,
-                                        _2: /* No_precision */0,
-                                        _3: /* End_of_format */0
+                                        TAG: /* Int64 */ 7,
+                                        _0: /* Int_x */ 6,
+                                        _1: /* No_padding */ 0,
+                                        _2: /* No_precision */ 0,
+                                        _3: /* End_of_format */ 0
                                       },
                                       _1: "%Lx"
                                     }), Stdlib__Int64.max_int),
@@ -2409,15 +2409,15 @@ const int64_suites_1 = {
                           "i64_simple15",
                           (function (param) {
                             return {
-                              TAG: /* Eq */0,
+                              TAG: /* Eq */ 0,
                               _0: Curry._1(Stdlib__Format.asprintf({
-                                        TAG: /* Format */0,
+                                        TAG: /* Format */ 0,
                                         _0: {
-                                          TAG: /* Int64 */7,
-                                          _0: /* Int_d */0,
-                                          _1: /* No_padding */0,
-                                          _2: /* No_precision */0,
-                                          _3: /* End_of_format */0
+                                          TAG: /* Int64 */ 7,
+                                          _0: /* Int_d */ 0,
+                                          _1: /* No_padding */ 0,
+                                          _2: /* No_precision */ 0,
+                                          _3: /* End_of_format */ 0
                                         },
                                         _1: "%Ld"
                                       }), Caml_int64.neg_one),
@@ -2430,15 +2430,15 @@ const int64_suites_1 = {
                             "i64_simple16",
                             (function (param) {
                               return {
-                                TAG: /* Eq */0,
+                                TAG: /* Eq */ 0,
                                 _0: Curry._1(Stdlib__Format.asprintf({
-                                          TAG: /* Format */0,
+                                          TAG: /* Format */ 0,
                                           _0: {
-                                            TAG: /* Int64 */7,
-                                            _0: /* Int_d */0,
-                                            _1: /* No_padding */0,
-                                            _2: /* No_precision */0,
-                                            _3: /* End_of_format */0
+                                            TAG: /* Int64 */ 7,
+                                            _0: /* Int_d */ 0,
+                                            _1: /* No_padding */ 0,
+                                            _2: /* No_precision */ 0,
+                                            _3: /* End_of_format */ 0
                                           },
                                           _1: "%Ld"
                                         }), [
@@ -2454,15 +2454,15 @@ const int64_suites_1 = {
                               "i64_simple14",
                               (function (param) {
                                 return {
-                                  TAG: /* Eq */0,
+                                  TAG: /* Eq */ 0,
                                   _0: Curry._1(Stdlib__Format.asprintf({
-                                            TAG: /* Format */0,
+                                            TAG: /* Format */ 0,
                                             _0: {
-                                              TAG: /* Int64 */7,
-                                              _0: /* Int_X */8,
-                                              _1: /* No_padding */0,
-                                              _2: /* No_precision */0,
-                                              _3: /* End_of_format */0
+                                              TAG: /* Int64 */ 7,
+                                              _0: /* Int_X */ 8,
+                                              _1: /* No_padding */ 0,
+                                              _2: /* No_precision */ 0,
+                                              _3: /* End_of_format */ 0
                                             },
                                             _1: "%LX"
                                           }), Caml_int64.neg_one),
@@ -2475,15 +2475,15 @@ const int64_suites_1 = {
                                 "File \"jscomp/test/caml_format_test.ml\", line 207, characters 4-11",
                                 (function (param) {
                                   return {
-                                    TAG: /* Eq */0,
+                                    TAG: /* Eq */ 0,
                                     _0: Curry._1(Stdlib__Format.asprintf({
-                                              TAG: /* Format */0,
+                                              TAG: /* Format */ 0,
                                               _0: {
-                                                TAG: /* Int64 */7,
-                                                _0: /* Int_x */6,
-                                                _1: /* No_padding */0,
-                                                _2: /* No_precision */0,
-                                                _3: /* End_of_format */0
+                                                TAG: /* Int64 */ 7,
+                                                _0: /* Int_x */ 6,
+                                                _1: /* No_padding */ 0,
+                                                _2: /* No_precision */ 0,
+                                                _3: /* End_of_format */ 0
                                               },
                                               _1: "%Lx"
                                             }), Caml_int64.neg_one),
@@ -2496,15 +2496,15 @@ const int64_suites_1 = {
                                   "i64_simple11",
                                   (function (param) {
                                     return {
-                                      TAG: /* Eq */0,
+                                      TAG: /* Eq */ 0,
                                       _0: Curry._1(Stdlib__Format.asprintf({
-                                                TAG: /* Format */0,
+                                                TAG: /* Format */ 0,
                                                 _0: {
-                                                  TAG: /* Int64 */7,
-                                                  _0: /* Int_X */8,
-                                                  _1: /* No_padding */0,
-                                                  _2: /* No_precision */0,
-                                                  _3: /* End_of_format */0
+                                                  TAG: /* Int64 */ 7,
+                                                  _0: /* Int_X */ 8,
+                                                  _1: /* No_padding */ 0,
+                                                  _2: /* No_precision */ 0,
+                                                  _3: /* End_of_format */ 0
                                                 },
                                                 _1: "%LX"
                                               }), Stdlib__Int64.max_int),
@@ -2517,15 +2517,15 @@ const int64_suites_1 = {
                                     "File \"jscomp/test/caml_format_test.ml\", line 215, characters 4-11",
                                     (function (param) {
                                       return {
-                                        TAG: /* Eq */0,
+                                        TAG: /* Eq */ 0,
                                         _0: Curry._1(Stdlib__Format.asprintf({
-                                                  TAG: /* Format */0,
+                                                  TAG: /* Format */ 0,
                                                   _0: {
-                                                    TAG: /* Int64 */7,
-                                                    _0: /* Int_X */8,
-                                                    _1: /* No_padding */0,
-                                                    _2: /* No_precision */0,
-                                                    _3: /* End_of_format */0
+                                                    TAG: /* Int64 */ 7,
+                                                    _0: /* Int_X */ 8,
+                                                    _1: /* No_padding */ 0,
+                                                    _2: /* No_precision */ 0,
+                                                    _3: /* End_of_format */ 0
                                                   },
                                                   _1: "%LX"
                                                 }), Stdlib__Int64.min_int),
@@ -2538,15 +2538,15 @@ const int64_suites_1 = {
                                       "File \"jscomp/test/caml_format_test.ml\", line 216, characters 4-11",
                                       (function (param) {
                                         return {
-                                          TAG: /* Eq */0,
+                                          TAG: /* Eq */ 0,
                                           _0: Curry._1(Stdlib__Format.asprintf({
-                                                    TAG: /* Format */0,
+                                                    TAG: /* Format */ 0,
                                                     _0: {
-                                                      TAG: /* Int64 */7,
-                                                      _0: /* Int_u */12,
-                                                      _1: /* No_padding */0,
-                                                      _2: /* No_precision */0,
-                                                      _3: /* End_of_format */0
+                                                      TAG: /* Int64 */ 7,
+                                                      _0: /* Int_u */ 12,
+                                                      _1: /* No_padding */ 0,
+                                                      _2: /* No_precision */ 0,
+                                                      _3: /* End_of_format */ 0
                                                     },
                                                     _1: "%Lu"
                                                   }), Caml_int64.neg_one),
@@ -2559,15 +2559,15 @@ const int64_suites_1 = {
                                         "File \"jscomp/test/caml_format_test.ml\", line 220, characters 4-11",
                                         (function (param) {
                                           return {
-                                            TAG: /* Eq */0,
+                                            TAG: /* Eq */ 0,
                                             _0: Curry._1(Stdlib__Format.asprintf({
-                                                      TAG: /* Format */0,
+                                                      TAG: /* Format */ 0,
                                                       _0: {
-                                                        TAG: /* Int64 */7,
-                                                        _0: /* Int_u */12,
-                                                        _1: /* No_padding */0,
-                                                        _2: /* No_precision */0,
-                                                        _3: /* End_of_format */0
+                                                        TAG: /* Int64 */ 7,
+                                                        _0: /* Int_u */ 12,
+                                                        _1: /* No_padding */ 0,
+                                                        _2: /* No_precision */ 0,
+                                                        _3: /* End_of_format */ 0
                                                       },
                                                       _1: "%Lu"
                                                     }), [
@@ -2583,15 +2583,15 @@ const int64_suites_1 = {
                                           "File \"jscomp/test/caml_format_test.ml\", line 223, characters 4-11",
                                           (function (param) {
                                             return {
-                                              TAG: /* Eq */0,
+                                              TAG: /* Eq */ 0,
                                               _0: Curry._1(Stdlib__Format.asprintf({
-                                                        TAG: /* Format */0,
+                                                        TAG: /* Format */ 0,
                                                         _0: {
-                                                          TAG: /* Int64 */7,
-                                                          _0: /* Int_u */12,
-                                                          _1: /* No_padding */0,
-                                                          _2: /* No_precision */0,
-                                                          _3: /* End_of_format */0
+                                                          TAG: /* Int64 */ 7,
+                                                          _0: /* Int_u */ 12,
+                                                          _1: /* No_padding */ 0,
+                                                          _2: /* No_precision */ 0,
+                                                          _3: /* End_of_format */ 0
                                                         },
                                                         _1: "%Lu"
                                                       }), Caml_int64.add(Stdlib__Int64.min_int, Caml_int64.one)),
@@ -2604,15 +2604,15 @@ const int64_suites_1 = {
                                             "File \"jscomp/test/caml_format_test.ml\", line 226, characters 4-11",
                                             (function (param) {
                                               return {
-                                                TAG: /* Eq */0,
+                                                TAG: /* Eq */ 0,
                                                 _0: Curry._1(Stdlib__Format.asprintf({
-                                                          TAG: /* Format */0,
+                                                          TAG: /* Format */ 0,
                                                           _0: {
-                                                            TAG: /* Int64 */7,
-                                                            _0: /* Int_u */12,
-                                                            _1: /* No_padding */0,
-                                                            _2: /* No_precision */0,
-                                                            _3: /* End_of_format */0
+                                                            TAG: /* Int64 */ 7,
+                                                            _0: /* Int_u */ 12,
+                                                            _1: /* No_padding */ 0,
+                                                            _2: /* No_precision */ 0,
+                                                            _3: /* End_of_format */ 0
                                                           },
                                                           _1: "%Lu"
                                                         }), [
@@ -2628,15 +2628,15 @@ const int64_suites_1 = {
                                               "i64_simple19",
                                               (function (param) {
                                                 return {
-                                                  TAG: /* Eq */0,
+                                                  TAG: /* Eq */ 0,
                                                   _0: Curry._1(Stdlib__Format.asprintf({
-                                                            TAG: /* Format */0,
+                                                            TAG: /* Format */ 0,
                                                             _0: {
-                                                              TAG: /* Int64 */7,
-                                                              _0: /* Int_o */10,
-                                                              _1: /* No_padding */0,
-                                                              _2: /* No_precision */0,
-                                                              _3: /* End_of_format */0
+                                                              TAG: /* Int64 */ 7,
+                                                              _0: /* Int_o */ 10,
+                                                              _1: /* No_padding */ 0,
+                                                              _2: /* No_precision */ 0,
+                                                              _3: /* End_of_format */ 0
                                                             },
                                                             _1: "%Lo"
                                                           }), Stdlib__Int64.min_int),
@@ -2649,15 +2649,15 @@ const int64_suites_1 = {
                                                 "i64_simple13",
                                                 (function (param) {
                                                   return {
-                                                    TAG: /* Eq */0,
+                                                    TAG: /* Eq */ 0,
                                                     _0: Curry._1(Stdlib__Format.asprintf({
-                                                              TAG: /* Format */0,
+                                                              TAG: /* Format */ 0,
                                                               _0: {
-                                                                TAG: /* Int64 */7,
-                                                                _0: /* Int_X */8,
-                                                                _1: /* No_padding */0,
-                                                                _2: /* No_precision */0,
-                                                                _3: /* End_of_format */0
+                                                                TAG: /* Int64 */ 7,
+                                                                _0: /* Int_X */ 8,
+                                                                _1: /* No_padding */ 0,
+                                                                _2: /* No_precision */ 0,
+                                                                _3: /* End_of_format */ 0
                                                               },
                                                               _1: "%LX"
                                                             }), Caml_int64.add(Stdlib__Int64.min_int, Caml_int64.one)),
@@ -2670,19 +2670,19 @@ const int64_suites_1 = {
                                                   "i64_simple20",
                                                   (function (param) {
                                                     return {
-                                                      TAG: /* Eq */0,
+                                                      TAG: /* Eq */ 0,
                                                       _0: Curry._1(Stdlib__Format.asprintf({
-                                                                TAG: /* Format */0,
+                                                                TAG: /* Format */ 0,
                                                                 _0: {
-                                                                  TAG: /* Int64 */7,
-                                                                  _0: /* Int_x */6,
+                                                                  TAG: /* Int64 */ 7,
+                                                                  _0: /* Int_x */ 6,
                                                                   _1: {
-                                                                    TAG: /* Lit_padding */0,
-                                                                    _0: /* Right */1,
+                                                                    TAG: /* Lit_padding */ 0,
+                                                                    _0: /* Right */ 1,
                                                                     _1: 12
                                                                   },
-                                                                  _2: /* No_precision */0,
-                                                                  _3: /* End_of_format */0
+                                                                  _2: /* No_precision */ 0,
+                                                                  _3: /* End_of_format */ 0
                                                                 },
                                                                 _1: "%12Lx"
                                                               }), [
@@ -2698,15 +2698,15 @@ const int64_suites_1 = {
                                                     "i64_simple21",
                                                     (function (param) {
                                                       return {
-                                                        TAG: /* Eq */0,
+                                                        TAG: /* Eq */ 0,
                                                         _0: Curry._1(Stdlib__Format.asprintf({
-                                                                  TAG: /* Format */0,
+                                                                  TAG: /* Format */ 0,
                                                                   _0: {
-                                                                    TAG: /* Int64 */7,
-                                                                    _0: /* Int_X */8,
-                                                                    _1: /* No_padding */0,
-                                                                    _2: /* No_precision */0,
-                                                                    _3: /* End_of_format */0
+                                                                    TAG: /* Int64 */ 7,
+                                                                    _0: /* Int_X */ 8,
+                                                                    _1: /* No_padding */ 0,
+                                                                    _2: /* No_precision */ 0,
+                                                                    _3: /* End_of_format */ 0
                                                                   },
                                                                   _1: "%LX"
                                                                 }), [
@@ -2722,18 +2722,18 @@ const int64_suites_1 = {
                                                       "missing_neline",
                                                       (function (param) {
                                                         return {
-                                                          TAG: /* Eq */0,
+                                                          TAG: /* Eq */ 0,
                                                           _0: Curry._1(Stdlib__Format.asprintf({
-                                                                    TAG: /* Format */0,
+                                                                    TAG: /* Format */ 0,
                                                                     _0: {
-                                                                      TAG: /* Int64 */7,
-                                                                      _0: /* Int_d */0,
-                                                                      _1: /* No_padding */0,
-                                                                      _2: /* No_precision */0,
+                                                                      TAG: /* Int64 */ 7,
+                                                                      _0: /* Int_d */ 0,
+                                                                      _1: /* No_padding */ 0,
+                                                                      _2: /* No_precision */ 0,
                                                                       _3: {
-                                                                        TAG: /* Char_literal */12,
+                                                                        TAG: /* Char_literal */ 12,
                                                                         _0: /* '\n' */10,
-                                                                        _1: /* End_of_format */0
+                                                                        _1: /* End_of_format */ 0
                                                                       }
                                                                     },
                                                                     _1: "%Ld\n"
@@ -2751,18 +2751,18 @@ const int64_suites_1 = {
                                                         (function (param) {
                                                           const buf = Stdlib__Buffer.create(30);
                                                           return {
-                                                            TAG: /* Eq */0,
+                                                            TAG: /* Eq */ 0,
                                                             _0: (Curry._1(Stdlib__Printf.bprintf(buf, {
-                                                                      TAG: /* Format */0,
+                                                                      TAG: /* Format */ 0,
                                                                       _0: {
-                                                                        TAG: /* Int64 */7,
-                                                                        _0: /* Int_d */0,
-                                                                        _1: /* No_padding */0,
-                                                                        _2: /* No_precision */0,
+                                                                        TAG: /* Int64 */ 7,
+                                                                        _0: /* Int_d */ 0,
+                                                                        _1: /* No_padding */ 0,
+                                                                        _2: /* No_precision */ 0,
                                                                         _3: {
-                                                                          TAG: /* Char_literal */12,
+                                                                          TAG: /* Char_literal */ 12,
                                                                           _0: /* '\n' */10,
-                                                                          _1: /* End_of_format */0
+                                                                          _1: /* End_of_format */ 0
                                                                         }
                                                                       },
                                                                       _1: "%Ld\n"
@@ -2774,7 +2774,7 @@ const int64_suites_1 = {
                                                           };
                                                         })
                                                       ],
-                                                      tl: /* [] */0
+                                                      tl: /* [] */ 0
                                                     }
                                                   }
                                                 }
@@ -2871,23 +2871,23 @@ Mt.from_pair_suites("Caml_format_test", Stdlib.$at(suites, Stdlib.$at(formatter_
                                   const fmt = param[0];
                                   return [
                                     Curry._1(Stdlib__Printf.sprintf({
-                                              TAG: /* Format */0,
+                                              TAG: /* Format */ 0,
                                               _0: {
-                                                TAG: /* String_literal */11,
+                                                TAG: /* String_literal */ 11,
                                                 _0: "float_format ",
                                                 _1: {
-                                                  TAG: /* Int */4,
-                                                  _0: /* Int_d */0,
-                                                  _1: /* No_padding */0,
-                                                  _2: /* No_precision */0,
-                                                  _3: /* End_of_format */0
+                                                  TAG: /* Int */ 4,
+                                                  _0: /* Int_d */ 0,
+                                                  _1: /* No_padding */ 0,
+                                                  _2: /* No_precision */ 0,
+                                                  _3: /* End_of_format */ 0
                                                 }
                                               },
                                               _1: "float_format %d"
                                             }), i),
                                     (function (param) {
                                       return {
-                                        TAG: /* Eq */0,
+                                        TAG: /* Eq */ 0,
                                         _0: Caml_format.caml_format_float(fmt, f),
                                         _1: str_result
                                       };
@@ -2898,19 +2898,19 @@ Mt.from_pair_suites("Caml_format_test", Stdlib.$at(suites, Stdlib.$at(formatter_
                                       const a = param[0];
                                       return [
                                         Curry._1(Stdlib__Printf.sprintf({
-                                                  TAG: /* Format */0,
+                                                  TAG: /* Format */ 0,
                                                   _0: {
-                                                    TAG: /* String_literal */11,
+                                                    TAG: /* String_literal */ 11,
                                                     _0: "int64_of_string ",
                                                     _1: {
-                                                      TAG: /* Int */4,
-                                                      _0: /* Int_d */0,
-                                                      _1: /* No_padding */0,
-                                                      _2: /* No_precision */0,
+                                                      TAG: /* Int */ 4,
+                                                      _0: /* Int_d */ 0,
+                                                      _1: /* No_padding */ 0,
+                                                      _2: /* No_precision */ 0,
                                                       _3: {
-                                                        TAG: /* Char_literal */12,
+                                                        TAG: /* Char_literal */ 12,
                                                         _0: /* ' ' */32,
-                                                        _1: /* End_of_format */0
+                                                        _1: /* End_of_format */ 0
                                                       }
                                                     }
                                                   },
@@ -2918,7 +2918,7 @@ Mt.from_pair_suites("Caml_format_test", Stdlib.$at(suites, Stdlib.$at(formatter_
                                                 }), i),
                                         (function (param) {
                                           return {
-                                            TAG: /* Eq */0,
+                                            TAG: /* Eq */ 0,
                                             _0: Caml_format.caml_int64_of_string(b),
                                             _1: a
                                           };
@@ -2930,7 +2930,7 @@ const a = Stdlib__Format.asprintf;
 
 const float_suites = {
   hd: "float_nan",
-  tl: /* [] */0
+  tl: /* [] */ 0
 };
 
 const hh = [

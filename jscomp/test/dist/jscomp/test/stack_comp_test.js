@@ -10,7 +10,7 @@ const Stdlib__List = require("melange/list.js");
 const Stdlib__Stack = require("melange/stack.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -30,7 +30,7 @@ function assert_(loc, v) {
 
 function to_list(s) {
   const l = {
-    contents: /* [] */0
+    contents: /* [] */ 0
   };
   Stdlib__List.iter((function (x) {
         l.contents = {
@@ -77,17 +77,17 @@ function does_raise(f, s) {
 }
 
 const s = {
-  c: /* [] */0,
+  c: /* [] */ 0,
   len: 0
 };
 
-assert_("File \"jscomp/test/stack_comp_test.ml\", line 33, characters 32-39", Caml_obj.caml_equal(to_list(s), /* [] */0) && s.len === 0);
+assert_("File \"jscomp/test/stack_comp_test.ml\", line 33, characters 32-39", Caml_obj.caml_equal(to_list(s), /* [] */ 0) && s.len === 0);
 
 Stdlib__Stack.push(1, s);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 34, characters 32-39", Caml_obj.caml_equal(to_list(s), {
           hd: 1,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }) && s.len === 1);
 
 Stdlib__Stack.push(2, s);
@@ -96,7 +96,7 @@ assert_("File \"jscomp/test/stack_comp_test.ml\", line 35, characters 32-39", Ca
           hd: 1,
           tl: {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }) && s.len === 2);
 
@@ -108,7 +108,7 @@ assert_("File \"jscomp/test/stack_comp_test.ml\", line 36, characters 32-39", Ca
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }) && s.len === 3);
@@ -123,7 +123,7 @@ assert_("File \"jscomp/test/stack_comp_test.ml\", line 37, characters 32-39", Ca
               hd: 3,
               tl: {
                 hd: 4,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -137,7 +137,7 @@ assert_("File \"jscomp/test/stack_comp_test.ml\", line 38, characters 41-48", Ca
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }) && s.len === 3);
@@ -148,7 +148,7 @@ assert_("File \"jscomp/test/stack_comp_test.ml\", line 39, characters 41-48", Ca
           hd: 1,
           tl: {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }) && s.len === 2);
 
@@ -156,17 +156,17 @@ assert_("File \"jscomp/test/stack_comp_test.ml\", line 40, characters 10-17", St
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 40, characters 41-48", Caml_obj.caml_equal(to_list(s), {
           hd: 1,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }) && s.len === 1);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 41, characters 10-17", Stdlib__Stack.pop(s) === 1);
 
-assert_("File \"jscomp/test/stack_comp_test.ml\", line 41, characters 41-48", Caml_obj.caml_equal(to_list(s), /* [] */0) && s.len === 0);
+assert_("File \"jscomp/test/stack_comp_test.ml\", line 41, characters 41-48", Caml_obj.caml_equal(to_list(s), /* [] */ 0) && s.len === 0);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 42, characters 10-17", does_raise(Stdlib__Stack.pop, s));
 
 const s$1 = {
-  c: /* [] */0,
+  c: /* [] */ 0,
   len: 0
 };
 
@@ -185,7 +185,7 @@ assert_("File \"jscomp/test/stack_comp_test.ml\", line 48, characters 53-60", do
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 49, characters 10-17", s$1.len === 0);
 
 const s$2 = {
-  c: /* [] */0,
+  c: /* [] */ 0,
   len: 0
 };
 
@@ -218,7 +218,7 @@ assert_("File \"jscomp/test/stack_comp_test.ml\", line 60, characters 10-17", do
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 61, characters 10-17", does_raise(Stdlib__Stack.top, s$2));
 
 const s$3 = {
-  c: /* [] */0,
+  c: /* [] */ 0,
   len: 0
 };
 
@@ -233,7 +233,7 @@ assert_("File \"jscomp/test/stack_comp_test.ml\", line 68, characters 10-17", s$
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 69, characters 10-17", does_raise(Stdlib__Stack.pop, s$3));
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 70, characters 10-17", Caml_obj.caml_equal(s$3, {
-          c: /* [] */0,
+          c: /* [] */ 0,
           len: 0
         }));
 
@@ -242,7 +242,7 @@ Stdlib__Stack.push(42, s$3);
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 72, characters 10-17", Stdlib__Stack.pop(s$3) === 42);
 
 const s1 = {
-  c: /* [] */0,
+  c: /* [] */ 0,
   len: 0
 };
 
@@ -272,7 +272,7 @@ assert_("File \"jscomp/test/stack_comp_test.ml\", line 79, characters 10-17", Ca
                           hd: 9,
                           tl: {
                             hd: 10,
-                            tl: /* [] */0
+                            tl: /* [] */ 0
                           }
                         }
                       }
@@ -304,7 +304,7 @@ assert_("File \"jscomp/test/stack_comp_test.ml\", line 80, characters 10-17", Ca
                           hd: 9,
                           tl: {
                             hd: 10,
-                            tl: /* [] */0
+                            tl: /* [] */ 0
                           }
                         }
                       }
@@ -329,30 +329,30 @@ for (let i$3 = 10; i$3 >= 1; --i$3) {
 }
 
 const s$4 = {
-  c: /* [] */0,
+  c: /* [] */ 0,
   len: 0
 };
 
-assert_("File \"jscomp/test/stack_comp_test.ml\", line 93, characters 10-17", Caml_obj.caml_equal(s$4.c, /* [] */0));
+assert_("File \"jscomp/test/stack_comp_test.ml\", line 93, characters 10-17", Caml_obj.caml_equal(s$4.c, /* [] */ 0));
 
 for (let i$4 = 1; i$4 <= 10; ++i$4) {
   Stdlib__Stack.push(i$4, s$4);
   assert_("File \"jscomp/test/stack_comp_test.ml\", line 96, characters 12-19", s$4.len === i$4);
-  assert_("File \"jscomp/test/stack_comp_test.ml\", line 97, characters 12-19", !Caml_obj.caml_equal(s$4.c, /* [] */0));
+  assert_("File \"jscomp/test/stack_comp_test.ml\", line 97, characters 12-19", !Caml_obj.caml_equal(s$4.c, /* [] */ 0));
 }
 
 for (let i$5 = 10; i$5 >= 1; --i$5) {
   assert_("File \"jscomp/test/stack_comp_test.ml\", line 100, characters 12-19", s$4.len === i$5);
-  assert_("File \"jscomp/test/stack_comp_test.ml\", line 101, characters 12-19", !Caml_obj.caml_equal(s$4.c, /* [] */0));
+  assert_("File \"jscomp/test/stack_comp_test.ml\", line 101, characters 12-19", !Caml_obj.caml_equal(s$4.c, /* [] */ 0));
   Stdlib__Stack.pop(s$4);
 }
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 104, characters 10-17", s$4.len === 0);
 
-assert_("File \"jscomp/test/stack_comp_test.ml\", line 105, characters 10-17", Caml_obj.caml_equal(s$4.c, /* [] */0));
+assert_("File \"jscomp/test/stack_comp_test.ml\", line 105, characters 10-17", Caml_obj.caml_equal(s$4.c, /* [] */ 0));
 
 const s$5 = {
-  c: /* [] */0,
+  c: /* [] */ 0,
   len: 0
 };
 
@@ -370,26 +370,26 @@ Stdlib__List.iter((function (j) {
     }), s$5.c);
 
 const s1$1 = {
-  c: /* [] */0,
+  c: /* [] */ 0,
   len: 0
 };
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 117, characters 10-17", s1$1.len === 0);
 
-assert_("File \"jscomp/test/stack_comp_test.ml\", line 117, characters 45-52", Caml_obj.caml_equal(to_list(s1$1), /* [] */0));
+assert_("File \"jscomp/test/stack_comp_test.ml\", line 117, characters 45-52", Caml_obj.caml_equal(to_list(s1$1), /* [] */ 0));
 
 const s2$1 = Stdlib__Stack.copy(s1$1);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 119, characters 10-17", s1$1.len === 0);
 
-assert_("File \"jscomp/test/stack_comp_test.ml\", line 119, characters 45-52", Caml_obj.caml_equal(to_list(s1$1), /* [] */0));
+assert_("File \"jscomp/test/stack_comp_test.ml\", line 119, characters 45-52", Caml_obj.caml_equal(to_list(s1$1), /* [] */ 0));
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 120, characters 10-17", s2$1.len === 0);
 
-assert_("File \"jscomp/test/stack_comp_test.ml\", line 120, characters 45-52", Caml_obj.caml_equal(to_list(s2$1), /* [] */0));
+assert_("File \"jscomp/test/stack_comp_test.ml\", line 120, characters 45-52", Caml_obj.caml_equal(to_list(s2$1), /* [] */ 0));
 
 const s1$2 = {
-  c: /* [] */0,
+  c: /* [] */ 0,
   len: 0
 };
 
@@ -407,7 +407,7 @@ assert_("File \"jscomp/test/stack_comp_test.ml\", line 126, characters 45-52", C
               hd: 3,
               tl: {
                 hd: 4,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -425,7 +425,7 @@ assert_("File \"jscomp/test/stack_comp_test.ml\", line 128, characters 45-52", C
               hd: 3,
               tl: {
                 hd: 4,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -441,7 +441,7 @@ assert_("File \"jscomp/test/stack_comp_test.ml\", line 129, characters 45-52", C
               hd: 3,
               tl: {
                 hd: 4,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }

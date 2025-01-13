@@ -7,7 +7,7 @@ const Caml_option = require("melange.js/caml_option.js");
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -32,7 +32,7 @@ function f0(x) {
 }
 
 function f1(u) {
-  if (/* tag */typeof u === "number" || typeof u === "string") {
+  if (/* tag */ typeof u === "number" || typeof u === "string") {
     return 1;
   } else {
     return 0;
@@ -119,7 +119,7 @@ function f13$1(param) {
           hd: 2,
           tl: {
             hd: 3,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }
       });
@@ -179,7 +179,7 @@ const xs_0 = gtx(Caml_option.some(null), Caml_option.some(undefined));
 
 const xs = {
   hd: xs_0,
-  tl: /* [] */0
+  tl: /* [] */ 0
 };
 
 b("File \"jscomp/test/option_repr_test.ml\", line 121, characters 5-12", Belt__Belt_List.every(xs, (function (x) {
@@ -210,7 +210,7 @@ const xs_1 = {
                       })),
                   tl: {
                     hd: ltx(null, 3),
-                    tl: /* [] */0
+                    tl: /* [] */ 0
                   }
                 }
               }
@@ -241,7 +241,7 @@ const xs_1$1 = {
       hd: eqx(Caml_option.some(Caml_option.some(undefined)), Caml_option.some(Caml_option.some(undefined))),
       tl: {
         hd: neqx(Caml_option.some(Caml_option.some(Caml_option.some(undefined))), Caml_option.some(Caml_option.some(undefined))),
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     }
   }

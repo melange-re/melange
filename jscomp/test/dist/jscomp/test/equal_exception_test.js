@@ -63,7 +63,7 @@ function is_exception(param) {
 }
 
 function is_normal_exception(_x) {
-  const A = /* @__PURE__ */Caml_exceptions.create("A");
+  const A = /* @__PURE__ */ Caml_exceptions.create("A");
   const v = {
     MEL_EXN_ID: A,
     _1: 3
@@ -84,7 +84,7 @@ function is_normal_exception(_x) {
 }
 
 function is_arbitrary_exception(param) {
-  const A = /* @__PURE__ */Caml_exceptions.create("A");
+  const A = /* @__PURE__ */ Caml_exceptions.create("A");
   try {
     throw new Caml_js_exceptions.MelangeError(A, {
           MEL_EXN_ID: A
@@ -115,7 +115,7 @@ const suites_1 = {
         "is_arbitrary_exception",
         is_arbitrary_exception
       ],
-      tl: /* [] */0
+      tl: /* [] */ 0
     }
   }
 };
@@ -133,7 +133,7 @@ function eq(param) {
   return param.MEL_EXN_ID === Stdlib.Not_found;
 }
 
-const Not_found = /* @__PURE__ */Caml_exceptions.create("Equal_exception_test.Not_found");
+const Not_found = /* @__PURE__ */ Caml_exceptions.create("Equal_exception_test.Not_found");
 
 if (Caml_obj.caml_equal(e, {
         MEL_EXN_ID: Not_found

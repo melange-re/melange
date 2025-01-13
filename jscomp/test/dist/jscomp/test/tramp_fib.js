@@ -4,7 +4,7 @@
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -20,7 +20,7 @@ function fib(n, k) {
     return k(1);
   } else {
     return {
-      TAG: /* Suspend */1,
+      TAG: /* Suspend */ 1,
       _0: (function () {
         return fib(n - 1 | 0, (function (v0) {
               return fib(n - 2 | 0, (function (v1) {
@@ -34,7 +34,7 @@ function fib(n, k) {
 
 const u = fib(10, (function (x) {
       return {
-        TAG: /* Continue */0,
+        TAG: /* Continue */ 0,
         _0: x
       };
     }));
@@ -42,7 +42,7 @@ const u = fib(10, (function (x) {
 function iter(_bounce) {
   while(true) {
     const bounce = _bounce;
-    if (bounce.TAG === /* Continue */0) {
+    if (bounce.TAG === /* Continue */ 0) {
       return bounce._0;
     }
     _bounce = bounce._0();
@@ -54,20 +54,20 @@ function isEven(n) {
   if (n !== 0) {
     if (n !== 1) {
       return {
-        TAG: /* Suspend */1,
+        TAG: /* Suspend */ 1,
         _0: (function () {
           return isOdd(n - 1 | 0);
         })
       };
     } else {
       return {
-        TAG: /* Continue */0,
+        TAG: /* Continue */ 0,
         _0: false
       };
     }
   } else {
     return {
-      TAG: /* Continue */0,
+      TAG: /* Continue */ 0,
       _0: true
     };
   }
@@ -79,13 +79,13 @@ function isOdd(n) {
       return isEven(n - 1 | 0);
     } else {
       return {
-        TAG: /* Continue */0,
+        TAG: /* Continue */ 0,
         _0: true
       };
     }
   } else {
     return {
-      TAG: /* Continue */0,
+      TAG: /* Continue */ 0,
       _0: false
     };
   }

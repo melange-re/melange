@@ -16,7 +16,7 @@ const shared$1 = [
 ];
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {

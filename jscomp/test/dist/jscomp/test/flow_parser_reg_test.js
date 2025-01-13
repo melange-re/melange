@@ -85,7 +85,7 @@ function btwn_exclusive(loc1, loc2) {
 }
 
 function string_of_filename(param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     return "(global)";
   } else {
     return param._0;
@@ -93,14 +93,14 @@ function string_of_filename(param) {
 }
 
 function order_of_filename(param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     return 1;
   }
   switch (param.TAG) {
-    case /* LibFile */0 :
+    case /* LibFile */ 0 :
         return 2;
-    case /* SourceFile */1 :
-    case /* JsonFile */2 :
+    case /* SourceFile */ 1 :
+    case /* JsonFile */ 2 :
         return 3;
     
   }
@@ -148,162 +148,162 @@ function compare(loc1, loc2) {
   }
 }
 
-const $$Error = /* @__PURE__ */Caml_exceptions.create("Flow_parser_reg_test.Parse_error.Error");
+const $$Error = /* @__PURE__ */ Caml_exceptions.create("Flow_parser_reg_test.Parse_error.Error");
 
 function error(str) {
-  if (/* tag */typeof str === "number" || typeof str === "string") {
+  if (/* tag */ typeof str === "number" || typeof str === "string") {
     switch (str) {
-      case /* UnexpectedNumber */0 :
+      case /* UnexpectedNumber */ 0 :
           return "Unexpected number";
-      case /* UnexpectedString */1 :
+      case /* UnexpectedString */ 1 :
           return "Unexpected string";
-      case /* UnexpectedIdentifier */2 :
+      case /* UnexpectedIdentifier */ 2 :
           return "Unexpected identifier";
-      case /* UnexpectedReserved */3 :
+      case /* UnexpectedReserved */ 3 :
           return "Unexpected reserved word";
-      case /* UnexpectedEOS */4 :
+      case /* UnexpectedEOS */ 4 :
           return "Unexpected end of input";
-      case /* UnexpectedTypeAlias */5 :
+      case /* UnexpectedTypeAlias */ 5 :
           return "Type aliases are not allowed in untyped mode";
-      case /* UnexpectedTypeAnnotation */6 :
+      case /* UnexpectedTypeAnnotation */ 6 :
           return "Type annotations are not allowed in untyped mode";
-      case /* UnexpectedTypeDeclaration */7 :
+      case /* UnexpectedTypeDeclaration */ 7 :
           return "Type declarations are not allowed in untyped mode";
-      case /* UnexpectedTypeImport */8 :
+      case /* UnexpectedTypeImport */ 8 :
           return "Type imports are not allowed in untyped mode";
-      case /* UnexpectedTypeExport */9 :
+      case /* UnexpectedTypeExport */ 9 :
           return "Type exports are not allowed in untyped mode";
-      case /* UnexpectedTypeInterface */10 :
+      case /* UnexpectedTypeInterface */ 10 :
           return "Interfaces are not allowed in untyped mode";
-      case /* NewlineAfterThrow */11 :
+      case /* NewlineAfterThrow */ 11 :
           return "Illegal newline after throw";
-      case /* InvalidRegExp */12 :
+      case /* InvalidRegExp */ 12 :
           return "Invalid regular expression";
-      case /* UnterminatedRegExp */13 :
+      case /* UnterminatedRegExp */ 13 :
           return "Invalid regular expression: missing /";
-      case /* InvalidLHSInAssignment */14 :
+      case /* InvalidLHSInAssignment */ 14 :
           return "Invalid left-hand side in assignment";
-      case /* InvalidLHSInExponentiation */15 :
+      case /* InvalidLHSInExponentiation */ 15 :
           return "Invalid left-hand side in exponentiation expression";
-      case /* InvalidLHSInForIn */16 :
+      case /* InvalidLHSInForIn */ 16 :
           return "Invalid left-hand side in for-in";
-      case /* InvalidLHSInForOf */17 :
+      case /* InvalidLHSInForOf */ 17 :
           return "Invalid left-hand side in for-of";
-      case /* ExpectedPatternFoundExpression */18 :
+      case /* ExpectedPatternFoundExpression */ 18 :
           return "Expected an object pattern, array pattern, or an identifier but found an expression instead";
-      case /* MultipleDefaultsInSwitch */19 :
+      case /* MultipleDefaultsInSwitch */ 19 :
           return "More than one default clause in switch statement";
-      case /* NoCatchOrFinally */20 :
+      case /* NoCatchOrFinally */ 20 :
           return "Missing catch or finally after try";
-      case /* IllegalContinue */21 :
+      case /* IllegalContinue */ 21 :
           return "Illegal continue statement";
-      case /* IllegalBreak */22 :
+      case /* IllegalBreak */ 22 :
           return "Illegal break statement";
-      case /* IllegalReturn */23 :
+      case /* IllegalReturn */ 23 :
           return "Illegal return statement";
-      case /* IllegalYield */24 :
+      case /* IllegalYield */ 24 :
           return "Illegal yield expression";
-      case /* StrictModeWith */25 :
+      case /* StrictModeWith */ 25 :
           return "Strict mode code may not include a with statement";
-      case /* StrictCatchVariable */26 :
+      case /* StrictCatchVariable */ 26 :
           return "Catch variable may not be eval or arguments in strict mode";
-      case /* StrictVarName */27 :
+      case /* StrictVarName */ 27 :
           return "Variable name may not be eval or arguments in strict mode";
-      case /* StrictParamName */28 :
+      case /* StrictParamName */ 28 :
           return "Parameter name eval or arguments is not allowed in strict mode";
-      case /* StrictParamDupe */29 :
+      case /* StrictParamDupe */ 29 :
           return "Strict mode function may not have duplicate parameter names";
-      case /* StrictFunctionName */30 :
+      case /* StrictFunctionName */ 30 :
           return "Function name may not be eval or arguments in strict mode";
-      case /* StrictOctalLiteral */31 :
+      case /* StrictOctalLiteral */ 31 :
           return "Octal literals are not allowed in strict mode.";
-      case /* StrictDelete */32 :
+      case /* StrictDelete */ 32 :
           return "Delete of an unqualified identifier in strict mode.";
-      case /* StrictDuplicateProperty */33 :
+      case /* StrictDuplicateProperty */ 33 :
           return "Duplicate data property in object literal not allowed in strict mode";
-      case /* AccessorDataProperty */34 :
+      case /* AccessorDataProperty */ 34 :
           return "Object literal may not have data and accessor property with the same name";
-      case /* AccessorGetSet */35 :
+      case /* AccessorGetSet */ 35 :
           return "Object literal may not have multiple get/set accessors with the same name";
-      case /* StrictLHSAssignment */36 :
+      case /* StrictLHSAssignment */ 36 :
           return "Assignment to eval or arguments is not allowed in strict mode";
-      case /* StrictLHSPostfix */37 :
+      case /* StrictLHSPostfix */ 37 :
           return "Postfix increment/decrement may not have eval or arguments operand in strict mode";
-      case /* StrictLHSPrefix */38 :
+      case /* StrictLHSPrefix */ 38 :
           return "Prefix increment/decrement may not have eval or arguments operand in strict mode";
-      case /* StrictReservedWord */39 :
+      case /* StrictReservedWord */ 39 :
           return "Use of future reserved word in strict mode";
-      case /* JSXAttributeValueEmptyExpression */40 :
+      case /* JSXAttributeValueEmptyExpression */ 40 :
           return "JSX attributes must only be assigned a non-empty expression";
-      case /* InvalidJSXAttributeValue */41 :
+      case /* InvalidJSXAttributeValue */ 41 :
           return "JSX value should be either an expression or a quoted JSX text";
-      case /* NoUninitializedConst */42 :
+      case /* NoUninitializedConst */ 42 :
           return "Const must be initialized";
-      case /* NoUninitializedDestructuring */43 :
+      case /* NoUninitializedDestructuring */ 43 :
           return "Destructuring assignment must be initialized";
-      case /* NewlineBeforeArrow */44 :
+      case /* NewlineBeforeArrow */ 44 :
           return "Illegal newline before arrow";
-      case /* StrictFunctionStatement */45 :
+      case /* StrictFunctionStatement */ 45 :
           return "In strict mode code, functions can only be declared at top level or immediately within another function.";
-      case /* AdjacentJSXElements */46 :
+      case /* AdjacentJSXElements */ 46 :
           return "Unexpected token <. Remember, adjacent JSX elements must be wrapped in an enclosing parent tag";
-      case /* ParameterAfterRestParameter */47 :
+      case /* ParameterAfterRestParameter */ 47 :
           return "Rest parameter must be final parameter of an argument list";
-      case /* AsyncGenerator */48 :
+      case /* AsyncGenerator */ 48 :
           return "A function may not be both async and a generator";
-      case /* DeclareAsync */49 :
+      case /* DeclareAsync */ 49 :
           return "async is an implementation detail and isn't necessary for your declare function statement. It is sufficient for your declare function to just have a Promise return type.";
-      case /* DeclareExportLet */50 :
+      case /* DeclareExportLet */ 50 :
           return "`declare export let` is not supported. Use `declare export var` instead.";
-      case /* DeclareExportConst */51 :
+      case /* DeclareExportConst */ 51 :
           return "`declare export const` is not supported. Use `declare export var` instead.";
-      case /* DeclareExportType */52 :
+      case /* DeclareExportType */ 52 :
           return "`declare export type` is not supported. Use `export type` instead.";
-      case /* DeclareExportInterface */53 :
+      case /* DeclareExportInterface */ 53 :
           return "`declare export interface` is not supported. Use `export interface` instead.";
-      case /* UnexpectedExportStarAs */54 :
+      case /* UnexpectedExportStarAs */ 54 :
           return "`export * as` is an early-stage proposal and is not enabled by default. To enable support in the parser, use the `esproposal_export_star_as` option";
-      case /* ExportNamelessClass */55 :
+      case /* ExportNamelessClass */ 55 :
           return "When exporting a class as a named export, you must specify a class name. Did you mean `export default class ...`?";
-      case /* ExportNamelessFunction */56 :
+      case /* ExportNamelessFunction */ 56 :
           return "When exporting a function as a named export, you must specify a function name. Did you mean `export default function ...`?";
-      case /* UnsupportedDecorator */57 :
+      case /* UnsupportedDecorator */ 57 :
           return "Found a decorator in an unsupported position.";
-      case /* MissingTypeParamDefault */58 :
+      case /* MissingTypeParamDefault */ 58 :
           return "Type parameter declaration needs a default, since a preceding type parameter declaration has a default.";
-      case /* WindowsFloatOfString */59 :
+      case /* WindowsFloatOfString */ 59 :
           return "The Windows version of OCaml has a bug in how it parses hexidecimal numbers. It is fixed in OCaml 4.03.0. Until we can switch to 4.03.0, please avoid either hexidecimal notation or Windows.";
-      case /* DuplicateDeclareModuleExports */60 :
+      case /* DuplicateDeclareModuleExports */ 60 :
           return "Duplicate `declare module.exports` statement!";
-      case /* AmbiguousDeclareModuleKind */61 :
+      case /* AmbiguousDeclareModuleKind */ 61 :
           return "Found both `declare module.exports` and `declare export` in the same module. Modules can only have 1 since they are either an ES module xor they are a CommonJS module.";
       
     }
   } else {
     switch (str.TAG) {
-      case /* Assertion */0 :
+      case /* Assertion */ 0 :
           return "Unexpected parser state: " + str._0;
-      case /* UnexpectedToken */1 :
+      case /* UnexpectedToken */ 1 :
           return "Unexpected token " + str._0;
-      case /* UnexpectedTokenWithSuggestion */2 :
+      case /* UnexpectedTokenWithSuggestion */ 2 :
           return Curry._2(Stdlib__Printf.sprintf({
-                    TAG: /* Format */0,
+                    TAG: /* Format */ 0,
                     _0: {
-                      TAG: /* String_literal */11,
+                      TAG: /* String_literal */ 11,
                       _0: "Unexpected token `",
                       _1: {
-                        TAG: /* String */2,
-                        _0: /* No_padding */0,
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
                         _1: {
-                          TAG: /* String_literal */11,
+                          TAG: /* String_literal */ 11,
                           _0: "`. Did you mean `",
                           _1: {
-                            TAG: /* String */2,
-                            _0: /* No_padding */0,
+                            TAG: /* String */ 2,
+                            _0: /* No_padding */ 0,
                             _1: {
-                              TAG: /* String_literal */11,
+                              TAG: /* String_literal */ 11,
                               _0: "`?",
-                              _1: /* End_of_format */0
+                              _1: /* End_of_format */ 0
                             }
                           }
                         }
@@ -311,27 +311,27 @@ function error(str) {
                     },
                     _1: "Unexpected token `%s`. Did you mean `%s`?"
                   }), str._0, str._1);
-      case /* InvalidRegExpFlags */3 :
+      case /* InvalidRegExpFlags */ 3 :
           return "Invalid flags supplied to RegExp constructor '" + (str._0 + "'");
-      case /* UnknownLabel */4 :
+      case /* UnknownLabel */ 4 :
           return "Undefined label '" + (str._0 + "'");
-      case /* Redeclaration */5 :
+      case /* Redeclaration */ 5 :
           return str._0 + (" '" + (str._1 + "' has already been declared"));
-      case /* ExpectedJSXClosingTag */6 :
+      case /* ExpectedJSXClosingTag */ 6 :
           return "Expected corresponding JSX closing tag for " + str._0;
-      case /* DuplicateExport */7 :
+      case /* DuplicateExport */ 7 :
           return Curry._1(Stdlib__Printf.sprintf({
-                    TAG: /* Format */0,
+                    TAG: /* Format */ 0,
                     _0: {
-                      TAG: /* String_literal */11,
+                      TAG: /* String_literal */ 11,
                       _0: "Duplicate export for `",
                       _1: {
-                        TAG: /* String */2,
-                        _0: /* No_padding */0,
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
                         _1: {
-                          TAG: /* Char_literal */12,
+                          TAG: /* Char_literal */ 12,
                           _0: /* '`' */96,
-                          _1: /* End_of_format */0
+                          _1: /* End_of_format */ 0
                         }
                       }
                     },
@@ -347,10 +347,10 @@ const Literal = Caml_module.init_mod([
       44,
       6
     ], {
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [[
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "$$RegExp"
@@ -362,14 +362,14 @@ const Type = Caml_module.init_mod([
       191,
       6
     ], {
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Param"
@@ -379,25 +379,25 @@ const Type = Caml_module.init_mod([
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [
               [
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Property"
               ],
               [
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Indexer"
               ],
               [
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "CallProperty"
@@ -408,10 +408,10 @@ const Type = Caml_module.init_mod([
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Identifier"
@@ -421,34 +421,34 @@ const Type = Caml_module.init_mod([
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "StringLiteral"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "NumberLiteral"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "BooleanLiteral"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: [[
                       {
-                        TAG: /* Module */0,
+                        TAG: /* Module */ 0,
                         _0: []
                       },
                       "Variance"
@@ -461,7 +461,7 @@ const Type = Caml_module.init_mod([
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "ParameterInstantiation"
@@ -474,63 +474,63 @@ const Statement = Caml_module.init_mod([
       493,
       6
     ], {
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Block"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "If"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Labeled"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Break"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Continue"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "With"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "TypeAlias"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Case"
@@ -540,24 +540,24 @@ const Statement = Caml_module.init_mod([
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Return"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Throw"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "CatchClause"
@@ -567,10 +567,10 @@ const Statement = Caml_module.init_mod([
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Declarator"
@@ -580,80 +580,80 @@ const Statement = Caml_module.init_mod([
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "While"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "DoWhile"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "For"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "ForIn"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "ForOf"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Let"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Interface"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "DeclareVariable"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "DeclareFunction"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "DeclareModule"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Specifier"
@@ -663,17 +663,17 @@ const Statement = Caml_module.init_mod([
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "DeclareExportDeclaration"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "NamedSpecifier"
@@ -683,7 +683,7 @@ const Statement = Caml_module.init_mod([
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Expression"
@@ -696,28 +696,28 @@ const Expression = Caml_module.init_mod([
       758,
       6
     ], {
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "SpreadElement"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "$$Array"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "$$Element"
@@ -727,25 +727,25 @@ const Expression = Caml_module.init_mod([
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "TaggedTemplate"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [
               [
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Property"
               ],
               [
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "SpreadProperty"
@@ -756,87 +756,87 @@ const Expression = Caml_module.init_mod([
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Sequence"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Unary"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Binary"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Assignment"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Update"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Logical"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Conditional"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "New"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Call"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Member"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Yield"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Block"
@@ -846,21 +846,21 @@ const Expression = Caml_module.init_mod([
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Generator"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Let"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "TypeCast"
@@ -873,67 +873,67 @@ const JSX = Caml_module.init_mod([
       861,
       6
     ], {
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Identifier"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "NamespacedName"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "ExpressionContainer"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "$$Text"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Attribute"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "SpreadAttribute"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "MemberExpression"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Opening"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Closing"
@@ -946,22 +946,22 @@ const Pattern = Caml_module.init_mod([
       919,
       6
     ], {
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [
               [
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Property"
               ],
               [
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "SpreadProperty"
@@ -972,10 +972,10 @@ const Pattern = Caml_module.init_mod([
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "SpreadElement"
@@ -985,7 +985,7 @@ const Pattern = Caml_module.init_mod([
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Assignment"
@@ -998,32 +998,32 @@ const Class = Caml_module.init_mod([
       978,
       6
     ], {
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Method"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Property"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Implements"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Body"
@@ -1032,10 +1032,10 @@ const Class = Caml_module.init_mod([
     });
 
 Caml_module.update_mod({
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [[
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "$$RegExp"
@@ -1043,14 +1043,14 @@ Caml_module.update_mod({
     }, Literal, Literal);
 
 Caml_module.update_mod({
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Param"
@@ -1060,25 +1060,25 @@ Caml_module.update_mod({
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [
               [
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Property"
               ],
               [
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Indexer"
               ],
               [
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "CallProperty"
@@ -1089,10 +1089,10 @@ Caml_module.update_mod({
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Identifier"
@@ -1102,34 +1102,34 @@ Caml_module.update_mod({
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "StringLiteral"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "NumberLiteral"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "BooleanLiteral"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: [[
                       {
-                        TAG: /* Module */0,
+                        TAG: /* Module */ 0,
                         _0: []
                       },
                       "Variance"
@@ -1142,7 +1142,7 @@ Caml_module.update_mod({
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "ParameterInstantiation"
@@ -1151,63 +1151,63 @@ Caml_module.update_mod({
     }, Type, Type);
 
 Caml_module.update_mod({
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Block"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "If"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Labeled"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Break"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Continue"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "With"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "TypeAlias"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Case"
@@ -1217,24 +1217,24 @@ Caml_module.update_mod({
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Return"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Throw"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "CatchClause"
@@ -1244,10 +1244,10 @@ Caml_module.update_mod({
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Declarator"
@@ -1257,80 +1257,80 @@ Caml_module.update_mod({
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "While"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "DoWhile"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "For"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "ForIn"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "ForOf"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Let"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Interface"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "DeclareVariable"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "DeclareFunction"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "DeclareModule"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Specifier"
@@ -1340,17 +1340,17 @@ Caml_module.update_mod({
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "DeclareExportDeclaration"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "NamedSpecifier"
@@ -1360,7 +1360,7 @@ Caml_module.update_mod({
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Expression"
@@ -1369,28 +1369,28 @@ Caml_module.update_mod({
     }, Statement, Statement);
 
 Caml_module.update_mod({
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "SpreadElement"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "$$Array"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "$$Element"
@@ -1400,25 +1400,25 @@ Caml_module.update_mod({
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "TaggedTemplate"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [
               [
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Property"
               ],
               [
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "SpreadProperty"
@@ -1429,87 +1429,87 @@ Caml_module.update_mod({
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Sequence"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Unary"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Binary"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Assignment"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Update"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Logical"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Conditional"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "New"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Call"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Member"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Yield"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Block"
@@ -1519,21 +1519,21 @@ Caml_module.update_mod({
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Generator"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Let"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "TypeCast"
@@ -1542,67 +1542,67 @@ Caml_module.update_mod({
     }, Expression, Expression);
 
 Caml_module.update_mod({
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Identifier"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "NamespacedName"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "ExpressionContainer"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "$$Text"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Attribute"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "SpreadAttribute"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "MemberExpression"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Opening"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Closing"
@@ -1611,22 +1611,22 @@ Caml_module.update_mod({
     }, JSX, JSX);
 
 Caml_module.update_mod({
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [
               [
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "Property"
               ],
               [
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "SpreadProperty"
@@ -1637,10 +1637,10 @@ Caml_module.update_mod({
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
                 {
-                  TAG: /* Module */0,
+                  TAG: /* Module */ 0,
                   _0: []
                 },
                 "SpreadElement"
@@ -1650,7 +1650,7 @@ Caml_module.update_mod({
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Assignment"
@@ -1659,32 +1659,32 @@ Caml_module.update_mod({
     }, Pattern, Pattern);
 
 Caml_module.update_mod({
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Method"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Property"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Implements"
         ],
         [
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: []
           },
           "Body"
@@ -1693,247 +1693,247 @@ Caml_module.update_mod({
     }, Class, Class);
 
 function token_to_string(param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     switch (param) {
-      case /* T_IDENTIFIER */0 :
+      case /* T_IDENTIFIER */ 0 :
           return "T_IDENTIFIER";
-      case /* T_LCURLY */1 :
+      case /* T_LCURLY */ 1 :
           return "T_LCURLY";
-      case /* T_RCURLY */2 :
+      case /* T_RCURLY */ 2 :
           return "T_RCURLY";
-      case /* T_LPAREN */3 :
+      case /* T_LPAREN */ 3 :
           return "T_LPAREN";
-      case /* T_RPAREN */4 :
+      case /* T_RPAREN */ 4 :
           return "T_RPAREN";
-      case /* T_LBRACKET */5 :
+      case /* T_LBRACKET */ 5 :
           return "T_LBRACKET";
-      case /* T_RBRACKET */6 :
+      case /* T_RBRACKET */ 6 :
           return "T_RBRACKET";
-      case /* T_SEMICOLON */7 :
+      case /* T_SEMICOLON */ 7 :
           return "T_SEMICOLON";
-      case /* T_COMMA */8 :
+      case /* T_COMMA */ 8 :
           return "T_COMMA";
-      case /* T_PERIOD */9 :
+      case /* T_PERIOD */ 9 :
           return "T_PERIOD";
-      case /* T_ARROW */10 :
+      case /* T_ARROW */ 10 :
           return "T_ARROW";
-      case /* T_ELLIPSIS */11 :
+      case /* T_ELLIPSIS */ 11 :
           return "T_ELLIPSIS";
-      case /* T_AT */12 :
+      case /* T_AT */ 12 :
           return "T_AT";
-      case /* T_FUNCTION */13 :
+      case /* T_FUNCTION */ 13 :
           return "T_FUNCTION";
-      case /* T_IF */14 :
+      case /* T_IF */ 14 :
           return "T_IF";
-      case /* T_IN */15 :
+      case /* T_IN */ 15 :
           return "T_IN";
-      case /* T_INSTANCEOF */16 :
+      case /* T_INSTANCEOF */ 16 :
           return "T_INSTANCEOF";
-      case /* T_RETURN */17 :
+      case /* T_RETURN */ 17 :
           return "T_RETURN";
-      case /* T_SWITCH */18 :
+      case /* T_SWITCH */ 18 :
           return "T_SWITCH";
-      case /* T_THIS */19 :
+      case /* T_THIS */ 19 :
           return "T_THIS";
-      case /* T_THROW */20 :
+      case /* T_THROW */ 20 :
           return "T_THROW";
-      case /* T_TRY */21 :
+      case /* T_TRY */ 21 :
           return "T_TRY";
-      case /* T_VAR */22 :
+      case /* T_VAR */ 22 :
           return "T_VAR";
-      case /* T_WHILE */23 :
+      case /* T_WHILE */ 23 :
           return "T_WHILE";
-      case /* T_WITH */24 :
+      case /* T_WITH */ 24 :
           return "T_WITH";
-      case /* T_CONST */25 :
+      case /* T_CONST */ 25 :
           return "T_CONST";
-      case /* T_LET */26 :
+      case /* T_LET */ 26 :
           return "T_LET";
-      case /* T_NULL */27 :
+      case /* T_NULL */ 27 :
           return "T_NULL";
-      case /* T_FALSE */28 :
+      case /* T_FALSE */ 28 :
           return "T_FALSE";
-      case /* T_TRUE */29 :
+      case /* T_TRUE */ 29 :
           return "T_TRUE";
-      case /* T_BREAK */30 :
+      case /* T_BREAK */ 30 :
           return "T_BREAK";
-      case /* T_CASE */31 :
+      case /* T_CASE */ 31 :
           return "T_CASE";
-      case /* T_CATCH */32 :
+      case /* T_CATCH */ 32 :
           return "T_CATCH";
-      case /* T_CONTINUE */33 :
+      case /* T_CONTINUE */ 33 :
           return "T_CONTINUE";
-      case /* T_DEFAULT */34 :
+      case /* T_DEFAULT */ 34 :
           return "T_DEFAULT";
-      case /* T_DO */35 :
+      case /* T_DO */ 35 :
           return "T_DO";
-      case /* T_FINALLY */36 :
+      case /* T_FINALLY */ 36 :
           return "T_FINALLY";
-      case /* T_FOR */37 :
+      case /* T_FOR */ 37 :
           return "T_FOR";
-      case /* T_CLASS */38 :
+      case /* T_CLASS */ 38 :
           return "T_CLASS";
-      case /* T_EXTENDS */39 :
+      case /* T_EXTENDS */ 39 :
           return "T_EXTENDS";
-      case /* T_STATIC */40 :
+      case /* T_STATIC */ 40 :
           return "T_STATIC";
-      case /* T_ELSE */41 :
+      case /* T_ELSE */ 41 :
           return "T_ELSE";
-      case /* T_NEW */42 :
+      case /* T_NEW */ 42 :
           return "T_NEW";
-      case /* T_DELETE */43 :
+      case /* T_DELETE */ 43 :
           return "T_DELETE";
-      case /* T_TYPEOF */44 :
+      case /* T_TYPEOF */ 44 :
           return "T_TYPEOF";
-      case /* T_VOID */45 :
+      case /* T_VOID */ 45 :
           return "T_VOID";
-      case /* T_ENUM */46 :
+      case /* T_ENUM */ 46 :
           return "T_ENUM";
-      case /* T_EXPORT */47 :
+      case /* T_EXPORT */ 47 :
           return "T_EXPORT";
-      case /* T_IMPORT */48 :
+      case /* T_IMPORT */ 48 :
           return "T_IMPORT";
-      case /* T_SUPER */49 :
+      case /* T_SUPER */ 49 :
           return "T_SUPER";
-      case /* T_IMPLEMENTS */50 :
+      case /* T_IMPLEMENTS */ 50 :
           return "T_IMPLEMENTS";
-      case /* T_INTERFACE */51 :
+      case /* T_INTERFACE */ 51 :
           return "T_INTERFACE";
-      case /* T_PACKAGE */52 :
+      case /* T_PACKAGE */ 52 :
           return "T_PACKAGE";
-      case /* T_PRIVATE */53 :
+      case /* T_PRIVATE */ 53 :
           return "T_PRIVATE";
-      case /* T_PROTECTED */54 :
+      case /* T_PROTECTED */ 54 :
           return "T_PROTECTED";
-      case /* T_PUBLIC */55 :
+      case /* T_PUBLIC */ 55 :
           return "T_PUBLIC";
-      case /* T_YIELD */56 :
+      case /* T_YIELD */ 56 :
           return "T_YIELD";
-      case /* T_DEBUGGER */57 :
+      case /* T_DEBUGGER */ 57 :
           return "T_DEBUGGER";
-      case /* T_DECLARE */58 :
+      case /* T_DECLARE */ 58 :
           return "T_DECLARE";
-      case /* T_TYPE */59 :
+      case /* T_TYPE */ 59 :
           return "T_TYPE";
-      case /* T_OF */60 :
+      case /* T_OF */ 60 :
           return "T_OF";
-      case /* T_ASYNC */61 :
+      case /* T_ASYNC */ 61 :
           return "T_ASYNC";
-      case /* T_AWAIT */62 :
+      case /* T_AWAIT */ 62 :
           return "T_AWAIT";
-      case /* T_RSHIFT3_ASSIGN */63 :
+      case /* T_RSHIFT3_ASSIGN */ 63 :
           return "T_RSHIFT3_ASSIGN";
-      case /* T_RSHIFT_ASSIGN */64 :
+      case /* T_RSHIFT_ASSIGN */ 64 :
           return "T_RSHIFT_ASSIGN";
-      case /* T_LSHIFT_ASSIGN */65 :
+      case /* T_LSHIFT_ASSIGN */ 65 :
           return "T_LSHIFT_ASSIGN";
-      case /* T_BIT_XOR_ASSIGN */66 :
+      case /* T_BIT_XOR_ASSIGN */ 66 :
           return "T_BIT_XOR_ASSIGN";
-      case /* T_BIT_OR_ASSIGN */67 :
+      case /* T_BIT_OR_ASSIGN */ 67 :
           return "T_BIT_OR_ASSIGN";
-      case /* T_BIT_AND_ASSIGN */68 :
+      case /* T_BIT_AND_ASSIGN */ 68 :
           return "T_BIT_AND_ASSIGN";
-      case /* T_MOD_ASSIGN */69 :
+      case /* T_MOD_ASSIGN */ 69 :
           return "T_MOD_ASSIGN";
-      case /* T_DIV_ASSIGN */70 :
+      case /* T_DIV_ASSIGN */ 70 :
           return "T_DIV_ASSIGN";
-      case /* T_MULT_ASSIGN */71 :
+      case /* T_MULT_ASSIGN */ 71 :
           return "T_MULT_ASSIGN";
-      case /* T_EXP_ASSIGN */72 :
+      case /* T_EXP_ASSIGN */ 72 :
           return "T_EXP_ASSIGN";
-      case /* T_MINUS_ASSIGN */73 :
+      case /* T_MINUS_ASSIGN */ 73 :
           return "T_MINUS_ASSIGN";
-      case /* T_PLUS_ASSIGN */74 :
+      case /* T_PLUS_ASSIGN */ 74 :
           return "T_PLUS_ASSIGN";
-      case /* T_ASSIGN */75 :
+      case /* T_ASSIGN */ 75 :
           return "T_ASSIGN";
-      case /* T_PLING */76 :
+      case /* T_PLING */ 76 :
           return "T_PLING";
-      case /* T_COLON */77 :
+      case /* T_COLON */ 77 :
           return "T_COLON";
-      case /* T_OR */78 :
+      case /* T_OR */ 78 :
           return "T_OR";
-      case /* T_AND */79 :
+      case /* T_AND */ 79 :
           return "T_AND";
-      case /* T_BIT_OR */80 :
+      case /* T_BIT_OR */ 80 :
           return "T_BIT_OR";
-      case /* T_BIT_XOR */81 :
+      case /* T_BIT_XOR */ 81 :
           return "T_BIT_XOR";
-      case /* T_BIT_AND */82 :
+      case /* T_BIT_AND */ 82 :
           return "T_BIT_AND";
-      case /* T_EQUAL */83 :
+      case /* T_EQUAL */ 83 :
           return "T_EQUAL";
-      case /* T_NOT_EQUAL */84 :
+      case /* T_NOT_EQUAL */ 84 :
           return "T_NOT_EQUAL";
-      case /* T_STRICT_EQUAL */85 :
+      case /* T_STRICT_EQUAL */ 85 :
           return "T_STRICT_EQUAL";
-      case /* T_STRICT_NOT_EQUAL */86 :
+      case /* T_STRICT_NOT_EQUAL */ 86 :
           return "T_STRICT_NOT_EQUAL";
-      case /* T_LESS_THAN_EQUAL */87 :
+      case /* T_LESS_THAN_EQUAL */ 87 :
           return "T_LESS_THAN_EQUAL";
-      case /* T_GREATER_THAN_EQUAL */88 :
+      case /* T_GREATER_THAN_EQUAL */ 88 :
           return "T_GREATER_THAN_EQUAL";
-      case /* T_LESS_THAN */89 :
+      case /* T_LESS_THAN */ 89 :
           return "T_LESS_THAN";
-      case /* T_GREATER_THAN */90 :
+      case /* T_GREATER_THAN */ 90 :
           return "T_GREATER_THAN";
-      case /* T_LSHIFT */91 :
+      case /* T_LSHIFT */ 91 :
           return "T_LSHIFT";
-      case /* T_RSHIFT */92 :
+      case /* T_RSHIFT */ 92 :
           return "T_RSHIFT";
-      case /* T_RSHIFT3 */93 :
+      case /* T_RSHIFT3 */ 93 :
           return "T_RSHIFT3";
-      case /* T_PLUS */94 :
+      case /* T_PLUS */ 94 :
           return "T_PLUS";
-      case /* T_MINUS */95 :
+      case /* T_MINUS */ 95 :
           return "T_MINUS";
-      case /* T_DIV */96 :
+      case /* T_DIV */ 96 :
           return "T_DIV";
-      case /* T_MULT */97 :
+      case /* T_MULT */ 97 :
           return "T_MULT";
-      case /* T_EXP */98 :
+      case /* T_EXP */ 98 :
           return "T_EXP";
-      case /* T_MOD */99 :
+      case /* T_MOD */ 99 :
           return "T_MOD";
-      case /* T_NOT */100 :
+      case /* T_NOT */ 100 :
           return "T_NOT";
-      case /* T_BIT_NOT */101 :
+      case /* T_BIT_NOT */ 101 :
           return "T_BIT_NOT";
-      case /* T_INCR */102 :
+      case /* T_INCR */ 102 :
           return "T_INCR";
-      case /* T_DECR */103 :
+      case /* T_DECR */ 103 :
           return "T_DECR";
-      case /* T_ERROR */104 :
+      case /* T_ERROR */ 104 :
           return "T_ERROR";
-      case /* T_EOF */105 :
+      case /* T_EOF */ 105 :
           return "T_EOF";
-      case /* T_JSX_IDENTIFIER */106 :
+      case /* T_JSX_IDENTIFIER */ 106 :
           return "T_JSX_IDENTIFIER";
-      case /* T_ANY_TYPE */107 :
+      case /* T_ANY_TYPE */ 107 :
           return "T_ANY_TYPE";
-      case /* T_BOOLEAN_TYPE */108 :
+      case /* T_BOOLEAN_TYPE */ 108 :
           return "T_BOOLEAN_TYPE";
-      case /* T_NUMBER_TYPE */109 :
+      case /* T_NUMBER_TYPE */ 109 :
           return "T_NUMBER_TYPE";
-      case /* T_STRING_TYPE */110 :
+      case /* T_STRING_TYPE */ 110 :
           return "T_STRING_TYPE";
-      case /* T_VOID_TYPE */111 :
+      case /* T_VOID_TYPE */ 111 :
           return "T_VOID_TYPE";
       
     }
   } else {
     switch (param.TAG) {
-      case /* T_NUMBER */0 :
+      case /* T_NUMBER */ 0 :
           return "T_NUMBER";
-      case /* T_STRING */1 :
+      case /* T_STRING */ 1 :
           return "T_STRING";
-      case /* T_TEMPLATE_PART */2 :
+      case /* T_TEMPLATE_PART */ 2 :
           return "T_TEMPLATE_PART";
-      case /* T_REGEXP */3 :
+      case /* T_REGEXP */ 3 :
           return "T_REGEXP";
-      case /* T_JSX_TEXT */4 :
+      case /* T_JSX_TEXT */ 4 :
           return "T_JSX_TEXT";
-      case /* T_NUMBER_SINGLETON_TYPE */5 :
+      case /* T_NUMBER_SINGLETON_TYPE */ 5 :
           return "T_NUMBER_SINGLETON_TYPE";
       
     }
@@ -1957,8 +1957,8 @@ function back(lb) {
 }
 
 const empty_lex_state = {
-  lex_errors_acc: /* [] */0,
-  lex_comments_acc: /* [] */0
+  lex_errors_acc: /* [] */ 0,
+  lex_comments_acc: /* [] */ 0
 };
 
 function new_lex_env(lex_source, lex_lb, enable_types_in_comments) {
@@ -2017,26 +2017,26 @@ function get_result_and_clear_state(param) {
   const env = match[0];
   let match$1;
   let exit = 0;
-  if (/* tag */typeof lex_token === "number" || typeof lex_token === "string") {
+  if (/* tag */ typeof lex_token === "number" || typeof lex_token === "string") {
     exit = 2;
   } else {
     switch (lex_token.TAG) {
-      case /* T_TEMPLATE_PART */2 :
+      case /* T_TEMPLATE_PART */ 2 :
           const match$2 = lex_token._0;
           match$1 = [
             match$2[0],
             match$2[1].literal
           ];
           break;
-      case /* T_REGEXP */3 :
+      case /* T_REGEXP */ 3 :
           const match$3 = lex_token._0;
           match$1 = [
             match$3[0],
             "/" + (match$3[1] + ("/" + match$3[2]))
           ];
           break;
-      case /* T_STRING */1 :
-      case /* T_JSX_TEXT */4 :
+      case /* T_STRING */ 1 :
+      case /* T_JSX_TEXT */ 4 :
           exit = 1;
           break;
       default:
@@ -2096,14 +2096,14 @@ function lex_error(env, loc, err) {
 
 function unexpected_error(env, loc, value) {
   return lex_error(env, loc, {
-        TAG: /* UnexpectedToken */1,
+        TAG: /* UnexpectedToken */ 1,
         _0: value
       });
 }
 
 function unexpected_error_w_suggest(env, loc, value, suggest) {
   return lex_error(env, loc, {
-        TAG: /* UnexpectedTokenWithSuggestion */2,
+        TAG: /* UnexpectedTokenWithSuggestion */ 2,
         _0: value,
         _1: suggest
       });
@@ -2113,7 +2113,7 @@ function illegal_number(env, lexbuf, word, token) {
   const loc = from_lb(env.lex_source, lexbuf);
   yyback(word.length, lexbuf);
   const env$1 = lex_error(env, loc, {
-        TAG: /* UnexpectedToken */1,
+        TAG: /* UnexpectedToken */ 1,
         _0: "ILLEGAL"
       });
   return [
@@ -2122,7 +2122,7 @@ function illegal_number(env, lexbuf, word, token) {
   ];
 }
 
-const No_good = /* @__PURE__ */Caml_exceptions.create("Flow_parser_reg_test.Lexer_flow.FloatOfString.No_good");
+const No_good = /* @__PURE__ */ Caml_exceptions.create("Flow_parser_reg_test.Lexer_flow.FloatOfString.No_good");
 
 function eat(f) {
   const match = f.todo;
@@ -2142,7 +2142,7 @@ function eat(f) {
 
 function start(str) {
   const todo = {
-    contents: /* [] */0
+    contents: /* [] */ 0
   };
   Stdlib__String.iter((function (c) {
         todo.contents = {
@@ -2233,7 +2233,7 @@ function parse_exponent(f) {
     mantissa: f.mantissa,
     exponent: exponent,
     decimal_exponent: f.decimal_exponent,
-    todo: /* [] */0
+    todo: /* [] */ 0
   };
 }
 
@@ -2312,7 +2312,7 @@ function float_of_string(str) {
     if (Stdlib__Sys.win32) {
       try {
         let f = parse_body(parse_hex_symbol(parse_sign(start(str))));
-        if (!Caml_obj.caml_equal(f.todo, /* [] */0)) {
+        if (!Caml_obj.caml_equal(f.todo, /* [] */ 0)) {
           throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -2349,10 +2349,10 @@ function save_comment(env, start, _end, buf, multiline) {
   const loc = btwn(start, _end);
   const s = Stdlib__Buffer.contents(buf);
   const c = multiline ? ({
-      TAG: /* Block */0,
+      TAG: /* Block */ 0,
       _0: s
     }) : ({
-      TAG: /* Line */1,
+      TAG: /* Line */ 1,
       _0: s
     });
   const lex_comments_acc_0 = [
@@ -2451,7 +2451,7 @@ function utf16to8(code) {
           hd: Stdlib__Char.chr(128 | (code >>> 6) & 63),
           tl: {
             hd: Stdlib__Char.chr(128 | code & 63),
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }
       }
@@ -2463,7 +2463,7 @@ function utf16to8(code) {
         hd: Stdlib__Char.chr(128 | (code >>> 6) & 63),
         tl: {
           hd: Stdlib__Char.chr(128 | code & 63),
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     };
@@ -2472,13 +2472,13 @@ function utf16to8(code) {
       hd: Stdlib__Char.chr(192 | (code >>> 6)),
       tl: {
         hd: Stdlib__Char.chr(128 | code & 63),
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     };
   } else {
     return {
       hd: Stdlib__Char.chr(code),
-      tl: /* [] */0
+      tl: /* [] */ 0
     };
   }
 }
@@ -2486,21 +2486,21 @@ function utf16to8(code) {
 function mk_num_singleton(number_type, num, neg) {
   let value;
   switch (number_type) {
-    case /* LEGACY_OCTAL */1 :
+    case /* LEGACY_OCTAL */ 1 :
         value = Caml_format.caml_int_of_string("0o" + num);
         break;
-    case /* BINARY */0 :
-    case /* OCTAL */2 :
+    case /* BINARY */ 0 :
+    case /* OCTAL */ 2 :
         value = Caml_format.caml_int_of_string(num);
         break;
-    case /* NORMAL */3 :
+    case /* NORMAL */ 3 :
         value = float_of_string(num);
         break;
     
   }
   const value$1 = neg === "" ? value : - value;
   return {
-    TAG: /* T_NUMBER_SINGLETON_TYPE */5,
+    TAG: /* T_NUMBER_SINGLETON_TYPE */ 5,
     _0: number_type,
     _1: value$1
   };
@@ -2515,254 +2515,254 @@ Stdlib__List.iter((function (param) {
     }), {
       hd: [
         "function",
-        /* T_FUNCTION */13
+        /* T_FUNCTION */ 13
       ],
       tl: {
         hd: [
           "if",
-          /* T_IF */14
+          /* T_IF */ 14
         ],
         tl: {
           hd: [
             "in",
-            /* T_IN */15
+            /* T_IN */ 15
           ],
           tl: {
             hd: [
               "instanceof",
-              /* T_INSTANCEOF */16
+              /* T_INSTANCEOF */ 16
             ],
             tl: {
               hd: [
                 "return",
-                /* T_RETURN */17
+                /* T_RETURN */ 17
               ],
               tl: {
                 hd: [
                   "switch",
-                  /* T_SWITCH */18
+                  /* T_SWITCH */ 18
                 ],
                 tl: {
                   hd: [
                     "this",
-                    /* T_THIS */19
+                    /* T_THIS */ 19
                   ],
                   tl: {
                     hd: [
                       "throw",
-                      /* T_THROW */20
+                      /* T_THROW */ 20
                     ],
                     tl: {
                       hd: [
                         "try",
-                        /* T_TRY */21
+                        /* T_TRY */ 21
                       ],
                       tl: {
                         hd: [
                           "var",
-                          /* T_VAR */22
+                          /* T_VAR */ 22
                         ],
                         tl: {
                           hd: [
                             "while",
-                            /* T_WHILE */23
+                            /* T_WHILE */ 23
                           ],
                           tl: {
                             hd: [
                               "with",
-                              /* T_WITH */24
+                              /* T_WITH */ 24
                             ],
                             tl: {
                               hd: [
                                 "const",
-                                /* T_CONST */25
+                                /* T_CONST */ 25
                               ],
                               tl: {
                                 hd: [
                                   "let",
-                                  /* T_LET */26
+                                  /* T_LET */ 26
                                 ],
                                 tl: {
                                   hd: [
                                     "null",
-                                    /* T_NULL */27
+                                    /* T_NULL */ 27
                                   ],
                                   tl: {
                                     hd: [
                                       "false",
-                                      /* T_FALSE */28
+                                      /* T_FALSE */ 28
                                     ],
                                     tl: {
                                       hd: [
                                         "true",
-                                        /* T_TRUE */29
+                                        /* T_TRUE */ 29
                                       ],
                                       tl: {
                                         hd: [
                                           "break",
-                                          /* T_BREAK */30
+                                          /* T_BREAK */ 30
                                         ],
                                         tl: {
                                           hd: [
                                             "case",
-                                            /* T_CASE */31
+                                            /* T_CASE */ 31
                                           ],
                                           tl: {
                                             hd: [
                                               "catch",
-                                              /* T_CATCH */32
+                                              /* T_CATCH */ 32
                                             ],
                                             tl: {
                                               hd: [
                                                 "continue",
-                                                /* T_CONTINUE */33
+                                                /* T_CONTINUE */ 33
                                               ],
                                               tl: {
                                                 hd: [
                                                   "default",
-                                                  /* T_DEFAULT */34
+                                                  /* T_DEFAULT */ 34
                                                 ],
                                                 tl: {
                                                   hd: [
                                                     "do",
-                                                    /* T_DO */35
+                                                    /* T_DO */ 35
                                                   ],
                                                   tl: {
                                                     hd: [
                                                       "finally",
-                                                      /* T_FINALLY */36
+                                                      /* T_FINALLY */ 36
                                                     ],
                                                     tl: {
                                                       hd: [
                                                         "for",
-                                                        /* T_FOR */37
+                                                        /* T_FOR */ 37
                                                       ],
                                                       tl: {
                                                         hd: [
                                                           "class",
-                                                          /* T_CLASS */38
+                                                          /* T_CLASS */ 38
                                                         ],
                                                         tl: {
                                                           hd: [
                                                             "extends",
-                                                            /* T_EXTENDS */39
+                                                            /* T_EXTENDS */ 39
                                                           ],
                                                           tl: {
                                                             hd: [
                                                               "static",
-                                                              /* T_STATIC */40
+                                                              /* T_STATIC */ 40
                                                             ],
                                                             tl: {
                                                               hd: [
                                                                 "else",
-                                                                /* T_ELSE */41
+                                                                /* T_ELSE */ 41
                                                               ],
                                                               tl: {
                                                                 hd: [
                                                                   "new",
-                                                                  /* T_NEW */42
+                                                                  /* T_NEW */ 42
                                                                 ],
                                                                 tl: {
                                                                   hd: [
                                                                     "delete",
-                                                                    /* T_DELETE */43
+                                                                    /* T_DELETE */ 43
                                                                   ],
                                                                   tl: {
                                                                     hd: [
                                                                       "typeof",
-                                                                      /* T_TYPEOF */44
+                                                                      /* T_TYPEOF */ 44
                                                                     ],
                                                                     tl: {
                                                                       hd: [
                                                                         "void",
-                                                                        /* T_VOID */45
+                                                                        /* T_VOID */ 45
                                                                       ],
                                                                       tl: {
                                                                         hd: [
                                                                           "enum",
-                                                                          /* T_ENUM */46
+                                                                          /* T_ENUM */ 46
                                                                         ],
                                                                         tl: {
                                                                           hd: [
                                                                             "export",
-                                                                            /* T_EXPORT */47
+                                                                            /* T_EXPORT */ 47
                                                                           ],
                                                                           tl: {
                                                                             hd: [
                                                                               "import",
-                                                                              /* T_IMPORT */48
+                                                                              /* T_IMPORT */ 48
                                                                             ],
                                                                             tl: {
                                                                               hd: [
                                                                                 "super",
-                                                                                /* T_SUPER */49
+                                                                                /* T_SUPER */ 49
                                                                               ],
                                                                               tl: {
                                                                                 hd: [
                                                                                   "implements",
-                                                                                  /* T_IMPLEMENTS */50
+                                                                                  /* T_IMPLEMENTS */ 50
                                                                                 ],
                                                                                 tl: {
                                                                                   hd: [
                                                                                     "interface",
-                                                                                    /* T_INTERFACE */51
+                                                                                    /* T_INTERFACE */ 51
                                                                                   ],
                                                                                   tl: {
                                                                                     hd: [
                                                                                       "package",
-                                                                                      /* T_PACKAGE */52
+                                                                                      /* T_PACKAGE */ 52
                                                                                     ],
                                                                                     tl: {
                                                                                       hd: [
                                                                                         "private",
-                                                                                        /* T_PRIVATE */53
+                                                                                        /* T_PRIVATE */ 53
                                                                                       ],
                                                                                       tl: {
                                                                                         hd: [
                                                                                           "protected",
-                                                                                          /* T_PROTECTED */54
+                                                                                          /* T_PROTECTED */ 54
                                                                                         ],
                                                                                         tl: {
                                                                                           hd: [
                                                                                             "public",
-                                                                                            /* T_PUBLIC */55
+                                                                                            /* T_PUBLIC */ 55
                                                                                           ],
                                                                                           tl: {
                                                                                             hd: [
                                                                                               "yield",
-                                                                                              /* T_YIELD */56
+                                                                                              /* T_YIELD */ 56
                                                                                             ],
                                                                                             tl: {
                                                                                               hd: [
                                                                                                 "debugger",
-                                                                                                /* T_DEBUGGER */57
+                                                                                                /* T_DEBUGGER */ 57
                                                                                               ],
                                                                                               tl: {
                                                                                                 hd: [
                                                                                                   "declare",
-                                                                                                  /* T_DECLARE */58
+                                                                                                  /* T_DECLARE */ 58
                                                                                                 ],
                                                                                                 tl: {
                                                                                                   hd: [
                                                                                                     "type",
-                                                                                                    /* T_TYPE */59
+                                                                                                    /* T_TYPE */ 59
                                                                                                   ],
                                                                                                   tl: {
                                                                                                     hd: [
                                                                                                       "of",
-                                                                                                      /* T_OF */60
+                                                                                                      /* T_OF */ 60
                                                                                                     ],
                                                                                                     tl: {
                                                                                                       hd: [
                                                                                                         "async",
-                                                                                                        /* T_ASYNC */61
+                                                                                                        /* T_ASYNC */ 61
                                                                                                       ],
                                                                                                       tl: {
                                                                                                         hd: [
                                                                                                           "await",
-                                                                                                          /* T_AWAIT */62
+                                                                                                          /* T_AWAIT */ 62
                                                                                                         ],
-                                                                                                        tl: /* [] */0
+                                                                                                        tl: /* [] */ 0
                                                                                                       }
                                                                                                     }
                                                                                                   }
@@ -2819,59 +2819,59 @@ Stdlib__List.iter((function (param) {
     }), {
       hd: [
         "static",
-        /* T_STATIC */40
+        /* T_STATIC */ 40
       ],
       tl: {
         hd: [
           "typeof",
-          /* T_TYPEOF */44
+          /* T_TYPEOF */ 44
         ],
         tl: {
           hd: [
             "any",
-            /* T_ANY_TYPE */107
+            /* T_ANY_TYPE */ 107
           ],
           tl: {
             hd: [
               "bool",
-              /* T_BOOLEAN_TYPE */108
+              /* T_BOOLEAN_TYPE */ 108
             ],
             tl: {
               hd: [
                 "boolean",
-                /* T_BOOLEAN_TYPE */108
+                /* T_BOOLEAN_TYPE */ 108
               ],
               tl: {
                 hd: [
                   "true",
-                  /* T_TRUE */29
+                  /* T_TRUE */ 29
                 ],
                 tl: {
                   hd: [
                     "false",
-                    /* T_FALSE */28
+                    /* T_FALSE */ 28
                   ],
                   tl: {
                     hd: [
                       "number",
-                      /* T_NUMBER_TYPE */109
+                      /* T_NUMBER_TYPE */ 109
                     ],
                     tl: {
                       hd: [
                         "string",
-                        /* T_STRING_TYPE */110
+                        /* T_STRING_TYPE */ 110
                       ],
                       tl: {
                         hd: [
                           "void",
-                          /* T_VOID_TYPE */111
+                          /* T_VOID_TYPE */ 111
                         ],
                         tl: {
                           hd: [
                             "null",
-                            /* T_NULL */27
+                            /* T_NULL */ 27
                           ],
-                          tl: /* [] */0
+                          tl: /* [] */ 0
                         }
                       }
                     }
@@ -2910,7 +2910,7 @@ function token(env, lexbuf) {
           return token(env, lexbuf);
       case 1 :
           const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-                TAG: /* UnexpectedToken */1,
+                TAG: /* UnexpectedToken */ 1,
                 _0: "ILLEGAL"
               });
           return token(env$1, lexbuf);
@@ -2939,7 +2939,7 @@ function token(env, lexbuf) {
             if (escape_type === ":") {
               return [
                 env$4,
-                /* T_COLON */77
+                /* T_COLON */ 77
               ];
             } else {
               return token(env$4, lexbuf);
@@ -2960,7 +2960,7 @@ function token(env, lexbuf) {
           yyback(1, lexbuf);
           return [
             env,
-            /* T_MULT */97
+            /* T_MULT */ 97
           ];
       case 6 :
           const start$2 = from_lb(env.lex_source, lexbuf);
@@ -2972,7 +2972,7 @@ function token(env, lexbuf) {
           if (lexbuf.lex_start_pos !== 0) {
             return [
               env,
-              /* T_ERROR */104
+              /* T_ERROR */ 104
             ];
           }
           const match$3 = line_comment(env, Stdlib__Buffer.create(127), lexbuf);
@@ -2987,7 +2987,7 @@ function token(env, lexbuf) {
           return [
             match$4[0],
             {
-              TAG: /* T_STRING */1,
+              TAG: /* T_STRING */ 1,
               _0: [
                 btwn(start$3, match$4[1]),
                 Stdlib__Buffer.contents(buf$3),
@@ -3006,7 +3006,7 @@ function token(env, lexbuf) {
           return [
             match$5[0],
             {
-              TAG: /* T_TEMPLATE_PART */2,
+              TAG: /* T_TEMPLATE_PART */ 2,
               _0: [
                 match$5[1],
                 {
@@ -3021,43 +3021,43 @@ function token(env, lexbuf) {
       case 10 :
           const w = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
           return illegal_number(env, lexbuf, w, {
-                TAG: /* T_NUMBER */0,
-                _0: /* BINARY */0
+                TAG: /* T_NUMBER */ 0,
+                _0: /* BINARY */ 0
               });
       case 11 :
           return [
             env,
             {
-              TAG: /* T_NUMBER */0,
-              _0: /* BINARY */0
+              TAG: /* T_NUMBER */ 0,
+              _0: /* BINARY */ 0
             }
           ];
       case 12 :
           const w$1 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
           return illegal_number(env, lexbuf, w$1, {
-                TAG: /* T_NUMBER */0,
-                _0: /* OCTAL */2
+                TAG: /* T_NUMBER */ 0,
+                _0: /* OCTAL */ 2
               });
       case 13 :
           return [
             env,
             {
-              TAG: /* T_NUMBER */0,
-              _0: /* OCTAL */2
+              TAG: /* T_NUMBER */ 0,
+              _0: /* OCTAL */ 2
             }
           ];
       case 14 :
           const w$2 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
           return illegal_number(env, lexbuf, w$2, {
-                TAG: /* T_NUMBER */0,
-                _0: /* LEGACY_OCTAL */1
+                TAG: /* T_NUMBER */ 0,
+                _0: /* LEGACY_OCTAL */ 1
               });
       case 15 :
           return [
             env,
             {
-              TAG: /* T_NUMBER */0,
-              _0: /* LEGACY_OCTAL */1
+              TAG: /* T_NUMBER */ 0,
+              _0: /* LEGACY_OCTAL */ 1
             }
           ];
       case 16 :
@@ -3070,8 +3070,8 @@ function token(env, lexbuf) {
           return [
             env,
             {
-              TAG: /* T_NUMBER */0,
-              _0: /* NORMAL */3
+              TAG: /* T_NUMBER */ 0,
+              _0: /* NORMAL */ 3
             }
           ];
       case 22 :
@@ -3088,7 +3088,7 @@ function token(env, lexbuf) {
             if (exn.MEL_EXN_ID === Stdlib.Not_found) {
               return [
                 env,
-                /* T_IDENTIFIER */0
+                /* T_IDENTIFIER */ 0
               ];
             }
             throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
@@ -3096,288 +3096,288 @@ function token(env, lexbuf) {
       case 23 :
           return [
             env,
-            /* T_LCURLY */1
+            /* T_LCURLY */ 1
           ];
       case 24 :
           return [
             env,
-            /* T_RCURLY */2
+            /* T_RCURLY */ 2
           ];
       case 25 :
           return [
             env,
-            /* T_LPAREN */3
+            /* T_LPAREN */ 3
           ];
       case 26 :
           return [
             env,
-            /* T_RPAREN */4
+            /* T_RPAREN */ 4
           ];
       case 27 :
           return [
             env,
-            /* T_LBRACKET */5
+            /* T_LBRACKET */ 5
           ];
       case 28 :
           return [
             env,
-            /* T_RBRACKET */6
+            /* T_RBRACKET */ 6
           ];
       case 29 :
           return [
             env,
-            /* T_ELLIPSIS */11
+            /* T_ELLIPSIS */ 11
           ];
       case 30 :
           return [
             env,
-            /* T_PERIOD */9
+            /* T_PERIOD */ 9
           ];
       case 31 :
           return [
             env,
-            /* T_SEMICOLON */7
+            /* T_SEMICOLON */ 7
           ];
       case 32 :
           return [
             env,
-            /* T_COMMA */8
+            /* T_COMMA */ 8
           ];
       case 33 :
           return [
             env,
-            /* T_COLON */77
+            /* T_COLON */ 77
           ];
       case 34 :
           return [
             env,
-            /* T_PLING */76
+            /* T_PLING */ 76
           ];
       case 35 :
           return [
             env,
-            /* T_AND */79
+            /* T_AND */ 79
           ];
       case 36 :
           return [
             env,
-            /* T_OR */78
+            /* T_OR */ 78
           ];
       case 37 :
           return [
             env,
-            /* T_STRICT_EQUAL */85
+            /* T_STRICT_EQUAL */ 85
           ];
       case 38 :
           return [
             env,
-            /* T_STRICT_NOT_EQUAL */86
+            /* T_STRICT_NOT_EQUAL */ 86
           ];
       case 39 :
           return [
             env,
-            /* T_LESS_THAN_EQUAL */87
+            /* T_LESS_THAN_EQUAL */ 87
           ];
       case 40 :
           return [
             env,
-            /* T_GREATER_THAN_EQUAL */88
+            /* T_GREATER_THAN_EQUAL */ 88
           ];
       case 41 :
           return [
             env,
-            /* T_EQUAL */83
+            /* T_EQUAL */ 83
           ];
       case 42 :
           return [
             env,
-            /* T_NOT_EQUAL */84
+            /* T_NOT_EQUAL */ 84
           ];
       case 43 :
           return [
             env,
-            /* T_INCR */102
+            /* T_INCR */ 102
           ];
       case 44 :
           return [
             env,
-            /* T_DECR */103
+            /* T_DECR */ 103
           ];
       case 45 :
           return [
             env,
-            /* T_LSHIFT_ASSIGN */65
+            /* T_LSHIFT_ASSIGN */ 65
           ];
       case 46 :
           return [
             env,
-            /* T_LSHIFT */91
+            /* T_LSHIFT */ 91
           ];
       case 47 :
           return [
             env,
-            /* T_RSHIFT_ASSIGN */64
+            /* T_RSHIFT_ASSIGN */ 64
           ];
       case 48 :
           return [
             env,
-            /* T_RSHIFT3_ASSIGN */63
+            /* T_RSHIFT3_ASSIGN */ 63
           ];
       case 49 :
           return [
             env,
-            /* T_RSHIFT3 */93
+            /* T_RSHIFT3 */ 93
           ];
       case 50 :
           return [
             env,
-            /* T_RSHIFT */92
+            /* T_RSHIFT */ 92
           ];
       case 51 :
           return [
             env,
-            /* T_PLUS_ASSIGN */74
+            /* T_PLUS_ASSIGN */ 74
           ];
       case 52 :
           return [
             env,
-            /* T_MINUS_ASSIGN */73
+            /* T_MINUS_ASSIGN */ 73
           ];
       case 53 :
           return [
             env,
-            /* T_MULT_ASSIGN */71
+            /* T_MULT_ASSIGN */ 71
           ];
       case 54 :
           return [
             env,
-            /* T_EXP_ASSIGN */72
+            /* T_EXP_ASSIGN */ 72
           ];
       case 55 :
           return [
             env,
-            /* T_MOD_ASSIGN */69
+            /* T_MOD_ASSIGN */ 69
           ];
       case 56 :
           return [
             env,
-            /* T_BIT_AND_ASSIGN */68
+            /* T_BIT_AND_ASSIGN */ 68
           ];
       case 57 :
           return [
             env,
-            /* T_BIT_OR_ASSIGN */67
+            /* T_BIT_OR_ASSIGN */ 67
           ];
       case 58 :
           return [
             env,
-            /* T_BIT_XOR_ASSIGN */66
+            /* T_BIT_XOR_ASSIGN */ 66
           ];
       case 59 :
           return [
             env,
-            /* T_LESS_THAN */89
+            /* T_LESS_THAN */ 89
           ];
       case 60 :
           return [
             env,
-            /* T_GREATER_THAN */90
+            /* T_GREATER_THAN */ 90
           ];
       case 61 :
           return [
             env,
-            /* T_PLUS */94
+            /* T_PLUS */ 94
           ];
       case 62 :
           return [
             env,
-            /* T_MINUS */95
+            /* T_MINUS */ 95
           ];
       case 63 :
           return [
             env,
-            /* T_MULT */97
+            /* T_MULT */ 97
           ];
       case 64 :
           return [
             env,
-            /* T_EXP */98
+            /* T_EXP */ 98
           ];
       case 65 :
           return [
             env,
-            /* T_MOD */99
+            /* T_MOD */ 99
           ];
       case 66 :
           return [
             env,
-            /* T_BIT_OR */80
+            /* T_BIT_OR */ 80
           ];
       case 67 :
           return [
             env,
-            /* T_BIT_AND */82
+            /* T_BIT_AND */ 82
           ];
       case 68 :
           return [
             env,
-            /* T_BIT_XOR */81
+            /* T_BIT_XOR */ 81
           ];
       case 69 :
           return [
             env,
-            /* T_NOT */100
+            /* T_NOT */ 100
           ];
       case 70 :
           return [
             env,
-            /* T_BIT_NOT */101
+            /* T_BIT_NOT */ 101
           ];
       case 71 :
           return [
             env,
-            /* T_ASSIGN */75
+            /* T_ASSIGN */ 75
           ];
       case 72 :
           return [
             env,
-            /* T_ARROW */10
+            /* T_ARROW */ 10
           ];
       case 73 :
           return [
             env,
-            /* T_DIV_ASSIGN */70
+            /* T_DIV_ASSIGN */ 70
           ];
       case 74 :
           return [
             env,
-            /* T_DIV */96
+            /* T_DIV */ 96
           ];
       case 75 :
           return [
             env,
-            /* T_AT */12
+            /* T_AT */ 12
           ];
       case 76 :
           let env$8;
           if (env.lex_in_comment_syntax) {
             const loc$1 = from_lb(env.lex_source, lexbuf);
-            env$8 = lex_error(env, loc$1, /* UnexpectedEOS */4);
+            env$8 = lex_error(env, loc$1, /* UnexpectedEOS */ 4);
           } else {
             env$8 = env;
           }
           return [
             env$8,
-            /* T_EOF */105
+            /* T_EOF */ 105
           ];
       case 77 :
           const env$9 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-                TAG: /* UnexpectedToken */1,
+                TAG: /* UnexpectedToken */ 1,
                 _0: "ILLEGAL"
               });
           return [
             env$9,
-            /* T_ERROR */104
+            /* T_ERROR */ 104
           ];
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
@@ -3386,8 +3386,8 @@ function token(env, lexbuf) {
     }
     const w$3 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
     return illegal_number(env, lexbuf, w$3, {
-          TAG: /* T_NUMBER */0,
-          _0: /* NORMAL */3
+          TAG: /* T_NUMBER */ 0,
+          _0: /* NORMAL */ 3
         });
   };
 }
@@ -3401,7 +3401,7 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
       case 0 :
           const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           switch (mode) {
-            case /* JSX_SINGLE_QUOTED_TEXT */0 :
+            case /* JSX_SINGLE_QUOTED_TEXT */ 0 :
                 if (c === 39) {
                   return [
                     env,
@@ -3409,7 +3409,7 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
                   ];
                 }
                 break;
-            case /* JSX_DOUBLE_QUOTED_TEXT */1 :
+            case /* JSX_DOUBLE_QUOTED_TEXT */ 1 :
                 if (c === 34) {
                   return [
                     env,
@@ -3417,7 +3417,7 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
                   ];
                 }
                 break;
-            case /* JSX_CHILD_TEXT */2 :
+            case /* JSX_CHILD_TEXT */ 2 :
                 let exit = 0;
                 if (!(c !== 60 && c !== 123)) {
                   exit = 2;
@@ -3437,7 +3437,7 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
           return jsx_text(env, mode, buf, raw, lexbuf);
       case 1 :
           const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-                TAG: /* UnexpectedToken */1,
+                TAG: /* UnexpectedToken */ 1,
                 _0: "ILLEGAL"
               });
           return [
@@ -4266,7 +4266,7 @@ function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
       case 0 :
           return [
             env,
-            /* T_EOF */105
+            /* T_EOF */ 105
           ];
       case 1 :
           Stdlib__Lexing.new_line(lexbuf);
@@ -4295,43 +4295,43 @@ function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
       case 5 :
           return [
             env,
-            /* T_LESS_THAN */89
+            /* T_LESS_THAN */ 89
           ];
       case 6 :
           return [
             env,
-            /* T_DIV */96
+            /* T_DIV */ 96
           ];
       case 7 :
           return [
             env,
-            /* T_GREATER_THAN */90
+            /* T_GREATER_THAN */ 90
           ];
       case 8 :
           return [
             env,
-            /* T_LCURLY */1
+            /* T_LCURLY */ 1
           ];
       case 9 :
           return [
             env,
-            /* T_COLON */77
+            /* T_COLON */ 77
           ];
       case 10 :
           return [
             env,
-            /* T_PERIOD */9
+            /* T_PERIOD */ 9
           ];
       case 11 :
           return [
             env,
-            /* T_ASSIGN */75
+            /* T_ASSIGN */ 75
           ];
       case 12 :
           unicode_fix_cols(lexbuf);
           return [
             env,
-            /* T_JSX_IDENTIFIER */106
+            /* T_JSX_IDENTIFIER */ 106
           ];
       case 13 :
           const quote = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
@@ -4339,7 +4339,7 @@ function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
           const buf$2 = Stdlib__Buffer.create(127);
           const raw = Stdlib__Buffer.create(127);
           Stdlib__Buffer.add_char(raw, quote);
-          const mode = quote === /* '\'' */39 ? /* JSX_SINGLE_QUOTED_TEXT */0 : /* JSX_DOUBLE_QUOTED_TEXT */1;
+          const mode = quote === /* '\'' */39 ? /* JSX_SINGLE_QUOTED_TEXT */ 0 : /* JSX_DOUBLE_QUOTED_TEXT */ 1;
           const match$2 = jsx_text(env, mode, buf$2, raw, lexbuf);
           Stdlib__Buffer.add_char(raw, quote);
           const value = Stdlib__Buffer.contents(buf$2);
@@ -4347,7 +4347,7 @@ function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
           return [
             match$2[0],
             {
-              TAG: /* T_JSX_TEXT */4,
+              TAG: /* T_JSX_TEXT */ 4,
               _0: [
                 btwn(start$2, match$2[1]),
                 value,
@@ -4358,7 +4358,7 @@ function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
       case 14 :
           return [
             env,
-            /* T_ERROR */104
+            /* T_ERROR */ 104
           ];
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
@@ -4376,7 +4376,7 @@ function template_part(env, start, cooked, raw, literal, lexbuf) {
     switch (__ocaml_lex_state$1) {
       case 0 :
           const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-                TAG: /* UnexpectedToken */1,
+                TAG: /* UnexpectedToken */ 1,
                 _0: "ILLEGAL"
               });
           return [
@@ -4442,7 +4442,7 @@ function comment(env, buf, lexbuf) {
     switch (__ocaml_lex_state$1) {
       case 0 :
           const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-                TAG: /* UnexpectedToken */1,
+                TAG: /* UnexpectedToken */ 1,
                 _0: "ILLEGAL"
               });
           return [
@@ -4522,7 +4522,7 @@ function __ocaml_lex_template_tail_rec(_env, lexbuf, ___ocaml_lex_state) {
           return [
             match$2[0],
             {
-              TAG: /* T_TEMPLATE_PART */2,
+              TAG: /* T_TEMPLATE_PART */ 2,
               _0: [
                 match$2[1],
                 {
@@ -4536,13 +4536,13 @@ function __ocaml_lex_template_tail_rec(_env, lexbuf, ___ocaml_lex_state) {
           ];
       case 5 :
           const env$3 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-                TAG: /* UnexpectedToken */1,
+                TAG: /* UnexpectedToken */ 1,
                 _0: "ILLEGAL"
               });
           return [
             env$3,
             {
-              TAG: /* T_TEMPLATE_PART */2,
+              TAG: /* T_TEMPLATE_PART */ 2,
               _0: [
                 from_lb(env$3.lex_source, lexbuf),
                 {
@@ -4665,7 +4665,7 @@ function string_quote(env, q, buf, raw, octal, lexbuf) {
           const x = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
           Stdlib__Buffer.add_string(raw, x);
           const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-                TAG: /* UnexpectedToken */1,
+                TAG: /* UnexpectedToken */ 1,
                 _0: "ILLEGAL"
               });
           Stdlib__Buffer.add_string(buf, x);
@@ -4815,7 +4815,7 @@ function string_escape(env, buf, lexbuf) {
           const hex_code = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 2 | 0, lexbuf.lex_curr_pos - 1 | 0);
           const code$6 = Caml_format.caml_int_of_string("0x" + hex_code);
           const env$1 = code$6 > 1114111 ? lex_error(env, from_lb(env.lex_source, lexbuf), {
-                  TAG: /* UnexpectedToken */1,
+                  TAG: /* UnexpectedToken */ 1,
                   _0: "ILLEGAL"
                 }) : env;
           Stdlib__List.iter((function (param) {
@@ -4828,7 +4828,7 @@ function string_escape(env, buf, lexbuf) {
       case 15 :
           const c$2 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           const env$2 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-                TAG: /* UnexpectedToken */1,
+                TAG: /* UnexpectedToken */ 1,
                 _0: "ILLEGAL"
               });
           Stdlib__Buffer.add_char(buf, c$2);
@@ -4906,7 +4906,7 @@ function type_token(env, lexbuf) {
             if (escape_type === ":") {
               return [
                 env$3,
-                /* T_COLON */77
+                /* T_COLON */ 77
               ];
             } else {
               return type_token(env$3, lexbuf);
@@ -4927,7 +4927,7 @@ function type_token(env, lexbuf) {
           yyback(1, lexbuf);
           return [
             env,
-            /* T_MULT */97
+            /* T_MULT */ 97
           ];
       case 5 :
           const start$2 = from_lb(env.lex_source, lexbuf);
@@ -4945,7 +4945,7 @@ function type_token(env, lexbuf) {
           return [
             match$3[0],
             {
-              TAG: /* T_STRING */1,
+              TAG: /* T_STRING */ 1,
               _0: [
                 btwn(start$3, match$3[1]),
                 Stdlib__Buffer.contents(buf$3),
@@ -4958,37 +4958,37 @@ function type_token(env, lexbuf) {
           const neg = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
           const num = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
           const w = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
-          return illegal_number(env, lexbuf, w, mk_num_singleton(/* BINARY */0, num, neg));
+          return illegal_number(env, lexbuf, w, mk_num_singleton(/* BINARY */ 0, num, neg));
       case 8 :
           const neg$1 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
           const num$1 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
           return [
             env,
-            mk_num_singleton(/* BINARY */0, num$1, neg$1)
+            mk_num_singleton(/* BINARY */ 0, num$1, neg$1)
           ];
       case 9 :
           const neg$2 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
           const num$2 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
           const w$1 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
-          return illegal_number(env, lexbuf, w$1, mk_num_singleton(/* OCTAL */2, num$2, neg$2));
+          return illegal_number(env, lexbuf, w$1, mk_num_singleton(/* OCTAL */ 2, num$2, neg$2));
       case 10 :
           const neg$3 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
           const num$3 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
           return [
             env,
-            mk_num_singleton(/* OCTAL */2, num$3, neg$3)
+            mk_num_singleton(/* OCTAL */ 2, num$3, neg$3)
           ];
       case 11 :
           const neg$4 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
           const num$4 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
           const w$2 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
-          return illegal_number(env, lexbuf, w$2, mk_num_singleton(/* LEGACY_OCTAL */1, num$4, neg$4));
+          return illegal_number(env, lexbuf, w$2, mk_num_singleton(/* LEGACY_OCTAL */ 1, num$4, neg$4));
       case 12 :
           const neg$5 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
           const num$5 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
           return [
             env,
-            mk_num_singleton(/* LEGACY_OCTAL */1, num$5, neg$5)
+            mk_num_singleton(/* LEGACY_OCTAL */ 1, num$5, neg$5)
           ];
       case 13 :
           const neg$6 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
@@ -4998,18 +4998,18 @@ function type_token(env, lexbuf) {
           try {
             match$4 = [
               env,
-              mk_num_singleton(/* NORMAL */3, num$6, neg$6)
+              mk_num_singleton(/* NORMAL */ 3, num$6, neg$6)
             ];
           }
           catch (exn){
             if (Stdlib__Sys.win32) {
               const loc$1 = from_lb(env.lex_source, lexbuf);
-              const env$7 = lex_error(env, loc$1, /* WindowsFloatOfString */59);
+              const env$7 = lex_error(env, loc$1, /* WindowsFloatOfString */ 59);
               match$4 = [
                 env$7,
                 {
-                  TAG: /* T_NUMBER_SINGLETON_TYPE */5,
-                  _0: /* NORMAL */3,
+                  TAG: /* T_NUMBER_SINGLETON_TYPE */ 5,
+                  _0: /* NORMAL */ 3,
                   _1: 789.0
                 }
               ];
@@ -5024,18 +5024,18 @@ function type_token(env, lexbuf) {
           try {
             return [
               env,
-              mk_num_singleton(/* NORMAL */3, num$7, neg$7)
+              mk_num_singleton(/* NORMAL */ 3, num$7, neg$7)
             ];
           }
           catch (exn$1){
             if (Stdlib__Sys.win32) {
               const loc$2 = from_lb(env.lex_source, lexbuf);
-              const env$8 = lex_error(env, loc$2, /* WindowsFloatOfString */59);
+              const env$8 = lex_error(env, loc$2, /* WindowsFloatOfString */ 59);
               return [
                 env$8,
                 {
-                  TAG: /* T_NUMBER_SINGLETON_TYPE */5,
-                  _0: /* NORMAL */3,
+                  TAG: /* T_NUMBER_SINGLETON_TYPE */ 5,
+                  _0: /* NORMAL */ 3,
                   _1: 789.0
                 }
               ];
@@ -5046,25 +5046,25 @@ function type_token(env, lexbuf) {
           const neg$8 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
           const num$8 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
           const w$4 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
-          return illegal_number(env, lexbuf, w$4, mk_num_singleton(/* NORMAL */3, num$8, neg$8));
+          return illegal_number(env, lexbuf, w$4, mk_num_singleton(/* NORMAL */ 3, num$8, neg$8));
       case 16 :
           const neg$9 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
           const num$9 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
           return [
             env,
-            mk_num_singleton(/* NORMAL */3, num$9, neg$9)
+            mk_num_singleton(/* NORMAL */ 3, num$9, neg$9)
           ];
       case 17 :
           const neg$10 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
           const num$10 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
           const w$5 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
-          return illegal_number(env, lexbuf, w$5, mk_num_singleton(/* NORMAL */3, num$10, neg$10));
+          return illegal_number(env, lexbuf, w$5, mk_num_singleton(/* NORMAL */ 3, num$10, neg$10));
       case 18 :
           const neg$11 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), Caml_array.get(lexbuf.lex_mem, 0));
           const num$11 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 3), Caml_array.get(lexbuf.lex_mem, 2));
           return [
             env,
-            mk_num_singleton(/* NORMAL */3, num$11, neg$11)
+            mk_num_singleton(/* NORMAL */ 3, num$11, neg$11)
           ];
       case 19 :
           const word = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
@@ -5080,7 +5080,7 @@ function type_token(env, lexbuf) {
             if (exn$2.MEL_EXN_ID === Stdlib.Not_found) {
               return [
                 env,
-                /* T_IDENTIFIER */0
+                /* T_IDENTIFIER */ 0
               ];
             }
             throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
@@ -5088,134 +5088,134 @@ function type_token(env, lexbuf) {
       case 22 :
           return [
             env,
-            /* T_LCURLY */1
+            /* T_LCURLY */ 1
           ];
       case 23 :
           return [
             env,
-            /* T_RCURLY */2
+            /* T_RCURLY */ 2
           ];
       case 24 :
           return [
             env,
-            /* T_LPAREN */3
+            /* T_LPAREN */ 3
           ];
       case 25 :
           return [
             env,
-            /* T_RPAREN */4
+            /* T_RPAREN */ 4
           ];
       case 26 :
           return [
             env,
-            /* T_ELLIPSIS */11
+            /* T_ELLIPSIS */ 11
           ];
       case 27 :
           return [
             env,
-            /* T_PERIOD */9
+            /* T_PERIOD */ 9
           ];
       case 28 :
           return [
             env,
-            /* T_SEMICOLON */7
+            /* T_SEMICOLON */ 7
           ];
       case 29 :
           return [
             env,
-            /* T_COMMA */8
+            /* T_COMMA */ 8
           ];
       case 20 :
       case 32 :
           return [
             env,
-            /* T_LBRACKET */5
+            /* T_LBRACKET */ 5
           ];
       case 21 :
       case 33 :
           return [
             env,
-            /* T_RBRACKET */6
+            /* T_RBRACKET */ 6
           ];
       case 34 :
           return [
             env,
-            /* T_LESS_THAN */89
+            /* T_LESS_THAN */ 89
           ];
       case 35 :
           return [
             env,
-            /* T_GREATER_THAN */90
+            /* T_GREATER_THAN */ 90
           ];
       case 31 :
       case 37 :
           return [
             env,
-            /* T_PLING */76
+            /* T_PLING */ 76
           ];
       case 38 :
           return [
             env,
-            /* T_MULT */97
+            /* T_MULT */ 97
           ];
       case 30 :
       case 39 :
           return [
             env,
-            /* T_COLON */77
+            /* T_COLON */ 77
           ];
       case 40 :
           return [
             env,
-            /* T_BIT_OR */80
+            /* T_BIT_OR */ 80
           ];
       case 41 :
           return [
             env,
-            /* T_BIT_AND */82
+            /* T_BIT_AND */ 82
           ];
       case 42 :
           return [
             env,
-            /* T_TYPEOF */44
+            /* T_TYPEOF */ 44
           ];
       case 43 :
           return [
             env,
-            /* T_ARROW */10
+            /* T_ARROW */ 10
           ];
       case 36 :
       case 44 :
           return [
             env,
-            /* T_ASSIGN */75
+            /* T_ASSIGN */ 75
           ];
       case 45 :
           return [
             env,
-            /* T_PLUS */94
+            /* T_PLUS */ 94
           ];
       case 46 :
           return [
             env,
-            /* T_MINUS */95
+            /* T_MINUS */ 95
           ];
       case 47 :
           let env$9;
           if (env.lex_in_comment_syntax) {
             const loc$3 = from_lb(env.lex_source, lexbuf);
-            env$9 = lex_error(env, loc$3, /* UnexpectedEOS */4);
+            env$9 = lex_error(env, loc$3, /* UnexpectedEOS */ 4);
           } else {
             env$9 = env;
           }
           return [
             env$9,
-            /* T_EOF */105
+            /* T_EOF */ 105
           ];
       case 48 :
           return [
             env,
-            /* T_ERROR */104
+            /* T_ERROR */ 104
           ];
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
@@ -5234,7 +5234,7 @@ function __ocaml_lex_regexp_rec(_env, lexbuf, ___ocaml_lex_state) {
       case 0 :
           return [
             env,
-            /* T_EOF */105
+            /* T_EOF */ 105
           ];
       case 1 :
           Stdlib__Lexing.new_line(lexbuf);
@@ -5270,7 +5270,7 @@ function __ocaml_lex_regexp_rec(_env, lexbuf, ___ocaml_lex_state) {
           return [
             env$3,
             {
-              TAG: /* T_REGEXP */3,
+              TAG: /* T_REGEXP */ 3,
               _0: [
                 loc,
                 Stdlib__Buffer.contents(buf$2),
@@ -5280,12 +5280,12 @@ function __ocaml_lex_regexp_rec(_env, lexbuf, ___ocaml_lex_state) {
           ];
       case 6 :
           const env$4 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-                TAG: /* UnexpectedToken */1,
+                TAG: /* UnexpectedToken */ 1,
                 _0: "ILLEGAL"
               });
           return [
             env$4,
-            /* T_ERROR */104
+            /* T_ERROR */ 104
           ];
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
@@ -5303,14 +5303,14 @@ function regexp_body(env, buf, lexbuf) {
     switch (__ocaml_lex_state$1) {
       case 0 :
           const loc = from_lb(env.lex_source, lexbuf);
-          const env$1 = lex_error(env, loc, /* UnterminatedRegExp */13);
+          const env$1 = lex_error(env, loc, /* UnterminatedRegExp */ 13);
           return [
             env$1,
             ""
           ];
       case 1 :
           const loc$1 = from_lb(env.lex_source, lexbuf);
-          const env$2 = lex_error(env, loc$1, /* UnterminatedRegExp */13);
+          const env$2 = lex_error(env, loc$1, /* UnterminatedRegExp */ 13);
           return [
             env$2,
             ""
@@ -5337,7 +5337,7 @@ function regexp_body(env, buf, lexbuf) {
           return regexp_body(env$3, buf, lexbuf);
       case 6 :
           const loc$2 = from_lb(env.lex_source, lexbuf);
-          const env$4 = lex_error(env, loc$2, /* UnterminatedRegExp */13);
+          const env$4 = lex_error(env, loc$2, /* UnterminatedRegExp */ 13);
           return [
             env$4,
             ""
@@ -5365,13 +5365,13 @@ function jsx_child(env, start, buf, raw, lexbuf) {
           Stdlib__Buffer.add_string(raw, lt);
           Stdlib__Buffer.add_string(buf, lt);
           Stdlib__Lexing.new_line(lexbuf);
-          const match = jsx_text(env, /* JSX_CHILD_TEXT */2, buf, raw, lexbuf);
+          const match = jsx_text(env, /* JSX_CHILD_TEXT */ 2, buf, raw, lexbuf);
           const value = Stdlib__Buffer.contents(buf);
           const raw$1 = Stdlib__Buffer.contents(raw);
           return [
             match[0],
             {
-              TAG: /* T_JSX_TEXT */4,
+              TAG: /* T_JSX_TEXT */ 4,
               _0: [
                 btwn(start, match[1]),
                 value,
@@ -5382,29 +5382,29 @@ function jsx_child(env, start, buf, raw, lexbuf) {
       case 1 :
           return [
             env,
-            /* T_EOF */105
+            /* T_EOF */ 105
           ];
       case 2 :
           return [
             env,
-            /* T_LESS_THAN */89
+            /* T_LESS_THAN */ 89
           ];
       case 3 :
           return [
             env,
-            /* T_LCURLY */1
+            /* T_LCURLY */ 1
           ];
       case 4 :
           const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           Stdlib__Buffer.add_char(raw, c);
           Stdlib__Buffer.add_char(buf, c);
-          const match$1 = jsx_text(env, /* JSX_CHILD_TEXT */2, buf, raw, lexbuf);
+          const match$1 = jsx_text(env, /* JSX_CHILD_TEXT */ 2, buf, raw, lexbuf);
           const value$1 = Stdlib__Buffer.contents(buf);
           const raw$2 = Stdlib__Buffer.contents(raw);
           return [
             match$1[0],
             {
-              TAG: /* T_JSX_TEXT */4,
+              TAG: /* T_JSX_TEXT */ 4,
               _0: [
                 btwn(start, match$1[1]),
                 value$1,
@@ -5456,7 +5456,7 @@ const funarg = {
 };
 
 function height(param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     return 0;
   } else {
     return param.h;
@@ -5465,11 +5465,11 @@ function height(param) {
 
 function create(l, v, r) {
   let hl;
-  hl = /* tag */typeof l === "number" || typeof l === "string" ? 0 : l.h;
+  hl = /* tag */ typeof l === "number" || typeof l === "string" ? 0 : l.h;
   let hr;
-  hr = /* tag */typeof r === "number" || typeof r === "string" ? 0 : r.h;
+  hr = /* tag */ typeof r === "number" || typeof r === "string" ? 0 : r.h;
   return {
-    TAG: /* Node */0,
+    TAG: /* Node */ 0,
     l: l,
     v: v,
     r: r,
@@ -5479,11 +5479,11 @@ function create(l, v, r) {
 
 function bal(l, v, r) {
   let hl;
-  hl = /* tag */typeof l === "number" || typeof l === "string" ? 0 : l.h;
+  hl = /* tag */ typeof l === "number" || typeof l === "string" ? 0 : l.h;
   let hr;
-  hr = /* tag */typeof r === "number" || typeof r === "string" ? 0 : r.h;
+  hr = /* tag */ typeof r === "number" || typeof r === "string" ? 0 : r.h;
   if (hl > (hr + 2 | 0)) {
-    if (/* tag */typeof l === "number" || typeof l === "string") {
+    if (/* tag */ typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             MEL_EXN_ID: "Invalid_argument",
             _1: "Set.bal"
@@ -5495,7 +5495,7 @@ function bal(l, v, r) {
     if (height(ll) >= height(lr)) {
       return create(ll, lv, create(lr, v, r));
     }
-    if (!/* tag */(typeof lr === "number" || typeof lr === "string")) {
+    if (!/* tag */ (typeof lr === "number" || typeof lr === "string")) {
       return create(create(ll, lv, lr.l), lr.v, create(lr.r, v, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -5505,14 +5505,14 @@ function bal(l, v, r) {
   }
   if (hr <= (hl + 2 | 0)) {
     return {
-      TAG: /* Node */0,
+      TAG: /* Node */ 0,
       l: l,
       v: v,
       r: r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
-  if (/* tag */typeof r === "number" || typeof r === "string") {
+  if (/* tag */ typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
           _1: "Set.bal"
@@ -5524,7 +5524,7 @@ function bal(l, v, r) {
   if (height(rr) >= height(rl)) {
     return create(create(l, v, rl), rv, rr);
   }
-  if (!/* tag */(typeof rl === "number" || typeof rl === "string")) {
+  if (!/* tag */ (typeof rl === "number" || typeof rl === "string")) {
     return create(create(l, v, rl.l), rl.v, create(rl.r, rv, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -5534,12 +5534,12 @@ function bal(l, v, r) {
 }
 
 function add(x, t) {
-  if (/* tag */typeof t === "number" || typeof t === "string") {
+  if (/* tag */ typeof t === "number" || typeof t === "string") {
     return {
-      TAG: /* Node */0,
-      l: /* Empty */0,
+      TAG: /* Node */ 0,
+      l: /* Empty */ 0,
       v: x,
-      r: /* Empty */0,
+      r: /* Empty */ 0,
       h: 1
     };
   }
@@ -5569,7 +5569,7 @@ function add(x, t) {
 function mem(x, _param) {
   while(true) {
     const param = _param;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
     }
     const c = Curry._2(funarg.compare, x, param.v);
@@ -5638,23 +5638,23 @@ function lex(t) {
   const match = t.la_lex_mode;
   let match$1;
   switch (match) {
-    case /* TYPE */1 :
+    case /* TYPE */ 1 :
         match$1 = type_token$1(lex_env);
         break;
-    case /* JSX_TAG */2 :
+    case /* JSX_TAG */ 2 :
         match$1 = jsx_tag(lex_env);
         break;
-    case /* JSX_CHILD */3 :
+    case /* JSX_CHILD */ 3 :
         match$1 = jsx_child$1(lex_env);
         break;
-    case /* TEMPLATE */4 :
+    case /* TEMPLATE */ 4 :
         match$1 = template_tail(lex_env);
         break;
-    case /* REGEXP */5 :
+    case /* REGEXP */ 5 :
         match$1 = regexp(lex_env);
         break;
-    case /* NORMAL */0 :
-    case /* PREDICATE */6 :
+    case /* NORMAL */ 0 :
+    case /* PREDICATE */ 6 :
         match$1 = token$1(lex_env);
         break;
     
@@ -5704,7 +5704,7 @@ function init_env(token_sinkOpt, parse_optionsOpt, source, content) {
   const token_sink = token_sinkOpt !== undefined ? Caml_option.valFromOption(token_sinkOpt) : undefined;
   const parse_options = parse_optionsOpt !== undefined ? Caml_option.valFromOption(parse_optionsOpt) : undefined;
   const lb = Stdlib__Lexing.from_string(undefined, content);
-  if (source !== undefined && !/* tag */(typeof source === "number" || typeof source === "string")) {
+  if (source !== undefined && !/* tag */ (typeof source === "number" || typeof source === "string")) {
     const init = lb.lex_curr_p;
     lb.lex_curr_p = {
       pos_fname: source._0,
@@ -5718,14 +5718,14 @@ function init_env(token_sinkOpt, parse_optionsOpt, source, content) {
   const lex_env = new_lex_env(source, lb, enable_types_in_comments);
   return {
     errors: {
-      contents: /* [] */0
+      contents: /* [] */ 0
     },
     comments: {
-      contents: /* [] */0
+      contents: /* [] */ 0
     },
-    labels: /* Empty */0,
+    labels: /* Empty */ 0,
     exports: {
-      contents: /* Empty */0
+      contents: /* Empty */ 0
     },
     last_loc: {
       contents: undefined
@@ -5743,15 +5743,15 @@ function init_env(token_sinkOpt, parse_optionsOpt, source, content) {
     error_callback: undefined,
     lex_mode_stack: {
       contents: {
-        hd: /* NORMAL */0,
-        tl: /* [] */0
+        hd: /* NORMAL */ 0,
+        tl: /* [] */ 0
       }
     },
     lex_env: {
       contents: lex_env
     },
     lookahead: {
-      contents: create$1(lex_env, /* NORMAL */0)
+      contents: create$1(lex_env, /* NORMAL */ 0)
     },
     token_sink: {
       contents: token_sink
@@ -5795,7 +5795,7 @@ function record_export(env, param) {
     return error_at(env, [
           param[0],
           {
-            TAG: /* DuplicateExport */7,
+            TAG: /* DuplicateExport */ 7,
             _0: export_name
           }
         ]);
@@ -5916,7 +5916,7 @@ function enter_function(env, async, generator) {
   newrecord.in_function = true;
   newrecord.in_switch = false;
   newrecord.in_loop = false;
-  newrecord.labels = /* Empty */0;
+  newrecord.labels = /* Empty */ 0;
   return newrecord;
 }
 
@@ -6004,14 +6004,14 @@ function is_line_terminator(env) {
 
 function is_implicit_semicolon(env) {
   const match = token$2(undefined, env);
-  if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
     return is_line_terminator(env);
   }
   switch (match) {
-    case /* T_SEMICOLON */7 :
+    case /* T_SEMICOLON */ 7 :
         return false;
-    case /* T_RCURLY */2 :
-    case /* T_EOF */105 :
+    case /* T_RCURLY */ 2 :
+    case /* T_EOF */ 105 :
         return true;
     default:
       return is_line_terminator(env);
@@ -6020,7 +6020,7 @@ function is_implicit_semicolon(env) {
 
 function semicolon_loc(iOpt, env) {
   const i = iOpt !== undefined ? iOpt : 0;
-  if (Caml_obj.caml_equal(token$2(i, env), /* T_SEMICOLON */7)) {
+  if (Caml_obj.caml_equal(token$2(i, env), /* T_SEMICOLON */ 7)) {
     return loc(i, env);
   }
   
@@ -6033,17 +6033,17 @@ function is_identifier(iOpt, env) {
   if (is_strict_reserved(name) || is_restricted(name) || is_future_reserved(name)) {
     return true;
   }
-  if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
     return false;
   }
   switch (match) {
-    case /* T_IDENTIFIER */0 :
-    case /* T_LET */26 :
-    case /* T_DECLARE */58 :
-    case /* T_TYPE */59 :
-    case /* T_OF */60 :
-    case /* T_ASYNC */61 :
-    case /* T_AWAIT */62 :
+    case /* T_IDENTIFIER */ 0 :
+    case /* T_LET */ 26 :
+    case /* T_DECLARE */ 58 :
+    case /* T_TYPE */ 59 :
+    case /* T_OF */ 60 :
+    case /* T_ASYNC */ 61 :
+    case /* T_AWAIT */ 62 :
         return true;
     default:
       return false;
@@ -6052,10 +6052,10 @@ function is_identifier(iOpt, env) {
 
 function is_function(iOpt, env) {
   const i = iOpt !== undefined ? iOpt : 0;
-  if (Caml_obj.caml_equal(token$2(i, env), /* T_FUNCTION */13)) {
+  if (Caml_obj.caml_equal(token$2(i, env), /* T_FUNCTION */ 13)) {
     return true;
-  } else if (Caml_obj.caml_equal(token$2(i, env), /* T_ASYNC */61)) {
-    return Caml_obj.caml_equal(token$2(i + 1 | 0, env), /* T_FUNCTION */13);
+  } else if (Caml_obj.caml_equal(token$2(i, env), /* T_ASYNC */ 61)) {
+    return Caml_obj.caml_equal(token$2(i + 1 | 0, env), /* T_FUNCTION */ 13);
   } else {
     return false;
   }
@@ -6064,12 +6064,12 @@ function is_function(iOpt, env) {
 function is_class(iOpt, env) {
   const i = iOpt !== undefined ? iOpt : 0;
   const match = token$2(i, env);
-  if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
     return false;
   }
   switch (match) {
-    case /* T_AT */12 :
-    case /* T_CLASS */38 :
+    case /* T_AT */ 12 :
+    case /* T_CLASS */ 38 :
         return true;
     default:
       return false;
@@ -6086,34 +6086,34 @@ function error$1(env, e) {
 
 function get_unexpected_error(param) {
   let tmp = param[0];
-  if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
+  if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
     switch (tmp) {
-      case /* T_IDENTIFIER */0 :
-          return /* UnexpectedIdentifier */2;
-      case /* T_EOF */105 :
-          return /* UnexpectedEOS */4;
+      case /* T_IDENTIFIER */ 0 :
+          return /* UnexpectedIdentifier */ 2;
+      case /* T_EOF */ 105 :
+          return /* UnexpectedEOS */ 4;
       default:
         
     }
   } else {
     switch (tmp.TAG) {
-      case /* T_NUMBER */0 :
-          return /* UnexpectedNumber */0;
-      case /* T_STRING */1 :
-      case /* T_JSX_TEXT */4 :
-          return /* UnexpectedString */1;
+      case /* T_NUMBER */ 0 :
+          return /* UnexpectedNumber */ 0;
+      case /* T_STRING */ 1 :
+      case /* T_JSX_TEXT */ 4 :
+          return /* UnexpectedString */ 1;
       default:
         
     }
   }
   const word = param[1];
   if (is_future_reserved(word)) {
-    return /* UnexpectedReserved */3;
+    return /* UnexpectedReserved */ 3;
   } else if (is_strict_reserved(word)) {
-    return /* StrictReservedWord */39;
+    return /* StrictReservedWord */ 39;
   } else {
     return {
-      TAG: /* UnexpectedToken */1,
+      TAG: /* UnexpectedToken */ 1,
       _0: param[1]
     };
   }
@@ -6132,7 +6132,7 @@ function error_on_decorators(env) {
     return Stdlib__List.iter((function (decorator) {
           error_at(env, [
                 decorator[0],
-                /* UnsupportedDecorator */57
+                /* UnsupportedDecorator */ 57
               ]);
         }), param);
   };
@@ -6229,7 +6229,7 @@ function double_pop_lex_mode(env) {
 
 function semicolon(env) {
   if (!is_implicit_semicolon(env)) {
-    if (Caml_obj.caml_equal(token$2(undefined, env), /* T_SEMICOLON */7)) {
+    if (Caml_obj.caml_equal(token$2(undefined, env), /* T_SEMICOLON */ 7)) {
       return token$3(env);
     } else {
       return error_unexpected(env);
@@ -6261,7 +6261,7 @@ function contextual(env, str) {
   token$3(env);
 }
 
-const Rollback = /* @__PURE__ */Caml_exceptions.create("Flow_parser_reg_test.Parser_env.Try.Rollback");
+const Rollback = /* @__PURE__ */ Caml_exceptions.create("Flow_parser_reg_test.Parser_env.Try.Rollback");
 
 function save_state(env) {
   const orig_token_sink = env.token_sink.contents;
@@ -6269,8 +6269,8 @@ function save_state(env) {
   if (orig_token_sink !== undefined) {
     const buffer = {
       length: 0,
-      first: /* Nil */0,
-      last: /* Nil */0
+      first: /* Nil */ 0,
+      last: /* Nil */ 0
     };
     env.token_sink.contents = (function (token_data) {
       Stdlib__Queue.add(token_data, buffer);
@@ -6310,7 +6310,7 @@ function to_parse(env, parse) {
     let result = Curry._1(parse, env);
     reset_token_sink(true, env, saved_state.token_buffer);
     return {
-      TAG: /* ParsedSuccessfully */0,
+      TAG: /* ParsedSuccessfully */ 0,
       _0: result
     };
   }
@@ -6324,7 +6324,7 @@ function to_parse(env, parse) {
       env.lex_mode_stack.contents = saved_state.saved_lex_mode_stack;
       env.lex_env.contents = saved_state.saved_lex_env;
       env.lookahead.contents = create$1(env.lex_env.contents, Stdlib__List.hd(env.lex_mode_stack.contents));
-      return /* FailedToParse */0;
+      return /* FailedToParse */ 0;
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
@@ -6354,7 +6354,7 @@ const funarg$1 = {
 };
 
 function height$1(param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     return 0;
   } else {
     return param.h;
@@ -6363,11 +6363,11 @@ function height$1(param) {
 
 function create$2(l, v, r) {
   let hl;
-  hl = /* tag */typeof l === "number" || typeof l === "string" ? 0 : l.h;
+  hl = /* tag */ typeof l === "number" || typeof l === "string" ? 0 : l.h;
   let hr;
-  hr = /* tag */typeof r === "number" || typeof r === "string" ? 0 : r.h;
+  hr = /* tag */ typeof r === "number" || typeof r === "string" ? 0 : r.h;
   return {
-    TAG: /* Node */0,
+    TAG: /* Node */ 0,
     l: l,
     v: v,
     r: r,
@@ -6377,11 +6377,11 @@ function create$2(l, v, r) {
 
 function bal$1(l, v, r) {
   let hl;
-  hl = /* tag */typeof l === "number" || typeof l === "string" ? 0 : l.h;
+  hl = /* tag */ typeof l === "number" || typeof l === "string" ? 0 : l.h;
   let hr;
-  hr = /* tag */typeof r === "number" || typeof r === "string" ? 0 : r.h;
+  hr = /* tag */ typeof r === "number" || typeof r === "string" ? 0 : r.h;
   if (hl > (hr + 2 | 0)) {
-    if (/* tag */typeof l === "number" || typeof l === "string") {
+    if (/* tag */ typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             MEL_EXN_ID: "Invalid_argument",
             _1: "Set.bal"
@@ -6393,7 +6393,7 @@ function bal$1(l, v, r) {
     if (height$1(ll) >= height$1(lr)) {
       return create$2(ll, lv, create$2(lr, v, r));
     }
-    if (!/* tag */(typeof lr === "number" || typeof lr === "string")) {
+    if (!/* tag */ (typeof lr === "number" || typeof lr === "string")) {
       return create$2(create$2(ll, lv, lr.l), lr.v, create$2(lr.r, v, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -6403,14 +6403,14 @@ function bal$1(l, v, r) {
   }
   if (hr <= (hl + 2 | 0)) {
     return {
-      TAG: /* Node */0,
+      TAG: /* Node */ 0,
       l: l,
       v: v,
       r: r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
-  if (/* tag */typeof r === "number" || typeof r === "string") {
+  if (/* tag */ typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
           _1: "Set.bal"
@@ -6422,7 +6422,7 @@ function bal$1(l, v, r) {
   if (height$1(rr) >= height$1(rl)) {
     return create$2(create$2(l, v, rl), rv, rr);
   }
-  if (!/* tag */(typeof rl === "number" || typeof rl === "string")) {
+  if (!/* tag */ (typeof rl === "number" || typeof rl === "string")) {
     return create$2(create$2(l, v, rl.l), rl.v, create$2(rl.r, rv, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -6432,12 +6432,12 @@ function bal$1(l, v, r) {
 }
 
 function add$1(x, t) {
-  if (/* tag */typeof t === "number" || typeof t === "string") {
+  if (/* tag */ typeof t === "number" || typeof t === "string") {
     return {
-      TAG: /* Node */0,
-      l: /* Empty */0,
+      TAG: /* Node */ 0,
+      l: /* Empty */ 0,
       v: x,
-      r: /* Empty */0,
+      r: /* Empty */ 0,
       h: 1
     };
   }
@@ -6467,7 +6467,7 @@ function add$1(x, t) {
 function mem$1(x, _param) {
   while(true) {
     const param = _param;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
     }
     const c = Curry._2(funarg$1.compare, x, param.v);
@@ -6484,7 +6484,7 @@ const funarg$2 = {
 };
 
 function height$2(param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     return 0;
   } else {
     return param.h;
@@ -6495,7 +6495,7 @@ function create$3(l, x, d, r) {
   const hl = height$2(l);
   const hr = height$2(r);
   return {
-    TAG: /* Node */0,
+    TAG: /* Node */ 0,
     l: l,
     v: x,
     d: d,
@@ -6506,11 +6506,11 @@ function create$3(l, x, d, r) {
 
 function bal$2(l, x, d, r) {
   let hl;
-  hl = /* tag */typeof l === "number" || typeof l === "string" ? 0 : l.h;
+  hl = /* tag */ typeof l === "number" || typeof l === "string" ? 0 : l.h;
   let hr;
-  hr = /* tag */typeof r === "number" || typeof r === "string" ? 0 : r.h;
+  hr = /* tag */ typeof r === "number" || typeof r === "string" ? 0 : r.h;
   if (hl > (hr + 2 | 0)) {
-    if (/* tag */typeof l === "number" || typeof l === "string") {
+    if (/* tag */ typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             MEL_EXN_ID: "Invalid_argument",
             _1: "Map.bal"
@@ -6523,7 +6523,7 @@ function bal$2(l, x, d, r) {
     if (height$2(ll) >= height$2(lr)) {
       return create$3(ll, lv, ld, create$3(lr, x, d, r));
     }
-    if (!/* tag */(typeof lr === "number" || typeof lr === "string")) {
+    if (!/* tag */ (typeof lr === "number" || typeof lr === "string")) {
       return create$3(create$3(ll, lv, ld, lr.l), lr.v, lr.d, create$3(lr.r, x, d, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -6533,7 +6533,7 @@ function bal$2(l, x, d, r) {
   }
   if (hr <= (hl + 2 | 0)) {
     return {
-      TAG: /* Node */0,
+      TAG: /* Node */ 0,
       l: l,
       v: x,
       d: d,
@@ -6541,7 +6541,7 @@ function bal$2(l, x, d, r) {
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
-  if (/* tag */typeof r === "number" || typeof r === "string") {
+  if (/* tag */ typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
           _1: "Map.bal"
@@ -6554,7 +6554,7 @@ function bal$2(l, x, d, r) {
   if (height$2(rr) >= height$2(rl)) {
     return create$3(create$3(l, x, d, rl), rv, rd, rr);
   }
-  if (!/* tag */(typeof rl === "number" || typeof rl === "string")) {
+  if (!/* tag */ (typeof rl === "number" || typeof rl === "string")) {
     return create$3(create$3(l, x, d, rl.l), rl.v, rl.d, create$3(rl.r, rv, rd, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -6564,13 +6564,13 @@ function bal$2(l, x, d, r) {
 }
 
 function add$2(x, data, m) {
-  if (/* tag */typeof m === "number" || typeof m === "string") {
+  if (/* tag */ typeof m === "number" || typeof m === "string") {
     return {
-      TAG: /* Node */0,
-      l: /* Empty */0,
+      TAG: /* Node */ 0,
+      l: /* Empty */ 0,
       v: x,
       d: data,
-      r: /* Empty */0,
+      r: /* Empty */ 0,
       h: 1
     };
   }
@@ -6584,7 +6584,7 @@ function add$2(x, data, m) {
       return m;
     } else {
       return {
-        TAG: /* Node */0,
+        TAG: /* Node */ 0,
         l: l,
         v: x,
         d: data,
@@ -6612,7 +6612,7 @@ function add$2(x, data, m) {
 function find(x, _param) {
   while(true) {
     const param = _param;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
             MEL_EXN_ID: Stdlib.Not_found
           });
@@ -6640,7 +6640,7 @@ const funarg$3 = {
 };
 
 function height$3(param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     return 0;
   } else {
     return param.h;
@@ -6649,11 +6649,11 @@ function height$3(param) {
 
 function create$4(l, v, r) {
   let hl;
-  hl = /* tag */typeof l === "number" || typeof l === "string" ? 0 : l.h;
+  hl = /* tag */ typeof l === "number" || typeof l === "string" ? 0 : l.h;
   let hr;
-  hr = /* tag */typeof r === "number" || typeof r === "string" ? 0 : r.h;
+  hr = /* tag */ typeof r === "number" || typeof r === "string" ? 0 : r.h;
   return {
-    TAG: /* Node */0,
+    TAG: /* Node */ 0,
     l: l,
     v: v,
     r: r,
@@ -6663,11 +6663,11 @@ function create$4(l, v, r) {
 
 function bal$3(l, v, r) {
   let hl;
-  hl = /* tag */typeof l === "number" || typeof l === "string" ? 0 : l.h;
+  hl = /* tag */ typeof l === "number" || typeof l === "string" ? 0 : l.h;
   let hr;
-  hr = /* tag */typeof r === "number" || typeof r === "string" ? 0 : r.h;
+  hr = /* tag */ typeof r === "number" || typeof r === "string" ? 0 : r.h;
   if (hl > (hr + 2 | 0)) {
-    if (/* tag */typeof l === "number" || typeof l === "string") {
+    if (/* tag */ typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             MEL_EXN_ID: "Invalid_argument",
             _1: "Set.bal"
@@ -6679,7 +6679,7 @@ function bal$3(l, v, r) {
     if (height$3(ll) >= height$3(lr)) {
       return create$4(ll, lv, create$4(lr, v, r));
     }
-    if (!/* tag */(typeof lr === "number" || typeof lr === "string")) {
+    if (!/* tag */ (typeof lr === "number" || typeof lr === "string")) {
       return create$4(create$4(ll, lv, lr.l), lr.v, create$4(lr.r, v, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -6689,14 +6689,14 @@ function bal$3(l, v, r) {
   }
   if (hr <= (hl + 2 | 0)) {
     return {
-      TAG: /* Node */0,
+      TAG: /* Node */ 0,
       l: l,
       v: v,
       r: r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
-  if (/* tag */typeof r === "number" || typeof r === "string") {
+  if (/* tag */ typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
           _1: "Set.bal"
@@ -6708,7 +6708,7 @@ function bal$3(l, v, r) {
   if (height$3(rr) >= height$3(rl)) {
     return create$4(create$4(l, v, rl), rv, rr);
   }
-  if (!/* tag */(typeof rl === "number" || typeof rl === "string")) {
+  if (!/* tag */ (typeof rl === "number" || typeof rl === "string")) {
     return create$4(create$4(l, v, rl.l), rl.v, create$4(rl.r, rv, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -6718,12 +6718,12 @@ function bal$3(l, v, r) {
 }
 
 function add$3(x, t) {
-  if (/* tag */typeof t === "number" || typeof t === "string") {
+  if (/* tag */ typeof t === "number" || typeof t === "string") {
     return {
-      TAG: /* Node */0,
-      l: /* Empty */0,
+      TAG: /* Node */ 0,
+      l: /* Empty */ 0,
       v: x,
-      r: /* Empty */0,
+      r: /* Empty */ 0,
       h: 1
     };
   }
@@ -6753,7 +6753,7 @@ function add$3(x, t) {
 function mem$2(x, _param) {
   while(true) {
     const param = _param;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
     }
     const c = Curry._2(funarg$3.compare, x, param.v);
@@ -6785,8 +6785,8 @@ function filter_duplicate_errors(errs) {
           ];
         }
       }), [
-        /* Empty */0,
-        /* [] */0
+        /* Empty */ 0,
+        /* [] */ 0
       ], errs$1);
   return Stdlib__List.rev(match[1]);
 }
@@ -6796,7 +6796,7 @@ function with_loc(fn, env) {
   const result = Curry._1(fn, env);
   const loc = env.last_loc.contents;
   const end_loc = loc !== undefined ? loc : (error$1(env, {
-          TAG: /* Assertion */0,
+          TAG: /* Assertion */ 0,
           _0: "did not consume any tokens"
         }), Curry._2(Parser_env_Peek.loc, undefined, env));
   return [
@@ -6810,124 +6810,124 @@ const Parse = Caml_module.init_mod([
       95,
       6
     ], {
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [
         [
-          /* Function */0,
+          /* Function */ 0,
           "program"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "statement"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "statement_list_item"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "statement_list"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "statement_list_with_directives"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "module_body"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "expression"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "assignment"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "object_initializer"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "array_initializer"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "identifier"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "identifier_or_reserved_keyword"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "identifier_with_type"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "block_body"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "function_block_body"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "jsx_element"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "pattern"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "pattern_from_expr"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "object_key"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "class_declaration"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "class_expression"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "is_assignable_lhs"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "predicate"
         ]
       ]
     });
 
 function union(env) {
-  maybe(env, /* T_BIT_OR */80);
+  maybe(env, /* T_BIT_OR */ 80);
   const left = intersection(env);
   return Curry._2(union_with, env, left);
 }
 
 function prefix(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
     return postfix(env);
   }
-  if (match !== /* T_PLING */76) {
+  if (match !== /* T_PLING */ 76) {
     return postfix(env);
   }
   const loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_PLING */76);
+  token$4(env, /* T_PLING */ 76);
   const t = prefix(env);
   return [
     btwn(loc, t[0]),
     {
-      TAG: /* Nullable */0,
+      TAG: /* Nullable */ 0,
       _0: t
     }
   ];
@@ -6968,17 +6968,17 @@ function rev_nonempty_acc(acc) {
 }
 
 function intersection(env) {
-  maybe(env, /* T_BIT_AND */82);
+  maybe(env, /* T_BIT_AND */ 82);
   const left = prefix(env);
   return Curry._2(intersection_with, env, left);
 }
 
 function function_param_with_id(env, name) {
   if (!env.parse_options.types) {
-    error$1(env, /* UnexpectedTypeAnnotation */6);
+    error$1(env, /* UnexpectedTypeAnnotation */ 6);
   }
-  const optional = maybe(env, /* T_PLING */76);
-  token$4(env, /* T_COLON */77);
+  const optional = maybe(env, /* T_PLING */ 76);
+  token$4(env, /* T_COLON */ 77);
   const typeAnnotation = union(env);
   return [
     btwn(name[0], typeAnnotation[0]),
@@ -6993,14 +6993,14 @@ function function_param_with_id(env, name) {
 function postfix_with(env, _t) {
   while(true) {
     const t = _t;
-    if (!(!Curry._1(Parser_env_Peek.is_line_terminator, env) && maybe(env, /* T_LBRACKET */5))) {
+    if (!(!Curry._1(Parser_env_Peek.is_line_terminator, env) && maybe(env, /* T_LBRACKET */ 5))) {
       return t;
     }
     const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-    token$4(env, /* T_RBRACKET */6);
+    token$4(env, /* T_RBRACKET */ 6);
     const loc = btwn(t[0], end_loc);
     const t_1 = {
-      TAG: /* Array */3,
+      TAG: /* Array */ 3,
       _0: t
     };
     const t$1 = [
@@ -7017,36 +7017,36 @@ function generic_type_with_identifier(env, id) {
   return [
     match[0],
     {
-      TAG: /* Generic */4,
+      TAG: /* Generic */ 4,
       _0: match[1]
     }
   ];
 }
 
 function param_list_or_type(env) {
-  token$4(env, /* T_LPAREN */3);
+  token$4(env, /* T_LPAREN */ 3);
   const token$5 = Curry._2(Parser_env_Peek.token, undefined, env);
   let ret;
   let exit = 0;
-  if (/* tag */typeof token$5 === "number" || typeof token$5 === "string") {
+  if (/* tag */ typeof token$5 === "number" || typeof token$5 === "string") {
     switch (token$5) {
-      case /* T_IDENTIFIER */0 :
+      case /* T_IDENTIFIER */ 0 :
           ret = function_param_or_generic_type(env);
           break;
-      case /* T_RPAREN */4 :
+      case /* T_RPAREN */ 4 :
           ret = {
-            TAG: /* ParamList */0,
+            TAG: /* ParamList */ 0,
             _0: [
               undefined,
-              /* [] */0
+              /* [] */ 0
             ]
           };
           break;
-      case /* T_ELLIPSIS */11 :
-      case /* T_EOF */105 :
+      case /* T_ELLIPSIS */ 11 :
+      case /* T_EOF */ 105 :
           ret = {
-            TAG: /* ParamList */0,
-            _0: Curry._2(function_param_list_without_parens, env, /* [] */0)
+            TAG: /* ParamList */ 0,
+            _0: Curry._2(function_param_list_without_parens, env, /* [] */ 0)
           };
           break;
       default:
@@ -7060,21 +7060,21 @@ function param_list_or_type(env) {
     if (match !== undefined) {
       const match$1 = Curry._2(Parser_env_Peek.token, 1, env);
       let exit$1 = 0;
-      if (/* tag */typeof match$1 === "number" || typeof match$1 === "string") {
+      if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string") {
         switch (match$1) {
-          case /* T_PLING */76 :
-          case /* T_COLON */77 :
+          case /* T_PLING */ 76 :
+          case /* T_COLON */ 77 :
               exit$1 = 2;
               break;
           default:
             ret = {
-              TAG: /* Type */1,
+              TAG: /* Type */ 1,
               _0: union(env)
             };
         }
       } else {
         ret = {
-          TAG: /* Type */1,
+          TAG: /* Type */ 1,
           _0: union(env)
         };
       }
@@ -7082,13 +7082,13 @@ function param_list_or_type(env) {
         const match$2 = Curry._1(Parse.identifier_or_reserved_keyword, env);
         const name = match$2[0];
         if (!env.parse_options.types) {
-          error$1(env, /* UnexpectedTypeAnnotation */6);
+          error$1(env, /* UnexpectedTypeAnnotation */ 6);
         }
-        const optional = maybe(env, /* T_PLING */76);
-        token$4(env, /* T_COLON */77);
+        const optional = maybe(env, /* T_PLING */ 76);
+        token$4(env, /* T_COLON */ 77);
         const typeAnnotation = union(env);
-        if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RPAREN */4)) {
-          token$4(env, /* T_COMMA */8);
+        if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RPAREN */ 4)) {
+          token$4(env, /* T_COMMA */ 8);
         }
         const param_0 = btwn(name[0], typeAnnotation[0]);
         const param_1 = {
@@ -7101,29 +7101,29 @@ function param_list_or_type(env) {
           param_1
         ];
         ret = {
-          TAG: /* ParamList */0,
+          TAG: /* ParamList */ 0,
           _0: Curry._2(function_param_list_without_parens, env, {
                 hd: param,
-                tl: /* [] */0
+                tl: /* [] */ 0
               })
         };
       }
       
     } else {
       ret = {
-        TAG: /* Type */1,
+        TAG: /* Type */ 1,
         _0: union(env)
       };
     }
   }
-  token$4(env, /* T_RPAREN */4);
+  token$4(env, /* T_RPAREN */ 4);
   return ret;
 }
 
 function function_param_list(env) {
-  token$4(env, /* T_LPAREN */3);
-  const ret = Curry._2(function_param_list_without_parens, env, /* [] */0);
-  token$4(env, /* T_RPAREN */4);
+  token$4(env, /* T_LPAREN */ 3);
+  const ret = Curry._2(function_param_list_without_parens, env, /* [] */ 0);
+  token$4(env, /* T_RPAREN */ 4);
   return ret;
 }
 
@@ -7131,40 +7131,40 @@ function primary(env) {
   const loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   const token$5 = Curry._2(Parser_env_Peek.token, undefined, env);
   let exit = 0;
-  if (/* tag */typeof token$5 === "number" || typeof token$5 === "string") {
+  if (/* tag */ typeof token$5 === "number" || typeof token$5 === "string") {
     switch (token$5) {
-      case /* T_IDENTIFIER */0 :
+      case /* T_IDENTIFIER */ 0 :
           const match = generic(env);
           return [
             match[0],
             {
-              TAG: /* Generic */4,
+              TAG: /* Generic */ 4,
               _0: match[1]
             }
           ];
-      case /* T_LCURLY */1 :
+      case /* T_LCURLY */ 1 :
           const match$1 = Curry._2(_object, undefined, env);
           return [
             match$1[0],
             {
-              TAG: /* Object */2,
+              TAG: /* Object */ 2,
               _0: match$1[1]
             }
           ];
-      case /* T_LPAREN */3 :
+      case /* T_LPAREN */ 3 :
           const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
           const _type = param_list_or_type(env);
-          if (_type.TAG !== /* ParamList */0) {
+          if (_type.TAG !== /* ParamList */ 0) {
             return _type._0;
           }
           const match$2 = _type._0;
-          token$4(env, /* T_ARROW */10);
+          token$4(env, /* T_ARROW */ 10);
           const returnType = union(env);
           const end_loc = returnType[0];
           return [
             btwn(start_loc, end_loc),
             {
-              TAG: /* Function */1,
+              TAG: /* Function */ 1,
               _0: {
                 params: match$2[1],
                 returnType: returnType,
@@ -7173,45 +7173,45 @@ function primary(env) {
               }
             }
           ];
-      case /* T_LBRACKET */5 :
+      case /* T_LBRACKET */ 5 :
           const start_loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env);
-          token$4(env, /* T_LBRACKET */5);
-          const tl = types(env, /* [] */0);
+          token$4(env, /* T_LBRACKET */ 5);
+          const tl = types(env, /* [] */ 0);
           const end_loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env);
-          token$4(env, /* T_RBRACKET */6);
+          token$4(env, /* T_RBRACKET */ 6);
           return [
             btwn(start_loc$1, end_loc$1),
             {
-              TAG: /* Tuple */8,
+              TAG: /* Tuple */ 8,
               _0: tl
             }
           ];
-      case /* T_FALSE */28 :
-      case /* T_TRUE */29 :
+      case /* T_FALSE */ 28 :
+      case /* T_TRUE */ 29 :
           exit = 2;
           break;
-      case /* T_TYPEOF */44 :
+      case /* T_TYPEOF */ 44 :
           const start_loc$2 = Curry._2(Parser_env_Peek.loc, undefined, env);
-          token$4(env, /* T_TYPEOF */44);
+          token$4(env, /* T_TYPEOF */ 44);
           const t = primary(env);
           return [
             btwn(start_loc$2, t[0]),
             {
-              TAG: /* Typeof */7,
+              TAG: /* Typeof */ 7,
               _0: t
             }
           ];
-      case /* T_LESS_THAN */89 :
+      case /* T_LESS_THAN */ 89 :
           const start_loc$3 = Curry._2(Parser_env_Peek.loc, undefined, env);
           const typeParameters = Curry._2(type_parameter_declaration, false, env);
           const match$3 = function_param_list(env);
-          token$4(env, /* T_ARROW */10);
+          token$4(env, /* T_ARROW */ 10);
           const returnType$1 = union(env);
           const end_loc$2 = returnType$1[0];
           return [
             btwn(start_loc$3, end_loc$2),
             {
-              TAG: /* Function */1,
+              TAG: /* Function */ 1,
               _0: {
                 params: match$3[1],
                 returnType: returnType$1,
@@ -7220,28 +7220,28 @@ function primary(env) {
               }
             }
           ];
-      case /* T_MULT */97 :
-          token$4(env, /* T_MULT */97);
+      case /* T_MULT */ 97 :
+          token$4(env, /* T_MULT */ 97);
           return [
             loc,
-            /* Exists */6
+            /* Exists */ 6
           ];
       default:
         exit = 1;
     }
   } else {
     switch (token$5.TAG) {
-      case /* T_STRING */1 :
+      case /* T_STRING */ 1 :
           const match$4 = token$5._0;
           const octal = match$4[3];
           const raw = match$4[2];
           const value = match$4[1];
           const loc$1 = match$4[0];
           if (octal) {
-            strict_error(env, /* StrictOctalLiteral */31);
+            strict_error(env, /* StrictOctalLiteral */ 31);
           }
           token$4(env, {
-                TAG: /* T_STRING */1,
+                TAG: /* T_STRING */ 1,
                 _0: [
                   loc$1,
                   value,
@@ -7252,29 +7252,29 @@ function primary(env) {
           return [
             loc$1,
             {
-              TAG: /* StringLiteral */9,
+              TAG: /* StringLiteral */ 9,
               _0: {
                 value: value,
                 raw: raw
               }
             }
           ];
-      case /* T_NUMBER_SINGLETON_TYPE */5 :
+      case /* T_NUMBER_SINGLETON_TYPE */ 5 :
           const value$1 = token$5._1;
           const number_type = token$5._0;
           const raw$1 = Curry._2(Parser_env_Peek.value, undefined, env);
           token$4(env, {
-                TAG: /* T_NUMBER_SINGLETON_TYPE */5,
+                TAG: /* T_NUMBER_SINGLETON_TYPE */ 5,
                 _0: number_type,
                 _1: value$1
               });
-          if (number_type === /* LEGACY_OCTAL */1) {
-            strict_error(env, /* StrictOctalLiteral */31);
+          if (number_type === /* LEGACY_OCTAL */ 1) {
+            strict_error(env, /* StrictOctalLiteral */ 31);
           }
           return [
             loc,
             {
-              TAG: /* NumberLiteral */10,
+              TAG: /* NumberLiteral */ 10,
               _0: {
                 value: value$1,
                 raw: raw$1
@@ -7298,17 +7298,17 @@ function primary(env) {
           error_unexpected(env);
           return [
             loc,
-            /* Any */0
+            /* Any */ 0
           ];
         }
     case 2 :
         const raw$2 = Curry._2(Parser_env_Peek.value, undefined, env);
         token$4(env, token$5);
-        const value$2 = Caml_obj.caml_equal(token$5, /* T_TRUE */29);
+        const value$2 = Caml_obj.caml_equal(token$5, /* T_TRUE */ 29);
         return [
           loc,
           {
-            TAG: /* BooleanLiteral */11,
+            TAG: /* BooleanLiteral */ 11,
             _0: {
               value: value$2,
               raw: raw$2
@@ -7320,22 +7320,22 @@ function primary(env) {
 }
 
 function primitive(param) {
-  if (!/* tag */(typeof param === "number" || typeof param === "string")) {
+  if (!/* tag */ (typeof param === "number" || typeof param === "string")) {
     return;
   }
   switch (param) {
-    case /* T_NULL */27 :
-        return /* Null */2;
-    case /* T_ANY_TYPE */107 :
-        return /* Any */0;
-    case /* T_BOOLEAN_TYPE */108 :
-        return /* Boolean */5;
-    case /* T_NUMBER_TYPE */109 :
-        return /* Number */3;
-    case /* T_STRING_TYPE */110 :
-        return /* String */4;
-    case /* T_VOID_TYPE */111 :
-        return /* Void */1;
+    case /* T_NULL */ 27 :
+        return /* Null */ 2;
+    case /* T_ANY_TYPE */ 107 :
+        return /* Any */ 0;
+    case /* T_BOOLEAN_TYPE */ 108 :
+        return /* Boolean */ 5;
+    case /* T_NUMBER_TYPE */ 109 :
+        return /* Number */ 3;
+    case /* T_STRING_TYPE */ 110 :
+        return /* String */ 4;
+    case /* T_VOID_TYPE */ 111 :
+        return /* Void */ 1;
     default:
       return;
   }
@@ -7345,10 +7345,10 @@ function function_param_or_generic_type(env) {
   const id = Curry._2(Parse.identifier, undefined, env);
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let exit = 0;
-  if (/* tag */typeof match === "number" || typeof match === "string") {
+  if (/* tag */ typeof match === "number" || typeof match === "string") {
     switch (match) {
-      case /* T_PLING */76 :
-      case /* T_COLON */77 :
+      case /* T_PLING */ 76 :
+      case /* T_COLON */ 77 :
           exit = 2;
           break;
       default:
@@ -7360,17 +7360,17 @@ function function_param_or_generic_type(env) {
   switch (exit) {
     case 1 :
         return {
-          TAG: /* Type */1,
+          TAG: /* Type */ 1,
           _0: Curry._2(union_with, env, Curry._2(intersection_with, env, postfix_with(env, generic_type_with_identifier(env, id))))
         };
     case 2 :
         const param = function_param_with_id(env, id);
-        maybe(env, /* T_COMMA */8);
+        maybe(env, /* T_COMMA */ 8);
         return {
-          TAG: /* ParamList */0,
+          TAG: /* ParamList */ 0,
           _0: Curry._2(function_param_list_without_parens, env, {
                 hd: param,
-                tl: /* [] */0
+                tl: /* [] */ 0
               })
         };
     
@@ -7387,16 +7387,16 @@ function postfix(env) {
 }
 
 function union_with(env, left) {
-  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_BIT_OR */80)) {
+  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_BIT_OR */ 80)) {
     let _acc = {
       hd: left,
-      tl: /* [] */0
+      tl: /* [] */ 0
     };
     while(true) {
       const acc = _acc;
       const match = Curry._2(Parser_env_Peek.token, undefined, env);
-      if (/* tag */(typeof match === "number" || typeof match === "string") && match === /* T_BIT_OR */80) {
-        token$4(env, /* T_BIT_OR */80);
+      if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_BIT_OR */ 80) {
+        token$4(env, /* T_BIT_OR */ 80);
         _acc = {
           hd: intersection(env),
           tl: acc
@@ -7407,7 +7407,7 @@ function union_with(env, left) {
       return [
         match$1[0],
         {
-          TAG: /* Union */5,
+          TAG: /* Union */ 5,
           _0: match$1[1]
         }
       ];
@@ -7418,16 +7418,16 @@ function union_with(env, left) {
 }
 
 function intersection_with(env, left) {
-  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_BIT_AND */82)) {
+  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_BIT_AND */ 82)) {
     let _acc = {
       hd: left,
-      tl: /* [] */0
+      tl: /* [] */ 0
     };
     while(true) {
       const acc = _acc;
       const match = Curry._2(Parser_env_Peek.token, undefined, env);
-      if (/* tag */(typeof match === "number" || typeof match === "string") && match === /* T_BIT_AND */82) {
-        token$4(env, /* T_BIT_AND */82);
+      if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_BIT_AND */ 82) {
+        token$4(env, /* T_BIT_AND */ 82);
         _acc = {
           hd: prefix(env),
           tl: acc
@@ -7438,7 +7438,7 @@ function intersection_with(env, left) {
       return [
         match$1[0],
         {
-          TAG: /* Intersection */6,
+          TAG: /* Intersection */ 6,
           _0: match$1[1]
         }
       ];
@@ -7460,11 +7460,11 @@ function function_param_list_without_parens(env) {
       const acc = _acc;
       const t = Curry._2(Parser_env_Peek.token, undefined, env);
       let exit = 0;
-      if (/* tag */typeof t === "number" || typeof t === "string") {
+      if (/* tag */ typeof t === "number" || typeof t === "string") {
         switch (t) {
-          case /* T_RPAREN */4 :
-          case /* T_ELLIPSIS */11 :
-          case /* T_EOF */105 :
+          case /* T_RPAREN */ 4 :
+          case /* T_ELLIPSIS */ 11 :
+          case /* T_EOF */ 105 :
               exit = 2;
               break;
           default:
@@ -7480,13 +7480,13 @@ function function_param_list_without_parens(env) {
               hd: acc_0,
               tl: acc
             };
-            if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RPAREN */4)) {
-              token$4(env, /* T_COMMA */8);
+            if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RPAREN */ 4)) {
+              token$4(env, /* T_COMMA */ 8);
             }
             _acc = acc$1;
             continue;
         case 2 :
-            const rest = Caml_obj.caml_equal(t, /* T_ELLIPSIS */11) ? (token$4(env, /* T_ELLIPSIS */11), param(env)) : undefined;
+            const rest = Caml_obj.caml_equal(t, /* T_ELLIPSIS */ 11) ? (token$4(env, /* T_ELLIPSIS */ 11), param(env)) : undefined;
             return [
               rest,
               Stdlib__List.rev(acc)
@@ -7502,17 +7502,17 @@ function identifier(env, _param) {
     const param = _param;
     const qualification = param[1];
     const q_loc = param[0];
-    if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_PERIOD */9)) {
+    if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_PERIOD */ 9)) {
       return [
         q_loc,
         qualification
       ];
     }
-    token$4(env, /* T_PERIOD */9);
+    token$4(env, /* T_PERIOD */ 9);
     const id = Curry._2(Parse.identifier, undefined, env);
     const loc = btwn(q_loc, id[0]);
     const qualification$1 = {
-      TAG: /* Qualified */1,
+      TAG: /* Qualified */ 1,
       _0: [
         loc,
         {
@@ -7532,7 +7532,7 @@ function identifier(env, _param) {
 function raw_generic_with_identifier(env, id) {
   const id_0 = id[0];
   const id_1 = {
-    TAG: /* Unqualified */0,
+    TAG: /* Unqualified */ 0,
     _0: id
   };
   const id$1 = [
@@ -7556,10 +7556,10 @@ function params(env, _acc) {
   while(true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */typeof match === "number" || typeof match === "string") {
+    if (/* tag */ typeof match === "number" || typeof match === "string") {
       switch (match) {
-        case /* T_GREATER_THAN */90 :
-        case /* T_EOF */105 :
+        case /* T_GREATER_THAN */ 90 :
+        case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc);
         default:
           
@@ -7570,8 +7570,8 @@ function params(env, _acc) {
       hd: acc_0,
       tl: acc
     };
-    if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_GREATER_THAN */90)) {
-      token$4(env, /* T_COMMA */8);
+    if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_GREATER_THAN */ 90)) {
+      token$4(env, /* T_COMMA */ 8);
     }
     _acc = acc$1;
     continue;
@@ -7580,13 +7580,13 @@ function params(env, _acc) {
 
 function type_parameter_instantiation(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LESS_THAN */89)) {
+  if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LESS_THAN */ 89)) {
     return;
   }
-  token$4(env, /* T_LESS_THAN */89);
-  const params$1 = params(env, /* [] */0);
+  token$4(env, /* T_LESS_THAN */ 89);
+  const params$1 = params(env, /* [] */ 0);
   const loc = btwn(start_loc, Curry._2(Parser_env_Peek.loc, undefined, env));
-  token$4(env, /* T_GREATER_THAN */90);
+  token$4(env, /* T_GREATER_THAN */ 90);
   return [
     loc,
     {
@@ -7601,15 +7601,15 @@ function params$1(env, allow_default, _require_default, _acc) {
     const require_default = _require_default;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     let variance;
-    if (/* tag */typeof match === "number" || typeof match === "string") {
+    if (/* tag */ typeof match === "number" || typeof match === "string") {
       switch (match) {
-        case /* T_PLUS */94 :
+        case /* T_PLUS */ 94 :
             token$3(env);
-            variance = /* Plus */0;
+            variance = /* Plus */ 0;
             break;
-        case /* T_MINUS */95 :
+        case /* T_MINUS */ 95 :
             token$3(env);
-            variance = /* Minus */1;
+            variance = /* Minus */ 1;
             break;
         default:
           variance = undefined;
@@ -7617,14 +7617,14 @@ function params$1(env, allow_default, _require_default, _acc) {
     } else {
       variance = undefined;
     }
-    const match$1 = Curry._2(Parse.identifier_with_type, env, /* StrictParamName */28);
+    const match$1 = Curry._2(Parse.identifier_with_type, env, /* StrictParamName */ 28);
     const id = match$1[1];
     const loc = match$1[0];
     const match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
     let match$3;
     if (allow_default) {
       let exit = 0;
-      if (/* tag */(typeof match$2 === "number" || typeof match$2 === "string") && match$2 === /* T_ASSIGN */75) {
+      if (/* tag */ (typeof match$2 === "number" || typeof match$2 === "string") && match$2 === /* T_ASSIGN */ 75) {
         token$3(env);
         match$3 = [
           union(env),
@@ -7637,7 +7637,7 @@ function params$1(env, allow_default, _require_default, _acc) {
         if (require_default) {
           error_at(env, [
                 loc,
-                /* MissingTypeParamDefault */58
+                /* MissingTypeParamDefault */ 58
               ]);
         }
         match$3 = [
@@ -7667,17 +7667,17 @@ function params$1(env, allow_default, _require_default, _acc) {
       tl: acc
     };
     const match$4 = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */typeof match$4 === "number" || typeof match$4 === "string") {
+    if (/* tag */ typeof match$4 === "number" || typeof match$4 === "string") {
       switch (match$4) {
-        case /* T_GREATER_THAN */90 :
-        case /* T_EOF */105 :
+        case /* T_GREATER_THAN */ 90 :
+        case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc$1);
         default:
           
       }
     }
-    token$4(env, /* T_COMMA */8);
-    if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_GREATER_THAN */90)) {
+    token$4(env, /* T_COMMA */ 8);
+    if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_GREATER_THAN */ 90)) {
       return Stdlib__List.rev(acc$1);
     }
     _acc = acc$1;
@@ -7688,16 +7688,16 @@ function params$1(env, allow_default, _require_default, _acc) {
 
 function type_parameter_declaration(allow_default, env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LESS_THAN */89)) {
+  if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LESS_THAN */ 89)) {
     return;
   }
   if (!env.parse_options.types) {
-    error$1(env, /* UnexpectedTypeAnnotation */6);
+    error$1(env, /* UnexpectedTypeAnnotation */ 6);
   }
-  token$4(env, /* T_LESS_THAN */89);
-  const params$2 = params$1(env, allow_default, false, /* [] */0);
+  token$4(env, /* T_LESS_THAN */ 89);
+  const params$2 = params$1(env, allow_default, false, /* [] */ 0);
   const loc = btwn(start_loc, Curry._2(Parser_env_Peek.loc, undefined, env));
-  token$4(env, /* T_GREATER_THAN */90);
+  token$4(env, /* T_GREATER_THAN */ 90);
   return [
     loc,
     {
@@ -7710,10 +7710,10 @@ function types(env, _acc) {
   while(true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */typeof match === "number" || typeof match === "string") {
+    if (/* tag */ typeof match === "number" || typeof match === "string") {
       switch (match) {
-        case /* T_RBRACKET */6 :
-        case /* T_EOF */105 :
+        case /* T_RBRACKET */ 6 :
+        case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc);
         default:
           
@@ -7724,8 +7724,8 @@ function types(env, _acc) {
       hd: acc_0,
       tl: acc
     };
-    if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RBRACKET */6)) {
-      token$4(env, /* T_COMMA */8);
+    if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RBRACKET */ 6)) {
+      token$4(env, /* T_COMMA */ 8);
     }
     _acc = acc$1;
     continue;
@@ -7735,7 +7735,7 @@ function types(env, _acc) {
 function methodish(env, start_loc) {
   const typeParameters = Curry._2(type_parameter_declaration, false, env);
   const match = function_param_list(env);
-  token$4(env, /* T_COLON */77);
+  token$4(env, /* T_COLON */ 77);
   const returnType = union(env);
   const loc = btwn(start_loc, returnType[0]);
   return [
@@ -7753,7 +7753,7 @@ function method_property(env, start_loc, $$static, key) {
   const value = methodish(env, start_loc);
   const value_0 = value[0];
   const value_1 = {
-    TAG: /* Function */1,
+    TAG: /* Function */ 1,
     _0: value[1]
   };
   const value$1 = [
@@ -7785,10 +7785,10 @@ function call_property(env, start_loc, $$static) {
 
 function property(env, start_loc, $$static, key) {
   if (!env.parse_options.types) {
-    error$1(env, /* UnexpectedTypeAnnotation */6);
+    error$1(env, /* UnexpectedTypeAnnotation */ 6);
   }
-  const optional = maybe(env, /* T_PLING */76);
-  token$4(env, /* T_COLON */77);
+  const optional = maybe(env, /* T_PLING */ 76);
+  token$4(env, /* T_COLON */ 77);
   const value = union(env);
   return [
     btwn(start_loc, value[0]),
@@ -7803,12 +7803,12 @@ function property(env, start_loc, $$static, key) {
 }
 
 function indexer_property(env, start_loc, $$static) {
-  token$4(env, /* T_LBRACKET */5);
+  token$4(env, /* T_LBRACKET */ 5);
   const match = Curry._1(Parse.identifier_or_reserved_keyword, env);
-  token$4(env, /* T_COLON */77);
+  token$4(env, /* T_COLON */ 77);
   const key = union(env);
-  token$4(env, /* T_RBRACKET */6);
-  token$4(env, /* T_COLON */77);
+  token$4(env, /* T_RBRACKET */ 6);
+  token$4(env, /* T_COLON */ 77);
   const value = union(env);
   return [
     btwn(start_loc, value[0]),
@@ -7823,14 +7823,14 @@ function indexer_property(env, start_loc, $$static) {
 
 function semicolon$1(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
     return error_unexpected(env);
   }
   switch (match) {
-    case /* T_RCURLY */2 :
+    case /* T_RCURLY */ 2 :
         return;
-    case /* T_SEMICOLON */7 :
-    case /* T_COMMA */8 :
+    case /* T_SEMICOLON */ 7 :
+    case /* T_COMMA */ 8 :
         return token$3(env);
     default:
       return error_unexpected(env);
@@ -7844,12 +7844,12 @@ function properties(allow_static, env, _param) {
     const indexers = param[1];
     const acc = param[0];
     const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-    const $$static = allow_static && maybe(env, /* T_STATIC */40);
+    const $$static = allow_static && maybe(env, /* T_STATIC */ 40);
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     let exit = 0;
-    if (/* tag */typeof match === "number" || typeof match === "string") {
+    if (/* tag */ typeof match === "number" || typeof match === "string") {
       switch (match) {
-        case /* T_LBRACKET */5 :
+        case /* T_LBRACKET */ 5 :
             const indexer = indexer_property(env, start_loc, $$static);
             semicolon$1(env);
             _param = [
@@ -7861,12 +7861,12 @@ function properties(allow_static, env, _param) {
               callProperties
             ];
             continue;
-        case /* T_LPAREN */3 :
-        case /* T_LESS_THAN */89 :
+        case /* T_LPAREN */ 3 :
+        case /* T_LESS_THAN */ 89 :
             exit = 3;
             break;
-        case /* T_RCURLY */2 :
-        case /* T_EOF */105 :
+        case /* T_RCURLY */ 2 :
+        case /* T_EOF */ 105 :
             exit = 2;
             break;
         default:
@@ -7880,13 +7880,13 @@ function properties(allow_static, env, _param) {
           const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
           let match$2;
           let exit$1 = 0;
-          if ($$static && /* tag */(typeof match$1 === "number" || typeof match$1 === "string") && match$1 === /* T_COLON */77) {
+          if ($$static && /* tag */ (typeof match$1 === "number" || typeof match$1 === "string") && match$1 === /* T_COLON */ 77) {
             strict_error_at(env, [
                   start_loc,
-                  /* StrictReservedWord */39
+                  /* StrictReservedWord */ 39
                 ]);
             const static_key_1 = {
-              TAG: /* Identifier */1,
+              TAG: /* Identifier */ 1,
               _0: [
                 start_loc,
                 {
@@ -7908,7 +7908,7 @@ function properties(allow_static, env, _param) {
             exit$1 = 4;
           }
           if (exit$1 === 4) {
-            push_lex_mode(env, /* NORMAL */0);
+            push_lex_mode(env, /* NORMAL */ 0);
             const key = Curry._1(Parse.object_key, env);
             pop_lex_mode(env);
             match$2 = [
@@ -7920,10 +7920,10 @@ function properties(allow_static, env, _param) {
           const $$static$1 = match$2[0];
           const match$3 = Curry._2(Parser_env_Peek.token, undefined, env);
           let property$1;
-          if (/* tag */typeof match$3 === "number" || typeof match$3 === "string") {
+          if (/* tag */ typeof match$3 === "number" || typeof match$3 === "string") {
             switch (match$3) {
-              case /* T_LPAREN */3 :
-              case /* T_LESS_THAN */89 :
+              case /* T_LPAREN */ 3 :
+              case /* T_LESS_THAN */ 89 :
                   property$1 = method_property(env, start_loc, $$static$1, key$1);
                   break;
               default:
@@ -7968,14 +7968,14 @@ function properties(allow_static, env, _param) {
 function _object(allow_staticOpt, env) {
   const allow_static = allow_staticOpt !== undefined ? allow_staticOpt : false;
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_LCURLY */1);
+  token$4(env, /* T_LCURLY */ 1);
   const match = properties(allow_static, env, [
-        /* [] */0,
-        /* [] */0,
-        /* [] */0
+        /* [] */ 0,
+        /* [] */ 0,
+        /* [] */ 0
       ]);
   const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_RCURLY */2);
+  token$4(env, /* T_RCURLY */ 2);
   return [
     btwn(start_loc, end_loc),
     {
@@ -7990,10 +7990,10 @@ const _type = union;
 
 function annotation(env) {
   if (!env.parse_options.types) {
-    error$1(env, /* UnexpectedTypeAnnotation */6);
+    error$1(env, /* UnexpectedTypeAnnotation */ 6);
   }
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_COLON */77);
+  token$4(env, /* T_COLON */ 77);
   const typeAnnotation = union(env);
   const loc = env.last_loc.contents;
   let end_loc;
@@ -8017,7 +8017,7 @@ function annotation(env) {
 
 function annotation_opt(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (/* tag */(typeof match === "number" || typeof match === "string") && match === /* T_COLON */77) {
+  if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_COLON */ 77) {
     return annotation(env);
   }
   
@@ -8025,7 +8025,7 @@ function annotation_opt(env) {
 
 function wrap(f, env) {
   const env$1 = with_strict(true, env);
-  push_lex_mode(env$1, /* TYPE */1);
+  push_lex_mode(env$1, /* TYPE */ 1);
   const ret = Curry._1(f, env$1);
   pop_lex_mode(env$1);
   return ret;
@@ -8053,16 +8053,16 @@ function pattern(check_env, _param) {
     const param = _param;
     const p = param[1];
     switch (p.TAG) {
-      case /* Object */0 :
+      case /* Object */ 0 :
           let o = p._0;
           return Stdlib__List.fold_left(object_property, check_env, o.properties);
-      case /* Array */1 :
+      case /* Array */ 1 :
           let arr = p._0;
           return Stdlib__List.fold_left(array_element, check_env, arr.elements);
-      case /* Assignment */2 :
+      case /* Assignment */ 2 :
           _param = p._0.left;
           continue;
-      case /* Identifier */3 :
+      case /* Identifier */ 3 :
           let id = p._0;
           const name = id[1].name;
           const param_names = check_env[1];
@@ -8070,7 +8070,7 @@ function pattern(check_env, _param) {
           if (Curry._2(mem$1, name, param_names)) {
             error_at(env, [
                   id[0],
-                  /* StrictParamDupe */29
+                  /* StrictParamDupe */ 29
                 ]);
           }
           const match = identifier_no_dupe_check([
@@ -8081,10 +8081,10 @@ function pattern(check_env, _param) {
             match[0],
             Curry._2(add$1, name, match[1])
           ];
-      case /* Expression */4 :
+      case /* Expression */ 4 :
           error_at(check_env[0], [
                 param[0],
-                /* ExpectedPatternFoundExpression */18
+                /* ExpectedPatternFoundExpression */ 18
               ]);
           return check_env;
       
@@ -8094,18 +8094,18 @@ function pattern(check_env, _param) {
 
 function object_property(check_env) {
   return function (param) {
-    if (param.TAG !== /* Property */0) {
+    if (param.TAG !== /* Property */ 0) {
       return pattern(check_env, param._0[1].argument);
     }
     const property = param._0[1];
     const id = property.key;
     let check_env$1;
     switch (id.TAG) {
-      case /* Identifier */1 :
+      case /* Identifier */ 1 :
           check_env$1 = identifier_no_dupe_check(check_env, id._0);
           break;
-      case /* Literal */0 :
-      case /* Computed */2 :
+      case /* Literal */ 0 :
+      case /* Computed */ 2 :
           check_env$1 = check_env;
           break;
       
@@ -8117,7 +8117,7 @@ function object_property(check_env) {
 function array_element(check_env) {
   return function (param) {
     if (param !== undefined) {
-      if (param.TAG === /* Element */0) {
+      if (param.TAG === /* Element */ 0) {
         return pattern(check_env, param._0);
       } else {
         return pattern(check_env, param._0[1].argument);
@@ -8135,13 +8135,13 @@ function identifier_no_dupe_check(param, param$1) {
   if (is_restricted(name)) {
     strict_error_at(env, [
           loc,
-          /* StrictParamName */28
+          /* StrictParamName */ 28
         ]);
   }
   if (is_future_reserved(name) || is_strict_reserved(name)) {
     strict_error_at(env, [
           loc,
-          /* StrictReservedWord */39
+          /* StrictReservedWord */ 39
         ]);
   }
   return [
@@ -8161,32 +8161,32 @@ function strict_post_check(env, strict, simple, id, params) {
     if (is_restricted(name)) {
       strict_error_at(env$1, [
             loc,
-            /* StrictFunctionName */30
+            /* StrictFunctionName */ 30
           ]);
     }
     if (is_future_reserved(name) || is_strict_reserved(name)) {
       strict_error_at(env$1, [
             loc,
-            /* StrictReservedWord */39
+            /* StrictReservedWord */ 39
           ]);
     }
     
   }
   Stdlib__List.fold_left(pattern, [
         env$1,
-        /* Empty */0
+        /* Empty */ 0
       ], params);
 }
 
 function param$1(env) {
-  const id = Curry._2(Parse.pattern, env, /* StrictParamName */28);
-  if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ASSIGN */75)) {
+  const id = Curry._2(Parse.pattern, env, /* StrictParamName */ 28);
+  if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ASSIGN */ 75)) {
     return [
       id,
       undefined
     ];
   }
-  token$4(env, /* T_ASSIGN */75);
+  token$4(env, /* T_ASSIGN */ 75);
   const $$default = Curry._1(Parse.assignment, env);
   return [
     id,
@@ -8202,11 +8202,11 @@ function param_list(env, _param) {
     const params = param$2[0];
     const t = Curry._2(Parser_env_Peek.token, undefined, env);
     let exit = 0;
-    if (/* tag */typeof t === "number" || typeof t === "string") {
+    if (/* tag */ typeof t === "number" || typeof t === "string") {
       switch (t) {
-        case /* T_RPAREN */4 :
-        case /* T_ELLIPSIS */11 :
-        case /* T_EOF */105 :
+        case /* T_RPAREN */ 4 :
+        case /* T_ELLIPSIS */ 11 :
+        case /* T_EOF */ 105 :
             exit = 2;
             break;
         default:
@@ -8220,8 +8220,8 @@ function param_list(env, _param) {
           const match = param$1(env);
           const $$default = match[1];
           const has_default$1 = has_default || $$default !== undefined;
-          if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RPAREN */4)) {
-            token$4(env, /* T_COMMA */8);
+          if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RPAREN */ 4)) {
+            token$4(env, /* T_COMMA */ 8);
           }
           _param = [
             {
@@ -8236,13 +8236,13 @@ function param_list(env, _param) {
           ];
           continue;
       case 2 :
-          const rest = Caml_obj.caml_equal(t, /* T_ELLIPSIS */11) ? (token$4(env, /* T_ELLIPSIS */11), Curry._2(Parse.identifier_with_type, env, /* StrictParamName */28)) : undefined;
-          if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RPAREN */4)) {
-            error$1(env, /* ParameterAfterRestParameter */47);
+          const rest = Caml_obj.caml_equal(t, /* T_ELLIPSIS */ 11) ? (token$4(env, /* T_ELLIPSIS */ 11), Curry._2(Parse.identifier_with_type, env, /* StrictParamName */ 28)) : undefined;
+          if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RPAREN */ 4)) {
+            error$1(env, /* ParameterAfterRestParameter */ 47);
           }
           return [
             Stdlib__List.rev(params),
-            has_default ? Stdlib__List.rev(defaults) : /* [] */0,
+            has_default ? Stdlib__List.rev(defaults) : /* [] */ 0,
             rest
           ];
       
@@ -8251,13 +8251,13 @@ function param_list(env, _param) {
 }
 
 function function_params(env) {
-  token$4(env, /* T_LPAREN */3);
+  token$4(env, /* T_LPAREN */ 3);
   const match = param_list(env, [
-        /* [] */0,
-        /* [] */0,
+        /* [] */ 0,
+        /* [] */ 0,
         false
       ]);
-  token$4(env, /* T_RPAREN */4);
+  token$4(env, /* T_RPAREN */ 4);
   return [
     match[0],
     match[1],
@@ -8272,7 +8272,7 @@ function function_body(env, async, generator) {
   return [
     loc,
     {
-      TAG: /* BodyBlock */0,
+      TAG: /* BodyBlock */ 0,
       _0: [
         loc,
         match[1]
@@ -8283,9 +8283,9 @@ function function_body(env, async, generator) {
 }
 
 function generator(env, is_async) {
-  const match = maybe(env, /* T_MULT */97);
+  const match = maybe(env, /* T_MULT */ 97);
   if (is_async && match) {
-    error$1(env, /* AsyncGenerator */48);
+    error$1(env, /* AsyncGenerator */ 48);
     return true;
   } else {
     return match;
@@ -8293,7 +8293,7 @@ function generator(env, is_async) {
 }
 
 function is_simple_param(param) {
-  if (param[1].TAG === /* Identifier */3) {
+  if (param[1].TAG === /* Identifier */ 3) {
     return true;
   } else {
     return false;
@@ -8301,7 +8301,7 @@ function is_simple_param(param) {
 }
 
 function is_simple_function_params(params, defaults, rest) {
-  if (Caml_obj.caml_equal(defaults, /* [] */0) && rest === undefined) {
+  if (Caml_obj.caml_equal(defaults, /* [] */ 0) && rest === undefined) {
     return Stdlib__List.for_all(is_simple_param, params);
   } else {
     return false;
@@ -8310,24 +8310,24 @@ function is_simple_function_params(params, defaults, rest) {
 
 function _function(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  const async = maybe(env, /* T_ASYNC */61);
-  token$4(env, /* T_FUNCTION */13);
+  const async = maybe(env, /* T_ASYNC */ 61);
+  token$4(env, /* T_FUNCTION */ 13);
   const generator$1 = generator(env, async);
   const match = env.in_export;
   const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
   let match$2;
   let exit = 0;
-  if (match && /* tag */(typeof match$1 === "number" || typeof match$1 === "string")) {
+  if (match && /* tag */ (typeof match$1 === "number" || typeof match$1 === "string")) {
     switch (match$1) {
-      case /* T_LPAREN */3 :
+      case /* T_LPAREN */ 3 :
           match$2 = [
             undefined,
             undefined
           ];
           break;
-      case /* T_LESS_THAN */89 :
+      case /* T_LESS_THAN */ 89 :
           const typeParams = Curry._1(type_parameter_declaration$1, env);
-          const id = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LPAREN */3) ? undefined : Curry._2(Parse.identifier, /* StrictFunctionName */30, env);
+          const id = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LPAREN */ 3) ? undefined : Curry._2(Parse.identifier, /* StrictFunctionName */ 30, env);
           match$2 = [
             typeParams,
             id
@@ -8340,7 +8340,7 @@ function _function(env) {
     exit = 1;
   }
   if (exit === 1) {
-    const id$1 = Curry._2(Parse.identifier, /* StrictFunctionName */30, env);
+    const id$1 = Curry._2(Parse.identifier, /* StrictFunctionName */ 30, env);
     match$2 = [
       Curry._1(type_parameter_declaration$1, env),
       id$1
@@ -8358,7 +8358,7 @@ function _function(env) {
   const simple = is_simple_function_params(params, defaults, rest);
   strict_post_check(env, match$4[2], simple, id$2, params);
   let match$5;
-  match$5 = body.TAG === /* BodyBlock */0 ? [
+  match$5 = body.TAG === /* BodyBlock */ 0 ? [
       body._0[0],
       false
     ] : [
@@ -8368,7 +8368,7 @@ function _function(env) {
   return [
     btwn(start_loc, match$5[0]),
     {
-      TAG: /* FunctionDeclaration */18,
+      TAG: /* FunctionDeclaration */ 18,
       _0: {
         id: id$2,
         params: params,
@@ -8387,26 +8387,26 @@ function _function(env) {
 }
 
 function variable_declaration(env) {
-  const id = Curry._2(Parse.pattern, env, /* StrictVarName */27);
+  const id = Curry._2(Parse.pattern, env, /* StrictVarName */ 27);
   let match;
-  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ASSIGN */75)) {
-    token$4(env, /* T_ASSIGN */75);
+  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ASSIGN */ 75)) {
+    token$4(env, /* T_ASSIGN */ 75);
     match = [
       Curry._1(Parse.assignment, env),
-      /* [] */0
+      /* [] */ 0
     ];
   } else {
-    match = id[1].TAG === /* Identifier */3 ? [
+    match = id[1].TAG === /* Identifier */ 3 ? [
         undefined,
-        /* [] */0
+        /* [] */ 0
       ] : [
         undefined,
         {
           hd: [
             id[0],
-            /* NoUninitializedDestructuring */43
+            /* NoUninitializedDestructuring */ 43
           ],
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       ];
   }
@@ -8435,8 +8435,8 @@ function helper(env, _decls, _errs) {
       tl: decls
     };
     const errs$1 = Stdlib.$at(match[1], errs);
-    if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COMMA */8)) {
-      token$4(env, /* T_COMMA */8);
+    if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COMMA */ 8)) {
+      token$4(env, /* T_COMMA */ 8);
       _errs = errs$1;
       _decls = decls$1;
       continue;
@@ -8455,7 +8455,7 @@ function helper(env, _decls, _errs) {
 function declarations(token$5, kind, env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, token$5);
-  const match = helper(env, /* [] */0, /* [] */0);
+  const match = helper(env, /* [] */ 0, /* [] */ 0);
   return [
     [
       btwn(start_loc, match[0]),
@@ -8470,7 +8470,7 @@ function declarations(token$5, kind, env) {
 
 function $$const(env) {
   const env$1 = with_no_let(true, env);
-  const match = declarations(/* T_CONST */25, /* Const */2, env$1);
+  const match = declarations(/* T_CONST */ 25, /* Const */ 2, env$1);
   const match$1 = match[0];
   const variable = match$1[1];
   const errs = Stdlib__List.fold_left((function (errs, decl) {
@@ -8480,7 +8480,7 @@ function $$const(env) {
           return {
             hd: [
               decl[0],
-              /* NoUninitializedConst */42
+              /* NoUninitializedConst */ 42
             ],
             tl: errs
           };
@@ -8497,38 +8497,38 @@ function $$const(env) {
 
 function _let(env) {
   const env$1 = with_no_let(true, env);
-  return declarations(/* T_LET */26, /* Let */1, env$1);
+  return declarations(/* T_LET */ 26, /* Let */ 1, env$1);
 }
 
 function variable(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let match$1;
-  if (/* tag */typeof match === "number" || typeof match === "string") {
+  if (/* tag */ typeof match === "number" || typeof match === "string") {
     switch (match) {
-      case /* T_VAR */22 :
-          match$1 = declarations(/* T_VAR */22, /* Var */0, env);
+      case /* T_VAR */ 22 :
+          match$1 = declarations(/* T_VAR */ 22, /* Var */ 0, env);
           break;
-      case /* T_CONST */25 :
+      case /* T_CONST */ 25 :
           match$1 = $$const(env);
           break;
-      case /* T_LET */26 :
+      case /* T_LET */ 26 :
           match$1 = _let(env);
           break;
       default:
         error_unexpected(env);
-        match$1 = declarations(/* T_VAR */22, /* Var */0, env);
+        match$1 = declarations(/* T_VAR */ 22, /* Var */ 0, env);
     }
   } else {
     error_unexpected(env);
-    match$1 = declarations(/* T_VAR */22, /* Var */0, env);
+    match$1 = declarations(/* T_VAR */ 22, /* Var */ 0, env);
   }
   const match$2 = match$1[0];
   return [
     [
       btwn(start_loc, match$2[0]),
       {
-        TAG: /* VariableDeclaration */19,
+        TAG: /* VariableDeclaration */ 19,
         _0: match$2[1]
       }
     ],
@@ -8538,18 +8538,18 @@ function variable(env) {
 
 function is_tighter(a, b) {
   let a_prec;
-  a_prec = a.TAG === /* Left_assoc */0 ? a._0 : a._0 - 1 | 0;
+  a_prec = a.TAG === /* Left_assoc */ 0 ? a._0 : a._0 - 1 | 0;
   return a_prec >= b._0;
 }
 
 function is_lhs(param) {
   let tmp = param[1];
-  if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
+  if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
     return false;
   }
   switch (tmp.TAG) {
-    case /* Member */13 :
-    case /* Identifier */18 :
+    case /* Member */ 13 :
+    case /* Identifier */ 18 :
         return true;
     default:
       return false;
@@ -8558,14 +8558,14 @@ function is_lhs(param) {
 
 function is_assignable_lhs(param) {
   let tmp = param[1];
-  if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
+  if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
     return false;
   }
   switch (tmp.TAG) {
-    case /* Array */0 :
-    case /* Object */1 :
-    case /* Member */13 :
-    case /* Identifier */18 :
+    case /* Array */ 0 :
+    case /* Object */ 1 :
+    case /* Member */ 13 :
+    case /* Identifier */ 18 :
         return true;
     default:
       return false;
@@ -8575,46 +8575,46 @@ function is_assignable_lhs(param) {
 function assignment_op(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let op;
-  if (/* tag */typeof match === "number" || typeof match === "string") {
+  if (/* tag */ typeof match === "number" || typeof match === "string") {
     switch (match) {
-      case /* T_RSHIFT3_ASSIGN */63 :
-          op = /* RShift3Assign */9;
+      case /* T_RSHIFT3_ASSIGN */ 63 :
+          op = /* RShift3Assign */ 9;
           break;
-      case /* T_RSHIFT_ASSIGN */64 :
-          op = /* RShiftAssign */8;
+      case /* T_RSHIFT_ASSIGN */ 64 :
+          op = /* RShiftAssign */ 8;
           break;
-      case /* T_LSHIFT_ASSIGN */65 :
-          op = /* LShiftAssign */7;
+      case /* T_LSHIFT_ASSIGN */ 65 :
+          op = /* LShiftAssign */ 7;
           break;
-      case /* T_BIT_XOR_ASSIGN */66 :
-          op = /* BitXorAssign */11;
+      case /* T_BIT_XOR_ASSIGN */ 66 :
+          op = /* BitXorAssign */ 11;
           break;
-      case /* T_BIT_OR_ASSIGN */67 :
-          op = /* BitOrAssign */10;
+      case /* T_BIT_OR_ASSIGN */ 67 :
+          op = /* BitOrAssign */ 10;
           break;
-      case /* T_BIT_AND_ASSIGN */68 :
-          op = /* BitAndAssign */12;
+      case /* T_BIT_AND_ASSIGN */ 68 :
+          op = /* BitAndAssign */ 12;
           break;
-      case /* T_MOD_ASSIGN */69 :
-          op = /* ModAssign */6;
+      case /* T_MOD_ASSIGN */ 69 :
+          op = /* ModAssign */ 6;
           break;
-      case /* T_DIV_ASSIGN */70 :
-          op = /* DivAssign */5;
+      case /* T_DIV_ASSIGN */ 70 :
+          op = /* DivAssign */ 5;
           break;
-      case /* T_MULT_ASSIGN */71 :
-          op = /* MultAssign */3;
+      case /* T_MULT_ASSIGN */ 71 :
+          op = /* MultAssign */ 3;
           break;
-      case /* T_EXP_ASSIGN */72 :
-          op = /* ExpAssign */4;
+      case /* T_EXP_ASSIGN */ 72 :
+          op = /* ExpAssign */ 4;
           break;
-      case /* T_MINUS_ASSIGN */73 :
-          op = /* MinusAssign */2;
+      case /* T_MINUS_ASSIGN */ 73 :
+          op = /* MinusAssign */ 2;
           break;
-      case /* T_PLUS_ASSIGN */74 :
-          op = /* PlusAssign */1;
+      case /* T_PLUS_ASSIGN */ 74 :
+          op = /* PlusAssign */ 1;
           break;
-      case /* T_ASSIGN */75 :
-          op = /* Assign */0;
+      case /* T_ASSIGN */ 75 :
+          op = /* Assign */ 0;
           break;
       default:
         op = undefined;
@@ -8631,19 +8631,19 @@ function assignment_op(env) {
 function conditional(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   const expr = Curry._1(logical, env);
-  if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_PLING */76)) {
+  if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_PLING */ 76)) {
     return expr;
   }
-  token$4(env, /* T_PLING */76);
+  token$4(env, /* T_PLING */ 76);
   const env$p = with_no_in(false, env);
   const consequent = Curry._1(assignment, env$p);
-  token$4(env, /* T_COLON */77);
+  token$4(env, /* T_COLON */ 77);
   const match = with_loc(assignment, env);
   const loc = btwn(start_loc, match[0]);
   return [
     loc,
     {
-      TAG: /* Conditional */10,
+      TAG: /* Conditional */ 10,
       _0: {
         test: expr,
         consequent: consequent,
@@ -8655,30 +8655,30 @@ function conditional(env) {
 
 function peek_unary_op(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
     return;
   }
   switch (match) {
-    case /* T_DELETE */43 :
-        return /* Delete */6;
-    case /* T_TYPEOF */44 :
-        return /* Typeof */4;
-    case /* T_VOID */45 :
-        return /* Void */5;
-    case /* T_AWAIT */62 :
+    case /* T_DELETE */ 43 :
+        return /* Delete */ 6;
+    case /* T_TYPEOF */ 44 :
+        return /* Typeof */ 4;
+    case /* T_VOID */ 45 :
+        return /* Void */ 5;
+    case /* T_AWAIT */ 62 :
         if (env.allow_await) {
-          return /* Await */7;
+          return /* Await */ 7;
         } else {
           return;
         }
-    case /* T_PLUS */94 :
-        return /* Plus */1;
-    case /* T_MINUS */95 :
-        return /* Minus */0;
-    case /* T_NOT */100 :
-        return /* Not */2;
-    case /* T_BIT_NOT */101 :
-        return /* BitNot */3;
+    case /* T_PLUS */ 94 :
+        return /* Plus */ 1;
+    case /* T_MINUS */ 95 :
+        return /* Minus */ 0;
+    case /* T_NOT */ 100 :
+        return /* Not */ 2;
+    case /* T_BIT_NOT */ 101 :
+        return /* BitNot */ 3;
     default:
       return;
   }
@@ -8691,12 +8691,12 @@ function unary(env) {
     token$3(env);
     const argument = unary(env);
     const loc = btwn(begin_loc, argument[0]);
-    if (op === /* Delete */6) {
+    if (op === /* Delete */ 6) {
       let tmp = argument[1];
-      if (!/* tag */(typeof tmp === "number" || typeof tmp === "string") && tmp.TAG === /* Identifier */18) {
+      if (!/* tag */ (typeof tmp === "number" || typeof tmp === "string") && tmp.TAG === /* Identifier */ 18) {
         strict_error_at(env, [
               loc,
-              /* StrictDelete */32
+              /* StrictDelete */ 32
             ]);
       }
       
@@ -8704,7 +8704,7 @@ function unary(env) {
     return [
       loc,
       {
-        TAG: /* Unary */5,
+        TAG: /* Unary */ 5,
         _0: {
           operator: op,
           prefix: true,
@@ -8715,13 +8715,13 @@ function unary(env) {
   }
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let op$1;
-  if (/* tag */typeof match === "number" || typeof match === "string") {
+  if (/* tag */ typeof match === "number" || typeof match === "string") {
     switch (match) {
-      case /* T_INCR */102 :
-          op$1 = /* Increment */0;
+      case /* T_INCR */ 102 :
+          op$1 = /* Increment */ 0;
           break;
-      case /* T_DECR */103 :
-          op$1 = /* Decrement */1;
+      case /* T_DECR */ 103 :
+          op$1 = /* Decrement */ 1;
           break;
       default:
         op$1 = undefined;
@@ -8736,13 +8736,13 @@ function unary(env) {
     }
     const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
     let op$2;
-    if (/* tag */typeof match$1 === "number" || typeof match$1 === "string") {
+    if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string") {
       switch (match$1) {
-        case /* T_INCR */102 :
-            op$2 = /* Increment */0;
+        case /* T_INCR */ 102 :
+            op$2 = /* Increment */ 0;
             break;
-        case /* T_DECR */103 :
-            op$2 = /* Decrement */1;
+        case /* T_DECR */ 103 :
+            op$2 = /* Decrement */ 1;
             break;
         default:
           op$2 = undefined;
@@ -8756,13 +8756,13 @@ function unary(env) {
     if (!is_lhs(argument$1)) {
       error_at(env, [
             argument$1[0],
-            /* InvalidLHSInAssignment */14
+            /* InvalidLHSInAssignment */ 14
           ]);
     }
     const match$2 = argument$1[1];
-    if (!/* tag */(typeof match$2 === "number" || typeof match$2 === "string") && match$2.TAG === /* Identifier */18) {
+    if (!/* tag */ (typeof match$2 === "number" || typeof match$2 === "string") && match$2.TAG === /* Identifier */ 18) {
       if (is_restricted(match$2._0[1].name)) {
-        strict_error(env, /* StrictLHSPostfix */37);
+        strict_error(env, /* StrictLHSPostfix */ 37);
       }
       
     }
@@ -8771,7 +8771,7 @@ function unary(env) {
     return [
       btwn(argument$1[0], end_loc),
       {
-        TAG: /* Update */8,
+        TAG: /* Update */ 8,
         _0: {
           operator: op$2,
           argument: argument$1,
@@ -8785,20 +8785,20 @@ function unary(env) {
   if (!is_lhs(argument$2)) {
     error_at(env, [
           argument$2[0],
-          /* InvalidLHSInAssignment */14
+          /* InvalidLHSInAssignment */ 14
         ]);
   }
   const match$3 = argument$2[1];
-  if (!/* tag */(typeof match$3 === "number" || typeof match$3 === "string") && match$3.TAG === /* Identifier */18) {
+  if (!/* tag */ (typeof match$3 === "number" || typeof match$3 === "string") && match$3.TAG === /* Identifier */ 18) {
     if (is_restricted(match$3._0[1].name)) {
-      strict_error(env, /* StrictLHSPrefix */38);
+      strict_error(env, /* StrictLHSPrefix */ 38);
     }
     
   }
   return [
     btwn(begin_loc, argument$2[0]),
     {
-      TAG: /* Update */8,
+      TAG: /* Update */ 8,
       _0: {
         operator: op$1,
         argument: argument$2,
@@ -8812,7 +8812,7 @@ function left_hand_side(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let expr;
   let exit = 0;
-  if (/* tag */(typeof match === "number" || typeof match === "string") && match === /* T_NEW */42) {
+  if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_NEW */ 42) {
     expr = _new(env, (function (new_expr, _args) {
           return new_expr;
         }));
@@ -8824,13 +8824,13 @@ function left_hand_side(env) {
   }
   const expr$1 = member(env, expr);
   const part = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (/* tag */typeof part === "number" || typeof part === "string") {
-    if (part === /* T_LPAREN */3) {
+  if (/* tag */ typeof part === "number" || typeof part === "string") {
+    if (part === /* T_LPAREN */ 3) {
       return call(env, expr$1);
     } else {
       return expr$1;
     }
-  } else if (part.TAG === /* T_TEMPLATE_PART */2) {
+  } else if (part.TAG === /* T_TEMPLATE_PART */ 2) {
     return member(env, tagged_template(env, expr$1, part._0));
   } else {
     return expr$1;
@@ -8841,15 +8841,15 @@ function call(env, _left) {
   while(true) {
     const left = _left;
     const part = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (!/* tag */(typeof part === "number" || typeof part === "string")) {
-      if (part.TAG === /* T_TEMPLATE_PART */2) {
+    if (!/* tag */ (typeof part === "number" || typeof part === "string")) {
+      if (part.TAG === /* T_TEMPLATE_PART */ 2) {
         return tagged_template(env, left, part._0);
       } else {
         return left;
       }
     }
     switch (part) {
-      case /* T_LPAREN */3 :
+      case /* T_LPAREN */ 3 :
           if (env.no_call) {
             return left;
           }
@@ -8857,7 +8857,7 @@ function call(env, _left) {
           _left = [
             btwn(left[0], match[0]),
             {
-              TAG: /* Call */12,
+              TAG: /* Call */ 12,
               _0: {
                 callee: left,
                 arguments: match[1]
@@ -8865,20 +8865,20 @@ function call(env, _left) {
             }
           ];
           continue;
-      case /* T_LBRACKET */5 :
-          token$4(env, /* T_LBRACKET */5);
+      case /* T_LBRACKET */ 5 :
+          token$4(env, /* T_LBRACKET */ 5);
           const expr = Curry._1(Parse.expression, env);
           const last_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
           const loc = btwn(left[0], last_loc);
-          token$4(env, /* T_RBRACKET */6);
+          token$4(env, /* T_RBRACKET */ 6);
           _left = [
             loc,
             {
-              TAG: /* Member */13,
+              TAG: /* Member */ 13,
               _0: {
                 _object: left,
                 property: {
-                  TAG: /* PropertyExpression */1,
+                  TAG: /* PropertyExpression */ 1,
                   _0: expr
                 },
                 computed: true
@@ -8886,18 +8886,18 @@ function call(env, _left) {
             }
           ];
           continue;
-      case /* T_PERIOD */9 :
-          token$4(env, /* T_PERIOD */9);
+      case /* T_PERIOD */ 9 :
+          token$4(env, /* T_PERIOD */ 9);
           const match$1 = identifier_or_reserved_keyword(env);
           const id = match$1[0];
           _left = [
             btwn(left[0], id[0]),
             {
-              TAG: /* Member */13,
+              TAG: /* Member */ 13,
               _0: {
                 _object: left,
                 property: {
-                  TAG: /* PropertyIdentifier */0,
+                  TAG: /* PropertyIdentifier */ 0,
                   _0: id
                 },
                 computed: false
@@ -8915,20 +8915,20 @@ function _new(env, _finish_fn) {
   while(true) {
     const finish_fn = _finish_fn;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */(typeof match === "number" || typeof match === "string") && match === /* T_NEW */42) {
+    if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_NEW */ 42) {
       const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-      token$4(env, /* T_NEW */42);
+      token$4(env, /* T_NEW */ 42);
       const finish_fn$p = function (callee, args) {
         const match = args !== undefined ? [
             args[0],
             args[1]
           ] : [
             callee[0],
-            /* [] */0
+            /* [] */ 0
           ];
         const callee$p_0 = btwn(start_loc, match[0]);
         const callee$p_1 = {
-          TAG: /* New */11,
+          TAG: /* New */ 11,
           _0: {
             callee: callee,
             arguments: match[1]
@@ -8948,51 +8948,51 @@ function _new(env, _finish_fn) {
     const callee = member(with_no_call(true, env), expr);
     const part = Curry._2(Parser_env_Peek.token, undefined, env);
     let callee$1;
-    callee$1 = /* tag */typeof part === "number" || typeof part === "string" || part.TAG !== /* T_TEMPLATE_PART */2 ? callee : tagged_template(env, callee, part._0);
+    callee$1 = /* tag */ typeof part === "number" || typeof part === "string" || part.TAG !== /* T_TEMPLATE_PART */ 2 ? callee : tagged_template(env, callee, part._0);
     const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
     let args;
-    args = /* tag */(typeof match$1 === "number" || typeof match$1 === "string") && match$1 === /* T_LPAREN */3 ? Curry._1($$arguments, env) : undefined;
+    args = /* tag */ (typeof match$1 === "number" || typeof match$1 === "string") && match$1 === /* T_LPAREN */ 3 ? Curry._1($$arguments, env) : undefined;
     return Curry._2(finish_fn, callee$1, args);
   };
 }
 
 function member(env, left) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
     return left;
   }
   switch (match) {
-    case /* T_LBRACKET */5 :
-        token$4(env, /* T_LBRACKET */5);
+    case /* T_LBRACKET */ 5 :
+        token$4(env, /* T_LBRACKET */ 5);
         const expr = Curry._1(Parse.expression, with_no_call(false, env));
         const last_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-        token$4(env, /* T_RBRACKET */6);
+        token$4(env, /* T_RBRACKET */ 6);
         return call(env, [
               btwn(left[0], last_loc),
               {
-                TAG: /* Member */13,
+                TAG: /* Member */ 13,
                 _0: {
                   _object: left,
                   property: {
-                    TAG: /* PropertyExpression */1,
+                    TAG: /* PropertyExpression */ 1,
                     _0: expr
                   },
                   computed: true
                 }
               }
             ]);
-    case /* T_PERIOD */9 :
-        token$4(env, /* T_PERIOD */9);
+    case /* T_PERIOD */ 9 :
+        token$4(env, /* T_PERIOD */ 9);
         const match$1 = identifier_or_reserved_keyword(env);
         const id = match$1[0];
         return call(env, [
               btwn(left[0], id[0]),
               {
-                TAG: /* Member */13,
+                TAG: /* Member */ 13,
                 _0: {
                   _object: left,
                   property: {
-                    TAG: /* PropertyIdentifier */0,
+                    TAG: /* PropertyIdentifier */ 0,
                     _0: id
                   },
                   computed: false
@@ -9006,11 +9006,11 @@ function member(env, left) {
 
 function _function$1(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  const async = maybe(env, /* T_ASYNC */61);
-  token$4(env, /* T_FUNCTION */13);
+  const async = maybe(env, /* T_ASYNC */ 61);
+  token$4(env, /* T_FUNCTION */ 13);
   const generator$1 = generator(env, async);
   let match;
-  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LPAREN */3)) {
+  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LPAREN */ 3)) {
     match = [
       undefined,
       undefined
@@ -9018,7 +9018,7 @@ function _function$1(env) {
   } else {
     const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
     let id;
-    id = /* tag */(typeof match$1 === "number" || typeof match$1 === "string") && match$1 === /* T_LESS_THAN */89 ? undefined : Curry._2(Parse.identifier, /* StrictFunctionName */30, env);
+    id = /* tag */ (typeof match$1 === "number" || typeof match$1 === "string") && match$1 === /* T_LESS_THAN */ 89 ? undefined : Curry._2(Parse.identifier, /* StrictFunctionName */ 30, env);
     match = [
       id,
       Curry._1(type_parameter_declaration$1, env)
@@ -9036,11 +9036,11 @@ function _function$1(env) {
   const simple = is_simple_function_params(params, defaults, rest);
   strict_post_check(env, match$3[2], simple, id$1, params);
   let expression;
-  expression = body.TAG === /* BodyBlock */0 ? false : true;
+  expression = body.TAG === /* BodyBlock */ 0 ? false : true;
   return [
     btwn(start_loc, match$3[0]),
     {
-      TAG: /* Function */2,
+      TAG: /* Function */ 2,
       _0: {
         id: id$1,
         params: params,
@@ -9062,21 +9062,21 @@ function number(env, number_type) {
   const value = Curry._2(Parser_env_Peek.value, undefined, env);
   let value$1;
   switch (number_type) {
-    case /* LEGACY_OCTAL */1 :
-        strict_error(env, /* StrictOctalLiteral */31);
+    case /* LEGACY_OCTAL */ 1 :
+        strict_error(env, /* StrictOctalLiteral */ 31);
         value$1 = Caml_format.caml_int_of_string("0o" + value);
         break;
-    case /* BINARY */0 :
-    case /* OCTAL */2 :
+    case /* BINARY */ 0 :
+    case /* OCTAL */ 2 :
         value$1 = Caml_format.caml_int_of_string(value);
         break;
-    case /* NORMAL */3 :
+    case /* NORMAL */ 3 :
         try {
           value$1 = float_of_string(value);
         }
         catch (exn){
           if (Stdlib__Sys.win32) {
-            error$1(env, /* WindowsFloatOfString */59);
+            error$1(env, /* WindowsFloatOfString */ 59);
             value$1 = 789.0;
           } else {
             throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
@@ -9086,7 +9086,7 @@ function number(env, number_type) {
     
   }
   token$4(env, {
-        TAG: /* T_NUMBER */0,
+        TAG: /* T_NUMBER */ 0,
         _0: number_type
       });
   return value$1;
@@ -9096,36 +9096,36 @@ function primary$1(env) {
   const loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   const number_type = Curry._2(Parser_env_Peek.token, undefined, env);
   let exit = 0;
-  if (/* tag */typeof number_type === "number" || typeof number_type === "string") {
+  if (/* tag */ typeof number_type === "number" || typeof number_type === "string") {
     switch (number_type) {
-      case /* T_LCURLY */1 :
+      case /* T_LCURLY */ 1 :
           const match = Curry._1(Parse.object_initializer, env);
           return [
             match[0],
             {
-              TAG: /* Object */1,
+              TAG: /* Object */ 1,
               _0: match[1]
             }
           ];
-      case /* T_LPAREN */3 :
-          token$4(env, /* T_LPAREN */3);
+      case /* T_LPAREN */ 3 :
+          token$4(env, /* T_LPAREN */ 3);
           const expression = Curry._1(assignment, env);
           const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
           let ret;
-          if (/* tag */typeof match$1 === "number" || typeof match$1 === "string") {
+          if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string") {
             switch (match$1) {
-              case /* T_COMMA */8 :
+              case /* T_COMMA */ 8 :
                   ret = sequence(env, {
                         hd: expression,
-                        tl: /* [] */0
+                        tl: /* [] */ 0
                       });
                   break;
-              case /* T_COLON */77 :
+              case /* T_COLON */ 77 :
                   const typeAnnotation = wrap(annotation, env);
                   ret = [
                     btwn(expression[0], typeAnnotation[0]),
                     {
-                      TAG: /* TypeCast */24,
+                      TAG: /* TypeCast */ 24,
                       _0: {
                         expression: expression,
                         typeAnnotation: typeAnnotation
@@ -9139,45 +9139,45 @@ function primary$1(env) {
           } else {
             ret = expression;
           }
-          token$4(env, /* T_RPAREN */4);
+          token$4(env, /* T_RPAREN */ 4);
           return ret;
-      case /* T_LBRACKET */5 :
+      case /* T_LBRACKET */ 5 :
           const match$2 = Curry._1(array_initializer, env);
           return [
             match$2[0],
             {
-              TAG: /* Array */0,
+              TAG: /* Array */ 0,
               _0: match$2[1]
             }
           ];
-      case /* T_THIS */19 :
-          token$4(env, /* T_THIS */19);
+      case /* T_THIS */ 19 :
+          token$4(env, /* T_THIS */ 19);
           return [
             loc,
-            /* This */0
+            /* This */ 0
           ];
-      case /* T_NULL */27 :
+      case /* T_NULL */ 27 :
           const raw = Curry._2(Parser_env_Peek.value, undefined, env);
-          token$4(env, /* T_NULL */27);
+          token$4(env, /* T_NULL */ 27);
           return [
             loc,
             {
-              TAG: /* Literal */19,
+              TAG: /* Literal */ 19,
               _0: {
-                value: /* Null */0,
+                value: /* Null */ 0,
                 raw: raw
               }
             }
           ];
-      case /* T_FALSE */28 :
-      case /* T_TRUE */29 :
+      case /* T_FALSE */ 28 :
+      case /* T_TRUE */ 29 :
           exit = 2;
           break;
-      case /* T_CLASS */38 :
+      case /* T_CLASS */ 38 :
           return Curry._1(Parse.class_expression, env);
-      case /* T_SUPER */49 :
+      case /* T_SUPER */ 49 :
           const loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env);
-          token$4(env, /* T_SUPER */49);
+          token$4(env, /* T_SUPER */ 49);
           const id_1 = {
             name: "super",
             typeAnnotation: undefined,
@@ -9190,26 +9190,26 @@ function primary$1(env) {
           return [
             loc$1,
             {
-              TAG: /* Identifier */18,
+              TAG: /* Identifier */ 18,
               _0: id
             }
           ];
-      case /* T_LESS_THAN */89 :
+      case /* T_LESS_THAN */ 89 :
           const match$3 = Curry._1(Parse.jsx_element, env);
           return [
             match$3[0],
             {
-              TAG: /* JSXElement */22,
+              TAG: /* JSXElement */ 22,
               _0: match$3[1]
             }
           ];
-      case /* T_DIV_ASSIGN */70 :
-      case /* T_DIV */96 :
-          push_lex_mode(env, /* REGEXP */5);
+      case /* T_DIV_ASSIGN */ 70 :
+      case /* T_DIV */ 96 :
+          push_lex_mode(env, /* REGEXP */ 5);
           const loc$2 = Curry._2(Parser_env_Peek.loc, undefined, env);
           const match$4 = Curry._2(Parser_env_Peek.token, undefined, env);
           let match$5;
-          if (/* tag */typeof match$4 === "number" || typeof match$4 === "string") {
+          if (/* tag */ typeof match$4 === "number" || typeof match$4 === "string") {
             throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
@@ -9219,7 +9219,7 @@ function primary$1(env) {
                   ]
                 });
           }
-          if (match$4.TAG === /* T_REGEXP */3) {
+          if (match$4.TAG === /* T_REGEXP */ 3) {
             const match$6 = match$4._0;
             const raw$1 = Curry._2(Parser_env_Peek.value, undefined, env);
             token$3(env);
@@ -9268,12 +9268,12 @@ function primary$1(env) {
           const flags = Stdlib__Buffer.contents(filtered_flags);
           if (flags !== raw_flags) {
             error$1(env, {
-                  TAG: /* InvalidRegExpFlags */3,
+                  TAG: /* InvalidRegExpFlags */ 3,
                   _0: raw_flags
                 });
           }
           const value = {
-            TAG: /* RegExp */3,
+            TAG: /* RegExp */ 3,
             _0: {
               pattern: match$5[1],
               flags: flags
@@ -9282,7 +9282,7 @@ function primary$1(env) {
           return [
             loc$2,
             {
-              TAG: /* Literal */19,
+              TAG: /* Literal */ 19,
               _0: {
                 value: value,
                 raw: match$5[0]
@@ -9294,33 +9294,33 @@ function primary$1(env) {
     }
   } else {
     switch (number_type.TAG) {
-      case /* T_NUMBER */0 :
+      case /* T_NUMBER */ 0 :
           const raw$2 = Curry._2(Parser_env_Peek.value, undefined, env);
           const value$1 = {
-            TAG: /* Number */2,
+            TAG: /* Number */ 2,
             _0: number(env, number_type._0)
           };
           return [
             loc,
             {
-              TAG: /* Literal */19,
+              TAG: /* Literal */ 19,
               _0: {
                 value: value$1,
                 raw: raw$2
               }
             }
           ];
-      case /* T_STRING */1 :
+      case /* T_STRING */ 1 :
           const match$7 = number_type._0;
           const octal = match$7[3];
           const raw$3 = match$7[2];
           const value$2 = match$7[1];
           const loc$3 = match$7[0];
           if (octal) {
-            strict_error(env, /* StrictOctalLiteral */31);
+            strict_error(env, /* StrictOctalLiteral */ 31);
           }
           token$4(env, {
-                TAG: /* T_STRING */1,
+                TAG: /* T_STRING */ 1,
                 _0: [
                   loc$3,
                   value$2,
@@ -9329,25 +9329,25 @@ function primary$1(env) {
                 ]
               });
           const value$3 = {
-            TAG: /* String */0,
+            TAG: /* String */ 0,
             _0: value$2
           };
           return [
             loc$3,
             {
-              TAG: /* Literal */19,
+              TAG: /* Literal */ 19,
               _0: {
                 value: value$3,
                 raw: raw$3
               }
             }
           ];
-      case /* T_TEMPLATE_PART */2 :
+      case /* T_TEMPLATE_PART */ 2 :
           const match$8 = Curry._2(template_literal, env, number_type._0);
           return [
             match$8[0],
             {
-              TAG: /* TemplateLiteral */20,
+              TAG: /* TemplateLiteral */ 20,
               _0: match$8[1]
             }
           ];
@@ -9362,21 +9362,21 @@ function primary$1(env) {
           return [
             id$1[0],
             {
-              TAG: /* Identifier */18,
+              TAG: /* Identifier */ 18,
               _0: id$1
             }
           ];
         }
         error_unexpected(env);
-        if (Caml_obj.caml_equal(number_type, /* T_ERROR */104)) {
+        if (Caml_obj.caml_equal(number_type, /* T_ERROR */ 104)) {
           token$3(env);
         }
         return [
           loc,
           {
-            TAG: /* Literal */19,
+            TAG: /* Literal */ 19,
             _0: {
-              value: /* Null */0,
+              value: /* Null */ 0,
               raw: "null"
             }
           }
@@ -9385,13 +9385,13 @@ function primary$1(env) {
         const raw$4 = Curry._2(Parser_env_Peek.value, undefined, env);
         token$4(env, number_type);
         const value$4 = {
-          TAG: /* Boolean */1,
-          _0: Caml_obj.caml_equal(number_type, /* T_TRUE */29)
+          TAG: /* Boolean */ 1,
+          _0: Caml_obj.caml_equal(number_type, /* T_TRUE */ 29)
         };
         return [
           loc,
           {
-            TAG: /* Literal */19,
+            TAG: /* Literal */ 19,
             _0: {
               value: value$4,
               raw: raw$4
@@ -9407,7 +9407,7 @@ function tagged_template(env, tag, part) {
   return [
     btwn(tag[0], quasi[0]),
     {
-      TAG: /* TaggedTemplate */21,
+      TAG: /* TaggedTemplate */ 21,
       _0: {
         tag: tag,
         quasi: quasi
@@ -9420,8 +9420,8 @@ function sequence(env, _acc) {
   while(true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */(typeof match === "number" || typeof match === "string") && match === /* T_COMMA */8) {
-      token$4(env, /* T_COMMA */8);
+    if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_COMMA */ 8) {
+      token$4(env, /* T_COMMA */ 8);
       const expr = Curry._1(assignment, env);
       _acc = {
         hd: expr,
@@ -9435,7 +9435,7 @@ function sequence(env, _acc) {
     return [
       btwn(first_loc, last_loc),
       {
-        TAG: /* Sequence */4,
+        TAG: /* Sequence */ 4,
         _0: {
           expressions: expressions
         }
@@ -9449,13 +9449,13 @@ function identifier_or_reserved_keyword(env) {
   const lex_value = Curry._2(Parser_env_Peek.value, undefined, env);
   const lex_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   let exit = 0;
-  if (/* tag */typeof lex_token === "number" || typeof lex_token === "string") {
+  if (/* tag */ typeof lex_token === "number" || typeof lex_token === "string") {
     switch (lex_token) {
-      case /* T_IDENTIFIER */0 :
-      case /* T_DECLARE */58 :
-      case /* T_TYPE */59 :
-      case /* T_OF */60 :
-      case /* T_ASYNC */61 :
+      case /* T_IDENTIFIER */ 0 :
+      case /* T_DECLARE */ 58 :
+      case /* T_TYPE */ 59 :
+      case /* T_OF */ 60 :
+      case /* T_ASYNC */ 61 :
           exit = 2;
           break;
       default:
@@ -9468,59 +9468,59 @@ function identifier_or_reserved_keyword(env) {
     case 1 :
         let err;
         let exit$1 = 0;
-        if (/* tag */typeof lex_token === "number" || typeof lex_token === "string") {
+        if (/* tag */ typeof lex_token === "number" || typeof lex_token === "string") {
           switch (lex_token) {
-            case /* T_FUNCTION */13 :
-            case /* T_IF */14 :
-            case /* T_IN */15 :
-            case /* T_INSTANCEOF */16 :
-            case /* T_RETURN */17 :
-            case /* T_SWITCH */18 :
-            case /* T_THIS */19 :
-            case /* T_THROW */20 :
-            case /* T_TRY */21 :
-            case /* T_VAR */22 :
-            case /* T_WHILE */23 :
-            case /* T_WITH */24 :
-            case /* T_CONST */25 :
-            case /* T_LET */26 :
-            case /* T_NULL */27 :
-            case /* T_FALSE */28 :
-            case /* T_TRUE */29 :
-            case /* T_BREAK */30 :
-            case /* T_CASE */31 :
-            case /* T_CATCH */32 :
-            case /* T_CONTINUE */33 :
-            case /* T_DEFAULT */34 :
-            case /* T_DO */35 :
-            case /* T_FINALLY */36 :
-            case /* T_FOR */37 :
-            case /* T_CLASS */38 :
-            case /* T_EXTENDS */39 :
-            case /* T_STATIC */40 :
-            case /* T_ELSE */41 :
-            case /* T_NEW */42 :
-            case /* T_DELETE */43 :
-            case /* T_TYPEOF */44 :
-            case /* T_VOID */45 :
-            case /* T_ENUM */46 :
-            case /* T_EXPORT */47 :
-            case /* T_IMPORT */48 :
-            case /* T_SUPER */49 :
-            case /* T_IMPLEMENTS */50 :
-            case /* T_INTERFACE */51 :
-            case /* T_PACKAGE */52 :
-            case /* T_PRIVATE */53 :
-            case /* T_PROTECTED */54 :
-            case /* T_PUBLIC */55 :
-            case /* T_YIELD */56 :
-            case /* T_DEBUGGER */57 :
-            case /* T_AWAIT */62 :
-            case /* T_ANY_TYPE */107 :
-            case /* T_BOOLEAN_TYPE */108 :
-            case /* T_NUMBER_TYPE */109 :
-            case /* T_STRING_TYPE */110 :
-            case /* T_VOID_TYPE */111 :
+            case /* T_FUNCTION */ 13 :
+            case /* T_IF */ 14 :
+            case /* T_IN */ 15 :
+            case /* T_INSTANCEOF */ 16 :
+            case /* T_RETURN */ 17 :
+            case /* T_SWITCH */ 18 :
+            case /* T_THIS */ 19 :
+            case /* T_THROW */ 20 :
+            case /* T_TRY */ 21 :
+            case /* T_VAR */ 22 :
+            case /* T_WHILE */ 23 :
+            case /* T_WITH */ 24 :
+            case /* T_CONST */ 25 :
+            case /* T_LET */ 26 :
+            case /* T_NULL */ 27 :
+            case /* T_FALSE */ 28 :
+            case /* T_TRUE */ 29 :
+            case /* T_BREAK */ 30 :
+            case /* T_CASE */ 31 :
+            case /* T_CATCH */ 32 :
+            case /* T_CONTINUE */ 33 :
+            case /* T_DEFAULT */ 34 :
+            case /* T_DO */ 35 :
+            case /* T_FINALLY */ 36 :
+            case /* T_FOR */ 37 :
+            case /* T_CLASS */ 38 :
+            case /* T_EXTENDS */ 39 :
+            case /* T_STATIC */ 40 :
+            case /* T_ELSE */ 41 :
+            case /* T_NEW */ 42 :
+            case /* T_DELETE */ 43 :
+            case /* T_TYPEOF */ 44 :
+            case /* T_VOID */ 45 :
+            case /* T_ENUM */ 46 :
+            case /* T_EXPORT */ 47 :
+            case /* T_IMPORT */ 48 :
+            case /* T_SUPER */ 49 :
+            case /* T_IMPLEMENTS */ 50 :
+            case /* T_INTERFACE */ 51 :
+            case /* T_PACKAGE */ 52 :
+            case /* T_PRIVATE */ 53 :
+            case /* T_PROTECTED */ 54 :
+            case /* T_PUBLIC */ 55 :
+            case /* T_YIELD */ 56 :
+            case /* T_DEBUGGER */ 57 :
+            case /* T_AWAIT */ 62 :
+            case /* T_ANY_TYPE */ 107 :
+            case /* T_BOOLEAN_TYPE */ 108 :
+            case /* T_NUMBER_TYPE */ 109 :
+            case /* T_STRING_TYPE */ 110 :
+            case /* T_VOID_TYPE */ 111 :
                 exit$1 = 3;
                 break;
             default:
@@ -9570,15 +9570,15 @@ function assignment_but_not_arrow_function(env) {
   if (!is_assignable_lhs(expr)) {
     error_at(env, [
           expr[0],
-          /* InvalidLHSInAssignment */14
+          /* InvalidLHSInAssignment */ 14
         ]);
   }
   const match = expr[1];
-  if (!/* tag */(typeof match === "number" || typeof match === "string") && match.TAG === /* Identifier */18) {
+  if (!/* tag */ (typeof match === "number" || typeof match === "string") && match.TAG === /* Identifier */ 18) {
     if (is_restricted(match._0[1].name)) {
       strict_error_at(env, [
             expr[0],
-            /* StrictLHSAssignment */36
+            /* StrictLHSAssignment */ 36
           ]);
     }
     
@@ -9589,7 +9589,7 @@ function assignment_but_not_arrow_function(env) {
   return [
     loc,
     {
-      TAG: /* Assignment */7,
+      TAG: /* Assignment */ 7,
       _0: {
         operator: operator,
         left: left,
@@ -9609,10 +9609,10 @@ function try_assignment_but_not_arrow_function(env) {
   const env$1 = with_error_callback(error_callback, env);
   const ret = assignment_but_not_arrow_function(env$1);
   const match = Curry._2(Parser_env_Peek.token, undefined, env$1);
-  if (/* tag */typeof match === "number" || typeof match === "string") {
+  if (/* tag */ typeof match === "number" || typeof match === "string") {
     switch (match) {
-      case /* T_ARROW */10 :
-      case /* T_COLON */77 :
+      case /* T_ARROW */ 10 :
+      case /* T_COLON */ 77 :
           throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
                 MEL_EXN_ID: Parser_env_Try.Rollback
               });
@@ -9629,10 +9629,10 @@ function try_assignment_but_not_arrow_function(env) {
         });
   }
   const match$1 = ret[1];
-  if (/* tag */typeof match$1 === "number" || typeof match$1 === "string") {
+  if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string") {
     return ret;
   }
-  if (match$1.TAG !== /* Identifier */18) {
+  if (match$1.TAG !== /* Identifier */ 18) {
     return ret;
   }
   if (match$1._0[1].name !== "async") {
@@ -9650,17 +9650,17 @@ function assignment(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   const match$1 = Curry._2(Parser_env_Peek.is_identifier, undefined, env);
   let exit = 0;
-  if (/* tag */typeof match === "number" || typeof match === "string") {
+  if (/* tag */ typeof match === "number" || typeof match === "string") {
     switch (match) {
-      case /* T_YIELD */56 :
+      case /* T_YIELD */ 56 :
           if (env.allow_yield) {
             const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-            token$4(env, /* T_YIELD */56);
+            token$4(env, /* T_YIELD */ 56);
             if (!env.allow_yield) {
-              error$1(env, /* IllegalYield */24);
+              error$1(env, /* IllegalYield */ 24);
             }
-            const delegate = maybe(env, /* T_MULT */97);
-            const has_argument = !(Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_SEMICOLON */7) || Curry._1(Parser_env_Peek.is_implicit_semicolon, env));
+            const delegate = maybe(env, /* T_MULT */ 97);
+            const has_argument = !(Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_SEMICOLON */ 7) || Curry._1(Parser_env_Peek.is_implicit_semicolon, env));
             const argument = delegate || has_argument ? Curry._1(assignment, env) : undefined;
             let end_loc;
             if (argument !== undefined) {
@@ -9674,7 +9674,7 @@ function assignment(env) {
             return [
               btwn(start_loc, end_loc),
               {
-                TAG: /* Yield */14,
+                TAG: /* Yield */ 14,
                 _0: {
                   argument: argument,
                   delegate: delegate
@@ -9684,8 +9684,8 @@ function assignment(env) {
           }
           exit = 2;
           break;
-      case /* T_LPAREN */3 :
-      case /* T_LESS_THAN */89 :
+      case /* T_LPAREN */ 3 :
+      case /* T_LESS_THAN */ 89 :
           break;
       default:
         exit = 2;
@@ -9697,11 +9697,11 @@ function assignment(env) {
     return assignment_but_not_arrow_function(env);
   }
   const expr = Curry._2(Parser_env_Try.to_parse, env, try_assignment_but_not_arrow_function);
-  if (!/* tag */(typeof expr === "number" || typeof expr === "string")) {
+  if (!/* tag */ (typeof expr === "number" || typeof expr === "string")) {
     return expr._0;
   }
   const expr$1 = Curry._2(Parser_env_Try.to_parse, env, try_arrow_function);
-  if (/* tag */typeof expr$1 === "number" || typeof expr$1 === "string") {
+  if (/* tag */ typeof expr$1 === "number" || typeof expr$1 === "string") {
     return assignment_but_not_arrow_function(env);
   } else {
     return expr$1._0;
@@ -9712,7 +9712,7 @@ function make_logical(left, right, operator, loc) {
   return [
     loc,
     {
-      TAG: /* Logical */9,
+      TAG: /* Logical */ 9,
       _0: {
         operator: operator,
         left: left,
@@ -9727,23 +9727,23 @@ function logical_and(env, _left, _lloc) {
     const lloc = _lloc;
     const left = _left;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+    if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
       return [
         lloc,
         left
       ];
     }
-    if (match !== /* T_AND */79) {
+    if (match !== /* T_AND */ 79) {
       return [
         lloc,
         left
       ];
     }
-    token$4(env, /* T_AND */79);
+    token$4(env, /* T_AND */ 79);
     const match$1 = with_loc(binary, env);
     const loc = btwn(lloc, match$1[0]);
     _lloc = loc;
-    _left = make_logical(left, match$1[1], /* And */1, loc);
+    _left = make_logical(left, match$1[1], /* And */ 1, loc);
     continue;
   };
 }
@@ -9753,24 +9753,24 @@ function logical_or(env, _left, _lloc) {
     const lloc = _lloc;
     const left = _left;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+    if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
       return [
         lloc,
         left
       ];
     }
-    if (match !== /* T_OR */78) {
+    if (match !== /* T_OR */ 78) {
       return [
         lloc,
         left
       ];
     }
-    token$4(env, /* T_OR */78);
+    token$4(env, /* T_OR */ 78);
     const match$1 = with_loc(binary, env);
     const match$2 = logical_and(env, match$1[1], match$1[0]);
     const loc = btwn(lloc, match$2[0]);
     _lloc = loc;
-    _left = make_logical(left, match$2[1], /* Or */0, loc);
+    _left = make_logical(left, match$2[1], /* Or */ 0, loc);
     continue;
   };
 }
@@ -9784,202 +9784,202 @@ function logical(env) {
 function binary_op(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let ret;
-  if (/* tag */typeof match === "number" || typeof match === "string") {
+  if (/* tag */ typeof match === "number" || typeof match === "string") {
     switch (match) {
-      case /* T_IN */15 :
+      case /* T_IN */ 15 :
           ret = env.no_in ? undefined : [
-              /* In */20,
+              /* In */ 20,
               {
-                TAG: /* Left_assoc */0,
+                TAG: /* Left_assoc */ 0,
                 _0: 6
               }
             ];
           break;
-      case /* T_INSTANCEOF */16 :
+      case /* T_INSTANCEOF */ 16 :
           ret = [
-            /* Instanceof */21,
+            /* Instanceof */ 21,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 6
             }
           ];
           break;
-      case /* T_BIT_OR */80 :
+      case /* T_BIT_OR */ 80 :
           ret = [
-            /* BitOr */17,
+            /* BitOr */ 17,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 2
             }
           ];
           break;
-      case /* T_BIT_XOR */81 :
+      case /* T_BIT_XOR */ 81 :
           ret = [
-            /* Xor */18,
+            /* Xor */ 18,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 3
             }
           ];
           break;
-      case /* T_BIT_AND */82 :
+      case /* T_BIT_AND */ 82 :
           ret = [
-            /* BitAnd */19,
+            /* BitAnd */ 19,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 4
             }
           ];
           break;
-      case /* T_EQUAL */83 :
+      case /* T_EQUAL */ 83 :
           ret = [
-            /* Equal */0,
+            /* Equal */ 0,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 5
             }
           ];
           break;
-      case /* T_NOT_EQUAL */84 :
+      case /* T_NOT_EQUAL */ 84 :
           ret = [
-            /* NotEqual */1,
+            /* NotEqual */ 1,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 5
             }
           ];
           break;
-      case /* T_STRICT_EQUAL */85 :
+      case /* T_STRICT_EQUAL */ 85 :
           ret = [
-            /* StrictEqual */2,
+            /* StrictEqual */ 2,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 5
             }
           ];
           break;
-      case /* T_STRICT_NOT_EQUAL */86 :
+      case /* T_STRICT_NOT_EQUAL */ 86 :
           ret = [
-            /* StrictNotEqual */3,
+            /* StrictNotEqual */ 3,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 5
             }
           ];
           break;
-      case /* T_LESS_THAN_EQUAL */87 :
+      case /* T_LESS_THAN_EQUAL */ 87 :
           ret = [
-            /* LessThanEqual */5,
+            /* LessThanEqual */ 5,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 6
             }
           ];
           break;
-      case /* T_GREATER_THAN_EQUAL */88 :
+      case /* T_GREATER_THAN_EQUAL */ 88 :
           ret = [
-            /* GreaterThanEqual */7,
+            /* GreaterThanEqual */ 7,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 6
             }
           ];
           break;
-      case /* T_LESS_THAN */89 :
+      case /* T_LESS_THAN */ 89 :
           ret = [
-            /* LessThan */4,
+            /* LessThan */ 4,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 6
             }
           ];
           break;
-      case /* T_GREATER_THAN */90 :
+      case /* T_GREATER_THAN */ 90 :
           ret = [
-            /* GreaterThan */6,
+            /* GreaterThan */ 6,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 6
             }
           ];
           break;
-      case /* T_LSHIFT */91 :
+      case /* T_LSHIFT */ 91 :
           ret = [
-            /* LShift */8,
+            /* LShift */ 8,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 7
             }
           ];
           break;
-      case /* T_RSHIFT */92 :
+      case /* T_RSHIFT */ 92 :
           ret = [
-            /* RShift */9,
+            /* RShift */ 9,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 7
             }
           ];
           break;
-      case /* T_RSHIFT3 */93 :
+      case /* T_RSHIFT3 */ 93 :
           ret = [
-            /* RShift3 */10,
+            /* RShift3 */ 10,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 7
             }
           ];
           break;
-      case /* T_PLUS */94 :
+      case /* T_PLUS */ 94 :
           ret = [
-            /* Plus */11,
+            /* Plus */ 11,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 8
             }
           ];
           break;
-      case /* T_MINUS */95 :
+      case /* T_MINUS */ 95 :
           ret = [
-            /* Minus */12,
+            /* Minus */ 12,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 8
             }
           ];
           break;
-      case /* T_DIV */96 :
+      case /* T_DIV */ 96 :
           ret = [
-            /* Div */15,
+            /* Div */ 15,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 9
             }
           ];
           break;
-      case /* T_MULT */97 :
+      case /* T_MULT */ 97 :
           ret = [
-            /* Mult */13,
+            /* Mult */ 13,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 9
             }
           ];
           break;
-      case /* T_EXP */98 :
+      case /* T_EXP */ 98 :
           ret = [
-            /* Exp */14,
+            /* Exp */ 14,
             {
-              TAG: /* Right_assoc */1,
+              TAG: /* Right_assoc */ 1,
               _0: 10
             }
           ];
           break;
-      case /* T_MOD */99 :
+      case /* T_MOD */ 99 :
           ret = [
-            /* Mod */16,
+            /* Mod */ 16,
             {
-              TAG: /* Left_assoc */0,
+              TAG: /* Left_assoc */ 0,
               _0: 9
             }
           ];
@@ -10000,7 +10000,7 @@ function make_binary(left, right, operator, loc) {
   return [
     loc,
     {
-      TAG: /* Binary */6,
+      TAG: /* Binary */ 6,
       _0: {
         operator: operator,
         left: left,
@@ -10050,7 +10050,7 @@ function add_to_stack(_right, _param, _rloc, _stack) {
 }
 
 function binary(env) {
-  let _stack = /* [] */0;
+  let _stack = /* [] */ 0;
   while(true) {
     const stack = _stack;
     const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
@@ -10059,10 +10059,10 @@ function binary(env) {
     const loc = env.last_loc.contents;
     const end_loc = loc !== undefined ? loc : right[0];
     const right_loc = btwn(start_loc, end_loc);
-    if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LESS_THAN */89)) {
+    if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LESS_THAN */ 89)) {
       let tmp = right[1];
-      if (!/* tag */(typeof tmp === "number" || typeof tmp === "string") && tmp.TAG === /* JSXElement */22) {
-        error$1(env, /* AdjacentJSXElements */46);
+      if (!/* tag */ (typeof tmp === "number" || typeof tmp === "string") && tmp.TAG === /* JSXElement */ 22) {
+        error$1(env, /* AdjacentJSXElements */ 46);
       }
       
     }
@@ -10087,10 +10087,10 @@ function binary(env) {
       };
     }
     const rop = match[0];
-    if (is_unary && rop === /* Exp */14) {
+    if (is_unary && rop === /* Exp */ 14) {
       error_at(env, [
             right_loc,
-            /* InvalidLHSInExponentiation */15
+            /* InvalidLHSInExponentiation */ 15
           ]);
     }
     _stack = add_to_stack(right, [
@@ -10103,24 +10103,24 @@ function binary(env) {
 
 function argument(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
     return {
-      TAG: /* Expression */0,
+      TAG: /* Expression */ 0,
       _0: Curry._1(assignment, env)
     };
   }
-  if (match !== /* T_ELLIPSIS */11) {
+  if (match !== /* T_ELLIPSIS */ 11) {
     return {
-      TAG: /* Expression */0,
+      TAG: /* Expression */ 0,
       _0: Curry._1(assignment, env)
     };
   }
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_ELLIPSIS */11);
+  token$4(env, /* T_ELLIPSIS */ 11);
   const argument$1 = Curry._1(assignment, env);
   const loc = btwn(start_loc, argument$1[0]);
   return {
-    TAG: /* Spread */1,
+    TAG: /* Spread */ 1,
     _0: [
       loc,
       {
@@ -10134,10 +10134,10 @@ function arguments$p(env, _acc) {
   while(true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */typeof match === "number" || typeof match === "string") {
+    if (/* tag */ typeof match === "number" || typeof match === "string") {
       switch (match) {
-        case /* T_RPAREN */4 :
-        case /* T_EOF */105 :
+        case /* T_RPAREN */ 4 :
+        case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc);
         default:
           
@@ -10148,8 +10148,8 @@ function arguments$p(env, _acc) {
       hd: acc_0,
       tl: acc
     };
-    if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RPAREN */4)) {
-      token$4(env, /* T_COMMA */8);
+    if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RPAREN */ 4)) {
+      token$4(env, /* T_COMMA */ 8);
     }
     _acc = acc$1;
     continue;
@@ -10158,10 +10158,10 @@ function arguments$p(env, _acc) {
 
 function $$arguments(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_LPAREN */3);
-  const args = arguments$p(env, /* [] */0);
+  token$4(env, /* T_LPAREN */ 3);
+  const args = arguments$p(env, /* [] */ 0);
   const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_RPAREN */4);
+  token$4(env, /* T_RPAREN */ 4);
   return [
     btwn(start_loc, end_loc),
     args
@@ -10178,11 +10178,11 @@ function template_parts(env, _quasis, _expressions) {
       tl: expressions
     };
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */(typeof match === "number" || typeof match === "string") && match === /* T_RCURLY */2) {
-      push_lex_mode(env, /* TEMPLATE */4);
+    if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_RCURLY */ 2) {
+      push_lex_mode(env, /* TEMPLATE */ 4);
       const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
       let match$2;
-      if (/* tag */typeof match$1 === "number" || typeof match$1 === "string") {
+      if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string") {
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -10192,7 +10192,7 @@ function template_parts(env, _quasis, _expressions) {
               ]
             });
       }
-      if (match$1.TAG === /* T_TEMPLATE_PART */2) {
+      if (match$1.TAG === /* T_TEMPLATE_PART */ 2) {
         const match$3 = match$1._0;
         const tail = match$3[2];
         const match$4 = match$3[1];
@@ -10268,7 +10268,7 @@ function template_literal(env, part) {
   const match = part[1];
   const start_loc = part[0];
   token$4(env, {
-        TAG: /* T_TEMPLATE_PART */2,
+        TAG: /* T_TEMPLATE_PART */ 2,
         _0: part
       });
   const head_1 = {
@@ -10286,13 +10286,13 @@ function template_literal(env, part) {
       start_loc,
       {
         hd: head,
-        tl: /* [] */0
+        tl: /* [] */ 0
       },
-      /* [] */0
+      /* [] */ 0
     ] : template_parts(env, {
           hd: head,
-          tl: /* [] */0
-        }, /* [] */0);
+          tl: /* [] */ 0
+        }, /* [] */ 0);
   const loc = btwn(start_loc, match$1[0]);
   return [
     loc,
@@ -10307,22 +10307,22 @@ function elements(env, _acc) {
   while(true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */typeof match === "number" || typeof match === "string") {
+    if (/* tag */ typeof match === "number" || typeof match === "string") {
       switch (match) {
-        case /* T_COMMA */8 :
-            token$4(env, /* T_COMMA */8);
+        case /* T_COMMA */ 8 :
+            token$4(env, /* T_COMMA */ 8);
             _acc = {
               hd: undefined,
               tl: acc
             };
             continue;
-        case /* T_ELLIPSIS */11 :
+        case /* T_ELLIPSIS */ 11 :
             const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-            token$4(env, /* T_ELLIPSIS */11);
+            token$4(env, /* T_ELLIPSIS */ 11);
             const argument = Curry._1(assignment, env);
             const loc = btwn(start_loc, argument[0]);
             const elem = {
-              TAG: /* Spread */1,
+              TAG: /* Spread */ 1,
               _0: [
                 loc,
                 {
@@ -10335,19 +10335,19 @@ function elements(env, _acc) {
               tl: acc
             };
             continue;
-        case /* T_RBRACKET */6 :
-        case /* T_EOF */105 :
+        case /* T_RBRACKET */ 6 :
+        case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc);
         default:
           
       }
     }
     const elem$1 = {
-      TAG: /* Expression */0,
+      TAG: /* Expression */ 0,
       _0: Curry._1(assignment, env)
     };
-    if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RBRACKET */6)) {
-      token$4(env, /* T_COMMA */8);
+    if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RBRACKET */ 6)) {
+      token$4(env, /* T_COMMA */ 8);
     }
     _acc = {
       hd: elem$1,
@@ -10359,10 +10359,10 @@ function elements(env, _acc) {
 
 function array_initializer(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_LBRACKET */5);
-  const elements$1 = elements(env, /* [] */0);
+  token$4(env, /* T_LBRACKET */ 5);
+  const elements$1 = elements(env, /* [] */ 0);
   const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_RBRACKET */6);
+  token$4(env, /* T_RBRACKET */ 6);
   return [
     btwn(start_loc, end_loc),
     {
@@ -10373,11 +10373,11 @@ function array_initializer(env) {
 
 function error_callback$1(param) {
   return function (param) {
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       switch (param) {
-        case /* StrictParamName */28 :
-        case /* NewlineBeforeArrow */44 :
-        case /* ParameterAfterRestParameter */47 :
+        case /* StrictParamName */ 28 :
+        case /* NewlineBeforeArrow */ 44 :
+        case /* ParameterAfterRestParameter */ 47 :
             return;
         default:
           throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
@@ -10395,14 +10395,14 @@ function error_callback$1(param) {
 function try_arrow_function(env) {
   const env$1 = with_error_callback(error_callback$1, env);
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env$1);
-  const async = Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, 1, env$1), /* T_ARROW */10) && maybe(env$1, /* T_ASYNC */61);
+  const async = Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, 1, env$1), /* T_ARROW */ 10) && maybe(env$1, /* T_ASYNC */ 61);
   const typeParameters = Curry._1(type_parameter_declaration$1, env$1);
   let match;
   if (Curry._2(Parser_env_Peek.is_identifier, undefined, env$1) && typeParameters === undefined) {
-    const id = Curry._2(Parse.identifier, /* StrictParamName */28, env$1);
+    const id = Curry._2(Parse.identifier, /* StrictParamName */ 28, env$1);
     const param_0 = id[0];
     const param_1 = {
-      TAG: /* Identifier */3,
+      TAG: /* Identifier */ 3,
       _0: id
     };
     const param = [
@@ -10412,9 +10412,9 @@ function try_arrow_function(env) {
     match = [
       {
         hd: param,
-        tl: /* [] */0
+        tl: /* [] */ 0
       },
-      /* [] */0,
+      /* [] */ 0,
       undefined,
       undefined
     ];
@@ -10431,17 +10431,17 @@ function try_arrow_function(env) {
   const defaults = match[1];
   const params = match[0];
   const predicate = Curry._1(Parse.predicate, env$1);
-  const env$2 = Caml_obj.caml_equal(params, /* [] */0) || rest !== undefined ? without_error_callback(env$1) : env$1;
-  if (Curry._1(Parser_env_Peek.is_line_terminator, env$2) && Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env$2), /* T_ARROW */10)) {
-    error$1(env$2, /* NewlineBeforeArrow */44);
+  const env$2 = Caml_obj.caml_equal(params, /* [] */ 0) || rest !== undefined ? without_error_callback(env$1) : env$1;
+  if (Curry._1(Parser_env_Peek.is_line_terminator, env$2) && Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env$2), /* T_ARROW */ 10)) {
+    error$1(env$2, /* NewlineBeforeArrow */ 44);
   }
-  token$4(env$2, /* T_ARROW */10);
+  token$4(env$2, /* T_ARROW */ 10);
   const env$3 = without_error_callback(env$2);
   const match$2 = with_loc((function (param) {
         let generator = false;
         const env = with_in_function(true, param);
         const match = Curry._2(Parser_env_Peek.token, undefined, env);
-        if (/* tag */(typeof match === "number" || typeof match === "string") && match === /* T_LCURLY */1) {
+        if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_LCURLY */ 1) {
           const match$1 = function_body(env, async, generator);
           return [
             match$1[1],
@@ -10452,7 +10452,7 @@ function try_arrow_function(env) {
         const expr = Curry._1(Parse.assignment, env$1);
         return [
           {
-            TAG: /* BodyExpression */1,
+            TAG: /* BodyExpression */ 1,
             _0: expr
           },
           env$1.in_strict_mode
@@ -10463,12 +10463,12 @@ function try_arrow_function(env) {
   const simple = is_simple_function_params(params, defaults, rest);
   strict_post_check(env$3, match$3[1], simple, undefined, params);
   let expression;
-  expression = body.TAG === /* BodyBlock */0 ? false : true;
+  expression = body.TAG === /* BodyBlock */ 0 ? false : true;
   const loc = btwn(start_loc, match$2[0]);
   return [
     loc,
     {
-      TAG: /* ArrowFunction */3,
+      TAG: /* ArrowFunction */ 3,
       _0: {
         id: undefined,
         params: params,
@@ -10490,10 +10490,10 @@ function decorator_list_helper(env, _decorators) {
   while(true) {
     const decorators = _decorators;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+    if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
       return decorators;
     }
-    if (match !== /* T_AT */12) {
+    if (match !== /* T_AT */ 12) {
       return decorators;
     }
     token$3(env);
@@ -10507,25 +10507,25 @@ function decorator_list_helper(env, _decorators) {
 
 function decorator_list(env) {
   if (env.parse_options.esproposal_decorators) {
-    return Stdlib__List.rev(decorator_list_helper(env, /* [] */0));
+    return Stdlib__List.rev(decorator_list_helper(env, /* [] */ 0));
   } else {
-    return /* [] */0;
+    return /* [] */ 0;
   }
 }
 
 function key(env) {
   const number_type = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (/* tag */typeof number_type === "number" || typeof number_type === "string") {
-    if (number_type === /* T_LBRACKET */5) {
+  if (/* tag */ typeof number_type === "number" || typeof number_type === "string") {
+    if (number_type === /* T_LBRACKET */ 5) {
       const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-      token$4(env, /* T_LBRACKET */5);
+      token$4(env, /* T_LBRACKET */ 5);
       const expr = Curry._1(Parse.assignment, with_no_in(false, env));
       const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-      token$4(env, /* T_RBRACKET */6);
+      token$4(env, /* T_RBRACKET */ 6);
       return [
         btwn(start_loc, end_loc),
         {
-          TAG: /* Computed */2,
+          TAG: /* Computed */ 2,
           _0: expr
         }
       ];
@@ -10533,18 +10533,18 @@ function key(env) {
     
   } else {
     switch (number_type.TAG) {
-      case /* T_NUMBER */0 :
+      case /* T_NUMBER */ 0 :
           const raw = Curry._2(Parser_env_Peek.value, undefined, env);
           const loc = Curry._2(Parser_env_Peek.loc, undefined, env);
           const value = number(env, number_type._0);
           const value$1 = {
-            TAG: /* Number */2,
+            TAG: /* Number */ 2,
             _0: value
           };
           return [
             loc,
             {
-              TAG: /* Literal */0,
+              TAG: /* Literal */ 0,
               _0: [
                 loc,
                 {
@@ -10554,17 +10554,17 @@ function key(env) {
               ]
             }
           ];
-      case /* T_STRING */1 :
+      case /* T_STRING */ 1 :
           const match = number_type._0;
           const octal = match[3];
           const raw$1 = match[2];
           const value$2 = match[1];
           const loc$1 = match[0];
           if (octal) {
-            strict_error(env, /* StrictOctalLiteral */31);
+            strict_error(env, /* StrictOctalLiteral */ 31);
           }
           token$4(env, {
-                TAG: /* T_STRING */1,
+                TAG: /* T_STRING */ 1,
                 _0: [
                   loc$1,
                   value$2,
@@ -10573,13 +10573,13 @@ function key(env) {
                 ]
               });
           const value$3 = {
-            TAG: /* String */0,
+            TAG: /* String */ 0,
             _0: value$2
           };
           return [
             loc$1,
             {
-              TAG: /* Literal */0,
+              TAG: /* Literal */ 0,
               _0: [
                 loc$1,
                 {
@@ -10598,7 +10598,7 @@ function key(env) {
   return [
     id[0],
     {
-      TAG: /* Identifier */1,
+      TAG: /* Identifier */ 1,
       _0: id
     }
   ];
@@ -10609,19 +10609,19 @@ function _method(env, kind) {
   const match = key(env);
   let typeParameters;
   switch (kind) {
-    case /* Init */0 :
+    case /* Init */ 0 :
         typeParameters = Curry._1(type_parameter_declaration$1, env);
         break;
-    case /* Get */1 :
-    case /* Set */2 :
+    case /* Get */ 1 :
+    case /* Set */ 2 :
         typeParameters = undefined;
         break;
     
   }
-  token$4(env, /* T_LPAREN */3);
+  token$4(env, /* T_LPAREN */ 3);
   let params;
   switch (kind) {
-    case /* Init */0 :
+    case /* Init */ 0 :
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -10630,32 +10630,32 @@ function _method(env, kind) {
                 16
               ]
             });
-    case /* Get */1 :
-        params = /* [] */0;
+    case /* Get */ 1 :
+        params = /* [] */ 0;
         break;
-    case /* Set */2 :
-        const param = Curry._2(Parse.identifier_with_type, env, /* StrictParamName */28);
+    case /* Set */ 2 :
+        const param = Curry._2(Parse.identifier_with_type, env, /* StrictParamName */ 28);
         params = {
           hd: [
             param[0],
             {
-              TAG: /* Identifier */3,
+              TAG: /* Identifier */ 3,
               _0: param
             }
           ],
-          tl: /* [] */0
+          tl: /* [] */ 0
         };
         break;
     
   }
-  token$4(env, /* T_RPAREN */4);
+  token$4(env, /* T_RPAREN */ 4);
   const returnType = wrap(annotation_opt, env);
   const match$1 = function_body(env, false, generator$1);
   const body = match$1[1];
-  const simple = is_simple_function_params(params, /* [] */0, undefined);
+  const simple = is_simple_function_params(params, /* [] */ 0, undefined);
   strict_post_check(env, match$1[2], simple, undefined, params);
   let match$2;
-  match$2 = body.TAG === /* BodyBlock */0 ? [
+  match$2 = body.TAG === /* BodyBlock */ 0 ? [
       body._0[0],
       false
     ] : [
@@ -10666,7 +10666,7 @@ function _method(env, kind) {
   const value_1 = {
     id: undefined,
     params: params,
-    defaults: /* [] */0,
+    defaults: /* [] */ 0,
     rest: undefined,
     body: body,
     async: false,
@@ -10688,11 +10688,11 @@ function _method(env, kind) {
 
 function property$1(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ELLIPSIS */11)) {
-    token$4(env, /* T_ELLIPSIS */11);
+  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ELLIPSIS */ 11)) {
+    token$4(env, /* T_ELLIPSIS */ 11);
     const argument = Curry._1(Parse.assignment, env);
     return {
-      TAG: /* SpreadProperty */1,
+      TAG: /* SpreadProperty */ 1,
       _0: [
         btwn(start_loc, argument[0]),
         {
@@ -10701,7 +10701,7 @@ function property$1(env) {
       ]
     };
   }
-  const async = Curry._2(Parser_env_Peek.is_identifier, 1, env) && maybe(env, /* T_ASYNC */61);
+  const async = Curry._2(Parser_env_Peek.is_identifier, 1, env) && maybe(env, /* T_ASYNC */ 61);
   const match = generator(env, async);
   const match$1 = key(env);
   let tmp;
@@ -10711,16 +10711,16 @@ function property$1(env) {
   } else {
     const key$1 = match$1[1];
     switch (key$1.TAG) {
-      case /* Identifier */1 :
+      case /* Identifier */ 1 :
           switch (key$1._0[1].name) {
             case "get" :
                 const match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
                 let exit$1 = 0;
-                if (/* tag */typeof match$2 === "number" || typeof match$2 === "string") {
+                if (/* tag */ typeof match$2 === "number" || typeof match$2 === "string") {
                   switch (match$2) {
-                    case /* T_LPAREN */3 :
-                    case /* T_COLON */77 :
-                    case /* T_LESS_THAN */89 :
+                    case /* T_LPAREN */ 3 :
+                    case /* T_COLON */ 77 :
+                    case /* T_LESS_THAN */ 89 :
                         exit$1 = 2;
                         break;
                     default:
@@ -10736,11 +10736,11 @@ function property$1(env) {
             case "set" :
                 const match$3 = Curry._2(Parser_env_Peek.token, undefined, env);
                 let exit$2 = 0;
-                if (/* tag */typeof match$3 === "number" || typeof match$3 === "string") {
+                if (/* tag */ typeof match$3 === "number" || typeof match$3 === "string") {
                   switch (match$3) {
-                    case /* T_LPAREN */3 :
-                    case /* T_COLON */77 :
-                    case /* T_LESS_THAN */89 :
+                    case /* T_LPAREN */ 3 :
+                    case /* T_COLON */ 77 :
+                    case /* T_LESS_THAN */ 89 :
                         exit$2 = 2;
                         break;
                     default:
@@ -10757,8 +10757,8 @@ function property$1(env) {
               exit = 1;
           }
           break;
-      case /* Literal */0 :
-      case /* Computed */2 :
+      case /* Literal */ 0 :
+      case /* Computed */ 2 :
           exit = 1;
           break;
       
@@ -10768,17 +10768,17 @@ function property$1(env) {
     tmp = init(env, start_loc, match$1[1], async, match);
   }
   return {
-    TAG: /* Property */0,
+    TAG: /* Property */ 0,
     _0: tmp
   };
 }
 
 function get(env, start_loc) {
-  const match = _method(env, /* Get */1);
+  const match = _method(env, /* Get */ 1);
   const match$1 = match[1];
   const end_loc = match$1[0];
   const value_1 = {
-    TAG: /* Function */2,
+    TAG: /* Function */ 2,
     _0: match$1[1]
   };
   const value = [
@@ -10790,7 +10790,7 @@ function get(env, start_loc) {
     {
       key: match[0],
       value: value,
-      kind: /* Get */1,
+      kind: /* Get */ 1,
       _method: false,
       shorthand: false
     }
@@ -10798,11 +10798,11 @@ function get(env, start_loc) {
 }
 
 function set(env, start_loc) {
-  const match = _method(env, /* Set */2);
+  const match = _method(env, /* Set */ 2);
   const match$1 = match[1];
   const end_loc = match$1[0];
   const value_1 = {
-    TAG: /* Function */2,
+    TAG: /* Function */ 2,
     _0: match$1[1]
   };
   const value = [
@@ -10814,7 +10814,7 @@ function set(env, start_loc) {
     {
       key: match[0],
       value: value,
-      kind: /* Set */2,
+      kind: /* Set */ 2,
       _method: false,
       shorthand: false
     }
@@ -10825,14 +10825,14 @@ function init(env, start_loc, key, async, generator) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let match$1;
   let exit = 0;
-  if (/* tag */typeof match === "number" || typeof match === "string") {
+  if (/* tag */ typeof match === "number" || typeof match === "string") {
     switch (match) {
-      case /* T_RCURLY */2 :
-      case /* T_COMMA */8 :
+      case /* T_RCURLY */ 2 :
+      case /* T_COMMA */ 8 :
           exit = 2;
           break;
-      case /* T_LPAREN */3 :
-      case /* T_LESS_THAN */89 :
+      case /* T_LPAREN */ 3 :
+      case /* T_LESS_THAN */ 89 :
           exit = 3;
           break;
       default:
@@ -10843,7 +10843,7 @@ function init(env, start_loc, key, async, generator) {
   }
   switch (exit) {
     case 1 :
-        token$4(env, /* T_COLON */77);
+        token$4(env, /* T_COLON */ 77);
         match$1 = [
           Curry._1(Parse.assignment, env),
           false,
@@ -10853,27 +10853,27 @@ function init(env, start_loc, key, async, generator) {
     case 2 :
         let tmp;
         switch (key.TAG) {
-          case /* Literal */0 :
+          case /* Literal */ 0 :
               const lit = key._0;
               tmp = [
                 lit[0],
                 {
-                  TAG: /* Literal */19,
+                  TAG: /* Literal */ 19,
                   _0: lit[1]
                 }
               ];
               break;
-          case /* Identifier */1 :
+          case /* Identifier */ 1 :
               const id = key._0;
               tmp = [
                 id[0],
                 {
-                  TAG: /* Identifier */18,
+                  TAG: /* Identifier */ 18,
                   _0: id
                 }
               ];
               break;
-          case /* Computed */2 :
+          case /* Computed */ 2 :
               tmp = key._0;
               break;
           
@@ -10896,7 +10896,7 @@ function init(env, start_loc, key, async, generator) {
         const simple = is_simple_function_params(params, defaults, rest);
         strict_post_check(env, match$3[2], simple, undefined, params);
         let match$4;
-        match$4 = body.TAG === /* BodyBlock */0 ? [
+        match$4 = body.TAG === /* BodyBlock */ 0 ? [
             body._0[0],
             false
           ] : [
@@ -10905,7 +10905,7 @@ function init(env, start_loc, key, async, generator) {
           ];
         const value_0 = match$4[0];
         const value_1 = {
-          TAG: /* Function */2,
+          TAG: /* Function */ 2,
           _0: {
             id: undefined,
             params: params,
@@ -10938,7 +10938,7 @@ function init(env, start_loc, key, async, generator) {
     {
       key: key,
       value: value$1,
-      kind: /* Init */0,
+      kind: /* Init */ 0,
       _method: match$1[2],
       shorthand: match$1[1]
     }
@@ -10946,7 +10946,7 @@ function init(env, start_loc, key, async, generator) {
 }
 
 function check_property(env, prop_map, prop) {
-  if (prop.TAG !== /* Property */0) {
+  if (prop.TAG !== /* Property */ 0) {
     return prop_map;
   }
   const match = prop._0;
@@ -10954,11 +10954,11 @@ function check_property(env, prop_map, prop) {
   const prop_loc = match[0];
   let exit = 0;
   switch (prop$1.key.TAG) {
-    case /* Literal */0 :
-    case /* Identifier */1 :
+    case /* Literal */ 0 :
+    case /* Identifier */ 1 :
         exit = 1;
         break;
-    case /* Computed */2 :
+    case /* Computed */ 2 :
         return prop_map;
     
   }
@@ -10966,23 +10966,23 @@ function check_property(env, prop_map, prop) {
     const match$1 = prop$1.key;
     let key;
     switch (match$1.TAG) {
-      case /* Literal */0 :
+      case /* Literal */ 0 :
           const s = match$1._0[1].value;
-          if (/* tag */typeof s === "number" || typeof s === "string") {
+          if (/* tag */ typeof s === "number" || typeof s === "string") {
             key = "null";
           } else {
             switch (s.TAG) {
-              case /* String */0 :
+              case /* String */ 0 :
                   key = s._0;
                   break;
-              case /* Boolean */1 :
+              case /* Boolean */ 1 :
                   const b = s._0;
                   key = b ? "true" : "false";
                   break;
-              case /* Number */2 :
+              case /* Number */ 2 :
                   key = Stdlib.string_of_float(s._0);
                   break;
-              case /* RegExp */3 :
+              case /* RegExp */ 3 :
                   throw new Caml_js_exceptions.MelangeError("Failure", {
                         MEL_EXN_ID: "Failure",
                         _1: "RegExp cannot be property key"
@@ -10991,10 +10991,10 @@ function check_property(env, prop_map, prop) {
             }
           }
           break;
-      case /* Identifier */1 :
+      case /* Identifier */ 1 :
           key = match$1._0[1].name;
           break;
-      case /* Computed */2 :
+      case /* Computed */ 2 :
           throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -11012,7 +11012,7 @@ function check_property(env, prop_map, prop) {
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-        prev_kinds = /* Empty */0;
+        prev_kinds = /* Empty */ 0;
       } else {
         throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
@@ -11020,13 +11020,13 @@ function check_property(env, prop_map, prop) {
     const match$2 = prop$1.kind;
     let kind_string;
     switch (match$2) {
-      case /* Init */0 :
+      case /* Init */ 0 :
           kind_string = "Init";
           break;
-      case /* Get */1 :
+      case /* Get */ 1 :
           kind_string = "Get";
           break;
-      case /* Set */2 :
+      case /* Set */ 2 :
           kind_string = "Set";
           break;
       
@@ -11037,12 +11037,12 @@ function check_property(env, prop_map, prop) {
           if (Curry._2(mem$1, "Init", prev_kinds)) {
             strict_error_at(env, [
                   prop_loc,
-                  /* StrictDuplicateProperty */33
+                  /* StrictDuplicateProperty */ 33
                 ]);
           } else if (Curry._2(mem$1, "Set", prev_kinds) || Curry._2(mem$1, "Get", prev_kinds)) {
             error_at(env, [
                   prop_loc,
-                  /* AccessorDataProperty */34
+                  /* AccessorDataProperty */ 34
                 ]);
           }
           break;
@@ -11057,12 +11057,12 @@ function check_property(env, prop_map, prop) {
       if (Curry._2(mem$1, "Init", prev_kinds)) {
         error_at(env, [
               prop_loc,
-              /* AccessorDataProperty */34
+              /* AccessorDataProperty */ 34
             ]);
       } else if (Curry._2(mem$1, kind_string, prev_kinds)) {
         error_at(env, [
               prop_loc,
-              /* AccessorGetSet */35
+              /* AccessorGetSet */ 35
             ]);
       }
       
@@ -11078,10 +11078,10 @@ function properties$1(env, _param) {
     const param = _param;
     const acc = param[1];
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */typeof match === "number" || typeof match === "string") {
+    if (/* tag */ typeof match === "number" || typeof match === "string") {
       switch (match) {
-        case /* T_RCURLY */2 :
-        case /* T_EOF */105 :
+        case /* T_RCURLY */ 2 :
+        case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc);
         default:
           
@@ -11089,8 +11089,8 @@ function properties$1(env, _param) {
     }
     const prop = property$1(env);
     const prop_map = check_property(env, param[0], prop);
-    if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RCURLY */2)) {
-      token$4(env, /* T_COMMA */8);
+    if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RCURLY */ 2)) {
+      token$4(env, /* T_COMMA */ 8);
     }
     _param = [
       prop_map,
@@ -11105,13 +11105,13 @@ function properties$1(env, _param) {
 
 function _initializer(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_LCURLY */1);
+  token$4(env, /* T_LCURLY */ 1);
   const props = properties$1(env, [
-        /* Empty */0,
-        /* [] */0
+        /* Empty */ 0,
+        /* [] */ 0
       ]);
   const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_RCURLY */2);
+  token$4(env, /* T_RCURLY */ 2);
   return [
     btwn(start_loc, end_loc),
     {
@@ -11139,27 +11139,27 @@ function class_implements(env, _acc) {
       tl: acc
     };
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+    if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
       return Stdlib__List.rev(acc$1);
     }
-    if (match !== /* T_COMMA */8) {
+    if (match !== /* T_COMMA */ 8) {
       return Stdlib__List.rev(acc$1);
     }
-    token$4(env, /* T_COMMA */8);
+    token$4(env, /* T_COMMA */ 8);
     _acc = acc$1;
     continue;
   };
 }
 
 function get$1(env, start_loc, decorators, $$static) {
-  const match = _method(env, /* Get */1);
+  const match = _method(env, /* Get */ 1);
   const value = match[1];
   return {
-    TAG: /* Method */0,
+    TAG: /* Method */ 0,
     _0: [
       btwn(start_loc, value[0]),
       {
-        kind: /* Get */2,
+        kind: /* Get */ 2,
         key: match[0],
         value: value,
         static: $$static,
@@ -11170,14 +11170,14 @@ function get$1(env, start_loc, decorators, $$static) {
 }
 
 function set$1(env, start_loc, decorators, $$static) {
-  const match = _method(env, /* Set */2);
+  const match = _method(env, /* Set */ 2);
   const value = match[1];
   return {
-    TAG: /* Method */0,
+    TAG: /* Method */ 0,
     _0: [
       btwn(start_loc, value[0]),
       {
-        kind: /* Set */3,
+        kind: /* Set */ 3,
         key: match[0],
         value: value,
         static: $$static,
@@ -11190,11 +11190,11 @@ function set$1(env, start_loc, decorators, $$static) {
 function init$1(env, start_loc, decorators, key, async, generator, $$static) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let exit = 0;
-  if (/* tag */typeof match === "number" || typeof match === "string") {
+  if (/* tag */ typeof match === "number" || typeof match === "string") {
     switch (match) {
-      case /* T_SEMICOLON */7 :
-      case /* T_ASSIGN */75 :
-      case /* T_COLON */77 :
+      case /* T_SEMICOLON */ 7 :
+      case /* T_ASSIGN */ 75 :
+      case /* T_COLON */ 77 :
           exit = 2;
           break;
       default:
@@ -11204,16 +11204,16 @@ function init$1(env, start_loc, decorators, key, async, generator, $$static) {
   if (exit === 2 && !async && !generator) {
     const typeAnnotation = wrap(annotation_opt, env);
     const options = env.parse_options;
-    const value = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ASSIGN */75) && ($$static && options.esproposal_class_static_fields || !$$static && options.esproposal_class_instance_fields) ? (token$4(env, /* T_ASSIGN */75), Curry._1(Parse.expression, env)) : undefined;
+    const value = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ASSIGN */ 75) && ($$static && options.esproposal_class_static_fields || !$$static && options.esproposal_class_instance_fields) ? (token$4(env, /* T_ASSIGN */ 75), Curry._1(Parse.expression, env)) : undefined;
     const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-    if (maybe(env, /* T_SEMICOLON */7) || !(Curry._2(Parser_env_Peek.token, undefined, env) === /* T_LBRACKET */5 || Curry._2(Parser_env_Peek.token, undefined, env) === /* T_LPAREN */3)) {
+    if (maybe(env, /* T_SEMICOLON */ 7) || !(Curry._2(Parser_env_Peek.token, undefined, env) === /* T_LBRACKET */ 5 || Curry._2(Parser_env_Peek.token, undefined, env) === /* T_LPAREN */ 3)) {
       
     } else {
       error_unexpected(env);
     }
     const loc = btwn(start_loc, end_loc);
     return {
-      TAG: /* Property */1,
+      TAG: /* Property */ 1,
       _0: [
         loc,
         {
@@ -11236,7 +11236,7 @@ function init$1(env, start_loc, decorators, key, async, generator, $$static) {
   const simple = is_simple_function_params(params, defaults, rest);
   strict_post_check(env, match$2[2], simple, undefined, params);
   let match$3;
-  match$3 = body.TAG === /* BodyBlock */0 ? [
+  match$3 = body.TAG === /* BodyBlock */ 0 ? [
       body._0[0],
       false
     ] : [
@@ -11263,20 +11263,20 @@ function init$1(env, start_loc, decorators, key, async, generator, $$static) {
   ];
   let kind;
   switch (key.TAG) {
-    case /* Literal */0 :
+    case /* Literal */ 0 :
         const match$4 = key._0[1].value;
-        kind = /* tag */typeof match$4 === "number" || typeof match$4 === "string" || !(match$4.TAG === /* String */0 && match$4._0 === "constructor") ? /* Method */1 : /* Constructor */0;
+        kind = /* tag */ typeof match$4 === "number" || typeof match$4 === "string" || !(match$4.TAG === /* String */ 0 && match$4._0 === "constructor") ? /* Method */ 1 : /* Constructor */ 0;
         break;
-    case /* Identifier */1 :
-        kind = key._0[1].name === "constructor" ? /* Constructor */0 : /* Method */1;
+    case /* Identifier */ 1 :
+        kind = key._0[1].name === "constructor" ? /* Constructor */ 0 : /* Method */ 1;
         break;
-    case /* Computed */2 :
-        kind = /* Method */1;
+    case /* Computed */ 2 :
+        kind = /* Method */ 1;
         break;
     
   }
   return {
-    TAG: /* Method */0,
+    TAG: /* Method */ 0,
     _0: [
       btwn(start_loc, end_loc$1),
       {
@@ -11293,27 +11293,27 @@ function init$1(env, start_loc, decorators, key, async, generator, $$static) {
 function class_element(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   const decorators = decorator_list(env);
-  const $$static = maybe(env, /* T_STATIC */40);
-  const async = Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, 1, env), /* T_LPAREN */3) && Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, 1, env), /* T_COLON */77) && maybe(env, /* T_ASYNC */61);
+  const $$static = maybe(env, /* T_STATIC */ 40);
+  const async = Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, 1, env), /* T_LPAREN */ 3) && Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, 1, env), /* T_COLON */ 77) && maybe(env, /* T_ASYNC */ 61);
   const generator$1 = generator(env, async);
   const match = key(env);
   if (!async && !generator$1) {
     const key$1 = match[1];
     switch (key$1.TAG) {
-      case /* Identifier */1 :
+      case /* Identifier */ 1 :
           switch (key$1._0[1].name) {
             case "get" :
                 const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
                 let exit = 0;
-                if (!/* tag */(typeof match$1 === "number" || typeof match$1 === "string")) {
+                if (!/* tag */ (typeof match$1 === "number" || typeof match$1 === "string")) {
                   return get$1(env, start_loc, decorators, $$static);
                 }
                 switch (match$1) {
-                  case /* T_LPAREN */3 :
-                  case /* T_SEMICOLON */7 :
-                  case /* T_ASSIGN */75 :
-                  case /* T_COLON */77 :
-                  case /* T_LESS_THAN */89 :
+                  case /* T_LPAREN */ 3 :
+                  case /* T_SEMICOLON */ 7 :
+                  case /* T_ASSIGN */ 75 :
+                  case /* T_COLON */ 77 :
+                  case /* T_LESS_THAN */ 89 :
                       exit = 2;
                       break;
                   default:
@@ -11326,15 +11326,15 @@ function class_element(env) {
             case "set" :
                 const match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
                 let exit$1 = 0;
-                if (!/* tag */(typeof match$2 === "number" || typeof match$2 === "string")) {
+                if (!/* tag */ (typeof match$2 === "number" || typeof match$2 === "string")) {
                   return set$1(env, start_loc, decorators, $$static);
                 }
                 switch (match$2) {
-                  case /* T_LPAREN */3 :
-                  case /* T_SEMICOLON */7 :
-                  case /* T_ASSIGN */75 :
-                  case /* T_COLON */77 :
-                  case /* T_LESS_THAN */89 :
+                  case /* T_LPAREN */ 3 :
+                  case /* T_SEMICOLON */ 7 :
+                  case /* T_ASSIGN */ 75 :
+                  case /* T_COLON */ 77 :
+                  case /* T_LESS_THAN */ 89 :
                       exit$1 = 2;
                       break;
                   default:
@@ -11348,8 +11348,8 @@ function class_element(env) {
               
           }
           break;
-      case /* Literal */0 :
-      case /* Computed */2 :
+      case /* Literal */ 0 :
+      case /* Computed */ 2 :
           break;
       
     }
@@ -11361,13 +11361,13 @@ function elements$1(env, _acc) {
   while(true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */typeof match === "number" || typeof match === "string") {
+    if (/* tag */ typeof match === "number" || typeof match === "string") {
       switch (match) {
-        case /* T_SEMICOLON */7 :
-            token$4(env, /* T_SEMICOLON */7);
+        case /* T_SEMICOLON */ 7 :
+            token$4(env, /* T_SEMICOLON */ 7);
             continue;
-        case /* T_RCURLY */2 :
-        case /* T_EOF */105 :
+        case /* T_RCURLY */ 2 :
+        case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc);
         default:
           _acc = {
@@ -11388,10 +11388,10 @@ function elements$1(env, _acc) {
 
 function class_body(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_LCURLY */1);
-  const body = elements$1(env, /* [] */0);
+  token$4(env, /* T_LCURLY */ 1);
+  const body = elements$1(env, /* [] */ 0);
   const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_RCURLY */2);
+  token$4(env, /* T_RCURLY */ 2);
   return [
     btwn(start_loc, end_loc),
     {
@@ -11402,8 +11402,8 @@ function class_body(env) {
 
 function _class(env) {
   let match;
-  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_EXTENDS */39)) {
-    token$4(env, /* T_EXTENDS */39);
+  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_EXTENDS */ 39)) {
+    token$4(env, /* T_EXTENDS */ 39);
     const superClass = left_hand_side(with_allow_yield(false, env));
     const superTypeParameters = wrap(type_parameter_instantiation, env);
     match = [
@@ -11416,7 +11416,7 @@ function _class(env) {
       undefined
     ];
   }
-  const $$implements = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_IMPLEMENTS */50) ? (!env.parse_options.types ? error$1(env, /* UnexpectedTypeInterface */10) : undefined, token$4(env, /* T_IMPLEMENTS */50), class_implements(env, /* [] */0)) : /* [] */0;
+  const $$implements = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_IMPLEMENTS */ 50) ? (!env.parse_options.types ? error$1(env, /* UnexpectedTypeInterface */ 10) : undefined, token$4(env, /* T_IMPLEMENTS */ 50), class_implements(env, /* [] */ 0)) : /* [] */ 0;
   const body = Curry._1(class_body, env);
   return [
     body,
@@ -11430,7 +11430,7 @@ function class_declaration(env, decorators) {
   const env$1 = with_strict(true, env);
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env$1);
   const decorators$1 = Stdlib.$at(decorators, decorator_list(env$1));
-  token$4(env$1, /* T_CLASS */38);
+  token$4(env$1, /* T_CLASS */ 38);
   const tmp_env = with_no_let(true, env$1);
   const match = env$1.in_export;
   const match$1 = Curry._2(Parser_env_Peek.is_identifier, undefined, tmp_env);
@@ -11442,7 +11442,7 @@ function class_declaration(env, decorators) {
   return [
     loc,
     {
-      TAG: /* ClassDeclaration */20,
+      TAG: /* ClassDeclaration */ 20,
       _0: {
         id: id,
         body: body,
@@ -11459,15 +11459,15 @@ function class_declaration(env, decorators) {
 function class_expression(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   const decorators = decorator_list(env);
-  token$4(env, /* T_CLASS */38);
+  token$4(env, /* T_CLASS */ 38);
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let match$1;
   let exit = 0;
-  if (/* tag */typeof match === "number" || typeof match === "string") {
+  if (/* tag */ typeof match === "number" || typeof match === "string") {
     switch (match) {
-      case /* T_LCURLY */1 :
-      case /* T_EXTENDS */39 :
-      case /* T_LESS_THAN */89 :
+      case /* T_LCURLY */ 1 :
+      case /* T_EXTENDS */ 39 :
+      case /* T_LESS_THAN */ 89 :
           match$1 = [
             undefined,
             undefined
@@ -11493,7 +11493,7 @@ function class_expression(env) {
   return [
     loc,
     {
-      TAG: /* Class */23,
+      TAG: /* Class */ 23,
       _0: {
         id: match$1[0],
         body: body,
@@ -11508,17 +11508,17 @@ function class_expression(env) {
 }
 
 function declare_function(env, start_loc) {
-  token$4(env, /* T_FUNCTION */13);
+  token$4(env, /* T_FUNCTION */ 13);
   const id = Curry._2(Parse.identifier, undefined, env);
   const start_sig_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   const typeParameters = Curry._1(type_parameter_declaration$1, env);
   const match = wrap(function_param_list, env);
-  token$4(env, /* T_COLON */77);
+  token$4(env, /* T_COLON */ 77);
   const returnType = wrap(_type, env);
   const end_loc = returnType[0];
   const loc = btwn(start_sig_loc, end_loc);
   const value_1 = {
-    TAG: /* Function */1,
+    TAG: /* Function */ 1,
     _0: {
       params: match[1],
       returnType: returnType,
@@ -11567,7 +11567,7 @@ function expression(env) {
   return [
     btwn(expression$1[0], end_loc),
     {
-      TAG: /* Expression */1,
+      TAG: /* Expression */ 1,
       _0: {
         expression: expression$1
       }
@@ -11578,13 +11578,13 @@ function expression(env) {
 function type_alias_helper(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   if (!env.parse_options.types) {
-    error$1(env, /* UnexpectedTypeAlias */5);
+    error$1(env, /* UnexpectedTypeAlias */ 5);
   }
-  token$4(env, /* T_TYPE */59);
-  push_lex_mode(env, /* TYPE */1);
+  token$4(env, /* T_TYPE */ 59);
+  push_lex_mode(env, /* TYPE */ 1);
   const id = Curry._2(Parse.identifier, undefined, env);
   const typeParameters = Curry._1(type_parameter_declaration_with_defaults, env);
-  token$4(env, /* T_ASSIGN */75);
+  token$4(env, /* T_ASSIGN */ 75);
   const right = wrap(_type, env);
   const end_loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
   const end_loc$1 = end_loc !== undefined ? end_loc : right[0];
@@ -11603,18 +11603,18 @@ function type_alias_helper(env) {
 function declare(in_moduleOpt, env) {
   const in_module = in_moduleOpt !== undefined ? in_moduleOpt : false;
   if (!env.parse_options.types) {
-    error$1(env, /* UnexpectedTypeDeclaration */7);
+    error$1(env, /* UnexpectedTypeDeclaration */ 7);
   }
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   const match = Curry._2(Parser_env_Peek.token, 1, env);
-  if (/* tag */typeof match === "number" || typeof match === "string") {
+  if (/* tag */ typeof match === "number" || typeof match === "string") {
     switch (match) {
-      case /* T_IDENTIFIER */0 :
+      case /* T_IDENTIFIER */ 0 :
           if (Curry._2(Parser_env_Peek.value, 1, env) === "module") {
-            token$4(env, /* T_DECLARE */58);
+            token$4(env, /* T_DECLARE */ 58);
             contextual(env, "module");
-            if (in_module || Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_PERIOD */9)) {
-              token$4(env, /* T_PERIOD */9);
+            if (in_module || Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_PERIOD */ 9)) {
+              token$4(env, /* T_PERIOD */ 9);
               contextual(env, "exports");
               const type_annot = wrap(annotation, env);
               const loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
@@ -11624,16 +11624,16 @@ function declare(in_moduleOpt, env) {
               return [
                 loc$1,
                 {
-                  TAG: /* DeclareModuleExports */26,
+                  TAG: /* DeclareModuleExports */ 26,
                   _0: type_annot
                 }
               ];
             } else {
               const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
               let id;
-              if (/* tag */typeof match$1 === "number" || typeof match$1 === "string" || match$1.TAG !== /* T_STRING */1) {
+              if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string" || match$1.TAG !== /* T_STRING */ 1) {
                 id = {
-                  TAG: /* Identifier */0,
+                  TAG: /* Identifier */ 0,
                   _0: Curry._2(Parse.identifier, undefined, env)
                 };
               } else {
@@ -11643,10 +11643,10 @@ function declare(in_moduleOpt, env) {
                 const value = match$2[1];
                 const loc$2 = match$2[0];
                 if (octal) {
-                  strict_error(env, /* StrictOctalLiteral */31);
+                  strict_error(env, /* StrictOctalLiteral */ 31);
                 }
                 token$4(env, {
-                      TAG: /* T_STRING */1,
+                      TAG: /* T_STRING */ 1,
                       _0: [
                         loc$2,
                         value,
@@ -11655,11 +11655,11 @@ function declare(in_moduleOpt, env) {
                       ]
                     });
                 const value$1 = {
-                  TAG: /* String */0,
+                  TAG: /* String */ 0,
                   _0: value
                 };
                 id = {
-                  TAG: /* Literal */1,
+                  TAG: /* Literal */ 1,
                   _0: [
                     loc$2,
                     {
@@ -11670,10 +11670,10 @@ function declare(in_moduleOpt, env) {
                 };
               }
               const body_start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-              token$4(env, /* T_LCURLY */1);
-              const match$3 = module_items(env, undefined, /* [] */0);
+              token$4(env, /* T_LCURLY */ 1);
+              const match$3 = module_items(env, undefined, /* [] */ 0);
               const module_kind = match$3[0];
-              token$4(env, /* T_RCURLY */2);
+              token$4(env, /* T_RCURLY */ 2);
               const body_end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
               const body_loc = btwn(body_start_loc, body_end_loc);
               const body_1 = {
@@ -11685,13 +11685,13 @@ function declare(in_moduleOpt, env) {
               ];
               const loc$3 = btwn(start_loc, body_loc);
               const kind = module_kind !== undefined ? module_kind : ({
-                  TAG: /* CommonJS */0,
+                  TAG: /* CommonJS */ 0,
                   _0: loc$3
                 });
               return [
                 loc$3,
                 {
-                  TAG: /* DeclareModule */25,
+                  TAG: /* DeclareModule */ 25,
                   _0: {
                     id: id,
                     body: body,
@@ -11702,44 +11702,44 @@ function declare(in_moduleOpt, env) {
             }
           }
           break;
-      case /* T_FUNCTION */13 :
-          token$4(env, /* T_DECLARE */58);
+      case /* T_FUNCTION */ 13 :
+          token$4(env, /* T_DECLARE */ 58);
           return declare_function_statement(env, start_loc);
-      case /* T_VAR */22 :
-          token$4(env, /* T_DECLARE */58);
+      case /* T_VAR */ 22 :
+          token$4(env, /* T_DECLARE */ 58);
           return declare_var_statement(env, start_loc);
-      case /* T_CLASS */38 :
-          token$4(env, /* T_DECLARE */58);
+      case /* T_CLASS */ 38 :
+          token$4(env, /* T_DECLARE */ 58);
           const match$4 = Curry._2(declare_class, env, start_loc);
           return [
             match$4[0],
             {
-              TAG: /* DeclareClass */24,
+              TAG: /* DeclareClass */ 24,
               _0: match$4[1]
             }
           ];
-      case /* T_EXPORT */47 :
+      case /* T_EXPORT */ 47 :
           if (in_module) {
             return declare_export_declaration(in_module, env);
           }
           break;
-      case /* T_INTERFACE */51 :
-          token$4(env, /* T_DECLARE */58);
+      case /* T_INTERFACE */ 51 :
+          token$4(env, /* T_DECLARE */ 58);
           return $$interface(env);
-      case /* T_TYPE */59 :
-          token$4(env, /* T_DECLARE */58);
+      case /* T_TYPE */ 59 :
+          token$4(env, /* T_DECLARE */ 58);
           return type_alias(env);
-      case /* T_ASYNC */61 :
-          token$4(env, /* T_DECLARE */58);
-          error$1(env, /* DeclareAsync */49);
-          token$4(env, /* T_ASYNC */61);
+      case /* T_ASYNC */ 61 :
+          token$4(env, /* T_DECLARE */ 58);
+          error$1(env, /* DeclareAsync */ 49);
+          token$4(env, /* T_ASYNC */ 61);
           return declare_function_statement(env, start_loc);
       default:
         
     }
   }
   if (in_module) {
-    token$4(env, /* T_DECLARE */58);
+    token$4(env, /* T_DECLARE */ 58);
     return declare_var_statement(env, start_loc);
   } else {
     return Curry._1(Parse.statement, env);
@@ -11755,10 +11755,10 @@ function export_specifiers_and_errs(env, _specifiers, _errs) {
     const errs = _errs;
     const specifiers = _specifiers;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */typeof match === "number" || typeof match === "string") {
+    if (/* tag */ typeof match === "number" || typeof match === "string") {
       switch (match) {
-        case /* T_RCURLY */2 :
-        case /* T_EOF */105 :
+        case /* T_RCURLY */ 2 :
+        case /* T_EOF */ 105 :
             return [
               Stdlib__List.rev(specifiers),
               Stdlib__List.rev(errs)
@@ -11805,8 +11805,8 @@ function export_specifiers_and_errs(env, _specifiers, _errs) {
       loc$1,
       specifier_1
     ];
-    if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COMMA */8)) {
-      token$4(env, /* T_COMMA */8);
+    if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COMMA */ 8)) {
+      token$4(env, /* T_COMMA */ 8);
     }
     const errs$1 = err !== undefined ? ({
         hd: err,
@@ -11826,7 +11826,7 @@ function declare_var_statement(env, start_loc) {
   return [
     match[0],
     {
-      TAG: /* DeclareVariable */22,
+      TAG: /* DeclareVariable */ 22,
       _0: match[1]
     }
   ];
@@ -11835,39 +11835,39 @@ function declare_var_statement(env, start_loc) {
 function declare_export_declaration(allow_export_typeOpt, env) {
   const allow_export_type = allow_export_typeOpt !== undefined ? allow_export_typeOpt : false;
   if (!env.parse_options.types) {
-    error$1(env, /* UnexpectedTypeDeclaration */7);
+    error$1(env, /* UnexpectedTypeDeclaration */ 7);
   }
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_DECLARE */58);
+  token$4(env, /* T_DECLARE */ 58);
   const env$1 = with_in_export(true, with_strict(true, env));
-  token$4(env$1, /* T_EXPORT */47);
+  token$4(env$1, /* T_EXPORT */ 47);
   const match = Curry._2(Parser_env_Peek.token, undefined, env$1);
   let exit = 0;
-  if (/* tag */typeof match === "number" || typeof match === "string") {
+  if (/* tag */ typeof match === "number" || typeof match === "string") {
     switch (match) {
-      case /* T_DEFAULT */34 :
-          token$4(env$1, /* T_DEFAULT */34);
+      case /* T_DEFAULT */ 34 :
+          token$4(env$1, /* T_DEFAULT */ 34);
           const match$1 = Curry._2(Parser_env_Peek.token, undefined, env$1);
           let match$2;
           let exit$1 = 0;
-          if (/* tag */typeof match$1 === "number" || typeof match$1 === "string") {
+          if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string") {
             switch (match$1) {
-              case /* T_FUNCTION */13 :
+              case /* T_FUNCTION */ 13 :
                   const fn = declare_function(env$1, start_loc);
                   match$2 = [
                     fn[0],
                     {
-                      TAG: /* Function */1,
+                      TAG: /* Function */ 1,
                       _0: fn
                     }
                   ];
                   break;
-              case /* T_CLASS */38 :
+              case /* T_CLASS */ 38 :
                   const _class = Curry._2(declare_class, env$1, start_loc);
                   match$2 = [
                     _class[0],
                     {
-                      TAG: /* Class */2,
+                      TAG: /* Class */ 2,
                       _0: _class
                     }
                   ];
@@ -11886,7 +11886,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
             match$2 = [
               end_loc,
               {
-                TAG: /* DefaultType */3,
+                TAG: /* DefaultType */ 3,
                 _0: _type$1
               }
             ];
@@ -11894,7 +11894,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
           return [
             btwn(start_loc, match$2[0]),
             {
-              TAG: /* DeclareExportDeclaration */27,
+              TAG: /* DeclareExportDeclaration */ 27,
               _0: {
                 default: true,
                 declaration: match$2[1],
@@ -11903,14 +11903,14 @@ function declare_export_declaration(allow_export_typeOpt, env) {
               }
             }
           ];
-      case /* T_FUNCTION */13 :
-      case /* T_VAR */22 :
-      case /* T_CONST */25 :
-      case /* T_LET */26 :
-      case /* T_CLASS */38 :
+      case /* T_FUNCTION */ 13 :
+      case /* T_VAR */ 22 :
+      case /* T_CONST */ 25 :
+      case /* T_LET */ 26 :
+      case /* T_CLASS */ 38 :
           exit = 2;
           break;
-      case /* T_INTERFACE */51 :
+      case /* T_INTERFACE */ 51 :
           if (allow_export_type) {
             const match$3 = Curry._1(interface_helper, env$1);
             const iface_loc = match$3[0];
@@ -11918,11 +11918,11 @@ function declare_export_declaration(allow_export_typeOpt, env) {
             return [
               loc$1,
               {
-                TAG: /* DeclareExportDeclaration */27,
+                TAG: /* DeclareExportDeclaration */ 27,
                 _0: {
                   default: false,
                   declaration: {
-                    TAG: /* Interface */5,
+                    TAG: /* Interface */ 5,
                     _0: [
                       iface_loc,
                       match$3[1]
@@ -11936,7 +11936,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
           }
           exit = 1;
           break;
-      case /* T_TYPE */59 :
+      case /* T_TYPE */ 59 :
           if (allow_export_type) {
             const match$4 = type_alias_helper(env$1);
             const alias_loc = match$4[0];
@@ -11944,11 +11944,11 @@ function declare_export_declaration(allow_export_typeOpt, env) {
             return [
               loc$2,
               {
-                TAG: /* DeclareExportDeclaration */27,
+                TAG: /* DeclareExportDeclaration */ 27,
                 _0: {
                   default: false,
                   declaration: {
-                    TAG: /* NamedType */4,
+                    TAG: /* NamedType */ 4,
                     _0: [
                       alias_loc,
                       match$4[1]
@@ -11962,13 +11962,13 @@ function declare_export_declaration(allow_export_typeOpt, env) {
           }
           exit = 1;
           break;
-      case /* T_MULT */97 :
+      case /* T_MULT */ 97 :
           const loc$3 = Curry._2(Parser_env_Peek.loc, undefined, env$1);
-          token$4(env$1, /* T_MULT */97);
+          token$4(env$1, /* T_MULT */ 97);
           const parse_export_star_as = env$1.parse_options.esproposal_export_star_as;
-          const local_name = Curry._2(Parser_env_Peek.value, undefined, env$1) === "as" ? (contextual(env$1, "as"), parse_export_star_as ? Curry._2(Parse.identifier, undefined, env$1) : (error$1(env$1, /* UnexpectedTypeDeclaration */7), undefined)) : undefined;
+          const local_name = Curry._2(Parser_env_Peek.value, undefined, env$1) === "as" ? (contextual(env$1, "as"), parse_export_star_as ? Curry._2(Parse.identifier, undefined, env$1) : (error$1(env$1, /* UnexpectedTypeDeclaration */ 7), undefined)) : undefined;
           const specifiers = {
-            TAG: /* ExportBatchSpecifier */1,
+            TAG: /* ExportBatchSpecifier */ 1,
             _0: loc$3,
             _1: local_name
           };
@@ -11980,7 +11980,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
           return [
             btwn(start_loc, end_loc$1),
             {
-              TAG: /* DeclareExportDeclaration */27,
+              TAG: /* DeclareExportDeclaration */ 27,
               _0: {
                 default: false,
                 declaration: undefined,
@@ -11998,26 +11998,26 @@ function declare_export_declaration(allow_export_typeOpt, env) {
   switch (exit) {
     case 1 :
         const match$5 = Curry._2(Parser_env_Peek.token, undefined, env$1);
-        if (/* tag */typeof match$5 === "number" || typeof match$5 === "string") {
+        if (/* tag */ typeof match$5 === "number" || typeof match$5 === "string") {
           switch (match$5) {
-            case /* T_INTERFACE */51 :
-                error$1(env$1, /* DeclareExportInterface */53);
+            case /* T_INTERFACE */ 51 :
+                error$1(env$1, /* DeclareExportInterface */ 53);
                 break;
-            case /* T_TYPE */59 :
-                error$1(env$1, /* DeclareExportType */52);
+            case /* T_TYPE */ 59 :
+                error$1(env$1, /* DeclareExportType */ 52);
                 break;
             default:
               
           }
         }
-        token$4(env$1, /* T_LCURLY */1);
-        const match$6 = export_specifiers_and_errs(env$1, /* [] */0, /* [] */0);
+        token$4(env$1, /* T_LCURLY */ 1);
+        const match$6 = export_specifiers_and_errs(env$1, /* [] */ 0, /* [] */ 0);
         const specifiers$1 = {
-          TAG: /* ExportSpecifiers */0,
+          TAG: /* ExportSpecifiers */ 0,
           _0: match$6[0]
         };
         const end_loc$2 = Curry._2(Parser_env_Peek.loc, undefined, env$1);
-        token$4(env$1, /* T_RCURLY */2);
+        token$4(env$1, /* T_RCURLY */ 2);
         const source$2 = Curry._2(Parser_env_Peek.value, undefined, env$1) === "from" ? export_source(env$1) : (Stdlib__List.iter((function (param) {
                 return error_at(env$1, param);
               }), match$6[1]), undefined);
@@ -12029,7 +12029,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
         return [
           btwn(start_loc, end_loc$3),
           {
-            TAG: /* DeclareExportDeclaration */27,
+            TAG: /* DeclareExportDeclaration */ 27,
             _0: {
               default: false,
               declaration: undefined,
@@ -12042,29 +12042,29 @@ function declare_export_declaration(allow_export_typeOpt, env) {
         const token$5 = Curry._2(Parser_env_Peek.token, undefined, env$1);
         let match$7;
         let exit$2 = 0;
-        if (/* tag */typeof token$5 === "number" || typeof token$5 === "string") {
+        if (/* tag */ typeof token$5 === "number" || typeof token$5 === "string") {
           switch (token$5) {
-            case /* T_FUNCTION */13 :
+            case /* T_FUNCTION */ 13 :
                 const fn$1 = declare_function(env$1, start_loc);
                 match$7 = [
                   fn$1[0],
                   {
-                    TAG: /* Function */1,
+                    TAG: /* Function */ 1,
                     _0: fn$1
                   }
                 ];
                 break;
-            case /* T_VAR */22 :
-            case /* T_CONST */25 :
-            case /* T_LET */26 :
+            case /* T_VAR */ 22 :
+            case /* T_CONST */ 25 :
+            case /* T_LET */ 26 :
                 exit$2 = 3;
                 break;
-            case /* T_CLASS */38 :
+            case /* T_CLASS */ 38 :
                 const _class$1 = Curry._2(declare_class, env$1, start_loc);
                 match$7 = [
                   _class$1[0],
                   {
-                    TAG: /* Class */2,
+                    TAG: /* Class */ 2,
                     _0: _class$1
                   }
                 ];
@@ -12090,13 +12090,13 @@ function declare_export_declaration(allow_export_typeOpt, env) {
               });
         }
         if (exit$2 === 3) {
-          if (/* tag */typeof token$5 === "number" || typeof token$5 === "string") {
+          if (/* tag */ typeof token$5 === "number" || typeof token$5 === "string") {
             switch (token$5) {
-              case /* T_CONST */25 :
-                  error$1(env$1, /* DeclareExportConst */51);
+              case /* T_CONST */ 25 :
+                  error$1(env$1, /* DeclareExportConst */ 51);
                   break;
-              case /* T_LET */26 :
-                  error$1(env$1, /* DeclareExportLet */50);
+              case /* T_LET */ 26 :
+                  error$1(env$1, /* DeclareExportLet */ 50);
                   break;
               default:
                 
@@ -12106,7 +12106,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
           match$7 = [
             $$var[0],
             {
-              TAG: /* Variable */0,
+              TAG: /* Variable */ 0,
               _0: $$var
             }
           ];
@@ -12114,7 +12114,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
         return [
           btwn(start_loc, match$7[0]),
           {
-            TAG: /* DeclareExportDeclaration */27,
+            TAG: /* DeclareExportDeclaration */ 27,
             _0: {
               default: false,
               declaration: match$7[1],
@@ -12135,7 +12135,7 @@ function type_alias(env) {
   return [
     match[0],
     {
-      TAG: /* TypeAlias */7,
+      TAG: /* TypeAlias */ 7,
       _0: match[1]
     }
   ];
@@ -12146,7 +12146,7 @@ function declare_function_statement(env, start_loc) {
   return [
     match[0],
     {
-      TAG: /* DeclareFunction */23,
+      TAG: /* DeclareFunction */ 23,
       _0: match[1]
     }
   ];
@@ -12160,15 +12160,15 @@ function $$interface(env) {
   return [
     match[0],
     {
-      TAG: /* InterfaceDeclaration */21,
+      TAG: /* InterfaceDeclaration */ 21,
       _0: match[1]
     }
   ];
 }
 
 function declare_var(env, start_loc) {
-  token$4(env, /* T_VAR */22);
-  const id = Curry._2(Parse.identifier_with_type, env, /* StrictVarName */27);
+  token$4(env, /* T_VAR */ 22);
+  const id = Curry._2(Parse.identifier_with_type, env, /* StrictVarName */ 27);
   const loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
   const end_loc = loc !== undefined ? loc : id[0];
   const loc$1 = btwn(start_loc, end_loc);
@@ -12184,17 +12184,17 @@ function declare_var(env, start_loc) {
 function export_source(env) {
   contextual(env, "from");
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */(typeof match === "number" || typeof match === "string") && match.TAG === /* T_STRING */1) {
+  if (!/* tag */ (typeof match === "number" || typeof match === "string") && match.TAG === /* T_STRING */ 1) {
     const match$1 = match._0;
     const octal = match$1[3];
     const raw = match$1[2];
     const value = match$1[1];
     const loc = match$1[0];
     if (octal) {
-      strict_error(env, /* StrictOctalLiteral */31);
+      strict_error(env, /* StrictOctalLiteral */ 31);
     }
     token$4(env, {
-          TAG: /* T_STRING */1,
+          TAG: /* T_STRING */ 1,
           _0: [
             loc,
             value,
@@ -12203,7 +12203,7 @@ function export_source(env) {
           ]
         });
     const value$1 = {
-      TAG: /* String */0,
+      TAG: /* String */ 0,
       _0: value
     };
     return [
@@ -12216,7 +12216,7 @@ function export_source(env) {
   }
   const raw$1 = Curry._2(Parser_env_Peek.value, undefined, env);
   const value$2 = {
-    TAG: /* String */0,
+    TAG: /* String */ 0,
     _0: raw$1
   };
   const ret_0 = Curry._2(Parser_env_Peek.loc, undefined, env);
@@ -12241,13 +12241,13 @@ function supers(env, _acc) {
       tl: acc
     };
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+    if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
       return Stdlib__List.rev(acc$1);
     }
-    if (match !== /* T_COMMA */8) {
+    if (match !== /* T_COMMA */ 8) {
       return Stdlib__List.rev(acc$1);
     }
-    token$4(env, /* T_COMMA */8);
+    token$4(env, /* T_COMMA */ 8);
     _acc = acc$1;
     continue;
   };
@@ -12256,12 +12256,12 @@ function supers(env, _acc) {
 function interface_helper(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   if (!env.parse_options.types) {
-    error$1(env, /* UnexpectedTypeInterface */10);
+    error$1(env, /* UnexpectedTypeInterface */ 10);
   }
-  token$4(env, /* T_INTERFACE */51);
+  token$4(env, /* T_INTERFACE */ 51);
   const id = Curry._2(Parse.identifier, undefined, env);
   const typeParameters = Curry._1(type_parameter_declaration_with_defaults, env);
-  const $$extends = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_EXTENDS */39) ? (token$4(env, /* T_EXTENDS */39), supers(env, /* [] */0)) : /* [] */0;
+  const $$extends = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_EXTENDS */ 39) ? (token$4(env, /* T_EXTENDS */ 39), supers(env, /* [] */ 0)) : /* [] */ 0;
   const body = _object$1(true, env);
   const loc = btwn(start_loc, body[0]);
   return [
@@ -12271,7 +12271,7 @@ function interface_helper(env) {
       typeParameters: typeParameters,
       body: body,
       extends: $$extends,
-      mixins: /* [] */0
+      mixins: /* [] */ 0
     }
   ];
 }
@@ -12285,13 +12285,13 @@ function supers$1(env, _acc) {
       tl: acc
     };
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+    if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
       return Stdlib__List.rev(acc$1);
     }
-    if (match !== /* T_COMMA */8) {
+    if (match !== /* T_COMMA */ 8) {
       return Stdlib__List.rev(acc$1);
     }
-    token$4(env, /* T_COMMA */8);
+    token$4(env, /* T_COMMA */ 8);
     _acc = acc$1;
     continue;
   };
@@ -12299,11 +12299,11 @@ function supers$1(env, _acc) {
 
 function declare_class(env, start_loc) {
   const env$1 = with_strict(true, env);
-  token$4(env$1, /* T_CLASS */38);
+  token$4(env$1, /* T_CLASS */ 38);
   const id = Curry._2(Parse.identifier, undefined, env$1);
   const typeParameters = Curry._1(type_parameter_declaration_with_defaults, env$1);
-  const $$extends = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env$1), /* T_EXTENDS */39) ? (token$4(env$1, /* T_EXTENDS */39), supers$1(env$1, /* [] */0)) : /* [] */0;
-  const mixins = Curry._2(Parser_env_Peek.value, undefined, env$1) === "mixins" ? (contextual(env$1, "mixins"), supers$1(env$1, /* [] */0)) : /* [] */0;
+  const $$extends = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env$1), /* T_EXTENDS */ 39) ? (token$4(env$1, /* T_EXTENDS */ 39), supers$1(env$1, /* [] */ 0)) : /* [] */ 0;
+  const mixins = Curry._2(Parser_env_Peek.value, undefined, env$1) === "mixins" ? (contextual(env$1, "mixins"), supers$1(env$1, /* [] */ 0)) : /* [] */ 0;
   const body = _object$1(true, env$1);
   const loc = btwn(start_loc, body[0]);
   return [
@@ -12323,10 +12323,10 @@ function module_items(env, _module_kind, _acc) {
     const acc = _acc;
     const module_kind = _module_kind;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */typeof match === "number" || typeof match === "string") {
+    if (/* tag */ typeof match === "number" || typeof match === "string") {
       switch (match) {
-        case /* T_RCURLY */2 :
-        case /* T_EOF */105 :
+        case /* T_RCURLY */ 2 :
+        case /* T_EOF */ 105 :
             return [
               module_kind,
               Stdlib__List.rev(acc)
@@ -12340,27 +12340,27 @@ function module_items(env, _module_kind, _acc) {
     const loc = stmt[0];
     let module_kind$1;
     if (module_kind !== undefined) {
-      if (module_kind.TAG === /* CommonJS */0) {
-        if (/* tag */typeof stmt$1 === "number" || typeof stmt$1 === "string") {
+      if (module_kind.TAG === /* CommonJS */ 0) {
+        if (/* tag */ typeof stmt$1 === "number" || typeof stmt$1 === "string") {
           module_kind$1 = module_kind;
         } else {
           switch (stmt$1.TAG) {
-            case /* DeclareModuleExports */26 :
-                error$1(env, /* DuplicateDeclareModuleExports */60);
+            case /* DeclareModuleExports */ 26 :
+                error$1(env, /* DuplicateDeclareModuleExports */ 60);
                 module_kind$1 = module_kind;
                 break;
-            case /* DeclareExportDeclaration */27 :
+            case /* DeclareExportDeclaration */ 27 :
                 const declaration = stmt$1._0.declaration;
                 if (declaration !== undefined) {
                   switch (declaration.TAG) {
-                    case /* NamedType */4 :
-                    case /* Interface */5 :
+                    case /* NamedType */ 4 :
+                    case /* Interface */ 5 :
                         break;
                     default:
-                      error$1(env, /* AmbiguousDeclareModuleKind */61);
+                      error$1(env, /* AmbiguousDeclareModuleKind */ 61);
                   }
                 } else {
-                  error$1(env, /* AmbiguousDeclareModuleKind */61);
+                  error$1(env, /* AmbiguousDeclareModuleKind */ 61);
                 }
                 module_kind$1 = module_kind;
                 break;
@@ -12368,39 +12368,39 @@ function module_items(env, _module_kind, _acc) {
               module_kind$1 = module_kind;
           }
         }
-      } else if (/* tag */typeof stmt$1 === "number" || typeof stmt$1 === "string" || stmt$1.TAG !== /* DeclareModuleExports */26) {
+      } else if (/* tag */ typeof stmt$1 === "number" || typeof stmt$1 === "string" || stmt$1.TAG !== /* DeclareModuleExports */ 26) {
         module_kind$1 = module_kind;
       } else {
-        error$1(env, /* AmbiguousDeclareModuleKind */61);
+        error$1(env, /* AmbiguousDeclareModuleKind */ 61);
         module_kind$1 = module_kind;
       }
-    } else if (/* tag */typeof stmt$1 === "number" || typeof stmt$1 === "string") {
+    } else if (/* tag */ typeof stmt$1 === "number" || typeof stmt$1 === "string") {
       module_kind$1 = module_kind;
     } else {
       switch (stmt$1.TAG) {
-        case /* DeclareModuleExports */26 :
+        case /* DeclareModuleExports */ 26 :
             module_kind$1 = {
-              TAG: /* CommonJS */0,
+              TAG: /* CommonJS */ 0,
               _0: loc
             };
             break;
-        case /* DeclareExportDeclaration */27 :
+        case /* DeclareExportDeclaration */ 27 :
             const declaration$1 = stmt$1._0.declaration;
             if (declaration$1 !== undefined) {
               switch (declaration$1.TAG) {
-                case /* NamedType */4 :
-                case /* Interface */5 :
+                case /* NamedType */ 4 :
+                case /* Interface */ 5 :
                     module_kind$1 = module_kind;
                     break;
                 default:
                   module_kind$1 = {
-                    TAG: /* ES */1,
+                    TAG: /* ES */ 1,
                     _0: loc
                   };
               }
             } else {
               module_kind$1 = {
-                TAG: /* ES */1,
+                TAG: /* ES */ 1,
                 _0: loc
               };
             }
@@ -12422,18 +12422,18 @@ function fold(acc) {
   return function (param) {
     const match = param[1];
     switch (match.TAG) {
-      case /* Object */0 :
+      case /* Object */ 0 :
           return Stdlib__List.fold_left((function (acc, prop) {
-                if (prop.TAG === /* Property */0) {
+                if (prop.TAG === /* Property */ 0) {
                   return fold(acc)(prop._0[1].pattern);
                 } else {
                   return fold(acc)(prop._0[1].argument);
                 }
               }), acc, match._0.properties);
-      case /* Array */1 :
+      case /* Array */ 1 :
           return Stdlib__List.fold_left((function (acc, elem) {
                 if (elem !== undefined) {
-                  if (elem.TAG === /* Element */0) {
+                  if (elem.TAG === /* Element */ 0) {
                     return fold(acc)(elem._0);
                   } else {
                     return fold(acc)(elem._0[1].argument);
@@ -12442,9 +12442,9 @@ function fold(acc) {
                   return acc;
                 }
               }), acc, match._0.elements);
-      case /* Assignment */2 :
+      case /* Assignment */ 2 :
           return fold(acc)(match._0.left);
-      case /* Identifier */3 :
+      case /* Identifier */ 3 :
           const match$1 = match._0;
           return {
             hd: [
@@ -12453,7 +12453,7 @@ function fold(acc) {
             ],
             tl: acc
           };
-      case /* Expression */4 :
+      case /* Expression */ 4 :
           throw new Caml_js_exceptions.MelangeError("Failure", {
                 MEL_EXN_ID: "Failure",
                 _1: "Parser error: No such thing as an expression pattern!"
@@ -12468,7 +12468,7 @@ function assert_can_be_forin_or_forof(env, err) {
     if (param === undefined) {
       return error$1(env, err);
     }
-    if (param.TAG === /* InitDeclaration */0) {
+    if (param.TAG === /* InitDeclaration */ 0) {
       const match = param._0;
       const declarations = match[1].declarations;
       if (declarations && declarations.hd[1].init === undefined && !declarations.tl) {
@@ -12496,18 +12496,18 @@ function assert_can_be_forin_or_forof(env, err) {
 
 function _if(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_IF */14);
-  token$4(env, /* T_LPAREN */3);
+  token$4(env, /* T_IF */ 14);
+  token$4(env, /* T_LPAREN */ 3);
   const test = Curry._1(Parse.expression, env);
-  token$4(env, /* T_RPAREN */4);
+  token$4(env, /* T_RPAREN */ 4);
   Curry._2(Parser_env_Peek.token, undefined, env);
-  const consequent = Curry._2(Parser_env_Peek.is_function, undefined, env) ? (strict_error(env, /* StrictFunctionStatement */45), _function(env)) : Curry._1(Parse.statement, env);
-  const alternate = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ELSE */41) ? (token$4(env, /* T_ELSE */41), Curry._1(Parse.statement, env)) : undefined;
+  const consequent = Curry._2(Parser_env_Peek.is_function, undefined, env) ? (strict_error(env, /* StrictFunctionStatement */ 45), _function(env)) : Curry._1(Parse.statement, env);
+  const alternate = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ELSE */ 41) ? (token$4(env, /* T_ELSE */ 41), Curry._1(Parse.statement, env)) : undefined;
   const end_loc = alternate !== undefined ? alternate[0] : consequent[0];
   return [
     btwn(start_loc, end_loc),
     {
-      TAG: /* If */2,
+      TAG: /* If */ 2,
       _0: {
         test: test,
         consequent: consequent,
@@ -12523,10 +12523,10 @@ function case_list(env, _param) {
     const acc = param[1];
     const seen_default = param[0];
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */typeof match === "number" || typeof match === "string") {
+    if (/* tag */ typeof match === "number" || typeof match === "string") {
       switch (match) {
-        case /* T_RCURLY */2 :
-        case /* T_EOF */105 :
+        case /* T_RCURLY */ 2 :
+        case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc);
         default:
           
@@ -12535,27 +12535,27 @@ function case_list(env, _param) {
     const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
     const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
     let test;
-    if (/* tag */(typeof match$1 === "number" || typeof match$1 === "string") && match$1 === /* T_DEFAULT */34) {
+    if (/* tag */ (typeof match$1 === "number" || typeof match$1 === "string") && match$1 === /* T_DEFAULT */ 34) {
       if (seen_default) {
-        error$1(env, /* MultipleDefaultsInSwitch */19);
+        error$1(env, /* MultipleDefaultsInSwitch */ 19);
       }
-      token$4(env, /* T_DEFAULT */34);
+      token$4(env, /* T_DEFAULT */ 34);
       test = undefined;
     } else {
-      token$4(env, /* T_CASE */31);
+      token$4(env, /* T_CASE */ 31);
       test = Curry._1(Parse.expression, env);
     }
     const seen_default$1 = seen_default || test === undefined;
     const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-    token$4(env, /* T_COLON */77);
+    token$4(env, /* T_COLON */ 77);
     const term_fn = function (param) {
-      if (!/* tag */(typeof param === "number" || typeof param === "string")) {
+      if (!/* tag */ (typeof param === "number" || typeof param === "string")) {
         return false;
       }
       switch (param) {
-        case /* T_RCURLY */2 :
-        case /* T_CASE */31 :
-        case /* T_DEFAULT */34 :
+        case /* T_RCURLY */ 2 :
+        case /* T_CASE */ 31 :
+        case /* T_DEFAULT */ 34 :
             return true;
         default:
           return false;
@@ -12602,17 +12602,17 @@ function var_or_const(env) {
 function source(env) {
   contextual(env, "from");
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */(typeof match === "number" || typeof match === "string") && match.TAG === /* T_STRING */1) {
+  if (!/* tag */ (typeof match === "number" || typeof match === "string") && match.TAG === /* T_STRING */ 1) {
     const match$1 = match._0;
     const octal = match$1[3];
     const raw = match$1[2];
     const value = match$1[1];
     const loc = match$1[0];
     if (octal) {
-      strict_error(env, /* StrictOctalLiteral */31);
+      strict_error(env, /* StrictOctalLiteral */ 31);
     }
     token$4(env, {
-          TAG: /* T_STRING */1,
+          TAG: /* T_STRING */ 1,
           _0: [
             loc,
             value,
@@ -12621,7 +12621,7 @@ function source(env) {
           ]
         });
     const value$1 = {
-      TAG: /* String */0,
+      TAG: /* String */ 0,
       _0: value
     };
     return [
@@ -12634,7 +12634,7 @@ function source(env) {
   }
   const raw$1 = Curry._2(Parser_env_Peek.value, undefined, env);
   const value$2 = {
-    TAG: /* String */0,
+    TAG: /* String */ 0,
     _0: raw$1
   };
   const ret_0 = Curry._2(Parser_env_Peek.loc, undefined, env);
@@ -12654,10 +12654,10 @@ function specifier_list(env, _acc) {
   while(true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */typeof match === "number" || typeof match === "string") {
+    if (/* tag */ typeof match === "number" || typeof match === "string") {
       switch (match) {
-        case /* T_RCURLY */2 :
-        case /* T_EOF */105 :
+        case /* T_RCURLY */ 2 :
+        case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc);
         default:
           
@@ -12671,7 +12671,7 @@ function specifier_list(env, _acc) {
       contextual(env, "as");
       const local = Curry._2(Parse.identifier, undefined, env);
       specifier = {
-        TAG: /* ImportNamedSpecifier */0,
+        TAG: /* ImportNamedSpecifier */ 0,
         _0: {
           local: local,
           remote: remote
@@ -12682,15 +12682,15 @@ function specifier_list(env, _acc) {
         error_at(env, err);
       }
       specifier = {
-        TAG: /* ImportNamedSpecifier */0,
+        TAG: /* ImportNamedSpecifier */ 0,
         _0: {
           local: undefined,
           remote: remote
         }
       };
     }
-    if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COMMA */8)) {
-      token$4(env, /* T_COMMA */8);
+    if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COMMA */ 8)) {
+      token$4(env, /* T_COMMA */ 8);
     }
     _acc = {
       hd: specifier,
@@ -12703,24 +12703,24 @@ function specifier_list(env, _acc) {
 function named_or_namespace_specifier(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (/* tag */(typeof match === "number" || typeof match === "string") && match === /* T_MULT */97) {
-    token$4(env, /* T_MULT */97);
+  if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_MULT */ 97) {
+    token$4(env, /* T_MULT */ 97);
     contextual(env, "as");
     const id = Curry._2(Parse.identifier, undefined, env);
     return {
       hd: {
-        TAG: /* ImportNamespaceSpecifier */2,
+        TAG: /* ImportNamespaceSpecifier */ 2,
         _0: [
           btwn(start_loc, id[0]),
           id
         ]
       },
-      tl: /* [] */0
+      tl: /* [] */ 0
     };
   }
-  token$4(env, /* T_LCURLY */1);
-  const specifiers = specifier_list(env, /* [] */0);
-  token$4(env, /* T_RCURLY */2);
+  token$4(env, /* T_LCURLY */ 1);
+  const specifiers = specifier_list(env, /* [] */ 0);
+  token$4(env, /* T_RCURLY */ 2);
   return specifiers;
 }
 
@@ -12729,10 +12729,10 @@ function element(env) {
     if (param === undefined) {
       return;
     }
-    if (param.TAG === /* Expression */0) {
+    if (param.TAG === /* Expression */ 0) {
       const match = param._0;
       return {
-        TAG: /* Element */0,
+        TAG: /* Element */ 0,
         _0: Curry._2(Parse.pattern_from_expr, env, [
               match[0],
               match[1]
@@ -12742,7 +12742,7 @@ function element(env) {
     const match$1 = param._0;
     const argument = Curry._2(Parse.pattern_from_expr, env, match$1[1].argument);
     return {
-      TAG: /* Spread */1,
+      TAG: /* Spread */ 1,
       _0: [
         match$1[0],
         {
@@ -12756,9 +12756,9 @@ function element(env) {
 function from_expr(env, param) {
   const expr = param[1];
   const loc = param[0];
-  if (!/* tag */(typeof expr === "number" || typeof expr === "string")) {
+  if (!/* tag */ (typeof expr === "number" || typeof expr === "string")) {
     switch (expr.TAG) {
-      case /* Array */0 :
+      case /* Array */ 0 :
           let param$1 = [
             loc,
             expr._0
@@ -12767,40 +12767,40 @@ function from_expr(env, param) {
           return [
             param$1[0],
             {
-              TAG: /* Array */1,
+              TAG: /* Array */ 1,
               _0: {
                 elements: elements,
                 typeAnnotation: undefined
               }
             }
           ];
-      case /* Object */1 :
+      case /* Object */ 1 :
           let param$2 = [
             loc,
             expr._0
           ];
           const properties = Stdlib__List.map((function (param) {
-                if (param.TAG === /* Property */0) {
+                if (param.TAG === /* Property */ 0) {
                   const match = param._0;
                   const match$1 = match[1];
                   const key = match$1.key;
                   let key$1;
                   switch (key.TAG) {
-                    case /* Literal */0 :
+                    case /* Literal */ 0 :
                         key$1 = {
-                          TAG: /* Literal */0,
+                          TAG: /* Literal */ 0,
                           _0: key._0
                         };
                         break;
-                    case /* Identifier */1 :
+                    case /* Identifier */ 1 :
                         key$1 = {
-                          TAG: /* Identifier */1,
+                          TAG: /* Identifier */ 1,
                           _0: key._0
                         };
                         break;
-                    case /* Computed */2 :
+                    case /* Computed */ 2 :
                         key$1 = {
-                          TAG: /* Computed */2,
+                          TAG: /* Computed */ 2,
                           _0: key._0
                         };
                         break;
@@ -12808,7 +12808,7 @@ function from_expr(env, param) {
                   }
                   const pattern = Curry._2(Parse.pattern_from_expr, env, match$1.value);
                   return {
-                    TAG: /* Property */0,
+                    TAG: /* Property */ 0,
                     _0: [
                       match[0],
                       {
@@ -12822,7 +12822,7 @@ function from_expr(env, param) {
                 const match$2 = param._0;
                 const argument = Curry._2(Parse.pattern_from_expr, env, match$2[1].argument);
                 return {
-                  TAG: /* SpreadProperty */1,
+                  TAG: /* SpreadProperty */ 1,
                   _0: [
                     match$2[0],
                     {
@@ -12834,20 +12834,20 @@ function from_expr(env, param) {
           return [
             param$2[0],
             {
-              TAG: /* Object */0,
+              TAG: /* Object */ 0,
               _0: {
                 properties: properties,
                 typeAnnotation: undefined
               }
             }
           ];
-      case /* Assignment */7 :
+      case /* Assignment */ 7 :
           const match = expr._0;
-          if (match.operator === /* Assign */0) {
+          if (match.operator === /* Assign */ 0) {
             return [
               loc,
               {
-                TAG: /* Assignment */2,
+                TAG: /* Assignment */ 2,
                 _0: {
                   left: match.left,
                   right: match.right
@@ -12856,11 +12856,11 @@ function from_expr(env, param) {
             ];
           }
           break;
-      case /* Identifier */18 :
+      case /* Identifier */ 18 :
           return [
             loc,
             {
-              TAG: /* Identifier */3,
+              TAG: /* Identifier */ 3,
               _0: expr._0
             }
           ];
@@ -12871,7 +12871,7 @@ function from_expr(env, param) {
   return [
     loc,
     {
-      TAG: /* Expression */4,
+      TAG: /* Expression */ 4,
       _0: [
         loc,
         expr
@@ -12883,11 +12883,11 @@ function from_expr(env, param) {
 function _object$2(restricted_error) {
   const property = function (env) {
     const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-    if (maybe(env, /* T_ELLIPSIS */11)) {
+    if (maybe(env, /* T_ELLIPSIS */ 11)) {
       const argument = pattern$1(env, restricted_error);
       const loc = btwn(start_loc, argument[0]);
       return {
-        TAG: /* SpreadProperty */1,
+        TAG: /* SpreadProperty */ 1,
         _0: [
           loc,
           {
@@ -12900,21 +12900,21 @@ function _object$2(restricted_error) {
     const lit = match[1];
     let key;
     switch (lit.TAG) {
-      case /* Literal */0 :
+      case /* Literal */ 0 :
           key = {
-            TAG: /* Literal */0,
+            TAG: /* Literal */ 0,
             _0: lit._0
           };
           break;
-      case /* Identifier */1 :
+      case /* Identifier */ 1 :
           key = {
-            TAG: /* Identifier */1,
+            TAG: /* Identifier */ 1,
             _0: lit._0
           };
           break;
-      case /* Computed */2 :
+      case /* Computed */ 2 :
           key = {
-            TAG: /* Computed */2,
+            TAG: /* Computed */ 2,
             _0: lit._0
           };
           break;
@@ -12923,8 +12923,8 @@ function _object$2(restricted_error) {
     const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
     let prop;
     let exit = 0;
-    if (/* tag */(typeof match$1 === "number" || typeof match$1 === "string") && match$1 === /* T_COLON */77) {
-      token$4(env, /* T_COLON */77);
+    if (/* tag */ (typeof match$1 === "number" || typeof match$1 === "string") && match$1 === /* T_COLON */ 77) {
+      token$4(env, /* T_COLON */ 77);
       prop = [
         pattern$1(env, restricted_error),
         false
@@ -12934,11 +12934,11 @@ function _object$2(restricted_error) {
     }
     if (exit === 1) {
       switch (key.TAG) {
-        case /* Identifier */1 :
+        case /* Identifier */ 1 :
             const id = key._0;
             const pattern_0 = id[0];
             const pattern_1 = {
-              TAG: /* Identifier */3,
+              TAG: /* Identifier */ 3,
               _0: id
             };
             const pattern$2 = [
@@ -12950,8 +12950,8 @@ function _object$2(restricted_error) {
               true
             ];
             break;
-        case /* Literal */0 :
-        case /* Computed */2 :
+        case /* Literal */ 0 :
+        case /* Computed */ 2 :
             error_unexpected(env);
             prop = undefined;
             break;
@@ -12964,14 +12964,14 @@ function _object$2(restricted_error) {
     const pattern$3 = prop[0];
     const match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
     let pattern$4;
-    if (/* tag */(typeof match$2 === "number" || typeof match$2 === "string") && match$2 === /* T_ASSIGN */75) {
-      token$4(env, /* T_ASSIGN */75);
+    if (/* tag */ (typeof match$2 === "number" || typeof match$2 === "string") && match$2 === /* T_ASSIGN */ 75) {
+      token$4(env, /* T_ASSIGN */ 75);
       const $$default = Curry._1(Parse.assignment, env);
       const loc$1 = btwn(pattern$3[0], $$default[0]);
       pattern$4 = [
         loc$1,
         {
-          TAG: /* Assignment */2,
+          TAG: /* Assignment */ 2,
           _0: {
             left: pattern$3,
             right: $$default
@@ -12983,7 +12983,7 @@ function _object$2(restricted_error) {
     }
     const loc$2 = btwn(start_loc, pattern$4[0]);
     return {
-      TAG: /* Property */0,
+      TAG: /* Property */ 0,
       _0: [
         loc$2,
         {
@@ -12998,10 +12998,10 @@ function _object$2(restricted_error) {
     while(true) {
       const acc = _acc;
       const match = Curry._2(Parser_env_Peek.token, undefined, env);
-      if (/* tag */typeof match === "number" || typeof match === "string") {
+      if (/* tag */ typeof match === "number" || typeof match === "string") {
         switch (match) {
-          case /* T_RCURLY */2 :
-          case /* T_EOF */105 :
+          case /* T_RCURLY */ 2 :
+          case /* T_EOF */ 105 :
               return Stdlib__List.rev(acc);
           default:
             
@@ -13009,8 +13009,8 @@ function _object$2(restricted_error) {
       }
       const prop = property(env);
       if (prop !== undefined) {
-        if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RCURLY */2)) {
-          token$4(env, /* T_COMMA */8);
+        if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RCURLY */ 2)) {
+          token$4(env, /* T_COMMA */ 8);
         }
         _acc = {
           hd: prop,
@@ -13023,12 +13023,12 @@ function _object$2(restricted_error) {
   };
   return function (env) {
     const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-    token$4(env, /* T_LCURLY */1);
-    const properties$1 = properties(env, /* [] */0);
+    token$4(env, /* T_LCURLY */ 1);
+    const properties$1 = properties(env, /* [] */ 0);
     const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-    token$4(env, /* T_RCURLY */2);
+    token$4(env, /* T_RCURLY */ 2);
     let match;
-    if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COLON */77)) {
+    if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COLON */ 77)) {
       const typeAnnotation = wrap(annotation, env);
       match = [
         typeAnnotation[0],
@@ -13043,7 +13043,7 @@ function _object$2(restricted_error) {
     return [
       btwn(start_loc, match[0]),
       {
-        TAG: /* Object */0,
+        TAG: /* Object */ 0,
         _0: {
           properties: properties$1,
           typeAnnotation: match[1]
@@ -13058,22 +13058,22 @@ function _array(restricted_error) {
     while(true) {
       const acc = _acc;
       const match = Curry._2(Parser_env_Peek.token, undefined, env);
-      if (/* tag */typeof match === "number" || typeof match === "string") {
+      if (/* tag */ typeof match === "number" || typeof match === "string") {
         switch (match) {
-          case /* T_COMMA */8 :
-              token$4(env, /* T_COMMA */8);
+          case /* T_COMMA */ 8 :
+              token$4(env, /* T_COMMA */ 8);
               _acc = {
                 hd: undefined,
                 tl: acc
               };
               continue;
-          case /* T_ELLIPSIS */11 :
+          case /* T_ELLIPSIS */ 11 :
               const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-              token$4(env, /* T_ELLIPSIS */11);
+              token$4(env, /* T_ELLIPSIS */ 11);
               const argument = pattern$1(env, restricted_error);
               const loc = btwn(start_loc, argument[0]);
               const element = {
-                TAG: /* Spread */1,
+                TAG: /* Spread */ 1,
                 _0: [
                   loc,
                   {
@@ -13086,8 +13086,8 @@ function _array(restricted_error) {
                 tl: acc
               };
               continue;
-          case /* T_RBRACKET */6 :
-          case /* T_EOF */105 :
+          case /* T_RBRACKET */ 6 :
+          case /* T_EOF */ 105 :
               return Stdlib__List.rev(acc);
           default:
             
@@ -13096,14 +13096,14 @@ function _array(restricted_error) {
       const pattern$2 = pattern$1(env, restricted_error);
       const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
       let pattern$3;
-      if (/* tag */(typeof match$1 === "number" || typeof match$1 === "string") && match$1 === /* T_ASSIGN */75) {
-        token$4(env, /* T_ASSIGN */75);
+      if (/* tag */ (typeof match$1 === "number" || typeof match$1 === "string") && match$1 === /* T_ASSIGN */ 75) {
+        token$4(env, /* T_ASSIGN */ 75);
         const $$default = Curry._1(Parse.expression, env);
         const loc$1 = btwn(pattern$2[0], $$default[0]);
         pattern$3 = [
           loc$1,
           {
-            TAG: /* Assignment */2,
+            TAG: /* Assignment */ 2,
             _0: {
               left: pattern$2,
               right: $$default
@@ -13114,11 +13114,11 @@ function _array(restricted_error) {
         pattern$3 = pattern$2;
       }
       const element$1 = {
-        TAG: /* Element */0,
+        TAG: /* Element */ 0,
         _0: pattern$3
       };
-      if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RBRACKET */6)) {
-        token$4(env, /* T_COMMA */8);
+      if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RBRACKET */ 6)) {
+        token$4(env, /* T_COMMA */ 8);
       }
       _acc = {
         hd: element$1,
@@ -13129,12 +13129,12 @@ function _array(restricted_error) {
   };
   return function (env) {
     const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-    token$4(env, /* T_LBRACKET */5);
-    const elements$1 = elements(env, /* [] */0);
+    token$4(env, /* T_LBRACKET */ 5);
+    const elements$1 = elements(env, /* [] */ 0);
     const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-    token$4(env, /* T_RBRACKET */6);
+    token$4(env, /* T_RBRACKET */ 6);
     let match;
-    if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COLON */77)) {
+    if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COLON */ 77)) {
       const typeAnnotation = wrap(annotation, env);
       match = [
         typeAnnotation[0],
@@ -13149,7 +13149,7 @@ function _array(restricted_error) {
     return [
       btwn(start_loc, match[0]),
       {
-        TAG: /* Array */1,
+        TAG: /* Array */ 1,
         _0: {
           elements: elements$1,
           typeAnnotation: match[1]
@@ -13161,11 +13161,11 @@ function _array(restricted_error) {
 
 function pattern$1(env, restricted_error) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (/* tag */typeof match === "number" || typeof match === "string") {
+  if (/* tag */ typeof match === "number" || typeof match === "string") {
     switch (match) {
-      case /* T_LCURLY */1 :
+      case /* T_LCURLY */ 1 :
           return _object$2(restricted_error)(env);
-      case /* T_LBRACKET */5 :
+      case /* T_LBRACKET */ 5 :
           return _array(restricted_error)(env);
       default:
         
@@ -13175,20 +13175,20 @@ function pattern$1(env, restricted_error) {
   return [
     id[0],
     {
-      TAG: /* Identifier */3,
+      TAG: /* Identifier */ 3,
       _0: id
     }
   ];
 }
 
 function spread_attribute(env) {
-  push_lex_mode(env, /* NORMAL */0);
+  push_lex_mode(env, /* NORMAL */ 0);
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_LCURLY */1);
-  token$4(env, /* T_ELLIPSIS */11);
+  token$4(env, /* T_LCURLY */ 1);
+  token$4(env, /* T_ELLIPSIS */ 11);
   const argument = Curry._1(assignment, env);
   const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_RCURLY */2);
+  token$4(env, /* T_RCURLY */ 2);
   pop_lex_mode(env);
   return [
     btwn(start_loc, end_loc),
@@ -13199,24 +13199,24 @@ function spread_attribute(env) {
 }
 
 function expression_container(env) {
-  push_lex_mode(env, /* NORMAL */0);
+  push_lex_mode(env, /* NORMAL */ 0);
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_LCURLY */1);
+  token$4(env, /* T_LCURLY */ 1);
   let expression;
-  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RCURLY */2)) {
+  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RCURLY */ 2)) {
     const empty_loc = btwn_exclusive(start_loc, Curry._2(Parser_env_Peek.loc, undefined, env));
     expression = {
-      TAG: /* EmptyExpression */1,
+      TAG: /* EmptyExpression */ 1,
       _0: empty_loc
     };
   } else {
     expression = {
-      TAG: /* Expression */0,
+      TAG: /* Expression */ 0,
       _0: Curry._1(Parse.expression, env)
     };
   }
   const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_RCURLY */2);
+  token$4(env, /* T_RCURLY */ 2);
   pop_lex_mode(env);
   return [
     btwn(start_loc, end_loc),
@@ -13229,7 +13229,7 @@ function expression_container(env) {
 function identifier$1(env) {
   const loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   const name = Curry._2(Parser_env_Peek.value, undefined, env);
-  token$4(env, /* T_JSX_IDENTIFIER */106);
+  token$4(env, /* T_JSX_IDENTIFIER */ 106);
   return [
     loc,
     {
@@ -13242,17 +13242,17 @@ function member_expression(env, _member) {
   while(true) {
     const member = _member;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+    if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
       return member;
     }
-    if (match !== /* T_PERIOD */9) {
+    if (match !== /* T_PERIOD */ 9) {
       return member;
     }
     const _object = {
-      TAG: /* MemberExpression */1,
+      TAG: /* MemberExpression */ 1,
       _0: member
     };
-    token$4(env, /* T_PERIOD */9);
+    token$4(env, /* T_PERIOD */ 9);
     const property = identifier$1(env);
     const loc = btwn(member[0], property[0]);
     const member_1 = {
@@ -13271,19 +13271,19 @@ function member_expression(env, _member) {
 function name(env) {
   const name$1 = identifier$1(env);
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
     return {
-      TAG: /* Identifier */0,
+      TAG: /* Identifier */ 0,
       _0: name$1
     };
   }
   switch (match) {
-    case /* T_PERIOD */9 :
+    case /* T_PERIOD */ 9 :
         const _object = {
-          TAG: /* Identifier */0,
+          TAG: /* Identifier */ 0,
           _0: name$1
         };
-        token$4(env, /* T_PERIOD */9);
+        token$4(env, /* T_PERIOD */ 9);
         const property = identifier$1(env);
         const loc = btwn(name$1[0], property[0]);
         const member_1 = {
@@ -13295,15 +13295,15 @@ function name(env) {
           member_1
         ];
         return {
-          TAG: /* MemberExpression */2,
+          TAG: /* MemberExpression */ 2,
           _0: member_expression(env, member)
         };
-    case /* T_COLON */77 :
-        token$4(env, /* T_COLON */77);
+    case /* T_COLON */ 77 :
+        token$4(env, /* T_COLON */ 77);
         const name$2 = identifier$1(env);
         const loc$1 = btwn(name$1[0], name$2[0]);
         return {
-          TAG: /* NamespacedName */1,
+          TAG: /* NamespacedName */ 1,
           _0: [
             loc$1,
             {
@@ -13314,7 +13314,7 @@ function name(env) {
         };
     default:
       return {
-        TAG: /* Identifier */0,
+        TAG: /* Identifier */ 0,
         _0: name$1
       };
   }
@@ -13324,14 +13324,14 @@ function attribute(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   const name = identifier$1(env);
   let match;
-  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COLON */77)) {
-    token$4(env, /* T_COLON */77);
+  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COLON */ 77)) {
+    token$4(env, /* T_COLON */ 77);
     const name$1 = identifier$1(env);
     const loc = btwn(name[0], name$1[0]);
     match = [
       loc,
       {
-        TAG: /* NamespacedName */1,
+        TAG: /* NamespacedName */ 1,
         _0: [
           loc,
           {
@@ -13345,29 +13345,29 @@ function attribute(env) {
     match = [
       name[0],
       {
-        TAG: /* Identifier */0,
+        TAG: /* Identifier */ 0,
         _0: name
       }
     ];
   }
   let match$1;
-  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ASSIGN */75)) {
-    token$4(env, /* T_ASSIGN */75);
+  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_ASSIGN */ 75)) {
+    token$4(env, /* T_ASSIGN */ 75);
     const token$5 = Curry._2(Parser_env_Peek.token, undefined, env);
     let exit = 0;
-    if (/* tag */typeof token$5 === "number" || typeof token$5 === "string") {
-      if (token$5 === /* T_LCURLY */1) {
+    if (/* tag */ typeof token$5 === "number" || typeof token$5 === "string") {
+      if (token$5 === /* T_LCURLY */ 1) {
         const match$2 = expression_container(env);
         const expression_container$1 = match$2[1];
         const loc$1 = match$2[0];
         const match$3 = expression_container$1.expression;
-        if (match$3.TAG !== /* Expression */0) {
-          error$1(env, /* JSXAttributeValueEmptyExpression */40);
+        if (match$3.TAG !== /* Expression */ 0) {
+          error$1(env, /* JSXAttributeValueEmptyExpression */ 40);
         }
         match$1 = [
           loc$1,
           {
-            TAG: /* ExpressionContainer */1,
+            TAG: /* ExpressionContainer */ 1,
             _0: loc$1,
             _1: expression_container$1
           }
@@ -13375,18 +13375,18 @@ function attribute(env) {
       } else {
         exit = 1;
       }
-    } else if (token$5.TAG === /* T_JSX_TEXT */4) {
+    } else if (token$5.TAG === /* T_JSX_TEXT */ 4) {
       const match$4 = token$5._0;
       const loc$2 = match$4[0];
       token$4(env, token$5);
       const value = {
-        TAG: /* String */0,
+        TAG: /* String */ 0,
         _0: match$4[1]
       };
       match$1 = [
         loc$2,
         {
-          TAG: /* Literal */0,
+          TAG: /* Literal */ 0,
           _0: loc$2,
           _1: {
             value: value,
@@ -13398,16 +13398,16 @@ function attribute(env) {
       exit = 1;
     }
     if (exit === 1) {
-      error$1(env, /* InvalidJSXAttributeValue */41);
+      error$1(env, /* InvalidJSXAttributeValue */ 41);
       const loc$3 = Curry._2(Parser_env_Peek.loc, undefined, env);
       match$1 = [
         loc$3,
         {
-          TAG: /* Literal */0,
+          TAG: /* Literal */ 0,
           _0: loc$3,
           _1: {
             value: {
-              TAG: /* String */0,
+              TAG: /* String */ 0,
               _0: ""
             },
             raw: ""
@@ -13435,11 +13435,11 @@ function attributes(env, _acc) {
   while(true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */typeof match === "number" || typeof match === "string") {
+    if (/* tag */ typeof match === "number" || typeof match === "string") {
       switch (match) {
-        case /* T_LCURLY */1 :
+        case /* T_LCURLY */ 1 :
             const attribute$1 = {
-              TAG: /* SpreadAttribute */1,
+              TAG: /* SpreadAttribute */ 1,
               _0: spread_attribute(env)
             };
             _acc = {
@@ -13447,16 +13447,16 @@ function attributes(env, _acc) {
               tl: acc
             };
             continue;
-        case /* T_GREATER_THAN */90 :
-        case /* T_DIV */96 :
-        case /* T_EOF */105 :
+        case /* T_GREATER_THAN */ 90 :
+        case /* T_DIV */ 96 :
+        case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc);
         default:
           
       }
     }
     const attribute$2 = {
-      TAG: /* Attribute */0,
+      TAG: /* Attribute */ 0,
       _0: attribute(env)
     };
     _acc = {
@@ -13469,13 +13469,13 @@ function attributes(env, _acc) {
 
 function opening_element_without_lt(env, start_loc) {
   const name$1 = name(env);
-  const attributes$1 = attributes(env, /* [] */0);
-  const selfClosing = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_DIV */96);
+  const attributes$1 = attributes(env, /* [] */ 0);
+  const selfClosing = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_DIV */ 96);
   if (selfClosing) {
-    token$4(env, /* T_DIV */96);
+    token$4(env, /* T_DIV */ 96);
   }
   const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_GREATER_THAN */90);
+  token$4(env, /* T_GREATER_THAN */ 90);
   pop_lex_mode(env);
   return [
     btwn(start_loc, end_loc),
@@ -13488,10 +13488,10 @@ function opening_element_without_lt(env, start_loc) {
 }
 
 function closing_element_without_lt(env, start_loc) {
-  token$4(env, /* T_DIV */96);
+  token$4(env, /* T_DIV */ 96);
   const name$1 = name(env);
   const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_GREATER_THAN */90);
+  token$4(env, /* T_GREATER_THAN */ 90);
   double_pop_lex_mode(env);
   return [
     btwn(start_loc, end_loc),
@@ -13503,25 +13503,25 @@ function closing_element_without_lt(env, start_loc) {
 
 function child(env) {
   const token$5 = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (/* tag */typeof token$5 === "number" || typeof token$5 === "string") {
-    if (token$5 === /* T_LCURLY */1) {
+  if (/* tag */ typeof token$5 === "number" || typeof token$5 === "string") {
+    if (token$5 === /* T_LCURLY */ 1) {
       const expression_container$1 = expression_container(env);
       return [
         expression_container$1[0],
         {
-          TAG: /* ExpressionContainer */1,
+          TAG: /* ExpressionContainer */ 1,
           _0: expression_container$1[1]
         }
       ];
     }
     
-  } else if (token$5.TAG === /* T_JSX_TEXT */4) {
+  } else if (token$5.TAG === /* T_JSX_TEXT */ 4) {
     const match = token$5._0;
     token$4(env, token$5);
     return [
       match[0],
       {
-        TAG: /* Text */2,
+        TAG: /* Text */ 2,
         _0: {
           value: match[1],
           raw: match[2]
@@ -13533,7 +13533,7 @@ function child(env) {
   return [
     element$2[0],
     {
-      TAG: /* Element */0,
+      TAG: /* Element */ 0,
       _0: element$2[1]
     }
   ];
@@ -13541,32 +13541,32 @@ function child(env) {
 
 function element$1(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  push_lex_mode(env, /* JSX_TAG */2);
-  token$4(env, /* T_LESS_THAN */89);
+  push_lex_mode(env, /* JSX_TAG */ 2);
+  token$4(env, /* T_LESS_THAN */ 89);
   return Curry._2(element_without_lt, env, start_loc);
 }
 
 function element_or_closing(env) {
-  push_lex_mode(env, /* JSX_TAG */2);
+  push_lex_mode(env, /* JSX_TAG */ 2);
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_LESS_THAN */89);
+  token$4(env, /* T_LESS_THAN */ 89);
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
     return {
-      TAG: /* ChildElement */1,
+      TAG: /* ChildElement */ 1,
       _0: Curry._2(element_without_lt, env, start_loc)
     };
   }
   switch (match) {
-    case /* T_DIV */96 :
-    case /* T_EOF */105 :
+    case /* T_DIV */ 96 :
+    case /* T_EOF */ 105 :
         return {
-          TAG: /* Closing */0,
+          TAG: /* Closing */ 0,
           _0: closing_element_without_lt(env, start_loc)
         };
     default:
       return {
-        TAG: /* ChildElement */1,
+        TAG: /* ChildElement */ 1,
         _0: Curry._2(element_without_lt, env, start_loc)
       };
   }
@@ -13576,11 +13576,11 @@ function children_and_closing(env, _acc) {
   while(true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */typeof match === "number" || typeof match === "string") {
+    if (/* tag */ typeof match === "number" || typeof match === "string") {
       switch (match) {
-        case /* T_LESS_THAN */89 :
+        case /* T_LESS_THAN */ 89 :
             const closingElement = element_or_closing(env);
-            if (closingElement.TAG === /* Closing */0) {
+            if (closingElement.TAG === /* Closing */ 0) {
               return [
                 Stdlib__List.rev(acc),
                 closingElement._0
@@ -13589,7 +13589,7 @@ function children_and_closing(env, _acc) {
             const element = closingElement._0;
             const element_0 = element[0];
             const element_1 = {
-              TAG: /* Element */0,
+              TAG: /* Element */ 0,
               _0: element[1]
             };
             const element$1 = [
@@ -13601,7 +13601,7 @@ function children_and_closing(env, _acc) {
               tl: acc
             };
             continue;
-        case /* T_EOF */105 :
+        case /* T_EOF */ 105 :
             error_unexpected(env);
             return [
               Stdlib__List.rev(acc),
@@ -13626,17 +13626,17 @@ function children_and_closing(env, _acc) {
 
 function normalize(name) {
   switch (name.TAG) {
-    case /* Identifier */0 :
+    case /* Identifier */ 0 :
         return name._0[1].name;
-    case /* NamespacedName */1 :
+    case /* NamespacedName */ 1 :
         const match = name._0[1];
         return match.namespace[1].name + (":" + match.name[1].name);
-    case /* MemberExpression */2 :
+    case /* MemberExpression */ 2 :
         const match$1 = name._0[1];
         const _object = match$1._object;
         let _object$1;
-        _object$1 = _object.TAG === /* Identifier */0 ? _object._0[1].name : normalize({
-                TAG: /* MemberExpression */2,
+        _object$1 = _object.TAG === /* Identifier */ 0 ? _object._0[1].name : normalize({
+                TAG: /* MemberExpression */ 2,
                 _0: _object._0
               });
         return _object$1 + ("." + match$1.property[1].name);
@@ -13647,16 +13647,16 @@ function normalize(name) {
 function element_without_lt(env, start_loc) {
   const openingElement = opening_element_without_lt(env, start_loc);
   const match = openingElement[1].selfClosing ? [
-      /* [] */0,
+      /* [] */ 0,
       undefined
-    ] : (push_lex_mode(env, /* JSX_CHILD */3), children_and_closing(env, /* [] */0));
+    ] : (push_lex_mode(env, /* JSX_CHILD */ 3), children_and_closing(env, /* [] */ 0));
   const closingElement = match[1];
   let end_loc;
   if (closingElement !== undefined) {
     const opening_name = normalize(openingElement[1].name);
     if (normalize(closingElement[1].name) !== opening_name) {
       error$1(env, {
-            TAG: /* ExpectedJSXClosingTag */6,
+            TAG: /* ExpectedJSXClosingTag */ 6,
             _0: opening_name
           });
     }
@@ -13677,20 +13677,20 @@ function element_without_lt(env, start_loc) {
 function module_item(env) {
   const decorators = decorator_list(env);
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
     return statement_list_item(decorators, env);
   }
   switch (match) {
-    case /* T_EXPORT */47 :
+    case /* T_EXPORT */ 47 :
         const env$1 = with_in_export(true, with_strict(true, env));
         const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env$1);
-        token$4(env$1, /* T_EXPORT */47);
+        token$4(env$1, /* T_EXPORT */ 47);
         const match$1 = Curry._2(Parser_env_Peek.token, undefined, env$1);
         let exit = 0;
-        if (/* tag */typeof match$1 === "number" || typeof match$1 === "string") {
+        if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string") {
           switch (match$1) {
-            case /* T_DEFAULT */34 :
-                token$4(env$1, /* T_DEFAULT */34);
+            case /* T_DEFAULT */ 34 :
+                token$4(env$1, /* T_DEFAULT */ 34);
                 record_export(env$1, [
                       btwn(start_loc, Curry._2(Parser_env_Peek.loc, undefined, env$1)),
                       "default"
@@ -13698,12 +13698,12 @@ function module_item(env) {
                 const match$2 = Curry._2(Parser_env_Peek.token, undefined, env$1);
                 let match$3;
                 let exit$1 = 0;
-                if (/* tag */(typeof match$2 === "number" || typeof match$2 === "string") && match$2 === /* T_FUNCTION */13) {
+                if (/* tag */ (typeof match$2 === "number" || typeof match$2 === "string") && match$2 === /* T_FUNCTION */ 13) {
                   const fn = _function(env$1);
                   match$3 = [
                     fn[0],
                     {
-                      TAG: /* Declaration */0,
+                      TAG: /* Declaration */ 0,
                       _0: fn
                     }
                   ];
@@ -13716,7 +13716,7 @@ function module_item(env) {
                     match$3 = [
                       _class[0],
                       {
-                        TAG: /* Declaration */0,
+                        TAG: /* Declaration */ 0,
                         _0: _class
                       }
                     ];
@@ -13728,7 +13728,7 @@ function module_item(env) {
                     match$3 = [
                       end_loc,
                       {
-                        TAG: /* Expression */1,
+                        TAG: /* Expression */ 1,
                         _0: expr
                       }
                     ];
@@ -13737,29 +13737,29 @@ function module_item(env) {
                 return [
                   btwn(start_loc, match$3[0]),
                   {
-                    TAG: /* ExportDeclaration */28,
+                    TAG: /* ExportDeclaration */ 28,
                     _0: {
                       default: true,
                       declaration: match$3[1],
                       specifiers: undefined,
                       source: undefined,
-                      exportKind: /* ExportValue */1
+                      exportKind: /* ExportValue */ 1
                     }
                   }
                 ];
-            case /* T_INTERFACE */51 :
+            case /* T_INTERFACE */ 51 :
                 if (!env$1.parse_options.types) {
-                  error$1(env$1, /* UnexpectedTypeExport */9);
+                  error$1(env$1, /* UnexpectedTypeExport */ 9);
                 }
                 const $$interface$1 = $$interface(env$1);
                 const match$4 = $$interface$1[1];
-                if (/* tag */typeof match$4 === "number" || typeof match$4 === "string") {
+                if (/* tag */ typeof match$4 === "number" || typeof match$4 === "string") {
                   throw new Caml_js_exceptions.MelangeError("Failure", {
                         MEL_EXN_ID: "Failure",
                         _1: "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!"
                       });
                 }
-                if (match$4.TAG === /* InterfaceDeclaration */21) {
+                if (match$4.TAG === /* InterfaceDeclaration */ 21) {
                   record_export(env$1, [
                         $$interface$1[0],
                         extract_ident_name(match$4._0.id)
@@ -13774,33 +13774,33 @@ function module_item(env) {
                 return [
                   btwn(start_loc, end_loc$1),
                   {
-                    TAG: /* ExportDeclaration */28,
+                    TAG: /* ExportDeclaration */ 28,
                     _0: {
                       default: false,
                       declaration: {
-                        TAG: /* Declaration */0,
+                        TAG: /* Declaration */ 0,
                         _0: $$interface$1
                       },
                       specifiers: undefined,
                       source: undefined,
-                      exportKind: /* ExportType */0
+                      exportKind: /* ExportType */ 0
                     }
                   }
                 ];
-            case /* T_TYPE */59 :
-                if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, 1, env$1), /* T_LCURLY */1)) {
+            case /* T_TYPE */ 59 :
+                if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, 1, env$1), /* T_LCURLY */ 1)) {
                   if (!env$1.parse_options.types) {
-                    error$1(env$1, /* UnexpectedTypeExport */9);
+                    error$1(env$1, /* UnexpectedTypeExport */ 9);
                   }
                   const type_alias$1 = type_alias(env$1);
                   const match$5 = type_alias$1[1];
-                  if (/* tag */typeof match$5 === "number" || typeof match$5 === "string") {
+                  if (/* tag */ typeof match$5 === "number" || typeof match$5 === "string") {
                     throw new Caml_js_exceptions.MelangeError("Failure", {
                           MEL_EXN_ID: "Failure",
                           _1: "Internal Flow Error! Parsed `export type` into something other than a type alias!"
                         });
                   }
-                  if (match$5.TAG === /* TypeAlias */7) {
+                  if (match$5.TAG === /* TypeAlias */ 7) {
                     record_export(env$1, [
                           type_alias$1[0],
                           extract_ident_name(match$5._0.id)
@@ -13815,38 +13815,38 @@ function module_item(env) {
                   return [
                     btwn(start_loc, end_loc$2),
                     {
-                      TAG: /* ExportDeclaration */28,
+                      TAG: /* ExportDeclaration */ 28,
                       _0: {
                         default: false,
                         declaration: {
-                          TAG: /* Declaration */0,
+                          TAG: /* Declaration */ 0,
                           _0: type_alias$1
                         },
                         specifiers: undefined,
                         source: undefined,
-                        exportKind: /* ExportType */0
+                        exportKind: /* ExportType */ 0
                       }
                     }
                   ];
                 }
                 exit = 1;
                 break;
-            case /* T_AT */12 :
-            case /* T_FUNCTION */13 :
-            case /* T_VAR */22 :
-            case /* T_CONST */25 :
-            case /* T_LET */26 :
-            case /* T_CLASS */38 :
-            case /* T_ASYNC */61 :
+            case /* T_AT */ 12 :
+            case /* T_FUNCTION */ 13 :
+            case /* T_VAR */ 22 :
+            case /* T_CONST */ 25 :
+            case /* T_LET */ 26 :
+            case /* T_CLASS */ 38 :
+            case /* T_ASYNC */ 61 :
                 exit = 2;
                 break;
-            case /* T_MULT */97 :
+            case /* T_MULT */ 97 :
                 const loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env$1);
-                token$4(env$1, /* T_MULT */97);
+                token$4(env$1, /* T_MULT */ 97);
                 const parse_export_star_as = env$1.parse_options.esproposal_export_star_as;
-                const local_name = Curry._2(Parser_env_Peek.value, undefined, env$1) === "as" ? (contextual(env$1, "as"), parse_export_star_as ? Curry._2(Parse.identifier, undefined, env$1) : (error$1(env$1, /* UnexpectedTypeDeclaration */7), undefined)) : undefined;
+                const local_name = Curry._2(Parser_env_Peek.value, undefined, env$1) === "as" ? (contextual(env$1, "as"), parse_export_star_as ? Curry._2(Parse.identifier, undefined, env$1) : (error$1(env$1, /* UnexpectedTypeDeclaration */ 7), undefined)) : undefined;
                 const specifiers = {
-                  TAG: /* ExportBatchSpecifier */1,
+                  TAG: /* ExportBatchSpecifier */ 1,
                   _0: loc$1,
                   _1: local_name
                 };
@@ -13858,13 +13858,13 @@ function module_item(env) {
                 return [
                   btwn(start_loc, end_loc$3),
                   {
-                    TAG: /* ExportDeclaration */28,
+                    TAG: /* ExportDeclaration */ 28,
                     _0: {
                       default: false,
                       declaration: undefined,
                       specifiers: specifiers,
                       source: source$2,
-                      exportKind: /* ExportValue */1
+                      exportKind: /* ExportValue */ 1
                     }
                   }
                 ];
@@ -13878,20 +13878,20 @@ function module_item(env) {
           case 1 :
               const match$6 = Curry._2(Parser_env_Peek.token, undefined, env$1);
               let exportKind;
-              if (/* tag */(typeof match$6 === "number" || typeof match$6 === "string") && match$6 === /* T_TYPE */59) {
+              if (/* tag */ (typeof match$6 === "number" || typeof match$6 === "string") && match$6 === /* T_TYPE */ 59) {
                 token$3(env$1);
-                exportKind = /* ExportType */0;
+                exportKind = /* ExportType */ 0;
               } else {
-                exportKind = /* ExportValue */1;
+                exportKind = /* ExportValue */ 1;
               }
-              token$4(env$1, /* T_LCURLY */1);
-              const match$7 = export_specifiers_and_errs(env$1, /* [] */0, /* [] */0);
+              token$4(env$1, /* T_LCURLY */ 1);
+              const match$7 = export_specifiers_and_errs(env$1, /* [] */ 0, /* [] */ 0);
               const specifiers$1 = {
-                TAG: /* ExportSpecifiers */0,
+                TAG: /* ExportSpecifiers */ 0,
                 _0: match$7[0]
               };
               const end_loc$4 = Curry._2(Parser_env_Peek.loc, undefined, env$1);
-              token$4(env$1, /* T_RCURLY */2);
+              token$4(env$1, /* T_RCURLY */ 2);
               const source$3 = Curry._2(Parser_env_Peek.value, undefined, env$1) === "from" ? export_source(env$1) : (Stdlib__List.iter((function (param) {
                       return error_at(env$1, param);
                     }), match$7[1]), undefined);
@@ -13903,7 +13903,7 @@ function module_item(env) {
               return [
                 btwn(start_loc, end_loc$5),
                 {
-                  TAG: /* ExportDeclaration */28,
+                  TAG: /* ExportDeclaration */ 28,
                   _0: {
                     default: false,
                     declaration: undefined,
@@ -13918,14 +13918,14 @@ function module_item(env) {
               const match$8 = stmt[1];
               const loc$4 = stmt[0];
               let names;
-              if (/* tag */typeof match$8 === "number" || typeof match$8 === "string") {
+              if (/* tag */ typeof match$8 === "number" || typeof match$8 === "string") {
                 throw new Caml_js_exceptions.MelangeError("Failure", {
                       MEL_EXN_ID: "Failure",
                       _1: "Internal Flow Error! Unexpected export statement declaration!"
                     });
               }
               switch (match$8.TAG) {
-                case /* FunctionDeclaration */18 :
+                case /* FunctionDeclaration */ 18 :
                     const id = match$8._0.id;
                     if (id !== undefined) {
                       names = {
@@ -13933,27 +13933,27 @@ function module_item(env) {
                           loc$4,
                           extract_ident_name(id)
                         ],
-                        tl: /* [] */0
+                        tl: /* [] */ 0
                       };
                     } else {
                       error_at(env$1, [
                             loc$4,
-                            /* ExportNamelessFunction */56
+                            /* ExportNamelessFunction */ 56
                           ]);
-                      names = /* [] */0;
+                      names = /* [] */ 0;
                     }
                     break;
-                case /* VariableDeclaration */19 :
+                case /* VariableDeclaration */ 19 :
                     names = Stdlib__List.fold_left((function (names, param) {
                           const id = param[1].id;
                           let param$1 = {
                             hd: id,
-                            tl: /* [] */0
+                            tl: /* [] */ 0
                           };
                           return Stdlib__List.fold_left(fold, names, param$1);
-                        }), /* [] */0, match$8._0.declarations);
+                        }), /* [] */ 0, match$8._0.declarations);
                     break;
-                case /* ClassDeclaration */20 :
+                case /* ClassDeclaration */ 20 :
                     const id$1 = match$8._0.id;
                     if (id$1 !== undefined) {
                       names = {
@@ -13961,14 +13961,14 @@ function module_item(env) {
                           loc$4,
                           extract_ident_name(id$1)
                         ],
-                        tl: /* [] */0
+                        tl: /* [] */ 0
                       };
                     } else {
                       error_at(env$1, [
                             loc$4,
-                            /* ExportNamelessClass */55
+                            /* ExportNamelessClass */ 55
                           ]);
-                      names = /* [] */0;
+                      names = /* [] */ 0;
                     }
                     break;
                 default:
@@ -13981,61 +13981,61 @@ function module_item(env) {
                     return record_export(env$1, param);
                   }), names);
               const declaration = {
-                TAG: /* Declaration */0,
+                TAG: /* Declaration */ 0,
                 _0: stmt
               };
               return [
                 btwn(start_loc, stmt[0]),
                 {
-                  TAG: /* ExportDeclaration */28,
+                  TAG: /* ExportDeclaration */ 28,
                   _0: {
                     default: false,
                     declaration: declaration,
                     specifiers: undefined,
                     source: undefined,
-                    exportKind: /* ExportValue */1
+                    exportKind: /* ExportValue */ 1
                   }
                 }
               ];
           
         }
-    case /* T_IMPORT */48 :
+    case /* T_IMPORT */ 48 :
         error_on_decorators(env)(decorators);
         const env$2 = with_strict(true, env);
         const start_loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env$2);
-        token$4(env$2, /* T_IMPORT */48);
+        token$4(env$2, /* T_IMPORT */ 48);
         const match$9 = Curry._2(Parser_env_Peek.token, undefined, env$2);
         let match$10;
-        if (/* tag */typeof match$9 === "number" || typeof match$9 === "string") {
+        if (/* tag */ typeof match$9 === "number" || typeof match$9 === "string") {
           switch (match$9) {
-            case /* T_TYPEOF */44 :
+            case /* T_TYPEOF */ 44 :
                 if (!env$2.parse_options.types) {
-                  error$1(env$2, /* UnexpectedTypeImport */8);
+                  error$1(env$2, /* UnexpectedTypeImport */ 8);
                 }
-                token$4(env$2, /* T_TYPEOF */44);
+                token$4(env$2, /* T_TYPEOF */ 44);
                 match$10 = [
-                  /* ImportTypeof */1,
+                  /* ImportTypeof */ 1,
                   undefined
                 ];
                 break;
-            case /* T_TYPE */59 :
+            case /* T_TYPE */ 59 :
                 if (!env$2.parse_options.types) {
-                  error$1(env$2, /* UnexpectedTypeImport */8);
+                  error$1(env$2, /* UnexpectedTypeImport */ 8);
                 }
                 match$10 = [
-                  /* ImportType */0,
+                  /* ImportType */ 0,
                   Curry._2(Parse.identifier, undefined, env$2)
                 ];
                 break;
             default:
               match$10 = [
-                /* ImportValue */2,
+                /* ImportValue */ 2,
                 undefined
               ];
           }
         } else {
           match$10 = [
-            /* ImportValue */2,
+            /* ImportValue */ 2,
             undefined
           ];
         }
@@ -14045,24 +14045,24 @@ function module_item(env) {
         const match$12 = Curry._2(Parser_env_Peek.is_identifier, undefined, env$2);
         let exit$2 = 0;
         let exit$3 = 0;
-        if (/* tag */typeof match$11 === "number" || typeof match$11 === "string") {
-          if (match$11 === /* T_COMMA */8) {
+        if (/* tag */ typeof match$11 === "number" || typeof match$11 === "string") {
+          if (match$11 === /* T_COMMA */ 8) {
             exit$2 = 1;
           } else {
             exit$3 = 2;
           }
-        } else if (match$11.TAG === /* T_STRING */1) {
-          if (importKind === /* ImportValue */2) {
+        } else if (match$11.TAG === /* T_STRING */ 1) {
+          if (importKind === /* ImportValue */ 2) {
             const match$13 = match$11._0;
             const octal = match$13[3];
             const raw = match$13[2];
             const value = match$13[1];
             const str_loc = match$13[0];
             if (octal) {
-              strict_error(env$2, /* StrictOctalLiteral */31);
+              strict_error(env$2, /* StrictOctalLiteral */ 31);
             }
             token$4(env$2, {
-                  TAG: /* T_STRING */1,
+                  TAG: /* T_STRING */ 1,
                   _0: [
                     str_loc,
                     value,
@@ -14071,7 +14071,7 @@ function module_item(env) {
                   ]
                 });
             const value$1 = {
-              TAG: /* String */0,
+              TAG: /* String */ 0,
               _0: value
             };
             const source_1 = {
@@ -14088,11 +14088,11 @@ function module_item(env) {
             return [
               btwn(start_loc$1, end_loc$6),
               {
-                TAG: /* ImportDeclaration */29,
+                TAG: /* ImportDeclaration */ 29,
                 _0: {
                   importKind: importKind,
                   source: source$4,
-                  specifiers: /* [] */0
+                  specifiers: /* [] */ 0
                 }
               }
             ];
@@ -14113,7 +14113,7 @@ function module_item(env) {
             return [
               btwn(start_loc$1, end_loc$7),
               {
-                TAG: /* ImportDeclaration */29,
+                TAG: /* ImportDeclaration */ 29,
                 _0: {
                   importKind: importKind,
                   source: source$5,
@@ -14128,14 +14128,14 @@ function module_item(env) {
           const match$15 = Curry._2(Parser_env_Peek.value, undefined, env$2);
           let match$16;
           let exit$4 = 0;
-          if (type_ident !== undefined && /* tag */(typeof match$14 === "number" || typeof match$14 === "string")) {
+          if (type_ident !== undefined && /* tag */ (typeof match$14 === "number" || typeof match$14 === "string")) {
             switch (match$14) {
-              case /* T_IDENTIFIER */0 :
+              case /* T_IDENTIFIER */ 0 :
                   if (match$15 === "from") {
                     match$16 = [
-                      /* ImportValue */2,
+                      /* ImportValue */ 2,
                       {
-                        TAG: /* ImportDefaultSpecifier */1,
+                        TAG: /* ImportDefaultSpecifier */ 1,
                         _0: type_ident
                       }
                     ];
@@ -14143,11 +14143,11 @@ function module_item(env) {
                     exit$4 = 2;
                   }
                   break;
-              case /* T_COMMA */8 :
+              case /* T_COMMA */ 8 :
                   match$16 = [
-                    /* ImportValue */2,
+                    /* ImportValue */ 2,
                     {
-                      TAG: /* ImportDefaultSpecifier */1,
+                      TAG: /* ImportDefaultSpecifier */ 1,
                       _0: type_ident
                     }
                   ];
@@ -14162,18 +14162,18 @@ function module_item(env) {
             match$16 = [
               importKind,
               {
-                TAG: /* ImportDefaultSpecifier */1,
+                TAG: /* ImportDefaultSpecifier */ 1,
                 _0: Curry._2(Parse.identifier, undefined, env$2)
               }
             ];
           }
           const match$17 = Curry._2(Parser_env_Peek.token, undefined, env$2);
           let additional_specifiers;
-          if (/* tag */(typeof match$17 === "number" || typeof match$17 === "string") && match$17 === /* T_COMMA */8) {
-            token$4(env$2, /* T_COMMA */8);
+          if (/* tag */ (typeof match$17 === "number" || typeof match$17 === "string") && match$17 === /* T_COMMA */ 8) {
+            token$4(env$2, /* T_COMMA */ 8);
             additional_specifiers = named_or_namespace_specifier(env$2);
           } else {
-            additional_specifiers = /* [] */0;
+            additional_specifiers = /* [] */ 0;
           }
           const source$6 = source(env$2);
           const loc$7 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$2);
@@ -14182,7 +14182,7 @@ function module_item(env) {
           return [
             btwn(start_loc$1, end_loc$8),
             {
-              TAG: /* ImportDeclaration */29,
+              TAG: /* ImportDeclaration */ 29,
               _0: {
                 importKind: match$16[0],
                 source: source$6,
@@ -14194,8 +14194,8 @@ function module_item(env) {
             }
           ];
         }
-        case /* T_DECLARE */58 :
-        if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, 1, env), /* T_EXPORT */47)) {
+        case /* T_DECLARE */ 58 :
+        if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, 1, env), /* T_EXPORT */ 47)) {
           error_on_decorators(env)(decorators);
           return declare_export_declaration(undefined, env);
         } else {
@@ -14207,21 +14207,21 @@ function module_item(env) {
 }
 
 function statement_list_item(decoratorsOpt, env) {
-  const decorators = decoratorsOpt !== undefined ? decoratorsOpt : /* [] */0;
+  const decorators = decoratorsOpt !== undefined ? decoratorsOpt : /* [] */ 0;
   if (!Curry._2(Parser_env_Peek.is_class, undefined, env)) {
     error_on_decorators(env)(decorators);
   }
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (/* tag */typeof match === "number" || typeof match === "string") {
+  if (/* tag */ typeof match === "number" || typeof match === "string") {
     switch (match) {
-      case /* T_CONST */25 :
+      case /* T_CONST */ 25 :
           return var_or_const(env);
-      case /* T_LET */26 :
+      case /* T_LET */ 26 :
           const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-          token$4(env, /* T_LET */26);
-          if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LPAREN */3)) {
-            token$4(env, /* T_LPAREN */3);
-            const match$1 = helper(with_no_let(true, env), /* [] */0, /* [] */0);
+          token$4(env, /* T_LET */ 26);
+          if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LPAREN */ 3)) {
+            token$4(env, /* T_LPAREN */ 3);
+            const match$1 = helper(with_no_let(true, env), /* [] */ 0, /* [] */ 0);
             const head = Stdlib__List.map((function (param) {
                   const match = param[1];
                   return {
@@ -14229,7 +14229,7 @@ function statement_list_item(decoratorsOpt, env) {
                     init: match.init
                   };
                 }), match$1[1]);
-            token$4(env, /* T_RPAREN */4);
+            token$4(env, /* T_RPAREN */ 4);
             const body = Curry._1(Parse.statement, env);
             const end_loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
             const end_loc$1 = end_loc !== undefined ? end_loc : match$1[0];
@@ -14240,7 +14240,7 @@ function statement_list_item(decoratorsOpt, env) {
             return [
               btwn(start_loc, end_loc$1),
               {
-                TAG: /* Let */17,
+                TAG: /* Let */ 17,
                 _0: {
                   head: head,
                   body: body
@@ -14248,12 +14248,12 @@ function statement_list_item(decoratorsOpt, env) {
               }
             ];
           }
-          const match$2 = helper(with_no_let(true, env), /* [] */0, /* [] */0);
+          const match$2 = helper(with_no_let(true, env), /* [] */ 0, /* [] */ 0);
           const declaration = {
-            TAG: /* VariableDeclaration */19,
+            TAG: /* VariableDeclaration */ 19,
             _0: {
               declarations: match$2[1],
-              kind: /* Let */1
+              kind: /* Let */ 1
             }
           };
           const end_loc$2 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
@@ -14276,15 +14276,15 @@ function statement_list_item(decoratorsOpt, env) {
   if (Curry._2(Parser_env_Peek.is_class, undefined, env)) {
     return class_declaration$1(env, decorators);
   }
-  if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
     return statement(env);
   }
   switch (match) {
-    case /* T_INTERFACE */51 :
+    case /* T_INTERFACE */ 51 :
         return $$interface(env);
-    case /* T_DECLARE */58 :
+    case /* T_DECLARE */ 58 :
         return declare(undefined, env);
-    case /* T_TYPE */59 :
+    case /* T_TYPE */ 59 :
         return type_alias(env);
     default:
       return statement(env);
@@ -14295,33 +14295,33 @@ function statement(env) {
   while(true) {
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     let exit = 0;
-    if (/* tag */typeof match === "number" || typeof match === "string") {
+    if (/* tag */ typeof match === "number" || typeof match === "string") {
       switch (match) {
-        case /* T_LCURLY */1 :
+        case /* T_LCURLY */ 1 :
             const match$1 = Curry._1(Parse.block_body, env);
             return [
               match$1[0],
               {
-                TAG: /* Block */0,
+                TAG: /* Block */ 0,
                 _0: match$1[1]
               }
             ];
-        case /* T_SEMICOLON */7 :
+        case /* T_SEMICOLON */ 7 :
             const loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-            token$4(env, /* T_SEMICOLON */7);
+            token$4(env, /* T_SEMICOLON */ 7);
             return [
               loc,
-              /* Empty */0
+              /* Empty */ 0
             ];
-        case /* T_IF */14 :
+        case /* T_IF */ 14 :
             return _if(env);
-        case /* T_RETURN */17 :
+        case /* T_RETURN */ 17 :
             if (!env.in_function) {
-              error$1(env, /* IllegalReturn */23);
+              error$1(env, /* IllegalReturn */ 23);
             }
             const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-            token$4(env, /* T_RETURN */17);
-            const argument = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_SEMICOLON */7) || Curry._1(Parser_env_Peek.is_implicit_semicolon, env) ? undefined : Curry._1(Parse.expression, env);
+            token$4(env, /* T_RETURN */ 17);
+            const argument = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_SEMICOLON */ 7) || Curry._1(Parser_env_Peek.is_implicit_semicolon, env) ? undefined : Curry._1(Parse.expression, env);
             const loc$1 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
             const end_loc = loc$1 !== undefined ? loc$1 : (
                 argument !== undefined ? argument[0] : start_loc
@@ -14330,29 +14330,29 @@ function statement(env) {
             return [
               btwn(start_loc, end_loc),
               {
-                TAG: /* Return */9,
+                TAG: /* Return */ 9,
                 _0: {
                   argument: argument
                 }
               }
             ];
-        case /* T_SWITCH */18 :
+        case /* T_SWITCH */ 18 :
             const start_loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env);
-            token$4(env, /* T_SWITCH */18);
-            token$4(env, /* T_LPAREN */3);
+            token$4(env, /* T_SWITCH */ 18);
+            token$4(env, /* T_LPAREN */ 3);
             const discriminant = Curry._1(Parse.expression, env);
-            token$4(env, /* T_RPAREN */4);
-            token$4(env, /* T_LCURLY */1);
+            token$4(env, /* T_RPAREN */ 4);
+            token$4(env, /* T_LCURLY */ 1);
             const cases = case_list(env, [
                   false,
-                  /* [] */0
+                  /* [] */ 0
                 ]);
             const end_loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env);
-            token$4(env, /* T_RCURLY */2);
+            token$4(env, /* T_RCURLY */ 2);
             return [
               btwn(start_loc$1, end_loc$1),
               {
-                TAG: /* Switch */8,
+                TAG: /* Switch */ 8,
                 _0: {
                   discriminant: discriminant,
                   cases: cases,
@@ -14360,13 +14360,13 @@ function statement(env) {
                 }
               }
             ];
-        case /* T_THROW */20 :
+        case /* T_THROW */ 20 :
             const start_loc$2 = Curry._2(Parser_env_Peek.loc, undefined, env);
-            token$4(env, /* T_THROW */20);
+            token$4(env, /* T_THROW */ 20);
             if (Curry._1(Parser_env_Peek.is_line_terminator, env)) {
               error_at(env, [
                     start_loc$2,
-                    /* NewlineAfterThrow */11
+                    /* NewlineAfterThrow */ 11
                   ]);
             }
             const argument$1 = Curry._1(Parse.expression, env);
@@ -14376,33 +14376,33 @@ function statement(env) {
             return [
               btwn(start_loc$2, end_loc$2),
               {
-                TAG: /* Throw */10,
+                TAG: /* Throw */ 10,
                 _0: {
                   argument: argument$1
                 }
               }
             ];
-        case /* T_TRY */21 :
+        case /* T_TRY */ 21 :
             const start_loc$3 = Curry._2(Parser_env_Peek.loc, undefined, env);
-            token$4(env, /* T_TRY */21);
+            token$4(env, /* T_TRY */ 21);
             const block = Curry._1(Parse.block_body, env);
             const match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
             let handler;
-            if (/* tag */(typeof match$2 === "number" || typeof match$2 === "string") && match$2 === /* T_CATCH */32) {
+            if (/* tag */ (typeof match$2 === "number" || typeof match$2 === "string") && match$2 === /* T_CATCH */ 32) {
               const start_loc$4 = Curry._2(Parser_env_Peek.loc, undefined, env);
-              token$4(env, /* T_CATCH */32);
-              token$4(env, /* T_LPAREN */3);
-              const id = Curry._2(Parse.identifier, /* StrictCatchVariable */26, env);
+              token$4(env, /* T_CATCH */ 32);
+              token$4(env, /* T_LPAREN */ 3);
+              const id = Curry._2(Parse.identifier, /* StrictCatchVariable */ 26, env);
               const param_0 = id[0];
               const param_1 = {
-                TAG: /* Identifier */3,
+                TAG: /* Identifier */ 3,
                 _0: id
               };
               const param = [
                 param_0,
                 param_1
               ];
-              token$4(env, /* T_RPAREN */4);
+              token$4(env, /* T_RPAREN */ 4);
               const body = Curry._1(Parse.block_body, env);
               const loc$3 = btwn(start_loc$4, body[0]);
               handler = [
@@ -14418,8 +14418,8 @@ function statement(env) {
             }
             const match$3 = Curry._2(Parser_env_Peek.token, undefined, env);
             let finalizer;
-            if (/* tag */(typeof match$3 === "number" || typeof match$3 === "string") && match$3 === /* T_FINALLY */36) {
-              token$4(env, /* T_FINALLY */36);
+            if (/* tag */ (typeof match$3 === "number" || typeof match$3 === "string") && match$3 === /* T_FINALLY */ 36) {
+              token$4(env, /* T_FINALLY */ 36);
               finalizer = Curry._1(Parse.block_body, env);
             } else {
               finalizer = undefined;
@@ -14427,74 +14427,74 @@ function statement(env) {
             const end_loc$3 = finalizer !== undefined ? finalizer[0] : (
                 handler !== undefined ? handler[0] : (error_at(env, [
                         block[0],
-                        /* NoCatchOrFinally */20
+                        /* NoCatchOrFinally */ 20
                       ]), block[0])
               );
             return [
               btwn(start_loc$3, end_loc$3),
               {
-                TAG: /* Try */11,
+                TAG: /* Try */ 11,
                 _0: {
                   block: block,
                   handler: handler,
-                  guardedHandlers: /* [] */0,
+                  guardedHandlers: /* [] */ 0,
                   finalizer: finalizer
                 }
               }
             ];
-        case /* T_VAR */22 :
+        case /* T_VAR */ 22 :
             return var_or_const(env);
-        case /* T_WHILE */23 :
+        case /* T_WHILE */ 23 :
             const start_loc$5 = Curry._2(Parser_env_Peek.loc, undefined, env);
-            token$4(env, /* T_WHILE */23);
-            token$4(env, /* T_LPAREN */3);
+            token$4(env, /* T_WHILE */ 23);
+            token$4(env, /* T_LPAREN */ 3);
             const test = Curry._1(Parse.expression, env);
-            token$4(env, /* T_RPAREN */4);
+            token$4(env, /* T_RPAREN */ 4);
             const body$1 = Curry._1(Parse.statement, with_in_loop(true, env));
             return [
               btwn(start_loc$5, body$1[0]),
               {
-                TAG: /* While */12,
+                TAG: /* While */ 12,
                 _0: {
                   test: test,
                   body: body$1
                 }
               }
             ];
-        case /* T_WITH */24 :
+        case /* T_WITH */ 24 :
             const start_loc$6 = Curry._2(Parser_env_Peek.loc, undefined, env);
-            token$4(env, /* T_WITH */24);
-            token$4(env, /* T_LPAREN */3);
+            token$4(env, /* T_WITH */ 24);
+            token$4(env, /* T_LPAREN */ 3);
             const _object = Curry._1(Parse.expression, env);
-            token$4(env, /* T_RPAREN */4);
+            token$4(env, /* T_RPAREN */ 4);
             const body$2 = Curry._1(Parse.statement, env);
             const loc$4 = btwn(start_loc$6, body$2[0]);
             strict_error_at(env, [
                   loc$4,
-                  /* StrictModeWith */25
+                  /* StrictModeWith */ 25
                 ]);
             return [
               loc$4,
               {
-                TAG: /* With */6,
+                TAG: /* With */ 6,
                 _0: {
                   _object: _object,
                   body: body$2
                 }
               }
             ];
-        case /* T_BREAK */30 :
+        case /* T_BREAK */ 30 :
             const start_loc$7 = Curry._2(Parser_env_Peek.loc, undefined, env);
-            token$4(env, /* T_BREAK */30);
+            token$4(env, /* T_BREAK */ 30);
             let label;
-            if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_SEMICOLON */7) || Curry._1(Parser_env_Peek.is_implicit_semicolon, env)) {
+            if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_SEMICOLON */ 7) || Curry._1(Parser_env_Peek.is_implicit_semicolon, env)) {
               label = undefined;
             } else {
               const label$1 = Curry._2(Parse.identifier, undefined, env);
               const name = label$1[1].name;
               if (!Curry._2(mem$1, name, env.labels)) {
                 error$1(env, {
-                      TAG: /* UnknownLabel */4,
+                      TAG: /* UnknownLabel */ 4,
                       _0: name
                     });
               }
@@ -14508,31 +14508,31 @@ function statement(env) {
             if (label === undefined && !(env.in_loop || env.in_switch)) {
               error_at(env, [
                     loc$6,
-                    /* IllegalBreak */22
+                    /* IllegalBreak */ 22
                   ]);
             }
             semicolon(env);
             return [
               loc$6,
               {
-                TAG: /* Break */4,
+                TAG: /* Break */ 4,
                 _0: {
                   label: label
                 }
               }
             ];
-        case /* T_CONTINUE */33 :
+        case /* T_CONTINUE */ 33 :
             const start_loc$8 = Curry._2(Parser_env_Peek.loc, undefined, env);
-            token$4(env, /* T_CONTINUE */33);
+            token$4(env, /* T_CONTINUE */ 33);
             let label$2;
-            if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_SEMICOLON */7) || Curry._1(Parser_env_Peek.is_implicit_semicolon, env)) {
+            if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_SEMICOLON */ 7) || Curry._1(Parser_env_Peek.is_implicit_semicolon, env)) {
               label$2 = undefined;
             } else {
               const label$3 = Curry._2(Parse.identifier, undefined, env);
               const name$1 = label$3[1].name;
               if (!Curry._2(mem$1, name$1, env.labels)) {
                 error$1(env, {
-                      TAG: /* UnknownLabel */4,
+                      TAG: /* UnknownLabel */ 4,
                       _0: name$1
                     });
               }
@@ -14546,83 +14546,83 @@ function statement(env) {
             if (!env.in_loop) {
               error_at(env, [
                     loc$8,
-                    /* IllegalContinue */21
+                    /* IllegalContinue */ 21
                   ]);
             }
             semicolon(env);
             return [
               loc$8,
               {
-                TAG: /* Continue */5,
+                TAG: /* Continue */ 5,
                 _0: {
                   label: label$2
                 }
               }
             ];
-        case /* T_DO */35 :
+        case /* T_DO */ 35 :
             const start_loc$9 = Curry._2(Parser_env_Peek.loc, undefined, env);
-            token$4(env, /* T_DO */35);
+            token$4(env, /* T_DO */ 35);
             const body$3 = Curry._1(Parse.statement, with_in_loop(true, env));
-            token$4(env, /* T_WHILE */23);
-            token$4(env, /* T_LPAREN */3);
+            token$4(env, /* T_WHILE */ 23);
+            token$4(env, /* T_LPAREN */ 3);
             const test$1 = Curry._1(Parse.expression, env);
             const end_loc$6 = Curry._2(Parser_env_Peek.loc, undefined, env);
-            token$4(env, /* T_RPAREN */4);
+            token$4(env, /* T_RPAREN */ 4);
             const loc$9 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
             const end_loc$7 = loc$9 !== undefined ? loc$9 : end_loc$6;
-            if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_SEMICOLON */7)) {
+            if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_SEMICOLON */ 7)) {
               semicolon(env);
             }
             return [
               btwn(start_loc$9, end_loc$7),
               {
-                TAG: /* DoWhile */13,
+                TAG: /* DoWhile */ 13,
                 _0: {
                   body: body$3,
                   test: test$1
                 }
               }
             ];
-        case /* T_FOR */37 :
+        case /* T_FOR */ 37 :
             const start_loc$10 = Curry._2(Parser_env_Peek.loc, undefined, env);
-            token$4(env, /* T_FOR */37);
-            token$4(env, /* T_LPAREN */3);
+            token$4(env, /* T_FOR */ 37);
+            token$4(env, /* T_LPAREN */ 3);
             const match$4 = Curry._2(Parser_env_Peek.token, undefined, env);
             let match$5;
             let exit$1 = 0;
-            if (/* tag */typeof match$4 === "number" || typeof match$4 === "string") {
+            if (/* tag */ typeof match$4 === "number" || typeof match$4 === "string") {
               switch (match$4) {
-                case /* T_SEMICOLON */7 :
+                case /* T_SEMICOLON */ 7 :
                     match$5 = [
                       undefined,
-                      /* [] */0
+                      /* [] */ 0
                     ];
                     break;
-                case /* T_VAR */22 :
-                    const match$6 = declarations(/* T_VAR */22, /* Var */0, with_no_in(true, env));
+                case /* T_VAR */ 22 :
+                    const match$6 = declarations(/* T_VAR */ 22, /* Var */ 0, with_no_in(true, env));
                     match$5 = [
                       {
-                        TAG: /* InitDeclaration */0,
+                        TAG: /* InitDeclaration */ 0,
                         _0: match$6[0]
                       },
                       match$6[1]
                     ];
                     break;
-                case /* T_CONST */25 :
+                case /* T_CONST */ 25 :
                     const match$7 = $$const(with_no_in(true, env));
                     match$5 = [
                       {
-                        TAG: /* InitDeclaration */0,
+                        TAG: /* InitDeclaration */ 0,
                         _0: match$7[0]
                       },
                       match$7[1]
                     ];
                     break;
-                case /* T_LET */26 :
+                case /* T_LET */ 26 :
                     const match$8 = _let(with_no_in(true, env));
                     match$5 = [
                       {
-                        TAG: /* InitDeclaration */0,
+                        TAG: /* InitDeclaration */ 0,
                         _0: match$8[0]
                       },
                       match$8[1]
@@ -14638,25 +14638,25 @@ function statement(env) {
               const expr = Curry._1(Parse.expression, with_no_let(true, with_no_in(true, env)));
               match$5 = [
                 {
-                  TAG: /* InitExpression */1,
+                  TAG: /* InitExpression */ 1,
                   _0: expr
                 },
-                /* [] */0
+                /* [] */ 0
               ];
             }
             const init = match$5[0];
             const match$9 = Curry._2(Parser_env_Peek.token, undefined, env);
-            if (/* tag */typeof match$9 === "number" || typeof match$9 === "string") {
+            if (/* tag */ typeof match$9 === "number" || typeof match$9 === "string") {
               switch (match$9) {
-                case /* T_IN */15 :
-                    assert_can_be_forin_or_forof(env, /* InvalidLHSInForIn */16)(init);
+                case /* T_IN */ 15 :
+                    assert_can_be_forin_or_forof(env, /* InvalidLHSInForIn */ 16)(init);
                     let left;
                     if (init !== undefined) {
-                      left = init.TAG === /* InitDeclaration */0 ? ({
-                          TAG: /* LeftDeclaration */0,
+                      left = init.TAG === /* InitDeclaration */ 0 ? ({
+                          TAG: /* LeftDeclaration */ 0,
                           _0: init._0
                         }) : ({
-                          TAG: /* LeftExpression */1,
+                          TAG: /* LeftExpression */ 1,
                           _0: init._0
                         });
                     } else {
@@ -14669,14 +14669,14 @@ function statement(env) {
                             ]
                           });
                     }
-                    token$4(env, /* T_IN */15);
+                    token$4(env, /* T_IN */ 15);
                     const right = Curry._1(Parse.expression, env);
-                    token$4(env, /* T_RPAREN */4);
+                    token$4(env, /* T_RPAREN */ 4);
                     const body$4 = Curry._1(Parse.statement, with_in_loop(true, env));
                     return [
                       btwn(start_loc$10, body$4[0]),
                       {
-                        TAG: /* ForIn */15,
+                        TAG: /* ForIn */ 15,
                         _0: {
                           left: left,
                           right: right,
@@ -14685,15 +14685,15 @@ function statement(env) {
                         }
                       }
                     ];
-                case /* T_OF */60 :
-                    assert_can_be_forin_or_forof(env, /* InvalidLHSInForOf */17)(init);
+                case /* T_OF */ 60 :
+                    assert_can_be_forin_or_forof(env, /* InvalidLHSInForOf */ 17)(init);
                     let left$1;
                     if (init !== undefined) {
-                      left$1 = init.TAG === /* InitDeclaration */0 ? ({
-                          TAG: /* LeftDeclaration */0,
+                      left$1 = init.TAG === /* InitDeclaration */ 0 ? ({
+                          TAG: /* LeftDeclaration */ 0,
                           _0: init._0
                         }) : ({
-                          TAG: /* LeftExpression */1,
+                          TAG: /* LeftExpression */ 1,
                           _0: init._0
                         });
                     } else {
@@ -14706,14 +14706,14 @@ function statement(env) {
                             ]
                           });
                     }
-                    token$4(env, /* T_OF */60);
+                    token$4(env, /* T_OF */ 60);
                     const right$1 = Curry._1(Parse.assignment, env);
-                    token$4(env, /* T_RPAREN */4);
+                    token$4(env, /* T_RPAREN */ 4);
                     const body$5 = Curry._1(Parse.statement, with_in_loop(true, env));
                     return [
                       btwn(start_loc$10, body$5[0]),
                       {
-                        TAG: /* ForOf */16,
+                        TAG: /* ForOf */ 16,
                         _0: {
                           left: left$1,
                           right: right$1,
@@ -14728,20 +14728,20 @@ function statement(env) {
             Stdlib__List.iter((function (param) {
                   return error_at(env, param);
                 }), match$5[1]);
-            token$4(env, /* T_SEMICOLON */7);
+            token$4(env, /* T_SEMICOLON */ 7);
             const match$10 = Curry._2(Parser_env_Peek.token, undefined, env);
             let test$2;
-            test$2 = /* tag */(typeof match$10 === "number" || typeof match$10 === "string") && match$10 === /* T_SEMICOLON */7 ? undefined : Curry._1(Parse.expression, env);
-            token$4(env, /* T_SEMICOLON */7);
+            test$2 = /* tag */ (typeof match$10 === "number" || typeof match$10 === "string") && match$10 === /* T_SEMICOLON */ 7 ? undefined : Curry._1(Parse.expression, env);
+            token$4(env, /* T_SEMICOLON */ 7);
             const match$11 = Curry._2(Parser_env_Peek.token, undefined, env);
             let update;
-            update = /* tag */(typeof match$11 === "number" || typeof match$11 === "string") && match$11 === /* T_RPAREN */4 ? undefined : Curry._1(Parse.expression, env);
-            token$4(env, /* T_RPAREN */4);
+            update = /* tag */ (typeof match$11 === "number" || typeof match$11 === "string") && match$11 === /* T_RPAREN */ 4 ? undefined : Curry._1(Parse.expression, env);
+            token$4(env, /* T_RPAREN */ 4);
             const body$6 = Curry._1(Parse.statement, with_in_loop(true, env));
             return [
               btwn(start_loc$10, body$6[0]),
               {
-                TAG: /* For */14,
+                TAG: /* For */ 14,
                 _0: {
                   init: init,
                   test: test$2,
@@ -14750,21 +14750,21 @@ function statement(env) {
                 }
               }
             ];
-        case /* T_DEBUGGER */57 :
+        case /* T_DEBUGGER */ 57 :
             const start_loc$11 = Curry._2(Parser_env_Peek.loc, undefined, env);
-            token$4(env, /* T_DEBUGGER */57);
+            token$4(env, /* T_DEBUGGER */ 57);
             const loc$10 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
             const end_loc$8 = loc$10 !== undefined ? loc$10 : start_loc$11;
             semicolon(env);
             return [
               btwn(start_loc$11, end_loc$8),
-              /* Debugger */1
+              /* Debugger */ 1
             ];
-        case /* T_EOF */105 :
+        case /* T_EOF */ 105 :
             error_unexpected(env);
             return [
               Curry._2(Parser_env_Peek.loc, undefined, env),
-              /* Empty */0
+              /* Empty */ 0
             ];
         default:
           exit = 2;
@@ -14777,17 +14777,17 @@ function statement(env) {
         const expr$1 = Curry._1(Parse.expression, env);
         const match$12 = Curry._2(Parser_env_Peek.token, undefined, env);
         const label$4 = expr$1[1];
-        if (!/* tag */(typeof label$4 === "number" || typeof label$4 === "string") && label$4.TAG === /* Identifier */18 && /* tag */(typeof match$12 === "number" || typeof match$12 === "string") && match$12 === /* T_COLON */77) {
+        if (!/* tag */ (typeof label$4 === "number" || typeof label$4 === "string") && label$4.TAG === /* Identifier */ 18 && /* tag */ (typeof match$12 === "number" || typeof match$12 === "string") && match$12 === /* T_COLON */ 77) {
           const label$5 = label$4._0;
           const loc$11 = expr$1[0];
           const match$13 = label$5[1];
           const name$2 = match$13.name;
-          token$4(env, /* T_COLON */77);
+          token$4(env, /* T_COLON */ 77);
           if (Curry._2(mem$1, name$2, env.labels)) {
             error_at(env, [
                   loc$11,
                   {
-                    TAG: /* Redeclaration */5,
+                    TAG: /* Redeclaration */ 5,
                     _0: "Label",
                     _1: name$2
                   }
@@ -14798,7 +14798,7 @@ function statement(env) {
           return [
             btwn(loc$11, labeled_stmt[0]),
             {
-              TAG: /* Labeled */3,
+              TAG: /* Labeled */ 3,
               _0: {
                 label: label$5,
                 body: labeled_stmt
@@ -14812,37 +14812,37 @@ function statement(env) {
         return [
           btwn(expr$1[0], end_loc$9),
           {
-            TAG: /* Expression */1,
+            TAG: /* Expression */ 1,
             _0: {
               expression: expr$1
             }
           }
         ];
       }
-      if (!/* tag */(typeof match === "number" || typeof match === "string")) {
+      if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
         return expression(env);
       }
       switch (match) {
-        case /* T_ELSE */41 :
+        case /* T_ELSE */ 41 :
             return _if(env);
-        case /* T_RCURLY */2 :
-        case /* T_RPAREN */4 :
-        case /* T_RBRACKET */6 :
-        case /* T_COMMA */8 :
-        case /* T_PERIOD */9 :
-        case /* T_ARROW */10 :
-        case /* T_ELLIPSIS */11 :
-        case /* T_IN */15 :
-        case /* T_INSTANCEOF */16 :
-        case /* T_CASE */31 :
-        case /* T_CATCH */32 :
-        case /* T_DEFAULT */34 :
-        case /* T_FINALLY */36 :
-        case /* T_EXTENDS */39 :
-        case /* T_STATIC */40 :
-        case /* T_EXPORT */47 :
-        case /* T_IMPORT */48 :
-        case /* T_COLON */77 :
+        case /* T_RCURLY */ 2 :
+        case /* T_RPAREN */ 4 :
+        case /* T_RBRACKET */ 6 :
+        case /* T_COMMA */ 8 :
+        case /* T_PERIOD */ 9 :
+        case /* T_ARROW */ 10 :
+        case /* T_ELLIPSIS */ 11 :
+        case /* T_IN */ 15 :
+        case /* T_INSTANCEOF */ 16 :
+        case /* T_CASE */ 31 :
+        case /* T_CATCH */ 32 :
+        case /* T_DEFAULT */ 34 :
+        case /* T_FINALLY */ 36 :
+        case /* T_EXTENDS */ 39 :
+        case /* T_STATIC */ 40 :
+        case /* T_EXPORT */ 47 :
+        case /* T_IMPORT */ 48 :
+        case /* T_COLON */ 77 :
             break;
         default:
           return expression(env);
@@ -14855,11 +14855,11 @@ function statement(env) {
 }
 
 function module_body(term_fn, env) {
-  let _acc = /* [] */0;
+  let _acc = /* [] */ 0;
   while(true) {
     const acc = _acc;
     const t = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */(typeof t === "number" || typeof t === "string") && t === /* T_EOF */105) {
+    if (/* tag */ (typeof t === "number" || typeof t === "string") && t === /* T_EOF */ 105) {
       return Stdlib__List.rev(acc);
     }
     if (Curry._1(term_fn, t)) {
@@ -14880,7 +14880,7 @@ function statement_list(_env, term_fn, item_fn, _param) {
     const stmts = param[1];
     const string_tokens = param[0];
     const t = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */(typeof t === "number" || typeof t === "string") && t === /* T_EOF */105) {
+    if (/* tag */ (typeof t === "number" || typeof t === "string") && t === /* T_EOF */ 105) {
       return [
         env,
         string_tokens,
@@ -14906,14 +14906,14 @@ function statement_list(_env, term_fn, item_fn, _param) {
       tl: stmts
     };
     const match = possible_directive[1];
-    if (/* tag */typeof match === "number" || typeof match === "string") {
+    if (/* tag */ typeof match === "number" || typeof match === "string") {
       return [
         env,
         string_tokens,
         stmts$1
       ];
     }
-    if (match.TAG !== /* Expression */1) {
+    if (match.TAG !== /* Expression */ 1) {
       return [
         env,
         string_tokens,
@@ -14922,14 +14922,14 @@ function statement_list(_env, term_fn, item_fn, _param) {
     }
     const match$1 = match._0.expression;
     const match$2 = match$1[1];
-    if (/* tag */typeof match$2 === "number" || typeof match$2 === "string") {
+    if (/* tag */ typeof match$2 === "number" || typeof match$2 === "string") {
       return [
         env,
         string_tokens,
         stmts$1
       ];
     }
-    if (match$2.TAG !== /* Literal */19) {
+    if (match$2.TAG !== /* Literal */ 19) {
       return [
         env,
         string_tokens,
@@ -14937,14 +14937,14 @@ function statement_list(_env, term_fn, item_fn, _param) {
       ];
     }
     const str = match$2._0.value;
-    if (/* tag */typeof str === "number" || typeof str === "string") {
+    if (/* tag */ typeof str === "number" || typeof str === "string") {
       return [
         env,
         string_tokens,
         stmts$1
       ];
     }
-    if (str.TAG !== /* String */0) {
+    if (str.TAG !== /* String */ 0) {
       return [
         env,
         string_tokens,
@@ -14969,17 +14969,17 @@ function statement_list(_env, term_fn, item_fn, _param) {
 
 function directives(env, term_fn, item_fn) {
   const match = statement_list(env, term_fn, item_fn, [
-        /* [] */0,
-        /* [] */0
+        /* [] */ 0,
+        /* [] */ 0
       ]);
   const env$1 = match[0];
   Stdlib__List.iter((function (param) {
         const token = param[1];
-        if (!/* tag */(typeof token === "number" || typeof token === "string") && token.TAG === /* T_STRING */1) {
+        if (!/* tag */ (typeof token === "number" || typeof token === "string") && token.TAG === /* T_STRING */ 1) {
           if (token._0[3]) {
             return strict_error_at(env$1, [
                   param[0],
-                  /* StrictOctalLiteral */31
+                  /* StrictOctalLiteral */ 31
                 ]);
           } else {
             return;
@@ -14998,11 +14998,11 @@ function directives(env, term_fn, item_fn) {
 }
 
 function statement_list$1(term_fn, env) {
-  let _acc = /* [] */0;
+  let _acc = /* [] */ 0;
   while(true) {
     const acc = _acc;
     const t = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */(typeof t === "number" || typeof t === "string") && t === /* T_EOF */105) {
+    if (/* tag */ (typeof t === "number" || typeof t === "string") && t === /* T_EOF */ 105) {
       return Stdlib__List.rev(acc);
     }
     if (Curry._1(term_fn, t)) {
@@ -15041,12 +15041,12 @@ function identifier$2(restricted_error, env) {
   const name = Curry._2(Parser_env_Peek.value, undefined, env);
   const t = Curry._2(Parser_env_Peek.token, undefined, env);
   let exit = 0;
-  if (/* tag */(typeof t === "number" || typeof t === "string") && t === /* T_LET */26) {
+  if (/* tag */ (typeof t === "number" || typeof t === "string") && t === /* T_LET */ 26) {
     if (env.in_strict_mode) {
-      strict_error(env, /* StrictReservedWord */39);
+      strict_error(env, /* StrictReservedWord */ 39);
     } else if (env.no_let) {
       error$1(env, {
-            TAG: /* UnexpectedToken */1,
+            TAG: /* UnexpectedToken */ 1,
             _0: name
           });
     }
@@ -15056,22 +15056,22 @@ function identifier$2(restricted_error, env) {
   }
   if (exit === 1) {
     if (is_strict_reserved(name)) {
-      strict_error(env, /* StrictReservedWord */39);
+      strict_error(env, /* StrictReservedWord */ 39);
       token$3(env);
-    } else if (/* tag */typeof t === "number" || typeof t === "string") {
+    } else if (/* tag */ typeof t === "number" || typeof t === "string") {
       switch (t) {
-        case /* T_DECLARE */58 :
-        case /* T_TYPE */59 :
-        case /* T_OF */60 :
-        case /* T_ASYNC */61 :
-        case /* T_AWAIT */62 :
+        case /* T_DECLARE */ 58 :
+        case /* T_TYPE */ 59 :
+        case /* T_OF */ 60 :
+        case /* T_ASYNC */ 61 :
+        case /* T_AWAIT */ 62 :
             token$4(env, t);
             break;
         default:
-          token$4(env, /* T_IDENTIFIER */0);
+          token$4(env, /* T_IDENTIFIER */ 0);
       }
     } else {
-      token$4(env, /* T_IDENTIFIER */0);
+      token$4(env, /* T_IDENTIFIER */ 0);
     }
   }
   if (restricted_error !== undefined && is_restricted(name)) {
@@ -15106,7 +15106,7 @@ function program(env) {
         return false;
       }));
   const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_EOF */105);
+  token$4(env, /* T_EOF */ 105);
   const loc = stmts ? btwn(Stdlib__List.hd(stmts)[0], Stdlib__List.hd(Stdlib__List.rev(stmts))[0]) : end_loc;
   const comments = Stdlib__List.rev(env.comments.contents);
   return [
@@ -15119,10 +15119,10 @@ function program(env) {
 function expression$1(env) {
   const expr = Curry._1(assignment, env);
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (/* tag */(typeof match === "number" || typeof match === "string") && match === /* T_COMMA */8) {
+  if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_COMMA */ 8) {
     return sequence(env, {
           hd: expr,
-          tl: /* [] */0
+          tl: /* [] */ 0
         });
   } else {
     return expr;
@@ -15134,12 +15134,12 @@ function identifier_with_type(env, restricted_error) {
   const id = match[1];
   const loc = match[0];
   let match$1;
-  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_PLING */76)) {
+  if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_PLING */ 76)) {
     if (!env.parse_options.types) {
-      error$1(env, /* UnexpectedTypeAnnotation */6);
+      error$1(env, /* UnexpectedTypeAnnotation */ 6);
     }
     const loc$1 = btwn(loc, Curry._2(Parser_env_Peek.loc, undefined, env));
-    token$4(env, /* T_PLING */76);
+    token$4(env, /* T_PLING */ 76);
     match$1 = [
       loc$1,
       {
@@ -15156,7 +15156,7 @@ function identifier_with_type(env, restricted_error) {
   }
   const id$1 = match$1[1];
   const loc$2 = match$1[0];
-  if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COLON */77)) {
+  if (!Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COLON */ 77)) {
     return [
       loc$2,
       id$1
@@ -15177,13 +15177,13 @@ function identifier_with_type(env, restricted_error) {
 
 function block_body(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_LCURLY */1);
+  token$4(env, /* T_LCURLY */ 1);
   const term_fn = function (t) {
-    return Caml_obj.caml_equal(t, /* T_RCURLY */2);
+    return Caml_obj.caml_equal(t, /* T_RCURLY */ 2);
   };
   const body = Curry._2(statement_list$1, term_fn, env);
   const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_RCURLY */2);
+  token$4(env, /* T_RCURLY */ 2);
   return [
     btwn(start_loc, end_loc),
     {
@@ -15194,13 +15194,13 @@ function block_body(env) {
 
 function function_block_body(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_LCURLY */1);
+  token$4(env, /* T_LCURLY */ 1);
   const term_fn = function (t) {
-    return Caml_obj.caml_equal(t, /* T_RCURLY */2);
+    return Caml_obj.caml_equal(t, /* T_RCURLY */ 2);
   };
   const match = statement_list_with_directives(term_fn, env);
   const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_RCURLY */2);
+  token$4(env, /* T_RCURLY */ 2);
   return [
     btwn(start_loc, end_loc),
     {
@@ -15212,122 +15212,122 @@ function function_block_body(env) {
 
 function predicate(env) {
   const checks_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  if (!(Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_IDENTIFIER */0) && Curry._2(Parser_env_Peek.value, undefined, env) === "checks")) {
+  if (!(Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_IDENTIFIER */ 0) && Curry._2(Parser_env_Peek.value, undefined, env) === "checks")) {
     return;
   }
-  token$4(env, /* T_IDENTIFIER */0);
-  if (!maybe(env, /* T_LPAREN */3)) {
+  token$4(env, /* T_IDENTIFIER */ 0);
+  if (!maybe(env, /* T_LPAREN */ 3)) {
     return [
       checks_loc,
-      /* Inferred */0
+      /* Inferred */ 0
     ];
   }
   const exp = Curry._1(Parse.expression, env);
   const rparen_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
-  token$4(env, /* T_RPAREN */4);
+  token$4(env, /* T_RPAREN */ 4);
   const loc = btwn(checks_loc, rparen_loc);
   return [
     loc,
     {
-      TAG: /* Declared */0,
+      TAG: /* Declared */ 0,
       _0: exp
     }
   ];
 }
 
 Caml_module.update_mod({
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [
         [
-          /* Function */0,
+          /* Function */ 0,
           "program"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "statement"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "statement_list_item"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "statement_list"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "statement_list_with_directives"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "module_body"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "expression"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "assignment"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "object_initializer"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "array_initializer"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "identifier"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "identifier_or_reserved_keyword"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "identifier_with_type"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "block_body"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "function_block_body"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "jsx_element"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "pattern"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "pattern_from_expr"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "object_key"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "class_declaration"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "class_expression"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "is_assignable_lhs"
         ],
         [
-          /* Function */0,
+          /* Function */ 0,
           "predicate"
         ]
       ]
@@ -15370,7 +15370,7 @@ function program$1(failOpt, token_sinkOpt, parse_optionsOpt, content) {
   let parser = Parse.program;
   const ast = Curry._1(parser, env);
   const error_list = filter_duplicate_errors(env.errors.contents);
-  if (fail && Caml_obj.caml_notequal(error_list, /* [] */0)) {
+  if (fail && Caml_obj.caml_notequal(error_list, /* [] */ 0)) {
     throw new Caml_js_exceptions.MelangeError($$Error, {
           MEL_EXN_ID: $$Error,
           _1: error_list
@@ -15383,7 +15383,7 @@ function program$1(failOpt, token_sinkOpt, parse_optionsOpt, content) {
 }
 
 const translation_errors = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const string = (function (x) {return x;}
@@ -15411,7 +15411,7 @@ function regexp$1(loc, pattern, flags) {
     translation_errors.contents = {
       hd: [
         loc,
-        /* InvalidRegExp */12
+        /* InvalidRegExp */ 12
       ],
       tl: translation_errors.contents
     };
@@ -15422,7 +15422,7 @@ function regexp$1(loc, pattern, flags) {
 function parse(content, options) {
   try {
     const match = program$1(false, undefined, Caml_option.some(undefined), content);
-    translation_errors.contents = /* [] */0;
+    translation_errors.contents = /* [] */ 0;
     const array_of_list = function (fn, list) {
       return array(Stdlib__Array.of_list(Stdlib__List.map(fn, list)));
     };
@@ -15448,7 +15448,7 @@ function parse(content, options) {
     const loc = function ($$location) {
       const match = $$location.source;
       const source = match !== undefined ? (
-          /* tag */typeof match === "number" || typeof match === "string" ? string("(global)") : string(match._0)
+          /* tag */ typeof match === "number" || typeof match === "string" ? string("(global)") : string(match._0)
         ) : $$null;
       return obj([
             [
@@ -15505,49 +15505,49 @@ function parse(content, options) {
     const _type = function (param) {
       const t = param[1];
       const loc = param[0];
-      if (/* tag */typeof t === "number" || typeof t === "string") {
+      if (/* tag */ typeof t === "number" || typeof t === "string") {
         switch (t) {
-          case /* Any */0 :
+          case /* Any */ 0 :
               return node("AnyTypeAnnotation", loc, []);
-          case /* Void */1 :
+          case /* Void */ 1 :
               return node("VoidTypeAnnotation", loc, []);
-          case /* Null */2 :
+          case /* Null */ 2 :
               return node("NullTypeAnnotation", loc, []);
-          case /* Number */3 :
+          case /* Number */ 3 :
               return node("NumberTypeAnnotation", loc, []);
-          case /* String */4 :
+          case /* String */ 4 :
               return node("StringTypeAnnotation", loc, []);
-          case /* Boolean */5 :
+          case /* Boolean */ 5 :
               return node("BooleanTypeAnnotation", loc, []);
-          case /* Exists */6 :
+          case /* Exists */ 6 :
               return node("ExistsTypeAnnotation", loc, []);
           
         }
       } else {
         switch (t.TAG) {
-          case /* Nullable */0 :
+          case /* Nullable */ 0 :
               let t$1 = t._0;
               return node("NullableTypeAnnotation", loc, [[
                       "typeAnnotation",
                       _type(t$1)
                     ]]);
-          case /* Function */1 :
+          case /* Function */ 1 :
               return function_type([
                     loc,
                     t._0
                   ]);
-          case /* Object */2 :
+          case /* Object */ 2 :
               return object_type([
                     loc,
                     t._0
                   ]);
-          case /* Array */3 :
+          case /* Array */ 3 :
               let t$2 = t._0;
               return node("ArrayTypeAnnotation", loc, [[
                       "elementType",
                       _type(t$2)
                     ]]);
-          case /* Generic */4 :
+          case /* Generic */ 4 :
               let param$1 = [
                 loc,
                 t._0
@@ -15555,7 +15555,7 @@ function parse(content, options) {
               const g = param$1[1];
               const id = g.id;
               let id$1;
-              id$1 = id.TAG === /* Unqualified */0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
+              id$1 = id.TAG === /* Unqualified */ 0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
               return node("GenericTypeAnnotation", param$1[0], [
                     [
                       "id",
@@ -15566,7 +15566,7 @@ function parse(content, options) {
                       option(type_parameter_instantiation, g.typeParameters)
                     ]
                   ]);
-          case /* Union */5 :
+          case /* Union */ 5 :
               let param$2 = [
                 loc,
                 t._0
@@ -15575,7 +15575,7 @@ function parse(content, options) {
                       "types",
                       array_of_list(_type, param$2[1])
                     ]]);
-          case /* Intersection */6 :
+          case /* Intersection */ 6 :
               let param$3 = [
                 loc,
                 t._0
@@ -15584,7 +15584,7 @@ function parse(content, options) {
                       "types",
                       array_of_list(_type, param$3[1])
                     ]]);
-          case /* Typeof */7 :
+          case /* Typeof */ 7 :
               let param$4 = [
                 loc,
                 t._0
@@ -15593,7 +15593,7 @@ function parse(content, options) {
                       "argument",
                       _type(param$4[1])
                     ]]);
-          case /* Tuple */8 :
+          case /* Tuple */ 8 :
               let param$5 = [
                 loc,
                 t._0
@@ -15602,7 +15602,7 @@ function parse(content, options) {
                       "types",
                       array_of_list(_type, param$5[1])
                     ]]);
-          case /* StringLiteral */9 :
+          case /* StringLiteral */ 9 :
               let param$6 = [
                 loc,
                 t._0
@@ -15618,7 +15618,7 @@ function parse(content, options) {
                       string(s.raw)
                     ]
                   ]);
-          case /* NumberLiteral */10 :
+          case /* NumberLiteral */ 10 :
               let param$7 = [
                 loc,
                 t._0
@@ -15634,7 +15634,7 @@ function parse(content, options) {
                       string(s$1.raw)
                     ]
                   ]);
-          case /* BooleanLiteral */11 :
+          case /* BooleanLiteral */ 11 :
               let param$8 = [
                 loc,
                 t._0
@@ -15680,32 +15680,32 @@ function parse(content, options) {
     const expression = function (param) {
       const arr = param[1];
       const loc = param[0];
-      if (/* tag */typeof arr === "number" || typeof arr === "string") {
+      if (/* tag */ typeof arr === "number" || typeof arr === "string") {
         return node("ThisExpression", loc, []);
       }
       switch (arr.TAG) {
-        case /* Array */0 :
+        case /* Array */ 0 :
             return node("ArrayExpression", loc, [[
                     "elements",
                     array_of_list((function (param) {
                           return option(expression_or_spread, param);
                         }), arr._0.elements)
                   ]]);
-        case /* Object */1 :
+        case /* Object */ 1 :
             return node("ObjectExpression", loc, [[
                     "properties",
                     array_of_list(object_property, arr._0.properties)
                   ]]);
-        case /* Function */2 :
+        case /* Function */ 2 :
             return function_expression([
                   loc,
                   arr._0
                 ]);
-        case /* ArrowFunction */3 :
+        case /* ArrowFunction */ 3 :
             const arrow = arr._0;
             const b = arrow.body;
             let body;
-            body = b.TAG === /* BodyBlock */0 ? block(b._0) : expression(b._0);
+            body = b.TAG === /* BodyBlock */ 0 ? block(b._0) : expression(b._0);
             return node("ArrowFunctionExpression", loc, [
                   [
                     "id",
@@ -15750,15 +15750,15 @@ function parse(content, options) {
                     option(type_parameter_declaration, arrow.typeParameters)
                   ]
                 ]);
-        case /* Sequence */4 :
+        case /* Sequence */ 4 :
             return node("SequenceExpression", loc, [[
                     "expressions",
                     array_of_list(expression, arr._0.expressions)
                   ]]);
-        case /* Unary */5 :
+        case /* Unary */ 5 :
             const unary = arr._0;
             const match = unary.operator;
-            if (match === /* Await */7) {
+            if (match === /* Await */ 7) {
               return node("AwaitExpression", loc, [[
                       "argument",
                       expression(unary.argument)
@@ -15767,28 +15767,28 @@ function parse(content, options) {
             const match$1 = unary.operator;
             let operator;
             switch (match$1) {
-              case /* Minus */0 :
+              case /* Minus */ 0 :
                   operator = "-";
                   break;
-              case /* Plus */1 :
+              case /* Plus */ 1 :
                   operator = "+";
                   break;
-              case /* Not */2 :
+              case /* Not */ 2 :
                   operator = "!";
                   break;
-              case /* BitNot */3 :
+              case /* BitNot */ 3 :
                   operator = "~";
                   break;
-              case /* Typeof */4 :
+              case /* Typeof */ 4 :
                   operator = "typeof";
                   break;
-              case /* Void */5 :
+              case /* Void */ 5 :
                   operator = "void";
                   break;
-              case /* Delete */6 :
+              case /* Delete */ 6 :
                   operator = "delete";
                   break;
-              case /* Await */7 :
+              case /* Await */ 7 :
                   throw new Caml_js_exceptions.MelangeError("Failure", {
                         MEL_EXN_ID: "Failure",
                         _1: "matched above"
@@ -15809,75 +15809,75 @@ function parse(content, options) {
                     expression(unary.argument)
                   ]
                 ]);
-        case /* Binary */6 :
+        case /* Binary */ 6 :
             const binary = arr._0;
             const match$2 = binary.operator;
             let operator$1;
             switch (match$2) {
-              case /* Equal */0 :
+              case /* Equal */ 0 :
                   operator$1 = "==";
                   break;
-              case /* NotEqual */1 :
+              case /* NotEqual */ 1 :
                   operator$1 = "!=";
                   break;
-              case /* StrictEqual */2 :
+              case /* StrictEqual */ 2 :
                   operator$1 = "===";
                   break;
-              case /* StrictNotEqual */3 :
+              case /* StrictNotEqual */ 3 :
                   operator$1 = "!==";
                   break;
-              case /* LessThan */4 :
+              case /* LessThan */ 4 :
                   operator$1 = "<";
                   break;
-              case /* LessThanEqual */5 :
+              case /* LessThanEqual */ 5 :
                   operator$1 = "<=";
                   break;
-              case /* GreaterThan */6 :
+              case /* GreaterThan */ 6 :
                   operator$1 = ">";
                   break;
-              case /* GreaterThanEqual */7 :
+              case /* GreaterThanEqual */ 7 :
                   operator$1 = ">=";
                   break;
-              case /* LShift */8 :
+              case /* LShift */ 8 :
                   operator$1 = "<<";
                   break;
-              case /* RShift */9 :
+              case /* RShift */ 9 :
                   operator$1 = ">>";
                   break;
-              case /* RShift3 */10 :
+              case /* RShift3 */ 10 :
                   operator$1 = ">>>";
                   break;
-              case /* Plus */11 :
+              case /* Plus */ 11 :
                   operator$1 = "+";
                   break;
-              case /* Minus */12 :
+              case /* Minus */ 12 :
                   operator$1 = "-";
                   break;
-              case /* Mult */13 :
+              case /* Mult */ 13 :
                   operator$1 = "*";
                   break;
-              case /* Exp */14 :
+              case /* Exp */ 14 :
                   operator$1 = "**";
                   break;
-              case /* Div */15 :
+              case /* Div */ 15 :
                   operator$1 = "/";
                   break;
-              case /* Mod */16 :
+              case /* Mod */ 16 :
                   operator$1 = "%";
                   break;
-              case /* BitOr */17 :
+              case /* BitOr */ 17 :
                   operator$1 = "|";
                   break;
-              case /* Xor */18 :
+              case /* Xor */ 18 :
                   operator$1 = "^";
                   break;
-              case /* BitAnd */19 :
+              case /* BitAnd */ 19 :
                   operator$1 = "&";
                   break;
-              case /* In */20 :
+              case /* In */ 20 :
                   operator$1 = "in";
                   break;
-              case /* Instanceof */21 :
+              case /* Instanceof */ 21 :
                   operator$1 = "instanceof";
                   break;
               
@@ -15896,48 +15896,48 @@ function parse(content, options) {
                     expression(binary.right)
                   ]
                 ]);
-        case /* Assignment */7 :
+        case /* Assignment */ 7 :
             const assignment = arr._0;
             const match$3 = assignment.operator;
             let operator$2;
             switch (match$3) {
-              case /* Assign */0 :
+              case /* Assign */ 0 :
                   operator$2 = "=";
                   break;
-              case /* PlusAssign */1 :
+              case /* PlusAssign */ 1 :
                   operator$2 = "+=";
                   break;
-              case /* MinusAssign */2 :
+              case /* MinusAssign */ 2 :
                   operator$2 = "-=";
                   break;
-              case /* MultAssign */3 :
+              case /* MultAssign */ 3 :
                   operator$2 = "*=";
                   break;
-              case /* ExpAssign */4 :
+              case /* ExpAssign */ 4 :
                   operator$2 = "**=";
                   break;
-              case /* DivAssign */5 :
+              case /* DivAssign */ 5 :
                   operator$2 = "/=";
                   break;
-              case /* ModAssign */6 :
+              case /* ModAssign */ 6 :
                   operator$2 = "%=";
                   break;
-              case /* LShiftAssign */7 :
+              case /* LShiftAssign */ 7 :
                   operator$2 = "<<=";
                   break;
-              case /* RShiftAssign */8 :
+              case /* RShiftAssign */ 8 :
                   operator$2 = ">>=";
                   break;
-              case /* RShift3Assign */9 :
+              case /* RShift3Assign */ 9 :
                   operator$2 = ">>>=";
                   break;
-              case /* BitOrAssign */10 :
+              case /* BitOrAssign */ 10 :
                   operator$2 = "|=";
                   break;
-              case /* BitXorAssign */11 :
+              case /* BitXorAssign */ 11 :
                   operator$2 = "^=";
                   break;
-              case /* BitAndAssign */12 :
+              case /* BitAndAssign */ 12 :
                   operator$2 = "&=";
                   break;
               
@@ -15956,11 +15956,11 @@ function parse(content, options) {
                     expression(assignment.right)
                   ]
                 ]);
-        case /* Update */8 :
+        case /* Update */ 8 :
             const update = arr._0;
             const match$4 = update.operator;
             let operator$3;
-            operator$3 = match$4 === /* Increment */0 ? "++" : "--";
+            operator$3 = match$4 === /* Increment */ 0 ? "++" : "--";
             return node("UpdateExpression", loc, [
                   [
                     "operator",
@@ -15975,11 +15975,11 @@ function parse(content, options) {
                     bool(update.prefix)
                   ]
                 ]);
-        case /* Logical */9 :
+        case /* Logical */ 9 :
             const logical = arr._0;
             const match$5 = logical.operator;
             let operator$4;
-            operator$4 = match$5 === /* Or */0 ? "||" : "&&";
+            operator$4 = match$5 === /* Or */ 0 ? "||" : "&&";
             return node("LogicalExpression", loc, [
                   [
                     "operator",
@@ -15994,7 +15994,7 @@ function parse(content, options) {
                     expression(logical.right)
                   ]
                 ]);
-        case /* Conditional */10 :
+        case /* Conditional */ 10 :
             const conditional = arr._0;
             return node("ConditionalExpression", loc, [
                   [
@@ -16010,7 +16010,7 @@ function parse(content, options) {
                     expression(conditional.alternate)
                   ]
                 ]);
-        case /* New */11 :
+        case /* New */ 11 :
             const _new = arr._0;
             return node("NewExpression", loc, [
                   [
@@ -16022,7 +16022,7 @@ function parse(content, options) {
                     array_of_list(expression_or_spread, _new.arguments)
                   ]
                 ]);
-        case /* Call */12 :
+        case /* Call */ 12 :
             const call = arr._0;
             return node("CallExpression", loc, [
                   [
@@ -16034,11 +16034,11 @@ function parse(content, options) {
                     array_of_list(expression_or_spread, call.arguments)
                   ]
                 ]);
-        case /* Member */13 :
+        case /* Member */ 13 :
             const member = arr._0;
             const id = member.property;
             let property;
-            property = id.TAG === /* PropertyIdentifier */0 ? identifier(id._0) : expression(id._0);
+            property = id.TAG === /* PropertyIdentifier */ 0 ? identifier(id._0) : expression(id._0);
             return node("MemberExpression", loc, [
                   [
                     "object",
@@ -16053,7 +16053,7 @@ function parse(content, options) {
                     bool(member.computed)
                   ]
                 ]);
-        case /* Yield */14 :
+        case /* Yield */ 14 :
             const $$yield = arr._0;
             return node("YieldExpression", loc, [
                   [
@@ -16065,7 +16065,7 @@ function parse(content, options) {
                     bool($$yield.delegate)
                   ]
                 ]);
-        case /* Comprehension */15 :
+        case /* Comprehension */ 15 :
             const comp = arr._0;
             return node("ComprehensionExpression", loc, [
                   [
@@ -16077,7 +16077,7 @@ function parse(content, options) {
                     option(expression, comp.filter)
                   ]
                 ]);
-        case /* Generator */16 :
+        case /* Generator */ 16 :
             const gen = arr._0;
             return node("GeneratorExpression", loc, [
                   [
@@ -16089,7 +16089,7 @@ function parse(content, options) {
                     option(expression, gen.filter)
                   ]
                 ]);
-        case /* Let */17 :
+        case /* Let */ 17 :
             const _let = arr._0;
             return node("LetExpression", loc, [
                   [
@@ -16101,19 +16101,19 @@ function parse(content, options) {
                     expression(_let.body)
                   ]
                 ]);
-        case /* Identifier */18 :
+        case /* Identifier */ 18 :
             return identifier(arr._0);
-        case /* Literal */19 :
+        case /* Literal */ 19 :
             return literal([
                   loc,
                   arr._0
                 ]);
-        case /* TemplateLiteral */20 :
+        case /* TemplateLiteral */ 20 :
             return template_literal([
                   loc,
                   arr._0
                 ]);
-        case /* TaggedTemplate */21 :
+        case /* TaggedTemplate */ 21 :
             let param$1 = [
               loc,
               arr._0
@@ -16129,12 +16129,12 @@ function parse(content, options) {
                     template_literal(tagged.quasi)
                   ]
                 ]);
-        case /* JSXElement */22 :
+        case /* JSXElement */ 22 :
             return jsx_element([
                   loc,
                   arr._0
                 ]);
-        case /* Class */23 :
+        case /* Class */ 23 :
             let param$2 = [
               loc,
               arr._0
@@ -16170,7 +16170,7 @@ function parse(content, options) {
                     array_of_list(expression, c.classDecorators)
                   ]
                 ]);
-        case /* TypeCast */24 :
+        case /* TypeCast */ 24 :
             const typecast = arr._0;
             return node("TypeCastExpression", loc, [
                   [
@@ -16191,20 +16191,20 @@ function parse(content, options) {
       const value = lit.value;
       const loc = param[0];
       let value_;
-      if (/* tag */typeof value === "number" || typeof value === "string") {
+      if (/* tag */ typeof value === "number" || typeof value === "string") {
         value_ = $$null;
       } else {
         switch (value.TAG) {
-          case /* String */0 :
+          case /* String */ 0 :
               value_ = string(value._0);
               break;
-          case /* Boolean */1 :
+          case /* Boolean */ 1 :
               value_ = bool(value._0);
               break;
-          case /* Number */2 :
+          case /* Number */ 2 :
               value_ = number$1(value._0);
               break;
-          case /* RegExp */3 :
+          case /* RegExp */ 3 :
               const match = value._0;
               value_ = regexp$1(loc, match.pattern, match.flags);
               break;
@@ -16213,7 +16213,7 @@ function parse(content, options) {
       }
       let props;
       let exit = 0;
-      if (/* tag */typeof value === "number" || typeof value === "string" || value.TAG !== /* RegExp */3) {
+      if (/* tag */ typeof value === "number" || typeof value === "string" || value.TAG !== /* RegExp */ 3) {
         exit = 1;
       } else {
         const match$1 = value._0;
@@ -16260,7 +16260,7 @@ function parse(content, options) {
       const obj = param[1];
       const loc = param[0];
       switch (obj.TAG) {
-        case /* Object */0 :
+        case /* Object */ 0 :
             const obj$1 = obj._0;
             return node("ObjectPattern", loc, [
                   [
@@ -16272,7 +16272,7 @@ function parse(content, options) {
                     option(type_annotation, obj$1.typeAnnotation)
                   ]
                 ]);
-        case /* Array */1 :
+        case /* Array */ 1 :
             const arr = obj._0;
             return node("ArrayPattern", loc, [
                   [
@@ -16286,7 +16286,7 @@ function parse(content, options) {
                     option(type_annotation, arr.typeAnnotation)
                   ]
                 ]);
-        case /* Assignment */2 :
+        case /* Assignment */ 2 :
             const match = obj._0;
             return node("AssignmentPattern", loc, [
                   [
@@ -16298,20 +16298,20 @@ function parse(content, options) {
                     expression(match.right)
                   ]
                 ]);
-        case /* Identifier */3 :
+        case /* Identifier */ 3 :
             return identifier(obj._0);
-        case /* Expression */4 :
+        case /* Expression */ 4 :
             return expression(obj._0);
         
       }
     };
     const jsx_name = function (id) {
       switch (id.TAG) {
-        case /* Identifier */0 :
+        case /* Identifier */ 0 :
             return jsx_identifier(id._0);
-        case /* NamespacedName */1 :
+        case /* NamespacedName */ 1 :
             return jsx_namespaced_name(id._0);
-        case /* MemberExpression */2 :
+        case /* MemberExpression */ 2 :
             return jsx_member_expression(id._0);
         
       }
@@ -16360,7 +16360,7 @@ function parse(content, options) {
       const g = param[1];
       const id = g.id;
       let id$1;
-      id$1 = id.TAG === /* Unqualified */0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
+      id$1 = id.TAG === /* Unqualified */ 0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
       return node("InterfaceExtends", param[0], [
             [
               "id",
@@ -16395,7 +16395,7 @@ function parse(content, options) {
       const member_expression = param[1];
       const id = member_expression._object;
       let _object;
-      _object = id.TAG === /* Identifier */0 ? jsx_identifier(id._0) : jsx_member_expression(id._0);
+      _object = id.TAG === /* Identifier */ 0 ? jsx_identifier(id._0) : jsx_member_expression(id._0);
       return node("JSXMemberExpression", param[0], [
             [
               "object",
@@ -16461,17 +16461,17 @@ function parse(content, options) {
       const element = param[1];
       const loc = param[0];
       switch (element.TAG) {
-        case /* Element */0 :
+        case /* Element */ 0 :
             return jsx_element([
                   loc,
                   element._0
                 ]);
-        case /* ExpressionContainer */1 :
+        case /* ExpressionContainer */ 1 :
             return jsx_expression_container([
                   loc,
                   element._0
                 ]);
-        case /* Text */2 :
+        case /* Text */ 2 :
             let param$1 = [
               loc,
               element._0
@@ -16493,7 +16493,7 @@ function parse(content, options) {
     const jsx_expression_container = function (param) {
       const expr = param[1].expression;
       let expression$1;
-      expression$1 = expr.TAG === /* Expression */0 ? expression(expr._0) : node("JSXEmptyExpression", expr._0, []);
+      expression$1 = expr.TAG === /* Expression */ 0 ? expression(expr._0) : node("JSXEmptyExpression", expr._0, []);
       return node("JSXExpressionContainer", param[0], [[
               "expression",
               expression$1
@@ -16517,12 +16517,12 @@ function parse(content, options) {
           ]);
     };
     const jsx_opening_attribute = function (attribute) {
-      if (attribute.TAG === /* Attribute */0) {
+      if (attribute.TAG === /* Attribute */ 0) {
         let param = attribute._0;
         const attribute$1 = param[1];
         const id = attribute$1.name;
         let name;
-        name = id.TAG === /* Identifier */0 ? jsx_identifier(id._0) : jsx_namespaced_name(id._0);
+        name = id.TAG === /* Identifier */ 0 ? jsx_identifier(id._0) : jsx_namespaced_name(id._0);
         return node("JSXAttribute", param[0], [
               [
                 "name",
@@ -16585,7 +16585,7 @@ function parse(content, options) {
           ]);
     };
     const jsx_attribute_value = function (param) {
-      if (param.TAG === /* Literal */0) {
+      if (param.TAG === /* Literal */ 0) {
         return literal([
               param._0,
               param._1
@@ -16601,7 +16601,7 @@ function parse(content, options) {
       const q = param[1];
       const id = q.qualification;
       let qualification;
-      qualification = id.TAG === /* Unqualified */0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
+      qualification = id.TAG === /* Unqualified */ 0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
       return node("QualifiedTypeIdentifier", param[0], [
             [
               "qualification",
@@ -16664,13 +16664,13 @@ function parse(content, options) {
       const lit = prop.key;
       let key;
       switch (lit.TAG) {
-        case /* Literal */0 :
+        case /* Literal */ 0 :
             key = literal(lit._0);
             break;
-        case /* Identifier */1 :
+        case /* Identifier */ 1 :
             key = identifier(lit._0);
             break;
-        case /* Computed */2 :
+        case /* Computed */ 2 :
             throw new Caml_js_exceptions.MelangeError("Failure", {
                   MEL_EXN_ID: "Failure",
                   _1: "There should not be computed object type property keys"
@@ -16700,7 +16700,7 @@ function parse(content, options) {
       const _function = param[1];
       const b = _function.body;
       let body;
-      body = b.TAG === /* BodyBlock */0 ? block(b._0) : expression(b._0);
+      body = b.TAG === /* BodyBlock */ 0 ? block(b._0) : expression(b._0);
       return node("FunctionExpression", param[0], [
             [
               "id",
@@ -16747,25 +16747,25 @@ function parse(content, options) {
           ]);
     };
     const class_element = function (m) {
-      if (m.TAG === /* Method */0) {
+      if (m.TAG === /* Method */ 0) {
         let param = m._0;
         const method_ = param[1];
         const key = method_.key;
         let match;
         switch (key.TAG) {
-          case /* Literal */0 :
+          case /* Literal */ 0 :
               match = [
                 literal(key._0),
                 false
               ];
               break;
-          case /* Identifier */1 :
+          case /* Identifier */ 1 :
               match = [
                 identifier(key._0),
                 false
               ];
               break;
-          case /* Computed */2 :
+          case /* Computed */ 2 :
               match = [
                 expression(key._0),
                 true
@@ -16775,16 +16775,16 @@ function parse(content, options) {
         }
         let kind;
         switch (method_.kind) {
-          case /* Constructor */0 :
+          case /* Constructor */ 0 :
               kind = "constructor";
               break;
-          case /* Method */1 :
+          case /* Method */ 1 :
               kind = "method";
               break;
-          case /* Get */2 :
+          case /* Get */ 2 :
               kind = "get";
               break;
-          case /* Set */3 :
+          case /* Set */ 3 :
               kind = "set";
               break;
           
@@ -16821,19 +16821,19 @@ function parse(content, options) {
         const lit = prop.key;
         let match$1;
         switch (lit.TAG) {
-          case /* Literal */0 :
+          case /* Literal */ 0 :
               match$1 = [
                 literal(lit._0),
                 false
               ];
               break;
-          case /* Identifier */1 :
+          case /* Identifier */ 1 :
               match$1 = [
                 identifier(lit._0),
                 false
               ];
               break;
-          case /* Computed */2 :
+          case /* Computed */ 2 :
               match$1 = [
                 expression(lit._0),
                 true
@@ -16868,7 +16868,7 @@ function parse(content, options) {
     const comment = function (param) {
       const c = param[1];
       let match;
-      match = c.TAG === /* Block */0 ? [
+      match = c.TAG === /* Block */ 0 ? [
           "Block",
           c._0
         ] : [
@@ -16883,25 +16883,25 @@ function parse(content, options) {
     const statement = function (param) {
       const b = param[1];
       const loc = param[0];
-      if (/* tag */typeof b === "number" || typeof b === "string") {
-        if (b === /* Empty */0) {
+      if (/* tag */ typeof b === "number" || typeof b === "string") {
+        if (b === /* Empty */ 0) {
           return node("EmptyStatement", loc, []);
         } else {
           return node("DebuggerStatement", loc, []);
         }
       }
       switch (b.TAG) {
-        case /* Block */0 :
+        case /* Block */ 0 :
             return block([
                   loc,
                   b._0
                 ]);
-        case /* Expression */1 :
+        case /* Expression */ 1 :
             return node("ExpressionStatement", loc, [[
                     "expression",
                     expression(b._0.expression)
                   ]]);
-        case /* If */2 :
+        case /* If */ 2 :
             const _if = b._0;
             return node("IfStatement", loc, [
                   [
@@ -16917,7 +16917,7 @@ function parse(content, options) {
                     option(statement, _if.alternate)
                   ]
                 ]);
-        case /* Labeled */3 :
+        case /* Labeled */ 3 :
             const labeled = b._0;
             return node("LabeledStatement", loc, [
                   [
@@ -16929,17 +16929,17 @@ function parse(content, options) {
                     statement(labeled.body)
                   ]
                 ]);
-        case /* Break */4 :
+        case /* Break */ 4 :
             return node("BreakStatement", loc, [[
                     "label",
                     option(identifier, b._0.label)
                   ]]);
-        case /* Continue */5 :
+        case /* Continue */ 5 :
             return node("ContinueStatement", loc, [[
                     "label",
                     option(identifier, b._0.label)
                   ]]);
-        case /* With */6 :
+        case /* With */ 6 :
             const _with = b._0;
             return node("WithStatement", loc, [
                   [
@@ -16951,12 +16951,12 @@ function parse(content, options) {
                     statement(_with.body)
                   ]
                 ]);
-        case /* TypeAlias */7 :
+        case /* TypeAlias */ 7 :
             return type_alias([
                   loc,
                   b._0
                 ]);
-        case /* Switch */8 :
+        case /* Switch */ 8 :
             const $$switch = b._0;
             return node("SwitchStatement", loc, [
                   [
@@ -16972,17 +16972,17 @@ function parse(content, options) {
                     bool($$switch.lexical)
                   ]
                 ]);
-        case /* Return */9 :
+        case /* Return */ 9 :
             return node("ReturnStatement", loc, [[
                     "argument",
                     option(expression, b._0.argument)
                   ]]);
-        case /* Throw */10 :
+        case /* Throw */ 10 :
             return node("ThrowStatement", loc, [[
                     "argument",
                     expression(b._0.argument)
                   ]]);
-        case /* Try */11 :
+        case /* Try */ 11 :
             const _try = b._0;
             return node("TryStatement", loc, [
                   [
@@ -17002,7 +17002,7 @@ function parse(content, options) {
                     option(block, _try.finalizer)
                   ]
                 ]);
-        case /* While */12 :
+        case /* While */ 12 :
             const _while = b._0;
             return node("WhileStatement", loc, [
                   [
@@ -17014,7 +17014,7 @@ function parse(content, options) {
                     statement(_while.body)
                   ]
                 ]);
-        case /* DoWhile */13 :
+        case /* DoWhile */ 13 :
             const dowhile = b._0;
             return node("DoWhileStatement", loc, [
                   [
@@ -17026,10 +17026,10 @@ function parse(content, options) {
                     expression(dowhile.test)
                   ]
                 ]);
-        case /* For */14 :
+        case /* For */ 14 :
             const _for = b._0;
             const init = function (init$1) {
-              if (init$1.TAG === /* InitDeclaration */0) {
+              if (init$1.TAG === /* InitDeclaration */ 0) {
                 return variable_declaration(init$1._0);
               } else {
                 return expression(init$1._0);
@@ -17053,11 +17053,11 @@ function parse(content, options) {
                     statement(_for.body)
                   ]
                 ]);
-        case /* ForIn */15 :
+        case /* ForIn */ 15 :
             const forin = b._0;
             const left = forin.left;
             let left$1;
-            left$1 = left.TAG === /* LeftDeclaration */0 ? variable_declaration(left._0) : expression(left._0);
+            left$1 = left.TAG === /* LeftDeclaration */ 0 ? variable_declaration(left._0) : expression(left._0);
             return node("ForInStatement", loc, [
                   [
                     "left",
@@ -17076,11 +17076,11 @@ function parse(content, options) {
                     bool(forin.each)
                   ]
                 ]);
-        case /* ForOf */16 :
+        case /* ForOf */ 16 :
             const forof = b._0;
             const left$2 = forof.left;
             let left$3;
-            left$3 = left$2.TAG === /* LeftDeclaration */0 ? variable_declaration(left$2._0) : expression(left$2._0);
+            left$3 = left$2.TAG === /* LeftDeclaration */ 0 ? variable_declaration(left$2._0) : expression(left$2._0);
             return node("ForOfStatement", loc, [
                   [
                     "left",
@@ -17095,7 +17095,7 @@ function parse(content, options) {
                     statement(forof.body)
                   ]
                 ]);
-        case /* Let */17 :
+        case /* Let */ 17 :
             const _let = b._0;
             return node("LetStatement", loc, [
                   [
@@ -17107,7 +17107,7 @@ function parse(content, options) {
                     statement(_let.body)
                   ]
                 ]);
-        case /* FunctionDeclaration */18 :
+        case /* FunctionDeclaration */ 18 :
             const fn = b._0;
             const id = fn.id;
             const match = id !== undefined ? [
@@ -17119,7 +17119,7 @@ function parse(content, options) {
               ];
             const b$1 = fn.body;
             let body;
-            body = b$1.TAG === /* BodyBlock */0 ? block(b$1._0) : expression(b$1._0);
+            body = b$1.TAG === /* BodyBlock */ 0 ? block(b$1._0) : expression(b$1._0);
             return node(match[0], loc, [
                   [
                     "id",
@@ -17164,12 +17164,12 @@ function parse(content, options) {
                     option(type_parameter_declaration, fn.typeParameters)
                   ]
                 ]);
-        case /* VariableDeclaration */19 :
+        case /* VariableDeclaration */ 19 :
             return variable_declaration([
                   loc,
                   b._0
                 ]);
-        case /* ClassDeclaration */20 :
+        case /* ClassDeclaration */ 20 :
             let param$1 = [
               loc,
               b._0
@@ -17213,34 +17213,34 @@ function parse(content, options) {
                     array_of_list(expression, c.classDecorators)
                   ]
                 ]);
-        case /* InterfaceDeclaration */21 :
+        case /* InterfaceDeclaration */ 21 :
             return interface_declaration([
                   loc,
                   b._0
                 ]);
-        case /* DeclareVariable */22 :
+        case /* DeclareVariable */ 22 :
             return declare_variable([
                   loc,
                   b._0
                 ]);
-        case /* DeclareFunction */23 :
+        case /* DeclareFunction */ 23 :
             return declare_function([
                   loc,
                   b._0
                 ]);
-        case /* DeclareClass */24 :
+        case /* DeclareClass */ 24 :
             return declare_class([
                   loc,
                   b._0
                 ]);
-        case /* DeclareModule */25 :
+        case /* DeclareModule */ 25 :
             const m = b._0;
             const lit = m.id;
             let id$2;
-            id$2 = lit.TAG === /* Identifier */0 ? identifier(lit._0) : literal(lit._0);
+            id$2 = lit.TAG === /* Identifier */ 0 ? identifier(lit._0) : literal(lit._0);
             const match$2 = m.kind;
             let tmp;
-            tmp = match$2.TAG === /* CommonJS */0 ? string("CommonJS") : string("ES");
+            tmp = match$2.TAG === /* CommonJS */ 0 ? string("CommonJS") : string("ES");
             return node("DeclareModule", loc, [
                   [
                     "id",
@@ -17255,33 +17255,33 @@ function parse(content, options) {
                     tmp
                   ]
                 ]);
-        case /* DeclareModuleExports */26 :
+        case /* DeclareModuleExports */ 26 :
             return node("DeclareModuleExports", loc, [[
                     "typeAnnotation",
                     type_annotation(b._0)
                   ]]);
-        case /* DeclareExportDeclaration */27 :
+        case /* DeclareExportDeclaration */ 27 :
             const $$export = b._0;
             const match$3 = $$export.declaration;
             let declaration;
             if (match$3 !== undefined) {
               switch (match$3.TAG) {
-                case /* Variable */0 :
+                case /* Variable */ 0 :
                     declaration = declare_variable(match$3._0);
                     break;
-                case /* Function */1 :
+                case /* Function */ 1 :
                     declaration = declare_function(match$3._0);
                     break;
-                case /* Class */2 :
+                case /* Class */ 2 :
                     declaration = declare_class(match$3._0);
                     break;
-                case /* DefaultType */3 :
+                case /* DefaultType */ 3 :
                     declaration = _type(match$3._0);
                     break;
-                case /* NamedType */4 :
+                case /* NamedType */ 4 :
                     declaration = type_alias(match$3._0);
                     break;
-                case /* Interface */5 :
+                case /* Interface */ 5 :
                     declaration = interface_declaration(match$3._0);
                     break;
                 
@@ -17307,11 +17307,11 @@ function parse(content, options) {
                     option(literal, $$export.source)
                   ]
                 ]);
-        case /* ExportDeclaration */28 :
+        case /* ExportDeclaration */ 28 :
             const $$export$1 = b._0;
             const match$4 = $$export$1.declaration;
             const declaration$1 = match$4 !== undefined ? (
-                match$4.TAG === /* Declaration */0 ? statement(match$4._0) : expression(match$4._0)
+                match$4.TAG === /* Declaration */ 0 ? statement(match$4._0) : expression(match$4._0)
               ) : $$null;
             return node("ExportDeclaration", loc, [
                   [
@@ -17335,11 +17335,11 @@ function parse(content, options) {
                     string(export_kind($$export$1.exportKind))
                   ]
                 ]);
-        case /* ImportDeclaration */29 :
+        case /* ImportDeclaration */ 29 :
             const $$import = b._0;
             const specifiers = Stdlib__List.map((function (id) {
                   switch (id.TAG) {
-                    case /* ImportNamedSpecifier */0 :
+                    case /* ImportNamedSpecifier */ 0 :
                         const match = id._0;
                         let local_id = match.local;
                         let remote_id = match.remote;
@@ -17354,13 +17354,13 @@ function parse(content, options) {
                                 option(identifier, local_id)
                               ]
                             ]);
-                    case /* ImportDefaultSpecifier */1 :
+                    case /* ImportDefaultSpecifier */ 1 :
                         let id$1 = id._0;
                         return node("ImportDefaultSpecifier", id$1[0], [[
                                 "id",
                                 identifier(id$1)
                               ]]);
-                    case /* ImportNamespaceSpecifier */2 :
+                    case /* ImportNamespaceSpecifier */ 2 :
                         let param = id._0;
                         return node("ImportNamespaceSpecifier", param[0], [[
                                 "id",
@@ -17372,13 +17372,13 @@ function parse(content, options) {
             const match$5 = $$import.importKind;
             let import_kind;
             switch (match$5) {
-              case /* ImportType */0 :
+              case /* ImportType */ 0 :
                   import_kind = "type";
                   break;
-              case /* ImportTypeof */1 :
+              case /* ImportTypeof */ 1 :
                   import_kind = "typeof";
                   break;
-              case /* ImportValue */2 :
+              case /* ImportValue */ 2 :
                   import_kind = "value";
                   break;
               
@@ -17403,7 +17403,7 @@ function parse(content, options) {
     const type_param = function (param) {
       const tp = param[1];
       const variance = function (param) {
-        if (param === /* Plus */0) {
+        if (param === /* Plus */ 0) {
           return string("plus");
         } else {
           return string("minus");
@@ -17456,13 +17456,13 @@ function parse(content, options) {
       const match = $$var.kind;
       let kind;
       switch (match) {
-        case /* Var */0 :
+        case /* Var */ 0 :
             kind = "var";
             break;
-        case /* Let */1 :
+        case /* Let */ 1 :
             kind = "let";
             break;
-        case /* Const */2 :
+        case /* Const */ 2 :
             kind = "const";
             break;
         
@@ -17527,7 +17527,7 @@ function parse(content, options) {
           ]);
     };
     const export_kind = function (param) {
-      if (param === /* ExportType */0) {
+      if (param === /* ExportType */ 0) {
         return "type";
       } else {
         return "value";
@@ -17564,7 +17564,7 @@ function parse(content, options) {
     };
     const export_specifiers = function (param) {
       if (param !== undefined) {
-        if (param.TAG === /* ExportSpecifiers */0) {
+        if (param.TAG === /* ExportSpecifiers */ 0) {
           return array_of_list(export_specifier, param._0);
         } else {
           return array([node("ExportBatchSpecifier", param._0, [[
@@ -17603,25 +17603,25 @@ function parse(content, options) {
           ]);
     };
     const object_pattern_property = function (param) {
-      if (param.TAG === /* Property */0) {
+      if (param.TAG === /* Property */ 0) {
         const match = param._0;
         const prop = match[1];
         const lit = prop.key;
         let match$1;
         switch (lit.TAG) {
-          case /* Literal */0 :
+          case /* Literal */ 0 :
               match$1 = [
                 literal(lit._0),
                 false
               ];
               break;
-          case /* Identifier */1 :
+          case /* Identifier */ 1 :
               match$1 = [
                 identifier(lit._0),
                 false
               ];
               break;
-          case /* Computed */2 :
+          case /* Computed */ 2 :
               match$1 = [
                 expression(lit._0),
                 true
@@ -17655,7 +17655,7 @@ function parse(content, options) {
             ]]);
     };
     const array_pattern_element = function (p) {
-      if (p.TAG === /* Element */0) {
+      if (p.TAG === /* Element */ 0) {
         return pattern(p._0);
       }
       const match = p._0;
@@ -17684,25 +17684,25 @@ function parse(content, options) {
           ]);
     };
     const object_property = function (param) {
-      if (param.TAG === /* Property */0) {
+      if (param.TAG === /* Property */ 0) {
         const match = param._0;
         const prop = match[1];
         const lit = prop.key;
         let match$1;
         switch (lit.TAG) {
-          case /* Literal */0 :
+          case /* Literal */ 0 :
               match$1 = [
                 literal(lit._0),
                 false
               ];
               break;
-          case /* Identifier */1 :
+          case /* Identifier */ 1 :
               match$1 = [
                 identifier(lit._0),
                 false
               ];
               break;
-          case /* Computed */2 :
+          case /* Computed */ 2 :
               match$1 = [
                 expression(lit._0),
                 true
@@ -17713,13 +17713,13 @@ function parse(content, options) {
         const match$2 = prop.kind;
         let kind;
         switch (match$2) {
-          case /* Init */0 :
+          case /* Init */ 0 :
               kind = "init";
               break;
-          case /* Get */1 :
+          case /* Get */ 1 :
               kind = "get";
               break;
-          case /* Set */2 :
+          case /* Set */ 2 :
               kind = "set";
               break;
           
@@ -17775,7 +17775,7 @@ function parse(content, options) {
           ]);
     };
     const expression_or_spread = function (expr) {
-      if (expr.TAG === /* Expression */0) {
+      if (expr.TAG === /* Expression */ 0) {
         return expression(expr._0);
       }
       const match = expr._0;
@@ -17814,7 +17814,7 @@ function parse(content, options) {
 }
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -17828,7 +17828,7 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: x,
           _1: y
         };

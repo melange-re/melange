@@ -3,7 +3,7 @@
 
 const Caml_exceptions = require("melange.js/caml_exceptions.js");
 
-const A = /* @__PURE__ */Caml_exceptions.create("Local_exception_test.A");
+const A = /* @__PURE__ */ Caml_exceptions.create("Local_exception_test.A");
 
 const v = {
   MEL_EXN_ID: A,
@@ -11,13 +11,13 @@ const v = {
   _2: true
 };
 
-const B = /* @__PURE__ */Caml_exceptions.create("Local_exception_test.B");
+const B = /* @__PURE__ */ Caml_exceptions.create("Local_exception_test.B");
 
 const u = {
   MEL_EXN_ID: B
 };
 
-const D = /* @__PURE__ */Caml_exceptions.create("Local_exception_test.D");
+const D = /* @__PURE__ */ Caml_exceptions.create("Local_exception_test.D");
 
 const d = {
   MEL_EXN_ID: D,

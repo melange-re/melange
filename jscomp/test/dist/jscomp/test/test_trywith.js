@@ -115,10 +115,10 @@ function u(param) {
 }
 
 function f(x) {
-  if (/* tag */typeof x === "number" || typeof x === "string") {
+  if (/* tag */ typeof x === "number" || typeof x === "string") {
     return 2;
   }
-  if (x.TAG === /* D */0) {
+  if (x.TAG === /* D */ 0) {
     return 1;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {

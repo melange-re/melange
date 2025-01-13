@@ -8,19 +8,19 @@ const Curry = require("melange.js/curry.js");
 const Stdlib = require("melange/stdlib.js");
 
 function foo(n) {
-  if (/* tag */typeof n === "number" || typeof n === "string") {
-    if (n === /* A1 */0) {
+  if (/* tag */ typeof n === "number" || typeof n === "string") {
+    if (n === /* A1 */ 0) {
       return 1;
     } else {
       return 2;
     }
   }
   switch (n.TAG) {
-    case /* B */0 :
+    case /* B */ 0 :
         return n._0;
-    case /* C */1 :
+    case /* C */ 1 :
         return n._0 + n._1 | 0;
-    case /* D */2 :
+    case /* D */ 2 :
         const match = n._0;
         return match[0] + match[1] | 0;
     
@@ -28,7 +28,7 @@ function foo(n) {
 }
 
 function fooA1(param) {
-  if (/* tag */(typeof param === "number" || typeof param === "string") && param === /* A1 */0) {
+  if (/* tag */ (typeof param === "number" || typeof param === "string") && param === /* A1 */ 0) {
     return 1;
   } else {
     return 42;
@@ -36,7 +36,7 @@ function fooA1(param) {
 }
 
 function fooC(param) {
-  if (/* tag */typeof param === "number" || typeof param === "string" || param.TAG !== /* C */1) {
+  if (/* tag */ typeof param === "number" || typeof param === "string" || param.TAG !== /* C */ 1) {
     return 42;
   } else {
     return param._0 + param._1 | 0;
@@ -90,10 +90,10 @@ function rollback_path(subst, p) {
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       switch (p.TAG) {
-        case /* Pdot */1 :
+        case /* Pdot */ 1 :
             return "Pdot";
-        case /* Pident */0 :
-        case /* Papply */2 :
+        case /* Pident */ 0 :
+        case /* Papply */ 2 :
             return "Pident | Papply";
         
       }
@@ -103,15 +103,15 @@ function rollback_path(subst, p) {
   }
 }
 
-const EA1 = /* @__PURE__ */Caml_exceptions.create("Variant.EA1");
+const EA1 = /* @__PURE__ */ Caml_exceptions.create("Variant.EA1");
 
-const EA2 = /* @__PURE__ */Caml_exceptions.create("Variant.EA2");
+const EA2 = /* @__PURE__ */ Caml_exceptions.create("Variant.EA2");
 
-const EB = /* @__PURE__ */Caml_exceptions.create("Variant.EB");
+const EB = /* @__PURE__ */ Caml_exceptions.create("Variant.EB");
 
-const EC = /* @__PURE__ */Caml_exceptions.create("Variant.EC");
+const EC = /* @__PURE__ */ Caml_exceptions.create("Variant.EC");
 
-const ED = /* @__PURE__ */Caml_exceptions.create("Variant.ED");
+const ED = /* @__PURE__ */ Caml_exceptions.create("Variant.ED");
 
 function fooExn(f) {
   try {
@@ -139,23 +139,23 @@ function fooExn(f) {
   }
 }
 
-const a1 = /* A1 */0;
+const a1 = /* A1 */ 0;
 
-const a2 = /* A2 */1;
+const a2 = /* A2 */ 1;
 
 const b = {
-  TAG: /* B */0,
+  TAG: /* B */ 0,
   _0: 34
 };
 
 const c = {
-  TAG: /* C */1,
+  TAG: /* C */ 1,
   _0: 4,
   _1: 2
 };
 
 const d = {
-  TAG: /* D */2,
+  TAG: /* D */ 2,
   _0: [
     4,
     2

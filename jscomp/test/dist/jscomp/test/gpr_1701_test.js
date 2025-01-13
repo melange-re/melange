@@ -6,7 +6,7 @@ const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Stdlib = require("melange/stdlib.js");
 const Stdlib__List = require("melange/list.js");
 
-const Foo = /* @__PURE__ */Caml_exceptions.create("Gpr_1701_test.Foo");
+const Foo = /* @__PURE__ */ Caml_exceptions.create("Gpr_1701_test.Foo");
 
 function test(n) {
   if (n === 0) {
@@ -29,7 +29,7 @@ function test(n) {
 test(100);
 
 function read_lines(inc) {
-  let _acc = /* [] */0;
+  let _acc = /* [] */ 0;
   while(true) {
     const acc = _acc;
     let l;
@@ -56,7 +56,7 @@ function read_lines(inc) {
 }
 
 function read_lines2(inc) {
-  let _acc = /* [] */0;
+  let _acc = /* [] */ 0;
   while(true) {
     const acc = _acc;
     let l;
@@ -95,7 +95,7 @@ function read_lines3(inc) {
       throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }
   };
-  return loop(/* [] */0);
+  return loop(/* [] */ 0);
 }
 
 function fff(f, x) {

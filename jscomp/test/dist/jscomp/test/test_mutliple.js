@@ -3,7 +3,7 @@
 
 const Stdlib__List = require("melange/list.js");
 
-const f = Stdlib__List.length(/* [] */0);
+const f = Stdlib__List.length(/* [] */ 0);
 
 exports.f = f;
 /* f Not a pure module */

@@ -10,7 +10,7 @@ const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -36,7 +36,7 @@ function neq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Neq */1,
+          TAG: /* Neq */ 1,
           _0: x,
           _1: y
         };
@@ -359,11 +359,11 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 103, characters 5-12", Belt__Bel
       5
     ]);
 
-eq("File \"jscomp/test/bs_array_test.ml\", line 104, characters 5-12", Belt__Belt_List.fromArray([]), /* [] */0);
+eq("File \"jscomp/test/bs_array_test.ml\", line 104, characters 5-12", Belt__Belt_List.fromArray([]), /* [] */ 0);
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 105, characters 5-12", Belt__Belt_List.fromArray([1]), {
       hd: 1,
-      tl: /* [] */0
+      tl: /* [] */ 0
     });
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 106, characters 5-12", Belt__Belt_List.fromArray([
@@ -376,7 +376,7 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 106, characters 5-12", Belt__Bel
         hd: 2,
         tl: {
           hd: 3,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     });
@@ -393,18 +393,18 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 107, characters 5-12", Belt__Bel
       4
     ]);
 
-eq("File \"jscomp/test/bs_array_test.ml\", line 108, characters 5-12", Belt__Belt_List.toArray(/* [] */0), []);
+eq("File \"jscomp/test/bs_array_test.ml\", line 108, characters 5-12", Belt__Belt_List.toArray(/* [] */ 0), []);
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 109, characters 5-12", Belt__Belt_List.toArray({
           hd: 1,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }), [1]);
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 110, characters 5-12", Belt__Belt_List.toArray({
           hd: 1,
           tl: {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }), [
       1,
@@ -417,7 +417,7 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 111, characters 5-12", Belt__Bel
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }), [
@@ -1173,9 +1173,9 @@ function some2(xs, ys) {
   };
 }
 
-eq("File \"jscomp/test/bs_array_test.ml\", line 275, characters 5-12", every2(/* [] */0, {
+eq("File \"jscomp/test/bs_array_test.ml\", line 275, characters 5-12", every2(/* [] */ 0, {
             hd: 1,
-            tl: /* [] */0
+            tl: /* [] */ 0
           })(function (x, y) {
           return x > y;
         }), true);
@@ -1184,21 +1184,21 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 276, characters 5-12", every2({
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }, {
             hd: 1,
-            tl: /* [] */0
+            tl: /* [] */ 0
           })(function (x, y) {
           return x > y;
         }), true);
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 277, characters 5-12", every2({
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }, {
             hd: 1,
-            tl: /* [] */0
+            tl: /* [] */ 0
           })(function (x, y) {
           return x > y;
         }), true);
@@ -1207,13 +1207,13 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 278, characters 5-12", every2({
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }, {
             hd: 1,
             tl: {
               hd: 4,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           })(function (x, y) {
           return x > y;
@@ -1223,21 +1223,21 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 279, characters 5-12", every2({
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }, {
             hd: 1,
             tl: {
               hd: 0,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           })(function (x, y) {
           return x > y;
         }), true);
 
-eq("File \"jscomp/test/bs_array_test.ml\", line 280, characters 5-12", some2(/* [] */0, {
+eq("File \"jscomp/test/bs_array_test.ml\", line 280, characters 5-12", some2(/* [] */ 0, {
             hd: 1,
-            tl: /* [] */0
+            tl: /* [] */ 0
           })(function (x, y) {
           return x > y;
         }), false);
@@ -1246,11 +1246,11 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 281, characters 5-12", some2({
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }, {
             hd: 1,
-            tl: /* [] */0
+            tl: /* [] */ 0
           })(function (x, y) {
           return x > y;
         }), true);
@@ -1259,13 +1259,13 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 282, characters 5-12", some2({
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }, {
             hd: 1,
             tl: {
               hd: 4,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           })(function (x, y) {
           return x > y;
@@ -1275,13 +1275,13 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 283, characters 5-12", some2({
             hd: 0,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }, {
             hd: 1,
             tl: {
               hd: 4,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           })(function (x, y) {
           return x > y;
@@ -1291,13 +1291,13 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 284, characters 5-12", some2({
             hd: 0,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }, {
             hd: 3,
             tl: {
               hd: 2,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           })(function (x, y) {
           return x > y;

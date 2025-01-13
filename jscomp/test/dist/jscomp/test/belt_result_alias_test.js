@@ -4,14 +4,14 @@
 const Belt__Belt_Result = require("melange.belt/belt_Result.js");
 
 Belt__Belt_Result.map({
-      TAG: /* Ok */0,
+      TAG: /* Ok */ 0,
       _0: "Test"
     }, (function (r) {
       return "Value: " + r;
     }));
 
 Belt__Belt_Result.getWithDefault(Belt__Belt_Result.map({
-          TAG: /* Error */1,
+          TAG: /* Error */ 1,
           _0: "error"
         }, (function (r) {
           return "Value: " + r;

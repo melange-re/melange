@@ -21,7 +21,7 @@ const test = {
 const arg_spec_0 = [
   "-c",
   {
-    TAG: /* Set */2,
+    TAG: /* Set */ 2,
     _0: compile
   },
   " Compile"
@@ -31,12 +31,12 @@ const arg_spec_1 = {
   hd: [
     "-d",
     {
-      TAG: /* Clear */3,
+      TAG: /* Clear */ 3,
       _0: test
     },
     " Test"
   ],
-  tl: /* [] */0
+  tl: /* [] */ 0
 };
 
 const arg_spec = {

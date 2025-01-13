@@ -5,7 +5,7 @@ const Mt = require("../mt.js");
 const Stdlib__List = require("melange/list.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -22,7 +22,7 @@ const x = Stdlib__List.length({
         hd: 2,
         tl: {
           hd: 3,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     });

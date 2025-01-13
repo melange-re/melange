@@ -39,7 +39,7 @@ function a0(f) {
 }
 
 function a1(f) {
-  const E = /* @__PURE__ */Caml_exceptions.create("E");
+  const E = /* @__PURE__ */ Caml_exceptions.create("E");
   try {
     return Curry._1(f, undefined);
   }

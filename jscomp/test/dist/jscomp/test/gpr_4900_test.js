@@ -4,7 +4,7 @@
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const id = {
@@ -12,7 +12,7 @@ const id = {
 };
 
 function showToJs(x) {
-  if (/* tag */(typeof x === "number" || typeof x === "string") && x === /* No */0) {
+  if (/* tag */ (typeof x === "number" || typeof x === "string") && x === /* No */ 0) {
     return false;
   } else {
     return true;

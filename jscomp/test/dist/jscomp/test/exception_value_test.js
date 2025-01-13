@@ -33,11 +33,11 @@ function hh(param) {
       });
 }
 
-const A = /* @__PURE__ */Caml_exceptions.create("Exception_value_test.A");
+const A = /* @__PURE__ */ Caml_exceptions.create("Exception_value_test.A");
 
-const B = /* @__PURE__ */Caml_exceptions.create("Exception_value_test.B");
+const B = /* @__PURE__ */ Caml_exceptions.create("Exception_value_test.B");
 
-const C = /* @__PURE__ */Caml_exceptions.create("Exception_value_test.C");
+const C = /* @__PURE__ */ Caml_exceptions.create("Exception_value_test.C");
 
 const u = {
   MEL_EXN_ID: A,

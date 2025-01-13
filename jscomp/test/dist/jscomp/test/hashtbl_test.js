@@ -18,7 +18,7 @@ function to_list(tbl) {
           ],
           tl: acc
         };
-      }), tbl, /* [] */0);
+      }), tbl, /* [] */ 0);
 }
 
 function f(param) {
@@ -48,7 +48,7 @@ const suites_0 = [
   "simple",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: {
         hd: [
           1,
@@ -59,7 +59,7 @@ const suites_0 = [
             2,
             /* '2' */50
           ],
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       },
       _1: f(undefined)
@@ -72,7 +72,7 @@ const suites_1 = {
     "more_iterations",
     (function (param) {
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: Stdlib__Array.init(1001, (function (i) {
               return [
                 (i << 1),
@@ -90,13 +90,13 @@ const suites_1 = {
         const tbl = Curry._2(Stdlib__MoreLabels.Hashtbl.create, undefined, 30);
         Stdlib__Hashtbl.add(tbl, 3, 3);
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: tbl.size,
           _1: 1
         };
       })
     ],
-    tl: /* [] */0
+    tl: /* [] */ 0
   }
 };
 

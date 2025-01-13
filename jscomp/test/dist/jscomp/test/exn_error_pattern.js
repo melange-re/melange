@@ -22,9 +22,9 @@ function f(match) {
   
 }
 
-const A = /* @__PURE__ */Caml_exceptions.create("Exn_error_pattern.A");
+const A = /* @__PURE__ */ Caml_exceptions.create("Exn_error_pattern.A");
 
-const B = /* @__PURE__ */Caml_exceptions.create("Exn_error_pattern.B");
+const B = /* @__PURE__ */ Caml_exceptions.create("Exn_error_pattern.B");
 
 function g(match) {
   if (Caml_exceptions.caml_is_extension(match)) {
@@ -42,7 +42,7 @@ function g(match) {
 }
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {

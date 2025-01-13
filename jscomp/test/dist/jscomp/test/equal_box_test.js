@@ -12,7 +12,7 @@ const bb = Caml_obj.caml_equal_undefined;
 const cc = Caml_obj.caml_equal_nullable;
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {

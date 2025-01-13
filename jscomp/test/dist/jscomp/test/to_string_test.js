@@ -15,7 +15,7 @@ Mt.from_pair_suites("To_string_test", {
         "File \"jscomp/test/to_string_test.ml\", line 7, characters 2-9",
         (function (param) {
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: Stdlib.string_of_float(Stdlib.infinity),
             _1: "inf"
           };
@@ -26,13 +26,13 @@ Mt.from_pair_suites("To_string_test", {
           "File \"jscomp/test/to_string_test.ml\", line 8, characters 1-8",
           (function (param) {
             return {
-              TAG: /* Eq */0,
+              TAG: /* Eq */ 0,
               _0: Stdlib.string_of_float(Stdlib.neg_infinity),
               _1: "-inf"
             };
           })
         ],
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 

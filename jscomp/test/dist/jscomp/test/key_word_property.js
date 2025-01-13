@@ -30,7 +30,7 @@ function mk2($$window, $$default) {
       window: $$window,
       default: $$default
     },
-    tl: /* [] */0
+    tl: /* [] */ 0
   };
 }
 

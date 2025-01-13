@@ -41,7 +41,7 @@ const suites_0 = [
   "eq_with",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: v,
       _1: u_v
     };
@@ -50,7 +50,7 @@ const suites_0 = [
 
 const suites = {
   hd: suites_0,
-  tl: /* [] */0
+  tl: /* [] */ 0
 };
 
 Mt.from_pair_suites("Record_with_test", suites);

@@ -9,7 +9,7 @@ const Stdlib__Format = require("melange/format.js");
 const Stdlib__Printexc = require("melange/printexc.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -23,7 +23,7 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: x,
           _1: y
         };
@@ -33,30 +33,30 @@ function eq(loc, x, y) {
   };
 }
 
-const Hi = /* @__PURE__ */Caml_exceptions.create("Exception_repr_test.Hi");
+const Hi = /* @__PURE__ */ Caml_exceptions.create("Exception_repr_test.Hi");
 
-const Hello = /* @__PURE__ */Caml_exceptions.create("Exception_repr_test.Hello");
+const Hello = /* @__PURE__ */ Caml_exceptions.create("Exception_repr_test.Hello");
 
-const A = /* @__PURE__ */Caml_exceptions.create("Exception_repr_test.A");
+const A = /* @__PURE__ */ Caml_exceptions.create("Exception_repr_test.A");
 
 Stdlib__Printexc.register_printer(function (s) {
       if (s.MEL_EXN_ID === Hi) {
         return "hey";
       } else if (s.MEL_EXN_ID === A) {
         return Curry._1(Stdlib__Format.asprintf({
-                  TAG: /* Format */0,
+                  TAG: /* Format */ 0,
                   _0: {
-                    TAG: /* String_literal */11,
+                    TAG: /* String_literal */ 11,
                     _0: "A(",
                     _1: {
-                      TAG: /* Int */4,
-                      _0: /* Int_d */0,
-                      _1: /* No_padding */0,
-                      _2: /* No_precision */0,
+                      TAG: /* Int */ 4,
+                      _0: /* Int_d */ 0,
+                      _1: /* No_padding */ 0,
+                      _2: /* No_precision */ 0,
                       _3: {
-                        TAG: /* Char_literal */12,
+                        TAG: /* Char_literal */ 12,
                         _0: /* ')' */41,
-                        _1: /* End_of_format */0
+                        _1: /* End_of_format */ 0
                       }
                     }
                   },

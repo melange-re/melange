@@ -18,7 +18,7 @@ const suites_0 = [
   "getMonth",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: 2,
       _1: d.getMonth()
     };
@@ -30,7 +30,7 @@ const suites_1 = {
     "getYear",
     (function (param) {
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: [
           2016,
           2,
@@ -44,7 +44,7 @@ const suites_1 = {
       };
     })
   ],
-  tl: /* [] */0
+  tl: /* [] */ 0
 };
 
 const suites = {

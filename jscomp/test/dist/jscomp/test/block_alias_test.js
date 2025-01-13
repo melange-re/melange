@@ -6,7 +6,7 @@ const Mt = require("./mt.js");
 const Stdlib__List = require("melange/list.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -24,7 +24,7 @@ function b(loc, x) {
 const Block = {};
 
 const v0 = {
-  TAG: /* A */1,
+  TAG: /* A */ 1,
   _0: 0,
   _1: 1
 };
@@ -32,7 +32,7 @@ const v0 = {
 const Block$1 = {};
 
 const v1 = {
-  TAG: /* A */1,
+  TAG: /* A */ 1,
   _0: 0,
   _1: 1
 };
@@ -56,12 +56,12 @@ eq("File \"jscomp/test/block_alias_test.ml\", line 32, characters 6-13", Stdlib_
           hd: 1,
           tl: {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }), 2);
 
 b("File \"jscomp/test/block_alias_test.ml\", line 33, characters 5-12", Caml_obj.caml_equal(v0, {
-          TAG: /* A */1,
+          TAG: /* A */ 1,
           _0: 0,
           _1: 1
         }));

@@ -8,7 +8,7 @@ const Mt = require("./mt.js");
 const Stdlib = require("melange/stdlib.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -22,7 +22,7 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: x,
           _1: y
         };
@@ -32,11 +32,11 @@ function eq(loc, x, y) {
   };
 }
 
-const A = /* @__PURE__ */Caml_exceptions.create("Exception_rebound_err_test.A");
+const A = /* @__PURE__ */ Caml_exceptions.create("Exception_rebound_err_test.A");
 
-const B = /* @__PURE__ */Caml_exceptions.create("Exception_rebound_err_test.B");
+const B = /* @__PURE__ */ Caml_exceptions.create("Exception_rebound_err_test.B");
 
-const C = /* @__PURE__ */Caml_exceptions.create("Exception_rebound_err_test.C");
+const C = /* @__PURE__ */ Caml_exceptions.create("Exception_rebound_err_test.C");
 
 function test_js_error4(param) {
   try {

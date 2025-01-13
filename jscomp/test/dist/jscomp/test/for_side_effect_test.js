@@ -23,7 +23,7 @@ const suites_0 = [
   "for_order",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: 10,
       _1: test2(undefined)
     };
@@ -32,7 +32,7 @@ const suites_0 = [
 
 const suites = {
   hd: suites_0,
-  tl: /* [] */0
+  tl: /* [] */ 0
 };
 
 Mt.from_pair_suites("For_side_effect_test", suites);

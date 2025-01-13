@@ -3,13 +3,13 @@
 
 
 const a = {
-  TAG: /* Color */0,
+  TAG: /* Color */ 0,
   _0: "#ffff"
 };
 
 let c;
 
-c = /* tag */typeof a === "number" || typeof a === "string" ? "orange" : "white";
+c = /* tag */ typeof a === "number" || typeof a === "string" ? "orange" : "white";
 
 exports.a = a;
 exports.c = c;

@@ -7,8 +7,8 @@ const Stdlib__List = require("melange/list.js");
 const Stdlib__Stack = require("melange/stack.js");
 
 function to_list(v) {
-  let acc = /* [] */0;
-  while(!Caml_obj.caml_equal(v.c, /* [] */0)) {
+  let acc = /* [] */ 0;
+  while(!Caml_obj.caml_equal(v.c, /* [] */ 0)) {
     acc = {
       hd: Stdlib__Stack.pop(v),
       tl: acc
@@ -19,7 +19,7 @@ function to_list(v) {
 
 function v(param) {
   const v$1 = {
-    c: /* [] */0,
+    c: /* [] */ 0,
     len: 0
   };
   Stdlib__Stack.push(3, v$1);
@@ -32,14 +32,14 @@ const suites_0 = [
   "push_test",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: {
         hd: 1,
         tl: {
           hd: 4,
           tl: {
             hd: 3,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }
       },
@@ -50,7 +50,7 @@ const suites_0 = [
 
 const suites = {
   hd: suites_0,
-  tl: /* [] */0
+  tl: /* [] */ 0
 };
 
 Mt.from_pair_suites("Stack_test", suites);

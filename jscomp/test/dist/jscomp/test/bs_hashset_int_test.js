@@ -10,7 +10,7 @@ const Belt__Belt_internalBucketsType = require("melange.belt/belt_internalBucket
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {

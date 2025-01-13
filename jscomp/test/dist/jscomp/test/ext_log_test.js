@@ -7,7 +7,7 @@ const Stdlib__Format = require("melange/format.js");
 
 function $caret$caret(param, param$1) {
   return {
-    TAG: /* Format */0,
+    TAG: /* Format */ 0,
     _0: CamlinternalFormatBasics.concat_fmt(param._0, param$1._0),
     _1: param._1 + ("%," + param$1._1)
   };
@@ -15,23 +15,23 @@ function $caret$caret(param, param$1) {
 
 function err(str, f) {
   return Curry._1(Stdlib__Format.fprintf(Stdlib__Format.err_formatter)($caret$caret({
-                TAG: /* Format */0,
+                TAG: /* Format */ 0,
                 _0: {
-                  TAG: /* String */2,
-                  _0: /* No_padding */0,
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* Char_literal */12,
+                    TAG: /* Char_literal */ 12,
                     _0: /* ' ' */32,
-                    _1: /* End_of_format */0
+                    _1: /* End_of_format */ 0
                   }
                 },
                 _1: "%s "
               }, $caret$caret(f, {
-                    TAG: /* Format */0,
+                    TAG: /* Format */ 0,
                     _0: {
-                      TAG: /* Formatting_lit */17,
-                      _0: /* Flush_newline */4,
-                      _1: /* End_of_format */0
+                      TAG: /* Formatting_lit */ 17,
+                      _0: /* Flush_newline */ 4,
+                      _1: /* End_of_format */ 0
                     },
                     _1: "@."
                   }))), str);
@@ -40,28 +40,28 @@ function err(str, f) {
 function ierr(b, str, f) {
   if (b) {
     return Curry._1(Stdlib__Format.fprintf(Stdlib__Format.err_formatter)($caret$caret({
-                  TAG: /* Format */0,
+                  TAG: /* Format */ 0,
                   _0: {
-                    TAG: /* String */2,
-                    _0: /* No_padding */0,
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* Char_literal */12,
+                      TAG: /* Char_literal */ 12,
                       _0: /* ' ' */32,
-                      _1: /* End_of_format */0
+                      _1: /* End_of_format */ 0
                     }
                   },
                   _1: "%s "
                 }, f)), str);
   } else {
     return Stdlib__Format.ifprintf(Stdlib__Format.err_formatter, $caret$caret({
-                TAG: /* Format */0,
+                TAG: /* Format */ 0,
                 _0: {
-                  TAG: /* String */2,
-                  _0: /* No_padding */0,
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* Char_literal */12,
+                    TAG: /* Char_literal */ 12,
                     _0: /* ' ' */32,
-                    _1: /* End_of_format */0
+                    _1: /* End_of_format */ 0
                   }
                 },
                 _1: "%s "
@@ -71,27 +71,27 @@ function ierr(b, str, f) {
 
 function warn(str, f) {
   return Curry._1(Stdlib__Format.fprintf(Stdlib__Format.err_formatter)($caret$caret({
-                TAG: /* Format */0,
+                TAG: /* Format */ 0,
                 _0: {
-                  TAG: /* String_literal */11,
+                  TAG: /* String_literal */ 11,
                   _0: "WARN: ",
                   _1: {
-                    TAG: /* String */2,
-                    _0: /* No_padding */0,
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* Char_literal */12,
+                      TAG: /* Char_literal */ 12,
                       _0: /* ' ' */32,
-                      _1: /* End_of_format */0
+                      _1: /* End_of_format */ 0
                     }
                   }
                 },
                 _1: "WARN: %s "
               }, $caret$caret(f, {
-                    TAG: /* Format */0,
+                    TAG: /* Format */ 0,
                     _0: {
-                      TAG: /* Formatting_lit */17,
-                      _0: /* Flush_newline */4,
-                      _1: /* End_of_format */0
+                      TAG: /* Formatting_lit */ 17,
+                      _0: /* Flush_newline */ 4,
+                      _1: /* End_of_format */ 0
                     },
                     _1: "@."
                   }))), str);
@@ -100,17 +100,17 @@ function warn(str, f) {
 function iwarn(b, str, f) {
   if (b) {
     return Curry._1(Stdlib__Format.fprintf(Stdlib__Format.err_formatter)($caret$caret({
-                  TAG: /* Format */0,
+                  TAG: /* Format */ 0,
                   _0: {
-                    TAG: /* String_literal */11,
+                    TAG: /* String_literal */ 11,
                     _0: "WARN: ",
                     _1: {
-                      TAG: /* String */2,
-                      _0: /* No_padding */0,
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* Char_literal */12,
+                        TAG: /* Char_literal */ 12,
                         _0: /* ' ' */32,
-                        _1: /* End_of_format */0
+                        _1: /* End_of_format */ 0
                       }
                     }
                   },
@@ -118,17 +118,17 @@ function iwarn(b, str, f) {
                 }, f)), str);
   } else {
     return Stdlib__Format.ifprintf(Stdlib__Format.err_formatter, $caret$caret({
-                TAG: /* Format */0,
+                TAG: /* Format */ 0,
                 _0: {
-                  TAG: /* String_literal */11,
+                  TAG: /* String_literal */ 11,
                   _0: "WARN: ",
                   _1: {
-                    TAG: /* String */2,
-                    _0: /* No_padding */0,
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* Char_literal */12,
+                      TAG: /* Char_literal */ 12,
                       _0: /* ' ' */32,
-                      _1: /* End_of_format */0
+                      _1: /* End_of_format */ 0
                     }
                   }
                 },
@@ -139,17 +139,17 @@ function iwarn(b, str, f) {
 
 function info(str, f) {
   return Curry._1(Stdlib__Format.fprintf(Stdlib__Format.err_formatter)($caret$caret({
-                TAG: /* Format */0,
+                TAG: /* Format */ 0,
                 _0: {
-                  TAG: /* String_literal */11,
+                  TAG: /* String_literal */ 11,
                   _0: "INFO: ",
                   _1: {
-                    TAG: /* String */2,
-                    _0: /* No_padding */0,
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* Char_literal */12,
+                      TAG: /* Char_literal */ 12,
                       _0: /* ' ' */32,
-                      _1: /* End_of_format */0
+                      _1: /* End_of_format */ 0
                     }
                   }
                 },
@@ -159,17 +159,17 @@ function info(str, f) {
 
 function iinfo(b, str, f) {
   return Curry._1(Stdlib__Format.fprintf(Stdlib__Format.err_formatter)($caret$caret({
-                TAG: /* Format */0,
+                TAG: /* Format */ 0,
                 _0: {
-                  TAG: /* String_literal */11,
+                  TAG: /* String_literal */ 11,
                   _0: "INFO: ",
                   _1: {
-                    TAG: /* String */2,
-                    _0: /* No_padding */0,
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* Char_literal */12,
+                      TAG: /* Char_literal */ 12,
                       _0: /* ' ' */32,
-                      _1: /* End_of_format */0
+                      _1: /* End_of_format */ 0
                     }
                   }
                 },

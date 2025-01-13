@@ -8,7 +8,7 @@ const Stdlib__Array = require("melange/array.js");
 const String_set = require("./string_set.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -22,7 +22,7 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: x,
           _1: y
         };
@@ -140,14 +140,14 @@ function keys(xs, ys) {
 
 eq("File \"jscomp/test/gpr_1409_test.ml\", line 69, characters 6-13", keys({
           hd: "hi",
-          tl: /* [] */0
+          tl: /* [] */ 0
         }, Object.keys(test3(undefined, undefined))), true);
 
 eq("File \"jscomp/test/gpr_1409_test.ml\", line 71, characters 6-13", keys({
           hd: "hi",
           tl: {
             hd: "open",
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, Object.keys(test3(2, undefined))), true);
 
@@ -157,7 +157,7 @@ eq("File \"jscomp/test/gpr_1409_test.ml\", line 73, characters 6-13", keys({
             hd: "open",
             tl: {
               hd: "xx",
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, Object.keys(test3(2, 2))), true);

@@ -114,7 +114,7 @@ function zs(param) {
 
 const xs_0 = {
   hd: 2,
-  tl: /* [] */0
+  tl: /* [] */ 0
 };
 
 const xs = [
@@ -188,7 +188,7 @@ const fake_v = {
   hd: 1,
   tl: {
     hd: 2,
-    tl: /* [] */0
+    tl: /* [] */ 0
   }
 };
 
@@ -196,7 +196,7 @@ const fake_y = {
   hd: 2,
   tl: {
     hd: 3,
-    tl: /* [] */0
+    tl: /* [] */ 0
   }
 };
 
@@ -209,7 +209,7 @@ const fake_y2 = {
   hd: 2,
   tl: {
     hd: 3,
-    tl: /* [] */0
+    tl: /* [] */ 0
   }
 };
 
@@ -228,7 +228,7 @@ function rec_variant_b_1(param) {
 }
 
 const rec_variant_b = {
-  TAG: /* B */0,
+  TAG: /* B */ 0,
   _0: "gho",
   _1: rec_variant_b_1
 };
@@ -238,7 +238,7 @@ function rec_variant_a_1(param) {
 }
 
 const rec_variant_a = {
-  TAG: /* A */1,
+  TAG: /* A */ 1,
   _0: 3,
   _1: rec_variant_a_1
 };
@@ -294,7 +294,7 @@ function ptl(l) {
 let y00 = {};
 
 Caml_obj.update_dummy(y00, {
-      TAG: /* C1 */1,
+      TAG: /* C1 */ 1,
       hd: 1,
       tail: y00
     });
@@ -311,7 +311,7 @@ const suites_0 = [
   "File \"jscomp/test/rec_value_test.ml\", line 128, characters 2-9",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: 1,
       _1: phd(ptl(ptl(x0)))
     };
@@ -323,7 +323,7 @@ const suites_1 = {
     "File \"jscomp/test/rec_value_test.ml\", line 130, characters 2-9",
     (function (param) {
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: 1,
         _1: 1
       };
@@ -334,7 +334,7 @@ const suites_1 = {
       "hd",
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: 1,
           _1: Stdlib__List.hd(Stdlib__List.tl(x))
         };
@@ -370,7 +370,7 @@ const suites_1 = {
                 });
           }
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: 3,
             _1: tmp
           };
@@ -381,7 +381,7 @@ const suites_1 = {
           "rec_sum",
           (function (param) {
             return {
-              TAG: /* Eq */0,
+              TAG: /* Eq */ 0,
               _0: 55,
               _1: sum(0, 10)
             };
@@ -392,12 +392,12 @@ const suites_1 = {
             "File \"jscomp/test/rec_value_test.ml\", line 145, characters 2-9",
             (function (param) {
               return {
-                TAG: /* Eq */0,
+                TAG: /* Eq */ 0,
                 _0: {
                   hd: 1,
                   tl: {
                     hd: 2,
-                    tl: /* [] */0
+                    tl: /* [] */ 0
                   }
                 },
                 _1: fake_v
@@ -409,12 +409,12 @@ const suites_1 = {
               "File \"jscomp/test/rec_value_test.ml\", line 148, characters 2-9",
               (function (param) {
                 return {
-                  TAG: /* Eq */0,
+                  TAG: /* Eq */ 0,
                   _0: {
                     hd: 2,
                     tl: {
                       hd: 3,
-                      tl: /* [] */0
+                      tl: /* [] */ 0
                     }
                   },
                   _1: fake_y
@@ -426,14 +426,14 @@ const suites_1 = {
                 "File \"jscomp/test/rec_value_test.ml\", line 151, characters 2-9",
                 (function (param) {
                   return {
-                    TAG: /* Eq */0,
+                    TAG: /* Eq */ 0,
                     _0: {
                       hd: 1,
                       tl: {
                         hd: 2,
                         tl: {
                           hd: 3,
-                          tl: /* [] */0
+                          tl: /* [] */ 0
                         }
                       }
                     },
@@ -446,7 +446,7 @@ const suites_1 = {
                   "File \"jscomp/test/rec_value_test.ml\", line 154, characters 2-9",
                   (function (param) {
                     return {
-                      TAG: /* Eq */0,
+                      TAG: /* Eq */ 0,
                       _0: {
                         hd: 1,
                         tl: {
@@ -455,7 +455,7 @@ const suites_1 = {
                             hd: 2,
                             tl: {
                               hd: 3,
-                              tl: /* [] */0
+                              tl: /* [] */ 0
                             }
                           }
                         }
@@ -469,12 +469,12 @@ const suites_1 = {
                     "File \"jscomp/test/rec_value_test.ml\", line 157, characters 2-9",
                     (function (param) {
                       return {
-                        TAG: /* Eq */0,
+                        TAG: /* Eq */ 0,
                         _0: {
                           hd: 2,
                           tl: {
                             hd: 3,
-                            tl: /* [] */0
+                            tl: /* [] */ 0
                           }
                         },
                         _1: fake_y2
@@ -486,7 +486,7 @@ const suites_1 = {
                       "File \"jscomp/test/rec_value_test.ml\", line 160, characters 2-9",
                       (function (param) {
                         return {
-                          TAG: /* Eq */0,
+                          TAG: /* Eq */ 0,
                           _0: 3,
                           _1: 3
                         };
@@ -496,9 +496,9 @@ const suites_1 = {
                       hd: [
                         "File \"jscomp/test/rec_value_test.ml\", line 163, characters 2-9",
                         (function (param) {
-                          if (rec_variant_b.TAG === /* B */0) {
+                          if (rec_variant_b.TAG === /* B */ 0) {
                             return {
-                              TAG: /* Eq */0,
+                              TAG: /* Eq */ 0,
                               _0: Curry._1(rec_variant_b_1, undefined),
                               _1: rec_variant_a
                             };
@@ -517,9 +517,9 @@ const suites_1 = {
                         hd: [
                           "File \"jscomp/test/rec_value_test.ml\", line 168, characters 2-9",
                           (function (param) {
-                            if (rec_variant_a.TAG !== /* B */0) {
+                            if (rec_variant_a.TAG !== /* B */ 0) {
                               return {
-                                TAG: /* Eq */0,
+                                TAG: /* Eq */ 0,
                                 _0: Curry._1(rec_variant_a_1, undefined),
                                 _1: rec_variant_b
                               };
@@ -534,7 +534,7 @@ const suites_1 = {
                                 });
                           })
                         ],
-                        tl: /* [] */0
+                        tl: /* [] */ 0
                       }
                     }
                   }

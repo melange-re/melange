@@ -14,7 +14,7 @@ function f3(x) {
   if (x !== undefined) {
     return x;
   } else {
-    return /* A */0;
+    return /* A */ 0;
   }
 }
 

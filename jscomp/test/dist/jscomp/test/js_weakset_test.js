@@ -9,7 +9,7 @@ const suites_0 = [
     const value = {};
     const weakset = new WeakSet().add(value);
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: true,
       _1: weakset.has(value)
     };
@@ -24,7 +24,7 @@ const suites_1 = {
       const weakset = new WeakSet().add(value);
       const deleted = weakset.delete(value);
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: [
           true,
           false
@@ -45,7 +45,7 @@ const suites_1 = {
         const weakset = new WeakSet().add(a);
         const deleted = weakset.delete(b);
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: false,
           _1: deleted
         };
@@ -62,7 +62,7 @@ const suites_1 = {
           weakset.delete(b);
           const has_b_after = weakset.has(b);
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: [
               has_b_before,
               has_b_after
@@ -86,7 +86,7 @@ const suites_1 = {
             const all_has_b = weakset_1.has(b) === true && weakset_2.has(b) && weakset_3.has(b);
             const all_same_ref = weakset_1 === weakset_2 && weakset_2 === weakset_3;
             return {
-              TAG: /* Eq */0,
+              TAG: /* Eq */ 0,
               _0: [
                 true,
                 true
@@ -106,13 +106,13 @@ const suites_1 = {
               value["k"] = 1;
               const weakset = new WeakSet().add(value);
               return {
-                TAG: /* Eq */0,
+                TAG: /* Eq */ 0,
                 _0: true,
                 _1: weakset.has(value)
               };
             })
           ],
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     }

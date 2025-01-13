@@ -5,7 +5,7 @@ const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -51,13 +51,13 @@ function f22(x) {
 function f33(x) {
   const match = Curry._1(x, undefined);
   switch (match) {
-    case /* A */0 :
+    case /* A */ 0 :
         return /* 'a' */97;
-    case /* B */1 :
+    case /* B */ 1 :
         return /* 'b' */98;
-    case /* C */2 :
+    case /* C */ 2 :
         return /* 'c' */99;
-    case /* D */3 :
+    case /* D */ 3 :
         return /* 'x' */120;
     
   }

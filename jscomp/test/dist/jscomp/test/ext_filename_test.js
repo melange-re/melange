@@ -72,23 +72,23 @@ function chop_extension(locOpt, name) {
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
       return Curry._2(Stdlib__Format.ksprintf(Stdlib.invalid_arg, {
-                TAG: /* Format */0,
+                TAG: /* Format */ 0,
                 _0: {
-                  TAG: /* String_literal */11,
+                  TAG: /* String_literal */ 11,
                   _0: "Filename.chop_extension ( ",
                   _1: {
-                    TAG: /* String */2,
-                    _0: /* No_padding */0,
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* String_literal */11,
+                      TAG: /* String_literal */ 11,
                       _0: " : ",
                       _1: {
-                        TAG: /* String */2,
-                        _0: /* No_padding */0,
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
                         _1: {
-                          TAG: /* String_literal */11,
+                          TAG: /* String_literal */ 11,
                           _0: " )",
-                          _1: /* End_of_format */0
+                          _1: /* End_of_format */ 0
                         }
                       }
                     }
@@ -170,14 +170,14 @@ function node_relative_path(node_modules_shorten, file1, dep_file) {
       const i = _i;
       if (i >= len) {
         return Curry._1(Ext_pervasives_test.failwithf("File \"jscomp/test/ext_filename_test.ml\", line 162, characters 43-50", {
-                  TAG: /* Format */0,
+                  TAG: /* Format */ 0,
                   _0: {
-                    TAG: /* String_literal */11,
+                    TAG: /* String_literal */ 11,
                     _0: "invalid path: ",
                     _1: {
-                      TAG: /* String */2,
-                      _0: /* No_padding */0,
-                      _1: /* End_of_format */0
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
+                      _1: /* End_of_format */ 0
                     }
                   },
                   _1: "invalid path: %s"
@@ -203,17 +203,17 @@ function find_root_filename(_cwd, filename) {
     const cwd$p = Curry._1(Stdlib__Filename.dirname, cwd);
     if (cwd$p.length >= cwd.length) {
       return Curry._2(Ext_pervasives_test.failwithf("File \"jscomp/test/ext_filename_test.ml\", line 205, characters 13-20", {
-                TAG: /* Format */0,
+                TAG: /* Format */ 0,
                 _0: {
-                  TAG: /* String */2,
-                  _0: /* No_padding */0,
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* String_literal */11,
+                    TAG: /* String_literal */ 11,
                     _0: " not found from ",
                     _1: {
-                      TAG: /* String */2,
-                      _0: /* No_padding */0,
-                      _1: /* End_of_format */0
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
+                      _1: /* End_of_format */ 0
                     }
                   }
                 },
@@ -261,7 +261,7 @@ function combine(p1, p2) {
 
 function split_aux(p) {
   let _p = p;
-  let _acc = /* [] */0;
+  let _acc = /* [] */ 0;
   while(true) {
     const acc = _acc;
     const p$1 = _p;
@@ -328,7 +328,7 @@ function normalize_absolute_path(x) {
     if (xs) {
       return xs.tl;
     } else {
-      return /* [] */0;
+      return /* [] */ 0;
     }
   };
   const normalize_list = function (_acc, _paths) {
@@ -359,7 +359,7 @@ function normalize_absolute_path(x) {
   };
   const match = split_aux(x);
   const root = match[0];
-  const rev_paths = normalize_list(/* [] */0, match[1]);
+  const rev_paths = normalize_list(/* [] */ 0, match[1]);
   if (rev_paths) {
     let _acc = rev_paths.hd;
     let _rev_paths = rev_paths.tl;

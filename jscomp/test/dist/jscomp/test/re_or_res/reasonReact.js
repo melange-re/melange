@@ -37,7 +37,7 @@ function initialStateDefault(param) {
 }
 
 function reducerDefault(_action, _state) {
-  return /* NoUpdate */0;
+  return /* NoUpdate */ 0;
 }
 
 function convertPropsIfTheyreFromJs(props, jsPropsToReason, debugName) {
@@ -47,7 +47,7 @@ function convertPropsIfTheyreFromJs(props, jsPropsToReason, debugName) {
   }
   if (jsPropsToReason !== undefined) {
     return {
-      TAG: /* Element */0,
+      TAG: /* Element */ 0,
       _0: jsPropsToReason(props)
     };
   }
@@ -261,24 +261,24 @@ function createClass(debugName) {
           thisJs.setState((function (curTotalState, param) {
                 const curReasonState = curTotalState.reasonState;
                 const reasonStateUpdate = Curry._1(partialStateApplication, curReasonState);
-                if (reasonStateUpdate === /* NoUpdate */0) {
+                if (reasonStateUpdate === /* NoUpdate */ 0) {
                   return null;
                 }
                 let nextTotalState;
-                if (/* tag */typeof reasonStateUpdate === "number" || typeof reasonStateUpdate === "string") {
+                if (/* tag */ typeof reasonStateUpdate === "number" || typeof reasonStateUpdate === "string") {
                   nextTotalState = curTotalState;
                 } else {
                   switch (reasonStateUpdate.TAG) {
-                    case /* Update */0 :
+                    case /* Update */ 0 :
                         nextTotalState = {
                           reasonState: reasonStateUpdate._0
                         };
                         break;
-                    case /* SideEffects */1 :
+                    case /* SideEffects */ 1 :
                         sideEffects.contents = reasonStateUpdate._0;
                         nextTotalState = curTotalState;
                         break;
-                    case /* UpdateWithSideEffects */2 :
+                    case /* UpdateWithSideEffects */ 2 :
                         sideEffects.contents = reasonStateUpdate._1;
                         nextTotalState = {
                           reasonState: reasonStateUpdate._0
@@ -341,7 +341,7 @@ function element(keyOpt, refOpt, component) {
   const key = keyOpt !== undefined ? keyOpt : undefined;
   const ref = refOpt !== undefined ? refOpt : undefined;
   const element$1 = {
-    TAG: /* Element */0,
+    TAG: /* Element */ 0,
     _0: component
   };
   const jsElementWrapped = component.jsElementWrapped;

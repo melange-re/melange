@@ -36,7 +36,7 @@ function with_file_as_pp(filename, f) {
 }
 
 function is_pos_pow(n) {
-  const E = /* @__PURE__ */Caml_exceptions.create("E");
+  const E = /* @__PURE__ */ Caml_exceptions.create("E");
   try {
     let _c = 0;
     let _n = n;

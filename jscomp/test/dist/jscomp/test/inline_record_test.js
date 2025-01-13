@@ -7,7 +7,7 @@ const Mt = require("./mt.js");
 const Stdlib__List = require("melange/list.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -19,24 +19,24 @@ function eq(loc, x, y) {
 }
 
 const v = {
-  TAG: /* A0 */0,
+  TAG: /* A0 */ 0,
   lbl: 3,
-  more: /* [] */0
+  more: /* [] */ 0
 };
 
 const v1 = {
-  TAG: /* A1 */1,
+  TAG: /* A1 */ 1,
   more: {
     hd: 1,
     tl: {
       hd: 2,
-      tl: /* [] */0
+      tl: /* [] */ 0
     }
   }
 };
 
 function f(x) {
-  if (x.TAG === /* A0 */0) {
+  if (x.TAG === /* A0 */ 0) {
     return Stdlib__List.fold_left((function (prim0, prim1) {
           return prim0 + prim1 | 0;
         }), x.lbl, x.more);
@@ -55,12 +55,12 @@ console.log(f(v));
 
 console.log(f(v1));
 
-const A0 = /* @__PURE__ */Caml_exceptions.create("Inline_record_test.A0");
+const A0 = /* @__PURE__ */ Caml_exceptions.create("Inline_record_test.A0");
 
 const v3 = {
   MEL_EXN_ID: A0,
   lbl: 3,
-  more: /* [] */0
+  more: /* [] */ 0
 };
 
 let tmp;
@@ -81,7 +81,7 @@ if (A0 === A0) {
 eq("File \"jscomp/test/inline_record_test.ml\", line 46, characters 6-13", tmp, 3);
 
 function ff(x) {
-  if (x.TAG === /* A0 */0) {
+  if (x.TAG === /* A0 */ 0) {
     x.x = x.x + 1 | 0;
   } else {
     x.z = x.z + 2 | 0;
@@ -89,14 +89,14 @@ function ff(x) {
 }
 
 const v4 = {
-  TAG: /* A0 */0,
+  TAG: /* A0 */ 0,
   x: 0,
   y: 0,
   z: 0
 };
 
 const v5 = {
-  TAG: /* A1 */1,
+  TAG: /* A1 */ 1,
   z: 0
 };
 
@@ -107,7 +107,7 @@ for (let _i = 0; _i <= 10; ++_i) {
 
 let tmp$1;
 
-if (v4.TAG === /* A0 */0) {
+if (v4.TAG === /* A0 */ 0) {
   tmp$1 = v4.x;
 } else {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -124,7 +124,7 @@ eq("File \"jscomp/test/inline_record_test.ml\", line 64, characters 6-13", tmp$1
 
 let tmp$2;
 
-if (v5.TAG === /* A0 */0) {
+if (v5.TAG === /* A0 */ 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -139,7 +139,7 @@ tmp$2 = v5.z;
 
 eq("File \"jscomp/test/inline_record_test.ml\", line 66, characters 6-13", tmp$2, 22);
 
-const A4 = /* @__PURE__ */Caml_exceptions.create("Inline_record_test.A4");
+const A4 = /* @__PURE__ */ Caml_exceptions.create("Inline_record_test.A4");
 
 const v6 = {
   MEL_EXN_ID: A4,
@@ -179,11 +179,11 @@ if (v6.MEL_EXN_ID === A4) {
 eq("File \"jscomp/test/inline_record_test.ml\", line 82, characters 6-13", tmp$3, 11);
 
 function ff1(x) {
-  if (/* tag */typeof x === "number" || typeof x === "string") {
-    return /* A1 */0;
+  if (/* tag */ typeof x === "number" || typeof x === "string") {
+    return /* A1 */ 0;
   } else {
     return {
-      TAG: /* A0 */0,
+      TAG: /* A0 */ 0,
       lbl: x.lbl + 1 | 0,
       more: x.more
     };
@@ -193,15 +193,15 @@ function ff1(x) {
 Mt.from_pair_suites("Inline_record_test", suites.contents);
 
 const v2 = {
-  TAG: /* A0 */0,
+  TAG: /* A0 */ 0,
   lbl: 3,
-  more: /* [] */0
+  more: /* [] */ 0
 };
 
 const vvv = {
-  TAG: /* A0 */0,
+  TAG: /* A0 */ 0,
   lbl: 3,
-  more: /* [] */0
+  more: /* [] */ 0
 };
 
 exports.suites = suites;

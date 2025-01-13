@@ -16,7 +16,7 @@ const funarg = {
 };
 
 function height(param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     return 0;
   } else {
     return param.h;
@@ -27,7 +27,7 @@ function create(l, x, d, r) {
   const hl = height(l);
   const hr = height(r);
   return {
-    TAG: /* Node */0,
+    TAG: /* Node */ 0,
     l: l,
     v: x,
     d: d,
@@ -38,22 +38,22 @@ function create(l, x, d, r) {
 
 function singleton(x, d) {
   return {
-    TAG: /* Node */0,
-    l: /* Empty */0,
+    TAG: /* Node */ 0,
+    l: /* Empty */ 0,
     v: x,
     d: d,
-    r: /* Empty */0,
+    r: /* Empty */ 0,
     h: 1
   };
 }
 
 function bal(l, x, d, r) {
   let hl;
-  hl = /* tag */typeof l === "number" || typeof l === "string" ? 0 : l.h;
+  hl = /* tag */ typeof l === "number" || typeof l === "string" ? 0 : l.h;
   let hr;
-  hr = /* tag */typeof r === "number" || typeof r === "string" ? 0 : r.h;
+  hr = /* tag */ typeof r === "number" || typeof r === "string" ? 0 : r.h;
   if (hl > (hr + 2 | 0)) {
-    if (/* tag */typeof l === "number" || typeof l === "string") {
+    if (/* tag */ typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             MEL_EXN_ID: "Invalid_argument",
             _1: "Map.bal"
@@ -66,7 +66,7 @@ function bal(l, x, d, r) {
     if (height(ll) >= height(lr)) {
       return create(ll, lv, ld, create(lr, x, d, r));
     }
-    if (!/* tag */(typeof lr === "number" || typeof lr === "string")) {
+    if (!/* tag */ (typeof lr === "number" || typeof lr === "string")) {
       return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -76,7 +76,7 @@ function bal(l, x, d, r) {
   }
   if (hr <= (hl + 2 | 0)) {
     return {
-      TAG: /* Node */0,
+      TAG: /* Node */ 0,
       l: l,
       v: x,
       d: d,
@@ -84,7 +84,7 @@ function bal(l, x, d, r) {
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
-  if (/* tag */typeof r === "number" || typeof r === "string") {
+  if (/* tag */ typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
           _1: "Map.bal"
@@ -97,7 +97,7 @@ function bal(l, x, d, r) {
   if (height(rr) >= height(rl)) {
     return create(create(l, x, d, rl), rv, rd, rr);
   }
-  if (!/* tag */(typeof rl === "number" || typeof rl === "string")) {
+  if (!/* tag */ (typeof rl === "number" || typeof rl === "string")) {
     return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -107,7 +107,7 @@ function bal(l, x, d, r) {
 }
 
 function is_empty(param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     return true;
   } else {
     return false;
@@ -115,13 +115,13 @@ function is_empty(param) {
 }
 
 function add(x, data, m) {
-  if (/* tag */typeof m === "number" || typeof m === "string") {
+  if (/* tag */ typeof m === "number" || typeof m === "string") {
     return {
-      TAG: /* Node */0,
-      l: /* Empty */0,
+      TAG: /* Node */ 0,
+      l: /* Empty */ 0,
       v: x,
       d: data,
-      r: /* Empty */0,
+      r: /* Empty */ 0,
       h: 1
     };
   }
@@ -135,7 +135,7 @@ function add(x, data, m) {
       return m;
     } else {
       return {
-        TAG: /* Node */0,
+        TAG: /* Node */ 0,
         l: l,
         v: x,
         d: data,
@@ -163,7 +163,7 @@ function add(x, data, m) {
 function find(x, _param) {
   while(true) {
     const param = _param;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
             MEL_EXN_ID: Stdlib.Not_found
           });
@@ -180,7 +180,7 @@ function find(x, _param) {
 function find_first(f, _param) {
   while(true) {
     const param = _param;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
             MEL_EXN_ID: Stdlib.Not_found
           });
@@ -194,7 +194,7 @@ function find_first(f, _param) {
         const param$1 = _param$1;
         const d0 = _d0;
         const v0 = _v0;
-        if (/* tag */typeof param$1 === "number" || typeof param$1 === "string") {
+        if (/* tag */ typeof param$1 === "number" || typeof param$1 === "string") {
           return [
             v0,
             d0
@@ -219,7 +219,7 @@ function find_first(f, _param) {
 function find_first_opt(f, _param) {
   while(true) {
     const param = _param;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
     }
     const v = param.v;
@@ -231,7 +231,7 @@ function find_first_opt(f, _param) {
         const param$1 = _param$1;
         const d0 = _d0;
         const v0 = _v0;
-        if (/* tag */typeof param$1 === "number" || typeof param$1 === "string") {
+        if (/* tag */ typeof param$1 === "number" || typeof param$1 === "string") {
           return [
             v0,
             d0
@@ -256,7 +256,7 @@ function find_first_opt(f, _param) {
 function find_last(f, _param) {
   while(true) {
     const param = _param;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
             MEL_EXN_ID: Stdlib.Not_found
           });
@@ -270,7 +270,7 @@ function find_last(f, _param) {
         const param$1 = _param$1;
         const d0 = _d0;
         const v0 = _v0;
-        if (/* tag */typeof param$1 === "number" || typeof param$1 === "string") {
+        if (/* tag */ typeof param$1 === "number" || typeof param$1 === "string") {
           return [
             v0,
             d0
@@ -295,7 +295,7 @@ function find_last(f, _param) {
 function find_last_opt(f, _param) {
   while(true) {
     const param = _param;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
     }
     const v = param.v;
@@ -307,7 +307,7 @@ function find_last_opt(f, _param) {
         const param$1 = _param$1;
         const d0 = _d0;
         const v0 = _v0;
-        if (/* tag */typeof param$1 === "number" || typeof param$1 === "string") {
+        if (/* tag */ typeof param$1 === "number" || typeof param$1 === "string") {
           return [
             v0,
             d0
@@ -332,7 +332,7 @@ function find_last_opt(f, _param) {
 function find_opt(x, _param) {
   while(true) {
     const param = _param;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
     }
     const c = Curry._2(funarg.compare, x, param.v);
@@ -347,7 +347,7 @@ function find_opt(x, _param) {
 function mem(x, _param) {
   while(true) {
     const param = _param;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
     }
     const c = Curry._2(funarg.compare, x, param.v);
@@ -362,13 +362,13 @@ function mem(x, _param) {
 function min_binding(_param) {
   while(true) {
     const param = _param;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
             MEL_EXN_ID: Stdlib.Not_found
           });
     }
     const l = param.l;
-    if (/* tag */typeof l === "number" || typeof l === "string") {
+    if (/* tag */ typeof l === "number" || typeof l === "string") {
       return [
         param.v,
         param.d
@@ -382,11 +382,11 @@ function min_binding(_param) {
 function min_binding_opt(_param) {
   while(true) {
     const param = _param;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
     }
     const l = param.l;
-    if (/* tag */typeof l === "number" || typeof l === "string") {
+    if (/* tag */ typeof l === "number" || typeof l === "string") {
       return [
         param.v,
         param.d
@@ -400,13 +400,13 @@ function min_binding_opt(_param) {
 function max_binding(_param) {
   while(true) {
     const param = _param;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
             MEL_EXN_ID: Stdlib.Not_found
           });
     }
     let tmp = param.r;
-    if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
+    if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
       return [
         param.v,
         param.d
@@ -420,11 +420,11 @@ function max_binding(_param) {
 function max_binding_opt(_param) {
   while(true) {
     const param = _param;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
     }
     let tmp = param.r;
-    if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
+    if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
       return [
         param.v,
         param.d
@@ -436,14 +436,14 @@ function max_binding_opt(_param) {
 }
 
 function remove_min_binding(param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
           _1: "Map.remove_min_elt"
         });
   }
   const l = param.l;
-  if (/* tag */typeof l === "number" || typeof l === "string") {
+  if (/* tag */ typeof l === "number" || typeof l === "string") {
     return param.r;
   } else {
     return bal(remove_min_binding(l), param.v, param.d, param.r);
@@ -451,10 +451,10 @@ function remove_min_binding(param) {
 }
 
 function merge(t1, t2) {
-  if (/* tag */typeof t1 === "number" || typeof t1 === "string") {
+  if (/* tag */ typeof t1 === "number" || typeof t1 === "string") {
     return t2;
   }
-  if (/* tag */typeof t2 === "number" || typeof t2 === "string") {
+  if (/* tag */ typeof t2 === "number" || typeof t2 === "string") {
     return t1;
   }
   const match = min_binding(t2);
@@ -462,8 +462,8 @@ function merge(t1, t2) {
 }
 
 function remove(x, m) {
-  if (/* tag */typeof m === "number" || typeof m === "string") {
-    return /* Empty */0;
+  if (/* tag */ typeof m === "number" || typeof m === "string") {
+    return /* Empty */ 0;
   }
   const r = m.r;
   const d = m.d;
@@ -490,19 +490,19 @@ function remove(x, m) {
 }
 
 function update(x, f, m) {
-  if (/* tag */typeof m === "number" || typeof m === "string") {
+  if (/* tag */ typeof m === "number" || typeof m === "string") {
     const data = Curry._1(f, undefined);
     if (data !== undefined) {
       return {
-        TAG: /* Node */0,
-        l: /* Empty */0,
+        TAG: /* Node */ 0,
+        l: /* Empty */ 0,
         v: x,
         d: Caml_option.valFromOption(data),
-        r: /* Empty */0,
+        r: /* Empty */ 0,
         h: 1
       };
     } else {
-      return /* Empty */0;
+      return /* Empty */ 0;
     }
   }
   const r = m.r;
@@ -520,7 +520,7 @@ function update(x, f, m) {
       return m;
     } else {
       return {
-        TAG: /* Node */0,
+        TAG: /* Node */ 0,
         l: l,
         v: x,
         d: data$2,
@@ -555,7 +555,7 @@ function add_to_list(x, data, m) {
     } else {
       return {
         hd: data,
-        tl: /* [] */0
+        tl: /* [] */ 0
       };
     }
   };
@@ -565,7 +565,7 @@ function add_to_list(x, data, m) {
 function iter(f, _param) {
   while(true) {
     const param = _param;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
     }
     iter(f, param.l);
@@ -576,14 +576,14 @@ function iter(f, _param) {
 }
 
 function map(f, param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
-    return /* Empty */0;
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
+    return /* Empty */ 0;
   }
   const l$p = map(f, param.l);
   const d$p = Curry._1(f, param.d);
   const r$p = map(f, param.r);
   return {
-    TAG: /* Node */0,
+    TAG: /* Node */ 0,
     l: l$p,
     v: param.v,
     d: d$p,
@@ -593,15 +593,15 @@ function map(f, param) {
 }
 
 function mapi(f, param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
-    return /* Empty */0;
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
+    return /* Empty */ 0;
   }
   const v = param.v;
   const l$p = mapi(f, param.l);
   const d$p = Curry._2(f, v, param.d);
   const r$p = mapi(f, param.r);
   return {
-    TAG: /* Node */0,
+    TAG: /* Node */ 0,
     l: l$p,
     v: v,
     d: d$p,
@@ -614,7 +614,7 @@ function fold(f, _m, _accu) {
   while(true) {
     const accu = _accu;
     const m = _m;
-    if (/* tag */typeof m === "number" || typeof m === "string") {
+    if (/* tag */ typeof m === "number" || typeof m === "string") {
       return accu;
     }
     _accu = Curry._3(f, m.v, m.d, fold(f, m.l, accu));
@@ -626,7 +626,7 @@ function fold(f, _m, _accu) {
 function for_all(p, _param) {
   while(true) {
     const param = _param;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       return true;
     }
     if (!Curry._2(p, param.v, param.d)) {
@@ -643,7 +643,7 @@ function for_all(p, _param) {
 function exists(p, _param) {
   while(true) {
     const param = _param;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
     }
     if (Curry._2(p, param.v, param.d)) {
@@ -658,7 +658,7 @@ function exists(p, _param) {
 }
 
 function add_min_binding(k, x, param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     return singleton(k, x);
   } else {
     return bal(add_min_binding(k, x, param.l), param.v, param.d, param.r);
@@ -666,7 +666,7 @@ function add_min_binding(k, x, param) {
 }
 
 function add_max_binding(k, x, param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     return singleton(k, x);
   } else {
     return bal(param.l, param.v, param.d, add_max_binding(k, x, param.r));
@@ -674,11 +674,11 @@ function add_max_binding(k, x, param) {
 }
 
 function join(l, v, d, r) {
-  if (/* tag */typeof l === "number" || typeof l === "string") {
+  if (/* tag */ typeof l === "number" || typeof l === "string") {
     return add_min_binding(v, d, r);
   }
   const lh = l.h;
-  if (/* tag */typeof r === "number" || typeof r === "string") {
+  if (/* tag */ typeof r === "number" || typeof r === "string") {
     return add_max_binding(v, d, l);
   }
   const rh = r.h;
@@ -692,10 +692,10 @@ function join(l, v, d, r) {
 }
 
 function concat(t1, t2) {
-  if (/* tag */typeof t1 === "number" || typeof t1 === "string") {
+  if (/* tag */ typeof t1 === "number" || typeof t1 === "string") {
     return t2;
   }
-  if (/* tag */typeof t2 === "number" || typeof t2 === "string") {
+  if (/* tag */ typeof t2 === "number" || typeof t2 === "string") {
     return t1;
   }
   const match = min_binding(t2);
@@ -711,11 +711,11 @@ function concat_or_join(t1, v, d, t2) {
 }
 
 function split(x, param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     return [
-      /* Empty */0,
+      /* Empty */ 0,
       undefined,
-      /* Empty */0
+      /* Empty */ 0
     ];
   }
   const r = param.r;
@@ -747,9 +747,9 @@ function split(x, param) {
 }
 
 function merge$1(f, s1, s2) {
-  if (/* tag */typeof s1 === "number" || typeof s1 === "string") {
-    if (/* tag */typeof s2 === "number" || typeof s2 === "string") {
-      return /* Empty */0;
+  if (/* tag */ typeof s1 === "number" || typeof s1 === "string") {
+    if (/* tag */ typeof s2 === "number" || typeof s2 === "string") {
+      return /* Empty */ 0;
     }
     
   } else {
@@ -760,7 +760,7 @@ function merge$1(f, s1, s2) {
     }
     
   }
-  if (/* tag */typeof s2 === "number" || typeof s2 === "string") {
+  if (/* tag */ typeof s2 === "number" || typeof s2 === "string") {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
           MEL_EXN_ID: "Assert_failure",
           _1: [
@@ -776,12 +776,12 @@ function merge$1(f, s1, s2) {
 }
 
 function union(f, s1, s2) {
-  if (/* tag */typeof s1 === "number" || typeof s1 === "string") {
+  if (/* tag */ typeof s1 === "number" || typeof s1 === "string") {
     return s2;
   }
   const d1 = s1.d;
   const v1 = s1.v;
-  if (/* tag */typeof s2 === "number" || typeof s2 === "string") {
+  if (/* tag */ typeof s2 === "number" || typeof s2 === "string") {
     return s1;
   }
   const d2 = s2.d;
@@ -809,8 +809,8 @@ function union(f, s1, s2) {
 }
 
 function filter(p, m) {
-  if (/* tag */typeof m === "number" || typeof m === "string") {
-    return /* Empty */0;
+  if (/* tag */ typeof m === "number" || typeof m === "string") {
+    return /* Empty */ 0;
   }
   const r = m.r;
   const d = m.d;
@@ -831,8 +831,8 @@ function filter(p, m) {
 }
 
 function filter_map(f, param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
-    return /* Empty */0;
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
+    return /* Empty */ 0;
   }
   const v = param.v;
   const l$p = filter_map(f, param.l);
@@ -846,10 +846,10 @@ function filter_map(f, param) {
 }
 
 function partition(p, param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     return [
-      /* Empty */0,
-      /* Empty */0
+      /* Empty */ 0,
+      /* Empty */ 0
     ];
   }
   const d = param.d;
@@ -878,11 +878,11 @@ function cons_enum(_m, _e) {
   while(true) {
     const e = _e;
     const m = _m;
-    if (/* tag */typeof m === "number" || typeof m === "string") {
+    if (/* tag */ typeof m === "number" || typeof m === "string") {
       return e;
     }
     _e = {
-      TAG: /* More */0,
+      TAG: /* More */ 0,
       _0: m.v,
       _1: m.d,
       _2: m.r,
@@ -894,19 +894,19 @@ function cons_enum(_m, _e) {
 }
 
 function compare$1(cmp, m1, m2) {
-  let _e1 = cons_enum(m1, /* End */0);
-  let _e2 = cons_enum(m2, /* End */0);
+  let _e1 = cons_enum(m1, /* End */ 0);
+  let _e2 = cons_enum(m2, /* End */ 0);
   while(true) {
     const e2 = _e2;
     const e1 = _e1;
-    if (/* tag */typeof e1 === "number" || typeof e1 === "string") {
-      if (/* tag */typeof e2 === "number" || typeof e2 === "string") {
+    if (/* tag */ typeof e1 === "number" || typeof e1 === "string") {
+      if (/* tag */ typeof e2 === "number" || typeof e2 === "string") {
         return 0;
       } else {
         return -1;
       }
     }
-    if (/* tag */typeof e2 === "number" || typeof e2 === "string") {
+    if (/* tag */ typeof e2 === "number" || typeof e2 === "string") {
       return 1;
     }
     const c = Curry._2(funarg.compare, e1._0, e2._0);
@@ -924,19 +924,19 @@ function compare$1(cmp, m1, m2) {
 }
 
 function equal(cmp, m1, m2) {
-  let _e1 = cons_enum(m1, /* End */0);
-  let _e2 = cons_enum(m2, /* End */0);
+  let _e1 = cons_enum(m1, /* End */ 0);
+  let _e2 = cons_enum(m2, /* End */ 0);
   while(true) {
     const e2 = _e2;
     const e1 = _e1;
-    if (/* tag */typeof e1 === "number" || typeof e1 === "string") {
-      if (/* tag */typeof e2 === "number" || typeof e2 === "string") {
+    if (/* tag */ typeof e1 === "number" || typeof e1 === "string") {
+      if (/* tag */ typeof e2 === "number" || typeof e2 === "string") {
         return true;
       } else {
         return false;
       }
     }
-    if (/* tag */typeof e2 === "number" || typeof e2 === "string") {
+    if (/* tag */ typeof e2 === "number" || typeof e2 === "string") {
       return false;
     }
     if (Curry._2(funarg.compare, e1._0, e2._0) !== 0) {
@@ -952,7 +952,7 @@ function equal(cmp, m1, m2) {
 }
 
 function cardinal(param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     return 0;
   } else {
     return (cardinal(param.l) + 1 | 0) + cardinal(param.r) | 0;
@@ -963,7 +963,7 @@ function bindings_aux(_accu, _param) {
   while(true) {
     const param = _param;
     const accu = _accu;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       return accu;
     }
     _param = param.l;
@@ -979,13 +979,13 @@ function bindings_aux(_accu, _param) {
 }
 
 function bindings(s) {
-  return bindings_aux(/* [] */0, s);
+  return bindings_aux(/* [] */ 0, s);
 }
 
 function of_list(bs) {
   return Stdlib__List.fold_left((function (m, param) {
         return add(param[0], param[1], m);
-      }), /* Empty */0, bs);
+      }), /* Empty */ 0, bs);
 }
 
 function add_seq(i, m) {
@@ -995,16 +995,16 @@ function add_seq(i, m) {
 }
 
 function of_seq(i) {
-  return add_seq(i, /* Empty */0);
+  return add_seq(i, /* Empty */ 0);
 }
 
 function seq_of_enum_(c, param) {
-  if (/* tag */typeof c === "number" || typeof c === "string") {
-    return /* Nil */0;
+  if (/* tag */ typeof c === "number" || typeof c === "string") {
+    return /* Nil */ 0;
   }
   const partial_arg = cons_enum(c._2, c._3);
   return {
-    TAG: /* Cons */0,
+    TAG: /* Cons */ 0,
     _0: [
       c._0,
       c._1
@@ -1016,7 +1016,7 @@ function seq_of_enum_(c, param) {
 }
 
 function to_seq(m) {
-  const partial_arg = cons_enum(m, /* End */0);
+  const partial_arg = cons_enum(m, /* End */ 0);
   return function (param) {
     return seq_of_enum_(partial_arg, param);
   };
@@ -1026,11 +1026,11 @@ function snoc_enum(_s, _e) {
   while(true) {
     const e = _e;
     const s = _s;
-    if (/* tag */typeof s === "number" || typeof s === "string") {
+    if (/* tag */ typeof s === "number" || typeof s === "string") {
       return e;
     }
     _e = {
-      TAG: /* More */0,
+      TAG: /* More */ 0,
       _0: s.v,
       _1: s.d,
       _2: s.l,
@@ -1042,12 +1042,12 @@ function snoc_enum(_s, _e) {
 }
 
 function rev_seq_of_enum_(c, param) {
-  if (/* tag */typeof c === "number" || typeof c === "string") {
-    return /* Nil */0;
+  if (/* tag */ typeof c === "number" || typeof c === "string") {
+    return /* Nil */ 0;
   }
   const partial_arg = snoc_enum(c._2, c._3);
   return {
-    TAG: /* Cons */0,
+    TAG: /* Cons */ 0,
     _0: [
       c._0,
       c._1
@@ -1059,7 +1059,7 @@ function rev_seq_of_enum_(c, param) {
 }
 
 function to_rev_seq(c) {
-  const partial_arg = snoc_enum(c, /* End */0);
+  const partial_arg = snoc_enum(c, /* End */ 0);
   return function (param) {
     return rev_seq_of_enum_(partial_arg, param);
   };
@@ -1070,7 +1070,7 @@ function to_seq_from(low, m) {
     while(true) {
       const c = _c;
       const m = _m;
-      if (/* tag */typeof m === "number" || typeof m === "string") {
+      if (/* tag */ typeof m === "number" || typeof m === "string") {
         return c;
       }
       const r = m.r;
@@ -1079,7 +1079,7 @@ function to_seq_from(low, m) {
       const n = Curry._2(funarg.compare, v, low);
       if (n === 0) {
         return {
-          TAG: /* More */0,
+          TAG: /* More */ 0,
           _0: v,
           _1: d,
           _2: r,
@@ -1091,7 +1091,7 @@ function to_seq_from(low, m) {
         continue;
       }
       _c = {
-        TAG: /* More */0,
+        TAG: /* More */ 0,
         _0: v,
         _1: d,
         _2: r,
@@ -1101,14 +1101,14 @@ function to_seq_from(low, m) {
       continue;
     };
   };
-  const partial_arg = aux(low, m, /* End */0);
+  const partial_arg = aux(low, m, /* End */ 0);
   return function (param) {
     return seq_of_enum_(partial_arg, param);
   };
 }
 
 const IntMap = {
-  empty: /* Empty */0,
+  empty: /* Empty */ 0,
   add: add,
   add_to_list: add_to_list,
   update: update,
@@ -1154,7 +1154,7 @@ const IntMap = {
 };
 
 function assertion_test(param) {
-  let m = /* Empty */0;
+  let m = /* Empty */ 0;
   for (let i = 0; i <= 1000000; ++i) {
     m = Curry._3(add, i, i, m);
   }

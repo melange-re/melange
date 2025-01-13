@@ -5,7 +5,7 @@ const Caml_option = require("melange.js/caml_option.js");
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {

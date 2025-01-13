@@ -12,15 +12,15 @@ function ff(x) {
 
 function fff(x) {
   const x$1 = {
-    TAG: /* A */0,
+    TAG: /* A */ 0,
     _0: x
   };
   switch (x$1.TAG) {
-    case /* A */0 :
+    case /* A */ 0 :
         return x;
-    case /* B */1 :
+    case /* B */ 1 :
         return 1;
-    case /* C */2 :
+    case /* C */ 2 :
         return 2;
     
   }

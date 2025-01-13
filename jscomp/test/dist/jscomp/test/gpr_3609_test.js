@@ -3,7 +3,7 @@
 
 
 function func(state) {
-  if (/* tag */typeof state === "number" || typeof state === "string") {
+  if (/* tag */ typeof state === "number" || typeof state === "string") {
     return 0;
   } else {
     return 0 + state._0 | 0;
