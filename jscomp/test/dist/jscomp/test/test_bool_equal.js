@@ -50,7 +50,7 @@ function assertions(param) {
         });
   }
   if (false !== true) {
-    return ;
+    return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",

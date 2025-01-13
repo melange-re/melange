@@ -158,7 +158,7 @@ function check_any_suffix_case_then_chop(s, suffixes) {
   while(true) {
     const suffixes$1 = _suffixes;
     if (!suffixes$1) {
-      return ;
+      return;
     }
     const id = ends_with_index(s, suffixes$1.hd);
     if (id >= 0) {
@@ -428,7 +428,7 @@ function rindex_rec_opt(s, _i, c) {
   while(true) {
     const i = _i;
     if (i < 0) {
-      return ;
+      return;
     }
     if (s.charCodeAt(i) === c) {
       return i;

@@ -245,7 +245,7 @@ function Make(Ord) {
     while(true) {
       const param = _param;
       if (/* tag */typeof param === "number" || typeof param === "string") {
-        return ;
+        return;
       }
       iter(f, param._0);
       Curry._2(f, param._1, param._2);
@@ -872,7 +872,7 @@ function iter(f, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     iter(f, param._0);
     Curry._2(f, param._1, param._2);
@@ -1547,7 +1547,7 @@ function iter$1(f, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     iter$1(f, param._0);
     Curry._2(f, param._1, param._2);

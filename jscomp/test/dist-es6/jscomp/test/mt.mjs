@@ -39,7 +39,7 @@ function from_suites(name, suite) {
                           }));
                   }), suite);
           }));
-    return ;
+    return;
   }
   
 }
@@ -53,40 +53,40 @@ function handleCode(spec) {
   switch (spec.TAG) {
     case /* Eq */0 :
         Assert.deepEqual(spec._0, spec._1);
-        return ;
+        return;
     case /* Neq */1 :
         Assert.notDeepEqual(spec._0, spec._1);
-        return ;
+        return;
     case /* StrictEq */2 :
         Assert.strictEqual(spec._0, spec._1);
-        return ;
+        return;
     case /* StrictNeq */3 :
         Assert.notStrictEqual(spec._0, spec._1);
-        return ;
+        return;
     case /* Ok */4 :
         Assert.ok(spec._0);
-        return ;
+        return;
     case /* Approx */5 :
         const b = spec._1;
         const a = spec._0;
         if (!close_enough(undefined, a, b)) {
           Assert.deepEqual(a, b);
-          return ;
+          return;
         } else {
-          return ;
+          return;
         }
     case /* ApproxThreshold */6 :
         const b$1 = spec._2;
         const a$1 = spec._1;
         if (!close_enough(spec._0, a$1, b$1)) {
           Assert.deepEqual(a$1, b$1);
-          return ;
+          return;
         } else {
-          return ;
+          return;
         }
     case /* ThrowAny */7 :
         Assert.throws(spec._0);
-        return ;
+        return;
     case /* Fail */8 :
         return assert_fail("failed");
     case /* FailWith */9 :
@@ -107,7 +107,7 @@ function from_pair_suites(name, suites) {
                             }));
                     }), suites);
             }));
-      return ;
+      return;
     } else {
       console.log([
             name,
@@ -124,7 +124,7 @@ function from_pair_suites(name, suites) {
                           "eq?",
                           _fn._1
                         ]);
-                    return ;
+                    return;
                 case /* Neq */1 :
                     console.log([
                           name,
@@ -132,7 +132,7 @@ function from_pair_suites(name, suites) {
                           "neq?",
                           _fn._1
                         ]);
-                    return ;
+                    return;
                 case /* StrictEq */2 :
                     console.log([
                           name,
@@ -140,7 +140,7 @@ function from_pair_suites(name, suites) {
                           "strict_eq?",
                           _fn._1
                         ]);
-                    return ;
+                    return;
                 case /* StrictNeq */3 :
                     console.log([
                           name,
@@ -148,14 +148,14 @@ function from_pair_suites(name, suites) {
                           "strict_neq?",
                           _fn._1
                         ]);
-                    return ;
+                    return;
                 case /* Ok */4 :
                     console.log([
                           name,
                           _fn._0,
                           "ok?"
                         ]);
-                    return ;
+                    return;
                 case /* Approx */5 :
                     console.log([
                           name,
@@ -163,7 +163,7 @@ function from_pair_suites(name, suites) {
                           "~",
                           _fn._1
                         ]);
-                    return ;
+                    return;
                 case /* ApproxThreshold */6 :
                     console.log([
                           name,
@@ -174,15 +174,15 @@ function from_pair_suites(name, suites) {
                           _fn._0,
                           ")"
                         ]);
-                    return ;
+                    return;
                 case /* ThrowAny */7 :
-                    return ;
+                    return;
                 case /* Fail */8 :
                     console.log("failed");
-                    return ;
+                    return;
                 case /* FailWith */9 :
                     console.log("failed: " + _fn._0);
-                    return ;
+                    return;
                 
               }
             }), suites);
@@ -211,7 +211,7 @@ function from_promise_suites(name, suites) {
     } else {
       console.log("promise suites");
     }
-    return ;
+    return;
   }
   
 }

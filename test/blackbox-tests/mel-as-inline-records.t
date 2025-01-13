@@ -32,7 +32,7 @@ Test `@mel.as` in inline records / record extensions
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === UserException) {
         console.log("name:", exn.renamed);
-        return ;
+        return;
       }
       throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
     }

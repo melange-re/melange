@@ -41,12 +41,12 @@ function f(param) {
       }
       
     }
-    return ;
+    return;
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === A) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }

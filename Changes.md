@@ -87,7 +87,8 @@ Unreleased
 - core: prettify melange code generation for `for` loops
   ([#1275](https://github.com/melange-re/melange/pull/1275))
 - core: improve generated code formatting for `throw` and `return` statements,
-  JS objects ([#1286](https://github.com/melange-re/melange/pull/1286))
+  JS objects ([#1286](https://github.com/melange-re/melange/pull/1286),
+  [#1289](https://github.com/melange-re/melange/pull/1289))
 - core: improve generated code formatting for empty return and continue
   statements ([#1288](https://github.com/melange-re/melange/pull/1288))
 - core: in generated code, remove trailing spaces before commas in `export`

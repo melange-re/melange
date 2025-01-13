@@ -32,7 +32,7 @@ function bench(param) {
   }
   console.timeEnd("bs_set_bench.ml 14");
   if (Belt__Belt_SetInt.size(data) === 0) {
-    return ;
+    return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",

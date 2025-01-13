@@ -89,7 +89,7 @@ function bench2(m) {
     Belt__Belt_HashMap.remove(empty, String(i$2));
   }
   if (empty.size === 0) {
-    return ;
+    return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
@@ -125,7 +125,7 @@ function bench3(m) {
     table = Belt__Belt_MapDict.remove(table, String(i$2), cmp);
   }
   if (Belt__Belt_MapDict.size(table) === 0) {
-    return ;
+    return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
@@ -161,7 +161,7 @@ function bench4(param) {
     Belt__Belt_HashMapString.remove(table, String(i$2));
   }
   if (Belt__Belt_HashMapString.isEmpty(table)) {
-    return ;
+    return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
@@ -201,7 +201,7 @@ function bench5(param) {
   }
   console.timeEnd("bs_hashtbl_string_test.ml 141");
   if (Belt__Belt_HashMap.isEmpty(table)) {
-    return ;
+    return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
@@ -235,7 +235,7 @@ function bench6(param) {
     Belt__Belt_HashMapInt.remove(table, i$2);
   }
   if (table.size === 0) {
-    return ;
+    return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
@@ -269,7 +269,7 @@ function bench7(param) {
     Belt__Belt_HashSetInt.remove(table, i$2);
   }
   if (table.size === 0) {
-    return ;
+    return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",

@@ -147,7 +147,7 @@ function iter(f, _param) {
   while(true) {
     const param = _param;
     if (!param) {
-      return ;
+      return;
     }
     Curry._1(f, param.hd);
     _param = param.tl;
@@ -162,7 +162,7 @@ function iteri(f, l) {
     const param = _param;
     const i = _i;
     if (!param) {
-      return ;
+      return;
     }
     Curry._2(f, i, param.hd);
     _param = param.tl;
@@ -265,7 +265,7 @@ function iter2(f, _l1, _l2) {
           });
     }
     if (!l2) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",

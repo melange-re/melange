@@ -98,10 +98,10 @@ function ui_layout(compile, lookup, appContext) {
                         return Curry._2(lookup, env, key);
                       }));
               });
-            return ;
+            return;
           }
           catch (e){
-            return ;
+            return;
           }
         }));
   Runtime.setInterval((function () {

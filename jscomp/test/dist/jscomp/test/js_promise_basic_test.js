@@ -36,7 +36,7 @@ function eq(loc, x, y) {
 
 function assert_bool(b) {
   if (b) {
-    return ;
+    return;
   }
   throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
         MEL_EXN_ID: Stdlib.Invalid_argument,

@@ -150,7 +150,7 @@ function test(param) {
         });
   }
   if (Caml_oo_curry.js2(616641298, 7, u, 32) === 32) {
-    return ;
+    return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",

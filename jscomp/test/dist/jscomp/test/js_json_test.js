@@ -108,7 +108,7 @@ add_test("File \"jscomp/test/js_json_test.ml\", line 24, characters 11-18", (fun
                     });
               }
               if (ty3.TAG === /* JSONNumber */1) {
-                return ;
+                return;
               }
               throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                     MEL_EXN_ID: "Assert_failure",
@@ -755,7 +755,7 @@ idtest({
 
 idtest(Belt__Belt_List.makeBy(500, (function (i) {
             if (i % 2 === 0) {
-              return ;
+              return;
             } else {
               return 1;
             }
@@ -763,7 +763,7 @@ idtest(Belt__Belt_List.makeBy(500, (function (i) {
 
 idtest(Belt__Belt_Array.makeBy(500, (function (i) {
             if (i % 2 === 0) {
-              return ;
+              return;
             } else {
               return 1;
             }

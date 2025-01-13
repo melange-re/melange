@@ -702,7 +702,7 @@ function parse_opt(error, active, flags, s) {
     while(true) {
       const i = _i;
       if (i >= s.length) {
-        return ;
+        return;
       }
       const c = Caml_string.get(s, i);
       if (c >= 65) {
@@ -1248,7 +1248,7 @@ function print(ppf, w) {
   Stdlib__Format.pp_print_flush(ppf, undefined);
   if (Caml_array.get(current.contents.error, num)) {
     nerrors.contents = nerrors.contents + 1 | 0;
-    return ;
+    return;
   }
   
 }
@@ -1615,7 +1615,7 @@ function print_loc(ppf, loc) {
             hd: loc,
             tl: /* [] */0
           })) {
-      return ;
+      return;
     } else {
       return Curry._2(Stdlib__Format.fprintf(ppf)({
                 TAG: /* Format */0,
@@ -1726,7 +1726,7 @@ function print$1(ppf, loc) {
           hd: loc,
           tl: /* [] */0
         })) {
-    return ;
+    return;
   } else {
     return Curry._3(Stdlib__Format.fprintf(ppf)({
               TAG: /* Format */0,
@@ -1987,7 +1987,7 @@ register_error_of_exn(function (msg) {
                   _1: "Some fatal warnings were triggered (%d occurrences)"
                 }), msg._1);
       } else {
-        return ;
+        return;
       }
     });
 
@@ -2050,40 +2050,40 @@ function from_pair_suites(name, suites) {
                               switch (spec.TAG) {
                                 case /* Eq */0 :
                                     Assert.deepEqual(spec._0, spec._1);
-                                    return ;
+                                    return;
                                 case /* Neq */1 :
                                     Assert.notDeepEqual(spec._0, spec._1);
-                                    return ;
+                                    return;
                                 case /* StrictEq */2 :
                                     Assert.strictEqual(spec._0, spec._1);
-                                    return ;
+                                    return;
                                 case /* StrictNeq */3 :
                                     Assert.notStrictEqual(spec._0, spec._1);
-                                    return ;
+                                    return;
                                 case /* Ok */4 :
                                     Assert.ok(spec._0);
-                                    return ;
+                                    return;
                                 case /* Approx */5 :
                                     const b = spec._1;
                                     const a = spec._0;
                                     if (!close_enough(undefined, a, b)) {
                                       Assert.deepEqual(a, b);
-                                      return ;
+                                      return;
                                     } else {
-                                      return ;
+                                      return;
                                     }
                                 case /* ApproxThreshold */6 :
                                     const b$1 = spec._2;
                                     const a$1 = spec._1;
                                     if (!close_enough(spec._0, a$1, b$1)) {
                                       Assert.deepEqual(a$1, b$1);
-                                      return ;
+                                      return;
                                     } else {
-                                      return ;
+                                      return;
                                     }
                                 case /* ThrowAny */7 :
                                     Assert.throws(spec._0);
-                                    return ;
+                                    return;
                                 case /* Fail */8 :
                                     return assert_fail("failed");
                                 case /* FailWith */9 :
@@ -2093,7 +2093,7 @@ function from_pair_suites(name, suites) {
                             }));
                     }), suites);
             }));
-      return ;
+      return;
     } else {
       console.log([
             name,
@@ -2110,7 +2110,7 @@ function from_pair_suites(name, suites) {
                           "eq?",
                           fn._1
                         ]);
-                    return ;
+                    return;
                 case /* Neq */1 :
                     console.log([
                           name,
@@ -2118,7 +2118,7 @@ function from_pair_suites(name, suites) {
                           "neq?",
                           fn._1
                         ]);
-                    return ;
+                    return;
                 case /* StrictEq */2 :
                     console.log([
                           name,
@@ -2126,7 +2126,7 @@ function from_pair_suites(name, suites) {
                           "strict_eq?",
                           fn._1
                         ]);
-                    return ;
+                    return;
                 case /* StrictNeq */3 :
                     console.log([
                           name,
@@ -2134,14 +2134,14 @@ function from_pair_suites(name, suites) {
                           "strict_neq?",
                           fn._1
                         ]);
-                    return ;
+                    return;
                 case /* Ok */4 :
                     console.log([
                           name,
                           fn._0,
                           "ok?"
                         ]);
-                    return ;
+                    return;
                 case /* Approx */5 :
                     console.log([
                           name,
@@ -2149,7 +2149,7 @@ function from_pair_suites(name, suites) {
                           "~",
                           fn._1
                         ]);
-                    return ;
+                    return;
                 case /* ApproxThreshold */6 :
                     console.log([
                           name,
@@ -2160,15 +2160,15 @@ function from_pair_suites(name, suites) {
                           fn._0,
                           ")"
                         ]);
-                    return ;
+                    return;
                 case /* ThrowAny */7 :
-                    return ;
+                    return;
                 case /* Fail */8 :
                     console.log("failed");
-                    return ;
+                    return;
                 case /* FailWith */9 :
                     console.log("failed: " + fn._0);
-                    return ;
+                    return;
                 
               }
             }), suites);
@@ -2197,13 +2197,13 @@ function warn_bad_docstrings(param) {
                         _0: true
                       });
               case /* Info */1 :
-                  return ;
+                  return;
               case /* Docs */2 :
                   const match$1 = ds.ds_associated;
                   switch (match$1) {
                     case /* Zero */0 :
                     case /* One */1 :
-                        return ;
+                        return;
                     case /* Many */2 :
                         return prerr_warning(ds.ds_loc, {
                               TAG: /* Bad_docstring */33,
@@ -2358,7 +2358,7 @@ function get_docstring(info, dsl) {
   while(true) {
     const param = _param;
     if (!param) {
-      return ;
+      return;
     }
     const ds = param.hd;
     const match = ds.ds_attached;
@@ -2412,11 +2412,11 @@ function associate_docstrings(dsl) {
           switch (match) {
             case /* Zero */0 :
                 ds.ds_associated = /* One */1;
-                return ;
+                return;
             case /* One */1 :
             case /* Many */2 :
                 ds.ds_associated = /* Many */2;
-                return ;
+                return;
             
           }
         }), dsl);
@@ -2440,7 +2440,7 @@ function get_pre_docs(pos) {
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
@@ -2453,7 +2453,7 @@ function mark_pre_docs(pos) {
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
@@ -2477,7 +2477,7 @@ function get_post_docs(pos) {
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
@@ -2490,7 +2490,7 @@ function mark_post_docs(pos) {
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
@@ -2504,7 +2504,7 @@ function get_info(pos) {
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
@@ -4170,7 +4170,7 @@ function pat_of_label(lbl, pos) {
 
 function check_variable(vl, loc, v) {
   if (!Stdlib__List.mem(v, vl)) {
-    return ;
+    return;
   }
   throw new Caml_js_exceptions.MelangeError($$Error$1, {
         MEL_EXN_ID: $$Error$1,
@@ -12999,7 +12999,7 @@ function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
           const edelim = Stdlib__Lexing.lexeme(lexbuf);
           const edelim$1 = Stdlib__String.sub(edelim, 1, edelim.length - 2 | 0);
           if (delim === edelim$1) {
-            return ;
+            return;
           }
           store_string(Stdlib__Lexing.lexeme(lexbuf));
           ___ocaml_lex_state = 183;
@@ -13028,7 +13028,7 @@ function string(lexbuf) {
     const __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-          return ;
+          return;
       case 1 :
           const space = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
           update_loc(lexbuf, undefined, 1, false, space.length);
@@ -13094,7 +13094,7 @@ function token$1(lexbuf) {
   const post_pos = lexbuf.lex_curr_p;
   const attach = function (lines, docs, pre_pos) {
     if (/* tag */typeof docs === "number" || typeof docs === "string") {
-      return ;
+      return;
     }
     if (docs.TAG === /* After */0) {
       const a = docs._0;
@@ -13483,7 +13483,7 @@ function skip_phrase(lexbuf) {
       switch (match) {
         case /* EOF */25 :
         case /* SEMISEMI */83 :
-            return ;
+            return;
         default:
           return skip_phrase(lexbuf);
       }
@@ -13516,7 +13516,7 @@ function skip_phrase(lexbuf) {
 
 function maybe_skip_phrase(lexbuf) {
   if (Stdlib__Parsing.is_current_lookahead(/* SEMISEMI */83) || Stdlib__Parsing.is_current_lookahead(/* EOF */25)) {
-    return ;
+    return;
   } else {
     return skip_phrase(lexbuf);
   }

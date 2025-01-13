@@ -198,7 +198,7 @@ function file_option(file_options, name) {
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
@@ -250,7 +250,7 @@ function apply_until(f, _param) {
   while(true) {
     const param = _param;
     if (!param) {
-      return ;
+      return;
     }
     const x = Curry._1(f, param.hd);
     if (x !== undefined) {
@@ -4415,7 +4415,7 @@ function find_field_option(field_options, option_name) {
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
@@ -4549,7 +4549,7 @@ function compile_default_p2(all_types, field) {
   const field_type$1 = field_type(field);
   const field_default$1 = field_default(field);
   if (field_default$1 === undefined) {
-    return ;
+    return;
   }
   let exit = 0;
   if (/* tag */typeof field_type$1 === "number" || typeof field_type$1 === "string") {
@@ -4641,7 +4641,7 @@ function get_default(field_name, field_options, field_type) {
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
@@ -5078,7 +5078,7 @@ function compile_message_p2(types, param, message) {
             catch (raw_exn){
               const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
               if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-                return ;
+                return;
               }
               throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }

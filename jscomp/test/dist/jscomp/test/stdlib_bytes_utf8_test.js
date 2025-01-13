@@ -312,7 +312,7 @@ function uchar_map_of_spec(spec) {
       if (len === len$p) {
         Caml_array.set(map, uchar.contents, Stdlib__Bytes.copy(buf));
         uchar.contents = uchar.contents + 1 | 0;
-        return ;
+        return;
       }
       
     };
@@ -333,7 +333,7 @@ function uchar_map_of_spec(spec) {
       add(1);
     }
     if ((uchar.contents - 1 | 0) === match[1]) {
-      return ;
+      return;
     }
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
           MEL_EXN_ID: "Assert_failure",
@@ -359,7 +359,7 @@ const utf_16be = uchar_map_of_spec(utf_16be_spec);
 function swap(_u, b) {
   const len = b.length;
   if (len === 0) {
-    return ;
+    return;
   }
   for (let i = 0 ,i_finish = (b.length >> 1); i < i_finish; ++i) {
     const j = (i << 1);
@@ -472,7 +472,7 @@ function raises(f) {
     }
   }
   if (tmp) {
-    return ;
+    return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",

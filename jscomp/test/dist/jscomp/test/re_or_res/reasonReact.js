@@ -101,7 +101,7 @@ function createClass(debugName) {
             const newConvertedReasonProps = convertPropsIfTheyreFromJs(newJsProps, thisJs.jsPropsToReason, debugName);
             const newComponent = newConvertedReasonProps._0;
             if (newComponent.didUpdate === anyToUnit) {
-              return ;
+              return;
             }
             const oldConvertedReasonProps = prevProps === newJsProps ? newConvertedReasonProps : convertPropsIfTheyreFromJs(prevProps, thisJs.jsPropsToReason, debugName);
             const prevReasonState = prevState.reasonState;
@@ -137,7 +137,7 @@ function createClass(debugName) {
               subs.forEach(function (unsubscribe) {
                     Curry._1(unsubscribe, undefined);
                   });
-              return ;
+              return;
             }
             
           }),
@@ -147,7 +147,7 @@ function createClass(debugName) {
             const newConvertedReasonProps = convertPropsIfTheyreFromJs(nextProps, thisJs.jsPropsToReason, debugName);
             const newComponent = newConvertedReasonProps._0;
             if (newComponent.willUpdate === anyToUnit) {
-              return ;
+              return;
             }
             const oldJsProps = thisJs.props;
             const oldConvertedReasonProps = nextProps === oldJsProps ? newConvertedReasonProps : convertPropsIfTheyreFromJs(oldJsProps, thisJs.jsPropsToReason, debugName);
@@ -177,7 +177,7 @@ function createClass(debugName) {
             const newConvertedReasonProps = convertPropsIfTheyreFromJs(nextProps, thisJs.jsPropsToReason, debugName);
             const newComponent = newConvertedReasonProps._0;
             if (newComponent.willReceiveProps === willReceivePropsDefault) {
-              return ;
+              return;
             }
             const oldJsProps = thisJs.props;
             const oldConvertedReasonProps = nextProps === oldJsProps ? newConvertedReasonProps : convertPropsIfTheyreFromJs(oldJsProps, thisJs.jsPropsToReason, debugName);
@@ -250,7 +250,7 @@ function createClass(debugName) {
             const convertedReasonProps = convertPropsIfTheyreFromJs(thisJs.props, thisJs.jsPropsToReason, debugName);
             const component = convertedReasonProps._0;
             if (component.reducer === reducerDefault) {
-              return ;
+              return;
             }
             const sideEffects = {
               contents: (function (prim) {

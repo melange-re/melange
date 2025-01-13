@@ -272,10 +272,10 @@ function hash_rec(param) {
 
 function one_char(param) {
   if (!param) {
-    return ;
+    return;
   }
   if (param.tl) {
-    return ;
+    return;
   }
   const match = param.hd;
   const i = match[0];
@@ -674,7 +674,7 @@ function first(f, _param) {
   while(true) {
     const param = _param;
     if (!param) {
-      return ;
+      return;
     }
     const res = Curry._1(f, param.hd);
     if (res !== undefined) {
@@ -1265,7 +1265,7 @@ function delta_1(marks, c, next_cat, prev_cat, x, rem) {
                 switch (marks.TAG) {
                   case /* TSeq */0 :
                   case /* TExp */1 :
-                      return ;
+                      return;
                   case /* TMatch */2 :
                       return marks._0;
                   
@@ -1380,7 +1380,7 @@ function delta_seq(c, next_cat, prev_cat, kind, y, z, rem) {
           switch (marks.TAG) {
             case /* TSeq */0 :
             case /* TExp */1 :
-                return ;
+                return;
             case /* TMatch */2 :
                 return marks._0;
             
@@ -1805,7 +1805,7 @@ function split(s, cm) {
   while(true) {
     const t = _t;
     if (!t) {
-      return ;
+      return;
     }
     const match = t.hd;
     Curry._2(f, match[0], match[1]);
@@ -1871,12 +1871,12 @@ function colorize(c, regexp) {
               return split(cword, c);
           case /* Last_end_of_line */7 :
               lnl.contents = true;
-              return ;
+              return;
           case /* Beg_of_str */5 :
           case /* End_of_str */6 :
           case /* Start */8 :
           case /* Stop */9 :
-              return ;
+              return;
           
         }
       } else {
@@ -3652,12 +3652,12 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
   };
   const integer = function (param) {
     if (i.contents === l) {
-      return ;
+      return;
     }
     const d = get(undefined);
     if (d > 57 || d < 48) {
       i.contents = i.contents - 1 | 0;
-      return ;
+      return;
     } else {
       let _i = d - /* '0' */48 | 0;
       while(true) {

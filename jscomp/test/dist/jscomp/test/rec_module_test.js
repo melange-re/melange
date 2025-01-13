@@ -275,7 +275,7 @@ function min_elt_opt(_param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const l = param.l;
     if (/* tag */typeof l === "number" || typeof l === "string") {
@@ -307,7 +307,7 @@ function max_elt_opt(_param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     let tmp = param.r;
     if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
@@ -669,7 +669,7 @@ function iter(f, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     iter(f, param.l);
     Curry._1(f, param.v);
@@ -857,7 +857,7 @@ function find_first_opt(f, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const v = param.v;
     if (Curry._1(f, v)) {
@@ -921,7 +921,7 @@ function find_last_opt(f, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const v = param.v;
     if (Curry._1(f, v)) {
@@ -952,7 +952,7 @@ function find_opt(x, _param) {
   while(true) {
     const param = _param;
     if (/* tag */typeof param === "number" || typeof param === "string") {
-      return ;
+      return;
     }
     const v = param.v;
     const c = Curry._2(AAA.compare, x, v);

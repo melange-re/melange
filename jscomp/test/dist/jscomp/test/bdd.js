@@ -63,7 +63,7 @@ function resize(newSize) {
     while(true) {
       const bucket = _bucket;
       if (!bucket) {
-        return ;
+        return;
       }
       const n = bucket.hd;
       if (/* tag */typeof n === "number" || typeof n === "string") {
@@ -110,7 +110,7 @@ function insert(idl, idh, v, ind, bucket, newNode) {
           tl: bucket
         });
     n_items.contents = n_items.contents + 1 | 0;
-    return ;
+    return;
   }
   resize((sz_1.contents + sz_1.contents | 0) + 2 | 0);
   const ind$1 = hashVal(idl, idh, v) & sz_1.contents;
@@ -395,7 +395,7 @@ function main(param) {
     succeeded = succeeded && test_hwb(bdd, random_vars(22));
   }
   if (succeeded) {
-    return ;
+    return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",

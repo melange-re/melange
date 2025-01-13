@@ -10,7 +10,7 @@ function f(str) {
           "string",
           match[1]
         ]);
-    return ;
+    return;
   }
   console.log([
         "buffer",

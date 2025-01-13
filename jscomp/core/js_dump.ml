@@ -1179,7 +1179,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
           semi cxt;
           cxt
       | Undefined ->
-          return_sp cxt;
+          string cxt L.return;
           semi cxt;
           cxt
       | _ ->
