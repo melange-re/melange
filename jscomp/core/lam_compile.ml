@@ -611,8 +611,10 @@ and compile_general_cases :
             match default with
             | Complete -> None
             | NonComplete -> None
-            | Default lam ->
-                Some (Js_output.output_as_block (compile_lambda cxt lam))
+            | Default lam -> (
+                match Js_output.output_as_block (compile_lambda cxt lam) with
+                | [] -> None
+                | xs -> Some xs)
           in
           let make_comment i =
             match get_cstr_name i with
