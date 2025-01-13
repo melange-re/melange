@@ -15,7 +15,7 @@ const Stdlib__Uchar = require("melange/uchar.js");
 function fold_uchars(f, acc) {
   let _acc = acc;
   let _u = Stdlib__Uchar.min;
-  while(true) {
+  while (true) {
     const u = _u;
     const acc$1 = _acc;
     const acc$2 = Curry._2(f, acc$1, u);

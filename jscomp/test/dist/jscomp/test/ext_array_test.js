@@ -43,7 +43,7 @@ function reverse_of_list(l) {
   const a = Caml_array.make(len, l.hd);
   let _i = 0;
   let _param = l.tl;
-  while(true) {
+  while (true) {
     const param = _param;
     const i = _i;
     if (!param) {
@@ -60,7 +60,7 @@ function filter(f, a) {
   const arr_len = a.length;
   let _acc = /* [] */ 0;
   let _i = 0;
-  while(true) {
+  while (true) {
     const i = _i;
     const acc = _acc;
     if (i === arr_len) {
@@ -84,7 +84,7 @@ function filter_map(f, a) {
   const arr_len = a.length;
   let _acc = /* [] */ 0;
   let _i = 0;
-  while(true) {
+  while (true) {
     const i = _i;
     const acc = _acc;
     if (i === arr_len) {
@@ -131,7 +131,7 @@ function map2i(f, a, b) {
 }
 
 function tolist_aux(a, f, _i, _res) {
-  while(true) {
+  while (true) {
     const res = _res;
     const i = _i;
     if (i < 0) {
@@ -166,7 +166,7 @@ function of_list_map(f, a) {
   const arr = Caml_array.make(len, hd);
   let _i = 1;
   let _param = tl;
-  while(true) {
+  while (true) {
     const param = _param;
     const i = _i;
     if (!param) {
@@ -182,7 +182,7 @@ function of_list_map(f, a) {
 function rfind_with_index(arr, cmp, v) {
   const len = arr.length;
   let _i = len - 1 | 0;
-  while(true) {
+  while (true) {
     const i = _i;
     if (i < 0) {
       return i;
@@ -213,7 +213,7 @@ function rfind_and_split(arr, cmp, v) {
 function find_with_index(arr, cmp, v) {
   const len = arr.length;
   let _i = 0;
-  while(true) {
+  while (true) {
     const i = _i;
     if (i >= len) {
       return -1;
@@ -244,7 +244,7 @@ function find_and_split(arr, cmp, v) {
 function exists(p, a) {
   const n = a.length;
   let _i = 0;
-  while(true) {
+  while (true) {
     const i = _i;
     if (i === n) {
       return false;
@@ -262,7 +262,7 @@ function is_empty(arr) {
 }
 
 function unsafe_loop(_index, len, p, xs, ys) {
-  while(true) {
+  while (true) {
     const index = _index;
     if (index >= len) {
       return true;

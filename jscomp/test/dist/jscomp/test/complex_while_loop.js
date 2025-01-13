@@ -4,7 +4,7 @@
 
 function f(param) {
   let n = 0;
-  while((function () {
+  while ((function () {
         const fib = function (n) {
           if (n === 0 || n === 1) {
             return 1;
@@ -20,7 +20,7 @@ function f(param) {
 }
 
 function ff(param) {
-  while((function () {
+  while ((function () {
         const b = 9;
         return (3 + b | 0) > 10;
       })()) {

@@ -10,7 +10,7 @@ const Stdlib__Array = require("melange/array.js");
 const Stdlib__Format = require("melange/format.js");
 
 function sub(_tr, _k) {
-  while(true) {
+  while (true) {
     const k = _k;
     const tr = _tr;
     if (/* tag */ typeof tr === "number" || typeof tr === "string") {

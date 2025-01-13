@@ -85,7 +85,7 @@ function xsplit(delim, s) {
   if (len !== 0) {
     let _l = /* [] */ 0;
     let _i = len;
-    while(true) {
+    while (true) {
       const i = _i;
       const l = _l;
       if (i === 0) {

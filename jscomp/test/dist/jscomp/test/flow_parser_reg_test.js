@@ -2236,7 +2236,7 @@ function parse_exponent(f) {
 }
 
 function parse_body(_f) {
-  while(true) {
+  while (true) {
     const f = _f;
     const match = f.todo;
     if (!match) {
@@ -2377,7 +2377,7 @@ function save_comment(env, start, _end, buf, multiline) {
 
 function unicode_fix_cols(lb) {
   const count = function (_start, stop, _acc) {
-    while(true) {
+    while (true) {
       const acc = _acc;
       const start = _start;
       if (start === stop) {
@@ -2899,7 +2899,7 @@ const __ocaml_lex_tables = {
 function token(env, lexbuf) {
   lexbuf.lex_mem = Caml_array.make(8, -1);
   let ___ocaml_lex_state = 0;
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -3392,7 +3392,7 @@ function token(env, lexbuf) {
 
 function jsx_text(env, mode, buf, raw, lexbuf) {
   let ___ocaml_lex_state = 371;
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -4256,7 +4256,7 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
 }
 
 function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const env = _env;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
@@ -4368,7 +4368,7 @@ function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
 
 function template_part(env, start, cooked, raw, literal, lexbuf) {
   let ___ocaml_lex_state = 416;
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -4434,7 +4434,7 @@ function template_part(env, start, cooked, raw, literal, lexbuf) {
 
 function comment(env, buf, lexbuf) {
   let ___ocaml_lex_state = 279;
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -4481,7 +4481,7 @@ function comment(env, buf, lexbuf) {
 }
 
 function __ocaml_lex_template_tail_rec(_env, lexbuf, ___ocaml_lex_state) {
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const env = _env;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
@@ -4562,7 +4562,7 @@ function __ocaml_lex_template_tail_rec(_env, lexbuf, ___ocaml_lex_state) {
 
 function line_comment(env, buf, lexbuf) {
   let ___ocaml_lex_state = 287;
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -4605,7 +4605,7 @@ function line_comment(env, buf, lexbuf) {
 
 function regexp_class(env, buf, lexbuf) {
   let ___ocaml_lex_state = 326;
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -4635,7 +4635,7 @@ function regexp_class(env, buf, lexbuf) {
 
 function string_quote(env, q, buf, raw, octal, lexbuf) {
   let ___ocaml_lex_state = 247;
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -4687,7 +4687,7 @@ function string_quote(env, q, buf, raw, octal, lexbuf) {
 
 function string_escape(env, buf, lexbuf) {
   let ___ocaml_lex_state = 252;
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -4872,7 +4872,7 @@ function type_token(env, lexbuf) {
   Caml_array.set(lexbuf.lex_mem, 5, lexbuf.lex_curr_pos);
   Caml_array.set(lexbuf.lex_mem, 4, lexbuf.lex_curr_pos);
   let ___ocaml_lex_state = 133;
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -5224,7 +5224,7 @@ function type_token(env, lexbuf) {
 }
 
 function __ocaml_lex_regexp_rec(_env, lexbuf, ___ocaml_lex_state) {
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const env = _env;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
@@ -5295,7 +5295,7 @@ function __ocaml_lex_regexp_rec(_env, lexbuf, ___ocaml_lex_state) {
 
 function regexp_body(env, buf, lexbuf) {
   let ___ocaml_lex_state = 314;
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -5354,7 +5354,7 @@ function regexp_body(env, buf, lexbuf) {
 
 function jsx_child(env, start, buf, raw, lexbuf) {
   let ___ocaml_lex_state = 364;
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -5565,7 +5565,7 @@ function add(x, t) {
 }
 
 function mem(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
@@ -5606,7 +5606,7 @@ function create$1(lex_env, mode) {
 
 function next_power_of_two(n) {
   let _i = 1;
-  while(true) {
+  while (true) {
     const i = _i;
     if (i >= n) {
       return i;
@@ -5684,7 +5684,7 @@ function lex(t) {
 
 function lex_until(t, i) {
   grow(t, i + 1 | 0);
-  while(t.la_num_lexed <= i) {
+  while (t.la_num_lexed <= i) {
     lex(t);
   };
 }
@@ -6463,7 +6463,7 @@ function add$1(x, t) {
 }
 
 function mem$1(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
@@ -6608,7 +6608,7 @@ function add$2(x, data, m) {
 }
 
 function find(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -6749,7 +6749,7 @@ function add$3(x, t) {
 }
 
 function mem$2(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
@@ -6989,7 +6989,7 @@ function function_param_with_id(env, name) {
 }
 
 function postfix_with(env, _t) {
-  while(true) {
+  while (true) {
     const t = _t;
     if (!(!Curry._1(Parser_env_Peek.is_line_terminator, env) && maybe(env, /* T_LBRACKET */ 5))) {
       return t;
@@ -7390,7 +7390,7 @@ function union_with(env, left) {
       hd: left,
       tl: /* [] */ 0
     };
-    while(true) {
+    while (true) {
       const acc = _acc;
       const match = Curry._2(Parser_env_Peek.token, undefined, env);
       if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_BIT_OR */ 80) {
@@ -7421,7 +7421,7 @@ function intersection_with(env, left) {
       hd: left,
       tl: /* [] */ 0
     };
-    while(true) {
+    while (true) {
       const acc = _acc;
       const match = Curry._2(Parser_env_Peek.token, undefined, env);
       if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_BIT_AND */ 82) {
@@ -7454,7 +7454,7 @@ function param(env) {
 function function_param_list_without_parens(env) {
   return function (param$1) {
     let _acc = param$1;
-    while(true) {
+    while (true) {
       const acc = _acc;
       const t = Curry._2(Parser_env_Peek.token, undefined, env);
       let exit = 0;
@@ -7496,7 +7496,7 @@ function function_param_list_without_parens(env) {
 }
 
 function identifier(env, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const qualification = param[1];
     const q_loc = param[0];
@@ -7551,7 +7551,7 @@ function raw_generic_with_identifier(env, id) {
 }
 
 function params(env, _acc) {
-  while(true) {
+  while (true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match === "number" || typeof match === "string") {
@@ -7594,7 +7594,7 @@ function type_parameter_instantiation(env) {
 }
 
 function params$1(env, allow_default, _require_default, _acc) {
-  while(true) {
+  while (true) {
     const acc = _acc;
     const require_default = _require_default;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
@@ -7705,7 +7705,7 @@ function type_parameter_declaration(allow_default, env) {
 }
 
 function types(env, _acc) {
-  while(true) {
+  while (true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match === "number" || typeof match === "string") {
@@ -7836,7 +7836,7 @@ function semicolon$1(env) {
 }
 
 function properties(allow_static, env, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const callProperties = param[2];
     const indexers = param[1];
@@ -8047,7 +8047,7 @@ function _object$1(allow_staticOpt, env) {
 }
 
 function pattern(check_env, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const p = param[1];
     switch (p.TAG) {
@@ -8193,7 +8193,7 @@ function param$1(env) {
 }
 
 function param_list(env, _param) {
-  while(true) {
+  while (true) {
     const param$2 = _param;
     const has_default = param$2[2];
     const defaults = param$2[1];
@@ -8423,7 +8423,7 @@ function variable_declaration(env) {
 }
 
 function helper(env, _decls, _errs) {
-  while(true) {
+  while (true) {
     const errs = _errs;
     const decls = _decls;
     const match = variable_declaration(env);
@@ -8836,7 +8836,7 @@ function left_hand_side(env) {
 }
 
 function call(env, _left) {
-  while(true) {
+  while (true) {
     const left = _left;
     const part = Curry._2(Parser_env_Peek.token, undefined, env);
     if (!/* tag */ (typeof part === "number" || typeof part === "string")) {
@@ -8910,7 +8910,7 @@ function call(env, _left) {
 }
 
 function _new(env, _finish_fn) {
-  while(true) {
+  while (true) {
     const finish_fn = _finish_fn;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_NEW */ 42) {
@@ -9415,7 +9415,7 @@ function tagged_template(env, tag, part) {
 }
 
 function sequence(env, _acc) {
-  while(true) {
+  while (true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_COMMA */ 8) {
@@ -9721,7 +9721,7 @@ function make_logical(left, right, operator, loc) {
 }
 
 function logical_and(env, _left, _lloc) {
-  while(true) {
+  while (true) {
     const lloc = _lloc;
     const left = _left;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
@@ -9747,7 +9747,7 @@ function logical_and(env, _left, _lloc) {
 }
 
 function logical_or(env, _left, _lloc) {
-  while(true) {
+  while (true) {
     const lloc = _lloc;
     const left = _left;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
@@ -10009,7 +10009,7 @@ function make_binary(left, right, operator, loc) {
 }
 
 function add_to_stack(_right, _param, _rloc, _stack) {
-  while(true) {
+  while (true) {
     const param = _param;
     const stack = _stack;
     const rloc = _rloc;
@@ -10049,7 +10049,7 @@ function add_to_stack(_right, _param, _rloc, _stack) {
 
 function binary(env) {
   let _stack = /* [] */ 0;
-  while(true) {
+  while (true) {
     const stack = _stack;
     const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
     const is_unary = peek_unary_op(env) !== undefined;
@@ -10069,7 +10069,7 @@ function binary(env) {
       let _right = right;
       let _rloc = right_loc;
       let _param = stack;
-      while(true) {
+      while (true) {
         const param = _param;
         const rloc = _rloc;
         const right$1 = _right;
@@ -10129,7 +10129,7 @@ function argument(env) {
 }
 
 function arguments$p(env, _acc) {
-  while(true) {
+  while (true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match === "number" || typeof match === "string") {
@@ -10167,7 +10167,7 @@ function $$arguments(env) {
 }
 
 function template_parts(env, _quasis, _expressions) {
-  while(true) {
+  while (true) {
     const expressions = _expressions;
     const quasis = _quasis;
     const expr = Curry._1(Parse.expression, env);
@@ -10302,7 +10302,7 @@ function template_literal(env, part) {
 }
 
 function elements(env, _acc) {
-  while(true) {
+  while (true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match === "number" || typeof match === "string") {
@@ -10485,7 +10485,7 @@ function try_arrow_function(env) {
 }
 
 function decorator_list_helper(env, _decorators) {
-  while(true) {
+  while (true) {
     const decorators = _decorators;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
@@ -11072,7 +11072,7 @@ function check_property(env, prop_map, prop) {
 }
 
 function properties$1(env, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const acc = param[1];
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
@@ -11119,7 +11119,7 @@ function _initializer(env) {
 }
 
 function class_implements(env, _acc) {
-  while(true) {
+  while (true) {
     const acc = _acc;
     const id = Curry._2(Parse.identifier, undefined, env);
     const typeParameters = wrap(type_parameter_instantiation, env);
@@ -11356,7 +11356,7 @@ function class_element(env) {
 }
 
 function elements$1(env, _acc) {
-  while(true) {
+  while (true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match === "number" || typeof match === "string") {
@@ -11749,7 +11749,7 @@ function extract_ident_name(param) {
 }
 
 function export_specifiers_and_errs(env, _specifiers, _errs) {
-  while(true) {
+  while (true) {
     const errs = _errs;
     const specifiers = _specifiers;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
@@ -12231,7 +12231,7 @@ function export_source(env) {
 }
 
 function supers(env, _acc) {
-  while(true) {
+  while (true) {
     const acc = _acc;
     const $$super = wrap(generic, env);
     const acc$1 = {
@@ -12275,7 +12275,7 @@ function interface_helper(env) {
 }
 
 function supers$1(env, _acc) {
-  while(true) {
+  while (true) {
     const acc = _acc;
     const $$super = wrap(generic, env);
     const acc$1 = {
@@ -12317,7 +12317,7 @@ function declare_class(env, start_loc) {
 }
 
 function module_items(env, _module_kind, _acc) {
-  while(true) {
+  while (true) {
     const acc = _acc;
     const module_kind = _module_kind;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
@@ -12516,7 +12516,7 @@ function _if(env) {
 }
 
 function case_list(env, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const acc = param[1];
     const seen_default = param[0];
@@ -12649,7 +12649,7 @@ function source(env) {
 }
 
 function specifier_list(env, _acc) {
-  while(true) {
+  while (true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match === "number" || typeof match === "string") {
@@ -12993,7 +12993,7 @@ function _object$2(restricted_error) {
     };
   };
   const properties = function (env, _acc) {
-    while(true) {
+    while (true) {
       const acc = _acc;
       const match = Curry._2(Parser_env_Peek.token, undefined, env);
       if (/* tag */ typeof match === "number" || typeof match === "string") {
@@ -13053,7 +13053,7 @@ function _object$2(restricted_error) {
 
 function _array(restricted_error) {
   const elements = function (env, _acc) {
-    while(true) {
+    while (true) {
       const acc = _acc;
       const match = Curry._2(Parser_env_Peek.token, undefined, env);
       if (/* tag */ typeof match === "number" || typeof match === "string") {
@@ -13237,7 +13237,7 @@ function identifier$1(env) {
 }
 
 function member_expression(env, _member) {
-  while(true) {
+  while (true) {
     const member = _member;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
@@ -13430,7 +13430,7 @@ function attribute(env) {
 }
 
 function attributes(env, _acc) {
-  while(true) {
+  while (true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match === "number" || typeof match === "string") {
@@ -13571,7 +13571,7 @@ function element_or_closing(env) {
 }
 
 function children_and_closing(env, _acc) {
-  while(true) {
+  while (true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match === "number" || typeof match === "string") {
@@ -14290,7 +14290,7 @@ function statement_list_item(decoratorsOpt, env) {
 }
 
 function statement(env) {
-  while(true) {
+  while (true) {
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     let exit = 0;
     if (/* tag */ typeof match === "number" || typeof match === "string") {
@@ -14854,7 +14854,7 @@ function statement(env) {
 
 function module_body(term_fn, env) {
   let _acc = /* [] */ 0;
-  while(true) {
+  while (true) {
     const acc = _acc;
     const t = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ (typeof t === "number" || typeof t === "string") && t === /* T_EOF */ 105) {
@@ -14872,7 +14872,7 @@ function module_body(term_fn, env) {
 }
 
 function statement_list(_env, term_fn, item_fn, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const env = _env;
     const stmts = param[1];
@@ -14997,7 +14997,7 @@ function directives(env, term_fn, item_fn) {
 
 function statement_list$1(term_fn, env) {
   let _acc = /* [] */ 0;
-  while(true) {
+  while (true) {
     const acc = _acc;
     const t = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ (typeof t === "number" || typeof t === "string") && t === /* T_EOF */ 105) {

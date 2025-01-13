@@ -41,7 +41,7 @@ function starts_with(xs, prefix, p) {
 function is_sorted(x) {
   const len = x.length;
   let _i = 0;
-  while(true) {
+  while (true) {
     const i = _i;
     if (i >= (len - 1 | 0)) {
       return true;

@@ -11,7 +11,7 @@ function test(param) {
     contents: 0
   };
   const f = function (_n, _acc) {
-    while(true) {
+    while (true) {
       const acc = _acc;
       const n = _n;
       if (n === 0) {

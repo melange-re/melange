@@ -5,7 +5,7 @@ const Caml_array = require("melange.js/caml_array.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 function $$eval(_bdd, vars) {
-  while(true) {
+  while (true) {
     const bdd = _bdd;
     if (/* tag */ typeof bdd === "number" || typeof bdd === "string") {
       if (bdd === /* One */ 0) {
@@ -60,7 +60,7 @@ function resize(newSize) {
   const newSz_1 = newSize - 1 | 0;
   const newArr = Caml_array.make(newSize, /* [] */ 0);
   const copyBucket = function (_bucket) {
-    while(true) {
+    while (true) {
       const bucket = _bucket;
       if (!bucket) {
         return;
@@ -136,7 +136,7 @@ function mkNode(low, v, high) {
   const ind = hashVal(idl, idh, v) & sz_1.contents;
   const bucket = Caml_array.get(htab.contents, ind);
   let _b = bucket;
-  while(true) {
+  while (true) {
     const b = _b;
     if (b) {
       const n = b.hd;

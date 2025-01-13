@@ -3,7 +3,7 @@
 
 
 function even(_n) {
-  while(true) {
+  while (true) {
     const n = _n;
     if (n === 0) {
       return true;

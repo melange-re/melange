@@ -652,7 +652,7 @@ function parse_opt(error, active, flags, s) {
     Caml_array.set(error, i, true);
   };
   const get_num = function (_n, _i) {
-    while(true) {
+    while (true) {
       const i = _i;
       const n = _n;
       if (i >= s.length) {
@@ -699,7 +699,7 @@ function parse_opt(error, active, flags, s) {
     ];
   };
   const loop = function (_i) {
-    while(true) {
+    while (true) {
       const i = _i;
       if (i >= s.length) {
         return;
@@ -1497,7 +1497,7 @@ function highlight_dumb(ppf, lb, loc) {
 }
 
 function highlight_locations(ppf, locs) {
-  while(true) {
+  while (true) {
     const num_lines = status.contents;
     if (/* tag */ typeof num_lines === "number" || typeof num_lines === "string") {
       if (num_lines === /* Uninitialised */ 0) {
@@ -1559,7 +1559,7 @@ function show_filename(file) {
   if (absname.contents) {
     const s = Curry._1(Stdlib__Filename.is_relative, file) ? Stdlib__Filename.concat(Caml_sys.caml_sys_getcwd(undefined), file) : file;
     const aux = function (_s) {
-      while(true) {
+      while (true) {
         const s = _s;
         const base = Curry._1(Stdlib__Filename.basename, s);
         const dir = Curry._1(Stdlib__Filename.dirname, s);
@@ -1866,7 +1866,7 @@ function prerr_warning(loc, w) {
   const out_functions = Stdlib__Format.pp_get_formatter_out_functions(ppf, undefined);
   const out_string = function (str, start, len) {
     const count = function (_i, _c) {
-      while(true) {
+      while (true) {
         const c = _c;
         const i = _i;
         if (i === (start + len | 0)) {
@@ -2355,7 +2355,7 @@ function add_text_attrs(dsl, attrs) {
 
 function get_docstring(info, dsl) {
   let _param = dsl;
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return;
@@ -2379,7 +2379,7 @@ function get_docstring(info, dsl) {
 function get_docstrings(dsl) {
   let _acc = /* [] */ 0;
   let _param = dsl;
-  while(true) {
+  while (true) {
     const param = _param;
     const acc = _acc;
     if (!param) {
@@ -10783,7 +10783,7 @@ Stdlib__Hashtbl.replace(directive_built_in_values, "WORD_SIZE", {
 
 function semantic_version_parse(str, start, last_index) {
   const aux = function (_start, _acc, last_index) {
-    while(true) {
+    while (true) {
       const acc = _acc;
       const start = _start;
       if (start > last_index) {
@@ -10976,7 +10976,7 @@ function directive_parse(token_with_comments, lexbuf) {
       return v;
     }
     let _param;
-    while(true) {
+    while (true) {
       const t = Curry._1(token_with_comments, lexbuf);
       if (/* tag */ typeof t === "number" || typeof t === "string") {
         switch (t) {
@@ -11990,7 +11990,7 @@ function remove_underscores(s) {
   const b = Caml_bytes.caml_create_bytes(l);
   let _src = 0;
   let _dst = 0;
-  while(true) {
+  while (true) {
     const dst = _dst;
     const src = _src;
     if (src >= l) {
@@ -12310,7 +12310,7 @@ const __ocaml_lex_tables = {
 function token(lexbuf) {
   lexbuf.lex_mem = Caml_array.make(8, -1);
   let ___ocaml_lex_state = 0;
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -12797,7 +12797,7 @@ function token(lexbuf) {
 }
 
 function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -12979,7 +12979,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
 }
 
 function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -13023,7 +13023,7 @@ function comment(lexbuf) {
 function string(lexbuf) {
   lexbuf.lex_mem = Caml_array.make(2, -1);
   let ___ocaml_lex_state = 164;
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -13131,7 +13131,7 @@ function token$1(lexbuf) {
     set_pre_docstrings(pre_pos, b);
   };
   const loop = function (_lines, _docs, lexbuf) {
-    while(true) {
+    while (true) {
       const docs = _docs;
       const lines = _lines;
       const doc = token_with_comments(lexbuf);
@@ -13193,7 +13193,7 @@ function token$1(lexbuf) {
                                 return Curry._1(cont, lexbuf);
                               } else {
                                 let _param;
-                                while(true) {
+                                while (true) {
                                   const token = token_with_comments(lexbuf);
                                   if (Caml_obj.caml_equal(token, /* EOF */ 25)) {
                                     throw new Caml_js_exceptions.MelangeError($$Error$2, {
@@ -13261,7 +13261,7 @@ function token$1(lexbuf) {
                 switch (if_then_else$1) {
                   case /* Dir_if_true */ 0 :
                       let _else_seen = Caml_obj.caml_equal(match, /* ELSE */ 23);
-                      while(true) {
+                      while (true) {
                         const else_seen = _else_seen;
                         const token$2 = token_with_comments(lexbuf);
                         if (Caml_obj.caml_equal(token$2, /* EOF */ 25)) {
@@ -13474,7 +13474,7 @@ function init$1(param) {
 }
 
 function skip_phrase(lexbuf) {
-  while(true) {
+  while (true) {
     try {
       const match = token$1(lexbuf);
       if (!/* tag */ (typeof match === "number" || typeof match === "string")) {

@@ -98,7 +98,7 @@ function add(x, t) {
 }
 
 function min_elt(_def, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const def = _def;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
@@ -151,7 +151,7 @@ function remove(x, tree) {
 }
 
 function mem(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;

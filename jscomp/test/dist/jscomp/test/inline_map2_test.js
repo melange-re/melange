@@ -136,7 +136,7 @@ function Make(Ord) {
     }
   };
   const find = function (x, _param) {
-    while(true) {
+    while (true) {
       const param = _param;
       if (/* tag */ typeof param === "number" || typeof param === "string") {
         throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -152,7 +152,7 @@ function Make(Ord) {
     };
   };
   const mem = function (x, _param) {
-    while(true) {
+    while (true) {
       const param = _param;
       if (/* tag */ typeof param === "number" || typeof param === "string") {
         return false;
@@ -166,7 +166,7 @@ function Make(Ord) {
     };
   };
   const min_binding = function (_param) {
-    while(true) {
+    while (true) {
       const param = _param;
       if (/* tag */ typeof param === "number" || typeof param === "string") {
         throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -185,7 +185,7 @@ function Make(Ord) {
     };
   };
   const max_binding = function (_param) {
-    while(true) {
+    while (true) {
       const param = _param;
       if (/* tag */ typeof param === "number" || typeof param === "string") {
         throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -242,7 +242,7 @@ function Make(Ord) {
     }
   };
   const iter = function (f, _param) {
-    while(true) {
+    while (true) {
       const param = _param;
       if (/* tag */ typeof param === "number" || typeof param === "string") {
         return;
@@ -287,7 +287,7 @@ function Make(Ord) {
     };
   };
   const fold = function (f, _m, _accu) {
-    while(true) {
+    while (true) {
       const accu = _accu;
       const m = _m;
       if (/* tag */ typeof m === "number" || typeof m === "string") {
@@ -299,7 +299,7 @@ function Make(Ord) {
     };
   };
   const for_all = function (p, _param) {
-    while(true) {
+    while (true) {
       const param = _param;
       if (/* tag */ typeof param === "number" || typeof param === "string") {
         return true;
@@ -315,7 +315,7 @@ function Make(Ord) {
     };
   };
   const exists = function (p, _param) {
-    while(true) {
+    while (true) {
       const param = _param;
       if (/* tag */ typeof param === "number" || typeof param === "string") {
         return false;
@@ -485,7 +485,7 @@ function Make(Ord) {
     }
   };
   const cons_enum = function (_m, _e) {
-    while(true) {
+    while (true) {
       const e = _e;
       const m = _m;
       if (/* tag */ typeof m === "number" || typeof m === "string") {
@@ -505,7 +505,7 @@ function Make(Ord) {
   const compare = function (cmp, m1, m2) {
     let _e1 = cons_enum(m1, /* End */ 0);
     let _e2 = cons_enum(m2, /* End */ 0);
-    while(true) {
+    while (true) {
       const e2 = _e2;
       const e1 = _e1;
       if (/* tag */ typeof e1 === "number" || typeof e1 === "string") {
@@ -534,7 +534,7 @@ function Make(Ord) {
   const equal = function (cmp, m1, m2) {
     let _e1 = cons_enum(m1, /* End */ 0);
     let _e2 = cons_enum(m2, /* End */ 0);
-    while(true) {
+    while (true) {
       const e2 = _e2;
       const e1 = _e1;
       if (/* tag */ typeof e1 === "number" || typeof e1 === "string") {
@@ -566,7 +566,7 @@ function Make(Ord) {
     }
   };
   const bindings_aux = function (_accu, _param) {
-    while(true) {
+    while (true) {
       const param = _param;
       const accu = _accu;
       if (/* tag */ typeof param === "number" || typeof param === "string") {
@@ -757,7 +757,7 @@ function add(x, data, param) {
 }
 
 function find(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -774,7 +774,7 @@ function find(x, _param) {
 }
 
 function mem(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
@@ -789,7 +789,7 @@ function mem(x, _param) {
 }
 
 function min_binding(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -809,7 +809,7 @@ function min_binding(_param) {
 }
 
 function max_binding(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -869,7 +869,7 @@ function remove(x, param) {
 }
 
 function iter(f, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
@@ -917,7 +917,7 @@ function mapi(f, param) {
 }
 
 function fold(f, _m, _accu) {
-  while(true) {
+  while (true) {
     const accu = _accu;
     const m = _m;
     if (/* tag */ typeof m === "number" || typeof m === "string") {
@@ -930,7 +930,7 @@ function fold(f, _m, _accu) {
 }
 
 function for_all(p, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return true;
@@ -947,7 +947,7 @@ function for_all(p, _param) {
 }
 
 function exists(p, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
@@ -1127,7 +1127,7 @@ function partition(p, param) {
 }
 
 function cons_enum(_m, _e) {
-  while(true) {
+  while (true) {
     const e = _e;
     const m = _m;
     if (/* tag */ typeof m === "number" || typeof m === "string") {
@@ -1148,7 +1148,7 @@ function cons_enum(_m, _e) {
 function compare(cmp, m1, m2) {
   let _e1 = cons_enum(m1, /* End */ 0);
   let _e2 = cons_enum(m2, /* End */ 0);
-  while(true) {
+  while (true) {
     const e2 = _e2;
     const e1 = _e1;
     if (/* tag */ typeof e1 === "number" || typeof e1 === "string") {
@@ -1178,7 +1178,7 @@ function compare(cmp, m1, m2) {
 function equal(cmp, m1, m2) {
   let _e1 = cons_enum(m1, /* End */ 0);
   let _e2 = cons_enum(m2, /* End */ 0);
-  while(true) {
+  while (true) {
     const e2 = _e2;
     const e1 = _e1;
     if (/* tag */ typeof e1 === "number" || typeof e1 === "string") {
@@ -1212,7 +1212,7 @@ function cardinal(param) {
 }
 
 function bindings_aux(_accu, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const accu = _accu;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
@@ -1432,7 +1432,7 @@ function add$1(x, data, param) {
 }
 
 function find$1(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -1449,7 +1449,7 @@ function find$1(x, _param) {
 }
 
 function mem$1(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
@@ -1464,7 +1464,7 @@ function mem$1(x, _param) {
 }
 
 function min_binding$1(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -1484,7 +1484,7 @@ function min_binding$1(_param) {
 }
 
 function max_binding$1(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -1544,7 +1544,7 @@ function remove$1(x, param) {
 }
 
 function iter$1(f, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
@@ -1592,7 +1592,7 @@ function mapi$1(f, param) {
 }
 
 function fold$1(f, _m, _accu) {
-  while(true) {
+  while (true) {
     const accu = _accu;
     const m = _m;
     if (/* tag */ typeof m === "number" || typeof m === "string") {
@@ -1605,7 +1605,7 @@ function fold$1(f, _m, _accu) {
 }
 
 function for_all$1(p, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return true;
@@ -1622,7 +1622,7 @@ function for_all$1(p, _param) {
 }
 
 function exists$1(p, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
@@ -1802,7 +1802,7 @@ function partition$1(p, param) {
 }
 
 function cons_enum$1(_m, _e) {
-  while(true) {
+  while (true) {
     const e = _e;
     const m = _m;
     if (/* tag */ typeof m === "number" || typeof m === "string") {
@@ -1823,7 +1823,7 @@ function cons_enum$1(_m, _e) {
 function compare$1(cmp, m1, m2) {
   let _e1 = cons_enum$1(m1, /* End */ 0);
   let _e2 = cons_enum$1(m2, /* End */ 0);
-  while(true) {
+  while (true) {
     const e2 = _e2;
     const e1 = _e1;
     if (/* tag */ typeof e1 === "number" || typeof e1 === "string") {
@@ -1853,7 +1853,7 @@ function compare$1(cmp, m1, m2) {
 function equal$1(cmp, m1, m2) {
   let _e1 = cons_enum$1(m1, /* End */ 0);
   let _e2 = cons_enum$1(m2, /* End */ 0);
-  while(true) {
+  while (true) {
     const e2 = _e2;
     const e1 = _e1;
     if (/* tag */ typeof e1 === "number" || typeof e1 === "string") {
@@ -1887,7 +1887,7 @@ function cardinal$1(param) {
 }
 
 function bindings_aux$1(_accu, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const accu = _accu;
     if (/* tag */ typeof param === "number" || typeof param === "string") {

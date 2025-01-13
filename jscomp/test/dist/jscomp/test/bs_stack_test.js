@@ -28,17 +28,17 @@ function inOrder(v) {
     first: undefined,
     last: undefined
   };
-  while(current !== undefined) {
+  while (current !== undefined) {
     const v$1 = current;
     Belt__Belt_MutableStack.push(s, v$1);
     current = v$1.left;
   };
-  while(s.root !== undefined) {
+  while (s.root !== undefined) {
     current = Belt__Belt_MutableStack.popUndefined(s);
     const v$2 = current;
     Belt__Belt_MutableQueue.add(q, v$2.value);
     current = v$2.right;
-    while(current !== undefined) {
+    while (current !== undefined) {
       const v$3 = current;
       Belt__Belt_MutableStack.push(s, v$3);
       current = v$3.left;
@@ -57,7 +57,7 @@ function inOrder3(v) {
     first: undefined,
     last: undefined
   };
-  while(current !== undefined) {
+  while (current !== undefined) {
     const v$1 = current;
     Belt__Belt_MutableStack.push(s, v$1);
     current = v$1.left;
@@ -65,7 +65,7 @@ function inOrder3(v) {
   Belt__Belt_MutableStack.dynamicPopIter(s, (function (popped) {
         Belt__Belt_MutableQueue.add(q, popped.value);
         let current = popped.right;
-        while(current !== undefined) {
+        while (current !== undefined) {
           const v = current;
           Belt__Belt_MutableStack.push(s, v);
           current = v.left;
@@ -85,7 +85,7 @@ function inOrder2(v) {
     first: undefined,
     last: undefined
   };
-  while(todo) {
+  while (todo) {
     if (cursor !== undefined) {
       const v$1 = cursor;
       Belt__Belt_MutableStack.push(s, v$1);
@@ -113,7 +113,7 @@ const test1 = n(n(n(undefined, undefined, 4), n(undefined, undefined, 5), 2), n(
 
 function pushAllLeft(st1, s1) {
   let current = st1;
-  while(current !== undefined) {
+  while (current !== undefined) {
     const v = current;
     Belt__Belt_MutableStack.push(s1, v);
     current = v.left;

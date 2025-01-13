@@ -142,7 +142,7 @@ function add(x, data, m) {
 }
 
 function cons_enum(_m, _e) {
-  while(true) {
+  while (true) {
     const e = _e;
     const m = _m;
     if (/* tag */ typeof m === "number" || typeof m === "string") {
@@ -163,7 +163,7 @@ function cons_enum(_m, _e) {
 function compare$1(cmp, m1, m2) {
   let _e1 = cons_enum(m1, /* End */ 0);
   let _e2 = cons_enum(m2, /* End */ 0);
-  while(true) {
+  while (true) {
     const e2 = _e2;
     const e1 = _e1;
     if (/* tag */ typeof e1 === "number" || typeof e1 === "string") {
@@ -193,7 +193,7 @@ function compare$1(cmp, m1, m2) {
 function equal(cmp, m1, m2) {
   let _e1 = cons_enum(m1, /* End */ 0);
   let _e2 = cons_enum(m2, /* End */ 0);
-  while(true) {
+  while (true) {
     const e2 = _e2;
     const e1 = _e1;
     if (/* tag */ typeof e1 === "number" || typeof e1 === "string") {
@@ -363,7 +363,7 @@ function add$1(x, data, m) {
 }
 
 function find(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {

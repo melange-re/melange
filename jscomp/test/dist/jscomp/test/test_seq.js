@@ -14,7 +14,7 @@ const Help = /* @__PURE__ */ Caml_exceptions.create("Test_seq.Help");
 const Stop = /* @__PURE__ */ Caml_exceptions.create("Test_seq.Stop");
 
 function assoc3(x, _l) {
-  while(true) {
+  while (true) {
     const l = _l;
     if (l) {
       const match = l.hd;

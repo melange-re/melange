@@ -139,7 +139,7 @@ function string_of_int(n) {
 function valid_float_lexem(s) {
   const l = s.length;
   let _i = 0;
-  while(true) {
+  while (true) {
     const i = _i;
     if (i >= l) {
       return $caret(s, ".");
@@ -219,7 +219,7 @@ function open_out_bin(name) {
 
 function flush_all(param) {
   let _param = Caml_io.caml_ml_out_channels_list(undefined);
-  while(true) {
+  while (true) {
     const param$1 = _param;
     if (!param$1) {
       return;
@@ -322,7 +322,7 @@ function input(ic, s, ofs, len) {
 }
 
 function unsafe_really_input(ic, s, _ofs, _len) {
-  while(true) {
+  while (true) {
     const len = _len;
     const ofs = _ofs;
     if (len <= 0) {
@@ -358,7 +358,7 @@ function really_input_string(ic, len) {
 
 function input_line(chan) {
   const build_result = function (buf, _pos, _param) {
-    while(true) {
+    while (true) {
       const param = _param;
       const pos = _pos;
       if (!param) {
@@ -374,7 +374,7 @@ function input_line(chan) {
   };
   let _accu = /* [] */ 0;
   let _len = 0;
-  while(true) {
+  while (true) {
     const len = _len;
     const accu = _accu;
     const n = Caml_external_polyfill.resolve("caml_ml_input_scan_line")(chan);

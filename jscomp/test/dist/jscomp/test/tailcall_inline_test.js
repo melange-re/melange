@@ -7,7 +7,7 @@ const Stdlib__Array = require("melange/array.js");
 
 function f(param) {
   const f$1 = function (_acc, _n) {
-    while(true) {
+    while (true) {
       const n = _n;
       const acc = _acc;
       if (n <= 0) {

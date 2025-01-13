@@ -16,7 +16,7 @@ const Stdlib__List = require("melange/list.js");
 function get_tokens(lex, str) {
   const buf = Stdlib__Lexing.from_string(undefined, str);
   let _acc = /* [] */ 0;
-  while(true) {
+  while (true) {
     const acc = _acc;
     const v = Curry._1(lex, buf);
     if (Caml_obj.caml_equal(v, /* EOF */ 7)) {

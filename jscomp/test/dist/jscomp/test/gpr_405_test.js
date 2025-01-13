@@ -65,7 +65,7 @@ function Make(funarg) {
       let _successors = Curry._2(funarg.succ, gr, top);
       let _top = top;
       let _rest_of_stack = rest_of_stack;
-      while(true) {
+      while (true) {
         const rest_of_stack$1 = _rest_of_stack;
         const top$1 = _top;
         const successors = _successors;

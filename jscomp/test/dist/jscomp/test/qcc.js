@@ -77,7 +77,7 @@ const syms = {
 };
 
 function find(s, _n) {
-  while(true) {
+  while (true) {
     const n = _n;
     if (n >= syms.contents) {
       syms.contents = syms.contents + 1 | 0;
@@ -144,7 +144,7 @@ function isid(param) {
 }
 
 function skip(_param) {
-  while(true) {
+  while (true) {
     const ch = Curry._1(getch, undefined);
     if (ch >= 14) {
       if (ch !== 32) {
@@ -152,7 +152,7 @@ function skip(_param) {
           return ch;
         } else {
           let _param$1 = (Curry._1(getch, undefined), undefined);
-          while(true) {
+          while (true) {
             const match = Curry._1(getch, undefined);
             if (match !== 42) {
               _param$1 = undefined;
@@ -206,7 +206,7 @@ function next(param) {
   if (c === 34) {
     let b = gpos.contents;
     let _e = gpos.contents;
-    while(true) {
+    while (true) {
       const e = _e;
       const match = peekch(undefined);
       if (match !== 34) {
@@ -226,7 +226,7 @@ function next(param) {
   if (c >= 48) {
     if (c < 58) {
       let _n = c - 48 | 0;
-      while(true) {
+      while (true) {
         const n = _n;
         const match$1 = peekch(undefined);
         if (match$1 > 57 || match$1 < 48) {
@@ -257,7 +257,7 @@ function next(param) {
   if (isid(c)) {
     let _n$1 = 0;
     let _ch = c;
-    while(true) {
+    while (true) {
       const ch$1 = _ch;
       const n$1 = _n$1;
       Caml_bytes.set(s, n$1, ch$1);
@@ -303,7 +303,7 @@ function next(param) {
         }
       }
     };
-    while(true) {
+    while (true) {
       const param$1 = _param;
       if (!param$1) {
         return {
@@ -880,7 +880,7 @@ function binary(stk, lvl) {
     }
   };
   const foldtst = function (_loc) {
-    while(true) {
+    while (true) {
       const loc = _loc;
       const o = Curry._1(next$1, undefined);
       if (o.TAG === /* Op */ 0) {
@@ -900,7 +900,7 @@ function binary(stk, lvl) {
   binary(stk, lvl - 1 | 0);
   if (lvl < 8) {
     let _param;
-    while(true) {
+    while (true) {
       const o = Curry._1(next$1, undefined);
       if (o.TAG !== /* Op */ 0) {
         return Curry._1(unnext, o);
@@ -1077,7 +1077,7 @@ function postfix(stk) {
   switch (op$1) {
     case "(" :
         const emitargs = function (_l, _rl) {
-          while(true) {
+          while (true) {
             const rl = _rl;
             const l = _l;
             if (nextis({
@@ -1188,7 +1188,7 @@ function postfix(stk) {
 function expr(stk) {
   binary(stk, 10);
   let _param;
-  while(true) {
+  while (true) {
     const t = Curry._1(next$1, undefined);
     if (t.TAG !== /* Op */ 0) {
       return Curry._1(unnext, t);
@@ -1212,17 +1212,17 @@ function expr(stk) {
 }
 
 function decl(g, _n, _stk) {
-  while(true) {
+  while (true) {
     const stk = _stk;
     const n = _n;
     const t = Curry._1(next$1, undefined);
     if (Caml_obj.caml_equal(t, tokint)) {
       const top = stk ? stk.hd[1] : 0;
       const vars = function (_n, _stk) {
-        while(true) {
+        while (true) {
           const stk = _stk;
           const n = _n;
-          while(nextis({
+          while (nextis({
                   TAG: /* Op */ 0,
                   _0: "*"
                 })) {
@@ -1481,7 +1481,7 @@ function block(brk, stk) {
   const match = decl(false, 0, stk);
   const stk$p = match[1];
   const n = match[0];
-  while(!nextis({
+  while (!nextis({
           TAG: /* Op */ 0,
           _0: "}"
         })) {
@@ -1498,7 +1498,7 @@ function block(brk, stk) {
 }
 
 function top(_param) {
-  while(true) {
+  while (true) {
     if (nextis({
             TAG: /* Op */ 0,
             _0: "EOF!"
@@ -1525,7 +1525,7 @@ function top(_param) {
             va: opos.contents
           });
       const emitargs = function (_regs, _n, _stk) {
-        while(true) {
+        while (true) {
           const stk = _stk;
           const n = _n;
           const regs = _regs;
@@ -1593,7 +1593,7 @@ function top(_param) {
               }
             }
           }, 1, /* [] */ 0);
-      while(Caml_obj.caml_notequal(Curry._1(next$1, undefined), {
+      while (Caml_obj.caml_notequal(Curry._1(next$1, undefined), {
               TAG: /* Op */ 0,
               _0: "{"
             })) {
@@ -1762,7 +1762,7 @@ function elfgen(outf) {
   };
   itr(function (param, param$1, l) {
         const genrel = function (_l) {
-          while(true) {
+          while (true) {
             const l = _l;
             if (l === 0) {
               return;
@@ -1979,7 +1979,7 @@ function main(param) {
         return Stdlib.print_bytes(Stdlib__Bytes.sub(obuf, 0, opos.contents));
     case "-lex" :
         let _param;
-        while(true) {
+        while (true) {
           const tok = Curry._1(next$1, undefined);
           if (tok.TAG === /* Op */ 0) {
             if (tok._0 === "EOF!") {

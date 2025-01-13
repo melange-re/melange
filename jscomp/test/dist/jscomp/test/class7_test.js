@@ -182,7 +182,7 @@ const backup_ref = CamlinternalOO.make_class([
     ], backup_ref_init);
 
 function get(_p, _n) {
-  while(true) {
+  while (true) {
     const n = _n;
     const p = _p;
     if (n === 0) {

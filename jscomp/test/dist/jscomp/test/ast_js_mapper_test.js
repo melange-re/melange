@@ -42,7 +42,7 @@ tFromJs({
 
 function searchForSureExists(xs, k) {
   let _i = 0;
-  while(true) {
+  while (true) {
     const i = _i;
     const match = xs[i];
     if (match[0] === k) {

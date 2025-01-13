@@ -8,7 +8,7 @@ const Stdlib = require("melange/stdlib.js");
 const Stdlib__List = require("melange/list.js");
 
 function length_aux(_len, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const len = _len;
     if (!param) {
@@ -53,7 +53,7 @@ function nth(l, n) {
   }
   let _l = l;
   let _n = n;
-  while(true) {
+  while (true) {
     const n$1 = _n;
     const l$1 = _l;
     if (l$1) {
@@ -72,7 +72,7 @@ function nth(l, n) {
 }
 
 function rev_append(_l1, _l2) {
-  while(true) {
+  while (true) {
     const l2 = _l2;
     const l1 = _l1;
     if (!l1) {
@@ -128,7 +128,7 @@ function mapi$1(f, l) {
 function rev_map(f, l) {
   let _accu = /* [] */ 0;
   let _param = l;
-  while(true) {
+  while (true) {
     const param = _param;
     const accu = _accu;
     if (!param) {
@@ -144,7 +144,7 @@ function rev_map(f, l) {
 }
 
 function iter(f, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return;
@@ -158,7 +158,7 @@ function iter(f, _param) {
 function iteri(f, l) {
   let _i = 0;
   let _param = l;
-  while(true) {
+  while (true) {
     const param = _param;
     const i = _i;
     if (!param) {
@@ -172,7 +172,7 @@ function iteri(f, l) {
 }
 
 function fold_left(f, _accu, _l) {
-  while(true) {
+  while (true) {
     const l = _l;
     const accu = _accu;
     if (!l) {
@@ -219,7 +219,7 @@ function rev_map2(f, l1, l2) {
   let _accu = /* [] */ 0;
   let _l1 = l1;
   let _l2 = l2;
-  while(true) {
+  while (true) {
     const l2$1 = _l2;
     const l1$1 = _l1;
     const accu = _accu;
@@ -249,7 +249,7 @@ function rev_map2(f, l1, l2) {
 }
 
 function iter2(f, _l1, _l2) {
-  while(true) {
+  while (true) {
     const l2 = _l2;
     const l1 = _l1;
     if (l1) {
@@ -275,7 +275,7 @@ function iter2(f, _l1, _l2) {
 }
 
 function fold_left2(f, _accu, _l1, _l2) {
-  while(true) {
+  while (true) {
     const l2 = _l2;
     const l1 = _l1;
     const accu = _accu;
@@ -321,7 +321,7 @@ function fold_right2(f, l1, l2, accu) {
 }
 
 function for_all(p, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return true;
@@ -335,7 +335,7 @@ function for_all(p, _param) {
 }
 
 function exists(p, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return false;
@@ -349,7 +349,7 @@ function exists(p, _param) {
 }
 
 function for_all2(p, _l1, _l2) {
-  while(true) {
+  while (true) {
     const l2 = _l2;
     const l1 = _l1;
     if (l1) {
@@ -377,7 +377,7 @@ function for_all2(p, _l1, _l2) {
 }
 
 function exists2(p, _l1, _l2) {
-  while(true) {
+  while (true) {
     const l2 = _l2;
     const l1 = _l1;
     if (l1) {
@@ -405,7 +405,7 @@ function exists2(p, _l1, _l2) {
 }
 
 function mem(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return false;
@@ -419,7 +419,7 @@ function mem(x, _param) {
 }
 
 function memq(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return false;
@@ -433,7 +433,7 @@ function memq(x, _param) {
 }
 
 function assoc(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (param) {
       const match = param.hd;
@@ -450,7 +450,7 @@ function assoc(x, _param) {
 }
 
 function assq(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (param) {
       const match = param.hd;
@@ -467,7 +467,7 @@ function assq(x, _param) {
 }
 
 function mem_assoc(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return false;
@@ -481,7 +481,7 @@ function mem_assoc(x, _param) {
 }
 
 function mem_assq(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return false;
@@ -527,7 +527,7 @@ function remove_assq(x, param) {
 }
 
 function find(p, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (param) {
       const x = param.hd;
@@ -547,7 +547,7 @@ function find_all(p) {
   return function (param) {
     let _accu = /* [] */ 0;
     let _param = param;
-    while(true) {
+    while (true) {
       const param$1 = _param;
       const accu = _accu;
       if (!param$1) {
@@ -573,7 +573,7 @@ function partition(p, l) {
   let _yes = /* [] */ 0;
   let _no = /* [] */ 0;
   let _param = l;
-  while(true) {
+  while (true) {
     const param = _param;
     const no = _no;
     const yes = _yes;
@@ -671,7 +671,7 @@ function merge(cmp, l1, l2) {
 }
 
 function chop(_k, _l) {
-  while(true) {
+  while (true) {
     const l = _l;
     const k = _k;
     if (k === 0) {
@@ -812,7 +812,7 @@ function stable_sort(cmp, l) {
     let _l1 = s1;
     let _l2 = s2;
     let _accu = /* [] */ 0;
-    while(true) {
+    while (true) {
       const accu = _accu;
       const l2$1 = _l2;
       const l1 = _l1;
@@ -958,7 +958,7 @@ function stable_sort(cmp, l) {
     let _l1 = s1;
     let _l2 = s2;
     let _accu = /* [] */ 0;
-    while(true) {
+    while (true) {
       const accu = _accu;
       const l2$1 = _l2;
       const l1 = _l1;
@@ -1186,7 +1186,7 @@ function sort_uniq(cmp, l) {
     let _l1 = s1;
     let _l2 = s2;
     let _accu = /* [] */ 0;
-    while(true) {
+    while (true) {
       const accu = _accu;
       const l2$1 = _l2;
       const l1 = _l1;
@@ -1417,7 +1417,7 @@ function sort_uniq(cmp, l) {
     let _l1 = s1;
     let _l2 = s2;
     let _accu = /* [] */ 0;
-    while(true) {
+    while (true) {
       const accu = _accu;
       const l2$1 = _l2;
       const l1 = _l1;

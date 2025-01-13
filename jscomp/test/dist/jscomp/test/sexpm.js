@@ -507,7 +507,7 @@ function _error_eof(t) {
 }
 
 function expr(k, t) {
-  while(true) {
+  while (true) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
             return expr(k, param);
@@ -598,7 +598,7 @@ function expr_starting_with(c, k, t) {
 }
 
 function expr_list(acc, k, t) {
-  while(true) {
+  while (true) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
             return expr_list(acc, k, param);
@@ -661,7 +661,7 @@ function _return_atom(last, k, t) {
 }
 
 function atom(k, t) {
-  while(true) {
+  while (true) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
             return atom(k, param);
@@ -727,7 +727,7 @@ function atom(k, t) {
 }
 
 function quoted(k, t) {
-  while(true) {
+  while (true) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
             return quoted(k, param);
@@ -879,7 +879,7 @@ function read1int(i, k, t) {
 }
 
 function skip_comment(k, t) {
-  while(true) {
+  while (true) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
             return skip_comment(k, param);
@@ -894,7 +894,7 @@ function skip_comment(k, t) {
 }
 
 function expr_or_end(k, t) {
-  while(true) {
+  while (true) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
             return expr_or_end(k, param);
@@ -985,7 +985,7 @@ function parse_chan_list(bufsize, ic) {
         return Stdlib.input(ic, param, param$1, param$2);
       }));
   let _acc = /* [] */ 0;
-  while(true) {
+  while (true) {
     const acc = _acc;
     const e = next(d);
     if (typeof e === "string") {
@@ -1122,7 +1122,7 @@ function MakeDecode(funarg) {
         });
   };
   const expr = function (k, t) {
-    while(true) {
+    while (true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
               return expr(k, param);
@@ -1211,7 +1211,7 @@ function MakeDecode(funarg) {
     return atom(k, t);
   };
   const expr_list = function (acc, k, t) {
-    while(true) {
+    while (true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
               return expr_list(acc, k, param);
@@ -1272,7 +1272,7 @@ function MakeDecode(funarg) {
         });
   };
   const atom = function (k, t) {
-    while(true) {
+    while (true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
               return atom(k, param);
@@ -1337,7 +1337,7 @@ function MakeDecode(funarg) {
     };
   };
   const quoted = function (k, t) {
-    while(true) {
+    while (true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
               return quoted(k, param);
@@ -1485,7 +1485,7 @@ function MakeDecode(funarg) {
     }
   };
   const skip_comment = function (k, t) {
-    while(true) {
+    while (true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
               return skip_comment(k, param);
@@ -1499,7 +1499,7 @@ function MakeDecode(funarg) {
     };
   };
   const expr_or_end = function (k, t) {
-    while(true) {
+    while (true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
               return expr_or_end(k, param);

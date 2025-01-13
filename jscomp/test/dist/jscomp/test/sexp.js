@@ -165,7 +165,7 @@ function $great$great$eq(e, f) {
 function map_opt(f, l) {
   let _acc = /* [] */ 0;
   let _l = l;
-  while(true) {
+  while (true) {
     const l$1 = _l;
     const acc = _acc;
     if (!l$1) {
@@ -187,7 +187,7 @@ function map_opt(f, l) {
 function list_any(f, e) {
   if (e.NAME === "List") {
     let _l = e.VAL;
-    while(true) {
+    while (true) {
       const l = _l;
       if (!l) {
         return;
@@ -207,7 +207,7 @@ function list_all(f, e) {
   if (e.NAME === "List") {
     let _acc = /* [] */ 0;
     let _l = e.VAL;
-    while(true) {
+    while (true) {
       const l = _l;
       const acc = _acc;
       if (!l) {
@@ -357,7 +357,7 @@ function to_list_with(f, e) {
 function get_field(name, e) {
   if (e.NAME === "List") {
     let _l = e.VAL;
-    while(true) {
+    while (true) {
       const l = _l;
       if (!l) {
         return;
@@ -409,7 +409,7 @@ function field(name, f, e) {
 }
 
 function _get_field_list(name, _l) {
-  while(true) {
+  while (true) {
     const l = _l;
     if (!l) {
       return;
@@ -453,7 +453,7 @@ function field_list(name, f, e) {
 }
 
 function _get_variant(s, args, _l) {
-  while(true) {
+  while (true) {
     const l = _l;
     if (!l) {
       return;

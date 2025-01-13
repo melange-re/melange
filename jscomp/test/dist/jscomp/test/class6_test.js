@@ -107,7 +107,7 @@ const p = Curry._2(point[0], undefined, 3);
 const q = Curry._3(colored_point[0], undefined, 4, "blue");
 
 function lookup_obj(obj, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (param) {
       const obj$p = param.hd;
