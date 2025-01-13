@@ -290,7 +290,6 @@ and statement_desc =
       body : block;
     }
   | Continue
-  | Break (* only used when inline a fucntion *)
   | Return of expression
   (* Here we need track back a bit ?, move Return to Function ...
      Then we can only have one Return, which is not good *)

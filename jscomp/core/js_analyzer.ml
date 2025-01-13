@@ -147,8 +147,7 @@ let no_side_effect_obj =
     statement =
       (fun self s ->
         match s.statement_desc with
-        | Throw _ | Debugger | Break | Variable _ | Continue ->
-            raise_notrace Not_found
+        | Throw _ | Debugger | Variable _ | Continue -> raise_notrace Not_found
         | Exp e -> self.expression self e
         | Int_switch _ | String_switch _ | ForRange _ | If _ | While _ | Block _
         | Return _ | Try _ ->
@@ -253,7 +252,6 @@ and eq_statement ({ statement_desc = x0; _ } : J.statement)
   | Exp a -> ( match y0 with Exp b -> eq_expression a b | _ -> false)
   | Return a -> ( match y0 with Return b -> eq_expression a b | _ -> false)
   | Debugger -> y0 = Debugger
-  | Break -> y0 = Break
   | Block xs0 -> ( match y0 with Block ys0 -> eq_block xs0 ys0 | _ -> false)
   | Variable _ | If _ | While _ | ForRange _ | Continue | Int_switch _
   | String_switch _ | Throw _ | Try _ ->

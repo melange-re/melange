@@ -284,12 +284,6 @@ let debugger_nl cxt =
   semi cxt;
   newline cxt
 
-let break_nl cxt =
-  string cxt L.break;
-  space cxt;
-  semi cxt;
-  newline cxt
-
 let continue cxt =
   string cxt L.continue;
   semi cxt
@@ -1167,9 +1161,6 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       cxt (* newline cxt;  #2642 *)
   | Debugger ->
       debugger_nl cxt;
-      cxt
-  | Break ->
-      break_nl cxt;
       cxt
   | Return e -> (
       match e.expression_desc with
