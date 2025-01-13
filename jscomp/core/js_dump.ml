@@ -987,7 +987,8 @@ and pp_comment cxt comment =
   if String.length comment > 0 then (
     string cxt "/* ";
     string cxt comment;
-    string cxt " */")
+    string cxt " */";
+    space cxt)
 
 and pp_comment_option cxt comment =
   match comment with None -> () | Some x -> pp_comment cxt x
