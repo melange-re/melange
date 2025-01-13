@@ -24,9 +24,9 @@ function eq(f) {
 }
 
 const test_strings = Stdlib__Array.init(32, (function (i) {
-        const c = Stdlib__Char.chr(i);
-        return Caml_bytes.bytes_to_string(Stdlib__Bytes.make(i, c));
-      }));
+      const c = Stdlib__Char.chr(i);
+      return Caml_bytes.bytes_to_string(Stdlib__Bytes.make(i, c));
+    }));
 
 const test_strings_hash_results = [
   0,

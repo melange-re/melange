@@ -46,12 +46,12 @@ function eq(loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -65,12 +65,12 @@ function point_init($$class) {
   CamlinternalOO.set_methods($$class, [
         get_x,
         (function (self$1) {
-            return self$1[x];
-          }),
+          return self$1[x];
+        }),
         move,
         (function (self$1, d) {
-            self$1[x] = self$1[x] + d | 0;
-          })
+          self$1[x] = self$1[x] + d | 0;
+        })
       ]);
   return function (env, self, x_init) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -106,12 +106,12 @@ function ref_init($$class) {
   CamlinternalOO.set_methods($$class, [
         get,
         (function (self$2) {
-            return self$2[x];
-          }),
+          return self$2[x];
+        }),
         set,
         (function (self$2, y) {
-            self$2[x] = y;
-          })
+          self$2[x] = y;
+        })
       ]);
   return function (env, self, x_init) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -130,18 +130,18 @@ function backup_init($$class) {
   CamlinternalOO.set_methods($$class, [
         save,
         (function (self$3) {
-            const copy$1 = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$3));
-            self$3[copy] = Caml_option.some((copy$1[copy] = undefined, copy$1));
-          }),
+          const copy$1 = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$3));
+          self$3[copy] = Caml_option.some((copy$1[copy] = undefined, copy$1));
+        }),
         restore,
         (function (self$3) {
-            const x = self$3[copy];
-            if (x !== undefined) {
-              return Caml_option.valFromOption(x);
-            } else {
-              return self$3;
-            }
-          })
+          const x = self$3[copy];
+          if (x !== undefined) {
+            return Caml_option.valFromOption(x);
+          } else {
+            return self$3;
+          }
+        })
       ]);
   return function (env, self) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -231,21 +231,21 @@ function backup2_init($$class) {
   CamlinternalOO.set_methods($$class, [
         save,
         (function (self$5) {
-            self$5[copy] = Caml_option.some(Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$5)));
-          }),
+          self$5[copy] = Caml_option.some(Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$5)));
+        }),
         restore,
         (function (self$5) {
-            const x = self$5[copy];
-            if (x !== undefined) {
-              return Caml_option.valFromOption(x);
-            } else {
-              return self$5;
-            }
-          }),
+          const x = self$5[copy];
+          if (x !== undefined) {
+            return Caml_option.valFromOption(x);
+          } else {
+            return self$5;
+          }
+        }),
         clear,
         (function (self$5) {
-            self$5[copy] = undefined;
-          })
+          self$5[copy] = undefined;
+        })
       ]);
   return function (env, self) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -321,8 +321,8 @@ function window_init($$class) {
   const top_widget = ids[0];
   const top_widget$1 = ids[1];
   CamlinternalOO.set_method($$class, top_widget, (function (self$7) {
-          return self$7[top_widget$1];
-        }));
+        return self$7[top_widget$1];
+      }));
   return function (env, self) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     self$1[top_widget$1] = undefined;
@@ -337,8 +337,8 @@ function widget_init($$class) {
   const $$window = ids[0];
   const $$window$1 = ids[1];
   CamlinternalOO.set_method($$class, $$window, (function (self$8) {
-          return self$8[$$window$1];
-        }));
+        return self$8[$$window$1];
+      }));
   return function (env, self, w) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     self$1[$$window$1] = w;

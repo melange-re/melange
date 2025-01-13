@@ -28,22 +28,22 @@ const hashString = (function(str){
 );
 
 const $$String = Belt__Belt_Id.hashable(Stdlib__Hashtbl.hash, (function (x, y) {
-        return x === y;
-      }));
+      return x === y;
+    }));
 
 const String1 = Belt__Belt_Id.hashable(hashString, (function (x, y) {
-        return x === y;
-      }));
+      return x === y;
+    }));
 
 const String2 = Belt__Belt_Id.hashable((function (x) {
-        return Caml_hash_primitive.caml_hash_final_mix(Caml_hash_primitive.caml_hash_mix_string(0, x));
-      }), (function (x, y) {
-        return x === y;
-      }));
+      return Caml_hash_primitive.caml_hash_final_mix(Caml_hash_primitive.caml_hash_mix_string(0, x));
+    }), (function (x, y) {
+      return x === y;
+    }));
 
 const Int = Belt__Belt_Id.hashable(Stdlib__Hashtbl.hash, (function (x, y) {
-        return x === y;
-      }));
+      return x === y;
+    }));
 
 const empty = Belt__Belt_internalBucketsType.make(Int.hash, Int.eq, 500000);
 

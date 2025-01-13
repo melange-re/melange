@@ -79,12 +79,12 @@ function f$3(h, g) {
 }
 
 f$3((function (prim0, prim1) {
-        return prim0 + prim1 | 0;
-      }), 3);
+      return prim0 + prim1 | 0;
+    }), 3);
 
 f$3((function (prim0, prim1) {
-        return prim0 + prim1 | 0;
-      }), 3);
+      return prim0 + prim1 | 0;
+    }), 3);
 
 const d = v$3.contents;
 
@@ -92,22 +92,22 @@ Mt.from_pair_suites("Pr_regression_test", {
       hd: [
         "partial",
         (function (param) {
-            return {
-              TAG: /* Eq */0,
-              _0: [
-                5,
-                5,
-                5,
-                5
-              ],
-              _1: [
-                a,
-                b,
-                c,
-                d
-              ]
-            };
-          })
+          return {
+            TAG: /* Eq */0,
+            _0: [
+              5,
+              5,
+              5,
+              5
+            ],
+            _1: [
+              a,
+              b,
+              c,
+              d
+            ]
+          };
+        })
       ],
       tl: /* [] */0
     });

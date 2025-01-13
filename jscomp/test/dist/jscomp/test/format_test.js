@@ -25,12 +25,12 @@ function eq(loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -140,8 +140,8 @@ eq("File \"jscomp/test/format_test.ml\", line 71, characters 5-12", (1 + 65535 /
 
 function f(loc, ls) {
   Stdlib__List.iter((function (param) {
-          eq(loc, Caml_format.caml_float_of_string(param[0]), param[1]);
-        }), ls);
+        eq(loc, Caml_format.caml_float_of_string(param[0]), param[1]);
+      }), ls);
 }
 
 f("File \"jscomp/test/format_test.ml\", line 82, characters 6-13", {
@@ -183,8 +183,8 @@ function sl(f) {
 
 function aux_list(loc, ls) {
   Stdlib__List.iter((function (param) {
-          eq(loc, sl(param[0]), param[1]);
-        }), ls);
+        eq(loc, sl(param[0]), param[1]);
+      }), ls);
 }
 
 const literals_0 = [
@@ -279,8 +279,8 @@ function scan_float(loc, s, expect) {
             },
             _1: "%h"
           }), (function (result) {
-          eq(loc, result, expect);
-        }));
+        eq(loc, result, expect);
+      }));
 }
 
 scan_float("File \"jscomp/test/format_test.ml\", line 120, characters 13-20", "0x3f.p1", 126);
@@ -288,8 +288,8 @@ scan_float("File \"jscomp/test/format_test.ml\", line 120, characters 13-20", "0
 scan_float("File \"jscomp/test/format_test.ml\", line 121, characters 13-20", "0x1.3333333333333p-2", 0.3);
 
 Stdlib__List.iter((function (param) {
-        scan_float("File \"jscomp/test/format_test.ml\", line 123, characters 13-20", param[1], param[0]);
-      }), literals);
+      scan_float("File \"jscomp/test/format_test.ml\", line 123, characters 13-20", param[1], param[0]);
+    }), literals);
 
 const f1 = - -9.9;
 

@@ -137,8 +137,8 @@ function find(x, _param) {
 }
 
 const m = Stdlib__List.fold_left((function (acc, param) {
-        return add(param[0], param[1], acc);
-      }), /* Empty */0, {
+      return add(param[0], param[1], acc);
+    }), /* Empty */0, {
       hd: [
         10,
         /* 'a' */97
@@ -168,12 +168,12 @@ Mt.from_pair_suites("Inline_map_test", {
       hd: [
         "find",
         (function (param) {
-            return {
-              TAG: /* Eq */0,
-              _0: find(10, m),
-              _1: /* 'a' */97
-            };
-          })
+          return {
+            TAG: /* Eq */0,
+            _0: find(10, m),
+            _1: /* 'a' */97
+          };
+        })
       ],
       tl: /* [] */0
     });

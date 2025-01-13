@@ -24,118 +24,118 @@ const object_tables = {
 const suites_0 = [
   "caml_obj",
   (function (param) {
-      if (!object_tables.key) {
-        const $$class = CamlinternalOO.create_table(["say"]);
-        const say = CamlinternalOO.get_method_label($$class, "say");
-        CamlinternalOO.set_method($$class, say, (function (self$1, x) {
-                return 1 + x | 0;
-              }));
-        const env_init = function (env) {
-          return CamlinternalOO.create_object_opt(undefined, $$class);
-        };
-        CamlinternalOO.init_class($$class);
-        object_tables.key = env_init;
-      }
-      return {
-        TAG: /* Eq */0,
-        _0: 33,
-        _1: f(Curry._1(object_tables.key, undefined))
+    if (!object_tables.key) {
+      const $$class = CamlinternalOO.create_table(["say"]);
+      const say = CamlinternalOO.get_method_label($$class, "say");
+      CamlinternalOO.set_method($$class, say, (function (self$1, x) {
+            return 1 + x | 0;
+          }));
+      const env_init = function (env) {
+        return CamlinternalOO.create_object_opt(undefined, $$class);
       };
-    })
+      CamlinternalOO.init_class($$class);
+      object_tables.key = env_init;
+    }
+    return {
+      TAG: /* Eq */0,
+      _0: 33,
+      _1: f(Curry._1(object_tables.key, undefined))
+    };
+  })
 ];
 
 const suites_1 = {
   hd: [
     "js_obj",
     (function (param) {
-        return {
-          TAG: /* Eq */0,
-          _0: 34,
-          _1: ({
-              say: (function (x) {
-                  return x + 2 | 0;
-                })
-            }).say(32)
-        };
-      })
+      return {
+        TAG: /* Eq */0,
+        _0: 34,
+        _1: ({
+            say: (function (x) {
+              return x + 2 | 0;
+            })
+          }).say(32)
+      };
+    })
   ],
   tl: {
     hd: [
       "js_obj2",
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: 34,
-            _1: ({
-                say: (function (x) {
-                    return x + 2 | 0;
-                  })
-              }).say(32)
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: 34,
+          _1: ({
+              say: (function (x) {
+                return x + 2 | 0;
+              })
+            }).say(32)
+        };
+      })
     ],
     tl: {
       hd: [
         "empty",
         (function (param) {
-            return {
-              TAG: /* Eq */0,
-              _0: 0,
-              _1: Object.keys({}).length
-            };
-          })
+          return {
+            TAG: /* Eq */0,
+            _0: 0,
+            _1: Object.keys({}).length
+          };
+        })
       ],
       tl: {
         hd: [
           "assign",
           (function (param) {
-              return {
-                TAG: /* Eq */0,
-                _0: {
-                  a: 1
-                },
-                _1: Object.assign({}, {
-                      a: 1
-                    })
-              };
-            })
+            return {
+              TAG: /* Eq */0,
+              _0: {
+                a: 1
+              },
+              _1: Object.assign({}, {
+                    a: 1
+                  })
+            };
+          })
         ],
         tl: {
           hd: [
             "merge",
             (function (param) {
-                const original = {
-                  a: 1
-                };
-                return {
-                  TAG: /* Eq */0,
-                  _0: {
-                    a: 2
-                  },
-                  _1: Object.assign({}, original, {
-                        a: 2
-                      })
-                };
-              })
+              const original = {
+                a: 1
+              };
+              return {
+                TAG: /* Eq */0,
+                _0: {
+                  a: 2
+                },
+                _1: Object.assign({}, original, {
+                      a: 2
+                    })
+              };
+            })
           ],
           tl: {
             hd: [
               "merge-preserves-original",
               (function (param) {
-                  const original = {
+                const original = {
+                  a: 1
+                };
+                Object.assign({}, original, {
+                      a: 2
+                    });
+                return {
+                  TAG: /* Eq */0,
+                  _0: {
                     a: 1
-                  };
-                  Object.assign({}, original, {
-                        a: 2
-                      });
-                  return {
-                    TAG: /* Eq */0,
-                    _0: {
-                      a: 1
-                    },
-                    _1: original
-                  };
-                })
+                  },
+                  _1: original
+                };
+              })
             ],
             tl: /* [] */0
           }

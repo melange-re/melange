@@ -515,9 +515,9 @@ const exit_function = {
 function at_exit(f) {
   const g = exit_function.contents;
   exit_function.contents = (function (param) {
-      Curry._1(f, undefined);
-      Curry._1(g, undefined);
-    });
+    Curry._1(f, undefined);
+    Curry._1(g, undefined);
+  });
 }
 
 function do_at_exit(param) {

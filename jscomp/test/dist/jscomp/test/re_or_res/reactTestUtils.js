@@ -53,15 +53,15 @@ function findByAllSelector(element, selector) {
 
 function findBySelectorAndTextContent(element, selector, content) {
   return Belt__Belt_Array.getBy(Array.from(element.querySelectorAll(selector)), (function (node) {
-          return node.textContent === content;
-        }));
+        return node.textContent === content;
+      }));
 }
 
 function findBySelectorAndPartialTextContent(element, selector, content) {
   return Belt__Belt_Array.getBy(Array.from(element.querySelectorAll(selector)), (function (node) {
-          const arg = node.textContent;
-          return arg.includes(content, undefined);
-        }));
+        const arg = node.textContent;
+        return arg.includes(content, undefined);
+      }));
 }
 
 const DOM = {
@@ -74,15 +74,15 @@ const DOM = {
 function prepareContainer(container, param) {
   const containerElement = document.createElement("div");
   Belt__Belt_Option.map(document.body, (function (body) {
-          return body.appendChild(containerElement);
-        }));
+        return body.appendChild(containerElement);
+      }));
   container.contents = Caml_option.some(containerElement);
 }
 
 function cleanupContainer(container, param) {
   Belt__Belt_Option.map(container.contents, (function (prim) {
-          prim.remove();
-        }));
+        prim.remove();
+      }));
   container.contents = undefined;
 }
 

@@ -93,16 +93,16 @@ eq("File \"jscomp/test/bs_sort_test.ml\", line 48, characters 5-12", diffs(Array
     ]);
 
 b("File \"jscomp/test/bs_sort_test.ml\", line 50, characters 4-11", Belt__Belt_Range.every(0, 200, (function (i) {
-            const v = Array_data_util.randomRange(0, i);
-            Belt__Belt_SortArray.stableSortInPlaceBy(v, cmp);
-            return Belt__Belt_SortArray.isSorted(v, cmp);
-          })));
+          const v = Array_data_util.randomRange(0, i);
+          Belt__Belt_SortArray.stableSortInPlaceBy(v, cmp);
+          return Belt__Belt_SortArray.isSorted(v, cmp);
+        })));
 
 b("File \"jscomp/test/bs_sort_test.ml\", line 56, characters 4-11", Belt__Belt_Range.every(0, 200, (function (i) {
-            const v = Array_data_util.randomRange(0, i);
-            Belt__Belt_SortArray.stableSortInPlaceBy(v, cmp);
-            return Belt__Belt_SortArray.isSorted(v, cmp);
-          })));
+          const v = Array_data_util.randomRange(0, i);
+          Belt__Belt_SortArray.stableSortInPlaceBy(v, cmp);
+          return Belt__Belt_SortArray.isSorted(v, cmp);
+        })));
 
 b("File \"jscomp/test/bs_sort_test.ml\", line 62, characters 4-11", Belt__Belt_SortArray.isSorted([], cmp));
 
@@ -164,8 +164,8 @@ const u$1 = [
 ];
 
 eq("File \"jscomp/test/bs_sort_test.ml\", line 90, characters 5-12", Belt__Belt_SortArray.stableSortBy(u$1, (function (param, param$1) {
-            return param[0] - param$1[0] | 0;
-          })), [
+          return param[0] - param$1[0] | 0;
+        })), [
       [
         1,
         "a"
@@ -200,8 +200,8 @@ const u$2 = [
 ];
 
 eq("File \"jscomp/test/bs_sort_test.ml\", line 96, characters 5-12", Belt__Belt_SortArray.stableSortBy(u$2, (function (param, param$1) {
-            return param[0] - param$1[0] | 0;
-          })), [
+          return param[0] - param$1[0] | 0;
+        })), [
       [
         1,
         "b"
@@ -248,8 +248,8 @@ const u$3 = [
 ];
 
 eq("File \"jscomp/test/bs_sort_test.ml\", line 102, characters 5-12", Belt__Belt_SortArray.stableSortBy(u$3, (function (param, param$1) {
-            return param[0] - param$1[0] | 0;
-          })), [
+          return param[0] - param$1[0] | 0;
+        })), [
       [
         1,
         "c"
@@ -336,12 +336,12 @@ eq("File \"jscomp/test/bs_sort_test.ml\", line 116, characters 5-12", Belt__Belt
 const aa = Array_data_util.range(0, 1000);
 
 b("File \"jscomp/test/bs_sort_test.ml\", line 118, characters 4-11", Belt__Belt_Range.every(0, 1000, (function (i) {
-            return Belt__Belt_SortArray.binarySearchBy(aa, i, cmp) === i;
-          })));
+          return Belt__Belt_SortArray.binarySearchBy(aa, i, cmp) === i;
+        })));
 
 const cc = Belt__Belt_Array.map(Array_data_util.range(0, 2000), (function (x) {
-        return (x << 1);
-      }));
+      return (x << 1);
+    }));
 
 eq("File \"jscomp/test/bs_sort_test.ml\", line 123, characters 5-12", Belt__Belt_SortArray.binarySearchBy(cc, 5000, cmp) ^ -1, 2001);
 
@@ -352,8 +352,8 @@ eq("File \"jscomp/test/bs_sort_test.ml\", line 125, characters 5-12", Belt__Belt
 eq("File \"jscomp/test/bs_sort_test.ml\", line 127, characters 5-12", Belt__Belt_SortArray.binarySearchBy(cc, 1, cmp) ^ -1, 1);
 
 b("File \"jscomp/test/bs_sort_test.ml\", line 128, characters 4-11", Belt__Belt_Range.every(0, 1999, (function (i) {
-            return (Belt__Belt_SortArray.binarySearchBy(cc, (i << 1) + 1 | 0, cmp) ^ -1) === (i + 1 | 0);
-          })));
+          return (Belt__Belt_SortArray.binarySearchBy(cc, (i << 1) + 1 | 0, cmp) ^ -1) === (i + 1 | 0);
+        })));
 
 function lt(x, y) {
   return x < y;

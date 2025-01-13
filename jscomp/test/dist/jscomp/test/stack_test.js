@@ -31,21 +31,21 @@ function v(param) {
 const suites_0 = [
   "push_test",
   (function (param) {
-      return {
-        TAG: /* Eq */0,
-        _0: {
-          hd: 1,
+    return {
+      TAG: /* Eq */0,
+      _0: {
+        hd: 1,
+        tl: {
+          hd: 4,
           tl: {
-            hd: 4,
-            tl: {
-              hd: 3,
-              tl: /* [] */0
-            }
+            hd: 3,
+            tl: /* [] */0
           }
-        },
-        _1: v(undefined)
-      };
-    })
+        }
+      },
+      _1: v(undefined)
+    };
+  })
 ];
 
 const suites = {

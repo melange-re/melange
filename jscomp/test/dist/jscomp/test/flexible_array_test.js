@@ -273,11 +273,11 @@ function sort(s) {
   }
   const head = get(s, 0);
   const larger = sort(filter_from(1, (function (x) {
-              return Caml_obj.caml_greaterthan(x, head);
-            }), s));
+            return Caml_obj.caml_greaterthan(x, head);
+          }), s));
   const smaller = sort(filter_from(1, (function (x) {
-              return Caml_obj.caml_lessequal(x, head);
-            }), s));
+            return Caml_obj.caml_lessequal(x, head);
+          }), s));
   return append(smaller, push_front(larger, head));
 }
 
@@ -340,12 +340,12 @@ if (!Caml_obj.caml_equal(x, of_array([
 }
 
 const v = Stdlib__Array.init(500, (function (i) {
-        return 500 - i | 0;
-      }));
+      return 500 - i | 0;
+    }));
 
 const y = Stdlib__Array.init(500, (function (i) {
-        return i + 1 | 0;
-      }));
+      return i + 1 | 0;
+    }));
 
 const x$1 = sort(of_array(v));
 

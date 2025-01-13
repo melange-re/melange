@@ -11,8 +11,8 @@ function mk(fn) {
     )(undefined));
 
 console.log((function () {
-          return 1;
-        })());
+        return 1;
+      })());
 
 exports.mk = mk;
 /*  Not a pure module */

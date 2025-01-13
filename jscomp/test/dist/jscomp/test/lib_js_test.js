@@ -19,12 +19,12 @@ console.log("hey");
 const suites_0 = [
   "anything_to_string",
   (function (param) {
-      return {
-        TAG: /* Eq */0,
-        _0: "3",
-        _1: String(3)
-      };
-    })
+    return {
+      TAG: /* Eq */0,
+      _0: "3",
+      _1: String(3)
+    };
+  })
 ];
 
 const suites = {

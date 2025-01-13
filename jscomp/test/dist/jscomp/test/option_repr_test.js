@@ -105,12 +105,12 @@ function f12(x) {
 }
 
 const length_8_id = Belt__Belt_List.makeBy(8, (function (x) {
-        return x;
-      }));
+      return x;
+    }));
 
 const length_10_id = Belt__Belt_List.makeBy(10, (function (x) {
-        return x;
-      }));
+      return x;
+    }));
 
 function f13$1(param) {
   return Caml_obj.caml_equal(Belt__Belt_List.take(length_10_id, 8), {
@@ -171,8 +171,8 @@ function neqx(a, b) {
 
 function all_true(xs) {
   return Belt__Belt_List.every(xs, (function (x) {
-          return x;
-        }));
+        return x;
+      }));
 }
 
 const xs_0 = gtx(Caml_option.some(null), Caml_option.some(undefined));
@@ -183,8 +183,8 @@ const xs = {
 };
 
 b("File \"jscomp/test/option_repr_test.ml\", line 121, characters 5-12", Belt__Belt_List.every(xs, (function (x) {
-            return x;
-          })));
+          return x;
+        })));
 
 const xs_0$1 = ltx(Caml_option.some(undefined), 3);
 
@@ -206,8 +206,8 @@ const xs_1 = {
                 hd: ltx(undefined, null),
                 tl: {
                   hd: ltx(undefined, (function (x) {
-                          return x;
-                        })),
+                        return x;
+                      })),
                   tl: {
                     hd: ltx(null, 3),
                     tl: /* [] */0
@@ -228,8 +228,8 @@ const xs$1 = {
 };
 
 b("File \"jscomp/test/option_repr_test.ml\", line 127, characters 5-12", Belt__Belt_List.every(xs$1, (function (x) {
-            return x;
-          })));
+          return x;
+        })));
 
 const xs_0$2 = eqx(undefined, undefined);
 
@@ -253,8 +253,8 @@ const xs$2 = {
 };
 
 b("File \"jscomp/test/option_repr_test.ml\", line 143, characters 5-12", Belt__Belt_List.every(xs$2, (function (x) {
-            return x;
-          })));
+          return x;
+        })));
 
 function v(x) {
   return x;

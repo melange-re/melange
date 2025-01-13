@@ -81,15 +81,15 @@ const h = {
 
 const v = {
   contents: (function (param) {
-      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/rec_value_test.ml",
-              36,
-              24
-            ]
-          });
-    })
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/rec_value_test.ml",
+            36,
+            24
+          ]
+        });
+  })
 };
 
 function fib(n) {
@@ -167,8 +167,8 @@ function even2(_n) {
 const lazy_v = {
   LAZY_DONE: true,
   VAL: (function (param) {
-      CamlinternalLazy.force(lazy_v);
-    })
+    CamlinternalLazy.force(lazy_v);
+  })
 };
 
 function sum(_acc, _n) {
@@ -310,55 +310,45 @@ function xtl(h) {
 const suites_0 = [
   "File \"jscomp/test/rec_value_test.ml\", line 128, characters 2-9",
   (function (param) {
-      return {
-        TAG: /* Eq */0,
-        _0: 1,
-        _1: phd(ptl(ptl(x0)))
-      };
-    })
+    return {
+      TAG: /* Eq */0,
+      _0: 1,
+      _1: phd(ptl(ptl(x0)))
+    };
+  })
 ];
 
 const suites_1 = {
   hd: [
     "File \"jscomp/test/rec_value_test.ml\", line 130, characters 2-9",
     (function (param) {
-        return {
-          TAG: /* Eq */0,
-          _0: 1,
-          _1: 1
-        };
-      })
+      return {
+        TAG: /* Eq */0,
+        _0: 1,
+        _1: 1
+      };
+    })
   ],
   tl: {
     hd: [
       "hd",
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: 1,
-            _1: Stdlib__List.hd(Stdlib__List.tl(x))
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: 1,
+          _1: Stdlib__List.hd(Stdlib__List.tl(x))
+        };
+      })
     ],
     tl: {
       hd: [
         "mutual",
         (function (param) {
-            let tmp;
-            if (a) {
-              const match = a.tl;
-              if (match) {
-                tmp = match.hd;
-              } else {
-                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                      MEL_EXN_ID: "Assert_failure",
-                      _1: [
-                        "jscomp/test/rec_value_test.ml",
-                        142,
-                        2
-                      ]
-                    });
-              }
+          let tmp;
+          if (a) {
+            const match = a.tl;
+            if (match) {
+              tmp = match.hd;
             } else {
               throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                     MEL_EXN_ID: "Assert_failure",
@@ -369,170 +359,180 @@ const suites_1 = {
                     ]
                   });
             }
-            return {
-              TAG: /* Eq */0,
-              _0: 3,
-              _1: tmp
-            };
-          })
+          } else {
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/rec_value_test.ml",
+                    142,
+                    2
+                  ]
+                });
+          }
+          return {
+            TAG: /* Eq */0,
+            _0: 3,
+            _1: tmp
+          };
+        })
       ],
       tl: {
         hd: [
           "rec_sum",
           (function (param) {
-              return {
-                TAG: /* Eq */0,
-                _0: 55,
-                _1: sum(0, 10)
-              };
-            })
+            return {
+              TAG: /* Eq */0,
+              _0: 55,
+              _1: sum(0, 10)
+            };
+          })
         ],
         tl: {
           hd: [
             "File \"jscomp/test/rec_value_test.ml\", line 145, characters 2-9",
             (function (param) {
-                return {
-                  TAG: /* Eq */0,
-                  _0: {
-                    hd: 1,
-                    tl: {
-                      hd: 2,
-                      tl: /* [] */0
-                    }
-                  },
-                  _1: fake_v
-                };
-              })
+              return {
+                TAG: /* Eq */0,
+                _0: {
+                  hd: 1,
+                  tl: {
+                    hd: 2,
+                    tl: /* [] */0
+                  }
+                },
+                _1: fake_v
+              };
+            })
           ],
           tl: {
             hd: [
               "File \"jscomp/test/rec_value_test.ml\", line 148, characters 2-9",
               (function (param) {
-                  return {
-                    TAG: /* Eq */0,
-                    _0: {
-                      hd: 2,
-                      tl: {
-                        hd: 3,
-                        tl: /* [] */0
-                      }
-                    },
-                    _1: fake_y
-                  };
-                })
+                return {
+                  TAG: /* Eq */0,
+                  _0: {
+                    hd: 2,
+                    tl: {
+                      hd: 3,
+                      tl: /* [] */0
+                    }
+                  },
+                  _1: fake_y
+                };
+              })
             ],
             tl: {
               hd: [
                 "File \"jscomp/test/rec_value_test.ml\", line 151, characters 2-9",
                 (function (param) {
-                    return {
-                      TAG: /* Eq */0,
-                      _0: {
-                        hd: 1,
+                  return {
+                    TAG: /* Eq */0,
+                    _0: {
+                      hd: 1,
+                      tl: {
+                        hd: 2,
                         tl: {
-                          hd: 2,
-                          tl: {
-                            hd: 3,
-                            tl: /* [] */0
-                          }
+                          hd: 3,
+                          tl: /* [] */0
                         }
-                      },
-                      _1: fake_z
-                    };
-                  })
+                      }
+                    },
+                    _1: fake_z
+                  };
+                })
               ],
               tl: {
                 hd: [
                   "File \"jscomp/test/rec_value_test.ml\", line 154, characters 2-9",
                   (function (param) {
-                      return {
-                        TAG: /* Eq */0,
-                        _0: {
-                          hd: 1,
+                    return {
+                      TAG: /* Eq */0,
+                      _0: {
+                        hd: 1,
+                        tl: {
+                          hd: 55,
                           tl: {
-                            hd: 55,
-                            tl: {
-                              hd: 2,
-                              tl: {
-                                hd: 3,
-                                tl: /* [] */0
-                              }
-                            }
-                          }
-                        },
-                        _1: fake_z2
-                      };
-                    })
-                ],
-                tl: {
-                  hd: [
-                    "File \"jscomp/test/rec_value_test.ml\", line 157, characters 2-9",
-                    (function (param) {
-                        return {
-                          TAG: /* Eq */0,
-                          _0: {
                             hd: 2,
                             tl: {
                               hd: 3,
                               tl: /* [] */0
                             }
-                          },
-                          _1: fake_y2
-                        };
-                      })
+                          }
+                        }
+                      },
+                      _1: fake_z2
+                    };
+                  })
+                ],
+                tl: {
+                  hd: [
+                    "File \"jscomp/test/rec_value_test.ml\", line 157, characters 2-9",
+                    (function (param) {
+                      return {
+                        TAG: /* Eq */0,
+                        _0: {
+                          hd: 2,
+                          tl: {
+                            hd: 3,
+                            tl: /* [] */0
+                          }
+                        },
+                        _1: fake_y2
+                      };
+                    })
                   ],
                   tl: {
                     hd: [
                       "File \"jscomp/test/rec_value_test.ml\", line 160, characters 2-9",
                       (function (param) {
-                          return {
-                            TAG: /* Eq */0,
-                            _0: 3,
-                            _1: 3
-                          };
-                        })
+                        return {
+                          TAG: /* Eq */0,
+                          _0: 3,
+                          _1: 3
+                        };
+                      })
                     ],
                     tl: {
                       hd: [
                         "File \"jscomp/test/rec_value_test.ml\", line 163, characters 2-9",
                         (function (param) {
-                            if (rec_variant_b.TAG === /* B */0) {
+                          if (rec_variant_b.TAG === /* B */0) {
+                            return {
+                              TAG: /* Eq */0,
+                              _0: Curry._1(rec_variant_b_1, undefined),
+                              _1: rec_variant_a
+                            };
+                          }
+                          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                MEL_EXN_ID: "Assert_failure",
+                                _1: [
+                                  "jscomp/test/rec_value_test.ml",
+                                  166,
+                                  11
+                                ]
+                              });
+                        })
+                      ],
+                      tl: {
+                        hd: [
+                          "File \"jscomp/test/rec_value_test.ml\", line 168, characters 2-9",
+                          (function (param) {
+                            if (rec_variant_a.TAG !== /* B */0) {
                               return {
                                 TAG: /* Eq */0,
-                                _0: Curry._1(rec_variant_b_1, undefined),
-                                _1: rec_variant_a
+                                _0: Curry._1(rec_variant_a_1, undefined),
+                                _1: rec_variant_b
                               };
                             }
                             throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                                   MEL_EXN_ID: "Assert_failure",
                                   _1: [
                                     "jscomp/test/rec_value_test.ml",
-                                    166,
+                                    171,
                                     11
                                   ]
                                 });
                           })
-                      ],
-                      tl: {
-                        hd: [
-                          "File \"jscomp/test/rec_value_test.ml\", line 168, characters 2-9",
-                          (function (param) {
-                              if (rec_variant_a.TAG !== /* B */0) {
-                                return {
-                                  TAG: /* Eq */0,
-                                  _0: Curry._1(rec_variant_a_1, undefined),
-                                  _1: rec_variant_b
-                                };
-                              }
-                              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                                    MEL_EXN_ID: "Assert_failure",
-                                    _1: [
-                                      "jscomp/test/rec_value_test.ml",
-                                      171,
-                                      11
-                                    ]
-                                  });
-                            })
                         ],
                         tl: /* [] */0
                       }

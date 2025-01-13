@@ -24,8 +24,8 @@ function eq(loc, x, y) {
 
 const Xx = {
   f: (function (prim0, prim1) {
-      return Caml_external_polyfill.resolve("caml_hfiehi")(prim0, prim1);
-    })
+    return Caml_external_polyfill.resolve("caml_hfiehi")(prim0, prim1);
+  })
 };
 
 const Int3 = Caml_module.init_mod([
@@ -75,8 +75,8 @@ const Intb = Caml_module.init_mod([
 const a = {
   LAZY_DONE: false,
   VAL: (function () {
-      return CamlinternalLazy.force(Intb.a);
-    })
+    return CamlinternalLazy.force(Intb.a);
+  })
 };
 
 Caml_module.update_mod({
@@ -92,8 +92,8 @@ Caml_module.update_mod({
 const a$1 = {
   LAZY_DONE: false,
   VAL: (function () {
-      return CamlinternalLazy.force(Inta.a) + 1 | 0;
-    })
+    return CamlinternalLazy.force(Inta.a) + 1 | 0;
+  })
 };
 
 Caml_module.update_mod({
@@ -149,8 +149,8 @@ const Intb$1 = Caml_module.init_mod([
 const a$2 = {
   LAZY_DONE: false,
   VAL: (function () {
-      return CamlinternalLazy.force(Intb$1.a) + 1 | 0;
-    })
+    return CamlinternalLazy.force(Intb$1.a) + 1 | 0;
+  })
 };
 
 Caml_module.update_mod({

@@ -22,19 +22,19 @@ function for_3(x) {
     contents: 0
   };
   const arr = Stdlib__Array.map((function (param) {
-          return function (param) {
-            
-          };
-        }), x);
+        return function (param) {
+          
+        };
+      }), x);
   for (let i = 0 ,i_finish = x.length; i <= i_finish; ++i) {
     const j = (i << 1);
     Caml_array.set(arr, i, (function (param) {
-            v.contents = v.contents + j | 0;
-          }));
+          v.contents = v.contents + j | 0;
+        }));
   }
   Stdlib__Array.iter((function (x) {
-          Curry._1(x, undefined);
-        }), arr);
+        Curry._1(x, undefined);
+      }), arr);
   return v.contents;
 }
 
@@ -43,20 +43,20 @@ function for_4(x) {
     contents: 0
   };
   const arr = Stdlib__Array.map((function (param) {
-          return function (param) {
-            
-          };
-        }), x);
+        return function (param) {
+          
+        };
+      }), x);
   for (let i = 0 ,i_finish = x.length; i <= i_finish; ++i) {
     const j = (i << 1);
     const k = (j << 1);
     Caml_array.set(arr, i, (function (param) {
-            v.contents = v.contents + k | 0;
-          }));
+          v.contents = v.contents + k | 0;
+        }));
   }
   Stdlib__Array.iter((function (x) {
-          Curry._1(x, undefined);
-        }), arr);
+        Curry._1(x, undefined);
+      }), arr);
   return v.contents;
 }
 
@@ -65,19 +65,19 @@ function for_5(x, u) {
     contents: 0
   };
   const arr = Stdlib__Array.map((function (param) {
-          return function (param) {
-            
-          };
-        }), x);
+        return function (param) {
+          
+        };
+      }), x);
   for (let i = 0 ,i_finish = x.length; i <= i_finish; ++i) {
     const k = Math.imul((u << 1), u);
     Caml_array.set(arr, i, (function (param) {
-            v.contents = v.contents + k | 0;
-          }));
+          v.contents = v.contents + k | 0;
+        }));
   }
   Stdlib__Array.iter((function (x) {
-          Curry._1(x, undefined);
-        }), arr);
+        Curry._1(x, undefined);
+      }), arr);
   return v.contents;
 }
 
@@ -86,10 +86,10 @@ function for_6(x, u) {
     contents: 0
   };
   const arr = Stdlib__Array.map((function (param) {
-          return function (param) {
-            
-          };
-        }), x);
+        return function (param) {
+          
+        };
+      }), x);
   const v4 = {
     contents: 0
   };
@@ -107,13 +107,13 @@ function for_6(x, u) {
       const h = (v5.contents << 1);
       v2.contents = v2.contents + 1 | 0;
       Caml_array.set(arr, i, (function (param) {
-              v.contents = (((((v.contents + k | 0) + v2.contents | 0) + u | 0) + v4.contents | 0) + v5.contents | 0) + h | 0;
-            }));
+            v.contents = (((((v.contents + k | 0) + v2.contents | 0) + u | 0) + v4.contents | 0) + v5.contents | 0) + h | 0;
+          }));
     }
   }
   Stdlib__Array.iter((function (x) {
-          Curry._1(x, undefined);
-        }), arr);
+        Curry._1(x, undefined);
+      }), arr);
   return v.contents;
 }
 

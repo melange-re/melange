@@ -57,10 +57,10 @@ Different modules
   
   function logPlusTwo(param) {
     return Melange__Util.compose((function (prim) {
-            console.log(prim);
-          }), (function (param) {
-            return 2 + param | 0;
-          }), param);
+          console.log(prim);
+        }), (function (param) {
+          return 2 + param | 0;
+        }), param);
   }
   
   exports.logPlusTwo = logPlusTwo;
@@ -85,8 +85,8 @@ Different modules with cross-module-optimizations
   
   function logPlusTwo(param) {
     console.log(Curry._1((function (param) {
-                return 2 + param | 0;
-              }), param));
+              return 2 + param | 0;
+            }), param));
   }
   
   exports.logPlusTwo = logPlusTwo;
@@ -121,10 +121,10 @@ Library dependency
   
   function logPlusTwo(param) {
     return Lib__Util.compose((function (prim) {
-            console.log(prim);
-          }), (function (param) {
-            return 2 + param | 0;
-          }), param);
+          console.log(prim);
+        }), (function (param) {
+          return 2 + param | 0;
+        }), param);
   }
   
   exports.logPlusTwo = logPlusTwo;
@@ -160,10 +160,10 @@ Library dependency with cross-module optimizations
   
   function logPlusTwo(param) {
     return Lib__Util.compose((function (prim) {
-            console.log(prim);
-          }), (function (param) {
-            return 2 + param | 0;
-          }), param);
+          console.log(prim);
+        }), (function (param) {
+          return 2 + param | 0;
+        }), param);
   }
   
   exports.logPlusTwo = logPlusTwo;
@@ -196,8 +196,8 @@ with `--mel-cross-module-opt`
   
   function logPlusTwo(param) {
     console.log(Curry._1((function (param) {
-                return 2 + param | 0;
-              }), param));
+              return 2 + param | 0;
+            }), param));
   }
   
   exports.logPlusTwo = logPlusTwo;

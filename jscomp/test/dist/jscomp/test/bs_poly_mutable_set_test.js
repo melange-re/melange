@@ -118,32 +118,32 @@ b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 56, characters 4-11", 
 const v = fromArray(Array_data_util.randomRange(1000, 2000));
 
 const bs = Belt__Belt_Array.map(Array_data_util.randomRange(500, 1499), (function (x) {
-        return Belt__Belt_MutableSet.removeCheck(v, x);
-      }));
+      return Belt__Belt_MutableSet.removeCheck(v, x);
+    }));
 
 const indeedRemoved = Belt__Belt_Array.reduce(bs, 0, (function (acc, x) {
-        if (x) {
-          return acc + 1 | 0;
-        } else {
-          return acc;
-        }
-      }));
+      if (x) {
+        return acc + 1 | 0;
+      } else {
+        return acc;
+      }
+    }));
 
 eq("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 63, characters 5-12", indeedRemoved, 500);
 
 eq("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 64, characters 5-12", Belt__Belt_internalAVLset.size(v.data), 501);
 
 const cs = Belt__Belt_Array.map(Array_data_util.randomRange(500, 2000), (function (x) {
-        return Belt__Belt_MutableSet.addCheck(v, x);
-      }));
+      return Belt__Belt_MutableSet.addCheck(v, x);
+    }));
 
 const indeedAded = Belt__Belt_Array.reduce(cs, 0, (function (acc, x) {
-        if (x) {
-          return acc + 1 | 0;
-        } else {
-          return acc;
-        }
-      }));
+      if (x) {
+        return acc + 1 | 0;
+      } else {
+        return acc;
+      }
+    }));
 
 eq("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 67, characters 5-12", indeedAded, 1000);
 
@@ -163,14 +163,14 @@ eq("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 72, characters 5-12",
 eq("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 73, characters 5-12", Belt__Belt_internalAVLset.maxUndefined(v.data), 2000);
 
 eq("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 74, characters 5-12", Belt__Belt_MutableSet.reduce(v, 0, (function (x, y) {
-            return x + y | 0;
-          })), 1876250);
+          return x + y | 0;
+        })), 1876250);
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 75, characters 4-11", Belt__Belt_List.eq(Belt__Belt_internalAVLset.toList(v.data), Belt__Belt_List.makeBy(1501, (function (i) {
-                return i + 500 | 0;
-              })), (function (x, y) {
-            return x === y;
-          })));
+              return i + 500 | 0;
+            })), (function (x, y) {
+          return x === y;
+        })));
 
 eq("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 76, characters 5-12", Belt__Belt_internalAVLset.toArray(v.data), Array_data_util.range(500, 2000));
 
@@ -191,12 +191,12 @@ const aa = match$1[0];
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 81, characters 4-11", match[1]);
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 82, characters 4-11", Belt__Belt_Array.eq(Belt__Belt_internalAVLset.toArray(aa.data), Array_data_util.range(500, 999), (function (prim0, prim1) {
-            return prim0 === prim1;
-          })));
+          return prim0 === prim1;
+        })));
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 83, characters 4-11", Belt__Belt_Array.eq(Belt__Belt_internalAVLset.toArray(bb.data), Array_data_util.range(1001, 2000), (function (prim0, prim1) {
-            return prim0 === prim1;
-          })));
+          return prim0 === prim1;
+        })));
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 84, characters 5-12", Belt__Belt_MutableSet.subset(aa, v));
 
@@ -219,12 +219,12 @@ const aa$1 = match$3[0];
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 90, characters 4-11", !match$2[1]);
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 91, characters 4-11", Belt__Belt_Array.eq(Belt__Belt_internalAVLset.toArray(aa$1.data), Array_data_util.range(500, 999), (function (prim0, prim1) {
-            return prim0 === prim1;
-          })));
+          return prim0 === prim1;
+        })));
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 92, characters 4-11", Belt__Belt_Array.eq(Belt__Belt_internalAVLset.toArray(bb$1.data), Array_data_util.range(1001, 2000), (function (prim0, prim1) {
-            return prim0 === prim1;
-          })));
+          return prim0 === prim1;
+        })));
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 93, characters 5-12", Belt__Belt_MutableSet.subset(aa$1, v));
 
@@ -288,16 +288,16 @@ b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 147, characters 4-11",
 const a0 = fromArray(Array_data_util.randomRange(0, 1000));
 
 const a1 = Belt__Belt_MutableSet.keep(a0, (function (x) {
-        return x % 2 === 0;
-      }));
+      return x % 2 === 0;
+    }));
 
 const a2 = Belt__Belt_MutableSet.keep(a0, (function (x) {
-        return x % 2 !== 0;
-      }));
+      return x % 2 !== 0;
+    }));
 
 const match$4 = Belt__Belt_MutableSet.partition(a0, (function (x) {
-        return x % 2 === 0;
-      }));
+      return x % 2 === 0;
+    }));
 
 const a4 = match$4[1];
 
@@ -323,8 +323,8 @@ Belt__Belt_List.forEach({
         }
       }
     }, (function (x) {
-        Belt__Belt_internalAVLset.checkInvariantInternal(x.data);
-      }));
+      Belt__Belt_internalAVLset.checkInvariantInternal(x.data);
+    }));
 
 Mt.from_pair_suites("Bs_poly_mutable_set_test", suites.contents);
 

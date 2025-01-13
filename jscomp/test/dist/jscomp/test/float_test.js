@@ -126,33 +126,33 @@ const results = Stdlib__Array.append([
 
 function from_pairs(ps) {
   return Stdlib__Array.to_list(Stdlib__Array.mapi((function (i, param) {
-              const b = param[1];
-              const a = param[0];
-              return [
-                Curry._1(Stdlib__Printf.sprintf({
-                          TAG: /* Format */0,
-                          _0: {
-                            TAG: /* String_literal */11,
-                            _0: "pair ",
-                            _1: {
-                              TAG: /* Int */4,
-                              _0: /* Int_d */0,
-                              _1: /* No_padding */0,
-                              _2: /* No_precision */0,
-                              _3: /* End_of_format */0
-                            }
-                          },
-                          _1: "pair %d"
-                        }), i),
-                (function (param) {
-                    return {
-                      TAG: /* Approx */5,
-                      _0: a,
-                      _1: b
-                    };
-                  })
-              ];
-            }), ps));
+            const b = param[1];
+            const a = param[0];
+            return [
+              Curry._1(Stdlib__Printf.sprintf({
+                        TAG: /* Format */0,
+                        _0: {
+                          TAG: /* String_literal */11,
+                          _0: "pair ",
+                          _1: {
+                            TAG: /* Int */4,
+                            _0: /* Int_d */0,
+                            _1: /* No_padding */0,
+                            _2: /* No_precision */0,
+                            _3: /* End_of_format */0
+                          }
+                        },
+                        _1: "pair %d"
+                      }), i),
+              (function (param) {
+                return {
+                  TAG: /* Approx */5,
+                  _0: a,
+                  _1: b
+                };
+              })
+            ];
+          }), ps));
 }
 
 const float_compare = Caml.caml_float_compare;
@@ -213,16 +213,16 @@ Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 
     ]);
 
 Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 63, characters 5-12", Stdlib__Array.map((function (x) {
-            if (x > 0) {
-              return 1;
-            } else if (x < 0) {
-              return -1;
-            } else {
-              return 0;
-            }
-          }), Stdlib__Array.map((function (param) {
-                return Caml.caml_float_compare(param[0], param[1]);
-              }), [
+          if (x > 0) {
+            return 1;
+          } else if (x < 0) {
+            return -1;
+          } else {
+            return 0;
+          }
+        }), Stdlib__Array.map((function (param) {
+              return Caml.caml_float_compare(param[0], param[1]);
+            }), [
               [
                 1,
                 3
@@ -351,45 +351,45 @@ Mt.from_pair_suites("Float_test", Stdlib.$at({
           hd: [
             "mod_float",
             (function (param) {
-                return {
-                  TAG: /* Approx */5,
-                  _0: 3.2 % 0.5,
-                  _1: 0.200000000000000178
-                };
-              })
+              return {
+                TAG: /* Approx */5,
+                _0: 3.2 % 0.5,
+                _1: 0.200000000000000178
+              };
+            })
           ],
           tl: {
             hd: [
               "modf_float1",
               (function (param) {
-                  return {
-                    TAG: /* Approx */5,
-                    _0: a,
-                    _1: 0.299999999999997158
-                  };
-                })
+                return {
+                  TAG: /* Approx */5,
+                  _0: a,
+                  _1: 0.299999999999997158
+                };
+              })
             ],
             tl: {
               hd: [
                 "modf_float2",
                 (function (param) {
-                    return {
-                      TAG: /* Approx */5,
-                      _0: b,
-                      _1: 32
-                    };
-                  })
+                  return {
+                    TAG: /* Approx */5,
+                    _0: b,
+                    _1: 32
+                  };
+                })
               ],
               tl: {
                 hd: [
                   "int_of_float",
                   (function (param) {
-                      return {
-                        TAG: /* Eq */0,
-                        _0: 3,
-                        _1: 3
-                      };
-                    })
+                    return {
+                      TAG: /* Eq */0,
+                      _0: 3,
+                      _1: 3
+                    };
+                  })
                 ],
                 tl: /* [] */0
               }

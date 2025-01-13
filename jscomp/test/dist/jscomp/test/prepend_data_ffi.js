@@ -13,20 +13,20 @@ const v2 = {
 };
 
 process.on("exit", (function (exit_code) {
-        return String(exit_code);
-      }));
+      return String(exit_code);
+    }));
 
 process.on(1, (function (param) {
-        
-      }));
+      
+    }));
 
 process.on((function (i) {
-        return String(i);
-      }), "exit");
+      return String(i);
+    }), "exit");
 
 process.on((function (i) {
-        return String(i);
-      }), 1);
+      return String(i);
+    }), 1);
 
 xx(3, 3, "xxx", "a", "b");
 
@@ -47,13 +47,13 @@ function f(x) {
 }
 
 process.on("exit", (function (exit_code) {
-        console.log("error code: " + String(exit_code));
-      }));
+      console.log("error code: " + String(exit_code));
+    }));
 
 function register(p) {
   p.on("exit", (function (i) {
-          console.log(i);
-        }));
+        console.log(i);
+      }));
 }
 
 const config = {

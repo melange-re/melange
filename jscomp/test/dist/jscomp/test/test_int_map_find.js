@@ -139,8 +139,8 @@ function add(x, data, m) {
 }
 
 Stdlib__List.fold_left((function (acc, param) {
-        return Curry._3(add, param[0], param[1], acc);
-      }), /* Empty */0, {
+      return Curry._3(add, param[0], param[1], acc);
+    }), /* Empty */0, {
       hd: [
         10,
         /* 'a' */97

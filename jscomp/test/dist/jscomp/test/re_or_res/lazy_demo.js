@@ -6,9 +6,9 @@ const CamlinternalLazy = require("melange/camlinternalLazy.js");
 const lazy1 = {
   LAZY_DONE: false,
   VAL: (function () {
-      console.log("Hello, lazy");
-      return 1;
-    })
+    console.log("Hello, lazy");
+    return 1;
+  })
 };
 
 const lazy2 = {

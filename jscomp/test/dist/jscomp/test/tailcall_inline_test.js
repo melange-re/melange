@@ -28,48 +28,48 @@ function f(param) {
 const suites_0 = [
   "acc",
   (function (param) {
-      return {
-        TAG: /* Eq */0,
-        _0: f(undefined),
-        _1: [
-          0,
-          1,
-          3,
-          6,
-          10,
-          15,
-          21,
-          28,
-          36,
-          45
-        ]
-      };
-    })
+    return {
+      TAG: /* Eq */0,
+      _0: f(undefined),
+      _1: [
+        0,
+        1,
+        3,
+        6,
+        10,
+        15,
+        21,
+        28,
+        36,
+        45
+      ]
+    };
+  })
 ];
 
 const suites_1 = {
   hd: [
     "array_to_list",
     (function (param) {
-        return {
-          TAG: /* Eq */0,
-          _0: {
-            hd: 1,
+      return {
+        TAG: /* Eq */0,
+        _0: {
+          hd: 1,
+          tl: {
+            hd: 2,
             tl: {
-              hd: 2,
-              tl: {
-                hd: 3,
-                tl: /* [] */0
-              }
+              hd: 3,
+              tl: /* [] */0
             }
-          },
-          _1: Stdlib__Array.to_list([
-                1,
-                2,
-                3
-              ])
-        };
-      })
+          }
+        },
+        _1: Stdlib__Array.to_list([
+              1,
+              2,
+              3
+            ])
+      };
+    })
   ],
   tl: /* [] */0
 };

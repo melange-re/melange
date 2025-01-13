@@ -7,14 +7,14 @@ Belt__Belt_Result.map({
       TAG: /* Ok */0,
       _0: "Test"
     }, (function (r) {
-        return "Value: " + r;
-      }));
+      return "Value: " + r;
+    }));
 
 Belt__Belt_Result.getWithDefault(Belt__Belt_Result.map({
           TAG: /* Error */1,
           _0: "error"
         }, (function (r) {
-            return "Value: " + r;
-          })), "success");
+          return "Value: " + r;
+        })), "success");
 
 /*  Not a pure module */

@@ -27,12 +27,12 @@ const hello = ids[1];
 CamlinternalOO.set_methods($$class, [
       hi,
       (function (self$1, x, y) {
-          return x + y | 0;
-        }),
+        return x + y | 0;
+      }),
       hello,
       (function (self$1, z) {
-          return Curry._3(self$1[0][hi], self$1, 10, z);
-        })
+        return Curry._3(self$1[0][hi], self$1, 10, z);
+      })
     ]);
 
 CamlinternalOO.init_class($$class);
@@ -56,12 +56,12 @@ const x = ids$1[1];
 CamlinternalOO.set_methods($$class$1, [
       x,
       (function (self$2) {
-          return 3;
-        }),
+        return 3;
+      }),
       y,
       (function (self$2) {
-          return 32;
-        })
+        return 32;
+      })
     ]);
 
 CamlinternalOO.init_class($$class$1);
@@ -93,20 +93,20 @@ const hello$1 = ids$2[3];
 CamlinternalOO.set_methods($$class$2, [
       hi$1,
       (function (self$3, v, z) {
-          return v + z | 0;
-        }),
+        return v + z | 0;
+      }),
       id1,
       (function (self$3) {
-          return 3;
-        }),
+        return 3;
+      }),
       id2,
       (function (self$3) {
-          return 4;
-        }),
+        return 4;
+      }),
       hello$1,
       (function (self$3, v) {
-          return v;
-        })
+        return v;
+      })
     ]);
 
 CamlinternalOO.init_class($$class$2);
@@ -118,8 +118,8 @@ const $$class$3 = CamlinternalOO.create_table(["id"]);
 const id = CamlinternalOO.get_method_label($$class$3, "id");
 
 CamlinternalOO.set_method($$class$3, id, (function (self$4) {
-        return "uu";
-      }));
+      return "uu";
+    }));
 
 CamlinternalOO.init_class($$class$3);
 
@@ -130,8 +130,8 @@ const $$class$4 = CamlinternalOO.create_table(["add"]);
 const add = CamlinternalOO.get_method_label($$class$4, "add");
 
 CamlinternalOO.set_method($$class$4, add, (function (self$5, x, y) {
-        return x + y | 0;
-      }));
+      return x + y | 0;
+    }));
 
 CamlinternalOO.init_class($$class$4);
 
@@ -148,12 +148,12 @@ const add$1 = ids$3[1];
 CamlinternalOO.set_methods($$class$5, [
       add$1,
       (function (self$6, x, y) {
-          return x + y | 0;
-        }),
+        return x + y | 0;
+      }),
       hi$2,
       (function (self$6, x) {
-          return Curry._3(self$6[0][add$1], self$6, x, 32);
-        })
+        return Curry._3(self$6[0][add$1], self$6, x, 32);
+      })
     ]);
 
 CamlinternalOO.init_class($$class$5);
@@ -163,6 +163,24 @@ const vvvv = CamlinternalOO.create_object_opt(undefined, $$class$5);
 const suites_0 = [
   "single_obj",
   (function (param) {
+    return {
+      TAG: /* Eq */0,
+      _0: [
+        3,
+        32
+      ],
+      _1: [
+        Caml_oo_curry.js1(120, 1, v),
+        Caml_oo_curry.js1(121, 2, v)
+      ]
+    };
+  })
+];
+
+const suites_1 = {
+  hd: [
+    "single_obj_cache",
+    (function (param) {
       return {
         TAG: /* Eq */0,
         _0: [
@@ -170,150 +188,132 @@ const suites_0 = [
           32
         ],
         _1: [
-          Caml_oo_curry.js1(120, 1, v),
-          Caml_oo_curry.js1(121, 2, v)
+          Caml_oo_curry.js1(120, 3, v),
+          Caml_oo_curry.js1(121, 4, v)
         ]
       };
     })
-];
-
-const suites_1 = {
-  hd: [
-    "single_obj_cache",
-    (function (param) {
-        return {
-          TAG: /* Eq */0,
-          _0: [
-            3,
-            32
-          ],
-          _1: [
-            Caml_oo_curry.js1(120, 3, v),
-            Caml_oo_curry.js1(121, 4, v)
-          ]
-        };
-      })
   ],
   tl: {
     hd: [
       "self_obj",
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: 13,
-            _1: Caml_oo_curry.js2(616641298, 5, vv, 3)
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: 13,
+          _1: Caml_oo_curry.js2(616641298, 5, vv, 3)
+        };
+      })
     ],
     tl: {
       hd: [
         "uu_id",
         (function (param) {
-            return {
-              TAG: /* Eq */0,
-              _0: "uu",
-              _1: Caml_oo_curry.js1(23515, 6, uu)
-            };
-          })
+          return {
+            TAG: /* Eq */0,
+            _0: "uu",
+            _1: Caml_oo_curry.js1(23515, 6, uu)
+          };
+        })
       ],
       tl: {
         hd: [
           "uu_add",
           (function (param) {
-              return {
-                TAG: /* Eq */0,
-                _0: Caml_oo_curry.js3(4846113, 7, uuu, 1, 20),
-                _1: 21
-              };
-            })
+            return {
+              TAG: /* Eq */0,
+              _0: Caml_oo_curry.js3(4846113, 7, uuu, 1, 20),
+              _1: 21
+            };
+          })
         ],
         tl: {
           hd: [
             "v_add",
             (function (param) {
-                return {
-                  TAG: /* Eq */0,
-                  _0: Caml_oo_curry.js3(4846113, 8, vvvv, 3, 7),
-                  _1: 10
-                };
-              })
+              return {
+                TAG: /* Eq */0,
+                _0: Caml_oo_curry.js3(4846113, 8, vvvv, 3, 7),
+                _1: 10
+              };
+            })
           ],
           tl: {
             hd: [
               "u_id1",
               (function (param) {
-                  return {
-                    TAG: /* Eq */0,
-                    _0: Caml_oo_curry.js1(5243894, 9, u),
-                    _1: 3
-                  };
-                })
+                return {
+                  TAG: /* Eq */0,
+                  _0: Caml_oo_curry.js1(5243894, 9, u),
+                  _1: 3
+                };
+              })
             ],
             tl: {
               hd: [
                 "u_id2",
                 (function (param) {
-                    return {
-                      TAG: /* Eq */0,
-                      _0: Caml_oo_curry.js1(5243895, 10, u),
-                      _1: 4
-                    };
-                  })
+                  return {
+                    TAG: /* Eq */0,
+                    _0: Caml_oo_curry.js1(5243895, 10, u),
+                    _1: 4
+                  };
+                })
               ],
               tl: {
                 hd: [
                   "u hi",
                   (function (param) {
-                      return {
-                        TAG: /* Eq */0,
-                        _0: Caml_oo_curry.js3(23297, 11, u, 1, 2),
-                        _1: 3
-                      };
-                    })
+                    return {
+                      TAG: /* Eq */0,
+                      _0: Caml_oo_curry.js3(23297, 11, u, 1, 2),
+                      _1: 3
+                    };
+                  })
                 ],
                 tl: {
                   hd: [
                     "u hello",
                     (function (param) {
-                        return {
-                          TAG: /* Eq */0,
-                          _0: Caml_oo_curry.js2(616641298, 12, u, 32),
-                          _1: 32
-                        };
-                      })
+                      return {
+                        TAG: /* Eq */0,
+                        _0: Caml_oo_curry.js2(616641298, 12, u, 32),
+                        _1: 32
+                      };
+                    })
                   ],
                   tl: {
                     hd: [
                       "v hi",
                       (function (param) {
-                          return {
-                            TAG: /* Eq */0,
-                            _0: Caml_oo_curry.js2(23297, 13, vvvv, 31),
-                            _1: 63
-                          };
-                        })
+                        return {
+                          TAG: /* Eq */0,
+                          _0: Caml_oo_curry.js2(23297, 13, vvvv, 31),
+                          _1: 63
+                        };
+                      })
                     ],
                     tl: {
                       hd: [
                         "uuu add",
                         (function (param) {
-                            return {
-                              TAG: /* Eq */0,
-                              _0: Caml_oo_curry.js3(4846113, 14, uuu, 3, 4),
-                              _1: 7
-                            };
-                          })
+                          return {
+                            TAG: /* Eq */0,
+                            _0: Caml_oo_curry.js3(4846113, 14, uuu, 3, 4),
+                            _1: 7
+                          };
+                        })
                       ],
                       tl: {
                         hd: [
                           "v x",
                           (function (param) {
-                              return {
-                                TAG: /* Eq */0,
-                                _0: Caml_oo_curry.js1(120, 15, v),
-                                _1: 3
-                              };
-                            })
+                            return {
+                              TAG: /* Eq */0,
+                              _0: Caml_oo_curry.js1(120, 15, v),
+                              _1: 3
+                            };
+                          })
                         ],
                         tl: /* [] */0
                       }

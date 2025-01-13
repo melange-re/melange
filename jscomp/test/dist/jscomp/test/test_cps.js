@@ -12,9 +12,9 @@ function f(_n, _acc) {
       return Curry._1(acc, undefined);
     }
     _acc = (function (param) {
-        console.log(String(n));
-        return Curry._1(acc, undefined);
-      });
+      console.log(String(n));
+      return Curry._1(acc, undefined);
+    });
     _n = n - 1 | 0;
     continue;
   };
@@ -22,19 +22,19 @@ function f(_n, _acc) {
 
 function test_closure(param) {
   const arr = Caml_array.make(6, (function (x) {
-          return x;
-        }));
+        return x;
+      }));
   for (let i = 0; i <= 6; ++i) {
     Caml_array.set(arr, i, (function (param) {
-            return i;
-          }));
+          return i;
+        }));
   }
   return arr;
 }
 
 f(10, (function (param) {
-        
-      }));
+      
+    }));
 
 exports.f = f;
 exports.test_closure = test_closure;

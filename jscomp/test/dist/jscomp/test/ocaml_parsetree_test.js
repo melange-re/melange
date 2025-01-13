@@ -81,8 +81,8 @@ function fatal_error(msg) {
 function create_hashtable(size, init) {
   const tbl = Stdlib__Hashtbl.create(undefined, size);
   Stdlib__List.iter((function (param) {
-          Stdlib__Hashtbl.add(tbl, param[0], param[1]);
-        }), init);
+        Stdlib__Hashtbl.add(tbl, param[0], param[1]);
+      }), init);
   return tbl;
 }
 
@@ -1353,13 +1353,13 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
       bol = false;
     }
     if (Stdlib__List.exists((function (loc) {
-              return pos === loc.loc_start.pos_cnum;
-            }), locs)) {
+            return pos === loc.loc_start.pos_cnum;
+          }), locs)) {
       Caml_external_polyfill.resolve("caml_terminfo_standout")(true);
     }
     if (Stdlib__List.exists((function (loc) {
-              return pos === loc.loc_end.pos_cnum;
-            }), locs)) {
+            return pos === loc.loc_end.pos_cnum;
+          }), locs)) {
       Caml_external_polyfill.resolve("caml_terminfo_standout")(false);
     }
     const c = Caml_bytes.get(lb.lex_buffer, pos + pos0 | 0);
@@ -1920,9 +1920,9 @@ function errorf(locOpt, subOpt, if_highlightOpt, fmt) {
     Curry._1(before, ppf);
   }
   return Stdlib__Format.kfprintf((function (param) {
-          Stdlib__Format.pp_print_flush(ppf, undefined);
-          return Curry._1(k, Stdlib__Buffer.contents(buf));
-        }), ppf, fmt);
+        Stdlib__Format.pp_print_flush(ppf, undefined);
+        return Curry._1(k, Stdlib__Buffer.contents(buf));
+      }), ppf, fmt);
 }
 
 const error_of_exn = {
@@ -2043,56 +2043,56 @@ function from_pair_suites(name, suites) {
   if (match) {
     if (is_mocha(undefined)) {
       describe(name, (function () {
-              return Stdlib__List.iter((function (param) {
-                      const code = param[1];
-                      it(param[0], (function () {
-                              let spec = Curry._1(code, undefined);
-                              switch (spec.TAG) {
-                                case /* Eq */0 :
-                                    Assert.deepEqual(spec._0, spec._1);
-                                    return;
-                                case /* Neq */1 :
-                                    Assert.notDeepEqual(spec._0, spec._1);
-                                    return;
-                                case /* StrictEq */2 :
-                                    Assert.strictEqual(spec._0, spec._1);
-                                    return;
-                                case /* StrictNeq */3 :
-                                    Assert.notStrictEqual(spec._0, spec._1);
-                                    return;
-                                case /* Ok */4 :
-                                    Assert.ok(spec._0);
-                                    return;
-                                case /* Approx */5 :
-                                    const b = spec._1;
-                                    const a = spec._0;
-                                    if (!close_enough(undefined, a, b)) {
-                                      Assert.deepEqual(a, b);
-                                      return;
-                                    } else {
-                                      return;
-                                    }
-                                case /* ApproxThreshold */6 :
-                                    const b$1 = spec._2;
-                                    const a$1 = spec._1;
-                                    if (!close_enough(spec._0, a$1, b$1)) {
-                                      Assert.deepEqual(a$1, b$1);
-                                      return;
-                                    } else {
-                                      return;
-                                    }
-                                case /* ThrowAny */7 :
-                                    Assert.throws(spec._0);
-                                    return;
-                                case /* Fail */8 :
-                                    return assert_fail("failed");
-                                case /* FailWith */9 :
-                                    return assert_fail(spec._0);
-                                
+            return Stdlib__List.iter((function (param) {
+                  const code = param[1];
+                  it(param[0], (function () {
+                        let spec = Curry._1(code, undefined);
+                        switch (spec.TAG) {
+                          case /* Eq */0 :
+                              Assert.deepEqual(spec._0, spec._1);
+                              return;
+                          case /* Neq */1 :
+                              Assert.notDeepEqual(spec._0, spec._1);
+                              return;
+                          case /* StrictEq */2 :
+                              Assert.strictEqual(spec._0, spec._1);
+                              return;
+                          case /* StrictNeq */3 :
+                              Assert.notStrictEqual(spec._0, spec._1);
+                              return;
+                          case /* Ok */4 :
+                              Assert.ok(spec._0);
+                              return;
+                          case /* Approx */5 :
+                              const b = spec._1;
+                              const a = spec._0;
+                              if (!close_enough(undefined, a, b)) {
+                                Assert.deepEqual(a, b);
+                                return;
+                              } else {
+                                return;
                               }
-                            }));
-                    }), suites);
-            }));
+                          case /* ApproxThreshold */6 :
+                              const b$1 = spec._2;
+                              const a$1 = spec._1;
+                              if (!close_enough(spec._0, a$1, b$1)) {
+                                Assert.deepEqual(a$1, b$1);
+                                return;
+                              } else {
+                                return;
+                              }
+                          case /* ThrowAny */7 :
+                              Assert.throws(spec._0);
+                              return;
+                          case /* Fail */8 :
+                              return assert_fail("failed");
+                          case /* FailWith */9 :
+                              return assert_fail(spec._0);
+                          
+                        }
+                      }));
+                }), suites);
+          }));
       return;
     } else {
       console.log([
@@ -2100,78 +2100,78 @@ function from_pair_suites(name, suites) {
             "testing"
           ]);
       return Stdlib__List.iter((function (param) {
-              const name = param[0];
-              const fn = Curry._1(param[1], undefined);
-              switch (fn.TAG) {
-                case /* Eq */0 :
-                    console.log([
-                          name,
-                          fn._0,
-                          "eq?",
-                          fn._1
-                        ]);
-                    return;
-                case /* Neq */1 :
-                    console.log([
-                          name,
-                          fn._0,
-                          "neq?",
-                          fn._1
-                        ]);
-                    return;
-                case /* StrictEq */2 :
-                    console.log([
-                          name,
-                          fn._0,
-                          "strict_eq?",
-                          fn._1
-                        ]);
-                    return;
-                case /* StrictNeq */3 :
-                    console.log([
-                          name,
-                          fn._0,
-                          "strict_neq?",
-                          fn._1
-                        ]);
-                    return;
-                case /* Ok */4 :
-                    console.log([
-                          name,
-                          fn._0,
-                          "ok?"
-                        ]);
-                    return;
-                case /* Approx */5 :
-                    console.log([
-                          name,
-                          fn._0,
-                          "~",
-                          fn._1
-                        ]);
-                    return;
-                case /* ApproxThreshold */6 :
-                    console.log([
-                          name,
-                          fn._1,
-                          "~",
-                          fn._2,
-                          " (",
-                          fn._0,
-                          ")"
-                        ]);
-                    return;
-                case /* ThrowAny */7 :
-                    return;
-                case /* Fail */8 :
-                    console.log("failed");
-                    return;
-                case /* FailWith */9 :
-                    console.log("failed: " + fn._0);
-                    return;
-                
-              }
-            }), suites);
+            const name = param[0];
+            const fn = Curry._1(param[1], undefined);
+            switch (fn.TAG) {
+              case /* Eq */0 :
+                  console.log([
+                        name,
+                        fn._0,
+                        "eq?",
+                        fn._1
+                      ]);
+                  return;
+              case /* Neq */1 :
+                  console.log([
+                        name,
+                        fn._0,
+                        "neq?",
+                        fn._1
+                      ]);
+                  return;
+              case /* StrictEq */2 :
+                  console.log([
+                        name,
+                        fn._0,
+                        "strict_eq?",
+                        fn._1
+                      ]);
+                  return;
+              case /* StrictNeq */3 :
+                  console.log([
+                        name,
+                        fn._0,
+                        "strict_neq?",
+                        fn._1
+                      ]);
+                  return;
+              case /* Ok */4 :
+                  console.log([
+                        name,
+                        fn._0,
+                        "ok?"
+                      ]);
+                  return;
+              case /* Approx */5 :
+                  console.log([
+                        name,
+                        fn._0,
+                        "~",
+                        fn._1
+                      ]);
+                  return;
+              case /* ApproxThreshold */6 :
+                  console.log([
+                        name,
+                        fn._1,
+                        "~",
+                        fn._2,
+                        " (",
+                        fn._0,
+                        ")"
+                      ]);
+                  return;
+              case /* ThrowAny */7 :
+                  return;
+              case /* Fail */8 :
+                  console.log("failed");
+                  return;
+              case /* FailWith */9 :
+                  console.log("failed: " + fn._0);
+                  return;
+              
+            }
+          }), suites);
     }
   }
   
@@ -2189,31 +2189,31 @@ function warn_bad_docstrings(param) {
           _0: true
         })) {
     return Stdlib__List.iter((function (ds) {
-            const match = ds.ds_attached;
-            switch (match) {
-              case /* Unattached */0 :
-                  return prerr_warning(ds.ds_loc, {
-                        TAG: /* Bad_docstring */33,
-                        _0: true
-                      });
-              case /* Info */1 :
-                  return;
-              case /* Docs */2 :
-                  const match$1 = ds.ds_associated;
-                  switch (match$1) {
-                    case /* Zero */0 :
-                    case /* One */1 :
-                        return;
-                    case /* Many */2 :
-                        return prerr_warning(ds.ds_loc, {
-                              TAG: /* Bad_docstring */33,
-                              _0: false
-                            });
-                    
-                  }
-              
-            }
-          }), Stdlib__List.rev(docstrings.contents));
+          const match = ds.ds_attached;
+          switch (match) {
+            case /* Unattached */0 :
+                return prerr_warning(ds.ds_loc, {
+                      TAG: /* Bad_docstring */33,
+                      _0: true
+                    });
+            case /* Info */1 :
+                return;
+            case /* Docs */2 :
+                const match$1 = ds.ds_associated;
+                switch (match$1) {
+                  case /* Zero */0 :
+                  case /* One */1 :
+                      return;
+                  case /* Many */2 :
+                      return prerr_warning(ds.ds_loc, {
+                            TAG: /* Bad_docstring */33,
+                            _0: false
+                          });
+                  
+                }
+            
+          }
+        }), Stdlib__List.rev(docstrings.contents));
   }
   
 }
@@ -2408,18 +2408,18 @@ function get_docstrings(dsl) {
 
 function associate_docstrings(dsl) {
   Stdlib__List.iter((function (ds) {
-          const match = ds.ds_associated;
-          switch (match) {
-            case /* Zero */0 :
-                ds.ds_associated = /* One */1;
-                return;
-            case /* One */1 :
-            case /* Many */2 :
-                ds.ds_associated = /* Many */2;
-                return;
-            
-          }
-        }), dsl);
+        const match = ds.ds_associated;
+        switch (match) {
+          case /* Zero */0 :
+              ds.ds_associated = /* One */1;
+              return;
+          case /* One */1 :
+          case /* Many */2 :
+              ds.ds_associated = /* Many */2;
+              return;
+          
+        }
+      }), dsl);
 }
 
 const pre_table = Stdlib__Hashtbl.create(undefined, 50);
@@ -2589,11 +2589,11 @@ function symbol_docs_lazy(param) {
   return {
     LAZY_DONE: false,
     VAL: (function () {
-        return {
-          docs_pre: get_pre_docs(p1),
-          docs_post: get_post_docs(p2)
-        };
-      })
+      return {
+        docs_pre: get_pre_docs(p1),
+        docs_post: get_post_docs(p2)
+      };
+    })
   };
 }
 
@@ -2612,8 +2612,8 @@ function symbol_text_lazy(param) {
   return {
     LAZY_DONE: false,
     VAL: (function () {
-        return get_text(pos);
-      })
+      return get_text(pos);
+    })
   };
 }
 
@@ -3031,13 +3031,13 @@ function mk$5(locOpt, d) {
 
 function text(txt) {
   return Stdlib__List.map((function (ds) {
-          const a = text_attr(ds);
-          const loc = ds.ds_loc;
-          return mk$5(loc, {
-                TAG: /* Psig_attribute */11,
-                _0: a
-              });
-        }), txt);
+        const a = text_attr(ds);
+        const loc = ds.ds_loc;
+        return mk$5(loc, {
+              TAG: /* Psig_attribute */11,
+              _0: a
+            });
+      }), txt);
 }
 
 function mk$6(locOpt, d) {
@@ -3050,13 +3050,13 @@ function mk$6(locOpt, d) {
 
 function text$1(txt) {
   return Stdlib__List.map((function (ds) {
-          const a = text_attr(ds);
-          const loc = ds.ds_loc;
-          return mk$6(loc, {
-                TAG: /* Pstr_attribute */13,
-                _0: a
-              });
-        }), txt);
+        const a = text_attr(ds);
+        const loc = ds.ds_loc;
+        return mk$6(loc, {
+              TAG: /* Pstr_attribute */13,
+              _0: a
+            });
+      }), txt);
 }
 
 function mk$7(locOpt, attrsOpt, d) {
@@ -3169,8 +3169,8 @@ function attribute(loc, a) {
 
 function text$2(txt) {
   return Stdlib__List.map((function (ds) {
-          return attribute(ds.ds_loc, text_attr(ds));
-        }), txt);
+        return attribute(ds.ds_loc, text_attr(ds));
+      }), txt);
 }
 
 function attr$7(d, a) {
@@ -3259,8 +3259,8 @@ function attribute$1(loc, a) {
 
 function text$3(txt) {
   return Stdlib__List.map((function (ds) {
-          return attribute$1(ds.ds_loc, text_attr(ds));
-        }), txt);
+        return attribute$1(ds.ds_loc, text_attr(ds));
+      }), txt);
 }
 
 function virtual_(ct) {
@@ -4250,12 +4250,12 @@ function varify_constructors(var_names, t) {
             desc = {
               TAG: /* Ptyp_object */4,
               _0: Stdlib__List.map((function (param) {
-                      return [
-                        param[0],
-                        param[1],
-                        loop(param[2])
-                      ];
-                    }), x._0),
+                    return [
+                      param[0],
+                      param[1],
+                      loop(param[2])
+                    ];
+                  }), x._0),
               _1: x._1
             };
             break;
@@ -4287,8 +4287,8 @@ function varify_constructors(var_names, t) {
             const string_lst = x._0;
             const partial_arg = t.ptyp_loc;
             Stdlib__List.iter((function (param) {
-                    return check_variable(var_names, partial_arg, param);
-                  }), string_lst);
+                  return check_variable(var_names, partial_arg, param);
+                }), string_lst);
             desc = {
               TAG: /* Ptyp_poly */8,
               _0: string_lst,
@@ -4302,11 +4302,11 @@ function varify_constructors(var_names, t) {
               _0: [
                 match[0],
                 Stdlib__List.map((function (param) {
-                        return [
-                          param[0],
-                          loop(param[1])
-                        ];
-                      }), match[1])
+                      return [
+                        param[0],
+                        loop(param[1])
+                      ];
+                    }), match[1])
               ]
             };
             break;
@@ -4355,12 +4355,12 @@ function wrap_type_annotation(newtypes, core_type, body) {
         _1: core_type
       });
   const exp$1 = Stdlib__List.fold_right((function (newtype, exp) {
-          return mkexp({
-                TAG: /* Pexp_newtype */30,
-                _0: newtype,
-                _1: exp
-              });
-        }), newtypes, exp);
+        return mkexp({
+              TAG: /* Pexp_newtype */30,
+              _0: newtype,
+              _1: exp
+            });
+      }), newtypes, exp);
   return [
     exp$1,
     ghtyp({
@@ -4587,2437 +4587,2472 @@ const yytransl_block = [
 
 const yyact = [
   (function (param) {
-      throw new Caml_js_exceptions.MelangeError("Failure", {
-            MEL_EXN_ID: "Failure",
-            _1: "parser"
-          });
-    }),
+    throw new Caml_js_exceptions.MelangeError("Failure", {
+          MEL_EXN_ID: "Failure",
+          _1: "parser"
+        });
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return extra_text(text$1, 1, _1);
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return extra_text(text$1, 1, _1);
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return extra_text(text, 1, _1);
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return extra_text(text, 1, _1);
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return {
-        TAG: /* Ptop_def */0,
-        _0: extra_text(text$1, 1, _1)
-      };
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return {
+      TAG: /* Ptop_def */0,
+      _0: extra_text(text$1, 1, _1)
+    };
+  }),
   (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-    }),
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+  }),
   (function (__caml_parser_env) {
-      throw new Caml_js_exceptions.MelangeError(Stdlib.End_of_file, {
-            MEL_EXN_ID: Stdlib.End_of_file
-          });
-    }),
+    throw new Caml_js_exceptions.MelangeError(Stdlib.End_of_file, {
+          MEL_EXN_ID: Stdlib.End_of_file
+        });
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib.$at(text$1(get_text(Stdlib__Parsing.rhs_start_pos(1))), {
-            hd: mkstrexp(_1, _2),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return Stdlib.$at(text$1(get_text(Stdlib__Parsing.rhs_start_pos(1))), {
+          hd: mkstrexp(_1, _2),
+          tl: /* [] */0
+        });
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return /* [] */0;
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return Stdlib.$at(text$1(get_text(Stdlib__Parsing.rhs_start_pos(1))), {
+          hd: _1,
+          tl: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    let pos = 1;
+    return extra_text((function (txt) {
+          return {
+            hd: {
+              TAG: /* Ptop_def */0,
+              _0: text$1(txt)
+            },
             tl: /* [] */0
-          });
-    }),
+          };
+        }), pos, _1);
+  }),
   (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
   (function (__caml_parser_env) {
-      return /* [] */0;
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib.$at(text$1(get_text(Stdlib__Parsing.rhs_start_pos(1))), {
-            hd: _1,
-            tl: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let pos = 1;
-      return extra_text((function (txt) {
-              return {
-                hd: {
-                  TAG: /* Ptop_def */0,
-                  _0: text$1(txt)
-                },
-                tl: /* [] */0
-              };
-            }), pos, _1);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib.$at(text_def(1), {
-            hd: {
-              TAG: /* Ptop_def */0,
-              _0: {
-                hd: mkstrexp(_1, _2),
-                tl: /* [] */0
-              }
-            },
-            tl: _3
-          });
-    }),
-  (function (__caml_parser_env) {
-      return /* [] */0;
-    }),
-  (function (__caml_parser_env) {
-      return text_def(1);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      mark_rhs_docs(2, 3);
-      return Stdlib.$at(text_def(1), Stdlib.$at(text_def(2), {
-                hd: {
-                  TAG: /* Ptop_def */0,
-                  _0: {
-                    hd: mkstrexp(_2, _3),
-                    tl: /* [] */0
-                  }
-                },
-                tl: _4
-              }));
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib.$at(text_def(1), Stdlib.$at(text_def(2), {
-                hd: {
-                  TAG: /* Ptop_def */0,
-                  _0: {
-                    hd: _2,
-                    tl: /* [] */0
-                  }
-                },
-                tl: _3
-              }));
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      mark_rhs_docs(2, 3);
-      return Stdlib.$at(text_def(1), Stdlib.$at(text_def(2), {
-                hd: _2,
-                tl: _3
-              }));
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib.$at(text_def(1), {
-            hd: {
-              TAG: /* Ptop_def */0,
-              _0: {
-                hd: _1,
-                tl: /* [] */0
-              }
-            },
-            tl: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      mark_rhs_docs(1, 1);
-      return Stdlib.$at(text_def(1), {
-            hd: _1,
-            tl: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-    }),
-  (function (__caml_parser_env) {
-      return [
-        {
-          txt: "*",
-          loc: rhs_loc(2)
-        },
-        undefined
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return [
-        {
-          txt: _2,
-          loc: rhs_loc(2)
-        },
-        _4
-      ];
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return "_";
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _2,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkmod({
-            TAG: /* Pmod_ident */0,
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return Stdlib.$at(text_def(1), {
+          hd: {
+            TAG: /* Ptop_def */0,
             _0: {
-              txt: _1,
-              loc: rhs_loc(1)
+              hd: mkstrexp(_1, _2),
+              tl: /* [] */0
             }
-          });
-    }),
+          },
+          tl: _3
+        });
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkmod({
-            TAG: /* Pmod_structure */1,
-            _0: extra_text(text$1, 2, _2)
-          });
-    }),
+    return /* [] */0;
+  }),
   (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("struct", 1, "end", 3);
-    }),
+    return text_def(1);
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib__List.fold_left((function (acc, param) {
-              return mkmod({
-                    TAG: /* Pmod_functor */2,
-                    _0: param[0],
-                    _1: param[1],
-                    _2: acc
-                  });
-            }), _4, _2);
-    }),
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    mark_rhs_docs(2, 3);
+    return Stdlib.$at(text_def(1), Stdlib.$at(text_def(2), {
+              hd: {
+                TAG: /* Ptop_def */0,
+                _0: {
+                  hd: mkstrexp(_2, _3),
+                  tl: /* [] */0
+                }
+              },
+              tl: _4
+            }));
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkmod({
-            TAG: /* Pmod_apply */3,
-            _0: _1,
-            _1: _3
-          });
-    }),
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return Stdlib.$at(text_def(1), Stdlib.$at(text_def(2), {
+              hd: {
+                TAG: /* Ptop_def */0,
+                _0: {
+                  hd: _2,
+                  tl: /* [] */0
+                }
+              },
+              tl: _3
+            }));
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      return mkmod({
-            TAG: /* Pmod_apply */3,
-            _0: _1,
-            _1: mkmod({
-                  TAG: /* Pmod_structure */1,
-                  _0: /* [] */0
-                })
-          });
-    }),
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    mark_rhs_docs(2, 3);
+    return Stdlib.$at(text_def(1), Stdlib.$at(text_def(2), {
+              hd: _2,
+              tl: _3
+            }));
+  }),
   (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("(", 2, ")", 4);
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return Stdlib.$at(text_def(1), {
+          hd: {
+            TAG: /* Ptop_def */0,
+            _0: {
+              hd: _1,
+              tl: /* [] */0
+            }
+          },
+          tl: _2
+        });
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkmod({
-            TAG: /* Pmod_constraint */4,
-            _0: _2,
-            _1: _4
-          });
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    mark_rhs_docs(1, 1);
+    return Stdlib.$at(text_def(1), {
+          hd: _1,
+          tl: _2
+        });
+  }),
   (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("(", 1, ")", 5);
-    }),
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+  }),
   (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-    }),
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+  }),
   (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("(", 1, ")", 3);
-    }),
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+  }),
   (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkmod({
-            TAG: /* Pmod_unpack */5,
-            _0: _3
-          });
-    }),
+    return [
+      {
+        txt: "*",
+        loc: rhs_loc(2)
+      },
+      undefined
+    ];
+  }),
   (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkmod({
-            TAG: /* Pmod_unpack */5,
-            _0: ghexp({
-                  TAG: /* Pexp_constraint */19,
-                  _0: _3,
-                  _1: ghtyp({
-                        TAG: /* Ptyp_package */9,
-                        _0: _5
-                      })
-                })
-          });
-    }),
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return [
+      {
+        txt: _2,
+        loc: rhs_loc(2)
+      },
+      _4
+    ];
+  }),
   (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkmod({
-            TAG: /* Pmod_unpack */5,
-            _0: ghexp({
-                  TAG: /* Pexp_coerce */20,
-                  _0: _3,
-                  _1: ghtyp({
-                        TAG: /* Ptyp_package */9,
-                        _0: _5
-                      }),
-                  _2: ghtyp({
-                        TAG: /* Ptyp_package */9,
-                        _0: _7
-                      })
-                })
-          });
-    }),
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
   (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkmod({
-            TAG: /* Pmod_unpack */5,
-            _0: ghexp({
-                  TAG: /* Pexp_coerce */20,
-                  _0: _3,
-                  _1: undefined,
-                  _2: ghtyp({
-                        TAG: /* Ptyp_package */9,
-                        _0: _5
-                      })
-                })
-          });
-    }),
+    return "_";
+  }),
   (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      return unclosed("(", 1, ")", 5);
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _2,
+      tl: _1
+    };
+  }),
   (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      return unclosed("(", 1, ")", 5);
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
   (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("(", 1, ")", 4);
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkmod({
+          TAG: /* Pmod_ident */0,
+          _0: {
+            txt: _1,
+            loc: rhs_loc(1)
+          }
+        });
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return attr$4(_1, _2);
-    }),
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkmod({
+          TAG: /* Pmod_structure */1,
+          _0: extra_text(text$1, 2, _2)
+        });
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkmod({
-            TAG: /* Pmod_extension */6,
-            _0: _1
-          });
-    }),
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("struct", 1, "end", 3);
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      mark_rhs_docs(1, 2);
-      return Stdlib.$at(text$1(get_text(Stdlib__Parsing.rhs_start_pos(1))), {
-            hd: mkstrexp(_1, _2),
-            tl: _3
-          });
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return /* [] */0;
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib.$at(text$1(get_text(Stdlib__Parsing.rhs_start_pos(1))), _2);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib.$at(text$1(get_text(Stdlib__Parsing.rhs_start_pos(1))), {
-            hd: _1,
-            tl: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      let lbs = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      const bindings = lbs.lbs_bindings;
-      let str;
-      let exit = 0;
-      if (bindings) {
-        const lb = bindings.hd;
-        let tmp = lb.lb_pattern.ppat_desc;
-        if (/* tag */(typeof tmp === "number" || typeof tmp === "string") && !bindings.tl) {
-          const exp = wrap_exp_attrs(lb.lb_expression, [
-                undefined,
-                lbs.lbs_attributes
-              ]);
-          str = mkstr({
-                TAG: /* Pstr_eval */0,
-                _0: exp,
-                _1: lb.lb_attributes
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return Stdlib__List.fold_left((function (acc, param) {
+          return mkmod({
+                TAG: /* Pmod_functor */2,
+                _0: param[0],
+                _1: param[1],
+                _2: acc
               });
-        } else {
-          exit = 1;
-        }
+        }), _4, _2);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkmod({
+          TAG: /* Pmod_apply */3,
+          _0: _1,
+          _1: _3
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    return mkmod({
+          TAG: /* Pmod_apply */3,
+          _0: _1,
+          _1: mkmod({
+                TAG: /* Pmod_structure */1,
+                _0: /* [] */0
+              })
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("(", 2, ")", 4);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkmod({
+          TAG: /* Pmod_constraint */4,
+          _0: _2,
+          _1: _4
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("(", 1, ")", 5);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("(", 1, ")", 3);
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkmod({
+          TAG: /* Pmod_unpack */5,
+          _0: _3
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkmod({
+          TAG: /* Pmod_unpack */5,
+          _0: ghexp({
+                TAG: /* Pexp_constraint */19,
+                _0: _3,
+                _1: ghtyp({
+                      TAG: /* Ptyp_package */9,
+                      _0: _5
+                    })
+              })
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkmod({
+          TAG: /* Pmod_unpack */5,
+          _0: ghexp({
+                TAG: /* Pexp_coerce */20,
+                _0: _3,
+                _1: ghtyp({
+                      TAG: /* Ptyp_package */9,
+                      _0: _5
+                    }),
+                _2: ghtyp({
+                      TAG: /* Ptyp_package */9,
+                      _0: _7
+                    })
+              })
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkmod({
+          TAG: /* Pmod_unpack */5,
+          _0: ghexp({
+                TAG: /* Pexp_coerce */20,
+                _0: _3,
+                _1: undefined,
+                _2: ghtyp({
+                      TAG: /* Ptyp_package */9,
+                      _0: _5
+                    })
+              })
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    return unclosed("(", 1, ")", 5);
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    return unclosed("(", 1, ")", 5);
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("(", 1, ")", 4);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return attr$4(_1, _2);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkmod({
+          TAG: /* Pmod_extension */6,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    mark_rhs_docs(1, 2);
+    return Stdlib.$at(text$1(get_text(Stdlib__Parsing.rhs_start_pos(1))), {
+          hd: mkstrexp(_1, _2),
+          tl: _3
+        });
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return /* [] */0;
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return Stdlib.$at(text$1(get_text(Stdlib__Parsing.rhs_start_pos(1))), _2);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return Stdlib.$at(text$1(get_text(Stdlib__Parsing.rhs_start_pos(1))), {
+          hd: _1,
+          tl: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    let lbs = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    const bindings = lbs.lbs_bindings;
+    let str;
+    let exit = 0;
+    if (bindings) {
+      const lb = bindings.hd;
+      let tmp = lb.lb_pattern.ppat_desc;
+      if (/* tag */(typeof tmp === "number" || typeof tmp === "string") && !bindings.tl) {
+        const exp = wrap_exp_attrs(lb.lb_expression, [
+              undefined,
+              lbs.lbs_attributes
+            ]);
+        str = mkstr({
+              TAG: /* Pstr_eval */0,
+              _0: exp,
+              _1: lb.lb_attributes
+            });
       } else {
         exit = 1;
       }
-      if (exit === 1) {
-        if (Caml_obj.caml_notequal(lbs.lbs_attributes, /* [] */0)) {
-          throw new Caml_js_exceptions.MelangeError($$Error$1, {
-                MEL_EXN_ID: $$Error$1,
-                _1: {
-                  TAG: /* Not_expecting */2,
-                  _0: lbs.lbs_loc,
-                  _1: "attributes"
-                }
-              });
-        }
-        const bindings$1 = Stdlib__List.map((function (lb) {
-                return mk$17(lb.lb_loc, lb.lb_attributes, CamlinternalLazy.force(lb.lb_docs), CamlinternalLazy.force(lb.lb_text), lb.lb_pattern, lb.lb_expression);
-              }), bindings);
-        str = mkstr({
-              TAG: /* Pstr_value */1,
-              _0: lbs.lbs_rec,
-              _1: Stdlib__List.rev(bindings$1)
-            });
-      }
-      const id = lbs.lbs_extension;
-      if (id !== undefined) {
-        let d = {
-          TAG: /* Pstr_extension */14,
-          _0: [
-            id,
-            {
-              TAG: /* PStr */0,
-              _0: {
-                hd: str,
-                tl: /* [] */0
-              }
-            }
-          ],
-          _1: /* [] */0
-        };
-        return mk$6(symbol_gloc(undefined), d);
-      } else {
-        return str;
-      }
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkstr({
-            TAG: /* Pstr_primitive */2,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkstr({
-            TAG: /* Pstr_type */3,
-            _0: Stdlib__List.rev(_1)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkstr({
-            TAG: /* Pstr_typext */4,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkstr({
-            TAG: /* Pstr_exception */5,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkstr({
-            TAG: /* Pstr_module */6,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkstr({
-            TAG: /* Pstr_recmodule */7,
-            _0: Stdlib__List.rev(_1)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkstr({
-            TAG: /* Pstr_modtype */8,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkstr({
-            TAG: /* Pstr_open */9,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkstr({
-            TAG: /* Pstr_class */10,
-            _0: Stdlib__List.rev(_1)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkstr({
-            TAG: /* Pstr_class_type */11,
-            _0: Stdlib__List.rev(_1)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkstr({
-            TAG: /* Pstr_include */12,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkstr({
-            TAG: /* Pstr_extension */14,
-            _0: _1,
-            _1: add_docs_attrs(symbol_docs(undefined), _2)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      mark_symbol_docs(undefined);
-      return mkstr({
-            TAG: /* Pstr_attribute */13,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$16(symbol_rloc(undefined), _3, symbol_docs(undefined), _2);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkmod({
-            TAG: /* Pmod_constraint */4,
-            _0: _4,
-            _1: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkmod({
-            TAG: /* Pmod_functor */2,
-            _0: _1[0],
-            _1: _1[1],
-            _2: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$14(symbol_rloc(undefined), _4, symbol_docs(undefined), undefined, {
-            txt: _2,
-            loc: rhs_loc(2)
-          }, _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _2,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$14(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, {
-            txt: _3,
-            loc: rhs_loc(3)
-          }, _4);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$14(symbol_rloc(undefined), _4, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), {
-            txt: _2,
-            loc: rhs_loc(2)
-          }, _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkmty({
-            TAG: /* Pmty_ident */0,
-            _0: {
-              txt: _1,
-              loc: rhs_loc(1)
-            }
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkmty({
-            TAG: /* Pmty_signature */1,
-            _0: extra_text(text, 2, _2)
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("sig", 1, "end", 3);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib__List.fold_left((function (acc, param) {
-              return mkmty({
-                    TAG: /* Pmty_functor */2,
-                    _0: param[0],
-                    _1: param[1],
-                    _2: acc
-                  });
-            }), _4, _2);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkmty({
-            TAG: /* Pmty_with */3,
-            _0: _1,
-            _1: Stdlib__List.rev(_3)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkmty({
-            TAG: /* Pmty_typeof */4,
-            _0: _4
-          });
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("(", 1, ")", 3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkmty({
-            TAG: /* Pmty_extension */5,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return attr$3(_1, _2);
-    }),
-  (function (__caml_parser_env) {
-      return /* [] */0;
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib.$at(text(get_text(Stdlib__Parsing.rhs_start_pos(1))), _2);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib.$at(text(get_text(Stdlib__Parsing.rhs_start_pos(1))), {
-            hd: _1,
-            tl: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mksig({
-            TAG: /* Psig_value */0,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mksig({
-            TAG: /* Psig_value */0,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mksig({
-            TAG: /* Psig_type */1,
-            _0: Stdlib__List.rev(_1)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mksig({
-            TAG: /* Psig_typext */2,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mksig({
-            TAG: /* Psig_exception */3,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mksig({
-            TAG: /* Psig_module */4,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mksig({
-            TAG: /* Psig_module */4,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mksig({
-            TAG: /* Psig_recmodule */5,
-            _0: Stdlib__List.rev(_1)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mksig({
-            TAG: /* Psig_modtype */6,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mksig({
-            TAG: /* Psig_open */7,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mksig({
-            TAG: /* Psig_include */8,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mksig({
-            TAG: /* Psig_class */9,
-            _0: Stdlib__List.rev(_1)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mksig({
-            TAG: /* Psig_class_type */10,
-            _0: Stdlib__List.rev(_1)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mksig({
-            TAG: /* Psig_extension */12,
-            _0: _1,
-            _1: add_docs_attrs(symbol_docs(undefined), _2)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      mark_symbol_docs(undefined);
-      return mksig({
-            TAG: /* Psig_attribute */11,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$15(symbol_rloc(undefined), _4, symbol_docs(undefined), _2, {
-            txt: _3,
-            loc: rhs_loc(3)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$16(symbol_rloc(undefined), _3, symbol_docs(undefined), _2);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkmty({
-            TAG: /* Pmty_functor */2,
-            _0: {
-              txt: _2,
-              loc: rhs_loc(2)
-            },
-            _1: _4,
-            _2: _6
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkmty({
-            TAG: /* Pmty_functor */2,
-            _0: {
-              txt: "*",
-              loc: rhs_loc(1)
-            },
-            _1: undefined,
-            _2: _3
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$12(symbol_rloc(undefined), _4, symbol_docs(undefined), undefined, {
-            txt: _2,
-            loc: rhs_loc(2)
-          }, _3);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$12(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, {
-            txt: _2,
-            loc: rhs_loc(2)
-          }, alias(rhs_loc(4), undefined, {
-                txt: _4,
-                loc: rhs_loc(4)
-              }));
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _2,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$12(symbol_rloc(undefined), _6, symbol_docs(undefined), undefined, {
-            txt: _3,
-            loc: rhs_loc(3)
-          }, _5);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$12(symbol_rloc(undefined), _5, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), {
-            txt: _2,
-            loc: rhs_loc(2)
-          }, _4);
-    }),
-  (function (__caml_parser_env) {
-      
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$13(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, _4, {
-            txt: _3,
-            loc: rhs_loc(3)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _2,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$18(symbol_rloc(undefined), _6, symbol_docs(undefined), undefined, _2, _3, {
-            txt: _4,
-            loc: rhs_loc(4)
-          }, _5);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$18(symbol_rloc(undefined), _6, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, _3, {
-            txt: _4,
-            loc: rhs_loc(4)
-          }, _5);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkclass({
-            TAG: /* Pcl_constraint */5,
-            _0: _4,
-            _1: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkclass({
-            TAG: /* Pcl_fun */2,
-            _0: _1[0],
-            _1: _1[1],
-            _2: _1[2],
-            _3: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      return /* [] */0;
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__List.rev(Stdlib__Parsing.peek_val(__caml_parser_env, 1));
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkclass({
-            TAG: /* Pcl_fun */2,
-            _0: _1[0],
-            _1: _1[1],
-            _2: _1[2],
-            _3: _3
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkclass({
-            TAG: /* Pcl_fun */2,
-            _0: _1[0],
-            _1: _1[1],
-            _2: _1[2],
-            _3: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkclass({
-            TAG: /* Pcl_apply */3,
-            _0: _1,
-            _1: Stdlib__List.rev(_2)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      const bindings = Stdlib__List.map((function (lb) {
-              if (Caml_obj.caml_notequal(lb.lb_attributes, /* [] */0)) {
-                throw new Caml_js_exceptions.MelangeError($$Error$1, {
-                      MEL_EXN_ID: $$Error$1,
-                      _1: {
-                        TAG: /* Not_expecting */2,
-                        _0: lb.lb_loc,
-                        _1: "item attribute"
-                      }
-                    });
-              }
-              return mk$17(lb.lb_loc, undefined, undefined, undefined, lb.lb_pattern, lb.lb_expression);
-            }), _1.lbs_bindings);
-      if (_1.lbs_extension !== undefined) {
+    } else {
+      exit = 1;
+    }
+    if (exit === 1) {
+      if (Caml_obj.caml_notequal(lbs.lbs_attributes, /* [] */0)) {
         throw new Caml_js_exceptions.MelangeError($$Error$1, {
               MEL_EXN_ID: $$Error$1,
               _1: {
                 TAG: /* Not_expecting */2,
-                _0: _1.lbs_loc,
-                _1: "extension"
-              }
-            });
-      }
-      if (Caml_obj.caml_notequal(_1.lbs_attributes, /* [] */0)) {
-        throw new Caml_js_exceptions.MelangeError($$Error$1, {
-              MEL_EXN_ID: $$Error$1,
-              _1: {
-                TAG: /* Not_expecting */2,
-                _0: _1.lbs_loc,
+                _0: lbs.lbs_loc,
                 _1: "attributes"
               }
             });
       }
-      return mkclass({
-            TAG: /* Pcl_let */4,
-            _0: _1.lbs_rec,
-            _1: Stdlib__List.rev(bindings),
-            _2: _3
+      const bindings$1 = Stdlib__List.map((function (lb) {
+            return mk$17(lb.lb_loc, lb.lb_attributes, CamlinternalLazy.force(lb.lb_docs), CamlinternalLazy.force(lb.lb_text), lb.lb_pattern, lb.lb_expression);
+          }), bindings);
+      str = mkstr({
+            TAG: /* Pstr_value */1,
+            _0: lbs.lbs_rec,
+            _1: Stdlib__List.rev(bindings$1)
           });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return attr$5(_1, _2);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkclass({
-            TAG: /* Pcl_extension */6,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkclass({
-            TAG: /* Pcl_constr */0,
+    }
+    const id = lbs.lbs_extension;
+    if (id !== undefined) {
+      let d = {
+        TAG: /* Pstr_extension */14,
+        _0: [
+          id,
+          {
+            TAG: /* PStr */0,
             _0: {
+              hd: str,
+              tl: /* [] */0
+            }
+          }
+        ],
+        _1: /* [] */0
+      };
+      return mk$6(symbol_gloc(undefined), d);
+    } else {
+      return str;
+    }
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkstr({
+          TAG: /* Pstr_primitive */2,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkstr({
+          TAG: /* Pstr_type */3,
+          _0: Stdlib__List.rev(_1)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkstr({
+          TAG: /* Pstr_typext */4,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkstr({
+          TAG: /* Pstr_exception */5,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkstr({
+          TAG: /* Pstr_module */6,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkstr({
+          TAG: /* Pstr_recmodule */7,
+          _0: Stdlib__List.rev(_1)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkstr({
+          TAG: /* Pstr_modtype */8,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkstr({
+          TAG: /* Pstr_open */9,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkstr({
+          TAG: /* Pstr_class */10,
+          _0: Stdlib__List.rev(_1)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkstr({
+          TAG: /* Pstr_class_type */11,
+          _0: Stdlib__List.rev(_1)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkstr({
+          TAG: /* Pstr_include */12,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkstr({
+          TAG: /* Pstr_extension */14,
+          _0: _1,
+          _1: add_docs_attrs(symbol_docs(undefined), _2)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    mark_symbol_docs(undefined);
+    return mkstr({
+          TAG: /* Pstr_attribute */13,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$16(symbol_rloc(undefined), _3, symbol_docs(undefined), _2);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkmod({
+          TAG: /* Pmod_constraint */4,
+          _0: _4,
+          _1: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkmod({
+          TAG: /* Pmod_functor */2,
+          _0: _1[0],
+          _1: _1[1],
+          _2: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$14(symbol_rloc(undefined), _4, symbol_docs(undefined), undefined, {
+          txt: _2,
+          loc: rhs_loc(2)
+        }, _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _2,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$14(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, {
+          txt: _3,
+          loc: rhs_loc(3)
+        }, _4);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$14(symbol_rloc(undefined), _4, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), {
+          txt: _2,
+          loc: rhs_loc(2)
+        }, _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkmty({
+          TAG: /* Pmty_ident */0,
+          _0: {
+            txt: _1,
+            loc: rhs_loc(1)
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkmty({
+          TAG: /* Pmty_signature */1,
+          _0: extra_text(text, 2, _2)
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("sig", 1, "end", 3);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return Stdlib__List.fold_left((function (acc, param) {
+          return mkmty({
+                TAG: /* Pmty_functor */2,
+                _0: param[0],
+                _1: param[1],
+                _2: acc
+              });
+        }), _4, _2);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkmty({
+          TAG: /* Pmty_with */3,
+          _0: _1,
+          _1: Stdlib__List.rev(_3)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkmty({
+          TAG: /* Pmty_typeof */4,
+          _0: _4
+        });
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("(", 1, ")", 3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkmty({
+          TAG: /* Pmty_extension */5,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return attr$3(_1, _2);
+  }),
+  (function (__caml_parser_env) {
+    return /* [] */0;
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return Stdlib.$at(text(get_text(Stdlib__Parsing.rhs_start_pos(1))), _2);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return Stdlib.$at(text(get_text(Stdlib__Parsing.rhs_start_pos(1))), {
+          hd: _1,
+          tl: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mksig({
+          TAG: /* Psig_value */0,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mksig({
+          TAG: /* Psig_value */0,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mksig({
+          TAG: /* Psig_type */1,
+          _0: Stdlib__List.rev(_1)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mksig({
+          TAG: /* Psig_typext */2,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mksig({
+          TAG: /* Psig_exception */3,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mksig({
+          TAG: /* Psig_module */4,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mksig({
+          TAG: /* Psig_module */4,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mksig({
+          TAG: /* Psig_recmodule */5,
+          _0: Stdlib__List.rev(_1)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mksig({
+          TAG: /* Psig_modtype */6,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mksig({
+          TAG: /* Psig_open */7,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mksig({
+          TAG: /* Psig_include */8,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mksig({
+          TAG: /* Psig_class */9,
+          _0: Stdlib__List.rev(_1)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mksig({
+          TAG: /* Psig_class_type */10,
+          _0: Stdlib__List.rev(_1)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mksig({
+          TAG: /* Psig_extension */12,
+          _0: _1,
+          _1: add_docs_attrs(symbol_docs(undefined), _2)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    mark_symbol_docs(undefined);
+    return mksig({
+          TAG: /* Psig_attribute */11,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$15(symbol_rloc(undefined), _4, symbol_docs(undefined), _2, {
+          txt: _3,
+          loc: rhs_loc(3)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$16(symbol_rloc(undefined), _3, symbol_docs(undefined), _2);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkmty({
+          TAG: /* Pmty_functor */2,
+          _0: {
+            txt: _2,
+            loc: rhs_loc(2)
+          },
+          _1: _4,
+          _2: _6
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkmty({
+          TAG: /* Pmty_functor */2,
+          _0: {
+            txt: "*",
+            loc: rhs_loc(1)
+          },
+          _1: undefined,
+          _2: _3
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$12(symbol_rloc(undefined), _4, symbol_docs(undefined), undefined, {
+          txt: _2,
+          loc: rhs_loc(2)
+        }, _3);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$12(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, {
+          txt: _2,
+          loc: rhs_loc(2)
+        }, alias(rhs_loc(4), undefined, {
               txt: _4,
               loc: rhs_loc(4)
-            },
-            _1: Stdlib__List.rev(_2)
+            }));
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _2,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$12(symbol_rloc(undefined), _6, symbol_docs(undefined), undefined, {
+          txt: _3,
+          loc: rhs_loc(3)
+        }, _5);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$12(symbol_rloc(undefined), _5, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), {
+          txt: _2,
+          loc: rhs_loc(2)
+        }, _4);
+  }),
+  (function (__caml_parser_env) {
+    
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$13(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, _4, {
+          txt: _3,
+          loc: rhs_loc(3)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _2,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$18(symbol_rloc(undefined), _6, symbol_docs(undefined), undefined, _2, _3, {
+          txt: _4,
+          loc: rhs_loc(4)
+        }, _5);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$18(symbol_rloc(undefined), _6, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, _3, {
+          txt: _4,
+          loc: rhs_loc(4)
+        }, _5);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkclass({
+          TAG: /* Pcl_constraint */5,
+          _0: _4,
+          _1: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkclass({
+          TAG: /* Pcl_fun */2,
+          _0: _1[0],
+          _1: _1[1],
+          _2: _1[2],
+          _3: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    return /* [] */0;
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__List.rev(Stdlib__Parsing.peek_val(__caml_parser_env, 1));
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkclass({
+          TAG: /* Pcl_fun */2,
+          _0: _1[0],
+          _1: _1[1],
+          _2: _1[2],
+          _3: _3
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkclass({
+          TAG: /* Pcl_fun */2,
+          _0: _1[0],
+          _1: _1[1],
+          _2: _1[2],
+          _3: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkclass({
+          TAG: /* Pcl_apply */3,
+          _0: _1,
+          _1: Stdlib__List.rev(_2)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    const bindings = Stdlib__List.map((function (lb) {
+          if (Caml_obj.caml_notequal(lb.lb_attributes, /* [] */0)) {
+            throw new Caml_js_exceptions.MelangeError($$Error$1, {
+                  MEL_EXN_ID: $$Error$1,
+                  _1: {
+                    TAG: /* Not_expecting */2,
+                    _0: lb.lb_loc,
+                    _1: "item attribute"
+                  }
+                });
+          }
+          return mk$17(lb.lb_loc, undefined, undefined, undefined, lb.lb_pattern, lb.lb_expression);
+        }), _1.lbs_bindings);
+    if (_1.lbs_extension !== undefined) {
+      throw new Caml_js_exceptions.MelangeError($$Error$1, {
+            MEL_EXN_ID: $$Error$1,
+            _1: {
+              TAG: /* Not_expecting */2,
+              _0: _1.lbs_loc,
+              _1: "extension"
+            }
           });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkclass({
-            TAG: /* Pcl_constr */0,
-            _0: {
-              txt: _1,
-              loc: rhs_loc(1)
-            },
-            _1: /* [] */0
+    }
+    if (Caml_obj.caml_notequal(_1.lbs_attributes, /* [] */0)) {
+      throw new Caml_js_exceptions.MelangeError($$Error$1, {
+            MEL_EXN_ID: $$Error$1,
+            _1: {
+              TAG: /* Not_expecting */2,
+              _0: _1.lbs_loc,
+              _1: "attributes"
+            }
           });
-    }),
+    }
+    return mkclass({
+          TAG: /* Pcl_let */4,
+          _0: _1.lbs_rec,
+          _1: Stdlib__List.rev(bindings),
+          _2: _3
+        });
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkclass({
-            TAG: /* Pcl_structure */1,
-            _0: _2
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return attr$5(_1, _2);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkclass({
+          TAG: /* Pcl_extension */6,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkclass({
+          TAG: /* Pcl_constr */0,
+          _0: {
+            txt: _4,
+            loc: rhs_loc(4)
+          },
+          _1: Stdlib__List.rev(_2)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkclass({
+          TAG: /* Pcl_constr */0,
+          _0: {
+            txt: _1,
+            loc: rhs_loc(1)
+          },
+          _1: /* [] */0
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkclass({
+          TAG: /* Pcl_structure */1,
+          _0: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("object", 1, "end", 3);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkclass({
+          TAG: /* Pcl_constraint */5,
+          _0: _2,
+          _1: _4
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("(", 1, ")", 5);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("(", 1, ")", 3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      pcstr_self: _1,
+      pcstr_fields: extra_cstr(2, Stdlib__List.rev(_2))
+    };
+  }),
+  (function (__caml_parser_env) {
+    return reloc_pat(Stdlib__Parsing.peek_val(__caml_parser_env, 1));
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkpat({
+          TAG: /* Ppat_constraint */10,
+          _0: _2,
+          _1: _4
+        });
+  }),
+  (function (__caml_parser_env) {
+    return ghpat(/* Ppat_any */0);
+  }),
+  (function (__caml_parser_env) {
+    return /* [] */0;
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return Stdlib.$at({
+          hd: _2,
+          tl: Curry._1(Ast_helper_Cf.text, get_text(Stdlib__Parsing.rhs_start_pos(2)))
+        }, _1);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkcf(_5, symbol_docs(undefined), {
+          TAG: /* Pcf_inherit */0,
+          _0: _2,
+          _1: _3,
+          _2: _4
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkcf(_3, symbol_docs(undefined), {
+          TAG: /* Pcf_val */1,
+          _0: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkcf(_3, symbol_docs(undefined), {
+          TAG: /* Pcf_method */2,
+          _0: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkcf(_3, symbol_docs(undefined), {
+          TAG: /* Pcf_constraint */3,
+          _0: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkcf(_3, symbol_docs(undefined), {
+          TAG: /* Pcf_initializer */4,
+          _0: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkcf(_2, symbol_docs(undefined), {
+          TAG: /* Pcf_extension */6,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    mark_symbol_docs(undefined);
+    return mkcf(undefined, undefined, {
+          TAG: /* Pcf_attribute */5,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    if (_1 === /* Override */0) {
+      throw new Caml_js_exceptions.MelangeError(Escape_error, {
+            MEL_EXN_ID: Escape_error
           });
-    }),
+    }
+    return [
+      {
+        txt: _4,
+        loc: rhs_loc(4)
+      },
+      /* Mutable */1,
+      {
+        TAG: /* Cfk_virtual */0,
+        _0: _6
+      }
+    ];
+  }),
   (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("object", 1, "end", 3);
-    }),
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      {
+        txt: _3,
+        loc: rhs_loc(3)
+      },
+      _2,
+      {
+        TAG: /* Cfk_virtual */0,
+        _0: _5
+      }
+    ];
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkclass({
-            TAG: /* Pcl_constraint */5,
-            _0: _2,
-            _1: _4
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      {
+        txt: _3,
+        loc: rhs_loc(3)
+      },
+      _2,
+      {
+        TAG: /* Cfk_concrete */1,
+        _0: _1,
+        _1: _5
+      }
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    const e = mkexp_constraint(_6, _4);
+    return [
+      {
+        txt: _3,
+        loc: rhs_loc(3)
+      },
+      _2,
+      {
+        TAG: /* Cfk_concrete */1,
+        _0: _1,
+        _1: e
+      }
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    if (_1 === /* Override */0) {
+      throw new Caml_js_exceptions.MelangeError(Escape_error, {
+            MEL_EXN_ID: Escape_error
           });
-    }),
+    }
+    return [
+      {
+        txt: _4,
+        loc: rhs_loc(4)
+      },
+      /* Private */0,
+      {
+        TAG: /* Cfk_virtual */0,
+        _0: _6
+      }
+    ];
+  }),
   (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("(", 1, ")", 5);
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    if (_1 === /* Override */0) {
+      throw new Caml_js_exceptions.MelangeError(Escape_error, {
+            MEL_EXN_ID: Escape_error
+          });
+    }
+    return [
+      {
+        txt: _4,
+        loc: rhs_loc(4)
+      },
+      _3,
+      {
+        TAG: /* Cfk_virtual */0,
+        _0: _6
+      }
+    ];
+  }),
   (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      {
+        txt: _3,
+        loc: rhs_loc(3)
+      },
+      _2,
+      {
+        TAG: /* Cfk_concrete */1,
+        _0: _1,
+        _1: ghexp({
+              TAG: /* Pexp_poly */28,
+              _0: _4,
+              _1: undefined
+            })
+      }
+    ];
+  }),
   (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("(", 1, ")", 3);
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      {
+        txt: _3,
+        loc: rhs_loc(3)
+      },
+      _2,
+      {
+        TAG: /* Cfk_concrete */1,
+        _0: _1,
+        _1: ghexp({
+              TAG: /* Pexp_poly */28,
+              _0: _7,
+              _1: _5
+            })
+      }
+    ];
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        pcstr_self: _1,
-        pcstr_fields: extra_cstr(2, Stdlib__List.rev(_2))
-      };
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 9);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 8);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 7);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _10 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    const match = wrap_type_annotation(_6, _8, _10);
+    return [
+      {
+        txt: _3,
+        loc: rhs_loc(3)
+      },
+      _2,
+      {
+        TAG: /* Cfk_concrete */1,
+        _0: _1,
+        _1: ghexp({
+              TAG: /* Pexp_poly */28,
+              _0: match[0],
+              _1: match[1]
+            })
+      }
+    ];
+  }),
   (function (__caml_parser_env) {
-      return reloc_pat(Stdlib__Parsing.peek_val(__caml_parser_env, 1));
-    }),
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkpat({
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkcty({
+          TAG: /* Pcty_arrow */2,
+          _0: "?" + _2,
+          _1: mkoption(_4),
+          _2: _6
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkcty({
+          TAG: /* Pcty_arrow */2,
+          _0: "?" + _1,
+          _1: mkoption(_2),
+          _2: _4
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkcty({
+          TAG: /* Pcty_arrow */2,
+          _0: _1,
+          _1: _3,
+          _2: _5
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkcty({
+          TAG: /* Pcty_arrow */2,
+          _0: "",
+          _1: _1,
+          _2: _3
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkcty({
+          TAG: /* Pcty_constr */0,
+          _0: {
+            txt: _4,
+            loc: rhs_loc(4)
+          },
+          _1: Stdlib__List.rev(_2)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkcty({
+          TAG: /* Pcty_constr */0,
+          _0: {
+            txt: _1,
+            loc: rhs_loc(1)
+          },
+          _1: /* [] */0
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkcty({
+          TAG: /* Pcty_signature */1,
+          _0: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("object", 1, "end", 3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return attr$6(_1, _2);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkcty({
+          TAG: /* Pcty_extension */3,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      pcsig_self: _1,
+      pcsig_fields: extra_csig(2, Stdlib__List.rev(_2))
+    };
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+  }),
+  (function (__caml_parser_env) {
+    return mktyp(/* Ptyp_any */0);
+  }),
+  (function (__caml_parser_env) {
+    return /* [] */0;
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return Stdlib.$at({
+          hd: _2,
+          tl: Curry._1(Ast_helper_Ctf.text, get_text(Stdlib__Parsing.rhs_start_pos(2)))
+        }, _1);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkctf(_3, symbol_docs(undefined), {
+          TAG: /* Pctf_inherit */0,
+          _0: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkctf(_3, symbol_docs(undefined), {
+          TAG: /* Pctf_val */1,
+          _0: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkctf(_6, symbol_docs(undefined), {
+          TAG: /* Pctf_method */2,
+          _0: [
+            _3,
+            _2[0],
+            _2[1],
+            _5
+          ]
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkctf(_3, symbol_docs(undefined), {
+          TAG: /* Pctf_constraint */3,
+          _0: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkctf(_2, symbol_docs(undefined), {
+          TAG: /* Pctf_extension */5,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    mark_symbol_docs(undefined);
+    return mkctf(undefined, undefined, {
+          TAG: /* Pctf_attribute */4,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      _3,
+      _2,
+      /* Virtual */0,
+      _5
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      _3,
+      /* Mutable */1,
+      _2,
+      _5
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      _1,
+      /* Immutable */0,
+      /* Concrete */1,
+      _3
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      _1,
+      _3,
+      symbol_rloc(undefined)
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      _1,
+      _3
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _2,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$18(symbol_rloc(undefined), _7, symbol_docs(undefined), undefined, _2, _3, {
+          txt: _4,
+          loc: rhs_loc(4)
+        }, _6);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$18(symbol_rloc(undefined), _7, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, _3, {
+          txt: _4,
+          loc: rhs_loc(4)
+        }, _6);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _2,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$18(symbol_rloc(undefined), _8, symbol_docs(undefined), undefined, _3, _4, {
+          txt: _5,
+          loc: rhs_loc(5)
+        }, _7);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$18(symbol_rloc(undefined), _7, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, _3, {
+          txt: _4,
+          loc: rhs_loc(4)
+        }, _6);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return reloc_exp(Stdlib__Parsing.peek_val(__caml_parser_env, 1));
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_sequence */16,
+          _0: _1,
+          _1: _3
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return [
+      "?" + _3[0],
+      _4,
+      _3[1]
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      "?" + _2[0],
+      undefined,
+      _2[1]
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return [
+      "?" + _1,
+      _4,
+      _3
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      "?" + _1,
+      undefined,
+      _2
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return [
+      _3[0],
+      undefined,
+      _3[1]
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      _2[0],
+      undefined,
+      _2[1]
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      _1,
+      undefined,
+      _2
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      "",
+      undefined,
+      _1
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkpat({
+          TAG: /* Ppat_var */0,
+          _0: {
+            txt: _1,
+            loc: rhs_loc(1)
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    return mkpat(/* Ppat_any */0);
+  }),
+  (function (__caml_parser_env) {
+    
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      _1[0],
+      mkpat({
             TAG: /* Ppat_constraint */10,
-            _0: _2,
-            _1: _4
-          });
-    }),
-  (function (__caml_parser_env) {
-      return ghpat(/* Ppat_any */0);
-    }),
-  (function (__caml_parser_env) {
-      return /* [] */0;
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib.$at({
-            hd: _2,
-            tl: Curry._1(Ast_helper_Cf.text, get_text(Stdlib__Parsing.rhs_start_pos(2)))
-          }, _1);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkcf(_5, symbol_docs(undefined), {
-            TAG: /* Pcf_inherit */0,
-            _0: _2,
-            _1: _3,
-            _2: _4
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkcf(_3, symbol_docs(undefined), {
-            TAG: /* Pcf_val */1,
-            _0: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkcf(_3, symbol_docs(undefined), {
-            TAG: /* Pcf_method */2,
-            _0: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkcf(_3, symbol_docs(undefined), {
-            TAG: /* Pcf_constraint */3,
-            _0: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkcf(_3, symbol_docs(undefined), {
-            TAG: /* Pcf_initializer */4,
-            _0: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkcf(_2, symbol_docs(undefined), {
-            TAG: /* Pcf_extension */6,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      mark_symbol_docs(undefined);
-      return mkcf(undefined, undefined, {
-            TAG: /* Pcf_attribute */5,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      if (_1 === /* Override */0) {
-        throw new Caml_js_exceptions.MelangeError(Escape_error, {
-              MEL_EXN_ID: Escape_error
-            });
-      }
-      return [
-        {
-          txt: _4,
-          loc: rhs_loc(4)
-        },
-        /* Mutable */1,
-        {
-          TAG: /* Cfk_virtual */0,
-          _0: _6
-        }
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        {
-          txt: _3,
-          loc: rhs_loc(3)
-        },
-        _2,
-        {
-          TAG: /* Cfk_virtual */0,
-          _0: _5
-        }
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        {
-          txt: _3,
-          loc: rhs_loc(3)
-        },
-        _2,
-        {
-          TAG: /* Cfk_concrete */1,
-          _0: _1,
-          _1: _5
-        }
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      const e = mkexp_constraint(_6, _4);
-      return [
-        {
-          txt: _3,
-          loc: rhs_loc(3)
-        },
-        _2,
-        {
-          TAG: /* Cfk_concrete */1,
-          _0: _1,
-          _1: e
-        }
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      if (_1 === /* Override */0) {
-        throw new Caml_js_exceptions.MelangeError(Escape_error, {
-              MEL_EXN_ID: Escape_error
-            });
-      }
-      return [
-        {
-          txt: _4,
-          loc: rhs_loc(4)
-        },
-        /* Private */0,
-        {
-          TAG: /* Cfk_virtual */0,
-          _0: _6
-        }
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      if (_1 === /* Override */0) {
-        throw new Caml_js_exceptions.MelangeError(Escape_error, {
-              MEL_EXN_ID: Escape_error
-            });
-      }
-      return [
-        {
-          txt: _4,
-          loc: rhs_loc(4)
-        },
-        _3,
-        {
-          TAG: /* Cfk_virtual */0,
-          _0: _6
-        }
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        {
-          txt: _3,
-          loc: rhs_loc(3)
-        },
-        _2,
-        {
-          TAG: /* Cfk_concrete */1,
-          _0: _1,
-          _1: ghexp({
-                TAG: /* Pexp_poly */28,
-                _0: _4,
-                _1: undefined
-              })
-        }
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        {
-          txt: _3,
-          loc: rhs_loc(3)
-        },
-        _2,
-        {
-          TAG: /* Cfk_concrete */1,
-          _0: _1,
-          _1: ghexp({
-                TAG: /* Pexp_poly */28,
-                _0: _7,
-                _1: _5
-              })
-        }
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 9);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 8);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 7);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _10 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      const match = wrap_type_annotation(_6, _8, _10);
-      return [
-        {
-          txt: _3,
-          loc: rhs_loc(3)
-        },
-        _2,
-        {
-          TAG: /* Cfk_concrete */1,
-          _0: _1,
-          _1: ghexp({
-                TAG: /* Pexp_poly */28,
-                _0: match[0],
-                _1: match[1]
-              })
-        }
-      ];
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkcty({
-            TAG: /* Pcty_arrow */2,
-            _0: "?" + _2,
-            _1: mkoption(_4),
-            _2: _6
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkcty({
-            TAG: /* Pcty_arrow */2,
-            _0: "?" + _1,
-            _1: mkoption(_2),
-            _2: _4
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkcty({
-            TAG: /* Pcty_arrow */2,
-            _0: _1,
-            _1: _3,
-            _2: _5
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkcty({
-            TAG: /* Pcty_arrow */2,
-            _0: "",
-            _1: _1,
-            _2: _3
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkcty({
-            TAG: /* Pcty_constr */0,
-            _0: {
-              txt: _4,
-              loc: rhs_loc(4)
-            },
-            _1: Stdlib__List.rev(_2)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkcty({
-            TAG: /* Pcty_constr */0,
-            _0: {
-              txt: _1,
-              loc: rhs_loc(1)
-            },
-            _1: /* [] */0
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkcty({
-            TAG: /* Pcty_signature */1,
-            _0: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("object", 1, "end", 3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return attr$6(_1, _2);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkcty({
-            TAG: /* Pcty_extension */3,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        pcsig_self: _1,
-        pcsig_fields: extra_csig(2, Stdlib__List.rev(_2))
-      };
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-    }),
-  (function (__caml_parser_env) {
-      return mktyp(/* Ptyp_any */0);
-    }),
-  (function (__caml_parser_env) {
-      return /* [] */0;
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib.$at({
-            hd: _2,
-            tl: Curry._1(Ast_helper_Ctf.text, get_text(Stdlib__Parsing.rhs_start_pos(2)))
-          }, _1);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkctf(_3, symbol_docs(undefined), {
-            TAG: /* Pctf_inherit */0,
-            _0: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkctf(_3, symbol_docs(undefined), {
-            TAG: /* Pctf_val */1,
-            _0: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkctf(_6, symbol_docs(undefined), {
-            TAG: /* Pctf_method */2,
-            _0: [
-              _3,
-              _2[0],
-              _2[1],
-              _5
-            ]
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkctf(_3, symbol_docs(undefined), {
-            TAG: /* Pctf_constraint */3,
-            _0: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkctf(_2, symbol_docs(undefined), {
-            TAG: /* Pctf_extension */5,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      mark_symbol_docs(undefined);
-      return mkctf(undefined, undefined, {
-            TAG: /* Pctf_attribute */4,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        _3,
-        _2,
-        /* Virtual */0,
-        _5
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        _3,
-        /* Mutable */1,
-        _2,
-        _5
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        _1,
-        /* Immutable */0,
-        /* Concrete */1,
-        _3
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        _1,
-        _3,
-        symbol_rloc(undefined)
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        _1,
-        _3
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _2,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$18(symbol_rloc(undefined), _7, symbol_docs(undefined), undefined, _2, _3, {
-            txt: _4,
-            loc: rhs_loc(4)
-          }, _6);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$18(symbol_rloc(undefined), _7, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, _3, {
-            txt: _4,
-            loc: rhs_loc(4)
-          }, _6);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _2,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$18(symbol_rloc(undefined), _8, symbol_docs(undefined), undefined, _3, _4, {
-            txt: _5,
-            loc: rhs_loc(5)
-          }, _7);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$18(symbol_rloc(undefined), _7, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, _3, {
-            txt: _4,
-            loc: rhs_loc(4)
-          }, _6);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return reloc_exp(Stdlib__Parsing.peek_val(__caml_parser_env, 1));
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_sequence */16,
-            _0: _1,
+            _0: _1[1],
             _1: _3
-          });
-    }),
+          })
+    ];
+  }),
   (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return [
-        "?" + _3[0],
-        _4,
-        _3[1]
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        "?" + _2[0],
-        undefined,
-        _2[1]
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return [
-        "?" + _1,
-        _4,
-        _3
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        "?" + _1,
-        undefined,
-        _2
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return [
-        _3[0],
-        undefined,
-        _3[1]
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        _2[0],
-        undefined,
-        _2[1]
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        _1,
-        undefined,
-        _2
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        "",
-        undefined,
-        _1
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkpat({
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      _1,
+      mkpat({
             TAG: /* Ppat_var */0,
             _0: {
               txt: _1,
               loc: rhs_loc(1)
             }
-          });
-    }),
+          })
+    ];
+  }),
   (function (__caml_parser_env) {
-      return mkpat(/* Ppat_any */0);
-    }),
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
   (function (__caml_parser_env) {
-      
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkpat({
+          TAG: /* Ppat_constraint */10,
+          _0: _1,
+          _1: _3
+        });
+  }),
   (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
   (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_apply */5,
+          _0: _1,
+          _1: Stdlib__List.rev(_2)
+        });
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        _1[0],
-        mkpat({
-              TAG: /* Ppat_constraint */10,
-              _0: _1[1],
-              _1: _3
-            })
-      ];
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    const bindings = Stdlib__List.map((function (lb) {
+          if (Caml_obj.caml_notequal(lb.lb_attributes, /* [] */0)) {
+            throw new Caml_js_exceptions.MelangeError($$Error$1, {
+                  MEL_EXN_ID: $$Error$1,
+                  _1: {
+                    TAG: /* Not_expecting */2,
+                    _0: lb.lb_loc,
+                    _1: "item attribute"
+                  }
+                });
+          }
+          return mk$17(lb.lb_loc, undefined, undefined, undefined, lb.lb_pattern, lb.lb_expression);
+        }), _1.lbs_bindings);
+    const d_0 = _1.lbs_rec;
+    const d_1 = Stdlib__List.rev(bindings);
+    const d = {
+      TAG: /* Pexp_let */2,
+      _0: d_0,
+      _1: d_1,
+      _2: _3
+    };
+    return wrap_exp_attrs(mkexp(d), [
+          _1.lbs_extension,
+          _1.lbs_attributes
+        ]);
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        _1,
-        mkpat({
-              TAG: /* Ppat_var */0,
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    const d_0 = {
+      txt: _4,
+      loc: rhs_loc(4)
+    };
+    const d = {
+      TAG: /* Pexp_letmodule */25,
+      _0: d_0,
+      _1: _5,
+      _2: _7
+    };
+    return wrap_exp_attrs(mkexp(d), _3);
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    const d_1 = {
+      txt: _5,
+      loc: rhs_loc(5)
+    };
+    const d = {
+      TAG: /* Pexp_open */32,
+      _0: _3,
+      _1: d_1,
+      _2: _7
+    };
+    return wrap_exp_attrs(mkexp(d), _4);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    const d = {
+      TAG: /* Pexp_function */3,
+      _0: Stdlib__List.rev(_4)
+    };
+    return wrap_exp_attrs(mkexp(d), _2);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return wrap_exp_attrs(mkexp({
+              TAG: /* Pexp_fun */4,
+              _0: _3[0],
+              _1: _3[1],
+              _2: _3[2],
+              _3: _4
+            }), _2);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return wrap_exp_attrs(mkexp({
+              TAG: /* Pexp_newtype */30,
+              _0: _5,
+              _1: _7
+            }), _2);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    const d_1 = Stdlib__List.rev(_6);
+    const d = {
+      TAG: /* Pexp_match */6,
+      _0: _3,
+      _1: d_1
+    };
+    return wrap_exp_attrs(mkexp(d), _2);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    const d_1 = Stdlib__List.rev(_6);
+    const d = {
+      TAG: /* Pexp_try */7,
+      _0: _3,
+      _1: d_1
+    };
+    return wrap_exp_attrs(mkexp(d), _2);
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    throw new Caml_js_exceptions.MelangeError(Escape_error, {
+          MEL_EXN_ID: Escape_error
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_tuple */8,
+          _0: Stdlib__List.rev(_1)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_construct */9,
+          _0: {
+            txt: _1,
+            loc: rhs_loc(1)
+          },
+          _1: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_variant */10,
+          _0: _1,
+          _1: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return wrap_exp_attrs(mkexp({
+              TAG: /* Pexp_ifthenelse */15,
+              _0: _3,
+              _1: _5,
+              _2: _7
+            }), _2);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return wrap_exp_attrs(mkexp({
+              TAG: /* Pexp_ifthenelse */15,
+              _0: _3,
+              _1: _5,
+              _2: undefined
+            }), _2);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return wrap_exp_attrs(mkexp({
+              TAG: /* Pexp_while */17,
+              _0: _3,
+              _1: _5
+            }), _2);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 8);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 7);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _9 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return wrap_exp_attrs(mkexp({
+              TAG: /* Pexp_for */18,
+              _0: _3,
+              _1: _5,
+              _2: _7,
+              _3: _6,
+              _4: _9
+            }), _2);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp_cons(rhs_loc(2), ghexp({
+              TAG: /* Pexp_tuple */8,
               _0: {
-                txt: _1,
-                loc: rhs_loc(1)
-              }
-            })
-      ];
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkpat({
-            TAG: /* Ppat_constraint */10,
-            _0: _1,
-            _1: _3
-          });
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_apply */5,
-            _0: _1,
-            _1: Stdlib__List.rev(_2)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      const bindings = Stdlib__List.map((function (lb) {
-              if (Caml_obj.caml_notequal(lb.lb_attributes, /* [] */0)) {
-                throw new Caml_js_exceptions.MelangeError($$Error$1, {
-                      MEL_EXN_ID: $$Error$1,
-                      _1: {
-                        TAG: /* Not_expecting */2,
-                        _0: lb.lb_loc,
-                        _1: "item attribute"
-                      }
-                    });
-              }
-              return mk$17(lb.lb_loc, undefined, undefined, undefined, lb.lb_pattern, lb.lb_expression);
-            }), _1.lbs_bindings);
-      const d_0 = _1.lbs_rec;
-      const d_1 = Stdlib__List.rev(bindings);
-      const d = {
-        TAG: /* Pexp_let */2,
-        _0: d_0,
-        _1: d_1,
-        _2: _3
-      };
-      return wrap_exp_attrs(mkexp(d), [
-            _1.lbs_extension,
-            _1.lbs_attributes
-          ]);
-    }),
-  (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      const d_0 = {
-        txt: _4,
-        loc: rhs_loc(4)
-      };
-      const d = {
-        TAG: /* Pexp_letmodule */25,
-        _0: d_0,
-        _1: _5,
-        _2: _7
-      };
-      return wrap_exp_attrs(mkexp(d), _3);
-    }),
-  (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      const d_1 = {
-        txt: _5,
-        loc: rhs_loc(5)
-      };
-      const d = {
-        TAG: /* Pexp_open */32,
-        _0: _3,
-        _1: d_1,
-        _2: _7
-      };
-      return wrap_exp_attrs(mkexp(d), _4);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      const d = {
-        TAG: /* Pexp_function */3,
-        _0: Stdlib__List.rev(_4)
-      };
-      return wrap_exp_attrs(mkexp(d), _2);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return wrap_exp_attrs(mkexp({
-                TAG: /* Pexp_fun */4,
-                _0: _3[0],
-                _1: _3[1],
-                _2: _3[2],
-                _3: _4
-              }), _2);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return wrap_exp_attrs(mkexp({
-                TAG: /* Pexp_newtype */30,
-                _0: _5,
-                _1: _7
-              }), _2);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      const d_1 = Stdlib__List.rev(_6);
-      const d = {
-        TAG: /* Pexp_match */6,
-        _0: _3,
-        _1: d_1
-      };
-      return wrap_exp_attrs(mkexp(d), _2);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      const d_1 = Stdlib__List.rev(_6);
-      const d = {
-        TAG: /* Pexp_try */7,
-        _0: _3,
-        _1: d_1
-      };
-      return wrap_exp_attrs(mkexp(d), _2);
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      throw new Caml_js_exceptions.MelangeError(Escape_error, {
-            MEL_EXN_ID: Escape_error
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_tuple */8,
-            _0: Stdlib__List.rev(_1)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_construct */9,
-            _0: {
-              txt: _1,
-              loc: rhs_loc(1)
-            },
-            _1: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_variant */10,
-            _0: _1,
-            _1: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return wrap_exp_attrs(mkexp({
-                TAG: /* Pexp_ifthenelse */15,
-                _0: _3,
-                _1: _5,
-                _2: _7
-              }), _2);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return wrap_exp_attrs(mkexp({
-                TAG: /* Pexp_ifthenelse */15,
-                _0: _3,
-                _1: _5,
-                _2: undefined
-              }), _2);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return wrap_exp_attrs(mkexp({
-                TAG: /* Pexp_while */17,
-                _0: _3,
-                _1: _5
-              }), _2);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 8);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 7);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _9 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return wrap_exp_attrs(mkexp({
-                TAG: /* Pexp_for */18,
-                _0: _3,
-                _1: _5,
-                _2: _7,
-                _3: _6,
-                _4: _9
-              }), _2);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp_cons(rhs_loc(2), ghexp({
-                TAG: /* Pexp_tuple */8,
-                _0: {
-                  hd: _1,
-                  tl: {
-                    hd: _3,
-                    tl: /* [] */0
-                  }
+                hd: _1,
+                tl: {
+                  hd: _3,
+                  tl: /* [] */0
                 }
-              }), symbol_rloc(undefined));
-    }),
-  (function (__caml_parser_env) {
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkexp_cons(rhs_loc(2), ghexp({
-                TAG: /* Pexp_tuple */8,
-                _0: {
-                  hd: _5,
-                  tl: {
-                    hd: _7,
-                    tl: /* [] */0
-                  }
-                }
-              }), symbol_rloc(undefined));
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, _2, _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, _2, _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, _2, _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, _2, _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, _2, _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, "+", _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, "+.", _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, "+=", _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, "-", _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, "-.", _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, "*", _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, "%", _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, "=", _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, "<", _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, ">", _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, "or", _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, "||", _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, "&", _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, "&&", _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, ":=", _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      const match = _2.pexp_desc;
-      let exit = 0;
-      switch (_1) {
-        case "-" :
-            if (match.TAG === /* Pexp_constant */1) {
-              const n = match._0;
-              switch (n.TAG) {
-                case /* Const_int */0 :
-                    return mkexp({
-                          TAG: /* Pexp_constant */1,
-                          _0: {
-                            TAG: /* Const_int */0,
-                            _0: -n._0 | 0
-                          }
-                        });
-                case /* Const_int32 */4 :
-                    return mkexp({
-                          TAG: /* Pexp_constant */1,
-                          _0: {
-                            TAG: /* Const_int32 */4,
-                            _0: -n._0 | 0
-                          }
-                        });
-                case /* Const_int64 */5 :
-                    return mkexp({
-                          TAG: /* Pexp_constant */1,
-                          _0: {
-                            TAG: /* Const_int64 */5,
-                            _0: Caml_int64.neg(n._0)
-                          }
-                        });
-                case /* Const_nativeint */6 :
-                    return mkexp({
-                          TAG: /* Pexp_constant */1,
-                          _0: {
-                            TAG: /* Const_nativeint */6,
-                            _0: Caml_external_polyfill.resolve("nativeint_neg")(n._0)
-                          }
-                        });
-                default:
-                  exit = 2;
               }
-            } else {
-              exit = 2;
+            }), symbol_rloc(undefined));
+  }),
+  (function (__caml_parser_env) {
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkexp_cons(rhs_loc(2), ghexp({
+              TAG: /* Pexp_tuple */8,
+              _0: {
+                hd: _5,
+                tl: {
+                  hd: _7,
+                  tl: /* [] */0
+                }
+              }
+            }), symbol_rloc(undefined));
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, _2, _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, _2, _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, _2, _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, _2, _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, _2, _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, "+", _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, "+.", _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, "+=", _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, "-", _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, "-.", _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, "*", _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, "%", _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, "=", _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, "<", _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, ">", _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, "or", _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, "||", _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, "&", _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, "&&", _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, ":=", _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    const match = _2.pexp_desc;
+    let exit = 0;
+    switch (_1) {
+      case "-" :
+          if (match.TAG === /* Pexp_constant */1) {
+            const n = match._0;
+            switch (n.TAG) {
+              case /* Const_int */0 :
+                  return mkexp({
+                        TAG: /* Pexp_constant */1,
+                        _0: {
+                          TAG: /* Const_int */0,
+                          _0: -n._0 | 0
+                        }
+                      });
+              case /* Const_int32 */4 :
+                  return mkexp({
+                        TAG: /* Pexp_constant */1,
+                        _0: {
+                          TAG: /* Const_int32 */4,
+                          _0: -n._0 | 0
+                        }
+                      });
+              case /* Const_int64 */5 :
+                  return mkexp({
+                        TAG: /* Pexp_constant */1,
+                        _0: {
+                          TAG: /* Const_int64 */5,
+                          _0: Caml_int64.neg(n._0)
+                        }
+                      });
+              case /* Const_nativeint */6 :
+                  return mkexp({
+                        TAG: /* Pexp_constant */1,
+                        _0: {
+                          TAG: /* Const_nativeint */6,
+                          _0: Caml_external_polyfill.resolve("nativeint_neg")(n._0)
+                        }
+                      });
+              default:
+                exit = 2;
             }
-            break;
-        case "-." :
+          } else {
             exit = 2;
-            break;
-        default:
-          
-      }
-      if (exit === 2 && match.TAG === /* Pexp_constant */1) {
-        const f = match._0;
-        if (f.TAG === /* Const_float */3) {
-          return mkexp({
-                TAG: /* Pexp_constant */1,
-                _0: {
-                  TAG: /* Const_float */3,
-                  _0: neg_float_string(f._0)
-                }
-              });
-        }
+          }
+          break;
+      case "-." :
+          exit = 2;
+          break;
+      default:
         
-      }
-      return mkexp({
-            TAG: /* Pexp_apply */5,
-            _0: mkoperator("~" + _1, 1),
-            _1: {
-              hd: [
-                "",
-                _2
-              ],
-              tl: /* [] */0
-            }
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      const desc = _2.pexp_desc;
-      let exit = 0;
-      switch (_1) {
-        case "+" :
-            if (desc.TAG === /* Pexp_constant */1) {
-              switch (desc._0.TAG) {
-                case /* Const_char */1 :
-                case /* Const_string */2 :
-                case /* Const_float */3 :
-                    exit = 2;
-                    break;
-                default:
-                  return mkexp(desc);
+    }
+    if (exit === 2 && match.TAG === /* Pexp_constant */1) {
+      const f = match._0;
+      if (f.TAG === /* Const_float */3) {
+        return mkexp({
+              TAG: /* Pexp_constant */1,
+              _0: {
+                TAG: /* Const_float */3,
+                _0: neg_float_string(f._0)
               }
-            } else {
-              exit = 2;
+            });
+      }
+      
+    }
+    return mkexp({
+          TAG: /* Pexp_apply */5,
+          _0: mkoperator("~" + _1, 1),
+          _1: {
+            hd: [
+              "",
+              _2
+            ],
+            tl: /* [] */0
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    const desc = _2.pexp_desc;
+    let exit = 0;
+    switch (_1) {
+      case "+" :
+          if (desc.TAG === /* Pexp_constant */1) {
+            switch (desc._0.TAG) {
+              case /* Const_char */1 :
+              case /* Const_string */2 :
+              case /* Const_float */3 :
+                  exit = 2;
+                  break;
+              default:
+                return mkexp(desc);
             }
-            break;
-        case "+." :
+          } else {
             exit = 2;
-            break;
-        default:
-          
-      }
-      if (exit === 2 && desc.TAG === /* Pexp_constant */1 && desc._0.TAG === /* Const_float */3) {
-        return mkexp(desc);
-      }
-      return mkexp({
-            TAG: /* Pexp_apply */5,
-            _0: mkoperator("~" + _1, 1),
-            _1: {
+          }
+          break;
+      case "+." :
+          exit = 2;
+          break;
+      default:
+        
+    }
+    if (exit === 2 && desc.TAG === /* Pexp_constant */1 && desc._0.TAG === /* Const_float */3) {
+      return mkexp(desc);
+    }
+    return mkexp({
+          TAG: /* Pexp_apply */5,
+          _0: mkoperator("~" + _1, 1),
+          _1: {
+            hd: [
+              "",
+              _2
+            ],
+            tl: /* [] */0
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_setfield */13,
+          _0: _1,
+          _1: {
+            txt: _3,
+            loc: rhs_loc(3)
+          },
+          _2: _5
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_apply */5,
+          _0: ghexp({
+                TAG: /* Pexp_ident */0,
+                _0: array_function("Array", "set")
+              }),
+          _1: {
+            hd: [
+              "",
+              _1
+            ],
+            tl: {
               hd: [
                 "",
-                _2
-              ],
-              tl: /* [] */0
-            }
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_setfield */13,
-            _0: _1,
-            _1: {
-              txt: _3,
-              loc: rhs_loc(3)
-            },
-            _2: _5
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_apply */5,
-            _0: ghexp({
-                  TAG: /* Pexp_ident */0,
-                  _0: array_function("Array", "set")
-                }),
-            _1: {
-              hd: [
-                "",
-                _1
-              ],
-              tl: {
-                hd: [
-                  "",
-                  _4
-                ],
-                tl: {
-                  hd: [
-                    "",
-                    _7
-                  ],
-                  tl: /* [] */0
-                }
-              }
-            }
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_apply */5,
-            _0: ghexp({
-                  TAG: /* Pexp_ident */0,
-                  _0: array_function("String", "set")
-                }),
-            _1: {
-              hd: [
-                "",
-                _1
+                _4
               ],
               tl: {
                 hd: [
                   "",
-                  _4
+                  _7
+                ],
+                tl: /* [] */0
+              }
+            }
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_apply */5,
+          _0: ghexp({
+                TAG: /* Pexp_ident */0,
+                _0: array_function("String", "set")
+              }),
+          _1: {
+            hd: [
+              "",
+              _1
+            ],
+            tl: {
+              hd: [
+                "",
+                _4
+              ],
+              tl: {
+                hd: [
+                  "",
+                  _7
+                ],
+                tl: /* [] */0
+              }
+            }
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    const set = fast.contents ? "unsafe_set" : "set";
+    const coords = bigarray_untuplify(_4);
+    if (coords) {
+      const match = coords.tl;
+      const c1 = coords.hd;
+      if (!match) {
+        return mkexp({
+              TAG: /* Pexp_apply */5,
+              _0: ghexp({
+                    TAG: /* Pexp_ident */0,
+                    _0: bigarray_function("Array1", set)
+                  }),
+              _1: {
+                hd: [
+                  "",
+                  _1
                 ],
                 tl: {
                   hd: [
                     "",
-                    _7
-                  ],
-                  tl: /* [] */0
-                }
-              }
-            }
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      const set = fast.contents ? "unsafe_set" : "set";
-      const coords = bigarray_untuplify(_4);
-      if (coords) {
-        const match = coords.tl;
-        const c1 = coords.hd;
-        if (!match) {
-          return mkexp({
-                TAG: /* Pexp_apply */5,
-                _0: ghexp({
-                      TAG: /* Pexp_ident */0,
-                      _0: bigarray_function("Array1", set)
-                    }),
-                _1: {
-                  hd: [
-                    "",
-                    _1
+                    c1
                   ],
                   tl: {
                     hd: [
                       "",
-                      c1
+                      _7
+                    ],
+                    tl: /* [] */0
+                  }
+                }
+              }
+            });
+      }
+      const match$1 = match.tl;
+      const c2 = match.hd;
+      if (!match$1) {
+        return mkexp({
+              TAG: /* Pexp_apply */5,
+              _0: ghexp({
+                    TAG: /* Pexp_ident */0,
+                    _0: bigarray_function("Array2", set)
+                  }),
+              _1: {
+                hd: [
+                  "",
+                  _1
+                ],
+                tl: {
+                  hd: [
+                    "",
+                    c1
+                  ],
+                  tl: {
+                    hd: [
+                      "",
+                      c2
                     ],
                     tl: {
                       hd: [
@@ -7028,31 +7063,35 @@ const yyact = [
                     }
                   }
                 }
-              });
-        }
-        const match$1 = match.tl;
-        const c2 = match.hd;
-        if (!match$1) {
-          return mkexp({
-                TAG: /* Pexp_apply */5,
-                _0: ghexp({
-                      TAG: /* Pexp_ident */0,
-                      _0: bigarray_function("Array2", set)
-                    }),
-                _1: {
+              }
+            });
+      }
+      if (!match$1.tl) {
+        return mkexp({
+              TAG: /* Pexp_apply */5,
+              _0: ghexp({
+                    TAG: /* Pexp_ident */0,
+                    _0: bigarray_function("Array3", set)
+                  }),
+              _1: {
+                hd: [
+                  "",
+                  _1
+                ],
+                tl: {
                   hd: [
                     "",
-                    _1
+                    c1
                   ],
                   tl: {
                     hd: [
                       "",
-                      c1
+                      c2
                     ],
                     tl: {
                       hd: [
                         "",
-                        c2
+                        match$1.hd
                       ],
                       tl: {
                         hd: [
@@ -7064,3596 +7103,3557 @@ const yyact = [
                     }
                   }
                 }
-              });
-        }
-        if (!match$1.tl) {
-          return mkexp({
-                TAG: /* Pexp_apply */5,
-                _0: ghexp({
-                      TAG: /* Pexp_ident */0,
-                      _0: bigarray_function("Array3", set)
-                    }),
-                _1: {
-                  hd: [
-                    "",
-                    _1
-                  ],
-                  tl: {
-                    hd: [
-                      "",
-                      c1
-                    ],
-                    tl: {
-                      hd: [
-                        "",
-                        c2
-                      ],
-                      tl: {
-                        hd: [
-                          "",
-                          match$1.hd
-                        ],
-                        tl: {
-                          hd: [
-                            "",
-                            _7
-                          ],
-                          tl: /* [] */0
-                        }
-                      }
-                    }
-                  }
-                }
-              });
-        }
-        
+              }
+            });
       }
-      return mkexp({
-            TAG: /* Pexp_apply */5,
-            _0: ghexp({
-                  TAG: /* Pexp_ident */0,
-                  _0: bigarray_function("Genarray", "set")
-                }),
-            _1: {
+      
+    }
+    return mkexp({
+          TAG: /* Pexp_apply */5,
+          _0: ghexp({
+                TAG: /* Pexp_ident */0,
+                _0: bigarray_function("Genarray", "set")
+              }),
+          _1: {
+            hd: [
+              "",
+              _1
+            ],
+            tl: {
               hd: [
                 "",
-                _1
+                ghexp({
+                      TAG: /* Pexp_array */14,
+                      _0: coords
+                    })
               ],
               tl: {
                 hd: [
                   "",
-                  ghexp({
-                        TAG: /* Pexp_array */14,
-                        _0: coords
-                      })
+                  _7
+                ],
+                tl: /* [] */0
+              }
+            }
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_setinstvar */23,
+          _0: {
+            txt: _1,
+            loc: rhs_loc(1)
+          },
+          _1: _3
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return wrap_exp_attrs(mkexp({
+              TAG: /* Pexp_assert */26,
+              _0: _3
+            }), _2);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return wrap_exp_attrs(mkexp({
+              TAG: /* Pexp_lazy */27,
+              _0: _3
+            }), _2);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return wrap_exp_attrs(mkexp({
+              TAG: /* Pexp_object */29,
+              _0: _3
+            }), _2);
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("object", 1, "end", 4);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return Curry._2(Ast_helper_Exp.attr, _1, _2);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_ident */0,
+          _0: {
+            txt: _1,
+            loc: rhs_loc(1)
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_constant */1,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_construct */9,
+          _0: {
+            txt: _1,
+            loc: rhs_loc(1)
+          },
+          _1: undefined
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_variant */10,
+          _0: _1,
+          _1: undefined
+        });
+  }),
+  (function (__caml_parser_env) {
+    return reloc_exp(Stdlib__Parsing.peek_val(__caml_parser_env, 1));
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("(", 1, ")", 3);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return wrap_exp_attrs(reloc_exp(_3), _2);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const d_0 = {
+      txt: {
+        TAG: /* Lident */0,
+        _0: "()"
+      },
+      loc: symbol_rloc(undefined)
+    };
+    const d = {
+      TAG: /* Pexp_construct */9,
+      _0: d_0,
+      _1: undefined
+    };
+    return wrap_exp_attrs(mkexp(d), _2);
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("begin", 1, "end", 3);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkexp_constraint(_2, _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_field */12,
+          _0: _1,
+          _1: {
+            txt: _3,
+            loc: rhs_loc(3)
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkexp({
+          TAG: /* Pexp_open */32,
+          _0: /* Fresh */1,
+          _1: {
+            txt: _1,
+            loc: rhs_loc(1)
+          },
+          _2: _4
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("(", 3, ")", 5);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkexp({
+          TAG: /* Pexp_apply */5,
+          _0: ghexp({
+                TAG: /* Pexp_ident */0,
+                _0: array_function("Array", "get")
+              }),
+          _1: {
+            hd: [
+              "",
+              _1
+            ],
+            tl: {
+              hd: [
+                "",
+                _4
+              ],
+              tl: /* [] */0
+            }
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("(", 3, ")", 5);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkexp({
+          TAG: /* Pexp_apply */5,
+          _0: ghexp({
+                TAG: /* Pexp_ident */0,
+                _0: array_function("String", "get")
+              }),
+          _1: {
+            hd: [
+              "",
+              _1
+            ],
+            tl: {
+              hd: [
+                "",
+                _4
+              ],
+              tl: /* [] */0
+            }
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("[", 3, "]", 5);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const get = fast.contents ? "unsafe_get" : "get";
+    const coords = bigarray_untuplify(_4);
+    if (coords) {
+      const match = coords.tl;
+      const c1 = coords.hd;
+      if (!match) {
+        return mkexp({
+              TAG: /* Pexp_apply */5,
+              _0: ghexp({
+                    TAG: /* Pexp_ident */0,
+                    _0: bigarray_function("Array1", get)
+                  }),
+              _1: {
+                hd: [
+                  "",
+                  _1
                 ],
                 tl: {
                   hd: [
                     "",
-                    _7
+                    c1
                   ],
                   tl: /* [] */0
                 }
               }
-            }
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_setinstvar */23,
-            _0: {
-              txt: _1,
-              loc: rhs_loc(1)
-            },
-            _1: _3
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return wrap_exp_attrs(mkexp({
-                TAG: /* Pexp_assert */26,
-                _0: _3
-              }), _2);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return wrap_exp_attrs(mkexp({
-                TAG: /* Pexp_lazy */27,
-                _0: _3
-              }), _2);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return wrap_exp_attrs(mkexp({
-                TAG: /* Pexp_object */29,
-                _0: _3
-              }), _2);
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("object", 1, "end", 4);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return Curry._2(Ast_helper_Exp.attr, _1, _2);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_ident */0,
-            _0: {
-              txt: _1,
-              loc: rhs_loc(1)
-            }
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_constant */1,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_construct */9,
-            _0: {
-              txt: _1,
-              loc: rhs_loc(1)
-            },
-            _1: undefined
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_variant */10,
-            _0: _1,
-            _1: undefined
-          });
-    }),
-  (function (__caml_parser_env) {
-      return reloc_exp(Stdlib__Parsing.peek_val(__caml_parser_env, 1));
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("(", 1, ")", 3);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return wrap_exp_attrs(reloc_exp(_3), _2);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const d_0 = {
-        txt: {
-          TAG: /* Lident */0,
-          _0: "()"
-        },
-        loc: symbol_rloc(undefined)
-      };
-      const d = {
-        TAG: /* Pexp_construct */9,
-        _0: d_0,
-        _1: undefined
-      };
-      return wrap_exp_attrs(mkexp(d), _2);
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("begin", 1, "end", 3);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkexp_constraint(_2, _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_field */12,
-            _0: _1,
-            _1: {
-              txt: _3,
-              loc: rhs_loc(3)
-            }
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkexp({
-            TAG: /* Pexp_open */32,
-            _0: /* Fresh */1,
-            _1: {
-              txt: _1,
-              loc: rhs_loc(1)
-            },
-            _2: _4
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("(", 3, ")", 5);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkexp({
-            TAG: /* Pexp_apply */5,
-            _0: ghexp({
-                  TAG: /* Pexp_ident */0,
-                  _0: array_function("Array", "get")
-                }),
-            _1: {
-              hd: [
-                "",
-                _1
-              ],
-              tl: {
+            });
+      }
+      const match$1 = match.tl;
+      const c2 = match.hd;
+      if (!match$1) {
+        return mkexp({
+              TAG: /* Pexp_apply */5,
+              _0: ghexp({
+                    TAG: /* Pexp_ident */0,
+                    _0: bigarray_function("Array2", get)
+                  }),
+              _1: {
                 hd: [
                   "",
-                  _4
+                  _1
                 ],
-                tl: /* [] */0
-              }
-            }
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("(", 3, ")", 5);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkexp({
-            TAG: /* Pexp_apply */5,
-            _0: ghexp({
-                  TAG: /* Pexp_ident */0,
-                  _0: array_function("String", "get")
-                }),
-            _1: {
-              hd: [
-                "",
-                _1
-              ],
-              tl: {
-                hd: [
-                  "",
-                  _4
-                ],
-                tl: /* [] */0
-              }
-            }
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("[", 3, "]", 5);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const get = fast.contents ? "unsafe_get" : "get";
-      const coords = bigarray_untuplify(_4);
-      if (coords) {
-        const match = coords.tl;
-        const c1 = coords.hd;
-        if (!match) {
-          return mkexp({
-                TAG: /* Pexp_apply */5,
-                _0: ghexp({
-                      TAG: /* Pexp_ident */0,
-                      _0: bigarray_function("Array1", get)
-                    }),
-                _1: {
+                tl: {
                   hd: [
                     "",
-                    _1
+                    c1
                   ],
                   tl: {
                     hd: [
                       "",
-                      c1
+                      c2
                     ],
                     tl: /* [] */0
                   }
                 }
-              });
-        }
-        const match$1 = match.tl;
-        const c2 = match.hd;
-        if (!match$1) {
-          return mkexp({
-                TAG: /* Pexp_apply */5,
-                _0: ghexp({
-                      TAG: /* Pexp_ident */0,
-                      _0: bigarray_function("Array2", get)
-                    }),
-                _1: {
+              }
+            });
+      }
+      if (!match$1.tl) {
+        return mkexp({
+              TAG: /* Pexp_apply */5,
+              _0: ghexp({
+                    TAG: /* Pexp_ident */0,
+                    _0: bigarray_function("Array3", get)
+                  }),
+              _1: {
+                hd: [
+                  "",
+                  _1
+                ],
+                tl: {
                   hd: [
                     "",
-                    _1
+                    c1
                   ],
                   tl: {
                     hd: [
                       "",
-                      c1
+                      c2
                     ],
                     tl: {
                       hd: [
                         "",
-                        c2
+                        match$1.hd
                       ],
                       tl: /* [] */0
                     }
                   }
                 }
-              });
-        }
-        if (!match$1.tl) {
-          return mkexp({
-                TAG: /* Pexp_apply */5,
-                _0: ghexp({
-                      TAG: /* Pexp_ident */0,
-                      _0: bigarray_function("Array3", get)
-                    }),
-                _1: {
-                  hd: [
-                    "",
-                    _1
-                  ],
-                  tl: {
-                    hd: [
-                      "",
-                      c1
-                    ],
-                    tl: {
-                      hd: [
-                        "",
-                        c2
-                      ],
-                      tl: {
-                        hd: [
-                          "",
-                          match$1.hd
-                        ],
-                        tl: /* [] */0
-                      }
-                    }
-                  }
-                }
-              });
-        }
-        
+              }
+            });
       }
-      return mkexp({
-            TAG: /* Pexp_apply */5,
-            _0: ghexp({
-                  TAG: /* Pexp_ident */0,
-                  _0: bigarray_function("Genarray", "get")
-                }),
-            _1: {
+      
+    }
+    return mkexp({
+          TAG: /* Pexp_apply */5,
+          _0: ghexp({
+                TAG: /* Pexp_ident */0,
+                _0: bigarray_function("Genarray", "get")
+              }),
+          _1: {
+            hd: [
+              "",
+              _1
+            ],
+            tl: {
               hd: [
                 "",
-                _1
-              ],
-              tl: {
-                hd: [
-                  "",
-                  ghexp({
-                        TAG: /* Pexp_array */14,
-                        _0: coords
-                      })
-                ],
-                tl: /* [] */0
-              }
-            }
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("{", 3, "}", 5);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkexp({
-            TAG: /* Pexp_record */11,
-            _0: _2[1],
-            _1: _2[0]
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("{", 1, "}", 3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const rec_exp = mkexp({
-            TAG: /* Pexp_record */11,
-            _0: _4[1],
-            _1: _4[0]
-          });
-      return mkexp({
-            TAG: /* Pexp_open */32,
-            _0: /* Fresh */1,
-            _1: {
-              txt: _1,
-              loc: rhs_loc(1)
-            },
-            _2: rec_exp
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("{", 3, "}", 5);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkexp({
-            TAG: /* Pexp_array */14,
-            _0: Stdlib__List.rev(_2)
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("[|", 1, "|]", 4);
-    }),
-  (function (__caml_parser_env) {
-      return mkexp({
-            TAG: /* Pexp_array */14,
-            _0: /* [] */0
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkexp({
-            TAG: /* Pexp_open */32,
-            _0: /* Fresh */1,
-            _1: {
-              txt: _1,
-              loc: rhs_loc(1)
-            },
-            _2: mkexp({
-                  TAG: /* Pexp_array */14,
-                  _0: Stdlib__List.rev(_4)
-                })
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("[|", 3, "|]", 6);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return reloc_exp(mktailexp(rhs_loc(4), Stdlib__List.rev(_2)));
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("[", 1, "]", 4);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const list_exp = reloc_exp(mktailexp(rhs_loc(6), Stdlib__List.rev(_4)));
-      return mkexp({
-            TAG: /* Pexp_open */32,
-            _0: /* Fresh */1,
-            _1: {
-              txt: _1,
-              loc: rhs_loc(1)
-            },
-            _2: list_exp
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("[", 3, "]", 6);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_apply */5,
-            _0: mkoperator(_1, 1),
-            _1: {
-              hd: [
-                "",
-                _2
+                ghexp({
+                      TAG: /* Pexp_array */14,
+                      _0: coords
+                    })
               ],
               tl: /* [] */0
             }
-          });
-    }),
+          }
+        });
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_apply */5,
-            _0: mkoperator("!", 1),
-            _1: {
-              hd: [
-                "",
-                _2
-              ],
-              tl: /* [] */0
-            }
-          });
-    }),
+    Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("{", 3, "}", 5);
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      const d = {
-        TAG: /* Pexp_new */22,
-        _0: {
-          txt: _3,
-          loc: rhs_loc(3)
-        }
-      };
-      return wrap_exp_attrs(mkexp(d), _2);
-    }),
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkexp({
+          TAG: /* Pexp_record */11,
+          _0: _2[1],
+          _1: _2[0]
+        });
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkexp({
-            TAG: /* Pexp_override */24,
-            _0: Stdlib__List.rev(_2)
-          });
-    }),
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("{", 1, "}", 3);
+  }),
   (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("{<", 1, ">}", 4);
-    }),
-  (function (__caml_parser_env) {
-      return mkexp({
-            TAG: /* Pexp_override */24,
-            _0: /* [] */0
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkexp({
-            TAG: /* Pexp_open */32,
-            _0: /* Fresh */1,
-            _1: {
-              txt: _1,
-              loc: rhs_loc(1)
-            },
-            _2: mkexp({
-                  TAG: /* Pexp_override */24,
-                  _0: Stdlib__List.rev(_4)
-                })
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("{<", 3, ">}", 6);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_send */21,
-            _0: _1,
-            _1: _3
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkinfix(_1, _2, _3);
-    }),
-  (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkexp({
-            TAG: /* Pexp_pack */31,
-            _0: _3
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkexp({
-            TAG: /* Pexp_constraint */19,
-            _0: ghexp({
-                  TAG: /* Pexp_pack */31,
-                  _0: _3
-                }),
-            _1: ghtyp({
-                  TAG: /* Ptyp_package */9,
-                  _0: _5
-                })
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      return unclosed("(", 1, ")", 5);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 7);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkexp({
-            TAG: /* Pexp_open */32,
-            _0: /* Fresh */1,
-            _1: {
-              txt: _1,
-              loc: rhs_loc(1)
-            },
-            _2: mkexp({
-                  TAG: /* Pexp_constraint */19,
-                  _0: ghexp({
-                        TAG: /* Pexp_pack */31,
-                        _0: _5
-                      }),
-                  _1: ghtyp({
-                        TAG: /* Ptyp_package */9,
-                        _0: _7
-                      })
-                })
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 6);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      return unclosed("(", 3, ")", 7);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_extension */33,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _2,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        "",
-        _1
-      ];
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        _1,
-        _2
-      ];
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        "?" + _2[0],
-        _2[1]
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        "?" + _1,
-        _2
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        _1,
-        mkexp({
-              TAG: /* Pexp_ident */0,
-              _0: {
-                txt: {
-                  TAG: /* Lident */0,
-                  _0: _1
-                },
-                loc: rhs_loc(1)
-              }
-            })
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: _2
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        mkpatvar(_1, 1),
-        _2
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        ghpat({
-              TAG: /* Ppat_constraint */10,
-              _0: mkpatvar(_1, 1),
-              _1: ghtyp({
-                    TAG: /* Ptyp_poly */8,
-                    _0: Stdlib__List.rev(_3),
-                    _1: _5
-                  })
-            }),
-        _7
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 7);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      const match = wrap_type_annotation(_4, _6, _8);
-      return [
-        ghpat({
-              TAG: /* Ppat_constraint */10,
-              _0: mkpatvar(_1, 1),
-              _1: match[1]
-            }),
-        match[0]
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        _1,
-        _3
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        ghpat({
-              TAG: /* Ppat_constraint */10,
-              _0: _1,
-              _1: _3
-            }),
-        _5
-      ];
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        lbs_bindings: {
-          hd: _2,
-          tl: _1.lbs_bindings
-        },
-        lbs_rec: _1.lbs_rec,
-        lbs_extension: _1.lbs_extension,
-        lbs_attributes: _1.lbs_attributes,
-        lbs_loc: _1.lbs_loc
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      let lb = mklb(_4, _5);
-      return {
-        lbs_bindings: {
-          hd: lb,
-          tl: /* [] */0
-        },
-        lbs_rec: _3,
-        lbs_extension: _2[0],
-        lbs_attributes: _2[1],
-        lbs_loc: symbol_rloc(undefined)
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mklb(_2, _3);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp_constraint(_3, _1);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return ghexp({
-            TAG: /* Pexp_fun */4,
-            _0: _1[0],
-            _1: _1[1],
-            _2: _1[2],
-            _3: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_newtype */30,
-            _0: _3,
-            _1: _5
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _3,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return Curry._3(Ast_helper_Exp.$$case, _1, undefined, _3);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return Curry._3(Ast_helper_Exp.$$case, _1, _3, _5);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return ghexp({
-            TAG: /* Pexp_fun */4,
-            _0: _1[0],
-            _1: _1[1],
-            _2: _1[2],
-            _3: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkexp({
-            TAG: /* Pexp_newtype */30,
-            _0: _3,
-            _1: _5
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _3,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _3,
-        tl: {
-          hd: _1,
-          tl: /* [] */0
-        }
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        _1,
-        _3
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        undefined,
-        _1
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: _3
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        {
-          txt: _1,
-          loc: rhs_loc(1)
-        },
-        _3
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        {
-          txt: _1,
-          loc: rhs_loc(1)
-        },
-        exp_of_label(_1, 1)
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: [
-          {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const rec_exp = mkexp({
+          TAG: /* Pexp_record */11,
+          _0: _4[1],
+          _1: _4[0]
+        });
+    return mkexp({
+          TAG: /* Pexp_open */32,
+          _0: /* Fresh */1,
+          _1: {
             txt: _1,
             loc: rhs_loc(1)
           },
-          _3
-        ],
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: [
-          {
-            txt: _3,
-            loc: rhs_loc(3)
-          },
-          _5
-        ],
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _3,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        _2,
-        undefined
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        _2,
-        _4
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        undefined,
-        _2
-      ];
-    }),
-  (function (__caml_parser_env) {
-      throw new Caml_js_exceptions.MelangeError(Escape_error, {
-            MEL_EXN_ID: Escape_error
-          });
-    }),
-  (function (__caml_parser_env) {
-      throw new Caml_js_exceptions.MelangeError(Escape_error, {
-            MEL_EXN_ID: Escape_error
-          });
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkpat({
-            TAG: /* Ppat_alias */1,
-            _0: _1,
-            _1: {
-              txt: _3,
-              loc: rhs_loc(3)
-            }
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      return expecting(3, "identifier");
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkpat({
-            TAG: /* Ppat_tuple */4,
-            _0: Stdlib__List.rev(_1)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkpat({
-            TAG: /* Ppat_construct */5,
-            _0: {
-              txt: _1,
-              loc: rhs_loc(1)
-            },
-            _1: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkpat({
-            TAG: /* Ppat_variant */6,
-            _0: _1,
-            _1: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkpat_cons(rhs_loc(2), ghpat({
-                TAG: /* Ppat_tuple */4,
-                _0: {
-                  hd: _1,
-                  tl: {
-                    hd: _3,
-                    tl: /* [] */0
-                  }
-                }
-              }), symbol_rloc(undefined));
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      return expecting(3, "pattern");
-    }),
-  (function (__caml_parser_env) {
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkpat_cons(rhs_loc(2), ghpat({
-                TAG: /* Ppat_tuple */4,
-                _0: {
-                  hd: _5,
-                  tl: {
-                    hd: _7,
-                    tl: /* [] */0
-                  }
-                }
-              }), symbol_rloc(undefined));
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("(", 4, ")", 8);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkpat({
-            TAG: /* Ppat_or */9,
-            _0: _1,
-            _1: _3
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      return expecting(3, "pattern");
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkpat({
-            TAG: /* Ppat_lazy */12,
-            _0: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkpat({
-            TAG: /* Ppat_exception */14,
-            _0: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return attr$1(_1, _2);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkpat({
-            TAG: /* Ppat_var */0,
-            _0: {
-              txt: _1,
-              loc: rhs_loc(1)
-            }
-          });
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return mkpat(/* Ppat_any */0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkpat({
-            TAG: /* Ppat_constant */2,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkpat({
-            TAG: /* Ppat_interval */3,
-            _0: _1,
-            _1: _3
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkpat({
-            TAG: /* Ppat_construct */5,
-            _0: {
-              txt: _1,
-              loc: rhs_loc(1)
-            },
-            _1: undefined
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkpat({
-            TAG: /* Ppat_variant */6,
-            _0: _1,
-            _1: undefined
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkpat({
-            TAG: /* Ppat_type */11,
-            _0: {
-              txt: _2,
-              loc: rhs_loc(2)
-            }
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkpat({
-            TAG: /* Ppat_record */7,
-            _0: _2[0],
-            _1: _2[1]
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("{", 1, "}", 3);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return reloc_pat(mktailpat(rhs_loc(4), Stdlib__List.rev(_2)));
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("[", 1, "]", 4);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkpat({
-            TAG: /* Ppat_array */8,
-            _0: Stdlib__List.rev(_2)
-          });
-    }),
-  (function (__caml_parser_env) {
-      return mkpat({
-            TAG: /* Ppat_array */8,
-            _0: /* [] */0
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("[|", 1, "|]", 4);
-    }),
-  (function (__caml_parser_env) {
-      return reloc_pat(Stdlib__Parsing.peek_val(__caml_parser_env, 1));
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("(", 1, ")", 3);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkpat({
-            TAG: /* Ppat_constraint */10,
-            _0: _2,
-            _1: _4
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("(", 1, ")", 5);
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      return expecting(4, "type");
-    }),
-  (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkpat({
-            TAG: /* Ppat_unpack */13,
-            _0: {
-              txt: _3,
-              loc: rhs_loc(3)
-            }
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mkpat({
-            TAG: /* Ppat_constraint */10,
-            _0: mkpat({
-                  TAG: /* Ppat_unpack */13,
-                  _0: {
-                    txt: _3,
-                    loc: rhs_loc(3)
-                  }
-                }),
-            _1: ghtyp({
-                  TAG: /* Ptyp_package */9,
-                  _0: _5
-                })
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("(", 1, ")", 6);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mkpat({
-            TAG: /* Ppat_extension */15,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _3,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _3,
-        tl: {
-          hd: _1,
-          tl: /* [] */0
-        }
-      };
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      return expecting(3, "pattern");
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _3,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        {
-          hd: _1,
-          tl: /* [] */0
-        },
-        /* Closed */0
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return [
-        {
-          hd: _1,
-          tl: /* [] */0
-        },
-        /* Closed */0
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        {
-          hd: _1,
-          tl: /* [] */0
-        },
-        /* Open */1
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        {
-          hd: _1,
-          tl: _3[0]
-        },
-        _3[1]
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        {
-          txt: _1,
-          loc: rhs_loc(1)
-        },
-        _3
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        {
-          txt: _1,
-          loc: rhs_loc(1)
-        },
-        pat_of_label(_1, 1)
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$11(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, {
-            txt: _2,
-            loc: rhs_loc(2)
-          }, _4);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1[0],
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1[0],
-        tl: _2
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$11(symbol_rloc(undefined), _7, symbol_docs(undefined), _6, {
-            txt: _2,
-            loc: rhs_loc(2)
-          }, _4);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _2,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$19(symbol_rloc(undefined), add_nonrec(_2, _7, 2), symbol_docs(undefined), undefined, _3, Stdlib__List.rev(_6), _5[0], _5[1], _5[2], {
-            txt: _4,
-            loc: rhs_loc(4)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mk$19(symbol_rloc(undefined), _6, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, Stdlib__List.rev(_5), _4[0], _4[1], _4[2], {
-            txt: _3,
-            loc: rhs_loc(3)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _3,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      return /* [] */0;
-    }),
-  (function (__caml_parser_env) {
-      return [
-        /* Ptype_abstract */0,
-        /* Public */1,
-        undefined
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        /* Ptype_abstract */0,
-        /* Public */1,
-        _2
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        /* Ptype_abstract */0,
-        /* Private */0,
-        _3
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        {
-          TAG: /* Ptype_variant */0,
+          _2: rec_exp
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("{", 3, "}", 5);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkexp({
+          TAG: /* Pexp_array */14,
           _0: Stdlib__List.rev(_2)
-        },
-        /* Public */1,
-        undefined
-      ];
-    }),
+        });
+  }),
   (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        {
-          TAG: /* Ptype_variant */0,
-          _0: Stdlib__List.rev(_3)
-        },
-        /* Private */0,
-        undefined
-      ];
-    }),
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("[|", 1, "|]", 4);
+  }),
   (function (__caml_parser_env) {
-      return [
-        /* Ptype_open */1,
-        /* Public */1,
-        undefined
-      ];
-    }),
+    return mkexp({
+          TAG: /* Pexp_array */14,
+          _0: /* [] */0
+        });
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return [
-        {
-          TAG: /* Ptype_record */1,
-          _0: _4
-        },
-        _2,
-        undefined
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        {
-          TAG: /* Ptype_variant */0,
-          _0: Stdlib__List.rev(_5)
-        },
-        _4,
-        _2
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      return [
-        /* Ptype_open */1,
-        /* Public */1,
-        _2
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return [
-        {
-          TAG: /* Ptype_record */1,
-          _0: _6
-        },
-        _4,
-        _2
-      ];
-    }),
-  (function (__caml_parser_env) {
-      return /* [] */0;
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__List.rev(Stdlib__Parsing.peek_val(__caml_parser_env, 1));
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        _2,
-        _1
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _3,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mktyp({
-            TAG: /* Ptyp_var */0,
-            _0: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      return mktyp(/* Ptyp_any */0);
-    }),
-  (function (__caml_parser_env) {
-      return /* [] */0;
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__List.rev(Stdlib__Parsing.peek_val(__caml_parser_env, 1));
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        _2,
-        _1
-      ];
-    }),
-  (function (__caml_parser_env) {
-      return /* Invariant */2;
-    }),
-  (function (__caml_parser_env) {
-      return /* Covariant */0;
-    }),
-  (function (__caml_parser_env) {
-      return /* Contravariant */1;
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mktyp({
-            TAG: /* Ptyp_var */0,
-            _0: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _3,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _2,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return constructor(symbol_rloc(undefined), _3, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _2[0], _2[1], {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkexp({
+          TAG: /* Pexp_open */32,
+          _0: /* Fresh */1,
+          _1: {
             txt: _1,
             loc: rhs_loc(1)
-          });
-    }),
+          },
+          _2: mkexp({
+                TAG: /* Pexp_array */14,
+                _0: Stdlib__List.rev(_4)
+              })
+        });
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return constructor(symbol_rloc(undefined), _4, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _3[0], _3[1], {
-            txt: _2,
-            loc: rhs_loc(2)
-          });
-    }),
+    Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("[|", 3, "|]", 6);
+  }),
   (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return reloc_exp(mktailexp(rhs_loc(4), Stdlib__List.rev(_2)));
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return rebind(symbol_rloc(undefined), Stdlib.$at(_5, _6), symbol_docs(undefined), undefined, {
-            txt: _2,
-            loc: rhs_loc(2)
-          }, {
-            txt: _4,
-            loc: rhs_loc(4)
-          });
-    }),
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("[", 1, "]", 4);
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return decl(symbol_rloc(undefined), Stdlib.$at(_4, _5), symbol_docs(undefined), undefined, _3[0], _3[1], {
-            txt: _2,
-            loc: rhs_loc(2)
-          });
-    }),
-  (function (__caml_parser_env) {
-      return [
-        /* [] */0,
-        undefined
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        Stdlib__List.rev(_2),
-        undefined
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        Stdlib__List.rev(_2),
-        _4
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        /* [] */0,
-        _2
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: _2
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return field$1(symbol_rloc(undefined), _5, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _1, {
-            txt: _2,
-            loc: rhs_loc(2)
-          }, _4);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      const info_before_semi = get_info(Stdlib__Parsing.rhs_end_pos(5));
-      const info = info_before_semi !== undefined ? info_before_semi : get_info(Stdlib__Parsing.symbol_end_pos(undefined));
-      return field$1(symbol_rloc(undefined), Stdlib.$at(_5, _7), Caml_option.some(info), _1, {
-            txt: _2,
-            loc: rhs_loc(2)
-          }, _4);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      if (_2 !== /* Recursive */1) {
-        not_expecting(2, "nonrec flag");
-      }
-      return mk$20(_8, symbol_docs(undefined), _3, _6, {
-            txt: _4,
-            loc: rhs_loc(4)
-          }, Stdlib__List.rev(_7));
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      if (_2 !== /* Recursive */1) {
-        not_expecting(2, "nonrec flag");
-      }
-      return mk$20(_8, symbol_docs(undefined), _3, _6, {
-            txt: _4,
-            loc: rhs_loc(4)
-          }, Stdlib__List.rev(_7));
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _2,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _2,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _2,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return decl(symbol_rloc(undefined), _3, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _2[0], _2[1], {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const list_exp = reloc_exp(mktailexp(rhs_loc(6), Stdlib__List.rev(_4)));
+    return mkexp({
+          TAG: /* Pexp_open */32,
+          _0: /* Fresh */1,
+          _1: {
             txt: _1,
             loc: rhs_loc(1)
-          });
-    }),
+          },
+          _2: list_exp
+        });
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return decl(symbol_rloc(undefined), _4, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _3[0], _3[1], {
-            txt: _2,
-            loc: rhs_loc(2)
-          });
-    }),
+    Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("[", 3, "]", 6);
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return rebind(symbol_rloc(undefined), _4, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_apply */5,
+          _0: mkoperator(_1, 1),
+          _1: {
+            hd: [
+              "",
+              _2
+            ],
+            tl: /* [] */0
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_apply */5,
+          _0: mkoperator("!", 1),
+          _1: {
+            hd: [
+              "",
+              _2
+            ],
+            tl: /* [] */0
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    const d = {
+      TAG: /* Pexp_new */22,
+      _0: {
+        txt: _3,
+        loc: rhs_loc(3)
+      }
+    };
+    return wrap_exp_attrs(mkexp(d), _2);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkexp({
+          TAG: /* Pexp_override */24,
+          _0: Stdlib__List.rev(_2)
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("{<", 1, ">}", 4);
+  }),
+  (function (__caml_parser_env) {
+    return mkexp({
+          TAG: /* Pexp_override */24,
+          _0: /* [] */0
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkexp({
+          TAG: /* Pexp_open */32,
+          _0: /* Fresh */1,
+          _1: {
             txt: _1,
             loc: rhs_loc(1)
-          }, {
-            txt: _3,
-            loc: rhs_loc(3)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return rebind(symbol_rloc(undefined), _5, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), {
-            txt: _2,
-            loc: rhs_loc(2)
-          }, {
-            txt: _4,
-            loc: rhs_loc(4)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _3,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      const rhs = last(_3);
-      return {
-        TAG: /* Pwith_type */0,
-        _0: {
-          txt: _3,
-          loc: rhs_loc(3)
-        },
-        _1: mk$19(symbol_rloc(undefined), undefined, undefined, undefined, _2, Stdlib__List.rev(_6), undefined, _4, _5, {
-              txt: rhs,
-              loc: rhs_loc(3)
-            })
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Pwith_typesubst */2,
-        _0: mk$19(symbol_rloc(undefined), undefined, undefined, undefined, _2, undefined, undefined, undefined, _5, {
-              txt: _3,
-              loc: rhs_loc(3)
-            })
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Pwith_module */1,
-        _0: {
-          txt: _2,
-          loc: rhs_loc(2)
-        },
-        _1: {
-          txt: _4,
-          loc: rhs_loc(4)
-        }
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Pwith_modsubst */3,
-        _0: {
-          txt: _2,
-          loc: rhs_loc(2)
-        },
-        _1: {
-          txt: _4,
-          loc: rhs_loc(4)
-        }
-      };
-    }),
-  (function (__caml_parser_env) {
-      return /* Public */1;
-    }),
-  (function (__caml_parser_env) {
-      return /* Private */0;
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _2,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _3,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mktyp({
-            TAG: /* Ptyp_poly */8,
-            _0: Stdlib__List.rev(_1),
-            _1: _3
-          });
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mktyp({
-            TAG: /* Ptyp_poly */8,
-            _0: Stdlib__List.rev(_1),
-            _1: _3
-          });
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return attr(_1, _2);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mktyp({
-            TAG: /* Ptyp_alias */6,
-            _0: _1,
-            _1: _4
-          });
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mktyp({
-            TAG: /* Ptyp_arrow */1,
-            _0: "?" + _2,
-            _1: mkoption(_4),
-            _2: _6
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mktyp({
-            TAG: /* Ptyp_arrow */1,
-            _0: "?" + _1,
-            _1: mkoption(_2),
-            _2: _4
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mktyp({
-            TAG: /* Ptyp_arrow */1,
-            _0: _1,
-            _1: _3,
-            _2: _5
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mktyp({
-            TAG: /* Ptyp_arrow */1,
-            _0: "",
-            _1: _1,
-            _2: _3
-          });
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      if (_2) {
-        if (_2.tl) {
-          throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error, {
-                MEL_EXN_ID: Stdlib__Parsing.Parse_error
-              });
-        }
-        return _2.hd;
-      }
-      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error, {
-            MEL_EXN_ID: Stdlib__Parsing.Parse_error
-          });
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      if (_2) {
-        if (_2.tl) {
-          throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error, {
-                MEL_EXN_ID: Stdlib__Parsing.Parse_error
-              });
-        }
-        return _2.hd;
-      }
-      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error, {
-            MEL_EXN_ID: Stdlib__Parsing.Parse_error
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mktyp({
-            TAG: /* Ptyp_var */0,
-            _0: _2
-          });
-    }),
-  (function (__caml_parser_env) {
-      return mktyp(/* Ptyp_any */0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mktyp({
-            TAG: /* Ptyp_constr */3,
-            _0: {
-              txt: _1,
-              loc: rhs_loc(1)
-            },
-            _1: /* [] */0
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mktyp({
-            TAG: /* Ptyp_constr */3,
-            _0: {
-              txt: _2,
-              loc: rhs_loc(2)
-            },
-            _1: {
-              hd: _1,
-              tl: /* [] */0
-            }
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mktyp({
-            TAG: /* Ptyp_constr */3,
-            _0: {
-              txt: _4,
-              loc: rhs_loc(4)
-            },
-            _1: Stdlib__List.rev(_2)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mktyp({
-            TAG: /* Ptyp_object */4,
-            _0: _2[0],
-            _1: _2[1]
-          });
-    }),
-  (function (__caml_parser_env) {
-      return mktyp({
-            TAG: /* Ptyp_object */4,
-            _0: /* [] */0,
-            _1: /* Closed */0
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mktyp({
-            TAG: /* Ptyp_class */5,
-            _0: {
-              txt: _2,
-              loc: rhs_loc(2)
-            },
-            _1: /* [] */0
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mktyp({
-            TAG: /* Ptyp_class */5,
-            _0: {
-              txt: _3,
-              loc: rhs_loc(3)
-            },
-            _1: {
-              hd: _1,
-              tl: /* [] */0
-            }
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mktyp({
-            TAG: /* Ptyp_class */5,
-            _0: {
-              txt: _5,
-              loc: rhs_loc(5)
-            },
-            _1: Stdlib__List.rev(_2)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mktyp({
-            TAG: /* Ptyp_variant */7,
-            _0: {
-              hd: _2,
-              tl: /* [] */0
-            },
-            _1: /* Closed */0,
-            _2: undefined
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mktyp({
-            TAG: /* Ptyp_variant */7,
-            _0: Stdlib__List.rev(_3),
-            _1: /* Closed */0,
-            _2: undefined
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mktyp({
-            TAG: /* Ptyp_variant */7,
-            _0: {
-              hd: _2,
-              tl: Stdlib__List.rev(_4)
-            },
-            _1: /* Closed */0,
-            _2: undefined
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mktyp({
-            TAG: /* Ptyp_variant */7,
-            _0: Stdlib__List.rev(_3),
-            _1: /* Open */1,
-            _2: undefined
-          });
-    }),
-  (function (__caml_parser_env) {
-      return mktyp({
-            TAG: /* Ptyp_variant */7,
-            _0: /* [] */0,
-            _1: /* Open */1,
-            _2: undefined
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mktyp({
-            TAG: /* Ptyp_variant */7,
-            _0: Stdlib__List.rev(_3),
-            _1: /* Closed */0,
-            _2: /* [] */0
-          });
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mktyp({
-            TAG: /* Ptyp_variant */7,
-            _0: Stdlib__List.rev(_3),
-            _1: /* Closed */0,
-            _2: Stdlib__List.rev(_5)
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return mktyp({
-            TAG: /* Ptyp_package */9,
-            _0: _3
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mktyp({
-            TAG: /* Ptyp_extension */10,
-            _0: _1
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        {
-          txt: _1,
-          loc: rhs_loc(1)
-        },
-        /* [] */0
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        {
-          txt: _1,
-          loc: rhs_loc(1)
-        },
-        _3
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        {
-          txt: _2,
-          loc: rhs_loc(2)
-        },
-        _4
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: _3
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _3,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Rinherit */1,
-        _0: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Rtag */0,
-        _0: _1,
-        _1: _5,
-        _2: _3,
-        _3: Stdlib__List.rev(_4)
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Rtag */0,
-        _0: _1,
-        _1: _2,
-        _2: true,
-        _3: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      return true;
-    }),
-  (function (__caml_parser_env) {
-      return false;
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _3,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _2,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mktyp({
-            TAG: /* Ptyp_tuple */2,
-            _0: {
-              hd: _1,
-              tl: Stdlib__List.rev(_3)
-            }
-          });
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return mktyp({
-            TAG: /* Ptyp_tuple */2,
-            _0: {
-              hd: _1,
-              tl: Stdlib__List.rev(_3)
-            }
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _3,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _3,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: /* [] */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _3,
-        tl: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        {
-          hd: _1,
-          tl: _3[0]
-        },
-        _3[1]
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        {
-          hd: _1,
-          tl: /* [] */0
-        },
-        /* Closed */0
-      ];
-    }),
-  (function (__caml_parser_env) {
-      return [
-        /* [] */0,
-        /* Open */1
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        _1,
-        _4,
-        _3
-      ];
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Const_int */0,
-        _0: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Const_char */1,
-        _0: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Const_string */2,
-        _0: _1[0],
-        _1: _1[1]
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Const_float */3,
-        _0: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Const_int32 */4,
-        _0: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Const_int64 */5,
-        _0: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Const_nativeint */6,
-        _0: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Const_int */0,
-        _0: -_2 | 0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Const_float */3,
-        _0: "-" + _2
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Const_int32 */4,
-        _0: -_2 | 0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Const_int64 */5,
-        _0: Caml_int64.neg(_2)
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Const_nativeint */6,
-        _0: Caml_external_polyfill.resolve("nativeint_neg")(_2)
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Const_int */0,
-        _0: _2
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Const_float */3,
-        _0: _2
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Const_int32 */4,
-        _0: _2
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Const_int64 */5,
-        _0: _2
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Const_nativeint */6,
-        _0: _2
-      };
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-    }),
-  (function (__caml_parser_env) {
-      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return unclosed("(", 1, ")", 3);
-    }),
-  (function (__caml_parser_env) {
-      return expecting(2, "operator");
-    }),
-  (function (__caml_parser_env) {
-      return expecting(3, "module-expr");
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return "!";
-    }),
-  (function (__caml_parser_env) {
-      return "+";
-    }),
-  (function (__caml_parser_env) {
-      return "+.";
-    }),
-  (function (__caml_parser_env) {
-      return "-";
-    }),
-  (function (__caml_parser_env) {
-      return "-.";
-    }),
-  (function (__caml_parser_env) {
-      return "*";
-    }),
-  (function (__caml_parser_env) {
-      return "=";
-    }),
-  (function (__caml_parser_env) {
-      return "<";
-    }),
-  (function (__caml_parser_env) {
-      return ">";
-    }),
-  (function (__caml_parser_env) {
-      return "or";
-    }),
-  (function (__caml_parser_env) {
-      return "||";
-    }),
-  (function (__caml_parser_env) {
-      return "&";
-    }),
-  (function (__caml_parser_env) {
-      return "&&";
-    }),
-  (function (__caml_parser_env) {
-      return ":=";
-    }),
-  (function (__caml_parser_env) {
-      return "+=";
-    }),
-  (function (__caml_parser_env) {
-      return "%";
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return "()";
-    }),
-  (function (__caml_parser_env) {
-      return "::";
-    }),
-  (function (__caml_parser_env) {
-      return "false";
-    }),
-  (function (__caml_parser_env) {
-      return "true";
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Lident */0,
-        _0: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Ldot */1,
-        _0: _1,
-        _1: _3
-      };
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return {
-        TAG: /* Lident */0,
-        _0: "[]"
-      };
-    }),
-  (function (__caml_parser_env) {
-      return {
-        TAG: /* Lident */0,
-        _0: "()"
-      };
-    }),
-  (function (__caml_parser_env) {
-      return {
-        TAG: /* Lident */0,
-        _0: "false"
-      };
-    }),
-  (function (__caml_parser_env) {
-      return {
-        TAG: /* Lident */0,
-        _0: "true"
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Lident */0,
-        _0: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Ldot */1,
-        _0: _1,
-        _1: _3
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Lident */0,
-        _0: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Ldot */1,
-        _0: _1,
-        _1: _3
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Lident */0,
-        _0: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Ldot */1,
-        _0: _1,
-        _1: _3
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Lident */0,
-        _0: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Ldot */1,
-        _0: _1,
-        _1: _3
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      if (applicative_functors.contents) {
-        return {
-          TAG: /* Lapply */2,
+          },
+          _2: mkexp({
+                TAG: /* Pexp_override */24,
+                _0: Stdlib__List.rev(_4)
+              })
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("{<", 3, ">}", 6);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_send */21,
           _0: _1,
           _1: _3
-        };
-      }
-      throw new Caml_js_exceptions.MelangeError($$Error$1, {
-            MEL_EXN_ID: $$Error$1,
-            _1: {
-              TAG: /* Applicative_path */3,
-              _0: symbol_rloc(undefined)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkinfix(_1, _2, _3);
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkexp({
+          TAG: /* Pexp_pack */31,
+          _0: _3
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkexp({
+          TAG: /* Pexp_constraint */19,
+          _0: ghexp({
+                TAG: /* Pexp_pack */31,
+                _0: _3
+              }),
+          _1: ghtyp({
+                TAG: /* Ptyp_package */9,
+                _0: _5
+              })
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    return unclosed("(", 1, ")", 5);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 7);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkexp({
+          TAG: /* Pexp_open */32,
+          _0: /* Fresh */1,
+          _1: {
+            txt: _1,
+            loc: rhs_loc(1)
+          },
+          _2: mkexp({
+                TAG: /* Pexp_constraint */19,
+                _0: ghexp({
+                      TAG: /* Pexp_pack */31,
+                      _0: _5
+                    }),
+                _1: ghtyp({
+                      TAG: /* Ptyp_package */9,
+                      _0: _7
+                    })
+              })
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    return unclosed("(", 3, ")", 7);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_extension */33,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _2,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      "",
+      _1
+    ];
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      _1,
+      _2
+    ];
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      "?" + _2[0],
+      _2[1]
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      "?" + _1,
+      _2
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      _1,
+      mkexp({
+            TAG: /* Pexp_ident */0,
+            _0: {
+              txt: {
+                TAG: /* Lident */0,
+                _0: _1
+              },
+              loc: rhs_loc(1)
             }
-          });
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Lident */0,
-        _0: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Ldot */1,
-        _0: _1,
-        _1: _3
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Lident */0,
-        _0: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Ldot */1,
-        _0: _1,
-        _1: _3
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Lident */0,
-        _0: _1
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Ldot */1,
-        _0: _1,
-        _1: _3
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Ptop_dir */1,
-        _0: _2,
-        _1: /* Pdir_none */0
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Ptop_dir */1,
-        _0: _2,
-        _1: {
-          TAG: /* Pdir_string */0,
-          _0: _3[0]
-        }
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Ptop_dir */1,
-        _0: _2,
-        _1: {
-          TAG: /* Pdir_int */1,
-          _0: _3
-        }
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Ptop_dir */1,
-        _0: _2,
-        _1: {
-          TAG: /* Pdir_ident */2,
-          _0: _3
-        }
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Ptop_dir */1,
-        _0: _2,
-        _1: {
-          TAG: /* Pdir_ident */2,
-          _0: _3
-        }
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return {
-        TAG: /* Ptop_dir */1,
-        _0: _2,
-        _1: {
-          TAG: /* Pdir_bool */3,
-          _0: false
-        }
-      };
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return {
-        TAG: /* Ptop_dir */1,
-        _0: _2,
-        _1: {
-          TAG: /* Pdir_bool */3,
-          _0: true
-        }
-      };
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return /* Nonrecursive */0;
-    }),
-  (function (__caml_parser_env) {
-      return /* Recursive */1;
-    }),
-  (function (__caml_parser_env) {
-      return /* Recursive */1;
-    }),
-  (function (__caml_parser_env) {
-      return /* Nonrecursive */0;
-    }),
-  (function (__caml_parser_env) {
-      return /* Upto */0;
-    }),
-  (function (__caml_parser_env) {
-      return /* Downto */1;
-    }),
-  (function (__caml_parser_env) {
-      return /* Public */1;
-    }),
-  (function (__caml_parser_env) {
-      return /* Private */0;
-    }),
-  (function (__caml_parser_env) {
-      return /* Immutable */0;
-    }),
-  (function (__caml_parser_env) {
-      return /* Mutable */1;
-    }),
-  (function (__caml_parser_env) {
-      return /* Concrete */1;
-    }),
-  (function (__caml_parser_env) {
-      return /* Virtual */0;
-    }),
-  (function (__caml_parser_env) {
-      return [
-        /* Public */1,
-        /* Concrete */1
-      ];
-    }),
-  (function (__caml_parser_env) {
-      return [
-        /* Private */0,
-        /* Concrete */1
-      ];
-    }),
-  (function (__caml_parser_env) {
-      return [
-        /* Public */1,
-        /* Virtual */0
-      ];
-    }),
-  (function (__caml_parser_env) {
-      return [
-        /* Private */0,
-        /* Virtual */0
-      ];
-    }),
-  (function (__caml_parser_env) {
-      return [
-        /* Private */0,
-        /* Virtual */0
-      ];
-    }),
-  (function (__caml_parser_env) {
-      return /* Fresh */1;
-    }),
-  (function (__caml_parser_env) {
-      return /* Override */0;
-    }),
-  (function (__caml_parser_env) {
-      
-    }),
-  (function (__caml_parser_env) {
-      
-    }),
-  (function (__caml_parser_env) {
-      
-    }),
-  (function (__caml_parser_env) {
-      
-    }),
-  (function (__caml_parser_env) {
-      return "-";
-    }),
-  (function (__caml_parser_env) {
-      return "-.";
-    }),
-  (function (__caml_parser_env) {
-      return "+";
-    }),
-  (function (__caml_parser_env) {
-      return "+.";
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    }),
-  (function (__caml_parser_env) {
-      return "and";
-    }),
-  (function (__caml_parser_env) {
-      return "as";
-    }),
-  (function (__caml_parser_env) {
-      return "assert";
-    }),
-  (function (__caml_parser_env) {
-      return "begin";
-    }),
-  (function (__caml_parser_env) {
-      return "class";
-    }),
-  (function (__caml_parser_env) {
-      return "constraint";
-    }),
-  (function (__caml_parser_env) {
-      return "do";
-    }),
-  (function (__caml_parser_env) {
-      return "done";
-    }),
-  (function (__caml_parser_env) {
-      return "downto";
-    }),
-  (function (__caml_parser_env) {
-      return "else";
-    }),
-  (function (__caml_parser_env) {
-      return "end";
-    }),
-  (function (__caml_parser_env) {
-      return "exception";
-    }),
-  (function (__caml_parser_env) {
-      return "external";
-    }),
-  (function (__caml_parser_env) {
-      return "false";
-    }),
-  (function (__caml_parser_env) {
-      return "for";
-    }),
-  (function (__caml_parser_env) {
-      return "fun";
-    }),
-  (function (__caml_parser_env) {
-      return "function";
-    }),
-  (function (__caml_parser_env) {
-      return "functor";
-    }),
-  (function (__caml_parser_env) {
-      return "if";
-    }),
-  (function (__caml_parser_env) {
-      return "in";
-    }),
-  (function (__caml_parser_env) {
-      return "include";
-    }),
-  (function (__caml_parser_env) {
-      return "inherit";
-    }),
-  (function (__caml_parser_env) {
-      return "initializer";
-    }),
-  (function (__caml_parser_env) {
-      return "lazy";
-    }),
-  (function (__caml_parser_env) {
-      return "let";
-    }),
-  (function (__caml_parser_env) {
-      return "match";
-    }),
-  (function (__caml_parser_env) {
-      return "method";
-    }),
-  (function (__caml_parser_env) {
-      return "module";
-    }),
-  (function (__caml_parser_env) {
-      return "mutable";
-    }),
-  (function (__caml_parser_env) {
-      return "new";
-    }),
-  (function (__caml_parser_env) {
-      return "object";
-    }),
-  (function (__caml_parser_env) {
-      return "of";
-    }),
-  (function (__caml_parser_env) {
-      return "open";
-    }),
-  (function (__caml_parser_env) {
-      return "or";
-    }),
-  (function (__caml_parser_env) {
-      return "private";
-    }),
-  (function (__caml_parser_env) {
-      return "rec";
-    }),
-  (function (__caml_parser_env) {
-      return "sig";
-    }),
-  (function (__caml_parser_env) {
-      return "struct";
-    }),
-  (function (__caml_parser_env) {
-      return "then";
-    }),
-  (function (__caml_parser_env) {
-      return "to";
-    }),
-  (function (__caml_parser_env) {
-      return "true";
-    }),
-  (function (__caml_parser_env) {
-      return "try";
-    }),
-  (function (__caml_parser_env) {
-      return "type";
-    }),
-  (function (__caml_parser_env) {
-      return "val";
-    }),
-  (function (__caml_parser_env) {
-      return "virtual";
-    }),
-  (function (__caml_parser_env) {
-      return "when";
-    }),
-  (function (__caml_parser_env) {
-      return "while";
-    }),
-  (function (__caml_parser_env) {
-      return "with";
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
+          })
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: _2
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      mkpatvar(_1, 1),
+      _2
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      ghpat({
+            TAG: /* Ppat_constraint */10,
+            _0: mkpatvar(_1, 1),
+            _1: ghtyp({
+                  TAG: /* Ptyp_poly */8,
+                  _0: Stdlib__List.rev(_3),
+                  _1: _5
+                })
+          }),
+      _7
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 7);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    const match = wrap_type_annotation(_4, _6, _8);
+    return [
+      ghpat({
+            TAG: /* Ppat_constraint */10,
+            _0: mkpatvar(_1, 1),
+            _1: match[1]
+          }),
+      match[0]
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      _1,
+      _3
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      ghpat({
+            TAG: /* Ppat_constraint */10,
+            _0: _1,
+            _1: _3
+          }),
+      _5
+    ];
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      lbs_bindings: {
+        hd: _2,
+        tl: _1.lbs_bindings
+      },
+      lbs_rec: _1.lbs_rec,
+      lbs_extension: _1.lbs_extension,
+      lbs_attributes: _1.lbs_attributes,
+      lbs_loc: _1.lbs_loc
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    let lb = mklb(_4, _5);
+    return {
+      lbs_bindings: {
+        hd: lb,
+        tl: /* [] */0
+      },
+      lbs_rec: _3,
+      lbs_extension: _2[0],
+      lbs_attributes: _2[1],
+      lbs_loc: symbol_rloc(undefined)
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mklb(_2, _3);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp_constraint(_3, _1);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return ghexp({
+          TAG: /* Pexp_fun */4,
+          _0: _1[0],
+          _1: _1[1],
+          _2: _1[2],
+          _3: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_newtype */30,
+          _0: _3,
+          _1: _5
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _3,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return Curry._3(Ast_helper_Exp.$$case, _1, undefined, _3);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return Curry._3(Ast_helper_Exp.$$case, _1, _3, _5);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return ghexp({
+          TAG: /* Pexp_fun */4,
+          _0: _1[0],
+          _1: _1[1],
+          _2: _1[2],
+          _3: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkexp({
+          TAG: /* Pexp_newtype */30,
+          _0: _3,
+          _1: _5
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _3,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _3,
+      tl: {
+        hd: _1,
+        tl: /* [] */0
+      }
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      _1,
+      _3
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      undefined,
+      _1
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: _3
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      {
         txt: _1,
-        loc: symbol_rloc(undefined)
-      };
-    }),
+        loc: rhs_loc(1)
+      },
+      _3
+    ];
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        txt: _1 + ("." + _3.txt),
-        loc: symbol_rloc(undefined)
-      };
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      {
+        txt: _1,
+        loc: rhs_loc(1)
+      },
+      exp_of_label(_1, 1)
+    ];
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return [
-        _2,
-        _3
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return [
-        _2,
-        _3
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return [
-        _2,
-        _3
-      ];
-    }),
-  (function (__caml_parser_env) {
-      return /* [] */0;
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: _2
-      };
-    }),
-  (function (__caml_parser_env) {
-      return /* [] */0;
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        hd: _1,
-        tl: _2
-      };
-    }),
-  (function (__caml_parser_env) {
-      return [
-        undefined,
-        /* [] */0
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        undefined,
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: [
         {
-          hd: _1,
-          tl: _2
-        }
-      ];
-    }),
-  (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return [
-        _2,
+          txt: _1,
+          loc: rhs_loc(1)
+        },
         _3
-      ];
-    }),
+      ],
+      tl: /* [] */0
+    };
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return [
-        _2,
-        _3
-      ];
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: [
+        {
+          txt: _3,
+          loc: rhs_loc(3)
+        },
+        _5
+      ],
+      tl: _1
+    };
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-      return [
-        _2,
-        _3
-      ];
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _3,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      _2,
+      undefined
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      _2,
+      _4
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      undefined,
+      _2
+    ];
+  }),
+  (function (__caml_parser_env) {
+    throw new Caml_js_exceptions.MelangeError(Escape_error, {
+          MEL_EXN_ID: Escape_error
+        });
+  }),
+  (function (__caml_parser_env) {
+    throw new Caml_js_exceptions.MelangeError(Escape_error, {
+          MEL_EXN_ID: Escape_error
+        });
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkpat({
+          TAG: /* Ppat_alias */1,
+          _0: _1,
+          _1: {
+            txt: _3,
+            loc: rhs_loc(3)
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    return expecting(3, "identifier");
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkpat({
+          TAG: /* Ppat_tuple */4,
+          _0: Stdlib__List.rev(_1)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkpat({
+          TAG: /* Ppat_construct */5,
+          _0: {
+            txt: _1,
+            loc: rhs_loc(1)
+          },
+          _1: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkpat({
+          TAG: /* Ppat_variant */6,
+          _0: _1,
+          _1: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkpat_cons(rhs_loc(2), ghpat({
+              TAG: /* Ppat_tuple */4,
+              _0: {
+                hd: _1,
+                tl: {
+                  hd: _3,
+                  tl: /* [] */0
+                }
+              }
+            }), symbol_rloc(undefined));
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    return expecting(3, "pattern");
+  }),
+  (function (__caml_parser_env) {
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkpat_cons(rhs_loc(2), ghpat({
+              TAG: /* Ppat_tuple */4,
+              _0: {
+                hd: _5,
+                tl: {
+                  hd: _7,
+                  tl: /* [] */0
+                }
+              }
+            }), symbol_rloc(undefined));
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("(", 4, ")", 8);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkpat({
+          TAG: /* Ppat_or */9,
+          _0: _1,
+          _1: _3
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    return expecting(3, "pattern");
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkpat({
+          TAG: /* Ppat_lazy */12,
+          _0: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkpat({
+          TAG: /* Ppat_exception */14,
+          _0: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return attr$1(_1, _2);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkpat({
+          TAG: /* Ppat_var */0,
+          _0: {
+            txt: _1,
+            loc: rhs_loc(1)
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return mkpat(/* Ppat_any */0);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkpat({
+          TAG: /* Ppat_constant */2,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkpat({
+          TAG: /* Ppat_interval */3,
+          _0: _1,
+          _1: _3
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkpat({
+          TAG: /* Ppat_construct */5,
+          _0: {
+            txt: _1,
+            loc: rhs_loc(1)
+          },
+          _1: undefined
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkpat({
+          TAG: /* Ppat_variant */6,
+          _0: _1,
+          _1: undefined
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkpat({
+          TAG: /* Ppat_type */11,
+          _0: {
+            txt: _2,
+            loc: rhs_loc(2)
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkpat({
+          TAG: /* Ppat_record */7,
+          _0: _2[0],
+          _1: _2[1]
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("{", 1, "}", 3);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return reloc_pat(mktailpat(rhs_loc(4), Stdlib__List.rev(_2)));
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("[", 1, "]", 4);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkpat({
+          TAG: /* Ppat_array */8,
+          _0: Stdlib__List.rev(_2)
+        });
+  }),
+  (function (__caml_parser_env) {
+    return mkpat({
+          TAG: /* Ppat_array */8,
+          _0: /* [] */0
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("[|", 1, "|]", 4);
+  }),
+  (function (__caml_parser_env) {
+    return reloc_pat(Stdlib__Parsing.peek_val(__caml_parser_env, 1));
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("(", 1, ")", 3);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkpat({
+          TAG: /* Ppat_constraint */10,
+          _0: _2,
+          _1: _4
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("(", 1, ")", 5);
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    return expecting(4, "type");
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkpat({
+          TAG: /* Ppat_unpack */13,
+          _0: {
+            txt: _3,
+            loc: rhs_loc(3)
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mkpat({
+          TAG: /* Ppat_constraint */10,
+          _0: mkpat({
+                TAG: /* Ppat_unpack */13,
+                _0: {
+                  txt: _3,
+                  loc: rhs_loc(3)
+                }
+              }),
+          _1: ghtyp({
+                TAG: /* Ptyp_package */9,
+                _0: _5
+              })
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("(", 1, ")", 6);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mkpat({
+          TAG: /* Ppat_extension */15,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _3,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _3,
+      tl: {
+        hd: _1,
+        tl: /* [] */0
+      }
+    };
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    return expecting(3, "pattern");
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _3,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      {
+        hd: _1,
+        tl: /* [] */0
+      },
+      /* Closed */0
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return [
+      {
+        hd: _1,
+        tl: /* [] */0
+      },
+      /* Closed */0
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      {
+        hd: _1,
+        tl: /* [] */0
+      },
+      /* Open */1
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      {
+        hd: _1,
+        tl: _3[0]
+      },
+      _3[1]
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      {
+        txt: _1,
+        loc: rhs_loc(1)
+      },
+      _3
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      {
+        txt: _1,
+        loc: rhs_loc(1)
+      },
+      pat_of_label(_1, 1)
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$11(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, {
+          txt: _2,
+          loc: rhs_loc(2)
+        }, _4);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1[0],
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1[0],
+      tl: _2
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$11(symbol_rloc(undefined), _7, symbol_docs(undefined), _6, {
+          txt: _2,
+          loc: rhs_loc(2)
+        }, _4);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _2,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$19(symbol_rloc(undefined), add_nonrec(_2, _7, 2), symbol_docs(undefined), undefined, _3, Stdlib__List.rev(_6), _5[0], _5[1], _5[2], {
+          txt: _4,
+          loc: rhs_loc(4)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mk$19(symbol_rloc(undefined), _6, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, Stdlib__List.rev(_5), _4[0], _4[1], _4[2], {
+          txt: _3,
+          loc: rhs_loc(3)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _3,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    return /* [] */0;
+  }),
+  (function (__caml_parser_env) {
+    return [
+      /* Ptype_abstract */0,
+      /* Public */1,
+      undefined
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      /* Ptype_abstract */0,
+      /* Public */1,
+      _2
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      /* Ptype_abstract */0,
+      /* Private */0,
+      _3
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      {
+        TAG: /* Ptype_variant */0,
+        _0: Stdlib__List.rev(_2)
+      },
+      /* Public */1,
+      undefined
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      {
+        TAG: /* Ptype_variant */0,
+        _0: Stdlib__List.rev(_3)
+      },
+      /* Private */0,
+      undefined
+    ];
+  }),
+  (function (__caml_parser_env) {
+    return [
+      /* Ptype_open */1,
+      /* Public */1,
+      undefined
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return [
+      {
+        TAG: /* Ptype_record */1,
+        _0: _4
+      },
+      _2,
+      undefined
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      {
+        TAG: /* Ptype_variant */0,
+        _0: Stdlib__List.rev(_5)
+      },
+      _4,
+      _2
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    return [
+      /* Ptype_open */1,
+      /* Public */1,
+      _2
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return [
+      {
+        TAG: /* Ptype_record */1,
+        _0: _6
+      },
+      _4,
+      _2
+    ];
+  }),
+  (function (__caml_parser_env) {
+    return /* [] */0;
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__List.rev(Stdlib__Parsing.peek_val(__caml_parser_env, 1));
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      _2,
+      _1
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _3,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mktyp({
+          TAG: /* Ptyp_var */0,
+          _0: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    return mktyp(/* Ptyp_any */0);
+  }),
+  (function (__caml_parser_env) {
+    return /* [] */0;
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__List.rev(Stdlib__Parsing.peek_val(__caml_parser_env, 1));
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      _2,
+      _1
+    ];
+  }),
+  (function (__caml_parser_env) {
+    return /* Invariant */2;
+  }),
+  (function (__caml_parser_env) {
+    return /* Covariant */0;
+  }),
+  (function (__caml_parser_env) {
+    return /* Contravariant */1;
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mktyp({
+          TAG: /* Ptyp_var */0,
+          _0: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _3,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _2,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return constructor(symbol_rloc(undefined), _3, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _2[0], _2[1], {
+          txt: _1,
+          loc: rhs_loc(1)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return constructor(symbol_rloc(undefined), _4, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _3[0], _3[1], {
+          txt: _2,
+          loc: rhs_loc(2)
+        });
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return rebind(symbol_rloc(undefined), Stdlib.$at(_5, _6), symbol_docs(undefined), undefined, {
+          txt: _2,
+          loc: rhs_loc(2)
+        }, {
+          txt: _4,
+          loc: rhs_loc(4)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return decl(symbol_rloc(undefined), Stdlib.$at(_4, _5), symbol_docs(undefined), undefined, _3[0], _3[1], {
+          txt: _2,
+          loc: rhs_loc(2)
+        });
+  }),
+  (function (__caml_parser_env) {
+    return [
+      /* [] */0,
+      undefined
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      Stdlib__List.rev(_2),
+      undefined
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      Stdlib__List.rev(_2),
+      _4
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      /* [] */0,
+      _2
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: _2
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return field$1(symbol_rloc(undefined), _5, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _1, {
+          txt: _2,
+          loc: rhs_loc(2)
+        }, _4);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    const info_before_semi = get_info(Stdlib__Parsing.rhs_end_pos(5));
+    const info = info_before_semi !== undefined ? info_before_semi : get_info(Stdlib__Parsing.symbol_end_pos(undefined));
+    return field$1(symbol_rloc(undefined), Stdlib.$at(_5, _7), Caml_option.some(info), _1, {
+          txt: _2,
+          loc: rhs_loc(2)
+        }, _4);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    if (_2 !== /* Recursive */1) {
+      not_expecting(2, "nonrec flag");
+    }
+    return mk$20(_8, symbol_docs(undefined), _3, _6, {
+          txt: _4,
+          loc: rhs_loc(4)
+        }, Stdlib__List.rev(_7));
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    if (_2 !== /* Recursive */1) {
+      not_expecting(2, "nonrec flag");
+    }
+    return mk$20(_8, symbol_docs(undefined), _3, _6, {
+          txt: _4,
+          loc: rhs_loc(4)
+        }, Stdlib__List.rev(_7));
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _2,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _2,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _2,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return decl(symbol_rloc(undefined), _3, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _2[0], _2[1], {
+          txt: _1,
+          loc: rhs_loc(1)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return decl(symbol_rloc(undefined), _4, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _3[0], _3[1], {
+          txt: _2,
+          loc: rhs_loc(2)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return rebind(symbol_rloc(undefined), _4, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), {
+          txt: _1,
+          loc: rhs_loc(1)
+        }, {
+          txt: _3,
+          loc: rhs_loc(3)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return rebind(symbol_rloc(undefined), _5, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), {
+          txt: _2,
+          loc: rhs_loc(2)
+        }, {
+          txt: _4,
+          loc: rhs_loc(4)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _3,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    const rhs = last(_3);
+    return {
+      TAG: /* Pwith_type */0,
+      _0: {
+        txt: _3,
+        loc: rhs_loc(3)
+      },
+      _1: mk$19(symbol_rloc(undefined), undefined, undefined, undefined, _2, Stdlib__List.rev(_6), undefined, _4, _5, {
+            txt: rhs,
+            loc: rhs_loc(3)
+          })
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Pwith_typesubst */2,
+      _0: mk$19(symbol_rloc(undefined), undefined, undefined, undefined, _2, undefined, undefined, undefined, _5, {
+            txt: _3,
+            loc: rhs_loc(3)
+          })
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Pwith_module */1,
+      _0: {
+        txt: _2,
+        loc: rhs_loc(2)
+      },
+      _1: {
+        txt: _4,
+        loc: rhs_loc(4)
+      }
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Pwith_modsubst */3,
+      _0: {
+        txt: _2,
+        loc: rhs_loc(2)
+      },
+      _1: {
+        txt: _4,
+        loc: rhs_loc(4)
+      }
+    };
+  }),
+  (function (__caml_parser_env) {
+    return /* Public */1;
+  }),
+  (function (__caml_parser_env) {
+    return /* Private */0;
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _2,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _3,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mktyp({
+          TAG: /* Ptyp_poly */8,
+          _0: Stdlib__List.rev(_1),
+          _1: _3
+        });
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mktyp({
+          TAG: /* Ptyp_poly */8,
+          _0: Stdlib__List.rev(_1),
+          _1: _3
+        });
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return attr(_1, _2);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mktyp({
+          TAG: /* Ptyp_alias */6,
+          _0: _1,
+          _1: _4
+        });
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mktyp({
+          TAG: /* Ptyp_arrow */1,
+          _0: "?" + _2,
+          _1: mkoption(_4),
+          _2: _6
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mktyp({
+          TAG: /* Ptyp_arrow */1,
+          _0: "?" + _1,
+          _1: mkoption(_2),
+          _2: _4
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mktyp({
+          TAG: /* Ptyp_arrow */1,
+          _0: _1,
+          _1: _3,
+          _2: _5
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mktyp({
+          TAG: /* Ptyp_arrow */1,
+          _0: "",
+          _1: _1,
+          _2: _3
+        });
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    if (_2) {
+      if (_2.tl) {
+        throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error, {
+              MEL_EXN_ID: Stdlib__Parsing.Parse_error
+            });
+      }
+      return _2.hd;
+    }
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error, {
+          MEL_EXN_ID: Stdlib__Parsing.Parse_error
+        });
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    if (_2) {
+      if (_2.tl) {
+        throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error, {
+              MEL_EXN_ID: Stdlib__Parsing.Parse_error
+            });
+      }
+      return _2.hd;
+    }
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error, {
+          MEL_EXN_ID: Stdlib__Parsing.Parse_error
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mktyp({
+          TAG: /* Ptyp_var */0,
+          _0: _2
+        });
+  }),
+  (function (__caml_parser_env) {
+    return mktyp(/* Ptyp_any */0);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mktyp({
+          TAG: /* Ptyp_constr */3,
+          _0: {
+            txt: _1,
+            loc: rhs_loc(1)
+          },
+          _1: /* [] */0
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mktyp({
+          TAG: /* Ptyp_constr */3,
+          _0: {
+            txt: _2,
+            loc: rhs_loc(2)
+          },
+          _1: {
+            hd: _1,
+            tl: /* [] */0
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mktyp({
+          TAG: /* Ptyp_constr */3,
+          _0: {
+            txt: _4,
+            loc: rhs_loc(4)
+          },
+          _1: Stdlib__List.rev(_2)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mktyp({
+          TAG: /* Ptyp_object */4,
+          _0: _2[0],
+          _1: _2[1]
+        });
+  }),
+  (function (__caml_parser_env) {
+    return mktyp({
+          TAG: /* Ptyp_object */4,
+          _0: /* [] */0,
+          _1: /* Closed */0
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mktyp({
+          TAG: /* Ptyp_class */5,
+          _0: {
+            txt: _2,
+            loc: rhs_loc(2)
+          },
+          _1: /* [] */0
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mktyp({
+          TAG: /* Ptyp_class */5,
+          _0: {
+            txt: _3,
+            loc: rhs_loc(3)
+          },
+          _1: {
+            hd: _1,
+            tl: /* [] */0
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mktyp({
+          TAG: /* Ptyp_class */5,
+          _0: {
+            txt: _5,
+            loc: rhs_loc(5)
+          },
+          _1: Stdlib__List.rev(_2)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mktyp({
+          TAG: /* Ptyp_variant */7,
+          _0: {
+            hd: _2,
+            tl: /* [] */0
+          },
+          _1: /* Closed */0,
+          _2: undefined
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mktyp({
+          TAG: /* Ptyp_variant */7,
+          _0: Stdlib__List.rev(_3),
+          _1: /* Closed */0,
+          _2: undefined
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mktyp({
+          TAG: /* Ptyp_variant */7,
+          _0: {
+            hd: _2,
+            tl: Stdlib__List.rev(_4)
+          },
+          _1: /* Closed */0,
+          _2: undefined
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mktyp({
+          TAG: /* Ptyp_variant */7,
+          _0: Stdlib__List.rev(_3),
+          _1: /* Open */1,
+          _2: undefined
+        });
+  }),
+  (function (__caml_parser_env) {
+    return mktyp({
+          TAG: /* Ptyp_variant */7,
+          _0: /* [] */0,
+          _1: /* Open */1,
+          _2: undefined
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mktyp({
+          TAG: /* Ptyp_variant */7,
+          _0: Stdlib__List.rev(_3),
+          _1: /* Closed */0,
+          _2: /* [] */0
+        });
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mktyp({
+          TAG: /* Ptyp_variant */7,
+          _0: Stdlib__List.rev(_3),
+          _1: /* Closed */0,
+          _2: Stdlib__List.rev(_5)
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return mktyp({
+          TAG: /* Ptyp_package */9,
+          _0: _3
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mktyp({
+          TAG: /* Ptyp_extension */10,
+          _0: _1
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      {
+        txt: _1,
+        loc: rhs_loc(1)
+      },
+      /* [] */0
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      {
+        txt: _1,
+        loc: rhs_loc(1)
+      },
+      _3
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      {
+        txt: _2,
+        loc: rhs_loc(2)
+      },
+      _4
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: _3
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _3,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Rinherit */1,
+      _0: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Rtag */0,
+      _0: _1,
+      _1: _5,
+      _2: _3,
+      _3: Stdlib__List.rev(_4)
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Rtag */0,
+      _0: _1,
+      _1: _2,
+      _2: true,
+      _3: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    return true;
+  }),
+  (function (__caml_parser_env) {
+    return false;
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _3,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _2,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mktyp({
+          TAG: /* Ptyp_tuple */2,
+          _0: {
+            hd: _1,
+            tl: Stdlib__List.rev(_3)
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return mktyp({
+          TAG: /* Ptyp_tuple */2,
+          _0: {
+            hd: _1,
+            tl: Stdlib__List.rev(_3)
+          }
+        });
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _3,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _3,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: /* [] */0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _3,
+      tl: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      {
+        hd: _1,
+        tl: _3[0]
+      },
+      _3[1]
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      {
+        hd: _1,
+        tl: /* [] */0
+      },
+      /* Closed */0
+    ];
+  }),
+  (function (__caml_parser_env) {
+    return [
+      /* [] */0,
+      /* Open */1
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      _1,
+      _4,
+      _3
+    ];
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Const_int */0,
+      _0: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Const_char */1,
+      _0: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Const_string */2,
+      _0: _1[0],
+      _1: _1[1]
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Const_float */3,
+      _0: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Const_int32 */4,
+      _0: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Const_int64 */5,
+      _0: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Const_nativeint */6,
+      _0: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Const_int */0,
+      _0: -_2 | 0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Const_float */3,
+      _0: "-" + _2
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Const_int32 */4,
+      _0: -_2 | 0
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Const_int64 */5,
+      _0: Caml_int64.neg(_2)
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Const_nativeint */6,
+      _0: Caml_external_polyfill.resolve("nativeint_neg")(_2)
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Const_int */0,
+      _0: _2
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Const_float */3,
+      _0: _2
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Const_int32 */4,
+      _0: _2
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Const_int64 */5,
+      _0: _2
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Const_nativeint */6,
+      _0: _2
+    };
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+  }),
+  (function (__caml_parser_env) {
+    Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return unclosed("(", 1, ")", 3);
+  }),
+  (function (__caml_parser_env) {
+    return expecting(2, "operator");
+  }),
+  (function (__caml_parser_env) {
+    return expecting(3, "module-expr");
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return "!";
+  }),
+  (function (__caml_parser_env) {
+    return "+";
+  }),
+  (function (__caml_parser_env) {
+    return "+.";
+  }),
+  (function (__caml_parser_env) {
+    return "-";
+  }),
+  (function (__caml_parser_env) {
+    return "-.";
+  }),
+  (function (__caml_parser_env) {
+    return "*";
+  }),
+  (function (__caml_parser_env) {
+    return "=";
+  }),
+  (function (__caml_parser_env) {
+    return "<";
+  }),
+  (function (__caml_parser_env) {
+    return ">";
+  }),
+  (function (__caml_parser_env) {
+    return "or";
+  }),
+  (function (__caml_parser_env) {
+    return "||";
+  }),
+  (function (__caml_parser_env) {
+    return "&";
+  }),
+  (function (__caml_parser_env) {
+    return "&&";
+  }),
+  (function (__caml_parser_env) {
+    return ":=";
+  }),
+  (function (__caml_parser_env) {
+    return "+=";
+  }),
+  (function (__caml_parser_env) {
+    return "%";
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return "()";
+  }),
+  (function (__caml_parser_env) {
+    return "::";
+  }),
+  (function (__caml_parser_env) {
+    return "false";
+  }),
+  (function (__caml_parser_env) {
+    return "true";
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Lident */0,
+      _0: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Ldot */1,
+      _0: _1,
+      _1: _3
+    };
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return {
+      TAG: /* Lident */0,
+      _0: "[]"
+    };
+  }),
+  (function (__caml_parser_env) {
+    return {
+      TAG: /* Lident */0,
+      _0: "()"
+    };
+  }),
+  (function (__caml_parser_env) {
+    return {
+      TAG: /* Lident */0,
+      _0: "false"
+    };
+  }),
+  (function (__caml_parser_env) {
+    return {
+      TAG: /* Lident */0,
+      _0: "true"
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Lident */0,
+      _0: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Ldot */1,
+      _0: _1,
+      _1: _3
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Lident */0,
+      _0: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Ldot */1,
+      _0: _1,
+      _1: _3
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Lident */0,
+      _0: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Ldot */1,
+      _0: _1,
+      _1: _3
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Lident */0,
+      _0: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Ldot */1,
+      _0: _1,
+      _1: _3
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    if (applicative_functors.contents) {
       return {
-        TAG: /* PStr */0,
-        _0: _1
+        TAG: /* Lapply */2,
+        _0: _1,
+        _1: _3
       };
-    }),
+    }
+    throw new Caml_js_exceptions.MelangeError($$Error$1, {
+          MEL_EXN_ID: $$Error$1,
+          _1: {
+            TAG: /* Applicative_path */3,
+            _0: symbol_rloc(undefined)
+          }
+        });
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* PTyp */1,
-        _0: _2
-      };
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Lident */0,
+      _0: _1
+    };
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* PPat */2,
-        _0: _2,
-        _1: undefined
-      };
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Ldot */1,
+      _0: _1,
+      _1: _3
+    };
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* PPat */2,
-        _0: _2,
-        _1: _4
-      };
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Lident */0,
+      _0: _1
+    };
+  }),
   (function (__caml_parser_env) {
-      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
-            MEL_EXN_ID: Stdlib__Parsing.YYexit,
-            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
-          });
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Ldot */1,
+      _0: _1,
+      _1: _3
+    };
+  }),
   (function (__caml_parser_env) {
-      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
-            MEL_EXN_ID: Stdlib__Parsing.YYexit,
-            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
-          });
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Lident */0,
+      _0: _1
+    };
+  }),
   (function (__caml_parser_env) {
-      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
-            MEL_EXN_ID: Stdlib__Parsing.YYexit,
-            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
-          });
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Ldot */1,
+      _0: _1,
+      _1: _3
+    };
+  }),
   (function (__caml_parser_env) {
-      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
-            MEL_EXN_ID: Stdlib__Parsing.YYexit,
-            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
-          });
-    }),
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Ptop_dir */1,
+      _0: _2,
+      _1: /* Pdir_none */0
+    };
+  }),
   (function (__caml_parser_env) {
-      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
-            MEL_EXN_ID: Stdlib__Parsing.YYexit,
-            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
-          });
-    }),
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Ptop_dir */1,
+      _0: _2,
+      _1: {
+        TAG: /* Pdir_string */0,
+        _0: _3[0]
+      }
+    };
+  }),
   (function (__caml_parser_env) {
-      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
-            MEL_EXN_ID: Stdlib__Parsing.YYexit,
-            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
-          });
-    }),
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Ptop_dir */1,
+      _0: _2,
+      _1: {
+        TAG: /* Pdir_int */1,
+        _0: _3
+      }
+    };
+  }),
   (function (__caml_parser_env) {
-      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
-            MEL_EXN_ID: Stdlib__Parsing.YYexit,
-            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
-          });
-    })
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Ptop_dir */1,
+      _0: _2,
+      _1: {
+        TAG: /* Pdir_ident */2,
+        _0: _3
+      }
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Ptop_dir */1,
+      _0: _2,
+      _1: {
+        TAG: /* Pdir_ident */2,
+        _0: _3
+      }
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return {
+      TAG: /* Ptop_dir */1,
+      _0: _2,
+      _1: {
+        TAG: /* Pdir_bool */3,
+        _0: false
+      }
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return {
+      TAG: /* Ptop_dir */1,
+      _0: _2,
+      _1: {
+        TAG: /* Pdir_bool */3,
+        _0: true
+      }
+    };
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return /* Nonrecursive */0;
+  }),
+  (function (__caml_parser_env) {
+    return /* Recursive */1;
+  }),
+  (function (__caml_parser_env) {
+    return /* Recursive */1;
+  }),
+  (function (__caml_parser_env) {
+    return /* Nonrecursive */0;
+  }),
+  (function (__caml_parser_env) {
+    return /* Upto */0;
+  }),
+  (function (__caml_parser_env) {
+    return /* Downto */1;
+  }),
+  (function (__caml_parser_env) {
+    return /* Public */1;
+  }),
+  (function (__caml_parser_env) {
+    return /* Private */0;
+  }),
+  (function (__caml_parser_env) {
+    return /* Immutable */0;
+  }),
+  (function (__caml_parser_env) {
+    return /* Mutable */1;
+  }),
+  (function (__caml_parser_env) {
+    return /* Concrete */1;
+  }),
+  (function (__caml_parser_env) {
+    return /* Virtual */0;
+  }),
+  (function (__caml_parser_env) {
+    return [
+      /* Public */1,
+      /* Concrete */1
+    ];
+  }),
+  (function (__caml_parser_env) {
+    return [
+      /* Private */0,
+      /* Concrete */1
+    ];
+  }),
+  (function (__caml_parser_env) {
+    return [
+      /* Public */1,
+      /* Virtual */0
+    ];
+  }),
+  (function (__caml_parser_env) {
+    return [
+      /* Private */0,
+      /* Virtual */0
+    ];
+  }),
+  (function (__caml_parser_env) {
+    return [
+      /* Private */0,
+      /* Virtual */0
+    ];
+  }),
+  (function (__caml_parser_env) {
+    return /* Fresh */1;
+  }),
+  (function (__caml_parser_env) {
+    return /* Override */0;
+  }),
+  (function (__caml_parser_env) {
+    
+  }),
+  (function (__caml_parser_env) {
+    
+  }),
+  (function (__caml_parser_env) {
+    
+  }),
+  (function (__caml_parser_env) {
+    
+  }),
+  (function (__caml_parser_env) {
+    return "-";
+  }),
+  (function (__caml_parser_env) {
+    return "-.";
+  }),
+  (function (__caml_parser_env) {
+    return "+";
+  }),
+  (function (__caml_parser_env) {
+    return "+.";
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+  }),
+  (function (__caml_parser_env) {
+    return "and";
+  }),
+  (function (__caml_parser_env) {
+    return "as";
+  }),
+  (function (__caml_parser_env) {
+    return "assert";
+  }),
+  (function (__caml_parser_env) {
+    return "begin";
+  }),
+  (function (__caml_parser_env) {
+    return "class";
+  }),
+  (function (__caml_parser_env) {
+    return "constraint";
+  }),
+  (function (__caml_parser_env) {
+    return "do";
+  }),
+  (function (__caml_parser_env) {
+    return "done";
+  }),
+  (function (__caml_parser_env) {
+    return "downto";
+  }),
+  (function (__caml_parser_env) {
+    return "else";
+  }),
+  (function (__caml_parser_env) {
+    return "end";
+  }),
+  (function (__caml_parser_env) {
+    return "exception";
+  }),
+  (function (__caml_parser_env) {
+    return "external";
+  }),
+  (function (__caml_parser_env) {
+    return "false";
+  }),
+  (function (__caml_parser_env) {
+    return "for";
+  }),
+  (function (__caml_parser_env) {
+    return "fun";
+  }),
+  (function (__caml_parser_env) {
+    return "function";
+  }),
+  (function (__caml_parser_env) {
+    return "functor";
+  }),
+  (function (__caml_parser_env) {
+    return "if";
+  }),
+  (function (__caml_parser_env) {
+    return "in";
+  }),
+  (function (__caml_parser_env) {
+    return "include";
+  }),
+  (function (__caml_parser_env) {
+    return "inherit";
+  }),
+  (function (__caml_parser_env) {
+    return "initializer";
+  }),
+  (function (__caml_parser_env) {
+    return "lazy";
+  }),
+  (function (__caml_parser_env) {
+    return "let";
+  }),
+  (function (__caml_parser_env) {
+    return "match";
+  }),
+  (function (__caml_parser_env) {
+    return "method";
+  }),
+  (function (__caml_parser_env) {
+    return "module";
+  }),
+  (function (__caml_parser_env) {
+    return "mutable";
+  }),
+  (function (__caml_parser_env) {
+    return "new";
+  }),
+  (function (__caml_parser_env) {
+    return "object";
+  }),
+  (function (__caml_parser_env) {
+    return "of";
+  }),
+  (function (__caml_parser_env) {
+    return "open";
+  }),
+  (function (__caml_parser_env) {
+    return "or";
+  }),
+  (function (__caml_parser_env) {
+    return "private";
+  }),
+  (function (__caml_parser_env) {
+    return "rec";
+  }),
+  (function (__caml_parser_env) {
+    return "sig";
+  }),
+  (function (__caml_parser_env) {
+    return "struct";
+  }),
+  (function (__caml_parser_env) {
+    return "then";
+  }),
+  (function (__caml_parser_env) {
+    return "to";
+  }),
+  (function (__caml_parser_env) {
+    return "true";
+  }),
+  (function (__caml_parser_env) {
+    return "try";
+  }),
+  (function (__caml_parser_env) {
+    return "type";
+  }),
+  (function (__caml_parser_env) {
+    return "val";
+  }),
+  (function (__caml_parser_env) {
+    return "virtual";
+  }),
+  (function (__caml_parser_env) {
+    return "when";
+  }),
+  (function (__caml_parser_env) {
+    return "while";
+  }),
+  (function (__caml_parser_env) {
+    return "with";
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      txt: _1,
+      loc: symbol_rloc(undefined)
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      txt: _1 + ("." + _3.txt),
+      loc: symbol_rloc(undefined)
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return [
+      _2,
+      _3
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return [
+      _2,
+      _3
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return [
+      _2,
+      _3
+    ];
+  }),
+  (function (__caml_parser_env) {
+    return /* [] */0;
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: _2
+    };
+  }),
+  (function (__caml_parser_env) {
+    return /* [] */0;
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      hd: _1,
+      tl: _2
+    };
+  }),
+  (function (__caml_parser_env) {
+    return [
+      undefined,
+      /* [] */0
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      undefined,
+      {
+        hd: _1,
+        tl: _2
+      }
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return [
+      _2,
+      _3
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return [
+      _2,
+      _3
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+    return [
+      _2,
+      _3
+    ];
+  }),
+  (function (__caml_parser_env) {
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* PStr */0,
+      _0: _1
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* PTyp */1,
+      _0: _2
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* PPat */2,
+      _0: _2,
+      _1: undefined
+    };
+  }),
+  (function (__caml_parser_env) {
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* PPat */2,
+      _0: _2,
+      _1: _4
+    };
+  }),
+  (function (__caml_parser_env) {
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
+          MEL_EXN_ID: Stdlib__Parsing.YYexit,
+          _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
+        });
+  }),
+  (function (__caml_parser_env) {
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
+          MEL_EXN_ID: Stdlib__Parsing.YYexit,
+          _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
+        });
+  }),
+  (function (__caml_parser_env) {
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
+          MEL_EXN_ID: Stdlib__Parsing.YYexit,
+          _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
+        });
+  }),
+  (function (__caml_parser_env) {
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
+          MEL_EXN_ID: Stdlib__Parsing.YYexit,
+          _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
+        });
+  }),
+  (function (__caml_parser_env) {
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
+          MEL_EXN_ID: Stdlib__Parsing.YYexit,
+          _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
+        });
+  }),
+  (function (__caml_parser_env) {
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
+          MEL_EXN_ID: Stdlib__Parsing.YYexit,
+          _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
+        });
+  }),
+  (function (__caml_parser_env) {
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
+          MEL_EXN_ID: Stdlib__Parsing.YYexit,
+          _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
+        });
+  })
 ];
 
 const yytables = {
@@ -11329,25 +11329,25 @@ function directive_parse(token_with_comments, lexbuf) {
       switch (curr_token.TAG) {
         case /* FLOAT */1 :
             return token_op(calc, (function (e) {
-                    throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                          MEL_EXN_ID: $$Error$2,
-                          _1: {
-                            TAG: /* Conditional_expr_expected_type */7,
-                            _0: /* Dir_type_bool */0,
-                            _1: /* Dir_type_float */1
-                          },
-                          _2: curr_loc
-                        });
-                  }), {
+                  throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                        MEL_EXN_ID: $$Error$2,
+                        _1: {
+                          TAG: /* Conditional_expr_expected_type */7,
+                          _0: /* Dir_type_bool */0,
+                          _1: /* Dir_type_float */1
+                        },
+                        _2: curr_loc
+                      });
+                }), {
                   TAG: /* Dir_float */1,
                   _0: Caml_format.caml_float_of_string(curr_token._0)
                 });
         case /* INT */7 :
             const v$1 = curr_token._0;
             return token_op(calc, (function (e) {
-                    push(e);
-                    return v$1 !== 0;
-                  }), {
+                  push(e);
+                  return v$1 !== 0;
+                }), {
                   TAG: /* Dir_int */2,
                   _0: v$1
                 });
@@ -11393,37 +11393,37 @@ function directive_parse(token_with_comments, lexbuf) {
             break;
         case /* STRING */16 :
             return token_op(calc, (function (e) {
-                    throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                          MEL_EXN_ID: $$Error$2,
-                          _1: {
-                            TAG: /* Conditional_expr_expected_type */7,
-                            _0: /* Dir_type_bool */0,
-                            _1: /* Dir_type_string */3
-                          },
-                          _2: curr_loc
-                        });
-                  }), {
+                  throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                        MEL_EXN_ID: $$Error$2,
+                        _1: {
+                          TAG: /* Conditional_expr_expected_type */7,
+                          _0: /* Dir_type_bool */0,
+                          _1: /* Dir_type_string */3
+                        },
+                        _2: curr_loc
+                      });
+                }), {
                   TAG: /* Dir_string */3,
                   _0: curr_token._0[0]
                 });
         case /* UIDENT */17 :
             const value_v = query(curr_loc, curr_token._0);
             return token_op(calc, (function (e) {
-                    push(e);
-                    if (!/* tag */(typeof value_v === "number" || typeof value_v === "string") && value_v.TAG === /* Dir_bool */0) {
-                      return value_v._0;
-                    }
-                    const ty = type_of_directive(value_v);
-                    throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                          MEL_EXN_ID: $$Error$2,
-                          _1: {
-                            TAG: /* Conditional_expr_expected_type */7,
-                            _0: /* Dir_type_bool */0,
-                            _1: ty
-                          },
-                          _2: curr_loc
-                        });
-                  }), value_v);
+                  push(e);
+                  if (!/* tag */(typeof value_v === "number" || typeof value_v === "string") && value_v.TAG === /* Dir_bool */0) {
+                    return value_v._0;
+                  }
+                  const ty = type_of_directive(value_v);
+                  throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                        MEL_EXN_ID: $$Error$2,
+                        _1: {
+                          TAG: /* Conditional_expr_expected_type */7,
+                          _0: /* Dir_type_bool */0,
+                          _1: ty
+                        },
+                        _2: curr_loc
+                      });
+                }), value_v);
         default:
           throw new Caml_js_exceptions.MelangeError($$Error$2, {
                 MEL_EXN_ID: $$Error$2,
@@ -12580,9 +12580,9 @@ function token(lexbuf) {
       case 29 :
           const stars = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
           const match$2 = with_comment_buffer((function (lexbuf) {
-                  store_string("*" + stars);
-                  return __ocaml_lex_comment_rec(lexbuf, 132);
-                }), lexbuf);
+                store_string("*" + stars);
+                return __ocaml_lex_comment_rec(lexbuf, 132);
+              }), lexbuf);
           return {
             TAG: /* COMMENT */18,
             _0: [
@@ -13587,12 +13587,12 @@ function eq(loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };

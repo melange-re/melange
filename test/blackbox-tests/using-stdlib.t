@@ -25,8 +25,8 @@ Check b.js output
   import * as Stdlib__List from "melange/list.js";
   
   const t = Stdlib__List.map((function (greeting) {
-          return greeting;
-        }), {
+        return greeting;
+      }), {
         hd: "Hello",
         tl: /* [] */0
       });

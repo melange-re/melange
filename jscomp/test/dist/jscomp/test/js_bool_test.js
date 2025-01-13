@@ -34,35 +34,35 @@ const v = true;
 const suites_0 = [
   "caml_bool_eq_caml_bool",
   (function (param) {
-      return {
-        TAG: /* Eq */0,
-        _0: u,
-        _1: true
-      };
-    })
+    return {
+      TAG: /* Eq */0,
+      _0: u,
+      _1: true
+    };
+  })
 ];
 
 const suites_1 = {
   hd: [
     "js_bool_eq_js_bool",
     (function (param) {
-        return {
-          TAG: /* Eq */0,
-          _0: v,
-          _1: true
-        };
-      })
+      return {
+        TAG: /* Eq */0,
+        _0: v,
+        _1: true
+      };
+    })
   ],
   tl: {
     hd: [
       "js_bool_neq_acml_bool",
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: true,
-            _1: true === true
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: true,
+          _1: true === true
+        };
+      })
     ],
     tl: /* [] */0
   }

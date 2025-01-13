@@ -29,12 +29,12 @@ function eq(loc, param) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -84,8 +84,8 @@ const same_type = [
 
 const v_obj = {
   hi: (function () {
-      console.log("hei");
-    })
+    console.log("hei");
+  })
 };
 
 eq("File \"jscomp/test/ffi_js_test.ml\", line 44, characters 5-12", [
@@ -113,9 +113,9 @@ const u = {
 };
 
 const side_effect_config = (u.contents = u.contents + 1 | 0, {
-    hi: 3,
-    low: 32
-  });
+  hi: 3,
+  low: 32
+});
 
 eq("File \"jscomp/test/ffi_js_test.ml\", line 54, characters 5-12", [
       u.contents,

@@ -33,12 +33,12 @@ function eq(loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -52,12 +52,12 @@ function point_init($$class) {
   CamlinternalOO.set_methods($$class, [
         get_x,
         (function (self$1) {
-            return self$1[x];
-          }),
+          return self$1[x];
+        }),
         move,
         (function (self$1, d) {
-            self$1[x] = self$1[x] + d | 0;
-          })
+          self$1[x] = self$1[x] + d | 0;
+        })
       ]);
   return function (env, self, x_init) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -82,8 +82,8 @@ function colored_point_init($$class) {
       ], point, true);
   const obj_init = inh[0];
   CamlinternalOO.set_method($$class, color, (function (self$2) {
-          return self$2[c];
-        }));
+        return self$2[c];
+      }));
   return function (env, self, x, c$1) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     Curry._2(obj_init, self$1, x);
@@ -126,8 +126,8 @@ function lookup_obj(obj, _param) {
 function c_init($$class) {
   const m = CamlinternalOO.get_method_label($$class, "m");
   CamlinternalOO.set_method($$class, m, (function (self$3) {
-          return 1;
-        }));
+        return 1;
+      }));
   return function (env, self) {
     return CamlinternalOO.create_object_opt(self, $$class);
   };
@@ -148,12 +148,12 @@ function d_init($$class) {
   CamlinternalOO.set_methods($$class, [
         n,
         (function (self$4) {
-            return 2;
-          }),
+          return 2;
+        }),
         as_c,
         (function (self$4) {
-            return self$4;
-          })
+          return self$4;
+        })
       ]);
   return function (env, self) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -201,14 +201,14 @@ function functional_point_init($$class) {
   CamlinternalOO.set_methods($$class, [
         get_x,
         (function (self$6) {
-            return self$6[x];
-          }),
+          return self$6[x];
+        }),
         move,
         (function (self$6, d) {
-            const copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$6));
-            copy[x] = self$6[x] + d | 0;
-            return copy;
-          })
+          const copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$6));
+          copy[x] = self$6[x] + d | 0;
+          return copy;
+        })
       ]);
   return function (env, self, y) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -241,12 +241,12 @@ function bad_functional_point_init($$class) {
   CamlinternalOO.set_methods($$class, [
         get_x,
         (function (self$7) {
-            return self$7[x];
-          }),
+          return self$7[x];
+        }),
         move,
         (function (self$7, d) {
-            return Curry._2(bad_functional_point[0], undefined, self$7[x] + d | 0);
-          })
+          return Curry._2(bad_functional_point[0], undefined, self$7[x] + d | 0);
+        })
       ]);
   return function (env, self, y) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);

@@ -52,9 +52,9 @@ const c = Float_array.longer_float_array(34);
 
 function print_array(a) {
   Stdlib__Array.iter((function (f) {
-          print_float(f);
-          print_newline(undefined);
-        }), a);
+        print_float(f);
+        print_newline(undefined);
+      }), a);
   print_newline(undefined);
 }
 

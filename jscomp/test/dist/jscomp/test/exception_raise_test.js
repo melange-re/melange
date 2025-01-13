@@ -141,43 +141,43 @@ const suites = {
     hd: [
       "File \"jscomp/test/exception_raise_test.ml\", line 114, characters 4-11",
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: [
-              f,
-              ff,
-              fff,
-              a0
-            ],
-            _1: [
-              2,
-              2,
-              2,
-              2
-            ]
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: [
+            f,
+            ff,
+            fff,
+            a0
+          ],
+          _1: [
+            2,
+            2,
+            2,
+            2
+          ]
+        };
+      })
     ],
     tl: {
       hd: [
         "File \"jscomp/test/exception_raise_test.ml\", line 116, characters 4-11",
         (function (param) {
-            if (a1.MEL_EXN_ID === Js__Js_exn.$$Error) {
-              return {
-                TAG: /* Eq */0,
-                _0: a1._1,
-                _1: 2
-              };
-            }
-            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/exception_raise_test.ml",
-                    119,
-                    15
-                  ]
-                });
-          })
+          if (a1.MEL_EXN_ID === Js__Js_exn.$$Error) {
+            return {
+              TAG: /* Eq */0,
+              _0: a1._1,
+              _1: 2
+            };
+          }
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/exception_raise_test.ml",
+                  119,
+                  15
+                ]
+              });
+        })
       ],
       tl: /* [] */0
     }

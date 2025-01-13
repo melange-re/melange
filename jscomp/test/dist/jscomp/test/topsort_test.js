@@ -63,15 +63,15 @@ const graph = {
 
 function nexts(x, g) {
   return Stdlib__List.fold_left((function (acc, param) {
-          if (param[0] === x) {
-            return {
-              hd: param[1],
-              tl: acc
-            };
-          } else {
-            return acc;
-          }
-        }), /* [] */0, g);
+        if (param[0] === x) {
+          return {
+            hd: param[1],
+            tl: acc
+          };
+        } else {
+          return acc;
+        }
+      }), /* [] */0, g);
 }
 
 function dfs1(_nodes, graph, _visited) {
@@ -275,14 +275,14 @@ function dfs3(nodes, graph) {
         tl: visited.contents
       };
       return Stdlib__List.iter((function (x) {
-              aux(x, graph);
-            }), nexts(node, graph));
+            aux(x, graph);
+          }), nexts(node, graph));
     }
     
   };
   Stdlib__List.iter((function (node) {
-          aux(node, graph);
-        }), nodes);
+        aux(node, graph);
+      }), nodes);
   return Stdlib__List.rev(visited.contents);
 }
 
@@ -410,8 +410,8 @@ function unsafe_topsort(graph) {
     };
   };
   Stdlib__List.iter((function (param) {
-          sort_node(param[0]);
-        }), graph);
+        sort_node(param[0]);
+      }), graph);
   return visited.contents;
 }
 
@@ -833,8 +833,8 @@ function split_bis(x, param) {
       TAG: /* NotFound */0,
       _0: /* Empty */0,
       _1: (function (param) {
-          return /* Empty */0;
-        })
+        return /* Empty */0;
+      })
     };
   }
   const r = param.r;
@@ -854,8 +854,8 @@ function split_bis(x, param) {
       TAG: /* NotFound */0,
       _0: match._0,
       _1: (function (param) {
-          return join(Curry._1(rl, undefined), v, r);
-        })
+        return join(Curry._1(rl, undefined), v, r);
+      })
     };
   }
   const match$1 = split_bis(x, r);
@@ -1501,8 +1501,8 @@ function of_list(l) {
 
 function add_seq(i, m) {
   return Stdlib__Seq.fold_left((function (s, x) {
-          return add(x, s);
-        }), m, i);
+        return add(x, s);
+      }), m, i);
 }
 
 function of_seq(i) {
@@ -1518,8 +1518,8 @@ function seq_of_enum_(c, param) {
     TAG: /* Cons */0,
     _0: c._0,
     _1: (function (param) {
-        return seq_of_enum_(partial_arg, param);
-      })
+      return seq_of_enum_(partial_arg, param);
+    })
   };
 }
 
@@ -1557,8 +1557,8 @@ function rev_seq_of_enum_(c, param) {
     TAG: /* Cons */0,
     _0: c._0,
     _1: (function (param) {
-        return rev_seq_of_enum_(partial_arg, param);
-      })
+      return rev_seq_of_enum_(partial_arg, param);
+    })
   };
 }
 
@@ -1687,8 +1687,8 @@ function pathsort(graph) {
   };
   const sort_nodes = function (path, nodes) {
     Stdlib__List.iter((function (node) {
-            sort_node(path, node);
-          }), nodes);
+          sort_node(path, node);
+        }), nodes);
   };
   const sort_node = function (path, node) {
     if (!Stdlib__List.mem(node, visited.contents)) {
@@ -1702,8 +1702,8 @@ function pathsort(graph) {
     
   };
   Stdlib__List.iter((function (param) {
-          sort_node(empty_path, param[0]);
-        }), graph);
+        sort_node(empty_path, param[0]);
+      }), graph);
   return visited.contents;
 }
 

@@ -35,12 +35,12 @@ function neq(loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Neq */1,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Neq */1,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -60,8 +60,8 @@ console.log([
             }).map(function (x, i) {
             return x + i | 0;
           }).reduce((function (x, y) {
-            return x + y | 0;
-          }), 0));
+          return x + y | 0;
+        }), 0));
 
 const v = [
   1,
@@ -83,18 +83,18 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 29, characters 5-12", [
     ]);
 
 $$throw("File \"jscomp/test/bs_array_test.ml\", line 32, characters 8-15", (function (param) {
-        Belt__Belt_Array.getExn([
-              0,
-              1
-            ], -1);
-      }));
+      Belt__Belt_Array.getExn([
+            0,
+            1
+          ], -1);
+    }));
 
 $$throw("File \"jscomp/test/bs_array_test.ml\", line 33, characters 8-15", (function (param) {
-        Belt__Belt_Array.getExn([
-              0,
-              1
-            ], 2);
-      }));
+      Belt__Belt_Array.getExn([
+            0,
+            1
+          ], 2);
+    }));
 
 const partial_arg = [
   0,
@@ -114,18 +114,18 @@ b("File \"jscomp/test/bs_array_test.ml\", line 34, characters 4-11", Caml_obj.ca
         ]));
 
 $$throw("File \"jscomp/test/bs_array_test.ml\", line 35, characters 8-15", (function (param) {
-        Belt__Belt_Array.setExn([
-              0,
-              1
-            ], -1, 0);
-      }));
+      Belt__Belt_Array.setExn([
+            0,
+            1
+          ], -1, 0);
+    }));
 
 $$throw("File \"jscomp/test/bs_array_test.ml\", line 36, characters 8-15", (function (param) {
-        Belt__Belt_Array.setExn([
-              0,
-              1
-            ], 2, 0);
-      }));
+      Belt__Belt_Array.setExn([
+            0,
+            1
+          ], 2, 0);
+    }));
 
 b("File \"jscomp/test/bs_array_test.ml\", line 37, characters 4-11", !Belt__Belt_Array.set([
           1,
@@ -187,8 +187,8 @@ function add(x, y) {
 }
 
 const v$5 = Belt__Belt_Array.makeBy(3000, (function (i) {
-        return i;
-      }));
+      return i;
+    }));
 
 const u = Belt__Belt_Array.shuffle(v$5);
 
@@ -233,15 +233,15 @@ b("File \"jscomp/test/bs_array_test.ml\", line 64, characters 4-11", Caml_obj.ca
 b("File \"jscomp/test/bs_array_test.ml\", line 65, characters 4-11", Caml_obj.caml_equal(Belt__Belt_Array.rangeBy(3, 3, 1), [3]));
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 70, characters 5-12", Belt__Belt_Array.reduceReverse([], 100, (function (prim0, prim1) {
-            return prim0 - prim1 | 0;
-          })), 100);
+          return prim0 - prim1 | 0;
+        })), 100);
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 71, characters 5-12", Belt__Belt_Array.reduceReverse([
           1,
           2
         ], 100, (function (prim0, prim1) {
-            return prim0 - prim1 | 0;
-          })), 97);
+          return prim0 - prim1 | 0;
+        })), 97);
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 72, characters 5-12", Belt__Belt_Array.reduceReverse([
           1,
@@ -249,8 +249,8 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 72, characters 5-12", Belt__Belt
           3,
           4
         ], 100, (function (prim0, prim1) {
-            return prim0 - prim1 | 0;
-          })), 90);
+          return prim0 - prim1 | 0;
+        })), 90);
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 73, characters 5-12", Belt__Belt_Array.reduceWithIndex([
           1,
@@ -258,8 +258,8 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 73, characters 5-12", Belt__Belt
           3,
           4
         ], 0, (function (acc, x, i) {
-            return (acc + x | 0) + i | 0;
-          })), 16);
+          return (acc + x | 0) + i | 0;
+        })), 16);
 
 b("File \"jscomp/test/bs_array_test.ml\", line 74, characters 4-11", Belt__Belt_Array.reduceReverse2([
           1,
@@ -269,8 +269,8 @@ b("File \"jscomp/test/bs_array_test.ml\", line 74, characters 4-11", Belt__Belt_
           1,
           2
         ], 0, (function (acc, x, y) {
-            return (acc + x | 0) + y | 0;
-          })) === 6);
+          return (acc + x | 0) + y | 0;
+        })) === 6);
 
 function addone(x) {
   return x + 1 | 0;
@@ -299,12 +299,12 @@ function makeMatrixExn(sx, sy, init) {
 }
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 92, characters 5-12", Belt__Belt_Array.makeBy(0, (function (param) {
-            return 1;
-          })), []);
+          return 1;
+        })), []);
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 93, characters 5-12", Belt__Belt_Array.makeBy(3, (function (i) {
-            return i;
-          })), [
+          return i;
+        })), [
       0,
       1,
       2
@@ -344,8 +344,8 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 99, characters 5-12", makeMatrix
 eq("File \"jscomp/test/bs_array_test.ml\", line 100, characters 5-12", [].slice(0), []);
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 101, characters 5-12", Belt__Belt_Array.map([], (function (prim) {
-            return prim + 1 | 0;
-          })), []);
+          return prim + 1 | 0;
+        })), []);
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 102, characters 5-12", Belt__Belt_Array.mapWithIndex([], add), []);
 
@@ -386,8 +386,8 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 107, characters 5-12", Belt__Bel
           2,
           3
         ], (function (prim) {
-            return prim + 1 | 0;
-          })), [
+          return prim + 1 | 0;
+        })), [
       2,
       3,
       4
@@ -427,23 +427,23 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 111, characters 5-12", Belt__Bel
     ]);
 
 const v$6 = Belt__Belt_Array.makeBy(10, (function (i) {
-        return i;
-      }));
+      return i;
+    }));
 
 const v0 = Belt__Belt_Array.keep(v$6, (function (x) {
-        return x % 2 === 0;
-      }));
+      return x % 2 === 0;
+    }));
 
 const v1 = Belt__Belt_Array.keep(v$6, (function (x) {
-        return x % 3 === 0;
-      }));
+      return x % 3 === 0;
+    }));
 
 const v2 = Belt__Belt_Array.keepMap(v$6, (function (x) {
-        if (x % 2 === 0) {
-          return x + 1 | 0;
-        }
-        
-      }));
+      if (x % 2 === 0) {
+        return x + 1 | 0;
+      }
+      
+    }));
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 118, characters 5-12", v0, [
       0,
@@ -477,8 +477,8 @@ const a = [
 ];
 
 const match = Belt__Belt_Array.partition(a, (function (x) {
-        return x % 2 === 0;
-      }));
+      return x % 2 === 0;
+    }));
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 125, characters 5-12", match[0], [
       2,
@@ -492,8 +492,8 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 126, characters 5-12", match[1],
     ]);
 
 const match$1 = Belt__Belt_Array.partition(a, (function (x) {
-        return x === 2;
-      }));
+      return x === 2;
+    }));
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 128, characters 5-12", match$1[0], [2]);
 
@@ -505,8 +505,8 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 129, characters 5-12", match$1[1
     ]);
 
 const match$2 = Belt__Belt_Array.partition([], (function (x) {
-        return false;
-      }));
+      return false;
+    }));
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 131, characters 5-12", match$2[0], []);
 
@@ -632,8 +632,8 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 160, characters 5-12", Belt__Bel
 eq("File \"jscomp/test/bs_array_test.ml\", line 161, characters 5-12", Belt__Belt_Array.sliceToEnd(a$2, 6), []);
 
 const a$3 = Belt__Belt_Array.makeBy(10, (function (x) {
-        return x;
-      }));
+      return x;
+    }));
 
 Belt__Belt_Array.fill(a$3, 0, 3, 0);
 
@@ -801,8 +801,8 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 190, characters 5-12", b$1, [
     ]);
 
 const a0 = Belt__Belt_Array.makeBy(10, (function (x) {
-        return x;
-      }));
+      return x;
+    }));
 
 const b0 = Belt__Belt_Array.make(10, 3);
 
@@ -875,8 +875,8 @@ Belt__Belt_Array.blit(a0, -11, b0, -11, 2);
 eq("File \"jscomp/test/bs_array_test.ml\", line 210, characters 5-12", b0.slice(0), a0);
 
 const aa = Belt__Belt_Array.makeBy(10, (function (x) {
-        return x;
-      }));
+      return x;
+    }));
 
 Belt__Belt_Array.blit(aa, -1, aa, 1, 2);
 
@@ -1014,8 +1014,8 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 229, characters 5-12", Belt__Bel
           2,
           3
         ], (function (prim0, prim1) {
-            return prim0 - prim1 | 0;
-          })), [
+          return prim0 - prim1 | 0;
+        })), [
       1,
       1,
       1
@@ -1031,14 +1031,14 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 230, characters 5-12", Belt__Bel
           4,
           1
         ], (function (prim0, prim1) {
-            return prim0 - prim1 | 0;
-          })), Belt__Belt_Array.map([
+          return prim0 - prim1 | 0;
+        })), Belt__Belt_Array.map([
           1,
           1,
           1
         ], (function (x) {
-            return -x | 0;
-          })));
+          return -x | 0;
+        })));
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 231, characters 5-12", Belt__Belt_Array.unzip([
           [
@@ -1071,8 +1071,8 @@ function sumUsingForEach(xs) {
     contents: 0
   };
   Belt__Belt_Array.forEach(xs, (function (x) {
-          v.contents = v.contents + x | 0;
-        }));
+        v.contents = v.contents + x | 0;
+      }));
   return v.contents;
 }
 
@@ -1091,8 +1091,8 @@ b("File \"jscomp/test/bs_array_test.ml\", line 242, characters 4-11", !Belt__Bel
           3,
           4
         ], (function (x) {
-            return x > 2;
-          })));
+          return x > 2;
+        })));
 
 b("File \"jscomp/test/bs_array_test.ml\", line 243, characters 4-11", Belt__Belt_Array.some([
           1,
@@ -1100,35 +1100,35 @@ b("File \"jscomp/test/bs_array_test.ml\", line 243, characters 4-11", Belt__Belt
           7,
           8
         ], (function (x) {
-            return x % 2 === 0;
-          })));
+          return x % 2 === 0;
+        })));
 
 b("File \"jscomp/test/bs_array_test.ml\", line 244, characters 4-11", !Belt__Belt_Array.some([
           1,
           3,
           7
         ], (function (x) {
-            return x % 2 === 0;
-          })));
+          return x % 2 === 0;
+        })));
 
 b("File \"jscomp/test/bs_array_test.ml\", line 245, characters 4-11", !Belt__Belt_Array.eq([
           0,
           1
         ], [1], (function (prim0, prim1) {
-            return prim0 === prim1;
-          })));
+          return prim0 === prim1;
+        })));
 
 const c$1 = {
   contents: 0
 };
 
 b("File \"jscomp/test/bs_array_test.ml\", line 246, characters 4-11", (Belt__Belt_Array.forEachWithIndex([
-            1,
-            1,
-            1
-          ], (function (i, v) {
-              c$1.contents = (c$1.contents + i | 0) + v | 0;
-            })), c$1.contents === 6));
+          1,
+          1,
+          1
+        ], (function (i, v) {
+          c$1.contents = (c$1.contents + i | 0) + v | 0;
+        })), c$1.contents === 6));
 
 function id(loc, x) {
   const u = x.slice(0);
@@ -1453,32 +1453,32 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 305, characters 5-12", Belt__Bel
           2,
           3
         ], (function (x) {
-            return x > 1;
-          })), 2);
+          return x > 1;
+        })), 2);
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 306, characters 5-12", Belt__Belt_Array.getBy([
           1,
           2,
           3
         ], (function (x) {
-            return x > 3;
-          })), undefined);
+          return x > 3;
+        })), undefined);
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 309, characters 5-12", Belt__Belt_Array.getIndexBy([
           1,
           2,
           3
         ], (function (x) {
-            return x > 1;
-          })), 1);
+          return x > 1;
+        })), 1);
 
 eq("File \"jscomp/test/bs_array_test.ml\", line 310, characters 5-12", Belt__Belt_Array.getIndexBy([
           1,
           2,
           3
         ], (function (x) {
-            return x > 3;
-          })), undefined);
+          return x > 3;
+        })), undefined);
 
 const arr = [];
 

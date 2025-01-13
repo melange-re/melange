@@ -460,7 +460,7 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
           param_body ()
       | No_name { single_arg } ->
           (* see # 1692, add a paren for annoymous function for safety  *)
-          cond_paren_group cxt (not single_arg) 1 (fun () ->
+          cond_paren_group cxt (not single_arg) (fun () ->
               string cxt L.function_;
               space cxt;
               param_body ())
@@ -552,7 +552,7 @@ and expression_desc cxt ~(level : int) x : cxt =
       bool cxt b;
       cxt
   | Seq (e1, e2) ->
-      cond_paren_group cxt (level > 0) 1 (fun () ->
+      cond_paren_group cxt (level > 0) (fun () ->
           let cxt = expression ~level:0 cxt e1 in
           comma_sp cxt;
           expression ~level:0 cxt e2)
@@ -570,7 +570,7 @@ and expression_desc cxt ~(level : int) x : cxt =
          ]}
       *)
   | Call { expr = e; args = el; info } ->
-      cond_paren_group cxt (level > 15) 1 (fun () ->
+      cond_paren_group cxt (level > 15) (fun () ->
           group cxt 1 (fun () ->
               match (info, el) with
               | { arity = Full; _ }, _ | _, [] ->
@@ -697,7 +697,7 @@ and expression_desc cxt ~(level : int) x : cxt =
       if need_paren then paren cxt action else action ();
       cxt
   | Is_null_or_undefined e ->
-      cond_paren_group cxt (level > 0) 1 (fun () ->
+      cond_paren_group cxt (level > 0) (fun () ->
           let cxt = expression ~level:1 cxt e in
           space cxt;
           string cxt "==";
@@ -705,7 +705,7 @@ and expression_desc cxt ~(level : int) x : cxt =
           string cxt L.null;
           cxt)
   | Js_not e ->
-      cond_paren_group cxt (level > 13) 1 (fun () ->
+      cond_paren_group cxt (level > 13) (fun () ->
           string cxt "!";
           expression ~level:13 cxt e)
   | Typeof e ->
@@ -730,7 +730,7 @@ and expression_desc cxt ~(level : int) x : cxt =
      {[ 0.000 - x ]}
   *)
     ->
-      cond_paren_group cxt (level > 13) 1 (fun () ->
+      cond_paren_group cxt (level > 13) (fun () ->
           string cxt (match desc with Float _ -> "- " | _ -> "-");
           expression ~level:13 cxt e)
   | Bin { op; expr1 = e1; expr2 = e2 } ->
@@ -740,7 +740,7 @@ and expression_desc cxt ~(level : int) x : cxt =
       in
       (* We are more conservative here, to make the generated code more readable
             to the user *)
-      cond_paren_group cxt need_paren 1 (fun () ->
+      cond_paren_group cxt need_paren (fun () ->
           let cxt = expression ~level:lft cxt e1 in
           space cxt;
           string cxt (Js_op.op_str op);
@@ -752,7 +752,7 @@ and expression_desc cxt ~(level : int) x : cxt =
       let need_paren =
         level > out || match op with Lsl | Lsr | Asr -> true | _ -> false
       in
-      cond_paren_group cxt need_paren 1 (fun () ->
+      cond_paren_group cxt need_paren (fun () ->
           let cxt = expression ~level:lft cxt e1 in
           space cxt;
           string cxt "+";
@@ -857,12 +857,12 @@ and expression_desc cxt ~(level : int) x : cxt =
           cxt)
   | Array_index { expr = e; index = p } | String_index { expr = e; index = p }
     ->
-      cond_paren_group cxt (level > 15) 1 (fun () ->
+      cond_paren_group cxt (level > 15) (fun () ->
           group cxt 1 (fun () ->
               let cxt = expression ~level:15 cxt e in
               bracket_group cxt 1 (fun () -> expression ~level:0 cxt p)))
   | Static_index { expr = e; field = s; _ } ->
-      cond_paren_group cxt (level > 15) 1 (fun () ->
+      cond_paren_group cxt (level > 15) (fun () ->
           let cxt = expression ~level:15 cxt e in
           Js_dump_property.property_access cxt.pp s;
           (* See [ .obj_of_exports]
@@ -872,13 +872,13 @@ and expression_desc cxt ~(level : int) x : cxt =
           cxt)
   | Length { expr = e; _ } ->
       (* Todo: check parens *)
-      cond_paren_group cxt (level > 15) 1 (fun () ->
+      cond_paren_group cxt (level > 15) (fun () ->
           let cxt = expression ~level:15 cxt e in
           string cxt L.dot;
           string cxt L.length;
           cxt)
   | New { expr = e; args = el } ->
-      cond_paren_group cxt (level > 15) 1 (fun () ->
+      cond_paren_group cxt (level > 15) (fun () ->
           group cxt 1 (fun () ->
               string cxt L.new_;
               space cxt;
@@ -910,7 +910,7 @@ and expression_desc cxt ~(level : int) x : cxt =
            var f = { x : 2 , y : 2}
          ]}
       *)
-      cond_paren_group cxt (level > 1) 0 (fun () ->
+      cond_paren_group cxt (level > 1) (fun () ->
           if lst = [] then (
             string cxt "{}";
             cxt)

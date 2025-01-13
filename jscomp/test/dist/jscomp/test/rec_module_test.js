@@ -484,8 +484,8 @@ function split_bis(x, param) {
       TAG: /* NotFound */0,
       _0: /* Empty */0,
       _1: (function (param) {
-          return /* Empty */0;
-        })
+        return /* Empty */0;
+      })
     };
   }
   const r = param.r;
@@ -505,8 +505,8 @@ function split_bis(x, param) {
       TAG: /* NotFound */0,
       _0: match._0,
       _1: (function (param) {
-          return join(Curry._1(rl, undefined), v, r);
-        })
+        return join(Curry._1(rl, undefined), v, r);
+      })
     };
   }
   const match$1 = split_bis(x, r);
@@ -1152,8 +1152,8 @@ function of_list(l) {
 
 function add_seq(i, m) {
   return Stdlib__Seq.fold_left((function (s, x) {
-          return add(x, s);
-        }), m, i);
+        return add(x, s);
+      }), m, i);
 }
 
 function of_seq(i) {
@@ -1169,8 +1169,8 @@ function seq_of_enum_(c, param) {
     TAG: /* Cons */0,
     _0: c._0,
     _1: (function (param) {
-        return seq_of_enum_(partial_arg, param);
-      })
+      return seq_of_enum_(partial_arg, param);
+    })
   };
 }
 
@@ -1208,8 +1208,8 @@ function rev_seq_of_enum_(c, param) {
     TAG: /* Cons */0,
     _0: c._0,
     _1: (function (param) {
-        return rev_seq_of_enum_(partial_arg, param);
-      })
+      return rev_seq_of_enum_(partial_arg, param);
+    })
   };
 }
 
@@ -1308,107 +1308,107 @@ const ASet = {
 const suites_0 = [
   "test1",
   (function (param) {
-      return {
-        TAG: /* Eq */0,
-        _0: [
-          true,
-          true,
-          false,
-          false
-        ],
-        _1: [
-          Curry._1(A.even, 2),
-          Curry._1(even$1, 4),
-          Curry._1(B.odd, 2),
-          Curry._1(odd$1, 4)
-        ]
-      };
-    })
+    return {
+      TAG: /* Eq */0,
+      _0: [
+        true,
+        true,
+        false,
+        false
+      ],
+      _1: [
+        Curry._1(A.even, 2),
+        Curry._1(even$1, 4),
+        Curry._1(B.odd, 2),
+        Curry._1(odd$1, 4)
+      ]
+    };
+  })
 ];
 
 const suites_1 = {
   hd: [
     "test2",
     (function (param) {
-        return {
-          TAG: /* Eq */0,
-          _0: Curry._1(y, undefined),
-          _1: 32
-        };
-      })
+      return {
+        TAG: /* Eq */0,
+        _0: Curry._1(y, undefined),
+        _1: 32
+      };
+    })
   ],
   tl: {
     hd: [
       "test3",
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: Curry._1(x, undefined),
-            _1: 35
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: Curry._1(x, undefined),
+          _1: 35
+        };
+      })
     ],
     tl: {
       hd: [
         "test4",
         (function (param) {
-            return {
-              TAG: /* Eq */0,
-              _0: true,
-              _1: Curry._1(A.even, 2)
-            };
-          })
+          return {
+            TAG: /* Eq */0,
+            _0: true,
+            _1: Curry._1(A.even, 2)
+          };
+        })
       ],
       tl: {
         hd: [
           "test4",
           (function (param) {
-              return {
-                TAG: /* Eq */0,
-                _0: true,
-                _1: Curry._1(even$1, 4)
-              };
-            })
+            return {
+              TAG: /* Eq */0,
+              _0: true,
+              _1: Curry._1(even$1, 4)
+            };
+          })
         ],
         tl: {
           hd: [
             "test5",
             (function (param) {
-                return {
-                  TAG: /* Eq */0,
-                  _0: false,
-                  _1: Curry._1(B.odd, 2)
-                };
-              })
+              return {
+                TAG: /* Eq */0,
+                _0: false,
+                _1: Curry._1(B.odd, 2)
+              };
+            })
           ],
           tl: {
             hd: [
               "test6",
               (function (param) {
-                  return {
-                    TAG: /* Eq */0,
-                    _0: 2,
-                    _1: Curry._1(cardinal, Curry._1(of_list, {
+                return {
+                  TAG: /* Eq */0,
+                  _0: 2,
+                  _1: Curry._1(cardinal, Curry._1(of_list, {
+                            hd: {
+                              TAG: /* Leaf */0,
+                              _0: "a"
+                            },
+                            tl: {
                               hd: {
                                 TAG: /* Leaf */0,
-                                _0: "a"
+                                _0: "b"
                               },
                               tl: {
                                 hd: {
                                   TAG: /* Leaf */0,
-                                  _0: "b"
+                                  _0: "a"
                                 },
-                                tl: {
-                                  hd: {
-                                    TAG: /* Leaf */0,
-                                    _0: "a"
-                                  },
-                                  tl: /* [] */0
-                                }
+                                tl: /* [] */0
                               }
-                            }))
-                  };
-                })
+                            }
+                          }))
+                };
+              })
             ],
             tl: /* [] */0
           }

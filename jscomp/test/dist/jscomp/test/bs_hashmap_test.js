@@ -97,8 +97,8 @@ for (let i$1 = 0; i$1 <= 2000; ++i$1) {
 eqx("File \"jscomp/test/bs_hashmap_test.ml\", line 56, characters 6-13", v$1.size, 98000);
 
 b("File \"jscomp/test/bs_hashmap_test.ml\", line 57, characters 4-11", Belt__Belt_Array.every(Array_data_util.range(2001, 100000), (function (x) {
-            return Belt__Belt_HashMap.has(v$1, x);
-          })));
+          return Belt__Belt_HashMap.has(v$1, x);
+        })));
 
 Mt.from_pair_suites("Bs_hashmap_test", suites.contents);
 

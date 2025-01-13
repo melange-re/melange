@@ -49,14 +49,14 @@ function fold_left(f, x, a) {
 
 function f2(param) {
   const arr = init(30000000, (function (i) {
-          return i;
-        }));
+        return i;
+      }));
   const b = map((function (i) {
-          return i + i - 1;
-        }), arr);
+        return i + i - 1;
+      }), arr);
   const v = fold_left((function (prim0, prim1) {
-          return prim0 + prim1;
-        }), 0, b);
+        return prim0 + prim1;
+      }), 0, b);
   console.log(Stdlib.string_of_float(v));
 }
 
@@ -76,12 +76,12 @@ function eq(loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };

@@ -959,47 +959,47 @@ function update_player(player, keys, context) {
   const prev_dir = player.dir;
   const prev_vx = Math.abs(player.vel.x);
   Stdlib__List.iter((function (param) {
-          const lr_acc = player.vel.x * 0.2;
-          switch (param) {
-            case /* CLeft */0 :
-                if (!player.crouch) {
-                  if (player.vel.x > - player.params.speed) {
-                    player.vel.x = player.vel.x - (0.4 - lr_acc);
-                  }
-                  player.dir = /* Left */0;
-                  return;
-                } else {
-                  return;
+        const lr_acc = player.vel.x * 0.2;
+        switch (param) {
+          case /* CLeft */0 :
+              if (!player.crouch) {
+                if (player.vel.x > - player.params.speed) {
+                  player.vel.x = player.vel.x - (0.4 - lr_acc);
                 }
-            case /* CRight */1 :
-                if (!player.crouch) {
-                  if (player.vel.x < player.params.speed) {
-                    player.vel.x = player.vel.x + (0.4 + lr_acc);
-                  }
-                  player.dir = /* Right */1;
-                  return;
-                } else {
-                  return;
+                player.dir = /* Left */0;
+                return;
+              } else {
+                return;
+              }
+          case /* CRight */1 :
+              if (!player.crouch) {
+                if (player.vel.x < player.params.speed) {
+                  player.vel.x = player.vel.x + (0.4 + lr_acc);
                 }
-            case /* CUp */2 :
-                if (!player.jumping && player.grounded) {
-                  player.jumping = true;
-                  player.grounded = false;
-                  player.vel.y = Caml.caml_float_max(player.vel.y - (5.7 + Math.abs(player.vel.x) * 0.25), -6);
-                  return;
-                } else {
-                  return;
-                }
-            case /* CDown */3 :
-                if (!player.jumping && player.grounded) {
-                  player.crouch = true;
-                  return;
-                } else {
-                  return;
-                }
-            
-          }
-        }), keys);
+                player.dir = /* Right */1;
+                return;
+              } else {
+                return;
+              }
+          case /* CUp */2 :
+              if (!player.jumping && player.grounded) {
+                player.jumping = true;
+                player.grounded = false;
+                player.vel.y = Caml.caml_float_max(player.vel.y - (5.7 + Math.abs(player.vel.x) * 0.25), -6);
+                return;
+              } else {
+                return;
+              }
+          case /* CDown */3 :
+              if (!player.jumping && player.grounded) {
+                player.crouch = true;
+                return;
+              } else {
+                return;
+              }
+          
+        }
+      }), keys);
   const v = player.vel.x * 0.9;
   const vel_damped = Math.abs(v) < 0.1 ? 0 : v;
   player.vel.x = vel_damped;
@@ -2105,12 +2105,12 @@ function process_collision(dir, c1, c2, state) {
 function broad_phase(collid, all_collids, state) {
   const obj = collid._2;
   return Stdlib__List.filter((function (c) {
-          if (in_viewport(state.vpt, obj.pos) || is_player(collid)) {
-            return true;
-          } else {
-            return out_of_viewport_below(state.vpt, obj.pos.y);
-          }
-        }), all_collids);
+        if (in_viewport(state.vpt, obj.pos) || is_player(collid)) {
+          return true;
+        } else {
+          return out_of_viewport_below(state.vpt, obj.pos.y);
+        }
+      }), all_collids);
 }
 
 function check_collisions(collid, all_collids, state) {
@@ -2225,15 +2225,15 @@ function translate_keys(param) {
     tl: ctrls_1
   };
   return Stdlib__List.fold_left((function (a, x) {
-          if (x[0]) {
-            return {
-              hd: x[1],
-              tl: a
-            };
-          } else {
-            return a;
-          }
-        }), /* [] */0, ctrls);
+        if (x[0]) {
+          return {
+            hd: x[1],
+            tl: a
+          };
+        } else {
+          return a;
+        }
+      }), /* [] */0, ctrls);
 }
 
 function run_update_collid(state, collid, all_collids) {
@@ -2319,25 +2319,25 @@ function update_loop(canvas, param, map_dim) {
       game_over: state.game_over
     };
     Stdlib__List.iter((function (obj) {
-            run_update_collid(state$1, obj, objs);
-          }), objs);
+          run_update_collid(state$1, obj, objs);
+        }), objs);
     Stdlib__List.iter((function (part) {
-            $$process(part);
-            const x = part.pos.x - state$1.vpt.pos.x;
-            const y = part.pos.y - state$1.vpt.pos.y;
-            render(part.params.sprite, [
-                  x,
-                  y
-                ]);
-            if (!part.kill) {
-              particles.contents = {
-                hd: part,
-                tl: particles.contents
-              };
-              return;
-            }
-            
-          }), parts);
+          $$process(part);
+          const x = part.pos.x - state$1.vpt.pos.x;
+          const y = part.pos.y - state$1.vpt.pos.y;
+          render(part.params.sprite, [
+                x,
+                y
+              ]);
+          if (!part.kill) {
+            particles.contents = {
+              hd: part,
+              tl: particles.contents
+            };
+            return;
+          }
+          
+        }), parts);
     fps(canvas, fps$1);
     hud(canvas, state$1.score, state$1.coins);
     requestAnimationFrame(function (t) {
@@ -3359,14 +3359,14 @@ function inc_counter(param) {
 
 function preload(param) {
   return Stdlib__List.map((function (img_src) {
-          const img_src$1 = "sprites/" + img_src;
-          const img = document.createElement("img");
-          img.src = img_src$1;
-          img.addEventListener("load", (function (ev) {
-                  inc_counter(undefined);
-                  return true;
-                }), true);
-        }), {
+        const img_src$1 = "sprites/" + img_src;
+        const img = document.createElement("img");
+        img.src = img_src$1;
+        img.addEventListener("load", (function (ev) {
+              inc_counter(undefined);
+              return true;
+            }), true);
+      }), {
         hd: "blocks.png",
         tl: {
           hd: "items.png",
@@ -3382,9 +3382,9 @@ function preload(param) {
 }
 
 window.onload = (function (param) {
-    preload(undefined);
-    return true;
-  });
+  preload(undefined);
+  return true;
+});
 
 const Main = {
   loadCount: loadCount,

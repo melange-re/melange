@@ -41,10 +41,10 @@ eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 15, characters 7-14", tr
 
 const u = {
   hi: (function (param, param$1) {
-      const x = param.contents;
-      const y = param$1.contents;
-      return x === y;
-    })
+    const x = param.contents;
+    const y = param$1.contents;
+    return x === y;
+  })
 };
 
 const h = u.hi({

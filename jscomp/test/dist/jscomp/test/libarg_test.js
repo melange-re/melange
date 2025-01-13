@@ -18,11 +18,11 @@ const accum = {
 
 function record(fmt) {
   return Stdlib__Printf.ksprintf((function (s) {
-          accum.contents = {
-            hd: s,
-            tl: accum.contents
-          };
-        }), fmt);
+        accum.contents = {
+          hd: s,
+          tl: accum.contents
+        };
+      }), fmt);
 }
 
 function f_unit(param) {

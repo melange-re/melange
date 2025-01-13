@@ -64,7 +64,7 @@ val vgroup : t -> int -> (unit -> 'a) -> 'a
 val paren : t -> (unit -> 'a) -> 'a
 val brace : t -> (unit -> 'a) -> 'a
 val paren_group : t -> int -> (unit -> 'a) -> 'a
-val cond_paren_group : t -> bool -> int -> (unit -> 'a) -> 'a
+val cond_paren_group : t -> bool -> (unit -> 'a) -> 'a
 val paren_vgroup : t -> int -> (unit -> 'a) -> 'a
 val brace_group : t -> int -> (unit -> 'a) -> 'a
 val brace_vgroup : t -> int -> (unit -> 'a) -> 'a

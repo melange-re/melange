@@ -4,14 +4,14 @@
 
 const obj = {
   hi: (function (a, b) {
-      return a + b | 0;
-    }),
+    return a + b | 0;
+  }),
   say: (function (a, b) {
-      return a - b | 0;
-    }),
+    return a - b | 0;
+  }),
   xx: (function (a, b) {
-      return a - b | 0;
-    })
+    return a - b | 0;
+  })
 };
 
 function f(x, a, b) {
@@ -32,25 +32,25 @@ function f1(u) {
 
 const obj3 = {
   hi: (function (name, age) {
-      console.log(name);
-    }),
+    console.log(name);
+  }),
   hh: (function () {
-      let self = this;
-      self.hi("x", 20);
-    })
+    let self = this;
+    self.hi("x", 20);
+  })
 };
 
 const obj2 = {
   hi: (function (a, b) {
-      return a + b | 0;
-    }),
+    return a + b | 0;
+  }),
   say: (function (a, b) {
-      let self = this;
-      return self.hi(a, b) - 1 | 0;
-    }),
+    let self = this;
+    return self.hi(a, b) - 1 | 0;
+  }),
   xx: (function (a, b) {
-      return a - b | 0;
-    })
+    return a - b | 0;
+  })
 };
 
 exports.obj = obj;

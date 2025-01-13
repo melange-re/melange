@@ -7,15 +7,15 @@ const Stdlib__Complex = require("melange/complex.js");
 const suites_0 = [
   "basic_add",
   (function (param) {
-      return {
-        TAG: /* Eq */0,
-        _0: {
-          re: 2,
-          im: 2
-        },
-        _1: Stdlib__Complex.add(Stdlib__Complex.add(Stdlib__Complex.add(Stdlib__Complex.one, Stdlib__Complex.one), Stdlib__Complex.i), Stdlib__Complex.i)
-      };
-    })
+    return {
+      TAG: /* Eq */0,
+      _0: {
+        re: 2,
+        im: 2
+      },
+      _1: Stdlib__Complex.add(Stdlib__Complex.add(Stdlib__Complex.add(Stdlib__Complex.one, Stdlib__Complex.one), Stdlib__Complex.i), Stdlib__Complex.i)
+    };
+  })
 ];
 
 const suites = {

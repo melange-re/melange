@@ -92,14 +92,14 @@ function get_lines(fname) {
                 },
                 _1: " %S -> %S; "
               }), (function (x, y) {
-              l.contents = {
-                hd: [
-                  x,
-                  y
-                ],
-                tl: l.contents
-              };
-            }));
+            l.contents = {
+              hd: [
+                x,
+                y
+              ],
+              tl: l.contents
+            };
+          }));
     };
     return Stdlib__List.rev(l.contents);
   }

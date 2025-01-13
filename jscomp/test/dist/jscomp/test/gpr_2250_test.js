@@ -20,12 +20,12 @@ function eq(loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -54,13 +54,13 @@ function create(param) {
     CamlinternalOO.set_methods($$class, [
           add,
           (function (self$1, param) {
-              self$1[data] = self$1[data] + 1 | 0;
-              return self$1;
-            }),
+            self$1[data] = self$1[data] + 1 | 0;
+            return self$1;
+          }),
           get,
           (function (self$1, param) {
-              return self$1[data];
-            })
+            return self$1[data];
+          })
         ]);
     const env_init = function (env) {
       const self = CamlinternalOO.create_object_opt(undefined, $$class);

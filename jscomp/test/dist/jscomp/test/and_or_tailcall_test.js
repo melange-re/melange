@@ -34,24 +34,24 @@ function or_f(b, x, _n) {
 const suites_0 = [
   "and_tail",
   (function (param) {
-      return {
-        TAG: /* Eq */0,
-        _0: false,
-        _1: f(true, 1, 0)
-      };
-    })
+    return {
+      TAG: /* Eq */0,
+      _0: false,
+      _1: f(true, 1, 0)
+    };
+  })
 ];
 
 const suites_1 = {
   hd: [
     "or_tail",
     (function (param) {
-        return {
-          TAG: /* Eq */0,
-          _0: false,
-          _1: or_f(false, 1, 0)
-        };
-      })
+      return {
+        TAG: /* Eq */0,
+        _0: false,
+        _1: or_f(false, 1, 0)
+      };
+    })
   ],
   tl: /* [] */0
 };

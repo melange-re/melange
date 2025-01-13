@@ -34,12 +34,12 @@ function eq(loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -800,8 +800,8 @@ function rename(ids, x) {
         return mk_expr(ids, {
               TAG: /* Alt */1,
               _0: Stdlib__List.map((function (param) {
-                      return rename(ids, param);
-                    }), l._0)
+                    return rename(ids, param);
+                  }), l._0)
             });
     case /* Seq */2 :
         return mk_expr(ids, {
@@ -1018,22 +1018,22 @@ function reset_table(a) {
 function mark_used_indices(tbl) {
   return function (param) {
     return Stdlib__List.iter((function (param) {
-            switch (param.TAG) {
-              case /* TSeq */0 :
-                  return mark_used_indices(tbl)(param._0);
-              case /* TExp */1 :
-              case /* TMatch */2 :
-                  break;
-              
-            }
-            Stdlib__List.iter((function (param) {
-                    const i = param[1];
-                    if (i >= 0) {
-                      return Caml_array.set(tbl, i, true);
-                    }
-                    
-                  }), param._0.marks);
-          }), param);
+          switch (param.TAG) {
+            case /* TSeq */0 :
+                return mark_used_indices(tbl)(param._0);
+            case /* TExp */1 :
+            case /* TMatch */2 :
+                break;
+            
+          }
+          Stdlib__List.iter((function (param) {
+                const i = param[1];
+                if (i >= 0) {
+                  return Caml_array.set(tbl, i, true);
+                }
+                
+              }), param._0.marks);
+        }), param);
   };
 }
 
@@ -1062,15 +1062,15 @@ function free_index(tbl_ref, l) {
 
 function remove_matches(param) {
   return Stdlib__List.filter((function (param) {
-          switch (param.TAG) {
-            case /* TSeq */0 :
-            case /* TExp */1 :
-                return true;
-            case /* TMatch */2 :
-                return false;
-            
-          }
-        }), param);
+        switch (param.TAG) {
+          case /* TSeq */0 :
+          case /* TExp */1 :
+              return true;
+          case /* TMatch */2 :
+              return false;
+          
+        }
+      }), param);
 }
 
 function split_at_match_rec(_l$p, _param) {
@@ -1217,13 +1217,13 @@ function set_idx(idx, param) {
 function filter_marks(b, e, marks) {
   return {
     marks: Stdlib__List.filter((function (param) {
-            const i = param[0];
-            if (i < b) {
-              return true;
-            } else {
-              return i > e;
-            }
-          }), marks.marks),
+          const i = param[0];
+          if (i < b) {
+            return true;
+          } else {
+            return i > e;
+          }
+        }), marks.marks),
     pmarks: marks.pmarks
   };
 }
@@ -1262,15 +1262,15 @@ function delta_1(marks, c, next_cat, prev_cat, x, rem) {
         const kind = s._1;
         const y$p$1 = delta_1(marks, c, next_cat, prev_cat, s._2, /* [] */0);
         const marks$p = first((function (marks) {
-                switch (marks.TAG) {
-                  case /* TSeq */0 :
-                  case /* TExp */1 :
-                      return;
-                  case /* TMatch */2 :
-                      return marks._0;
-                  
-                }
-              }), y$p$1);
+              switch (marks.TAG) {
+                case /* TSeq */0 :
+                case /* TExp */1 :
+                    return;
+                case /* TMatch */2 :
+                    return marks._0;
+                
+              }
+            }), y$p$1);
         const match = marks$p !== undefined ? [
             remove_matches(y$p$1),
             marks$p
@@ -1377,15 +1377,15 @@ function delta_2(marks, c, next_cat, prev_cat, l, rem) {
 
 function delta_seq(c, next_cat, prev_cat, kind, y, z, rem) {
   const marks = first((function (marks) {
-          switch (marks.TAG) {
-            case /* TSeq */0 :
-            case /* TExp */1 :
-                return;
-            case /* TMatch */2 :
-                return marks._0;
-            
-          }
-        }), y);
+        switch (marks.TAG) {
+          case /* TSeq */0 :
+          case /* TExp */1 :
+              return;
+          case /* TMatch */2 :
+              return marks._0;
+          
+        }
+      }), y);
   if (marks === undefined) {
     return tseq(kind, y, z, rem);
   }
@@ -1432,12 +1432,12 @@ function delta(tbl_ref, next_cat, $$char, st) {
 
 function flatten_match(m) {
   const ma = Stdlib__List.fold_left((function (ma, param) {
-          return Caml.caml_int_max(ma, param[0]);
-        }), -1, m);
+        return Caml.caml_int_max(ma, param[0]);
+      }), -1, m);
   const res = Caml_array.make(ma + 1 | 0, -1);
   Stdlib__List.iter((function (param) {
-          Caml_array.set(res, param[0], param[1]);
-        }), m);
+        Caml_array.set(res, param[0], param[1]);
+      }), m);
   return res;
 }
 
@@ -1753,8 +1753,8 @@ function trans_set(cache, cm, s) {
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       const l = Stdlib__List.fold_right((function (param, l) {
-              return union(seq(Caml_bytes.get(cm, param[0]), Caml_bytes.get(cm, param[1])), l);
-            }), s, /* [] */0);
+            return union(seq(Caml_bytes.get(cm, param[0]), Caml_bytes.get(cm, param[1])), l);
+          }), s, /* [] */0);
       cache.contents = Curry._3(add, v, l, cache.contents);
       return l;
     }
@@ -2416,9 +2416,9 @@ function translate(ids, kind, _ign_group, ign_case, _greedy, pos, cache, c, _s) 
             }
             return [
               alt(ids, Stdlib__List.map((function (r$p) {
-                          const match = translate(ids, kind, ign_group, ign_case, greedy, pos, cache, c, r$p);
-                          return enforce_kind(ids, kind, match[1], match[0]);
-                        }), merged_sequences)),
+                        const match = translate(ids, kind, ign_group, ign_case, greedy, pos, cache, c, r$p);
+                        return enforce_kind(ids, kind, match[1], match[0]);
+                      }), merged_sequences)),
               kind
             ];
         case /* Repeat */3 :
@@ -2430,30 +2430,30 @@ function translate(ids, kind, _ign_group, ign_case, _greedy, pos, cache, c, _s) 
             let rem;
             if (j !== undefined) {
               const f = greedy === "Non_greedy" ? (function (rem) {
-                    return alt(ids, {
-                          hd: mk_expr(ids, /* Eps */0),
-                          tl: {
-                            hd: seq$1(ids, kind$p, rename(ids, cr), rem),
-                            tl: /* [] */0
-                          }
-                        });
-                  }) : (function (rem) {
-                    return alt(ids, {
+                  return alt(ids, {
+                        hd: mk_expr(ids, /* Eps */0),
+                        tl: {
                           hd: seq$1(ids, kind$p, rename(ids, cr), rem),
-                          tl: {
-                            hd: mk_expr(ids, /* Eps */0),
-                            tl: /* [] */0
-                          }
-                        });
-                  });
+                          tl: /* [] */0
+                        }
+                      });
+                }) : (function (rem) {
+                  return alt(ids, {
+                        hd: seq$1(ids, kind$p, rename(ids, cr), rem),
+                        tl: {
+                          hd: mk_expr(ids, /* Eps */0),
+                          tl: /* [] */0
+                        }
+                      });
+                });
               rem = iter(j - i | 0, f, mk_expr(ids, /* Eps */0));
             } else {
               rem = rep(ids, greedy, kind$p, cr);
             }
             return [
               iter(i, (function (rem) {
-                      return seq$1(ids, kind$p, rename(ids, cr), rem);
-                    }), rem),
+                    return seq$1(ids, kind$p, rename(ids, cr), rem);
+                  }), rem),
               kind
             ];
         case /* Sem */4 :
@@ -2597,13 +2597,13 @@ function handle_case(_ign_case, _s) {
           return {
             TAG: /* Sequence */1,
             _0: Stdlib__List.map((function (param) {
-                    return handle_case(ign_case, param);
-                  }), s._0)
+                  return handle_case(ign_case, param);
+                }), s._0)
           };
       case /* Alternative */2 :
           const l$p = Stdlib__List.map((function (param) {
-                  return handle_case(ign_case, param);
-                }), s._0);
+                return handle_case(ign_case, param);
+              }), s._0);
           if (is_charset({
                   TAG: /* Alternative */2,
                   _0: l$p
@@ -2611,8 +2611,8 @@ function handle_case(_ign_case, _s) {
             return {
               TAG: /* Set */0,
               _0: Stdlib__List.fold_left((function (s, r) {
-                      return union(s, as_set(r));
-                    }), /* [] */0, l$p)
+                    return union(s, as_set(r));
+                  }), /* [] */0, l$p)
             };
           } else {
             return {
@@ -2684,23 +2684,23 @@ function handle_case(_ign_case, _s) {
           continue;
       case /* Intersection */11 :
           const l$p$1 = Stdlib__List.map((function (r) {
-                  return handle_case(ign_case, r);
-                }), s._0);
+                return handle_case(ign_case, r);
+              }), s._0);
           return {
             TAG: /* Set */0,
             _0: Stdlib__List.fold_left((function (s, r) {
-                    return inter(s, as_set(r));
-                  }), cany, l$p$1)
+                  return inter(s, as_set(r));
+                }), cany, l$p$1)
           };
       case /* Complement */12 :
           const l$p$2 = Stdlib__List.map((function (r) {
-                  return handle_case(ign_case, r);
-                }), s._0);
+                return handle_case(ign_case, r);
+              }), s._0);
           return {
             TAG: /* Set */0,
             _0: diff(cany, Stdlib__List.fold_left((function (s, r) {
-                        return union(s, as_set(r));
-                      }), /* [] */0, l$p$2))
+                      return union(s, as_set(r));
+                    }), /* [] */0, l$p$2))
           };
       case /* Difference */13 :
           return {
@@ -4121,14 +4121,14 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
 function re(flagsOpt, pat) {
   const flags = flagsOpt !== undefined ? flagsOpt : /* [] */0;
   const opts = Stdlib__List.map((function (param) {
-          if (param === "CASELESS") {
-            return "Caseless";
-          } else if (param === "ANCHORED") {
-            return "Anchored";
-          } else {
-            return "Multiline";
-          }
-        }), flags);
+        if (param === "CASELESS") {
+          return "Caseless";
+        } else if (param === "ANCHORED") {
+          return "Anchored";
+        } else {
+          return "Multiline";
+        }
+      }), flags);
   let optsOpt = opts;
   const opts$1 = optsOpt !== undefined ? optsOpt : /* [] */0;
   const r = parse(Stdlib__List.memq("Multiline", opts$1), Stdlib__List.memq("Dollar_endonly", opts$1), Stdlib__List.memq("Dotall", opts$1), Stdlib__List.memq("Ungreedy", opts$1), pat);

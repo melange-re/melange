@@ -158,8 +158,8 @@ function find(x, _param) {
 }
 
 const m = Stdlib__List.fold_left((function (acc, param) {
-        return Curry._3(add, param[0], param[1], acc);
-      }), /* Empty */0, {
+      return Curry._3(add, param[0], param[1], acc);
+    }), /* Empty */0, {
       hd: [
         10,
         /* 'a' */97
@@ -335,8 +335,8 @@ function find$1(x, _param) {
 }
 
 const s = Stdlib__List.fold_left((function (acc, param) {
-        return Curry._3(add$1, param[0], param[1], acc);
-      }), /* Empty */0, {
+      return Curry._3(add$1, param[0], param[1], acc);
+    }), /* Empty */0, {
       hd: [
         "10",
         /* 'a' */97
@@ -366,23 +366,23 @@ Mt.from_pair_suites("Map_find_test", {
       hd: [
         "int",
         (function (param) {
-            return {
-              TAG: /* Eq */0,
-              _0: Curry._2(find, 10, m),
-              _1: /* 'a' */97
-            };
-          })
+          return {
+            TAG: /* Eq */0,
+            _0: Curry._2(find, 10, m),
+            _1: /* 'a' */97
+          };
+        })
       ],
       tl: {
         hd: [
           "string",
           (function (param) {
-              return {
-                TAG: /* Eq */0,
-                _0: Curry._2(find$1, "10", s),
-                _1: /* 'a' */97
-              };
-            })
+            return {
+              TAG: /* Eq */0,
+              _0: Curry._2(find$1, "10", s),
+              _1: /* 'a' */97
+            };
+          })
         ],
         tl: /* [] */0
       }

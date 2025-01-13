@@ -83,8 +83,8 @@ function f8(a) {
 
 function hi(x) {
   return Belt__Belt_Array.map(x, (function (x) {
-          return x + 1 | 0;
-        }));
+        return x + 1 | 0;
+      }));
 }
 
 const with_poly = {

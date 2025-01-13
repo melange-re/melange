@@ -20,12 +20,12 @@ function eq(loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -37,19 +37,19 @@ console.log("\x3f\u003f\b\t\n\v\f\r\0\"'");
 
 function convert(s) {
   return Stdlib__Array.to_list(Array.from(s, (function (x) {
-              const x$1 = x.codePointAt(0);
-              if (x$1 !== undefined) {
-                return x$1;
-              }
-              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/chn_test.ml",
-                      20,
-                      22
-                    ]
-                  });
-            })));
+            const x$1 = x.codePointAt(0);
+            if (x$1 !== undefined) {
+              return x$1;
+            }
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/chn_test.ml",
+                    20,
+                    22
+                  ]
+                });
+          })));
 }
 
 eq("File \"jscomp/test/chn_test.ml\", line 25, characters 7-14", "你好，\n世界", "你好，\n世界");

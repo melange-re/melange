@@ -14,8 +14,8 @@ const u = {
 const v = {
   LAZY_DONE: false,
   VAL: (function () {
-      u.contents = 32;
-    })
+    u.contents = 32;
+  })
 };
 
 function lazy_test(param) {
@@ -56,15 +56,15 @@ const s = {
 const set_true = {
   LAZY_DONE: false,
   VAL: (function () {
-      s.contents = 1;
-    })
+    s.contents = 1;
+  })
 };
 
 const set_false = {
   LAZY_DONE: false,
   VAL: (function () {
-      s.contents = undefined;
-    })
+    s.contents = undefined;
+  })
 };
 
 let h;
@@ -92,8 +92,8 @@ const u_v = {
 const u$1 = {
   LAZY_DONE: false,
   VAL: (function () {
-      u_v.contents = 2;
-    })
+    u_v.contents = 2;
+  })
 };
 
 CamlinternalLazy.force(u$1);
@@ -103,17 +103,17 @@ const exotic = CamlinternalLazy.force;
 const l_from_fun = {
   LAZY_DONE: false,
   VAL: (function () {
-      return 3;
-    })
+    return 3;
+  })
 };
 
 const forward_test = {
   LAZY_DONE: false,
   VAL: (function () {
-      let u = 3;
-      u = u + 1 | 0;
-      return u;
-    })
+    let u = 3;
+    u = u + 1 | 0;
+    return u;
+  })
 };
 
 const f005 = {
@@ -124,29 +124,29 @@ const f005 = {
 const f006 = {
   LAZY_DONE: false,
   VAL: (function () {
-      return function (param) {
-        return 3;
-      };
-    })
+    return function (param) {
+      return 3;
+    };
+  })
 };
 
 const f007 = {
   LAZY_DONE: false,
   VAL: (function () {
-      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
-    })
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+          MEL_EXN_ID: Stdlib.Not_found
+        });
+  })
 };
 
 const f008 = {
   LAZY_DONE: false,
   VAL: (function () {
-      console.log("hi");
-      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
-    })
+    console.log("hi");
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+          MEL_EXN_ID: Stdlib.Not_found
+        });
+  })
 };
 
 function a2(x) {
@@ -184,157 +184,157 @@ Mt.from_pair_suites("Lazy_test", {
       hd: [
         "simple",
         (function (param) {
-            return {
-              TAG: /* Eq */0,
-              _0: lazy_test(undefined),
-              _1: [
-                3,
-                32
-              ]
-            };
-          })
+          return {
+            TAG: /* Eq */0,
+            _0: lazy_test(undefined),
+            _1: [
+              3,
+              32
+            ]
+          };
+        })
       ],
       tl: {
         hd: [
           "lazy_match",
           (function (param) {
-              return {
-                TAG: /* Eq */0,
-                _0: h,
-                _1: 2
-              };
-            })
+            return {
+              TAG: /* Eq */0,
+              _0: h,
+              _1: 2
+            };
+          })
         ],
         tl: {
           hd: [
             "lazy_force",
             (function (param) {
-                return {
-                  TAG: /* Eq */0,
-                  _0: u_v.contents,
-                  _1: 2
-                };
-              })
+              return {
+                TAG: /* Eq */0,
+                _0: u_v.contents,
+                _1: 2
+              };
+            })
           ],
           tl: {
             hd: [
               "lazy_from_fun",
               (function (param) {
-                  return {
-                    TAG: /* Eq */0,
-                    _0: CamlinternalLazy.force(l_from_fun),
-                    _1: 3
-                  };
-                })
+                return {
+                  TAG: /* Eq */0,
+                  _0: CamlinternalLazy.force(l_from_fun),
+                  _1: 3
+                };
+              })
             ],
             tl: {
               hd: [
                 "lazy_from_val",
                 (function (param) {
-                    return {
-                      TAG: /* Eq */0,
-                      _0: CamlinternalLazy.force({
-                            LAZY_DONE: true,
-                            VAL: 3
-                          }),
-                      _1: 3
-                    };
-                  })
+                  return {
+                    TAG: /* Eq */0,
+                    _0: CamlinternalLazy.force({
+                          LAZY_DONE: true,
+                          VAL: 3
+                        }),
+                    _1: 3
+                  };
+                })
               ],
               tl: {
                 hd: [
                   "lazy_from_val2",
                   (function (param) {
-                      return {
-                        TAG: /* Eq */0,
-                        _0: CamlinternalLazy.force(CamlinternalLazy.force({
+                    return {
+                      TAG: /* Eq */0,
+                      _0: CamlinternalLazy.force(CamlinternalLazy.force({
+                                LAZY_DONE: true,
+                                VAL: {
                                   LAZY_DONE: true,
-                                  VAL: {
-                                    LAZY_DONE: true,
-                                    VAL: 3
-                                  }
-                                })),
-                        _1: 3
-                      };
-                    })
+                                  VAL: 3
+                                }
+                              })),
+                      _1: 3
+                    };
+                  })
                 ],
                 tl: {
                   hd: [
                     "lazy_from_val3",
                     (function (param) {
-                        debugger;
-                        return {
-                          TAG: /* Eq */0,
-                          _0: CamlinternalLazy.force(CamlinternalLazy.force({
-                                    LAZY_DONE: true,
-                                    VAL: forward_test
-                                  })),
-                          _1: 4
-                        };
-                      })
+                      debugger;
+                      return {
+                        TAG: /* Eq */0,
+                        _0: CamlinternalLazy.force(CamlinternalLazy.force({
+                                  LAZY_DONE: true,
+                                  VAL: forward_test
+                                })),
+                        _1: 4
+                      };
+                    })
                   ],
                   tl: {
                     hd: [
                       "jscomp/test/lazy_test.ml",
                       (function (param) {
-                          return {
-                            TAG: /* Eq */0,
-                            _0: a3,
-                            _1: a4
-                          };
-                        })
+                        return {
+                          TAG: /* Eq */0,
+                          _0: a3,
+                          _1: a4
+                        };
+                      })
                     ],
                     tl: {
                       hd: [
                         "jscomp/test/lazy_test.ml",
                         (function (param) {
-                            return {
-                              TAG: /* Eq */0,
-                              _0: a7,
-                              _1: undefined
-                            };
-                          })
+                          return {
+                            TAG: /* Eq */0,
+                            _0: a7,
+                            _1: undefined
+                          };
+                        })
                       ],
                       tl: {
                         hd: [
                           "jscomp/test/lazy_test.ml",
                           (function (param) {
-                              return {
-                                TAG: /* Eq */0,
-                                _0: a8,
-                                _1: undefined
-                              };
-                            })
+                            return {
+                              TAG: /* Eq */0,
+                              _0: a8,
+                              _1: undefined
+                            };
+                          })
                         ],
                         tl: {
                           hd: [
                             "File \"jscomp/test/lazy_test.ml\", line 76, characters 0-7",
                             (function (param) {
-                                return {
-                                  TAG: /* Ok */4,
-                                  _0: Stdlib__Lazy.is_val({
-                                        LAZY_DONE: true,
-                                        VAL: 3
-                                      })
-                                };
-                              })
+                              return {
+                                TAG: /* Ok */4,
+                                _0: Stdlib__Lazy.is_val({
+                                      LAZY_DONE: true,
+                                      VAL: 3
+                                    })
+                              };
+                            })
                           ],
                           tl: {
                             hd: [
                               "File \"jscomp/test/lazy_test.ml\", line 77, characters 0-7",
                               (function (param) {
-                                  return {
-                                    TAG: /* Ok */4,
-                                    _0: !Stdlib__Lazy.is_val({
-                                          LAZY_DONE: false,
-                                          VAL: (function () {
-                                              throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                                                    MEL_EXN_ID: Stdlib.Not_found
-                                                  });
-                                            })
+                                return {
+                                  TAG: /* Ok */4,
+                                  _0: !Stdlib__Lazy.is_val({
+                                        LAZY_DONE: false,
+                                        VAL: (function () {
+                                          throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+                                                MEL_EXN_ID: Stdlib.Not_found
+                                              });
                                         })
-                                  };
-                                })
+                                      })
+                                };
+                              })
                             ],
                             tl: /* [] */0
                           }

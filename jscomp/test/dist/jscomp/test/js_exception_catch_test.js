@@ -30,30 +30,30 @@ function add_test(loc, test) {
 
 function eq(loc, x, y) {
   add_test(loc, (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        }));
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      }));
 }
 
 function false_(loc) {
   add_test(loc, (function (param) {
-          return {
-            TAG: /* Ok */4,
-            _0: false
-          };
-        }));
+        return {
+          TAG: /* Ok */4,
+          _0: false
+        };
+      }));
 }
 
 function true_(loc) {
   add_test(loc, (function (param) {
-          return {
-            TAG: /* Ok */4,
-            _0: true
-          };
-        }));
+        return {
+          TAG: /* Ok */4,
+          _0: true
+        };
+      }));
 }
 
 let exit = 0;
@@ -68,11 +68,11 @@ catch (raw_x){
   const x = Caml_js_exceptions.internalToOCamlException(raw_x);
   if (x.MEL_EXN_ID === Js__Js_exn.$$Error) {
     add_test("File \"jscomp/test/js_exception_catch_test.ml\", line 21, characters 10-17", (function (param) {
-            return {
-              TAG: /* Ok */4,
-              _0: true
-            };
-          }));
+          return {
+            TAG: /* Ok */4,
+            _0: true
+          };
+        }));
   } else {
     throw new Caml_js_exceptions.MelangeError(x.MEL_EXN_ID, x);
   }
@@ -80,11 +80,11 @@ catch (raw_x){
 
 if (exit === 1) {
   add_test("File \"jscomp/test/js_exception_catch_test.ml\", line 22, characters 16-23", (function (param) {
-          return {
-            TAG: /* Ok */4,
-            _0: false
-          };
-        }));
+        return {
+          TAG: /* Ok */4,
+          _0: false
+        };
+      }));
 }
 
 const A = /* @__PURE__ */Caml_exceptions.create("Js_exception_catch_test.A");

@@ -139,8 +139,8 @@ function of_record(l) {
   return {
     NAME: "List",
     VAL: Stdlib__List.map((function (param) {
-            return of_field(param[0], param[1]);
-          }), l)
+          return of_field(param[0], param[1]);
+        }), l)
   };
 }
 
@@ -257,8 +257,8 @@ function to_float(e) {
 
 function to_string(e) {
   return _try_atom(e, (function (x) {
-          return x;
-        }));
+        return x;
+      }));
 }
 
 function to_pair(e) {
@@ -284,16 +284,16 @@ function to_pair(e) {
 
 function to_pair_with(f1, f2, e) {
   return $great$great$eq(to_pair(e), (function (param) {
-          const y = param[1];
-          return $great$great$eq(Curry._1(f1, param[0]), (function (x) {
-                  return $great$great$eq(Curry._1(f2, y), (function (y) {
-                          return [
-                            x,
-                            y
-                          ];
-                        }));
-                }));
-        }));
+        const y = param[1];
+        return $great$great$eq(Curry._1(f1, param[0]), (function (x) {
+              return $great$great$eq(Curry._1(f2, y), (function (y) {
+                    return [
+                      x,
+                      y
+                    ];
+                  }));
+            }));
+      }));
 }
 
 function to_triple(e) {
@@ -324,20 +324,20 @@ function to_triple(e) {
 
 function to_triple_with(f1, f2, f3, e) {
   return $great$great$eq(to_triple(e), (function (param) {
-          const z = param[2];
-          const y = param[1];
-          return $great$great$eq(Curry._1(f1, param[0]), (function (x) {
-                  return $great$great$eq(Curry._1(f2, y), (function (y) {
-                          return $great$great$eq(Curry._1(f3, z), (function (z) {
-                                  return [
-                                    x,
-                                    y,
-                                    z
-                                  ];
-                                }));
+        const z = param[2];
+        const y = param[1];
+        return $great$great$eq(Curry._1(f1, param[0]), (function (x) {
+              return $great$great$eq(Curry._1(f2, y), (function (y) {
+                    return $great$great$eq(Curry._1(f3, z), (function (z) {
+                          return [
+                            x,
+                            y,
+                            z
+                          ];
                         }));
-                }));
-        }));
+                  }));
+            }));
+      }));
 }
 
 function to_list(e) {
