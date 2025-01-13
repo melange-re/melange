@@ -18,8 +18,8 @@
       'const t = x;\n' +
       '\n' +
       'export {\n' +
-      '  Deprecated ,\n' +
-      '  t ,\n' +
+      '  Deprecated,\n' +
+      '  t,\n' +
       '}\n' +
       '/* No side effect */\n',
     warnings: [
