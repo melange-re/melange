@@ -27,10 +27,10 @@
   
   function f(x) {
     switch (x) {
-      case /* A */0 :
+      case /* A */ 0 :
           return "a";
-      case /* B */"as-string" :
-      case /* C */2 :
+      case /* B */ "as-string" :
+      case /* C */ 2 :
           return "other";
       
     }
@@ -38,10 +38,10 @@
   
   function g(x) {
     switch (x) {
-      case /* B */"as-string" :
+      case /* B */ "as-string" :
           return "as-string";
-      case /* A */0 :
-      case /* C */2 :
+      case /* A */ 0 :
+      case /* C */ 2 :
           return "other";
       
     }
@@ -63,7 +63,7 @@
   
   
   function f(x) {
-    if (x === /* A */"A") {
+    if (x === /* A */ "A") {
       return "a";
     } else {
       return "b";

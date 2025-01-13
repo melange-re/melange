@@ -13,7 +13,7 @@ With PPX application
   'use strict';
   
   
-  const x = /* Été */1;
+  const x = /* Été */ 1;
   
   exports.x = x;
   /* No side effect */
@@ -25,7 +25,7 @@ With PPX application
   'use strict';
   
   
-  const x = /* Été */1;
+  const x = /* Été */ 1;
   
   exports.x = x;
   /* No side effect */
@@ -42,7 +42,7 @@ Add `@mel.as` string
   'use strict';
   
   
-  const x = /* Été */"Été";
+  const x = /* Été */ "Été";
   
   exports.x = x;
   /* No side effect */

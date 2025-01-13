@@ -14,11 +14,11 @@ Demonstrate redefining the `true` / `false` constructors
   'use strict';
   
   
-  const z = /* A */0;
+  const z = /* A */ 0;
   
-  const x = /* true */1;
+  const x = /* true */ 1;
   
-  const y = /* false */2;
+  const y = /* false */ 2;
   
   const t = false;
   

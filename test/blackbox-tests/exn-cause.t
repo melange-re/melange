@@ -31,7 +31,7 @@
   const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
   const Js__Js_exn = require("melange.js/js_exn.js");
   
-  const A = /* @__PURE__ */Caml_exceptions.create("Melange__X.A");
+  const A = /* @__PURE__ */ Caml_exceptions.create("Melange__X.A");
   
   let a0;
   
@@ -89,7 +89,7 @@ Raise `null` / `undefined`
   const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
   const Js__Js_exn = require("melange.js/js_exn.js");
   
-  const A = /* @__PURE__ */Caml_exceptions.create("Melange__X.A");
+  const A = /* @__PURE__ */ Caml_exceptions.create("Melange__X.A");
   
   let a0;
   

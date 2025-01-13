@@ -10,7 +10,7 @@ Test `@mel.as` in variant constructors
   'use strict';
   
   
-  const x = /* Not_A */"A";
+  const x = /* Not_A */ "A";
   
   exports.x = x;
   /* No side effect */
@@ -34,8 +34,8 @@ Test `@mel.as` in variant constructors
   
   
   function f(param) {
-    if (/* tag */typeof param === "number" || typeof param === "string") {
-      if (param === /* No_payload */0) {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
+      if (param === /* No_payload */ 0) {
         return "payload1";
       } else {
         return "nopaylod2";
@@ -45,12 +45,12 @@ Test `@mel.as` in variant constructors
     }
   }
   
-  const x = /* No_payload */0;
+  const x = /* No_payload */ 0;
   
-  const y = /* Also_no_payload */"nopayload";
+  const y = /* Also_no_payload */ "nopayload";
   
   const z = {
-    TAG: /* Has_payload */"payload1",
+    TAG: /* Has_payload */ "payload1",
     _0: "p1"
   };
   
@@ -82,30 +82,30 @@ Test `@mel.as` in variant constructors
   
   
   function f(param) {
-    if (/* tag */typeof param === "number" || typeof param === "string") {
-      if (param === /* No_payload */0) {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
+      if (param === /* No_payload */ 0) {
         return "nopayload1";
       } else {
         return "nopaylod2";
       }
-    } else if (param.TAG === /* Has_payload */"payload1") {
+    } else if (param.TAG === /* Has_payload */ "payload1") {
       return "payload1";
     } else {
       return "payload2";
     }
   }
   
-  const x = /* No_payload */0;
+  const x = /* No_payload */ 0;
   
-  const y = /* Also_no_payload */"nopayload";
+  const y = /* Also_no_payload */ "nopayload";
   
   const z = {
-    TAG: /* Has_payload */"payload1",
+    TAG: /* Has_payload */ "payload1",
     _0: "p1"
   };
   
   const t = {
-    TAG: /* Has_payload2 */1,
+    TAG: /* Has_payload2 */ 1,
     _0: 42
   };
   
@@ -130,15 +130,15 @@ Test `@mel.as` in variant constructors
   'use strict';
   
   
-  const x = /* No_payload */0;
+  const x = /* No_payload */ 0;
   
   const y = {
-    TAG: /* Has_payload */"payload1",
+    TAG: /* Has_payload */ "payload1",
     _0: "p1"
   };
   
   const z = {
-    TAG: /* Also_payload */"payload2",
+    TAG: /* Also_payload */ "payload2",
     s: "p2"
   };
   

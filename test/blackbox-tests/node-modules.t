@@ -39,7 +39,7 @@ B depends on A, so it should import a.js in the right path
         return greeting;
       }), {
         hd: "Hello",
-        tl: /* [] */0
+        tl: /* [] */ 0
       });
   
   const u = A.t;

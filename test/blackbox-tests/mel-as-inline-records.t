@@ -19,7 +19,7 @@ Test `@mel.as` in inline records / record extensions
   const Caml_exceptions = require("melange.js/caml_exceptions.js");
   const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
   
-  const UserException = /* @__PURE__ */Caml_exceptions.create("X.UserException");
+  const UserException = /* @__PURE__ */ Caml_exceptions.create("X.UserException");
   
   function user3(param) {
     try {
@@ -43,7 +43,7 @@ Test `@mel.as` in inline records / record extensions
   };
   
   const user2 = {
-    TAG: /* User */0,
+    TAG: /* User */ 0,
     renamed: "Corentin"
   };
   
