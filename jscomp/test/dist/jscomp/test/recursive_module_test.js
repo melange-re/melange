@@ -19,12 +19,12 @@ function eq(loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -81,13 +81,13 @@ eq("File \"jscomp/test/recursive_module_test.ml\", line 30, characters 5-12", 12
 add([
       "File \"jscomp/test/recursive_module_test.ml\", line 34, characters 7-14",
       (function (param) {
-          return {
-            TAG: /* ThrowAny */7,
-            _0: (function (param) {
-                Curry._1(Int3.u, 3);
-              })
-          };
-        })
+        return {
+          TAG: /* ThrowAny */7,
+          _0: (function (param) {
+            Curry._1(Int3.u, 3);
+          })
+        };
+      })
     ]);
 
 Mt.from_pair_suites("Recursive_module_test", suites.contents);

@@ -63,14 +63,14 @@ function inOrder3(v) {
     current = v$1.left;
   };
   Belt__Belt_MutableStack.dynamicPopIter(s, (function (popped) {
-          Belt__Belt_MutableQueue.add(q, popped.value);
-          let current = popped.right;
-          while(current !== undefined) {
-            const v = current;
-            Belt__Belt_MutableStack.push(s, v);
-            current = v.left;
-          };
-        }));
+        Belt__Belt_MutableQueue.add(q, popped.value);
+        let current = popped.right;
+        while(current !== undefined) {
+          const v = current;
+          Belt__Belt_MutableStack.push(s, v);
+          current = v.left;
+        };
+      }));
   return Belt__Belt_MutableQueue.toArray(q);
 }
 

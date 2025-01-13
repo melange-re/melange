@@ -26,11 +26,11 @@ function should(b) {
 }
 
 const shuffledDataAdd = Belt__Belt_Array.makeByAndShuffle(1000001, (function (i) {
-        return [
-          i,
-          i
-        ];
-      }));
+      return [
+        i,
+        i
+      ];
+    }));
 
 function test(param) {
   const v = fromArray(shuffledDataAdd);

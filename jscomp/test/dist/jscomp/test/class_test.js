@@ -21,12 +21,12 @@ function point_init($$class) {
   CamlinternalOO.set_methods($$class, [
         get_x,
         (function (self$1) {
-            return self$1[x];
-          }),
+          return self$1[x];
+        }),
         move,
         (function (self$1, d) {
-            self$1[x] = self$1[x] + d | 0;
-          })
+          self$1[x] = self$1[x] + d | 0;
+        })
       ]);
   return function (env, self) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -57,12 +57,12 @@ function point2_init($$class) {
   CamlinternalOO.set_methods($$class, [
         get_x,
         (function (self$2) {
-            return self$2[x];
-          }),
+          return self$2[x];
+        }),
         move,
         (function (self$2, d) {
-            self$2[x] = self$2[x] + d | 0;
-          })
+          self$2[x] = self$2[x] + d | 0;
+        })
       ]);
   return function (env, self) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -85,54 +85,54 @@ const two = Caml_oo_curry.js1(291546447, 5, tmp$1);
 const u = {
   x: 3,
   getX: (function () {
-      let self = this;
-      return self.x;
-    })
+    let self = this;
+    return self.x;
+  })
 };
 
 Mt.from_pair_suites("Class_test", {
       hd: [
         "File \"jscomp/test/class_test.ml\", line 38, characters 4-11",
         (function (param) {
-            return {
-              TAG: /* Eq */0,
-              _0: zero,
-              _1: 0
-            };
-          })
+          return {
+            TAG: /* Eq */0,
+            _0: zero,
+            _1: 0
+          };
+        })
       ],
       tl: {
         hd: [
           "File \"jscomp/test/class_test.ml\", line 39, characters 4-11",
           (function (param) {
-              return {
-                TAG: /* Eq */0,
-                _0: three,
-                _1: 3
-              };
-            })
+            return {
+              TAG: /* Eq */0,
+              _0: three,
+              _1: 3
+            };
+          })
         ],
         tl: {
           hd: [
             "File \"jscomp/test/class_test.ml\", line 40, characters 4-11",
             (function (param) {
-                return {
-                  TAG: /* Eq */0,
-                  _0: one,
-                  _1: 1
-                };
-              })
+              return {
+                TAG: /* Eq */0,
+                _0: one,
+                _1: 1
+              };
+            })
           ],
           tl: {
             hd: [
               "File \"jscomp/test/class_test.ml\", line 41, characters 4-11",
               (function (param) {
-                  return {
-                    TAG: /* Eq */0,
-                    _0: two,
-                    _1: 2
-                  };
-                })
+                return {
+                  TAG: /* Eq */0,
+                  _0: two,
+                  _1: 2
+                };
+              })
             ],
             tl: /* [] */0
           }

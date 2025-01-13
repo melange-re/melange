@@ -27,8 +27,8 @@ const node_current = ".";
 const cwd = {
   LAZY_DONE: false,
   VAL: (function () {
-      return Caml_sys.caml_sys_getcwd(undefined);
-    })
+    return Caml_sys.caml_sys_getcwd(undefined);
+  })
 };
 
 function path_as_directory(x) {
@@ -131,8 +131,8 @@ function relative_path(file_or_dir_1, file_or_dir_2) {
         continue;
       }
       return Stdlib.$at(Stdlib__List.map((function (param) {
-                  return node_parent;
-                }), dir2), dir1);
+                return node_parent;
+              }), dir2), dir1);
     };
   };
   const ys = go(dir1, dir2);
@@ -232,9 +232,9 @@ function find_package_json_dir(cwd) {
 const package_dir = {
   LAZY_DONE: false,
   VAL: (function () {
-      const cwd$1 = CamlinternalLazy.force(cwd);
-      return find_root_filename(cwd$1, Test_literals.bsconfig_json);
-    })
+    const cwd$1 = CamlinternalLazy.force(cwd);
+    return find_root_filename(cwd$1, Test_literals.bsconfig_json);
+  })
 };
 
 function module_name_of_file(file) {
@@ -308,8 +308,8 @@ function rel_normalized_absolute_path(from, to_) {
     const xs = xss.tl;
     if (!yss) {
       return Stdlib__List.fold_left((function (acc, param) {
-              return Stdlib__Filename.concat(acc, Ext_string_test.parent_dir_lit);
-            }), Ext_string_test.parent_dir_lit, xs);
+            return Stdlib__Filename.concat(acc, Ext_string_test.parent_dir_lit);
+          }), Ext_string_test.parent_dir_lit, xs);
     }
     if (xss.hd === yss.hd) {
       _yss = yss.tl;
@@ -317,8 +317,8 @@ function rel_normalized_absolute_path(from, to_) {
       continue;
     }
     const start = Stdlib__List.fold_left((function (acc, param) {
-            return Stdlib__Filename.concat(acc, Ext_string_test.parent_dir_lit);
-          }), Ext_string_test.parent_dir_lit, xs);
+          return Stdlib__Filename.concat(acc, Ext_string_test.parent_dir_lit);
+        }), Ext_string_test.parent_dir_lit, xs);
     return Stdlib__List.fold_left(Stdlib__Filename.concat, start, yss);
   };
 }
@@ -391,8 +391,8 @@ let simple_convert_node_path_to_os_path;
 
 if (Stdlib__Sys.unix) {
   simple_convert_node_path_to_os_path = (function (x) {
-      return x;
-    });
+    return x;
+  });
 } else if (Stdlib__Sys.win32 || false) {
   simple_convert_node_path_to_os_path = Ext_string_test.replace_slash_backward;
 } else {

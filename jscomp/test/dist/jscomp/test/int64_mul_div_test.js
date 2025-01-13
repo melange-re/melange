@@ -310,34 +310,34 @@ const pairs = [
 
 function from_pairs(prefix, pairs) {
   return Stdlib__Array.to_list(Stdlib__Array.mapi((function (i, param) {
-              const b = param[2];
-              const a = param[1];
-              const result = param[0];
-              return [
-                Curry._2(Stdlib__Printf.sprintf({
-                          TAG: /* Format */0,
-                          _0: {
-                            TAG: /* String */2,
-                            _0: /* No_padding */0,
+            const b = param[2];
+            const a = param[1];
+            const result = param[0];
+            return [
+              Curry._2(Stdlib__Printf.sprintf({
+                        TAG: /* Format */0,
+                        _0: {
+                          TAG: /* String */2,
+                          _0: /* No_padding */0,
+                          _1: {
+                            TAG: /* Char_literal */12,
+                            _0: /* '_' */95,
                             _1: {
-                              TAG: /* Char_literal */12,
-                              _0: /* '_' */95,
-                              _1: {
-                                TAG: /* Int */4,
-                                _0: /* Int_d */0,
-                                _1: /* No_padding */0,
-                                _2: /* No_precision */0,
-                                _3: /* End_of_format */0
-                              }
+                              TAG: /* Int */4,
+                              _0: /* Int_d */0,
+                              _1: /* No_padding */0,
+                              _2: /* No_precision */0,
+                              _3: /* End_of_format */0
                             }
-                          },
-                          _1: "%s_%d"
-                        }), prefix, i),
-                (function (param) {
-                    return commutative_mul(result, a, b);
-                  })
-              ];
-            }), pairs));
+                          }
+                        },
+                        _1: "%s_%d"
+                      }), prefix, i),
+              (function (param) {
+                return commutative_mul(result, a, b);
+              })
+            ];
+          }), pairs));
 }
 
 const small_pairs = [
@@ -1531,39 +1531,39 @@ const simple_divs = [
 
 function from(xs) {
   return Stdlib__List.mapi((function (i, param) {
-          const d = param[3];
-          const c = param[2];
-          const b = param[1];
-          const a = param[0];
-          return [
-            Curry._1(Stdlib__Printf.sprintf({
-                      TAG: /* Format */0,
-                      _0: {
-                        TAG: /* String_literal */11,
-                        _0: "small_divs ",
-                        _1: {
-                          TAG: /* Scan_get_counter */21,
-                          _0: /* Token_counter */2,
-                          _1: /* End_of_format */0
-                        }
-                      },
-                      _1: "small_divs %L"
-                    }), i),
-            (function (param) {
-                return {
-                  TAG: /* Eq */0,
-                  _0: [
-                    c,
-                    d
-                  ],
-                  _1: [
-                    Caml_int64.div(a, b),
-                    Caml_int64.mod_(a, b)
-                  ]
-                };
-              })
-          ];
-        }), Stdlib__Array.to_list(xs));
+        const d = param[3];
+        const c = param[2];
+        const b = param[1];
+        const a = param[0];
+        return [
+          Curry._1(Stdlib__Printf.sprintf({
+                    TAG: /* Format */0,
+                    _0: {
+                      TAG: /* String_literal */11,
+                      _0: "small_divs ",
+                      _1: {
+                        TAG: /* Scan_get_counter */21,
+                        _0: /* Token_counter */2,
+                        _1: /* End_of_format */0
+                      }
+                    },
+                    _1: "small_divs %L"
+                  }), i),
+          (function (param) {
+            return {
+              TAG: /* Eq */0,
+              _0: [
+                c,
+                d
+              ],
+              _1: [
+                Caml_int64.div(a, b),
+                Caml_int64.mod_(a, b)
+              ]
+            };
+          })
+        ];
+      }), Stdlib__Array.to_list(xs));
 }
 
 const to_string = [[
@@ -1600,163 +1600,163 @@ const int64_compare_tests = [
 
 function from_compare(xs) {
   return Stdlib__List.mapi((function (i, param) {
-          const c = param[2];
-          const b = param[1];
-          const a = param[0];
-          return [
-            Curry._1(Stdlib__Printf.sprintf({
-                      TAG: /* Format */0,
-                      _0: {
-                        TAG: /* String_literal */11,
-                        _0: "int64_compare ",
-                        _1: {
-                          TAG: /* Scan_get_counter */21,
-                          _0: /* Token_counter */2,
-                          _1: /* End_of_format */0
-                        }
-                      },
-                      _1: "int64_compare %L"
-                    }), i),
-            (function (param) {
-                return {
-                  TAG: /* Eq */0,
-                  _0: c,
-                  _1: Caml_int64.compare(a, b)
-                };
-              })
-          ];
-        }), Stdlib__Array.to_list(xs));
+        const c = param[2];
+        const b = param[1];
+        const a = param[0];
+        return [
+          Curry._1(Stdlib__Printf.sprintf({
+                    TAG: /* Format */0,
+                    _0: {
+                      TAG: /* String_literal */11,
+                      _0: "int64_compare ",
+                      _1: {
+                        TAG: /* Scan_get_counter */21,
+                        _0: /* Token_counter */2,
+                        _1: /* End_of_format */0
+                      }
+                    },
+                    _1: "int64_compare %L"
+                  }), i),
+          (function (param) {
+            return {
+              TAG: /* Eq */0,
+              _0: c,
+              _1: Caml_int64.compare(a, b)
+            };
+          })
+        ];
+      }), Stdlib__Array.to_list(xs));
 }
 
 function from_to_string(xs) {
   return Stdlib__List.mapi((function (i, param) {
-          const str_a = param[1];
-          const a = param[0];
-          return [
-            Curry._1(Stdlib__Printf.sprintf({
-                      TAG: /* Format */0,
-                      _0: {
-                        TAG: /* String_literal */11,
-                        _0: "to_string ",
-                        _1: {
-                          TAG: /* Scan_get_counter */21,
-                          _0: /* Token_counter */2,
-                          _1: /* End_of_format */0
-                        }
-                      },
-                      _1: "to_string %L"
-                    }), i),
-            (function (param) {
-                return {
-                  TAG: /* Eq */0,
-                  _0: str_a,
-                  _1: Caml_format.caml_int64_format("%d", a)
-                };
-              })
-          ];
-        }), Stdlib__Array.to_list(xs));
+        const str_a = param[1];
+        const a = param[0];
+        return [
+          Curry._1(Stdlib__Printf.sprintf({
+                    TAG: /* Format */0,
+                    _0: {
+                      TAG: /* String_literal */11,
+                      _0: "to_string ",
+                      _1: {
+                        TAG: /* Scan_get_counter */21,
+                        _0: /* Token_counter */2,
+                        _1: /* End_of_format */0
+                      }
+                    },
+                    _1: "to_string %L"
+                  }), i),
+          (function (param) {
+            return {
+              TAG: /* Eq */0,
+              _0: str_a,
+              _1: Caml_format.caml_int64_format("%d", a)
+            };
+          })
+        ];
+      }), Stdlib__Array.to_list(xs));
 }
 
 Mt.from_pair_suites("Int64_mul_div_test", Stdlib.$at(from_pairs("random", pairs), Stdlib.$at(from_pairs("small", small_pairs), Stdlib.$at(Stdlib__List.mapi((function (i, param) {
-                        const f = param[1];
-                        const i64 = param[0];
-                        return [
-                          Curry._1(Stdlib__Printf.sprintf({
-                                    TAG: /* Format */0,
-                                    _0: {
-                                      TAG: /* String_literal */11,
-                                      _0: "to_float_",
-                                      _1: {
-                                        TAG: /* Int */4,
-                                        _0: /* Int_d */0,
-                                        _1: /* No_padding */0,
-                                        _2: /* No_precision */0,
-                                        _3: /* End_of_format */0
-                                      }
-                                    },
-                                    _1: "to_float_%d"
-                                  }), i),
-                          (function (param) {
+                      const f = param[1];
+                      const i64 = param[0];
+                      return [
+                        Curry._1(Stdlib__Printf.sprintf({
+                                  TAG: /* Format */0,
+                                  _0: {
+                                    TAG: /* String_literal */11,
+                                    _0: "to_float_",
+                                    _1: {
+                                      TAG: /* Int */4,
+                                      _0: /* Int_d */0,
+                                      _1: /* No_padding */0,
+                                      _2: /* No_precision */0,
+                                      _3: /* End_of_format */0
+                                    }
+                                  },
+                                  _1: "to_float_%d"
+                                }), i),
+                        (function (param) {
+                          return {
+                            TAG: /* Eq */0,
+                            _0: Caml_int64.to_float(i64),
+                            _1: f
+                          };
+                        })
+                      ];
+                    }), Stdlib__Array.to_list(to_floats)), Stdlib.$at(Stdlib__List.mapi((function (i, param) {
+                          const i64 = param[1];
+                          const f = param[0];
+                          return [
+                            Curry._1(Stdlib__Printf.sprintf({
+                                      TAG: /* Format */0,
+                                      _0: {
+                                        TAG: /* String_literal */11,
+                                        _0: "of_float_",
+                                        _1: {
+                                          TAG: /* Int */4,
+                                          _0: /* Int_d */0,
+                                          _1: /* No_padding */0,
+                                          _2: /* No_precision */0,
+                                          _3: /* End_of_format */0
+                                        }
+                                      },
+                                      _1: "of_float_%d"
+                                    }), i),
+                            (function (param) {
                               return {
                                 TAG: /* Eq */0,
-                                _0: Caml_int64.to_float(i64),
-                                _1: f
+                                _0: Caml_int64.of_float(f),
+                                _1: i64
                               };
                             })
-                        ];
-                      }), Stdlib__Array.to_list(to_floats)), Stdlib.$at(Stdlib__List.mapi((function (i, param) {
-                            const i64 = param[1];
-                            const f = param[0];
-                            return [
-                              Curry._1(Stdlib__Printf.sprintf({
-                                        TAG: /* Format */0,
-                                        _0: {
-                                          TAG: /* String_literal */11,
-                                          _0: "of_float_",
-                                          _1: {
-                                            TAG: /* Int */4,
-                                            _0: /* Int_d */0,
-                                            _1: /* No_padding */0,
-                                            _2: /* No_precision */0,
-                                            _3: /* End_of_format */0
-                                          }
-                                        },
-                                        _1: "of_float_%d"
-                                      }), i),
-                              (function (param) {
-                                  return {
-                                    TAG: /* Eq */0,
-                                    _0: Caml_int64.of_float(f),
-                                    _1: i64
-                                  };
-                                })
-                            ];
-                          }), Stdlib__Array.to_list(of_float_pairs)), Stdlib.$at({
+                          ];
+                        }), Stdlib__Array.to_list(of_float_pairs)), Stdlib.$at({
                           hd: [
                             "compare_check_complete",
                             (function (param) {
-                                return {
-                                  TAG: /* Eq */0,
-                                  _0: Stdlib__Array.map((function (param) {
-                                          return true;
-                                        }), check_complete_compare),
-                                  _1: check_complete_compare
-                                };
-                              })
+                              return {
+                                TAG: /* Eq */0,
+                                _0: Stdlib__Array.map((function (param) {
+                                      return true;
+                                    }), check_complete_compare),
+                                _1: check_complete_compare
+                              };
+                            })
                           ],
                           tl: /* [] */0
                         }, Stdlib.$at(from(simple_divs), Stdlib.$at(from_compare(int64_compare_tests), {
                                   hd: [
                                     "div_rem_0",
                                     (function (param) {
-                                        return {
-                                          TAG: /* Eq */0,
-                                          _0: Caml_int64.zero,
-                                          _1: Caml_int64.zero
-                                        };
-                                      })
+                                      return {
+                                        TAG: /* Eq */0,
+                                        _0: Caml_int64.zero,
+                                        _1: Caml_int64.zero
+                                      };
+                                    })
                                   ],
                                   tl: {
                                     hd: [
                                       "div_rem_1",
                                       (function (param) {
-                                          return {
-                                            TAG: /* Eq */0,
-                                            _0: Caml_int64.neg_one,
-                                            _1: Caml_int64.neg_one
-                                          };
-                                        })
+                                        return {
+                                          TAG: /* Eq */0,
+                                          _0: Caml_int64.neg_one,
+                                          _1: Caml_int64.neg_one
+                                        };
+                                      })
                                     ],
                                     tl: {
                                       hd: [
                                         "File \"jscomp/test/int64_mul_div_test.ml\", line 214, characters 5-12",
                                         (function (param) {
-                                            return {
-                                              TAG: /* Eq */0,
-                                              _0: Caml_int64.to_float(Stdlib__Int64.max_int),
-                                              _1: 9.22337203685477581e+18
-                                            };
-                                          })
+                                          return {
+                                            TAG: /* Eq */0,
+                                            _0: Caml_int64.to_float(Stdlib__Int64.max_int),
+                                            _1: 9.22337203685477581e+18
+                                          };
+                                        })
                                       ],
                                       tl: /* [] */0
                                     }

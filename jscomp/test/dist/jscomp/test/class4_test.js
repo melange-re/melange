@@ -33,12 +33,12 @@ function eq(loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -57,16 +57,16 @@ function restricted_point_init($$class) {
   CamlinternalOO.set_methods($$class, [
         get_x,
         (function (self$1) {
-            return self$1[x];
-          }),
+          return self$1[x];
+        }),
         move,
         (function (self$1, d) {
-            self$1[x] = self$1[x] + d | 0;
-          }),
+          self$1[x] = self$1[x] + d | 0;
+        }),
         bump,
         (function (self$1) {
-            return Curry._2(self$1[0][move], self$1, 1);
-          })
+          return Curry._2(self$1[0][move], self$1, 1);
+        })
       ]);
   return function (env, self, x_init) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -107,8 +107,8 @@ function abstract_point_1($$class) {
   const get_x = ids[1];
   const get_offset = ids[2];
   CamlinternalOO.set_method($$class, get_offset, (function (self$5) {
-          return Curry._1(self$5[0][get_x], self$5) - self$5[x_init] | 0;
-        }));
+        return Curry._1(self$5[0][get_x], self$5) - self$5[x_init] | 0;
+      }));
   return function (env, self, x_init$1) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     self$1[x_init] = x_init$1;
@@ -135,12 +135,12 @@ function point_init($$class) {
   CamlinternalOO.set_methods($$class, [
         get_x,
         (function (self$6) {
-            return self$6[x];
-          }),
+          return self$6[x];
+        }),
         move,
         (function (self$6, d) {
-            self$6[x] = self$6[x] + d | 0;
-          })
+          self$6[x] = self$6[x] + d | 0;
+        })
       ]);
   return function (env, self, x_init) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -172,8 +172,8 @@ function colored_point_init($$class) {
       ], point, true);
   const obj_init = inh[0];
   CamlinternalOO.set_method($$class, color, (function (self$7) {
-          return self$7[c];
-        }));
+        return self$7[c];
+      }));
   return function (env, self, x, c$1) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     Curry._2(obj_init, self$1, x);

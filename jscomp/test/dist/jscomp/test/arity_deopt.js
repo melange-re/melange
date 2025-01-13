@@ -18,12 +18,12 @@ function eq(loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -54,14 +54,14 @@ function f3(x) {
 eq("File \"jscomp/test/arity_deopt.ml\", line 45, characters 7-14", 6, f0(1, 2, 3));
 
 eq("File \"jscomp/test/arity_deopt.ml\", line 46, characters 11-18", 6, (function (y, z) {
-          return (1 + y | 0) + z | 0;
-        })(2, 3));
+        return (1 + y | 0) + z | 0;
+      })(2, 3));
 
 eq("File \"jscomp/test/arity_deopt.ml\", line 47, characters 15-22", 6, Curry._1(f2(1, 2), 3));
 
 eq("File \"jscomp/test/arity_deopt.ml\", line 48, characters 15-22", 6, (function (y, z) {
-          return (1 + y | 0) + z | 0;
-        })(2, 3));
+        return (1 + y | 0) + z | 0;
+      })(2, 3));
 
 Mt.from_pair_suites("Arity_deopt", suites.contents);
 

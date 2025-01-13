@@ -53,12 +53,12 @@ function money_init($$class) {
   CamlinternalOO.set_methods($$class, [
         value,
         (function (self$2) {
-            return self$2[repr];
-          }),
+          return self$2[repr];
+        }),
         leq,
         (function (self$2, p) {
-            return self$2[repr] <= Caml_oo_curry.js1(834174833, 1, p);
-          })
+          return self$2[repr] <= Caml_oo_curry.js1(834174833, 1, p);
+        })
       ]);
   return function (env, self, x) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -81,10 +81,10 @@ function money2_init($$class) {
   const obj_init = inh[0];
   const repr = inh[1];
   CamlinternalOO.set_method($$class, times, (function (self$3, k) {
-          const copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$3));
-          copy[repr] = k * self$3[repr];
-          return copy;
-        }));
+        const copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$3));
+        copy[repr] = k * self$3[repr];
+        return copy;
+      }));
   return function (env, self, x) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     Curry._2(obj_init, self$1, x);

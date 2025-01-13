@@ -46,80 +46,80 @@ const yynames_block = "NUMERAL\0IDENT\0";
 
 const yyact = [
   (function (param) {
-      throw new Caml_js_exceptions.MelangeError("Failure", {
-            MEL_EXN_ID: "Failure",
-            _1: "parser"
-          });
-    }),
+    throw new Caml_js_exceptions.MelangeError("Failure", {
+          MEL_EXN_ID: "Failure",
+          _1: "parser"
+        });
+  }),
   (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-    }),
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Numeral */0,
-        _0: _1
-      };
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Numeral */0,
+      _0: _1
+    };
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Variable */6,
-        _0: _1
-      };
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Variable */6,
+      _0: _1
+    };
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Plus */1,
-        _0: _1,
-        _1: _3
-      };
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Plus */1,
+      _0: _1,
+      _1: _3
+    };
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Minus */2,
-        _0: _1,
-        _1: _3
-      };
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Minus */2,
+      _0: _1,
+      _1: _3
+    };
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Times */3,
-        _0: _1,
-        _1: _3
-      };
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Times */3,
+      _0: _1,
+      _1: _3
+    };
+  }),
   (function (__caml_parser_env) {
-      const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
-      const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Divide */4,
-        _0: _1,
-        _1: _3
-      };
-    }),
+    const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+    const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Divide */4,
+      _0: _1,
+      _1: _3
+    };
+  }),
   (function (__caml_parser_env) {
-      const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-      return {
-        TAG: /* Negate */5,
-        _0: _2
-      };
-    }),
+    const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
+    return {
+      TAG: /* Negate */5,
+      _0: _2
+    };
+  }),
   (function (__caml_parser_env) {
-      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
-    }),
+    return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+  }),
   (function (__caml_parser_env) {
-      throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
-            MEL_EXN_ID: Stdlib__Parsing.YYexit,
-            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
-          });
-    })
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
+          MEL_EXN_ID: Stdlib__Parsing.YYexit,
+          _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
+        });
+  })
 ];
 
 const yytables = {

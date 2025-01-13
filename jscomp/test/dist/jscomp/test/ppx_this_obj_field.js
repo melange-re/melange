@@ -19,12 +19,12 @@ function eq(loc, param) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -34,60 +34,60 @@ const v5 = {
   x: 3,
   y: 3,
   setY: (function (v) {
-      let self = this;
-      self.y = 2;
-      return [
-        self.y,
-        v
-      ];
-    }),
+    let self = this;
+    self.y = 2;
+    return [
+      self.y,
+      v
+    ];
+  }),
   say: (function () {
-      let self = this;
-      return self.x + self.y | 0;
-    }),
+    let self = this;
+    return self.x + self.y | 0;
+  }),
   hihi: (function (u) {
-      let self = this;
-      return self.x + self.say() | 0;
-    }),
+    let self = this;
+    return self.x + self.say() | 0;
+  }),
   bark: (function () {
-      console.log("bark");
-    }),
+    console.log("bark");
+  }),
   xz: (function () {
-      return 3;
-    })
+    return 3;
+  })
 };
 
 const v = {
   x: 3,
   y: 0,
   reset: (function () {
-      let self = this;
-      self.y = 0;
-    }),
+    let self = this;
+    self.y = 0;
+  }),
   incr: (function () {
-      let self = this;
-      self.y = self.y + 1 | 0;
-    }),
+    let self = this;
+    self.y = self.y + 1 | 0;
+  }),
   getY: (function () {
-      let self = this;
-      return self.y;
-    }),
+    let self = this;
+    return self.y;
+  }),
   say: (function () {
-      let self = this;
-      return self.x + self.y | 0;
-    })
+    let self = this;
+    return self.x + self.y | 0;
+  })
 };
 
 const u = {
   incr: (function () {
-      console.log("hey");
-    }),
+    console.log("hey");
+  }),
   getY: (function () {
-      return 3;
-    }),
+    return 3;
+  }),
   say: (function () {
-      return 7;
-    })
+    return 7;
+  })
 };
 
 const test_type_1 = {
@@ -105,29 +105,29 @@ const z = {
     contents: 3
   },
   setX: (function (x) {
-      let self = this;
-      self.x.contents = x;
-    }),
+    let self = this;
+    self.x.contents = x;
+  }),
   getX: (function () {
-      let self = this;
-      return self.x.contents;
-    })
+    let self = this;
+    return self.x.contents;
+  })
 };
 
 const eventObj = {
   events: [],
   empty: (function () {
-      let self = this;
-      self.events.splice(0);
-    }),
+    let self = this;
+    self.events.splice(0);
+  }),
   push: (function (a) {
-      let self = this;
-      self.events.push(a);
-    }),
+    let self = this;
+    self.events.push(a);
+  }),
   needRebuild: (function () {
-      let self = this;
-      return self.events.length !== 0;
-    })
+    let self = this;
+    return self.events.length !== 0;
+  })
 };
 
 function test__(x) {
@@ -137,13 +137,13 @@ function test__(x) {
 const zz = {
   x: 3,
   setX: (function (x) {
-      let self = this;
-      self.x = x;
-    }),
+    let self = this;
+    self.x = x;
+  }),
   getX: (function () {
-      let self = this;
-      return self.x;
-    })
+    let self = this;
+    return self.x;
+  })
 };
 
 const test_type2_1 = {

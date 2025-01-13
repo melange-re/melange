@@ -19,12 +19,12 @@ function eq(loc, param) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -32,59 +32,59 @@ function eq(loc, param) {
 
 const v = {
   x: (function () {
-      return 3;
-    }),
+    return 3;
+  }),
   say: (function (x) {
-      let self = this;
-      return x * self.x();
-    }),
+    let self = this;
+    return x * self.x();
+  }),
   hi: (function (x, y) {
-      let self = this;
-      return self.say(x) + y;
-    })
+    let self = this;
+    return self.say(x) + y;
+  })
 };
 
 const v2 = {
   hi: (function (x, y) {
-      let self = this;
-      return self.say(x) + y;
-    }),
+    let self = this;
+    return self.say(x) + y;
+  }),
   say: (function (x) {
-      let self = this;
-      return x * self.x();
-    }),
+    let self = this;
+    return x * self.x();
+  }),
   x: (function () {
-      return 3;
-    })
+    return 3;
+  })
 };
 
 const v3 = {
   hi: (function (x, y) {
-      let self = this;
-      const u = {
-        x: x
-      };
-      return self.say(u.x) + y + x;
-    }),
+    let self = this;
+    const u = {
+      x: x
+    };
+    return self.say(u.x) + y + x;
+  }),
   say: (function (x) {
-      let self = this;
-      return x * self.x();
-    }),
+    let self = this;
+    return x * self.x();
+  }),
   x: (function () {
-      return 3;
-    })
+    return 3;
+  })
 };
 
 const v4 = {
   hi: (function (x, y) {
-      return x + y;
-    }),
+    return x + y;
+  }),
   say: (function (x) {
-      return x;
-    }),
+    return x;
+  }),
   x: (function () {
-      return 1;
-    })
+    return 1;
+  })
 };
 
 const collection = [

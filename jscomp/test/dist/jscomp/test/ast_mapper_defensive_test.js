@@ -18,11 +18,11 @@ function $$throw(loc, x) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* ThrowAny */7,
-            _0: x
-          };
-        })
+        return {
+          TAG: /* ThrowAny */7,
+          _0: x
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -39,8 +39,8 @@ function cFromJs(param) {
 }
 
 $$throw("File \"jscomp/test/ast_mapper_defensive_test.ml\", line 19, characters 15-22", (function (param) {
-        cFromJs(33);
-      }));
+      cFromJs(33);
+    }));
 
 Mt.from_pair_suites("Ast_mapper_defensive_test", suites.contents);
 

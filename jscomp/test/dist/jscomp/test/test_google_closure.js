@@ -19,8 +19,8 @@ const a = String(3);
 const b = 101;
 
 const arr = Stdlib__Array.init(2, (function (param) {
-        return 0;
-      }));
+      return 0;
+    }));
 
 for (let i = 0; i <= 1; ++i) {
   Caml_array.set(arr, i, i + 1 | 0);

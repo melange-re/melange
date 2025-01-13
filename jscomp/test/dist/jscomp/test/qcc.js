@@ -32,27 +32,27 @@ function bufferize(f) {
   };
   return [
     (function (param) {
-        const x = buf.contents;
-        if (x !== undefined) {
-          buf.contents = undefined;
-          return Caml_option.valFromOption(x);
-        } else {
-          return Curry._1(f, undefined);
-        }
-      }),
+      const x = buf.contents;
+      if (x !== undefined) {
+        buf.contents = undefined;
+        return Caml_option.valFromOption(x);
+      } else {
+        return Curry._1(f, undefined);
+      }
+    }),
     (function (x) {
-        if (buf.contents !== undefined) {
-          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/qcc.ml",
-                  17,
-                  4
-                ]
-              });
-        }
-        buf.contents = Caml_option.some(x);
-      })
+      if (buf.contents !== undefined) {
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/qcc.ml",
+                17,
+                4
+              ]
+            });
+      }
+      buf.contents = Caml_option.some(x);
+    })
   ];
 }
 
@@ -1788,8 +1788,8 @@ function elfgen(outf) {
   le(32, 0);
   const dyn = opos.contents;
   Stdlib__List.iter((function (param) {
-          return le(64, param);
-        }), {
+        return le(64, param);
+      }), {
         hd: 1,
         tl: {
           hd: 29,

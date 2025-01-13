@@ -146,8 +146,8 @@ const u26 = Belt__Belt_Set.add({
     }, 3);
 
 const ss = Belt__Belt_Array.makeByAndShuffle(100, (function (i) {
-        return (i << 1);
-      }));
+      return (i << 1);
+    }));
 
 const u27 = Belt__Belt_Set.fromArray(ss, IntCmp);
 
@@ -200,11 +200,11 @@ function testIterToList(xs) {
     contents: /* [] */0
   };
   Belt__Belt_Set.forEach(xs, (function (x) {
-          v.contents = {
-            hd: x,
-            tl: v.contents
-          };
-        }));
+        v.contents = {
+          hd: x,
+          tl: v.contents
+        };
+      }));
   return Belt__Belt_List.reverse(v.contents);
 }
 
@@ -213,11 +213,11 @@ function testIterToList2(xs) {
     contents: /* [] */0
   };
   Belt__Belt_SetDict.forEach(xs.data, (function (x) {
-          v.contents = {
-            hd: x,
-            tl: v.contents
-          };
-        }));
+        v.contents = {
+          hd: x,
+          tl: v.contents
+        };
+      }));
   return Belt__Belt_List.reverse(v.contents);
 }
 
@@ -228,48 +228,48 @@ const u1$1 = Belt__Belt_Set.remove(u0$1, 17);
 const u2$1 = Belt__Belt_Set.add(u1$1, 33);
 
 b("File \"jscomp/test/bs_poly_set_test.ml\", line 109, characters 4-11", Belt__Belt_List.every2(testIterToList(u0$1), Belt__Belt_List.makeBy(21, (function (i) {
-                return i;
-              })), (function (x, y) {
-            return x === y;
-          })));
+              return i;
+            })), (function (x, y) {
+          return x === y;
+        })));
 
 b("File \"jscomp/test/bs_poly_set_test.ml\", line 110, characters 4-11", Belt__Belt_List.every2(testIterToList2(u0$1), Belt__Belt_List.makeBy(21, (function (i) {
-                return i;
-              })), (function (x, y) {
-            return x === y;
-          })));
+              return i;
+            })), (function (x, y) {
+          return x === y;
+        })));
 
 b("File \"jscomp/test/bs_poly_set_test.ml\", line 111, characters 4-11", Belt__Belt_List.every2(testIterToList(u0$1), Belt__Belt_SetDict.toList(u0$1.data), (function (x, y) {
-            return x === y;
-          })));
+          return x === y;
+        })));
 
 b("File \"jscomp/test/bs_poly_set_test.ml\", line 112, characters 4-11", Belt__Belt_Set.some(u0$1, (function (x) {
-            return x === 17;
-          })));
+          return x === 17;
+        })));
 
 b("File \"jscomp/test/bs_poly_set_test.ml\", line 113, characters 4-11", !Belt__Belt_Set.some(u1$1, (function (x) {
-            return x === 17;
-          })));
+          return x === 17;
+        })));
 
 b("File \"jscomp/test/bs_poly_set_test.ml\", line 114, characters 4-11", Belt__Belt_Set.every(u0$1, (function (x) {
-            return x < 24;
-          })));
+          return x < 24;
+        })));
 
 b("File \"jscomp/test/bs_poly_set_test.ml\", line 115, characters 4-11", Belt__Belt_SetDict.every(u0$1.data, (function (x) {
-            return x < 24;
-          })));
+          return x < 24;
+        })));
 
 b("File \"jscomp/test/bs_poly_set_test.ml\", line 116, characters 4-11", !Belt__Belt_Set.every(u2$1, (function (x) {
-            return x < 24;
-          })));
+          return x < 24;
+        })));
 
 b("File \"jscomp/test/bs_poly_set_test.ml\", line 117, characters 4-11", !Belt__Belt_Set.every(Belt__Belt_Set.fromArray([
               1,
               2,
               3
             ], IntCmp), (function (x) {
-            return x === 2;
-          })));
+          return x === 2;
+        })));
 
 b("File \"jscomp/test/bs_poly_set_test.ml\", line 118, characters 4-11", Belt__Belt_Set.cmp(u1$1, u0$1) < 0);
 
@@ -278,16 +278,16 @@ b("File \"jscomp/test/bs_poly_set_test.ml\", line 119, characters 4-11", Belt__B
 const a0 = Belt__Belt_Set.fromArray(Array_data_util.randomRange(0, 1000), IntCmp);
 
 const a1 = Belt__Belt_Set.keep(a0, (function (x) {
-        return x % 2 === 0;
-      }));
+      return x % 2 === 0;
+    }));
 
 const a2 = Belt__Belt_Set.keep(a0, (function (x) {
-        return x % 2 !== 0;
-      }));
+      return x % 2 !== 0;
+    }));
 
 const match = Belt__Belt_Set.partition(a0, (function (x) {
-        return x % 2 === 0;
-      }));
+      return x % 2 === 0;
+    }));
 
 const a4 = match[1];
 
@@ -302,12 +302,12 @@ eq("File \"jscomp/test/bs_poly_set_test.ml\", line 131, characters 5-12", Belt__
 eq("File \"jscomp/test/bs_poly_set_test.ml\", line 132, characters 5-12", Belt__Belt_Set.getExn(a0, 4), 4);
 
 t("File \"jscomp/test/bs_poly_set_test.ml\", line 133, characters 4-11", (function (param) {
-        Belt__Belt_Set.getExn(a0, 1002);
-      }));
+      Belt__Belt_Set.getExn(a0, 1002);
+    }));
 
 t("File \"jscomp/test/bs_poly_set_test.ml\", line 134, characters 4-11", (function (param) {
-        Belt__Belt_Set.getExn(a0, -1);
-      }));
+      Belt__Belt_Set.getExn(a0, -1);
+    }));
 
 eq("File \"jscomp/test/bs_poly_set_test.ml\", line 135, characters 5-12", Belt__Belt_SetDict.size(a0.data), 1001);
 
@@ -320,12 +320,12 @@ const match$2 = match$1[0];
 b("File \"jscomp/test/bs_poly_set_test.ml\", line 138, characters 4-11", match$1[1]);
 
 eq("File \"jscomp/test/bs_poly_set_test.ml\", line 139, characters 5-12", Belt__Belt_SetDict.toArray(match$2[0].data), Belt__Belt_Array.makeBy(200, (function (i) {
-            return i;
-          })));
+          return i;
+        })));
 
 eq("File \"jscomp/test/bs_poly_set_test.ml\", line 140, characters 5-12", Belt__Belt_SetDict.toList(match$2[1].data), Belt__Belt_List.makeBy(800, (function (i) {
-            return i + 201 | 0;
-          })));
+          return i + 201 | 0;
+        })));
 
 const a7 = Belt__Belt_Set.remove(a0, 200);
 
@@ -340,12 +340,12 @@ const a8 = match$4[0];
 b("File \"jscomp/test/bs_poly_set_test.ml\", line 143, characters 4-11", !match$3[1]);
 
 eq("File \"jscomp/test/bs_poly_set_test.ml\", line 144, characters 5-12", Belt__Belt_SetDict.toArray(a8.data), Belt__Belt_Array.makeBy(200, (function (i) {
-            return i;
-          })));
+          return i;
+        })));
 
 eq("File \"jscomp/test/bs_poly_set_test.ml\", line 145, characters 5-12", Belt__Belt_SetDict.toList(a9.data), Belt__Belt_List.makeBy(800, (function (i) {
-            return i + 201 | 0;
-          })));
+          return i + 201 | 0;
+        })));
 
 eq("File \"jscomp/test/bs_poly_set_test.ml\", line 146, characters 5-12", Belt__Belt_SetDict.minimum(a8.data), 0);
 
@@ -367,14 +367,14 @@ Belt__Belt_List.forEach({
         }
       }
     }, (function (x) {
-        Belt__Belt_SetDict.checkInvariantInternal(x.data);
-      }));
+      Belt__Belt_SetDict.checkInvariantInternal(x.data);
+    }));
 
 const a = Belt__Belt_Set.fromArray([], IntCmp);
 
 const m = Belt__Belt_Set.keep(a, (function (x) {
-        return x % 2 === 0;
-      }));
+      return x % 2 === 0;
+    }));
 
 b("File \"jscomp/test/bs_poly_set_test.ml\", line 153, characters 4-11", Belt__Belt_SetDict.isEmpty(m.data));
 

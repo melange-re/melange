@@ -9,8 +9,8 @@ function fix(param) {
     _0: {
       LAZY_DONE: false,
       VAL: (function () {
-          return fix(undefined);
-        })
+        return fix(undefined);
+      })
     }
   };
 }

@@ -8,12 +8,12 @@ function collect_eq(test_id, suites, loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -25,12 +25,12 @@ function collect_neq(test_id, suites, loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Neq */1,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Neq */1,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -42,12 +42,12 @@ function collect_approx(test_id, suites, loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Approx */5,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Approx */5,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };

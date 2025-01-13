@@ -29,8 +29,8 @@ const f = Stdlib__List.length;
 
 function g(x) {
   return Stdlib__List.length(Stdlib__List.map((function (prim) {
-              return prim + 1 | 0;
-            }), x));
+            return prim + 1 | 0;
+          }), x));
 }
 
 function F(X) {

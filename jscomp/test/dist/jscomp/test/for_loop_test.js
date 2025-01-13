@@ -11,19 +11,19 @@ function for_3(x) {
     contents: 0
   };
   const arr = Stdlib__Array.map((function (param) {
-          return function (param) {
-            
-          };
-        }), x);
+        return function (param) {
+          
+        };
+      }), x);
   for (let i = 0 ,i_finish = x.length; i < i_finish; ++i) {
     const j = (i << 1);
     Caml_array.set(arr, i, (function (param) {
-            v.contents = v.contents + j | 0;
-          }));
+          v.contents = v.contents + j | 0;
+        }));
   }
   Stdlib__Array.iter((function (x) {
-          Curry._1(x, undefined);
-        }), arr);
+        Curry._1(x, undefined);
+      }), arr);
   return v.contents;
 }
 
@@ -32,20 +32,20 @@ function for_4(x) {
     contents: 0
   };
   const arr = Stdlib__Array.map((function (param) {
-          return function (param) {
-            
-          };
-        }), x);
+        return function (param) {
+          
+        };
+      }), x);
   for (let i = 0 ,i_finish = x.length; i < i_finish; ++i) {
     const j = (i << 1);
     const k = (j << 1);
     Caml_array.set(arr, i, (function (param) {
-            v.contents = v.contents + k | 0;
-          }));
+          v.contents = v.contents + k | 0;
+        }));
   }
   Stdlib__Array.iter((function (x) {
-          Curry._1(x, undefined);
-        }), arr);
+        Curry._1(x, undefined);
+      }), arr);
   return v.contents;
 }
 
@@ -54,19 +54,19 @@ function for_5(x, u) {
     contents: 0
   };
   const arr = Stdlib__Array.map((function (param) {
-          return function (param) {
-            
-          };
-        }), x);
+        return function (param) {
+          
+        };
+      }), x);
   for (let i = 0 ,i_finish = x.length; i < i_finish; ++i) {
     const k = Math.imul((u << 1), u);
     Caml_array.set(arr, i, (function (param) {
-            v.contents = v.contents + k | 0;
-          }));
+          v.contents = v.contents + k | 0;
+        }));
   }
   Stdlib__Array.iter((function (x) {
-          Curry._1(x, undefined);
-        }), arr);
+        Curry._1(x, undefined);
+      }), arr);
   return v.contents;
 }
 
@@ -75,10 +75,10 @@ function for_6(x, u) {
     contents: 0
   };
   const arr = Stdlib__Array.map((function (param) {
-          return function (param) {
-            
-          };
-        }), x);
+        return function (param) {
+          
+        };
+      }), x);
   const v4 = {
     contents: 0
   };
@@ -97,14 +97,14 @@ function for_6(x, u) {
       const h = (v5.contents << 1);
       v2.contents = v2.contents + 1 | 0;
       Caml_array.set(arr, i, (function (param) {
-              v.contents = (((((v.contents + k | 0) + v2.contents | 0) + v4.contents | 0) + v5.contents | 0) + h | 0) + u | 0;
-            }));
+            v.contents = (((((v.contents + k | 0) + v2.contents | 0) + v4.contents | 0) + v5.contents | 0) + h | 0) + u | 0;
+          }));
     }
     inspect_3 = v2.contents;
   }
   Stdlib__Array.iter((function (x) {
-          Curry._1(x, undefined);
-        }), arr);
+        Curry._1(x, undefined);
+      }), arr);
   return [
     v.contents,
     v4.contents,
@@ -118,18 +118,18 @@ function for_7(param) {
     contents: 0
   };
   const arr = Caml_array.make(21, (function (param) {
-          
-        }));
+        
+      }));
   for (let i = 0; i <= 6; ++i) {
     for (let j = 0; j <= 2; ++j) {
       Caml_array.set(arr, Math.imul(i, 3) + j | 0, (function (param) {
-              v.contents = (v.contents + i | 0) + j | 0;
-            }));
+            v.contents = (v.contents + i | 0) + j | 0;
+          }));
     }
   }
   Stdlib__Array.iter((function (f) {
-          Curry._1(f, undefined);
-        }), arr);
+        Curry._1(f, undefined);
+      }), arr);
   return v.contents;
 }
 
@@ -138,20 +138,20 @@ function for_8(param) {
     contents: 0
   };
   const arr = Caml_array.make(21, (function (param) {
-          
-        }));
+        
+      }));
   for (let i = 0; i <= 6; ++i) {
     const k = (i << 1);
     for (let j = 0; j <= 2; ++j) {
       const h = i + j | 0;
       Caml_array.set(arr, Math.imul(i, 3) + j | 0, (function (param) {
-              v.contents = (((v.contents + i | 0) + j | 0) + h | 0) + k | 0;
-            }));
+            v.contents = (((v.contents + i | 0) + j | 0) + h | 0) + k | 0;
+          }));
     }
   }
   Stdlib__Array.iter((function (f) {
-          Curry._1(f, undefined);
-        }), arr);
+        Curry._1(f, undefined);
+      }), arr);
   return v.contents;
 }
 
@@ -172,11 +172,11 @@ function for_9(param) {
     contents: 0
   };
   const arr = Caml_array.make(4, (function (param) {
-          
-        }));
+        
+      }));
   const arr2 = Caml_array.make(2, (function (param) {
-          
-        }));
+        
+      }));
   for (let i = 0; i <= 1; ++i) {
     const v$1 = {
       contents: 0
@@ -186,19 +186,19 @@ function for_9(param) {
       v$1.contents = v$1.contents + 1 | 0;
       collect(v$1.contents);
       Caml_array.set(arr, (i << 1) + j | 0, (function (param) {
-              vv.contents = vv.contents + v$1.contents | 0;
-            }));
+            vv.contents = vv.contents + v$1.contents | 0;
+          }));
     }
     Caml_array.set(arr2, i, (function (param) {
-            vv2.contents = vv2.contents + v$1.contents | 0;
-          }));
+          vv2.contents = vv2.contents + v$1.contents | 0;
+        }));
   }
   Stdlib__Array.iter((function (f) {
-          Curry._1(f, undefined);
-        }), arr);
+        Curry._1(f, undefined);
+      }), arr);
   Stdlib__Array.iter((function (f) {
-          Curry._1(f, undefined);
-        }), arr2);
+        Curry._1(f, undefined);
+      }), arr2);
   return [[
       vv.contents,
       Stdlib__Array.of_list(Stdlib__List.rev(v.contents)),
@@ -209,93 +209,93 @@ function for_9(param) {
 const suites_0 = [
   "for_loop_test_3",
   (function (param) {
-      return {
-        TAG: /* Eq */0,
-        _0: 90,
-        _1: for_3(Caml_array.make(10, 2))
-      };
-    })
+    return {
+      TAG: /* Eq */0,
+      _0: 90,
+      _1: for_3(Caml_array.make(10, 2))
+    };
+  })
 ];
 
 const suites_1 = {
   hd: [
     "for_loop_test_4",
     (function (param) {
-        return {
-          TAG: /* Eq */0,
-          _0: 180,
-          _1: for_4(Caml_array.make(10, 2))
-        };
-      })
+      return {
+        TAG: /* Eq */0,
+        _0: 180,
+        _1: for_4(Caml_array.make(10, 2))
+      };
+    })
   ],
   tl: {
     hd: [
       "for_loop_test_5",
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: 2420,
-            _1: for_5(Caml_array.make(10, 2), 11)
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: 2420,
+          _1: for_5(Caml_array.make(10, 2), 11)
+        };
+      })
     ],
     tl: {
       hd: [
         "for_loop_test_6",
         (function (param) {
-            return {
-              TAG: /* Eq */0,
-              _0: [
-                30,
-                1,
-                2,
-                3
-              ],
-              _1: for_6(Caml_array.make(3, 0), 0)
-            };
-          })
+          return {
+            TAG: /* Eq */0,
+            _0: [
+              30,
+              1,
+              2,
+              3
+            ],
+            _1: for_6(Caml_array.make(3, 0), 0)
+          };
+        })
       ],
       tl: {
         hd: [
           "for_loop_test_7",
           (function (param) {
-              return {
-                TAG: /* Eq */0,
-                _0: 84,
-                _1: for_7(undefined)
-              };
-            })
+            return {
+              TAG: /* Eq */0,
+              _0: 84,
+              _1: for_7(undefined)
+            };
+          })
         ],
         tl: {
           hd: [
             "for_loop_test_8",
             (function (param) {
-                return {
-                  TAG: /* Eq */0,
-                  _0: 294,
-                  _1: for_8(undefined)
-                };
-              })
+              return {
+                TAG: /* Eq */0,
+                _0: 294,
+                _1: for_8(undefined)
+              };
+            })
           ],
           tl: {
             hd: [
               "for_loop_test_9",
               (function (param) {
-                  return {
-                    TAG: /* Eq */0,
-                    _0: [[
-                        10,
-                        [
-                          1,
-                          2,
-                          2,
-                          3
-                        ],
-                        5
-                      ]],
-                    _1: for_9(undefined)
-                  };
-                })
+                return {
+                  TAG: /* Eq */0,
+                  _0: [[
+                      10,
+                      [
+                        1,
+                        2,
+                        2,
+                        3
+                      ],
+                      5
+                    ]],
+                  _1: for_9(undefined)
+                };
+              })
             ],
             tl: /* [] */0
           }

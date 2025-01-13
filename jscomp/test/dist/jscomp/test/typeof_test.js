@@ -34,140 +34,140 @@ function string_or_number(x) {
 const suites_0 = [
   "int_type",
   (function (param) {
-      return {
-        TAG: /* Eq */0,
-        _0: "number",
-        _1: "number"
-      };
-    })
+    return {
+      TAG: /* Eq */0,
+      _0: "number",
+      _1: "number"
+    };
+  })
 ];
 
 const suites_1 = {
   hd: [
     "string_type",
     (function (param) {
-        return {
-          TAG: /* Eq */0,
-          _0: "string",
-          _1: "string"
-        };
-      })
+      return {
+        TAG: /* Eq */0,
+        _0: "string",
+        _1: "string"
+      };
+    })
   ],
   tl: {
     hd: [
       "number_gadt_test",
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: Js__Js_types.test(3, /* Number */3),
-            _1: true
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: Js__Js_types.test(3, /* Number */3),
+          _1: true
+        };
+      })
     ],
     tl: {
       hd: [
         "boolean_gadt_test",
         (function (param) {
-            return {
-              TAG: /* Eq */0,
-              _0: Js__Js_types.test(true, /* Boolean */2),
-              _1: true
-            };
-          })
+          return {
+            TAG: /* Eq */0,
+            _0: Js__Js_types.test(true, /* Boolean */2),
+            _1: true
+          };
+        })
       ],
       tl: {
         hd: [
           "undefined_gadt_test",
           (function (param) {
-              return {
-                TAG: /* Eq */0,
-                _0: Js__Js_types.test(undefined, /* Undefined */0),
-                _1: true
-              };
-            })
+            return {
+              TAG: /* Eq */0,
+              _0: Js__Js_types.test(undefined, /* Undefined */0),
+              _1: true
+            };
+          })
         ],
         tl: {
           hd: [
             "string_on_number1",
             (function (param) {
-                return {
-                  TAG: /* Eq */0,
-                  _0: string_or_number("xx"),
-                  _1: true
-                };
-              })
+              return {
+                TAG: /* Eq */0,
+                _0: string_or_number("xx"),
+                _1: true
+              };
+            })
           ],
           tl: {
             hd: [
               "string_on_number2",
               (function (param) {
-                  return {
-                    TAG: /* Eq */0,
-                    _0: string_or_number(3.02),
-                    _1: true
-                  };
-                })
+                return {
+                  TAG: /* Eq */0,
+                  _0: string_or_number(3.02),
+                  _1: true
+                };
+              })
             ],
             tl: {
               hd: [
                 "string_on_number3",
                 (function (param) {
-                    return {
-                      TAG: /* Eq */0,
-                      _0: string_or_number(function (x) {
-                            return x;
-                          }),
-                      _1: false
-                    };
-                  })
+                  return {
+                    TAG: /* Eq */0,
+                    _0: string_or_number(function (x) {
+                          return x;
+                        }),
+                    _1: false
+                  };
+                })
               ],
               tl: {
                 hd: [
                   "string_gadt_test",
                   (function (param) {
-                      return {
-                        TAG: /* Eq */0,
-                        _0: Js__Js_types.test("3", /* String */4),
-                        _1: true
-                      };
-                    })
+                    return {
+                      TAG: /* Eq */0,
+                      _0: Js__Js_types.test("3", /* String */4),
+                      _1: true
+                    };
+                  })
                 ],
                 tl: {
                   hd: [
                     "string_gadt_test_neg",
                     (function (param) {
-                        return {
-                          TAG: /* Eq */0,
-                          _0: Js__Js_types.test(3, /* String */4),
-                          _1: false
-                        };
-                      })
+                      return {
+                        TAG: /* Eq */0,
+                        _0: Js__Js_types.test(3, /* String */4),
+                        _1: false
+                      };
+                    })
                   ],
                   tl: {
                     hd: [
                       "function_gadt_test",
                       (function (param) {
-                          return {
-                            TAG: /* Eq */0,
-                            _0: Js__Js_types.test((function (x) {
-                                    return x;
-                                  }), /* Function */5),
-                            _1: true
-                          };
-                        })
+                        return {
+                          TAG: /* Eq */0,
+                          _0: Js__Js_types.test((function (x) {
+                                return x;
+                              }), /* Function */5),
+                          _1: true
+                        };
+                      })
                     ],
                     tl: {
                       hd: [
                         "object_gadt_test",
                         (function (param) {
-                            return {
-                              TAG: /* Eq */0,
-                              _0: Js__Js_types.test({
-                                    x: 3
-                                  }, /* Object */6),
-                              _1: true
-                            };
-                          })
+                          return {
+                            TAG: /* Eq */0,
+                            _0: Js__Js_types.test({
+                                  x: 3
+                                }, /* Object */6),
+                            _1: true
+                          };
+                        })
                       ],
                       tl: /* [] */0
                     }

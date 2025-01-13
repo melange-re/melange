@@ -14,8 +14,8 @@ const xbs = Array.prototype.map.call([
       3,
       5
     ], (function (x) {
-        return x + 1 | 0;
-      }));
+      return x + 1 | 0;
+    }));
 
 function f(cb) {
   return Array.prototype.map.call([
@@ -31,10 +31,10 @@ const xs = Array.prototype.map.call([
       1,
       2
     ], (function (x) {
-        return function (y) {
-          return (y + x | 0) + 1 | 0;
-        };
-      }));
+      return function (y) {
+        return (y + x | 0) + 1 | 0;
+      };
+    }));
 
 function f_0(param) {
   return hi(function () {
@@ -80,26 +80,26 @@ function add3(x, y, z) {
 
 function h2(x) {
   return ff(x, (function (prim0, prim1) {
-          return prim0 + prim1 | 0;
-        }));
+        return prim0 + prim1 | 0;
+      }));
 }
 
 function h3(x) {
   return ff(x, (function (param, param$1) {
-          return add3(1, param, param$1);
-        }));
+        return add3(1, param, param$1);
+      }));
 }
 
 function h4(x) {
   return ff1(x, 3, (function (param, param$1) {
-          return add3(1, param, param$1);
-        }));
+        return add3(1, param, param$1);
+      }));
 }
 
 function h5(x) {
   return ff2(x, "3", (function (param, param$1) {
-          return add3(2, param, param$1);
-        }));
+        return add3(2, param, param$1);
+      }));
 }
 
 function add(x, y) {

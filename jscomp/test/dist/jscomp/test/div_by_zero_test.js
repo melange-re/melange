@@ -19,12 +19,12 @@ function eq(loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -40,79 +40,79 @@ function add(suite) {
 add([
       "File \"jscomp/test/div_by_zero_test.ml\", line 14, characters 7-14",
       (function (param) {
-          return {
-            TAG: /* ThrowAny */7,
-            _0: (function (param) {
-                Caml_int32.div(3, 0);
-              })
-          };
-        })
+        return {
+          TAG: /* ThrowAny */7,
+          _0: (function (param) {
+            Caml_int32.div(3, 0);
+          })
+        };
+      })
     ]);
 
 add([
       "File \"jscomp/test/div_by_zero_test.ml\", line 15, characters 7-14",
       (function (param) {
-          return {
-            TAG: /* ThrowAny */7,
-            _0: (function (param) {
-                Caml_int32.mod_(3, 0);
-              })
-          };
-        })
+        return {
+          TAG: /* ThrowAny */7,
+          _0: (function (param) {
+            Caml_int32.mod_(3, 0);
+          })
+        };
+      })
     ]);
 
 add([
       "File \"jscomp/test/div_by_zero_test.ml\", line 16, characters 7-14",
       (function (param) {
-          return {
-            TAG: /* ThrowAny */7,
-            _0: (function (param) {
-                Caml_int32.div(3, 0);
-              })
-          };
-        })
+        return {
+          TAG: /* ThrowAny */7,
+          _0: (function (param) {
+            Caml_int32.div(3, 0);
+          })
+        };
+      })
     ]);
 
 add([
       "File \"jscomp/test/div_by_zero_test.ml\", line 17, characters 7-14",
       (function (param) {
-          return {
-            TAG: /* ThrowAny */7,
-            _0: (function (param) {
-                Caml_int32.mod_(3, 0);
-              })
-          };
-        })
+        return {
+          TAG: /* ThrowAny */7,
+          _0: (function (param) {
+            Caml_int32.mod_(3, 0);
+          })
+        };
+      })
     ]);
 
 add([
       "File \"jscomp/test/div_by_zero_test.ml\", line 18, characters 7-14",
       (function (param) {
-          return {
-            TAG: /* ThrowAny */7,
-            _0: (function (param) {
-                Caml_int64.div([
-                      0,
-                      3
-                    ], Caml_int64.zero);
-              })
-          };
-        })
+        return {
+          TAG: /* ThrowAny */7,
+          _0: (function (param) {
+            Caml_int64.div([
+                  0,
+                  3
+                ], Caml_int64.zero);
+          })
+        };
+      })
     ]);
 
 add([
       "File \"jscomp/test/div_by_zero_test.ml\", line 19, characters 7-14",
       (function (param) {
-          return {
-            TAG: /* ThrowAny */7,
-            _0: (function (param) {
-                Caml_int64.mod_([
-                      0,
-                      3
-                    ], Caml_int64.zero);
-              })
-          };
-        })
+        return {
+          TAG: /* ThrowAny */7,
+          _0: (function (param) {
+            Caml_int64.mod_([
+                  0,
+                  3
+                ], Caml_int64.zero);
+          })
+        };
+      })
     ]);
 
 function div(x, y) {

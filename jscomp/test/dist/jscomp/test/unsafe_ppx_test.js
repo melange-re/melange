@@ -29,8 +29,8 @@ function g(a) {
   Curry._2(regression2, 3, 2);
   regression3(3, 2);
   regression4(3, (function (x) {
-          return x;
-        }));
+        return x;
+      }));
 }
 
 const max2 = Math.max;
@@ -57,45 +57,45 @@ Mt.from_pair_suites("Unsafe_ppx_test", {
       hd: [
         "unsafe_max",
         (function (param) {
-            return {
-              TAG: /* Eq */0,
-              _0: 2,
-              _1: max(1, 2)
-            };
-          })
+          return {
+            TAG: /* Eq */0,
+            _0: 2,
+            _1: max(1, 2)
+          };
+        })
       ],
       tl: {
         hd: [
           "unsafe_test",
           (function (param) {
-              return {
-                TAG: /* Eq */0,
-                _0: 3,
-                _1: v
-              };
-            })
+            return {
+              TAG: /* Eq */0,
+              _0: 3,
+              _1: v
+            };
+          })
         ],
         tl: {
           hd: [
             "unsafe_max2",
             (function (param) {
-                return {
-                  TAG: /* Eq */0,
-                  _0: 2,
-                  _1: Math.max(1, 2)
-                };
-              })
+              return {
+                TAG: /* Eq */0,
+                _0: 2,
+                _1: Math.max(1, 2)
+              };
+            })
           ],
           tl: {
             hd: [
               "ffi_keys",
               (function (param) {
-                  return {
-                    TAG: /* Eq */0,
-                    _0: ["a"],
-                    _1: Ffi_js_test.keys({a : 3})
-                  };
-                })
+                return {
+                  TAG: /* Eq */0,
+                  _0: ["a"],
+                  _1: Ffi_js_test.keys({a : 3})
+                };
+              })
             ],
             tl: /* [] */0
           }

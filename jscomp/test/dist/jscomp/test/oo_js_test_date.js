@@ -17,32 +17,32 @@ const d3 = d2(2016)(1, undefined);
 const suites_0 = [
   "getMonth",
   (function (param) {
-      return {
-        TAG: /* Eq */0,
-        _0: 2,
-        _1: d.getMonth()
-      };
-    })
+    return {
+      TAG: /* Eq */0,
+      _0: 2,
+      _1: d.getMonth()
+    };
+  })
 ];
 
 const suites_1 = {
   hd: [
     "getYear",
     (function (param) {
-        return {
-          TAG: /* Eq */0,
-          _0: [
-            2016,
-            2,
-            1
-          ],
-          _1: [
-            d3.getFullYear(),
-            d3.getMonth(),
-            d3.getDate()
-          ]
-        };
-      })
+      return {
+        TAG: /* Eq */0,
+        _0: [
+          2016,
+          2,
+          1
+        ],
+        _1: [
+          d3.getFullYear(),
+          d3.getMonth(),
+          d3.getDate()
+        ]
+      };
+    })
   ],
   tl: /* [] */0
 };

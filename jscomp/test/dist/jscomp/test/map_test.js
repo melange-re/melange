@@ -228,8 +228,8 @@ function cardinal(param) {
 
 function of_list(bs) {
   return Stdlib__List.fold_left((function (m, param) {
-          return add(param[0], param[1], m);
-        }), /* Empty */0, bs);
+        return add(param[0], param[1], m);
+      }), /* Empty */0, bs);
 }
 
 const funarg = {
@@ -382,6 +382,37 @@ function find(x, _param) {
 const int_map_suites_0 = [
   "add",
   (function (param) {
+    const v = Curry._1(of_list, {
+          hd: [
+            1,
+            /* '1' */49
+          ],
+          tl: {
+            hd: [
+              2,
+              /* '3' */51
+            ],
+            tl: {
+              hd: [
+                3,
+                /* '4' */52
+              ],
+              tl: /* [] */0
+            }
+          }
+        });
+    return {
+      TAG: /* Eq */0,
+      _0: Curry._1(cardinal, v),
+      _1: 3
+    };
+  })
+];
+
+const int_map_suites_1 = {
+  hd: [
+    "equal",
+    (function (param) {
       const v = Curry._1(of_list, {
             hd: [
               1,
@@ -401,18 +432,36 @@ const int_map_suites_0 = [
               }
             }
           });
+      const u = Curry._1(of_list, {
+            hd: [
+              2,
+              /* '3' */51
+            ],
+            tl: {
+              hd: [
+                3,
+                /* '4' */52
+              ],
+              tl: {
+                hd: [
+                  1,
+                  /* '1' */49
+                ],
+                tl: /* [] */0
+              }
+            }
+          });
       return {
         TAG: /* Eq */0,
-        _0: Curry._1(cardinal, v),
-        _1: 3
+        _0: Curry._3(compare$1, Caml.caml_int_compare, u, v),
+        _1: 0
       };
     })
-];
-
-const int_map_suites_1 = {
-  hd: [
-    "equal",
-    (function (param) {
+  ],
+  tl: {
+    hd: [
+      "equal2",
+      (function (param) {
         const v = Curry._1(of_list, {
               hd: [
                 1,
@@ -453,83 +502,34 @@ const int_map_suites_1 = {
             });
         return {
           TAG: /* Eq */0,
-          _0: Curry._3(compare$1, Caml.caml_int_compare, u, v),
-          _1: 0
+          _0: true,
+          _1: Curry._3(equal, (function (x, y) {
+                return x === y;
+              }), u, v)
         };
       })
-  ],
-  tl: {
-    hd: [
-      "equal2",
-      (function (param) {
-          const v = Curry._1(of_list, {
-                hd: [
-                  1,
-                  /* '1' */49
-                ],
-                tl: {
-                  hd: [
-                    2,
-                    /* '3' */51
-                  ],
-                  tl: {
-                    hd: [
-                      3,
-                      /* '4' */52
-                    ],
-                    tl: /* [] */0
-                  }
-                }
-              });
-          const u = Curry._1(of_list, {
-                hd: [
-                  2,
-                  /* '3' */51
-                ],
-                tl: {
-                  hd: [
-                    3,
-                    /* '4' */52
-                  ],
-                  tl: {
-                    hd: [
-                      1,
-                      /* '1' */49
-                    ],
-                    tl: /* [] */0
-                  }
-                }
-              });
-          return {
-            TAG: /* Eq */0,
-            _0: true,
-            _1: Curry._3(equal, (function (x, y) {
-                    return x === y;
-                  }), u, v)
-          };
-        })
     ],
     tl: {
       hd: [
         "iteration",
         (function (param) {
-            let m = /* Empty */0;
-            for (let i = 0; i <= 10000; ++i) {
-              m = Curry._3(add$1, String(i), String(i), m);
+          let m = /* Empty */0;
+          for (let i = 0; i <= 10000; ++i) {
+            m = Curry._3(add$1, String(i), String(i), m);
+          }
+          let v = -1;
+          for (let i$1 = 0; i$1 <= 10000; ++i$1) {
+            if (Curry._2(find, String(i$1), m) !== String(i$1)) {
+              v = i$1;
             }
-            let v = -1;
-            for (let i$1 = 0; i$1 <= 10000; ++i$1) {
-              if (Curry._2(find, String(i$1), m) !== String(i$1)) {
-                v = i$1;
-              }
-              
-            }
-            return {
-              TAG: /* Eq */0,
-              _0: v,
-              _1: -1
-            };
-          })
+            
+          }
+          return {
+            TAG: /* Eq */0,
+            _0: v,
+            _1: -1
+          };
+        })
       ],
       tl: /* [] */0
     }

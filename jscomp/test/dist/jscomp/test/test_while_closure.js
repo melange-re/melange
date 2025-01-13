@@ -11,16 +11,16 @@ const v = {
 };
 
 const arr = Caml_array.make(10, (function (param) {
-        
-      }));
+      
+    }));
 
 function f(param) {
   let n = 0;
   while(n < 10) {
     const j = n;
     Caml_array.set(arr, j, (function (param) {
-            v.contents = v.contents + j | 0;
-          }));
+          v.contents = v.contents + j | 0;
+        }));
     n = n + 1 | 0;
   };
 }
@@ -28,8 +28,8 @@ function f(param) {
 f(undefined);
 
 Stdlib__Array.iter((function (x) {
-        Curry._1(x, undefined);
-      }), arr);
+      Curry._1(x, undefined);
+    }), arr);
 
 console.log(String(v.contents));
 

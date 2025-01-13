@@ -56,24 +56,24 @@ function trim(s) {
   let i = 0;
   const j = s.length;
   while((function () {
-          let tmp = false;
-          if (i < j) {
-            const u = s.charCodeAt(i);
-            tmp = u === /* '\t' */9 || u === /* '\n' */10 || u === /* ' ' */32;
-          }
-          return tmp;
-        })()) {
+        let tmp = false;
+        if (i < j) {
+          const u = s.charCodeAt(i);
+          tmp = u === /* '\t' */9 || u === /* '\n' */10 || u === /* ' ' */32;
+        }
+        return tmp;
+      })()) {
     i = i + 1 | 0;
   };
   let k = j - 1 | 0;
   while((function () {
-          let tmp = false;
-          if (k >= i) {
-            const u = s.charCodeAt(k);
-            tmp = u === /* '\t' */9 || u === /* '\n' */10 || u === /* ' ' */32;
-          }
-          return tmp;
-        })()) {
+        let tmp = false;
+        if (k >= i) {
+          const u = s.charCodeAt(k);
+          tmp = u === /* '\t' */9 || u === /* '\n' */10 || u === /* ' ' */32;
+        }
+        return tmp;
+      })()) {
     k = k - 1 | 0;
   };
   return Stdlib__String.sub(s, i, (k - i | 0) + 1 | 0);
@@ -84,19 +84,19 @@ function split(keep_empty, str, on) {
     return /* [] */0;
   } else {
     return split_by(keep_empty, (function (x) {
-            return x === on;
-          }), str);
+          return x === on;
+        }), str);
   }
 }
 
 function quick_split_by_ws(str) {
   return split_by(false, (function (x) {
-          if (x === /* '\t' */9 || x === /* '\n' */10) {
-            return true;
-          } else {
-            return x === /* ' ' */32;
-          }
-        }), str);
+        if (x === /* '\t' */9 || x === /* '\n' */10) {
+          return true;
+        } else {
+          return x === /* ' ' */32;
+        }
+      }), str);
 }
 
 function starts_with(s, beg) {
@@ -149,8 +149,8 @@ function ends_with_then_chop(s, beg) {
 
 function check_any_suffix_case(s, suffixes) {
   return Stdlib__List.exists((function (x) {
-          return ends_with(s, x);
-        }), suffixes);
+        return ends_with(s, x);
+      }), suffixes);
 }
 
 function check_any_suffix_case_then_chop(s, suffixes) {
@@ -401,12 +401,12 @@ function unsafe_concat_with_length(len, sep, l) {
     contents: hd_len
   };
   Stdlib__List.iter((function (s) {
-          const s_len = s.length;
-          Caml_bytes.caml_blit_string(sep, 0, r, pos.contents, sep_len);
-          pos.contents = pos.contents + sep_len | 0;
-          Caml_bytes.caml_blit_string(s, 0, r, pos.contents, s_len);
-          pos.contents = pos.contents + s_len | 0;
-        }), l.tl);
+        const s_len = s.length;
+        Caml_bytes.caml_blit_string(sep, 0, r, pos.contents, sep_len);
+        pos.contents = pos.contents + sep_len | 0;
+        Caml_bytes.caml_blit_string(s, 0, r, pos.contents, s_len);
+        pos.contents = pos.contents + s_len | 0;
+      }), l.tl);
   return Caml_bytes.bytes_to_string(r);
 }
 
@@ -461,18 +461,18 @@ function is_valid_module_file(s) {
     return false;
   }
   return unsafe_for_all_range(s, 1, len - 1 | 0, (function (x) {
-          if (x >= 65) {
-            if (x > 96 || x < 91) {
-              return x < 123;
-            } else {
-              return x === 95;
-            }
-          } else if (x >= 48) {
-            return x < 58;
+        if (x >= 65) {
+          if (x > 96 || x < 91) {
+            return x < 123;
           } else {
-            return x === 39;
+            return x === 95;
           }
-        }));
+        } else if (x >= 48) {
+          return x < 58;
+        } else {
+          return x === 39;
+        }
+      }));
 }
 
 function is_valid_npm_package_name(s) {
@@ -493,18 +493,18 @@ function is_valid_npm_package_name(s) {
     return false;
   }
   return unsafe_for_all_range(s, 1, len - 1 | 0, (function (x) {
-          if (x >= 58) {
-            if (x >= 97) {
-              return x < 123;
-            } else {
-              return x === 95;
-            }
-          } else if (x !== 45) {
-            return x >= 48;
+        if (x >= 58) {
+          if (x >= 97) {
+            return x < 123;
           } else {
-            return true;
+            return x === 95;
           }
-        }));
+        } else if (x !== 45) {
+          return x >= 48;
+        } else {
+          return true;
+        }
+      }));
 }
 
 function is_valid_source_name(name) {
@@ -585,12 +585,12 @@ function replace_slash_backward(x) {
     return x;
   } else {
     return Stdlib__String.map((function (x) {
-            if (x !== 47) {
-              return x;
-            } else {
-              return /* '\\' */92;
-            }
-          }), x);
+          if (x !== 47) {
+            return x;
+          } else {
+            return /* '\\' */92;
+          }
+        }), x);
   }
 }
 
@@ -600,12 +600,12 @@ function replace_backward_slash(x) {
     return x;
   } else {
     return Stdlib__String.map((function (x) {
-            if (x !== 92) {
-              return x;
-            } else {
-              return /* '/' */47;
-            }
-          }), x);
+          if (x !== 92) {
+            return x;
+          } else {
+            return /* '/' */47;
+          }
+        }), x);
   }
 }
 

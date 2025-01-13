@@ -6,8 +6,8 @@ const Curry = require("melange.js/curry.js");
 
 const delayed = {
   contents: (function (param) {
-      
-    })
+    
+  })
 };
 
 for (let i = 1; i <= 2; ++i) {
@@ -15,9 +15,9 @@ for (let i = 1; i <= 2; ++i) {
     if (j !== 0) {
       const prev = delayed.contents;
       delayed.contents = (function (param) {
-          Curry._1(prev, undefined);
-          f(((n + 1 | 0) + i | 0) - i | 0, j - 1 | 0);
-        });
+        Curry._1(prev, undefined);
+        f(((n + 1 | 0) + i | 0) - i | 0, j - 1 | 0);
+      });
       return;
     }
     if (i === n) {

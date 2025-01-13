@@ -33,11 +33,11 @@ function to_list(s) {
     contents: /* [] */0
   };
   Stdlib__List.iter((function (x) {
-          l.contents = {
-            hd: x,
-            tl: l.contents
-          };
-        }), s.c);
+        l.contents = {
+          hd: x,
+          tl: l.contents
+        };
+      }), s.c);
   return l.contents;
 }
 
@@ -365,9 +365,9 @@ const i$7 = {
 };
 
 Stdlib__List.iter((function (j) {
-        assert_("File \"jscomp/test/stack_comp_test.ml\", line 112, characters 27-34", i$7.contents === j);
-        i$7.contents = i$7.contents + 1 | 0;
-      }), s$5.c);
+      assert_("File \"jscomp/test/stack_comp_test.ml\", line 112, characters 27-34", i$7.contents === j);
+      i$7.contents = i$7.contents + 1 | 0;
+    }), s$5.c);
 
 const s1$1 = {
   c: /* [] */0,

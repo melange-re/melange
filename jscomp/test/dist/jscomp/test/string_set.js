@@ -273,8 +273,8 @@ function of_list(l) {
 
 function of_array(l) {
   return Stdlib__Array.fold_left((function (acc, x) {
-          return add(x, acc);
-        }), /* Empty */0, l);
+        return add(x, acc);
+      }), /* Empty */0, l);
 }
 
 function invariant(t) {

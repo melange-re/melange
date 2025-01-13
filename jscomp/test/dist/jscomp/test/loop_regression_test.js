@@ -24,12 +24,12 @@ function f(param) {
 const suites_0 = [
   "sum",
   (function (param) {
-      return {
-        TAG: /* Eq */0,
-        _0: 55,
-        _1: f(undefined)
-      };
-    })
+    return {
+      TAG: /* Eq */0,
+      _0: 55,
+      _1: f(undefined)
+    };
+  })
 ];
 
 const suites = {

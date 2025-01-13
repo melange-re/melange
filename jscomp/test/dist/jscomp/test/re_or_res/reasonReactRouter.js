@@ -169,21 +169,21 @@ function useUrl(serverUrl, param) {
   const setUrl = match[1];
   const url$1 = match[0];
   React.useEffect((function () {
-          const watcherId = watchUrl(function (url) {
-                Curry._1(setUrl, (function (param) {
-                        return url;
-                      }));
-              });
-          const newUrl = url(undefined);
-          if (urlNotEqual(newUrl, url$1)) {
-            Curry._1(setUrl, (function (param) {
-                    return newUrl;
+        const watcherId = watchUrl(function (url) {
+              Curry._1(setUrl, (function (param) {
+                    return url;
                   }));
-          }
-          return (function (param) {
-              unwatchUrl(watcherId);
             });
-        }), []);
+        const newUrl = url(undefined);
+        if (urlNotEqual(newUrl, url$1)) {
+          Curry._1(setUrl, (function (param) {
+                return newUrl;
+              }));
+        }
+        return (function (param) {
+          unwatchUrl(watcherId);
+        });
+      }), []);
   return url$1;
 }
 

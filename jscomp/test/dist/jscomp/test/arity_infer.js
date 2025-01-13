@@ -9,8 +9,8 @@ function f0(x) {
   let tmp;
   if (x > 3) {
     tmp = (function (x) {
-        return x + 1 | 0;
-      });
+      return x + 1 | 0;
+    });
   } else {
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found
@@ -31,23 +31,23 @@ function f3(x) {
   switch (x) {
     case 0 :
         tmp = (function (x) {
-            return x + 1 | 0;
-          });
+          return x + 1 | 0;
+        });
         break;
     case 1 :
         tmp = (function (x) {
-            return x + 2 | 0;
-          });
+          return x + 2 | 0;
+        });
         break;
     case 2 :
         tmp = (function (x) {
-            return x + 3 | 0;
-          });
+          return x + 3 | 0;
+        });
         break;
     case 3 :
         tmp = (function (x) {
-            return x + 4 | 0;
-          });
+          return x + 4 | 0;
+        });
         break;
     default:
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {

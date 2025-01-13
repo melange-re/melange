@@ -21,12 +21,12 @@ function eq(loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -47,8 +47,8 @@ function map(f, x) {
 
 function make(foo) {
   const partial_arg = map((function (prim) {
-          return String(prim);
-        }), foo);
+        return String(prim);
+      }), foo);
   return function (param) {
     let tmp = {};
     if (partial_arg !== undefined) {

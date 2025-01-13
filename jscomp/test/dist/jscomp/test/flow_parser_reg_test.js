@@ -2145,11 +2145,11 @@ function start(str) {
     contents: /* [] */0
   };
   Stdlib__String.iter((function (c) {
-          todo.contents = {
-            hd: c,
-            tl: todo.contents
-          };
-        }), str);
+        todo.contents = {
+          hd: c,
+          tl: todo.contents
+        };
+      }), str);
   return {
     negative: false,
     mantissa: 0,
@@ -2511,8 +2511,8 @@ const keywords = Stdlib__Hashtbl.create(undefined, 53);
 const type_keywords = Stdlib__Hashtbl.create(undefined, 53);
 
 Stdlib__List.iter((function (param) {
-        Stdlib__Hashtbl.add(keywords, param[0], param[1]);
-      }), {
+      Stdlib__Hashtbl.add(keywords, param[0], param[1]);
+    }), {
       hd: [
         "function",
         /* T_FUNCTION */13
@@ -2815,8 +2815,8 @@ Stdlib__List.iter((function (param) {
     });
 
 Stdlib__List.iter((function (param) {
-        Stdlib__Hashtbl.add(type_keywords, param[0], param[1]);
-      }), {
+      Stdlib__Hashtbl.add(type_keywords, param[0], param[1]);
+    }), {
       hd: [
         "static",
         /* T_STATIC */40
@@ -3456,8 +3456,8 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
           Stdlib__Buffer.add_string(raw, s);
           const code = Caml_format.caml_int_of_string("0x" + n);
           Stdlib__List.iter((function (param) {
-                  return Stdlib__Buffer.add_char(buf, param);
-                }), utf16to8(code));
+                return Stdlib__Buffer.add_char(buf, param);
+              }), utf16to8(code));
           return jsx_text(env, mode, buf, raw, lexbuf);
       case 4 :
           const n$1 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 2 | 0, lexbuf.lex_curr_pos - 1 | 0);
@@ -3465,8 +3465,8 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
           Stdlib__Buffer.add_string(raw, s$1);
           const code$1 = Caml_format.caml_int_of_string(n$1);
           Stdlib__List.iter((function (param) {
-                  return Stdlib__Buffer.add_char(buf, param);
-                }), utf16to8(code$1));
+                return Stdlib__Buffer.add_char(buf, param);
+              }), utf16to8(code$1));
           return jsx_text(env, mode, buf, raw, lexbuf);
       case 5 :
           const entity = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 1 | 0, lexbuf.lex_curr_pos - 1 | 0);
@@ -4238,8 +4238,8 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
           }
           if (code$2 !== undefined) {
             Stdlib__List.iter((function (param) {
-                    return Stdlib__Buffer.add_char(buf, param);
-                  }), utf16to8(code$2));
+                  return Stdlib__Buffer.add_char(buf, param);
+                }), utf16to8(code$2));
           } else {
             Stdlib__Buffer.add_string(buf, "&" + (entity + ";"));
           }
@@ -4709,8 +4709,8 @@ function string_escape(env, buf, lexbuf) {
           const b = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 2 | 0);
           const code = (hexa_to_int(a) << 4) + hexa_to_int(b) | 0;
           Stdlib__List.iter((function (param) {
-                  return Stdlib__Buffer.add_char(buf, param);
-                }), utf16to8(code));
+                return Stdlib__Buffer.add_char(buf, param);
+              }), utf16to8(code));
           return [
             env,
             false
@@ -4722,13 +4722,13 @@ function string_escape(env, buf, lexbuf) {
           const code$1 = ((oct_to_int(a$1) << 6) + (oct_to_int(b$1) << 3) | 0) + oct_to_int(c) | 0;
           if (code$1 < 256) {
             Stdlib__List.iter((function (param) {
-                    return Stdlib__Buffer.add_char(buf, param);
-                  }), utf16to8(code$1));
+                  return Stdlib__Buffer.add_char(buf, param);
+                }), utf16to8(code$1));
           } else {
             const code$2 = (oct_to_int(a$1) << 3) + oct_to_int(b$1) | 0;
             Stdlib__List.iter((function (param) {
-                    return Stdlib__Buffer.add_char(buf, param);
-                  }), utf16to8(code$2));
+                  return Stdlib__Buffer.add_char(buf, param);
+                }), utf16to8(code$2));
             Stdlib__Buffer.add_char(buf, c);
           }
           return [
@@ -4740,8 +4740,8 @@ function string_escape(env, buf, lexbuf) {
           const b$2 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 1 | 0);
           const code$3 = (oct_to_int(a$2) << 3) + oct_to_int(b$2) | 0;
           Stdlib__List.iter((function (param) {
-                  return Stdlib__Buffer.add_char(buf, param);
-                }), utf16to8(code$3));
+                return Stdlib__Buffer.add_char(buf, param);
+              }), utf16to8(code$3));
           return [
             env,
             true
@@ -4792,8 +4792,8 @@ function string_escape(env, buf, lexbuf) {
           const a$3 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           const code$4 = oct_to_int(a$3);
           Stdlib__List.iter((function (param) {
-                  return Stdlib__Buffer.add_char(buf, param);
-                }), utf16to8(code$4));
+                return Stdlib__Buffer.add_char(buf, param);
+              }), utf16to8(code$4));
           return [
             env,
             true
@@ -4805,8 +4805,8 @@ function string_escape(env, buf, lexbuf) {
           const d = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 4 | 0);
           const code$5 = (((hexa_to_int(a$4) << 12) + (hexa_to_int(b$3) << 8) | 0) + (hexa_to_int(c$1) << 4) | 0) + hexa_to_int(d) | 0;
           Stdlib__List.iter((function (param) {
-                  return Stdlib__Buffer.add_char(buf, param);
-                }), utf16to8(code$5));
+                return Stdlib__Buffer.add_char(buf, param);
+              }), utf16to8(code$5));
           return [
             env,
             false
@@ -4819,8 +4819,8 @@ function string_escape(env, buf, lexbuf) {
                   _0: "ILLEGAL"
                 }) : env;
           Stdlib__List.iter((function (param) {
-                  return Stdlib__Buffer.add_char(buf, param);
-                }), utf16to8(code$6));
+                return Stdlib__Buffer.add_char(buf, param);
+              }), utf16to8(code$6));
           return [
             env$1,
             false
@@ -5780,11 +5780,11 @@ function error_at(env, param) {
 function comment_list(env) {
   return function (param) {
     return Stdlib__List.iter((function (c) {
-            env.comments.contents = {
-              hd: c,
-              tl: env.comments.contents
-            };
-          }), param);
+          env.comments.contents = {
+            hd: c,
+            tl: env.comments.contents
+          };
+        }), param);
   };
 }
 
@@ -5892,8 +5892,8 @@ function with_error_callback(error_callback, env) {
 function error_list(env) {
   return function (param) {
     return Stdlib__List.iter((function (param) {
-            return error_at(env, param);
-          }), param);
+          return error_at(env, param);
+        }), param);
   };
 }
 
@@ -6130,11 +6130,11 @@ function error_unexpected(env) {
 function error_on_decorators(env) {
   return function (param) {
     return Stdlib__List.iter((function (decorator) {
-            error_at(env, [
-                  decorator[0],
-                  /* UnsupportedDecorator */57
-                ]);
-          }), param);
+          error_at(env, [
+                decorator[0],
+                /* UnsupportedDecorator */57
+              ]);
+        }), param);
   };
 }
 
@@ -6273,8 +6273,8 @@ function save_state(env) {
       last: /* Nil */0
     };
     env.token_sink.contents = (function (token_data) {
-        Stdlib__Queue.add(token_data, buffer);
-      });
+      Stdlib__Queue.add(token_data, buffer);
+    });
     token_buffer = [
       orig_token_sink,
       buffer
@@ -6768,23 +6768,23 @@ function mem$2(x, _param) {
 function filter_duplicate_errors(errs) {
   const errs$1 = Stdlib__List.rev(errs);
   const match = Stdlib__List.fold_left((function (param, err) {
-          const deduped = param[1];
-          const set = param[0];
-          if (Curry._2(mem$2, err, set)) {
-            return [
-              set,
-              deduped
-            ];
-          } else {
-            return [
-              Curry._2(add$3, err, set),
-              {
-                hd: err,
-                tl: deduped
-              }
-            ];
-          }
-        }), [
+        const deduped = param[1];
+        const set = param[0];
+        if (Curry._2(mem$2, err, set)) {
+          return [
+            set,
+            deduped
+          ];
+        } else {
+          return [
+            Curry._2(add$3, err, set),
+            {
+              hd: err,
+              tl: deduped
+            }
+          ];
+        }
+      }), [
         /* Empty */0,
         /* [] */0
       ], errs$1);
@@ -6796,9 +6796,9 @@ function with_loc(fn, env) {
   const result = Curry._1(fn, env);
   const loc = env.last_loc.contents;
   const end_loc = loc !== undefined ? loc : (error$1(env, {
-            TAG: /* Assertion */0,
-            _0: "did not consume any tokens"
-          }), Curry._2(Parser_env_Peek.loc, undefined, env));
+          TAG: /* Assertion */0,
+          _0: "did not consume any tokens"
+        }), Curry._2(Parser_env_Peek.loc, undefined, env));
   return [
     btwn(start_loc, end_loc),
     result
@@ -8474,18 +8474,18 @@ function $$const(env) {
   const match$1 = match[0];
   const variable = match$1[1];
   const errs = Stdlib__List.fold_left((function (errs, decl) {
-          if (decl[1].init !== undefined) {
-            return errs;
-          } else {
-            return {
-              hd: [
-                decl[0],
-                /* NoUninitializedConst */42
-              ],
-              tl: errs
-            };
-          }
-        }), match[1], variable.declarations);
+        if (decl[1].init !== undefined) {
+          return errs;
+        } else {
+          return {
+            hd: [
+              decl[0],
+              /* NoUninitializedConst */42
+            ],
+            tl: errs
+          };
+        }
+      }), match[1], variable.declarations);
   return [
     [
       match$1[0],
@@ -8814,8 +8814,8 @@ function left_hand_side(env) {
   let exit = 0;
   if (/* tag */(typeof match === "number" || typeof match === "string") && match === /* T_NEW */42) {
     expr = _new(env, (function (new_expr, _args) {
-            return new_expr;
-          }));
+          return new_expr;
+        }));
   } else {
     exit = 1;
   }
@@ -9242,29 +9242,29 @@ function primary$1(env) {
           pop_lex_mode(env);
           const filtered_flags = Stdlib__Buffer.create(raw_flags.length);
           Stdlib__String.iter((function (c) {
-                  if (c >= 110) {
-                    if (c !== 121) {
-                      return;
-                    } else {
-                      return Stdlib__Buffer.add_char(filtered_flags, c);
-                    }
-                  }
-                  if (c < 103) {
+                if (c >= 110) {
+                  if (c !== 121) {
                     return;
+                  } else {
+                    return Stdlib__Buffer.add_char(filtered_flags, c);
                   }
-                  switch (c) {
-                    case 104 :
-                    case 106 :
-                    case 107 :
-                    case 108 :
-                        return;
-                    case 103 :
-                    case 105 :
-                    case 109 :
-                        return Stdlib__Buffer.add_char(filtered_flags, c);
-                    
-                  }
-                }), raw_flags);
+                }
+                if (c < 103) {
+                  return;
+                }
+                switch (c) {
+                  case 104 :
+                  case 106 :
+                  case 107 :
+                  case 108 :
+                      return;
+                  case 103 :
+                  case 105 :
+                  case 109 :
+                      return Stdlib__Buffer.add_char(filtered_flags, c);
+                  
+                }
+              }), raw_flags);
           const flags = Stdlib__Buffer.contents(filtered_flags);
           if (flags !== raw_flags) {
             error$1(env, {
@@ -10438,26 +10438,26 @@ function try_arrow_function(env) {
   token$4(env$2, /* T_ARROW */10);
   const env$3 = without_error_callback(env$2);
   const match$2 = with_loc((function (param) {
-          let generator = false;
-          const env = with_in_function(true, param);
-          const match = Curry._2(Parser_env_Peek.token, undefined, env);
-          if (/* tag */(typeof match === "number" || typeof match === "string") && match === /* T_LCURLY */1) {
-            const match$1 = function_body(env, async, generator);
-            return [
-              match$1[1],
-              match$1[2]
-            ];
-          }
-          const env$1 = enter_function(env, async, generator);
-          const expr = Curry._1(Parse.assignment, env$1);
+        let generator = false;
+        const env = with_in_function(true, param);
+        const match = Curry._2(Parser_env_Peek.token, undefined, env);
+        if (/* tag */(typeof match === "number" || typeof match === "string") && match === /* T_LCURLY */1) {
+          const match$1 = function_body(env, async, generator);
           return [
-            {
-              TAG: /* BodyExpression */1,
-              _0: expr
-            },
-            env$1.in_strict_mode
+            match$1[1],
+            match$1[2]
           ];
-        }), env$3);
+        }
+        const env$1 = enter_function(env, async, generator);
+        const expr = Curry._1(Parse.assignment, env$1);
+        return [
+          {
+            TAG: /* BodyExpression */1,
+            _0: expr
+          },
+          env$1.in_strict_mode
+        ];
+      }), env$3);
   const match$3 = match$2[1];
   const body = match$3[0];
   const simple = is_simple_function_params(params, defaults, rest);
@@ -12019,8 +12019,8 @@ function declare_export_declaration(allow_export_typeOpt, env) {
         const end_loc$2 = Curry._2(Parser_env_Peek.loc, undefined, env$1);
         token$4(env$1, /* T_RCURLY */2);
         const source$2 = Curry._2(Parser_env_Peek.value, undefined, env$1) === "from" ? export_source(env$1) : (Stdlib__List.iter((function (param) {
-                    return error_at(env$1, param);
-                  }), match$6[1]), undefined);
+                return error_at(env$1, param);
+              }), match$6[1]), undefined);
         const loc$5 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$1);
         const end_loc$3 = loc$5 !== undefined ? loc$5 : (
             source$2 !== undefined ? source$2[0] : end_loc$2
@@ -12424,24 +12424,24 @@ function fold(acc) {
     switch (match.TAG) {
       case /* Object */0 :
           return Stdlib__List.fold_left((function (acc, prop) {
-                  if (prop.TAG === /* Property */0) {
-                    return fold(acc)(prop._0[1].pattern);
-                  } else {
-                    return fold(acc)(prop._0[1].argument);
-                  }
-                }), acc, match._0.properties);
+                if (prop.TAG === /* Property */0) {
+                  return fold(acc)(prop._0[1].pattern);
+                } else {
+                  return fold(acc)(prop._0[1].argument);
+                }
+              }), acc, match._0.properties);
       case /* Array */1 :
           return Stdlib__List.fold_left((function (acc, elem) {
-                  if (elem !== undefined) {
-                    if (elem.TAG === /* Element */0) {
-                      return fold(acc)(elem._0);
-                    } else {
-                      return fold(acc)(elem._0[1].argument);
-                    }
+                if (elem !== undefined) {
+                  if (elem.TAG === /* Element */0) {
+                    return fold(acc)(elem._0);
                   } else {
-                    return acc;
+                    return fold(acc)(elem._0[1].argument);
                   }
-                }), acc, match._0.elements);
+                } else {
+                  return acc;
+                }
+              }), acc, match._0.elements);
       case /* Assignment */2 :
           return fold(acc)(match._0.left);
       case /* Identifier */3 :
@@ -12591,8 +12591,8 @@ function var_or_const(env) {
   const end_loc$1 = end_loc !== undefined ? end_loc : start_loc;
   semicolon(env);
   Stdlib__List.iter((function (param) {
-          return error_at(env, param);
-        }), match[1]);
+        return error_at(env, param);
+      }), match[1]);
   return [
     btwn(start_loc, end_loc$1),
     match$1[1]
@@ -12780,57 +12780,57 @@ function from_expr(env, param) {
             expr._0
           ];
           const properties = Stdlib__List.map((function (param) {
-                  if (param.TAG === /* Property */0) {
-                    const match = param._0;
-                    const match$1 = match[1];
-                    const key = match$1.key;
-                    let key$1;
-                    switch (key.TAG) {
-                      case /* Literal */0 :
-                          key$1 = {
-                            TAG: /* Literal */0,
-                            _0: key._0
-                          };
-                          break;
-                      case /* Identifier */1 :
-                          key$1 = {
-                            TAG: /* Identifier */1,
-                            _0: key._0
-                          };
-                          break;
-                      case /* Computed */2 :
-                          key$1 = {
-                            TAG: /* Computed */2,
-                            _0: key._0
-                          };
-                          break;
-                      
-                    }
-                    const pattern = Curry._2(Parse.pattern_from_expr, env, match$1.value);
-                    return {
-                      TAG: /* Property */0,
-                      _0: [
-                        match[0],
-                        {
-                          key: key$1,
-                          pattern: pattern,
-                          shorthand: match$1.shorthand
-                        }
-                      ]
-                    };
+                if (param.TAG === /* Property */0) {
+                  const match = param._0;
+                  const match$1 = match[1];
+                  const key = match$1.key;
+                  let key$1;
+                  switch (key.TAG) {
+                    case /* Literal */0 :
+                        key$1 = {
+                          TAG: /* Literal */0,
+                          _0: key._0
+                        };
+                        break;
+                    case /* Identifier */1 :
+                        key$1 = {
+                          TAG: /* Identifier */1,
+                          _0: key._0
+                        };
+                        break;
+                    case /* Computed */2 :
+                        key$1 = {
+                          TAG: /* Computed */2,
+                          _0: key._0
+                        };
+                        break;
+                    
                   }
-                  const match$2 = param._0;
-                  const argument = Curry._2(Parse.pattern_from_expr, env, match$2[1].argument);
+                  const pattern = Curry._2(Parse.pattern_from_expr, env, match$1.value);
                   return {
-                    TAG: /* SpreadProperty */1,
+                    TAG: /* Property */0,
                     _0: [
-                      match$2[0],
+                      match[0],
                       {
-                        argument: argument
+                        key: key$1,
+                        pattern: pattern,
+                        shorthand: match$1.shorthand
                       }
                     ]
                   };
-                }), param$2[1].properties);
+                }
+                const match$2 = param._0;
+                const argument = Curry._2(Parse.pattern_from_expr, env, match$2[1].argument);
+                return {
+                  TAG: /* SpreadProperty */1,
+                  _0: [
+                    match$2[0],
+                    {
+                      argument: argument
+                    }
+                  ]
+                };
+              }), param$2[1].properties);
           return [
             param$2[0],
             {
@@ -13893,8 +13893,8 @@ function module_item(env) {
               const end_loc$4 = Curry._2(Parser_env_Peek.loc, undefined, env$1);
               token$4(env$1, /* T_RCURLY */2);
               const source$3 = Curry._2(Parser_env_Peek.value, undefined, env$1) === "from" ? export_source(env$1) : (Stdlib__List.iter((function (param) {
-                          return error_at(env$1, param);
-                        }), match$7[1]), undefined);
+                      return error_at(env$1, param);
+                    }), match$7[1]), undefined);
               const loc$3 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$1);
               const end_loc$5 = loc$3 !== undefined ? loc$3 : (
                   source$3 !== undefined ? source$3[0] : end_loc$4
@@ -13945,13 +13945,13 @@ function module_item(env) {
                     break;
                 case /* VariableDeclaration */19 :
                     names = Stdlib__List.fold_left((function (names, param) {
-                            const id = param[1].id;
-                            let param$1 = {
-                              hd: id,
-                              tl: /* [] */0
-                            };
-                            return Stdlib__List.fold_left(fold, names, param$1);
-                          }), /* [] */0, match$8._0.declarations);
+                          const id = param[1].id;
+                          let param$1 = {
+                            hd: id,
+                            tl: /* [] */0
+                          };
+                          return Stdlib__List.fold_left(fold, names, param$1);
+                        }), /* [] */0, match$8._0.declarations);
                     break;
                 case /* ClassDeclaration */20 :
                     const id$1 = match$8._0.id;
@@ -13978,8 +13978,8 @@ function module_item(env) {
                       });
               }
               Stdlib__List.iter((function (param) {
-                      return record_export(env$1, param);
-                    }), names);
+                    return record_export(env$1, param);
+                  }), names);
               const declaration = {
                 TAG: /* Declaration */0,
                 _0: stmt
@@ -14223,20 +14223,20 @@ function statement_list_item(decoratorsOpt, env) {
             token$4(env, /* T_LPAREN */3);
             const match$1 = helper(with_no_let(true, env), /* [] */0, /* [] */0);
             const head = Stdlib__List.map((function (param) {
-                    const match = param[1];
-                    return {
-                      id: match.id,
-                      init: match.init
-                    };
-                  }), match$1[1]);
+                  const match = param[1];
+                  return {
+                    id: match.id,
+                    init: match.init
+                  };
+                }), match$1[1]);
             token$4(env, /* T_RPAREN */4);
             const body = Curry._1(Parse.statement, env);
             const end_loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
             const end_loc$1 = end_loc !== undefined ? end_loc : match$1[0];
             semicolon(env);
             Stdlib__List.iter((function (param) {
-                    return error_at(env, param);
-                  }), match$1[2]);
+                  return error_at(env, param);
+                }), match$1[2]);
             return [
               btwn(start_loc, end_loc$1),
               {
@@ -14260,8 +14260,8 @@ function statement_list_item(decoratorsOpt, env) {
           const end_loc$3 = end_loc$2 !== undefined ? end_loc$2 : match$2[0];
           semicolon(env);
           Stdlib__List.iter((function (param) {
-                  return error_at(env, param);
-                }), match$2[2]);
+                return error_at(env, param);
+              }), match$2[2]);
           return [
             btwn(start_loc, end_loc$3),
             declaration
@@ -14426,9 +14426,9 @@ function statement(env) {
             }
             const end_loc$3 = finalizer !== undefined ? finalizer[0] : (
                 handler !== undefined ? handler[0] : (error_at(env, [
-                          block[0],
-                          /* NoCatchOrFinally */20
-                        ]), block[0])
+                        block[0],
+                        /* NoCatchOrFinally */20
+                      ]), block[0])
               );
             return [
               btwn(start_loc$3, end_loc$3),
@@ -14726,8 +14726,8 @@ function statement(env) {
               }
             }
             Stdlib__List.iter((function (param) {
-                    return error_at(env, param);
-                  }), match$5[1]);
+                  return error_at(env, param);
+                }), match$5[1]);
             token$4(env, /* T_SEMICOLON */7);
             const match$10 = Curry._2(Parser_env_Peek.token, undefined, env);
             let test$2;
@@ -14974,23 +14974,23 @@ function directives(env, term_fn, item_fn) {
       ]);
   const env$1 = match[0];
   Stdlib__List.iter((function (param) {
-          const token = param[1];
-          if (!/* tag */(typeof token === "number" || typeof token === "string") && token.TAG === /* T_STRING */1) {
-            if (token._0[3]) {
-              return strict_error_at(env$1, [
-                    param[0],
-                    /* StrictOctalLiteral */31
-                  ]);
-            } else {
-              return;
-            }
+        const token = param[1];
+        if (!/* tag */(typeof token === "number" || typeof token === "string") && token.TAG === /* T_STRING */1) {
+          if (token._0[3]) {
+            return strict_error_at(env$1, [
+                  param[0],
+                  /* StrictOctalLiteral */31
+                ]);
+          } else {
+            return;
           }
-          const s = "Nooo: " + (token_to_string(token) + "\n");
-          throw new Caml_js_exceptions.MelangeError("Failure", {
-                MEL_EXN_ID: "Failure",
-                _1: s
-              });
-        }), Stdlib__List.rev(match[1]));
+        }
+        const s = "Nooo: " + (token_to_string(token) + "\n");
+        throw new Caml_js_exceptions.MelangeError("Failure", {
+              MEL_EXN_ID: "Failure",
+              _1: s
+            });
+      }), Stdlib__List.rev(match[1]));
   return [
     env$1,
     match[2]
@@ -15020,16 +15020,16 @@ const class_declaration$1 = class_declaration;
 
 function statement_list_with_directives(term_fn, env) {
   const match = Curry._3(directives, env, term_fn, (function (eta) {
-          return statement_list_item(undefined, eta);
-        }));
+        return statement_list_item(undefined, eta);
+      }));
   const env$1 = match[0];
   const stmts = Curry._2(statement_list$1, term_fn, env$1);
   const stmts$1 = Stdlib__List.fold_left((function (acc, stmt) {
-          return {
-            hd: stmt,
-            tl: acc
-          };
-        }), stmts, match[1]);
+        return {
+          hd: stmt,
+          tl: acc
+        };
+      }), stmts, match[1]);
   return [
     stmts$1,
     env$1.in_strict_mode
@@ -15094,17 +15094,17 @@ function module_body_with_directives(env, term_fn) {
   const match = Curry._3(directives, env, term_fn, module_item);
   const stmts = Curry._2(module_body, term_fn, match[0]);
   return Stdlib__List.fold_left((function (acc, stmt) {
-          return {
-            hd: stmt,
-            tl: acc
-          };
-        }), stmts, match[1]);
+        return {
+          hd: stmt,
+          tl: acc
+        };
+      }), stmts, match[1]);
 }
 
 function program(env) {
   const stmts = module_body_with_directives(env, (function (param) {
-          return false;
-        }));
+        return false;
+      }));
   const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_EOF */105);
   const loc = stmts ? btwn(Stdlib__List.hd(stmts)[0], Stdlib__List.hd(Stdlib__List.rev(stmts))[0]) : end_loc;
@@ -15688,8 +15688,8 @@ function parse(content, options) {
             return node("ArrayExpression", loc, [[
                     "elements",
                     array_of_list((function (param) {
-                            return option(expression_or_spread, param);
-                          }), arr._0.elements)
+                          return option(expression_or_spread, param);
+                        }), arr._0.elements)
                   ]]);
         case /* Object */1 :
             return node("ObjectExpression", loc, [[
@@ -15718,8 +15718,8 @@ function parse(content, options) {
                   [
                     "defaults",
                     array_of_list((function (param) {
-                            return option(expression, param);
-                          }), arrow.defaults)
+                          return option(expression, param);
+                        }), arrow.defaults)
                   ],
                   [
                     "rest",
@@ -16278,8 +16278,8 @@ function parse(content, options) {
                   [
                     "elements",
                     array_of_list((function (param) {
-                            return option(array_pattern_element, param);
-                          }), arr.elements)
+                          return option(array_pattern_element, param);
+                        }), arr.elements)
                   ],
                   [
                     "typeAnnotation",
@@ -16713,8 +16713,8 @@ function parse(content, options) {
             [
               "defaults",
               array_of_list((function (param) {
-                      return option(expression, param);
-                    }), _function.defaults)
+                    return option(expression, param);
+                  }), _function.defaults)
             ],
             [
               "rest",
@@ -17132,8 +17132,8 @@ function parse(content, options) {
                   [
                     "defaults",
                     array_of_list((function (param) {
-                            return option(expression, param);
-                          }), fn.defaults)
+                          return option(expression, param);
+                        }), fn.defaults)
                   ],
                   [
                     "rest",
@@ -17338,37 +17338,37 @@ function parse(content, options) {
         case /* ImportDeclaration */29 :
             const $$import = b._0;
             const specifiers = Stdlib__List.map((function (id) {
-                    switch (id.TAG) {
-                      case /* ImportNamedSpecifier */0 :
-                          const match = id._0;
-                          let local_id = match.local;
-                          let remote_id = match.remote;
-                          const span_loc = local_id !== undefined ? btwn(remote_id[0], local_id[0]) : remote_id[0];
-                          return node("ImportSpecifier", span_loc, [
-                                [
-                                  "id",
-                                  identifier(remote_id)
-                                ],
-                                [
-                                  "name",
-                                  option(identifier, local_id)
-                                ]
-                              ]);
-                      case /* ImportDefaultSpecifier */1 :
-                          let id$1 = id._0;
-                          return node("ImportDefaultSpecifier", id$1[0], [[
-                                  "id",
-                                  identifier(id$1)
-                                ]]);
-                      case /* ImportNamespaceSpecifier */2 :
-                          let param = id._0;
-                          return node("ImportNamespaceSpecifier", param[0], [[
-                                  "id",
-                                  identifier(param[1])
-                                ]]);
-                      
-                    }
-                  }), $$import.specifiers);
+                  switch (id.TAG) {
+                    case /* ImportNamedSpecifier */0 :
+                        const match = id._0;
+                        let local_id = match.local;
+                        let remote_id = match.remote;
+                        const span_loc = local_id !== undefined ? btwn(remote_id[0], local_id[0]) : remote_id[0];
+                        return node("ImportSpecifier", span_loc, [
+                              [
+                                "id",
+                                identifier(remote_id)
+                              ],
+                              [
+                                "name",
+                                option(identifier, local_id)
+                              ]
+                            ]);
+                    case /* ImportDefaultSpecifier */1 :
+                        let id$1 = id._0;
+                        return node("ImportDefaultSpecifier", id$1[0], [[
+                                "id",
+                                identifier(id$1)
+                              ]]);
+                    case /* ImportNamespaceSpecifier */2 :
+                        let param = id._0;
+                        return node("ImportNamespaceSpecifier", param[0], [[
+                                "id",
+                                identifier(param[1])
+                              ]]);
+                    
+                  }
+                }), $$import.specifiers);
             const match$5 = $$import.importKind;
             let import_kind;
             switch (match$5) {
@@ -17827,12 +17827,12 @@ function eq(loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };

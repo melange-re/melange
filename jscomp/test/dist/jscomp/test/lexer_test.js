@@ -53,114 +53,113 @@ function from_tokens(lst) {
 const lexer_suites_0 = [
   "arith_token",
   (function (param) {
-      return {
-        TAG: /* Eq */0,
-        _0: get_tokens(Arith_lexer.lexeme, "x + 3 + 4 + y"),
-        _1: {
-          hd: {
-            TAG: /* IDENT */1,
-            _0: "x"
-          },
+    return {
+      TAG: /* Eq */0,
+      _0: get_tokens(Arith_lexer.lexeme, "x + 3 + 4 + y"),
+      _1: {
+        hd: {
+          TAG: /* IDENT */1,
+          _0: "x"
+        },
+        tl: {
+          hd: /* PLUS */0,
           tl: {
-            hd: /* PLUS */0,
+            hd: {
+              TAG: /* NUMERAL */0,
+              _0: 3
+            },
             tl: {
-              hd: {
-                TAG: /* NUMERAL */0,
-                _0: 3
-              },
+              hd: /* PLUS */0,
               tl: {
-                hd: /* PLUS */0,
+                hd: {
+                  TAG: /* NUMERAL */0,
+                  _0: 4
+                },
                 tl: {
-                  hd: {
-                    TAG: /* NUMERAL */0,
-                    _0: 4
-                  },
+                  hd: /* PLUS */0,
                   tl: {
-                    hd: /* PLUS */0,
-                    tl: {
-                      hd: {
-                        TAG: /* IDENT */1,
-                        _0: "y"
-                      },
-                      tl: /* [] */0
-                    }
+                    hd: {
+                      TAG: /* IDENT */1,
+                      _0: "y"
+                    },
+                    tl: /* [] */0
                   }
                 }
               }
             }
           }
         }
-      };
-    })
+      }
+    };
+  })
 ];
 
 const lexer_suites_1 = {
   hd: [
     "simple token",
     (function (param) {
-        return {
-          TAG: /* Eq */0,
-          _0: Arith_lexer.lexeme(Stdlib__Lexing.from_string(undefined, "10")),
-          _1: {
-            TAG: /* NUMERAL */0,
-            _0: 10
-          }
-        };
-      })
+      return {
+        TAG: /* Eq */0,
+        _0: Arith_lexer.lexeme(Stdlib__Lexing.from_string(undefined, "10")),
+        _1: {
+          TAG: /* NUMERAL */0,
+          _0: 10
+        }
+      };
+    })
   ],
   tl: {
     hd: [
       "number_lexer",
       (function (param) {
-          const v = {
-            contents: /* [] */0
+        const v = {
+          contents: /* [] */0
+        };
+        const add = function (t) {
+          v.contents = {
+            hd: t,
+            tl: v.contents
           };
-          const add = function (t) {
-            v.contents = {
-              hd: t,
-              tl: v.contents
-            };
-          };
-          Number_lexer.token(add, Stdlib__Lexing.from_string(undefined, "32 + 32 ( ) * / "));
-          return {
-            TAG: /* Eq */0,
-            _0: Stdlib__List.rev(v.contents),
-            _1: {
-              hd: "number",
+        };
+        Number_lexer.token(add, Stdlib__Lexing.from_string(undefined, "32 + 32 ( ) * / "));
+        return {
+          TAG: /* Eq */0,
+          _0: Stdlib__List.rev(v.contents),
+          _1: {
+            hd: "number",
+            tl: {
+              hd: "32",
               tl: {
-                hd: "32",
+                hd: "new line",
                 tl: {
-                  hd: "new line",
+                  hd: "+",
                   tl: {
-                    hd: "+",
+                    hd: "new line",
                     tl: {
-                      hd: "new line",
+                      hd: "number",
                       tl: {
-                        hd: "number",
+                        hd: "32",
                         tl: {
-                          hd: "32",
+                          hd: "new line",
                           tl: {
-                            hd: "new line",
+                            hd: "(",
                             tl: {
-                              hd: "(",
+                              hd: "new line",
                               tl: {
-                                hd: "new line",
+                                hd: ")",
                                 tl: {
-                                  hd: ")",
+                                  hd: "new line",
                                   tl: {
-                                    hd: "new line",
+                                    hd: "*",
                                     tl: {
-                                      hd: "*",
+                                      hd: "new line",
                                       tl: {
-                                        hd: "new line",
+                                        hd: "/",
                                         tl: {
-                                          hd: "/",
+                                          hd: "new line",
                                           tl: {
-                                            hd: "new line",
-                                            tl: {
-                                              hd: "eof",
-                                              tl: /* [] */0
-                                            }
+                                            hd: "eof",
+                                            tl: /* [] */0
                                           }
                                         }
                                       }
@@ -177,30 +176,31 @@ const lexer_suites_1 = {
                 }
               }
             }
-          };
-        })
+          }
+        };
+      })
     ],
     tl: {
       hd: [
         "simple number",
         (function (param) {
-            return {
-              TAG: /* Eq */0,
-              _0: Arith_syntax.str(Arith_parser.toplevel(Arith_lexer.lexeme, Stdlib__Lexing.from_string(undefined, "10"))),
-              _1: "10."
-            };
-          })
+          return {
+            TAG: /* Eq */0,
+            _0: Arith_syntax.str(Arith_parser.toplevel(Arith_lexer.lexeme, Stdlib__Lexing.from_string(undefined, "10"))),
+            _1: "10."
+          };
+        })
       ],
       tl: {
         hd: [
           "arith",
           (function (param) {
-              return {
-                TAG: /* Eq */0,
-                _0: Arith_syntax.str(Arith_parser.toplevel(Arith_lexer.lexeme, Stdlib__Lexing.from_string(undefined, "x + 3 + 4 + y"))),
-                _1: "x+3.+4.+y"
-              };
-            })
+            return {
+              TAG: /* Eq */0,
+              _0: Arith_syntax.str(Arith_parser.toplevel(Arith_lexer.lexeme, Stdlib__Lexing.from_string(undefined, "x + 3 + 4 + y"))),
+              _1: "x+3.+4.+y"
+            };
+          })
         ],
         tl: /* [] */0
       }

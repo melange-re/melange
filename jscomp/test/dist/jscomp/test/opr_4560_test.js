@@ -37,62 +37,62 @@ const object_tables$1 = {
 function c1_init($$class) {
   const b = CamlinternalOO.get_method_label($$class, "b");
   CamlinternalOO.set_method($$class, b, (function (self$1) {
-          if (!object_tables.key) {
-            const $$class = CamlinternalOO.create_table([
-                  "c",
-                  "h"
-                ]);
-            const env = CamlinternalOO.new_variable($$class, "");
-            const ids = CamlinternalOO.get_method_labels($$class, [
-                  "h",
-                  "c"
-                ]);
-            const h = ids[0];
-            const c = ids[1];
-            CamlinternalOO.set_methods($$class, [
-                  c,
-                  (function (self$2) {
-                      const env$1 = self$2[env];
-                      if (!object_tables$1.key) {
-                        const $$class = CamlinternalOO.create_table(["d"]);
-                        const env$2 = CamlinternalOO.new_variable($$class, "");
-                        const d = CamlinternalOO.get_method_label($$class, "d");
-                        CamlinternalOO.set_method($$class, d, (function (self$3) {
-                                const env$3 = self$3[env$2];
-                                const tmp = env$3[1];
-                                return Curry._1(tmp[0][env$3[0]], tmp);
-                              }));
-                        const env_init = function (env$3) {
-                          const self = CamlinternalOO.create_object_opt(undefined, $$class);
-                          self[env$2] = env$3;
-                          return self;
-                        };
-                        CamlinternalOO.init_class($$class);
-                        object_tables$1.key = env_init;
-                      }
-                      return Curry._1(object_tables$1.key, [
-                            env$1[0],
-                            env$1[1]
-                          ]);
-                    }),
-                  h,
-                  (function (self$2) {
-                      return 33;
-                    })
-                ]);
-            const env_init = function (env$1) {
-              const self = CamlinternalOO.create_object_opt(undefined, $$class);
-              self[env] = env$1;
-              return self;
-            };
-            CamlinternalOO.init_class($$class);
-            object_tables.key = env_init;
-          }
-          return Curry._1(object_tables.key, [
-                b,
-                self$1
+        if (!object_tables.key) {
+          const $$class = CamlinternalOO.create_table([
+                "c",
+                "h"
               ]);
-        }));
+          const env = CamlinternalOO.new_variable($$class, "");
+          const ids = CamlinternalOO.get_method_labels($$class, [
+                "h",
+                "c"
+              ]);
+          const h = ids[0];
+          const c = ids[1];
+          CamlinternalOO.set_methods($$class, [
+                c,
+                (function (self$2) {
+                  const env$1 = self$2[env];
+                  if (!object_tables$1.key) {
+                    const $$class = CamlinternalOO.create_table(["d"]);
+                    const env$2 = CamlinternalOO.new_variable($$class, "");
+                    const d = CamlinternalOO.get_method_label($$class, "d");
+                    CamlinternalOO.set_method($$class, d, (function (self$3) {
+                          const env$3 = self$3[env$2];
+                          const tmp = env$3[1];
+                          return Curry._1(tmp[0][env$3[0]], tmp);
+                        }));
+                    const env_init = function (env$3) {
+                      const self = CamlinternalOO.create_object_opt(undefined, $$class);
+                      self[env$2] = env$3;
+                      return self;
+                    };
+                    CamlinternalOO.init_class($$class);
+                    object_tables$1.key = env_init;
+                  }
+                  return Curry._1(object_tables$1.key, [
+                        env$1[0],
+                        env$1[1]
+                      ]);
+                }),
+                h,
+                (function (self$2) {
+                  return 33;
+                })
+              ]);
+          const env_init = function (env$1) {
+            const self = CamlinternalOO.create_object_opt(undefined, $$class);
+            self[env] = env$1;
+            return self;
+          };
+          CamlinternalOO.init_class($$class);
+          object_tables.key = env_init;
+        }
+        return Curry._1(object_tables.key, [
+              b,
+              self$1
+            ]);
+      }));
   return function (env, self) {
     return CamlinternalOO.create_object_opt(self, $$class);
   };
@@ -109,8 +109,8 @@ function c2_init($$class) {
   const inh = CamlinternalOO.inherits($$class, 0, 0, shared, c1, true);
   const obj_init = inh[0];
   CamlinternalOO.set_method($$class, a, (function (self$4) {
-          
-        }));
+        
+      }));
   return function (env, self) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     Curry._1(obj_init, self$1);

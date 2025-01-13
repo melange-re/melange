@@ -32,20 +32,20 @@ const hello = ids[3];
 CamlinternalOO.set_methods($$class, [
       hi,
       (function (self$1, v, z) {
-          return v + z | 0;
-        }),
+        return v + z | 0;
+      }),
       id1,
       (function (self$1) {
-          return 3;
-        }),
+        return 3;
+      }),
       id2,
       (function (self$1) {
-          return 4;
-        }),
+        return 4;
+      }),
       hello,
       (function (self$1, v) {
-          return v;
-        })
+        return v;
+      })
     ]);
 
 CamlinternalOO.init_class($$class);
@@ -57,8 +57,8 @@ const $$class$1 = CamlinternalOO.create_table(["id"]);
 const id = CamlinternalOO.get_method_label($$class$1, "id");
 
 CamlinternalOO.set_method($$class$1, id, (function (self$2) {
-        return "uu";
-      }));
+      return "uu";
+    }));
 
 CamlinternalOO.init_class($$class$1);
 
@@ -69,8 +69,8 @@ const $$class$2 = CamlinternalOO.create_table(shared);
 const add = CamlinternalOO.get_method_label($$class$2, "add");
 
 CamlinternalOO.set_method($$class$2, add, (function (self$3, x, y) {
-        return x + y | 0;
-      }));
+      return x + y | 0;
+    }));
 
 CamlinternalOO.init_class($$class$2);
 
@@ -81,8 +81,8 @@ const $$class$3 = CamlinternalOO.create_table(shared);
 const add$1 = CamlinternalOO.get_method_label($$class$3, "add");
 
 CamlinternalOO.set_method($$class$3, add$1, (function (self$4, x, y) {
-        return x + y | 0;
-      }));
+      return x + y | 0;
+    }));
 
 CamlinternalOO.init_class($$class$3);
 

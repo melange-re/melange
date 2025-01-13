@@ -19,12 +19,12 @@ function eq(loc, param) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -32,25 +32,25 @@ function eq(loc, param) {
 
 const u = {
   say: (function (x, y) {
-      return x + y | 0;
-    })
+    return x + y | 0;
+  })
 };
 
 const v = {
   hi: (function (x, y) {
-      let self = this;
-      const u = {
-        x: x
-      };
-      return self.say(u.x) + y + x;
-    }),
+    let self = this;
+    const u = {
+      x: x
+    };
+    return self.say(u.x) + y + x;
+  }),
   say: (function (x) {
-      let self = this;
-      return x * self.x();
-    }),
+    let self = this;
+    return x * self.x();
+  }),
   x: (function () {
-      return 3;
-    })
+    return 3;
+  })
 };
 
 const p_1 = u.say(1, 2);

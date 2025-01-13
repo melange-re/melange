@@ -40,8 +40,8 @@ eq("File \"jscomp/test/scanf_test.ml\", line 6, characters 5-12", [
                 },
                 _1: "%d %d"
               }), (function (x, y) {
-              return x + y | 0;
-            })),
+            return x + y | 0;
+          })),
       63
     ]);
 
@@ -57,8 +57,8 @@ eq("File \"jscomp/test/scanf_test.ml\", line 7, characters 5-12", [
                 },
                 _1: "%Lu"
               }), (function (i) {
-              return i;
-            })),
+            return i;
+          })),
       [
         -1429646511,
         235324607

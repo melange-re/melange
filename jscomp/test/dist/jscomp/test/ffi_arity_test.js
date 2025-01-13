@@ -72,46 +72,46 @@ Mt.from_pair_suites("Ffi_arity_test", {
       hd: [
         "File \"jscomp/test/ffi_arity_test.ml\", line 45, characters 4-11",
         (function (param) {
-            return {
-              TAG: /* Eq */0,
-              _0: v,
-              _1: [
-                0,
-                1,
-                4
-              ]
-            };
-          })
+          return {
+            TAG: /* Eq */0,
+            _0: v,
+            _1: [
+              0,
+              1,
+              4
+            ]
+          };
+        })
       ],
       tl: {
         hd: [
           "File \"jscomp/test/ffi_arity_test.ml\", line 46, characters 4-11",
           (function (param) {
-              return {
-                TAG: /* Eq */0,
-                _0: vv,
-                _1: [
-                  1,
-                  3,
-                  5
-                ]
-              };
-            })
+            return {
+              TAG: /* Eq */0,
+              _0: vv,
+              _1: [
+                1,
+                3,
+                5
+              ]
+            };
+          })
         ],
         tl: {
           hd: [
             "File \"jscomp/test/ffi_arity_test.ml\", line 47, characters 4-11",
             (function (param) {
-                return {
-                  TAG: /* Eq */0,
-                  _0: hh,
-                  _1: [
-                    1,
-                    2,
-                    3
-                  ]
-                };
-              })
+              return {
+                TAG: /* Eq */0,
+                _0: hh,
+                _1: [
+                  1,
+                  2,
+                  3
+                ]
+              };
+            })
           ],
           tl: /* [] */0
         }

@@ -17,12 +17,12 @@ function point_init($$class) {
   CamlinternalOO.set_methods($$class, [
         get_x,
         (function (self$1) {
-            return self$1[x];
-          }),
+          return self$1[x];
+        }),
         move,
         (function (self$1, d) {
-            self$1[x] = self$1[x] + d | 0;
-          })
+          self$1[x] = self$1[x] + d | 0;
+        })
       ]);
   return function (env, self, x_init) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);

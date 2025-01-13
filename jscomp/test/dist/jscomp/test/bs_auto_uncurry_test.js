@@ -17,12 +17,12 @@ function eq(loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -89,16 +89,16 @@ eq("File \"jscomp/test/bs_auto_uncurry_test.ml\", line 40, characters 7-14", [
         2,
         3
       ].reduce((function (prim0, prim1) {
-            return prim0 + prim1 | 0;
-          }), 0), 6);
+          return prim0 + prim1 | 0;
+        }), 0), 6);
 
 eq("File \"jscomp/test/bs_auto_uncurry_test.ml\", line 44, characters 7-14", [
         1,
         2,
         3
       ].reduce((function (x, y, i) {
-            return (x + y | 0) + i | 0;
-          }), 0), 9);
+          return (x + y | 0) + i | 0;
+        }), 0), 9);
 
 eq("File \"jscomp/test/bs_auto_uncurry_test.ml\", line 48, characters 7-14", [
         1,

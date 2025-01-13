@@ -166,15 +166,15 @@ function assertion_test(param) {
     contents: /* Empty */0
   };
   timing("building", (function (param) {
-          for (let i = 0; i <= 1000000; ++i) {
-            m.contents = Curry._3(add, String(i), String(i), m.contents);
-          }
-        }));
+        for (let i = 0; i <= 1000000; ++i) {
+          m.contents = Curry._3(add, String(i), String(i), m.contents);
+        }
+      }));
   timing("querying", (function (param) {
-          for (let i = 0; i <= 1000000; ++i) {
-            Curry._2(find, String(i), m.contents);
-          }
-        }));
+        for (let i = 0; i <= 1000000; ++i) {
+          Curry._2(find, String(i), m.contents);
+        }
+      }));
 }
 
 exports.assertion_test = assertion_test;

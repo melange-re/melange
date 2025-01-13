@@ -110,11 +110,11 @@ function to_buf(b, t) {
       if (l.tl) {
         Stdlib__Buffer.add_char(b, /* '(' */40);
         Stdlib__List.iteri((function (i, t$p) {
-                if (i > 0) {
-                  Stdlib__Buffer.add_char(b, /* ' ' */32);
-                }
-                to_buf(b, t$p);
-              }), l);
+              if (i > 0) {
+                Stdlib__Buffer.add_char(b, /* ' ' */32);
+              }
+              to_buf(b, t$p);
+            }), l);
         return Stdlib__Buffer.add_char(b, /* ')' */41);
       } else {
         return Curry._2(Stdlib__Printf.bprintf(b, {
@@ -198,24 +198,24 @@ function print(fmt, t) {
               _1: "@[<hov1>("
             });
         Stdlib__List.iteri((function (i, t$p) {
-                if (i > 0) {
-                  Stdlib__Format.fprintf(fmt)({
-                        TAG: /* Format */0,
+              if (i > 0) {
+                Stdlib__Format.fprintf(fmt)({
+                      TAG: /* Format */0,
+                      _0: {
+                        TAG: /* Formatting_lit */17,
                         _0: {
-                          TAG: /* Formatting_lit */17,
-                          _0: {
-                            TAG: /* Break */0,
-                            _0: "@ ",
-                            _1: 1,
-                            _2: 0
-                          },
-                          _1: /* End_of_format */0
+                          TAG: /* Break */0,
+                          _0: "@ ",
+                          _1: 1,
+                          _2: 0
                         },
-                        _1: "@ "
-                      });
-                }
-                print(fmt, t$p);
-              }), l);
+                        _1: /* End_of_format */0
+                      },
+                      _1: "@ "
+                    });
+              }
+              print(fmt, t$p);
+            }), l);
         return Stdlib__Format.fprintf(fmt)({
               TAG: /* Format */0,
               _0: {
@@ -301,11 +301,11 @@ function print_noindent(fmt, t) {
       if (l.tl) {
         Stdlib__Format.pp_print_char(fmt, /* '(' */40);
         Stdlib__List.iteri((function (i, t$p) {
-                if (i > 0) {
-                  Stdlib__Format.pp_print_char(fmt, /* ' ' */32);
-                }
-                print_noindent(fmt, t$p);
-              }), l);
+              if (i > 0) {
+                Stdlib__Format.pp_print_char(fmt, /* ' ' */32);
+              }
+              print_noindent(fmt, t$p);
+            }), l);
         return Stdlib__Format.pp_print_char(fmt, /* ')' */41);
       } else {
         return Curry._2(Stdlib__Format.fprintf(fmt)({
@@ -362,9 +362,9 @@ function to_chan(oc, t) {
 function to_file_seq(filename, seq) {
   const f = function (oc) {
     return Curry._1(seq, (function (t) {
-            to_chan(oc, t);
-            Caml_io.caml_ml_output_char(oc, /* '\n' */10);
-          }));
+          to_chan(oc, t);
+          Caml_io.caml_ml_output_char(oc, /* '\n' */10);
+        }));
   };
   const oc = Stdlib.open_out(filename);
   try {
@@ -382,8 +382,8 @@ function to_file_seq(filename, seq) {
 
 function to_file(filename, t) {
   to_file_seq(filename, (function (k) {
-          Curry._1(k, t);
-        }));
+        Curry._1(k, t);
+      }));
 }
 
 function $$return(x) {
@@ -486,12 +486,12 @@ function _error(t, msg) {
             _1: "at %d, %d: "
           }), t.line, t.col);
   return Stdlib__Printf.kbprintf((function (b) {
-          const msg$p = Stdlib__Buffer.contents(b);
-          return {
-            NAME: "Error",
-            VAL: msg$p
-          };
-        }), b, msg);
+        const msg$p = Stdlib__Buffer.contents(b);
+        return {
+          NAME: "Error",
+          VAL: msg$p
+        };
+      }), b, msg);
 }
 
 function _error_eof(t) {
@@ -510,8 +510,8 @@ function expr(k, t) {
   while(true) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
-              return expr(k, param);
-            }), _error_eof);
+            return expr(k, param);
+          }), _error_eof);
     }
     const c = _get(t);
     if (c >= 11) {
@@ -531,8 +531,8 @@ function expr_starting_with(c, k, t) {
   if (c >= 42) {
     if (c === 59) {
       return skip_comment((function (param, param$1) {
-              return expr(k, t);
-            }), t);
+            return expr(k, t);
+          }), t);
     }
     if (c === 92) {
       return _error(t, {
@@ -601,8 +601,8 @@ function expr_list(acc, k, t) {
   while(true) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
-              return expr_list(acc, k, param);
-            }), _error_eof);
+            return expr_list(acc, k, param);
+          }), _error_eof);
     }
     const c = _get(t);
     if (c > 32 || c < 9) {
@@ -617,37 +617,37 @@ function expr_list(acc, k, t) {
       continue;
     }
     return expr_starting_with(c, (function (last, e) {
-            if (last !== undefined) {
-              if (last !== 40) {
-                if (last !== 41) {
-                  return expr_list({
-                        hd: e,
-                        tl: acc
-                      }, k, t);
-                } else {
-                  return Curry._2(k, undefined, {
-                        NAME: "List",
-                        VAL: Stdlib__List.rev({
-                              hd: e,
-                              tl: acc
-                            })
-                      });
-                }
+          if (last !== undefined) {
+            if (last !== 40) {
+              if (last !== 41) {
+                return expr_list({
+                      hd: e,
+                      tl: acc
+                    }, k, t);
               } else {
-                return expr_list(/* [] */0, (function (param, l) {
-                        return expr_list({
-                              hd: l,
-                              tl: acc
-                            }, k, t);
-                      }), t);
+                return Curry._2(k, undefined, {
+                      NAME: "List",
+                      VAL: Stdlib__List.rev({
+                            hd: e,
+                            tl: acc
+                          })
+                    });
               }
             } else {
-              return expr_list({
-                    hd: e,
-                    tl: acc
-                  }, k, t);
+              return expr_list(/* [] */0, (function (param, l) {
+                    return expr_list({
+                          hd: l,
+                          tl: acc
+                        }, k, t);
+                  }), t);
             }
-          }), t);
+          } else {
+            return expr_list({
+                  hd: e,
+                  tl: acc
+                }, k, t);
+          }
+        }), t);
   };
 }
 
@@ -664,10 +664,10 @@ function atom(k, t) {
   while(true) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
-              return atom(k, param);
-            }), (function (param) {
-              return _return_atom(undefined, k, param);
-            }));
+            return atom(k, param);
+          }), (function (param) {
+            return _return_atom(undefined, k, param);
+          }));
     }
     const c = _get(t);
     let exit = 0;
@@ -730,8 +730,8 @@ function quoted(k, t) {
   while(true) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
-              return quoted(k, param);
-            }), _error_eof);
+            return quoted(k, param);
+          }), _error_eof);
     }
     const c = _get(t);
     if (c === 34) {
@@ -739,9 +739,9 @@ function quoted(k, t) {
     }
     if (c === 92) {
       return escaped((function (c) {
-              Stdlib__Buffer.add_char(t.atom, c);
-              return quoted(k, t);
-            }), t);
+            Stdlib__Buffer.add_char(t.atom, c);
+            return quoted(k, t);
+          }), t);
     }
     Stdlib__Buffer.add_char(t.atom, c);
     continue;
@@ -751,8 +751,8 @@ function quoted(k, t) {
 function escaped(k, t) {
   if (t.i === t.len) {
     return _refill(t, (function (param) {
-            return escaped(k, param);
-          }), _error_eof);
+          return escaped(k, param);
+        }), _error_eof);
   }
   const c = _get(t);
   if (c >= 92) {
@@ -798,8 +798,8 @@ function escaped(k, t) {
   }
   if (_is_digit(c)) {
     return read2int(c - /* '0' */48 | 0, (function (n) {
-            return Curry._1(k, Stdlib__Char.chr(n));
-          }), t);
+          return Curry._1(k, Stdlib__Char.chr(n));
+        }), t);
   } else {
     return Curry._1(_error(t, {
               TAG: /* Format */0,
@@ -823,8 +823,8 @@ function escaped(k, t) {
 function read2int(i, k, t) {
   if (t.i === t.len) {
     return _refill(t, (function (param) {
-            return read2int(i, k, param);
-          }), _error_eof);
+          return read2int(i, k, param);
+        }), _error_eof);
   }
   const c = _get(t);
   if (_is_digit(c)) {
@@ -852,8 +852,8 @@ function read2int(i, k, t) {
 function read1int(i, k, t) {
   if (t.i === t.len) {
     return _refill(t, (function (param) {
-            return read1int(i, k, param);
-          }), _error_eof);
+          return read1int(i, k, param);
+        }), _error_eof);
   }
   const c = _get(t);
   if (_is_digit(c)) {
@@ -882,8 +882,8 @@ function skip_comment(k, t) {
   while(true) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
-              return skip_comment(k, param);
-            }), _error_eof);
+            return skip_comment(k, param);
+          }), _error_eof);
     }
     const match = _get(t);
     if (match === 10) {
@@ -897,10 +897,10 @@ function expr_or_end(k, t) {
   while(true) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
-              return expr_or_end(k, param);
-            }), (function (param) {
-              return "End";
-            }));
+            return expr_or_end(k, param);
+          }), (function (param) {
+            return "End";
+          }));
     }
     const c = _get(t);
     if (c >= 11) {
@@ -918,11 +918,11 @@ function expr_or_end(k, t) {
 
 function next(t) {
   return expr_or_end((function (param, x) {
-          return {
-            NAME: "Ok",
-            VAL: x
-          };
-        }), t);
+        return {
+          NAME: "Ok",
+          VAL: x
+        };
+      }), t);
 }
 
 function parse_string(s) {
@@ -953,8 +953,8 @@ function parse_string(s) {
 
 function parse_chan(bufsize, ic) {
   const d = make(bufsize, (function (param, param$1, param$2) {
-          return Stdlib.input(ic, param, param$1, param$2);
-        }));
+        return Stdlib.input(ic, param, param$1, param$2);
+      }));
   const res = next(d);
   if (typeof res === "string") {
     return {
@@ -968,8 +968,8 @@ function parse_chan(bufsize, ic) {
 
 function parse_chan_gen(bufsize, ic) {
   const d = make(bufsize, (function (param, param$1, param$2) {
-          return Stdlib.input(ic, param, param$1, param$2);
-        }));
+        return Stdlib.input(ic, param, param$1, param$2);
+      }));
   return function (param) {
     const e = next(d);
     if (typeof e === "string") {
@@ -982,8 +982,8 @@ function parse_chan_gen(bufsize, ic) {
 
 function parse_chan_list(bufsize, ic) {
   const d = make(bufsize, (function (param, param$1, param$2) {
-          return Stdlib.input(ic, param, param$1, param$2);
-        }));
+        return Stdlib.input(ic, param, param$1, param$2);
+      }));
   let _acc = /* [] */0;
   while(true) {
     const acc = _acc;
@@ -1007,14 +1007,14 @@ function parse_chan_list(bufsize, ic) {
 
 function parse_file(filename) {
   return _with_in(filename, (function (ic) {
-          return parse_chan(undefined, ic);
-        }));
+        return parse_chan(undefined, ic);
+      }));
 }
 
 function parse_file_list(filename) {
   return _with_in(filename, (function (ic) {
-          return parse_chan_list(undefined, ic);
-        }));
+        return parse_chan_list(undefined, ic);
+      }));
 }
 
 function MakeDecode(funarg) {
@@ -1041,14 +1041,14 @@ function MakeDecode(funarg) {
   };
   const _refill = function (t, k_succ, k_fail) {
     return Curry._2($great$great$eq, Curry._3(t.refill, t.buf, 0, t.buf.length), (function (n) {
-            t.i = 0;
-            t.len = n;
-            if (n === 0) {
-              return Curry._1(k_fail, t);
-            } else {
-              return Curry._1(k_succ, t);
-            }
-          }));
+          t.i = 0;
+          t.len = n;
+          if (n === 0) {
+            return Curry._1(k_fail, t);
+          } else {
+            return Curry._1(k_succ, t);
+          }
+        }));
   };
   const _get = function (t) {
     if (t.i >= t.len) {
@@ -1103,12 +1103,12 @@ function MakeDecode(funarg) {
               _1: "at %d, %d: "
             }), t.line, t.col);
     return Stdlib__Printf.kbprintf((function (b) {
-            const msg$p = Stdlib__Buffer.contents(b);
-            return Curry._1(funarg.$$return, {
-                  NAME: "Error",
-                  VAL: msg$p
-                });
-          }), b, msg);
+          const msg$p = Stdlib__Buffer.contents(b);
+          return Curry._1(funarg.$$return, {
+                NAME: "Error",
+                VAL: msg$p
+              });
+        }), b, msg);
   };
   const _error_eof = function (t) {
     return _error(t, {
@@ -1125,8 +1125,8 @@ function MakeDecode(funarg) {
     while(true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
-                return expr(k, param);
-              }), _error_eof);
+              return expr(k, param);
+            }), _error_eof);
       }
       const c = _get(t);
       if (c >= 11) {
@@ -1145,8 +1145,8 @@ function MakeDecode(funarg) {
     if (c >= 42) {
       if (c === 59) {
         return skip_comment((function (param, param$1) {
-                return expr(k, t);
-              }), t);
+              return expr(k, t);
+            }), t);
       }
       if (c === 92) {
         return _error(t, {
@@ -1214,8 +1214,8 @@ function MakeDecode(funarg) {
     while(true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
-                return expr_list(acc, k, param);
-              }), _error_eof);
+              return expr_list(acc, k, param);
+            }), _error_eof);
       }
       const c = _get(t);
       if (c > 32 || c < 9) {
@@ -1230,37 +1230,37 @@ function MakeDecode(funarg) {
         continue;
       }
       return expr_starting_with(c, (function (last, e) {
-              if (last !== undefined) {
-                if (last !== 40) {
-                  if (last !== 41) {
-                    return expr_list({
-                          hd: e,
-                          tl: acc
-                        }, k, t);
-                  } else {
-                    return Curry._2(k, undefined, {
-                          NAME: "List",
-                          VAL: Stdlib__List.rev({
-                                hd: e,
-                                tl: acc
-                              })
-                        });
-                  }
+            if (last !== undefined) {
+              if (last !== 40) {
+                if (last !== 41) {
+                  return expr_list({
+                        hd: e,
+                        tl: acc
+                      }, k, t);
                 } else {
-                  return expr_list(/* [] */0, (function (param, l) {
-                          return expr_list({
-                                hd: l,
-                                tl: acc
-                              }, k, t);
-                        }), t);
+                  return Curry._2(k, undefined, {
+                        NAME: "List",
+                        VAL: Stdlib__List.rev({
+                              hd: e,
+                              tl: acc
+                            })
+                      });
                 }
               } else {
-                return expr_list({
-                      hd: e,
-                      tl: acc
-                    }, k, t);
+                return expr_list(/* [] */0, (function (param, l) {
+                      return expr_list({
+                            hd: l,
+                            tl: acc
+                          }, k, t);
+                    }), t);
               }
-            }), t);
+            } else {
+              return expr_list({
+                    hd: e,
+                    tl: acc
+                  }, k, t);
+            }
+          }), t);
     };
   };
   const _return_atom = function (last, k, t) {
@@ -1275,10 +1275,10 @@ function MakeDecode(funarg) {
     while(true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
-                return atom(k, param);
-              }), (function (param) {
-                return _return_atom(undefined, k, param);
-              }));
+              return atom(k, param);
+            }), (function (param) {
+              return _return_atom(undefined, k, param);
+            }));
       }
       const c = _get(t);
       let exit = 0;
@@ -1340,8 +1340,8 @@ function MakeDecode(funarg) {
     while(true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
-                return quoted(k, param);
-              }), _error_eof);
+              return quoted(k, param);
+            }), _error_eof);
       }
       const c = _get(t);
       if (c === 34) {
@@ -1349,9 +1349,9 @@ function MakeDecode(funarg) {
       }
       if (c === 92) {
         return escaped((function (c) {
-                Stdlib__Buffer.add_char(t.atom, c);
-                return quoted(k, t);
-              }), t);
+              Stdlib__Buffer.add_char(t.atom, c);
+              return quoted(k, t);
+            }), t);
       }
       Stdlib__Buffer.add_char(t.atom, c);
       continue;
@@ -1360,8 +1360,8 @@ function MakeDecode(funarg) {
   const escaped = function (k, t) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
-              return escaped(k, param);
-            }), _error_eof);
+            return escaped(k, param);
+          }), _error_eof);
     }
     const c = _get(t);
     if (c >= 92) {
@@ -1407,8 +1407,8 @@ function MakeDecode(funarg) {
     }
     if (_is_digit(c)) {
       return read2int(c - /* '0' */48 | 0, (function (n) {
-              return Curry._1(k, Stdlib__Char.chr(n));
-            }), t);
+            return Curry._1(k, Stdlib__Char.chr(n));
+          }), t);
     } else {
       return Curry._1(_error(t, {
                 TAG: /* Format */0,
@@ -1431,8 +1431,8 @@ function MakeDecode(funarg) {
   const read2int = function (i, k, t) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
-              return read2int(i, k, param);
-            }), _error_eof);
+            return read2int(i, k, param);
+          }), _error_eof);
     }
     const c = _get(t);
     if (_is_digit(c)) {
@@ -1459,8 +1459,8 @@ function MakeDecode(funarg) {
   const read1int = function (i, k, t) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
-              return read1int(i, k, param);
-            }), _error_eof);
+            return read1int(i, k, param);
+          }), _error_eof);
     }
     const c = _get(t);
     if (_is_digit(c)) {
@@ -1488,8 +1488,8 @@ function MakeDecode(funarg) {
     while(true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
-                return skip_comment(k, param);
-              }), _error_eof);
+              return skip_comment(k, param);
+            }), _error_eof);
       }
       const match = _get(t);
       if (match === 10) {
@@ -1502,10 +1502,10 @@ function MakeDecode(funarg) {
     while(true) {
       if (t.i === t.len) {
         return _refill(t, (function (param) {
-                return expr_or_end(k, param);
-              }), (function (param) {
-                return Curry._1(funarg.$$return, "End");
-              }));
+              return expr_or_end(k, param);
+            }), (function (param) {
+              return Curry._1(funarg.$$return, "End");
+            }));
       }
       const c = _get(t);
       if (c >= 11) {
@@ -1522,11 +1522,11 @@ function MakeDecode(funarg) {
   };
   const next = function (t) {
     return expr_or_end((function (param, x) {
-            return Curry._1(funarg.$$return, {
-                  NAME: "Ok",
-                  VAL: x
-                });
-          }), t);
+          return Curry._1(funarg.$$return, {
+                NAME: "Ok",
+                VAL: x
+              });
+        }), t);
   };
   return {
     make: make,

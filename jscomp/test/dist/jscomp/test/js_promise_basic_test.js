@@ -23,12 +23,12 @@ function eq(loc, x, y) {
     hd: [
       loc + (" id " + String(test_id.contents)),
       (function (param) {
-          return {
-            TAG: /* Eq */0,
-            _0: x,
-            _1: y
-          };
-        })
+        return {
+          TAG: /* Eq */0,
+          _0: x,
+          _1: y
+        };
+      })
     ],
     tl: suites.contents
   };
@@ -241,10 +241,10 @@ function raceTest(param) {
 
 function createPromiseRejectTest(param) {
   return new Promise((function (resolve, reject) {
-            reject({
-                  MEL_EXN_ID: Stdlib.Not_found
-                });
-          })).catch(function (error) {
+          reject({
+                MEL_EXN_ID: Stdlib.Not_found
+              });
+        })).catch(function (error) {
         assert_bool(error.MEL_EXN_ID === Stdlib.Not_found);
         return h;
       });
@@ -252,8 +252,8 @@ function createPromiseRejectTest(param) {
 
 function createPromiseFulfillTest(param) {
   return new Promise((function (resolve, param) {
-              resolve("success");
-            })).then(function (resolved) {
+            resolve("success");
+          })).then(function (resolved) {
           assert_bool(resolved === "success");
           return h;
         }).catch(fail);

@@ -4,8 +4,8 @@
 
 const o = {
   hi: (function (x, y) {
-      return x + y | 0;
-    })
+    return x + y | 0;
+  })
 };
 
 exports.o = o;
