@@ -5,7 +5,7 @@ const Curry = require("melange.js/curry.js");
 
 function sum_float_array(arr) {
   let v = 0;
-  for (let i = 0 ,i_finish = arr.length; i < i_finish; ++i) {
+  for (let i = 0, i_finish = arr.length; i < i_finish; ++i) {
     v = v + arr.case(i);
   }
   return v;
@@ -13,7 +13,7 @@ function sum_float_array(arr) {
 
 function sum_int_array(arr) {
   let v = 0;
-  for (let i = 0 ,i_finish = arr.length; i < i_finish; ++i) {
+  for (let i = 0, i_finish = arr.length; i < i_finish; ++i) {
     v = v + arr.case(i) | 0;
   }
   return v;
@@ -21,7 +21,7 @@ function sum_int_array(arr) {
 
 function sum_poly(zero, add, arr) {
   let v = zero;
-  for (let i = 0 ,i_finish = arr.length; i < i_finish; ++i) {
+  for (let i = 0, i_finish = arr.length; i < i_finish; ++i) {
     v = add(v, arr.case(i));
   }
   return v;

@@ -11,7 +11,7 @@ const empty = new Immutable.OrderedMap();
 
 function fromArray(kvs) {
   let v = empty;
-  for (let i = 0 ,i_finish = kvs.length; i < i_finish; ++i) {
+  for (let i = 0, i_finish = kvs.length; i < i_finish; ++i) {
     const match = kvs[i];
     v = v.set(match[0], match[1]);
   }

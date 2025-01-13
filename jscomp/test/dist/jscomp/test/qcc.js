@@ -112,7 +112,7 @@ function symstr(n) {
 }
 
 function symitr(f) {
-  for (let i = 0 ,i_finish = syms.contents; i < i_finish; ++i) {
+  for (let i = 0, i_finish = syms.contents; i < i_finish; ++i) {
     Curry._2(f, i, Caml_array.get(symtab, i));
   }
 }
@@ -354,7 +354,7 @@ function out(x) {
 }
 
 function le(n, x) {
-  for (let i = 0 ,i_finish = n / 8 | 0; i < i_finish; ++i) {
+  for (let i = 0, i_finish = n / 8 | 0; i < i_finish; ++i) {
     const $$byte = (x >>> (i << 3)) & 255;
     Caml_bytes.set(obuf, opos.contents, Stdlib__Char.chr($$byte));
     opos.contents = opos.contents + 1 | 0;
@@ -966,7 +966,7 @@ function unary(stk) {
                       _1: "[cast] expected"
                     });
               }
-              for (let _k = 1 ,_k_finish = match[1]; _k <= _k_finish; ++_k) {
+              for (let _k = 1, _k_finish = match[1]; _k <= _k_finish; ++_k) {
                 Curry._1(next$1, undefined);
               }
               unary(stk);
