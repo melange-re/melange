@@ -1113,8 +1113,8 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
                             let cxt =
                               expression ~level:1 cxt ident_expression
                             in
-                            space cxt;
                             comma cxt;
+                            space cxt;
                             let id = Ident.create (Ident.name id ^ "_finish") in
                             let cxt = ident cxt id in
                             space cxt;
