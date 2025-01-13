@@ -578,28 +578,54 @@ function Make(Ord) {
     const sub = function (n, l) {
       switch (n) {
         case 0 :
-            return [
-              /* Empty */ 0,
-              l
-            ];
+          return [
+            /* Empty */ 0,
+            l
+          ];
         case 1 :
-            if (l) {
+          if (l) {
+            return [
+              {
+                TAG: /* Node */ 0,
+                _0: /* Empty */ 0,
+                _1: l.hd,
+                _2: /* Empty */ 0,
+                _3: 1
+              },
+              l.tl
+            ];
+          }
+          break;
+        case 2 :
+          if (l) {
+            const match = l.tl;
+            if (match) {
               return [
                 {
                   TAG: /* Node */ 0,
-                  _0: /* Empty */ 0,
-                  _1: l.hd,
+                  _0: {
+                    TAG: /* Node */ 0,
+                    _0: /* Empty */ 0,
+                    _1: l.hd,
+                    _2: /* Empty */ 0,
+                    _3: 1
+                  },
+                  _1: match.hd,
                   _2: /* Empty */ 0,
-                  _3: 1
+                  _3: 2
                 },
-                l.tl
+                match.tl
               ];
             }
-            break;
-        case 2 :
-            if (l) {
-              const match = l.tl;
-              if (match) {
+            
+          }
+          break;
+        case 3 :
+          if (l) {
+            const match$1 = l.tl;
+            if (match$1) {
+              const match$2 = match$1.tl;
+              if (match$2) {
                 return [
                   {
                     TAG: /* Node */ 0,
@@ -610,50 +636,24 @@ function Make(Ord) {
                       _2: /* Empty */ 0,
                       _3: 1
                     },
-                    _1: match.hd,
-                    _2: /* Empty */ 0,
+                    _1: match$1.hd,
+                    _2: {
+                      TAG: /* Node */ 0,
+                      _0: /* Empty */ 0,
+                      _1: match$2.hd,
+                      _2: /* Empty */ 0,
+                      _3: 1
+                    },
                     _3: 2
                   },
-                  match.tl
+                  match$2.tl
                 ];
               }
               
             }
-            break;
-        case 3 :
-            if (l) {
-              const match$1 = l.tl;
-              if (match$1) {
-                const match$2 = match$1.tl;
-                if (match$2) {
-                  return [
-                    {
-                      TAG: /* Node */ 0,
-                      _0: {
-                        TAG: /* Node */ 0,
-                        _0: /* Empty */ 0,
-                        _1: l.hd,
-                        _2: /* Empty */ 0,
-                        _3: 1
-                      },
-                      _1: match$1.hd,
-                      _2: {
-                        TAG: /* Node */ 0,
-                        _0: /* Empty */ 0,
-                        _1: match$2.hd,
-                        _2: /* Empty */ 0,
-                        _3: 1
-                      },
-                      _3: 2
-                    },
-                    match$2.tl
-                  ];
-                }
-                
-              }
-              
-            }
-            break;
+            
+          }
+          break;
         
       }
       const nl = n / 2 | 0;

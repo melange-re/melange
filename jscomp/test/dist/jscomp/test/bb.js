@@ -16,11 +16,11 @@ function f(x) {
 function ff(x) {
   switch (x) {
     case "a" :
-        return "a";
+      return "a";
     case "b" :
-        return "b";
+      return "b";
     case "c" :
-        return "c";
+      return "c";
     default:
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             MEL_EXN_ID: "Assert_failure",
@@ -37,14 +37,14 @@ function test(x) {
   let match;
   switch (x) {
     case "a" :
-        match = "a";
-        break;
+      match = "a";
+      break;
     case "b" :
-        match = "b";
-        break;
+      match = "b";
+      break;
     case "c" :
-        match = "c";
-        break;
+      match = "c";
+      break;
     default:
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             MEL_EXN_ID: "Assert_failure",

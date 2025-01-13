@@ -63,15 +63,15 @@ function _must_escape(s) {
             case 37 :
             case 38 :
             case 39 :
-                exit = 1;
-                break;
+              exit = 1;
+              break;
             case 32 :
             case 34 :
             case 40 :
             case 41 :
-                throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-                      MEL_EXN_ID: Stdlib.Exit
-                    });
+              throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
+                    MEL_EXN_ID: Stdlib.Exit
+                  });
             
           }
         } else {
@@ -550,35 +550,35 @@ function expr_starting_with(c, k, t) {
     if (c >= 32) {
       switch (c) {
         case 32 :
-            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/sexpm.ml",
-                    183,
-                    27
-                  ]
-                });
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/sexpm.ml",
+                  183,
+                  27
+                ]
+              });
         case 34 :
-            return quoted(k, t);
+          return quoted(k, t);
         case 33 :
         case 35 :
         case 36 :
         case 37 :
         case 38 :
         case 39 :
-            break;
+          break;
         case 40 :
-            return expr_list(/* [] */ 0, k, t);
+          return expr_list(/* [] */ 0, k, t);
         case 41 :
-            return _error(t, {
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "unexpected ')'",
-                    _1: /* End_of_format */ 0
-                  },
-                  _1: "unexpected ')'"
-                });
+          return _error(t, {
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "unexpected ')'",
+                  _1: /* End_of_format */ 0
+                },
+                _1: "unexpected ')'"
+              });
         
       }
     }
@@ -692,21 +692,21 @@ function atom(k, t) {
       if (c >= 32) {
         switch (c) {
           case 32 :
-              exit = 2;
-              break;
+            exit = 2;
+            break;
           case 33 :
-              exit = 1;
-              break;
+            exit = 1;
+            break;
           case 34 :
-              return _error(t, {
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "unexpected '\"' in the middle of an atom",
-                      _1: /* End_of_format */ 0
-                    },
-                    _1: "unexpected '\"' in the middle of an atom"
-                  });
+            return _error(t, {
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "unexpected '\"' in the middle of an atom",
+                    _1: /* End_of_format */ 0
+                  },
+                  _1: "unexpected '\"' in the middle of an atom"
+                });
           
         }
       } else {
@@ -717,10 +717,10 @@ function atom(k, t) {
     }
     switch (exit) {
       case 1 :
-          Stdlib__Buffer.add_char(t.atom, c);
-          continue;
+        Stdlib__Buffer.add_char(t.atom, c);
+        continue;
       case 2 :
-          return _return_atom(c, k, t);
+        return _return_atom(c, k, t);
       
     }
   };
@@ -759,13 +759,13 @@ function escaped(k, t) {
     if (c < 117) {
       switch (c) {
         case 92 :
-            return Curry._1(k, /* '\\' */92);
+          return Curry._1(k, /* '\\' */92);
         case 98 :
-            return Curry._1(k, /* '\b' */8);
+          return Curry._1(k, /* '\b' */8);
         case 110 :
-            return Curry._1(k, /* '\n' */10);
+          return Curry._1(k, /* '\n' */10);
         case 114 :
-            return Curry._1(k, /* '\r' */13);
+          return Curry._1(k, /* '\r' */13);
         case 93 :
         case 94 :
         case 95 :
@@ -786,9 +786,9 @@ function escaped(k, t) {
         case 112 :
         case 113 :
         case 115 :
-            break;
+          break;
         case 116 :
-            return Curry._1(k, /* '\t' */9);
+          return Curry._1(k, /* '\t' */9);
         
       }
     }
@@ -1164,35 +1164,35 @@ function MakeDecode(funarg) {
       if (c >= 32) {
         switch (c) {
           case 32 :
-              throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/sexpm.ml",
-                      183,
-                      27
-                    ]
-                  });
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                  MEL_EXN_ID: "Assert_failure",
+                  _1: [
+                    "jscomp/test/sexpm.ml",
+                    183,
+                    27
+                  ]
+                });
           case 34 :
-              return quoted(k, t);
+            return quoted(k, t);
           case 33 :
           case 35 :
           case 36 :
           case 37 :
           case 38 :
           case 39 :
-              break;
+            break;
           case 40 :
-              return expr_list(/* [] */ 0, k, t);
+            return expr_list(/* [] */ 0, k, t);
           case 41 :
-              return _error(t, {
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "unexpected ')'",
-                      _1: /* End_of_format */ 0
-                    },
-                    _1: "unexpected ')'"
-                  });
+            return _error(t, {
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "unexpected ')'",
+                    _1: /* End_of_format */ 0
+                  },
+                  _1: "unexpected ')'"
+                });
           
         }
       }
@@ -1303,21 +1303,21 @@ function MakeDecode(funarg) {
         if (c >= 32) {
           switch (c) {
             case 32 :
-                exit = 2;
-                break;
+              exit = 2;
+              break;
             case 33 :
-                exit = 1;
-                break;
+              exit = 1;
+              break;
             case 34 :
-                return _error(t, {
-                      TAG: /* Format */ 0,
-                      _0: {
-                        TAG: /* String_literal */ 11,
-                        _0: "unexpected '\"' in the middle of an atom",
-                        _1: /* End_of_format */ 0
-                      },
-                      _1: "unexpected '\"' in the middle of an atom"
-                    });
+              return _error(t, {
+                    TAG: /* Format */ 0,
+                    _0: {
+                      TAG: /* String_literal */ 11,
+                      _0: "unexpected '\"' in the middle of an atom",
+                      _1: /* End_of_format */ 0
+                    },
+                    _1: "unexpected '\"' in the middle of an atom"
+                  });
             
           }
         } else {
@@ -1328,10 +1328,10 @@ function MakeDecode(funarg) {
       }
       switch (exit) {
         case 1 :
-            Stdlib__Buffer.add_char(t.atom, c);
-            continue;
+          Stdlib__Buffer.add_char(t.atom, c);
+          continue;
         case 2 :
-            return _return_atom(c, k, t);
+          return _return_atom(c, k, t);
         
       }
     };
@@ -1368,13 +1368,13 @@ function MakeDecode(funarg) {
       if (c < 117) {
         switch (c) {
           case 92 :
-              return Curry._1(k, /* '\\' */92);
+            return Curry._1(k, /* '\\' */92);
           case 98 :
-              return Curry._1(k, /* '\b' */8);
+            return Curry._1(k, /* '\b' */8);
           case 110 :
-              return Curry._1(k, /* '\n' */10);
+            return Curry._1(k, /* '\n' */10);
           case 114 :
-              return Curry._1(k, /* '\r' */13);
+            return Curry._1(k, /* '\r' */13);
           case 93 :
           case 94 :
           case 95 :
@@ -1395,9 +1395,9 @@ function MakeDecode(funarg) {
           case 112 :
           case 113 :
           case 115 :
-              break;
+            break;
           case 116 :
-              return Curry._1(k, /* '\t' */9);
+            return Curry._1(k, /* '\t' */9);
           
         }
       }

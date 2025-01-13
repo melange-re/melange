@@ -28,45 +28,45 @@ function __ocaml_lex_token_rec(l, lexbuf, ___ocaml_lex_state) {
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-          Curry._1(l, "new line");
-          ___ocaml_lex_state = 0;
-          continue;
+        Curry._1(l, "new line");
+        ___ocaml_lex_state = 0;
+        continue;
       case 1 :
-          Curry._1(l, "number");
-          Curry._1(l, Stdlib__Lexing.lexeme(lexbuf));
-          ___ocaml_lex_state = 0;
-          continue;
+        Curry._1(l, "number");
+        Curry._1(l, Stdlib__Lexing.lexeme(lexbuf));
+        ___ocaml_lex_state = 0;
+        continue;
       case 2 :
-          Curry._1(l, "ident");
-          Curry._1(l, Stdlib__Lexing.lexeme(lexbuf));
-          ___ocaml_lex_state = 0;
-          continue;
+        Curry._1(l, "ident");
+        Curry._1(l, Stdlib__Lexing.lexeme(lexbuf));
+        ___ocaml_lex_state = 0;
+        continue;
       case 3 :
-          Curry._1(l, "+");
-          ___ocaml_lex_state = 0;
-          continue;
+        Curry._1(l, "+");
+        ___ocaml_lex_state = 0;
+        continue;
       case 4 :
-          Curry._1(l, "-");
-          ___ocaml_lex_state = 0;
-          continue;
+        Curry._1(l, "-");
+        ___ocaml_lex_state = 0;
+        continue;
       case 5 :
-          Curry._1(l, "*");
-          ___ocaml_lex_state = 0;
-          continue;
+        Curry._1(l, "*");
+        ___ocaml_lex_state = 0;
+        continue;
       case 6 :
-          Curry._1(l, "/");
-          ___ocaml_lex_state = 0;
-          continue;
+        Curry._1(l, "/");
+        ___ocaml_lex_state = 0;
+        continue;
       case 7 :
-          Curry._1(l, "(");
-          ___ocaml_lex_state = 0;
-          continue;
+        Curry._1(l, "(");
+        ___ocaml_lex_state = 0;
+        continue;
       case 8 :
-          Curry._1(l, ")");
-          ___ocaml_lex_state = 0;
-          continue;
+        Curry._1(l, ")");
+        ___ocaml_lex_state = 0;
+        continue;
       case 9 :
-          return Curry._1(l, "eof");
+        return Curry._1(l, "eof");
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;

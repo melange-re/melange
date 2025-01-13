@@ -4099,120 +4099,120 @@ function method_impl(table, i, arr) {
   }
   switch (clo) {
     case /* GetConst */ 0 :
-        const x = next(undefined);
-        return function (obj) {
-          return x;
-        };
+      const x = next(undefined);
+      return function (obj) {
+        return x;
+      };
     case /* GetVar */ 1 :
-        const n = next(undefined);
-        return function (obj) {
-          return obj[n];
-        };
+      const n = next(undefined);
+      return function (obj) {
+        return obj[n];
+      };
     case /* GetEnv */ 2 :
-        const e = next(undefined);
-        const n$1 = next(undefined);
-        return get_env(e, n$1);
+      const e = next(undefined);
+      const n$1 = next(undefined);
+      return get_env(e, n$1);
     case /* GetMeth */ 3 :
-        return get_meth(next(undefined));
+      return get_meth(next(undefined));
     case /* SetVar */ 4 :
-        const n$2 = next(undefined);
-        return function (obj, x) {
-          obj[n$2] = x;
-        };
+      const n$2 = next(undefined);
+      return function (obj, x) {
+        obj[n$2] = x;
+      };
     case /* AppConst */ 5 :
-        const f = next(undefined);
-        const x$1 = next(undefined);
-        return function (obj) {
-          return Curry._1(f, x$1);
-        };
+      const f = next(undefined);
+      const x$1 = next(undefined);
+      return function (obj) {
+        return Curry._1(f, x$1);
+      };
     case /* AppVar */ 6 :
-        const f$1 = next(undefined);
-        const n$3 = next(undefined);
-        return function (obj) {
-          return Curry._1(f$1, obj[n$3]);
-        };
+      const f$1 = next(undefined);
+      const n$3 = next(undefined);
+      return function (obj) {
+        return Curry._1(f$1, obj[n$3]);
+      };
     case /* AppEnv */ 7 :
-        const f$2 = next(undefined);
-        const e$1 = next(undefined);
-        const n$4 = next(undefined);
-        return app_env(f$2, e$1, n$4);
+      const f$2 = next(undefined);
+      const e$1 = next(undefined);
+      const n$4 = next(undefined);
+      return app_env(f$2, e$1, n$4);
     case /* AppMeth */ 8 :
-        const f$3 = next(undefined);
-        const n$5 = next(undefined);
-        return app_meth(f$3, n$5);
+      const f$3 = next(undefined);
+      const n$5 = next(undefined);
+      return app_meth(f$3, n$5);
     case /* AppConstConst */ 9 :
-        const f$4 = next(undefined);
-        const x$2 = next(undefined);
-        const y = next(undefined);
-        return function (obj) {
-          return Curry._2(f$4, x$2, y);
-        };
+      const f$4 = next(undefined);
+      const x$2 = next(undefined);
+      const y = next(undefined);
+      return function (obj) {
+        return Curry._2(f$4, x$2, y);
+      };
     case /* AppConstVar */ 10 :
-        const f$5 = next(undefined);
-        const x$3 = next(undefined);
-        const n$6 = next(undefined);
-        return app_const_var(f$5, x$3, n$6);
+      const f$5 = next(undefined);
+      const x$3 = next(undefined);
+      const n$6 = next(undefined);
+      return app_const_var(f$5, x$3, n$6);
     case /* AppConstEnv */ 11 :
-        const f$6 = next(undefined);
-        const x$4 = next(undefined);
-        const e$2 = next(undefined);
-        const n$7 = next(undefined);
-        return app_const_env(f$6, x$4, e$2, n$7);
+      const f$6 = next(undefined);
+      const x$4 = next(undefined);
+      const e$2 = next(undefined);
+      const n$7 = next(undefined);
+      return app_const_env(f$6, x$4, e$2, n$7);
     case /* AppConstMeth */ 12 :
-        const f$7 = next(undefined);
-        const x$5 = next(undefined);
-        const n$8 = next(undefined);
-        return app_const_meth(f$7, x$5, n$8);
+      const f$7 = next(undefined);
+      const x$5 = next(undefined);
+      const n$8 = next(undefined);
+      return app_const_meth(f$7, x$5, n$8);
     case /* AppVarConst */ 13 :
-        const f$8 = next(undefined);
-        const n$9 = next(undefined);
-        const x$6 = next(undefined);
-        return app_var_const(f$8, n$9, x$6);
+      const f$8 = next(undefined);
+      const n$9 = next(undefined);
+      const x$6 = next(undefined);
+      return app_var_const(f$8, n$9, x$6);
     case /* AppEnvConst */ 14 :
-        const f$9 = next(undefined);
-        const e$3 = next(undefined);
-        const n$10 = next(undefined);
-        const x$7 = next(undefined);
-        return app_env_const(f$9, e$3, n$10, x$7);
+      const f$9 = next(undefined);
+      const e$3 = next(undefined);
+      const n$10 = next(undefined);
+      const x$7 = next(undefined);
+      return app_env_const(f$9, e$3, n$10, x$7);
     case /* AppMethConst */ 15 :
-        const f$10 = next(undefined);
-        const n$11 = next(undefined);
-        const x$8 = next(undefined);
-        return app_meth_const(f$10, n$11, x$8);
+      const f$10 = next(undefined);
+      const n$11 = next(undefined);
+      const x$8 = next(undefined);
+      return app_meth_const(f$10, n$11, x$8);
     case /* MethAppConst */ 16 :
-        const n$12 = next(undefined);
-        const x$9 = next(undefined);
-        return meth_app_const(n$12, x$9);
+      const n$12 = next(undefined);
+      const x$9 = next(undefined);
+      return meth_app_const(n$12, x$9);
     case /* MethAppVar */ 17 :
-        const n$13 = next(undefined);
-        const m = next(undefined);
-        return meth_app_var(n$13, m);
+      const n$13 = next(undefined);
+      const m = next(undefined);
+      return meth_app_var(n$13, m);
     case /* MethAppEnv */ 18 :
-        const n$14 = next(undefined);
-        const e$4 = next(undefined);
-        const m$1 = next(undefined);
-        return meth_app_env(n$14, e$4, m$1);
+      const n$14 = next(undefined);
+      const e$4 = next(undefined);
+      const m$1 = next(undefined);
+      return meth_app_env(n$14, e$4, m$1);
     case /* MethAppMeth */ 19 :
-        const n$15 = next(undefined);
-        const m$2 = next(undefined);
-        return meth_app_meth(n$15, m$2);
+      const n$15 = next(undefined);
+      const m$2 = next(undefined);
+      return meth_app_meth(n$15, m$2);
     case /* SendConst */ 20 :
-        const m$3 = next(undefined);
-        const x$10 = next(undefined);
-        return send_const(m$3, x$10, new_cache(table));
+      const m$3 = next(undefined);
+      const x$10 = next(undefined);
+      return send_const(m$3, x$10, new_cache(table));
     case /* SendVar */ 21 :
-        const m$4 = next(undefined);
-        const n$16 = next(undefined);
-        return send_var(m$4, n$16, new_cache(table));
+      const m$4 = next(undefined);
+      const n$16 = next(undefined);
+      return send_var(m$4, n$16, new_cache(table));
     case /* SendEnv */ 22 :
-        const m$5 = next(undefined);
-        const e$5 = next(undefined);
-        const n$17 = next(undefined);
-        return send_env(m$5, e$5, n$17, new_cache(table));
+      const m$5 = next(undefined);
+      const e$5 = next(undefined);
+      const n$17 = next(undefined);
+      return send_env(m$5, e$5, n$17, new_cache(table));
     case /* SendMeth */ 23 :
-        const m$6 = next(undefined);
-        const n$18 = next(undefined);
-        return send_meth(m$6, n$18, new_cache(table));
+      const m$6 = next(undefined);
+      const n$18 = next(undefined);
+      return send_meth(m$6, n$18, new_cache(table));
     
   }
 }

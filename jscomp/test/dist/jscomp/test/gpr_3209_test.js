@@ -13,10 +13,10 @@ function f9(param) {
   switch (param.TAG) {
     case /* T64 */ 0 :
     case /* T65 */ 1 :
-        return 2;
+      return 2;
     case /* T66 */ 2 :
     case /* T68 */ 3 :
-        return 3;
+      return 3;
     
   }
 }

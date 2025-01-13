@@ -21,26 +21,26 @@ function $plus$colon(_f, _g) {
     }
     switch (g.TAG) {
       case /* Int */ 0 :
-          if (g._0 !== 0) {
-            return {
-              TAG: /* Add */ 2,
-              _0: f,
-              _1: g
-            };
-          } else {
-            return f;
-          }
-      case /* Add */ 2 :
-          _g = g._1;
-          _f = $plus$colon(f, g._0);
-          continue;
-      case /* Var */ 1 :
-      case /* Mul */ 3 :
+        if (g._0 !== 0) {
           return {
             TAG: /* Add */ 2,
             _0: f,
             _1: g
           };
+        } else {
+          return f;
+        }
+      case /* Add */ 2 :
+        _g = g._1;
+        _f = $plus$colon(f, g._0);
+        continue;
+      case /* Var */ 1 :
+      case /* Mul */ 3 :
+        return {
+          TAG: /* Add */ 2,
+          _0: f,
+          _1: g
+        };
       
     }
   };
@@ -88,26 +88,26 @@ function $star$colon(_f, _g) {
     }
     switch (g.TAG) {
       case /* Int */ 0 :
-          if (g._0 !== 1) {
-            return {
-              TAG: /* Mul */ 3,
-              _0: f,
-              _1: g
-            };
-          } else {
-            return f;
-          }
-      case /* Var */ 1 :
-      case /* Add */ 2 :
+        if (g._0 !== 1) {
           return {
             TAG: /* Mul */ 3,
             _0: f,
             _1: g
           };
+        } else {
+          return f;
+        }
+      case /* Var */ 1 :
+      case /* Add */ 2 :
+        return {
+          TAG: /* Mul */ 3,
+          _0: f,
+          _1: g
+        };
       case /* Mul */ 3 :
-          _g = g._1;
-          _f = $star$colon(f, g._0);
-          continue;
+        _g = g._1;
+        _f = $star$colon(f, g._0);
+        continue;
       
     }
   };
@@ -117,11 +117,11 @@ function simplify(f) {
   switch (f.TAG) {
     case /* Int */ 0 :
     case /* Var */ 1 :
-        return f;
+      return f;
     case /* Add */ 2 :
-        return $plus$colon(simplify(f._0), simplify(f._1));
+      return $plus$colon(simplify(f._0), simplify(f._1));
     case /* Mul */ 3 :
-        return $star$colon(simplify(f._0), simplify(f._1));
+      return $star$colon(simplify(f._0), simplify(f._1));
     
   }
 }

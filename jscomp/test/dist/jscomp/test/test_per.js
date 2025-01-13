@@ -121,9 +121,9 @@ function string_of_bool(b) {
 function bool_of_string(param) {
   switch (param) {
     case "false" :
-        return false;
+      return false;
     case "true" :
-        return true;
+      return true;
     default:
       throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
             MEL_EXN_ID: Stdlib.Invalid_argument,

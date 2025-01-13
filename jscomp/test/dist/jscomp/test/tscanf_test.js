@@ -1893,20 +1893,20 @@ function scan_elems$2(ib, accu) {
             if (c < 94) {
               switch (c) {
                 case 91 :
-                    if (Caml_obj.caml_equal(accu, /* [] */ 0)) {
-                      return scan_elems$2(ib, {
-                            hd: i,
-                            tl: accu
-                          });
-                    }
-                    break;
-                case 92 :
-                    break;
-                case 93 :
-                    return Stdlib__List.rev({
+                  if (Caml_obj.caml_equal(accu, /* [] */ 0)) {
+                    return scan_elems$2(ib, {
                           hd: i,
                           tl: accu
                         });
+                  }
+                  break;
+                case 92 :
+                  break;
+                case 93 :
+                  return Stdlib__List.rev({
+                        hd: i,
+                        tl: accu
+                      });
                 
               }
             }
@@ -2014,10 +2014,10 @@ function scan_elems$3(ib, accu) {
           }), (function (i, s) {
         switch (s) {
           case ";" :
-              return scan_elems$3(ib, {
-                    hd: i,
-                    tl: accu
-                  });
+            return scan_elems$3(ib, {
+                  hd: i,
+                  tl: accu
+                });
           default:
             return Stdlib__List.rev({
                   hd: i,
@@ -2339,9 +2339,9 @@ function scan_rest$1(ib, accu) {
                         }), (function (param) {
                       switch (param) {
                         case ";" :
-                            return scan_rest$1(ib, accu$1);
+                          return scan_rest$1(ib, accu$1);
                         case "]" :
-                            return accu$1;
+                          return accu$1;
                         default:
                           const s = Stdlib__Printf.sprintf({
                                 TAG: /* Format */ 0,
@@ -4548,22 +4548,22 @@ function writer(ib, ob) {
           }), (function (s) {
         switch (s) {
           case "start" :
-              send_string(ob, "Hello World!");
-              return reader(ib, ob);
+            send_string(ob, "Hello World!");
+            return reader(ib, ob);
           case "stop" :
-              return Curry._1(Stdlib__Scanf.bscanf(ib, {
-                        TAG: /* Format */ 0,
-                        _0: {
-                          TAG: /* Int */ 4,
-                          _0: /* Int_i */ 3,
-                          _1: /* No_padding */ 0,
-                          _2: /* No_precision */ 0,
-                          _3: /* End_of_format */ 0
-                        },
-                        _1: "%i"
-                      }), (function (i) {
-                    return i;
-                  }));
+            return Curry._1(Stdlib__Scanf.bscanf(ib, {
+                      TAG: /* Format */ 0,
+                      _0: {
+                        TAG: /* Int */ 4,
+                        _0: /* Int_i */ 3,
+                        _1: /* No_padding */ 0,
+                        _2: /* No_precision */ 0,
+                        _3: /* End_of_format */ 0
+                      },
+                      _1: "%i"
+                    }), (function (i) {
+                  return i;
+                }));
           default:
             const i = Caml_format.caml_int_of_string(s);
             send_string(ob, String(i));

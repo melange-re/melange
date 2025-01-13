@@ -270,20 +270,20 @@ function createClass(debugName) {
                 } else {
                   switch (reasonStateUpdate.TAG) {
                     case /* Update */ 0 :
-                        nextTotalState = {
-                          reasonState: reasonStateUpdate._0
-                        };
-                        break;
+                      nextTotalState = {
+                        reasonState: reasonStateUpdate._0
+                      };
+                      break;
                     case /* SideEffects */ 1 :
-                        sideEffects.contents = reasonStateUpdate._0;
-                        nextTotalState = curTotalState;
-                        break;
+                      sideEffects.contents = reasonStateUpdate._0;
+                      nextTotalState = curTotalState;
+                      break;
                     case /* UpdateWithSideEffects */ 2 :
-                        sideEffects.contents = reasonStateUpdate._1;
-                        nextTotalState = {
-                          reasonState: reasonStateUpdate._0
-                        };
-                        break;
+                      sideEffects.contents = reasonStateUpdate._1;
+                      nextTotalState = {
+                        reasonState: reasonStateUpdate._0
+                      };
+                      break;
                     
                   }
                 }
