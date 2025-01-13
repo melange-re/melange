@@ -66087,8 +66087,6 @@ function is_nonexpansive_mod(_mexp) {
                       return false;
                   case /* Tstr_include */ 12 :
                       return is_nonexpansive_mod(id_mod_list._0.incl_mod);
-                  case /* Tstr_attribute */ 13 :
-                      return true;
                   default:
                     return true;
                 }

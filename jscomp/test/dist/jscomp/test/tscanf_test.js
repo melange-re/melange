@@ -2018,11 +2018,6 @@ function scan_elems$3(ib, accu) {
                     hd: i,
                     tl: accu
                   });
-          case "]" :
-              return Stdlib__List.rev({
-                    hd: i,
-                    tl: accu
-                  });
           default:
             return Stdlib__List.rev({
                   hd: i,
