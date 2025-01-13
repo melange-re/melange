@@ -36,8 +36,8 @@ B depends on A, so it should import a.js in the right path
   const Stdlib__List = require("melange/list.js");
   
   const t = Stdlib__List.map((function (greeting) {
-          return greeting;
-        }), {
+        return greeting;
+      }), {
         hd: "Hello",
         tl: /* [] */0
       });
