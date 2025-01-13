@@ -20,8 +20,6 @@
  *)
 (* Authors: Jérôme Vouillon, Hongbo Zhang  *)
 
-open Import
-
 val statements :
   top:bool ->
   scope:Js_pp.Scope.t ->

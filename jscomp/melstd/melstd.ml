@@ -43,7 +43,6 @@ module Module_system = Module_system
 module Ordered_hash_map_local_ident = Ordered_hash_map_local_ident
 module Polyvariant = Polyvariant
 module Paths = Paths
-module Js_pp = Js_pp
 module Scc = Scc
 module String = String
 module Vec = Vec

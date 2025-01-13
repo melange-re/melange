@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 module L = struct
   let space = " "
   let indent_str = "  "
@@ -199,14 +201,14 @@ let current_line t = t.line
 let current_column t = t.column
 
 module Scope = struct
-  type t = int Map_int.t Map_string.t
+  type t = int Map_int.t String.Map.t
 
   (* -- "name" --> int map -- stamp --> index suffix *)
-  let empty : t = Map_string.empty
+  let empty : t = String.Map.empty
 
   let rec print fmt v =
     Format.fprintf fmt "@[<v>{";
-    Map_string.iter v (fun k m ->
+    String.Map.iter v (fun k m ->
         Format.fprintf fmt "%s: @[%a@],@ " k print_int_map m);
     Format.fprintf fmt "}@]"
 
@@ -214,13 +216,13 @@ module Scope = struct
     Map_int.iter m (fun k v -> Format.fprintf fmt "%d - %d" k v)
 
   let add_ident ~mangled:name (stamp : int) (cxt : t) : int * t =
-    match Map_string.find_opt cxt name with
-    | None -> (0, Map_string.add cxt name (Map_int.add Map_int.empty stamp 0))
+    match String.Map.find_opt cxt name with
+    | None -> (0, String.Map.add cxt name (Map_int.add Map_int.empty stamp 0))
     | Some imap -> (
         match Map_int.find_opt imap stamp with
         | None ->
             let v = Map_int.cardinal imap in
-            (v, Map_string.add cxt name (Map_int.add imap stamp v))
+            (v, String.Map.add cxt name (Map_int.add imap stamp v))
         | Some i -> (i, cxt))
 
   (*
@@ -255,10 +257,10 @@ module Scope = struct
       Here we can guarantee that if mangled name and stamp are not all the same
       they can not have a collision *)
   let str_of_ident (cxt : t) (id : Ident.t) : string * t =
-    match Mel_ident.Mangled.of_ident id with
+    match Ident.Mangled.of_ident id with
     | Reserved name -> (name, cxt)
     | Mangled name ->
-        let i, new_cxt = add_ident ~mangled:name (Mel_ident.stamp id) cxt in
+        let i, new_cxt = add_ident ~mangled:name (Ident.stamp id) cxt in
         ((if i == 0 then name else Printf.sprintf "%s$%d" name i), new_cxt)
 
   let ident (cxt : t) f (id : Ident.t) : t =
@@ -266,23 +268,23 @@ module Scope = struct
     string f str;
     cxt
 
-  let merge (cxt : t) (set : Set_ident.t) =
-    Set_ident.fold set cxt (fun ident acc ->
+  let merge (cxt : t) (set : Ident.Set.t) =
+    Ident.Set.fold set cxt (fun ident acc ->
         snd
           (add_ident
-             ~mangled:(Mel_ident.convert (Ident.name ident))
-             (Mel_ident.stamp ident) acc))
+             ~mangled:(Ident.convert (Ident.name ident))
+             (Ident.stamp ident) acc))
 
   (* Assume that all idents are already in [scope]
      so both [param/0] and [param/1] are in idents, we don't need
      update twice,  once is enough *)
-  let sub_scope (scope : t) (idents : Set_ident.t) : t =
-    Set_ident.fold idents empty (fun id acc ->
+  let sub_scope (scope : t) (idents : Ident.Set.t) : t =
+    Ident.Set.fold idents empty (fun id acc ->
         let name = Ident.name id in
-        let mangled = Mel_ident.convert name in
-        match Map_string.find_exn scope mangled with
+        let mangled = Ident.convert name in
+        match String.Map.find_exn scope mangled with
         | exception Not_found -> assert false
         | imap ->
-            if Map_string.mem acc mangled then acc
-            else Map_string.add acc mangled imap)
+            if String.Map.mem acc mangled then acc
+            else String.Map.add acc mangled imap)
 end

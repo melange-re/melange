@@ -34,6 +34,8 @@
     }
 *)
 
+open Import
+
 type t
 
 module Scope : sig
@@ -42,8 +44,8 @@ module Scope : sig
 
   val empty : t
   val print : Format.formatter -> t -> unit
-  val sub_scope : t -> Set_ident.t -> t
-  val merge : t -> Set_ident.t -> t
+  val sub_scope : t -> Ident.Set.t -> t
+  val merge : t -> Ident.Set.t -> t
   val str_of_ident : t -> Ident.t -> string * t
   val ident : t -> pp -> Ident.t -> t
 end
