@@ -6,7 +6,7 @@ const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -20,17 +20,17 @@ function eq(loc, x, y) {
 eq("File \"jscomp/test/406_primitive_test.ml\", line 13, characters 6-13", 32, 32);
 
 const backend_type = {
-  TAG: /* Other */0,
+  TAG: /* Other */ 0,
   _0: "Melange"
 };
 
 eq("File \"jscomp/test/406_primitive_test.ml\", line 24, characters 6-13", backend_type, {
-      TAG: /* Other */0,
+      TAG: /* Other */ 0,
       _0: "Melange"
     });
 
 function f(param) {
-  const A = /* @__PURE__ */Caml_exceptions.create("A");
+  const A = /* @__PURE__ */ Caml_exceptions.create("A");
   try {
     for (let i = 0; i <= 200; ++i) {
       if (i === 10) {
@@ -56,7 +56,7 @@ Mt.from_pair_suites("406_primitive_test", suites.contents);
 
 const v = 32;
 
-const max_array_length = /* Max_wosize */2147483647;
+const max_array_length = /* Max_wosize */ 2147483647;
 
 exports.suites = suites;
 exports.test_id = test_id;

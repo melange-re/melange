@@ -15,7 +15,7 @@ const suites_0 = [
   "empty",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: [],
       _1: Object.keys({})
     };
@@ -27,7 +27,7 @@ const suites_1 = {
     "get",
     (function (param) {
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: 43,
         _1: Js__Js_dict.get({
               foo: 43,
@@ -41,7 +41,7 @@ const suites_1 = {
       "get - property not in object",
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: undefined,
           _1: Js__Js_dict.get({
                 foo: 43,
@@ -55,7 +55,7 @@ const suites_1 = {
         "unsafe_get",
         (function (param) {
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: 43,
             _1: ({
                 foo: 43,
@@ -74,7 +74,7 @@ const suites_1 = {
             };
             o["foo"] = 36;
             return {
-              TAG: /* Eq */0,
+              TAG: /* Eq */ 0,
               _0: 36,
               _1: Js__Js_dict.get(o, "foo")
             };
@@ -85,7 +85,7 @@ const suites_1 = {
             "keys",
             (function (param) {
               return {
-                TAG: /* Eq */0,
+                TAG: /* Eq */ 0,
                 _0: [
                   "foo",
                   "bar"
@@ -102,7 +102,7 @@ const suites_1 = {
               "entries",
               (function (param) {
                 return {
-                  TAG: /* Eq */0,
+                  TAG: /* Eq */ 0,
                   _0: [
                     [
                       "foo",
@@ -125,7 +125,7 @@ const suites_1 = {
                 "values",
                 (function (param) {
                   return {
-                    TAG: /* Eq */0,
+                    TAG: /* Eq */ 0,
                     _0: [
                       43,
                       86
@@ -142,9 +142,9 @@ const suites_1 = {
                   "fromList - []",
                   (function (param) {
                     return {
-                      TAG: /* Eq */0,
+                      TAG: /* Eq */ 0,
                       _0: {},
-                      _1: Js__Js_dict.fromList(/* [] */0)
+                      _1: Js__Js_dict.fromList(/* [] */ 0)
                     };
                   })
                 ],
@@ -153,7 +153,7 @@ const suites_1 = {
                     "fromList",
                     (function (param) {
                       return {
-                        TAG: /* Eq */0,
+                        TAG: /* Eq */ 0,
                         _0: [
                           [
                             "x",
@@ -174,7 +174,7 @@ const suites_1 = {
                                       "y",
                                       46
                                     ],
-                                    tl: /* [] */0
+                                    tl: /* [] */ 0
                                   }
                                 }))
                       };
@@ -185,7 +185,7 @@ const suites_1 = {
                       "fromArray - []",
                       (function (param) {
                         return {
-                          TAG: /* Eq */0,
+                          TAG: /* Eq */ 0,
                           _0: {},
                           _1: Js__Js_dict.fromArray([])
                         };
@@ -196,7 +196,7 @@ const suites_1 = {
                         "fromArray",
                         (function (param) {
                           return {
-                            TAG: /* Eq */0,
+                            TAG: /* Eq */ 0,
                             _0: [
                               [
                                 "x",
@@ -225,7 +225,7 @@ const suites_1 = {
                           "map",
                           (function (param) {
                             return {
-                              TAG: /* Eq */0,
+                              TAG: /* Eq */ 0,
                               _0: {
                                 foo: "43",
                                 bar: "86"
@@ -239,7 +239,7 @@ const suites_1 = {
                             };
                           })
                         ],
-                        tl: /* [] */0
+                        tl: /* [] */ 0
                       }
                     }
                   }

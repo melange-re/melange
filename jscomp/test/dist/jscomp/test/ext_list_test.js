@@ -13,7 +13,7 @@ function filter_map(f, _xs) {
   while(true) {
     const xs = _xs;
     if (!xs) {
-      return /* [] */0;
+      return /* [] */ 0;
     }
     const ys = xs.tl;
     const z = Curry._1(f, xs.hd);
@@ -54,7 +54,7 @@ function excludes(p, l) {
       continue;
     };
   };
-  const v = aux(/* [] */0, l);
+  const v = aux(/* [] */ 0, l);
   if (excluded.contents) {
     return [
       true,
@@ -94,7 +94,7 @@ function exclude_with_fact(p, l) {
       continue;
     };
   };
-  const v = aux(/* [] */0, l);
+  const v = aux(/* [] */ 0, l);
   return [
     excluded.contents,
     excluded.contents !== undefined ? v : l
@@ -135,7 +135,7 @@ function exclude_with_fact2(p1, p2, l) {
       continue;
     };
   };
-  const v = aux(/* [] */0, l);
+  const v = aux(/* [] */ 0, l);
   return [
     excluded1.contents,
     excluded2.contents,
@@ -169,7 +169,7 @@ function filter_mapi(f, xs) {
       const xs = _xs;
       const i = _i;
       if (!xs) {
-        return /* [] */0;
+        return /* [] */ 0;
       }
       const ys = xs.tl;
       const z = Curry._2(f, i, xs.hd);
@@ -212,7 +212,7 @@ function filter_map2(f, _xs, _ys) {
           });
     }
     if (!ys) {
-      return /* [] */0;
+      return /* [] */ 0;
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
@@ -249,7 +249,7 @@ function filter_map2i(f, xs, ys) {
             });
       }
       if (!ys) {
-        return /* [] */0;
+        return /* [] */ 0;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             MEL_EXN_ID: "Invalid_argument",
@@ -277,7 +277,7 @@ function rev_map_append(f, _l1, _l2) {
 }
 
 function flat_map2(f, lx, ly) {
-  let _acc = /* [] */0;
+  let _acc = /* [] */ 0;
   let _lx = lx;
   let _ly = ly;
   while(true) {
@@ -320,11 +320,11 @@ function flat_map_aux(f, _acc, append, _lx) {
 }
 
 function flat_map(f, lx) {
-  return flat_map_aux(f, /* [] */0, /* [] */0, lx);
+  return flat_map_aux(f, /* [] */ 0, /* [] */ 0, lx);
 }
 
 function flat_map_acc(f, append, lx) {
-  return flat_map_aux(f, /* [] */0, append, lx);
+  return flat_map_aux(f, /* [] */ 0, append, lx);
 }
 
 function map2_last(f, l1, l2) {
@@ -336,7 +336,7 @@ function map2_last(f, l1, l2) {
         if (!l2.tl) {
           return {
             hd: Curry._3(f, true, u, l2.hd),
-            tl: /* [] */0
+            tl: /* [] */ 0
           };
         }
         
@@ -360,7 +360,7 @@ function map2_last(f, l1, l2) {
         });
   }
   if (!l2) {
-    return /* [] */0;
+    return /* [] */ 0;
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
         MEL_EXN_ID: "Invalid_argument",
@@ -370,13 +370,13 @@ function map2_last(f, l1, l2) {
 
 function map_last(f, l1) {
   if (!l1) {
-    return /* [] */0;
+    return /* [] */ 0;
   }
   const u = l1.hd;
   if (!l1.tl) {
     return {
       hd: Curry._2(f, true, u),
-      tl: /* [] */0
+      tl: /* [] */ 0
     };
   }
   const r = Curry._2(f, false, u);
@@ -446,7 +446,7 @@ function try_take(n, l) {
     return [
       l,
       arr_length,
-      /* [] */0
+      /* [] */ 0
     ];
   } else {
     return [
@@ -494,7 +494,7 @@ function length_larger_than_n(n, _xs, _ys) {
 }
 
 function exclude_tail(x) {
-  let _acc = /* [] */0;
+  let _acc = /* [] */ 0;
   let _x = x;
   while(true) {
     const x$1 = _x;
@@ -525,7 +525,7 @@ function group(cmp, lst) {
   if (lst) {
     return aux(cmp, lst.hd, group(cmp, lst.tl));
   } else {
-    return /* [] */0;
+    return /* [] */ 0;
   }
 }
 
@@ -534,9 +534,9 @@ function aux(cmp, x, xss) {
     return {
       hd: {
         hd: x,
-        tl: /* [] */0
+        tl: /* [] */ 0
       },
-      tl: /* [] */0
+      tl: /* [] */ 0
     };
   }
   const ys = xss.tl;
@@ -574,7 +574,7 @@ function drop(_n, _h) {
     if (n === 0) {
       return h;
     }
-    if (Caml_obj.caml_equal(h, /* [] */0)) {
+    if (Caml_obj.caml_equal(h, /* [] */ 0)) {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             MEL_EXN_ID: "Invalid_argument",
             _1: "Ext_list_test.drop"
@@ -713,8 +713,8 @@ function find_opt(p, _param) {
 }
 
 function split_map(f, xs) {
-  let _bs = /* [] */0;
-  let _cs = /* [] */0;
+  let _bs = /* [] */ 0;
+  let _cs = /* [] */ 0;
   let _xs = xs;
   while(true) {
     const xs$1 = _xs;
@@ -765,7 +765,7 @@ function reduce_from_left(fn, lst) {
 
 function create_ref_empty(param) {
   return {
-    contents: /* [] */0
+    contents: /* [] */ 0
   };
 }
 
@@ -809,7 +809,7 @@ function ref_pop(refs) {
 }
 
 function rev_except_last(xs) {
-  let _acc = /* [] */0;
+  let _acc = /* [] */ 0;
   let _xs = xs;
   while(true) {
     const xs$1 = _xs;

@@ -11,8 +11,8 @@ const U = {
 };
 
 const v = {
-  TAG: /* H */0,
-  _0: /* OT */0
+  TAG: /* H */ 0,
+  _0: /* OT */ 0
 };
 
 exports.U = U;

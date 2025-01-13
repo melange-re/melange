@@ -22,7 +22,7 @@ const shared$1 = [
 const shared$2 = ["x"];
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -36,7 +36,7 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: x,
           _1: y
         };
@@ -171,7 +171,7 @@ function intlist_init($$class) {
   CamlinternalOO.set_methods($$class, [
         empty,
         (function (self$4) {
-          return Caml_obj.caml_equal(self$4[l], /* [] */0);
+          return Caml_obj.caml_equal(self$4[l], /* [] */ 0);
         }),
         fold,
         (function (self$4, f, accu) {
@@ -193,7 +193,7 @@ const l = Curry._2(intlist[0], undefined, {
         hd: 2,
         tl: {
           hd: 3,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     });
@@ -210,7 +210,7 @@ function intlist2_init($$class) {
   CamlinternalOO.set_methods($$class, [
         empty,
         (function (self$5) {
-          return Caml_obj.caml_equal(self$5[l], /* [] */0);
+          return Caml_obj.caml_equal(self$5[l], /* [] */ 0);
         }),
         fold,
         (function (self$5, f, accu) {
@@ -232,7 +232,7 @@ const l$1 = Curry._2(intlist2[0], undefined, {
         hd: 2,
         tl: {
           hd: 3,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     });

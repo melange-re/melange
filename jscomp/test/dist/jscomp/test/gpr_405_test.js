@@ -31,7 +31,7 @@ function Make(funarg) {
     const already_processed = Curry._1(H.create, 97);
     const on_the_stack = Curry._1(H.create, 97);
     const cut_set = {
-      contents: /* [] */0
+      contents: /* [] */ 0
     };
     const counter = {
       contents: 1
@@ -111,7 +111,7 @@ function Make(funarg) {
         continue;
       };
     };
-    return step2(first_node, /* [] */0);
+    return step2(first_node, /* [] */ 0);
   };
   return {
     min_cutset: min_cutset

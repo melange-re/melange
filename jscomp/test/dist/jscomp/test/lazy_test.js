@@ -185,7 +185,7 @@ Mt.from_pair_suites("Lazy_test", {
         "simple",
         (function (param) {
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: lazy_test(undefined),
             _1: [
               3,
@@ -199,7 +199,7 @@ Mt.from_pair_suites("Lazy_test", {
           "lazy_match",
           (function (param) {
             return {
-              TAG: /* Eq */0,
+              TAG: /* Eq */ 0,
               _0: h,
               _1: 2
             };
@@ -210,7 +210,7 @@ Mt.from_pair_suites("Lazy_test", {
             "lazy_force",
             (function (param) {
               return {
-                TAG: /* Eq */0,
+                TAG: /* Eq */ 0,
                 _0: u_v.contents,
                 _1: 2
               };
@@ -221,7 +221,7 @@ Mt.from_pair_suites("Lazy_test", {
               "lazy_from_fun",
               (function (param) {
                 return {
-                  TAG: /* Eq */0,
+                  TAG: /* Eq */ 0,
                   _0: CamlinternalLazy.force(l_from_fun),
                   _1: 3
                 };
@@ -232,7 +232,7 @@ Mt.from_pair_suites("Lazy_test", {
                 "lazy_from_val",
                 (function (param) {
                   return {
-                    TAG: /* Eq */0,
+                    TAG: /* Eq */ 0,
                     _0: CamlinternalLazy.force({
                           LAZY_DONE: true,
                           VAL: 3
@@ -246,7 +246,7 @@ Mt.from_pair_suites("Lazy_test", {
                   "lazy_from_val2",
                   (function (param) {
                     return {
-                      TAG: /* Eq */0,
+                      TAG: /* Eq */ 0,
                       _0: CamlinternalLazy.force(CamlinternalLazy.force({
                                 LAZY_DONE: true,
                                 VAL: {
@@ -264,7 +264,7 @@ Mt.from_pair_suites("Lazy_test", {
                     (function (param) {
                       debugger;
                       return {
-                        TAG: /* Eq */0,
+                        TAG: /* Eq */ 0,
                         _0: CamlinternalLazy.force(CamlinternalLazy.force({
                                   LAZY_DONE: true,
                                   VAL: forward_test
@@ -278,7 +278,7 @@ Mt.from_pair_suites("Lazy_test", {
                       "jscomp/test/lazy_test.ml",
                       (function (param) {
                         return {
-                          TAG: /* Eq */0,
+                          TAG: /* Eq */ 0,
                           _0: a3,
                           _1: a4
                         };
@@ -289,7 +289,7 @@ Mt.from_pair_suites("Lazy_test", {
                         "jscomp/test/lazy_test.ml",
                         (function (param) {
                           return {
-                            TAG: /* Eq */0,
+                            TAG: /* Eq */ 0,
                             _0: a7,
                             _1: undefined
                           };
@@ -300,7 +300,7 @@ Mt.from_pair_suites("Lazy_test", {
                           "jscomp/test/lazy_test.ml",
                           (function (param) {
                             return {
-                              TAG: /* Eq */0,
+                              TAG: /* Eq */ 0,
                               _0: a8,
                               _1: undefined
                             };
@@ -311,7 +311,7 @@ Mt.from_pair_suites("Lazy_test", {
                             "File \"jscomp/test/lazy_test.ml\", line 76, characters 0-7",
                             (function (param) {
                               return {
-                                TAG: /* Ok */4,
+                                TAG: /* Ok */ 4,
                                 _0: Stdlib__Lazy.is_val({
                                       LAZY_DONE: true,
                                       VAL: 3
@@ -324,7 +324,7 @@ Mt.from_pair_suites("Lazy_test", {
                               "File \"jscomp/test/lazy_test.ml\", line 77, characters 0-7",
                               (function (param) {
                                 return {
-                                  TAG: /* Ok */4,
+                                  TAG: /* Ok */ 4,
                                   _0: !Stdlib__Lazy.is_val({
                                         LAZY_DONE: false,
                                         VAL: (function () {
@@ -336,7 +336,7 @@ Mt.from_pair_suites("Lazy_test", {
                                 };
                               })
                             ],
-                            tl: /* [] */0
+                            tl: /* [] */ 0
                           }
                         }
                       }

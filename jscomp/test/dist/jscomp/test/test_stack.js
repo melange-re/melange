@@ -4,7 +4,7 @@
 const Caml_obj = require("melange.js/caml_obj.js");
 
 function v(x) {
-  return Caml_obj.caml_equal(x.c, /* [] */0);
+  return Caml_obj.caml_equal(x.c, /* [] */ 0);
 }
 
 exports.v = v;

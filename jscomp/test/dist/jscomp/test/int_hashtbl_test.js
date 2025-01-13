@@ -22,7 +22,7 @@ function f(H) {
               ],
               tl: acc
             };
-          }), tbl, /* [] */0));
+          }), tbl, /* [] */ 0));
 }
 
 function g(H, count) {
@@ -41,7 +41,7 @@ function g(H, count) {
           ],
           tl: acc
         };
-      }), tbl, /* [] */0);
+      }), tbl, /* [] */ 0);
   return Stdlib__Array.of_list(Stdlib__List.sort((function (param, param$1) {
             return Caml.caml_int_compare(param[0], param$1[0]);
           }), v));
@@ -62,7 +62,7 @@ const suites_0 = [
   "simple",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: {
         hd: [
           1,
@@ -73,7 +73,7 @@ const suites_0 = [
             2,
             /* '2' */50
           ],
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       },
       _1: f(Int_hash)
@@ -86,7 +86,7 @@ const suites_1 = {
     "more_iterations",
     (function (param) {
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: Stdlib__Array.init(1001, (function (i) {
               return [
                 (i << 1),
@@ -97,7 +97,7 @@ const suites_1 = {
       };
     })
   ],
-  tl: /* [] */0
+  tl: /* [] */ 0
 };
 
 const suites = {

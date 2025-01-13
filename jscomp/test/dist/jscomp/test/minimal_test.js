@@ -6,7 +6,7 @@ const fake_y = {
   hd: 2,
   tl: {
     hd: 3,
-    tl: /* [] */0
+    tl: /* [] */ 0
   }
 };
 

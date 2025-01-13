@@ -11,7 +11,7 @@ function isLessThan(title, small, big) {
       "compare: " + title,
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: true,
           _1: Caml_obj.caml_compare(big, small) > 0
         };
@@ -22,7 +22,7 @@ function isLessThan(title, small, big) {
         "compare: " + title,
         (function (param) {
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: true,
             _1: Caml_obj.caml_compare(small, big) < 0
           };
@@ -33,7 +33,7 @@ function isLessThan(title, small, big) {
           "< operator: " + title,
           (function (param) {
             return {
-              TAG: /* Eq */0,
+              TAG: /* Eq */ 0,
               _0: true,
               _1: Caml_obj.caml_lessthan(small, big)
             };
@@ -44,7 +44,7 @@ function isLessThan(title, small, big) {
             "<= operator: " + title,
             (function (param) {
               return {
-                TAG: /* Eq */0,
+                TAG: /* Eq */ 0,
                 _0: true,
                 _1: Caml_obj.caml_lessequal(small, big)
               };
@@ -55,7 +55,7 @@ function isLessThan(title, small, big) {
               "> operator: " + title,
               (function (param) {
                 return {
-                  TAG: /* Eq */0,
+                  TAG: /* Eq */ 0,
                   _0: true,
                   _1: Caml_obj.caml_greaterthan(big, small)
                 };
@@ -66,7 +66,7 @@ function isLessThan(title, small, big) {
                 ">= operator: " + title,
                 (function (param) {
                   return {
-                    TAG: /* Eq */0,
+                    TAG: /* Eq */ 0,
                     _0: true,
                     _1: Caml_obj.caml_greaterequal(big, small)
                   };
@@ -77,7 +77,7 @@ function isLessThan(title, small, big) {
                   "min: " + title,
                   (function (param) {
                     return {
-                      TAG: /* Eq */0,
+                      TAG: /* Eq */ 0,
                       _0: small,
                       _1: Caml_obj.caml_min(big, small)
                     };
@@ -88,7 +88,7 @@ function isLessThan(title, small, big) {
                     "min: " + title,
                     (function (param) {
                       return {
-                        TAG: /* Eq */0,
+                        TAG: /* Eq */ 0,
                         _0: small,
                         _1: Caml_obj.caml_min(small, big)
                       };
@@ -99,7 +99,7 @@ function isLessThan(title, small, big) {
                       "max: " + title,
                       (function (param) {
                         return {
-                          TAG: /* Eq */0,
+                          TAG: /* Eq */ 0,
                           _0: big,
                           _1: Caml_obj.caml_max(big, small)
                         };
@@ -110,7 +110,7 @@ function isLessThan(title, small, big) {
                         "max: " + title,
                         (function (param) {
                           return {
-                            TAG: /* Eq */0,
+                            TAG: /* Eq */ 0,
                             _0: big,
                             _1: Caml_obj.caml_max(small, big)
                           };
@@ -121,7 +121,7 @@ function isLessThan(title, small, big) {
                           "!= operator: " + title,
                           (function (param) {
                             return {
-                              TAG: /* Eq */0,
+                              TAG: /* Eq */ 0,
                               _0: true,
                               _1: big !== small
                             };
@@ -132,7 +132,7 @@ function isLessThan(title, small, big) {
                             "!= operator: " + title,
                             (function (param) {
                               return {
-                                TAG: /* Eq */0,
+                                TAG: /* Eq */ 0,
                                 _0: true,
                                 _1: small !== big
                               };
@@ -143,7 +143,7 @@ function isLessThan(title, small, big) {
                               "<> operator: " + title,
                               (function (param) {
                                 return {
-                                  TAG: /* Eq */0,
+                                  TAG: /* Eq */ 0,
                                   _0: true,
                                   _1: Caml_obj.caml_notequal(big, small)
                                 };
@@ -154,7 +154,7 @@ function isLessThan(title, small, big) {
                                 "<> operator: " + title,
                                 (function (param) {
                                   return {
-                                    TAG: /* Eq */0,
+                                    TAG: /* Eq */ 0,
                                     _0: true,
                                     _1: Caml_obj.caml_notequal(small, big)
                                   };
@@ -165,7 +165,7 @@ function isLessThan(title, small, big) {
                                   "= operator: " + title,
                                   (function (param) {
                                     return {
-                                      TAG: /* Eq */0,
+                                      TAG: /* Eq */ 0,
                                       _0: false,
                                       _1: Caml_obj.caml_equal(big, small)
                                     };
@@ -176,7 +176,7 @@ function isLessThan(title, small, big) {
                                     "= operator: " + title,
                                     (function (param) {
                                       return {
-                                        TAG: /* Eq */0,
+                                        TAG: /* Eq */ 0,
                                         _0: false,
                                         _1: Caml_obj.caml_equal(small, big)
                                       };
@@ -187,7 +187,7 @@ function isLessThan(title, small, big) {
                                       "== operator: " + title,
                                       (function (param) {
                                         return {
-                                          TAG: /* Eq */0,
+                                          TAG: /* Eq */ 0,
                                           _0: false,
                                           _1: big === small
                                         };
@@ -198,13 +198,13 @@ function isLessThan(title, small, big) {
                                         "== operator: " + title,
                                         (function (param) {
                                           return {
-                                            TAG: /* Eq */0,
+                                            TAG: /* Eq */ 0,
                                             _0: false,
                                             _1: small === big
                                           };
                                         })
                                       ],
-                                      tl: /* [] */0
+                                      tl: /* [] */ 0
                                     }
                                   }
                                 }
@@ -231,7 +231,7 @@ function isEqual(title, num1, num2) {
       "< operator: " + title,
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: false,
           _1: Caml_obj.caml_lessthan(num2, num1)
         };
@@ -242,7 +242,7 @@ function isEqual(title, num1, num2) {
         "<= operator: " + title,
         (function (param) {
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: true,
             _1: Caml_obj.caml_lessequal(num2, num1)
           };
@@ -253,7 +253,7 @@ function isEqual(title, num1, num2) {
           "> operator: " + title,
           (function (param) {
             return {
-              TAG: /* Eq */0,
+              TAG: /* Eq */ 0,
               _0: false,
               _1: Caml_obj.caml_greaterthan(num1, num2)
             };
@@ -264,7 +264,7 @@ function isEqual(title, num1, num2) {
             ">= operator: " + title,
             (function (param) {
               return {
-                TAG: /* Eq */0,
+                TAG: /* Eq */ 0,
                 _0: true,
                 _1: Caml_obj.caml_greaterequal(num1, num2)
               };
@@ -275,7 +275,7 @@ function isEqual(title, num1, num2) {
               "min: " + title,
               (function (param) {
                 return {
-                  TAG: /* Eq */0,
+                  TAG: /* Eq */ 0,
                   _0: num1,
                   _1: Caml_obj.caml_min(num1, num2)
                 };
@@ -286,7 +286,7 @@ function isEqual(title, num1, num2) {
                 "max: " + title,
                 (function (param) {
                   return {
-                    TAG: /* Eq */0,
+                    TAG: /* Eq */ 0,
                     _0: num1,
                     _1: Caml_obj.caml_max(num1, num2)
                   };
@@ -297,7 +297,7 @@ function isEqual(title, num1, num2) {
                   "compare: " + title,
                   (function (param) {
                     return {
-                      TAG: /* Eq */0,
+                      TAG: /* Eq */ 0,
                       _0: 0,
                       _1: Caml_obj.caml_compare(num1, num2)
                     };
@@ -308,7 +308,7 @@ function isEqual(title, num1, num2) {
                     "compare: " + title,
                     (function (param) {
                       return {
-                        TAG: /* Eq */0,
+                        TAG: /* Eq */ 0,
                         _0: 0,
                         _1: Caml_obj.caml_compare(num2, num1)
                       };
@@ -319,7 +319,7 @@ function isEqual(title, num1, num2) {
                       "!= operator: " + title,
                       (function (param) {
                         return {
-                          TAG: /* Eq */0,
+                          TAG: /* Eq */ 0,
                           _0: false,
                           _1: num1 !== num2
                         };
@@ -330,7 +330,7 @@ function isEqual(title, num1, num2) {
                         "!= operator: " + title,
                         (function (param) {
                           return {
-                            TAG: /* Eq */0,
+                            TAG: /* Eq */ 0,
                             _0: false,
                             _1: num2 !== num1
                           };
@@ -341,7 +341,7 @@ function isEqual(title, num1, num2) {
                           "<> operator: " + title,
                           (function (param) {
                             return {
-                              TAG: /* Eq */0,
+                              TAG: /* Eq */ 0,
                               _0: false,
                               _1: Caml_obj.caml_notequal(num1, num2)
                             };
@@ -352,7 +352,7 @@ function isEqual(title, num1, num2) {
                             "<> operator: " + title,
                             (function (param) {
                               return {
-                                TAG: /* Eq */0,
+                                TAG: /* Eq */ 0,
                                 _0: false,
                                 _1: Caml_obj.caml_notequal(num2, num1)
                               };
@@ -363,7 +363,7 @@ function isEqual(title, num1, num2) {
                               "= operator: " + title,
                               (function (param) {
                                 return {
-                                  TAG: /* Eq */0,
+                                  TAG: /* Eq */ 0,
                                   _0: true,
                                   _1: Caml_obj.caml_equal(num1, num2)
                                 };
@@ -374,7 +374,7 @@ function isEqual(title, num1, num2) {
                                 "= operator: " + title,
                                 (function (param) {
                                   return {
-                                    TAG: /* Eq */0,
+                                    TAG: /* Eq */ 0,
                                     _0: true,
                                     _1: Caml_obj.caml_equal(num2, num1)
                                   };
@@ -385,7 +385,7 @@ function isEqual(title, num1, num2) {
                                   "== operator: " + title,
                                   (function (param) {
                                     return {
-                                      TAG: /* Eq */0,
+                                      TAG: /* Eq */ 0,
                                       _0: true,
                                       _1: num1 === num2
                                     };
@@ -396,13 +396,13 @@ function isEqual(title, num1, num2) {
                                     "== operator: " + title,
                                     (function (param) {
                                       return {
-                                        TAG: /* Eq */0,
+                                        TAG: /* Eq */ 0,
                                         _0: true,
                                         _1: num2 === num1
                                       };
                                     })
                                   ],
-                                  tl: /* [] */0
+                                  tl: /* [] */ 0
                                 }
                               }
                             }

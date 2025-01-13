@@ -6,7 +6,7 @@ const Caml_int64 = require("melange.js/caml_int64.js");
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -20,7 +20,7 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: x,
           _1: y
         };
@@ -41,7 +41,7 @@ add([
       "File \"jscomp/test/div_by_zero_test.ml\", line 14, characters 7-14",
       (function (param) {
         return {
-          TAG: /* ThrowAny */7,
+          TAG: /* ThrowAny */ 7,
           _0: (function (param) {
             Caml_int32.div(3, 0);
           })
@@ -53,7 +53,7 @@ add([
       "File \"jscomp/test/div_by_zero_test.ml\", line 15, characters 7-14",
       (function (param) {
         return {
-          TAG: /* ThrowAny */7,
+          TAG: /* ThrowAny */ 7,
           _0: (function (param) {
             Caml_int32.mod_(3, 0);
           })
@@ -65,7 +65,7 @@ add([
       "File \"jscomp/test/div_by_zero_test.ml\", line 16, characters 7-14",
       (function (param) {
         return {
-          TAG: /* ThrowAny */7,
+          TAG: /* ThrowAny */ 7,
           _0: (function (param) {
             Caml_int32.div(3, 0);
           })
@@ -77,7 +77,7 @@ add([
       "File \"jscomp/test/div_by_zero_test.ml\", line 17, characters 7-14",
       (function (param) {
         return {
-          TAG: /* ThrowAny */7,
+          TAG: /* ThrowAny */ 7,
           _0: (function (param) {
             Caml_int32.mod_(3, 0);
           })
@@ -89,7 +89,7 @@ add([
       "File \"jscomp/test/div_by_zero_test.ml\", line 18, characters 7-14",
       (function (param) {
         return {
-          TAG: /* ThrowAny */7,
+          TAG: /* ThrowAny */ 7,
           _0: (function (param) {
             Caml_int64.div([
                   0,
@@ -104,7 +104,7 @@ add([
       "File \"jscomp/test/div_by_zero_test.ml\", line 19, characters 7-14",
       (function (param) {
         return {
-          TAG: /* ThrowAny */7,
+          TAG: /* ThrowAny */ 7,
           _0: (function (param) {
             Caml_int64.mod_([
                   0,

@@ -8,7 +8,7 @@ const Caml_obj = require("melange.js/caml_obj.js");
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -71,7 +71,7 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 30, characters 5-12", Belt__Belt_
             hd: 10,
             tl: {
               hd: 17,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }
@@ -86,7 +86,7 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 31, characters 5-12", Belt__Belt_
               hd: 3,
               tl: {
                 hd: 2,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -102,7 +102,7 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 32, characters 5-12", Belt__Belt_
               hd: 3,
               tl: {
                 hd: 2,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -113,25 +113,25 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 32, characters 5-12", Belt__Belt_
 eq("FLATTEN", Belt__Belt_List.flatten({
           hd: {
             hd: 1,
-            tl: /* [] */0
+            tl: /* [] */ 0
           },
           tl: {
             hd: {
               hd: 2,
-              tl: /* [] */0
+              tl: /* [] */ 0
             },
             tl: {
               hd: {
                 hd: 3,
-                tl: /* [] */0
+                tl: /* [] */ 0
               },
               tl: {
-                hd: /* [] */0,
+                hd: /* [] */ 0,
                 tl: {
                   hd: Belt__Belt_List.makeBy(4, (function (i) {
                         return i;
                       })),
-                  tl: /* [] */0
+                  tl: /* [] */ 0
                 }
               }
             }
@@ -150,7 +150,7 @@ eq("FLATTEN", Belt__Belt_List.flatten({
                 hd: 2,
                 tl: {
                   hd: 3,
-                  tl: /* [] */0
+                  tl: /* [] */ 0
                 }
               }
             }
@@ -159,30 +159,30 @@ eq("FLATTEN", Belt__Belt_List.flatten({
       }
     });
 
-eq("FLATTEN", Belt__Belt_List.flatten(/* [] */0), /* [] */0);
+eq("FLATTEN", Belt__Belt_List.flatten(/* [] */ 0), /* [] */ 0);
 
 eq("FLATTEN", Belt__Belt_List.flatten({
-          hd: /* [] */0,
+          hd: /* [] */ 0,
           tl: {
-            hd: /* [] */0,
+            hd: /* [] */ 0,
             tl: {
               hd: {
                 hd: 2,
-                tl: /* [] */0
+                tl: /* [] */ 0
               },
               tl: {
                 hd: {
                   hd: 1,
-                  tl: /* [] */0
+                  tl: /* [] */ 0
                 },
                 tl: {
                   hd: {
                     hd: 2,
-                    tl: /* [] */0
+                    tl: /* [] */ 0
                   },
                   tl: {
-                    hd: /* [] */0,
-                    tl: /* [] */0
+                    hd: /* [] */ 0,
+                    tl: /* [] */ 0
                   }
                 }
               }
@@ -194,7 +194,7 @@ eq("FLATTEN", Belt__Belt_List.flatten({
         hd: 1,
         tl: {
           hd: 2,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     });
@@ -202,17 +202,17 @@ eq("FLATTEN", Belt__Belt_List.flatten({
 eq("CONCATMANY", Belt__Belt_List.concatMany([
           {
             hd: 1,
-            tl: /* [] */0
+            tl: /* [] */ 0
           },
           {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           },
           {
             hd: 3,
-            tl: /* [] */0
+            tl: /* [] */ 0
           },
-          /* [] */0,
+          /* [] */ 0,
           Belt__Belt_List.makeBy(4, (function (i) {
                 return i;
               }))
@@ -230,7 +230,7 @@ eq("CONCATMANY", Belt__Belt_List.concatMany([
                 hd: 2,
                 tl: {
                   hd: 3,
-                  tl: /* [] */0
+                  tl: /* [] */ 0
                 }
               }
             }
@@ -239,54 +239,54 @@ eq("CONCATMANY", Belt__Belt_List.concatMany([
       }
     });
 
-eq("CONCATMANY", Belt__Belt_List.concatMany([]), /* [] */0);
+eq("CONCATMANY", Belt__Belt_List.concatMany([]), /* [] */ 0);
 
 eq("CONCATMANY", Belt__Belt_List.concatMany([
-          /* [] */0,
-          /* [] */0,
+          /* [] */ 0,
+          /* [] */ 0,
           {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           },
           {
             hd: 1,
-            tl: /* [] */0
+            tl: /* [] */ 0
           },
           {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           },
-          /* [] */0
+          /* [] */ 0
         ]), {
       hd: 2,
       tl: {
         hd: 1,
         tl: {
           hd: 2,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     });
 
 eq("CONCATMANY", Belt__Belt_List.concatMany([
-          /* [] */0,
-          /* [] */0,
+          /* [] */ 0,
+          /* [] */ 0,
           {
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           },
           {
             hd: 1,
-            tl: /* [] */0
+            tl: /* [] */ 0
           },
           {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           },
-          /* [] */0
+          /* [] */ 0
         ]), {
       hd: 2,
       tl: {
@@ -295,7 +295,7 @@ eq("CONCATMANY", Belt__Belt_List.concatMany([
           hd: 1,
           tl: {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }
       }
@@ -307,7 +307,7 @@ eq("CONCATMANY", Belt__Belt_List.concatMany([{
               hd: 2,
               tl: {
                 hd: 3,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }]), {
@@ -316,7 +316,7 @@ eq("CONCATMANY", Belt__Belt_List.concatMany([{
         hd: 2,
         tl: {
           hd: 3,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     });
@@ -333,18 +333,18 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 57, characters 5-12", Belt__Belt_
 
 eq("APPEND", Belt__Belt_List.concat({
           hd: 1,
-          tl: /* [] */0
-        }, /* [] */0), {
+          tl: /* [] */ 0
+        }, /* [] */ 0), {
       hd: 1,
-      tl: /* [] */0
+      tl: /* [] */ 0
     });
 
-eq("APPEND", Belt__Belt_List.concat(/* [] */0, {
+eq("APPEND", Belt__Belt_List.concat(/* [] */ 0, {
           hd: 1,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }), {
       hd: 1,
-      tl: /* [] */0
+      tl: /* [] */ 0
     });
 
 eq("ZIP", Belt__Belt_List.zip({
@@ -353,14 +353,14 @@ eq("ZIP", Belt__Belt_List.zip({
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, {
           hd: 3,
           tl: {
             hd: 4,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }), {
       hd: [
@@ -372,16 +372,16 @@ eq("ZIP", Belt__Belt_List.zip({
           2,
           4
         ],
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
-eq("ZIP", Belt__Belt_List.zip(/* [] */0, {
+eq("ZIP", Belt__Belt_List.zip(/* [] */ 0, {
           hd: 1,
-          tl: /* [] */0
-        }), /* [] */0);
+          tl: /* [] */ 0
+        }), /* [] */ 0);
 
-eq("ZIP", Belt__Belt_List.zip(/* [] */0, /* [] */0), /* [] */0);
+eq("ZIP", Belt__Belt_List.zip(/* [] */ 0, /* [] */ 0), /* [] */ 0);
 
 eq("ZIP", Belt__Belt_List.zip({
           hd: 1,
@@ -389,10 +389,10 @@ eq("ZIP", Belt__Belt_List.zip({
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
-        }, /* [] */0), /* [] */0);
+        }, /* [] */ 0), /* [] */ 0);
 
 eq("ZIP", Belt__Belt_List.zip({
           hd: 1,
@@ -400,7 +400,7 @@ eq("ZIP", Belt__Belt_List.zip({
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, {
@@ -409,7 +409,7 @@ eq("ZIP", Belt__Belt_List.zip({
             hd: 3,
             tl: {
               hd: 4,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }), {
@@ -427,7 +427,7 @@ eq("ZIP", Belt__Belt_List.zip({
             3,
             4
           ],
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     });
@@ -452,7 +452,7 @@ eq("PARTITION", Belt__Belt_List.partition({
                   hd: 3,
                   tl: {
                     hd: 4,
-                    tl: /* [] */0
+                    tl: /* [] */ 0
                   }
                 }
               }
@@ -465,7 +465,7 @@ eq("PARTITION", Belt__Belt_List.partition({
           hd: 2,
           tl: {
             hd: 4,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }
       },
@@ -475,7 +475,7 @@ eq("PARTITION", Belt__Belt_List.partition({
           hd: 3,
           tl: {
             hd: 3,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }
       }
@@ -489,7 +489,7 @@ eq("PARTITION", Belt__Belt_List.partition({
               hd: 2,
               tl: {
                 hd: 4,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -502,12 +502,12 @@ eq("PARTITION", Belt__Belt_List.partition({
             hd: 2,
             tl: {
               hd: 4,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }
       },
-      /* [] */0
+      /* [] */ 0
     ]);
 
 eq("PARTITION", Belt__Belt_List.partition({
@@ -518,14 +518,14 @@ eq("PARTITION", Belt__Belt_List.partition({
               hd: 2,
               tl: {
                 hd: 4,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
         }, (function (x) {
           return !mod2(x);
         })), [
-      /* [] */0,
+      /* [] */ 0,
       {
         hd: 2,
         tl: {
@@ -534,21 +534,21 @@ eq("PARTITION", Belt__Belt_List.partition({
             hd: 2,
             tl: {
               hd: 4,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }
       }
     ]);
 
-eq("PARTITION", Belt__Belt_List.partition(/* [] */0, mod2), [
-      /* [] */0,
-      /* [] */0
+eq("PARTITION", Belt__Belt_List.partition(/* [] */ 0, mod2), [
+      /* [] */ 0,
+      /* [] */ 0
     ]);
 
-eq("UNZIP", Belt__Belt_List.unzip(/* [] */0), [
-      /* [] */0,
-      /* [] */0
+eq("UNZIP", Belt__Belt_List.unzip(/* [] */ 0), [
+      /* [] */ 0,
+      /* [] */ 0
     ]);
 
 eq("UNZIP", Belt__Belt_List.unzip({
@@ -556,15 +556,15 @@ eq("UNZIP", Belt__Belt_List.unzip({
             1,
             2
           ],
-          tl: /* [] */0
+          tl: /* [] */ 0
         }), [
       {
         hd: 1,
-        tl: /* [] */0
+        tl: /* [] */ 0
       },
       {
         hd: 2,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     ]);
 
@@ -578,21 +578,21 @@ eq("UNZIP", Belt__Belt_List.unzip({
               3,
               4
             ],
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }), [
       {
         hd: 1,
         tl: {
           hd: 3,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       },
       {
         hd: 2,
         tl: {
           hd: 4,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     ]);
@@ -605,7 +605,7 @@ eq("FILTER", Belt__Belt_List.keep({
               hd: 3,
               tl: {
                 hd: 4,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -613,7 +613,7 @@ eq("FILTER", Belt__Belt_List.keep({
       hd: 2,
       tl: {
         hd: 4,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
@@ -623,12 +623,12 @@ eq("FILTER", Belt__Belt_List.keep({
             hd: 3,
             tl: {
               hd: 41,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
-        }, mod2), /* [] */0);
+        }, mod2), /* [] */ 0);
 
-eq("FILTER", Belt__Belt_List.keep(/* [] */0, mod2), /* [] */0);
+eq("FILTER", Belt__Belt_List.keep(/* [] */ 0, mod2), /* [] */ 0);
 
 eq("FILTER", Belt__Belt_List.keep({
           hd: 2,
@@ -640,7 +640,7 @@ eq("FILTER", Belt__Belt_List.keep({
                 hd: 4,
                 tl: {
                   hd: 6,
-                  tl: /* [] */0
+                  tl: /* [] */ 0
                 }
               }
             }
@@ -655,14 +655,14 @@ eq("FILTER", Belt__Belt_List.keep({
             hd: 4,
             tl: {
               hd: 6,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }
       }
     });
 
-eq("FILTER2", Belt__Belt_List.keepWithIndex(/* [] */0, evenIndex), /* [] */0);
+eq("FILTER2", Belt__Belt_List.keepWithIndex(/* [] */ 0, evenIndex), /* [] */ 0);
 
 eq("FILTER2", Belt__Belt_List.keepWithIndex({
           hd: 1,
@@ -672,7 +672,7 @@ eq("FILTER2", Belt__Belt_List.keepWithIndex({
               hd: 3,
               tl: {
                 hd: 4,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -680,7 +680,7 @@ eq("FILTER2", Belt__Belt_List.keepWithIndex({
       hd: 1,
       tl: {
         hd: 3,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
@@ -700,7 +700,7 @@ eq("FILTER2", Belt__Belt_List.keepWithIndex({
                       hd: 6,
                       tl: {
                         hd: 7,
-                        tl: /* [] */0
+                        tl: /* [] */ 0
                       }
                     }
                   }
@@ -716,7 +716,7 @@ eq("FILTER2", Belt__Belt_List.keepWithIndex({
           hd: 4,
           tl: {
             hd: 6,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }
       }
@@ -738,23 +738,23 @@ eq("MAP", Belt__Belt_List.map(Belt__Belt_List.makeBy(5, id), (function (x) {
             hd: 6,
             tl: {
               hd: 8,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }
       }
     });
 
-eq("MAP", Belt__Belt_List.map(/* [] */0, id), /* [] */0);
+eq("MAP", Belt__Belt_List.map(/* [] */ 0, id), /* [] */ 0);
 
 eq("MAP", Belt__Belt_List.map({
           hd: 1,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }, (function (x) {
           return -x | 0;
         })), {
       hd: -1,
-      tl: /* [] */0
+      tl: /* [] */ 0
     });
 
 function add(a, b) {
@@ -771,17 +771,17 @@ const d = Belt__Belt_List.makeBy(10, (function (x) {
 
 eq("MAP2", Belt__Belt_List.zipBy(length_10_id, length_10_id, add), d);
 
-eq("MAP2", Belt__Belt_List.zipBy(/* [] */0, {
+eq("MAP2", Belt__Belt_List.zipBy(/* [] */ 0, {
           hd: 1,
-          tl: /* [] */0
-        }, add), /* [] */0);
+          tl: /* [] */ 0
+        }, add), /* [] */ 0);
 
 eq("MAP2", Belt__Belt_List.zipBy({
           hd: 1,
-          tl: /* [] */0
-        }, /* [] */0, add), /* [] */0);
+          tl: /* [] */ 0
+        }, /* [] */ 0, add), /* [] */ 0);
 
-eq("MAP2", Belt__Belt_List.zipBy(/* [] */0, /* [] */0, add), /* [] */0);
+eq("MAP2", Belt__Belt_List.zipBy(/* [] */ 0, /* [] */ 0, add), /* [] */ 0);
 
 eq("MAP2", Belt__Belt_List.zipBy(length_10_id, length_10_id, add), Belt__Belt_List.concat(Belt__Belt_List.map(length_8_id, (function (x) {
               return (x << 1);
@@ -789,7 +789,7 @@ eq("MAP2", Belt__Belt_List.zipBy(length_10_id, length_10_id, add), Belt__Belt_Li
           hd: 16,
           tl: {
             hd: 18,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }));
 
@@ -813,14 +813,14 @@ eq("MAP2", Belt__Belt_List.mapReverse2({
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, {
           hd: 1,
           tl: {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, (function (x, y) {
           return x + y | 0;
@@ -828,7 +828,7 @@ eq("MAP2", Belt__Belt_List.mapReverse2({
       hd: 4,
       tl: {
         hd: 2,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
@@ -838,24 +838,24 @@ eq("TAKE", Belt__Belt_List.take({
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, 2), {
       hd: 1,
       tl: {
         hd: 2,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
-eq("TAKE", Belt__Belt_List.take(/* [] */0, 1), undefined);
+eq("TAKE", Belt__Belt_List.take(/* [] */ 0, 1), undefined);
 
 eq("TAKE", Belt__Belt_List.take({
           hd: 1,
           tl: {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, 3), undefined);
 
@@ -863,29 +863,29 @@ eq("TAKE", Belt__Belt_List.take({
           hd: 1,
           tl: {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, 2), {
       hd: 1,
       tl: {
         hd: 2,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
 eq("TAKE", Belt__Belt_List.take(length_10_id, 8), length_8_id);
 
-eq("TAKE", Belt__Belt_List.take(length_10_id, 0), /* [] */0);
+eq("TAKE", Belt__Belt_List.take(length_10_id, 0), /* [] */ 0);
 
 eq("TAKE", Belt__Belt_List.take(length_8_id, -2), undefined);
 
-eq("DROP", Belt__Belt_List.drop(length_10_id, 10), /* [] */0);
+eq("DROP", Belt__Belt_List.drop(length_10_id, 10), /* [] */ 0);
 
 eq("DROP", Belt__Belt_List.drop(length_10_id, 8), {
       hd: 8,
       tl: {
         hd: 9,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
@@ -895,13 +895,13 @@ eq("DROP", Belt__Belt_List.drop(length_8_id, -1), undefined);
 
 const a = Belt__Belt_List.makeBy(5, id);
 
-eq("SPLIT", Belt__Belt_List.splitAt(/* [] */0, 1), undefined);
+eq("SPLIT", Belt__Belt_List.splitAt(/* [] */ 0, 1), undefined);
 
 eq("SPLIT", Belt__Belt_List.splitAt(a, 6), undefined);
 
 eq("SPLIT", Belt__Belt_List.splitAt(a, 5), [
       a,
-      /* [] */0
+      /* [] */ 0
     ]);
 
 eq("SPLIT", Belt__Belt_List.splitAt(a, 4), [
@@ -913,14 +913,14 @@ eq("SPLIT", Belt__Belt_List.splitAt(a, 4), [
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }
       },
       {
         hd: 4,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     ]);
 
@@ -931,7 +931,7 @@ eq("SPLIT", Belt__Belt_List.splitAt(a, 3), [
           hd: 1,
           tl: {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }
       },
@@ -939,7 +939,7 @@ eq("SPLIT", Belt__Belt_List.splitAt(a, 3), [
         hd: 3,
         tl: {
           hd: 4,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     ]);
@@ -949,7 +949,7 @@ eq("SPLIT", Belt__Belt_List.splitAt(a, 2), [
         hd: 0,
         tl: {
           hd: 1,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       },
       {
@@ -958,7 +958,7 @@ eq("SPLIT", Belt__Belt_List.splitAt(a, 2), [
           hd: 3,
           tl: {
             hd: 4,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }
       }
@@ -967,7 +967,7 @@ eq("SPLIT", Belt__Belt_List.splitAt(a, 2), [
 eq("SPLIT", Belt__Belt_List.splitAt(a, 1), [
       {
         hd: 0,
-        tl: /* [] */0
+        tl: /* [] */ 0
       },
       {
         hd: 1,
@@ -977,7 +977,7 @@ eq("SPLIT", Belt__Belt_List.splitAt(a, 1), [
             hd: 3,
             tl: {
               hd: 4,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }
@@ -985,7 +985,7 @@ eq("SPLIT", Belt__Belt_List.splitAt(a, 1), [
     ]);
 
 eq("SPLIT", Belt__Belt_List.splitAt(a, 0), [
-      /* [] */0,
+      /* [] */ 0,
       a
     ]);
 
@@ -1014,7 +1014,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 182, characters 4-11", Belt__Belt_
                 3,
                 "3"
               ],
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, 2, (function (prim0, prim1) {
@@ -1036,7 +1036,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 183, characters 4-11", !Belt__Belt
                 3,
                 "3"
               ],
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, 4, (function (prim0, prim1) {
@@ -1058,7 +1058,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 184, characters 4-11", Belt__Belt_
                 3,
                 "3"
               ],
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, 4, (function (x, y) {
@@ -1080,7 +1080,7 @@ eq("REMOVEASSOQ", Belt__Belt_List.removeAssoc({
                 3,
                 "3"
               ],
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, 3, (function (prim0, prim1) {
@@ -1095,7 +1095,7 @@ eq("REMOVEASSOQ", Belt__Belt_List.removeAssoc({
           2,
           "2"
         ],
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
@@ -1114,7 +1114,7 @@ eq("REMOVEASSOQ", Belt__Belt_List.removeAssoc({
                 3,
                 "3"
               ],
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, 1, (function (prim0, prim1) {
@@ -1129,7 +1129,7 @@ eq("REMOVEASSOQ", Belt__Belt_List.removeAssoc({
           3,
           "3"
         ],
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
@@ -1148,7 +1148,7 @@ eq("REMOVEASSOQ", Belt__Belt_List.removeAssoc({
                 3,
                 "3"
               ],
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, 2, (function (prim0, prim1) {
@@ -1163,7 +1163,7 @@ eq("REMOVEASSOQ", Belt__Belt_List.removeAssoc({
           3,
           "3"
         ],
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
@@ -1182,7 +1182,7 @@ eq("REMOVEASSOQ", Belt__Belt_List.removeAssoc({
                 3,
                 "3"
               ],
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, 0, (function (prim0, prim1) {
@@ -1202,7 +1202,7 @@ eq("REMOVEASSOQ", Belt__Belt_List.removeAssoc({
             3,
             "3"
           ],
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     });
@@ -1222,7 +1222,7 @@ eq("REMOVEASSOQ", Belt__Belt_List.removeAssoc({
                 3,
                 "3"
               ],
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, 3, eqx), {
@@ -1235,7 +1235,7 @@ eq("REMOVEASSOQ", Belt__Belt_List.removeAssoc({
           2,
           "2"
         ],
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
@@ -1254,7 +1254,7 @@ eq("REMOVEASSOQ", Belt__Belt_List.removeAssoc({
                 3,
                 "3"
               ],
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, 1, eqx), {
@@ -1267,7 +1267,7 @@ eq("REMOVEASSOQ", Belt__Belt_List.removeAssoc({
           3,
           "3"
         ],
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
@@ -1286,7 +1286,7 @@ eq("REMOVEASSOQ", Belt__Belt_List.removeAssoc({
                 3,
                 "3"
               ],
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, 2, eqx), {
@@ -1299,11 +1299,11 @@ eq("REMOVEASSOQ", Belt__Belt_List.removeAssoc({
           3,
           "3"
         ],
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
-eq("REMOVEASSOQ", Belt__Belt_List.removeAssoc(/* [] */0, 2, eqx), /* [] */0);
+eq("REMOVEASSOQ", Belt__Belt_List.removeAssoc(/* [] */ 0, 2, eqx), /* [] */ 0);
 
 const ll = {
   hd: [
@@ -1320,7 +1320,7 @@ const ll = {
         3,
         "3"
       ],
-      tl: /* [] */0
+      tl: /* [] */ 0
     }
   }
 };
@@ -1348,7 +1348,7 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 198, characters 5-12", ll1, {
             3,
             "3"
           ],
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     });
@@ -1382,7 +1382,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 202, characters 4-11", Caml_obj.ca
                     3,
                     "c"
                   ],
-                  tl: /* [] */0
+                  tl: /* [] */ 0
                 }
               }
             }, 2, "x", (function (prim0, prim1) {
@@ -1402,7 +1402,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 202, characters 4-11", Caml_obj.ca
                 3,
                 "c"
               ],
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }));
@@ -1417,7 +1417,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 204, characters 4-11", Caml_obj.ca
                   3,
                   "c"
                 ],
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }, 2, "2", (function (prim0, prim1) {
               return prim0 === prim1;
@@ -1436,19 +1436,19 @@ b("File \"jscomp/test/bs_list_test.ml\", line 204, characters 4-11", Caml_obj.ca
                 3,
                 "c"
               ],
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }));
 
-eq("File \"jscomp/test/bs_list_test.ml\", line 206, characters 5-12", Belt__Belt_List.setAssoc(/* [] */0, 1, "1", (function (prim0, prim1) {
+eq("File \"jscomp/test/bs_list_test.ml\", line 206, characters 5-12", Belt__Belt_List.setAssoc(/* [] */ 0, 1, "1", (function (prim0, prim1) {
           return prim0 === prim1;
         })), {
       hd: [
         1,
         "1"
       ],
-      tl: /* [] */0
+      tl: /* [] */ 0
     });
 
 debugger;
@@ -1458,7 +1458,7 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 208, characters 5-12", Belt__Belt
             1,
             "2"
           ],
-          tl: /* [] */0
+          tl: /* [] */ 0
         }, 1, "1", (function (prim0, prim1) {
           return prim0 === prim1;
         })), {
@@ -1466,7 +1466,7 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 208, characters 5-12", Belt__Belt
         1,
         "1"
       ],
-      tl: /* [] */0
+      tl: /* [] */ 0
     });
 
 eq("File \"jscomp/test/bs_list_test.ml\", line 210, characters 5-12", Belt__Belt_List.setAssoc({
@@ -1479,7 +1479,7 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 210, characters 5-12", Belt__Belt
               1,
               "2"
             ],
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, 1, "1", (function (prim0, prim1) {
           return prim0 === prim1;
@@ -1493,7 +1493,7 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 210, characters 5-12", Belt__Belt
           1,
           "1"
         ],
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
@@ -1512,7 +1512,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 211, characters 4-11", Caml_obj.ca
                     3,
                     "c"
                   ],
-                  tl: /* [] */0
+                  tl: /* [] */ 0
                 }
               }
             }, 2, (function (prim0, prim1) {
@@ -1534,7 +1534,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 212, characters 4-11", Belt__Belt_
                 3,
                 "c"
               ],
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, 4, (function (prim0, prim1) {
@@ -1549,14 +1549,14 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 216, characters 5-12", [
       Belt__Belt_List.drop(length_10_id, 1)
     ]);
 
-eq("File \"jscomp/test/bs_list_test.ml\", line 219, characters 5-12", Belt__Belt_List.head(/* [] */0), undefined);
+eq("File \"jscomp/test/bs_list_test.ml\", line 219, characters 5-12", Belt__Belt_List.head(/* [] */ 0), undefined);
 
 $$throw("File \"jscomp/test/bs_list_test.ml\", line 220, characters 8-15", (function (param) {
-      Belt__Belt_List.headExn(/* [] */0);
+      Belt__Belt_List.headExn(/* [] */ 0);
     }));
 
 $$throw("File \"jscomp/test/bs_list_test.ml\", line 221, characters 8-15", (function (param) {
-      Belt__Belt_List.tailExn(/* [] */0);
+      Belt__Belt_List.tailExn(/* [] */ 0);
     }));
 
 $$throw("File \"jscomp/test/bs_list_test.ml\", line 222, characters 8-15", (function (param) {
@@ -1564,7 +1564,7 @@ $$throw("File \"jscomp/test/bs_list_test.ml\", line 222, characters 8-15", (func
             hd: 0,
             tl: {
               hd: 1,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }, -1);
     }));
@@ -1574,7 +1574,7 @@ $$throw("File \"jscomp/test/bs_list_test.ml\", line 223, characters 8-15", (func
             hd: 0,
             tl: {
               hd: 1,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }, 2);
     }));
@@ -1583,61 +1583,61 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 224, characters 5-12", Belt__Belt
           hd: 0,
           tl: {
             hd: 1,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, (function (i) {
           return Belt__Belt_List.getExn({
                 hd: 0,
                 tl: {
                   hd: 1,
-                  tl: /* [] */0
+                  tl: /* [] */ 0
                 }
               }, i);
         })), {
       hd: 0,
       tl: {
         hd: 1,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
 eq("File \"jscomp/test/bs_list_test.ml\", line 225, characters 5-12", Belt__Belt_List.headExn({
           hd: 1,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }), 1);
 
 eq("File \"jscomp/test/bs_list_test.ml\", line 226, characters 5-12", Belt__Belt_List.tailExn({
           hd: 1,
-          tl: /* [] */0
-        }), /* [] */0);
+          tl: /* [] */ 0
+        }), /* [] */ 0);
 
 Belt__Belt_List.forEachWithIndex(length_10_id, (function (i, x) {
       eq("File \"jscomp/test/bs_list_test.ml\", line 228, characters 9-16", Belt__Belt_List.get(length_10_id, i), x);
     }));
 
-eq("File \"jscomp/test/bs_list_test.ml\", line 229, characters 5-12", Belt__Belt_List.tail(/* [] */0), undefined);
+eq("File \"jscomp/test/bs_list_test.ml\", line 229, characters 5-12", Belt__Belt_List.tail(/* [] */ 0), undefined);
 
-eq("File \"jscomp/test/bs_list_test.ml\", line 230, characters 5-12", Belt__Belt_List.drop(/* [] */0, 3), undefined);
+eq("File \"jscomp/test/bs_list_test.ml\", line 230, characters 5-12", Belt__Belt_List.drop(/* [] */ 0, 3), undefined);
 
-eq("File \"jscomp/test/bs_list_test.ml\", line 231, characters 5-12", Belt__Belt_List.mapWithIndex(/* [] */0, (function (i, x) {
+eq("File \"jscomp/test/bs_list_test.ml\", line 231, characters 5-12", Belt__Belt_List.mapWithIndex(/* [] */ 0, (function (i, x) {
           return i + x | 0;
-        })), /* [] */0);
+        })), /* [] */ 0);
 
 eq("File \"jscomp/test/bs_list_test.ml\", line 232, characters 5-12", Belt__Belt_List.get(length_10_id, -1), undefined);
 
 eq("File \"jscomp/test/bs_list_test.ml\", line 233, characters 5-12", Belt__Belt_List.get(length_10_id, 12), undefined);
 
-eq("File \"jscomp/test/bs_list_test.ml\", line 234, characters 5-12", sum(/* [] */0), 0);
+eq("File \"jscomp/test/bs_list_test.ml\", line 234, characters 5-12", sum(/* [] */ 0), 0);
 
 eq("File \"jscomp/test/bs_list_test.ml\", line 235, characters 5-12", sum(length_10_id), 45);
 
-eq("File \"jscomp/test/bs_list_test.ml\", line 236, characters 5-12", Belt__Belt_List.makeBy(0, id), /* [] */0);
+eq("File \"jscomp/test/bs_list_test.ml\", line 236, characters 5-12", Belt__Belt_List.makeBy(0, id), /* [] */ 0);
 
 eq("File \"jscomp/test/bs_list_test.ml\", line 237, characters 5-12", Belt__Belt_List.reverse(Belt__Belt_List.reverse(length_10_id)), length_10_id);
 
 eq("File \"jscomp/test/bs_list_test.ml\", line 238, characters 5-12", Belt__Belt_List.reverse(Belt__Belt_List.reverse(length_8_id)), length_8_id);
 
-eq("File \"jscomp/test/bs_list_test.ml\", line 239, characters 5-12", Belt__Belt_List.reverse(/* [] */0), /* [] */0);
+eq("File \"jscomp/test/bs_list_test.ml\", line 239, characters 5-12", Belt__Belt_List.reverse(/* [] */ 0), /* [] */ 0);
 
 eq("File \"jscomp/test/bs_list_test.ml\", line 240, characters 5-12", Belt__Belt_List.reverse(Belt__Belt_List.mapReverse(length_10_id, succx)), Belt__Belt_List.map(length_10_id, succx));
 
@@ -1667,7 +1667,7 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 257, characters 5-12", Belt__Belt
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, {
@@ -1676,7 +1676,7 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 257, characters 5-12", Belt__Belt
             hd: 4,
             tl: {
               hd: 6,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, 0, (function (a, b, c) {
@@ -1697,14 +1697,14 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 262, characters 5-12", Belt__Belt
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, {
           hd: 1,
           tl: {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, 0, (function (acc, x, y) {
           return (acc + x | 0) + y | 0;
@@ -1716,17 +1716,17 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 263, characters 5-12", Belt__Belt
             hd: 4,
             tl: {
               hd: 6,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, mod2), true);
 
 eq("File \"jscomp/test/bs_list_test.ml\", line 264, characters 5-12", Belt__Belt_List.every({
           hd: 1,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }, mod2), false);
 
-eq("File \"jscomp/test/bs_list_test.ml\", line 265, characters 5-12", Belt__Belt_List.every(/* [] */0, mod2), true);
+eq("File \"jscomp/test/bs_list_test.ml\", line 265, characters 5-12", Belt__Belt_List.every(/* [] */ 0, mod2), true);
 
 eq("File \"jscomp/test/bs_list_test.ml\", line 266, characters 5-12", Belt__Belt_List.some({
           hd: 1,
@@ -1734,7 +1734,7 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 266, characters 5-12", Belt__Belt
             hd: 2,
             tl: {
               hd: 5,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, mod2), true);
@@ -1745,12 +1745,12 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 267, characters 5-12", Belt__Belt
             hd: 3,
             tl: {
               hd: 5,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, mod2), false);
 
-eq("File \"jscomp/test/bs_list_test.ml\", line 268, characters 5-12", Belt__Belt_List.some(/* [] */0, mod2), false);
+eq("File \"jscomp/test/bs_list_test.ml\", line 268, characters 5-12", Belt__Belt_List.some(/* [] */ 0, mod2), false);
 
 eq("File \"jscomp/test/bs_list_test.ml\", line 269, characters 5-12", Belt__Belt_List.has({
           hd: 1,
@@ -1758,7 +1758,7 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 269, characters 5-12", Belt__Belt
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, "2", (function (x, s) {
@@ -1771,7 +1771,7 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 270, characters 5-12", Belt__Belt
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, "0", (function (x, s) {
@@ -1786,7 +1786,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 272, characters 4-11", Belt__Belt_
               hd: 3,
               tl: {
                 hd: 4,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -1802,7 +1802,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 273, characters 4-11", Belt__Belt_
               hd: 3,
               tl: {
                 hd: 4,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -1818,11 +1818,11 @@ b("File \"jscomp/test/bs_list_test.ml\", line 274, characters 4-11", Caml_obj.ca
                   hd: 3,
                   tl: {
                     hd: 4,
-                    tl: /* [] */0
+                    tl: /* [] */ 0
                   }
                 }
               }
-            }, /* [] */0, Belt__Belt_List.add), {
+            }, /* [] */ 0, Belt__Belt_List.add), {
           hd: 1,
           tl: {
             hd: 2,
@@ -1830,7 +1830,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 274, characters 4-11", Caml_obj.ca
               hd: 3,
               tl: {
                 hd: 4,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -1844,7 +1844,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 275, characters 4-11", Belt__Belt_
               hd: 3,
               tl: {
                 hd: 4,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -1860,7 +1860,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 276, characters 4-11", Belt__Belt_
               hd: 3,
               tl: {
                 hd: 4,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -1876,11 +1876,11 @@ b("File \"jscomp/test/bs_list_test.ml\", line 277, characters 4-11", Caml_obj.ca
                   hd: 3,
                   tl: {
                     hd: 4,
-                    tl: /* [] */0
+                    tl: /* [] */ 0
                   }
                 }
               }
-            }, /* [] */0, Belt__Belt_List.add), {
+            }, /* [] */ 0, Belt__Belt_List.add), {
           hd: 4,
           tl: {
             hd: 3,
@@ -1888,7 +1888,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 277, characters 4-11", Caml_obj.ca
               hd: 2,
               tl: {
                 hd: 1,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -1902,7 +1902,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 278, characters 4-11", Belt__Belt_
               hd: 3,
               tl: {
                 hd: 4,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -1916,14 +1916,14 @@ b("File \"jscomp/test/bs_list_test.ml\", line 279, characters 4-11", Belt__Belt_
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, {
           hd: 1,
           tl: {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, 0, (function (acc, x, y) {
           return (acc + x | 0) + y | 0;
@@ -1940,9 +1940,9 @@ b("File \"jscomp/test/bs_list_test.ml\", line 282, characters 4-11", Belt__Belt_
           return (acc + x | 0) + y | 0;
         })) === 99980001);
 
-eq("File \"jscomp/test/bs_list_test.ml\", line 288, characters 5-12", Belt__Belt_List.every2(/* [] */0, {
+eq("File \"jscomp/test/bs_list_test.ml\", line 288, characters 5-12", Belt__Belt_List.every2(/* [] */ 0, {
           hd: 1,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }, (function (x, y) {
           return x > y;
         })), true);
@@ -1951,21 +1951,21 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 289, characters 5-12", Belt__Belt
           hd: 2,
           tl: {
             hd: 3,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, {
           hd: 1,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }, (function (x, y) {
           return x > y;
         })), true);
 
 eq("File \"jscomp/test/bs_list_test.ml\", line 290, characters 5-12", Belt__Belt_List.every2({
           hd: 2,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }, {
           hd: 1,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }, (function (x, y) {
           return x > y;
         })), true);
@@ -1974,13 +1974,13 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 291, characters 5-12", Belt__Belt
           hd: 2,
           tl: {
             hd: 3,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, {
           hd: 1,
           tl: {
             hd: 4,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, (function (x, y) {
           return x > y;
@@ -1990,21 +1990,21 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 292, characters 5-12", Belt__Belt
           hd: 2,
           tl: {
             hd: 3,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, {
           hd: 1,
           tl: {
             hd: 0,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, (function (x, y) {
           return x > y;
         })), true);
 
-eq("File \"jscomp/test/bs_list_test.ml\", line 293, characters 5-12", Belt__Belt_List.some2(/* [] */0, {
+eq("File \"jscomp/test/bs_list_test.ml\", line 293, characters 5-12", Belt__Belt_List.some2(/* [] */ 0, {
           hd: 1,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }, (function (x, y) {
           return x > y;
         })), false);
@@ -2013,11 +2013,11 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 294, characters 5-12", Belt__Belt
           hd: 2,
           tl: {
             hd: 3,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, {
           hd: 1,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }, (function (x, y) {
           return x > y;
         })), true);
@@ -2026,13 +2026,13 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 295, characters 5-12", Belt__Belt
           hd: 2,
           tl: {
             hd: 3,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, {
           hd: 1,
           tl: {
             hd: 4,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, (function (x, y) {
           return x > y;
@@ -2042,13 +2042,13 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 296, characters 5-12", Belt__Belt
           hd: 0,
           tl: {
             hd: 3,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, {
           hd: 1,
           tl: {
             hd: 4,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, (function (x, y) {
           return x > y;
@@ -2058,13 +2058,13 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 297, characters 5-12", Belt__Belt
           hd: 0,
           tl: {
             hd: 3,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, {
           hd: 3,
           tl: {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, (function (x, y) {
           return x > y;
@@ -2076,14 +2076,14 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 298, characters 5-12", Belt__Belt
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, {
           hd: -1,
           tl: {
             hd: -2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, (function (x, y) {
           return x === y;
@@ -2099,13 +2099,13 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 304, characters 5-12", {
       hd: 2,
       tl: {
         hd: 3,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     }, {
       hd: 2,
       tl: {
         hd: 3,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
@@ -2115,7 +2115,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 310, characters 4-11", Belt__Belt_
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, {
@@ -2126,7 +2126,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 310, characters 4-11", Belt__Belt_
               hd: 2,
               tl: {
                 hd: 3,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -2140,7 +2140,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 311, characters 4-11", Belt__Belt_
               hd: 3,
               tl: {
                 hd: 4,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -2150,7 +2150,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 311, characters 4-11", Belt__Belt_
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, Caml.caml_int_compare) > 0);
@@ -2161,7 +2161,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 312, characters 4-11", Belt__Belt_
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, {
@@ -2172,7 +2172,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 312, characters 4-11", Belt__Belt_
               hd: 3,
               tl: {
                 hd: 4,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -2184,7 +2184,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 313, characters 4-11", Belt__Belt_
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, {
@@ -2193,7 +2193,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 313, characters 4-11", Belt__Belt_
             hd: 1,
             tl: {
               hd: 2,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, Caml.caml_int_compare) > 0);
@@ -2204,7 +2204,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 314, characters 4-11", Belt__Belt_
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, {
@@ -2213,7 +2213,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 314, characters 4-11", Belt__Belt_
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, Caml.caml_int_compare) === 0);
@@ -2224,7 +2224,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 315, characters 4-11", Belt__Belt_
             hd: 2,
             tl: {
               hd: 4,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, {
@@ -2233,42 +2233,42 @@ b("File \"jscomp/test/bs_list_test.ml\", line 315, characters 4-11", Belt__Belt_
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, Caml.caml_int_compare) > 0);
 
-b("File \"jscomp/test/bs_list_test.ml\", line 316, characters 4-11", Belt__Belt_List.cmpByLength(/* [] */0, /* [] */0) === 0);
+b("File \"jscomp/test/bs_list_test.ml\", line 316, characters 4-11", Belt__Belt_List.cmpByLength(/* [] */ 0, /* [] */ 0) === 0);
 
 b("File \"jscomp/test/bs_list_test.ml\", line 317, characters 4-11", Belt__Belt_List.cmpByLength({
           hd: 1,
-          tl: /* [] */0
-        }, /* [] */0) > 0);
+          tl: /* [] */ 0
+        }, /* [] */ 0) > 0);
 
-b("File \"jscomp/test/bs_list_test.ml\", line 318, characters 4-11", Belt__Belt_List.cmpByLength(/* [] */0, {
+b("File \"jscomp/test/bs_list_test.ml\", line 318, characters 4-11", Belt__Belt_List.cmpByLength(/* [] */ 0, {
           hd: 1,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }) < 0);
 
 b("File \"jscomp/test/bs_list_test.ml\", line 319, characters 4-11", Belt__Belt_List.cmpByLength({
           hd: 1,
           tl: {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, {
           hd: 1,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }) > 0);
 
 b("File \"jscomp/test/bs_list_test.ml\", line 320, characters 4-11", Belt__Belt_List.cmpByLength({
           hd: 1,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }, {
           hd: 1,
           tl: {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }) < 0);
 
@@ -2276,13 +2276,13 @@ b("File \"jscomp/test/bs_list_test.ml\", line 321, characters 4-11", Belt__Belt_
           hd: 1,
           tl: {
             hd: 3,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, {
           hd: 1,
           tl: {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }) === 0);
 
@@ -2306,7 +2306,7 @@ eq("SORT", Belt__Belt_List.sort({
               hd: 3,
               tl: {
                 hd: 2,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -2318,7 +2318,7 @@ eq("SORT", Belt__Belt_List.sort({
           hd: 4,
           tl: {
             hd: 5,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }
       }
@@ -2334,7 +2334,7 @@ eq("SORT", Belt__Belt_List.sort({
                 hd: 3,
                 tl: {
                   hd: 1,
-                  tl: /* [] */0
+                  tl: /* [] */ 0
                 }
               }
             }
@@ -2349,7 +2349,7 @@ eq("SORT", Belt__Belt_List.sort({
             hd: 9,
             tl: {
               hd: 37,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }
@@ -2362,14 +2362,14 @@ b("File \"jscomp/test/bs_list_test.ml\", line 337, characters 4-11", !Belt__Belt
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, {
           hd: 1,
           tl: {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }, (function (x, y) {
           return x === y;
@@ -2381,7 +2381,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 338, characters 4-11", Belt__Belt_
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, {
@@ -2390,7 +2390,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 338, characters 4-11", Belt__Belt_
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, (function (x, y) {
@@ -2403,7 +2403,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 339, characters 4-11", !Belt__Belt
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, {
@@ -2412,7 +2412,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 339, characters 4-11", !Belt__Belt
             hd: 2,
             tl: {
               hd: 4,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, (function (x, y) {
@@ -2425,7 +2425,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 340, characters 4-11", !Belt__Belt
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }, {
@@ -2436,7 +2436,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 340, characters 4-11", !Belt__Belt
               hd: 3,
               tl: {
                 hd: 4,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -2461,7 +2461,7 @@ eq("File \"jscomp/test/bs_list_test.ml\", line 344, characters 5-12", u1, {
         hd: 8,
         tl: {
           hd: 15,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     });
@@ -2474,7 +2474,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 345, characters 4-11", Caml_obj.ca
                   hd: 3,
                   tl: {
                     hd: 4,
-                    tl: /* [] */0
+                    tl: /* [] */ 0
                   }
                 }
               }
@@ -2487,7 +2487,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 345, characters 4-11", Caml_obj.ca
           hd: -2,
           tl: {
             hd: -4,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }));
 
@@ -2499,7 +2499,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 349, characters 4-11", Caml_obj.ca
                   hd: 3,
                   tl: {
                     hd: 4,
-                    tl: /* [] */0
+                    tl: /* [] */ 0
                   }
                 }
               }
@@ -2508,7 +2508,7 @@ b("File \"jscomp/test/bs_list_test.ml\", line 349, characters 4-11", Caml_obj.ca
                 return x;
               }
               
-            })), /* [] */0));
+            })), /* [] */ 0));
 
 Mt.from_pair_suites("Bs_list_test", suites.contents);
 

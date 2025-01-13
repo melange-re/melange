@@ -6,7 +6,7 @@ const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 console.log(3);
 
-const A = /* @__PURE__ */Caml_exceptions.create("Internal_unused_test.P1.A");
+const A = /* @__PURE__ */ Caml_exceptions.create("Internal_unused_test.P1.A");
 
 function f(param) {
   throw new Caml_js_exceptions.MelangeError(A, {

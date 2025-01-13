@@ -11,7 +11,7 @@ const Caml = require("melange.js/caml.js");
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -317,7 +317,7 @@ Belt__Belt_List.forEach({
             hd: a3,
             tl: {
               hd: a4,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }

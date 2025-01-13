@@ -118,16 +118,16 @@ function to_buf(b, t) {
         return Stdlib__Buffer.add_char(b, /* ')' */41);
       } else {
         return Curry._2(Stdlib__Printf.bprintf(b, {
-                  TAG: /* Format */0,
+                  TAG: /* Format */ 0,
                   _0: {
-                    TAG: /* Char_literal */12,
+                    TAG: /* Char_literal */ 12,
                     _0: /* '(' */40,
                     _1: {
-                      TAG: /* Alpha */15,
+                      TAG: /* Alpha */ 15,
                       _0: {
-                        TAG: /* Char_literal */12,
+                        TAG: /* Char_literal */ 12,
                         _0: /* ')' */41,
-                        _1: /* End_of_format */0
+                        _1: /* End_of_format */ 0
                       }
                     }
                   },
@@ -141,17 +141,17 @@ function to_buf(b, t) {
   const s = t.VAL;
   if (_must_escape(s)) {
     return Curry._1(Stdlib__Printf.bprintf(b, {
-              TAG: /* Format */0,
+              TAG: /* Format */ 0,
               _0: {
-                TAG: /* Char_literal */12,
+                TAG: /* Char_literal */ 12,
                 _0: /* '"' */34,
                 _1: {
-                  TAG: /* String */2,
-                  _0: /* No_padding */0,
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* Char_literal */12,
+                    TAG: /* Char_literal */ 12,
                     _0: /* '"' */34,
-                    _1: /* End_of_format */0
+                    _1: /* End_of_format */ 0
                   }
                 }
               },
@@ -174,25 +174,25 @@ function print(fmt, t) {
     if (l) {
       if (l.tl) {
         Stdlib__Format.fprintf(fmt)({
-              TAG: /* Format */0,
+              TAG: /* Format */ 0,
               _0: {
-                TAG: /* Formatting_gen */18,
+                TAG: /* Formatting_gen */ 18,
                 _0: {
-                  TAG: /* Open_box */1,
+                  TAG: /* Open_box */ 1,
                   _0: {
-                    TAG: /* Format */0,
+                    TAG: /* Format */ 0,
                     _0: {
-                      TAG: /* String_literal */11,
+                      TAG: /* String_literal */ 11,
                       _0: "<hov1>",
-                      _1: /* End_of_format */0
+                      _1: /* End_of_format */ 0
                     },
                     _1: "<hov1>"
                   }
                 },
                 _1: {
-                  TAG: /* Char_literal */12,
+                  TAG: /* Char_literal */ 12,
                   _0: /* '(' */40,
-                  _1: /* End_of_format */0
+                  _1: /* End_of_format */ 0
                 }
               },
               _1: "@[<hov1>("
@@ -200,16 +200,16 @@ function print(fmt, t) {
         Stdlib__List.iteri((function (i, t$p) {
               if (i > 0) {
                 Stdlib__Format.fprintf(fmt)({
-                      TAG: /* Format */0,
+                      TAG: /* Format */ 0,
                       _0: {
-                        TAG: /* Formatting_lit */17,
+                        TAG: /* Formatting_lit */ 17,
                         _0: {
-                          TAG: /* Break */0,
+                          TAG: /* Break */ 0,
                           _0: "@ ",
                           _1: 1,
                           _2: 0
                         },
-                        _1: /* End_of_format */0
+                        _1: /* End_of_format */ 0
                       },
                       _1: "@ "
                     });
@@ -217,47 +217,47 @@ function print(fmt, t) {
               print(fmt, t$p);
             }), l);
         return Stdlib__Format.fprintf(fmt)({
-              TAG: /* Format */0,
+              TAG: /* Format */ 0,
               _0: {
-                TAG: /* Char_literal */12,
+                TAG: /* Char_literal */ 12,
                 _0: /* ')' */41,
                 _1: {
-                  TAG: /* Formatting_lit */17,
-                  _0: /* Close_box */0,
-                  _1: /* End_of_format */0
+                  TAG: /* Formatting_lit */ 17,
+                  _0: /* Close_box */ 0,
+                  _1: /* End_of_format */ 0
                 }
               },
               _1: ")@]"
             });
       } else {
         return Curry._2(Stdlib__Format.fprintf(fmt)({
-                  TAG: /* Format */0,
+                  TAG: /* Format */ 0,
                   _0: {
-                    TAG: /* Formatting_gen */18,
+                    TAG: /* Formatting_gen */ 18,
                     _0: {
-                      TAG: /* Open_box */1,
+                      TAG: /* Open_box */ 1,
                       _0: {
-                        TAG: /* Format */0,
+                        TAG: /* Format */ 0,
                         _0: {
-                          TAG: /* String_literal */11,
+                          TAG: /* String_literal */ 11,
                           _0: "<hov2>",
-                          _1: /* End_of_format */0
+                          _1: /* End_of_format */ 0
                         },
                         _1: "<hov2>"
                       }
                     },
                     _1: {
-                      TAG: /* Char_literal */12,
+                      TAG: /* Char_literal */ 12,
                       _0: /* '(' */40,
                       _1: {
-                        TAG: /* Alpha */15,
+                        TAG: /* Alpha */ 15,
                         _0: {
-                          TAG: /* Char_literal */12,
+                          TAG: /* Char_literal */ 12,
                           _0: /* ')' */41,
                           _1: {
-                            TAG: /* Formatting_lit */17,
-                            _0: /* Close_box */0,
-                            _1: /* End_of_format */0
+                            TAG: /* Formatting_lit */ 17,
+                            _0: /* Close_box */ 0,
+                            _1: /* End_of_format */ 0
                           }
                         }
                       }
@@ -273,17 +273,17 @@ function print(fmt, t) {
   const s = t.VAL;
   if (_must_escape(s)) {
     return Curry._1(Stdlib__Format.fprintf(fmt)({
-              TAG: /* Format */0,
+              TAG: /* Format */ 0,
               _0: {
-                TAG: /* Char_literal */12,
+                TAG: /* Char_literal */ 12,
                 _0: /* '"' */34,
                 _1: {
-                  TAG: /* String */2,
-                  _0: /* No_padding */0,
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* Char_literal */12,
+                    TAG: /* Char_literal */ 12,
                     _0: /* '"' */34,
-                    _1: /* End_of_format */0
+                    _1: /* End_of_format */ 0
                   }
                 }
               },
@@ -309,16 +309,16 @@ function print_noindent(fmt, t) {
         return Stdlib__Format.pp_print_char(fmt, /* ')' */41);
       } else {
         return Curry._2(Stdlib__Format.fprintf(fmt)({
-                  TAG: /* Format */0,
+                  TAG: /* Format */ 0,
                   _0: {
-                    TAG: /* Char_literal */12,
+                    TAG: /* Char_literal */ 12,
                     _0: /* '(' */40,
                     _1: {
-                      TAG: /* Alpha */15,
+                      TAG: /* Alpha */ 15,
                       _0: {
-                        TAG: /* Char_literal */12,
+                        TAG: /* Char_literal */ 12,
                         _0: /* ')' */41,
-                        _1: /* End_of_format */0
+                        _1: /* End_of_format */ 0
                       }
                     }
                   },
@@ -332,17 +332,17 @@ function print_noindent(fmt, t) {
   const s = t.VAL;
   if (_must_escape(s)) {
     return Curry._1(Stdlib__Format.fprintf(fmt)({
-              TAG: /* Format */0,
+              TAG: /* Format */ 0,
               _0: {
-                TAG: /* Char_literal */12,
+                TAG: /* Char_literal */ 12,
                 _0: /* '"' */34,
                 _1: {
-                  TAG: /* String */2,
-                  _0: /* No_padding */0,
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* Char_literal */12,
+                    TAG: /* Char_literal */ 12,
                     _0: /* '"' */34,
-                    _1: /* End_of_format */0
+                    _1: /* End_of_format */ 0
                   }
                 }
               },
@@ -457,27 +457,27 @@ function _get(t) {
 function _error(t, msg) {
   const b = Stdlib__Buffer.create(32);
   Curry._2(Stdlib__Printf.bprintf(b, {
-            TAG: /* Format */0,
+            TAG: /* Format */ 0,
             _0: {
-              TAG: /* String_literal */11,
+              TAG: /* String_literal */ 11,
               _0: "at ",
               _1: {
-                TAG: /* Int */4,
-                _0: /* Int_d */0,
-                _1: /* No_padding */0,
-                _2: /* No_precision */0,
+                TAG: /* Int */ 4,
+                _0: /* Int_d */ 0,
+                _1: /* No_padding */ 0,
+                _2: /* No_precision */ 0,
                 _3: {
-                  TAG: /* String_literal */11,
+                  TAG: /* String_literal */ 11,
                   _0: ", ",
                   _1: {
-                    TAG: /* Int */4,
-                    _0: /* Int_d */0,
-                    _1: /* No_padding */0,
-                    _2: /* No_precision */0,
+                    TAG: /* Int */ 4,
+                    _0: /* Int_d */ 0,
+                    _1: /* No_padding */ 0,
+                    _2: /* No_precision */ 0,
                     _3: {
-                      TAG: /* String_literal */11,
+                      TAG: /* String_literal */ 11,
                       _0: ": ",
-                      _1: /* End_of_format */0
+                      _1: /* End_of_format */ 0
                     }
                   }
                 }
@@ -496,11 +496,11 @@ function _error(t, msg) {
 
 function _error_eof(t) {
   return _error(t, {
-        TAG: /* Format */0,
+        TAG: /* Format */ 0,
         _0: {
-          TAG: /* String_literal */11,
+          TAG: /* String_literal */ 11,
           _0: "unexpected end of input",
-          _1: /* End_of_format */0
+          _1: /* End_of_format */ 0
         },
         _1: "unexpected end of input"
       });
@@ -536,11 +536,11 @@ function expr_starting_with(c, k, t) {
     }
     if (c === 92) {
       return _error(t, {
-            TAG: /* Format */0,
+            TAG: /* Format */ 0,
             _0: {
-              TAG: /* String_literal */11,
+              TAG: /* String_literal */ 11,
               _0: "unexpected '\\'",
-              _1: /* End_of_format */0
+              _1: /* End_of_format */ 0
             },
             _1: "unexpected '\\'"
           });
@@ -568,14 +568,14 @@ function expr_starting_with(c, k, t) {
         case 39 :
             break;
         case 40 :
-            return expr_list(/* [] */0, k, t);
+            return expr_list(/* [] */ 0, k, t);
         case 41 :
             return _error(t, {
-                  TAG: /* Format */0,
+                  TAG: /* Format */ 0,
                   _0: {
-                    TAG: /* String_literal */11,
+                    TAG: /* String_literal */ 11,
                     _0: "unexpected ')'",
-                    _1: /* End_of_format */0
+                    _1: /* End_of_format */ 0
                   },
                   _1: "unexpected ')'"
                 });
@@ -634,7 +634,7 @@ function expr_list(acc, k, t) {
                     });
               }
             } else {
-              return expr_list(/* [] */0, (function (param, l) {
+              return expr_list(/* [] */ 0, (function (param, l) {
                     return expr_list({
                           hd: l,
                           tl: acc
@@ -675,11 +675,11 @@ function atom(k, t) {
       if (c >= 42) {
         if (c === 92) {
           return _error(t, {
-                TAG: /* Format */0,
+                TAG: /* Format */ 0,
                 _0: {
-                  TAG: /* String_literal */11,
+                  TAG: /* String_literal */ 11,
                   _0: "unexpected '\\' in non-quoted string",
-                  _1: /* End_of_format */0
+                  _1: /* End_of_format */ 0
                 },
                 _1: "unexpected '\\' in non-quoted string"
               });
@@ -699,11 +699,11 @@ function atom(k, t) {
               break;
           case 34 :
               return _error(t, {
-                    TAG: /* Format */0,
+                    TAG: /* Format */ 0,
                     _0: {
-                      TAG: /* String_literal */11,
+                      TAG: /* String_literal */ 11,
                       _0: "unexpected '\"' in the middle of an atom",
-                      _1: /* End_of_format */0
+                      _1: /* End_of_format */ 0
                     },
                     _1: "unexpected '\"' in the middle of an atom"
                   });
@@ -802,16 +802,16 @@ function escaped(k, t) {
         }), t);
   } else {
     return Curry._1(_error(t, {
-              TAG: /* Format */0,
+              TAG: /* Format */ 0,
               _0: {
-                TAG: /* String_literal */11,
+                TAG: /* String_literal */ 11,
                 _0: "unexpected escaped char '",
                 _1: {
-                  TAG: /* Char */0,
+                  TAG: /* Char */ 0,
                   _0: {
-                    TAG: /* Char_literal */12,
+                    TAG: /* Char_literal */ 12,
                     _0: /* '\'' */39,
-                    _1: /* End_of_format */0
+                    _1: /* End_of_format */ 0
                   }
                 }
               },
@@ -831,16 +831,16 @@ function read2int(i, k, t) {
     return read1int(Math.imul(10, i) + (c - /* '0' */48 | 0) | 0, k, t);
   } else {
     return Curry._1(_error(t, {
-              TAG: /* Format */0,
+              TAG: /* Format */ 0,
               _0: {
-                TAG: /* String_literal */11,
+                TAG: /* String_literal */ 11,
                 _0: "unexpected char '",
                 _1: {
-                  TAG: /* Char */0,
+                  TAG: /* Char */ 0,
                   _0: {
-                    TAG: /* String_literal */11,
+                    TAG: /* String_literal */ 11,
                     _0: "' when reading byte",
-                    _1: /* End_of_format */0
+                    _1: /* End_of_format */ 0
                   }
                 }
               },
@@ -860,16 +860,16 @@ function read1int(i, k, t) {
     return Curry._1(k, Math.imul(10, i) + (c - /* '0' */48 | 0) | 0);
   } else {
     return Curry._1(_error(t, {
-              TAG: /* Format */0,
+              TAG: /* Format */ 0,
               _0: {
-                TAG: /* String_literal */11,
+                TAG: /* String_literal */ 11,
                 _0: "unexpected char '",
                 _1: {
-                  TAG: /* Char */0,
+                  TAG: /* Char */ 0,
                   _0: {
-                    TAG: /* String_literal */11,
+                    TAG: /* String_literal */ 11,
                     _0: "' when reading byte",
-                    _1: /* End_of_format */0
+                    _1: /* End_of_format */ 0
                   }
                 }
               },
@@ -984,7 +984,7 @@ function parse_chan_list(bufsize, ic) {
   const d = make(bufsize, (function (param, param$1, param$2) {
         return Stdlib.input(ic, param, param$1, param$2);
       }));
-  let _acc = /* [] */0;
+  let _acc = /* [] */ 0;
   while(true) {
     const acc = _acc;
     const e = next(d);
@@ -1074,27 +1074,27 @@ function MakeDecode(funarg) {
   const _error = function (t, msg) {
     const b = Stdlib__Buffer.create(32);
     Curry._2(Stdlib__Printf.bprintf(b, {
-              TAG: /* Format */0,
+              TAG: /* Format */ 0,
               _0: {
-                TAG: /* String_literal */11,
+                TAG: /* String_literal */ 11,
                 _0: "at ",
                 _1: {
-                  TAG: /* Int */4,
-                  _0: /* Int_d */0,
-                  _1: /* No_padding */0,
-                  _2: /* No_precision */0,
+                  TAG: /* Int */ 4,
+                  _0: /* Int_d */ 0,
+                  _1: /* No_padding */ 0,
+                  _2: /* No_precision */ 0,
                   _3: {
-                    TAG: /* String_literal */11,
+                    TAG: /* String_literal */ 11,
                     _0: ", ",
                     _1: {
-                      TAG: /* Int */4,
-                      _0: /* Int_d */0,
-                      _1: /* No_padding */0,
-                      _2: /* No_precision */0,
+                      TAG: /* Int */ 4,
+                      _0: /* Int_d */ 0,
+                      _1: /* No_padding */ 0,
+                      _2: /* No_precision */ 0,
                       _3: {
-                        TAG: /* String_literal */11,
+                        TAG: /* String_literal */ 11,
                         _0: ": ",
-                        _1: /* End_of_format */0
+                        _1: /* End_of_format */ 0
                       }
                     }
                   }
@@ -1112,11 +1112,11 @@ function MakeDecode(funarg) {
   };
   const _error_eof = function (t) {
     return _error(t, {
-          TAG: /* Format */0,
+          TAG: /* Format */ 0,
           _0: {
-            TAG: /* String_literal */11,
+            TAG: /* String_literal */ 11,
             _0: "unexpected end of input",
-            _1: /* End_of_format */0
+            _1: /* End_of_format */ 0
           },
           _1: "unexpected end of input"
         });
@@ -1150,11 +1150,11 @@ function MakeDecode(funarg) {
       }
       if (c === 92) {
         return _error(t, {
-              TAG: /* Format */0,
+              TAG: /* Format */ 0,
               _0: {
-                TAG: /* String_literal */11,
+                TAG: /* String_literal */ 11,
                 _0: "unexpected '\\'",
-                _1: /* End_of_format */0
+                _1: /* End_of_format */ 0
               },
               _1: "unexpected '\\'"
             });
@@ -1182,14 +1182,14 @@ function MakeDecode(funarg) {
           case 39 :
               break;
           case 40 :
-              return expr_list(/* [] */0, k, t);
+              return expr_list(/* [] */ 0, k, t);
           case 41 :
               return _error(t, {
-                    TAG: /* Format */0,
+                    TAG: /* Format */ 0,
                     _0: {
-                      TAG: /* String_literal */11,
+                      TAG: /* String_literal */ 11,
                       _0: "unexpected ')'",
-                      _1: /* End_of_format */0
+                      _1: /* End_of_format */ 0
                     },
                     _1: "unexpected ')'"
                   });
@@ -1247,7 +1247,7 @@ function MakeDecode(funarg) {
                       });
                 }
               } else {
-                return expr_list(/* [] */0, (function (param, l) {
+                return expr_list(/* [] */ 0, (function (param, l) {
                       return expr_list({
                             hd: l,
                             tl: acc
@@ -1286,11 +1286,11 @@ function MakeDecode(funarg) {
         if (c >= 42) {
           if (c === 92) {
             return _error(t, {
-                  TAG: /* Format */0,
+                  TAG: /* Format */ 0,
                   _0: {
-                    TAG: /* String_literal */11,
+                    TAG: /* String_literal */ 11,
                     _0: "unexpected '\\' in non-quoted string",
-                    _1: /* End_of_format */0
+                    _1: /* End_of_format */ 0
                   },
                   _1: "unexpected '\\' in non-quoted string"
                 });
@@ -1310,11 +1310,11 @@ function MakeDecode(funarg) {
                 break;
             case 34 :
                 return _error(t, {
-                      TAG: /* Format */0,
+                      TAG: /* Format */ 0,
                       _0: {
-                        TAG: /* String_literal */11,
+                        TAG: /* String_literal */ 11,
                         _0: "unexpected '\"' in the middle of an atom",
-                        _1: /* End_of_format */0
+                        _1: /* End_of_format */ 0
                       },
                       _1: "unexpected '\"' in the middle of an atom"
                     });
@@ -1411,16 +1411,16 @@ function MakeDecode(funarg) {
           }), t);
     } else {
       return Curry._1(_error(t, {
-                TAG: /* Format */0,
+                TAG: /* Format */ 0,
                 _0: {
-                  TAG: /* String_literal */11,
+                  TAG: /* String_literal */ 11,
                   _0: "unexpected escaped char '",
                   _1: {
-                    TAG: /* Char */0,
+                    TAG: /* Char */ 0,
                     _0: {
-                      TAG: /* Char_literal */12,
+                      TAG: /* Char_literal */ 12,
                       _0: /* '\'' */39,
-                      _1: /* End_of_format */0
+                      _1: /* End_of_format */ 0
                     }
                   }
                 },
@@ -1439,16 +1439,16 @@ function MakeDecode(funarg) {
       return read1int(Math.imul(10, i) + (c - /* '0' */48 | 0) | 0, k, t);
     } else {
       return Curry._1(_error(t, {
-                TAG: /* Format */0,
+                TAG: /* Format */ 0,
                 _0: {
-                  TAG: /* String_literal */11,
+                  TAG: /* String_literal */ 11,
                   _0: "unexpected char '",
                   _1: {
-                    TAG: /* Char */0,
+                    TAG: /* Char */ 0,
                     _0: {
-                      TAG: /* String_literal */11,
+                      TAG: /* String_literal */ 11,
                       _0: "' when reading byte",
-                      _1: /* End_of_format */0
+                      _1: /* End_of_format */ 0
                     }
                   }
                 },
@@ -1467,16 +1467,16 @@ function MakeDecode(funarg) {
       return Curry._1(k, Math.imul(10, i) + (c - /* '0' */48 | 0) | 0);
     } else {
       return Curry._1(_error(t, {
-                TAG: /* Format */0,
+                TAG: /* Format */ 0,
                 _0: {
-                  TAG: /* String_literal */11,
+                  TAG: /* String_literal */ 11,
                   _0: "unexpected char '",
                   _1: {
-                    TAG: /* Char */0,
+                    TAG: /* Char */ 0,
                     _0: {
-                      TAG: /* String_literal */11,
+                      TAG: /* String_literal */ 11,
                       _0: "' when reading byte",
-                      _1: /* End_of_format */0
+                      _1: /* End_of_format */ 0
                     }
                   }
                 },

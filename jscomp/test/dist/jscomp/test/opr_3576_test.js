@@ -12,7 +12,7 @@ const shared = [
 ];
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -24,14 +24,14 @@ function eq(loc, x, y) {
 }
 
 const object_tables = {
-  TAG: /* Cons */0,
+  TAG: /* Cons */ 0,
   key: undefined,
   data: undefined,
   next: undefined
 };
 
 const object_tables$1 = {
-  TAG: /* Cons */0,
+  TAG: /* Cons */ 0,
   key: undefined,
   data: undefined,
   next: undefined

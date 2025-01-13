@@ -7,7 +7,7 @@ const Mt_global = require("./mt_global.js");
 const Stdlib__Printf = require("melange/printf.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -19,30 +19,30 @@ function eq(f, param) {
 }
 
 const s = Curry._1(Stdlib__Printf.sprintf({
-          TAG: /* Format */0,
+          TAG: /* Format */ 0,
           _0: {
-            TAG: /* Format_arg */13,
+            TAG: /* Format_arg */ 13,
             _0: undefined,
             _1: {
-              TAG: /* String_ty */1,
-              _0: /* End_of_fmtty */0
+              TAG: /* String_ty */ 1,
+              _0: /* End_of_fmtty */ 0
             },
             _2: {
-              TAG: /* Char_literal */12,
+              TAG: /* Char_literal */ 12,
               _0: /* '.' */46,
-              _1: /* End_of_format */0
+              _1: /* End_of_format */ 0
             }
           },
           _1: "%{%s%}."
         }), {
-      TAG: /* Format */0,
+      TAG: /* Format */ 0,
       _0: {
-        TAG: /* String_literal */11,
+        TAG: /* String_literal */ 11,
         _0: "32",
         _1: {
-          TAG: /* String */2,
-          _0: /* No_padding */0,
-          _1: /* End_of_format */0
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: /* End_of_format */ 0
         }
       },
       _1: "32%s"
@@ -54,36 +54,36 @@ eq("File \"jscomp/test/sprintf_reg_test.ml\", line 8, characters 5-12", [
     ]);
 
 const s$1 = Curry._2(Stdlib__Printf.sprintf({
-          TAG: /* Format */0,
+          TAG: /* Format */ 0,
           _0: {
-            TAG: /* Int */4,
-            _0: /* Int_i */3,
-            _1: /* No_padding */0,
-            _2: /* No_precision */0,
+            TAG: /* Int */ 4,
+            _0: /* Int_i */ 3,
+            _1: /* No_padding */ 0,
+            _2: /* No_precision */ 0,
             _3: {
-              TAG: /* Char_literal */12,
+              TAG: /* Char_literal */ 12,
               _0: /* ' ' */32,
               _1: {
-                TAG: /* Format_arg */13,
+                TAG: /* Format_arg */ 13,
                 _0: undefined,
                 _1: {
-                  TAG: /* String_ty */1,
-                  _0: /* End_of_fmtty */0
+                  TAG: /* String_ty */ 1,
+                  _0: /* End_of_fmtty */ 0
                 },
-                _2: /* End_of_format */0
+                _2: /* End_of_format */ 0
               }
             }
           },
           _1: "%i %{%s%}"
         }), 1, {
-      TAG: /* Format */0,
+      TAG: /* Format */ 0,
       _0: {
-        TAG: /* String_literal */11,
+        TAG: /* String_literal */ 11,
         _0: "spells one ",
         _1: {
-          TAG: /* String */2,
-          _0: /* No_padding */0,
-          _1: /* End_of_format */0
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: /* End_of_format */ 0
         }
       },
       _1: "spells one %s"

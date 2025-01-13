@@ -5,15 +5,15 @@ const Caml_exceptions = require("melange.js/caml_exceptions.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Mt = require("./mt.js");
 
-const Str = /* @__PURE__ */Caml_exceptions.create("Extensible_variant_test.Str");
+const Str = /* @__PURE__ */ Caml_exceptions.create("Extensible_variant_test.Str");
 
-const Int = /* @__PURE__ */Caml_exceptions.create("Extensible_variant_test.N.Int");
+const Int = /* @__PURE__ */ Caml_exceptions.create("Extensible_variant_test.N.Int");
 
 const N = {
   Int: Int
 };
 
-const Int$1 = /* @__PURE__ */Caml_exceptions.create("Extensible_variant_test.Int");
+const Int$1 = /* @__PURE__ */ Caml_exceptions.create("Extensible_variant_test.Int");
 
 function to_int(x) {
   if (x.MEL_EXN_ID === Str) {
@@ -39,7 +39,7 @@ const suites_0 = [
   "test_int",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: 3,
       _1: to_int({
             MEL_EXN_ID: Int,
@@ -55,7 +55,7 @@ const suites_1 = {
     "test_int2",
     (function (param) {
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: 0,
         _1: to_int({
               MEL_EXN_ID: Int$1,
@@ -70,7 +70,7 @@ const suites_1 = {
       "test_string",
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: -1,
           _1: to_int({
                 MEL_EXN_ID: Str,
@@ -79,7 +79,7 @@ const suites_1 = {
         };
       })
     ],
-    tl: /* [] */0
+    tl: /* [] */ 0
   }
 };
 

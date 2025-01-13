@@ -4,7 +4,7 @@
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 function blackify(s) {
-  if (/* tag */typeof s === "number" || typeof s === "string" || s._0 === /* Black */0) {
+  if (/* tag */ typeof s === "number" || typeof s === "string" || s._0 === /* Black */ 0) {
     return [
       s,
       true
@@ -12,8 +12,8 @@ function blackify(s) {
   } else {
     return [
       {
-        TAG: /* Node */0,
-        _0: /* Black */0,
+        TAG: /* Node */ 0,
+        _0: /* Black */ 0,
         _1: s._1,
         _2: s._2,
         _3: s._3
@@ -24,7 +24,7 @@ function blackify(s) {
 }
 
 function is_empty(param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     return true;
   } else {
     return false;
@@ -34,7 +34,7 @@ function is_empty(param) {
 function mem(x, _param) {
   while(true) {
     const param = _param;
-    if (/* tag */typeof param === "number" || typeof param === "string") {
+    if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
     }
     const y = param._2;
@@ -59,12 +59,12 @@ function balance_left(l, x, r) {
   let c;
   let z;
   let d;
-  if (/* tag */typeof l === "number" || typeof l === "string" || l._0 === /* Black */0) {
+  if (/* tag */ typeof l === "number" || typeof l === "string" || l._0 === /* Black */ 0) {
     exit = 1;
   } else {
     const a$1 = l._1;
     let exit$1 = 0;
-    if (/* tag */typeof a$1 === "number" || typeof a$1 === "string" || a$1._0 === /* Black */0) {
+    if (/* tag */ typeof a$1 === "number" || typeof a$1 === "string" || a$1._0 === /* Black */ 0) {
       exit$1 = 3;
     } else {
       a = a$1._1;
@@ -78,7 +78,7 @@ function balance_left(l, x, r) {
     }
     if (exit$1 === 3) {
       const match = l._3;
-      if (/* tag */typeof match === "number" || typeof match === "string" || match._0 === /* Black */0) {
+      if (/* tag */ typeof match === "number" || typeof match === "string" || match._0 === /* Black */ 0) {
         exit = 1;
       } else {
         a = a$1;
@@ -96,27 +96,27 @@ function balance_left(l, x, r) {
   switch (exit) {
     case 1 :
         return {
-          TAG: /* Node */0,
-          _0: /* Black */0,
+          TAG: /* Node */ 0,
+          _0: /* Black */ 0,
           _1: l,
           _2: x,
           _3: r
         };
     case 2 :
         return {
-          TAG: /* Node */0,
-          _0: /* Red */1,
+          TAG: /* Node */ 0,
+          _0: /* Red */ 1,
           _1: {
-            TAG: /* Node */0,
-            _0: /* Black */0,
+            TAG: /* Node */ 0,
+            _0: /* Black */ 0,
             _1: a,
             _2: x$1,
             _3: b
           },
           _2: y,
           _3: {
-            TAG: /* Node */0,
-            _0: /* Black */0,
+            TAG: /* Node */ 0,
+            _0: /* Black */ 0,
             _1: c,
             _2: z,
             _3: d
@@ -135,12 +135,12 @@ function balance_right(l, x, r) {
   let c;
   let z;
   let d;
-  if (/* tag */typeof r === "number" || typeof r === "string" || r._0 === /* Black */0) {
+  if (/* tag */ typeof r === "number" || typeof r === "string" || r._0 === /* Black */ 0) {
     exit = 1;
   } else {
     const b$1 = r._1;
     let exit$1 = 0;
-    if (/* tag */typeof b$1 === "number" || typeof b$1 === "string" || b$1._0 === /* Black */0) {
+    if (/* tag */ typeof b$1 === "number" || typeof b$1 === "string" || b$1._0 === /* Black */ 0) {
       exit$1 = 3;
     } else {
       a = l;
@@ -154,7 +154,7 @@ function balance_right(l, x, r) {
     }
     if (exit$1 === 3) {
       const match = r._3;
-      if (/* tag */typeof match === "number" || typeof match === "string" || match._0 === /* Black */0) {
+      if (/* tag */ typeof match === "number" || typeof match === "string" || match._0 === /* Black */ 0) {
         exit = 1;
       } else {
         a = l;
@@ -172,27 +172,27 @@ function balance_right(l, x, r) {
   switch (exit) {
     case 1 :
         return {
-          TAG: /* Node */0,
-          _0: /* Black */0,
+          TAG: /* Node */ 0,
+          _0: /* Black */ 0,
           _1: l,
           _2: x,
           _3: r
         };
     case 2 :
         return {
-          TAG: /* Node */0,
-          _0: /* Red */1,
+          TAG: /* Node */ 0,
+          _0: /* Red */ 1,
           _1: {
-            TAG: /* Node */0,
-            _0: /* Black */0,
+            TAG: /* Node */ 0,
+            _0: /* Black */ 0,
             _1: a,
             _2: x$1,
             _3: b
           },
           _2: y,
           _3: {
-            TAG: /* Node */0,
-            _0: /* Black */0,
+            TAG: /* Node */ 0,
+            _0: /* Black */ 0,
             _1: c,
             _2: z,
             _3: d
@@ -204,24 +204,24 @@ function balance_right(l, x, r) {
 
 function singleton(x) {
   return {
-    TAG: /* Node */0,
-    _0: /* Black */0,
-    _1: /* Empty */0,
+    TAG: /* Node */ 0,
+    _0: /* Black */ 0,
+    _1: /* Empty */ 0,
     _2: x,
-    _3: /* Empty */0
+    _3: /* Empty */ 0
   };
 }
 
 function unbalanced_left(param) {
-  if (!/* tag */(typeof param === "number" || typeof param === "string")) {
-    if (param._0 === /* Black */0) {
+  if (!/* tag */ (typeof param === "number" || typeof param === "string")) {
+    if (param._0 === /* Black */ 0) {
       const match = param._1;
-      if (!/* tag */(typeof match === "number" || typeof match === "string")) {
-        if (match._0 === /* Black */0) {
+      if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+        if (match._0 === /* Black */ 0) {
           return [
             balance_left({
-                  TAG: /* Node */0,
-                  _0: /* Red */1,
+                  TAG: /* Node */ 0,
+                  _0: /* Red */ 1,
                   _1: match._1,
                   _2: match._2,
                   _3: match._3
@@ -230,16 +230,16 @@ function unbalanced_left(param) {
           ];
         }
         const match$1 = match._3;
-        if (!/* tag */(typeof match$1 === "number" || typeof match$1 === "string") && match$1._0 === /* Black */0) {
+        if (!/* tag */ (typeof match$1 === "number" || typeof match$1 === "string") && match$1._0 === /* Black */ 0) {
           return [
             {
-              TAG: /* Node */0,
-              _0: /* Black */0,
+              TAG: /* Node */ 0,
+              _0: /* Black */ 0,
               _1: match._1,
               _2: match._2,
               _3: balance_left({
-                    TAG: /* Node */0,
-                    _0: /* Red */1,
+                    TAG: /* Node */ 0,
+                    _0: /* Red */ 1,
                     _1: match$1._1,
                     _2: match$1._2,
                     _3: match$1._3
@@ -253,11 +253,11 @@ function unbalanced_left(param) {
       
     } else {
       const match$2 = param._1;
-      if (!/* tag */(typeof match$2 === "number" || typeof match$2 === "string") && match$2._0 === /* Black */0) {
+      if (!/* tag */ (typeof match$2 === "number" || typeof match$2 === "string") && match$2._0 === /* Black */ 0) {
         return [
           balance_left({
-                TAG: /* Node */0,
-                _0: /* Red */1,
+                TAG: /* Node */ 0,
+                _0: /* Red */ 1,
                 _1: match$2._1,
                 _2: match$2._2,
                 _3: match$2._3
@@ -279,17 +279,17 @@ function unbalanced_left(param) {
 }
 
 function unbalanced_right(param) {
-  if (!/* tag */(typeof param === "number" || typeof param === "string")) {
-    if (param._0 === /* Black */0) {
+  if (!/* tag */ (typeof param === "number" || typeof param === "string")) {
+    if (param._0 === /* Black */ 0) {
       const match = param._3;
       const x = param._2;
       const a = param._1;
-      if (!/* tag */(typeof match === "number" || typeof match === "string")) {
-        if (match._0 === /* Black */0) {
+      if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+        if (match._0 === /* Black */ 0) {
           return [
             balance_right(a, x, {
-                  TAG: /* Node */0,
-                  _0: /* Red */1,
+                  TAG: /* Node */ 0,
+                  _0: /* Red */ 1,
                   _1: match._1,
                   _2: match._2,
                   _3: match._3
@@ -298,14 +298,14 @@ function unbalanced_right(param) {
           ];
         }
         const match$1 = match._1;
-        if (!/* tag */(typeof match$1 === "number" || typeof match$1 === "string") && match$1._0 === /* Black */0) {
+        if (!/* tag */ (typeof match$1 === "number" || typeof match$1 === "string") && match$1._0 === /* Black */ 0) {
           return [
             {
-              TAG: /* Node */0,
-              _0: /* Black */0,
+              TAG: /* Node */ 0,
+              _0: /* Black */ 0,
               _1: balance_right(a, x, {
-                    TAG: /* Node */0,
-                    _0: /* Red */1,
+                    TAG: /* Node */ 0,
+                    _0: /* Red */ 1,
                     _1: match$1._1,
                     _2: match$1._2,
                     _3: match$1._3
@@ -321,11 +321,11 @@ function unbalanced_right(param) {
       
     } else {
       const match$2 = param._3;
-      if (!/* tag */(typeof match$2 === "number" || typeof match$2 === "string") && match$2._0 === /* Black */0) {
+      if (!/* tag */ (typeof match$2 === "number" || typeof match$2 === "string") && match$2._0 === /* Black */ 0) {
         return [
           balance_right(param._1, param._2, {
-                TAG: /* Node */0,
-                _0: /* Red */1,
+                TAG: /* Node */ 0,
+                _0: /* Red */ 1,
                 _1: match$2._1,
                 _2: match$2._2,
                 _3: match$2._3
@@ -347,19 +347,19 @@ function unbalanced_right(param) {
 }
 
 function lbalance(x1, x2, x3) {
-  if (/* tag */typeof x1 === "number" || typeof x1 === "string") {
+  if (/* tag */ typeof x1 === "number" || typeof x1 === "string") {
     return {
-      TAG: /* Node */0,
-      _0: /* Black */0,
+      TAG: /* Node */ 0,
+      _0: /* Black */ 0,
       _1: x1,
       _2: x2,
       _3: x3
     };
   }
-  if (x1._0 === /* Black */0) {
+  if (x1._0 === /* Black */ 0) {
     return {
-      TAG: /* Node */0,
-      _0: /* Black */0,
+      TAG: /* Node */ 0,
+      _0: /* Black */ 0,
       _1: x1,
       _2: x2,
       _3: x3
@@ -367,40 +367,40 @@ function lbalance(x1, x2, x3) {
   }
   const r = x1._3;
   const l = x1._1;
-  if (!/* tag */(typeof l === "number" || typeof l === "string") && l._0 !== /* Black */0) {
+  if (!/* tag */ (typeof l === "number" || typeof l === "string") && l._0 !== /* Black */ 0) {
     return {
-      TAG: /* Node */0,
-      _0: /* Red */1,
+      TAG: /* Node */ 0,
+      _0: /* Red */ 1,
       _1: {
-        TAG: /* Node */0,
-        _0: /* Black */0,
+        TAG: /* Node */ 0,
+        _0: /* Black */ 0,
         _1: l._1,
         _2: l._2,
         _3: l._3
       },
       _2: x1._2,
       _3: {
-        TAG: /* Node */0,
-        _0: /* Black */0,
+        TAG: /* Node */ 0,
+        _0: /* Black */ 0,
         _1: r,
         _2: x2,
         _3: x3
       }
     };
   }
-  if (/* tag */typeof r === "number" || typeof r === "string") {
+  if (/* tag */ typeof r === "number" || typeof r === "string") {
     return {
-      TAG: /* Node */0,
-      _0: /* Black */0,
+      TAG: /* Node */ 0,
+      _0: /* Black */ 0,
       _1: x1,
       _2: x2,
       _3: x3
     };
   }
-  if (r._0 === /* Black */0) {
+  if (r._0 === /* Black */ 0) {
     return {
-      TAG: /* Node */0,
-      _0: /* Black */0,
+      TAG: /* Node */ 0,
+      _0: /* Black */ 0,
       _1: x1,
       _2: x2,
       _3: x3
@@ -408,19 +408,19 @@ function lbalance(x1, x2, x3) {
   }
   const y = r._2;
   return {
-    TAG: /* Node */0,
-    _0: /* Red */1,
+    TAG: /* Node */ 0,
+    _0: /* Red */ 1,
     _1: {
-      TAG: /* Node */0,
-      _0: /* Black */0,
+      TAG: /* Node */ 0,
+      _0: /* Black */ 0,
       _1: l,
       _2: y,
       _3: r._1
     },
     _2: y,
     _3: {
-      TAG: /* Node */0,
-      _0: /* Black */0,
+      TAG: /* Node */ 0,
+      _0: /* Black */ 0,
       _1: r._3,
       _2: x2,
       _3: x3
@@ -429,27 +429,27 @@ function lbalance(x1, x2, x3) {
 }
 
 function rbalance(x1, x2, x3) {
-  if (!/* tag */(typeof x3 === "number" || typeof x3 === "string") && x3._0 !== /* Black */0) {
+  if (!/* tag */ (typeof x3 === "number" || typeof x3 === "string") && x3._0 !== /* Black */ 0) {
     const b = x3._1;
     let exit = 0;
-    if (/* tag */typeof b === "number" || typeof b === "string") {
+    if (/* tag */ typeof b === "number" || typeof b === "string") {
       exit = 2;
     } else {
-      if (b._0 !== /* Black */0) {
+      if (b._0 !== /* Black */ 0) {
         return {
-          TAG: /* Node */0,
-          _0: /* Red */1,
+          TAG: /* Node */ 0,
+          _0: /* Red */ 1,
           _1: {
-            TAG: /* Node */0,
-            _0: /* Black */0,
+            TAG: /* Node */ 0,
+            _0: /* Black */ 0,
             _1: x1,
             _2: x2,
             _3: b._1
           },
           _2: b._2,
           _3: {
-            TAG: /* Node */0,
-            _0: /* Black */0,
+            TAG: /* Node */ 0,
+            _0: /* Black */ 0,
             _1: b._3,
             _2: x3._2,
             _3: x3._3
@@ -460,21 +460,21 @@ function rbalance(x1, x2, x3) {
     }
     if (exit === 2) {
       const match = x3._3;
-      if (!/* tag */(typeof match === "number" || typeof match === "string") && match._0 !== /* Black */0) {
+      if (!/* tag */ (typeof match === "number" || typeof match === "string") && match._0 !== /* Black */ 0) {
         return {
-          TAG: /* Node */0,
-          _0: /* Red */1,
+          TAG: /* Node */ 0,
+          _0: /* Red */ 1,
           _1: {
-            TAG: /* Node */0,
-            _0: /* Black */0,
+            TAG: /* Node */ 0,
+            _0: /* Black */ 0,
             _1: x1,
             _2: x2,
             _3: b
           },
           _2: x3._2,
           _3: {
-            TAG: /* Node */0,
-            _0: /* Black */0,
+            TAG: /* Node */ 0,
+            _0: /* Black */ 0,
             _1: match._1,
             _2: match._2,
             _3: match._3
@@ -486,8 +486,8 @@ function rbalance(x1, x2, x3) {
     
   }
   return {
-    TAG: /* Node */0,
-    _0: /* Black */0,
+    TAG: /* Node */ 0,
+    _0: /* Black */ 0,
     _1: x1,
     _2: x2,
     _3: x3
@@ -495,16 +495,16 @@ function rbalance(x1, x2, x3) {
 }
 
 function ins(x, s) {
-  if (/* tag */typeof s === "number" || typeof s === "string") {
+  if (/* tag */ typeof s === "number" || typeof s === "string") {
     return {
-      TAG: /* Node */0,
-      _0: /* Red */1,
-      _1: /* Empty */0,
+      TAG: /* Node */ 0,
+      _0: /* Red */ 1,
+      _1: /* Empty */ 0,
       _2: x,
-      _3: /* Empty */0
+      _3: /* Empty */ 0
     };
   }
-  if (s._0 === /* Black */0) {
+  if (s._0 === /* Black */ 0) {
     const y = s._2;
     if (x === y) {
       return s;
@@ -525,16 +525,16 @@ function ins(x, s) {
   const a$1 = s._1;
   if (x < y$1) {
     return {
-      TAG: /* Node */0,
-      _0: /* Red */1,
+      TAG: /* Node */ 0,
+      _0: /* Red */ 1,
       _1: ins(x, a$1),
       _2: y$1,
       _3: b$1
     };
   } else {
     return {
-      TAG: /* Node */0,
-      _0: /* Red */1,
+      TAG: /* Node */ 0,
+      _0: /* Red */ 1,
       _1: a$1,
       _2: y$1,
       _3: ins(x, b$1)
@@ -544,12 +544,12 @@ function ins(x, s) {
 
 function add(x, s) {
   const s$1 = ins(x, s);
-  if (/* tag */typeof s$1 === "number" || typeof s$1 === "string" || s$1._0 === /* Black */0) {
+  if (/* tag */ typeof s$1 === "number" || typeof s$1 === "string" || s$1._0 === /* Black */ 0) {
     return s$1;
   } else {
     return {
-      TAG: /* Node */0,
-      _0: /* Black */0,
+      TAG: /* Node */ 0,
+      _0: /* Black */ 0,
       _1: s$1._1,
       _2: s$1._2,
       _3: s$1._3
@@ -558,7 +558,7 @@ function add(x, s) {
 }
 
 function remove_min(param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
           MEL_EXN_ID: "Assert_failure",
           _1: [
@@ -569,23 +569,23 @@ function remove_min(param) {
         });
   }
   const c = param._0;
-  if (c === /* Black */0) {
+  if (c === /* Black */ 0) {
     let tmp = param._1;
-    if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
+    if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
       const match = param._3;
       const x = param._2;
-      if (/* tag */typeof match === "number" || typeof match === "string") {
+      if (/* tag */ typeof match === "number" || typeof match === "string") {
         return [
-          /* Empty */0,
+          /* Empty */ 0,
           x,
           true
         ];
       }
-      if (match._0 !== /* Black */0) {
+      if (match._0 !== /* Black */ 0) {
         return [
           {
-            TAG: /* Node */0,
-            _0: /* Black */0,
+            TAG: /* Node */ 0,
+            _0: /* Black */ 0,
             _1: match._1,
             _2: match._2,
             _3: match._3
@@ -606,7 +606,7 @@ function remove_min(param) {
     
   } else {
     let tmp$1 = param._1;
-    if (/* tag */typeof tmp$1 === "number" || typeof tmp$1 === "string") {
+    if (/* tag */ typeof tmp$1 === "number" || typeof tmp$1 === "string") {
       return [
         param._3,
         param._2,
@@ -621,7 +621,7 @@ function remove_min(param) {
   const s_2 = param._2;
   const s_3 = param._3;
   const s = {
-    TAG: /* Node */0,
+    TAG: /* Node */ 0,
     _0: c,
     _1: s_1,
     _2: s_2,
@@ -643,9 +643,9 @@ function remove_min(param) {
 }
 
 function remove_aux(x, n) {
-  if (/* tag */typeof n === "number" || typeof n === "string") {
+  if (/* tag */ typeof n === "number" || typeof n === "string") {
     return [
-      /* Empty */0,
+      /* Empty */ 0,
       false
     ];
   }
@@ -654,8 +654,8 @@ function remove_aux(x, n) {
   const l = n._1;
   const c = n._0;
   if (x === y) {
-    if (/* tag */typeof r === "number" || typeof r === "string") {
-      if (c === /* Red */1) {
+    if (/* tag */ typeof r === "number" || typeof r === "string") {
+      if (c === /* Red */ 1) {
         return [
           l,
           false
@@ -668,7 +668,7 @@ function remove_aux(x, n) {
     const n_2 = match[1];
     const n_3 = match[0];
     const n$1 = {
-      TAG: /* Node */0,
+      TAG: /* Node */ 0,
       _0: c,
       _1: l,
       _2: n_2,
@@ -687,7 +687,7 @@ function remove_aux(x, n) {
     const match$1 = remove_aux(x, l);
     const n_1 = match$1[0];
     const n$2 = {
-      TAG: /* Node */0,
+      TAG: /* Node */ 0,
       _0: c,
       _1: n_1,
       _2: y,
@@ -705,7 +705,7 @@ function remove_aux(x, n) {
   const match$2 = remove_aux(x, r);
   const n_3$1 = match$2[0];
   const n$3 = {
-    TAG: /* Node */0,
+    TAG: /* Node */ 0,
     _0: c,
     _1: l,
     _2: y,
@@ -726,14 +726,14 @@ function remove(x, s) {
 }
 
 function cardinal(param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     return 0;
   } else {
     return (1 + cardinal(param._1) | 0) + cardinal(param._3) | 0;
   }
 }
 
-const empty = /* Empty */0;
+const empty = /* Empty */ 0;
 
 exports.blackify = blackify;
 exports.empty = empty;

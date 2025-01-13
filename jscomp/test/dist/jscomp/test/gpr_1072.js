@@ -21,7 +21,7 @@ const v_ice_cream3_1 = {
       flavor: "vanilla",
       num: 3
     },
-    tl: /* [] */0
+    tl: /* [] */ 0
   }
 };
 
@@ -40,7 +40,7 @@ const v_ice_cream4_1 = {
     flavor: "x",
     num: 3
   },
-  tl: /* [] */0
+  tl: /* [] */ 0
 };
 
 const v_ice_cream4 = {
@@ -70,7 +70,7 @@ const int_expects_1 = {
     hd: {
       x: 3
     },
-    tl: /* [] */0
+    tl: /* [] */ 0
   }
 };
 
@@ -127,7 +127,7 @@ const v_mk7_1 = {
     hd: {
       y: 2
     },
-    tl: /* [] */0
+    tl: /* [] */ 0
   }
 };
 

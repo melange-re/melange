@@ -60,11 +60,11 @@ Stdlib__List.length({
       hd: 1,
       tl: {
         hd: 2,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
-Stdlib__List.length(/* [] */0);
+Stdlib__List.length(/* [] */ 0);
 
 function ff(prim) {
   return Local.ff();

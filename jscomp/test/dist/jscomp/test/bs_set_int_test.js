@@ -9,7 +9,7 @@ const Stdlib__Array = require("melange/array.js");
 const Stdlib__List = require("melange/list.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {

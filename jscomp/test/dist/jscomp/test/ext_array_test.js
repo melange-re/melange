@@ -58,7 +58,7 @@ function reverse_of_list(l) {
 
 function filter(f, a) {
   const arr_len = a.length;
-  let _acc = /* [] */0;
+  let _acc = /* [] */ 0;
   let _i = 0;
   while(true) {
     const i = _i;
@@ -82,7 +82,7 @@ function filter(f, a) {
 
 function filter_map(f, a) {
   const arr_len = a.length;
-  let _acc = /* [] */0;
+  let _acc = /* [] */ 0;
   let _i = 0;
   while(true) {
     const i = _i;
@@ -149,7 +149,7 @@ function tolist_aux(a, f, _i, _res) {
 }
 
 function to_list_map(f, a) {
-  return tolist_aux(a, f, a.length - 1 | 0, /* [] */0);
+  return tolist_aux(a, f, a.length - 1 | 0, /* [] */ 0);
 }
 
 function to_list_map_acc(f, a, acc) {

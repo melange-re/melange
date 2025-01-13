@@ -4,7 +4,7 @@
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -18,7 +18,7 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: x,
           _1: y
         };
@@ -35,7 +35,7 @@ function hi (cb){
 ;
 
 const xs = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 hi(function () {
@@ -56,7 +56,7 @@ eq("File \"jscomp/test/bs_auto_uncurry_test.ml\", line 27, characters 7-14", xs.
       hd: undefined,
       tl: {
         hd: undefined,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 

@@ -7,7 +7,7 @@ const Mt = require("./mt.js");
 const Stdlib = require("melange/stdlib.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -24,7 +24,7 @@ function f0(x) {
   return newrecord;
 }
 
-const Small = /* @__PURE__ */Caml_exceptions.create("Large_record_duplication_test.Small");
+const Small = /* @__PURE__ */ Caml_exceptions.create("Large_record_duplication_test.Small");
 
 function f_small(u) {
   if (u.MEL_EXN_ID === Small) {
@@ -59,7 +59,7 @@ eq("File \"jscomp/test/large_record_duplication_test.ml\", line 74, characters 6
         }), false);
 
 const v1 = {
-  TAG: /* A0 */0,
+  TAG: /* A0 */ 0,
   x0: 9,
   x1: 9,
   x2: 9,
@@ -86,7 +86,7 @@ const v1 = {
 };
 
 function get_x0(x) {
-  if (/* tag */typeof x === "number" || typeof x === "string") {
+  if (/* tag */ typeof x === "number" || typeof x === "string") {
     return;
   } else {
     return x.x0;
@@ -94,8 +94,8 @@ function get_x0(x) {
 }
 
 function f1(x) {
-  if (/* tag */typeof x === "number" || typeof x === "string") {
-    return /* A1 */0;
+  if (/* tag */ typeof x === "number" || typeof x === "string") {
+    return /* A1 */ 0;
   }
   const newrecord = Caml_obj.caml_obj_dup(x);
   newrecord.x0 = 1;
@@ -105,7 +105,7 @@ function f1(x) {
 eq("File \"jscomp/test/large_record_duplication_test.ml\", line 139, characters 6-13", get_x0(f1(v1)), 1);
 
 const v2 = {
-  TAG: /* A0 */0,
+  TAG: /* A0 */ 0,
   x0: 9,
   x1: 9,
   x2: 9,
@@ -132,14 +132,14 @@ const v2 = {
 };
 
 function get_x0$1(x) {
-  if (x.TAG === /* A0 */0) {
+  if (x.TAG === /* A0 */ 0) {
     return x.x0;
   }
   
 }
 
 function f2(x) {
-  if (x.TAG !== /* A0 */0) {
+  if (x.TAG !== /* A0 */ 0) {
     return x;
   }
   const newrecord = Caml_obj.caml_obj_dup(x);
@@ -149,7 +149,7 @@ function f2(x) {
 
 eq("File \"jscomp/test/large_record_duplication_test.ml\", line 204, characters 6-13", get_x0$1(f2(v2)), 1);
 
-const A0 = /* @__PURE__ */Caml_exceptions.create("Large_record_duplication_test.A0");
+const A0 = /* @__PURE__ */ Caml_exceptions.create("Large_record_duplication_test.A0");
 
 function f3(x) {
   if (x.MEL_EXN_ID !== A0) {

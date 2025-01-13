@@ -6,7 +6,7 @@ const Parser_api = require("./parser_api.js");
 const Stdlib__Lexing = require("melange/lexing.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -21,13 +21,13 @@ const match = Parser_api.implementation(Stdlib__Lexing.from_string(undefined, "l
 
 if (match) {
   const match$1 = match.hd.pstr_desc;
-  if (match$1.TAG === /* Pstr_value */1 && match$1._0 === /* Nonrecursive */0) {
+  if (match$1.TAG === /* Pstr_value */ 1 && match$1._0 === /* Nonrecursive */ 0) {
     const match$2 = match$1._1;
     if (match$2) {
       const match$3 = match$2.hd;
       const match$4 = match$3.pvb_pat;
       const match$5 = match$4.ppat_desc;
-      if (/* tag */typeof match$5 === "number" || typeof match$5 === "string" || match$5.TAG !== /* Ppat_var */0) {
+      if (/* tag */ typeof match$5 === "number" || typeof match$5 === "string" || match$5.TAG !== /* Ppat_var */ 0) {
         eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
       } else {
         const match$6 = match$5._0;
@@ -44,10 +44,10 @@ if (match) {
                 if (match$12.pos_fname === "" && !(match$12.pos_lnum !== 1 || match$12.pos_bol !== 0 || match$12.pos_cnum !== 5 || match$10.loc_ghost || match$4.ppat_attributes)) {
                   const match$13 = match$3.pvb_expr;
                   const match$14 = match$13.pexp_desc;
-                  if (match$14.TAG === /* Pexp_fun */4 && match$14._0 === "" && match$14._1 === undefined) {
+                  if (match$14.TAG === /* Pexp_fun */ 4 && match$14._0 === "" && match$14._1 === undefined) {
                     const match$15 = match$14._2;
                     const match$16 = match$15.ppat_desc;
-                    if (/* tag */typeof match$16 === "number" || typeof match$16 === "string" || match$16.TAG !== /* Ppat_var */0) {
+                    if (/* tag */ typeof match$16 === "number" || typeof match$16 === "string" || match$16.TAG !== /* Ppat_var */ 0) {
                       eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                     } else {
                       const match$17 = match$16._0;
@@ -64,14 +64,14 @@ if (match) {
                               if (match$23.pos_fname === "" && !(match$23.pos_lnum !== 1 || match$23.pos_bol !== 0 || match$23.pos_cnum !== 9 || match$21.loc_ghost || match$15.ppat_attributes)) {
                                 const match$24 = match$14._3;
                                 const match$25 = match$24.pexp_desc;
-                                if (match$25.TAG === /* Pexp_apply */5) {
+                                if (match$25.TAG === /* Pexp_apply */ 5) {
                                   const match$26 = match$25._0;
                                   const match$27 = match$26.pexp_desc;
-                                  if (match$27.TAG === /* Pexp_ident */0) {
+                                  if (match$27.TAG === /* Pexp_ident */ 0) {
                                     const match$28 = match$27._0;
                                     const match$29 = match$28.txt;
                                     switch (match$29.TAG) {
-                                      case /* Lident */0 :
+                                      case /* Lident */ 0 :
                                           if (match$29._0 === "|>") {
                                             const match$30 = match$28.loc;
                                             const match$31 = match$30.loc_start;
@@ -89,14 +89,14 @@ if (match) {
                                                       if (match$37[0] === "") {
                                                         const match$38 = match$37[1];
                                                         const match$39 = match$38.pexp_desc;
-                                                        if (match$39.TAG === /* Pexp_apply */5) {
+                                                        if (match$39.TAG === /* Pexp_apply */ 5) {
                                                           const match$40 = match$39._0;
                                                           const match$41 = match$40.pexp_desc;
-                                                          if (match$41.TAG === /* Pexp_ident */0) {
+                                                          if (match$41.TAG === /* Pexp_ident */ 0) {
                                                             const match$42 = match$41._0;
                                                             const match$43 = match$42.txt;
                                                             switch (match$43.TAG) {
-                                                              case /* Lident */0 :
+                                                              case /* Lident */ 0 :
                                                                   if (match$43._0 === "|>") {
                                                                     const match$44 = match$42.loc;
                                                                     const match$45 = match$44.loc_start;
@@ -114,11 +114,11 @@ if (match) {
                                                                               if (match$51[0] === "") {
                                                                                 const match$52 = match$51[1];
                                                                                 const match$53 = match$52.pexp_desc;
-                                                                                if (match$53.TAG === /* Pexp_ident */0) {
+                                                                                if (match$53.TAG === /* Pexp_ident */ 0) {
                                                                                   const match$54 = match$53._0;
                                                                                   const match$55 = match$54.txt;
                                                                                   switch (match$55.TAG) {
-                                                                                    case /* Lident */0 :
+                                                                                    case /* Lident */ 0 :
                                                                                         if (match$55._0 === "str") {
                                                                                           const match$56 = match$54.loc;
                                                                                           const match$57 = match$56.loc_start;
@@ -136,14 +136,14 @@ if (match) {
                                                                                                     if (match$63[0] === "") {
                                                                                                       const match$64 = match$63[1];
                                                                                                       const match$65 = match$64.pexp_desc;
-                                                                                                      if (match$65.TAG === /* Pexp_ident */0) {
+                                                                                                      if (match$65.TAG === /* Pexp_ident */ 0) {
                                                                                                         const match$66 = match$65._0;
                                                                                                         const match$67 = match$66.txt;
                                                                                                         switch (match$67.TAG) {
-                                                                                                          case /* Ldot */1 :
+                                                                                                          case /* Ldot */ 1 :
                                                                                                               const match$68 = match$67._0;
                                                                                                               switch (match$68.TAG) {
-                                                                                                                case /* Lident */0 :
+                                                                                                                case /* Lident */ 0 :
                                                                                                                     if (match$68._0 === "Lexing" && match$67._1 === "from_string") {
                                                                                                                       const match$69 = match$66.loc;
                                                                                                                       const match$70 = match$69.loc_start;
@@ -166,14 +166,14 @@ if (match) {
                                                                                                                                     if (match$79[0] === "") {
                                                                                                                                       const match$80 = match$79[1];
                                                                                                                                       const match$81 = match$80.pexp_desc;
-                                                                                                                                      if (match$81.TAG === /* Pexp_ident */0) {
+                                                                                                                                      if (match$81.TAG === /* Pexp_ident */ 0) {
                                                                                                                                         const match$82 = match$81._0;
                                                                                                                                         const match$83 = match$82.txt;
                                                                                                                                         switch (match$83.TAG) {
-                                                                                                                                          case /* Ldot */1 :
+                                                                                                                                          case /* Ldot */ 1 :
                                                                                                                                               const match$84 = match$83._0;
                                                                                                                                               switch (match$84.TAG) {
-                                                                                                                                                case /* Lident */0 :
+                                                                                                                                                case /* Lident */ 0 :
                                                                                                                                                     if (match$84._0 === "Parse" && match$83._1 === "implementation") {
                                                                                                                                                       const match$85 = match$82.loc;
                                                                                                                                                       const match$86 = match$85.loc_start;
@@ -235,15 +235,15 @@ if (match) {
                                                                                                                                                       eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                                                                                     }
                                                                                                                                                     break;
-                                                                                                                                                case /* Ldot */1 :
-                                                                                                                                                case /* Lapply */2 :
+                                                                                                                                                case /* Ldot */ 1 :
+                                                                                                                                                case /* Lapply */ 2 :
                                                                                                                                                     eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                                                                                     break;
                                                                                                                                                 
                                                                                                                                               }
                                                                                                                                               break;
-                                                                                                                                          case /* Lident */0 :
-                                                                                                                                          case /* Lapply */2 :
+                                                                                                                                          case /* Lident */ 0 :
+                                                                                                                                          case /* Lapply */ 2 :
                                                                                                                                               eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                                                                               break;
                                                                                                                                           
@@ -279,15 +279,15 @@ if (match) {
                                                                                                                       eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                                                     }
                                                                                                                     break;
-                                                                                                                case /* Ldot */1 :
-                                                                                                                case /* Lapply */2 :
+                                                                                                                case /* Ldot */ 1 :
+                                                                                                                case /* Lapply */ 2 :
                                                                                                                     eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                                                     break;
                                                                                                                 
                                                                                                               }
                                                                                                               break;
-                                                                                                          case /* Lident */0 :
-                                                                                                          case /* Lapply */2 :
+                                                                                                          case /* Lident */ 0 :
+                                                                                                          case /* Lapply */ 2 :
                                                                                                               eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                                               break;
                                                                                                           
@@ -317,8 +317,8 @@ if (match) {
                                                                                           eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                         }
                                                                                         break;
-                                                                                    case /* Ldot */1 :
-                                                                                    case /* Lapply */2 :
+                                                                                    case /* Ldot */ 1 :
+                                                                                    case /* Lapply */ 2 :
                                                                                         eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                         break;
                                                                                     
@@ -348,8 +348,8 @@ if (match) {
                                                                     eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                   }
                                                                   break;
-                                                              case /* Ldot */1 :
-                                                              case /* Lapply */2 :
+                                                              case /* Ldot */ 1 :
+                                                              case /* Lapply */ 2 :
                                                                   eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                   break;
                                                               
@@ -382,8 +382,8 @@ if (match) {
                                             eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                           }
                                           break;
-                                      case /* Ldot */1 :
-                                      case /* Lapply */2 :
+                                      case /* Ldot */ 1 :
+                                      case /* Lapply */ 2 :
                                           eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                           break;
                                       

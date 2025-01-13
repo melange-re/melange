@@ -7,13 +7,13 @@ const T0_myList = {
   hd: 1,
   tl: {
     hd: 2,
-    tl: /* [] */0
+    tl: /* [] */ 0
   }
 };
 
 const T0_tail = {
   hd: 2,
-  tl: /* [] */0
+  tl: /* [] */ 0
 };
 
 const T0 = {

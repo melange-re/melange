@@ -4,7 +4,7 @@
 const Caml_exceptions = require("melange.js/caml_exceptions.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
-const A = /* @__PURE__ */Caml_exceptions.create("Test_exception_escape.N.A");
+const A = /* @__PURE__ */ Caml_exceptions.create("Test_exception_escape.N.A");
 
 let f;
 

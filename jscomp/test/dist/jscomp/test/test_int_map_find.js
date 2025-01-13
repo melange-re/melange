@@ -13,7 +13,7 @@ const funarg = {
 };
 
 function height(param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
     return 0;
   } else {
     return param.h;
@@ -24,7 +24,7 @@ function create(l, x, d, r) {
   const hl = height(l);
   const hr = height(r);
   return {
-    TAG: /* Node */0,
+    TAG: /* Node */ 0,
     l: l,
     v: x,
     d: d,
@@ -35,11 +35,11 @@ function create(l, x, d, r) {
 
 function bal(l, x, d, r) {
   let hl;
-  hl = /* tag */typeof l === "number" || typeof l === "string" ? 0 : l.h;
+  hl = /* tag */ typeof l === "number" || typeof l === "string" ? 0 : l.h;
   let hr;
-  hr = /* tag */typeof r === "number" || typeof r === "string" ? 0 : r.h;
+  hr = /* tag */ typeof r === "number" || typeof r === "string" ? 0 : r.h;
   if (hl > (hr + 2 | 0)) {
-    if (/* tag */typeof l === "number" || typeof l === "string") {
+    if (/* tag */ typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
             MEL_EXN_ID: "Invalid_argument",
             _1: "Map.bal"
@@ -52,7 +52,7 @@ function bal(l, x, d, r) {
     if (height(ll) >= height(lr)) {
       return create(ll, lv, ld, create(lr, x, d, r));
     }
-    if (!/* tag */(typeof lr === "number" || typeof lr === "string")) {
+    if (!/* tag */ (typeof lr === "number" || typeof lr === "string")) {
       return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -62,7 +62,7 @@ function bal(l, x, d, r) {
   }
   if (hr <= (hl + 2 | 0)) {
     return {
-      TAG: /* Node */0,
+      TAG: /* Node */ 0,
       l: l,
       v: x,
       d: d,
@@ -70,7 +70,7 @@ function bal(l, x, d, r) {
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
-  if (/* tag */typeof r === "number" || typeof r === "string") {
+  if (/* tag */ typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
           _1: "Map.bal"
@@ -83,7 +83,7 @@ function bal(l, x, d, r) {
   if (height(rr) >= height(rl)) {
     return create(create(l, x, d, rl), rv, rd, rr);
   }
-  if (!/* tag */(typeof rl === "number" || typeof rl === "string")) {
+  if (!/* tag */ (typeof rl === "number" || typeof rl === "string")) {
     return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -93,13 +93,13 @@ function bal(l, x, d, r) {
 }
 
 function add(x, data, m) {
-  if (/* tag */typeof m === "number" || typeof m === "string") {
+  if (/* tag */ typeof m === "number" || typeof m === "string") {
     return {
-      TAG: /* Node */0,
-      l: /* Empty */0,
+      TAG: /* Node */ 0,
+      l: /* Empty */ 0,
       v: x,
       d: data,
-      r: /* Empty */0,
+      r: /* Empty */ 0,
       h: 1
     };
   }
@@ -113,7 +113,7 @@ function add(x, data, m) {
       return m;
     } else {
       return {
-        TAG: /* Node */0,
+        TAG: /* Node */ 0,
         l: l,
         v: x,
         d: data,
@@ -140,7 +140,7 @@ function add(x, data, m) {
 
 Stdlib__List.fold_left((function (acc, param) {
       return Curry._3(add, param[0], param[1], acc);
-    }), /* Empty */0, {
+    }), /* Empty */ 0, {
       hd: [
         10,
         /* 'a' */97
@@ -160,7 +160,7 @@ Stdlib__List.fold_left((function (acc, param) {
               20,
               /* 'd' */100
             ],
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }
       }

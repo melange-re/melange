@@ -6,7 +6,7 @@ const Mt = require("./mt.js");
 const Stdlib__List = require("melange/list.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -20,7 +20,7 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: x,
           _1: y
         };
@@ -55,7 +55,7 @@ eq("File \"jscomp/test/global_module_alias_test.ml\", line 51, characters 5-12",
           hd: 1,
           tl: {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }), 2);
 
@@ -96,7 +96,7 @@ function g(param) {
             hd: 3,
             tl: {
               hd: 4,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }
@@ -124,7 +124,7 @@ eq("File \"jscomp/test/global_module_alias_test.ml\", line 92, characters 5-12",
             hd: 2,
             tl: {
               hd: 3,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }), 3);
@@ -137,7 +137,7 @@ eq("File \"jscomp/test/global_module_alias_test.ml\", line 95, characters 5-12",
           hd: 1,
           tl: {
             hd: 2,
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }), 2);
 

@@ -12,7 +12,7 @@ const b = Stdlib__List.length({
       hd: 1,
       tl: {
         hd: 2,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 

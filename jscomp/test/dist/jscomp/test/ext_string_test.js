@@ -14,7 +14,7 @@ const Stdlib__String = require("melange/string.js");
 function split_by(keep_emptyOpt, is_delim, str) {
   const keep_empty = keep_emptyOpt !== undefined ? keep_emptyOpt : false;
   const len = str.length;
-  let _acc = /* [] */0;
+  let _acc = /* [] */ 0;
   let _last_pos = len;
   let _pos = len - 1 | 0;
   while(true) {
@@ -81,7 +81,7 @@ function trim(s) {
 
 function split(keep_empty, str, on) {
   if (str === "") {
-    return /* [] */0;
+    return /* [] */ 0;
   } else {
     return split_by(keep_empty, (function (x) {
           return x === on;
@@ -262,7 +262,7 @@ function unsafe_is_sub(sub, i, s, j, len) {
   }
 }
 
-const Local_exit = /* @__PURE__ */Caml_exceptions.create("Ext_string_test.Local_exit");
+const Local_exit = /* @__PURE__ */ Caml_exceptions.create("Ext_string_test.Local_exit");
 
 function find(startOpt, sub, s) {
   const start = startOpt !== undefined ? startOpt : 0;
@@ -516,19 +516,19 @@ function is_valid_source_name(name) {
             hd: ".mli",
             tl: {
               hd: ".rei",
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }
       });
   if (x !== undefined) {
     if (is_valid_module_file(x)) {
-      return /* Good */0;
+      return /* Good */ 0;
     } else {
-      return /* Invalid_module_name */1;
+      return /* Invalid_module_name */ 1;
     }
   } else {
-    return /* Suffix_mismatch */2;
+    return /* Suffix_mismatch */ 2;
   }
 }
 

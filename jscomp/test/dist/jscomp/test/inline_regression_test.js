@@ -48,7 +48,7 @@ const suites_0 = [
   "basename",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: basename("b/c/a.b"),
       _1: "a.b"
     };
@@ -57,7 +57,7 @@ const suites_0 = [
 
 const suites = {
   hd: suites_0,
-  tl: /* [] */0
+  tl: /* [] */ 0
 };
 
 Mt.from_pair_suites("Inline_regression_test", suites);

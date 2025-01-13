@@ -7,11 +7,11 @@ const Caml_obj = require("melange.js/caml_obj.js");
 const Curry = require("melange.js/curry.js");
 const Stdlib = require("melange/stdlib.js");
 
-const Bad = /* @__PURE__ */Caml_exceptions.create("Test_seq.Bad");
+const Bad = /* @__PURE__ */ Caml_exceptions.create("Test_seq.Bad");
 
-const Help = /* @__PURE__ */Caml_exceptions.create("Test_seq.Help");
+const Help = /* @__PURE__ */ Caml_exceptions.create("Test_seq.Help");
 
-const Stop = /* @__PURE__ */Caml_exceptions.create("Test_seq.Stop");
+const Stop = /* @__PURE__ */ Caml_exceptions.create("Test_seq.Stop");
 
 function assoc3(x, _l) {
   while(true) {
@@ -34,7 +34,7 @@ function help_action(param) {
   throw new Caml_js_exceptions.MelangeError(Stop, {
         MEL_EXN_ID: Stop,
         _1: {
-          TAG: /* Unknown */0,
+          TAG: /* Unknown */ 0,
           _0: "-help"
         }
       });
@@ -42,7 +42,7 @@ function help_action(param) {
 
 function v(speclist) {
   assoc3("-help", speclist);
-  return /* [] */0;
+  return /* [] */ 0;
 }
 
 function f(g, speclist) {
@@ -53,7 +53,7 @@ function add_help(speclist) {
   let add1;
   try {
     assoc3("-help", speclist);
-    add1 = /* [] */0;
+    add1 = /* [] */ 0;
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -62,12 +62,12 @@ function add_help(speclist) {
         hd: [
           "-help",
           {
-            TAG: /* Unit */0,
+            TAG: /* Unit */ 0,
             _0: help_action
           },
           " Display this list of options"
         ],
-        tl: /* [] */0
+        tl: /* [] */ 0
       };
     } else {
       throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
@@ -76,7 +76,7 @@ function add_help(speclist) {
   let add2;
   try {
     assoc3("--help", speclist);
-    add2 = /* [] */0;
+    add2 = /* [] */ 0;
   }
   catch (raw_exn$1){
     const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
@@ -85,12 +85,12 @@ function add_help(speclist) {
         hd: [
           "--help",
           {
-            TAG: /* Unit */0,
+            TAG: /* Unit */ 0,
             _0: help_action
           },
           " Display this list of options"
         ],
-        tl: /* [] */0
+        tl: /* [] */ 0
       };
     } else {
       throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);

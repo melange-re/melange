@@ -5,7 +5,7 @@ const Caml_exceptions = require("melange.js/caml_exceptions.js");
 const Exception_def = require("./exception_def.js");
 const Stdlib = require("melange/stdlib.js");
 
-const E = /* @__PURE__ */Caml_exceptions.create("Exception_rebind_test.A.E");
+const E = /* @__PURE__ */ Caml_exceptions.create("Exception_rebind_test.A.E");
 
 const A = {
   E: E
@@ -15,7 +15,7 @@ const B = {
   F: E
 };
 
-const A0 = /* @__PURE__ */Caml_exceptions.create("Exception_rebind_test.A0");
+const A0 = /* @__PURE__ */ Caml_exceptions.create("Exception_rebind_test.A0");
 
 const u0 = {
   MEL_EXN_ID: Stdlib.Invalid_argument,

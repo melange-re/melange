@@ -52,22 +52,22 @@ function close_enough(thresholdOpt, a, b) {
 
 function handleCode(spec) {
   switch (spec.TAG) {
-    case /* Eq */0 :
+    case /* Eq */ 0 :
         Assert.deepEqual(spec._0, spec._1);
         return;
-    case /* Neq */1 :
+    case /* Neq */ 1 :
         Assert.notDeepEqual(spec._0, spec._1);
         return;
-    case /* StrictEq */2 :
+    case /* StrictEq */ 2 :
         Assert.strictEqual(spec._0, spec._1);
         return;
-    case /* StrictNeq */3 :
+    case /* StrictNeq */ 3 :
         Assert.notStrictEqual(spec._0, spec._1);
         return;
-    case /* Ok */4 :
+    case /* Ok */ 4 :
         Assert.ok(spec._0);
         return;
-    case /* Approx */5 :
+    case /* Approx */ 5 :
         const b = spec._1;
         const a = spec._0;
         if (!close_enough(undefined, a, b)) {
@@ -76,7 +76,7 @@ function handleCode(spec) {
         } else {
           return;
         }
-    case /* ApproxThreshold */6 :
+    case /* ApproxThreshold */ 6 :
         const b$1 = spec._2;
         const a$1 = spec._1;
         if (!close_enough(spec._0, a$1, b$1)) {
@@ -85,12 +85,12 @@ function handleCode(spec) {
         } else {
           return;
         }
-    case /* ThrowAny */7 :
+    case /* ThrowAny */ 7 :
         Assert.throws(spec._0);
         return;
-    case /* Fail */8 :
+    case /* Fail */ 8 :
         return assert_fail("failed");
-    case /* FailWith */9 :
+    case /* FailWith */ 9 :
         return assert_fail(spec._0);
     
   }
@@ -118,7 +118,7 @@ function from_pair_suites(name, suites) {
             const name = param[0];
             const _fn = Curry._1(param[1], undefined);
             switch (_fn.TAG) {
-              case /* Eq */0 :
+              case /* Eq */ 0 :
                   console.log([
                         name,
                         _fn._0,
@@ -126,7 +126,7 @@ function from_pair_suites(name, suites) {
                         _fn._1
                       ]);
                   return;
-              case /* Neq */1 :
+              case /* Neq */ 1 :
                   console.log([
                         name,
                         _fn._0,
@@ -134,7 +134,7 @@ function from_pair_suites(name, suites) {
                         _fn._1
                       ]);
                   return;
-              case /* StrictEq */2 :
+              case /* StrictEq */ 2 :
                   console.log([
                         name,
                         _fn._0,
@@ -142,7 +142,7 @@ function from_pair_suites(name, suites) {
                         _fn._1
                       ]);
                   return;
-              case /* StrictNeq */3 :
+              case /* StrictNeq */ 3 :
                   console.log([
                         name,
                         _fn._0,
@@ -150,14 +150,14 @@ function from_pair_suites(name, suites) {
                         _fn._1
                       ]);
                   return;
-              case /* Ok */4 :
+              case /* Ok */ 4 :
                   console.log([
                         name,
                         _fn._0,
                         "ok?"
                       ]);
                   return;
-              case /* Approx */5 :
+              case /* Approx */ 5 :
                   console.log([
                         name,
                         _fn._0,
@@ -165,7 +165,7 @@ function from_pair_suites(name, suites) {
                         _fn._1
                       ]);
                   return;
-              case /* ApproxThreshold */6 :
+              case /* ApproxThreshold */ 6 :
                   console.log([
                         name,
                         _fn._1,
@@ -176,12 +176,12 @@ function from_pair_suites(name, suites) {
                         ")"
                       ]);
                   return;
-              case /* ThrowAny */7 :
+              case /* ThrowAny */ 7 :
                   return;
-              case /* Fail */8 :
+              case /* Fail */ 8 :
                   console.log("failed");
                   return;
-              case /* FailWith */9 :
+              case /* FailWith */ 9 :
                   console.log("failed: " + _fn._0);
                   return;
               
@@ -224,7 +224,7 @@ function eq_suites(test_id, suites, loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: x,
           _1: y
         };
@@ -241,7 +241,7 @@ function bool_suites(test_id, suites, loc, x) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Ok */4,
+          TAG: /* Ok */ 4,
           _0: x
         };
       })
@@ -257,7 +257,7 @@ function throw_suites(test_id, suites, loc, x) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* ThrowAny */7,
+          TAG: /* ThrowAny */ 7,
           _0: x
         };
       })

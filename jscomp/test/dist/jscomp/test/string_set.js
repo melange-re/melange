@@ -10,11 +10,11 @@ const Stdlib__List = require("melange/list.js");
 const Stdlib__String = require("melange/string.js");
 
 function split(x, tree) {
-  if (/* tag */typeof tree === "number" || typeof tree === "string") {
+  if (/* tag */ typeof tree === "number" || typeof tree === "string") {
     return [
-      /* Empty */0,
+      /* Empty */ 0,
       false,
-      /* Empty */0
+      /* Empty */ 0
     ];
   }
   const r = tree._2;
@@ -45,12 +45,12 @@ function split(x, tree) {
 }
 
 function add(x, tree) {
-  if (/* tag */typeof tree === "number" || typeof tree === "string") {
+  if (/* tag */ typeof tree === "number" || typeof tree === "string") {
     return {
-      TAG: /* Node */0,
-      _0: /* Empty */0,
+      TAG: /* Node */ 0,
+      _0: /* Empty */ 0,
       _1: x,
-      _2: /* Empty */0,
+      _2: /* Empty */ 0,
       _3: 1
     };
   }
@@ -68,12 +68,12 @@ function add(x, tree) {
 }
 
 function union(s1, s2) {
-  if (/* tag */typeof s1 === "number" || typeof s1 === "string") {
+  if (/* tag */ typeof s1 === "number" || typeof s1 === "string") {
     return s2;
   }
   const h1 = s1._3;
   const v1 = s1._1;
-  if (/* tag */typeof s2 === "number" || typeof s2 === "string") {
+  if (/* tag */ typeof s2 === "number" || typeof s2 === "string") {
     return s1;
   }
   const h2 = s2._3;
@@ -93,11 +93,11 @@ function union(s1, s2) {
 }
 
 function inter(s1, s2) {
-  if (/* tag */typeof s1 === "number" || typeof s1 === "string") {
-    return /* Empty */0;
+  if (/* tag */ typeof s1 === "number" || typeof s1 === "string") {
+    return /* Empty */ 0;
   }
-  if (/* tag */typeof s2 === "number" || typeof s2 === "string") {
-    return /* Empty */0;
+  if (/* tag */ typeof s2 === "number" || typeof s2 === "string") {
+    return /* Empty */ 0;
   }
   const r1 = s1._2;
   const v1 = s1._1;
@@ -112,10 +112,10 @@ function inter(s1, s2) {
 }
 
 function diff(s1, s2) {
-  if (/* tag */typeof s1 === "number" || typeof s1 === "string") {
-    return /* Empty */0;
+  if (/* tag */ typeof s1 === "number" || typeof s1 === "string") {
+    return /* Empty */ 0;
   }
-  if (/* tag */typeof s2 === "number" || typeof s2 === "string") {
+  if (/* tag */ typeof s2 === "number" || typeof s2 === "string") {
     return s1;
   }
   const r1 = s1._2;
@@ -133,7 +133,7 @@ function diff(s1, s2) {
 function mem(x, _tree) {
   while(true) {
     const tree = _tree;
-    if (/* tag */typeof tree === "number" || typeof tree === "string") {
+    if (/* tag */ typeof tree === "number" || typeof tree === "string") {
       return false;
     }
     const c = Caml.caml_string_compare(x, tree._1);
@@ -146,8 +146,8 @@ function mem(x, _tree) {
 }
 
 function remove(x, tree) {
-  if (/* tag */typeof tree === "number" || typeof tree === "string") {
-    return /* Empty */0;
+  if (/* tag */ typeof tree === "number" || typeof tree === "string") {
+    return /* Empty */ 0;
   }
   const r = tree._2;
   const v = tree._1;
@@ -174,13 +174,13 @@ function subset(_s1, _s2) {
   while(true) {
     const s2 = _s2;
     const s1 = _s1;
-    if (/* tag */typeof s1 === "number" || typeof s1 === "string") {
+    if (/* tag */ typeof s1 === "number" || typeof s1 === "string") {
       return true;
     }
     const r1 = s1._2;
     const v1 = s1._1;
     const l1 = s1._0;
-    if (/* tag */typeof s2 === "number" || typeof s2 === "string") {
+    if (/* tag */ typeof s2 === "number" || typeof s2 === "string") {
       return false;
     }
     const r2 = s2._2;
@@ -196,10 +196,10 @@ function subset(_s1, _s2) {
     }
     if (c < 0) {
       if (!subset({
-              TAG: /* Node */0,
+              TAG: /* Node */ 0,
               _0: l1,
               _1: v1,
-              _2: /* Empty */0,
+              _2: /* Empty */ 0,
               _3: 0
             }, l2)) {
         return false;
@@ -208,8 +208,8 @@ function subset(_s1, _s2) {
       continue;
     }
     if (!subset({
-            TAG: /* Node */0,
-            _0: /* Empty */0,
+            TAG: /* Node */ 0,
+            _0: /* Empty */ 0,
             _1: v1,
             _2: r1,
             _3: 0
@@ -224,7 +224,7 @@ function subset(_s1, _s2) {
 function find(x, _tree) {
   while(true) {
     const tree = _tree;
-    if (/* tag */typeof tree === "number" || typeof tree === "string") {
+    if (/* tag */ typeof tree === "number" || typeof tree === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
             MEL_EXN_ID: Stdlib.Not_found
           });
@@ -241,7 +241,7 @@ function find(x, _tree) {
 
 function of_list(l) {
   if (!l) {
-    return /* Empty */0;
+    return /* Empty */ 0;
   }
   const match = l.tl;
   const x0 = l.hd;
@@ -274,7 +274,7 @@ function of_list(l) {
 function of_array(l) {
   return Stdlib__Array.fold_left((function (acc, x) {
         return add(x, acc);
-      }), /* Empty */0, l);
+      }), /* Empty */ 0, l);
 }
 
 function invariant(t) {
@@ -284,7 +284,7 @@ function invariant(t) {
 
 const compare_elt = Stdlib__String.compare;
 
-const empty = /* Empty */0;
+const empty = /* Empty */ 0;
 
 const is_empty = Set_gen.is_empty;
 

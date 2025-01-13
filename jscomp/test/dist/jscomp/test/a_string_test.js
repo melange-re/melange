@@ -9,7 +9,7 @@ const suites_0 = [
   "split",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: Ext_string_test.split(true, "hihi", /* 'i' */105),
       _1: {
         hd: "h",
@@ -17,7 +17,7 @@ const suites_0 = [
           hd: "h",
           tl: {
             hd: "",
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }
       }
@@ -30,13 +30,13 @@ const suites_1 = {
     "split_non_empty",
     (function (param) {
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: Ext_string_test.split(undefined, "hihi", /* 'i' */105),
         _1: {
           hd: "h",
           tl: {
             hd: "h",
-            tl: /* [] */0
+            tl: /* [] */ 0
           }
         }
       };
@@ -47,9 +47,9 @@ const suites_1 = {
       "split_empty",
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: Ext_string_test.split(true, "", /* 'i' */105),
-          _1: /* [] */0
+          _1: /* [] */ 0
         };
       })
     ],
@@ -58,7 +58,7 @@ const suites_1 = {
         "split_normal",
         (function (param) {
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: Ext_string_test.split(true, "h i i", /* ' ' */32),
             _1: {
               hd: "h",
@@ -66,7 +66,7 @@ const suites_1 = {
                 hd: "i",
                 tl: {
                   hd: "i",
-                  tl: /* [] */0
+                  tl: /* [] */ 0
                 }
               }
             }
@@ -78,7 +78,7 @@ const suites_1 = {
           "split_by",
           (function (param) {
             return {
-              TAG: /* Eq */0,
+              TAG: /* Eq */ 0,
               _0: Stdlib__List.filter((function (s) {
                     return s !== "";
                   }), Ext_string_test.split_by(undefined, (function (x) {
@@ -96,7 +96,7 @@ const suites_1 = {
                     hd: "hgso",
                     tl: {
                       hd: "hi",
-                      tl: /* [] */0
+                      tl: /* [] */ 0
                     }
                   }
                 }
@@ -104,7 +104,7 @@ const suites_1 = {
             };
           })
         ],
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     }
   }

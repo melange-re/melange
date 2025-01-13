@@ -20,12 +20,12 @@ const B = Caml_module.init_mod([
       18,
       0
     ], {
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [[
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
-                /* Function */0,
+                /* Function */ 0,
                 "f"
               ]]
           },
@@ -42,12 +42,12 @@ const M = {
 };
 
 Caml_module.update_mod({
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [[
           {
-            TAG: /* Module */0,
+            TAG: /* Module */ 0,
             _0: [[
-                /* Function */0,
+                /* Function */ 0,
                 "f"
               ]]
           },

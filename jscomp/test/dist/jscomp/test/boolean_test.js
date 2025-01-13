@@ -9,7 +9,7 @@ Mt.from_suites("boolean", {
         "bool_equal",
         Test_bool_equal.assertions
       ],
-      tl: /* [] */0
+      tl: /* [] */ 0
     });
 
 /*  Not a pure module */

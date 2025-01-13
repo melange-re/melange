@@ -5,7 +5,7 @@ const CamlinternalLazy = require("melange/camlinternalLazy.js");
 
 function fix(param) {
   return {
-    TAG: /* Fix */0,
+    TAG: /* Fix */ 0,
     _0: {
       LAZY_DONE: false,
       VAL: (function () {

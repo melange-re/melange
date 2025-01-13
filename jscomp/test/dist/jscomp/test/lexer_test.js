@@ -15,11 +15,11 @@ const Stdlib__List = require("melange/list.js");
 
 function get_tokens(lex, str) {
   const buf = Stdlib__Lexing.from_string(undefined, str);
-  let _acc = /* [] */0;
+  let _acc = /* [] */ 0;
   while(true) {
     const acc = _acc;
     const v = Curry._1(lex, buf);
-    if (Caml_obj.caml_equal(v, /* EOF */7)) {
+    if (Caml_obj.caml_equal(v, /* EOF */ 7)) {
       return Stdlib__List.rev(acc);
     }
     _acc = {
@@ -54,35 +54,35 @@ const lexer_suites_0 = [
   "arith_token",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: get_tokens(Arith_lexer.lexeme, "x + 3 + 4 + y"),
       _1: {
         hd: {
-          TAG: /* IDENT */1,
+          TAG: /* IDENT */ 1,
           _0: "x"
         },
         tl: {
-          hd: /* PLUS */0,
+          hd: /* PLUS */ 0,
           tl: {
             hd: {
-              TAG: /* NUMERAL */0,
+              TAG: /* NUMERAL */ 0,
               _0: 3
             },
             tl: {
-              hd: /* PLUS */0,
+              hd: /* PLUS */ 0,
               tl: {
                 hd: {
-                  TAG: /* NUMERAL */0,
+                  TAG: /* NUMERAL */ 0,
                   _0: 4
                 },
                 tl: {
-                  hd: /* PLUS */0,
+                  hd: /* PLUS */ 0,
                   tl: {
                     hd: {
-                      TAG: /* IDENT */1,
+                      TAG: /* IDENT */ 1,
                       _0: "y"
                     },
-                    tl: /* [] */0
+                    tl: /* [] */ 0
                   }
                 }
               }
@@ -99,10 +99,10 @@ const lexer_suites_1 = {
     "simple token",
     (function (param) {
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: Arith_lexer.lexeme(Stdlib__Lexing.from_string(undefined, "10")),
         _1: {
-          TAG: /* NUMERAL */0,
+          TAG: /* NUMERAL */ 0,
           _0: 10
         }
       };
@@ -113,7 +113,7 @@ const lexer_suites_1 = {
       "number_lexer",
       (function (param) {
         const v = {
-          contents: /* [] */0
+          contents: /* [] */ 0
         };
         const add = function (t) {
           v.contents = {
@@ -123,7 +123,7 @@ const lexer_suites_1 = {
         };
         Number_lexer.token(add, Stdlib__Lexing.from_string(undefined, "32 + 32 ( ) * / "));
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: Stdlib__List.rev(v.contents),
           _1: {
             hd: "number",
@@ -159,7 +159,7 @@ const lexer_suites_1 = {
                                           hd: "new line",
                                           tl: {
                                             hd: "eof",
-                                            tl: /* [] */0
+                                            tl: /* [] */ 0
                                           }
                                         }
                                       }
@@ -185,7 +185,7 @@ const lexer_suites_1 = {
         "simple number",
         (function (param) {
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: Arith_syntax.str(Arith_parser.toplevel(Arith_lexer.lexeme, Stdlib__Lexing.from_string(undefined, "10"))),
             _1: "10."
           };
@@ -196,13 +196,13 @@ const lexer_suites_1 = {
           "arith",
           (function (param) {
             return {
-              TAG: /* Eq */0,
+              TAG: /* Eq */ 0,
               _0: Arith_syntax.str(Arith_parser.toplevel(Arith_lexer.lexeme, Stdlib__Lexing.from_string(undefined, "x + 3 + 4 + y"))),
               _1: "x+3.+4.+y"
             };
           })
         ],
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     }
   }

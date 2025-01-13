@@ -215,7 +215,7 @@ const utf_8_spec_1 = {
                     ]
                   ]
                 ],
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }
@@ -289,7 +289,7 @@ const utf_16be_spec_1 = {
         ]
       ]
     ],
-    tl: /* [] */0
+    tl: /* [] */ 0
   }
 };
 
@@ -959,11 +959,11 @@ if ((d8 & 16777215) !== Stdlib__Uchar.of_int(65)) {
 }
 
 Stdlib__Printf.printf({
-      TAG: /* Format */0,
+      TAG: /* Format */ 0,
       _0: {
-        TAG: /* String_literal */11,
+        TAG: /* String_literal */ 11,
         _0: "All UTF tests passed!\n",
-        _1: /* End_of_format */0
+        _1: /* End_of_format */ 0
       },
       _1: "All UTF tests passed!\n"
     });

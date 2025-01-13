@@ -24,17 +24,17 @@ let g;
 
 const h = 1;
 
-const i = /* None */0;
+const i = /* None */ 0;
 
 const j = {
-  TAG: /* Some */0,
+  TAG: /* Some */ 0,
   _0: 1
 };
 
-const k = /* None */0;
+const k = /* None */ 0;
 
 const l = {
-  TAG: /* Some */0,
+  TAG: /* Some */ 0,
   _0: 1
 };
 

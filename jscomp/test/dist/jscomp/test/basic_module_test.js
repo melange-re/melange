@@ -17,7 +17,7 @@ function test(set) {
 test(Curry._1(Offset.M.$$Set.singleton, "42"));
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {

@@ -5,7 +5,7 @@ const Caml_exceptions = require("melange.js/caml_exceptions.js");
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -28,9 +28,9 @@ const u = {
   b: u_b
 };
 
-const A = /* @__PURE__ */Caml_exceptions.create("Record_debug_test.A");
+const A = /* @__PURE__ */ Caml_exceptions.create("Record_debug_test.A");
 
-const B = /* @__PURE__ */Caml_exceptions.create("Record_debug_test.B");
+const B = /* @__PURE__ */ Caml_exceptions.create("Record_debug_test.B");
 
 const v0 = {
   MEL_EXN_ID: A,
@@ -104,7 +104,7 @@ const h = {
       hd: 3,
       tl: {
         hd: 4,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     }
   }

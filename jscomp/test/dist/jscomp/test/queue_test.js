@@ -41,8 +41,8 @@ function to_array(q) {
 function queue_1(x) {
   const q = {
     length: 0,
-    first: /* Nil */0,
-    last: /* Nil */0
+    first: /* Nil */ 0,
+    last: /* Nil */ 0
   };
   Stdlib__Array.iter((function (x) {
         Stdlib__Queue.add(x, q);
@@ -65,7 +65,7 @@ const suites_0 = [
       2
     ];
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: x,
       _1: queue_1(x)
     };
@@ -74,7 +74,7 @@ const suites_0 = [
 
 const suites = {
   hd: suites_0,
-  tl: /* [] */0
+  tl: /* [] */ 0
 };
 
 Mt.from_pair_suites("Queue_test", suites);

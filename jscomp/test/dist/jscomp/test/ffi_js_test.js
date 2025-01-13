@@ -14,7 +14,7 @@ function $$higher_order(x){
 ;
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -30,7 +30,7 @@ function eq(loc, param) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: x,
           _1: y
         };
@@ -62,7 +62,7 @@ const same_type_0 = {
       hi: 3,
       low: 32
     },
-    tl: /* [] */0
+    tl: /* [] */ 0
   }
 };
 
@@ -73,7 +73,7 @@ const same_type_1 = {
       hi: 3,
       low: "32"
     },
-    tl: /* [] */0
+    tl: /* [] */ 0
   }
 };
 

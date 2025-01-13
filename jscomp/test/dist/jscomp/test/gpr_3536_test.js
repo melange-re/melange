@@ -5,7 +5,7 @@ const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -37,7 +37,7 @@ Mt.from_pair_suites("Gpr_3536_test", suites.contents);
 const v = 5;
 
 const u = {
-  TAG: /* Some */0,
+  TAG: /* Some */ 0,
   _0: 3
 };
 

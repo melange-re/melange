@@ -9,16 +9,16 @@ const Mt = require("./mt.js");
 const Stdlib = require("melange/stdlib.js");
 const Stdlib__List = require("melange/list.js");
 
-const Local = /* @__PURE__ */Caml_exceptions.create("Exception_raise_test.Local");
+const Local = /* @__PURE__ */ Caml_exceptions.create("Exception_raise_test.Local");
 
-const B = /* @__PURE__ */Caml_exceptions.create("Exception_raise_test.B");
+const B = /* @__PURE__ */ Caml_exceptions.create("Exception_raise_test.B");
 
-const C = /* @__PURE__ */Caml_exceptions.create("Exception_raise_test.C");
+const C = /* @__PURE__ */ Caml_exceptions.create("Exception_raise_test.C");
 
-const D = /* @__PURE__ */Caml_exceptions.create("Exception_raise_test.D");
+const D = /* @__PURE__ */ Caml_exceptions.create("Exception_raise_test.D");
 
 function appf(g, x) {
-  const A = /* @__PURE__ */Caml_exceptions.create("A");
+  const A = /* @__PURE__ */ Caml_exceptions.create("A");
   try {
     return Curry._1(g, x);
   }
@@ -59,7 +59,7 @@ function appf(g, x) {
   }
 }
 
-const A = /* @__PURE__ */Caml_exceptions.create("Exception_raise_test.A");
+const A = /* @__PURE__ */ Caml_exceptions.create("Exception_raise_test.A");
 
 let f;
 
@@ -142,7 +142,7 @@ const suites = {
       "File \"jscomp/test/exception_raise_test.ml\", line 114, characters 4-11",
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: [
             f,
             ff,
@@ -164,7 +164,7 @@ const suites = {
         (function (param) {
           if (a1.MEL_EXN_ID === Js__Js_exn.$$Error) {
             return {
-              TAG: /* Eq */0,
+              TAG: /* Eq */ 0,
               _0: a1._1,
               _1: 2
             };
@@ -179,7 +179,7 @@ const suites = {
               });
         })
       ],
-      tl: /* [] */0
+      tl: /* [] */ 0
     }
   }
 };

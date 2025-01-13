@@ -72,7 +72,7 @@ const shared$11 = [
 ];
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -86,7 +86,7 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: x,
           _1: y
         };
@@ -226,7 +226,7 @@ const p$1 = Curry._2(printable_point[0], undefined, 7);
 eq("File \"jscomp/test/class3_test.ml\", line 49, characters 11-18", Caml_oo_curry.js1(-930392019, 4, p$1), 7);
 
 const ints = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const $$class = CamlinternalOO.create_table(shared$1);

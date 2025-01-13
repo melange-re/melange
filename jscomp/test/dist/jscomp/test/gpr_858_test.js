@@ -3,11 +3,11 @@
 
 
 const direct = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const indirect = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 exports.direct = direct;

@@ -11,7 +11,7 @@ const Stdlib = require("melange/stdlib.js");
 const Stdlib__Lazy = require("melange/lazy.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -33,17 +33,17 @@ const Int3 = Caml_module.init_mod([
       27,
       6
     ], {
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [[
-          /* Function */0,
+          /* Function */ 0,
           "u"
         ]]
     });
 
 Caml_module.update_mod({
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [[
-          /* Function */0,
+          /* Function */ 0,
           "u"
         ]]
     }, Int3, Int3);
@@ -53,9 +53,9 @@ const Inta = Caml_module.init_mod([
       31,
       6
     ], {
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [[
-          /* Lazy */1,
+          /* Lazy */ 1,
           "a"
         ]]
     });
@@ -65,9 +65,9 @@ const Intb = Caml_module.init_mod([
       36,
       6
     ], {
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [[
-          /* Lazy */1,
+          /* Lazy */ 1,
           "a"
         ]]
     });
@@ -80,9 +80,9 @@ const a = {
 };
 
 Caml_module.update_mod({
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [[
-          /* Lazy */1,
+          /* Lazy */ 1,
           "a"
         ]]
     }, Inta, {
@@ -97,9 +97,9 @@ const a$1 = {
 };
 
 Caml_module.update_mod({
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [[
-          /* Lazy */1,
+          /* Lazy */ 1,
           "a"
         ]]
     }, Intb, {
@@ -127,9 +127,9 @@ const Inta$1 = Caml_module.init_mod([
       48,
       8
     ], {
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [[
-          /* Lazy */1,
+          /* Lazy */ 1,
           "a"
         ]]
     });
@@ -139,9 +139,9 @@ const Intb$1 = Caml_module.init_mod([
       53,
       8
     ], {
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [[
-          /* Lazy */1,
+          /* Lazy */ 1,
           "a"
         ]]
     });
@@ -154,9 +154,9 @@ const a$2 = {
 };
 
 Caml_module.update_mod({
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [[
-          /* Lazy */1,
+          /* Lazy */ 1,
           "a"
         ]]
     }, Inta$1, {
@@ -169,9 +169,9 @@ const a$3 = {
 };
 
 Caml_module.update_mod({
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [[
-          /* Lazy */1,
+          /* Lazy */ 1,
           "a"
         ]]
     }, Intb$1, {

@@ -5,7 +5,7 @@ const Js__Js_mapper_runtime = require("melange.js/js_mapper_runtime.js");
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -19,7 +19,7 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: x,
           _1: y
         };
@@ -83,15 +83,15 @@ const x0 = "a";
 
 const x1 = "b";
 
-const jsMapperEraseType = /* JsMapperEraseType */0;
+const jsMapperEraseType = /* JsMapperEraseType */ 0;
 
-const b = /* B */1;
+const b = /* B */ 1;
 
-const zFromJs = /* ZFromJs */0;
+const zFromJs = /* ZFromJs */ 0;
 
-const zToJs = /* ZToJs */1;
+const zToJs = /* ZToJs */ 1;
 
-const zXx = /* ZXx */2;
+const zXx = /* ZXx */ 2;
 
 exports.suites = suites;
 exports.test_id = test_id;

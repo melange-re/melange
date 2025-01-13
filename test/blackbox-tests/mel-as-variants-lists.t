@@ -68,7 +68,7 @@
     };
   }
   
-  const x = /* [] */0;
+  const x = /* [] */ 0;
   
   exports.x = x;
   exports.f = f;
@@ -103,11 +103,11 @@
     };
   }
   
-  const x = /* [] */0;
+  const x = /* [] */ 0;
   
   const y = {
     hd: 2,
-    tl: /* [] */0
+    tl: /* [] */ 0
   };
   
   exports.x = x;

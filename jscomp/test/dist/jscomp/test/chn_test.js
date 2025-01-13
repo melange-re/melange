@@ -7,7 +7,7 @@ const Mt = require("./mt.js");
 const Stdlib__Array = require("melange/array.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -21,7 +21,7 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: x,
           _1: y
         };
@@ -92,7 +92,7 @@ eq("File \"jscomp/test/chn_test.ml\", line 27, characters 7-14", convert("汉字
                                         hd: 101,
                                         tl: {
                                           hd: 114,
-                                          tl: /* [] */0
+                                          tl: /* [] */ 0
                                         }
                                       }
                                     }
@@ -119,7 +119,7 @@ eq("File \"jscomp/test/chn_test.ml\", line 48, characters 5-12", convert("\x3f\x
         hd: 63,
         tl: {
           hd: 97,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     });
@@ -130,7 +130,7 @@ eq("File \"jscomp/test/chn_test.ml\", line 50, characters 5-12", convert("??a"),
         hd: 63,
         tl: {
           hd: 97,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     });
@@ -141,7 +141,7 @@ eq("File \"jscomp/test/chn_test.ml\", line 52, characters 5-12", convert("\u003f
         hd: 63,
         tl: {
           hd: 97,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     });
@@ -152,7 +152,7 @@ eq("File \"jscomp/test/chn_test.ml\", line 54, characters 5-12", convert("🚀�
         hd: 128640,
         tl: {
           hd: 97,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     });
@@ -161,7 +161,7 @@ eq("File \"jscomp/test/chn_test.ml\", line 56, characters 5-12", convert("\uD83D
       hd: 128640,
       tl: {
         hd: 97,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
@@ -169,7 +169,7 @@ eq("File \"jscomp/test/chn_test.ml\", line 58, characters 5-12", convert("\uD83D
       hd: 128640,
       tl: {
         hd: 63,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
@@ -179,7 +179,7 @@ eq("File \"jscomp/test/chn_test.ml\", line 63, characters 5-12", convert("\uD83D
         hd: 128640,
         tl: {
           hd: 97,
-          tl: /* [] */0
+          tl: /* [] */ 0
         }
       }
     });
@@ -190,14 +190,14 @@ eq("No inline string access", Caml_string.get("\uD83D\uDE80\0", 0) & 255, 61);
 
 eq("File \"jscomp/test/chn_test.ml\", line 79, characters 5-12", convert("\uD83D\uDE80"), {
       hd: 128640,
-      tl: /* [] */0
+      tl: /* [] */ 0
     });
 
 eq("File \"jscomp/test/chn_test.ml\", line 81, characters 5-12", convert("\uD83D\uDE80\uD83D\uDE80"), {
       hd: 128640,
       tl: {
         hd: 128640,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     });
 
@@ -217,7 +217,7 @@ eq("File \"jscomp/test/chn_test.ml\", line 82, characters 5-12", convert(" \b\t\
                   hd: 13,
                   tl: {
                     hd: 97,
-                    tl: /* [] */0
+                    tl: /* [] */ 0
                   }
                 }
               }
@@ -251,7 +251,7 @@ eq("File \"jscomp/test/chn_test.ml\", line 89, characters 6-13", convert(" \b\t\
                           hd: 0,
                           tl: {
                             hd: 97,
-                            tl: /* [] */0
+                            tl: /* [] */ 0
                           }
                         }
                       }

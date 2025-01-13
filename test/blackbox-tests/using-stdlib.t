@@ -28,7 +28,7 @@ Check b.js output
         return greeting;
       }), {
         hd: "Hello",
-        tl: /* [] */0
+        tl: /* [] */ 0
       });
   
   export {

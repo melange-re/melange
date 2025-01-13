@@ -5,7 +5,7 @@ const $$Node = require("melange.node/node.js");
 
 function f(str) {
   const match = $$Node.test(str);
-  if (match[0] === /* String */0) {
+  if (match[0] === /* String */ 0) {
     console.log([
           "string",
           match[1]

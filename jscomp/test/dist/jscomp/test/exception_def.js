@@ -7,7 +7,7 @@ const Stdlib = require("melange/stdlib.js");
 const Stdlib__Printexc = require("melange/printexc.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -18,9 +18,9 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-const A = /* @__PURE__ */Caml_exceptions.create("Exception_def.A");
+const A = /* @__PURE__ */ Caml_exceptions.create("Exception_def.A");
 
-const A$1 = /* @__PURE__ */Caml_exceptions.create("Exception_def.U.A");
+const A$1 = /* @__PURE__ */ Caml_exceptions.create("Exception_def.U.A");
 
 const U = {
   A: A$1
@@ -28,15 +28,15 @@ const U = {
 
 const H = {};
 
-const Bx = /* @__PURE__ */Caml_exceptions.create("Exception_def.Bx");
+const Bx = /* @__PURE__ */ Caml_exceptions.create("Exception_def.Bx");
 
 const u = {
   MEL_EXN_ID: Bx
 };
 
-const Ax = /* @__PURE__ */Caml_exceptions.create("Exception_def.Ax");
+const Ax = /* @__PURE__ */ Caml_exceptions.create("Exception_def.Ax");
 
-const XXX = /* @__PURE__ */Caml_exceptions.create("Exception_def.XXX");
+const XXX = /* @__PURE__ */ Caml_exceptions.create("Exception_def.XXX");
 
 const v_1 = [
   "",
@@ -49,9 +49,9 @@ const v = {
   _1: v_1
 };
 
-const H1 = /* @__PURE__ */Caml_exceptions.create("Exception_def.H1");
+const H1 = /* @__PURE__ */ Caml_exceptions.create("Exception_def.H1");
 
-const H2 = /* @__PURE__ */Caml_exceptions.create("Exception_def.H2");
+const H2 = /* @__PURE__ */ Caml_exceptions.create("Exception_def.H2");
 
 const h2 = {
   MEL_EXN_ID: H2

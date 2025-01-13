@@ -16,20 +16,20 @@ function safeMakeEvent(eventName) {
 function path(param) {
   const $$window = typeof window === "undefined" ? undefined : window;
   if ($$window === undefined) {
-    return /* [] */0;
+    return /* [] */ 0;
   }
   const raw = $$window.location.pathname;
   switch (raw) {
     case "" :
     case "/" :
-        return /* [] */0;
+        return /* [] */ 0;
     default:
       const raw$1 = raw.slice(1, undefined);
       const match = raw$1[raw$1.length - 1 | 0];
       const raw$2 = match === "/" ? raw$1.slice(0, -1) : raw$1;
       let a = raw$2.split("/", undefined);
       let _i = a.length - 1 | 0;
-      let _res = /* [] */0;
+      let _res = /* [] */ 0;
       while(true) {
         const res = _res;
         const i = _i;

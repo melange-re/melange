@@ -199,7 +199,7 @@ function next(param) {
   }
   if (c === undefined) {
     return {
-      TAG: /* Op */0,
+      TAG: /* Op */ 0,
       _0: "EOF!"
     };
   }
@@ -217,7 +217,7 @@ function next(param) {
       Curry._1(getch, undefined);
       gpos.contents = e + 8 & -8;
       return {
-        TAG: /* SLit */2,
+        TAG: /* SLit */ 2,
         _0: (b + 232 | 0) + 4194304 | 0,
         _1: Stdlib__Bytes.to_string(Stdlib__Bytes.sub(glo, b, e - b | 0))
       };
@@ -231,7 +231,7 @@ function next(param) {
         const match$1 = peekch(undefined);
         if (match$1 > 57 || match$1 < 48) {
           return {
-            TAG: /* ILit */1,
+            TAG: /* ILit */ 1,
             _0: n
           };
         }
@@ -250,7 +250,7 @@ function next(param) {
           });
     }
     return {
-      TAG: /* ILit */1,
+      TAG: /* ILit */ 1,
       _0: ch
     };
   }
@@ -263,7 +263,7 @@ function next(param) {
       Caml_bytes.set(s, n$1, ch$1);
       if (!isid(peekch(undefined))) {
         return {
-          TAG: /* Sym */3,
+          TAG: /* Sym */ 3,
           _0: addsym(Stdlib__Bytes.to_string(Stdlib__Bytes.sub(s, 0, n$1 + 1 | 0)))
         };
       }
@@ -292,7 +292,7 @@ function next(param) {
                       hd: ">>",
                       tl: {
                         hd: "<<",
-                        tl: /* [] */0
+                        tl: /* [] */ 0
                       }
                     }
                   }
@@ -307,7 +307,7 @@ function next(param) {
       const param$1 = _param;
       if (!param$1) {
         return {
-          TAG: /* Op */0,
+          TAG: /* Op */ 0,
           _0: Caml_bytes.bytes_to_string(Stdlib__Bytes.make(1, c))
         };
       }
@@ -315,7 +315,7 @@ function next(param) {
       if (Caml_string.get(lop, 0) === c && Caml_string.get(lop, 1) === peekch(undefined)) {
         Curry._1(getch, undefined);
         return {
-          TAG: /* Op */0,
+          TAG: /* Op */ 0,
           _0: lop
         };
       }
@@ -384,35 +384,35 @@ function patch(rel, loc, n) {
   const x = rel ? n - (loc + 4 | 0) | 0 : n;
   if (dbg.contents) {
     Curry._3(Stdlib__Printf.eprintf({
-              TAG: /* Format */0,
+              TAG: /* Format */ 0,
               _0: {
-                TAG: /* String_literal */11,
+                TAG: /* String_literal */ 11,
                 _0: "patching at ",
                 _1: {
-                  TAG: /* Int */4,
-                  _0: /* Int_d */0,
-                  _1: /* No_padding */0,
-                  _2: /* No_precision */0,
+                  TAG: /* Int */ 4,
+                  _0: /* Int_d */ 0,
+                  _1: /* No_padding */ 0,
+                  _2: /* No_precision */ 0,
                   _3: {
-                    TAG: /* String_literal */11,
+                    TAG: /* String_literal */ 11,
                     _0: " to ",
                     _1: {
-                      TAG: /* Int */4,
-                      _0: /* Int_d */0,
-                      _1: /* No_padding */0,
-                      _2: /* No_precision */0,
+                      TAG: /* Int */ 4,
+                      _0: /* Int_d */ 0,
+                      _1: /* No_padding */ 0,
+                      _2: /* No_precision */ 0,
                       _3: {
-                        TAG: /* String_literal */11,
+                        TAG: /* String_literal */ 11,
                         _0: " (n=",
                         _1: {
-                          TAG: /* Int */4,
-                          _0: /* Int_d */0,
-                          _1: /* No_padding */0,
-                          _2: /* No_precision */0,
+                          TAG: /* Int */ 4,
+                          _0: /* Int_d */ 0,
+                          _1: /* No_padding */ 0,
+                          _2: /* No_precision */ 0,
                           _3: {
-                            TAG: /* String_literal */11,
+                            TAG: /* String_literal */ 11,
                             _0: ")\n",
-                            _1: /* End_of_format */0
+                            _1: /* End_of_format */ 0
                           }
                         }
                       }
@@ -472,16 +472,16 @@ function pop(r) {
 const lval = {
   contents: [
     {
-      TAG: /* Mov */0,
+      TAG: /* Mov */ 0,
       _0: 0
     },
-    /* Int */0
+    /* Int */ 0
   ]
 };
 
 function patchlval(param) {
   const n = lval.contents[0];
-  if (n.TAG === /* Mov */0) {
+  if (n.TAG === /* Mov */ 0) {
     return Caml_bytes.set(obuf, opos.contents - n._0 | 0, /* '\141' */141);
   } else {
     opos.contents = opos.contents - n._0 | 0;
@@ -490,15 +490,15 @@ function patchlval(param) {
 }
 
 function read(param) {
-  if (param === /* Int */0) {
+  if (param === /* Int */ 0) {
     out(18571);
     le(8, 0);
     lval.contents = [
       {
-        TAG: /* Del */1,
+        TAG: /* Del */ 1,
         _0: 3
       },
-      /* Int */0
+      /* Int */ 0
     ];
     return;
   }
@@ -506,10 +506,10 @@ function read(param) {
   le(8, 0);
   lval.contents = [
     {
-      TAG: /* Del */1,
+      TAG: /* Del */ 1,
       _0: 4
     },
-    /* Chr */1
+    /* Chr */ 1
   ];
 }
 
@@ -608,7 +608,7 @@ const lvls = {
                                       "||",
                                       9
                                     ],
-                                    tl: /* [] */0
+                                    tl: /* [] */ 0
                                   }
                                 }
                               }
@@ -632,10 +632,10 @@ const inss = {
   hd: [
     "*",
     {
-      TAG: /* Bin */0,
+      TAG: /* Bin */ 0,
       _0: {
         hd: 1208987585,
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     }
   ],
@@ -643,14 +643,14 @@ const inss = {
     hd: [
       "/",
       {
-        TAG: /* Bin */0,
+        TAG: /* Bin */ 0,
         _0: {
           hd: 18577,
           tl: {
             hd: 18585,
             tl: {
               hd: 4782073,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }
@@ -660,7 +660,7 @@ const inss = {
       hd: [
         "%",
         {
-          TAG: /* Bin */0,
+          TAG: /* Bin */ 0,
           _0: {
             hd: 18577,
             tl: {
@@ -669,7 +669,7 @@ const inss = {
                 hd: 4782073,
                 tl: {
                   hd: 18578,
-                  tl: /* [] */0
+                  tl: /* [] */ 0
                 }
               }
             }
@@ -680,10 +680,10 @@ const inss = {
         hd: [
           "+",
           {
-            TAG: /* Bin */0,
+            TAG: /* Bin */ 0,
             _0: {
               hd: 4719048,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         ],
@@ -691,12 +691,12 @@ const inss = {
           hd: [
             "-",
             {
-              TAG: /* Bin */0,
+              TAG: /* Bin */ 0,
               _0: {
                 hd: 18577,
                 tl: {
                   hd: 4729288,
-                  tl: /* [] */0
+                  tl: /* [] */ 0
                 }
               }
             }
@@ -705,12 +705,12 @@ const inss = {
             hd: [
               "<<",
               {
-                TAG: /* Bin */0,
+                TAG: /* Bin */ 0,
                 _0: {
                   hd: 18577,
                   tl: {
                     hd: 4772832,
-                    tl: /* [] */0
+                    tl: /* [] */ 0
                   }
                 }
               }
@@ -719,12 +719,12 @@ const inss = {
               hd: [
                 ">>",
                 {
-                  TAG: /* Bin */0,
+                  TAG: /* Bin */ 0,
                   _0: {
                     hd: 18577,
                     tl: {
                       hd: 4772856,
-                      tl: /* [] */0
+                      tl: /* [] */ 0
                     }
                   }
                 }
@@ -733,7 +733,7 @@ const inss = {
                 hd: [
                   "<",
                   {
-                    TAG: /* Cmp */1,
+                    TAG: /* Cmp */ 1,
                     _0: 10
                   }
                 ],
@@ -741,7 +741,7 @@ const inss = {
                   hd: [
                     "<=",
                     {
-                      TAG: /* Cmp */1,
+                      TAG: /* Cmp */ 1,
                       _0: 12
                     }
                   ],
@@ -749,7 +749,7 @@ const inss = {
                     hd: [
                       ">",
                       {
-                        TAG: /* Cmp */1,
+                        TAG: /* Cmp */ 1,
                         _0: 13
                       }
                     ],
@@ -757,7 +757,7 @@ const inss = {
                       hd: [
                         ">=",
                         {
-                          TAG: /* Cmp */1,
+                          TAG: /* Cmp */ 1,
                           _0: 11
                         }
                       ],
@@ -765,7 +765,7 @@ const inss = {
                         hd: [
                           "==",
                           {
-                            TAG: /* Cmp */1,
+                            TAG: /* Cmp */ 1,
                             _0: 2
                           }
                         ],
@@ -773,7 +773,7 @@ const inss = {
                           hd: [
                             "!=",
                             {
-                              TAG: /* Cmp */1,
+                              TAG: /* Cmp */ 1,
                               _0: 3
                             }
                           ],
@@ -781,10 +781,10 @@ const inss = {
                             hd: [
                               "&",
                               {
-                                TAG: /* Bin */0,
+                                TAG: /* Bin */ 0,
                                 _0: {
                                   hd: 4727240,
-                                  tl: /* [] */0
+                                  tl: /* [] */ 0
                                 }
                               }
                             ],
@@ -792,10 +792,10 @@ const inss = {
                               hd: [
                                 "^",
                                 {
-                                  TAG: /* Bin */0,
+                                  TAG: /* Bin */ 0,
                                   _0: {
                                     hd: 4731336,
-                                    tl: /* [] */0
+                                    tl: /* [] */ 0
                                   }
                                 }
                               ],
@@ -803,14 +803,14 @@ const inss = {
                                 hd: [
                                   "|",
                                   {
-                                    TAG: /* Bin */0,
+                                    TAG: /* Bin */ 0,
                                     _0: {
                                       hd: 4721096,
-                                      tl: /* [] */0
+                                      tl: /* [] */ 0
                                     }
                                   }
                                 ],
-                                tl: /* [] */0
+                                tl: /* [] */ 0
                               }
                             }
                           }
@@ -829,42 +829,42 @@ const inss = {
 };
 
 const tokint = {
-  TAG: /* Sym */3,
+  TAG: /* Sym */ 3,
   _0: addsym("int")
 };
 
 const tokchar = {
-  TAG: /* Sym */3,
+  TAG: /* Sym */ 3,
   _0: addsym("char")
 };
 
 const tokret = {
-  TAG: /* Sym */3,
+  TAG: /* Sym */ 3,
   _0: addsym("return")
 };
 
 const tokif = {
-  TAG: /* Sym */3,
+  TAG: /* Sym */ 3,
   _0: addsym("if")
 };
 
 const tokelse = {
-  TAG: /* Sym */3,
+  TAG: /* Sym */ 3,
   _0: addsym("else")
 };
 
 const tokwhile = {
-  TAG: /* Sym */3,
+  TAG: /* Sym */ 3,
   _0: addsym("while")
 };
 
 const tokfor = {
-  TAG: /* Sym */3,
+  TAG: /* Sym */ 3,
   _0: addsym("for")
 };
 
 const tokbreak = {
-  TAG: /* Sym */3,
+  TAG: /* Sym */ 3,
   _0: addsym("break")
 };
 
@@ -883,7 +883,7 @@ function binary(stk, lvl) {
     while(true) {
       const loc = _loc;
       const o = Curry._1(next$1, undefined);
-      if (o.TAG === /* Op */0) {
+      if (o.TAG === /* Op */ 0) {
         if (lvlof(o._0) === lvl) {
           const loc$p = test(lvl - 8 | 0, loc);
           binary(stk, lvl - 1 | 0);
@@ -902,7 +902,7 @@ function binary(stk, lvl) {
     let _param;
     while(true) {
       const o = Curry._1(next$1, undefined);
-      if (o.TAG !== /* Op */0) {
+      if (o.TAG !== /* Op */ 0) {
         return Curry._1(unnext, o);
       }
       const o$1 = o._0;
@@ -913,7 +913,7 @@ function binary(stk, lvl) {
       binary(stk, lvl - 1 | 0);
       pop(1);
       const ops = Stdlib__List.assoc(o$1, inss);
-      if (ops.TAG === /* Bin */0) {
+      if (ops.TAG === /* Bin */ 0) {
         Stdlib__List.iter(out, ops._0);
       } else {
         out(4733377);
@@ -930,7 +930,7 @@ function binary(stk, lvl) {
 function unary(stk) {
   const i = Curry._1(next$1, undefined);
   switch (i.TAG) {
-    case /* Op */0 :
+    case /* Op */ 0 :
         const o = i._0;
         switch (o) {
           case "&" :
@@ -946,18 +946,18 @@ function unary(stk) {
               let match;
               if (Caml_obj.caml_equal(t, tokint)) {
                 match = Caml_obj.caml_equal(Curry._1(next$1, undefined), {
-                      TAG: /* Op */0,
+                      TAG: /* Op */ 0,
                       _0: "*"
                     }) ? [
-                    /* Int */0,
+                    /* Int */ 0,
                     1
                   ] : [
-                    /* Int */0,
+                    /* Int */ 0,
                     5
                   ];
               } else if (Caml_obj.caml_equal(t, tokchar)) {
                 match = [
-                  /* Chr */1,
+                  /* Chr */ 1,
                   2
                 ];
               } else {
@@ -992,7 +992,7 @@ function unary(stk) {
                       "!",
                       4752832
                     ],
-                    tl: /* [] */0
+                    tl: /* [] */ 0
                   }
                 }
               }
@@ -1000,14 +1000,14 @@ function unary(stk) {
             unary(stk);
             if (!Stdlib__List.mem_assoc(o, unops)) {
               const s = Curry._1(Stdlib__Printf.sprintf({
-                        TAG: /* Format */0,
+                        TAG: /* Format */ 0,
                         _0: {
-                          TAG: /* String_literal */11,
+                          TAG: /* String_literal */ 11,
                           _0: "unknown operator ",
                           _1: {
-                            TAG: /* String */2,
-                            _0: /* No_padding */0,
-                            _1: /* End_of_format */0
+                            TAG: /* String */ 2,
+                            _0: /* No_padding */ 0,
+                            _1: /* End_of_format */ 0
                           }
                         },
                         _1: "unknown operator %s"
@@ -1024,12 +1024,12 @@ function unary(stk) {
               return;
             }
         }
-    case /* ILit */1 :
+    case /* ILit */ 1 :
         return load(0, i._0);
-    case /* SLit */2 :
+    case /* SLit */ 2 :
         out(18616);
         return le(64, i._0);
-    case /* Sym */3 :
+    case /* Sym */ 3 :
         const i$1 = i._0;
         if (Stdlib__List.mem_assoc(i$1, stk)) {
           const l = Stdlib__List.assoc(i$1, stk);
@@ -1047,10 +1047,10 @@ function unary(stk) {
           out(l & 255);
           lval.contents = [
             {
-              TAG: /* Mov */0,
+              TAG: /* Mov */ 0,
               _0: 3
             },
-            /* Int */0
+            /* Int */ 0
           ];
         } else {
           out(18616);
@@ -1061,7 +1061,7 @@ function unary(stk) {
                 loc: loc,
                 va: g.va
               });
-          read(/* Int */0);
+          read(/* Int */ 0);
         }
         return postfix(stk);
     
@@ -1070,7 +1070,7 @@ function unary(stk) {
 
 function postfix(stk) {
   const op = Curry._1(next$1, undefined);
-  if (op.TAG !== /* Op */0) {
+  if (op.TAG !== /* Op */ 0) {
     return Curry._1(unnext, op);
   }
   const op$1 = op._0;
@@ -1081,7 +1081,7 @@ function postfix(stk) {
             const rl = _rl;
             const l = _l;
             if (nextis({
-                    TAG: /* Op */0,
+                    TAG: /* Op */ 0,
                     _0: ")"
                   })) {
               Curry._1(next$1, undefined);
@@ -1090,7 +1090,7 @@ function postfix(stk) {
             expr(stk);
             push(0);
             if (nextis({
-                    TAG: /* Op */0,
+                    TAG: /* Op */ 0,
                     _0: ","
                   })) {
               Curry._1(next$1, undefined);
@@ -1105,7 +1105,7 @@ function postfix(stk) {
         };
         patchlval(undefined);
         push(0);
-        emitargs(/* [] */0, {
+        emitargs(/* [] */ 0, {
               hd: 7,
               tl: {
                 hd: 6,
@@ -1117,7 +1117,7 @@ function postfix(stk) {
                       hd: 8,
                       tl: {
                         hd: 9,
-                        tl: /* [] */0
+                        tl: /* [] */ 0
                       }
                     }
                   }
@@ -1150,7 +1150,7 @@ function postfix(stk) {
             hd: [
               [
                 "++",
-                /* Int */0
+                /* Int */ 0
               ],
               4783873
             ],
@@ -1158,7 +1158,7 @@ function postfix(stk) {
               hd: [
                 [
                   "--",
-                  /* Int */0
+                  /* Int */ 0
                 ],
                 4783881
               ],
@@ -1166,7 +1166,7 @@ function postfix(stk) {
                 hd: [
                   [
                     "++",
-                    /* Chr */1
+                    /* Chr */ 1
                   ],
                   65025
                 ],
@@ -1174,11 +1174,11 @@ function postfix(stk) {
                   hd: [
                     [
                       "--",
-                      /* Chr */1
+                      /* Chr */ 1
                     ],
                     65033
                   ],
-                  tl: /* [] */0
+                  tl: /* [] */ 0
                 }
               }
             }
@@ -1190,7 +1190,7 @@ function expr(stk) {
   let _param;
   while(true) {
     const t = Curry._1(next$1, undefined);
-    if (t.TAG !== /* Op */0) {
+    if (t.TAG !== /* Op */ 0) {
       return Curry._1(unnext, t);
     }
     if (t._0 !== "=") {
@@ -1201,7 +1201,7 @@ function expr(stk) {
     push(0);
     expr(stk);
     pop(1);
-    if (ty === /* Int */0) {
+    if (ty === /* Int */ 0) {
       out(4753665);
     } else {
       out(34817);
@@ -1223,13 +1223,13 @@ function decl(g, _n, _stk) {
           const stk = _stk;
           const n = _n;
           while(nextis({
-                  TAG: /* Op */0,
+                  TAG: /* Op */ 0,
                   _0: "*"
                 })) {
             Curry._1(next$1, undefined);
           };
           if (nextis({
-                  TAG: /* Op */0,
+                  TAG: /* Op */ 0,
                   _0: ";"
                 })) {
             return [
@@ -1238,7 +1238,7 @@ function decl(g, _n, _stk) {
             ];
           }
           const s = Curry._1(next$1, undefined);
-          if (s.TAG === /* Sym */3) {
+          if (s.TAG === /* Sym */ 3) {
             const s$1 = s._0;
             const n$p = n + 1 | 0;
             let stk$p;
@@ -1267,7 +1267,7 @@ function decl(g, _n, _stk) {
               };
             }
             if (!nextis({
-                    TAG: /* Op */0,
+                    TAG: /* Op */ 0,
                     _0: ","
                   })) {
               return [
@@ -1290,19 +1290,19 @@ function decl(g, _n, _stk) {
       Curry._1(next$1, undefined);
       if (dbg.contents) {
         Curry._1(Stdlib__Printf.eprintf({
-                  TAG: /* Format */0,
+                  TAG: /* Format */ 0,
                   _0: {
-                    TAG: /* String_literal */11,
+                    TAG: /* String_literal */ 11,
                     _0: "end of decl (",
                     _1: {
-                      TAG: /* Int */4,
-                      _0: /* Int_d */0,
-                      _1: /* No_padding */0,
-                      _2: /* No_precision */0,
+                      TAG: /* Int */ 4,
+                      _0: /* Int_d */ 0,
+                      _1: /* No_padding */ 0,
+                      _2: /* No_precision */ 0,
                       _3: {
-                        TAG: /* String_literal */11,
+                        TAG: /* String_literal */ 11,
                         _0: " vars)\n",
-                        _1: /* End_of_format */0
+                        _1: /* End_of_format */ 0
                       }
                     }
                   },
@@ -1385,7 +1385,7 @@ function stmt(brk, stk) {
     } else {
       Curry._1(next$1, undefined);
       if (!nextis({
-              TAG: /* Op */0,
+              TAG: /* Op */ 0,
               _0: ";"
             })) {
         expr(stk);
@@ -1393,7 +1393,7 @@ function stmt(brk, stk) {
       Curry._1(next$1, undefined);
       const top = opos.contents;
       if (nextis({
-              TAG: /* Op */0,
+              TAG: /* Op */ 0,
               _0: ";"
             })) {
         bl.contents = 0;
@@ -1426,7 +1426,7 @@ function stmt(brk, stk) {
   }
   if (Caml_obj.caml_equal(t, tokret)) {
     if (!nextis({
-            TAG: /* Op */0,
+            TAG: /* Op */ 0,
             _0: ";"
           })) {
       expr(stk);
@@ -1462,7 +1462,7 @@ function stmt(brk, stk) {
     brkl.contents = loc$4;
     return;
   }
-  if (t.TAG === /* Op */0) {
+  if (t.TAG === /* Op */ 0) {
     switch (t._0) {
       case ";" :
           return;
@@ -1482,7 +1482,7 @@ function block(brk, stk) {
   const stk$p = match[1];
   const n = match[0];
   while(!nextis({
-          TAG: /* Op */0,
+          TAG: /* Op */ 0,
           _0: "}"
         })) {
     stmt(brk, stk$p);
@@ -1500,18 +1500,18 @@ function block(brk, stk) {
 function top(_param) {
   while(true) {
     if (nextis({
-            TAG: /* Op */0,
+            TAG: /* Op */ 0,
             _0: "EOF!"
           })) {
       return;
     }
     if (nextis(tokint)) {
-      decl(true, 0, /* [] */0);
+      decl(true, 0, /* [] */ 0);
       _param = undefined;
       continue;
     }
     const f = Curry._1(next$1, undefined);
-    if (f.TAG === /* Sym */3) {
+    if (f.TAG === /* Sym */ 3) {
       const f$1 = f._0;
       const g = Caml_array.get(globs, f$1);
       if (g.va >= 0) {
@@ -1531,7 +1531,7 @@ function top(_param) {
           const regs = _regs;
           const i = Curry._1(next$1, undefined);
           switch (i.TAG) {
-            case /* Op */0 :
+            case /* Op */ 0 :
                 if (i._0 === ")") {
                   return stk;
                 }
@@ -1539,17 +1539,17 @@ function top(_param) {
                       MEL_EXN_ID: "Failure",
                       _1: "[var] or ) expected"
                     });
-            case /* ILit */1 :
-            case /* SLit */2 :
+            case /* ILit */ 1 :
+            case /* SLit */ 2 :
                 throw new Caml_js_exceptions.MelangeError("Failure", {
                       MEL_EXN_ID: "Failure",
                       _1: "[var] or ) expected"
                     });
-            case /* Sym */3 :
+            case /* Sym */ 3 :
                 const r = Stdlib__List.hd(regs);
                 push(r);
                 if (nextis({
-                        TAG: /* Op */0,
+                        TAG: /* Op */ 0,
                         _0: ","
                       })) {
                   Curry._1(next$1, undefined);
@@ -1586,15 +1586,15 @@ function top(_param) {
                     hd: 8,
                     tl: {
                       hd: 9,
-                      tl: /* [] */0
+                      tl: /* [] */ 0
                     }
                   }
                 }
               }
             }
-          }, 1, /* [] */0);
+          }, 1, /* [] */ 0);
       while(Caml_obj.caml_notequal(Curry._1(next$1, undefined), {
-              TAG: /* Op */0,
+              TAG: /* Op */ 0,
               _0: "{"
             })) {
         
@@ -1610,17 +1610,17 @@ function top(_param) {
       out(51651);
       if (dbg.contents) {
         Curry._1(Stdlib__Printf.eprintf({
-                  TAG: /* Format */0,
+                  TAG: /* Format */ 0,
                   _0: {
-                    TAG: /* String_literal */11,
+                    TAG: /* String_literal */ 11,
                     _0: "done with function ",
                     _1: {
-                      TAG: /* String */2,
-                      _0: /* No_padding */0,
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* Char_literal */12,
+                        TAG: /* Char_literal */ 12,
                         _0: /* '\n' */10,
-                        _1: /* End_of_format */0
+                        _1: /* End_of_format */ 0
                       }
                     }
                   },
@@ -1667,7 +1667,7 @@ const elfhdr = Stdlib__Bytes.of_string(Stdlib__String.concat("", {
                                     hd: "\0\0",
                                     tl: {
                                       hd: "\0\0",
-                                      tl: /* [] */0
+                                      tl: /* [] */ 0
                                     }
                                   }
                                 }
@@ -1827,7 +1827,7 @@ function elfgen(outf) {
                                           hd: 24,
                                           tl: {
                                             hd: 0,
-                                            tl: /* [] */0
+                                            tl: /* [] */ 0
                                           }
                                         }
                                       }
@@ -1872,84 +1872,84 @@ function elfgen(outf) {
 function main(param) {
   const ppsym = function (s) {
     switch (s.TAG) {
-      case /* Op */0 :
+      case /* Op */ 0 :
           return Curry._1(Stdlib__Printf.printf({
-                    TAG: /* Format */0,
+                    TAG: /* Format */ 0,
                     _0: {
-                      TAG: /* String_literal */11,
+                      TAG: /* String_literal */ 11,
                       _0: "Operator '",
                       _1: {
-                        TAG: /* String */2,
-                        _0: /* No_padding */0,
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
                         _1: {
-                          TAG: /* String_literal */11,
+                          TAG: /* String_literal */ 11,
                           _0: "'\n",
-                          _1: /* End_of_format */0
+                          _1: /* End_of_format */ 0
                         }
                       }
                     },
                     _1: "Operator '%s'\n"
                   }), s._0);
-      case /* ILit */1 :
+      case /* ILit */ 1 :
           return Curry._1(Stdlib__Printf.printf({
-                    TAG: /* Format */0,
+                    TAG: /* Format */ 0,
                     _0: {
-                      TAG: /* String_literal */11,
+                      TAG: /* String_literal */ 11,
                       _0: "Int literal ",
                       _1: {
-                        TAG: /* Int */4,
-                        _0: /* Int_d */0,
-                        _1: /* No_padding */0,
-                        _2: /* No_precision */0,
+                        TAG: /* Int */ 4,
+                        _0: /* Int_d */ 0,
+                        _1: /* No_padding */ 0,
+                        _2: /* No_precision */ 0,
                         _3: {
-                          TAG: /* Char_literal */12,
+                          TAG: /* Char_literal */ 12,
                           _0: /* '\n' */10,
-                          _1: /* End_of_format */0
+                          _1: /* End_of_format */ 0
                         }
                       }
                     },
                     _1: "Int literal %d\n"
                   }), s._0);
-      case /* SLit */2 :
+      case /* SLit */ 2 :
           return Curry._1(Stdlib__Printf.printf({
-                    TAG: /* Format */0,
+                    TAG: /* Format */ 0,
                     _0: {
-                      TAG: /* String_literal */11,
+                      TAG: /* String_literal */ 11,
                       _0: "Str literal ",
                       _1: {
-                        TAG: /* Caml_string */3,
-                        _0: /* No_padding */0,
+                        TAG: /* Caml_string */ 3,
+                        _0: /* No_padding */ 0,
                         _1: {
-                          TAG: /* Char_literal */12,
+                          TAG: /* Char_literal */ 12,
                           _0: /* '\n' */10,
-                          _1: /* End_of_format */0
+                          _1: /* End_of_format */ 0
                         }
                       }
                     },
                     _1: "Str literal %S\n"
                   }), s._1);
-      case /* Sym */3 :
+      case /* Sym */ 3 :
           const i = s._0;
           return Curry._2(Stdlib__Printf.printf({
-                    TAG: /* Format */0,
+                    TAG: /* Format */ 0,
                     _0: {
-                      TAG: /* String_literal */11,
+                      TAG: /* String_literal */ 11,
                       _0: "Symbol '",
                       _1: {
-                        TAG: /* String */2,
-                        _0: /* No_padding */0,
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
                         _1: {
-                          TAG: /* String_literal */11,
+                          TAG: /* String_literal */ 11,
                           _0: "' (",
                           _1: {
-                            TAG: /* Int */4,
-                            _0: /* Int_d */0,
-                            _1: /* No_padding */0,
-                            _2: /* No_precision */0,
+                            TAG: /* Int */ 4,
+                            _0: /* Int_d */ 0,
+                            _1: /* No_padding */ 0,
+                            _2: /* No_precision */ 0,
                             _3: {
-                              TAG: /* String_literal */11,
+                              TAG: /* String_literal */ 11,
                               _0: ")\n",
-                              _1: /* End_of_format */0
+                              _1: /* End_of_format */ 0
                             }
                           }
                         }
@@ -1973,7 +1973,7 @@ function main(param) {
         const c = function (param) {
           return block(partial_arg, param);
         };
-        let stk = /* [] */0;
+        let stk = /* [] */ 0;
         opos.contents = 0;
         Curry._1(c, stk);
         return Stdlib.print_bytes(Stdlib__Bytes.sub(obuf, 0, opos.contents));
@@ -1981,14 +1981,14 @@ function main(param) {
         let _param;
         while(true) {
           const tok = Curry._1(next$1, undefined);
-          if (tok.TAG === /* Op */0) {
+          if (tok.TAG === /* Op */ 0) {
             if (tok._0 === "EOF!") {
               return Stdlib__Printf.printf({
-                    TAG: /* Format */0,
+                    TAG: /* Format */ 0,
                     _0: {
-                      TAG: /* String_literal */11,
+                      TAG: /* String_literal */ 11,
                       _0: "End of input stream\n",
-                      _1: /* End_of_format */0
+                      _1: /* End_of_format */ 0
                     },
                     _1: "End of input stream\n"
                   });

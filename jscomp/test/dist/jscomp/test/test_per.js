@@ -29,7 +29,7 @@ function invalid_arg(s) {
       });
 }
 
-const Exit = /* @__PURE__ */Caml_exceptions.create("Test_per.Exit");
+const Exit = /* @__PURE__ */ Caml_exceptions.create("Test_per.Exit");
 
 function min(x, y) {
   if (Caml_obj.caml_lessequal(x, y)) {
@@ -187,14 +187,14 @@ function open_out_gen(mode, perm, name) {
 
 function open_out(name) {
   return open_out_gen({
-        hd: /* Open_wronly */1,
+        hd: /* Open_wronly */ 1,
         tl: {
-          hd: /* Open_creat */3,
+          hd: /* Open_creat */ 3,
           tl: {
-            hd: /* Open_trunc */4,
+            hd: /* Open_trunc */ 4,
             tl: {
-              hd: /* Open_text */7,
-              tl: /* [] */0
+              hd: /* Open_text */ 7,
+              tl: /* [] */ 0
             }
           }
         }
@@ -203,14 +203,14 @@ function open_out(name) {
 
 function open_out_bin(name) {
   return open_out_gen({
-        hd: /* Open_wronly */1,
+        hd: /* Open_wronly */ 1,
         tl: {
-          hd: /* Open_creat */3,
+          hd: /* Open_creat */ 3,
           tl: {
-            hd: /* Open_trunc */4,
+            hd: /* Open_trunc */ 4,
             tl: {
-              hd: /* Open_binary */6,
-              tl: /* [] */0
+              hd: /* Open_binary */ 6,
+              tl: /* [] */ 0
             }
           }
         }
@@ -264,7 +264,7 @@ function output_substring(oc, s, ofs, len) {
 }
 
 function output_value(chan, v) {
-  Caml_external_polyfill.resolve("caml_output_value")(chan, v, /* [] */0);
+  Caml_external_polyfill.resolve("caml_output_value")(chan, v, /* [] */ 0);
 }
 
 function close_out(oc) {
@@ -293,20 +293,20 @@ function open_in_gen(mode, perm, name) {
 
 function open_in(name) {
   return open_in_gen({
-        hd: /* Open_rdonly */0,
+        hd: /* Open_rdonly */ 0,
         tl: {
-          hd: /* Open_text */7,
-          tl: /* [] */0
+          hd: /* Open_text */ 7,
+          tl: /* [] */ 0
         }
       }, 0, name);
 }
 
 function open_in_bin(name) {
   return open_in_gen({
-        hd: /* Open_rdonly */0,
+        hd: /* Open_rdonly */ 0,
         tl: {
-          hd: /* Open_binary */6,
-          tl: /* [] */0
+          hd: /* Open_binary */ 6,
+          tl: /* [] */ 0
         }
       }, 0, name);
 }
@@ -372,7 +372,7 @@ function input_line(chan) {
       continue;
     };
   };
-  let _accu = /* [] */0;
+  let _accu = /* [] */ 0;
   let _len = 0;
   while(true) {
     const len = _len;
@@ -502,7 +502,7 @@ function string_of_format(param) {
 
 function $caret$caret(param, param$1) {
   return {
-    TAG: /* Format */0,
+    TAG: /* Format */ 0,
     _0: CamlinternalFormatBasics.concat_fmt(param._0, param$1._0),
     _1: $caret(param._1, $caret("%,", param$1._1))
   };

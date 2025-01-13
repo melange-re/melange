@@ -6,7 +6,7 @@ const Caml_option = require("melange.js/caml_option.js");
 const Curry = require("melange.js/curry.js");
 
 function eq_A(x, y) {
-  if (x.TAG === /* A */0 && y.TAG === /* A */0) {
+  if (x.TAG === /* A */ 0 && y.TAG === /* A */ 0) {
     return x._0 === y._0;
   } else {
     return false;
@@ -16,12 +16,12 @@ function eq_A(x, y) {
 function Test($star) {
   console.log("no inline");
   const u = {
-    TAG: /* A */0,
+    TAG: /* A */ 0,
     _0: 3
   };
   const Block = {};
   const b = eq_A({
-        TAG: /* A */0,
+        TAG: /* A */ 0,
         _0: 3
       }, u);
   return {
@@ -36,10 +36,10 @@ function Test2($star) {
   console.log("no inline");
   const Block = {};
   const b = eq_A({
-        TAG: /* A */0,
+        TAG: /* A */ 0,
         _0: 3
       }, {
-        TAG: /* A */0,
+        TAG: /* A */ 0,
         _0: 3
       });
   return {
@@ -51,7 +51,7 @@ function Test2($star) {
 
 function f(i, y) {
   const x = {
-    TAG: /* A */0,
+    TAG: /* A */ 0,
     _0: i
   };
   return eq_A(x, y);

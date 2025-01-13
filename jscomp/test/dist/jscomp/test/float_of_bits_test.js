@@ -33,23 +33,23 @@ function from_pairs(pair) {
                 return {
                   hd: [
                     Curry._1(Stdlib__Printf.sprintf({
-                              TAG: /* Format */0,
+                              TAG: /* Format */ 0,
                               _0: {
-                                TAG: /* String_literal */11,
+                                TAG: /* String_literal */ 11,
                                 _0: "int32_float_of_bits ",
                                 _1: {
-                                  TAG: /* Int */4,
-                                  _0: /* Int_d */0,
-                                  _1: /* No_padding */0,
-                                  _2: /* No_precision */0,
-                                  _3: /* End_of_format */0
+                                  TAG: /* Int */ 4,
+                                  _0: /* Int_d */ 0,
+                                  _1: /* No_padding */ 0,
+                                  _2: /* No_precision */ 0,
+                                  _3: /* End_of_format */ 0
                                 }
                               },
                               _1: "int32_float_of_bits %d"
                             }), i),
                     (function (param) {
                       return {
-                        TAG: /* Eq */0,
+                        TAG: /* Eq */ 0,
                         _0: Caml_float.caml_int32_float_of_bits(i32),
                         _1: f
                       };
@@ -58,29 +58,29 @@ function from_pairs(pair) {
                   tl: {
                     hd: [
                       Curry._1(Stdlib__Printf.sprintf({
-                                TAG: /* Format */0,
+                                TAG: /* Format */ 0,
                                 _0: {
-                                  TAG: /* String_literal */11,
+                                  TAG: /* String_literal */ 11,
                                   _0: "int32_bits_of_float ",
                                   _1: {
-                                    TAG: /* Int */4,
-                                    _0: /* Int_d */0,
-                                    _1: /* No_padding */0,
-                                    _2: /* No_precision */0,
-                                    _3: /* End_of_format */0
+                                    TAG: /* Int */ 4,
+                                    _0: /* Int_d */ 0,
+                                    _1: /* No_padding */ 0,
+                                    _2: /* No_precision */ 0,
+                                    _3: /* End_of_format */ 0
                                   }
                                 },
                                 _1: "int32_bits_of_float %d"
                               }), i),
                       (function (param) {
                         return {
-                          TAG: /* Eq */0,
+                          TAG: /* Eq */ 0,
                           _0: Caml_float.caml_int32_bits_of_float(f),
                           _1: i32
                         };
                       })
                     ],
-                    tl: /* [] */0
+                    tl: /* [] */ 0
                   }
                 };
               }), int32_pairs)));
@@ -91,7 +91,7 @@ const suites = Stdlib.$at({
         "one",
         (function (param) {
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: Caml_int64.bits_of_float(1.0),
             _1: one_float
           };
@@ -102,13 +102,13 @@ const suites = Stdlib.$at({
           "two",
           (function (param) {
             return {
-              TAG: /* Eq */0,
+              TAG: /* Eq */ 0,
               _0: Caml_int64.float_of_bits(one_float),
               _1: 1.0
             };
           })
         ],
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     }, from_pairs(int32_pairs));
 

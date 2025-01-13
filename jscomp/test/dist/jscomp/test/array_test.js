@@ -12,7 +12,7 @@ const Stdlib__Array = require("melange/array.js");
 const Stdlib__List = require("melange/list.js");
 
 function starts_with(xs, prefix, p) {
-  const H = /* @__PURE__ */Caml_exceptions.create("H");
+  const H = /* @__PURE__ */ Caml_exceptions.create("H");
   const len1 = xs.length;
   const len2 = prefix.length;
   if (len2 > len1) {
@@ -58,7 +58,7 @@ const array_suites_0 = [
   "init",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: Stdlib__Array.init(5, (function (x) {
             return x;
           })),
@@ -86,17 +86,17 @@ const array_suites_1 = {
                 ],
                 tl: acc
               };
-            }), /* [] */0, xs);
+            }), /* [] */ 0, xs);
       };
       const match = Stdlib__List.split(aux({
                 hd: [
                   [],
-                  /* [] */0
+                  /* [] */ 0
                 ],
-                tl: /* [] */0
+                tl: /* [] */ 0
               }));
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: match[0],
         _1: match[1]
       };
@@ -107,7 +107,7 @@ const array_suites_1 = {
       "concat",
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: [
             0,
             1,
@@ -131,7 +131,7 @@ const array_suites_1 = {
                     hd: [],
                     tl: {
                       hd: [5],
-                      tl: /* [] */0
+                      tl: /* [] */ 0
                     }
                   }
                 }
@@ -144,7 +144,7 @@ const array_suites_1 = {
         "make",
         (function (param) {
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: [
               Caml_array.make(100, /* 'a' */97),
               Caml_array.make_float(100)
@@ -165,7 +165,7 @@ const array_suites_1 = {
           "sub",
           (function (param) {
             return {
-              TAG: /* Eq */0,
+              TAG: /* Eq */ 0,
               _0: Stdlib__Array.sub([
                     0,
                     1,
@@ -194,7 +194,7 @@ const array_suites_1 = {
                   }));
               Stdlib__Array.blit(v, 1, u, 1, 2);
               return {
-                TAG: /* Eq */0,
+                TAG: /* Eq */ 0,
                 _0: [
                   [
                     0,
@@ -223,7 +223,7 @@ const array_suites_1 = {
                     }));
                 Stdlib__Array.blit(a0, 10, a0, 5, 20);
                 return {
-                  TAG: /* Eq */0,
+                  TAG: /* Eq */ 0,
                   _0: true,
                   _1: starts_with(a0, [
                         0,
@@ -265,7 +265,7 @@ const array_suites_1 = {
                       }));
                   Stdlib__Array.blit(a0, 5, a0, 10, 20);
                   return {
-                    TAG: /* Eq */0,
+                    TAG: /* Eq */ 0,
                     _0: true,
                     _1: starts_with(a0, [
                           0,
@@ -305,7 +305,7 @@ const array_suites_1 = {
                   "make",
                   (function (param) {
                     return {
-                      TAG: /* Eq */0,
+                      TAG: /* Eq */ 0,
                       _0: Caml_array.make(2, 1),
                       _1: [
                         1,
@@ -325,7 +325,7 @@ const array_suites_1 = {
                       ];
                       Stdlib__Array.sort(Caml.caml_int_compare, u);
                       return {
-                        TAG: /* Eq */0,
+                        TAG: /* Eq */ 0,
                         _0: Caml_obj.caml_equal([
                               0,
                               1,
@@ -344,13 +344,13 @@ const array_suites_1 = {
                             }));
                         Stdlib__Array.sort(Caml.caml_int_compare, v);
                         return {
-                          TAG: /* Eq */0,
+                          TAG: /* Eq */ 0,
                           _0: true,
                           _1: is_sorted(v)
                         };
                       })
                     ],
-                    tl: /* [] */0
+                    tl: /* [] */ 0
                   }
                 }
               }

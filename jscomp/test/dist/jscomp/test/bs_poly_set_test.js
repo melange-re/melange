@@ -13,7 +13,7 @@ const Caml_obj = require("melange.js/caml_obj.js");
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -197,7 +197,7 @@ b("File \"jscomp/test/bs_poly_set_test.ml\", line 92, characters 4-11", Belt__Be
 
 function testIterToList(xs) {
   const v = {
-    contents: /* [] */0
+    contents: /* [] */ 0
   };
   Belt__Belt_Set.forEach(xs, (function (x) {
         v.contents = {
@@ -210,7 +210,7 @@ function testIterToList(xs) {
 
 function testIterToList2(xs) {
   const v = {
-    contents: /* [] */0
+    contents: /* [] */ 0
   };
   Belt__Belt_SetDict.forEach(xs.data, (function (x) {
         v.contents = {
@@ -361,7 +361,7 @@ Belt__Belt_List.forEach({
             hd: a3,
             tl: {
               hd: a4,
-              tl: /* [] */0
+              tl: /* [] */ 0
             }
           }
         }

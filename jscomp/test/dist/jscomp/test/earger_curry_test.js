@@ -63,7 +63,7 @@ function f2(param) {
 f2(undefined);
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -77,7 +77,7 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: x,
           _1: y
         };
@@ -92,7 +92,7 @@ const v = {
 };
 
 const all_v = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 function add5(a0, a1, a2, a3, a4) {
@@ -163,7 +163,7 @@ eq("File \"jscomp/test/earger_curry_test.ml\", line 122, characters 7-14", all_v
               hd: 4,
               tl: {
                 hd: 2,
-                tl: /* [] */0
+                tl: /* [] */ 0
               }
             }
           }

@@ -18,7 +18,7 @@ Belt__Belt_List.forEachU({
       hd: {
         x: 3
       },
-      tl: /* [] */0
+      tl: /* [] */ 0
     }, (function (x) {
       console.log(x.x);
     }));

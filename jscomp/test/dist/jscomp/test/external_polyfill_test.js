@@ -5,7 +5,7 @@ const Caml_external_polyfill = require("melange.js/caml_external_polyfill.js");
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {

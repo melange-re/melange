@@ -10,7 +10,7 @@ const list_suites_0 = [
   "length",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: 1,
       _1: Stdlib__List.length({
             hd: [
@@ -20,7 +20,7 @@ const list_suites_0 = [
               3,
               4
             ],
-            tl: /* [] */0
+            tl: /* [] */ 0
           })
     };
   })
@@ -31,7 +31,7 @@ const list_suites_1 = {
     "length2",
     (function (param) {
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: 5,
         _1: Stdlib__List.length({
               hd: 0,
@@ -43,7 +43,7 @@ const list_suites_1 = {
                     hd: 3,
                     tl: {
                       hd: 4,
-                      tl: /* [] */0
+                      tl: /* [] */ 0
                     }
                   }
                 }
@@ -57,7 +57,7 @@ const list_suites_1 = {
       "long_length",
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: 30000,
           _1: Stdlib__List.length(Stdlib__Array.to_list(Stdlib__Array.init(30000, (function (param) {
                         return 0;
@@ -70,7 +70,7 @@ const list_suites_1 = {
         "sort",
         (function (param) {
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: Stdlib__List.sort(Caml.caml_int_compare, {
                   hd: 4,
                   tl: {
@@ -79,7 +79,7 @@ const list_suites_1 = {
                       hd: 2,
                       tl: {
                         hd: 3,
-                        tl: /* [] */0
+                        tl: /* [] */ 0
                       }
                     }
                   }
@@ -92,7 +92,7 @@ const list_suites_1 = {
                   hd: 3,
                   tl: {
                     hd: 4,
-                    tl: /* [] */0
+                    tl: /* [] */ 0
                   }
                 }
               }
@@ -100,7 +100,7 @@ const list_suites_1 = {
           };
         })
       ],
-      tl: /* [] */0
+      tl: /* [] */ 0
     }
   }
 };

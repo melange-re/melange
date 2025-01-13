@@ -28,7 +28,7 @@ const a = [
 
 function commutative_add(result, a, b) {
   return {
-    TAG: /* Eq */0,
+    TAG: /* Eq */ 0,
     _0: [
       result,
       result
@@ -861,7 +861,7 @@ const suites = Stdlib.$at({
         "add_one",
         (function (param) {
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: v,
             _1: [
               0,
@@ -875,7 +875,7 @@ const suites = Stdlib.$at({
           "add_2",
           (function (param) {
             return {
-              TAG: /* Eq */0,
+              TAG: /* Eq */ 0,
               _0: [
                 0,
                 4294967294
@@ -889,7 +889,7 @@ const suites = Stdlib.$at({
             "add_3",
             (function (param) {
               return {
-                TAG: /* Eq */0,
+                TAG: /* Eq */ 0,
                 _0: Caml_int64.zero,
                 _1: Caml_int64.zero
               };
@@ -1013,7 +1013,7 @@ const suites = Stdlib.$at({
                               "to_int32",
                               (function (param) {
                                 return {
-                                  TAG: /* Eq */0,
+                                  TAG: /* Eq */ 0,
                                   _0: 3,
                                   _1: Caml_int64.to_int32([
                                         0,
@@ -1027,7 +1027,7 @@ const suites = Stdlib.$at({
                                 "to_int",
                                 (function (param) {
                                   return {
-                                    TAG: /* Eq */0,
+                                    TAG: /* Eq */ 0,
                                     _0: 3,
                                     _1: Caml_int64.to_int32([
                                           0,
@@ -1041,7 +1041,7 @@ const suites = Stdlib.$at({
                                   "of_int",
                                   (function (param) {
                                     return {
-                                      TAG: /* Eq */0,
+                                      TAG: /* Eq */ 0,
                                       _0: [
                                         0,
                                         3
@@ -1058,7 +1058,7 @@ const suites = Stdlib.$at({
                                     "lognot",
                                     (function (param) {
                                       return {
-                                        TAG: /* Eq */0,
+                                        TAG: /* Eq */ 0,
                                         _0: [
                                           -1,
                                           4294967293
@@ -1075,7 +1075,7 @@ const suites = Stdlib.$at({
                                       "neg",
                                       (function (param) {
                                         return {
-                                          TAG: /* Eq */0,
+                                          TAG: /* Eq */ 0,
                                           _0: [
                                             -1,
                                             4294967294
@@ -1092,7 +1092,7 @@ const suites = Stdlib.$at({
                                         "File \"jscomp/test/int64_test.ml\", line 80, characters 4-11",
                                         (function (param) {
                                           return {
-                                            TAG: /* Eq */0,
+                                            TAG: /* Eq */ 0,
                                             _0: Stdlib__Int64.min_int,
                                             _1: Caml_int64.neg(Stdlib__Int64.min_int)
                                           };
@@ -1103,7 +1103,7 @@ const suites = Stdlib.$at({
                                           "File \"jscomp/test/int64_test.ml\", line 81, characters 4-11",
                                           (function (param) {
                                             return {
-                                              TAG: /* Eq */0,
+                                              TAG: /* Eq */ 0,
                                               _0: Stdlib__Int64.max_int,
                                               _1: Caml_int64.neg(Caml_int64.add(Stdlib__Int64.min_int, Caml_int64.one))
                                             };
@@ -1114,7 +1114,7 @@ const suites = Stdlib.$at({
                                             "sub1",
                                             (function (param) {
                                               return {
-                                                TAG: /* Eq */0,
+                                                TAG: /* Eq */ 0,
                                                 _0: [
                                                   0,
                                                   2
@@ -1131,7 +1131,7 @@ const suites = Stdlib.$at({
                                               "xor1",
                                               (function (param) {
                                                 return {
-                                                  TAG: /* Eq */0,
+                                                  TAG: /* Eq */ 0,
                                                   _0: [
                                                     [
                                                       0,
@@ -1160,7 +1160,7 @@ const suites = Stdlib.$at({
                                                 "or",
                                                 (function (param) {
                                                   return {
-                                                    TAG: /* Eq */0,
+                                                    TAG: /* Eq */ 0,
                                                     _0: [
                                                       0,
                                                       4294967295
@@ -1177,7 +1177,7 @@ const suites = Stdlib.$at({
                                                   "and",
                                                   (function (param) {
                                                     return {
-                                                      TAG: /* Eq */0,
+                                                      TAG: /* Eq */ 0,
                                                       _0: [
                                                         0,
                                                         4008636142
@@ -1194,7 +1194,7 @@ const suites = Stdlib.$at({
                                                     "lsl",
                                                     (function (param) {
                                                       return {
-                                                        TAG: /* Eq */0,
+                                                        TAG: /* Eq */ 0,
                                                         _0: Stdlib__Array.map((function (x) {
                                                               return Caml_int64.lsl_(Caml_int64.one, x);
                                                             }), Stdlib__Array.init(64, (function (i) {
@@ -1460,7 +1460,7 @@ const suites = Stdlib.$at({
                                                       "lsr",
                                                       (function (param) {
                                                         return {
-                                                          TAG: /* Eq */0,
+                                                          TAG: /* Eq */ 0,
                                                           _0: Stdlib__Array.map((function (x) {
                                                                 return Caml_int64.lsr_(Caml_int64.neg_one, x);
                                                               }), Stdlib__Array.init(64, (function (i) {
@@ -1723,7 +1723,7 @@ const suites = Stdlib.$at({
                                                         "asr",
                                                         (function (param) {
                                                           return {
-                                                            TAG: /* Eq */0,
+                                                            TAG: /* Eq */ 0,
                                                             _0: Stdlib__Array.map((function (x) {
                                                                   return Caml_int64.asr_(Caml_int64.neg_one, x);
                                                                 }), Stdlib__Array.init(64, (function (i) {
@@ -1803,7 +1803,7 @@ const suites = Stdlib.$at({
                                                           "mul simple",
                                                           (function (param) {
                                                             return {
-                                                              TAG: /* Eq */0,
+                                                              TAG: /* Eq */ 0,
                                                               _0: [
                                                                 0,
                                                                 6
@@ -1820,7 +1820,7 @@ const suites = Stdlib.$at({
                                                             "of_int32",
                                                             (function (param) {
                                                               return {
-                                                                TAG: /* Eq */0,
+                                                                TAG: /* Eq */ 0,
                                                                 _0: Stdlib__Array.map(Caml_int64.of_int32, [
                                                                       0,
                                                                       -2147483648
@@ -1840,7 +1840,7 @@ const suites = Stdlib.$at({
                                                               "of_int32_singleton",
                                                               (function (param) {
                                                                 return {
-                                                                  TAG: /* Eq */0,
+                                                                  TAG: /* Eq */ 0,
                                                                   _0: [
                                                                     -1,
                                                                     4294967293
@@ -1857,7 +1857,7 @@ const suites = Stdlib.$at({
                                                                 "File \"jscomp/test/int64_test.ml\", line 134, characters 4-11",
                                                                 (function (param) {
                                                                   return {
-                                                                    TAG: /* Eq */0,
+                                                                    TAG: /* Eq */ 0,
                                                                     _0: [
                                                                       0,
                                                                       3
@@ -1874,7 +1874,7 @@ const suites = Stdlib.$at({
                                                                   "to_int32",
                                                                   (function (param) {
                                                                     return {
-                                                                      TAG: /* Eq */0,
+                                                                      TAG: /* Eq */ 0,
                                                                       _0: Stdlib__Array.map(Caml_int64.to_int32, [
                                                                             Caml_int64.zero,
                                                                             [
@@ -1894,7 +1894,7 @@ const suites = Stdlib.$at({
                                                                     "discard_sign",
                                                                     (function (param) {
                                                                       return {
-                                                                        TAG: /* Eq */0,
+                                                                        TAG: /* Eq */ 0,
                                                                         _0: Caml_int64.discard_sign(Caml_int64.neg_one),
                                                                         _1: Caml_int64.max_int
                                                                       };
@@ -1905,7 +1905,7 @@ const suites = Stdlib.$at({
                                                                       "div_mod",
                                                                       (function (param) {
                                                                         return {
-                                                                          TAG: /* Eq */0,
+                                                                          TAG: /* Eq */ 0,
                                                                           _0: Caml_int64.div_mod([
                                                                                 0,
                                                                                 7
@@ -1928,7 +1928,7 @@ const suites = Stdlib.$at({
                                                                         "to_hex",
                                                                         (function (param) {
                                                                           return {
-                                                                            TAG: /* Eq */0,
+                                                                            TAG: /* Eq */ 0,
                                                                             _0: Caml_int64.to_hex(Caml_int64.neg_one),
                                                                             _1: "ffffffffffffffff"
                                                                           };
@@ -1939,7 +1939,7 @@ const suites = Stdlib.$at({
                                                                           "generic_compare",
                                                                           (function (param) {
                                                                             return {
-                                                                              TAG: /* Eq */0,
+                                                                              TAG: /* Eq */ 0,
                                                                               _0: Caml_obj.caml_compare([
                                                                                     1,
                                                                                     0
@@ -1953,7 +1953,7 @@ const suites = Stdlib.$at({
                                                                             "test_compier_literal",
                                                                             (function (param) {
                                                                               return {
-                                                                                TAG: /* Eq */0,
+                                                                                TAG: /* Eq */ 0,
                                                                                 _0: [
                                                                                   0,
                                                                                   4294967295
@@ -1970,7 +1970,7 @@ const suites = Stdlib.$at({
                                                                               "generic_compare2",
                                                                               (function (param) {
                                                                                 return {
-                                                                                  TAG: /* Eq */0,
+                                                                                  TAG: /* Eq */ 0,
                                                                                   _0: Caml_obj.caml_compare([
                                                                                         0,
                                                                                         2147483648
@@ -1984,7 +1984,7 @@ const suites = Stdlib.$at({
                                                                                 "shift_left",
                                                                                 (function (param) {
                                                                                   return {
-                                                                                    TAG: /* Eq */0,
+                                                                                    TAG: /* Eq */ 0,
                                                                                     _0: [
                                                                                       0,
                                                                                       4294967040
@@ -2001,7 +2001,7 @@ const suites = Stdlib.$at({
                                                                                   "fib_int64",
                                                                                   (function (param) {
                                                                                     return {
-                                                                                      TAG: /* Eq */0,
+                                                                                      TAG: /* Eq */ 0,
                                                                                       _0: fib(1000, Caml_int64.one, [
                                                                                             0,
                                                                                             2
@@ -2018,7 +2018,7 @@ const suites = Stdlib.$at({
                                                                                     "fac_int64",
                                                                                     (function (param) {
                                                                                       return {
-                                                                                        TAG: /* Eq */0,
+                                                                                        TAG: /* Eq */ 0,
                                                                                         _0: fac(30, Caml_int64.one),
                                                                                         _1: [
                                                                                           -2040662563,
@@ -2032,7 +2032,7 @@ const suites = Stdlib.$at({
                                                                                       "File \"jscomp/test/int64_test.ml\", line 163, characters 6-13",
                                                                                       (function (param) {
                                                                                         return {
-                                                                                          TAG: /* Eq */0,
+                                                                                          TAG: /* Eq */ 0,
                                                                                           _0: Caml_int64.add(Stdlib__Int64.max_int, Stdlib__Int64.max_int),
                                                                                           _1: [
                                                                                             -1,
@@ -2046,7 +2046,7 @@ const suites = Stdlib.$at({
                                                                                         "File \"jscomp/test/int64_test.ml\", line 166, characters 6-13",
                                                                                         (function (param) {
                                                                                           return {
-                                                                                            TAG: /* Eq */0,
+                                                                                            TAG: /* Eq */ 0,
                                                                                             _0: Caml_int64.add(Stdlib__Int64.min_int, Stdlib__Int64.min_int),
                                                                                             _1: Caml_int64.zero
                                                                                           };
@@ -2057,13 +2057,13 @@ const suites = Stdlib.$at({
                                                                                           "File \"jscomp/test/int64_test.ml\", line 170, characters 6-13",
                                                                                           (function (param) {
                                                                                             return {
-                                                                                              TAG: /* Eq */0,
+                                                                                              TAG: /* Eq */ 0,
                                                                                               _0: Caml_int64.neg_one,
                                                                                               _1: Caml_int64.neg_one
                                                                                             };
                                                                                           })
                                                                                         ],
-                                                                                        tl: /* [] */0
+                                                                                        tl: /* [] */ 0
                                                                                       }
                                                                                     }
                                                                                   }
@@ -2108,23 +2108,23 @@ const suites = Stdlib.$at({
     }, Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                   return [
                     Curry._1(Stdlib__Format.asprintf({
-                              TAG: /* Format */0,
+                              TAG: /* Format */ 0,
                               _0: {
-                                TAG: /* String_literal */11,
+                                TAG: /* String_literal */ 11,
                                 _0: "shift_left_cases ",
                                 _1: {
-                                  TAG: /* Int */4,
-                                  _0: /* Int_d */0,
-                                  _1: /* No_padding */0,
-                                  _2: /* No_precision */0,
-                                  _3: /* End_of_format */0
+                                  TAG: /* Int */ 4,
+                                  _0: /* Int_d */ 0,
+                                  _1: /* No_padding */ 0,
+                                  _2: /* No_precision */ 0,
+                                  _3: /* End_of_format */ 0
                                 }
                               },
                               _1: "shift_left_cases %d"
                             }), i),
                     (function (param) {
                       return {
-                        TAG: /* Eq */0,
+                        TAG: /* Eq */ 0,
                         _0: a,
                         _1: b
                       };
@@ -2133,23 +2133,23 @@ const suites = Stdlib.$at({
                 }), shift_left_tests_0, shift_left_tests_1)), Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                       return [
                         Curry._1(Stdlib__Format.asprintf({
-                                  TAG: /* Format */0,
+                                  TAG: /* Format */ 0,
                                   _0: {
-                                    TAG: /* String_literal */11,
+                                    TAG: /* String_literal */ 11,
                                     _0: "shift_right_cases ",
                                     _1: {
-                                      TAG: /* Int */4,
-                                      _0: /* Int_d */0,
-                                      _1: /* No_padding */0,
-                                      _2: /* No_precision */0,
-                                      _3: /* End_of_format */0
+                                      TAG: /* Int */ 4,
+                                      _0: /* Int_d */ 0,
+                                      _1: /* No_padding */ 0,
+                                      _2: /* No_precision */ 0,
+                                      _3: /* End_of_format */ 0
                                     }
                                   },
                                   _1: "shift_right_cases %d"
                                 }), i),
                         (function (param) {
                           return {
-                            TAG: /* Eq */0,
+                            TAG: /* Eq */ 0,
                             _0: a,
                             _1: b
                           };
@@ -2158,23 +2158,23 @@ const suites = Stdlib.$at({
                     }), shift_right_tests_0, shift_right_tests_1)), Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                       return [
                         Curry._1(Stdlib__Format.asprintf({
-                                  TAG: /* Format */0,
+                                  TAG: /* Format */ 0,
                                   _0: {
-                                    TAG: /* String_literal */11,
+                                    TAG: /* String_literal */ 11,
                                     _0: "shift_right_logical_cases ",
                                     _1: {
-                                      TAG: /* Int */4,
-                                      _0: /* Int_d */0,
-                                      _1: /* No_padding */0,
-                                      _2: /* No_precision */0,
-                                      _3: /* End_of_format */0
+                                      TAG: /* Int */ 4,
+                                      _0: /* Int_d */ 0,
+                                      _1: /* No_padding */ 0,
+                                      _2: /* No_precision */ 0,
+                                      _3: /* End_of_format */ 0
                                     }
                                   },
                                   _1: "shift_right_logical_cases %d"
                                 }), i),
                         (function (param) {
                           return {
-                            TAG: /* Eq */0,
+                            TAG: /* Eq */ 0,
                             _0: a,
                             _1: b
                           };
@@ -2197,7 +2197,7 @@ function eq(loc, x, y) {
 function id(loc, x) {
   const float_value = Caml_int64.float_of_bits(x);
   const match = Stdlib.classify_float(float_value);
-  if (match === /* FP_nan */4) {
+  if (match === /* FP_nan */ 4) {
     return;
   } else {
     return eq(loc, Caml_int64.bits_of_float(float_value), x);

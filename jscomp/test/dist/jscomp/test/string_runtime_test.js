@@ -11,7 +11,7 @@ const suites_0 = [
   "caml_is_printable",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: Test_char.caml_is_printable(/* 'a' */97),
       _1: true
     };
@@ -45,7 +45,7 @@ const suites_1 = {
                           hd: 5000,
                           tl: {
                             hd: 10000,
-                            tl: /* [] */0
+                            tl: /* [] */ 0
                           }
                         }
                       }
@@ -54,13 +54,13 @@ const suites_1 = {
                 }
               }));
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: match[0],
         _1: match[1]
       };
     })
   ],
-  tl: /* [] */0
+  tl: /* [] */ 0
 };
 
 const suites = {

@@ -4,15 +4,15 @@
 
 function toEnum(x) {
   switch (x) {
-    case /* A */0 :
+    case /* A */ 0 :
         return 0;
-    case /* B */1 :
+    case /* B */ 1 :
         return 1;
-    case /* C */2 :
+    case /* C */ 2 :
         return 2;
-    case /* D */3 :
+    case /* D */ 3 :
         return 3;
-    case /* E */4 :
+    case /* E */ 4 :
         return 4;
     
   }
@@ -20,15 +20,15 @@ function toEnum(x) {
 
 function toString(x) {
   switch (x) {
-    case /* A */0 :
+    case /* A */ 0 :
         return "A";
-    case /* B */1 :
+    case /* B */ 1 :
         return "B";
-    case /* C */2 :
+    case /* C */ 2 :
         return "C";
-    case /* D */3 :
+    case /* D */ 3 :
         return "D";
-    case /* E */4 :
+    case /* E */ 4 :
         return "E";
     
   }
@@ -36,8 +36,8 @@ function toString(x) {
 
 function bar(x) {
   switch (x) {
-    case /* A */0 :
-    case /* E */4 :
+    case /* A */ 0 :
+    case /* E */ 4 :
         return 10;
     default:
       return 0;
@@ -45,31 +45,31 @@ function bar(x) {
 }
 
 function and_(x, y) {
-  if (x === /* True */0 && y === /* True */0) {
-    return /* True */0;
+  if (x === /* True */ 0 && y === /* True */ 0) {
+    return /* True */ 0;
   } else {
-    return /* False */1;
+    return /* False */ 1;
   }
 }
 
 function id(x) {
-  if (x === /* True */0) {
-    return /* True */0;
+  if (x === /* True */ 0) {
+    return /* True */ 0;
   } else {
-    return /* False */1;
+    return /* False */ 1;
   }
 }
 
 function not_(x) {
-  if (x === /* True */0) {
-    return /* False */1;
+  if (x === /* True */ 0) {
+    return /* False */ 1;
   } else {
-    return /* True */0;
+    return /* True */ 0;
   }
 }
 
 function st(state) {
-  if (/* tag */typeof state === "number" || typeof state === "string") {
+  if (/* tag */ typeof state === "number" || typeof state === "string") {
     return 0;
   } else {
     return 23;
@@ -77,7 +77,7 @@ function st(state) {
 }
 
 function showToJs(x) {
-  if (/* tag */(typeof x === "number" || typeof x === "string") && x === /* No */0) {
+  if (/* tag */ (typeof x === "number" || typeof x === "string") && x === /* No */ 0) {
     return false;
   } else {
     return true;
@@ -97,28 +97,28 @@ function third(l) {
 }
 
 function third2(l) {
-  if (/* tag */typeof l === "number" || typeof l === "string") {
+  if (/* tag */ typeof l === "number" || typeof l === "string") {
     return false;
   }
   if (l._0 !== 1) {
     return false;
   }
   const match = l._1;
-  if (/* tag */typeof match === "number" || typeof match === "string") {
+  if (/* tag */ typeof match === "number" || typeof match === "string") {
     return false;
   }
   if (match._0 !== 2) {
     return false;
   }
   const match$1 = match._1;
-  if (/* tag */typeof match$1 === "number" || typeof match$1 === "string") {
+  if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string") {
     return false;
   }
   if (match$1._0 !== 3) {
     return false;
   }
   let tmp = match$1._1;
-  if (/* tag */typeof tmp === "number" || typeof tmp === "string") {
+  if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
     return true;
   } else {
     return false;
@@ -126,23 +126,23 @@ function third2(l) {
 }
 
 function foo(x) {
-  if (/* tag */typeof x === "number" || typeof x === "string") {
+  if (/* tag */ typeof x === "number" || typeof x === "string") {
     switch (x) {
-      case /* A */"dd" :
+      case /* A */ "dd" :
           return 1;
-      case /* B */12 :
+      case /* B */ 12 :
           return 2;
-      case /* C */2 :
+      case /* C */ 2 :
           return 3;
       
     }
   } else {
     switch (x.TAG) {
-      case /* D */"qq" :
+      case /* D */ "qq" :
           return 4;
-      case /* E */42 :
+      case /* E */ 42 :
           return 5;
-      case /* F */2 :
+      case /* F */ 2 :
           return 6;
       
     }
@@ -150,20 +150,20 @@ function foo(x) {
 }
 
 const CustomizeTags_d = {
-  TAG: /* D */"qq",
+  TAG: /* D */ "qq",
   _0: 42
 };
 
 const CustomizeTags_e = {
-  TAG: /* E */42,
+  TAG: /* E */ 42,
   _0: 0
 };
 
 const CustomizeTags = {
   foo: foo,
-  a: /* A */"dd",
-  b: /* B */12,
-  c: /* C */2,
+  a: /* A */ "dd",
+  b: /* B */ 12,
+  c: /* C */ 2,
   d: CustomizeTags_d,
   e: CustomizeTags_e
 };

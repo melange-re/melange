@@ -5,7 +5,7 @@ const Belt__Belt_Float = require("melange.belt/belt_Float.js");
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -31,7 +31,7 @@ function neq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Neq */1,
+          TAG: /* Neq */ 1,
           _0: x,
           _1: y
         };

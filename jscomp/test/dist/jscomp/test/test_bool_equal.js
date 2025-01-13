@@ -111,7 +111,7 @@ function f5(x) {
 }
 
 function f6(x) {
-  if (Caml_obj.caml_equal(x, /* [] */0)) {
+  if (Caml_obj.caml_equal(x, /* [] */ 0)) {
     return 1;
   } else {
     return 2;

@@ -7,7 +7,7 @@ const Sexpm = require("./sexpm.js");
 const Stdlib__Format = require("melange/format.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -23,7 +23,7 @@ function eq(loc, param) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: x,
           _1: y
         };
@@ -36,30 +36,30 @@ function eq(loc, param) {
 function print_or_error(fmt, x) {
   if (x.NAME === "Error") {
     return Curry._1(Stdlib__Format.fprintf(fmt)({
-              TAG: /* Format */0,
+              TAG: /* Format */ 0,
               _0: {
-                TAG: /* Formatting_gen */18,
+                TAG: /* Formatting_gen */ 18,
                 _0: {
-                  TAG: /* Open_box */1,
+                  TAG: /* Open_box */ 1,
                   _0: {
-                    TAG: /* Format */0,
-                    _0: /* End_of_format */0,
+                    TAG: /* Format */ 0,
+                    _0: /* End_of_format */ 0,
                     _1: ""
                   }
                 },
                 _1: {
-                  TAG: /* String_literal */11,
+                  TAG: /* String_literal */ 11,
                   _0: "Error:",
                   _1: {
-                    TAG: /* String */2,
-                    _0: /* No_padding */0,
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* Formatting_lit */17,
-                      _0: /* Close_box */0,
+                      TAG: /* Formatting_lit */ 17,
+                      _0: /* Close_box */ 0,
                       _1: {
-                        TAG: /* Formatting_lit */17,
-                        _0: /* Flush_newline */4,
-                        _1: /* End_of_format */0
+                        TAG: /* Formatting_lit */ 17,
+                        _0: /* Flush_newline */ 4,
+                        _1: /* End_of_format */ 0
                       }
                     }
                   }
@@ -69,29 +69,29 @@ function print_or_error(fmt, x) {
             }), x.VAL);
   } else {
     return Curry._2(Stdlib__Format.fprintf(fmt)({
-              TAG: /* Format */0,
+              TAG: /* Format */ 0,
               _0: {
-                TAG: /* Formatting_gen */18,
+                TAG: /* Formatting_gen */ 18,
                 _0: {
-                  TAG: /* Open_box */1,
+                  TAG: /* Open_box */ 1,
                   _0: {
-                    TAG: /* Format */0,
-                    _0: /* End_of_format */0,
+                    TAG: /* Format */ 0,
+                    _0: /* End_of_format */ 0,
                     _1: ""
                   }
                 },
                 _1: {
-                  TAG: /* String_literal */11,
+                  TAG: /* String_literal */ 11,
                   _0: "Ok:",
                   _1: {
-                    TAG: /* Alpha */15,
+                    TAG: /* Alpha */ 15,
                     _0: {
-                      TAG: /* Formatting_lit */17,
-                      _0: /* Close_box */0,
+                      TAG: /* Formatting_lit */ 17,
+                      _0: /* Close_box */ 0,
                       _1: {
-                        TAG: /* Formatting_lit */17,
-                        _0: /* Flush_newline */4,
-                        _1: /* End_of_format */0
+                        TAG: /* Formatting_lit */ 17,
+                        _0: /* Flush_newline */ 4,
+                        _1: /* End_of_format */ 0
                       }
                     }
                   }
@@ -134,7 +134,7 @@ eq("File \"jscomp/test/sexpm_test.ml\", line 17, characters 7-14", [
                       NAME: "Atom",
                       VAL: "3"
                     },
-                    tl: /* [] */0
+                    tl: /* [] */ 0
                   }
                 }
               }
@@ -147,10 +147,10 @@ eq("File \"jscomp/test/sexpm_test.ml\", line 17, characters 7-14", [
 
 eq("File \"jscomp/test/sexpm_test.ml\", line 21, characters 7-14", [
       Curry._2(Stdlib__Format.asprintf({
-                  TAG: /* Format */0,
+                  TAG: /* Format */ 0,
                   _0: {
-                    TAG: /* Alpha */15,
-                    _0: /* End_of_format */0
+                    TAG: /* Alpha */ 15,
+                    _0: /* End_of_format */ 0
                   },
                   _1: "%a"
                 }), print_or_error, a).trim(),

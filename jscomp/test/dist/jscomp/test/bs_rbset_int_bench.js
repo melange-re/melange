@@ -5,7 +5,7 @@ const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Rbset = require("./rbset.js");
 
 function bench(param) {
-  let data = /* Empty */0;
+  let data = /* Empty */ 0;
   console.time("bs_rbset_int_bench.ml 7");
   for (let i = 0; i <= 1000000; ++i) {
     data = Rbset.add(i, data);

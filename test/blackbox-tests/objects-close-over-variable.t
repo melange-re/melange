@@ -51,7 +51,7 @@ Test classes that close over an init variable from the outside scope
   ];
   
   const object_tables = {
-    TAG: /* Cons */0,
+    TAG: /* Cons */ 0,
     key: undefined,
     data: undefined,
     next: undefined

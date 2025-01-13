@@ -9,7 +9,7 @@ const suites_0 = [
   "toOption - null",
   (function (param) {
     return {
-      TAG: /* Eq */0,
+      TAG: /* Eq */ 0,
       _0: undefined,
       _1: undefined
     };
@@ -21,7 +21,7 @@ const suites_1 = {
     "toOption - undefined",
     (function (param) {
       return {
-        TAG: /* Eq */0,
+        TAG: /* Eq */ 0,
         _0: undefined,
         _1: undefined
       };
@@ -32,7 +32,7 @@ const suites_1 = {
       "toOption - empty",
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: undefined,
           _1: undefined
         };
@@ -43,7 +43,7 @@ const suites_1 = {
         "File \"jscomp/test/js_null_undefined_test.ml\", line 7, characters 2-9",
         (function (param) {
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: "foo",
             _1: Caml_option.nullable_to_opt("foo")
           };
@@ -54,7 +54,7 @@ const suites_1 = {
           "return",
           (function (param) {
             return {
-              TAG: /* Eq */0,
+              TAG: /* Eq */ 0,
               _0: "something",
               _1: Caml_option.nullable_to_opt("something")
             };
@@ -65,7 +65,7 @@ const suites_1 = {
             "test - null",
             (function (param) {
               return {
-                TAG: /* Eq */0,
+                TAG: /* Eq */ 0,
                 _0: true,
                 _1: true
               };
@@ -76,7 +76,7 @@ const suites_1 = {
               "test - undefined",
               (function (param) {
                 return {
-                  TAG: /* Eq */0,
+                  TAG: /* Eq */ 0,
                   _0: true,
                   _1: true
                 };
@@ -87,7 +87,7 @@ const suites_1 = {
                 "test - empty",
                 (function (param) {
                   return {
-                    TAG: /* Eq */0,
+                    TAG: /* Eq */ 0,
                     _0: true,
                     _1: true
                   };
@@ -98,7 +98,7 @@ const suites_1 = {
                   "File \"jscomp/test/js_null_undefined_test.ml\", line 12, characters 2-9",
                   (function (param) {
                     return {
-                      TAG: /* Eq */0,
+                      TAG: /* Eq */ 0,
                       _0: true,
                       _1: true
                     };
@@ -109,7 +109,7 @@ const suites_1 = {
                     "map - null",
                     (function (param) {
                       return {
-                        TAG: /* StrictEq */2,
+                        TAG: /* StrictEq */ 2,
                         _0: null,
                         _1: Js__Js_nullable.map((function (v) {
                               return v;
@@ -122,7 +122,7 @@ const suites_1 = {
                       "map - undefined",
                       (function (param) {
                         return {
-                          TAG: /* StrictEq */2,
+                          TAG: /* StrictEq */ 2,
                           _0: undefined,
                           _1: Js__Js_nullable.map((function (v) {
                                 return v;
@@ -135,7 +135,7 @@ const suites_1 = {
                         "map - empty",
                         (function (param) {
                           return {
-                            TAG: /* StrictEq */2,
+                            TAG: /* StrictEq */ 2,
                             _0: undefined,
                             _1: Js__Js_nullable.map((function (v) {
                                   return v;
@@ -148,7 +148,7 @@ const suites_1 = {
                           "map - 'a",
                           (function (param) {
                             return {
-                              TAG: /* Eq */0,
+                              TAG: /* Eq */ 0,
                               _0: 4,
                               _1: Js__Js_nullable.map((function (n) {
                                     return (n << 1);
@@ -167,7 +167,7 @@ const suites_1 = {
                                     hit.contents = true;
                                   }), null);
                               return {
-                                TAG: /* Eq */0,
+                                TAG: /* Eq */ 0,
                                 _0: false,
                                 _1: hit.contents
                               };
@@ -184,7 +184,7 @@ const suites_1 = {
                                       hit.contents = true;
                                     }), undefined);
                                 return {
-                                  TAG: /* Eq */0,
+                                  TAG: /* Eq */ 0,
                                   _0: false,
                                   _1: hit.contents
                                 };
@@ -201,7 +201,7 @@ const suites_1 = {
                                         hit.contents = true;
                                       }), undefined);
                                   return {
-                                    TAG: /* Eq */0,
+                                    TAG: /* Eq */ 0,
                                     _0: false,
                                     _1: hit.contents
                                   };
@@ -218,7 +218,7 @@ const suites_1 = {
                                           hit.contents = v;
                                         }), 2);
                                     return {
-                                      TAG: /* Eq */0,
+                                      TAG: /* Eq */ 0,
                                       _0: 2,
                                       _1: hit.contents
                                     };
@@ -229,7 +229,7 @@ const suites_1 = {
                                     "fromOption - None",
                                     (function (param) {
                                       return {
-                                        TAG: /* Eq */0,
+                                        TAG: /* Eq */ 0,
                                         _0: undefined,
                                         _1: Js__Js_nullable.fromOption(undefined)
                                       };
@@ -240,7 +240,7 @@ const suites_1 = {
                                       "fromOption - Some",
                                       (function (param) {
                                         return {
-                                          TAG: /* Eq */0,
+                                          TAG: /* Eq */ 0,
                                           _0: 2,
                                           _1: Js__Js_nullable.fromOption(2)
                                         };
@@ -251,7 +251,7 @@ const suites_1 = {
                                         "null <> undefined",
                                         (function (param) {
                                           return {
-                                            TAG: /* Ok */4,
+                                            TAG: /* Ok */ 4,
                                             _0: true
                                           };
                                         })
@@ -261,7 +261,7 @@ const suites_1 = {
                                           "null <> empty",
                                           (function (param) {
                                             return {
-                                              TAG: /* Ok */4,
+                                              TAG: /* Ok */ 4,
                                               _0: true
                                             };
                                           })
@@ -271,7 +271,7 @@ const suites_1 = {
                                             "undefined = empty",
                                             (function (param) {
                                               return {
-                                                TAG: /* Ok */4,
+                                                TAG: /* Ok */ 4,
                                                 _0: true
                                               };
                                             })
@@ -281,12 +281,12 @@ const suites_1 = {
                                               "File \"jscomp/test/js_null_undefined_test.ml\", line 42, characters 2-9",
                                               (function (param) {
                                                 return {
-                                                  TAG: /* Ok */4,
+                                                  TAG: /* Ok */ 4,
                                                   _0: true
                                                 };
                                               })
                                             ],
-                                            tl: /* [] */0
+                                            tl: /* [] */ 0
                                           }
                                         }
                                       }

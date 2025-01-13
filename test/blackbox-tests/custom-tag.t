@@ -17,7 +17,7 @@ Test `@@mel.tag` attribute for discriminated unions
   
   
   function s(param) {
-    if (param.lol !== /* Foo */0) {
+    if (param.lol !== /* Foo */ 0) {
       return [
         param.c,
         param.d
@@ -31,7 +31,7 @@ Test `@@mel.tag` attribute for discriminated unions
   }
   
   const x = {
-    lol: /* Foo */0,
+    lol: /* Foo */ 0,
     _0: {
       a: "a",
       b: "b"
@@ -39,7 +39,7 @@ Test `@@mel.tag` attribute for discriminated unions
   };
   
   const y = {
-    lol: /* Bar */1,
+    lol: /* Bar */ 1,
     c: "c",
     d: "d"
   };
@@ -69,7 +69,7 @@ Test `@@mel.tag` attribute for discriminated unions
   
   
   function s(param) {
-    if (param.lol !== /* Foo */0) {
+    if (param.lol !== /* Foo */ 0) {
       return [
         param.c,
         param.d
@@ -83,7 +83,7 @@ Test `@@mel.tag` attribute for discriminated unions
   }
   
   const x = {
-    lol: /* Foo */0,
+    lol: /* Foo */ 0,
     _0: {
       a: "a",
       b: "b"
@@ -91,7 +91,7 @@ Test `@@mel.tag` attribute for discriminated unions
   };
   
   const y = {
-    lol: /* Bar */"bar",
+    lol: /* Bar */ "bar",
     c: "c",
     d: "d"
   };

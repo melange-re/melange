@@ -7,7 +7,7 @@ const Stdlib = require("melange/stdlib.js");
 const Stdlib__Printexc = require("melange/printexc.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -21,7 +21,7 @@ function eq(loc, x, y) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* Eq */0,
+          TAG: /* Eq */ 0,
           _0: x,
           _1: y
         };
@@ -31,9 +31,9 @@ function eq(loc, x, y) {
   };
 }
 
-const A = /* @__PURE__ */Caml_exceptions.create("Gpr_1501_test.A");
+const A = /* @__PURE__ */ Caml_exceptions.create("Gpr_1501_test.A");
 
-const B = /* @__PURE__ */Caml_exceptions.create("Gpr_1501_test.B");
+const B = /* @__PURE__ */ Caml_exceptions.create("Gpr_1501_test.B");
 
 eq("File \"jscomp/test/gpr_1501_test.ml\", line 14, characters 7-14", "Not_found", Stdlib__Printexc.to_string({
           MEL_EXN_ID: Stdlib.Not_found

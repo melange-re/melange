@@ -5,7 +5,7 @@ const Js__Js_mapper_runtime = require("melange.js/js_mapper_runtime.js");
 const Mt = require("./mt.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -19,7 +19,7 @@ function $$throw(loc, x) {
       loc + (" id " + String(test_id.contents)),
       (function (param) {
         return {
-          TAG: /* ThrowAny */7,
+          TAG: /* ThrowAny */ 7,
           _0: x
         };
       })

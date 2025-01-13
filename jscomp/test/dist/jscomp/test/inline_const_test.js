@@ -7,7 +7,7 @@ const Mt = require("./mt.js");
 const Stdlib__Int64 = require("melange/int64.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {

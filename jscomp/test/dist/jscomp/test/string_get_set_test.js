@@ -8,13 +8,13 @@ Mt.from_pair_suites("jscomp/test/string_get_set_test.ml", {
         "File \"jscomp/test/string_get_set_test.ml\", line 6, characters 4-11",
         (function (param) {
           return {
-            TAG: /* Eq */0,
+            TAG: /* Eq */ 0,
             _0: /* 'h' */104,
             _1: /* 'h' */104
           };
         })
       ],
-      tl: /* [] */0
+      tl: /* [] */ 0
     });
 
 /*  Not a pure module */

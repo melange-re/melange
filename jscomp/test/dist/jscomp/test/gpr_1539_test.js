@@ -8,17 +8,17 @@ const Point = Caml_module.init_mod([
       10,
       6
     ], {
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [[
-          /* Function */0,
+          /* Function */ 0,
           "add"
         ]]
     });
 
 Caml_module.update_mod({
-      TAG: /* Module */0,
+      TAG: /* Module */ 0,
       _0: [[
-          /* Function */0,
+          /* Function */ 0,
           "add"
         ]]
     }, Point, {

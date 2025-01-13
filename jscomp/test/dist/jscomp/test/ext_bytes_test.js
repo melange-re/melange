@@ -11,7 +11,7 @@ const Stdlib__Bytes = require("melange/bytes.js");
 const Stdlib__Char = require("melange/char.js");
 
 const suites = {
-  contents: /* [] */0
+  contents: /* [] */ 0
 };
 
 const test_id = {
@@ -128,7 +128,7 @@ function escaped(s) {
 }
 
 function starts_with(xs, prefix, p) {
-  const H = /* @__PURE__ */Caml_exceptions.create("H");
+  const H = /* @__PURE__ */ Caml_exceptions.create("H");
   const len1 = xs.length;
   const len2 = prefix.length;
   if (len2 > len1) {

@@ -14,18 +14,18 @@ function fib(n) {
 
 function cons(x, y) {
   return {
-    TAG: /* Cons */0,
+    TAG: /* Cons */ 0,
     _0: x,
     _1: y
   };
 }
 
 function map(f, param) {
-  if (/* tag */typeof param === "number" || typeof param === "string") {
-    return /* Nil */0;
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
+    return /* Nil */ 0;
   } else {
     return {
-      TAG: /* Cons */0,
+      TAG: /* Cons */ 0,
       _0: Curry._1(f, param._0),
       _1: map(f, param._1)
     };
@@ -70,7 +70,7 @@ function v(param) {
   return (6 + param | 0) + u$1 | 0;
 }
 
-const nil = /* Nil */0;
+const nil = /* Nil */ 0;
 
 const len = Stdlib__List.length;
 

@@ -4,7 +4,7 @@
 
 function map(f, param) {
   if (!param) {
-    return /* [] */0;
+    return /* [] */ 0;
   }
   const r = f(param.hd);
   return {
