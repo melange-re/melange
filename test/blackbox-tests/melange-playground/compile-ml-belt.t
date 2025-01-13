@@ -13,7 +13,7 @@
       'const foo = Belt__Belt_List.map;\n' +
       '\n' +
       'export {\n' +
-      '  foo ,\n' +
+      '  foo,\n' +
       '}\n' +
       '/* No side effect */\n',
     warnings: [],

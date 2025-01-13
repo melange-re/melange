@@ -34,7 +34,7 @@ gets used (the correct way to do separate compilation is to use the
   const t = A.t;
   
   export {
-    t ,
+    t,
   }
   /* No side effect */
   $ cat output/app/cjs_file.js

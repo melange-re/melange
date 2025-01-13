@@ -12,7 +12,7 @@
       'const res = Math.imul(1, 2);\n' +
       '\n' +
       'export {\n' +
-      '  res ,\n' +
+      '  res,\n' +
       '}\n' +
       '/* res Not a pure module */\n',
     warnings: [],

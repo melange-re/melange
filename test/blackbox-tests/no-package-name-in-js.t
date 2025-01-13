@@ -81,6 +81,6 @@ Now generate ES6 imports and a `.mjs` extension from the same `.cmj`
   const t = A.t;
   
   export {
-    t ,
+    t,
   }
   /* No side effect */

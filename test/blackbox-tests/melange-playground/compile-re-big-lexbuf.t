@@ -30,7 +30,7 @@ we test that we can re-feed source code properly.
       'const f = "this source code length is waaaaaaaaaay\\n    waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay\\n    waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay\\n    waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay\\n    waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay\\n    waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay\\n    waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay\\n    waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay\\n    waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay\\n    waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay\\n    waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay\\n    waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay waaaaaaaaaay\\n    over 512 chars\\n  ";\n' +
       '\n' +
       'export {\n' +
-      '  f ,\n' +
+      '  f,\n' +
       '}\n' +
       '/* No side effect */\n',
     warnings: [],

@@ -20,7 +20,7 @@
       '};\n' +
       '\n' +
       'export {\n' +
-      '  person1 ,\n' +
+      '  person1,\n' +
       '}\n' +
       '/* No side effect */\n',
     warnings: [],

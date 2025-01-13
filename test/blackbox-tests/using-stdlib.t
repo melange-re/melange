@@ -32,6 +32,6 @@ Check b.js output
       });
   
   export {
-    t ,
+    t,
   }
   /* t Not a pure module */

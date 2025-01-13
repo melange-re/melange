@@ -40,6 +40,6 @@ Mt.from_pair_suites("Es6_module_test", {
     });
 
 export {
-  length ,
+  length,
 }
 /*  Not a pure module */
