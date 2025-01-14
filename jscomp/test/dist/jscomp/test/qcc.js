@@ -1468,8 +1468,7 @@ function stmt(brk, stk) {
           return;
       case "{" :
           return block(brk, stk);
-      default:
-        
+      
     }
   }
   Curry._1(unnext, t);

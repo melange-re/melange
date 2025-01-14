@@ -2257,8 +2257,7 @@ function merge_sequences(_param) {
         case /* Alternative */ 2 :
             _param = Stdlib.$at(l$p._0, param.tl);
             continue;
-        default:
-          
+        
       }
     }
     return {

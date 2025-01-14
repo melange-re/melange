@@ -6847,8 +6847,7 @@ const yyact = [
       case "-." :
           exit = 2;
           break;
-      default:
-        
+      
     }
     if (exit === 2 && match.TAG === /* Pexp_constant */ 1) {
       const f = match._0;
@@ -6899,8 +6898,7 @@ const yyact = [
       case "+." :
           exit = 2;
           break;
-      default:
-        
+      
     }
     if (exit === 2 && desc.TAG === /* Pexp_constant */ 1 && desc._0.TAG === /* Const_float */ 3) {
       return mkexp(desc);
@@ -13218,8 +13216,7 @@ function token$1(lexbuf) {
                                                   _1: /* Unexpected_directive */ 6,
                                                   _2: curr(lexbuf)
                                                 });
-                                        default:
-                                          
+                                        
                                       }
                                     }
                                     if (is_elif(token$1) && directive_parse(token_with_comments, lexbuf)) {
@@ -13294,8 +13291,7 @@ function token$1(lexbuf) {
                                         _1: /* Unexpected_directive */ 6,
                                         _2: curr(lexbuf)
                                       });
-                              default:
-                                
+                              
                             }
                           }
                           if (else_seen && is_elif(token$3)) {
@@ -13330,8 +13326,7 @@ function token$1(lexbuf) {
               }
               _lines = lines$p;
               continue;
-          default:
-            
+          
         }
       } else {
         switch (doc.TAG) {
@@ -13443,8 +13438,7 @@ function token$1(lexbuf) {
               _docs = docs$p;
               _lines = /* NoLine */ 0;
               continue;
-          default:
-            
+          
         }
       }
       attach(lines, docs, lexbuf.lex_start_p);

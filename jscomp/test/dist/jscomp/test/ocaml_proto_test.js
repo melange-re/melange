@@ -734,8 +734,7 @@ function add_loc(loc, exn) {
         case /* Invalid_field_label */ 13 :
         case /* Missing_field_label */ 14 :
             return exn;
-        default:
-          
+        
       }
     }
     

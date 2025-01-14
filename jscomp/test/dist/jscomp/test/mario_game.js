@@ -2366,8 +2366,7 @@ function keydown(evt) {
       case 87 :
           pressed_keys.up = true;
           break;
-      default:
-        
+      
     }
   } else if (match >= 32) {
     switch (match) {
