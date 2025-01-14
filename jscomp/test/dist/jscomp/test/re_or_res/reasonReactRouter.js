@@ -30,7 +30,7 @@ function path(param) {
       let a = raw$2.split("/", undefined);
       let _i = a.length - 1 | 0;
       let _res = /* [] */ 0;
-      while(true) {
+      while (true) {
         const res = _res;
         const i = _i;
         if (i < 0) {
@@ -104,7 +104,7 @@ function urlNotEqual(a, b) {
   } else {
     let _aList = a.path;
     let _bList = b.path;
-    while(true) {
+    while (true) {
       const bList = _bList;
       const aList = _aList;
       if (!aList) {

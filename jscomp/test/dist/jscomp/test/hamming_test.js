@@ -183,7 +183,7 @@ function merge(cmp, l1, l2) {
 }
 
 function iter_interval(f, _l, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const l = _l;
     const stop = param[1];

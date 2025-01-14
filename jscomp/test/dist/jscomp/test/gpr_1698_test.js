@@ -4,7 +4,7 @@
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 function is_number(_expr) {
-  while(true) {
+  while (true) {
     const expr = _expr;
     switch (expr.TAG) {
       case /* Val */ 0 :
@@ -27,7 +27,7 @@ function is_number(_expr) {
 }
 
 function compare(context, state, _a, _b) {
-  while(true) {
+  while (true) {
     const b = _b;
     const a = _a;
     let exit = 0;

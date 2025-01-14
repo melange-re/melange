@@ -6,7 +6,7 @@ const v = {
   contents: 0
 };
 
-while(console.log(String(v.contents)), v.contents = v.contents + 1 | 0, v.contents < 10) {
+while (console.log(String(v.contents)), v.contents = v.contents + 1 | 0, v.contents < 10) {
   
 };
 
@@ -22,7 +22,7 @@ const x = {
   contents: 3
 };
 
-while((function () {
+while ((function () {
       let y = 3;
       console.log(String(x.contents));
       y = y + 1 | 0;

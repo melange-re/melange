@@ -49,7 +49,7 @@ function format_pp_token(param, param$1) {
 }
 
 function advance_loop(state) {
-  while(true) {
+  while (true) {
     const match = peek_queue(state.pp_queue);
     const size = match.elem_size;
     const size$1 = int_of_size(size);

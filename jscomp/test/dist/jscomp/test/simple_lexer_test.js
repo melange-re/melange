@@ -22,7 +22,7 @@ const __ocaml_lex_tables = {
 };
 
 function __ocaml_lex_translate_rec(lexbuf, ___ocaml_lex_state) {
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {

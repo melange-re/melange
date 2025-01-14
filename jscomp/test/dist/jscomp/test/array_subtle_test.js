@@ -70,7 +70,7 @@ eq("File \"jscomp/test/array_subtle_test.ml\", line 23, characters 5-12", [
       Caml_array.get(v, 2)
     ]);
 
-while(v.length > 0) {
+while (v.length > 0) {
   v.pop();
 };
 

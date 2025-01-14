@@ -2120,7 +2120,7 @@ function check_collisions(collid, all_collids, state) {
   const broad = broad_phase(collid, all_collids, state);
   let _cs = broad;
   let _acc = /* [] */ 0;
-  while(true) {
+  while (true) {
     const acc = _acc;
     const cs = _cs;
     if (!cs) {
@@ -2450,7 +2450,7 @@ const Director = {
 };
 
 function mem_loc(checkloc, _loclist) {
-  while(true) {
+  while (true) {
     const loclist = _loclist;
     if (!loclist) {
       return false;
@@ -2520,7 +2520,7 @@ function choose_sblock_typ(typ) {
 }
 
 function avoid_overlap(_lst, currentLst) {
-  while(true) {
+  while (true) {
     const lst = _lst;
     if (!lst) {
       return /* [] */ 0;
@@ -2539,7 +2539,7 @@ function avoid_overlap(_lst, currentLst) {
 }
 
 function trim_edges(_lst, blockw, blockh) {
-  while(true) {
+  while (true) {
     const lst = _lst;
     if (!lst) {
       return /* [] */ 0;
@@ -2579,7 +2579,7 @@ function generate_clouds(cbx, cby, typ, num) {
 }
 
 function generate_coins(_block_coord) {
-  while(true) {
+  while (true) {
     const block_coord = _block_coord;
     const place_coin = Stdlib__Random.$$int(2);
     if (!block_coord) {
@@ -3034,7 +3034,7 @@ function choose_block_pattern(blockw, blockh, cbx, cby, prob) {
 }
 
 function generate_enemies(blockw, blockh, _cbx, _cby, acc) {
-  while(true) {
+  while (true) {
     const cby = _cby;
     const cbx = _cbx;
     if (cbx > blockw - 32) {
@@ -3073,7 +3073,7 @@ function generate_enemies(blockw, blockh, _cbx, _cby, acc) {
 }
 
 function generate_block_enemies(_block_coord) {
-  while(true) {
+  while (true) {
     const block_coord = _block_coord;
     const place_enemy = Stdlib__Random.$$int(20);
     const enemy_typ = Stdlib__Random.$$int(3);
@@ -3102,7 +3102,7 @@ function generate_block_enemies(_block_coord) {
 }
 
 function generate_block_locs(blockw, blockh, _cbx, _cby, _acc) {
-  while(true) {
+  while (true) {
     const acc = _acc;
     const cby = _cby;
     const cbx = _cbx;
@@ -3146,7 +3146,7 @@ function generate_panel(context, blockw, blockh) {
 }
 
 function generate_ground(blockw, blockh, _inc, _acc) {
-  while(true) {
+  while (true) {
     const acc = _acc;
     const inc = _inc;
     if (inc > blockw) {

@@ -8,7 +8,7 @@ const Stdlib__Stack = require("melange/stack.js");
 
 function to_list(v) {
   let acc = /* [] */ 0;
-  while(!Caml_obj.caml_equal(v.c, /* [] */ 0)) {
+  while (!Caml_obj.caml_equal(v.c, /* [] */ 0)) {
     acc = {
       hd: Stdlib__Stack.pop(v),
       tl: acc

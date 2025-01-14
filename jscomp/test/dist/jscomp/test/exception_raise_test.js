@@ -223,7 +223,7 @@ function fff0(x, g) {
 }
 
 function input_lines(ic, _acc) {
-  while(true) {
+  while (true) {
     const acc = _acc;
     let line;
     try {

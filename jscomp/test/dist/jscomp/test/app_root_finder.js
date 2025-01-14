@@ -9,7 +9,7 @@ const Path = require("path");
 const package_json = "package.json";
 
 function find_package_json(_dir) {
-  while(true) {
+  while (true) {
     const dir = _dir;
     if (Fs.existsSync(Path.join(dir, package_json))) {
       return dir;

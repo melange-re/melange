@@ -66,7 +66,7 @@ function get_lines(fname) {
     contents: /* [] */ 0
   };
   try {
-    while(!Stdlib__Scanf.Scanning.end_of_input(ib)) {
+    while (!Stdlib__Scanf.Scanning.end_of_input(ib)) {
       Curry._1(Stdlib__Scanf.bscanf(ib, {
                 TAG: /* Format */ 0,
                 _0: {
@@ -184,7 +184,7 @@ function add_digest_ib(ob, ib) {
     Stdlib__Buffer.add_char(ob, /* '\n' */10);
   };
   try {
-    while(true) {
+    while (true) {
       scan_line(ib, output_line_digest);
     };
     return;

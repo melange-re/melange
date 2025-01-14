@@ -9,7 +9,7 @@ const Stdlib = require("melange/stdlib.js");
 const Stdlib__List = require("melange/list.js");
 
 function cons_enum(_s, _e) {
-  while(true) {
+  while (true) {
     const e = _e;
     const s = _s;
     if (/* tag */ typeof s === "number" || typeof s === "string") {
@@ -35,7 +35,7 @@ function height(param) {
 }
 
 function min_elt(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -52,7 +52,7 @@ function min_elt(_param) {
 }
 
 function max_elt(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -77,7 +77,7 @@ function is_empty(param) {
 }
 
 function cardinal_aux(_acc, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const acc = _acc;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
@@ -94,7 +94,7 @@ function cardinal(s) {
 }
 
 function elements_aux(_accu, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const accu = _accu;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
@@ -114,7 +114,7 @@ function elements(s) {
 }
 
 function iter(f, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
@@ -127,7 +127,7 @@ function iter(f, _param) {
 }
 
 function fold(f, _s, _accu) {
-  while(true) {
+  while (true) {
     const accu = _accu;
     const s = _s;
     if (/* tag */ typeof s === "number" || typeof s === "string") {
@@ -140,7 +140,7 @@ function fold(f, _s, _accu) {
 }
 
 function for_all(p, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return true;
@@ -157,7 +157,7 @@ function for_all(p, _param) {
 }
 
 function exists(p, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
@@ -681,7 +681,7 @@ function invariant(cmp, t) {
 }
 
 function compare_aux(cmp, _e1, _e2) {
-  while(true) {
+  while (true) {
     const e2 = _e2;
     const e1 = _e1;
     if (/* tag */ typeof e1 === "number" || typeof e1 === "string") {

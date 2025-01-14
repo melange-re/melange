@@ -154,7 +154,7 @@ function even(n) {
 }
 
 function even2(_n) {
-  while(true) {
+  while (true) {
     const n = _n;
     if (n === 0) {
       return true;
@@ -172,7 +172,7 @@ const lazy_v = {
 };
 
 function sum(_acc, _n) {
-  while(true) {
+  while (true) {
     const n = _n;
     const acc = _acc;
     if (n <= 0) {

@@ -145,7 +145,7 @@ function Make(Ord) {
     }
   };
   const min_elt = function (_param) {
-    while(true) {
+    while (true) {
       const param = _param;
       if (/* tag */ typeof param === "number" || typeof param === "string") {
         throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -161,7 +161,7 @@ function Make(Ord) {
     };
   };
   const max_elt = function (_param) {
-    while(true) {
+    while (true) {
       const param = _param;
       if (/* tag */ typeof param === "number" || typeof param === "string") {
         throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -250,7 +250,7 @@ function Make(Ord) {
     }
   };
   const mem = function (x, _param) {
-    while(true) {
+    while (true) {
       const param = _param;
       if (/* tag */ typeof param === "number" || typeof param === "string") {
         return false;
@@ -340,7 +340,7 @@ function Make(Ord) {
     }
   };
   const cons_enum = function (_s, _e) {
-    while(true) {
+    while (true) {
       const e = _e;
       const s = _s;
       if (/* tag */ typeof s === "number" || typeof s === "string") {
@@ -357,7 +357,7 @@ function Make(Ord) {
     };
   };
   const compare_aux = function (_e1, _e2) {
-    while(true) {
+    while (true) {
       const e2 = _e2;
       const e1 = _e1;
       if (/* tag */ typeof e1 === "number" || typeof e1 === "string") {
@@ -386,7 +386,7 @@ function Make(Ord) {
     return compare(s1, s2) === 0;
   };
   const subset = function (_s1, _s2) {
-    while(true) {
+    while (true) {
       const s2 = _s2;
       const s1 = _s1;
       if (/* tag */ typeof s1 === "number" || typeof s1 === "string") {
@@ -436,7 +436,7 @@ function Make(Ord) {
     };
   };
   const iter = function (f, _param) {
-    while(true) {
+    while (true) {
       const param = _param;
       if (/* tag */ typeof param === "number" || typeof param === "string") {
         return;
@@ -448,7 +448,7 @@ function Make(Ord) {
     };
   };
   const fold = function (f, _s, _accu) {
-    while(true) {
+    while (true) {
       const accu = _accu;
       const s = _s;
       if (/* tag */ typeof s === "number" || typeof s === "string") {
@@ -460,7 +460,7 @@ function Make(Ord) {
     };
   };
   const for_all = function (p, _param) {
-    while(true) {
+    while (true) {
       const param = _param;
       if (/* tag */ typeof param === "number" || typeof param === "string") {
         return true;
@@ -476,7 +476,7 @@ function Make(Ord) {
     };
   };
   const exists = function (p, _param) {
-    while(true) {
+    while (true) {
       const param = _param;
       if (/* tag */ typeof param === "number" || typeof param === "string") {
         return false;
@@ -540,7 +540,7 @@ function Make(Ord) {
     }
   };
   const elements_aux = function (_accu, _param) {
-    while(true) {
+    while (true) {
       const param = _param;
       const accu = _accu;
       if (/* tag */ typeof param === "number" || typeof param === "string") {
@@ -558,7 +558,7 @@ function Make(Ord) {
     return elements_aux(/* [] */ 0, s);
   };
   const find = function (x, _param) {
-    while(true) {
+    while (true) {
       const param = _param;
       if (/* tag */ typeof param === "number" || typeof param === "string") {
         throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {

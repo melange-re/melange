@@ -33,7 +33,7 @@ function ff(param) {
 const fff = VV.test_primit2(3);
 
 function length_aux(_len, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const len = _len;
     if (!param) {

@@ -195,7 +195,7 @@ function map_end(f, l1, l2) {
 }
 
 function for_all2(pred, _l1, _l2) {
-  while(true) {
+  while (true) {
     const l2 = _l2;
     const l1 = _l1;
     if (!l1) {
@@ -273,7 +273,7 @@ function may_map(f, x) {
 function find_in_path_uncap(path, name) {
   const uname = Caml_bytes.bytes_to_string(Stdlib__Bytes.uncapitalize_ascii(Caml_bytes.bytes_of_string(name)));
   let _param = path;
-  while(true) {
+  while (true) {
     const param = _param;
     if (param) {
       const dir = param.hd;
@@ -931,7 +931,7 @@ function parse_opt(error, active, flags, s) {
     Caml_array.set(error, i, true);
   };
   const get_num = function (_n, _i) {
-    while(true) {
+    while (true) {
       const i = _i;
       const n = _n;
       if (i >= s.length) {
@@ -978,7 +978,7 @@ function parse_opt(error, active, flags, s) {
     ];
   };
   const loop = function (_i) {
-    while(true) {
+    while (true) {
       const i = _i;
       if (i >= s.length) {
         return;
@@ -1776,7 +1776,7 @@ function highlight_dumb(ppf, lb, loc) {
 }
 
 function highlight_locations(ppf, locs) {
-  while(true) {
+  while (true) {
     const num_lines = status.contents;
     if (/* tag */ typeof num_lines === "number" || typeof num_lines === "string") {
       if (num_lines === /* Uninitialised */ 0) {
@@ -1838,7 +1838,7 @@ function show_filename(file) {
   if (absname.contents) {
     const s = Curry._1(Stdlib__Filename.is_relative, file) ? Stdlib__Filename.concat(Caml_sys.caml_sys_getcwd(undefined), file) : file;
     const aux = function (_s) {
-      while(true) {
+      while (true) {
         const s = _s;
         const base = Curry._1(Stdlib__Filename.basename, s);
         const dir = Curry._1(Stdlib__Filename.dirname, s);
@@ -2145,7 +2145,7 @@ function prerr_warning(loc, w) {
   const out_functions = Stdlib__Format.pp_get_formatter_out_functions(ppf, undefined);
   const out_string = function (str, start, len) {
     const count = function (_i, _c) {
-      while(true) {
+      while (true) {
         const c = _c;
         const i = _i;
         if (i === (start + len | 0)) {
@@ -2539,7 +2539,7 @@ function add(id, data, param) {
 }
 
 function find_same(id, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -2554,7 +2554,7 @@ function find_same(id, _param) {
       } else {
         let s = id.stamp;
         let _k = k.previous;
-        while(true) {
+        while (true) {
           const k$1 = _k;
           if (k$1 !== undefined) {
             if (k$1.ident.stamp === s) {
@@ -2575,7 +2575,7 @@ function find_same(id, _param) {
 }
 
 function find_name(name, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -2604,7 +2604,7 @@ function get_all(k) {
 }
 
 function find_all(name, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return /* [] */ 0;
@@ -2623,7 +2623,7 @@ function find_all(name, _param) {
 }
 
 function iter(f, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
@@ -2637,7 +2637,7 @@ function iter(f, _param) {
 }
 
 function same(_p1, _p2) {
-  while(true) {
+  while (true) {
     const p2 = _p2;
     const p1 = _p1;
     switch (p1.TAG) {
@@ -2684,7 +2684,7 @@ function same(_p1, _p2) {
 }
 
 function isfree(id, _id$p) {
-  while(true) {
+  while (true) {
     const id$p = _id$p;
     switch (id$p.TAG) {
       case /* Pident */ 0 :
@@ -2704,7 +2704,7 @@ function isfree(id, _id$p) {
 }
 
 function binding_time(_id) {
-  while(true) {
+  while (true) {
     const id = _id;
     switch (id.TAG) {
       case /* Pident */ 0 :
@@ -2740,7 +2740,7 @@ function name(parenOpt, id) {
 }
 
 function head(_id) {
-  while(true) {
+  while (true) {
     const id = _id;
     switch (id.TAG) {
       case /* Pident */ 0 :
@@ -2763,7 +2763,7 @@ function head(_id) {
 }
 
 function last(_id) {
-  while(true) {
+  while (true) {
     const id = _id;
     switch (id.TAG) {
       case /* Pident */ 0 :
@@ -2779,7 +2779,7 @@ function last(_id) {
 }
 
 function flat(_accu, _s) {
-  while(true) {
+  while (true) {
     const s = _s;
     const accu = _accu;
     switch (s.TAG) {
@@ -3074,7 +3074,7 @@ function add$1(x, data, m) {
 }
 
 function find(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -3091,7 +3091,7 @@ function find(x, _param) {
 }
 
 function find_first(f, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -3103,7 +3103,7 @@ function find_first(f, _param) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.l;
-      while(true) {
+      while (true) {
         const param$1 = _param$1;
         const d0 = _d0;
         const v0 = _v0;
@@ -3130,7 +3130,7 @@ function find_first(f, _param) {
 }
 
 function find_first_opt(f, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
@@ -3140,7 +3140,7 @@ function find_first_opt(f, _param) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.l;
-      while(true) {
+      while (true) {
         const param$1 = _param$1;
         const d0 = _d0;
         const v0 = _v0;
@@ -3167,7 +3167,7 @@ function find_first_opt(f, _param) {
 }
 
 function find_last(f, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -3179,7 +3179,7 @@ function find_last(f, _param) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.r;
-      while(true) {
+      while (true) {
         const param$1 = _param$1;
         const d0 = _d0;
         const v0 = _v0;
@@ -3206,7 +3206,7 @@ function find_last(f, _param) {
 }
 
 function find_last_opt(f, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
@@ -3216,7 +3216,7 @@ function find_last_opt(f, _param) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.r;
-      while(true) {
+      while (true) {
         const param$1 = _param$1;
         const d0 = _d0;
         const v0 = _v0;
@@ -3243,7 +3243,7 @@ function find_last_opt(f, _param) {
 }
 
 function find_opt(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
@@ -3258,7 +3258,7 @@ function find_opt(x, _param) {
 }
 
 function mem(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
@@ -3273,7 +3273,7 @@ function mem(x, _param) {
 }
 
 function min_binding(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -3293,7 +3293,7 @@ function min_binding(_param) {
 }
 
 function min_binding_opt(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
@@ -3311,7 +3311,7 @@ function min_binding_opt(_param) {
 }
 
 function max_binding(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -3331,7 +3331,7 @@ function max_binding(_param) {
 }
 
 function max_binding_opt(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
@@ -3476,7 +3476,7 @@ function add_to_list(x, data, m) {
 }
 
 function iter$1(f, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
@@ -3524,7 +3524,7 @@ function mapi(f, param) {
 }
 
 function fold(f, _m, _accu) {
-  while(true) {
+  while (true) {
     const accu = _accu;
     const m = _m;
     if (/* tag */ typeof m === "number" || typeof m === "string") {
@@ -3537,7 +3537,7 @@ function fold(f, _m, _accu) {
 }
 
 function for_all(p, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return true;
@@ -3554,7 +3554,7 @@ function for_all(p, _param) {
 }
 
 function exists(p, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
@@ -3788,7 +3788,7 @@ function partition(p, param) {
 }
 
 function cons_enum(_m, _e) {
-  while(true) {
+  while (true) {
     const e = _e;
     const m = _m;
     if (/* tag */ typeof m === "number" || typeof m === "string") {
@@ -3809,7 +3809,7 @@ function cons_enum(_m, _e) {
 function compare$2(cmp, m1, m2) {
   let _e1 = cons_enum(m1, /* End */ 0);
   let _e2 = cons_enum(m2, /* End */ 0);
-  while(true) {
+  while (true) {
     const e2 = _e2;
     const e1 = _e1;
     if (/* tag */ typeof e1 === "number" || typeof e1 === "string") {
@@ -3839,7 +3839,7 @@ function compare$2(cmp, m1, m2) {
 function equal$2(cmp, m1, m2) {
   let _e1 = cons_enum(m1, /* End */ 0);
   let _e2 = cons_enum(m2, /* End */ 0);
-  while(true) {
+  while (true) {
     const e2 = _e2;
     const e1 = _e1;
     if (/* tag */ typeof e1 === "number" || typeof e1 === "string") {
@@ -3873,7 +3873,7 @@ function cardinal(param) {
 }
 
 function bindings_aux(_accu, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const accu = _accu;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
@@ -3936,7 +3936,7 @@ function to_seq(m) {
 }
 
 function snoc_enum(_s, _e) {
-  while(true) {
+  while (true) {
     const e = _e;
     const s = _s;
     if (/* tag */ typeof s === "number" || typeof s === "string") {
@@ -3980,7 +3980,7 @@ function to_rev_seq(c) {
 
 function to_seq_from(low, m) {
   const aux = function (low, _m, _c) {
-    while(true) {
+    while (true) {
       const c = _c;
       const m = _m;
       if (/* tag */ typeof m === "number" || typeof m === "string") {
@@ -4294,7 +4294,7 @@ function join$1(l, v, r) {
 }
 
 function min_elt(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -4379,7 +4379,7 @@ function is_empty$1(param) {
 }
 
 function mem$2(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
@@ -4457,7 +4457,7 @@ function diff(s1, s2) {
 }
 
 function cons_enum$1(_s, _e) {
-  while(true) {
+  while (true) {
     const e = _e;
     const s = _s;
     if (/* tag */ typeof s === "number" || typeof s === "string") {
@@ -4477,7 +4477,7 @@ function cons_enum$1(_s, _e) {
 function compare$3(s1, s2) {
   let _e1 = cons_enum$1(s1, /* End */ 0);
   let _e2 = cons_enum$1(s2, /* End */ 0);
-  while(true) {
+  while (true) {
     const e2 = _e2;
     const e1 = _e1;
     if (/* tag */ typeof e1 === "number" || typeof e1 === "string") {
@@ -4505,7 +4505,7 @@ function equal$3(s1, s2) {
 }
 
 function fold$1(f, _s, _accu) {
-  while(true) {
+  while (true) {
     const accu = _accu;
     const s = _s;
     if (/* tag */ typeof s === "number" || typeof s === "string") {
@@ -4518,7 +4518,7 @@ function fold$1(f, _s, _accu) {
 }
 
 function elements_aux(_accu, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const accu = _accu;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
@@ -4753,7 +4753,7 @@ function join$2(l, v, r) {
 }
 
 function min_elt$1(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -4838,7 +4838,7 @@ function is_empty$2(param) {
 }
 
 function mem$3(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
@@ -4916,7 +4916,7 @@ function diff$1(s1, s2) {
 }
 
 function subset$1(_s1, _s2) {
-  while(true) {
+  while (true) {
     const s2 = _s2;
     const s1 = _s1;
     if (/* tag */ typeof s1 === "number" || typeof s1 === "string") {
@@ -4967,7 +4967,7 @@ function subset$1(_s1, _s2) {
 }
 
 function fold$2(f, _s, _accu) {
-  while(true) {
+  while (true) {
     const accu = _accu;
     const s = _s;
     if (/* tag */ typeof s === "number" || typeof s === "string") {
@@ -4980,7 +4980,7 @@ function fold$2(f, _s, _accu) {
 }
 
 function exists$1(p, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
@@ -4997,7 +4997,7 @@ function exists$1(p, _param) {
 }
 
 function elements_aux$1(_accu, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const accu = _accu;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
@@ -5145,7 +5145,7 @@ function add$4(x, data, m) {
 }
 
 function find$1(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -5162,7 +5162,7 @@ function find$1(x, _param) {
 }
 
 function fold$3(f, _m, _accu) {
-  while(true) {
+  while (true) {
     const accu = _accu;
     const m = _m;
     if (/* tag */ typeof m === "number" || typeof m === "string") {
@@ -5228,7 +5228,7 @@ function is_Tunivar(param) {
 const dummy_method = "*dummy method*";
 
 function field_kind_repr(_kind) {
-  while(true) {
+  while (true) {
     const kind = _kind;
     if (/* tag */ typeof kind === "number" || typeof kind === "string") {
       return kind;
@@ -5243,7 +5243,7 @@ function field_kind_repr(_kind) {
 }
 
 function repr(_t) {
-  while(true) {
+  while (true) {
     const t = _t;
     const t$p = t.desc;
     if (/* tag */ typeof t$p === "number" || typeof t$p === "string") {
@@ -5266,7 +5266,7 @@ function repr(_t) {
 }
 
 function commu_repr(_r) {
-  while(true) {
+  while (true) {
     const r = _r;
     if (/* tag */ typeof r === "number" || typeof r === "string") {
       return r;
@@ -5281,7 +5281,7 @@ function commu_repr(_r) {
 }
 
 function row_field_repr_aux(_tl, _fi) {
-  while(true) {
+  while (true) {
     const fi = _fi;
     const tl = _tl;
     if (/* tag */ typeof fi === "number" || typeof fi === "string") {
@@ -5314,7 +5314,7 @@ function row_field_repr_aux(_tl, _fi) {
 }
 
 function rev_concat(_l, _ll) {
-  while(true) {
+  while (true) {
     const ll = _ll;
     const l = _l;
     if (!ll) {
@@ -5327,7 +5327,7 @@ function rev_concat(_l, _ll) {
 }
 
 function row_repr_aux(_ll, _row) {
-  while(true) {
+  while (true) {
     const row = _row;
     const ll = _ll;
     const row$p = repr(row.row_more).desc;
@@ -5357,7 +5357,7 @@ function row_repr_aux(_ll, _row) {
 
 function row_field(tag, row) {
   let _param = row.row_fields;
-  while(true) {
+  while (true) {
     const param = _param;
     if (param) {
       const match = param.hd;
@@ -5378,7 +5378,7 @@ function row_field(tag, row) {
 }
 
 function row_more(_row) {
-  while(true) {
+  while (true) {
     const row = _row;
     const ty = repr(row.row_more);
     const row$p = ty.desc;
@@ -5458,7 +5458,7 @@ function proxy(ty) {
   switch (row.TAG) {
     case /* Tobject */ 4 :
         let _ty = row._0;
-        while(true) {
+        while (true) {
           const ty$1 = _ty;
           const match = ty$1.desc;
           if (/* tag */ typeof match === "number" || typeof match === "string") {
@@ -5506,7 +5506,7 @@ function has_constr_row(t) {
   switch (row.TAG) {
     case /* Tobject */ 4 :
         let _t = row._0;
-        while(true) {
+        while (true) {
           const t$1 = _t;
           const match = repr(t$1).desc;
           if (/* tag */ typeof match === "number" || typeof match === "string") {
@@ -5565,7 +5565,7 @@ function is_constr_row(t) {
 }
 
 function iter_row(f, _row) {
-  while(true) {
+  while (true) {
     const row = _row;
     Stdlib__List.iter((function (param) {
           const match = row_field_repr_aux(/* [] */ 0, param[1]);
@@ -5652,7 +5652,7 @@ function iter_type_expr(f, ty) {
 }
 
 function iter_abbrev(f, _rem) {
-  while(true) {
+  while (true) {
     const rem = _rem;
     if (/* tag */ typeof rem === "number" || typeof rem === "string") {
       return;
@@ -5863,7 +5863,7 @@ function copy_row(f, fixed, row, keep, more) {
 }
 
 function copy_kind(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       if (param === /* Fpresent */ 0) {
@@ -5907,7 +5907,7 @@ function copy_commu(c) {
 }
 
 function copy_type_desc(_keep_namesOpt, f, _ty) {
-  while(true) {
+  while (true) {
     const keep_namesOpt = _keep_namesOpt;
     const ty = _ty;
     const keep_names = keep_namesOpt !== undefined ? keep_namesOpt : false;
@@ -6004,7 +6004,7 @@ function copy_type_desc(_keep_namesOpt, f, _ty) {
       case /* Tpoly */ 10 :
           const tyl = Stdlib__List.map((function (x) {
                 let _ty = Curry._1(f, x);
-                while(true) {
+                while (true) {
                   const ty = _ty;
                   const ty$1 = ty.desc;
                   if (!/* tag */ (typeof ty$1 === "number" || typeof ty$1 === "string")) {
@@ -6191,7 +6191,7 @@ function unmark_class_signature(sign) {
 }
 
 function find_expans(priv, p1, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
@@ -6306,7 +6306,7 @@ function prefixed_label_name(l) {
 }
 
 function extract_label_aux(_hd, l, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const hd = _hd;
     if (param) {
@@ -6499,7 +6499,7 @@ function snapshot(param) {
 }
 
 function rev_log(_accu, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const accu = _accu;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
@@ -6788,7 +6788,7 @@ function free_vars(ty) {
     contents: /* Empty */ 0
   };
   const loop = function (_ty) {
-    while(true) {
+    while (true) {
       const ty = _ty;
       const ty$1 = repr(ty);
       if (ty$1.level < 0) {
@@ -7727,7 +7727,7 @@ function add_text_attrs(dsl, attrs) {
 
 function get_docstring(info, dsl) {
   let _param = dsl;
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return;
@@ -7751,7 +7751,7 @@ function get_docstring(info, dsl) {
 function get_docstrings(dsl) {
   let _acc = /* [] */ 0;
   let _param = dsl;
-  while(true) {
+  while (true) {
     const param = _param;
     const acc = _acc;
     if (!param) {
@@ -10338,7 +10338,7 @@ function add$5(x, data, param) {
 }
 
 function find$2(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -10355,7 +10355,7 @@ function find$2(x, _param) {
 }
 
 function mem$4(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
@@ -10370,7 +10370,7 @@ function mem$4(x, _param) {
 }
 
 function iter$2(f, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
@@ -10383,7 +10383,7 @@ function iter$2(f, _param) {
 }
 
 function fold$4(f, _m, _accu) {
-  while(true) {
+  while (true) {
     const accu = _accu;
     const m = _m;
     if (/* tag */ typeof m === "number" || typeof m === "string") {
@@ -11039,7 +11039,7 @@ function extension_constructor(s, ext) {
 }
 
 function rename_bound_idents(_s, _idents, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const idents = _idents;
     const s = _s;
@@ -11368,7 +11368,7 @@ function fold_name(f) {
     let _stack = /* [] */ 0;
     let _accu = param$1;
     let _param = param;
-    while(true) {
+    while (true) {
       const param$2 = _param;
       const accu = _accu;
       const stack = _stack;
@@ -11647,7 +11647,7 @@ function add$7(x, t) {
 }
 
 function fold$5(f, _s, _accu) {
-  while(true) {
+  while (true) {
     const accu = _accu;
     const s = _s;
     if (/* tag */ typeof s === "number" || typeof s === "string") {
@@ -11660,7 +11660,7 @@ function fold$5(f, _s, _accu) {
 }
 
 function elements_aux$2(_accu, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const accu = _accu;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
@@ -12228,7 +12228,7 @@ function find_modtype_expansion(path, env) {
 }
 
 function is_functor_arg(_path, env) {
-  while(true) {
+  while (true) {
     const path = _path;
     switch (path.TAG) {
       case /* Pident */ 0 :
@@ -12922,7 +12922,7 @@ const iter_env_cont = {
 };
 
 function scrape_alias_safe(env, _mty) {
-  while(true) {
+  while (true) {
     const mty = _mty;
     if (mty.TAG !== /* Mty_alias */ 3) {
       return true;
@@ -13197,7 +13197,7 @@ function is_Tlink(param) {
 
 function gadt_instance_level(env, t) {
   let _param = env.gadt_instances;
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return;
@@ -14669,7 +14669,7 @@ function add_item(comp, env) {
 }
 
 function add_signature(_sg, _env) {
-  while(true) {
+  while (true) {
     const env = _env;
     const sg = _sg;
     if (!sg) {
@@ -22917,7 +22917,7 @@ Stdlib__Hashtbl.replace(directive_built_in_values, "WORD_SIZE", {
 
 function semantic_version_parse(str, start, last_index) {
   const aux = function (_start, _acc, last_index) {
-    while(true) {
+    while (true) {
       const acc = _acc;
       const start = _start;
       if (start > last_index) {
@@ -23110,7 +23110,7 @@ function directive_parse(token_with_comments, lexbuf) {
       return v;
     }
     let _param;
-    while(true) {
+    while (true) {
       const t = Curry._1(token_with_comments, lexbuf);
       if (/* tag */ typeof t === "number" || typeof t === "string") {
         switch (t) {
@@ -24130,7 +24130,7 @@ function remove_underscores(s) {
   const b = Caml_bytes.caml_create_bytes(l);
   let _src = 0;
   let _dst = 0;
-  while(true) {
+  while (true) {
     const dst = _dst;
     const src = _src;
     if (src >= l) {
@@ -24450,7 +24450,7 @@ const __ocaml_lex_tables = {
 function token(lexbuf) {
   lexbuf.lex_mem = Caml_array.make(8, -1);
   let ___ocaml_lex_state = 0;
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -24943,7 +24943,7 @@ function comment(lexbuf) {
 function string(lexbuf) {
   lexbuf.lex_mem = Caml_array.make(2, -1);
   let ___ocaml_lex_state = 164;
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -24997,7 +24997,7 @@ function string(lexbuf) {
 }
 
 function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -25179,7 +25179,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
 }
 
 function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -25271,7 +25271,7 @@ function token$1(lexbuf) {
     set_pre_docstrings(pre_pos, b);
   };
   const loop = function (_lines, _docs, lexbuf) {
-    while(true) {
+    while (true) {
       const docs = _docs;
       const lines = _lines;
       const doc = token_with_comments(lexbuf);
@@ -25333,7 +25333,7 @@ function token$1(lexbuf) {
                                 return Curry._1(cont, lexbuf);
                               } else {
                                 let _param;
-                                while(true) {
+                                while (true) {
                                   const token = token_with_comments(lexbuf);
                                   if (Caml_obj.caml_equal(token, /* EOF */ 25)) {
                                     throw new Caml_js_exceptions.MelangeError($$Error$4, {
@@ -25401,7 +25401,7 @@ function token$1(lexbuf) {
                 switch (if_then_else$1) {
                   case /* Dir_if_true */ 0 :
                       let _else_seen = Caml_obj.caml_equal(match, /* ELSE */ 23);
-                      while(true) {
+                      while (true) {
                         const else_seen = _else_seen;
                         const token$2 = token_with_comments(lexbuf);
                         if (Caml_obj.caml_equal(token$2, /* EOF */ 25)) {
@@ -25614,7 +25614,7 @@ function init$1(param) {
 }
 
 function skip_phrase(lexbuf) {
-  while(true) {
+  while (true) {
     try {
       const match = token$1(lexbuf);
       if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
@@ -25815,7 +25815,7 @@ const idents = {
 };
 
 function bound_idents(_pat) {
-  while(true) {
+  while (true) {
     const pat = _pat;
     const d = pat.pat_desc;
     if (/* tag */ typeof d === "number" || typeof d === "string") {
@@ -28274,7 +28274,7 @@ function object_fields(ty) {
 
 function flatten_fields(ty) {
   const flatten = function (_l, _ty) {
-    while(true) {
+    while (true) {
       const ty = _ty;
       const l = _l;
       const ty$1 = repr(ty);
@@ -28334,7 +28334,7 @@ function associate_fields(fields1, fields2) {
     fields1,
     fields2
   ];
-  while(true) {
+  while (true) {
     const param = _param;
     const s$p = _s$p;
     const s = _s;
@@ -28411,7 +28411,7 @@ function associate_fields(fields1, fields2) {
 }
 
 function object_row(_ty) {
-  while(true) {
+  while (true) {
     const ty = _ty;
     const ty$1 = repr(ty);
     const match = ty$1.desc;
@@ -28469,7 +28469,7 @@ function close_object(ty) {
   }
   if (match.TAG === /* Tobject */ 4) {
     let _ty = match._0;
-    while(true) {
+    while (true) {
       const ty$1 = _ty;
       const ty$2 = repr(ty$1);
       const match$1 = ty$2.desc;
@@ -28525,7 +28525,7 @@ function row_variable(ty) {
   }
   if (match.TAG === /* Tobject */ 4) {
     let _ty = match._0;
-    while(true) {
+    while (true) {
       const ty$1 = _ty;
       const ty$2 = repr(ty$1);
       const match$1 = ty$2.desc;
@@ -28636,7 +28636,7 @@ function hide_private_methods(ty) {
 }
 
 function signature_of_class_type(_sign) {
-  while(true) {
+  while (true) {
     const sign = _sign;
     switch (sign.TAG) {
       case /* Cty_signature */ 1 :
@@ -28651,7 +28651,7 @@ function signature_of_class_type(_sign) {
 }
 
 function class_type_arity(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     switch (param.TAG) {
       case /* Cty_constr */ 0 :
@@ -28712,7 +28712,7 @@ function merge_row_fields(fi1, fi2) {
   let _pairs = /* [] */ 0;
   let _fi1 = sort_row_fields(fi1);
   let _fi2 = sort_row_fields(fi2);
-  while(true) {
+  while (true) {
     const fi2$1 = _fi2;
     const fi1$1 = _fi1;
     const pairs = _pairs;
@@ -28791,7 +28791,7 @@ function filter_row_fields(erase, param) {
 const Non_closed0 = /* @__PURE__ */ Caml_exceptions.create("Ocaml_typedtree_test.Ctype.Non_closed0");
 
 function closed_schema_rec(_ty) {
-  while(true) {
+  while (true) {
     const ty = _ty;
     const ty$1 = repr(ty);
     if (ty$1.level < 0) {
@@ -28858,7 +28858,7 @@ const really_closed = {
 };
 
 function free_vars_rec(_real, _ty) {
-  while(true) {
+  while (true) {
     const ty = _ty;
     const real = _real;
     const ty$1 = repr(ty);
@@ -29169,7 +29169,7 @@ function generalize_structure$1(var_level, ty) {
 }
 
 function generalize_spine(_ty) {
-  while(true) {
+  while (true) {
     const ty = _ty;
     const ty$1 = repr(ty);
     if (ty$1.level < current_level.contents || ty$1.level === 100000000) {
@@ -29236,7 +29236,7 @@ function get_level(env, p) {
 }
 
 function normalize_package_path(env, _p) {
-  while(true) {
+  while (true) {
     const p = _p;
     let t;
     try {
@@ -29262,7 +29262,7 @@ function normalize_package_path(env, _p) {
 }
 
 function update_level(env, level, _ty) {
-  while(true) {
+  while (true) {
     const ty = _ty;
     const ty$1 = repr(ty);
     if (ty$1.level <= level) {
@@ -29420,7 +29420,7 @@ function generalize_contravariant(env) {
 }
 
 function generalize_expansive(env, var_level, _ty) {
-  while(true) {
+  while (true) {
     const ty = _ty;
     const ty$1 = repr(ty);
     if (ty$1.level === 100000000) {
@@ -29671,7 +29671,7 @@ function compute_univars(ty) {
 }
 
 function find_repr(p1, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
@@ -31131,7 +31131,7 @@ function merge$2(r, b) {
 function occur(env, ty0, ty) {
   const old = type_changed.contents;
   try {
-    while(type_changed.contents = false, occur_rec(env, /* [] */ 0, ty0, ty), type_changed.contents) {
+    while (type_changed.contents = false, occur_rec(env, /* [] */ 0, ty0, ty), type_changed.contents) {
       
     };
     return merge$2(type_changed, old);
@@ -31166,7 +31166,7 @@ function occur_in(env, ty0, t) {
 }
 
 function unify_univar(t1, t2, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (param) {
       const match = param.hd;
@@ -31241,7 +31241,7 @@ function occur_univar(env, ty) {
     contents: /* Empty */ 0
   };
   const occur_rec = function (_bound, _ty) {
-    while(true) {
+    while (true) {
       const ty = _ty;
       const bound = _bound;
       const ty$1 = repr(ty);
@@ -31377,7 +31377,7 @@ function univars_escape(env, univar_pairs, vl, ty) {
     contents: /* Empty */ 0
   };
   const occur = function (_t) {
-    while(true) {
+    while (true) {
       const t = _t;
       const t$1 = repr(t);
       if (Curry._2(mem$3, t$1, visited.contents)) {
@@ -31513,7 +31513,7 @@ const univar_pairs = {
 };
 
 function has_cached_expansion(p, _abbrev) {
-  while(true) {
+  while (true) {
     const abbrev = _abbrev;
     if (/* tag */ typeof abbrev === "number" || typeof abbrev === "string") {
       return false;
@@ -31776,7 +31776,7 @@ function expands_to_datatype(env, ty) {
 }
 
 function mcomp(type_pairs, env, _t1, _t2) {
-  while(true) {
+  while (true) {
     const t2 = _t2;
     const t1 = _t1;
     if (t1 === t2) {
@@ -32080,7 +32080,7 @@ function mcomp(type_pairs, env, _t1, _t2) {
                           let ys = match$5._0;
                           let _x = xs;
                           let _y = ys;
-                          while(true) {
+                          while (true) {
                             const y = _y;
                             const x = _x;
                             if (x) {
@@ -32604,7 +32604,7 @@ function mcomp_type_option(type_pairs, env, t, t$p) {
 
 function mcomp_record_description(type_pairs, env) {
   const iter = function (_x, _y) {
-    while(true) {
+    while (true) {
       const y = _y;
       const x = _x;
       if (x) {
@@ -32803,7 +32803,7 @@ function complete_type_list(allow_absentOpt, env, nl1, lv2, mty2, nl2, tl2) {
   const id2 = create("Pkg");
   const env$p = add_module$1(undefined, id2, mty2, env);
   const complete = function (_nl1, ntl2) {
-    while(true) {
+    while (true) {
       const nl1 = _nl1;
       if (!nl1) {
         return ntl2;
@@ -33077,7 +33077,7 @@ function unify(env, t1, t2) {
 
 function unify2(env, t1, t2) {
   const expand_both = function (_t1$p$p, _t2$p$p) {
-    while(true) {
+    while (true) {
       const t2$p$p = _t2$p$p;
       const t1$p$p = _t1$p$p;
       const t1$p = expand_head_unif(env.contents, t1);
@@ -33404,7 +33404,7 @@ function unify_row(env, row1, row2) {
           try {
             let _f1 = f1;
             let _f2 = f2;
-            while(true) {
+            while (true) {
               const f2$1 = _f2;
               const f1$1 = _f1;
               const f1$2 = row_field_repr_aux(/* [] */ 0, f1$1);
@@ -33619,7 +33619,7 @@ function unify_row(env, row1, row2) {
                   const tl1$1 = Stdlib__List.map(repr, tl1);
                   const tl2$1 = Stdlib__List.map(repr, tl2);
                   const remq = function (tl, _param) {
-                    while(true) {
+                    while (true) {
                       const param = _param;
                       if (!param) {
                         return /* [] */ 0;
@@ -34594,7 +34594,7 @@ function filter_arrow(env, t, l) {
 }
 
 function filter_method_field(env, name, priv, _ty) {
-  while(true) {
+  while (true) {
     const ty = _ty;
     const ty$1 = expand_head_trace(env, ty);
     const match = ty$1.desc;
@@ -35450,7 +35450,7 @@ function moregeneral(env, inst_nongen, pat_sch, subj_sch) {
 }
 
 function rigidify_rec(vars, _ty) {
-  while(true) {
+  while (true) {
     const ty = _ty;
     const ty$1 = repr(ty);
     if (ty$1.level < 0) {
@@ -35843,7 +35843,7 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                 if (match$3.TAG === /* Tvariant */ 8) {
                   let row1 = match$2._0;
                   let _row2 = match$3._0;
-                  while(true) {
+                  while (true) {
                     const row2 = _row2;
                     const match$4 = expand_head_rigid(env, row_more(row2));
                     const row2$1 = match$4.desc;
@@ -36143,7 +36143,7 @@ function eqtype_list(rename, type_pairs, subst, env, tl1, tl2) {
 }
 
 function eqtype_fields(rename, type_pairs, subst, env, ty1, _ty2) {
-  while(true) {
+  while (true) {
     const ty2 = _ty2;
     const match = flatten_fields(ty1);
     const rest1 = match[1];
@@ -37020,7 +37020,7 @@ function collect(l) {
 }
 
 function filter_visited(_l) {
-  while(true) {
+  while (true) {
     const l = _l;
     if (!l) {
       return /* [] */ 0;
@@ -37649,7 +37649,7 @@ function subtype_error(env, trace) {
 }
 
 function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
-  while(true) {
+  while (true) {
     const cstrs = _cstrs;
     const t2 = _t2;
     const t1 = _t1;
@@ -38826,7 +38826,7 @@ const nondep_hash = Curry._1(TypeHash.create, 47);
 const nondep_variants = Curry._1(TypeHash.create, 17);
 
 function nondep_type_rec(env, id, _ty) {
-  while(true) {
+  while (true) {
     const ty = _ty;
     const ty$1 = ty.desc;
     let exit = 0;
@@ -39236,7 +39236,7 @@ function nondep_class_signature(env, id, sign) {
 }
 
 function nondep_class_type(env, id, _sign) {
-  while(true) {
+  while (true) {
     const sign = _sign;
     switch (sign.TAG) {
       case /* Cty_constr */ 0 :
@@ -39498,7 +39498,7 @@ function value_ident(ppf, name) {
 }
 
 function print_list(pr, sep, ppf, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return;
@@ -40520,7 +40520,7 @@ function print_simple_out_type(ppf, s) {
 }
 
 function print_fields(rest, ppf, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       if (rest !== undefined) {
@@ -40726,7 +40726,7 @@ function print_row_field(ppf, param) {
 }
 
 function print_typlist(print_elem, sep, ppf, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return;
@@ -41746,7 +41746,7 @@ function print_out_signature(ppf, param) {
     switch (item._1) {
       case /* Oext_first */ 0 :
           const gather_extensions = function (_acc, _items) {
-            while(true) {
+            while (true) {
               const items = _items;
               const acc = _acc;
               if (!items) {
@@ -42781,7 +42781,7 @@ function print_out_sig_item(ppf, param) {
                             });
                       };
                       let _param = param$1;
-                      while(true) {
+                      while (true) {
                         const param$2 = _param;
                         if (!param$2) {
                           return;
@@ -43580,7 +43580,7 @@ function raw_list(pr, ppf, param) {
 }
 
 function safe_kind_repr(_v, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const v = _v;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
@@ -43607,7 +43607,7 @@ function safe_kind_repr(_v, _param) {
 }
 
 function safe_commu_repr(_v, _r) {
-  while(true) {
+  while (true) {
     const r = _r;
     const v = _v;
     if (/* tag */ typeof r === "number" || typeof r === "string") {
@@ -43631,7 +43631,7 @@ function safe_commu_repr(_v, _r) {
 }
 
 function safe_repr(_v, _t) {
-  while(true) {
+  while (true) {
     const t = _t;
     const v = _v;
     const t$1 = t.desc;
@@ -43655,7 +43655,7 @@ function safe_repr(_v, _t) {
 }
 
 function list_of_memo(_rem) {
-  while(true) {
+  while (true) {
     const rem = _rem;
     if (/* tag */ typeof rem === "number" || typeof rem === "string") {
       return /* [] */ 0;
@@ -45105,7 +45105,7 @@ const printing_pers = {
 };
 
 function compare$4(_p1, _p2) {
-  while(true) {
+  while (true) {
     const p2 = _p2;
     const p1 = _p1;
     switch (p1.TAG) {
@@ -45276,7 +45276,7 @@ function add$8(x, data, m) {
 }
 
 function find$4(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -45314,7 +45314,7 @@ function index(l, x) {
 }
 
 function uniq(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return true;
@@ -45536,7 +45536,7 @@ function best_type_path(p) {
   const p$p = match[0];
   const get_path = function (param) {
     let r = Curry._2(find$4, p$p, printing_map.contents);
-    while(true) {
+    while (true) {
       const p$p$1 = r.contents;
       if (p$p$1.TAG !== /* Paths */ 0) {
         return p$p$1._0;
@@ -45568,7 +45568,7 @@ function best_type_path(p) {
           });
     };
   };
-  while((function () {
+  while ((function () {
         let tmp = false;
         if (Caml_obj.caml_notequal(printing_cont.contents, /* [] */ 0)) {
           let tmp$1;
@@ -45653,7 +45653,7 @@ function add_named_var(ty) {
 }
 
 function new_name(_param) {
-  while(true) {
+  while (true) {
     let name;
     if (name_counter.contents < 26) {
       const c = Stdlib__Char.chr(97 + name_counter.contents | 0);
@@ -45702,7 +45702,7 @@ function name_of_type(t) {
             contents: name$1
           };
           let i = 0;
-          while(Stdlib__List.exists((function (param) {
+          while (Stdlib__List.exists((function (param) {
                   return current_name.contents === param[1];
                 }), names.contents)) {
             current_name.contents = name$1 + String(i);
@@ -45822,7 +45822,7 @@ function namable_row(row) {
 }
 
 function mark_loops_rec(_visited, _ty) {
-  while(true) {
+  while (true) {
     const ty = _ty;
     const visited = _visited;
     const ty$1 = repr(ty);
@@ -46749,7 +46749,7 @@ function method_type(param) {
 }
 
 function prepare_class_type(params, _sign) {
-  while(true) {
+  while (true) {
     const sign = _sign;
     switch (sign.TAG) {
       case /* Cty_constr */ 0 :
@@ -46792,7 +46792,7 @@ function prepare_class_type(params, _sign) {
 }
 
 function tree_of_class_type(sch, params, _sign) {
-  while(true) {
+  while (true) {
     const sign = _sign;
     switch (sign.TAG) {
       case /* Cty_constr */ 0 :
@@ -48893,7 +48893,7 @@ function explanation(unif, mis, ppf) {
 }
 
 function path_same_name(_p1, _p2) {
-  while(true) {
+  while (true) {
     const p2 = _p2;
     const p1 = _p1;
     switch (p1.TAG) {
@@ -48955,7 +48955,7 @@ function type_same_name(t1, t2) {
 }
 
 function trace_same_names(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return;
@@ -50240,7 +50240,7 @@ function report_type_mismatch(first, second, decl, ppf) {
 }
 
 function compare_variants(env, decl1, decl2, _n, _cstrs1, _cstrs2) {
-  while(true) {
+  while (true) {
     const cstrs2 = _cstrs2;
     const cstrs1 = _cstrs1;
     const n = _n;
@@ -50356,7 +50356,7 @@ function compare_variants(env, decl1, decl2, _n, _cstrs1, _cstrs2) {
 }
 
 function compare_records(env, decl1, decl2, _n, _labels1, _labels2) {
-  while(true) {
+  while (true) {
     const labels2 = _labels2;
     const labels1 = _labels1;
     const n = _n;
@@ -50835,7 +50835,7 @@ strengthen.contents = strengthen$1;
 
 function nondep_supertype(env, mid, mty) {
   const nondep_mty = function (env, va, _mty) {
-    while(true) {
+    while (true) {
       const mty = _mty;
       switch (mty.TAG) {
         case /* Mty_ident */ 0 :
@@ -51117,7 +51117,7 @@ function type_paths(env, p, mty) {
 }
 
 function type_paths_sig(_env, p, _pos, _sg) {
-  while(true) {
+  while (true) {
     const sg = _sg;
     const pos = _pos;
     const env = _env;
@@ -51171,7 +51171,7 @@ function type_paths_sig(_env, p, _pos, _sg) {
 }
 
 function contains_type(env, _path) {
-  while(true) {
+  while (true) {
     const path = _path;
     switch (path.TAG) {
       case /* Mty_ident */ 0 :
@@ -51485,7 +51485,7 @@ function union$4(s1, s2) {
 }
 
 function fold$6(f, _s, _accu) {
-  while(true) {
+  while (true) {
     const accu = _accu;
     const s = _s;
     if (/* tag */ typeof s === "number" || typeof s === "string") {
@@ -51624,7 +51624,7 @@ function add$10(x, data, m) {
 }
 
 function find$5(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -51837,7 +51837,7 @@ function split$4(x, param) {
 }
 
 function mem$5(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
@@ -51890,7 +51890,7 @@ function get_prefixes(param) {
 }
 
 function get_arg_paths(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     switch (param.TAG) {
       case /* Pident */ 0 :
@@ -51907,7 +51907,7 @@ function get_arg_paths(_param) {
 }
 
 function rollback_path(subst, _p) {
-  while(true) {
+  while (true) {
     const p = _p;
     try {
       return {
@@ -52040,7 +52040,7 @@ function collect_arg_paths(mty) {
 }
 
 function remove_aliases(env, excl, _mty) {
-  while(true) {
+  while (true) {
     const mty = _mty;
     switch (mty.TAG) {
       case /* Mty_signature */ 1 :
@@ -52517,7 +52517,7 @@ function modtypes(env, cxt, subst, mty1, mty2) {
 }
 
 function try_modtypes(env, cxt, subst, _mty1, mty2) {
-  while(true) {
+  while (true) {
     const mty1 = _mty1;
     switch (mty1.TAG) {
       case /* Mty_ident */ 0 :
@@ -52758,7 +52758,7 @@ function signatures(env, cxt, subst, sig1, sig2) {
       ], sig1);
   const id_pos_list = match[0];
   const build_component_table = function (_pos, _tbl, _param) {
-    while(true) {
+    while (true) {
       const param = _param;
       const tbl = _tbl;
       const pos = _pos;
@@ -52792,7 +52792,7 @@ function signatures(env, cxt, subst, sig1, sig2) {
         }
       }), 0, sig2);
   const pair_components = function (subst, paired, _unpaired, _param) {
-    while(true) {
+    while (true) {
       const param = _param;
       const unpaired = _unpaired;
       if (param) {
@@ -52892,7 +52892,7 @@ function signatures(env, cxt, subst, sig1, sig2) {
         const cc = signature_components(env, new_env, cxt, subst, Stdlib__List.rev(paired));
         if (len1 === len2) {
           const is_identity_coercion = function (_pos, _param) {
-            while(true) {
+            while (true) {
               const param = _param;
               const pos = _pos;
               if (!param) {
@@ -54277,7 +54277,7 @@ function path_of_context(param) {
         _0: id._0
       };
       let _param = param.tl;
-      while(true) {
+      while (true) {
         const param$1 = _param;
         const path = _path;
         if (!param$1) {
@@ -54676,7 +54676,7 @@ function records_args(l1, l2) {
   let _r2 = /* [] */ 0;
   let _l1 = l1;
   let _l2 = l2;
-  while(true) {
+  while (true) {
     const l2$1 = _l2;
     const l1$1 = _l1;
     const r2 = _r2;
@@ -54760,7 +54760,7 @@ function records_args(l1, l2) {
 }
 
 function compat(_p, _q) {
-  while(true) {
+  while (true) {
     const q = _q;
     const p = _p;
     const match = p.pat_desc;
@@ -55001,7 +55001,7 @@ function compat(_p, _q) {
 }
 
 function compats(_ps, _qs) {
-  while(true) {
+  while (true) {
     const qs = _qs;
     const ps = _ps;
     if (ps) {
@@ -56178,7 +56178,7 @@ function get_field(pos, arg) {
 }
 
 function simple_match_args(p1, _p2) {
-  while(true) {
+  while (true) {
     const p2 = _p2;
     const args = p2.pat_desc;
     if (!/* tag */ (typeof args === "number" || typeof args === "string")) {
@@ -56271,7 +56271,7 @@ function simple_match_args(p1, _p2) {
 }
 
 function normalize_pat(_q) {
-  while(true) {
+  while (true) {
     const q = _q;
     const args = q.pat_desc;
     if (/* tag */ typeof args === "number" || typeof args === "string") {
@@ -56347,7 +56347,7 @@ function discr_pat(q, pss) {
   if (/* tag */ typeof tmp === "number" || typeof tmp === "string" || tmp.TAG === /* Tpat_record */ 6) {
     let _acc = q$1;
     let _pss = pss;
-    while(true) {
+    while (true) {
       const pss$1 = _pss;
       const acc = _acc;
       if (!pss$1) {
@@ -56582,7 +56582,7 @@ function do_set_args(erase_mutable, q, r) {
 
 function filter_one(q, pss) {
   const filter_rec = function (_param) {
-    while(true) {
+    while (true) {
       const param = _param;
       if (!param) {
         return /* [] */ 0;
@@ -56640,7 +56640,7 @@ function filter_one(q, pss) {
 
 function filter_extra(pss) {
   const filter_rec = function (_param) {
-    while(true) {
+    while (true) {
       const param = _param;
       if (!param) {
         return /* [] */ 0;
@@ -56735,7 +56735,7 @@ function filter_all(pat0, pss) {
     };
   };
   const filter_rec = function (_env, _param) {
-    while(true) {
+    while (true) {
       const param = _param;
       const env = _env;
       if (!param) {
@@ -56814,7 +56814,7 @@ function filter_all(pat0, pss) {
   }
   let _env = filter_rec(tmp, pss);
   let _param = pss;
-  while(true) {
+  while (true) {
     const param = _param;
     const env = _env;
     if (!param) {
@@ -56895,7 +56895,7 @@ function set_last(a, param) {
 }
 
 function mark_partial(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return /* [] */ 0;
@@ -57034,7 +57034,7 @@ function generalized_constructor(x) {
 
 function clean_env(env) {
   const loop = function (_param) {
-    while(true) {
+    while (true) {
       const param = _param;
       if (!param) {
         return /* [] */ 0;
@@ -57278,7 +57278,7 @@ function pat_of_constrs(ex_pat, param) {
 }
 
 function get_variant_constructors(env, _ty) {
-  while(true) {
+  while (true) {
     const ty = _ty;
     const match = repr(ty).desc;
     if (/* tag */ typeof match === "number" || typeof match === "string") {
@@ -57302,7 +57302,7 @@ function get_variant_constructors(env, _ty) {
 }
 
 function map_filter(f, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return /* [] */ 0;
@@ -57346,7 +57346,7 @@ function build_other_constant(proj, make, first, next, p, env) {
         return Curry._1(proj, param[0].pat_desc);
       }), env);
   let _i = first;
-  while(true) {
+  while (true) {
     const i = _i;
     if (!Stdlib__List.mem(i, all)) {
       return make_pat(Curry._1(make, i), p.pat_type, p.pat_env);
@@ -57446,7 +57446,7 @@ function build_other(ext, env) {
                   }
                 }
               };
-              while(true) {
+              while (true) {
                 const param = _param;
                 if (!param) {
                   return omega;
@@ -57455,7 +57455,7 @@ function build_other(ext, env) {
                 try {
                   let _i = match[0];
                   let imax = match[1];
-                  while(true) {
+                  while (true) {
                     const i = _i;
                     if (i > imax) {
                       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -57768,7 +57768,7 @@ function build_other(ext, env) {
                   });
             }), env);
         let _l = 0;
-        while(true) {
+        while (true) {
           const l = _l;
           if (!Stdlib__List.mem(l, all_lengths)) {
             return make_pat({
@@ -57816,7 +57816,7 @@ function build_other_gadt(ext, env) {
 }
 
 function has_instance(_p) {
-  while(true) {
+  while (true) {
     const p = _p;
     const p$1 = p.pat_desc;
     if (/* tag */ typeof p$1 === "number" || typeof p$1 === "string") {
@@ -57859,7 +57859,7 @@ function has_instance(_p) {
 }
 
 function has_instances(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return true;
@@ -57873,7 +57873,7 @@ function has_instances(_param) {
 }
 
 function satisfiable(_pss, _qs) {
-  while(true) {
+  while (true) {
     const qs = _qs;
     const pss = _pss;
     if (!pss) {
@@ -58027,7 +58027,7 @@ function exhaust(ext, pss, n) {
     };
     if (full_match(true, false, constrs) && !should_extend(ext, constrs)) {
       let _param = constrs;
-      while(true) {
+      while (true) {
         const param = _param;
         if (!param) {
           return /* Rnone */ 0;
@@ -58232,7 +58232,7 @@ function exhaust_gadt$1(ext, pss, n) {
 }
 
 function pressure_variants(_tdefs, _pss) {
-  while(true) {
+  while (true) {
     const pss = _pss;
     const tdefs = _tdefs;
     if (!pss) {
@@ -58294,7 +58294,7 @@ function make_row(ps) {
 }
 
 function unalias$1(_p) {
-  while(true) {
+  while (true) {
     const p = _p;
     const match = p.pat_desc;
     if (/* tag */ typeof match === "number" || typeof match === "string") {
@@ -58332,7 +58332,7 @@ function is_var_column(rs) {
 }
 
 function or_args(_p) {
-  while(true) {
+  while (true) {
     const p = _p;
     const match = p.pat_desc;
     if (/* tag */ typeof match === "number" || typeof match === "string") {
@@ -58438,7 +58438,7 @@ function discr_pat$1(q, rs) {
 
 function filter_one$1(q, rs) {
   const filter_rec = function (_rs) {
-    while(true) {
+    while (true) {
       const rs = _rs;
       if (!rs) {
         return /* [] */ 0;
@@ -58582,7 +58582,7 @@ function extract_columns(pss, qs) {
 }
 
 function every_satisfiables(_pss, _qs) {
-  while(true) {
+  while (true) {
     const qs = _qs;
     const pss = _pss;
     const match = qs.active;
@@ -58785,7 +58785,7 @@ function every_both(pss, qs, q1, q2) {
 }
 
 function le_pat(_p, _q) {
-  while(true) {
+  while (true) {
     const q = _q;
     const p = _p;
     const match = p.pat_desc;
@@ -58955,7 +58955,7 @@ function le_pat(_p, _q) {
 }
 
 function le_pats(_ps, _qs) {
-  while(true) {
+  while (true) {
     const qs = _qs;
     const ps = _ps;
     if (!ps) {
@@ -58975,7 +58975,7 @@ function le_pats(_ps, _qs) {
 
 function get_mins(le, ps) {
   const select_rec = function (_r, _param) {
-    while(true) {
+    while (true) {
       const param = _param;
       const r = _r;
       if (!param) {
@@ -59014,7 +59014,7 @@ function pressure_variants$1(tdefs, patl) {
 }
 
 function initial_matrix(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return /* [] */ 0;
@@ -59080,7 +59080,7 @@ function do_filter_var(param) {
 
 function do_filter_one(q, pss) {
   const filter_rec = function (_param) {
-    while(true) {
+    while (true) {
       const param = _param;
       if (!param) {
         return /* [] */ 0;
@@ -59151,7 +59151,7 @@ function do_filter_one(q, pss) {
 }
 
 function do_match(_pss, _qs) {
-  while(true) {
+  while (true) {
     const qs = _qs;
     const pss = _pss;
     if (qs) {
@@ -59213,7 +59213,7 @@ function check_partial_all(v, casel) {
 }
 
 function get_first(f, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return;
@@ -59270,7 +59270,7 @@ function conv(typed) {
   const constrs = Stdlib__Hashtbl.create(undefined, 0);
   const labels = Stdlib__Hashtbl.create(undefined, 0);
   const loop = function (_pat) {
-    while(true) {
+    while (true) {
       const pat = _pat;
       const lst = pat.pat_desc;
       if (/* tag */ typeof lst === "number" || typeof lst === "string") {
@@ -59511,7 +59511,7 @@ function extendable_path(path) {
 }
 
 function collect_paths_from_pat(_r, _p) {
-  while(true) {
+  while (true) {
     const p = _p;
     const r = _r;
     const p$1 = p.pat_desc;
@@ -60632,7 +60632,7 @@ function transl_type(env, policy, styp) {
           const match$2 = lookup_type$1(lid$1.txt, env);
           const decl$1 = match$2[1];
           const check = function (_decl) {
-            while(true) {
+            while (true) {
               const decl = _decl;
               const ty = decl.type_manifest;
               if (ty !== undefined) {
@@ -62664,7 +62664,7 @@ function snd3(param) {
 
 function iter_expression(f, e) {
   const expr = function (_e) {
-    while(true) {
+    while (true) {
       const e = _e;
       Curry._1(f, e);
       const pel = e.pexp_desc;
@@ -62754,7 +62754,7 @@ function iter_expression(f, e) {
     expr(x.pvb_expr);
   };
   const module_expr = function (_me) {
-    while(true) {
+    while (true) {
       const me = _me;
       const str = me.pmod_desc;
       switch (str.TAG) {
@@ -62803,7 +62803,7 @@ function iter_expression(f, e) {
     }
   };
   const class_expr = function (_ce) {
-    while(true) {
+    while (true) {
       const ce = _ce;
       const match = ce.pcl_desc;
       switch (match.TAG) {
@@ -63468,7 +63468,7 @@ function enter_orpat_variables(loc, env, p1_vs, p2_vs) {
   const p1_vs$1 = sort_pattern_variables(p1_vs);
   const p2_vs$1 = sort_pattern_variables(p2_vs);
   const unify_vars = function (_p1_vs, _p2_vs) {
-    while(true) {
+    while (true) {
       const p2_vs = _p2_vs;
       const p1_vs = _p1_vs;
       if (p1_vs) {
@@ -63551,7 +63551,7 @@ function enter_orpat_variables(loc, env, p1_vs, p2_vs) {
 }
 
 function build_as_type(env, _p) {
-  while(true) {
+  while (true) {
     const p = _p;
     const pl = p.pat_desc;
     if (/* tag */ typeof pl === "number" || typeof pl === "string") {
@@ -63919,7 +63919,7 @@ function build_or_pat(env, loc, lid) {
 }
 
 function expand_path(env, _p) {
-  while(true) {
+  while (true) {
     const p = _p;
     let decl;
     try {
@@ -64063,7 +64063,7 @@ function lookup_from_type(env, tpath, lid) {
 }
 
 function unique(eq, _acc, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const acc = _acc;
     if (!param) {
@@ -64426,7 +64426,7 @@ function disambiguate_lid_a_list(loc, closed, env, opath, lid_a_list) {
 }
 
 function find_record_qual(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return;
@@ -64641,7 +64641,7 @@ function lookup_from_type$1(env, tpath, lid) {
 }
 
 function unique$1(eq, _acc, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const acc = _acc;
     if (!param) {
@@ -65907,7 +65907,7 @@ function force_delayed_checks(param) {
 }
 
 function final_subexpression(_sexp) {
-  while(true) {
+  while (true) {
     const sexp = _sexp;
     const match = sexp.pexp_desc;
     switch (match.TAG) {
@@ -65935,7 +65935,7 @@ function final_subexpression(_sexp) {
 }
 
 function is_nonexpansive(_exp) {
-  while(true) {
+  while (true) {
     const exp = _exp;
     const el = exp.exp_desc;
     switch (el.TAG) {
@@ -66051,7 +66051,7 @@ function is_nonexpansive(_exp) {
 }
 
 function is_nonexpansive_mod(_mexp) {
-  while(true) {
+  while (true) {
     const mexp = _mexp;
     const str = mexp.mod_desc;
     switch (str.TAG) {
@@ -66115,7 +66115,7 @@ function is_nonexpansive_opt(e) {
 }
 
 function approx_type(env, _sty) {
-  while(true) {
+  while (true) {
     const sty = _sty;
     const args = sty.ptyp_desc;
     if (/* tag */ typeof args === "number" || typeof args === "string") {
@@ -66173,7 +66173,7 @@ function approx_type(env, _sty) {
 }
 
 function type_approx(env, _sexp) {
-  while(true) {
+  while (true) {
     const sexp = _sexp;
     const l = sexp.pexp_desc;
     switch (l.TAG) {
@@ -66304,7 +66304,7 @@ function list_labels(env, ty) {
         let _visited = /* [] */ 0;
         let _ls = /* [] */ 0;
         let _ty_fun = param;
-        while(true) {
+        while (true) {
           const ty_fun = _ty_fun;
           const ls = _ls;
           const visited = _visited;
@@ -67106,7 +67106,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         wrap_trace_gadt_instances(env, (function (param) {
               let _seen = /* [] */ 0;
               let _ty_fun = param;
-              while(true) {
+              while (true) {
                 const ty_fun = _ty_fun;
                 const seen = _seen;
                 const ty = expand_head(env, ty_fun);
@@ -67173,7 +67173,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
           generalize_expansive$1(env, arg.exp_type);
         }
         const split_cases = function (_vc, _ec, _param) {
-          while(true) {
+          while (true) {
             const param = _param;
             const ec = _ec;
             const vc = _vc;
@@ -67644,7 +67644,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
             }), lid_sexp_list);
         unify_exp_types(loc, env, ty_record, instance(undefined, env, ty_expected));
         const check_duplicates = function (_param) {
-          while(true) {
+          while (true) {
             const param = _param;
             if (!param) {
               return;
@@ -67728,7 +67728,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
               }), lbl_exp_list);
           const label_names = extract_label_names(sexp, env, ty_expected);
           const missing_labels = function (_n, _param) {
-            while(true) {
+            while (true) {
               const param = _param;
               const n = _n;
               if (!param) {
@@ -69352,7 +69352,7 @@ function type_argument(env, sarg, ty_expected$p, ty_expected) {
     }
   };
   const is_inferred = function (_sexp) {
-    while(true) {
+    while (true) {
       const sexp = _sexp;
       const match = sexp.pexp_desc;
       switch (match.TAG) {
@@ -69400,7 +69400,7 @@ function type_argument(env, sarg, ty_expected$p, ty_expected) {
         generalize_structure$1(current_level.contents, texp.exp_type);
       }
       const make_args = function (_args, _ty_fun) {
-        while(true) {
+        while (true) {
           const ty_fun = _ty_fun;
           const args = _args;
           const match = expand_head(env, ty_fun).desc;
@@ -69664,7 +69664,7 @@ function type_application(env, funct, sargs) {
     contents: false
   };
   const type_args = function (_args, _omitted, _ty_fun, _ty_fun0, _ty_old, _sargs, _more_sargs) {
-    while(true) {
+    while (true) {
       const more_sargs = _more_sargs;
       const sargs = _sargs;
       const ty_old = _ty_old;
@@ -69891,7 +69891,7 @@ function type_application(env, funct, sargs) {
           let _args$1 = args;
           let _ty_fun$1 = ty_fun0;
           let _param = Stdlib.$at(sargs, more_sargs);
-          while(true) {
+          while (true) {
             const param = _param;
             const ty_fun$2 = _ty_fun$1;
             const args$1 = _args$1;
@@ -70303,7 +70303,7 @@ function type_cases(in_function, env, ty_arg, ty_res, partial_flag, loc, caselis
         }
         let _pref = /* [] */ 0;
         let _param = cases;
-        while(true) {
+        while (true) {
           const param$1 = _param;
           const pref = _pref;
           if (!param$1) {
@@ -72814,7 +72814,7 @@ function is_fixed_type(sd) {
   const sty = sd.ptype_manifest;
   if (sty !== undefined && Caml_obj.caml_equal(sd.ptype_kind, /* Ptype_abstract */ 0) && sd.ptype_private === /* Private */ 0) {
     let _sty = sty;
-    while(true) {
+    while (true) {
       const sty$1 = _sty;
       const match = sty$1.ptyp_desc;
       if (/* tag */ typeof match === "number" || typeof match === "string") {
@@ -73041,7 +73041,7 @@ function add$12(x, t) {
 }
 
 function mem$6(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
@@ -73156,7 +73156,7 @@ function generalize_decl(decl) {
 }
 
 function check_constraints_rec(env, loc, visited, _ty) {
-  while(true) {
+  while (true) {
     const ty = _ty;
     const ty$1 = repr(ty);
     if (Curry._2(mem$3, ty$1, visited.contents)) {
@@ -73361,7 +73361,7 @@ function add$13(x, data, m) {
 }
 
 function find$6(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -73602,7 +73602,7 @@ function check_recursion(env, loc, path, decl, to_check) {
     contents: /* [] */ 0
   };
   const check_regular = function (cpath, args, prev_exp, _ty) {
-    while(true) {
+    while (true) {
       const ty = _ty;
       const ty$1 = repr(ty);
       if (Stdlib__List.memq(ty$1, visited.contents)) {
@@ -73709,7 +73709,7 @@ function get_variance(ty, visited) {
 
 function compute_variance(env, visited, vari, ty) {
   const compute_variance_rec = function (_vari, _ty) {
-    while(true) {
+    while (true) {
       const ty = _ty;
       const vari = _vari;
       const ty$1 = repr(ty);
@@ -74217,7 +74217,7 @@ function is_sharp(id) {
 }
 
 function compute_variance_fixpoint(env, decls, required, _variances) {
-  while(true) {
+  while (true) {
     const variances = _variances;
     const new_decls = Stdlib__List.map2((function (param, variance) {
           const decl = param[1];
@@ -74976,7 +74976,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
           };
           const pl = find_pl(param.ptype_kind);
           const get_loc = function (name, _param) {
-            while(true) {
+            while (true) {
               const param = _param;
               if (param) {
                 const pld = param.hd;
@@ -77322,7 +77322,7 @@ const unbound_class = {
 };
 
 function scrape_class_type(_cty) {
-  while(true) {
+  while (true) {
     const cty = _cty;
     switch (cty.TAG) {
       case /* Cty_constr */ 0 :
@@ -77337,7 +77337,7 @@ function scrape_class_type(_cty) {
 }
 
 function generalize_class_type(gen, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     switch (param.TAG) {
       case /* Cty_constr */ 0 :
@@ -77378,7 +77378,7 @@ function virtual_methods(sign) {
 }
 
 function constructor_type(constr, _cty) {
-  while(true) {
+  while (true) {
     const cty = _cty;
     switch (cty.TAG) {
       case /* Cty_constr */ 0 :
@@ -77404,7 +77404,7 @@ function constructor_type(constr, _cty) {
 }
 
 function class_body(_cty) {
-  while(true) {
+  while (true) {
     const cty = _cty;
     switch (cty.TAG) {
       case /* Cty_constr */ 0 :
@@ -77467,7 +77467,7 @@ function abbreviate_class_type(path, params, cty) {
 function closed_class$1(cty) {
   if (Stdlib__List.for_all(closed_schema, cty.cty_params)) {
     let _sign = cty.cty_type;
-    while(true) {
+    while (true) {
       const sign = _sign;
       switch (sign.TAG) {
         case /* Cty_constr */ 0 :
@@ -77500,7 +77500,7 @@ function closed_class$1(cty) {
 }
 
 function limited_generalize$1(rv, _sign) {
-  while(true) {
+  while (true) {
     const sign = _sign;
     switch (sign.TAG) {
       case /* Cty_constr */ 0 :
@@ -79084,7 +79084,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
 }
 
 function class_expr(cl_num, val_env, met_env, _scl) {
-  while(true) {
+  while (true) {
     const scl = _scl;
     const cl_str = scl.pcl_desc;
     switch (cl_str.TAG) {
@@ -79360,7 +79360,7 @@ function class_expr(cl_num, val_env, met_env, _scl) {
             generalize_class_type(generalize_structure$2, cl$2.cl_type);
           }
           const nonopt_labels = function (_ls, _ty_fun) {
-            while(true) {
+            while (true) {
               const ty_fun = _ty_fun;
               const ls = _ls;
               switch (ty_fun.TAG) {
@@ -79394,7 +79394,7 @@ function class_expr(cl_num, val_env, met_env, _scl) {
                 }), labels) && (prerr_warning(cl$2.cl_loc, /* Labels_omitted */ 3), true);
           }
           const type_args = function (_args, _omitted, _ty_fun, _ty_fun0, _sargs, _more_sargs) {
-            while(true) {
+            while (true) {
               const more_sargs = _more_sargs;
               const sargs = _sargs;
               const ty_fun0 = _ty_fun0;
@@ -79763,7 +79763,7 @@ const var_option = type_option(newty2(100000000, {
         }));
 
 function approx_declaration(_cl) {
-  while(true) {
+  while (true) {
     const cl = _cl;
     const match = cl.pcl_desc;
     switch (match.TAG) {
@@ -80578,7 +80578,7 @@ function unify_parents_struct(env, ty, st) {
         const match = param.cf_desc;
         if (match.TAG === /* Tcf_inherit */ 0) {
           let _cl = match._1;
-          while(true) {
+          while (true) {
             const cl = _cl;
             const st = cl.cl_desc;
             switch (st.TAG) {
@@ -82253,7 +82253,7 @@ const type_module_type_of_fwd = {
 };
 
 function add_rec_types(_env, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const env = _env;
     if (!param) {
@@ -82370,7 +82370,7 @@ function merge_constraint(initial_env, loc, sg, constr) {
     contents: undefined
   };
   const merge = function (env, _sg, namelist, _row_id) {
-    while(true) {
+    while (true) {
       const row_id = _row_id;
       const sg = _sg;
       if (sg) {
@@ -82942,7 +82942,7 @@ function map_ext(fn, exts, rem) {
 }
 
 function approx_modtype(env, _smty) {
-  while(true) {
+  while (true) {
     const smty = _smty;
     const lid = smty.pmty_desc;
     switch (lid.TAG) {
@@ -83002,7 +83002,7 @@ function approx_module_declaration(env, pmd) {
 }
 
 function approx_sig(_env, _ssg) {
-  while(true) {
+  while (true) {
     const ssg = _ssg;
     const env = _env;
     if (!ssg) {
@@ -83269,7 +83269,7 @@ function add$14(x, t) {
 }
 
 function mem$7(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
@@ -83317,7 +83317,7 @@ function check_sig_item(type_names, module_names, modtype_names, loc, param) {
 }
 
 function remove_duplicates(val_ids, ext_ids, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return /* [] */ 0;
@@ -83397,7 +83397,7 @@ function remove_duplicates(val_ids, ext_ids, _param) {
 }
 
 function get_values(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return /* [] */ 0;
@@ -83415,7 +83415,7 @@ function get_values(_param) {
 }
 
 function get_extension_constructors(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return /* [] */ 0;
@@ -84190,7 +84190,7 @@ function simplify_signature(sg) {
 const Not_a_path = /* @__PURE__ */ Caml_exceptions.create("Ocaml_typedtree_test.Typemod.Not_a_path");
 
 function path_of_module(_mexp) {
-  while(true) {
+  while (true) {
     const mexp = _mexp;
     const match = mexp.mod_desc;
     switch (match.TAG) {
@@ -84232,7 +84232,7 @@ function path_of_module$1(mexp) {
 }
 
 function closed_modtype(_p) {
-  while(true) {
+  while (true) {
     const p = _p;
     switch (p.TAG) {
       case /* Mty_signature */ 1 :
@@ -84312,7 +84312,7 @@ function check_recmodule_inclusion(env, bindings) {
   let _n = Stdlib__List.length(bindings);
   let _env = env;
   let _s = identity;
-  while(true) {
+  while (true) {
     const s = _s;
     const env$1 = _env;
     const n = _n;
@@ -84442,7 +84442,7 @@ function package_constraints(env, loc, mty, constrs) {
               const md = item._1;
               const id$1 = item._0;
               const aux = function (_param) {
-                while(true) {
+                while (true) {
                   const param = _param;
                   if (!param) {
                     return /* [] */ 0;
@@ -85579,7 +85579,7 @@ function normalize_signature(env) {
                 return normalize_type(env, param._1.val_type);
             case /* Sig_module */ 3 :
                 let _p = param._1.md_type;
-                while(true) {
+                while (true) {
                   const p = _p;
                   switch (p.TAG) {
                     case /* Mty_signature */ 1 :

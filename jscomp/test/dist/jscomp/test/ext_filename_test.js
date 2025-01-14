@@ -42,7 +42,7 @@ function path_as_directory(x) {
 function absolute_path(s) {
   const s$1 = Curry._1(Stdlib__Filename.is_relative, s) ? Stdlib__Filename.concat(CamlinternalLazy.force(cwd), s) : s;
   const aux = function (_s) {
-    while(true) {
+    while (true) {
       const s = _s;
       const base = Curry._1(Stdlib__Filename.basename, s);
       const dir = Curry._1(Stdlib__Filename.dirname, s);
@@ -122,7 +122,7 @@ function relative_path(file_or_dir_1, file_or_dir_2) {
   const dir1 = Ext_string_test.split(undefined, relevant_dir1, os_path_separator_char);
   const dir2 = Ext_string_test.split(undefined, relevant_dir2, os_path_separator_char);
   const go = function (_dir1, _dir2) {
-    while(true) {
+    while (true) {
       const dir2 = _dir2;
       const dir1 = _dir1;
       if (dir1 && dir2 && dir1.hd === dir2.hd) {
@@ -166,7 +166,7 @@ function node_relative_path(node_modules_shorten, file1, dep_file) {
           })) + (node_sep + Curry._1(Stdlib__Filename.basename, file2));
   }
   const skip = function (_i) {
-    while(true) {
+    while (true) {
       const i = _i;
       if (i >= len) {
         return Curry._1(Ext_pervasives_test.failwithf("File \"jscomp/test/ext_filename_test.ml\", line 162, characters 43-50", {
@@ -195,7 +195,7 @@ function node_relative_path(node_modules_shorten, file1, dep_file) {
 }
 
 function find_root_filename(_cwd, filename) {
-  while(true) {
+  while (true) {
     const cwd = _cwd;
     if (Caml_external_polyfill.resolve("caml_sys_file_exists")(Stdlib__Filename.concat(cwd, filename))) {
       return cwd;
@@ -262,7 +262,7 @@ function combine(p1, p2) {
 function split_aux(p) {
   let _p = p;
   let _acc = /* [] */ 0;
-  while(true) {
+  while (true) {
     const acc = _acc;
     const p$1 = _p;
     const dir = Curry._1(Stdlib__Filename.dirname, p$1);
@@ -295,7 +295,7 @@ function rel_normalized_absolute_path(from, to_) {
   }
   let _xss = match[1];
   let _yss = match$1[1];
-  while(true) {
+  while (true) {
     const yss = _yss;
     const xss = _xss;
     if (!xss) {
@@ -332,7 +332,7 @@ function normalize_absolute_path(x) {
     }
   };
   const normalize_list = function (_acc, _paths) {
-    while(true) {
+    while (true) {
       const paths = _paths;
       const acc = _acc;
       if (!paths) {
@@ -363,7 +363,7 @@ function normalize_absolute_path(x) {
   if (rev_paths) {
     let _acc = rev_paths.hd;
     let _rev_paths = rev_paths.tl;
-    while(true) {
+    while (true) {
       const rev_paths$1 = _rev_paths;
       const acc = _acc;
       if (!rev_paths$1) {

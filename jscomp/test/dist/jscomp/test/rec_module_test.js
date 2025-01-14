@@ -255,7 +255,7 @@ function join(l, v, r) {
 }
 
 function min_elt(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -272,7 +272,7 @@ function min_elt(_param) {
 }
 
 function min_elt_opt(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
@@ -287,7 +287,7 @@ function min_elt_opt(_param) {
 }
 
 function max_elt(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -304,7 +304,7 @@ function max_elt(_param) {
 }
 
 function max_elt_opt(_param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
@@ -387,7 +387,7 @@ function is_empty(param) {
 }
 
 function mem(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
@@ -522,7 +522,7 @@ function split_bis(x, param) {
 }
 
 function disjoint(_s1, _s2) {
-  while(true) {
+  while (true) {
     const s2 = _s2;
     const s1 = _s1;
     if (/* tag */ typeof s1 === "number" || typeof s1 === "string") {
@@ -567,7 +567,7 @@ function diff(s1, s2) {
 }
 
 function cons_enum(_s, _e) {
-  while(true) {
+  while (true) {
     const e = _e;
     const s = _s;
     if (/* tag */ typeof s === "number" || typeof s === "string") {
@@ -587,7 +587,7 @@ function cons_enum(_s, _e) {
 function compare$1(s1, s2) {
   let _e1 = cons_enum(s1, /* End */ 0);
   let _e2 = cons_enum(s2, /* End */ 0);
-  while(true) {
+  while (true) {
     const e2 = _e2;
     const e1 = _e1;
     if (/* tag */ typeof e1 === "number" || typeof e1 === "string") {
@@ -615,7 +615,7 @@ function equal(s1, s2) {
 }
 
 function subset(_s1, _s2) {
-  while(true) {
+  while (true) {
     const s2 = _s2;
     const s1 = _s1;
     if (/* tag */ typeof s1 === "number" || typeof s1 === "string") {
@@ -666,7 +666,7 @@ function subset(_s1, _s2) {
 }
 
 function iter(f, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
@@ -679,7 +679,7 @@ function iter(f, _param) {
 }
 
 function fold(f, _s, _accu) {
-  while(true) {
+  while (true) {
     const accu = _accu;
     const s = _s;
     if (/* tag */ typeof s === "number" || typeof s === "string") {
@@ -692,7 +692,7 @@ function fold(f, _s, _accu) {
 }
 
 function for_all(p, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return true;
@@ -709,7 +709,7 @@ function for_all(p, _param) {
 }
 
 function exists(p, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return false;
@@ -783,7 +783,7 @@ function cardinal(param) {
 }
 
 function elements_aux(_accu, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     const accu = _accu;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
@@ -803,7 +803,7 @@ function elements(s) {
 }
 
 function find(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -821,7 +821,7 @@ function find(x, _param) {
 }
 
 function find_first(f, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -832,7 +832,7 @@ function find_first(f, _param) {
     if (Curry._1(f, v)) {
       let _v0 = v;
       let _param$1 = param.l;
-      while(true) {
+      while (true) {
         const param$1 = _param$1;
         const v0 = _v0;
         if (/* tag */ typeof param$1 === "number" || typeof param$1 === "string") {
@@ -854,7 +854,7 @@ function find_first(f, _param) {
 }
 
 function find_first_opt(f, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
@@ -863,7 +863,7 @@ function find_first_opt(f, _param) {
     if (Curry._1(f, v)) {
       let _v0 = v;
       let _param$1 = param.l;
-      while(true) {
+      while (true) {
         const param$1 = _param$1;
         const v0 = _v0;
         if (/* tag */ typeof param$1 === "number" || typeof param$1 === "string") {
@@ -885,7 +885,7 @@ function find_first_opt(f, _param) {
 }
 
 function find_last(f, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -896,7 +896,7 @@ function find_last(f, _param) {
     if (Curry._1(f, v)) {
       let _v0 = v;
       let _param$1 = param.r;
-      while(true) {
+      while (true) {
         const param$1 = _param$1;
         const v0 = _v0;
         if (/* tag */ typeof param$1 === "number" || typeof param$1 === "string") {
@@ -918,7 +918,7 @@ function find_last(f, _param) {
 }
 
 function find_last_opt(f, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
@@ -927,7 +927,7 @@ function find_last_opt(f, _param) {
     if (Curry._1(f, v)) {
       let _v0 = v;
       let _param$1 = param.r;
-      while(true) {
+      while (true) {
         const param$1 = _param$1;
         const v0 = _v0;
         if (/* tag */ typeof param$1 === "number" || typeof param$1 === "string") {
@@ -949,7 +949,7 @@ function find_last_opt(f, _param) {
 }
 
 function find_opt(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       return;
@@ -1182,7 +1182,7 @@ function to_seq(c) {
 }
 
 function snoc_enum(_s, _e) {
-  while(true) {
+  while (true) {
     const e = _e;
     const s = _s;
     if (/* tag */ typeof s === "number" || typeof s === "string") {
@@ -1222,7 +1222,7 @@ function to_rev_seq(c) {
 
 function to_seq_from(low, s) {
   const aux = function (low, _s, _c) {
-    while(true) {
+    while (true) {
       const c = _c;
       const s = _s;
       if (/* tag */ typeof s === "number" || typeof s === "string") {

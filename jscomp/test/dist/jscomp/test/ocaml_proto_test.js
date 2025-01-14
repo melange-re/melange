@@ -247,7 +247,7 @@ function pop_last(param) {
 }
 
 function apply_until(f, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (!param) {
       return;
@@ -285,7 +285,7 @@ function string_fold_lefti(f, e0, s) {
   const len = s.length;
   let _acc = e0;
   let _i = 0;
-  while(true) {
+  while (true) {
     const i = _i;
     const acc = _acc;
     if (i === len) {
@@ -1593,7 +1593,7 @@ const __ocaml_lex_tables = {
 };
 
 function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const l = _l;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
@@ -1626,7 +1626,7 @@ function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
 }
 
 function __ocaml_lex_string_rec(_l, lexbuf, ___ocaml_lex_state) {
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const l = _l;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
@@ -1662,7 +1662,7 @@ function __ocaml_lex_string_rec(_l, lexbuf, ___ocaml_lex_state) {
 }
 
 function __ocaml_lex_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const l = _l;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
@@ -1692,7 +1692,7 @@ function __ocaml_lex_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
 
 function lexer(lexbuf) {
   let ___ocaml_lex_state = 0;
-  while(true) {
+  while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
@@ -2098,7 +2098,7 @@ function indentation_prefix(n) {
 
 function print(scope) {
   const loop = function (_acc, i, _param) {
-    while(true) {
+    while (true) {
       const param = _param;
       const acc = _acc;
       if (!param) {
@@ -4020,7 +4020,7 @@ function add(x, data, m) {
 }
 
 function find(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -4054,7 +4054,7 @@ function map$1(f, param) {
 }
 
 function fold(f, _m, _accu) {
-  while(true) {
+  while (true) {
     const accu = _accu;
     const m = _m;
     if (/* tag */ typeof m === "number" || typeof m === "string") {
@@ -4692,7 +4692,7 @@ function not_found(f) {
 }
 
 function list_assoc2(x, _param) {
-  while(true) {
+  while (true) {
     const param = _param;
     if (param) {
       const match = param.hd;
@@ -4931,7 +4931,7 @@ function compile_message_p2(types, param, message) {
       };
     }
     const loop = function (_scopes, _l) {
-      while(true) {
+      while (true) {
         const l = _l;
         const scopes = _scopes;
         if (!l) {

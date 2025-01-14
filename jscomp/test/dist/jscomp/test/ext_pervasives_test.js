@@ -40,7 +40,7 @@ function is_pos_pow(n) {
   try {
     let _c = 0;
     let _n = n;
-    while(true) {
+    while (true) {
       const n$1 = _n;
       const c = _c;
       if (n$1 <= 0) {

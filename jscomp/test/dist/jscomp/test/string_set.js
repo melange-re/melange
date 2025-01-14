@@ -131,7 +131,7 @@ function diff(s1, s2) {
 }
 
 function mem(x, _tree) {
-  while(true) {
+  while (true) {
     const tree = _tree;
     if (/* tag */ typeof tree === "number" || typeof tree === "string") {
       return false;
@@ -171,7 +171,7 @@ function equal(s1, s2) {
 }
 
 function subset(_s1, _s2) {
-  while(true) {
+  while (true) {
     const s2 = _s2;
     const s1 = _s1;
     if (/* tag */ typeof s1 === "number" || typeof s1 === "string") {
@@ -222,7 +222,7 @@ function subset(_s1, _s2) {
 }
 
 function find(x, _tree) {
-  while(true) {
+  while (true) {
     const tree = _tree;
     if (/* tag */ typeof tree === "number" || typeof tree === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
