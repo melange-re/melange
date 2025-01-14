@@ -28,10 +28,10 @@
   function f(x) {
     switch (x) {
       case /* A */ 0 :
-          return "a";
+        return "a";
       case /* B */ "as-string" :
       case /* C */ 2 :
-          return "other";
+        return "other";
       
     }
   }
@@ -39,10 +39,10 @@
   function g(x) {
     switch (x) {
       case /* B */ "as-string" :
-          return "as-string";
+        return "as-string";
       case /* A */ 0 :
       case /* C */ 2 :
-          return "other";
+        return "other";
       
     }
   }

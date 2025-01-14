@@ -99,6 +99,14 @@ Unreleased
   ([#1296](https://github.com/melange-re/melange/pull/1296))
 - JS generation: add space before while loop condition
   ([#1297](https://github.com/melange-re/melange/pull/1297))
+- JS generation: improve indentation of parenthesized blocks
+  ([#1293](https://github.com/melange-re/melange/pull/1293))
+- JS generation: add space after constructor comments
+  ([#1294](https://github.com/melange-re/melange/pull/1294))
+- JS generation: improve identation of `switch` cases
+  ([#1299](https://github.com/melange-re/melange/pull/1299))
+- JS generation: don't generate empty `default:` cases in `switch`
+  ([#1300](https://github.com/melange-re/melange/pull/1300))
 
 4.0.1 2024-06-07
 ---------------
