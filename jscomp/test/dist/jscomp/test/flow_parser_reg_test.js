@@ -2167,8 +2167,6 @@ function parse_sign(f) {
   switch (match.hd) {
     case 43 :
         return eat(f);
-    case 44 :
-        return f;
     case 45 :
         const init = eat(f);
         return {

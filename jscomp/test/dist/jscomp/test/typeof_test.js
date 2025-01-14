@@ -8,9 +8,6 @@ function string_or_number(x) {
   const ty = Js__Js_types.classify(x);
   if (/* tag */ typeof ty === "number" || typeof ty === "string") {
     switch (ty) {
-      case /* JSFalse */ 0 :
-      case /* JSTrue */ 1 :
-          return false;
       default:
         return false;
     }

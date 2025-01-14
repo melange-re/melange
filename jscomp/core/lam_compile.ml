@@ -598,6 +598,15 @@ and compile_general_cases :
              break still should not be printed (it will be continuned)
          TOOD: disabled temporarily since it's not perfect yet *)
       morph_declare_to_assign cxt (fun cxt declaration ->
+          (* Exclude cases that are the same as the default if the default is defined *)
+          let cases =
+            match default with
+            | Default lam ->
+                List.filter
+                  ~f:(fun (_, lam1) -> not (Lam.eq_approx lam lam1))
+                  cases
+            | _ -> cases
+          in
           let default =
             match default with
             | Complete -> None
